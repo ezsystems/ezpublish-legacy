@@ -52,7 +52,7 @@ include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/eznodeassignment.php" );
 include_once( "kernel/classes/ezcontenttranslation.php" );
-
+include_once( "kernel/classes/ezsearch.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
@@ -705,6 +705,9 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_version
 		     WHERE contentobject_id='$delID'" );
 
+        $db->query( "DELETE FROM ezcontentobject_name
+		     WHERE contentobject_id='$delID'" );
+
         $db->query( "DELETE FROM ezcontentobject
 		     WHERE id='$delID'" );
 
@@ -741,6 +744,7 @@ class eZContentObject extends eZPersistentObject
 //            $db =& eZDB::instance();
 
             $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+            eZSearch::removeObject( $contentobject );
             $contentobject->store();
             // Delete stored attribute from other tables
 
@@ -756,6 +760,7 @@ class eZContentObject extends eZPersistentObject
                     $node->remove();
                 }
                 $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+                eZSearch::removeObject( $contentobject );
                 $contentobject->store();
             }
             else

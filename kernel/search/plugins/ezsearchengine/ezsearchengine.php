@@ -605,8 +605,8 @@ class eZSearchEngine
                 {
 
                     $subTreeNodeSQL = "( " . $subTreeNodeSQL;
-                    $subTreeTable = ", ezcontentobject_tree ";
-
+//                    $subTreeTable = ", ezcontentobject_tree ";
+                    $subTreeTable = '';
                     $subTreeNodeSQL .= " ) ";
                     $nodeQuery = "SELECT node_id, path_string FROM ezcontentobject_tree WHERE node_id IN $subTreeNodeSQL";
 
@@ -627,7 +627,7 @@ class eZSearchEngine
                             $subTreeSQL .= " OR ";
                         $i++;
                     }
-                    $subTreeSQL .= " ) AND ezcontentobject.id = ezcontentobject_tree.contentobject_id AND ";
+                    $subTreeSQL .= " ) AND ";
                 }
             }
 
@@ -676,12 +676,13 @@ class eZSearchEngine
             }
 
 
-
-            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency
+/*
+            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
-                       $subTreeTable
+                       $subTreeTable,
+                       ezcontentclass
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -690,7 +691,32 @@ class eZSearchEngine
                     $phraseSQL
                     $fullTextSQL
                     $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0'
+                    $sqlPermissionCheckingString
+                    ORDER BY ezsearch_object_word_link.frequency";
+*/
+            $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                    FROM
+                       ezcontentobject,
+                       ezsearch_object_word_link
+                       $subTreeTable,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                    WHERE
+                    $searchDateQuery
+                    $sectionQuery
+                    $classQuery
+                    $classAttributeQuery
+                    $phraseSQL
+                    $fullTextSQL
+                    $subTreeSQL
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString
                     ORDER BY ezsearch_object_word_link.frequency";
 
@@ -698,7 +724,8 @@ class eZSearchEngine
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
-                       $subTreeTable
+                       $subTreeTable,
+                       ezcontentobject_tree
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -708,6 +735,9 @@ class eZSearchEngine
                     $fullTextSQL
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
+                    and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString";
 
             $objectRes = array();
@@ -719,15 +749,17 @@ class eZSearchEngine
                 $objectResArray =& $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
                 // execute search count query
                 $objectCountRes =& $db->arrayQuery( $searchCountQuery );
-
-                foreach ( $objectResArray as $objectRow )
+                $objectRes = eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
+/*                foreach ( $objectResArray as $objectRow )
                 {
                     /// \todo optimize to one query
                     $obj = new eZContentObject( $objectRow );
+                    $obj->setClassName( $objectRow['class_name'] );
                     unset( $node );
                     $node = eZContentObjectTreeNode::fetch( $obj->attribute( 'main_node_id' ) );
                     $objectRes[] =& $node;
-                  }
+                }
+*/
                 $searchCount = $objectCountRes[0]['count'];
             }
             else

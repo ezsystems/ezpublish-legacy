@@ -1438,7 +1438,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    function &makeObjectsArray( $array , $with_contentobject = true )
+    function &makeObjectsArray( &$array , $with_contentobject = true )
     {
         $retNodes = array();
         if ( !is_array( $array ) )
