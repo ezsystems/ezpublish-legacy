@@ -148,12 +148,19 @@ class eZDateTimeType extends eZDataType
         $classAttribute->store();
     }
 
+    function &parseXML( $xmlText )
+    {
+        $xml = new eZXML();
+        $dom =& $xml->domTree( $xmlText );
+        return $dom;
+    }
+
     function &classAttributeContent( &$classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
-            return eZObjectRelationListType::defaultClassAttributeContent();
-        $doc =& eZObjectRelationListType::parseXML( $xmlText );
+            return eZDateTimeType::defaultClassAttributeContent();
+        $doc =& eZDateTimeType::parseXML( $xmlText );
         $root =& $doc->root();
         $type = $root->elementByName( 'year' );
         if ( $type )
@@ -239,7 +246,7 @@ class eZDateTimeType extends eZDataType
                     $root->appendChild( $elementType );
                 }
                 $doc->setRoot( $root );
-                $docText = eZObjectRelationListType::domString( $doc );
+                $docText =& $doc->toString();
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
             }
         }
