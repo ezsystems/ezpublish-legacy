@@ -53,6 +53,7 @@ $ViewList['edit'] = array(
                                     'NewButton' => 'NewObject',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
+                                    'StoreExitButton' => 'StoreExit',
                                     'MoveNodeID' => 'MoveNode',
                                     'RemoveNodeID' => 'DeleteNode',
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'

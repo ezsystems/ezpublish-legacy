@@ -342,21 +342,11 @@ if ( !function_exists( 'checkContentActions' ) )
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
-        if ( $module->isCurrentAction( 'Publish' ) )
+        // helper function which computes the redirect after
+        // publishing and final store of a draft.
+        function computeRedirect( &$module, &$object, &$version )
         {
-            $user =& eZUser::currentUser();
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-            eZDebug::accumulatorStart( 'publish', '', 'publish' );
-            $oldObjectName = $object->name();
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $version->attribute( 'version' ) ) );
-            eZDebug::accumulatorStop( 'publish' );
-
-            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
-
-            $newObjectName = $object->name();
-
-            $http =& eZHttpTool::instance();
+            $http =& eZHTTPTool::instance();
 
             $node = $object->mainNode();
             $hasRedirected = false;
@@ -405,6 +395,32 @@ if ( !function_exists( 'checkContentActions' ) )
                     $module->redirectToView( 'view', array( 'full', $version->attribute( 'main_parent_node_id' ) ) );
                 }
             }
+
+        }
+
+        if( $module->isCurrentAction( 'StoreExit' ) )
+        {
+            computeRedirect( $module, $object, $version );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
+        if ( $module->isCurrentAction( 'Publish' ) )
+        {
+            $user =& eZUser::currentUser();
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            eZDebug::accumulatorStart( 'publish', '', 'publish' );
+            $oldObjectName = $object->name();
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                         'version' => $version->attribute( 'version' ) ) );
+            eZDebug::accumulatorStop( 'publish' );
+
+            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+
+            $newObjectName = $object->name();
+
+            $http =& eZHttpTool::instance();
+
+            computeRedirect( $module, $object, $version );
 
             // Generate the view cache
             $ini =& eZINI::instance();

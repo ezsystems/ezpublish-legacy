@@ -128,7 +128,7 @@
 
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />
-<input class="button" type="submit" name="ExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
+<input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
 </div>
 
 </div></div></div></div></div></div>
