@@ -43,11 +43,12 @@
 
 */
 
-define( "EZ_COLLABORATION_STATUS_ACTIVE", 1 );
-define( "EZ_COLLABORATION_STATUS_INACTIVE", 2 );
-define( "EZ_COLLABORATION_STATUS_ARCHIVE", 3 );
+define( 'EZ_COLLABORATION_STATUS_ACTIVE', 1 );
+define( 'EZ_COLLABORATION_STATUS_INACTIVE', 2 );
+define( 'EZ_COLLABORATION_STATUS_ARCHIVE', 3 );
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
 
 class eZCollaborationItem extends eZPersistentObject
 {
@@ -99,7 +100,7 @@ class eZCollaborationItem extends eZPersistentObject
 
     function &fetch( $id, $creatorID = false, $asObject = true )
     {
-        $conditions = array( "id" => $id );
+        $conditions = array( 'id' => $id );
         if ( $creatorID !== false )
             $conditions['creator_id'] = $creatorID;
         return eZPersistentObject::fetchObject( eZCollaborationItem::definition(),
@@ -115,6 +116,7 @@ class eZCollaborationItem extends eZPersistentObject
                  $attribute == 'handler' or
                  $attribute == 'content' or
                  $attribute == 'title' or
+                 $attribute == 'user_status' or
                  $attribute == 'use_messages' or
                  $attribute == 'message_count' or
                  $attribute == 'unread_message_count' or
@@ -136,14 +138,20 @@ class eZCollaborationItem extends eZPersistentObject
             case 'is_creator':
             {
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $user =& eZUser::currentUser();
-                $userID = $user->attribute( 'contentobject_id' );
+                $userID =& eZUser::currentUserID();
                 return $userID == $this->CreatorID;
             } break;
             case 'participant_list':
             {
-                include_once( 'kernel/classes/ezcollaborationitemparticipantlist.php' );
-                return eZCollaborationItemParticipantList::fetchParticipantList( $this->ID );
+                include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+                return eZCollaborationItemParticipantLink::fetchParticipantList( $this->ID );
+            } break;
+            case 'user_status':
+            {
+                include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
+                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                $userID =& eZUser::currentUserID();
+                return eZCollaborationItemStatus::fetch( $this->ID, $userID );
             } break;
             case 'use_messages':
             {
@@ -224,36 +232,85 @@ class eZCollaborationItem extends eZPersistentObject
         return $handler;
     }
 
+    function setIsActive( $active )
+    {
+        eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), false, array( 'is_active' => $active ) );
+    }
+
     function fetchListCount( $parameters = array() )
     {
-        $parameters = array_merge( array(),
-                                   $parameters );
+        return eZCollaborationItem::fetchListTool( $parameters, true );
+//         $parameters = array_merge( array( 'status' => false
+//                                           'is_active' => null,
+//                                           'is_read' => null ),
+//                                    $parameters );
+//         $statusTypes = $parameters['status'];
+//         $isRead = $parameters['is_read'];
+//         $isActive = $parameters['is_active'];
 
-        $user =& eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+//         $user =& eZUser::currentUser();
+//         $userID =& $user->attribute( 'contentobject_id' );
 
-        $statusText = implode( ', ', array( EZ_COLLABORATION_STATUS_ACTIVE,
-                                            EZ_COLLABORATION_STATUS_INACTIVE ) );
+//         $isReadText = '';
+//         if ( $isRead !== null )
+//         {
+//             $isReadValue = $isRead ? 1 : 0;
+//             $isReadText = "ezcollab_item_group_link.is_read = '$isReadValue' AND";
+//         }
 
-        $sql = "SELECT count( ezcollab_item.id ) as count
-                FROM
-                       ezcollab_item,
-                       ezcollab_item_group_link
-                WHERE  ezcollab_item.status IN ( $statusText ) AND
-                       ezcollab_item.id = ezcollab_item_group_link.collaboration_id AND
-                       ezcollab_item_group_link.user_id=$userID";
+//         $isActiveText = '';
+//         if ( $isActive !== null )
+//         {
+//             $isActiveValue = $isActive ? 1 : 0;
+//             $isActiveText = "ezcollab_item_group_link.is_active = '$isActiveValue' AND";
+//         }
 
-        $db =& eZDB::instance();
-        $itemCount =& $db->arrayQuery( $sql );
-        return $itemCount[0]['count'];
+//         $statusText = '';
+//         if ( $statusTypes === false )
+//             $statusTypes = array( EZ_COLLABORATION_STATUS_ACTIVE,
+//                                   EZ_COLLABORATION_STATUS_INACTIVE );
+//         $statusText = implode( ', ', $statusTypes );
+
+//         $sql = "SELECT count( ezcollab_item.id ) as count
+//                 FROM
+//                        ezcollab_item,
+//                        ezcollab_item_group_link
+//                 WHERE  ezcollab_item.status IN ( $statusText ) AND
+//                        $isReadText
+//                        $isActiveText
+//                        ezcollab_item.id = ezcollab_item_group_link.collaboration_id AND
+//                        ezcollab_item_group_link.user_id=$userID";
+
+//         $db =& eZDB::instance();
+//         $itemCount =& $db->arrayQuery( $sql );
+//         return $itemCount[0]['count'];
+    }
+
+    function setLastRead( $userID = false, $timestamp = false )
+    {
+        if ( $userID === false )
+            $userID = eZUser::currentUserID();
+        if ( $timestamp === false )
+            $timestamp = eZDateTime::currentTimeStamp();
+        $collaborationID = $this->attribute( 'id' );
+
+        eZCollaborationItemStatus::setLastRead( $collaborationID, $userID, $timestamp );
+        eZCollaborationItemParticipantLink::setLastRead( $collaborationID, $userID, $timestamp );
     }
 
     function fetchList( $parameters = array() )
+    {
+        return eZCollaborationItem::fetchListTool( $parameters, false );
+    }
+
+    function &fetchListTool( $parameters = array(), $asCount )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'offset' => false,
                                           'parent_group_id' => false,
                                           'limit' => false,
+                                          'is_active' => null,
+                                          'is_read' => null,
                                           'status' => false,
                                           'sort_by' => false ),
                                    $parameters );
@@ -261,66 +318,86 @@ class eZCollaborationItem extends eZPersistentObject
         $offset = $parameters['offset'];
         $limit = $parameters['limit'];
         $statusTypes = $parameters['status'];
+        $isRead = $parameters['is_read'];
+        $isActive = $parameters['is_active'];
         $parentGroupID = $parameters['parent_group_id'];
 
-        $sortCount = 0;
-        $sortList = $parameters['sort_by'];
-        if ( is_array( $sortList ) and
-             count( $sortList ) > 0 )
+        $sortText = '';
+        if ( !$asCount )
         {
-            if ( count( $sortList ) > 1 and
-                 !is_array( $sortList[0] ) )
+            $sortCount = 0;
+            $sortList = $parameters['sort_by'];
+            if ( is_array( $sortList ) and
+                 count( $sortList ) > 0 )
             {
-                $sortList = array( $sortList );
-            }
-        }
-        if ( $sortList !== false )
-        {
-            $sortingFields = '';
-            foreach ( $sortList as $sortBy )
-            {
-                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                if ( count( $sortList ) > 1 and
+                     !is_array( $sortList[0] ) )
                 {
-                    if ( $sortCount > 0 )
-                        $sortingFields .= ', ';
-                    $sortField = $sortBy[0];
-                    switch ( $sortField )
-                    {
-                        case 'created':
-                        {
-                            $sortingFields .= 'ezcollab_item_group_link.created';
-                        } break;
-                        case 'modified':
-                        {
-                            $sortingFields .= 'ezcollab_item_group_link.modified';
-                        } break;
-                        default:
-                        {
-                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaborationItem::fetchList' );
-                            continue;
-                        };
-                    }
-                    $sortOrder = true; // true is ascending
-                    if ( isset( $sortBy[1] ) )
-                        $sortOrder = $sortBy[1];
-                    $sortingFields .= $sortOrder ? " ASC" : " DESC";
-                    ++$sortCount;
+                    $sortList = array( $sortList );
                 }
             }
-        }
-        if ( $sortCount == 0 )
-        {
-            $sortingFields = " ezcollab_item_group_link.modified DESC";
+            if ( $sortList !== false )
+            {
+                $sortingFields = '';
+                foreach ( $sortList as $sortBy )
+                {
+                    if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                    {
+                        if ( $sortCount > 0 )
+                            $sortingFields .= ', ';
+                        $sortField = $sortBy[0];
+                        switch ( $sortField )
+                        {
+                            case 'created':
+                            {
+                                $sortingFields .= 'ezcollab_item_group_link.created';
+                            } break;
+                            case 'modified':
+                            {
+                                $sortingFields .= 'ezcollab_item_group_link.modified';
+                            } break;
+                            default:
+                            {
+                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaborationItem::fetchList' );
+                                continue;
+                            };
+                        }
+                        $sortOrder = true; // true is ascending
+                        if ( isset( $sortBy[1] ) )
+                            $sortOrder = $sortBy[1];
+                        $sortingFields .= $sortOrder ? ' ASC' : ' DESC';
+                        ++$sortCount;
+                    }
+                }
+            }
+            if ( $sortCount == 0 )
+            {
+                $sortingFields = ' ezcollab_item_group_link.modified DESC';
+            }
+            $sortText = "ORDER BY $sortingFields";
         }
 
         $parentGroupText = '';
-        if ( $parentGroupID !== false )
+        if ( $parentGroupID > 0 )
         {
             $parentGroupText = "ezcollab_item_group_link.group_id = '$parentGroupID' AND";
         }
 
-        $user =& eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+        $isReadText = '';
+        if ( $isRead !== null )
+        {
+            $isReadValue = $isRead ? 1 : 0;
+            $isReadText = "ezcollab_item_status.is_read = '$isReadValue' AND";
+        }
+
+        $isActiveText = '';
+        if ( $isActive !== null )
+        {
+            $isActiveValue = $isActive ? 1 : 0;
+            $isActiveText = "ezcollab_item_status.is_active = '$isActiveValue' AND";
+        }
+
+        $userID =& eZUser::currentUserID();
 
         $statusText = '';
         if ( $statusTypes === false )
@@ -328,27 +405,54 @@ class eZCollaborationItem extends eZPersistentObject
                                   EZ_COLLABORATION_STATUS_INACTIVE );
         $statusText = implode( ', ', $statusTypes );
 
-        $sql = "SELECT ezcollab_item.*
+        if ( $asCount )
+            $selectText = 'count( ezcollab_item.id ) as count';
+        else
+            $selectText = 'ezcollab_item.*, ezcollab_item_status.is_read, ezcollab_item_status.is_active, ezcollab_item_status.last_read';
+
+        $sql = "SELECT $selectText
                 FROM
                        ezcollab_item,
+                       ezcollab_item_status,
                        ezcollab_item_group_link
                 WHERE  ezcollab_item.status IN ( $statusText ) AND
+                       $isReadText
+                       $isActiveText
+                       ezcollab_item.id = ezcollab_item_status.collaboration_id AND
                        ezcollab_item.id = ezcollab_item_group_link.collaboration_id AND
                        $parentGroupText
+                       ezcollab_item_status.user_id = '$userID' AND
                        ezcollab_item_group_link.user_id = '$userID'
-                ORDER BY $sortingFields";
+                $sortText";
 
         $db =& eZDB::instance();
-        $sqlParameters = array();
-        if ( $offset !== false and $limit !== false )
+        if ( !$asCount )
         {
-            $sqlParameters['offset'] = $offset;
-            $sqlParameters['limit'] = $limit;
+            $sqlParameters = array();
+            if ( $offset !== false and $limit !== false )
+            {
+                $sqlParameters['offset'] = $offset;
+                $sqlParameters['limit'] = $limit;
+            }
+            $itemListArray =& $db->arrayQuery( $sql, $sqlParameters );
+            for ( $i = 0; $i < count( $itemListArray ); ++$i )
+            {
+                $itemData =& $itemListArray[$i];
+                $statusObject =& eZCollaborationItemStatus::create( $itemData['id'], $userID );
+                $statusObject->setAttribute( 'is_read', $itemData['is_read'] );
+                $statusObject->setAttribute( 'is_active', $itemData['is_active'] );
+                $statusObject->setAttribute( 'last_read', $itemData['last_read'] );
+                $statusObject->updateCache();
+            }
+            $returnItemList =& eZPersistentObject::handleRows( $itemListArray, 'eZCollaborationItem', $asObject );
+            eZDebugSetting::writeDebug( 'collaboration-item-list', $returnItemList );
+            return $returnItemList;
         }
-        $itemListArray =& $db->arrayQuery( $sql, $sqlParameters );
-        $returnItemList =& eZPersistentObject::handleRows( $itemListArray, 'eZCollaborationItem', $asObject );
-        eZDebugSetting::writeDebug( 'collaboration-item-list', $returnItemList );
-        return $returnItemList;
+        else
+        {
+            $itemCount =& $db->arrayQuery( $sql );
+            return $itemCount[0]['count'];
+        }
     }
 
     /// \privatesection

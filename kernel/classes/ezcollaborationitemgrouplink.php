@@ -44,6 +44,8 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZCollaborationItemGroupLink extends eZPersistentObject
 {
@@ -60,6 +62,9 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         return array( 'fields' => array( 'collaboration_id' => 'CollaborationID',
                                          'group_id' => 'GroupID',
                                          'user_id' => 'UserID',
+                                         'is_read' => 'IsRead',
+                                         'is_active' => 'IsActive',
+                                         'last_read' => 'LastRead',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
                       'keys' => array( 'collaboration_id' ),
@@ -81,14 +86,37 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         return new eZCollaborationItemGroupLink( $row );
     }
 
-    function &fetch( $collaborationID, $groupID, $userID, $asObject = true )
+    function &addItem( $groupID, $collaborationID, $userID )
     {
+        $groupLink =& eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
+        $groupLink->store();
+        $itemStatus =& eZCollaborationItemStatus::create( $collaborationID, $userID );
+        $itemStatus->store();
+        return $groupLink;
+    }
+
+    function &fetch( $collaborationID, $groupID, $userID = false, $asObject = true )
+    {
+        if ( $userID == false )
+            $userID == eZUser::currentUserID();
         return eZPersistentObject::fetchObject( eZCollaborationItemGroupLink::definition(),
                                                 null,
-                                                array( "collaboration_id" => $collaborationID,
+                                                array( 'collaboration_id' => $collaborationID,
                                                        'group_id' => $groupID,
                                                        'user_id' => $userID ),
                                                 $asObject );
+    }
+
+    function &fetchList( $collaborationID, $userID = false, $asObject = true )
+    {
+        if ( $userID == false )
+            $userID == eZUser::currentUserID();
+        return eZPersistentObject::fetchObjectList( eZCollaborationItemGroupLink::definition(),
+                                                    null,
+                                                    array( 'collaboration_id' => $collaborationID,
+                                                           'user_id' => $userID ),
+                                                    null, null,
+                                                    $asObject );
     }
 
     function hasAttribute( $attr )

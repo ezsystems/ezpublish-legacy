@@ -3,13 +3,13 @@
 
   {switch match=$item.data_int3}
   {case match=0}
-    <p>{"Awaiting approval of %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    <p class="{$:item_class}">{"Awaiting approval of %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case match=1}
-    <p>{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    <p class="{$:item_class}">{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case match=2}
-   <p>{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+   <p class="{$:item_class}">{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case/}
   {/switch}
@@ -18,13 +18,13 @@
 
   {switch match=$item.data_int3}
   {case match=0}
-    <p>{"Awaiting approval for %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    <p class="{$:item_class}">{"Awaiting approval for %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case match=1}
-    <p>{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    <p class="{$:item_class}">{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case match=2}
-   <p>{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+   <p class="{$:item_class}">{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
   {/case}
   {case/}
   {/switch}

@@ -242,9 +242,21 @@ create table ezcollab_item_group_link(
     collaboration_id int NOT NULL DEFAULT '0',
     group_id  int NOT NULL default '0',
     user_id int NOT NULL default '0',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    last_read int NOT NULL default '0',
     created int NOT NULL default '0',
     modified int NOT NULL default '0',
     PRIMARY KEY  (collaboration_id, group_id, user_id)
+    );
+
+create table ezcollab_item_status(
+    collaboration_id int NOT NULL DEFAULT '0',
+    user_id int NOT NULL default '0',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    last_read int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, user_id)
     );
 
 create table ezcollab_item_participant_link(

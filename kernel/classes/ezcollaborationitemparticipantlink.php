@@ -76,8 +76,6 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                          'participant_id' => 'ParticipantID',
                                          'participant_type' => 'ParticipantType',
                                          'participant_role' => 'ParticipantRole',
-                                         'is_read' => 'IsRead',
-                                         'is_active' => 'IsActive',
                                          'last_read' => 'LastRead',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
@@ -95,8 +93,6 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
             'collaboration_id' => $collaborationID,
             'participant_id' => $participantID,
             'participant_type' => $participantType,
-            'is_read' => false,
-            'is_active' => true,
             'created' => $dateTime,
             'modified' => $dateTime );
         return new eZCollaborationItemParticipantLink( $row );
@@ -107,8 +103,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         if ( $userID === false )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::currentUser();
-            $userID = $user->attribute( 'contentobject_id' );
+            $userID = eZUser::currentUserID();
         }
         if ( $timestamp === false )
         {

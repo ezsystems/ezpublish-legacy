@@ -114,12 +114,15 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchItemList( $sortBy, $offset, $limit, $status )
+    function &fetchItemList( $sortBy, $offset, $limit, $status, $isRead, $isActive, $parentGroupID )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
         $itemParameters = array( 'offset' => $offset,
                                  'limit' => $limit,
-                                 'sort_by' => $sortBy );
+                                 'sort_by' => $sortBy,
+                                 'is_read' => $isRead,
+                                 'is_active' => $isActive,
+                                 'parent_group_id' => $parentGroupID );
         if ( $status !== false )
             $itemParameters['status'] = $status;
         $children =& eZCollaborationItem::fetchList( $itemParameters );
@@ -129,10 +132,10 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchItemCount()
+    function &fetchItemCount( $parentGroupID )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
-        $itemParameters = array();
+        $itemParameters = array( 'parent_group_id' => $parentGroupID );
         $count =& eZCollaborationItem::fetchListCount( $itemParameters );
         return array( 'result' => $count );
     }

@@ -98,8 +98,8 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function readItem( &$collaborationItem )
     {
-        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-        eZCollaborationItemParticipantLink::setLastRead( $collaborationItem->attribute( 'id' ) );
+        include_once( 'kernel/classes/ezcollaborationitem.php' );
+        $collaborationItem->setLastRead();
     }
 
     /*!
@@ -120,11 +120,12 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $participantID =& eZUser::currentUserID();
-        $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
+//         $participantID =& eZUser::currentUserID();
+//         $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
         $lastRead = 0;
-        if ( $participant )
-            $lastRead = $participant->attribute( 'last_read' );
+        $status =& $collaborationItem->attribute( 'user_status' );
+        if ( $status )
+            $lastRead = $status->attribute( 'last_read' );
         include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
         return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ),
                                                                       'conditions' => array( 'modified' => array( '>', $lastRead ) ) ) );
@@ -174,8 +175,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             include_once( 'kernel/classes/ezcollaborationprofile.php' );
             $profile =& eZCollaborationProfile::instance();
             $groupID =& $profile->attribute( 'main_group' );
-            $groupLink =& eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $participantID );
-            $groupLink->store();
+            eZCollaborationItemGroupLink::addItem( $groupID, $collaborationID, $participantID );
         }
         return $collaborationItem;
     }
@@ -202,6 +202,10 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                 $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
             $collaborationItem->setAttribute( 'data_int3', $status );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $timestamp = eZDateTime::currentTimeStamp();
+            $collaborationItem->setAttribute( 'modified', $status );
+            $collaborationItem->setIsActive( false );
             $redirectView = 'view';
             $redirectParameters = array( 'summary' );
             $addComment = true;

@@ -9,9 +9,13 @@
 
 <table width="100%" cellspacing="4" cellpadding="4" border="0">
 <tr>
-  <td rowspan="2">
+  <td rowspan="2" align="top">
 
 <h1>Approval</h1>
+
+collab_item.data_int3='{$collab_item.data_int3}'
+
+{section show=eq($collab_item.data_int3,0)}
 
 {section show=$collab_item.is_creator}
 <p>The content object {content_version_view_gui view=text_linked content_version=$content_version} awaits approval before it can be published.</p>
@@ -21,6 +25,16 @@
 <p>Do you approve of the content object being published?</p>
 {/section}
 
+{section-else}
+
+  {section show=eq($collab_item.data_int3,1)}
+  <p>The content object {content_version_view_gui view=text_linked content_version=$content_version} was approved.</p>
+  {section-else}
+  <p>The content object {content_version_view_gui view=text_linked content_version=$content_version} was not approved.</p>
+  {/section}
+
+{/section}
+
 <input type="hidden" name="CollaborationActionCustom" value="custom" />
 <input type="hidden" name="CollaborationTypeIdentifier" value="ezapprove" />
 
@@ -28,6 +42,7 @@
 
 <br/>
 
+{section show=eq($collab_item.data_int3,0)}
 <label>Comment</label><div class="break"/>
 <textarea class="box" name="Collaboration_ApproveComment" cols="50" rows="5"></textarea>
 
@@ -41,6 +56,7 @@
 <input type="submit" name="CollaborationAction_Deny" value="Deny" />
 {/section}
 </div>
+{/section}
 
   </td>
   <td rowspan="2" valign="top">

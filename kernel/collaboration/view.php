@@ -53,8 +53,7 @@ $template = $view->template();
 
 include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
-$collaborationHandlers =& eZCollaborationItemHandler::fetchList();
-eZDebug::writeDebug( $collaborationHandlers, '$collaborationHandlers' );
+// $collaborationHandlers =& eZCollaborationItemHandler::fetchList();
 
 $viewParameters = array( 'offset' => $Offset );
 
