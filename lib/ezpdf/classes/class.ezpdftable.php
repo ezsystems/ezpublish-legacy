@@ -47,8 +47,10 @@ define( 'EZ_PDF_LIB_TOTAL_PAGENUM', '#total' );
 define( 'EZ_PDF_LIB_HEADER_LEVEL', '#level' );
 define( 'EZ_PDF_LIB_HEADER_LEVEL_INDEX', '#indexLevel' );
 
-/**
- This class extents Cezpdf ( class.ezpdf.php ) and adds extra support to tables.
+/*!
+  \class eZPDFTable class.ezpdftable.php
+  \ingroup eZPDF
+  \brief eZPDFTable adds extra support for tables
 */
 
 class eZPDFTable extends Cezpdf

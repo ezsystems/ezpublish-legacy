@@ -41,8 +41,13 @@ include_once( 'lib/ezpdf/classes/class.pdf.php' );
 //include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
+  \defgroup eZPDF PDF generator library
+*/
+
+/*!
   \class eZPDF ezpdf.php
-  \brief The class eZPDF does
+  \ingroup eZPDF
+  \brief eZPDF provides template operators for dealing with pdf generation
 */
 
 class eZPDF

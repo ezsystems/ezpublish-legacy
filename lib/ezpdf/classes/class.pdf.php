@@ -35,6 +35,12 @@
 /*! \file class.pdf.php
 */
 
+/*!
+  \class Cpdf class.pdf.php
+  \ingroup eZPDF
+  \brief Cpdf provides
+*/
+
 class Cpdf
 {
 
