@@ -2460,6 +2460,11 @@ WHERE
         {
             $urlObject->cleanup();
         }
+
+        // Clean up recent items
+        $nodeID = $node->attribute( 'node_id' );
+        include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+        eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
     }
 
     /*!

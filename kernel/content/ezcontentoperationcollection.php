@@ -274,6 +274,12 @@ class eZContentOperationCollection
 
         if ( $mainNodeID > 0 )
         {
+            $existingNodeID = $existingNode->attribute( 'node_id' );
+            if ( $existingNodeID != $mainNodeID )
+            {
+                include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+                eZContentBrowseRecent::updateNodeID( $existingNodeID, $mainNodeID );
+            }
             $existingNode->setAttribute( 'main_node_id', $mainNodeID );
         }
         else
