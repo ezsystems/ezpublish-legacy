@@ -46,7 +46,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
-function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     $http =& eZHTTPTool::instance();
     // Add object relations
@@ -80,7 +80,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         // We redirect to the edit page to get the correct url,
         // also we use the anchor 'content-relation-items' to make sure the
         // browser scrolls down the relation list (if the anchor exists).
-        $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage ),
+        $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
                                  null, false, 'content-relation-items' );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
@@ -90,7 +90,7 @@ function storeRelationAssignments( &$module, &$class, &$object, &$version, &$con
 {
 }
 
-function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     $http =& eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
@@ -105,7 +105,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                                          'class_id' => $class->attribute( 'identifier' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                          'section' => $object->attribute( 'section_id' ) ),
-                                        'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
+                                        'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) ) ),
                                  $module );
 
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -156,7 +156,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                                              'section' => $object->attribute( 'section_id' ) ),
                                             'result_action_name' => 'UploadedFileRelation',
                                             'result_module' => array( 'content', 'edit',
-                                                                      array( $objectID, $editVersion, $editLanguage ) ) ),
+                                                                      array( $objectID, $editVersion, $editLanguage, $fromLanguage ) ) ),
                                      $module );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }

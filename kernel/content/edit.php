@@ -58,7 +58,7 @@ $http =& eZHTTPTool::instance();
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
    $mainNode =& eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
- 
+
    if( (count( $mainNode )) == 1 )
    {
         $node = $mainNode[0]->attribute( 'node' );
@@ -70,7 +70,7 @@ if( $http->hasPostVariable( 'CancelDraftButton' ) )
         $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
         return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
    }
-   
+
 }
 
 
@@ -115,15 +115,15 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     if ( $versionCount < $versionlimit )
     {
         $version =& $obj->createNewVersion();
-	
-	if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
-	{
+
+        if ( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
+        {
             return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
         }
-	else
-	{
+        else
+        {
             return $Module->redirectToView( 'edit', array( $ObjectID ) );
-	}
+        }
     }
     else
     {
@@ -154,14 +154,14 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
             $removeVersion->remove();
             $version =& $obj->createNewVersion();
 
-   	    if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
-  	    {
+            if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
+            {
                 return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
             }
-	    else
-	    {
+            else
+            {
                 return $Module->redirectToView( 'edit', array( $ObjectID ) );
-	    }
+            }
 
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
@@ -194,15 +194,14 @@ else
     if ( count( $draftVersions ) > 0 )
     {
         $mostRecentDraft =& $draftVersions[0];
-	
-	foreach( $draftVersions as $currentDraft )
-	{
-	    if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
-	    {
-	        $mostRecentDraft =& $currentDraft; 
-	    }
-	}
-            
+        foreach( $draftVersions as $currentDraft )
+        {
+            if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
+            {
+                $mostRecentDraft =& $currentDraft;
+            }
+        }
+
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
@@ -358,7 +357,7 @@ $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
+    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
         {
@@ -368,7 +367,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Translate' ) )
         {
-            $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion ) );
+            $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
@@ -383,9 +382,26 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( $module->hasActionParameter( 'SelectedLanguage' ) )
             {
                 $EditLanguage = $module->actionParameter( 'SelectedLanguage' );
-                if ( $EditLanguage == eZContentObject::defaultLanguage() )
-                    $EditLanguage = false;
-                $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
+//                 if ( $EditLanguage == eZContentObject::defaultLanguage() )
+//                     $EditLanguage = false;
+                if ( strlen( $EditLanguage ) == 0 )
+                    $EditLanguage = eZContentObject::defaultLanguage();
+                $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+        }
+
+        if ( $module->isCurrentAction( 'TranslateLanguage' ) )
+        {
+            if ( $module->hasActionParameter( 'SelectedLanguage' ) )
+            {
+                $FromLanguage = $EditLanguage;
+                if ( strlen( $FromLanguage ) == 0 )
+                    $FromLanguage = eZContentObject::defaultLanguage();
+                $EditLanguage = $module->actionParameter( 'SelectedLanguage' );
+//                 if ( $FromLanguage == $EditLanguage )
+//                     $FromLanguage = false;
+                $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
         }

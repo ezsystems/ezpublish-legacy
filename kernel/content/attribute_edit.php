@@ -71,14 +71,11 @@ if ( !is_string( $FromLanguage ) or
      strlen( $FromLanguage ) == 0 )
     $FromLanguage = false;
 
-if ( $EditLanguage == eZContentObject::defaultLanguage() )
-    $EditLanguage = false;
-
 if ( $FromLanguage == $EditLanguage )
     $FromLanguage = false;
 
 
-if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage ) ) )
+if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage, &$FromLanguage ) ) )
     return;
 
 $object =& eZContentObject::fetch( $ObjectID );
@@ -115,7 +112,7 @@ if ( $FromLanguage !== false )
 
 $http =& eZHTTPTool::instance();
 
-if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
+if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
     return;
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
@@ -213,7 +210,7 @@ if ( $storingAllowed && $hasObjectInput)
 
     if ( $inputValidated and count( $attributeInputMap ) > 0 )
     {
-        if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
+        if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
             return;
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
@@ -280,7 +277,7 @@ if ( $inputValidated == true )
 {
     if ( $validatedAttributes == null )
     {
-        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
+        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
             return;
     }
 }
@@ -362,7 +359,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
 
-if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl ) ) )
+if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
     return;
 $templateName = 'design:content/edit.tpl';
 

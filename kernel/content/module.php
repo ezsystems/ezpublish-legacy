@@ -48,6 +48,7 @@ $ViewList['edit'] = array(
                                     'DiscardButton' => 'Discard',
                                     'BrowseNodeButton' => 'BrowseForNodes',
                                     'EditLanguageButton' => 'EditLanguage',
+                                    'TranslateLanguageButton' => 'TranslateLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
                                     'UploadFileRelationButton' => 'UploadFileRelation',
                                     'NewButton' => 'NewObject',
@@ -59,6 +60,7 @@ $ViewList['edit'] = array(
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'
                                     ),
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
+                                       'TranslateLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     'script' => 'edit.php',

@@ -161,6 +161,7 @@
 <div class="block">
 {section show=$Translation:other_translation_list}
 <input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="TranslateLanguageButton" value="{'Translate selected'|i18n( 'design/admin/content/edit' )}" title="{'Translate the current language into the selected translation.'|i18n( 'design/admin/content/edit' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'The draft that is being edited only exists in one language; thus this button is disabled.'|i18n( 'design/admin/content/edit' )}" />
 {/section}

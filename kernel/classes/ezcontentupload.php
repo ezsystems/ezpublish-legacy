@@ -198,7 +198,8 @@ class eZContentUpload
         if ( !isset( $parameters['persistent_data'] ) )
             $parameters['persistent_data'] = false;
 
-        if ( isset( $parameters['parent_nodes'] ) )
+        if ( isset( $parameters['parent_nodes'] ) and
+             is_array( $parameters['parent_nodes'] ) )
         {
             foreach ( $parameters['parent_nodes'] as $key => $parentNode )
             {
