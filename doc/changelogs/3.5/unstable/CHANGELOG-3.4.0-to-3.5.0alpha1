@@ -393,7 +393,8 @@ Workflow:
   http://ez.no/community/bug_reports/pdf_article_displays_code
 - Fixed bug with permission cleanup on node removal
   http://ez.no/community/bug_reports/roles_policies_subtree_limit_bug ( Merged from stable 3.4 r7493 )
-
+- Fixed problem with the URL management: URLs from drafts and archived versions were shown.
+  Now it will only show URLs from published versions.
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

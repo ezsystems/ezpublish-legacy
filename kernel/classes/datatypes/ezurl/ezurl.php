@@ -258,12 +258,14 @@ class eZURL extends eZPersistentObject
         $parameters = array_merge( array( 'as_object' => true,
                                           'is_valid' => null,
                                           'offset' => false,
-                                          'limit' => false ),
+                                          'limit' => false,
+                                          'only_published' => false ),
                                    $parameters );
         $asObject = $parameters['as_object'];
         $isValid = $parameters['is_valid'];
         $offset = $parameters['offset'];
         $limit = $parameters['limit'];
+        $onlyPublished = $parameters['only_published'];
         $limitArray = null;
         if ( !$asCount and $offset !== false and $limit !== false )
             $limitArray = array( 'offset' => $offset,
@@ -275,19 +277,37 @@ class eZURL extends eZPersistentObject
         }
         if ( count( $conditions ) == 0 )
             $conditions = null;
-        if ( $asCount )
+
+        $urls = eZPersistentObject::fetchObjectList( eZURL::definition(),
+                                                     null, $conditions, null, $limitArray,
+                                                     $asObject );
+
+        if ( $onlyPublished )  // Only fetch published urls
         {
-            $rows = eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                         array(), $conditions, null, null,
-                                                         false, null,
-                                                         array( array( 'operation' => 'count( id )',
-                                                                       'name' => 'count' ) ) );
-            return $rows[0]['count'];
+            $publishedUrls = array();
+            include_once( "lib/ezdb/classes/ezdb.php" );
+            foreach ( $urls as $url )
+            {
+                $db =& eZDB::instance();
+                $db->setIsSQLOutputEnabled( false );
+                $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_version.contentobject_id
+                                          FROM ezurl_object_link, ezcontentobject_version
+                                          WHERE ezurl_object_link.contentobject_attribute_version =
+                                                ezcontentobject_version.version
+                                          AND ezcontentobject_version.status = 1
+                                          AND ezurl_object_link.url_id = '" . $url->attribute( 'id' ) . "'" );
+                if ( count( $rows ) > 0 )
+                {
+                    $publishedUrls[] = $url;
+                }
+            }
+            $urls = $publishedUrls;
         }
+
+        if ( $asCount )
+            return count( $urls );
         else
-            return eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                        null, $conditions, null, $limitArray,
-                                                        $asObject );
+            return $urls;
     }
 
     /*!

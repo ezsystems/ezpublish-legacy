@@ -55,12 +55,13 @@ class eZURLFunctionCollection
     {
     }
 
-    function &fetchList( $isValid, $offset, $limit )
+    function &fetchList( $isValid, $offset, $limit, $onlyPublished )
     {
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'offset' => $offset,
-                             'limit' => $limit );
+                             'limit' => $limit,
+                             'only_published' => $onlyPublished );
         $list =& eZURL::fetchList( $parameters );
         if ( $list === null )
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -68,10 +69,11 @@ class eZURLFunctionCollection
         return array( 'result' => &$list );
     }
 
-    function &fetchListCount( $isValid )
+    function &fetchListCount( $isValid, $onlyPublished )
     {
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-        $parameters = array( 'is_valid' => $isValid );
+        $parameters = array( 'is_valid' => $isValid,
+                             'only_published' => $onlyPublished );
         $listCount =& eZURL::fetchListCount( $parameters );
         if ( $listCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
