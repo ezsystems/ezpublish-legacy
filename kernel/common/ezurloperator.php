@@ -224,13 +224,26 @@ class eZURLOperator
                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
                 $std_file = "design/$std_base/images/$operatorValue";
                 $site_file = "design/$site_base/images/$operatorValue";
+                $no_slash_prefix = false;
+                if ( count( $operatorParameters ) == 2 )
+                {
+                    if ( $operatorParameters[1] == true && strlen( $this->Sys->wwwDir() ) == 0 )
+                        $no_slash_prefix = true;
+                }
+
                 if ( file_exists( $site_file ) )
                 {
-                    $operatorValue = $this->Sys->wwwDir() . "/$site_file";
+                    if ( $no_slash_prefix == true )
+                        $operatorValue = $site_file;
+                    else
+                        $operatorValue = $this->Sys->wwwDir() . "/$site_file";
                 }
                 else if ( file_exists( $std_file ) )
                 {
-                    $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+                    if ( $no_slash_prefix == true )
+                        $operatorValue = $std_file;
+                    else
+                        $operatorValue = $this->Sys->wwwDir() . "/$std_file";
                 }
                 else
                     $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );

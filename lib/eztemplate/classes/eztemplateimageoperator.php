@@ -90,7 +90,9 @@ class eZTemplateImageOperator
         $this->YAdjust = 0;
         $this->WAdjust = 0;
         $this->HAdjust = 0;
-        $this->UseCache = false;
+        $this->UseCache = true;
+        if ( $ini->variable( "ImageSettings", "UseCache" ) == "disabled" )
+            $this->UseCache = false;
 
         $this->ImageGDSupported = ( function_exists( "ImageTTFBBox" ) and
                                     function_exists( "ImageCreate" ) and
