@@ -150,7 +150,7 @@
 
 
     </td>
-    <td>
+    <td class="class">
     {$Object:item.object.content_class.name|wash}
     </td>
  </tr>
