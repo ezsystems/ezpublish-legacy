@@ -294,6 +294,67 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $return;
     }
 
+    /*!
+     \returns the sort key for the given classAttributeID.
+      int|string is returend. False is returned if unsuccessful.
+    */
+    function sortKeyByClassAttributeID( $classAttributeID )
+    {
+        $db =& eZDB::instance();
+        $dbName = $db->DB;
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $cacheDir = eZSys::cacheDirectory();
+        $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php" );
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiryTime = 0;
+        if ( $handler->hasTimestamp( 'content-cache' ) )
+        {
+            $expiryTime = $handler->timestamp( 'content-cache' );
+        }
+
+        if ( $phpCache->canRestore( $expiryTime ) )
+        {
+            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+            $dataTypeArray =& $var['datatype_array'];
+            $attributeTypeArray =& $var['attribute_type_array'];
+        }
+        else
+        {
+            // Fetch all datatypes and id's used
+            $query = "SELECT id, data_type_string FROM ezcontentclass_attribute";
+            $attributeArray = $db->arrayQuery( $query );
+
+            $attributeTypeArray = array();
+            $dataTypeArray = array();
+            foreach ( $attributeArray as $attribute )
+            {
+                $attributeTypeArray[$attribute['id']] = $attribute['data_type_string'];
+                $dataTypeArray[$attribute['data_type_string']] = 0;
+            }
+
+            include_once( 'kernel/classes/ezdatatype.php' );
+
+            // Fetch datatype for every unique datatype
+            foreach ( array_keys( $dataTypeArray ) as $key )
+            {
+                unset( $dataType );
+                $datatype =& eZDataType::create( $key );
+
+                $dataTypeArray[$key] = $datatype->sortKeyType();
+            }
+            unset( $dataType );
+
+            // Store identifier list to cache file
+            $phpCache->addVariable( 'datatype_array', $dataTypeArray );
+            $phpCache->addVariable( 'attribute_type_array', $attributeTypeArray );
+            $phpCache->store();
+        }
+        return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
+    }
+
     function &subTree( $params = false ,$nodeID = 0 )
     {
         if ( $params === false )
@@ -425,7 +486,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'attribute':
                         {
                             $sortClassID = $sortBy[2];
-                            $sortingFields .= "a$attributeJoinCount.sort_key";
+
+                            // Look up datatype for sorting
+                            $sortDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
+
+                            $sortKey = false;
+                            if ( $sortDataType == 'string' )
+                            {
+                                $sortKey = 'sort_key_string';
+                            }
+                            else
+                            {
+                                $sortKey = 'sort_key_int';
+                            }
+
+                            $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
                             $attributeWereSQL .= " a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                                   a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
@@ -566,41 +641,55 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                              a$filterCount.version = ezcontentobject_name.content_version AND ";
                 }
 
+                // Check datatype for filtering
+                //
+
+                $filterDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $filterAttributeID );
+
+                $sortKey = false;
+                if ( $filterDataType == 'string' )
+                {
+                    $sortKey = 'sort_key_string';
+                }
+                else
+                {
+                    $sortKey = 'sort_key_int';
+                }
                 switch ( $filterType )
                 {
                     case '=' :
                     {
                         if ( $filterCount > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key = '$filterValue' ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.$sortKey = '$filterValue' ";
                     }break;
 
                     case '>' :
                     {
                         if ( $filterCount > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key > '$filterValue' ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.$sortKey > '$filterValue' ";
                     }break;
 
                     case '<' :
                     {
                         if ( $filterCount > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key < '$filterValue' ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.$sortKey < '$filterValue' ";
                     }break;
 
                     case '<=' :
                     {
                         if ( $filterCount > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key <= '$filterValue' ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.$sortKey <= '$filterValue' ";
                     }break;
 
                     case '>=' :
                     {
                         if ( $filterCount > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key >= '$filterValue' ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.$sortKey >= '$filterValue' ";
                     }break;
 
                     default :

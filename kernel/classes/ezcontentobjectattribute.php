@@ -84,10 +84,14 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                                               'datatype' => 'integer',
                                                                               'default' => 0,
                                                                               'required' => true ),
-                                         "sort_key" => array( 'name' => "SortKey",
-                                                              'datatype' => 'text',
-                                                              'default' => '',
-                                                              'required' => true ),
+                                         "sort_key_int" => array( 'name' => "SortKey",
+                                                                  'datatype' => 'integer',
+                                                                  'default' => '',
+                                                                  'required' => true ),
+                                         "sort_key_string" => array( 'name' => "SortKey",
+                                                                     'datatype' => 'string',
+                                                                     'default' => '',
+                                                                     'required' => true ),
                                          "data_text" => array( 'name' => "DataText",
                                                                'datatype' => 'text',
                                                                'default' => '',
@@ -213,7 +217,10 @@ class eZContentObjectAttribute extends eZPersistentObject
         $dataType =& $classAttr->dataType();
 
         $sortKey =& $dataType->sortKey( $this );
-        $this->setAttribute( 'sort_key', $sortKey );
+        if ( $dataType->sortKeyType() == 'string' )
+            $this->setAttribute( 'sort_key_string', $sortKey );
+        else
+            $this->setAttribute( 'sort_key_int', $sortKey );
 
         // store the content data for this attribute
         $dataType->storeObjectAttribute( $this );

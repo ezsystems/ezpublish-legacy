@@ -491,6 +491,15 @@ class eZDataType
     }
 
     /*!
+     \returns the type of the sort key int|string
+      False is returned if sorting is not supported
+    */
+    function sortKeyType()
+    {
+        return false;
+    }
+
+    /*!
      Adds the necessary dom structure to the attribute parameters.
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.

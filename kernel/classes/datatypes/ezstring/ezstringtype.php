@@ -288,6 +288,14 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
+    function &sortKeyType()
+    {
+        return 'string';
+    }
+
+    /*!
+     \reimp
+    */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxLength = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );

@@ -16,8 +16,6 @@ CREATE TABLE ezurl_object_link (
   PRIMARY KEY (url_id,contentobject_attribute_id,contentobject_attribute_version)
 );
 
-ALTER TABLE ezcontentobject_attribute ADD sort_key varchar(255);
-ALTER TABLE ezcontentobject_attribute ADD index ( sort_key );
 
 CREATE TABLE ezsite_data (
   id int(11) auto_increment NOT NULL,
@@ -67,3 +65,15 @@ create table ezpreferences
 );
 
 create index ezpreferences_name on ezpreferences( name );
+
+alter table ezcontentobject_attribute add sort_key_int int not null default 0;
+alter table ezcontentobject_attribute add sort_key_string varchar(50) not null default '';
+
+## Updates from sort_key to sort_key_int and sort_key_string
+# Not needed if you don't upgrade from an svn version of 3.2
+# update ezcontentobject_attribute set sort_key_int=sort_key;
+# update ezcontentobject_attribute set sort_key_string=sort_key;
+
+
+ALTER TABLE ezcontentobject_attribute ADD index ( sort_key_int );
+ALTER TABLE ezcontentobject_attribute ADD index ( sort_key_string );
