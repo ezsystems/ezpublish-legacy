@@ -673,7 +673,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $attributeFilterFromSQL = "";
         $attributeFilterWhereSQL = "";
 
-        if ( isset( $params['AttributeFilter'] ) )
+        if ( isset( $params['AttributeFilter'] ) && $params['AttributeFilter'] !== false )
         {
             $filterArray = $params['AttributeFilter'];
 

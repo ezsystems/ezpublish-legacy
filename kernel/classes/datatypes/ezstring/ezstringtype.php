@@ -266,6 +266,21 @@ class eZStringType extends eZDataType
     }
 
     /*!
+     \return the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
+    }
+
+    /*!
      Returns the content of the string for use as a title
     */
     function title( &$contentObjectAttribute )
