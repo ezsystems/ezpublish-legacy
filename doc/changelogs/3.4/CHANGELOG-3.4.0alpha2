@@ -45,6 +45,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 - Made sure assigment to PHP variables unsets the PHP variable before
   the assignment is applied in compiled template code.
+- Made sure the same repository is not scanned multiple times.
+  http://ez.no/community/bug_reports/ezdatatype_php_latest_trunk
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

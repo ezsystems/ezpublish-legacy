@@ -679,15 +679,19 @@ class eZDataType
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI =& eZINI::instance( 'content.ini' );
+
+		$extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
+		$extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
-        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
-        foreach ( $extensionDirectories as $extensionDirectory )
+
+		foreach ( $extensionDirectories as $extensionDirectory )
         {
             $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/datatypes';
             if ( file_exists( $extensionPath ) )
                 $repositoryDirectories[] = $extensionPath;
         }
         $foundEventType = false;
+		$repositoryDirectories = array_unique( $repositoryDirectories );
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$type/" . $type . "type.php";
