@@ -67,7 +67,7 @@ body
 
 #sitelogo
 {  
-  background: url("/design/intranet/images/green_logo.png") no-repeat;
+  background: url("../images/green_logo.png") no-repeat;
   width: 200px;
   height: 50px;
   float: left;

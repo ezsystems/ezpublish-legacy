@@ -79,7 +79,7 @@ input.defaultbutton
   height: 50px;
   margin: 0px;
   float: right;
-  background: url("/design/intranet/images/06_intranet_logo.png") no-repeat;
+  background: url("../images/06_intranet_logo.png") no-repeat;
 }
 
 /* Top menu */
