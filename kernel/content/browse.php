@@ -76,6 +76,16 @@ $objectArray =& $node->subTree( array( "Depth" => 1,
                                        ) );
 $parents =& $node->attribute( 'path' );
 
+$path = array();
+foreach ( $parents as $parent )
+{
+    $path[] = array( 'text' => $parent->attribute( 'name' ),
+                     'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/'
+                     );
+}
+$path[] = array( 'text' => $contentObject->attribute( 'name' ),
+                 'url' => false );
+
 $tpl->setVariable( "main_node", $node );
 
 $tpl->setVariable( "return_url", $returnURL );
@@ -91,5 +101,7 @@ $tpl->setVariable( "object_array", $objectArray );
 $tpl->setVariable( "parents", $parents );
 
 $Result = array();
+$Result['path'] =& $path;
+
 $Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
 ?>

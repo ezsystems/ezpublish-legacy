@@ -2,14 +2,14 @@
 <div class="maincontentheader">
 <h1>{"Browse"|i18n}</h1>
 </div>
-<b>Path:</b><br />
+{* <b>Path:</b><br />
 &gt;
 {section name=Path loop=$parents}
  <a href={concat("/content/browse/",$Path:item.node_id,"/")|ezurl}>{$Path:item.name}</a> /
 {/section}
 {$main_node.name}
 <p class="comment">The path should be moved to the designated place outside this template. th[eZ]</p>
-
+*}
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th width="1%">

@@ -30,7 +30,7 @@ modfix:
 - index.php now uses the execution system, this means that controlled exits should be done with the
   /cleanExit/ function in /eZExecution/.
 - Implemented basic framework for generic information collection ( forms/polls etc )
-
+- changed browse page. Now the path is shown like on other eZ Publish pages
 *DateType :
 - Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
 
