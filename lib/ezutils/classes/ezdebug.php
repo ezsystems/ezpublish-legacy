@@ -797,7 +797,7 @@ class eZDebug
     {
         if ( isset( $GLOBALS['eZDebugEnabled'] ) )
         {
-            return &$GLOBALS['eZDebugEnabled'];
+            return $GLOBALS['eZDebugEnabled'];
         }
 
         return false;
