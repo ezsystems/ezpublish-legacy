@@ -120,7 +120,6 @@ class eZSearchEngine
             $wordsString = implode( '\',\'', $indexArrayOnlyWords );
             $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
 
-            
             // Build a has of the existing words
             $wordResCount = count( $wordRes );
             $wordIDArray = array();
@@ -911,7 +910,11 @@ class eZSearchEngine
         $text =& strToLower( $text );
 
         // fix removing of . if not inside a word.
-        $text =& preg_replace( "#\.(\s|$)#", " ", $text );
+        $text =& preg_replace( "#(\.){2,}#", " ", $text );
+        $text =& preg_replace( "#^\.#", " ", $text );
+        $text =& preg_replace( "#\s\.#", " ", $text );
+        $text =& preg_replace( "#\.\s#", " ", $text );
+        $text =& preg_replace( "#\.$#", " ", $text );
 
         $text =& str_replace(":", " ", $text );
         $text =& str_replace(",", " ", $text );
