@@ -128,6 +128,8 @@ Changes from 3.1-1 to 3.2.0-1
 - Updated templates for error codes to make it easier to understand what is wrong.
 - Made eZRangeOption datatype on by default.
 - Added previous/next function for section list.
+- Added login support using textfile which saved user account information.
+- Added login support using LDAP server.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.

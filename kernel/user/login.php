@@ -35,6 +35,8 @@
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/common/template.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
 //$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
@@ -80,7 +82,27 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $user = false;
     if ( $userLogin != '' )
     {
-        $user = eZUser::loginUser( $userLogin, $userPassword );
+        /* $user = eZUser::loginUser( $userLogin, $userPassword );
+        if ( get_class( $user ) != 'ezuser' )
+            $loginWarning = true;*/
+
+        $ini =& eZINI::instance();
+        if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
+        {
+            $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
+        }
+        else
+        {
+            $loginHandlers = array( 'standard' );
+        }
+        foreach ( array_keys ( $loginHandlers ) as $key )
+        {
+            $loginHandler = $loginHandlers[$key];
+            $userClass =& eZUserLoginHandler::instance( $loginHandler );
+            $user = $userClass->loginUser( $userLogin, $userPassword );
+            if ( get_class( $user ) == 'ezuser' )
+                break;
+        }
         if ( get_class( $user ) != 'ezuser' )
             $loginWarning = true;
     }
