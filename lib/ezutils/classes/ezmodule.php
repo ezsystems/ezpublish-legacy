@@ -301,6 +301,7 @@ class eZModule
         if ( $viewName == '' )
             $viewName = eZModule::currentView();
         $uri = $module->functionURI( $viewName );
+        $uri .= '/';
         $viewParameters =& $module->parameters( $viewName );
         $parameterIndex = 0;
         foreach ( $viewParameters as $viewParameter )
@@ -312,7 +313,7 @@ class eZModule
                 $uri .= '/';
             }
             else
-                $uri .= '/' . $parameters[$parameterIndex];
+                $uri .= $parameters[$parameterIndex] . '/';
             ++$parameterIndex;
         }
         if ( $unorderedParameters !== null )
@@ -321,7 +322,7 @@ class eZModule
             foreach ( $unorderedViewParameters as $unorderedViewParameterName => $unorderedViewParameterVariable )
             {
                 if ( isset( $unorderedParameters[$unorderedViewParameterVariable] ) )
-                    $uri .= '/' . $unorderedViewParameterName . '/' . $unorderedParameters[$unorderedViewParameterVariable];
+                    $uri .= $unorderedViewParameterName . '/' . $unorderedParameters[$unorderedViewParameterVariable] . '/';
             }
         }
         return $uri;
