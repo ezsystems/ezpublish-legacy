@@ -64,6 +64,10 @@ eZ Utils:
 - Use TRUNCATE TABLE instead of DELETE FROM, which is a faster alternative and
   works on MySQL, PostGreSQL and Oracle.
   http://ez.no/community/bug_reports/ezsession_truncate_instead_of_delete
+- Added eZMath library.
+
+eZ PDF:
+- Added more functionality.
 
 eZ ini:
 

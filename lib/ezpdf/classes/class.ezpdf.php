@@ -572,7 +572,7 @@ class Cezpdf extends Cpdf
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
         $x0=1000;
         $x1=0;
-        $this->setStrokeColor($col[0],$col[1],$col[2]);
+        $this->setStrokeColorRGB($col[0],$col[1],$col[2]);
         $cnt=0;
         $n = count($pos);
         foreach($pos as $x){
@@ -742,11 +742,6 @@ class Cezpdf extends Cpdf
         $newPage=false;
         $store_y = $this->y;
 
-        if (is_array($options) && isset($options['aleft'])){
-            $left=$options['aleft'];
-        } else {
-            $left = $this->ez['leftMargin'] + ((is_array($options) && isset($options['left']))?$options['left']:0);
-        }
         if (is_array($options) && isset($options['aright'])){
             $right=$options['aright'];
         } else {
@@ -778,14 +773,17 @@ class Cezpdf extends Cpdf
             $height = $this->getFontHeight($size);
         }
 
+        $lastOnlyDirective = false;
         $lines = explode( "\n", $text );
         foreach ( array_keys( $lines ) as $key ){
             $line = $lines[$key];
-            if ( $key > 0 || strlen($line) == 0 )
+            if ( ( $key > 0 || strlen($line) == 0 ) &&
+                 !$lastOnlyDirective )
             {
                 $this->y=$this->y-$height;
                 $this->ez['xOffset'] = 0;
             }
+            $lastOnlyDirective = false;
             while (strlen($line)){
                 if ($this->y < $this->ez['bottomMargin']){
                     if ($test){
@@ -811,6 +809,13 @@ class Cezpdf extends Cpdf
                     $right = $this->ez['pageWidth'] - $this->ez['rightMargin'] - ((is_array($options) && isset($options['right']))?$options['right']:0);
                 }
                 $textInfo = $this->addTextWrap($left,$this->y,$right-$left,$size,$line,$just,0,$test);
+                if ( isset( $textInfo['only_directive'] ) &&
+                     $textInfo['only_directive'] === true )
+                {
+                    $lastOnlyDirective = true;
+                    $line = '';
+                    continue;
+                }
                 $line=$textInfo['text'];
                 if ( strlen( $line ) || $textInfo['width'] == 0 )
                 {
@@ -941,7 +946,7 @@ class Cezpdf extends Cpdf
             if (!(isset($border['join']))) $border['join'] = 'round';
 
 
-            $this->setStrokeColor($border['color']['red'],$border['color']['green'],$border['color']['blue']);
+            $this->setStrokeColorRGB($border['color']['red'],$border['color']['green'],$border['color']['blue']);
             $this->setLineStyle($border['width'],$border['cap'],$border['join']);
             $this->rectangle($this->ez['leftMargin'] + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width,$height);
 
@@ -1023,8 +1028,8 @@ class Cezpdf extends Cpdf
                 $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>rawurldecode($info['p']));
                 if ($internal==0){
                     $this->saveState();
-                    $this->setColor(0,0,1);
-                    $this->setStrokeColor(0,0,1);
+                    $this->setColorRGB(0,0,1);
+                    $this->setStrokeColorRGB(0,0,1);
                     $thick = $info['height']*$lineFactor;
                     $this->setLineStyle($thick);
                 }
