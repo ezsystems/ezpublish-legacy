@@ -102,7 +102,6 @@ MatchFile=edit_review.tpl
 Subdir=templates
 Match[class]=25
 
-
 [preview_review]
 Source=content/view/versionview.tpl
 MatchFile=preview_review.tpl
@@ -117,24 +116,24 @@ Match[class]=25
 
 [orderemail]
 Source=shop/orderemail.tpl
-MatchFile=orderemail.tpl
-Subdir=templates/shop
+MatchFile=shop/orderemail.tpl
+Subdir=templates
 Match[class]=25
 
 [confirmorder]
 Source=shop/confirmorder.tpl
-MatchFile=confirmorder.tpl
-Subdir=templates/shop
+MatchFile=shop/confirmorder.tpl
+Subdir=templates
 Match[class]=25
 
 [basket]
 Source=shop/confirmorder.tpl
-MatchFile=confirmorder.tpl
-Subdir=templates/shop
+MatchFile=shop/confirmorder.tpl
+Subdir=templates
 
 [orderview]
 Source=shop/orderview.tpl
-MatchFile=orderview.tpl
-Subdir=templates/shop
+MatchFile=shop/orderview.tpl
+Subdir=templates
 
 */ ?>

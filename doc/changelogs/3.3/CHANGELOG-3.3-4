@@ -5,6 +5,7 @@ Changes from 3.3-3 to 3.3-4
 - Added boolean parameter 'main_node_only' in fetch function list, list_count, 
   tree and tree_count. The default is set to false to keep backwards compatibility.
 - Fixed missing include to ezinformationcollection in ezcontentfunctioncollection.php
+- Fixed wrong matchfile settings for shop templates.
 
 *Setup:
 
