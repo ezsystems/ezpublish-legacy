@@ -54,11 +54,6 @@ eZPersistentSOAPObject, and then specify for each object what persistent type
 is to be used. Could be used for caching rarely changed objects on file or in
 shared memory/session , ie no interface changes to existing classes.
 
-Figure out where object placement (in tree nodes) should be placed, is it
-somethings that should be versioned? or should it be controlled on an object
-level? Probably needs more discussion.
-
-
 Updates
 -------
 Discuss how future updates should be handled, will probably be done using the
