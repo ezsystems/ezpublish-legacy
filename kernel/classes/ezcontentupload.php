@@ -72,6 +72,7 @@ $upload = new eZContentUpload( array() );
 $upload->handleUpload( $result, 'UploadFile', 'auto', false );
 
 $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
+\endcode
 */
 
 define( "EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED", 1 );
