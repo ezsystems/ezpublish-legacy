@@ -68,8 +68,13 @@ if ( $Module->isCurrentAction( 'Login' ) and
 
     if ( trim( $userRedirectURI ) == "" )
     {
-        if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-         $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+        // Only use redirection if requireuser login is disabled
+        $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
+        if ( !$requireUserLogin )
+        {
+            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+                $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+        }
     }
 
     $user = false;
