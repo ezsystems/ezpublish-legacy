@@ -89,7 +89,7 @@ class eZINI
         $this->Charset = "utf8";
         if ( $fileName == "" )
             $fileName = "site.ini";
-        if ( $rootDir == "" )
+        if ( $rootDir !== false && $rootDir == "" )
             $rootDir = "settings";
         if ( $useCache === null )
             $useCache = eZINI::isCacheEnabled();
@@ -266,7 +266,10 @@ class eZINI
     {
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $inputFiles = array();
-        $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
+        if ( $this->RootDir !== false )
+            $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
+        else
+            $iniFile = eZDir::path( array( $this->FileName ) );
 
         if ( $this->DirectAccess )
         {
