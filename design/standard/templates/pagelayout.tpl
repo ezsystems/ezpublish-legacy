@@ -95,7 +95,7 @@
 </tr>
 <tr>
     <td colspan="2">
-<table width="100%">
+<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
     <td  class="pathline">
 
