@@ -9,7 +9,7 @@
 
 <div class="byline">
   <p>
-  ({$node.object.published|add(21600)|l10n( datetime )})
+  ({$node.object.published|l10n( datetime )})
   </p>
 </div>
 
