@@ -153,7 +153,7 @@ class eZBinaryFileType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
+        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 

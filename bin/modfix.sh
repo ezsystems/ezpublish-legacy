@@ -11,12 +11,16 @@ FILE_MODE=666 ##!
 
 #cd $DIR
 
-if [ ! -f "index.php" ]; then
-    echo "You seem to be in the wrong directory"
-    echo "Place yourself in the eZ publish 3 root directory and run ./bin/modfix.sh"
-    exit 1
+if [ ! -f "index.php" -a \
+     ! -f "access.php" -a \
+     ! -f "pre_check.php" -a \
+     ! -d "bin" -a \
+     ! -d "lib" -a \
+     ! -d "kernel" ] ; then
+     echo "You seem to be in the wrong directory"
+     echo "Place yourself in the eZ publish 3 root directory and run ./bin/modfix.sh"
+     exit 1
 fi
-
 
 chmod $DIR_MODE var/cache/
 if [ ! -d var/cache/ini ]; then

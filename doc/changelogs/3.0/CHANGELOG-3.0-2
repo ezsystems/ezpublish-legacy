@@ -16,6 +16,9 @@ Changes from 3.0-1 to 3.0-2
 - Fixed bug in approval which would stop the workflow if the publisher was an editor, excluded
   or object was in wrong section.
 
+Binary file:
+- Fixed bug with stored file not being removed when the object was deleted (removed from trash).
+
 User:
 - Fixed bug in password change, the wrong user ID was used which caused the operation to crash.
 
@@ -58,6 +61,7 @@ eZ mail:
   shell script with ./runcronjobs.php
 - Script in update/common/scripts were made executable which means it can be
   run from shell script with update/common/scripts/nameofscript.php
+- Tests more files and directories in bin/modfix.sh for the eZ publish root detection.
 
 *Changed templates:
 - Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
@@ -70,3 +74,6 @@ eZ mail:
 
 *Changed documentation :
 - Improved cache-block entry in function_list.tpl
+
+Setup :
+- Added example to magic quotes template on how to disable magic quotes with a .htaccess file.
