@@ -72,49 +72,65 @@ class eZSimpleTagsOperator
                                 PREG_SPLIT_DELIM_CAPTURE );
         $newElements = array();
         $i = 0;
-        $lastElement = false;
         foreach ( $elements as $element )
         {
             if ( ( $i % 2 ) == 1 )
             {
-                if ( preg_match( "#<(/?)([a-zA-Z]+)>#", $element, $matches ) )
+                $tagText = $element;
+                if ( preg_match( "#<(/?)([a-zA-Z]+)>#", $tagText, $matches ) )
                 {
                     $isEndTag = false;
                     if ( $matches[1] )
                         $isEndTag = true;
                     $tag = $matches[2];
-                    $element = array( $tag, $isEndTag, $element );
+                    $element = array( $tag, $isEndTag, $tagText );
                 }
             }
             $newElements[] = $element;
-            $lastElement = $element;
             ++$i;
         }
 
         $tagMap = array();
         $ini =& eZINI::instance( 'template.ini' );
         $tagList = $ini->variable( 'SimpleTagsOperator', 'TagList' );
-        foreach ( $tagList as $tagItem )
+        foreach ( $tagList as $tag => $tagItem )
         {
             $elements = explode( ';', $tagItem );
-            $tag = $elements[0];
-            $pre = $elements[1];
-            $post = $elements[2];
-            $phpfunction = false;
-            if ( isset( $elements[3] ) )
-                $phpfunction = $elements[3];
+            $pre = $elements[0];
+            $post = $elements[1];
+            $phpFunctions = array();
+            if ( isset( $elements[2] ) )
+            {
+                $phpFunctionList = explode( ',', $elements[2] );
+                $phpFunctions = array();
+                foreach ( $phpFunctionList as $phpFunction )
+                {
+                    if ( function_exists( $phpFunction ) )
+                        $phpFunctions[] = $phpFunction;
+                }
+            }
             $tagMap[$tag] = array( 'pre' => $pre,
                                    'post' => $post,
-                                   'phpfunction' => $phpfunction );
+                                   'phpfunctions' => $phpFunctions );
         }
 
+        $textPHPFunctions = array( 'htmlspecialchars' );
+        $textPre = $tagMap['pre'];
+        $textPost = $tagMap['post'];
+        if ( isset( $tagMap['text'] ) )
+            $textPHPFunctions = $tagMap['text']['phpfunctions'];
         $textElements = array();
         for ( $i = 0; $i < count( $newElements ); ++$i )
         {
             $element = $newElements[$i];
             if ( is_string( $element ) )
             {
-                $textElements[] = $element;
+                $text = $element;
+                foreach ( $textPHPFunctions as $textPHPFunction )
+                {
+                    $text = $textPHPFunction( $text );
+                }
+                $textElements[] = $textPre . $text . $textPost;
             }
             else if ( is_array( $element ) )
             {
@@ -124,9 +140,7 @@ class eZSimpleTagsOperator
                 if ( isset( $tagMap[$tag] ) )
                 {
                     $tagOptions = $tagMap[$tag];
-                    $phpfunction = $tagOptions['phpfunction'];
-                    if ( !function_exists( $phpfunction ) )
-                        $phpfunction = false;
+                    $phpFunctions = $tagOptions['phpfunctions'];
                     if ( !$isEndTag )
                     {
                         $tagElements = array();
@@ -151,16 +165,23 @@ class eZSimpleTagsOperator
                         $i = $j;
                         $textElements[] = $tagOptions['pre'];
                         $text = implode( '', $tagElements );
-                        if ( $phpfunction )
+                        foreach ( $phpFunctions as $phpFunction )
                         {
-                            $text = $phpfunction( $text );
+                            $text = $phpFunction( $text );
                         }
                         $textElements[] = $text;
                         $textElements[] = $tagOptions['post'];
                     }
                 }
                 else
-                    $textElements[] = htmlspecialchars( $originalText );
+                {
+                    $text = $originalText;
+                    foreach ( $textPHPFunctions as $textPHPFunction )
+                    {
+                        $text = $textPHPFunction( $text );
+                    }
+                    $textElements[] = $textPre . $text . $textPost;
+                }
             }
         }
 
