@@ -37,6 +37,7 @@
 */
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/ezcontentcache.php" );
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
@@ -99,7 +100,17 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $node =& eZContentObjectTreeNode::fetch( $deleteID );
         if ( $node != null )
         {
-            $object =  $node->attribute( 'object' );
+            $nodeList = array();
+            $nodeList[] = $node->attribute( 'node_id' );
+            $nodeList[] = $node->attribute( 'parent_node_id' );
+
+            if ( eZContentCache::cleanup( $nodeList ) )
+            {
+                     eZDebug::writeDebug( 'cache cleaned up', 'content, remove' );
+            }
+
+
+            $object = $node->attribute( 'object' );
             $children =& $node->subTree();
             foreach ( $children as $child )
             {
