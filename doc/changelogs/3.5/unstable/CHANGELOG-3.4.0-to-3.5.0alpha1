@@ -75,6 +75,8 @@ Workflow:
 
 *DataType:
 - Supported nested list for datatype ezxmltext.
+- Added a new datatype called eZMultiOption which works like
+  eZOption but handles multiple options in one attribute.
 
 *Bugs
 - Fixed using the loginpagelayout for forgotpassword
