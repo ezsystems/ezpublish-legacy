@@ -188,7 +188,26 @@ class eZSys
     */
     function hostname()
     {
-        return $GLOBALS["HTTP_HOST"];
+	return eZSys::serverVariable( 'HTTP_HOST' );
+    }
+    
+    /*!
+      \static
+      \return the port of the server.
+    */
+    function serverPort()
+    {
+        $port =& $GLOBALS['eZSysServerPort'];
+        if ( !isset( $port ) )
+        {
+            $port = eZSys::serverVariable( 'SERVER_PORT' );
+            $hostname = eZSys::serverVariable( 'HTTP_HOST' );
+            if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
+            {
+                $port = $regs[1];
+            }
+        }
+        return $port;
     }
 
     /*!

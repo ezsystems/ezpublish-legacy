@@ -110,6 +110,13 @@ if ( !$db->isConnected() )
                                               'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
                             'text' => 'No database connection could be made, the system might not behave properly.' );
 
+/*
+print( "<pre>" );
+var_dump( $_SERVER );
+print( "</pre>" );
+print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
+*/
+
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
@@ -117,8 +124,8 @@ ob_start();
 include_once( "access.php" );
 
 $access = accessType( $uri,
-                      eZSys::serverVariable( 'HTTP_HOST' ),
-                      eZSys::serverVariable( 'SERVER_PORT' ),
+                      eZSys::hostname(),
+                      eZSys::serverPort(),
                       eZSys::indexFile() );
 if ( $access !== null )
 {
