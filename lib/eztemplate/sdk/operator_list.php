@@ -156,6 +156,11 @@ E.g. {fetch('content','class_attribute_list',hash(class_id,4,version_id,0))}
 <dd>Evaluates all parameter values until one is found to be false, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters it returns false, if no elements were false it returns the last parameter value. E.g. {and(false(),false(),true(),false())} returns false.</dd>
 <dt>choose</dt>
 <dd>Uses the input count to pick one of the parameter elements. The input count equals the parameter index. E.g. {0|choose("a","b","c")} returns "a".</dd>
+<dt>contains</dt>
+<dd>Returns true if the first parameter value is found in the input value, which must be an array.
+Currently it works the same way as the PHP function in_array() but it may later be extended to support more
+advanced matching.<br/>
+E.g. $array|contains($myvalue)</dd>
 </dl>
 
 <h2>Type operators</h2>

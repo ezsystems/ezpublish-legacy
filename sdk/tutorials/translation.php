@@ -157,6 +157,8 @@ You could for instance do it like this:
 tar -zcvf nor-NO.tar.gz share/locale/nor-NO.ini share/translations/nor-NO/translation.ts
 </pre>
 
+<h2>Installing translations</h2>
+
 <p>
 To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini. These are the keys you need to change to enable the translation:
 </p>
