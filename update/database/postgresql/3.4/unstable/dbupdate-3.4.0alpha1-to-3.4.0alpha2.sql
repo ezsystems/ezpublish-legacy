@@ -17,6 +17,10 @@ CREATE INDEX ezpreferences_user_id_idx on ezpreferences ( user_id, name );
 
 ALTER TABLE ezorder ADD COLUMN email CHARACTER VARYING(150);
 ALTER TABLE ezorder ALTER email SET DEFAULT '';
+--- 
+--- Run script update/common/scripts/addorderemail.php after this change to
+--- insert correct email for existing orders.
+---
 
 
 CREATE TABLE ezsubtree_expiry (
