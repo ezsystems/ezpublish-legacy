@@ -560,15 +560,15 @@ class eZRole extends eZPersistentObject
     /*!
      Fetch access array of current role
     */
-    function &accessArray()
+    function &accessArray( $ignoreLimitIdentifier = false )
     {
         $accessArray = array();
 
         $policies =& $this->attribute( 'policies' );
-
+        eZDebug::writeDebug( array($ignoreLimitIdentifier ), '$ignoreLimitIdentifier in role->accessArray'  . $this->ID );
         foreach ( array_keys( $policies ) as $policyKey )
         {
-            $accessArray = array_merge_recursive( $accessArray, $policies[$policyKey]->accessArray() );
+            $accessArray = array_merge_recursive( $accessArray, $policies[$policyKey]->accessArray( $ignoreLimitIdentifier ) );
         }
 
         return $accessArray;

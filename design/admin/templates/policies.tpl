@@ -27,7 +27,8 @@
 {section var=AssignedRoles loop=$assigned_roles sequence=array( bglight, bgdark )}
 
 {* For each policy (if any) within a role... *}
-{section var=Policy loop=$AssignedRoles.item.policies sequence=array( bglight, bgdark )}
+{let role_without_cond_policies = fetch(role,role,hash(role_id,$AssignedRoles.item.id))}
+{section var=Policy loop=$:role_without_cond_policies.policies sequence=array( bglight, bgdark )}
 
 <tr class="{$Policy.sequence}">
 
@@ -76,7 +77,7 @@
 
 </tr>
 {/section}
-
+{/let}
 {/section}
 
 </table>

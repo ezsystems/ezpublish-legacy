@@ -254,9 +254,9 @@ class eZPolicy extends eZPersistentObject
 
      return access array
     */
-    function &accessArray()
+    function &accessArray( $ignoreLimitIdentifier = false )
     {
-        $limitations =& $this->attribute( 'limitations' );
+        $limitations =& $this->limitationList( true, $ignoreLimitIdentifier );
         if ( $this->Disabled === true )
         {
             return array();
@@ -282,7 +282,7 @@ class eZPolicy extends eZPersistentObject
 
      \param use limitation cache, true by default.
     */
-    function &limitationList( $useCache = true )
+    function &limitationList( $useCache = true, $ignoreLimitIdentifier = false )
     {
         if ( !isset( $this->Limitations ) || !$useCache )
         {
@@ -294,7 +294,7 @@ class eZPolicy extends eZPersistentObject
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "before policy limitations " . $this->ID );
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $this, "policy itself before before limitations check"  );
 
-            if ( $this->LimitIdentifier )
+            if ( $ignoreLimitIdentifier === false  && $this->LimitIdentifier )
             {
                 $limitIdentifier =  $this->attribute( 'limit_identifier' );
                 $limitValue = $this->attribute( 'limit_value' );

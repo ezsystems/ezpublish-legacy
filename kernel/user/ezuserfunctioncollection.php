@@ -118,7 +118,7 @@ class eZUserFunctionCollection
         foreach ( array_keys ( $roleList ) as $roleKey )
         {
             $role = $roleList[$roleKey];
-            $accessArray = array_merge_recursive( $accessArray, $role->accessArray() );
+            $accessArray = array_merge_recursive( $accessArray, $role->accessArray( true ) );
         }
         $resultArray = array();
         foreach ( array_keys( $accessArray ) as $moduleKey )
