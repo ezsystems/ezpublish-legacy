@@ -109,42 +109,54 @@ class eZTemplateControlOperator
 
                 $values = array();
                 $code = '';
+                $spacing = 0;
+                $spacingCode = '';
                 for ( $i = 0; $i < $clauseCount; ++$i )
                 {
+                    $prevSpacingCode = $spacingCode;
+                    $spacingCode = str_repeat( " ", $spacing*4 );
                     if ( $i > 0 )
                     {
-                        $code .= "else\n{\n";
+                        $code .= $prevSpacingCode . "else\n" . $prevSpacingCode . "{\n";
                     }
 
                     $values[] = $parameters[$i*2];
                     if ( $i > 0 )
                     {
-                        $code .= "%code" . count( $values ) . "%\n";
+                        $code .= $spacingCode . "%code" . count( $values ) . "%\n";
                     }
-                    $code .= 'if ( %' . count( $values ) . "% )\n{\n";
+                    $code .= $spacingCode. 'if ( %' . count( $values ) . "% )\n" . $spacingCode . "{\n";
 
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
                     {
                         $values[] = $parameters[$i*2 + 1];
-                        $code .= "    %code" . count( $values ) . "%\n    %output% = %" . count( $values ) . "%;\n";
+                        $code .= ( $spacingCode . "    %code" . count( $values ) . "%\n" .
+                                   $spacingCode . "    %output% = %" . count( $values ) . "%;\n" );
                     }
                     else
                     {
-                        $code .= '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
                     }
-                    $code .= "}\n";
+                    $code .= $spacingCode . "}\n";
+                    ++$spacing;
                 }
+                $bracketCount = $clauseCount - 1;
                 if ( $hasDefaultClause )
                 {
+                    ++$bracketCount;
                     $values[] = $parameters[$paramCount - 1];
                     if ( $clauseCount > 0 )
                     {
-                        $code .= "else\n{\n    %code" . count( $values ) . "%\n    ";
+                        $code .= $spacingCode . "else\n" . $spacingCode . "{\n" . $spacingCode . "    %code" . count( $values ) . "%\n    ";
                     }
 
-                    $code .= '%output% = %' . count( $values ) . "%;\n";
+                    $code .= $spacingCode . '%output% = %' . count( $values ) . "%;\n";
                 }
-                $code .= str_repeat( "}\n", $clauseCount );
+                for ( $clauseIndex = 0; $clauseIndex < $bracketCount; ++$clauseIndex )
+                {
+                    $spacingCode = str_repeat( " ", ( $bracketCount - $clauseIndex - 1 ) *4 );
+                    $code .= $spacingCode . "}\n";
+                }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;

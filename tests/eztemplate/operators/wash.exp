@@ -5,5 +5,5 @@ foo &lt;bar&gt;
 <C:callTab><a<C:callSpace>href='http://www.ez.no'>www.ez.no</a>
 <C:callTab><a<C:callSpace>href='http://www.ez.no'>www.ez.no</a>
 
-info[at]ez[dot]no
-info[at]ez[dot]no
+info<span class="spamfilter">SPAMFILTER</span>@ez.no
+info<span class="spamfilter">SPAMFILTER</span>@ez.no
