@@ -40,8 +40,6 @@
 
 */
 
-include_once( 'kernel/common/i18n.php' );
-
 function make_seed() {
     list($usec, $sec) = explode(' ', microtime());
     return (float) $sec + ((float) $usec * 100000);
@@ -102,12 +100,48 @@ class eZi18nOperator
                                                                            'default' => false ) ) );
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->Name => array( 'input' => true,
+                                            'output' => true,
+                                            'parameters' => true,
+                                            'element-transformation' => true,
+                                            'transform-parameters' => true,
+                                            'input-as-parameter' => 'always',
+                                            'element-transformation-func' => 'i18nTrans') );
+    }
+
+    function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
+                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        include_once( 'kernel/common/i18n.php' );
+        $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+        $context = ( count ( $parameters ) > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
+        $comment = ( count ( $parameters ) > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
+
+        if ( count ( $parameters ) < 4 )
+        {
+            return array ( eZTemplateNodeTool::createStringElement( ezi18n( $context, $value, $comment, null ) ) );
+        }
+
+        $values = array();
+        $values[] = $parameters[0];
+        $values[] = $parameters[1];
+        $values[] = $parameters[2];
+        $values[] = $parameters[3];
+
+        $code = 'include_once( \'kernel/common/i18n.php\' );' . "\n";
+        $code .= '%output% = ezi18n( %2%, %1%, %3%, %4% );' . "\n";
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+    }
+
     /*!
      \reimp
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-
+        include_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )
         {
             case $this->Name:
