@@ -480,6 +480,10 @@ Workflow:
 - Fixed some warnings / errors with empty template files (Merged from
   stable/3.4, rev. 7940)
   http://ez.no/community/bug_reports/empty_template_causes_malfunction
+- Fixed bug with eZEmailType which required a auser to enter an address even if the datatype
+  was marked as information collector.
+  http://www.ez.no/community/bug_reports/if_datatype_email_is_information_collector_and_not_required_it_can_t_be_empty
+  (Merged from stable/3.4 rev. 7945)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
