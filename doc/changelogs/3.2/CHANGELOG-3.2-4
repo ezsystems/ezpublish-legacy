@@ -159,6 +159,8 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/missing_error_handling_in_workflow_cronjob
 - Fixed: Missing initialization of eZHTTPTool in content/edit when version
   history limit is on and no archived versions are available for removal.
+- Fixed typo of session variable ExcessVersionHistoryLimit, previously
+  ExcessVesionHistoryLimit was used.
 
 *Setup:
 - Added check for specific unstable PHP versions.

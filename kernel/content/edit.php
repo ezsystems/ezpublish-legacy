@@ -261,7 +261,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                 else
                 {
                     $http =& eZHTTPTool::instance();
-                    $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+                    $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
                     $currentVersion = $object->attribute( 'current_version' );
                     $module->redirectToView( 'versions', array( $objectID, $currentVersion, $editLanguage ) );
                     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
