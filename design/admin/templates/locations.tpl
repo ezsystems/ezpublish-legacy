@@ -38,7 +38,7 @@
     {section-else}
     <td>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
     {/section}
-    <td class="nowrap">{$assignment.item.node.sort_array[0][0]} / {$assignment.item.node.sort_array[0][1]|choose( 'up'|i18n( 'design/admin/node/view/full' ), 'down'|i18n( 'design/admin/node/view/full' ) )}</td>
+    <td class="nowrap">{$assignment.item.node.sort_array[0][0]} / {$assignment.item.node.sort_array[0][1]|choose( 'down'|i18n( 'design/admin/node/view/full' ), 'up'|i18n( 'design/admin/node/view/full' ) )}</td>
     <td><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=or( $assignment_node.can_edit|not, $assignment_count|le( 1 ) )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
 </tr>
 {/let}

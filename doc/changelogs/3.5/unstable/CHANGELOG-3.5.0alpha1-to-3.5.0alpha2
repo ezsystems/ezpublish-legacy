@@ -129,6 +129,8 @@ Payment:
 - Fixed bug: Finding single related object for datatype object relation shows checkboxes.
   (Merged from stable/3.4 rev. 8857)
   http://ez.no/community/bug_reports/browsing_for_a_related_object_shows_checkboxes
+- Fixed bug: Sort order ASC/Desc is swapped in admin view template.
+  http://ez.no/community/bug_reports/3_5alpha1_sort_order_ascending_and_descending_is_swapped
 
 *Library:
 
