@@ -293,7 +293,7 @@ class eZURI
     /// The current index
     var $Index;
     /// User defined template variables
-    var $UserParams;
+    var $UserArray;
 };
 
 ?>
