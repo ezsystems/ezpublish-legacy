@@ -59,6 +59,10 @@ if ( $accountKey )
 
     // Log in user
     $user =& eZUser::fetch( $userID );
+
+    if ( $user === null )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+
     $user->loginCurrent();
 
     // Remove key
