@@ -42,10 +42,10 @@
 set_time_limit( 0 );
 
 $showDebug = false;
-$fixErrors = false;
+$fixErrors = true;
 
 $fixAttribute = true;
-$fixURL = false;
+$fixURL = true;
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
@@ -299,9 +299,14 @@ if ( $fixAttribute )
                     }
                     else
                     {
-                        print( '-' );
+                        unset( $doc );
+                        $doc = new eZDOMDocument();
+                        $doc->setRoot( $doc->createElementNode( 'section' ) );
+                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
                                                 'version' => $objectAttribute->attribute( 'version' ) );
+                        print( '-' );
                     }
                 }
                 if ( $fixErrors )
