@@ -74,7 +74,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     {/let}
     </p>
 
-    {section show$node.object.can_edit}
+    {section show=$node.object.can_edit}
 <form method="post" action={"content/action/"|ezurl}>
    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
@@ -82,7 +82,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     {/section}
     </td>
     <td class="message">
-    <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
+    <p class="date">({$node.object.published|l10n(datetime)})</p>
     <p>
     {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
     </p>
