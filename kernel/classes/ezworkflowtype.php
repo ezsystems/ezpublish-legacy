@@ -257,23 +257,50 @@ class eZWorkflowType
     function hasAttribute( $attr )
     {
         return ( $attr == "description" or
+                 $attr == 'allowed_triggers' or
                  isset( $this->Attributes[$attr] ) );
     }
 
     function &attribute( $attr )
     {
-        if ( $attr == "description" )
-            return $this->eventDescription();
-        if ( isset( $this->Attributes[$attr] ) )
-            return $this->Attributes[$attr];
-        else
-            return null;
+        switch( $attr )
+        {
+            case 'description':
+            {
+                return $this->eventDescription();
+            } break;
+
+            case 'allowed_triggers':
+            {
+                return $this->TriggerTypes;
+            } break;
+
+            default:
+            {
+                if ( isset( $this->Attributes[$attr] ) )
+                    return $this->Attributes[$attr];
+            } break;
+        }
+        return null;
     }
 
     function setAttribute( $attr, $value )
     {
         if ( array_key_exists( $attr, $this->Attributes ) )
             $this->Attributes[$attr] = $value;
+    }
+
+    /*!
+     Set trigger types.
+
+     \param allowed trigger types format :
+              array( <module> => array( <function> => array( <event> ) ) )
+            if all is allowed,
+              array( '*' => true )
+     */
+    function setTriggerTypes( $allowedTypes )
+    {
+        $this->TriggerTypes = $allowedTypes;
     }
 
     function &eventDescription()
@@ -343,64 +370,6 @@ class eZWorkflowType
     function storeEventData( &$event, $version )
     {
     }
-    /// \privatesection
-    var $Group;
-    var $Type;
-    var $TypeString;
-    var $GroupName;
-    var $Name;
-    var $ActivationDate;
-    var $Information;
-}
-
-class eZWorkflowEventType extends eZWorkflowType
-{
-    function eZWorkflowEventType( $typeString, $name )
-    {
-        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
-    }
-
-    function registerType( $typeString, $class_name )
-    {
-        eZWorkflowType::registerType( "event", $typeString, $class_name );
-    }
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
-    {
-        return ( $attr == 'allowed_triggers' ||
-                 eZWorkflowType::hasAttribute( $attr ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'allowed_triggers':
-            {
-                return $this->getTriggerTypes();
-            } break;
-        }
-        return eZWorkflowType::attribute( $attr );
-    }
-
-    /*!
-     Set trigger types.
-
-     \param allowed trigger types format :
-              array( <module> => array( <function> => array( <event> ) ) )
-            if all is allowed,
-              array( '*' => true )
-     */
-    function setTriggerTypes( $allowedTypes )
-    {
-        $this->TriggerTypes = $allowedTypes;
-    }
 
     /*!
      Check if specified trigger is allowed
@@ -431,7 +400,28 @@ class eZWorkflowEventType extends eZWorkflowType
         return false;
     }
 
+    /// \privatesection
+    var $Group;
+    var $Type;
+    var $TypeString;
+    var $GroupName;
+    var $Name;
+    var $ActivationDate;
+    var $Information;
     var $TriggerTypes = array( '*' => true );
+}
+
+class eZWorkflowEventType extends eZWorkflowType
+{
+    function eZWorkflowEventType( $typeString, $name )
+    {
+        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
+    }
+
+    function registerType( $typeString, $class_name )
+    {
+        eZWorkflowType::registerType( "event", $typeString, $class_name );
+    }
 }
 
 class eZWorkflowGroupType extends eZWorkflowType
