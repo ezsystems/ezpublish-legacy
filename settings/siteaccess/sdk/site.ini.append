@@ -1,0 +1,24 @@
+#?ini charset="utf8"?
+# eZ publish configuration file.
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=standard
+
+[SiteSettings]
+DefaultPage=/sdk
+ErrorHandler=defaultpage
+IndexPage=/sdk
+
+[SiteAccessSettings]
+RequireUserLogin=false
+
+[SiteAccessRules]
+Access=disable
+ModuleAll=true
+Access=enable
+Module=sdk
+
+[SitePrecheckRules]
+Access=disable
+PreCheck=user

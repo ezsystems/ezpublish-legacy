@@ -1,0 +1,830 @@
+<?php
+//
+// Definition of eZContentObjectTreeNode class
+//
+// Created on: <10-Jul-2002 19:28:22 sp>
+//
+// Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezcontentobjecttreenode.php
+*/
+
+/*!
+  \class eZContentObjectTreeNode ezcontentobjecttreenode.php
+  \brief The class eZContentObjectTreeNode does
+  ___________0__________
+ |  _____1______        |  
+ | |  _2_  _3_  | _4_   |  
+ | | |   ||   | ||   |  |  
+ |1|2|3 4||5 6|7||8 9|10|
+
+--------------------------------------------------------------------------------------------
+| node_id | parent_node_id | content_object_id | depth | path_string | left_margin | right_margin |
+--------------------------------------------------------------------------------------------
+|0        |0               |0                  | 0     |'/'   | 1           | 10           |
+|1        |0               |1                  | 1     |'/0'  | 2           | 7            |
+|2        |1               |2                  | 0     |'/0/1'| 3           | 4            |
+|3        |1               |1                  | 0     |'/0/1'| 5           | 6            |
+|4        |0               |4                  | 0     |'/0'  | 8           | 9            |
+--------------------------------------------------------------------------------------------
+
+Some algorithms
+----------
+1. Adding new Node
+Enter  1 - parent_node
+       2 - contentobject_id,  ( that is like a node value )
+
+(a) - get path_string, depth for parent node to built path_string  and to count depth for new one
+(b) - we need to make hole (gap) in tree for to store new node. that is two update queries to change             margins 
+(c) - calculating attributes for new node and inserting it
+
+Returns node_id for added node
+
+
+2. Deleting node ( or subtree )
+Enter - node_id
+(a) - selecting margins of subtree
+(b) - deleting subtree
+(c)  - close gap in the tree, decriment margins, which are to the right of deleted subtree, by the width of deleted tree 
+
+
+3. Move subtree in tree 
+Enter node_id,new_parent_id
+(a) - get information about node
+(b) - get information about new_parent_id
+(c) - make a hole in tree to store subtree. We need to update margins which are right from place move to.
+      there are two kind of nodes we need to update margins, for example 
+      we have a tree 
+
+        ___________0__________
+       |  _____1______        |  
+       | |  _2_  _3_  | _4_   |  
+       | | |   ||   | ||   |  |  
+       |1|2|3 4||5 6|7||8 9|10|
+
+       we need to move node 3 to be child of node 2, node 3 and 4 has both (left and right) margins
+       greater then 4 (right margin of place we move to), nodes 2 and 1 and 0 have only right margin
+       greater than 4. For reserving a place for subtree we need to increment that margins by width
+       of the subtree.
+
+        ___________0______________
+       |  _____1________          |  
+       | |  __2__  _3_  | __4__   |  
+       | | |     ||   | ||     |  |  
+       |1|2|3   6||7 8|9||10 11|12|
+    
+
+(d) - calculate attributes for node in subtree: new_path_string, movement, new_depth, and margins
+      For each node in the subtree
+             new_path_string = "path_string to new parent" + "parent/" + "path_string from node we moveing to current node"
+             movement -  that is the value we  add to margins of nodes in subtree to move it to a needed
+                 place, calculates as:
+                 if we move subtree to right it will be -
+                 movement = "right margin of new parent node" - "left margin of root node we move";
+                 if we move subtree to left it will be -
+                 movement = "right margin of new parent node" - "left margin of root node we move" -
+                             - "width of subtree we move";
+                 new_depth = "depth of node" - "depth of root node in subtree we move" +
+                              + "depth of new parent node" + 1;
+        ___________0_____________
+       |  _____1_______          |  
+       | |  __2____    | __4__   |  
+       | | |  _3_  |   ||     |  |  
+       | | | |   | |   ||     |  |  
+       |1|2|3|4 5|6|  9||10 11|12|
+                    ^^ 
+                    gap
+
+(e) - close a gap that apeared after moving subtree
+
+4. fetching subtree
+
+*/
+
+include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
+
+class eZContentObjectTreeNode extends eZPersistentObject
+{
+    /*!
+     Constructor
+    */
+    function eZContentObjectTreeNode($row)
+    {
+        $this->eZPersistentObject( $row );
+    }
+
+    function &definition()
+    {
+        return array( "fields" => array( "node_id" => "NodeID",
+                                         "parent_node_id" => "ParentNodeID",
+                                         "contentobject_id" => "ContentObjectID",
+                                         'contentobject_version' => 'ContentObjectVersion',
+                                         'contentobject_is_published' => 'ContentObjectIsPublished',
+                                         "depth" => "Depth",
+                                         "path_string" => "PathString",
+                                         "md5_path" => "Md5Path",
+                                         "left_margin" => "LeftMargin",
+                                         "right_margin" => "RightMargin"
+                                         ),
+                      "keys" => array( "node_id" ),
+                      "function_attributes" => array( "name" => "getName",
+                                                      "contentobject" => "getContentObject",
+                                                      "subtree" => "subTree",
+                                                      "children" => "fetchChildren",
+                                                      "path"     => "fetchPath",
+                                                      "parent"   => "fetchParent"
+                                                      ),
+                      "increment_key" => "node_id",
+
+                      "sort" => array( "left_margin" => "asc" ),
+                      "class_name" => "eZContentObjectTreeNode",
+                      "name" => "ezcontentobject_tree" );
+    }
+
+    function attributes()
+    {
+        return eZPersistentObject::attributes();
+    }
+
+    function attribute( $attr )
+    {
+        if ( $attr == 'name')
+        {
+            return $this->getName();
+        }
+        elseif ( $attr == 'contentobject' )
+        {
+            $obj = $this->getContentObject();
+            return $obj;
+        }
+        elseif ( $attr == 'subtree' )
+        {
+            return $this->subTree();
+        }
+        elseif ( $attr == 'children' )
+        {
+            return $this->fetchChildren();
+            
+        }
+        elseif ( $attr == 'path' )
+        {
+            return $this->fetchPath();
+        }
+        elseif ( $attr == 'parent' )
+        {
+            $this->fetchParent();
+        }else
+            return eZPersistentObject::attribute( $attr );
+    }
+
+    function makePermissionTable( $db )
+    {
+        $user =& eZUser::currentUser();
+        $groups =& $user->groups( false );
+        $groupString = "";
+        $groupString = implode( ',', $groups );
+        if ( $db->isA() == 'oracle' )
+        {
+            $db->query( 'delete from permission' );
+        }
+        else
+        {
+            $db->query( 'drop table permission' );
+            
+            $createTempTableQuery="CREATE TEMPORARY TABLE permission(
+                                       permission_id int primary key,
+                                       can_read int,
+                                       can_create int,
+                                       can_edit int,
+                                       can_remove int )";
+            $db->query( $createTempTableQuery );
+        }
+        
+        $fillPermissionsQuery = "INSERT INTO permission
+                                 SELECT permission_id,
+                                        max( ezcontentobject_permission.read_permission ) as can_read,
+                                        max( ezcontentobject_permission.create_permission ) as can_create,
+                                        max( ezcontentobject_permission.edit_permission ) as can_edit,
+                                        max( ezcontentobject_permission.remove_permission ) as can_remove
+                                 FROM ezcontentobject_permission
+                                 WHERE user_group_id in ( $groupString )
+                                 GROUP BY permission_id";
+        $db->query( $fillPermissionsQuery );
+    }
+
+    function &subTree( $params = array( 'Depth' => false,
+                                       'Offset' => 0,
+                                       'Limit' => 50 ) ,$nodeID = 0)
+    {
+        $depth = false;
+        $offset = 0;
+        $limit = 50;
+        $limitationList = array();
+        if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
+        {
+            $depth = $params['Depth'];
+
+        }
+        if ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) )
+        {
+            $offset = $params['Offset'];
+        }
+        if ( isset( $params['Limit'] ) && is_numeric( $params['Limit'] ) )
+        {
+            $limit = $params['Limit'];
+        }
+        if ( isset( $params['Limitation'] ) )
+        {
+            $limitationList =& $params['Limitation'];
+        }
+
+        if ( $nodeID == 0 )
+        {
+            $nodeID = $this->attribute( 'node_id' );
+            $node = $this;
+        }
+        else
+        {
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+        }
+
+        $fromNode = $nodeID ;
+        $nodePath =  $node->attribute( 'path_string' );
+//        $childrensPath = $nodePath . $fromNode . '/';
+        $childrensPath = $nodePath ;
+        $pathLength = strlen( $childrensPath );
+//        $pathString = " substring( path_string from 1 for $pathLength ) = '$childrensPath' and ";
+
+        $db =& eZDB::instance();
+        $subStringString = $db->subString( 'path_string', 1, $pathLength );
+        $pathString = " $subStringString = '$childrensPath' and ";
+
+        $nodeDepth = $node->attribute( 'depth' );
+        $depthCond = '';
+        if ( $depth )
+        {
+
+            $nodeDepth += $params[ 'Depth' ];
+            $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+        }
+
+        $ini =& eZINI::instance();
+        $db =& eZDB::instance();
+
+//        eZDebug::writeWarning( $limitationList, 'limitationList' );
+
+        if( count( $limitationList ) > 0 )
+        {
+            $sqlParts = array();
+            foreach( $limitationList as $limitationArray )
+            {
+                $sqlPartPart = array();
+                foreach ( $limitationArray as $limitation )
+                {
+                    if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif( $limitation->attribute( 'name' ) == 'Assigned' )
+                    {
+                        eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in  objects' );
+                    }
+                }
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
+            }
+            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+
+            $query = "SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM
+                          ezcontentobject_tree,
+                          ezcontentobject,ezcontentclass
+                    WHERE $pathString
+                          $depthCond
+                          ezcontentclass.version=0 AND
+                          node_id != $fromNode AND
+                          ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                          $sqlPermissionCheckingString
+                    ORDER BY path_string";
+
+        }
+        else
+        {
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM
+                          ezcontentobject_tree,
+                          ezcontentobject,ezcontentclass
+                    WHERE $pathString
+                          $depthCond
+                          ezcontentclass.version=0 AND
+                          node_id != $fromNode AND
+                          ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                    ORDER BY path_string";
+        }
+        $nodeListArray = $db->arrayQuery( $query, array( "Offset" => $offset,
+                                                          "Limit" => $limit ) );
+        $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        return $retNodeList;
+    }
+
+    function subTreeCount( $params = array() )
+    {
+        $nodePath =  $this->attribute( 'path_string' );
+        $fromNode =  $this->attribute( 'node_id');
+        $childrensPath = $nodePath ;
+        $pathLength = strlen( $childrensPath );
+        $db =& eZDB::instance();
+
+        $subStringString = $db->subString( 'path_string', 1, $pathLength ); 
+        $pathString = " $subStringString = '$childrensPath' AND ";
+
+        $nodeDepth = $this->attribute( 'depth' );
+        $depthCond = '';
+
+        if ( isset( $params['Limitation'] ) )
+        {
+            $limitationList =& $params['Limitation'];
+        }
+
+        if ( isset( $params[ 'Depth' ] ) && $params[ 'Depth' ] > 0 )
+        {
+
+            $nodeDepth += $params[ 'Depth' ];
+            $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+        }
+
+        $ini =& eZINI::instance();
+
+
+        if( count( $limitationList ) > 0 )
+        {
+            $sqlParts = array();
+            foreach( $limitationList as $limitationArray )
+            {
+                $sqlPartPart = array();
+                foreach ( $limitationArray as $limitation )
+                {
+                    if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif( $limitation->attribute( 'name' ) == 'Assigned' )
+                    {
+                        eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in  objects' );
+                    }
+                }
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
+            }
+            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+
+            $query = "SELECT count(*) as count 
+                      FROM
+                           ezcontentobject_tree,
+                           ezcontentobject,ezcontentclass
+                      WHERE $pathString
+                            $depthCond
+                            ezcontentclass.version=0 AND
+                            node_id != $fromNode AND
+                            ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                            ezcontentclass.id = ezcontentobject.contentclass_id
+                            $sqlPermissionCheckingString ";
+
+        }
+        else
+        {
+            $query="SELECT
+                           count(*) AS count
+                    FROM
+                          ezcontentobject_tree,
+                          ezcontentobject,
+                          ezcontentclass
+                    WHERE
+                           $pathString
+                           $depthCond
+                           ezcontentclass.version=0 AND
+                           node_id != '$fromNode' AND
+                           ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
+                           ezcontentclass.id = ezcontentobject.contentclass_id ";
+        }
+
+        $nodeListArray = $db->arrayQuery( $query );
+        eZDebug::writeNotice( $nodeListArray[0]['count'], 'childrenCount' );
+        return $nodeListArray[0]['count'];
+    }
+
+    
+    function fetchChildren($params = array() ,$nodeID = 0 )
+    {
+        return  $this->subTree( $params );
+    }
+    
+
+    /*!
+     Will assign a section to the current node and all child objects.
+     Only main node assignments will be updated.
+    */
+    function assignSectionToSubTree( $nodeID, $sectionID )
+    {
+        $db =& eZDB::instance();
+
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
+        $nodePath =  $node->attribute( 'path_string' );
+
+        $subStringString = $db->subString( 'path_string', 1, strlen( $nodePath ) );
+
+        // fetch the object id's which needs to be updated
+        $objectIDArray =& $db->arrayQuery( "SELECT
+                                                   ezcontentobject.id
+                                            FROM
+                                                   ezcontentobject_tree, ezcontentobject
+                                            WHERE
+                                                  $subStringString = '$nodePath' AND
+                                                  ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                                                  ezcontentobject.main_node_id=ezcontentobject_tree.node_id" );
+        $inSQL = "";
+        $i = 0;
+        foreach ( $objectIDArray as $objectID )
+        {
+            if ( $i > 0 )
+                $inSQL .= ",";
+            $inSQL .= " " . $objectID['id'];
+            $i++;
+        }
+        $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
+    }
+
+    function fetch( $nodeID )
+    {
+
+        $ini =& eZINI::instance();
+        $db =& eZDB::instance();
+               
+        if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
+        {
+            eZContentObjectTreeNode::makePermissionTable( $db );
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name,
+                           permission.can_read as can_read,
+                           permission.can_create as can_create,
+                           permission.can_edit as can_edit,
+                           permission.can_remove as can_remove
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass,
+                         permission
+                    WHERE node_id = '$nodeID' and
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id  and
+                          ezcontentobject.permission_id = permission.permission_id and
+                          ezcontentclass.version=0 AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id ";   
+
+        }
+        else
+        {
+
+
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name 
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE node_id = $nodeID AND 
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND 
+                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+
+
+
+        }
+
+//        var_dump($query);
+        $nodeListArray = $db->arrayQuery( $query );
+
+        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        return $retNodeArray[0];
+    }
+    function fetchParent()
+    {
+        return $this->fetch( $this->attribute( 'parent_node_id' ) );
+    }
+
+    function fetchPath()
+    {
+        $nodeID = $this->attribute( 'node_id' );
+        $nodePath = $this->attribute( 'path_string' );
+
+        
+        $pathArray = explode( '/', trim($nodePath,'/') );
+        $pathArray = array_slice( $pathArray, 0, count($pathArray) - 1 );
+
+        flush();
+        $pathString = '';
+        foreach ( $pathArray as $node )
+        {
+            $pathString .= 'or node_id = ' . $node . ' ';
+            
+        }
+        if ( strlen( $pathString) > 0 )
+        {
+            $pathString = '('. substr( $pathString, 2 ) . ') and '; 
+        }
+        $query="SELECT ezcontentobject.*,
+                       ezcontentobject_tree.*,
+                       ezcontentclass.name as class_name 
+                FROM ezcontentobject_tree,
+                     ezcontentobject,
+                     ezcontentclass
+                WHERE $pathString  
+                      ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+                      ezcontentclass.version=0 AND 
+                      ezcontentclass.id = ezcontentobject.contentclass_id
+                ORDER BY path_string";
+      
+        $db =& eZDB::instance();
+        $nodesListArray = $db->arrayQuery( $query );
+        $retNodes = array();
+        $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        return $retNodes;
+
+        
+    }
+
+    function addChild( $contentobjectID, $nodeID = 0)
+    {
+
+        if ( $nodeID == 0 )
+        {
+            $node = $this;
+        }else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
+
+        $db =& eZDB::instance();
+        $parentMainNodeID = $node->attribute( 'node_id' ); //$parent->attribute( 'main_node_id' );
+        $parentPath = $node->attribute( 'path_string' );
+        $parentDepth = $node->attribute( 'depth' );
+        $parentRightMargin = $node->attribute( 'right_margin' );
+
+        $nodeDepth = $parentDepth + 1 ;
+        $rightMargin = $parentRightMargin + 1;
+        $leftMargin =  $parentRightMargin;
+
+
+        $values = $parentMainNodeID  . "," .  $contentobjectID . "," . $nodeDepth . ",
+                  '" .  "/TEMPPATH' ," . $leftMargin . "," . $rightMargin ;
+
+        $newNodeQuery = "INSERT INTO ezcontentobject_tree(
+                                                          parent_node_id,
+                                                          contentobject_id,
+                                                          depth,path_string,
+                                                          left_margin,
+                                                          right_margin )
+                                     VALUES (" . $values . ")";
+
+        $db->query( $newNodeQuery );
+        $insertedID = $db->lastSerialID( 'ezcontentobject_tree', 'node_id' );
+        $newNodePath = $parentPath . $insertedID . '/';
+
+        $updatePathQuery= "UPDATE ezcontentobject_tree
+                           SET
+                               path_string= '$newNodePath'
+                           WHERE
+                               node_id=$insertedID";
+        $db->query( $updatePathQuery );
+        return $insertedID;
+    }
+
+    function remove( $nodeID = 0 )
+    {
+        if ( $nodeID == 0 )
+        {
+            $node = $this;
+            $nodeID = $node->attribute( 'node_id' );
+        }
+        else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
+
+        $nodePath = $node->attribute( 'path_string' );
+        $childrensPath = $nodePath ; //. $nodeID . '/';
+        $pathLength = strlen( $childrensPath ) + 1;
+
+/*        $query = "delete from ezcontentobject_tree
+                  where substring( path_string from 1 for $pathLength ) = '$childrensPath' or
+                        path_string = '$nodePath' ";
+*/
+        $db =& eZDB::instance();
+
+        $subStringString = $db->subString( 'path_string', 1, $pathLength ); 
+
+        $query = "delete from ezcontentobject_tree
+                  where $subStringString = '$childrensPath' or
+                        path_string = '$nodePath' ";
+        $db->query( $query );
+
+    }
+
+    function move( $newParentID, $nodeID = 0 )
+    {
+        if ( $nodeID == 0 )
+        {
+            $node = $this;
+            $nodeID = $node->attribute( 'node_id' );
+        }
+        else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
+
+        $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
+        $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];
+
+        if ( $oldParentNodeID != $newParentID )
+        {
+            $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
+            $newParentPath = $newParentNode->attribute( 'path_string' );
+            $newParentDepth = $newParentNode->attribute( 'depth' );
+            $newPath =  $newParentPath . $newParentNodeID . '/' ;
+            $oldDepth = $node->attribute( 'depth' );
+            $childrensPath = $oldPath . $nodeID . '/';
+
+            $oldPathLength = strlen( $oldPath ) + 1;
+            $moveQuery = "UPDATE
+                                 ezcontentobject_tree
+                          SET
+                                 parent_node_id = $newParentID
+                          WHERE
+                                 node_id = $nodeID";
+            $db =& eZDB::instance();
+            $subStringString = $db->subString( 'path_string', 1, $oldPathLength );
+            $subStringString2 =  $db->subString( 'path_string', $oldPathLength ); 
+            $moveQuery1 = "UPDATE
+                                 ezcontentobject_tree
+                           SET
+                                 path_string = '$newPath' || $subStringString2 ,
+                                 depth = depth + $newParentDepth - $oldDepth + 1
+                           WHERE
+                                 $subStringString = '$childrensPath' OR
+                                 path_string = '$oldPath' ";
+            $db->query( $moveQuery );
+            $db->query( $moveQuery1 );
+        }
+    }
+
+    function &makeObjectsArray( $array , $with_contentobject = true )
+    {
+        $retNodes = array();
+        $ini =& eZINI::instance();
+
+        foreach ( $array as $node )
+        {
+            unset( $object );
+
+            $object =& new eZContentObjectTreeNode( $node );
+//            eZDebug::writeNotice( $node, 'node' ); 
+            $object->setName($node['name']);
+            if ( $with_contentobject )
+            {
+                $contentObject =& new eZContentObject( $node );
+                if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
+                {
+                    $permissions['can_read'] = $node['can_read'];
+                    $permissions['can_create'] = $node['can_create'];
+                    $permissions['can_edit'] = $node['can_edit'];
+                    $permissions['can_remove'] = $node['can_remove'];
+                }
+                else
+                {
+                    $permissions['can_read'] = 1;
+                    $permissions['can_create'] = 1;
+                    $permissions['can_edit'] = 1;
+                    $permissions['can_remove'] = 1;
+               }
+                $permissions = array();
+                $contentObject->setPermissions( $permissions );
+                $contentObject->setClassName( $node['class_name'] );
+
+                $object->setContentObject( $contentObject );
+            }
+            $retNodes[] =& $object;
+        }
+        return $retNodes;
+    }
+
+    function getParentNodeId( $nodeID )
+    {
+        $db =& eZDB::instance();
+        $parentArr = $db->arrayQuery( "SELECT
+                                              parent_node_id
+                                       FROM
+                                              ezcontentobject_tree
+                                       WHERE
+                                              node_id = $nodeID");
+        return $parentArr[0]['parent_node_id'];
+    }
+
+
+    function deleteNodeWhereParent( $node, $id )
+    {
+        eZContentObjectTreeNode::remove( eZContentObjectTreeNode::findNode( $node, $id ) );
+        
+    }
+
+    function findNode( $parent_node, $id )
+    {
+        $db =& eZDB::instance();
+        $get_node_query = "SELECT node_id
+                           FROM ezcontentobject_tree
+                           WHERE
+                                parent_node_id=$parent_node AND
+                                contentobject_id = $id ";
+        $nodeArr = $db->arrayQuery( $get_node_query );
+                    
+        return $nodeArr[0]['node_id'];
+
+    }
+
+
+    function & getName()
+    {
+        return  $this->Name;
+    }
+    function setName( $name )
+    {
+        $this->Name = $name;
+    }
+    function & getContentObject()
+    {
+        if ( $this->hasContentObject() )
+        {
+            return $this->ContentObject;
+        }         
+        $contentobject_id = $this->attribute( 'contentobject_id' );
+        $obj =& eZContentObject::fetch( $contentobject_id );
+        $this->HasContentObject = true;
+        return $obj;
+        
+
+    }
+
+    function hasContentObject()
+    {
+        return     $this->HasContentObject;
+
+    }
+    function setContentObject( $obj )
+    {
+        $this->ContentObject =& $obj;
+        $this->HasContentObject = true;
+    }
+    
+}
+
+?>

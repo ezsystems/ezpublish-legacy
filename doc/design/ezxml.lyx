@@ -1,0 +1,495 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\language english
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+eZ publish 3.0 design for eZ xml
+\layout Date
+
+Version 1.0 - 19.2.2002
+\layout Author
+
+eZ publish core team ( bf@ez.no, jb@ez.no )
+\layout Chapter
+
+Introduction
+\layout Chapter
+
+Goals
+\layout Standard
+
+The XML parser will be a DOM parser which is compatible with libXML.
+ It will also have a fast mode where it creates a arrary hierarchy instead
+ of object hierarchy, this should be quickes and less memory intensive.
+\layout Standard
+
+eZ xml must support XML namespaces.
+\layout Standard
+
+eZ xml must support XML schema validation.
+\layout Chapter
+
+Overview
+\layout Standard
+
+eZ xml is a XML parser which uses the DOM model.
+ When using the DOM model the XML document are represented as an object
+ tree consisting of DOM nodes.
+ eZ xml supports namespaces.
+ To validate the XML documents XML schemas are used.
+\layout Standard
+
+For further information visit the following resources:
+\layout Itemize
+
+
+\begin_inset LatexCommand \url[Extensible Markup Language (XML) 1.0 (Second Edition)]{http://www.w3.org/TR/2000/REC-xml-20001006}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \url[Document Object Model (DOM) Level 3 Core Specification]{http://www.w3.org/TR/2002/WD-DOM-Level-3-Core-20020114/}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \url[Namespaces in XML]{http://www.w3.org/TR/1999/REC-xml-names-19990114/}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \url[XML Schema Primer]{http://www.w3.org/TR/xmlschema-0/}
+
+\end_inset 
+
+
+\layout Chapter
+
+Examples
+\layout Section
+
+XML parsing
+\layout Standard
+
+To parse a XML document you must first create an eZXML object and call the
+ function domTree().
+ This function will return the DOM document as a eZDOMDocument object and
+ corresponding eZDOMNodes.
+\layout LyX-Code
+
+$xml = new eZXML();
+\layout LyX-Code
+
+$dom =& $xml->domTree( $xmlDocument );
+\layout Section
+
+DOM creation
+\layout Standard
+
+You can use the eZDOMDocument and eZDOMNode classes to create DOM documents.
+\layout LyX-Code
+
+$doc = new eZDOMDocument(); 
+\layout LyX-Code
+
+$doc->setName( "FishCatalogue" );
+\layout LyX-Code
+
+$root =& $doc->createElementNode( "FishCatalogue" ); 
+\layout LyX-Code
+
+$doc->setRoot( $root );
+\layout LyX-Code
+
+\layout LyX-Code
+
+$freshWater =& $doc->createElementNode( "FreshWater" ); 
+\layout LyX-Code
+
+$root->appendChild( $freshWater );
+\layout LyX-Code
+
+$saltWater =& $doc->createElementNode( "SaltWater" ); 
+\layout LyX-Code
+
+$root->appendChild( $saltWater );
+\layout LyX-Code
+
+\layout LyX-Code
+
+$guppy =& $doc->createElementNode( "Guppy" ); 
+\layout LyX-Code
+
+$guppy->appendChild( $doc->createTextNode( "Guppy is a small livebreeder."
+ ) );
+\layout LyX-Code
+
+$guppy->appendAttribute( $doc->createAttributeNode( "age", "42" ) ); $guppy->app
+endAttribute( $doc->createAttributeNode( "age2", "422" ) );
+\layout LyX-Code
+
+\layout LyX-Code
+
+$freshWater->appendChild( $guppy );
+\layout LyX-Code
+
+$cod =& $doc->createElementNode( "Cod" ); 
+\layout LyX-Code
+
+\layout LyX-Code
+
+$saltWater->appendChild( $cod );
+\layout LyX-Code
+
+$cod->appendChild( $doc->createCDATANode( "A big dull fish <-> !!" ) );
+\layout LyX-Code
+
+\layout LyX-Code
+
+$xmlDoc =& $doc->toString();
+\layout LyX-Code
+
+\layout LyX-Code
+
+// $xmlDoc contains now:
+\layout LyX-Code
+
+<?xml version="1.0"?> 
+\layout LyX-Code
+
+<FishCatalogue> 
+\layout LyX-Code
+
+  <FreshWater> 
+\layout LyX-Code
+
+    <Guppy age="42" age2="422" > Guppy is a small livebreeder.
+ 
+\layout LyX-Code
+
+    </Guppy> 
+\layout LyX-Code
+
+  </FreshWater> 
+\layout LyX-Code
+
+  <SaltWater> 
+\layout LyX-Code
+
+    <Cod> <![CDATA[A big dull fish <-> !!]]> 
+\layout LyX-Code
+
+    </Cod> 
+\layout LyX-Code
+
+  </SaltWater> 
+\layout LyX-Code
+
+</FishCatalogue>
+\layout LyX-Code
+
+\layout LyX-Code
+
+\layout Section
+
+Namespaces
+\layout Standard
+
+Namespaces are used to prevent name collision in XML documents.
+ A new namespace are defined with the xmlns prefix.
+\layout Standard
+
+When defining a new xmlns without a local name you will automatically define
+ the default namespace.
+ In the example below <body> will be part of the default namespace which
+ has the namespace URI http://ez.no/ezdoc/.
+ The namespace URI is just a unique name defining the specific namespace.
+ 
+\layout LyX-Code
+
+<doc xmlns=
+\begin_inset Quotes erd
+\end_inset 
+
+http://ez.no/ezdoc/
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+<body>
+\layout LyX-Code
+
+</body>
+\layout LyX-Code
+
+</doc>
+\layout Section
+
+XML schemas
+\layout Standard
+
+XML schemas as used to validate XML documents.
+ The main purpose of doing XML validation with schemas is to handle all
+ syntax error checking at a low level.
+ A validated XML document can be directly used by the application without
+ any further error checking.
+\layout Standard
+
+To illustrate how XML schemas are used we will create a small example.
+ In this example we want to validate a XML document containing a collection
+ of cars.
+ 
+\layout LyX-Code
+
+<?xml version="1.0" encoding="UTF-8"?>
+\layout LyX-Code
+
+<CarDatabase xmlns=
+\begin_inset Quotes erd
+\end_inset 
+
+http://fastcars.com/
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+  <Car>
+\layout LyX-Code
+
+    <Name>Ferrari F355 Berlinetta</Name>
+\layout LyX-Code
+
+    <Color>Red</Color>
+\layout LyX-Code
+
+  </Car>
+\layout LyX-Code
+
+  <Car>
+\layout LyX-Code
+
+    <Name>Lamborgini Diablo GT</Name>
+\layout LyX-Code
+
+    <Color>Yellow</Color>
+\layout LyX-Code
+
+  </Car>
+\layout LyX-Code
+
+</CarDatabase>
+\layout Standard
+
+The XML schema for this simple document is as follows.
+ 
+\layout LyX-Code
+
+<?xml version="1.0" encoding="UTF-8"?>
+\layout LyX-Code
+
+<xs:schema xmlns:xs=
+\begin_inset Quotes erd
+\end_inset 
+
+http://fastcars.com/
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+  <xs:element name=
+\begin_inset Quotes erd
+\end_inset 
+
+CarDatabase
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+    <xs:sequence>
+\layout LyX-Code
+
+      <xs:element ref=
+\begin_inset Quotes erd
+\end_inset 
+
+Car
+\begin_inset Quotes erd
+\end_inset 
+
+ minOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+1
+\begin_inset Quotes erd
+\end_inset 
+
+ maxOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+unbounded
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+    </xs:sequence>
+\layout LyX-Code
+
+  </xs:element>
+\layout LyX-Code
+
+  <xs:element name=
+\begin_inset Quotes erd
+\end_inset 
+
+Car
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+    <xs:sequence>
+\layout LyX-Code
+
+      <xs:element ref=
+\begin_inset Quotes erd
+\end_inset 
+
+Name
+\begin_inset Quotes erd
+\end_inset 
+
+ minOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+1
+\begin_inset Quotes erd
+\end_inset 
+
+ maxOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+1
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+      <xs:element ref=
+\begin_inset Quotes erd
+\end_inset 
+
+Color
+\begin_inset Quotes erd
+\end_inset 
+
+ minOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+1
+\begin_inset Quotes erd
+\end_inset 
+
+ maxOccurs=
+\begin_inset Quotes erd
+\end_inset 
+
+1
+\begin_inset Quotes erd
+\end_inset 
+
+>
+\layout LyX-Code
+
+    </xs:sequence>
+\layout LyX-Code
+
+  </xs:element>
+\layout LyX-Code
+
+  <xs:element name=
+\begin_inset Quotes erd
+\end_inset 
+
+Name
+\begin_inset Quotes erd
+\end_inset 
+
+ type=
+\begin_inset Quotes erd
+\end_inset 
+
+xs:string
+\begin_inset Quotes erd
+\end_inset 
+
+/>
+\layout LyX-Code
+
+  <xs:element name=
+\begin_inset Quotes erd
+\end_inset 
+
+Color
+\begin_inset Quotes erd
+\end_inset 
+
+ type=
+\begin_inset Quotes erd
+\end_inset 
+
+xs:string
+\begin_inset Quotes erd
+\end_inset 
+
+/>
+\layout LyX-Code
+
+</xs>
+\the_end

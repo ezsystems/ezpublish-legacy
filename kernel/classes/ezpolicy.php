@@ -1,0 +1,172 @@
+<?php
+//
+// Definition of eZPolicy class
+//
+// Created on: <16-Aug-2002 16:34:41 sp>
+//
+// Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezpolicy.php
+*/
+
+/*!
+  \class eZPolicy ezpolicy.php
+  \brief The class eZPolicy does
+
+*/
+
+include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "kernel/classes/ezpolicylimitation.php" );
+
+class eZPolicy extends eZPersistentObject
+{
+    /*!
+     Constructor
+    */
+    function eZPolicy( $row )
+    {
+          $this->eZPersistentObject( $row );
+    }
+    
+    function &definition()
+    {
+        return array( "fields" => array( "id" => "ID",
+                                         'role_id' => 'RoleID',
+                                         'module_name' => 'ModuleName',
+                                         'function_name' => 'FunctionName',
+                                         'limitation' => 'Limitation'
+                                         ),
+                      "keys" => array( "id" ),
+                      "function_attributes" => array('limitations' => 'limitationList' ),
+                      "increment_key" => "id",
+                      "sort" => array( "id" => "asc" ),
+                      "class_name" => "eZPolicy",
+                      "name" => "ezpolicy" );
+    }
+
+    function attributes()
+    {
+        return eZPersistentObject::attributes();
+    }
+
+    function attribute( $attr )
+    {
+        if ( $attr == "limitations" )
+            return $this->limitationList();
+
+        return eZPersistentObject::attribute( $attr );
+    }
+
+    function createNew( $roleID , $params = array() )
+    {
+        $policy = new eZPolicy( array() );
+        $policy->setAttribute( 'role_id', $roleID );
+        if ( array_key_exists( 'ModuleName', $params ))
+        {
+            $policy->setAttribute( 'module_name', $params['ModuleName'] );
+        }
+        if ( array_key_exists( 'FunctionName', $params ))
+        {
+            $policy->setAttribute( 'function_name', $params['FunctionName'] );
+        }
+        if ( array_key_exists( 'Limitation', $params ))
+        {
+            $policy->setAttribute( 'limitation', $params['Limitation'] );
+        }
+        $policy->store();
+
+        return $policy;
+    }
+
+    function copy( $roleID )
+    {
+        $params = array();
+        $params['ModuleName'] = $this->attribute( 'module_name' );
+        $params['FunctionName'] = $this->attribute( 'function_name' );
+        $params['Limitation']  = $this->attribute( 'limitation' );
+        $newPolicy = eZPolicy::createNew( $roleID, $params  );
+        if ( $this->attribute( 'limitation' ) != '*' )
+        {
+            foreach ( $this->attribute( 'limitations' ) as $limitation )
+            {
+                $limitation->copy( $newPolicy->attribute( 'id' ) );
+            }
+        }
+
+    }
+    function remove( $id = false )
+    {
+        if ( is_numeric( $id ) )
+        {
+            $delID = $id;
+            $policy =& eZPolicy::fetch( $delID );
+        }
+        else
+        {
+            $policy =& $this;
+            $delID = $this->ID;
+        }
+
+        $db =& eZDB::instance();
+        if ( $policy->attribute( 'limitation' ) != '*' )
+        {
+            foreach ( $policy->attribute( 'limitations' ) as $limitation )
+            {
+                $limitation->remove();
+            }
+        }
+        $db->query( "DELETE FROM ezpolicy
+                     WHERE id='$delID'" );
+    }
+
+    function limitationList()
+    {
+        if ( !isset( $this->Limitations ) )
+        {
+            $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
+                                                                null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
+                                                                true );
+            $this->Limitations =& $limitations;
+            
+        }
+
+        return $this->Limitations;
+    }
+    function fetch( $policyID )
+    {
+        return eZPersistentObject::fetchObject( eZPolicy::definition(),
+                                                null, array('id' => $policyID ), true);
+
+    }
+
+}
+
+?>

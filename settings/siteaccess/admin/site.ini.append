@@ -1,0 +1,24 @@
+#?ini charset="utf8"?
+# eZ publish configuration file.
+
+[DatabaseSettings]
+DatabaseImplementation=mysql
+Server=localhost
+User=bf
+Password=bf
+Database=bf
+Charset=iso-8859-1
+UseBuiltinEncoding=true
+Socket=disabled
+SQLOutput=enabled
+UsePersistentConnection=disabled 
+
+
+[DebugSettings]
+# IP addresses which will get debug information
+# Valid are: enabled, disabled or list of IP's separated by ;
+DebugIP=enabled
+# Use either disabled, inline or popup
+Debug=inline
+# Use either enabled or a an array of uris to match
+DebugRedirection=disabled

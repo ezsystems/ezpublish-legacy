@@ -1,0 +1,1 @@
+<textarea name="ContentObjectAttribute_data_text_{$attribute.id}" cols="70" rows="10">{$attribute.content}</textarea>
