@@ -2864,6 +2864,8 @@ WHERE
      -- can_remove_subtree - Boolean which tells if the user has permission to remove items in the subtree
      -- new_main_node_id   - The new main node ID for the node if it needs to be moved, or \c false if not
      -- object_node_count  - The number of nodes the object has (before removal)
+     -- sole_node_count    - The number of nodes in the subtree (excluding current) that does
+                             not have multiple locations.
     */
     function subtreeRemovalInformation( $deleteIDArray )
     {
@@ -2986,6 +2988,8 @@ WHERE
             if ( !$infoOnly )
                 continue;
 
+            $soleNodeCount = $node->subtreeSoleNodeCount();
+
             $item = array( "nodeName" => $nodeName, // Backwards compatability
                            "childCount" => $childCount, // Backwards compatability
                            "additionalWarning" => '', // Backwards compatability, this will always be empty
@@ -2995,6 +2999,7 @@ WHERE
                            'node_name' => $nodeName,
                            'child_count' => $childCount,
                            'object_node_count' => $objectNodeCount,
+                           'sole_node_count' => $soleNodeCount,
                            'can_remove' => $canRemove,
                            'can_remove_subtree' => $canRemoveSubtree,
                            'real_child_count' => $readableChildCount,
@@ -3068,6 +3073,77 @@ WHERE
             $this->remove();
             eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
         }
+    }
+
+    /*!
+     \return The number of nodes in the current subtree that have no other placements.
+    */
+    function subtreeSoleNodeCount( $params = array() )
+    {
+        $nodeID = $this->attribute( 'node_id' );
+        $node = $this;
+
+        $depth = false;
+        if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
+        {
+            $depth = $params['Depth'];
+
+        }
+
+        $fromNode = $nodeID;
+
+        $nodePath = null;
+        $nodeDepth = 0;
+        if ( count( $node ) != 0 )
+        {
+            $nodePath = $node->attribute( 'path_string' );
+            $nodeDepth = $node->attribute( 'depth' );
+        }
+
+        $childPath = $nodePath;
+        $pathLength = strlen( $childPath );
+
+        $db =& eZDB::instance();
+        $subStringString = $db->subString( 'path_string', 1, $pathLength );
+        $pathString = " ezcot.path_string like '$childPath%' and ";
+
+        $notEqParentString = "ezcot.node_id != $fromNode";
+        $depthCond = '';
+        if ( $depth )
+        {
+
+            $nodeDepth += $depth;
+            if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
+            {
+                $depthCond = ' ezcot.depth = ' . $nodeDepth . '';
+                $notEqParentString = '';
+            }
+            else
+                $depthCond = ' ezcot.depth <= ' . $nodeDepth . ' and ';
+        }
+
+        $db->OutputSQL = true;
+        $db->createTempTable( "CREATE TEMPORARY TABLE eznode_count ( count int )" );
+        $query = "INSERT INTO eznode_count
+                  SELECT
+                          count( ezcot.main_node_id ) AS count
+                    FROM
+                          ezcontentobject_tree ezcot RIGHT JOIN
+                          ezcontentobject_tree ezcot_all ON ezcot.main_node_id = ezcot_all.main_node_id
+                    WHERE
+                           $pathString
+                           $depthCond
+                           $notEqParentString
+                    GROUP BY ezcot_all.main_node_id";
+
+        $db->query( $query );
+        $query = "SELECT count( * ) AS count
+                  FROM eznode_count
+                  WHERE count <= 1";
+        $rows = $db->arrayQuery( $query );
+        $db->dropTempTable( "DROP TABLE eznode_count" );
+        $db->OutputSQL = false;
+        return $rows[0]['count'];
     }
 
     /*!
