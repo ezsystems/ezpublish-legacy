@@ -271,6 +271,7 @@ class eZURL extends eZPersistentObject
             $limitArray = array( 'offset' => $offset,
                                  'length' => $limit );
         $conditions = array();
+        if( $isValid === false ) $isValid = 0;
         if ( $isValid !== null )
         {
             $conditions['is_valid'] = $isValid;
@@ -289,7 +290,7 @@ class eZURL extends eZPersistentObject
             $db =& eZDB::instance();
             if ( $asCount )
             {
-                $urls = $db->arrayQuery( "SELECT count(*) as count from ezurl
+                $urls = $db->arrayQuery( "SELECT count(*) as count from ezurl WHERE 1
                                                  $conditionQuery" );
                 return $urls[0]['count'];
             }
