@@ -96,12 +96,14 @@ class eZTemplateIncludeFunction
             return false;
 
         $namespaceValue = false;
+        $namespaceName = '$currentNamespace';
         if ( isset( $parameters['name'] ) )
         {
             $nameData = $parameters['name'];
             if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
                 return false;
             $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $namespaceName = '$namespace';
         }
 
         $uriString = eZTemplateNodeTool::elementStaticValue( $uriData );
@@ -129,7 +131,7 @@ class eZTemplateIncludeFunction
             $parameterData =& $parameters[$parameterName];
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                   array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( \$currentNamespace, '$parameterName', \$vars[\$currentNamespace]['$parameterName'] );\n" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $variableList[] = $parameterName;
         }
 

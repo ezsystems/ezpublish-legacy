@@ -52,6 +52,7 @@ eZIdentifier:
 - Fixed bug with destroying variables if they were passed to an included
   template under the same name.
   http://ez.no/community/bug_reports/include_in_template_does_not_create_a_new_namespace
+  http://ez.no/community/bug_reports/template_compiler_undefined_vars
 - Fixed PHP error when trying to edit non existing role, merged from stable/3.3 rev. 6637.
   http://ez.no/community/bug_reports/error_in_role_view
 - Fixed bug (suggestion) of  Remove object should also remove bookmark
