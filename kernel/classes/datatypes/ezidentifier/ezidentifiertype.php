@@ -292,6 +292,14 @@ class eZIdentifierType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function sortKey( &$objectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
       \private
       Copy version one to the current version
     */

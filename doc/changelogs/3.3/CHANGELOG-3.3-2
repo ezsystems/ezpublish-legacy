@@ -33,3 +33,4 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/sort_by_attribute_translation_duplicates_bug_incl_quickfix
 - Removed svn-commit.tmp files from svn repository. http://mail.broadpark.no/horde/imp/mailbox.php?page=1&uniq=10920101833ffe937d0cd34
 - Fixed bug in handling of email addresses with text (e.g name), previously the name and email were swapped giving bad To and From mail addresses. (Merged from 3.2 rev. 4703)
+- Fixed sorting by datatype identifier. http://ez.no/developer/ez_publish_3/bug_reports/attribute_sort_on_an_identifier_datatype_doesn_t_work
