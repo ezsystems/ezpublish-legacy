@@ -225,6 +225,11 @@ class eZTemplateImageObject
         {
             case 'png':
             {
+                if ( !file_exists( $filePath ) )
+                {
+                    include_once( 'lib/ezutils/classes/ezdir.php' );
+                    eZDir::mkdir( $filePath, true );
+                }
                 ImagePNG( $this->ImageObject, $filePath . '/' . $fileName );
                 $this->StoredPath = $filePath;
                 $this->StoredFile = $fileName;
