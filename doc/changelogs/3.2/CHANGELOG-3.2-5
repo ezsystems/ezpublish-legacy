@@ -94,6 +94,10 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
 - Removed event_ezpaynet workflow event from the standard workflow.ini file.
   http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
+- Fixed log directory for the webdav server, now it uses the var directory 
+  in eZ publish instead of /tmp.
+  http://ez.no/community/bug_reports/webdav_log_still_is_in_tmp
+  http://ez.no/community/bug_reports/webdav_logging_enabled
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.

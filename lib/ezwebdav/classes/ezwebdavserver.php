@@ -115,7 +115,8 @@ function eZWebDavAppendToLog( $logString )
 {
     if ( !eZWebDavCheckLogSetting() )
         return false;
-        $varDir = 'var';
+
+    $varDir = eZSys::varDirectory();
 
     $logDir = 'log';
     $logName = 'webdav.log';
