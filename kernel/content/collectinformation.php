@@ -274,6 +274,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $subject =& $tpl->variable( 'subject' );
             $receiver =& $tpl->variable( 'email_receiver' );
+            $sender =& $tpl->variable( 'email_sender' );
             $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
 
             $ini =& eZINI::instance();
@@ -287,7 +288,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             }
             $mail->setReceiver( $receiver );
 
-            $sender = $ini->variable( "MailSettings", "EmailSender" );
+            if ( !$mail->validate( $sender ) )
+            {
+                $sender = $ini->variable( "MailSettings", "EmailSender" );
+            }
             $mail->setSender( $sender );
             $mail->setReplyTo( $sender );
 
