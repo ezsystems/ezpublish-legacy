@@ -86,4 +86,27 @@ $FunctionList['event_content'] = array( 'name' => 'event_content',
                                                                      'type' => 'integer',
                                                                      'required' => true ) ) );
 
+$FunctionList['subscribed_nodes'] = array( 'name' => 'subscribed_nodes',
+                                           'operation_types' => array( 'read' ),
+                                           'call_method' => array( 'include_file' => 'kernel/notification/eznotificationfunctioncollection.php',
+                                                                   'class' => 'eZNotificationFunctionCollection',
+                                                                   'method' => 'subscribedNodes' ),
+                                           'parameter_type' => 'standard',
+                                           'parameters' => array( array( 'name' => 'offset',
+                                                                         'type' => 'integer',
+                                                                         'default' => false,
+                                                                         'required' => false ),
+                                                                  array( 'name' => 'limit',
+                                                                         'type' => 'integer',
+                                                                         'default' => false,
+                                                                         'required' => false ) ) );
+
+$FunctionList['subscribed_nodes_count'] = array( 'name' => 'subscribed_nodes_count',
+                                                 'operation_types' => array( 'read' ),
+                                                 'call_method' => array( 'include_file' => 'kernel/notification/eznotificationfunctioncollection.php',
+                                                                         'class' => 'eZNotificationFunctionCollection',
+                                                                         'method' => 'subscribedNodesCount' ),
+                                                 'parameter_type' => 'standard',
+                                                 'parameters' => array() );
+
 ?>

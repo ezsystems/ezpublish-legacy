@@ -269,7 +269,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return $nodeList;
     }
 
-    function &rules( $user = false )
+    function &rules( $user = false, $offset = false, $limit = false )
     {
         if ( $user === false )
         {
@@ -277,8 +277,19 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $userID = $user->attribute( 'contentobject_id' );
 
-        $ruleList =& eZSubtreeNotificationRule::fetchList( $userID );
+        $ruleList =& eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
         return $ruleList;
+    }
+    
+    function &rulesCount( $user = false )
+    {
+        if ( $user === false )
+        {
+            $user =& eZUser::currentUser();
+        }
+        $userID = $user->attribute( 'contentobject_id' );
+
+        return eZSubtreeNotificationRule::fetchListCount( $userID );
     }
 
     function fetchHttpInput( &$http, &$module )

@@ -48,7 +48,8 @@ $ViewList["settings"] = array(
     "script" => "settings.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezmynavigationpart',
-    "params" => array( ) );
+    "params" => array( ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList["runfilter"] = array(
     "functions" => array( 'administrate' ),

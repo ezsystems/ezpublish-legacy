@@ -69,9 +69,11 @@ foreach ( array_keys( $availableHandlers ) as $key )
     $handler->fetchHttpInput( $http, $Module );
 }
 
+$viewParameters = array( 'offset' => $Params['Offset'] );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'user', $user );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:notification/settings.tpl' );

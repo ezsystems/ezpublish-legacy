@@ -30,7 +30,7 @@
 
 </div>
 
-{include name=newspace uri=concat( 'design:notification/handler/', $handlers.ezsubtree.id_string, '/settings/edit.tpl' ) handler=$handlers.ezsubtree}
+{include name=newspace uri=concat( 'design:notification/handler/', $handlers.ezsubtree.id_string, '/settings/edit.tpl' ) handler=$handlers.ezsubtree view_parameters=$view_parameters}
 
 </form>
 {/let}

@@ -129,11 +129,22 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $nodes;
     }
 
-    function &fetchList( $userID, $asObject = true )
+    function &fetchList( $userID, $asObject = true, $offset = false, $limit = false )
     {
         return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                     null, array( 'user_id' => $userID ),
-                                                    null,null,true );
+                                                    null, array( 'offset' => $offset,
+                                                                 'length' => $limit ), $asObject );
+    }
+
+    function &fetchListCount( $userID )
+    {
+        $custom = array( array( 'operation' => 'count( id )',
+                                'name' => 'count' ) );
+        $countRes =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
+                                                          array(), array( 'user_id' => $userID ),
+                                                          null, null, false, false, $custom );
+        return $countRes[0]['count'];
     }
 
     /*!

@@ -1,7 +1,10 @@
-{let subscribed_nodes=$handler.rules}
+{let item_type=ezpreference( 'items' )
+     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
+     subscribed_nodes=fetch( 'notification', 'subscribed_nodes', hash( 'limit', $number_of_items, 'offset', $view_parameters.offset ) )
+     subscribed_nodes_count=fetch( 'notification', 'subscribed_nodes_count')}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'My item notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes|count ) )}</h2>
+<h2 class="context-title">{'My item notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes_count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -10,6 +13,37 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$subscribed_nodes}
+{* Items per page *}
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+<p>
+    {switch match=$number_of_items}
+    {case match=25}
+        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
+        <span class="current">25</span>
+        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+    {/case}
+
+    {case match=50}
+        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
+        <span class="current">50</span>
+    {/case}
+
+    {case}
+        <span class="current">10</span>
+        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+    {/case}
+    {/switch}
+</p>
+</div>
+<div class="break"></div>
+</div>
+</div>
+
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" onclick="ezjs_toggleCheckboxes( document.notification, 'SelectedRuleIDArray_{$handler.id_string}[]' ); return false;" /></th>
@@ -27,6 +61,16 @@
 </tr>
 {/section}
 </table>
+
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri='/notification/settings'
+         item_count=$subscribed_nodes_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
+
 {section-else}
 <div class="block">
 <p>{'You have not subscribed to receive notifications about any items.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</p>
@@ -51,4 +95,3 @@
 
 </div>
 {/let}
-
