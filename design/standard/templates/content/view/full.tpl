@@ -1,6 +1,4 @@
 <form method="post" action="/content/action/">
-
-<h2>View {$object.class_name}</h2>
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
@@ -9,25 +7,19 @@
 {*	{image($object.name|texttoimage('archtura'),'abc'|texttoimage('archtura'))} *}
 {* 	<h1>{$object.name}</h1> *}
 	</td>
+	<td align="rigt">
+	{switch match=$object.can_edit}
+	    {case match=1}
+	    <input type="hidden" name="ContentObjectID" value="{$object.id}" />
+            <input type="submit" name="EditButton" value="Edit" />
+	    {/case}
+            {case match=0}
+            You are not allowed to edit this object
+            {/case}
+        {/switch}
+	</td>
 </tr>
 </table>
-
-{switch match=$object.can_edit}
-{case match=1}
-         <input type="hidden" name="ContentObjectID" value="{$object.id}" />
-         <input type="submit" name="EditButton" value="Edit" />
-{/case}
-{case match=0}
-  You are not allowed to edit this object
-{/case}
-{/switch}
-
-Current version: {$object.current_version}
-
-<br /><b>Path:</b><br />
-{include uri="design:content/path.tpl" items=$parents base_uri=$module.functions.view.uri} 
- {$object.name}
-<br/>
 
 <table width="100%">
 <tr>
@@ -62,17 +54,17 @@ Current version: {$object.current_version}
     </tr>
     {/section}
    </table>
+
+   <h2>Content actions</h2>
+   {section name=ContentAction loop=$object.content_action_list show=$object.content_action_list}
+   <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
+   {delimiter}
+   <br /><br />
+   {/delimiter}
+   {/section}
    </td>
 </tr>
 </table>
-
-<h2>Content actions</h2>
-{section name=ContentAction loop=$object.content_action_list show=$object.content_action_list}
-<input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
-{delimiter}
-<br /><br />
-{/delimiter}
-{/section}
 
 <h1>Children</h1>
 <table width="100%">
