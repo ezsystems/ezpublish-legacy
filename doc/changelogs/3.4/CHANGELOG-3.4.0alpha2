@@ -58,6 +58,10 @@ eZ template:
 eZ file:
 - Added function to remove files match a given pattern in class eZDir.
 
+eZDebug:
+- Made sure the dumpVariable function don't mess up any existing output buffers
+  or start a new unneeded one. (Merged in changes from stable/3.3 rev. 5539)
+
 eZ PHP creator:
 
 *Bugs:
