@@ -49,7 +49,7 @@ class eZWordToImageOperator
     */
     function eZWordToImageOperator()
     {
-        $this->Operators = array( "wordtoimage", "mimetype_icon" );
+        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon" );
     }
 
     /*!
@@ -84,43 +84,96 @@ class eZWordToImageOperator
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
             }break;
 
-            case "mimetype_icon" :
+            case 'mimetype_icon':
+            case 'class_icon':
             {
-                $ini =& eZINI::instance( 'binaryfile.ini' );
+                if ( $operatorName == 'mimetype_icon' )
+                    $subdir = 'mimetypes';
+                else if ( $operatorName == 'class_icon' )
+                    $subdir = 'classes';
+                $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'IconSettings', 'Theme' );
-                $size = $ini->variable( 'IconSettings', 'Size' );
-                $mimeMap = $ini->variable( 'IconSettings', 'MimeMap' );
-                $mimeType = $operatorValue;
-                $icon = false;
-                if ( isset( $mimeMap[$mimeType] ) )
+                if ( isset( $operatorParameters[0] ) )
                 {
-                    $icon = $mimeMap[$mimeType];
+                    $sizeName = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 }
                 else
                 {
-                    $pos = strpos( $mimeType, '/' );
-                    if ( $pos !== false )
+                    $sizeName = $ini->variable( 'IconSettings', 'Size' );
+                }
+                $sizes = $ini->variable( 'IconSettings', 'Sizes' );
+                if ( isset( $sizes[$sizeName] ) )
+                {
+                    $size = $sizes[$sizeName];
+                }
+                else
+                {
+                    $size = $sizes[0];
+                }
+                $width = false;
+                $height = false;
+                $xDivider = strpos( 'x', $size );
+                if ( $xDivider !== false )
+                {
+                    $width = (int)substr( $size, 0, $xDivider );
+                    $height = (int)substr( $size, $xDivider + 1 );
+                }
+
+                if ( $operatorName == 'mimetype_icon' )
+                {
+                    $mimeType = $operatorValue;
+                    $mimeMap = $ini->variable( 'MimeIcons', 'MimeMap' );
+                    $icon = false;
+                    if ( isset( $mimeMap[$mimeType] ) )
                     {
-                        $mimeGroup = substr( $mimeType, 0, $pos );
-                        if ( isset( $mimeMap[$mimeGroup] ) )
+                        $icon = $mimeMap[$mimeType];
+                    }
+                    else
+                    {
+                        $pos = strpos( $mimeType, '/' );
+                        if ( $pos !== false )
                         {
-                            $icon = $mimeMap[$mimeGroup];
+                            $mimeGroup = substr( $mimeType, 0, $pos );
+                            if ( isset( $mimeMap[$mimeGroup] ) )
+                            {
+                                $icon = $mimeMap[$mimeGroup];
+                            }
                         }
                     }
+                    if ( $icon === false )
+                    {
+                        $icon = $ini->variable( 'MimeIcons', 'Default' );
+                    }
                 }
-                if ( $icon === false )
+                else if ( $operatorName == 'class_icon' )
                 {
-                    $icon = $ini->variable( 'IconSettings', 'DefaultMime' );
+                    $class = $operatorValue;
+                    $classMap = $ini->variable( 'ClassIcons', 'ClassMap' );
+                    $icon = false;
+                    if ( isset( $classMap[$class] ) )
+                    {
+                        $icon = $classMap[$class];
+                    }
+                    if ( $icon === false )
+                    {
+                        $icon = $ini->variable( 'ClassIcons', 'Default' );
+                    }
                 }
-                $iconPath = '/' . $repository . '/' . $theme . '/mimetypes/' . $size . '/' . $icon;
+
+                $iconPath = '/' . $repository . '/' . $theme . '/' . $subdir . '/' . $size . '/' . $icon;
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
                     $wwwDirPrefix = eZSys::wwwDir() . "/";
+                $sizeText = '';
+                if ( $width !== false and $height !== false )
+                {
+                    $sizeText = ' width="' . $width . '" height="' . $height . '"';
+                }
 
-                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '" width="32" height="32" alt="' .  htmlspecialchars( $operatorValue ) . '" />';
-            }break;
+                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $operatorValue ) . '" />';
+            } break;
 
             default:
             {
