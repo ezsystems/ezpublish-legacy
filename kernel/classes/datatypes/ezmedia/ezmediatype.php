@@ -94,13 +94,16 @@ class eZMediaType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $mediaFiles =& eZMedia::fetch( $contentObjectAttributeID );
+        $sys =& eZsys::instance();
+        $storage_dir = $sys->storageDirectory();
         if( $version == null )
         {
             foreach ( $mediaFiles as $mediaFile )
             {
                 $mimeType =  $mediaFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-                $orig_dir = "var/storage/original/" . $prefix;
+//                $orig_dir = "var/storage/original/" . $prefix;
+                $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $mediaFile->attribute( "filename" );
                 if( file_exists( $orig_dir . "/" .$fileName ) )
                     unlink( $orig_dir . "/" . $fileName );
@@ -115,7 +118,8 @@ class eZMediaType extends eZDataType
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
                 $currentFileName = $currentBinaryFile->attribute( "filename" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-                $orig_dir = "var/storage/original/" . $prefix;
+//              $orig_dir = "var/storage/original/" . $prefix;
+                $orig_dir = $storage_dir . '/original/' . $prefix;
                 foreach ( $mediaFiles as $mediaFile )
                 {
                     $fileName = $mediaFile->attribute( "filename" );
