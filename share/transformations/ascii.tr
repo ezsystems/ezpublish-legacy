@@ -12,3 +12,35 @@ U+0041 - U+005A + 20
 ascii_uppercase:
 U+0061 - U+007A - 20
 
+ascii_search_cleanup:
+U+0023 = U+0020  # Number sign / hash
+U+0024 = U+0020  # Dollar sign
+U+0026 = U+0020  # Ampersand
+U+005E = U+0020  # Circumflex accent
+U+005F = U+0020  # Low line
+U+007B = U+0020  # Left curly bracket
+U+007D = U+0020  # Right curly bracket
+U+007C = U+0020  # Vertical line
+U+0040 = U+0020  # Commercial at
+U+003A = U+0020  # Colon :
+U+003B = U+0020  # Semi-colon ;
+U+002C = U+0020  # Comma ,
+U+0028 = U+0020  # parenthesis start (
+U+0029 = U+0020  # parenthesis end )
+U+002D = U+0020  # Hyphen minus -
+U+002B = U+0020  # Plus sign +
+U+002F = U+0020  # Slash /
+U+005B = U+0020  # Square bracket start [
+U+005D = U+0020  # Square bracket end ]
+U+005C = U+0020  # Back slash \
+U+003C = U+0020  # Angular bracket start <
+U+003E = U+0020  # Angular bracket end
+U+003D = U+0020  # Equal sign =
+U+0027 = U+0020  # Apostrophe '
+U+0060 = U+0020  # Grave accent `
+
+# C0 controls
+# Tab, line feed and carriage return are not touched by these rules
+U+0000 - U+0009 = U+0020
+U+000B - U+000C = U+0020
+U+000E - U+001F = U+0020

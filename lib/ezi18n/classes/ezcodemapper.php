@@ -1450,7 +1450,6 @@ class eZCodeMapper
             // Special code handlers
             case 'url_cleanup':
             case 'identifier_cleanup':
-            case 'search_cleanup':
             {
             } break;
 
@@ -1460,6 +1459,7 @@ class eZCodeMapper
             case 'diacritical':
             case 'lowercase':
             case 'uppercase':
+            case 'search_cleanup':
             {
                 if ( count( $parameters ) == 0 )
                 {

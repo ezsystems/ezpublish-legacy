@@ -7,6 +7,92 @@
 
 # Transliteration of cyrillic, is used in URLs and identifiers
 
+cyrillic_uppercase:
+U+0450 - U+045F  -= U+0050
+U+0430 - U+044F  -= U+0020
+
+U+0461 - U+0481 % 02 - 01
+U+048B - U+04BF % 02 - 01
+U+04C2 - U+04CC % 02 - 01
+U+04D1 - U+04F5 % 02 - 01
+
+# Cyrillic Supplementary
+U+0501 - U+050F % 02 - 01
+
+cyrillic_lowercase:
+U+0400 - U+040F += U+0050
+U+0410 - U+042F += U+0020
+
+U+0460 - U+0480 % 02 += 01
+U+048A - U+04BE % 02 += 01
+U+04C1 - U+04CD % 02 += 01
+U+04D0 - U+04F4 % 02 += 01
+
+# Cyrillic Supplementary
+U+0500 - U+050E % 02 += 01
+
+cyrillic_diacritical:
+# Cyrillic extension
+U+0400 - U+0401 = U+0415
+U+0403 = U+0413
+U+0407 = U+0406
+U+040C = U+041A
+U+040D = U+0418
+U+040E = U+0423
+
+# Basic russian
+U+0419 = U+0418
+U+0439 = U+0438
+
+# Cyrillic extension
+U+0450 = U+0435
+U+0451 = U+0435
+U+0453 = U+0433
+U+0457 = U+0456
+U+045C = U+043A
+U+045D = U+0438
+U+045E = U+0443
+
+# Historic letters
+U+0476 = U+0474
+U+0477 = U+0475
+
+# Extended cyrillic
+U+04C1 = U+0416
+U+04C2 = U+0436
+U+04D0 = U+0410
+U+04D1 = U+0430
+U+04D2 = U+0410
+U+04D3 = U+0430
+U+04D6 = U+0415
+U+04D7 = U+0435
+U+04DA = U+04D8
+U+04DB = U+04D9
+U+04DC = U+0416
+U+04DD = U+0436
+U+04DE = U+0417
+U+04DF = U+0437
+U+04E2 = U+0418
+U+04E3 = U+0438
+U+04E4 = U+0418
+U+04E5 = U+0438
+U+04E6 = U+041E
+U+04E7 = U+043E
+U+04EA = U+04E8
+U+04EB = U+04E9
+U+04EC = U+042D
+U+04ED = U+044D
+U+04EE = U+0423
+U+04EF = U+0443
+U+04F0 = U+0423
+U+04F1 = U+0443
+U+04F2 = U+0423
+U+04F3 = U+0443
+U+04F4 = U+0427
+U+04F5 = U+0447
+U+04F8 = U+042B
+U+04F9 = U+044B
+
 cyrillic_transliterate_ascii:
 U+0400 = "IE"
 U+0401 = "IO"
@@ -109,3 +195,8 @@ U+045C = "kj"
 U+045D = "i"
 U+045E = "v"
 U+045F = "dz"
+
+cyrillic_search_cleanup:
+# Turns some special characters into spaces
+U+0482 - U+0486 = U+0020
+U+0488 - U+0489 = U+0020
