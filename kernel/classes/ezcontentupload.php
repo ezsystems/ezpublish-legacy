@@ -91,6 +91,8 @@ class eZContentUpload
         }
         else
         {
+            if ( $params === false )
+                $params = array();
             $this->Parameters = $params;
         }
     }
@@ -1052,8 +1054,18 @@ class eZContentUpload
             return $contentINI->variable( 'NodeSettings', 'MediaRootNode' );
         else if ( $nodeName == 'setup' )
             return $contentINI->variable( 'NodeSettings', 'SetupRootNode' );
-        else
-            return false;
+
+        // Check for node path element
+        $pathPos = strpos( $nodeName, '/' );
+        if ( $pathPos !== false )
+        {
+            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeName );
+            if ( is_object( $node ) )
+            {
+                return $node->attribute( 'node_id' );
+            }
+        }
+        return false;
     }
 
     /*!
