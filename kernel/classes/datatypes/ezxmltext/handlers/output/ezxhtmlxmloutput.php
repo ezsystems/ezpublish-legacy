@@ -66,6 +66,31 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $node =& $dom->elementsByName( "section" );
 
+            // Fetch all links and cache the url's
+            $links =& $dom->elementsByName( "link" );
+
+            if ( count( $links ) > 0 )
+            {
+                $linkIDArray = array();
+                // Find all Link id's
+                foreach ( $links as $link )
+                {
+                    if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
+                        $linkIDArray[] = $link->attributeValue( 'id' );
+                }
+
+                $inIDSQL = implode( ', ', $linkIDArray );
+
+                $db =& eZDB::instance();
+
+                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+
+                foreach ( $linkArray as $linkRow )
+                {
+                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                }
+            }
+
             $sectionNode =& $node[0];
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
@@ -511,7 +536,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $target == '_self' )
                     $target = false;
                 if ( $linkID != null )
-                    $href =& eZURL::url( $linkID, true );
+                {
+                    $href = $this->LinkArray[$linkID];
+                }
                 else
                     $href = $tag->attributeValue( 'href' );
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
@@ -551,6 +578,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         return $tagText;
     }
+
+    /// Contains the URL's for <link> tags hashed by ID
+    var $LinkArray = array();
 
 }
 

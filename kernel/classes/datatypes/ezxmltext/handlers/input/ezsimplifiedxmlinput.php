@@ -232,12 +232,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                     }
                 }
+
                 $links =& $dom->elementsByName( 'link' );
 
                 if ( $links !== null )
                 {
-                    $editVersion = $contentObjectAttribute->attribute('version');
-                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
+                    $editVersion = $contentObjectAttribute->attribute( 'version' );
+                    $editObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
                     foreach ( array_keys( $links ) as $linkKey )
                     {
                         $link =& $links[$linkKey];
@@ -245,7 +246,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         {
                             $linkID = $link->attributeValue( 'id' );
                             $url =& eZURL::url( $linkID );
-                            if (  $url == null )
+                            if ( $url == null )
                             {
                                 $GLOBALS[$isInputValid] = false;
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -263,19 +264,44 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             }
                         }
+                    }
+
+
+                    $urlArray = array();
+                    // Optimized for speed, find all url's then fetch from DB
+                    foreach ( array_keys( $links ) as $linkKey )
+                    {
+                        $link =& $links[$linkKey];
+                        // Cache all URL's not converted to relations
                         if ( $link->attributeValue( 'href' ) != null )
                         {
                             $url = $link->attributeValue( 'href' );
-                            $linkID =& eZURL::registerURL( $url );
-                            $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-                            if ( $linkObjectLink == null )
-                            {
-                                $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-                                $linkObjectLink->store();
-                            }
-                            $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
-                            $link->removeNamedAttribute( 'href' );
+
+                            if ( !in_array( $url, $urlArray ) )
+                                $urlArray[] = $url;
                         }
+                    }
+
+                    // Fetch the ID's of all existing URL's and register un exsiting
+                    $linkIDArray =& eZURL::registerURLArray( $urlArray );
+
+                    // Register all unique URL's for this object attribute
+                    foreach ( array_keys( $linkIDArray ) as $url )
+                    {
+                        $linkID = $linkIDArray[$url];
+                        $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                        $linkObjectLink->store();
+                    }
+
+                    // Update XML to only store id, not href
+                    foreach ( array_keys( $links ) as $linkKey )
+                    {
+                        $link =& $links[$linkKey];
+                        $url = $link->attributeValue( 'href' );
+                        $linkID = $linkIDArray[$url];
+
+                        $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                        $link->removeNamedAttribute( 'href' );
                     }
                 }
 
@@ -1827,7 +1853,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     // Fetch URL from cached array
                     $href = $this->LinkArray[$linkID];
-//                    $href =& eZURL::url( $linkID );
                 }
                 else
                 {

@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Optimized object rendering of XML fields containing multiple links.
 - Optimized object edit when XML field contains links. It was one db query pr link, now it's optimized to one db query pr XML field.
 - Added support for attribute level filtering. You can now filter the result depending on the attribute value.
 - Added support for attribute level sorting. You can now sort on the values of any attribute, whose datatype supports it.

@@ -124,10 +124,6 @@ class eZURL extends eZPersistentObject
         if ( count( $urlArray ) == 0 )
         {
             // store URL
-//            $insertURLQuery = "INSERT INTO ezurl ( url  ) VALUES ( '$url' )";
-//            $db->query( $insertURLQuery );
-
-//            $urlID = $db->lastSerialID( 'ezurl', 'id' );
             $url =& eZURL::create( $url );
             $url->store();
             $urlID = $url->attribute( 'id' );
@@ -137,6 +133,42 @@ class eZURL extends eZPersistentObject
             $urlID = $urlArray[0]['id'];
         }
         return $urlID;
+    }
+
+    /*!
+     \static
+     Registers an array of URLs to the URL database. A hash of array( url -> id )
+     is returned.
+    */
+    function registerURLArray( $urlArray )
+    {
+        $db =& eZDB::instance();
+
+        // Fetch the already existing URL's
+        $inURLSQL = implode( '\', \'', $urlArray );
+        $checkURLQuery = "SELECT id, url FROM ezurl WHERE url IN ( '$inURLSQL' )";
+        $urlRowArray =& $db->arrayQuery( $checkURLQuery );
+
+        $registeredURLArray = array();
+        foreach ( $urlRowArray as $urlRow )
+        {
+            $registeredURLArray[$urlRow['url']] = $urlRow['id'];
+        }
+
+        // Check for URL's which are not registered, and register them
+        foreach ( $urlArray as $url )
+        {
+            if ( !isset( $registeredURLArray[$url] ) )
+            {
+                $url =& eZURL::create( $url );
+                $url->store();
+                $urlID = $url->attribute( 'id' );
+
+                $registeredURLArray[$url] = $urlID;
+            }
+        }
+
+        return $registeredURLArray;
     }
 
     /*!
