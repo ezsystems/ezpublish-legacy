@@ -46,13 +46,15 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password:]",
+$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
                                                           "mysql, postgresql" ),
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'output-array' => 'Create file with array structures (Human readable)',
+                                       'output-serialized' => 'Create file with serialized data (Saves space)'
                                        ) );
 $script->initialize();
 
@@ -68,6 +70,12 @@ $user = $options['user'];
 $password = $options['password'];
 $database = $options['arguments'][0];
 $filename = $options['arguments'][1];
+
+$outputType = 'serialized';
+if ( $options['output-array'] )
+    $outputType = 'array';
+if ( $options['output-serialized'] )
+    $outputType = 'serialized';
 
 if ( strlen( trim( $type ) ) == 0)
 {
@@ -97,10 +105,15 @@ if ( !$db )
 
 include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 $dbSchema = eZDBSchema::instance( $db );
-$dbSchema->writeSerializedSchemaFile( $filename );
+if ( $outputType == 'serialized' )
+{
+    $dbSchema->writeSerializedSchemaFile( $filename );
+}
+else if ( $outputType == 'array' )
+{
+    $dbSchema->writeArraySchemaFile( $filename );
+}
 
 $script->shutdown();
 
 ?>
-
-

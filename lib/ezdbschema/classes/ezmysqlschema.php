@@ -55,19 +55,25 @@ class eZMysqlSchema extends eZDBSchemaInterface
     {
         $schema = array();
 
-        $tableArray = $this->DBInstance->arrayQuery( "SHOW TABLES" );
-
-        foreach( $tableArray as $tableNameArray )
+        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
         {
-			$table_name = current( $tableNameArray );
-            $schema_table['name'] = $table_name;
-			$schema_table['fields'] = $this->fetchTableFields( $table_name );
-			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
+            $tableArray = $this->DBInstance->arrayQuery( "SHOW TABLES" );
 
-			$schema[$table_name] = $schema_table;
-		}
+            foreach( $tableArray as $tableNameArray )
+            {
+                $table_name = current( $tableNameArray );
+                $schema_table['name'] = $table_name;
+                $schema_table['fields'] = $this->fetchTableFields( $table_name );
+                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
 
-		return $schema;
+                $schema[$table_name] = $schema_table;
+            }
+        }
+        else
+        {
+            $schema = $this->DBInstance['schema'];
+        }
+        return $schema;
     }
 
 	/*!

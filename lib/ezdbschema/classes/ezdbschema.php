@@ -48,25 +48,52 @@ class eZDbSchema
             $db = eZDB::instance();
         }
 
-        switch( $db->databaseName() )
+        if ( is_subclass_of( $db, 'ezdbinterface' ) )
         {
-            case 'mysql':
+            switch( $db->databaseName() )
             {
-                include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
-                return new eZMysqlSchema( $db );
-            } break;
+                case 'mysql':
+                {
+                    include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
+                    return new eZMysqlSchema( $db );
+                } break;
 
-            case 'postgresql':
-            {
-                include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
-                return new eZPgsqlSchema( $db );
-            } break;
+                case 'postgresql':
+                {
+                    include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
+                    return new eZPgsqlSchema( $db );
+                } break;
 
-            default:
+                default:
+                {
+                    eZDebug::writeError( 'No schema handler for database type : ' . $db->databaseName(),
+                                         'eZDBSchema::instance()' );
+                } break;
+            }
+        }
+        else
+        {
+            $type = $db['type'];
+            switch( $type )
             {
-                eZDebug::writeError( 'No schema handler for database type : ' . $db->databaseName(),
-                                     'eZDBSchema::instance()' );
-            } break;
+                case 'mysql':
+                {
+                    include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
+                    return new eZMysqlSchema( $db );
+                } break;
+
+                case 'postgresql':
+                {
+                    include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
+                    return new eZPgsqlSchema( $db );
+                } break;
+
+                default:
+                {
+                    eZDebug::writeError( 'No schema handler for database type : ' . $type,
+                                         'eZDBSchema::instance()' );
+                } break;
+            }
         }
 
         return false;
@@ -79,6 +106,16 @@ class eZDbSchema
 	{
         include_once( 'lib/ezfile/classes/ezfile.php' );
 		return unserialize( eZFile::getContents( $filename ) );
+	}
+
+    /*!
+     \static
+    */
+	function readArray( $filename )
+	{
+		$schema = false;
+        include( $filename );
+        return $schema;
 	}
 
 	/*!

@@ -111,7 +111,7 @@ class eZDBSchemaInterface
     }
 
     /*!
-      Write PHP schema definition to file
+      Write PHP schema definition to file using PHP serialized format.
 
       \param filename
     */
@@ -121,6 +121,30 @@ class eZDBSchemaInterface
 		if ( $fp )
 		{
 			fputs( $fp, serialize( $this->schema() ) );
+			fclose( $fp );
+			return true;
+		}
+        else
+        {
+			return false;
+		}
+    }
+
+    /*!
+      Write PHP schema definition to file using PHP array structures.
+
+      \param filename
+    */
+    function writeArraySchemaFile( $filename )
+    {
+        $fp = @fopen( $filename, 'w' );
+		if ( $fp )
+		{
+            include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+            $text = "\$schema = ";
+            $text .= eZPHPCreator::variableText( $this->schema(), strlen( $text ), 0, false );
+            $text .= ";\n";
+			fputs( $fp, '<?' . 'php' . "\n" . $text . "\n" . '?>' );
 			fclose( $fp );
 			return true;
 		}

@@ -115,18 +115,25 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     {
         $schema = array();
 
-        $resultArray = $this->DBInstance->arrayQuery( SHOW_TABLES_QUERY );
+        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
+        {
+            $resultArray = $this->DBInstance->arrayQuery( SHOW_TABLES_QUERY );
 
-        foreach( $resultArray as $row )
-		{
-			$table_name = $row['Name'];
-            $schema_table['name'] = $table_name;
-			$schema_table['fields'] = $this->fetchTableFields( $table_name );
-			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
+            foreach( $resultArray as $row )
+            {
+                $table_name = $row['Name'];
+                $schema_table['name'] = $table_name;
+                $schema_table['fields'] = $this->fetchTableFields( $table_name );
+                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
 
-			$schema[$table_name] = $schema_table;
-		}
-		$this->schema = $schema;
+                $schema[$table_name] = $schema_table;
+            }
+        }
+        else
+        {
+            $schema = $this->DBInstance['schema'];
+        }
+        $this->schema = $schema;
 		return $this->schema;
     }
 

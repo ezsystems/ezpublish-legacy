@@ -52,7 +52,7 @@ $options = $script->getOptions( "[source-type:][source-host:][source-user:][sour
                                 "[match-type:][match-host:][match-user:][match-password:]" .
                                 "[t:|type:][host:][u:|user:][p:|password:]" .
                                 "[reverse][check-only]",
-                                "[source-db][match-db]",
+                                "[source][match]",
                                 array( 'source-type' => ( "Which database type to use for source, can be one of:\n" .
                                                           "mysql, postgresql" ),
                                        'source-host' => "Connect to host source database",
@@ -123,22 +123,31 @@ $ini =& eZINI::instance();
 
 function &loadDatabaseSchema( $type, $host, $user, $password, $db )
 {
-    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-    include_once( 'lib/ezdb/classes/ezdb.php' );
-    $dbInstance =& eZDB::instance( 'ez'.$type,
-                                  array( 'server' => $host,
-                                         'user' => $user,
-                                         'password' => $password,
-                                         'database' => $db ),
-                                  true );
-
-    if ( !$dbInstance )
+    if ( file_exists( $db ) and is_file( $db ) )
     {
-        $cli->error( 'Failed to open database ' . $type . ', ' . $host . ', ' . $user );
-        return false;
+        include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+        return eZDBSchema::instance( array( 'type' => $type,
+                                            'schema' => eZDBSchema::read( $db ) ) );
     }
+    else
+    {
+        include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $dbInstance =& eZDB::instance( 'ez'.$type,
+                                       array( 'server' => $host,
+                                              'user' => $user,
+                                              'password' => $password,
+                                              'database' => $db ),
+                                       true );
 
-    return eZDBSchema::instance( $dbInstance );
+        if ( !$dbInstance )
+        {
+            $cli->error( 'Failed to open database ' . $type . ', ' . $host . ', ' . $user );
+            return false;
+        }
+
+        return eZDBSchema::instance( $dbInstance );
+    }
 }
 
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB );
