@@ -212,7 +212,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $match['file'] = overrideFile( "/" . $path, $matchKeys );
+            $match['file'] = overrideFile( '/' . $path, $matchKeys );
         }
         else
         {
@@ -338,17 +338,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
-            $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
-            $phpCode .= "switch ( \$matchFile )\n{\n    ";
-            $i = 0;
+            $phpCode = "\$GLOBALS['eZOverrideTemplateCacheMap'] = array (\n";
+            $numMatchFiles = count ( $matchFileArray );
+            $countMatchFiles = 0;
+//            $phpCode .= "switch ( \$matchFile )\n{\n    ";
             foreach ( array_keys( $matchFileArray ) as $matchKey )
             {
+                $countMatchFiles++;
+                $phpCode .= '\'' . $matchKey . '\' => ';
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
                     $defaultMatchFile = $matchFileArray[$matchKey]['base_dir'] . $matchKey;
                     // Custom override matching
-                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
+//                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
 
+                    $matchConditionArray = array();
                     foreach ( $matchFileArray[$matchKey]['custom_match'] as $customMatch )
                     {
                         $matchCondition = "";
@@ -360,9 +364,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
                             // Have a special substring match for subtree matching
                             if ( $conditionKey == 'url_alias' )
-                                $matchCondition .= "( strpos( \$matchKeys['url_alias'],  '" . $customMatch['conditions'][$conditionKey] . "' ) === 0 )";
+                                $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
                             else
-                                $matchCondition .= "\$matchKeys['$conditionKey'] == '" . $customMatch['conditions'][$conditionKey] . "'";
+                                $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
 
 
                             $condCount++;
@@ -371,9 +375,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         // Only create custom match if conditions are defined
                         if ( $matchCondition != "" )
                         {
-                            $phpCode .= "        if ( $matchCondition )\n        {\n";
-                            $phpCode .= "            return '" .
-                                 $customMatch['match_file'] . "';\n        }\n";
+//                            $phpCode .= "        if ( $matchCondition )\n        {\n";
+//                            $phpCode .= "            return '" . $customMatch['match_file'] . "';\n        }\n";
+                            $matchConditionArray[] = array( 'condition' => $matchCondition,
+                                                            'matchFile' => $customMatch['match_file'] );
                         }
                         else
                         {
@@ -382,21 +387,47 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         }
                     }
 
-                    $phpCode .= "        return '" . $defaultMatchFile . "';\n    }break;\n";
+                    $phpCode .= "'";
+
+                    foreach ( array_keys( $matchConditionArray ) as $key )
+                    {
+                        $phpCode .= '(' . $matchConditionArray[$key]['condition'] . '?' . "\\'" .  $matchConditionArray[$key]['matchFile'] . "\\'" . ':';
+                    }
+
+                    $phpCode .= "\\'" . $defaultMatchFile . "\\'";
+
+                    for ( $condCount = 0; $condCount < count( $matchConditionArray ); $condCount++)
+                    {
+                        $phpCode .= ')';
+                    }
+
+                    $phpCode .= "'";
                 }
                 else
                 {
+                    $phpCode .= "'\\'". $matchFileArray[$matchKey]['base_dir'] . $matchKey . "\\''";
                     // Plain matching without custom override
-                    $phpCode .= "case  \"$matchKey\":\n    {\n
-                           return '" .
-                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
+//                    $phpCode .= "case  \"$matchKey\":\n    {\n
+//                           return '" .
+//                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
                 }
 
-                $i++;
+                if ( $countMatchFiles < $numMatchFiles )
+                {
+                    $phpCode .= ",\n";
+                }
+                else
+                {
+                    $phpCode .= ");\n";
+                }
             }
-            $phpCode .= "default:\n {\n}break;\n}";
+//            $phpCode .= "default:\n {\n}break;\n}";
 
-            $phpCode .= "}\n";
+//            $phpCode .= "}\n";
+
+            $phpCode .= "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
+            $phpCode .= '  eval( "\$return = " . $GLOBALS[\'eZOverrideTemplateCacheMap\'][$matchFile] . ";" );' . "\n";
+            $phpCode .= '  return $return;' . "\n}\n\n";
 
             $phpCache->addCodePiece( $phpCode );
             if ( $phpCache->store() == true )
