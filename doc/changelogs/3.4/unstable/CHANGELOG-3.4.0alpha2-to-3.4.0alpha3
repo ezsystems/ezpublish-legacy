@@ -34,6 +34,7 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - New setting for sessions ActivityTimeout which controls how long it
   takes before a session is considered inactive (or logged out). The  
   default is 3600 seconds (1 hour)
+- Changed the default sorting of node assignments to be published objects first.
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when

@@ -155,11 +155,11 @@ class eZNodeAssignment extends eZPersistentObject
         }
         if ( !isset( $parameters['sort_field'] ) )
         {
-            $parameters['sort_field'] = 1;
+            $parameters['sort_field'] = 2; // Published
         }
         if ( !isset( $parameters['sort_order'] ) )
         {
-            $parameters['sort_order'] = 1;
+            $parameters['sort_order'] = 0; // Desc
         }
         if ( !isset( $parameters['from_node_id'] ) )
         {
