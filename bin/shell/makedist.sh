@@ -232,6 +232,78 @@ for filter in $FILTER_FILES2; do
     cat $DEST/$filter | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
 done
 
+echo "Checking SQL files for correctnes"
+
+
+function scan_sql_file()
+{
+    sqlfile=$1
+    grep -n -H -i -E -q '(^--.*$)|(^#.*$)' $sqlfile
+    if [ $? -eq 0 ]; then
+	return 1
+    else
+	return 0
+    fi
+}
+
+function cleanup_sql_file()
+{
+    sqlfile=$1
+    perl -pi -e "s/(^--.*$)|(^#.*$)//g" $sqlfile
+}
+
+MAJOR_VERSIONS="3.0"
+SQL_DIRS=""
+KERNEL_SQL_DIR="kernel/sql"
+UPDATE_SQL_DIR="update/database"
+DATABASES="mysql postgresql"
+
+for database in $DATABASES; do
+    for major_version in $MAJOR_VERSIONS; do
+	SQL_DIRS="$SQL_DIRS $UPDATE_SQL_DIR/$database/$major_version"
+    done
+done
+
+
+for database in $DATABASES; do
+    SQL_DIRS="$SQL_DIRS $KERNEL_SQL_DIR/$database"
+done
+
+BAD_SQL_FILES=""
+
+for sql_dir in $SQL_DIRS; do
+    if [ -d "$DEST/$sql_dir" ]; then
+	for sql_file in `(cd $DEST && ls $sql_dir/*.sql)`; do
+	    scan_sql_file $DEST/$sql_file
+	    if [ $? -ne 0 ]; then
+		BAD_SQL_FILES="$BAD_SQL_FILES $sql_file"
+	    fi
+	done
+    fi
+done
+
+if [ "$BAD_SQL_FILES" != "" ]; then
+    echo "The following sql files has comments in them and should be fixed."
+    echo "`$SETCOLOR_DIR`$BAD_SQL_FILES`$SETCOLOR_NORMAL`"
+    read -p "Do want to fix this for the release? Yes/No [N]" FIX_SQL
+    if [ "$FIX_SQL" == "" ]; then
+	FIX_SQL="N"
+    fi
+    case "$FIX_SQL" in
+	Y|y|Yes|yes|YES)
+	    for bad_sql_file in $BAD_SQL_FILES; do
+		echo "Fixing $DEST/$bad_sql_file"
+ 		cleanup_sql_file $DEST/$bad_sql_file
+	    done
+	    ;;
+	*)
+	    echo "You will have to fix the sql files manually before creating the distribution."
+	    exit 1
+	    ;;
+    esac
+fi
+
+
 # cat index.php | sed 's/index.php/index_sdk.php/' > $DEST/index_sdk.php
 # cp -f index.php $DEST/index.php
 
@@ -247,6 +319,10 @@ if [ -f $DEST/bin/modfix.sh ]; then
     echo "Applying executable properties"
     (cd $DEST/bin
 	chmod a+x modfix.sh)
+fi
+
+if [ -d $DEST/kernel/sql/oracle ]; then
+    rm -rf $DEST/kernel/sql/oracle
 fi
 
 # Remove old archives
@@ -291,6 +367,6 @@ echo
 echo "Now remember to create releases with:"
 echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
 echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
-echo "And undeltify current version:"
-echo "`$SETCOLOR_WARNING`svnadmin undeltify `$SETCOLOR_SUCCESS`SVNREPOSITORY`$SETCOLOR_WARNING` `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_WARNING` `$SETCOLOR_NORMAL`"
-echo "where `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_NORMAL` is the revision number of the release."
+# echo "And undeltify current version:"
+# echo "`$SETCOLOR_WARNING`svnadmin undeltify `$SETCOLOR_SUCCESS`SVNREPOSITORY`$SETCOLOR_WARNING` `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_WARNING` `$SETCOLOR_NORMAL`"
+# echo "where `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_NORMAL` is the revision number of the release."

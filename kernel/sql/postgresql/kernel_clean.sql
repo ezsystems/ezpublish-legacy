@@ -1,27 +1,27 @@
---
--- Selected TOC Entries:
---
---
--- TOC Entry ID 2 (OID 673374)
---
--- Name: ezapprovetasks_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
+
+
+
 
 CREATE SEQUENCE "ezapprovetasks_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 4 (OID 673376)
---
--- Name: ezbasket_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezbasket_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 110 (OID 673378)
---
--- Name: ezbasket Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezbasket" (
 	"id" integer DEFAULT nextval('ezbasket_s'::text) NOT NULL,
@@ -30,11 +30,11 @@ CREATE TABLE "ezbasket" (
 	Constraint "ezbasket_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 111 (OID 673381)
---
--- Name: ezbinaryfile Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezbinaryfile" (
 	"contentobject_attribute_id" integer NOT NULL,
@@ -45,19 +45,19 @@ CREATE TABLE "ezbinaryfile" (
 	Constraint "ezbinaryfile_pkey" Primary Key ("contentobject_attribute_id", "version")
 );
 
---
--- TOC Entry ID 6 (OID 673384)
---
--- Name: ezcontentclass_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentclass_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 112 (OID 673386)
---
--- Name: ezcontentclass Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentclass" (
 	"id" integer DEFAULT nextval('ezcontentclass_s'::text) NOT NULL,
@@ -72,19 +72,19 @@ CREATE TABLE "ezcontentclass" (
 	Constraint "ezcontentclass_pkey" Primary Key ("id", "version")
 );
 
---
--- TOC Entry ID 8 (OID 673389)
---
--- Name: ezcontentclass_attribute_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentclass_attribute_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 113 (OID 673391)
---
--- Name: ezcontentclass_attribute Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentclass_attribute" (
 	"id" integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
@@ -112,11 +112,11 @@ CREATE TABLE "ezcontentclass_attribute" (
 	Constraint "ezcontentclass_attribute_pkey" Primary Key ("id", "version")
 );
 
---
--- TOC Entry ID 114 (OID 673394)
---
--- Name: ezcontentclass_classgroup Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentclass_classgroup" (
 	"contentclass_id" integer NOT NULL,
@@ -126,19 +126,19 @@ CREATE TABLE "ezcontentclass_classgroup" (
 	Constraint "ezcontentclass_classgroup_pkey" Primary Key ("contentclass_id", "contentclass_version", "group_id")
 );
 
---
--- TOC Entry ID 10 (OID 673397)
---
--- Name: ezcontentclassgroup_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentclassgroup_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 115 (OID 673399)
---
--- Name: ezcontentclassgroup Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentclassgroup" (
 	"id" integer DEFAULT nextval('ezcontentclassgroup_s'::text) NOT NULL,
@@ -150,19 +150,19 @@ CREATE TABLE "ezcontentclassgroup" (
 	Constraint "ezcontentclassgroup_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 12 (OID 673402)
---
--- Name: ezcontentobject_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentobject_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 116 (OID 673404)
---
--- Name: ezcontentobject Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject" (
 	"id" integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
@@ -179,19 +179,19 @@ CREATE TABLE "ezcontentobject" (
 	Constraint "ezcontentobject_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 14 (OID 673407)
---
--- Name: ezcontentobject_attribute_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentobject_attribute_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 117 (OID 673409)
---
--- Name: ezcontentobject_attribute Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject_attribute" (
 	"id" integer DEFAULT nextval('ezcontentobject_attribute_s'::text) NOT NULL,
@@ -205,19 +205,19 @@ CREATE TABLE "ezcontentobject_attribute" (
 	Constraint "ezcontentobject_attribute_pkey" Primary Key ("id", "version")
 );
 
---
--- TOC Entry ID 16 (OID 673415)
---
--- Name: ezcontentobject_link_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentobject_link_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 118 (OID 673417)
---
--- Name: ezcontentobject_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject_link" (
 	"id" integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
@@ -227,19 +227,19 @@ CREATE TABLE "ezcontentobject_link" (
 	Constraint "ezcontentobject_link_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 18 (OID 673420)
---
--- Name: ezcontentobject_tree_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentobject_tree_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 119 (OID 673422)
---
--- Name: ezcontentobject_tree Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject_tree" (
 	"node_id" integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
@@ -259,19 +259,19 @@ CREATE TABLE "ezcontentobject_tree" (
 	Constraint "ezcontentobject_tree_pkey" Primary Key ("node_id")
 );
 
---
--- TOC Entry ID 20 (OID 673428)
---
--- Name: ezcontentobject_version_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontentobject_version_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 120 (OID 673430)
---
--- Name: ezcontentobject_version Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject_version" (
 	"id" integer DEFAULT nextval('ezcontentobject_version_s'::text) NOT NULL,
@@ -287,11 +287,11 @@ CREATE TABLE "ezcontentobject_version" (
 	Constraint "ezcontentobject_version_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 121 (OID 673433)
---
--- Name: ezenumobjectvalue Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezenumobjectvalue" (
 	"contentobject_attribute_id" integer NOT NULL,
@@ -302,19 +302,19 @@ CREATE TABLE "ezenumobjectvalue" (
 	Constraint "ezenumobjectvalue_pkey" Primary Key ("contentobject_attribute_id", "contentobject_attribute_version", "enumid")
 );
 
---
--- TOC Entry ID 22 (OID 673436)
---
--- Name: ezenumvalue_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezenumvalue_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 122 (OID 673438)
---
--- Name: ezenumvalue Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezenumvalue" (
 	"id" integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
@@ -326,11 +326,11 @@ CREATE TABLE "ezenumvalue" (
 	Constraint "ezenumvalue_pkey" Primary Key ("id", "contentclass_attribute_id", "contentclass_attribute_version")
 );
 
---
--- TOC Entry ID 123 (OID 673441)
---
--- Name: ezimage Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezimage" (
 	"contentobject_attribute_id" integer NOT NULL,
@@ -342,11 +342,11 @@ CREATE TABLE "ezimage" (
 	Constraint "ezimage_pkey" Primary Key ("contentobject_attribute_id", "version")
 );
 
---
--- TOC Entry ID 124 (OID 673444)
---
--- Name: ezimagevariation Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezimagevariation" (
 	"contentobject_attribute_id" integer NOT NULL,
@@ -360,11 +360,11 @@ CREATE TABLE "ezimagevariation" (
 	Constraint "ezimagevariation_pkey" Primary Key ("contentobject_attribute_id", "version", "requested_width", "requested_height")
 );
 
---
--- TOC Entry ID 125 (OID 673447)
---
--- Name: ezmedia Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezmedia" (
 	"contentobject_attribute_id" integer NOT NULL,
@@ -383,19 +383,19 @@ CREATE TABLE "ezmedia" (
 	Constraint "ezmedia_pkey" Primary Key ("contentobject_attribute_id", "version")
 );
 
---
--- TOC Entry ID 24 (OID 673450)
---
--- Name: ezmodule_run_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezmodule_run_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 126 (OID 673452)
---
--- Name: ezmodule_run Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezmodule_run" (
 	"id" integer DEFAULT nextval('ezmodule_run_s'::text) NOT NULL,
@@ -406,19 +406,19 @@ CREATE TABLE "ezmodule_run" (
 	Constraint "ezmodule_run_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 26 (OID 673458)
---
--- Name: eznode_assignment_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "eznode_assignment_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 127 (OID 673460)
---
--- Name: eznode_assignment Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "eznode_assignment" (
 	"id" integer DEFAULT nextval('eznode_assignment_s'::text) NOT NULL,
@@ -433,19 +433,19 @@ CREATE TABLE "eznode_assignment" (
 	Constraint "eznode_assignment_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 28 (OID 673463)
---
--- Name: ezorder_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezorder_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 128 (OID 673465)
---
--- Name: ezorder Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezorder" (
 	"id" integer DEFAULT nextval('ezorder_s'::text) NOT NULL,
@@ -461,19 +461,19 @@ CREATE TABLE "ezorder" (
 	Constraint "ezorder_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 30 (OID 673471)
---
--- Name: ezpolicy_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezpolicy_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 129 (OID 673473)
---
--- Name: ezpolicy Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezpolicy" (
 	"id" integer DEFAULT nextval('ezpolicy_s'::text) NOT NULL,
@@ -484,19 +484,19 @@ CREATE TABLE "ezpolicy" (
 	Constraint "ezpolicy_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 32 (OID 673479)
---
--- Name: ezpolicy_limitation_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezpolicy_limitation_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 130 (OID 673481)
---
--- Name: ezpolicy_limitation Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezpolicy_limitation" (
 	"id" integer DEFAULT nextval('ezpolicy_limitation_s'::text) NOT NULL,
@@ -508,19 +508,19 @@ CREATE TABLE "ezpolicy_limitation" (
 	Constraint "ezpolicy_limitation_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 34 (OID 673487)
---
--- Name: ezpolicy_limitation_value_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezpolicy_limitation_value_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 131 (OID 673489)
---
--- Name: ezpolicy_limitation_value Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezpolicy_limitation_value" (
 	"id" integer DEFAULT nextval('ezpolicy_limitation_value_s'::text) NOT NULL,
@@ -529,19 +529,19 @@ CREATE TABLE "ezpolicy_limitation_value" (
 	Constraint "ezpolicy_limitation_value_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 36 (OID 673492)
---
--- Name: ezproductcollection_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezproductcollection_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 132 (OID 673494)
---
--- Name: ezproductcollection Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezproductcollection" (
 	"id" integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL,
@@ -549,19 +549,19 @@ CREATE TABLE "ezproductcollection" (
 	Constraint "ezproductcollection_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 38 (OID 673497)
---
--- Name: ezproductcollection_item_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezproductcollection_item_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 133 (OID 673499)
---
--- Name: ezproductcollection_item Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezproductcollection_item" (
 	"id" integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
@@ -575,19 +575,19 @@ CREATE TABLE "ezproductcollection_item" (
 	Constraint "ezproductcollection_item_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 40 (OID 673502)
---
--- Name: ezrole_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezrole_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 134 (OID 673504)
---
--- Name: ezrole Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezrole" (
 	"id" integer DEFAULT nextval('ezrole_s'::text) NOT NULL,
@@ -597,19 +597,19 @@ CREATE TABLE "ezrole" (
 	Constraint "ezrole_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 42 (OID 673510)
---
--- Name: ezsearch_object_word_link_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezsearch_object_word_link_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 135 (OID 673512)
---
--- Name: ezsearch_object_word_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsearch_object_word_link" (
 	"id" integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
@@ -626,19 +626,19 @@ CREATE TABLE "ezsearch_object_word_link" (
 	Constraint "ezsearch_object_word_link_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 44 (OID 673515)
---
--- Name: ezsearch_return_count_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezsearch_return_count_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 136 (OID 673517)
---
--- Name: ezsearch_return_count Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsearch_return_count" (
 	"id" integer DEFAULT nextval('ezsearch_return_count_s'::text) NOT NULL,
@@ -648,19 +648,19 @@ CREATE TABLE "ezsearch_return_count" (
 	Constraint "ezsearch_return_count_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 46 (OID 673520)
---
--- Name: ezsearch_search_phrase_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezsearch_search_phrase_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 137 (OID 673522)
---
--- Name: ezsearch_search_phrase Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsearch_search_phrase" (
 	"id" integer DEFAULT nextval('ezsearch_search_phrase_s'::text) NOT NULL,
@@ -668,19 +668,19 @@ CREATE TABLE "ezsearch_search_phrase" (
 	Constraint "ezsearch_search_phrase_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 48 (OID 673525)
---
--- Name: ezsearch_word_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezsearch_word_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 138 (OID 673527)
---
--- Name: ezsearch_word Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsearch_word" (
 	"id" integer DEFAULT nextval('ezsearch_word_s'::text) NOT NULL,
@@ -689,19 +689,19 @@ CREATE TABLE "ezsearch_word" (
 	Constraint "ezsearch_word_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 50 (OID 673530)
---
--- Name: ezsection_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezsection_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 139 (OID 673532)
---
--- Name: ezsection Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsection" (
 	"id" integer DEFAULT nextval('ezsection_s'::text) NOT NULL,
@@ -711,11 +711,11 @@ CREATE TABLE "ezsection" (
 	Constraint "ezsection_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 140 (OID 673535)
---
--- Name: ezsession Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezsession" (
 	"session_key" character(32) NOT NULL,
@@ -724,19 +724,19 @@ CREATE TABLE "ezsession" (
 	Constraint "ezsession_pkey" Primary Key ("session_key")
 );
 
---
--- TOC Entry ID 52 (OID 673541)
---
--- Name: eztrigger_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "eztrigger_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 141 (OID 673543)
---
--- Name: eztrigger Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "eztrigger" (
 	"id" integer DEFAULT nextval('eztrigger_s'::text),
@@ -747,11 +747,11 @@ CREATE TABLE "eztrigger" (
 	"workflow_id" integer
 );
 
---
--- TOC Entry ID 142 (OID 673545)
---
--- Name: ezuser Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezuser" (
 	"contentobject_id" integer NOT NULL,
@@ -761,19 +761,19 @@ CREATE TABLE "ezuser" (
 	"password_hash" character varying(50)
 );
 
---
--- TOC Entry ID 54 (OID 673547)
---
--- Name: ezuser_role_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezuser_role_s" start 26 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 143 (OID 673549)
---
--- Name: ezuser_role Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezuser_role" (
 	"id" integer DEFAULT nextval('ezuser_role_s'::text) NOT NULL,
@@ -782,11 +782,11 @@ CREATE TABLE "ezuser_role" (
 	Constraint "ezuser_role_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 144 (OID 673552)
---
--- Name: ezuser_setting Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezuser_setting" (
 	"user_id" integer DEFAULT '0' NOT NULL,
@@ -795,19 +795,19 @@ CREATE TABLE "ezuser_setting" (
 	Constraint "ezuser_setting_pkey" Primary Key ("user_id")
 );
 
---
--- TOC Entry ID 56 (OID 673555)
---
--- Name: ezwishlist_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezwishlist_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 145 (OID 673557)
---
--- Name: ezwishlist Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezwishlist" (
 	"id" integer DEFAULT nextval('ezwishlist_s'::text) NOT NULL,
@@ -816,19 +816,19 @@ CREATE TABLE "ezwishlist" (
 	Constraint "ezwishlist_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 58 (OID 673560)
---
--- Name: ezworkflow_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezworkflow_s" start 2 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 146 (OID 673562)
---
--- Name: ezworkflow Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow" (
 	"id" integer DEFAULT nextval('ezworkflow_s'::text) NOT NULL,
@@ -843,19 +843,19 @@ CREATE TABLE "ezworkflow" (
 	Constraint "ezworkflow_pkey" Primary Key ("id", "version")
 );
 
---
--- TOC Entry ID 60 (OID 673565)
---
--- Name: ezworkflow_assign_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezworkflow_assign_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 147 (OID 673567)
---
--- Name: ezworkflow_assign Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow_assign" (
 	"id" integer DEFAULT nextval('ezworkflow_assign_s'::text) NOT NULL,
@@ -866,19 +866,19 @@ CREATE TABLE "ezworkflow_assign" (
 	Constraint "ezworkflow_assign_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 62 (OID 673570)
---
--- Name: ezworkflow_event_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezworkflow_event_s" start 3 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 148 (OID 673572)
---
--- Name: ezworkflow_event Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow_event" (
 	"id" integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,
@@ -898,19 +898,19 @@ CREATE TABLE "ezworkflow_event" (
 	Constraint "ezworkflow_event_pkey" Primary Key ("id", "version")
 );
 
---
--- TOC Entry ID 64 (OID 673575)
---
--- Name: ezworkflow_group_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezworkflow_group_s" start 2 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 149 (OID 673577)
---
--- Name: ezworkflow_group Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow_group" (
 	"id" integer DEFAULT nextval('ezworkflow_group_s'::text) NOT NULL,
@@ -922,11 +922,11 @@ CREATE TABLE "ezworkflow_group" (
 	Constraint "ezworkflow_group_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 150 (OID 673580)
---
--- Name: ezworkflow_group_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow_group_link" (
 	"workflow_id" integer DEFAULT '0' NOT NULL,
@@ -936,19 +936,19 @@ CREATE TABLE "ezworkflow_group_link" (
 	Constraint "ezworkflow_group_link_pkey" Primary Key ("workflow_id", "group_id", "workflow_version")
 );
 
---
--- TOC Entry ID 66 (OID 673586)
---
--- Name: ezworkflow_process_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezworkflow_process_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 151 (OID 673588)
---
--- Name: ezworkflow_process Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezworkflow_process" (
 	"id" integer DEFAULT nextval('ezworkflow_process_s'::text) NOT NULL,
@@ -975,19 +975,19 @@ CREATE TABLE "ezworkflow_process" (
 	Constraint "ezworkflow_process_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 68 (OID 673594)
---
--- Name: ezoperation_memento_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezoperation_memento_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 152 (OID 673596)
---
--- Name: ezoperation_memento Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezoperation_memento" (
 	"id" integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
@@ -998,19 +998,19 @@ CREATE TABLE "ezoperation_memento" (
 	Constraint "ezoperation_memento_pkey" Primary Key ("id", "memento_key")
 );
 
---
--- TOC Entry ID 70 (OID 673602)
---
--- Name: ezdiscountsubrule_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezdiscountsubrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 153 (OID 673604)
---
--- Name: ezdiscountsubrule Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezdiscountsubrule" (
 	"id" integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
@@ -1021,11 +1021,11 @@ CREATE TABLE "ezdiscountsubrule" (
 	Constraint "ezdiscountsubrule_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 154 (OID 673607)
---
--- Name: ezdiscountsubrule_value Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezdiscountsubrule_value" (
 	"discountsubrule_id" integer DEFAULT '0' NOT NULL,
@@ -1034,19 +1034,19 @@ CREATE TABLE "ezdiscountsubrule_value" (
 	Constraint "ezdiscountsubrule_value_pkey" Primary Key ("discountsubrule_id", "value", "issection")
 );
 
---
--- TOC Entry ID 72 (OID 673610)
---
--- Name: ezinfocollection_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezinfocollection_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 155 (OID 673612)
---
--- Name: ezinfocollection Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezinfocollection" (
 	"id" integer DEFAULT nextval('ezinfocollection_s'::text) NOT NULL,
@@ -1055,19 +1055,19 @@ CREATE TABLE "ezinfocollection" (
 	Constraint "ezinfocollection_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 74 (OID 673615)
---
--- Name: ezinfocollection_attribute_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezinfocollection_attribute_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 156 (OID 673617)
---
--- Name: ezinfocollection_attribute Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezinfocollection_attribute" (
 	"id" integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
@@ -1079,19 +1079,19 @@ CREATE TABLE "ezinfocollection_attribute" (
 	Constraint "ezinfocollection_attribute_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 76 (OID 673623)
---
--- Name: ezuser_discountrule_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezuser_discountrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 157 (OID 673625)
---
--- Name: ezuser_discountrule Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezuser_discountrule" (
 	"id" integer DEFAULT nextval('ezuser_discountrule_s'::text) NOT NULL,
@@ -1101,19 +1101,19 @@ CREATE TABLE "ezuser_discountrule" (
 	Constraint "ezuser_discountrule_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 78 (OID 673628)
---
--- Name: ezvattype_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezvattype_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 158 (OID 673630)
---
--- Name: ezvattype Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezvattype" (
 	"id" integer DEFAULT nextval('ezvattype_s'::text) NOT NULL,
@@ -1122,19 +1122,19 @@ CREATE TABLE "ezvattype" (
 	Constraint "ezvattype_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 82 (OID 673641)
---
--- Name: ezdiscountrule_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezdiscountrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 161 (OID 673643)
---
--- Name: ezdiscountrule Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezdiscountrule" (
 	"id" integer DEFAULT nextval('ezdiscountrule_s'::text) NOT NULL,
@@ -1142,19 +1142,19 @@ CREATE TABLE "ezdiscountrule" (
 	Constraint "ezdiscountrule_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 84 (OID 673646)
---
--- Name: ezorder_item_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezorder_item_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 162 (OID 673648)
---
--- Name: ezorder_item Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezorder_item" (
 	"id" integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
@@ -1165,11 +1165,11 @@ CREATE TABLE "ezorder_item" (
 	Constraint "ezorder_item_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 163 (OID 673651)
---
--- Name: ezcontentobject_name Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontentobject_name" (
 	"contentobject_id" integer NOT NULL,
@@ -1180,19 +1180,19 @@ CREATE TABLE "ezcontentobject_name" (
 	Constraint "ezcontentobject_name_pkey" Primary Key ("contentobject_id", "content_version", "content_translation")
 );
 
---
--- TOC Entry ID 86 (OID 673654)
---
--- Name: ezwaituntildatevalue_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezwaituntildatevalue_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 164 (OID 673656)
---
--- Name: ezwaituntildatevalue Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezwaituntildatevalue" (
 	"id" integer DEFAULT nextval('ezwaituntildatevalue_s'::text) NOT NULL,
@@ -1203,19 +1203,19 @@ CREATE TABLE "ezwaituntildatevalue" (
 	Constraint "ezwaituntildatevalue_pkey" Primary Key ("id", "workflow_event_id", "workflow_event_version")
 );
 
---
--- TOC Entry ID 88 (OID 673659)
---
--- Name: ezcontent_translation_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcontent_translation_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 165 (OID 673661)
---
--- Name: ezcontent_translation Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcontent_translation" (
 	"id" integer DEFAULT nextval('ezcontent_translation_s'::text) NOT NULL,
@@ -1224,19 +1224,19 @@ CREATE TABLE "ezcontent_translation" (
 	Constraint "ezcontent_translation_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 90 (OID 673664)
---
--- Name: ezcollab_item_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcollab_item_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 166 (OID 673666)
---
--- Name: ezcollab_item Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_item" (
 	"id" integer DEFAULT nextval('ezcollab_item_s'::text) NOT NULL,
@@ -1257,19 +1257,19 @@ CREATE TABLE "ezcollab_item" (
 	Constraint "ezcollab_item_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 92 (OID 673672)
---
--- Name: ezcollab_group_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcollab_group_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 167 (OID 673674)
---
--- Name: ezcollab_group Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_group" (
 	"id" integer DEFAULT nextval('ezcollab_group_s'::text) NOT NULL,
@@ -1285,11 +1285,11 @@ CREATE TABLE "ezcollab_group" (
 	Constraint "ezcollab_group_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 168 (OID 673677)
---
--- Name: ezcollab_item_group_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_item_group_link" (
 	"collaboration_id" integer DEFAULT '0' NOT NULL,
@@ -1303,11 +1303,11 @@ CREATE TABLE "ezcollab_item_group_link" (
 	Constraint "ezcollab_item_group_link_pkey" Primary Key ("collaboration_id", "group_id", "user_id")
 );
 
---
--- TOC Entry ID 169 (OID 673680)
---
--- Name: ezcollab_item_status Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_item_status" (
 	"collaboration_id" integer DEFAULT '0' NOT NULL,
@@ -1318,11 +1318,11 @@ CREATE TABLE "ezcollab_item_status" (
 	Constraint "ezcollab_item_status_pkey" Primary Key ("collaboration_id", "user_id")
 );
 
---
--- TOC Entry ID 170 (OID 673683)
---
--- Name: ezcollab_item_participant_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_item_participant_link" (
 	"collaboration_id" integer DEFAULT '0' NOT NULL,
@@ -1337,19 +1337,19 @@ CREATE TABLE "ezcollab_item_participant_link" (
 	Constraint "ezcollab_item_participant_link_pkey" Primary Key ("collaboration_id", "participant_id")
 );
 
---
--- TOC Entry ID 94 (OID 673686)
---
--- Name: ezcollab_item_message_link_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcollab_item_message_link_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 171 (OID 673688)
---
--- Name: ezcollab_item_message_link Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_item_message_link" (
 	"id" integer DEFAULT nextval('ezcollab_item_message_link_s'::text) NOT NULL,
@@ -1362,19 +1362,19 @@ CREATE TABLE "ezcollab_item_message_link" (
 	Constraint "ezcollab_item_message_link_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 96 (OID 673691)
---
--- Name: ezcollab_simple_message_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcollab_simple_message_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 172 (OID 673693)
---
--- Name: ezcollab_simple_message Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_simple_message" (
 	"id" integer DEFAULT nextval('ezcollab_simple_message_s'::text) NOT NULL,
@@ -1394,19 +1394,19 @@ CREATE TABLE "ezcollab_simple_message" (
 	Constraint "ezcollab_simple_message_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 98 (OID 673699)
---
--- Name: ezcollab_profile_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezcollab_profile_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 173 (OID 673701)
---
--- Name: ezcollab_profile Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezcollab_profile" (
 	"id" integer DEFAULT nextval('ezcollab_profile_s'::text) NOT NULL,
@@ -1418,19 +1418,19 @@ CREATE TABLE "ezcollab_profile" (
 	Constraint "ezcollab_profile_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 100 (OID 673707)
---
--- Name: ezapprove_items_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezapprove_items_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 174 (OID 673709)
---
--- Name: ezapprove_items Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezapprove_items" (
 	"id" integer DEFAULT nextval('ezapprove_items_s'::text) NOT NULL,
@@ -1439,19 +1439,19 @@ CREATE TABLE "ezapprove_items" (
 	Constraint "ezapprove_items_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 102 (OID 673712)
---
--- Name: ezurl_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezurl_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 175 (OID 673714)
---
--- Name: ezurl Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezurl" (
 	"id" integer DEFAULT nextval('ezurl_s'::text) NOT NULL,
@@ -1464,19 +1464,19 @@ CREATE TABLE "ezurl" (
 	Constraint "ezurl_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 104 (OID 673717)
---
--- Name: ezmessage_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezmessage_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 176 (OID 673719)
---
--- Name: ezmessage Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezmessage" (
 	"id" integer DEFAULT nextval('ezmessage_s'::text) NOT NULL,
@@ -1490,19 +1490,19 @@ CREATE TABLE "ezmessage" (
 	Constraint "ezmessage_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 106 (OID 673722)
---
--- Name: ezproductcollection_item_opt_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezproductcollection_item_opt_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 177 (OID 673724)
---
--- Name: ezproductcollection_item_opt Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezproductcollection_item_opt" (
 	"id" integer DEFAULT nextval('ezproductcollection_item_opt_s'::text) NOT NULL,
@@ -1515,19 +1515,19 @@ CREATE TABLE "ezproductcollection_item_opt" (
 	Constraint "ezproductcollection_item_opt_pkey" Primary Key ("id")
 );
 
---
--- TOC Entry ID 108 (OID 673727)
---
--- Name: ezforgot_password_s Type: SEQUENCE Owner: sp
---
+
+
+
+
+
 
 CREATE SEQUENCE "ezforgot_password_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
---
--- TOC Entry ID 178 (OID 673729)
---
--- Name: ezforgot_password Type: TABLE Owner: sp
---
+
+
+
+
+
 
 CREATE TABLE "ezforgot_password" (
 	"id" integer DEFAULT nextval('ezforgot_password_s'::text) NOT NULL,
@@ -1537,25 +1537,25 @@ CREATE TABLE "ezforgot_password" (
 	Constraint "ezforgot_password_pkey" Primary Key ("id")
 );
 
---
--- Data for TOC Entry ID 203 (OID 673378)
---
--- Name: ezbasket Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 204 (OID 673381)
---
--- Name: ezbinaryfile Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 205 (OID 673386)
---
--- Name: ezcontentclass Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezcontentclass" ("id","version","name","identifier","contentobject_name","creator_id","modifier_id","created","modified") VALUES (3,0,'User group','user_group','<name>',-1,14,1024392098,1033922064);
@@ -1563,11 +1563,11 @@ INSERT INTO "ezcontentclass" ("id","version","name","identifier","contentobject_
 INSERT INTO "ezcontentclass" ("id","version","name","identifier","contentobject_name","creator_id","modifier_id","created","modified") VALUES (1,0,'Folder','folder','<name>',-1,14,1024392098,1048520596);
 INSERT INTO "ezcontentclass" ("id","version","name","identifier","contentobject_name","creator_id","modifier_id","created","modified") VALUES (2,0,'Article','article','<title>',-1,14,1024392098,1048520632);
 INSERT INTO "ezcontentclass" ("id","version","name","identifier","contentobject_name","creator_id","modifier_id","created","modified") VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048520714);
---
--- Data for TOC Entry ID 206 (OID 673391)
---
--- Name: ezcontentclass_attribute Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentclass_attribute" ("id","version","contentclass_id","identifier","name","data_type_string","placement","is_searchable","is_required","data_int1","data_int2","data_int3","data_int4","data_float1","data_float2","data_float3","data_float4","data_text1","data_text2","data_text3","data_text4","is_information_collector") VALUES (7,0,3,'description','Description','ezstring',2,1,0,255,0,0,0,0,0,0,0,'','','','',0);
@@ -1585,11 +1585,11 @@ INSERT INTO "ezcontentclass_attribute" ("id","version","contentclass_id","identi
 INSERT INTO "ezcontentclass_attribute" ("id","version","contentclass_id","identifier","name","data_type_string","placement","is_searchable","is_required","data_int1","data_int2","data_int3","data_int4","data_float1","data_float2","data_float3","data_float4","data_text1","data_text2","data_text3","data_text4","is_information_collector") VALUES (116,0,5,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO "ezcontentclass_attribute" ("id","version","contentclass_id","identifier","name","data_type_string","placement","is_searchable","is_required","data_int1","data_int2","data_int3","data_int4","data_float1","data_float2","data_float3","data_float4","data_text1","data_text2","data_text3","data_text4","is_information_collector") VALUES (117,0,5,'caption','Caption','ezxmltext',2,1,0,10,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO "ezcontentclass_attribute" ("id","version","contentclass_id","identifier","name","data_type_string","placement","is_searchable","is_required","data_int1","data_int2","data_int3","data_int4","data_float1","data_float2","data_float3","data_float4","data_text1","data_text2","data_text3","data_text4","is_information_collector") VALUES (118,0,5,'image','Image','ezimage',3,0,0,2,0,0,0,0,0,0,0,'','','','',0);
---
--- Data for TOC Entry ID 207 (OID 673394)
---
--- Name: ezcontentclass_classgroup Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentclass_classgroup" ("contentclass_id","contentclass_version","group_id","group_name") VALUES (4,0,2,'Content');
@@ -1597,21 +1597,21 @@ INSERT INTO "ezcontentclass_classgroup" ("contentclass_id","contentclass_version
 INSERT INTO "ezcontentclass_classgroup" ("contentclass_id","contentclass_version","group_id","group_name") VALUES (1,0,1,'Content');
 INSERT INTO "ezcontentclass_classgroup" ("contentclass_id","contentclass_version","group_id","group_name") VALUES (2,0,1,'Content');
 INSERT INTO "ezcontentclass_classgroup" ("contentclass_id","contentclass_version","group_id","group_name") VALUES (5,0,3,'Media');
---
--- Data for TOC Entry ID 208 (OID 673399)
---
--- Name: ezcontentclassgroup Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentclassgroup" ("id","name","creator_id","modifier_id","created","modified") VALUES (1,'Content',1,14,1031216928,1033922106);
 INSERT INTO "ezcontentclassgroup" ("id","name","creator_id","modifier_id","created","modified") VALUES (2,'Users',1,14,1031216941,1033922113);
 INSERT INTO "ezcontentclassgroup" ("id","name","creator_id","modifier_id","created","modified") VALUES (3,'Media',8,14,1032009743,1033922120);
---
--- Data for TOC Entry ID 209 (OID 673404)
---
--- Name: ezcontentobject Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","name","current_version","is_published","published","modified","status","remote_id") VALUES (1,0,1,1,'Frontpage',1,0,1033917596,1033917596,1,'');
@@ -1621,11 +1621,11 @@ INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","n
 INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","name","current_version","is_published","published","modified","status","remote_id") VALUES (12,8,2,3,'Administrator users',1,0,1033920775,1033920775,1,'');
 INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","name","current_version","is_published","published","modified","status","remote_id") VALUES (13,8,2,3,'Editors',1,0,1033920794,1033920794,1,'');
 INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","name","current_version","is_published","published","modified","status","remote_id") VALUES (14,8,2,4,'Administrator User',1,0,1033920830,1033920830,1,'');
---
--- Data for TOC Entry ID 210 (OID 673409)
---
--- Name: ezcontentobject_attribute Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (1,'eng-GB',1,1,4,'Frontpage',0,0);
@@ -1644,18 +1644,18 @@ INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","content
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (28,'eng-GB',1,14,8,'Administrator',0,0);
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (29,'eng-GB',1,14,9,'User',0,0);
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (30,'eng-GB',1,14,12,'',0,0);
---
--- Data for TOC Entry ID 211 (OID 673417)
---
--- Name: ezcontentobject_link Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 212 (OID 673422)
---
--- Name: ezcontentobject_tree Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezcontentobject_tree" ("node_id","main_node_id","parent_node_id","contentobject_id","contentobject_version","contentobject_is_published","crc32_path","depth","path_string","path_identification_string","sort_field","sort_order","priority","md5_path") VALUES (1,1,1,0,1,1,NULL,0,'/1/',NULL,1,1,0,NULL);
@@ -1666,11 +1666,11 @@ INSERT INTO "ezcontentobject_tree" ("node_id","main_node_id","parent_node_id","c
 INSERT INTO "ezcontentobject_tree" ("node_id","main_node_id","parent_node_id","contentobject_id","contentobject_version","contentobject_is_published","crc32_path","depth","path_string","path_identification_string","sort_field","sort_order","priority","md5_path") VALUES (13,13,5,12,1,1,-1978139175,2,'/1/5/13/','__1/administrator_users',1,1,0,'caeccbc33185f04d92e2b6cb83b1c7e4');
 INSERT INTO "ezcontentobject_tree" ("node_id","main_node_id","parent_node_id","contentobject_id","contentobject_version","contentobject_is_published","crc32_path","depth","path_string","path_identification_string","sort_field","sort_order","priority","md5_path") VALUES (15,15,13,14,1,1,-852704961,3,'/1/5/13/15/','__1/administrator_users/administrator_user',1,1,0,'2c3f2814cfa91bcb17d7893ca6f8a0c4');
 INSERT INTO "ezcontentobject_tree" ("node_id","main_node_id","parent_node_id","contentobject_id","contentobject_version","contentobject_is_published","crc32_path","depth","path_string","path_identification_string","sort_field","sort_order","priority","md5_path") VALUES (14,14,5,13,1,1,2094553782,2,'/1/5/14/','__1/editors',1,1,0,'39f6f6f51c1e3a922600b2d415d7a46d');
---
--- Data for TOC Entry ID 213 (OID 673430)
---
--- Name: ezcontentobject_version Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezcontentobject_version" ("id","contentobject_id","creator_id","version","created","modified","status","workflow_event_pos","user_id","main_node_id") VALUES (436,1,8,1,1033919080,1033919080,1,1,0,NULL);
@@ -1680,53 +1680,53 @@ INSERT INTO "ezcontentobject_version" ("id","contentobject_id","creator_id","ver
 INSERT INTO "ezcontentobject_version" ("id","contentobject_id","creator_id","version","created","modified","status","workflow_event_pos","user_id","main_node_id") VALUES (440,12,8,1,1033920760,1033920775,0,0,0,NULL);
 INSERT INTO "ezcontentobject_version" ("id","contentobject_id","creator_id","version","created","modified","status","workflow_event_pos","user_id","main_node_id") VALUES (441,13,8,1,1033920786,1033920794,0,0,0,NULL);
 INSERT INTO "ezcontentobject_version" ("id","contentobject_id","creator_id","version","created","modified","status","workflow_event_pos","user_id","main_node_id") VALUES (442,14,8,1,1033920808,1033920830,0,0,0,NULL);
---
--- Data for TOC Entry ID 214 (OID 673433)
---
--- Name: ezenumobjectvalue Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 215 (OID 673438)
---
--- Name: ezenumvalue Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 216 (OID 673441)
---
--- Name: ezimage Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 217 (OID 673444)
---
--- Name: ezimagevariation Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 218 (OID 673447)
---
--- Name: ezmedia Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 219 (OID 673452)
---
--- Name: ezmodule_run Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 220 (OID 673460)
---
--- Name: eznode_assignment Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "eznode_assignment" ("id","contentobject_id","contentobject_version","parent_node","is_main","sort_field","sort_order","from_node_id","remote_id") VALUES (2,1,1,1,1,1,1,0,NULL);
@@ -1737,18 +1737,18 @@ INSERT INTO "eznode_assignment" ("id","contentobject_id","contentobject_version"
 INSERT INTO "eznode_assignment" ("id","contentobject_id","contentobject_version","parent_node","is_main","sort_field","sort_order","from_node_id","remote_id") VALUES (151,12,1,5,1,1,1,0,NULL);
 INSERT INTO "eznode_assignment" ("id","contentobject_id","contentobject_version","parent_node","is_main","sort_field","sort_order","from_node_id","remote_id") VALUES (152,13,1,5,1,1,1,0,NULL);
 INSERT INTO "eznode_assignment" ("id","contentobject_id","contentobject_version","parent_node","is_main","sort_field","sort_order","from_node_id","remote_id") VALUES (153,14,1,13,1,1,1,0,NULL);
---
--- Data for TOC Entry ID 221 (OID 673465)
---
--- Name: ezorder Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 222 (OID 673473)
---
--- Name: ezpolicy Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezpolicy" ("id","role_id","function_name","module_name","limitation") VALUES (308,2,'*','*','*');
@@ -1756,248 +1756,248 @@ INSERT INTO "ezpolicy" ("id","role_id","function_name","module_name","limitation
 INSERT INTO "ezpolicy" ("id","role_id","function_name","module_name","limitation") VALUES (316,1,'login','user','*');
 INSERT INTO "ezpolicy" ("id","role_id","function_name","module_name","limitation") VALUES (317,3,'*','content','*');
 INSERT INTO "ezpolicy" ("id","role_id","function_name","module_name","limitation") VALUES (318,3,'login','user','*');
---
--- Data for TOC Entry ID 223 (OID 673481)
---
--- Name: ezpolicy_limitation Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezpolicy_limitation" ("id","policy_id","identifier","role_id","function_name","module_name") VALUES (245,315,'Class',0,'read','content');
---
--- Data for TOC Entry ID 224 (OID 673489)
---
--- Name: ezpolicy_limitation_value Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezpolicy_limitation_value" ("id","limitation_id","value") VALUES (409,245,1);
 INSERT INTO "ezpolicy_limitation_value" ("id","limitation_id","value") VALUES (410,245,7);
---
--- Data for TOC Entry ID 225 (OID 673494)
---
--- Name: ezproductcollection Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 226 (OID 673499)
---
--- Name: ezproductcollection_item Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 227 (OID 673504)
---
--- Name: ezrole Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezrole" ("id","version","name","value") VALUES (2,0,'Administrator','*');
 INSERT INTO "ezrole" ("id","version","name","value") VALUES (1,0,'Anonymous',' ');
 INSERT INTO "ezrole" ("id","version","name","value") VALUES (3,0,'Editor',' ');
---
--- Data for TOC Entry ID 228 (OID 673512)
---
--- Name: ezsearch_object_word_link Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 229 (OID 673517)
---
--- Name: ezsearch_return_count Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 230 (OID 673522)
---
--- Name: ezsearch_search_phrase Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 231 (OID 673527)
---
--- Name: ezsearch_word Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 232 (OID 673532)
---
--- Name: ezsection Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezsection" ("id","name","locale","navigation_part_identifier") VALUES (1,'Standard section','nor-NO','ezcontentnavigationpart');
 INSERT INTO "ezsection" ("id","name","locale","navigation_part_identifier") VALUES (2,'Users section','','ezusernavigationpart');
---
--- Data for TOC Entry ID 233 (OID 673535)
---
--- Name: ezsession Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezsession" ("session_key","expiration_time","data") VALUES ('7a244467fd70e3ec35bb977be0b1dc6a',1048773857,'LastAccessesURI|s:20:"/workflow/grouplist/";eZUserInfoCache_Timestamp|i:1048514591;eZUserInfoCache_10|a:5:{s:16:"contentobject_id";s:2:"10";s:5:"login";s:9:"anonymous";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"4e6f6184135228ccd45f8233d72a0363";s:18:"password_hash_type";s:1:"2";}eZUserGroupsCache_Timestamp|i:1048514591;eZUserGroupsCache_10|a:1:{i:0;a:2:{i:0;s:1:"4";s:2:"id";s:1:"4";}}PermissionCachedForUserID|s:2:"14";PermissionCachedForUserIDTimestamp|i:1048514591;UserRoles|a:1:{i:0;a:4:{i:0;s:1:"2";s:2:"id";s:1:"2";i:1;s:13:"Administrator";s:4:"name";s:13:"Administrator";}}canInstantiateClassesCachedForUser|s:2:"14";classesCachedTimestamp|i:1048514624;canInstantiateClasses|i:1;eZUserLoggedInID|s:2:"14";eZUserInfoCache_14|a:5:{s:16:"contentobject_id";s:2:"14";s:5:"login";s:5:"admin";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"c78e3b0f3d9244ed8c6d1c29464bdff9";s:18:"password_hash_type";s:1:"2";}eZUserGroupsCache_14|a:1:{i:0;a:2:{i:0;s:2:"12";s:2:"id";s:2:"12";}}UserPolicies|a:1:{i:2;a:1:{i:0;a:5:{s:2:"id";s:3:"308";s:7:"role_id";s:1:"2";s:11:"module_name";s:1:"*";s:13:"function_name";s:1:"*";s:10:"limitation";s:1:"*";}}}BrowseFromPage|s:18:"/section/assign/2/";BrowseActionName|s:13:"AssignSection";BrowseReturnType|s:6:"NodeID";CustomActionButton|N;BrowseSelectionType|N;canInstantiateClassList|a:5:{i:0;a:4:{i:0;s:1:"1";s:2:"id";s:1:"1";i:1;s:6:"Folder";s:4:"name";s:6:"Folder";}i:1;a:4:{i:0;s:1:"2";s:2:"id";s:1:"2";i:1;s:7:"Article";s:4:"name";s:7:"Article";}i:2;a:4:{i:0;s:1:"3";s:2:"id";s:1:"3";i:1;s:10:"User group";s:4:"name";s:10:"User group";}i:3;a:4:{i:0;s:1:"4";s:2:"id";s:1:"4";i:1;s:4:"User";s:4:"name";s:4:"User";}i:4;a:4:{i:0;s:1:"5";s:2:"id";s:1:"5";i:1;s:5:"Image";s:4:"name";s:5:"Image";}}eZUserDiscountRulesTimestamp|i:1048514636;eZUserDiscountRules14|a:0:{}eZGlobalSection|a:1:{s:2:"id";s:1:"2";}');
 INSERT INTO "ezsession" ("session_key","expiration_time","data") VALUES ('74791676e2ee2281d335a9aac6d8c752',1048779918,'LastAccessesURI|s:19:"/class/classlist/3/";eZUserInfoCache_10|a:5:{s:16:"contentobject_id";s:2:"10";s:5:"login";s:9:"anonymous";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"4e6f6184135228ccd45f8233d72a0363";s:18:"password_hash_type";s:1:"2";}eZUserInfoCache_Timestamp|i:1048520517;!eZUserGroupsCache_10|eZUserGroupsCache_Timestamp|i:1048520517;UserRoles|a:1:{i:0;a:4:{i:0;s:1:"2";s:2:"id";s:1:"2";i:1;s:13:"Administrator";s:4:"name";s:13:"Administrator";}}PermissionCachedForUserID|s:2:"14";PermissionCachedForUserIDTimestamp|i:1048520517;!eZUserDiscountRules10|eZUserDiscountRulesTimestamp|i:1048520517;eZGlobalSection|a:1:{s:2:"id";s:1:"1";}canInstantiateClassesCachedForUser|s:2:"14";canInstantiateClasses|i:1;eZUserLoggedInID|s:2:"14";eZUserInfoCache_14|a:5:{s:16:"contentobject_id";s:2:"14";s:5:"login";s:5:"admin";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"c78e3b0f3d9244ed8c6d1c29464bdff9";s:18:"password_hash_type";s:1:"2";}eZUserGroupsCache_14|a:1:{i:0;a:2:{i:0;s:2:"12";s:2:"id";s:2:"12";}}eZUserDiscountRules14|a:0:{}classesCachedForUser|s:2:"14";classesCachedTimestamp|i:1048520517;canInstantiateClassList|a:5:{i:0;a:4:{i:0;s:1:"1";s:2:"id";s:1:"1";i:1;s:6:"Folder";s:4:"name";s:6:"Folder";}i:1;a:4:{i:0;s:1:"2";s:2:"id";s:1:"2";i:1;s:7:"Article";s:4:"name";s:7:"Article";}i:2;a:4:{i:0;s:1:"3";s:2:"id";s:1:"3";i:1;s:10:"User group";s:4:"name";s:10:"User group";}i:3;a:4:{i:0;s:1:"4";s:2:"id";s:1:"4";i:1;s:4:"User";s:4:"name";s:4:"User";}i:4;a:4:{i:0;s:1:"5";s:2:"id";s:1:"5";i:1;s:5:"Image";s:4:"name";s:5:"Image";}}UserPolicies|a:1:{i:2;a:1:{i:0;a:5:{s:2:"id";s:3:"308";s:7:"role_id";s:1:"2";s:11:"module_name";s:1:"*";s:13:"function_name";s:1:"*";s:10:"limitation";s:1:"*";}}}FromGroupID|s:1:"3";');
---
--- Data for TOC Entry ID 234 (OID 673543)
---
--- Name: eztrigger Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 235 (OID 673545)
---
--- Name: ezuser Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezuser" ("contentobject_id","login","email","password_hash_type","password_hash") VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
 INSERT INTO "ezuser" ("contentobject_id","login","email","password_hash_type","password_hash") VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
---
--- Data for TOC Entry ID 236 (OID 673549)
---
--- Name: ezuser_role Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezuser_role" ("id","role_id","contentobject_id") VALUES (24,1,4);
 INSERT INTO "ezuser_role" ("id","role_id","contentobject_id") VALUES (25,2,12);
---
--- Data for TOC Entry ID 237 (OID 673552)
---
--- Name: ezuser_setting Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezuser_setting" ("user_id","is_enabled","max_login") VALUES (10,1,1000);
 INSERT INTO "ezuser_setting" ("user_id","is_enabled","max_login") VALUES (14,1,10);
---
--- Data for TOC Entry ID 238 (OID 673557)
---
--- Name: ezwishlist Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 239 (OID 673562)
---
--- Name: ezworkflow Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezworkflow" ("id","version","workflow_type_string","name","creator_id","modifier_id","created","modified","is_enabled") VALUES (1,0,'group_ezserial','Sp''s forkflow',8,24,1031927869,1032856662,0);
---
--- Data for TOC Entry ID 240 (OID 673567)
---
--- Name: ezworkflow_assign Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 241 (OID 673572)
---
--- Name: ezworkflow_event Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezworkflow_event" ("id","version","workflow_id","workflow_type_string","description","data_int1","data_int2","data_int3","data_int4","data_text1","data_text2","data_text3","data_text4","placement") VALUES (18,0,1,'event_ezapprove','3333333333',0,0,0,0,'','','','',1);
 INSERT INTO "ezworkflow_event" ("id","version","workflow_id","workflow_type_string","description","data_int1","data_int2","data_int3","data_int4","data_text1","data_text2","data_text3","data_text4","placement") VALUES (20,0,1,'event_ezmessage','foooooo',0,0,0,0,'eeeeeeeeeeeeeeeeee','','','',2);
---
--- Data for TOC Entry ID 242 (OID 673577)
---
--- Name: ezworkflow_group Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezworkflow_group" ("id","name","creator_id","modifier_id","created","modified") VALUES (1,'Standard',-1,-1,1024392098,1024392098);
---
--- Data for TOC Entry ID 243 (OID 673580)
---
--- Name: ezworkflow_group_link Type: TABLE DATA Owner: sp
---
+
+
+
+
+
 
 
 INSERT INTO "ezworkflow_group_link" ("workflow_id","group_id","workflow_version","group_name") VALUES (1,1,0,'Standard');
---
--- Data for TOC Entry ID 244 (OID 673588)
---
--- Name: ezworkflow_process Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 245 (OID 673596)
---
--- Name: ezoperation_memento Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 246 (OID 673604)
---
--- Name: ezdiscountsubrule Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 247 (OID 673607)
---
--- Name: ezdiscountsubrule_value Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 248 (OID 673612)
---
--- Name: ezinfocollection Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 249 (OID 673617)
---
--- Name: ezinfocollection_attribute Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 250 (OID 673625)
---
--- Name: ezuser_discountrule Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 251 (OID 673630)
---
--- Name: ezvattype Type: TABLE DATA Owner: sp
---
-
---
--- Data for TOC Entry ID 254 (OID 673643)
---
--- Name: ezdiscountrule Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 255 (OID 673648)
---
--- Name: ezorder_item Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 256 (OID 673651)
---
--- Name: ezcontentobject_name Type: TABLE DATA Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO "ezcontentobject_name" ("contentobject_id","name","content_version","content_translation","real_translation") VALUES (1,'Frontpage',1,'eng-GB','eng-GB');
@@ -2014,724 +2014,724 @@ INSERT INTO "ezcontentobject_name" ("contentobject_id","name","content_version",
 INSERT INTO "ezcontentobject_name" ("contentobject_id","name","content_version","content_translation","real_translation") VALUES (12,'Administrator users',1,'nor-NO','eng-GB');
 INSERT INTO "ezcontentobject_name" ("contentobject_id","name","content_version","content_translation","real_translation") VALUES (13,'Editors',1,'nor-NO','eng-GB');
 INSERT INTO "ezcontentobject_name" ("contentobject_id","name","content_version","content_translation","real_translation") VALUES (14,'Administrator User',1,'nor-NO','eng-GB');
---
--- Data for TOC Entry ID 257 (OID 673656)
---
--- Name: ezwaituntildatevalue Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 258 (OID 673661)
---
--- Name: ezcontent_translation Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 259 (OID 673666)
---
--- Name: ezcollab_item Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 260 (OID 673674)
---
--- Name: ezcollab_group Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 261 (OID 673677)
---
--- Name: ezcollab_item_group_link Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 262 (OID 673680)
---
--- Name: ezcollab_item_status Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 263 (OID 673683)
---
--- Name: ezcollab_item_participant_link Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 264 (OID 673688)
---
--- Name: ezcollab_item_message_link Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 265 (OID 673693)
---
--- Name: ezcollab_simple_message Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 266 (OID 673701)
---
--- Name: ezcollab_profile Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 267 (OID 673709)
---
--- Name: ezapprove_items Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 268 (OID 673714)
---
--- Name: ezurl Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 269 (OID 673719)
---
--- Name: ezmessage Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 270 (OID 673724)
---
--- Name: ezproductcollection_item_opt Type: TABLE DATA Owner: sp
---
 
 
---
--- Data for TOC Entry ID 271 (OID 673729)
---
--- Name: ezforgot_password Type: TABLE DATA Owner: sp
---
 
 
---
--- TOC Entry ID 179 (OID 673845)
---
--- Name: "ezcontentclass_id" Type: INDEX Owner: sp
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE INDEX ezcontentclass_id ON ezcontentclass USING btree (id);
 
---
--- TOC Entry ID 180 (OID 673846)
---
--- Name: "ezcontentobject_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE UNIQUE INDEX ezcontentobject_id ON ezcontentobject USING btree (id);
 
---
--- TOC Entry ID 181 (OID 673847)
---
--- Name: "ezsearch_object_word_link_word" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING btree (word_id);
 
---
--- TOC Entry ID 182 (OID 673848)
---
--- Name: "ezsearch_object_word_link_freq" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezsearch_object_word_link_freq ON ezsearch_object_word_link USING btree (frequency);
 
---
--- TOC Entry ID 183 (OID 673849)
---
--- Name: "ezsearch_word_i" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezsearch_word_i ON ezsearch_word USING btree (word);
 
---
--- TOC Entry ID 184 (OID 673850)
---
--- Name: "ezcontentobject_tree_path" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_tree_path ON ezcontentobject_tree USING btree (path_string);
 
---
--- TOC Entry ID 185 (OID 673851)
---
--- Name: "ezcontentobject_tree_p_node_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_tree_p_node_id ON ezcontentobject_tree USING btree (parent_node_id);
 
---
--- TOC Entry ID 186 (OID 673852)
---
--- Name: "ezcontentobject_tree_co_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_tree_co_id ON ezcontentobject_tree USING btree (contentobject_id);
 
---
--- TOC Entry ID 187 (OID 673853)
---
--- Name: "ezcontentobject_tree_depth" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_tree_depth ON ezcontentobject_tree USING btree (depth);
 
---
--- TOC Entry ID 188 (OID 673854)
---
--- Name: "eztrigger_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE UNIQUE INDEX eztrigger_id ON eztrigger USING btree (id);
 
---
--- TOC Entry ID 189 (OID 673855)
---
--- Name: "eztrigger_fetch" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX eztrigger_fetch ON eztrigger USING btree (module_name, function_name, connect_type);
 
---
--- TOC Entry ID 190 (OID 673856)
---
--- Name: "ezmodule_run_workflow_process_id_s" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btree (workflow_process_id);
 
---
--- TOC Entry ID 191 (OID 673857)
---
--- Name: "ezcontentobject_tree_crc32_path" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_tree_crc32_path ON ezcontentobject_tree USING btree (crc32_path);
 
---
--- TOC Entry ID 192 (OID 673858)
---
--- Name: "ezcontentobject_tree_md5_path" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE UNIQUE INDEX ezcontentobject_tree_md5_path ON ezcontentobject_tree USING btree (md5_path);
 
---
--- TOC Entry ID 193 (OID 673859)
---
--- Name: "ezuser_contentobject_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE UNIQUE INDEX ezuser_contentobject_id ON ezuser USING btree (contentobject_id);
 
---
--- TOC Entry ID 194 (OID 673860)
---
--- Name: "ezuser_role_contentobject_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezuser_role_contentobject_id ON ezuser_role USING btree (contentobject_id);
 
---
--- TOC Entry ID 195 (OID 673861)
---
--- Name: "ezcontentobject_attribute_contentobject_id" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_attribute_contentobject_id ON ezcontentobject_attribute USING btree (contentobject_id);
 
---
--- TOC Entry ID 196 (OID 673862)
---
--- Name: "ezcontentobject_attribute_language_code" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentobject_attribute_language_code ON ezcontentobject_attribute USING btree (language_code);
 
---
--- TOC Entry ID 197 (OID 673863)
---
--- Name: "ezcontentclass_version" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcontentclass_version ON ezcontentclass USING btree ("version");
 
---
--- TOC Entry ID 198 (OID 673864)
---
--- Name: "ezenumvalue_co_cl_attr_id_co_class_att_ver" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btree (contentclass_attribute_id, contentclass_attribute_version);
 
---
--- TOC Entry ID 199 (OID 673865)
---
--- Name: "ezenumobjectvalue_co_attr_id_co_attr_ver" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezenumobjectvalue_co_attr_id_co_attr_ver ON ezenumobjectvalue USING btree (contentobject_attribute_id, contentobject_attribute_version);
 
---
--- TOC Entry ID 200 (OID 673866)
---
--- Name: "ezwaituntildatevalue_wf_ev_id_wf_ver" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezwaituntildatevalue_wf_ev_id_wf_ver ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
 
---
--- TOC Entry ID 201 (OID 673867)
---
--- Name: "ezcollab_group_path" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcollab_group_path ON ezcollab_group USING btree (path_string);
 
---
--- TOC Entry ID 202 (OID 673868)
---
--- Name: "ezcollab_group_dept" Type: INDEX Owner: sp
---
+
+
+
+
+
 
 CREATE INDEX ezcollab_group_dept ON ezcollab_group USING btree (depth);
 
---
--- TOC Entry ID 3 (OID 673374)
---
--- Name: ezapprovetasks_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezapprovetasks_s"', 1, false);
 
---
--- TOC Entry ID 5 (OID 673376)
---
--- Name: ezbasket_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezbasket_s"', 1, false);
 
---
--- TOC Entry ID 7 (OID 673384)
---
--- Name: ezcontentclass_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentclass_s"', 6, true);
 
---
--- TOC Entry ID 9 (OID 673389)
---
--- Name: ezcontentclass_attribute_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentclass_attribute_s"', 124, true);
 
---
--- TOC Entry ID 11 (OID 673397)
---
--- Name: ezcontentclassgroup_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentclassgroup_s"', 4, true);
 
---
--- TOC Entry ID 13 (OID 673402)
---
--- Name: ezcontentobject_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentobject_s"', 15, true);
 
---
--- TOC Entry ID 15 (OID 673407)
---
--- Name: ezcontentobject_attribute_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentobject_attribute_s"', 371, true);
 
---
--- TOC Entry ID 17 (OID 673415)
---
--- Name: ezcontentobject_link_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentobject_link_s"', 1, false);
 
---
--- TOC Entry ID 19 (OID 673420)
---
--- Name: ezcontentobject_tree_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentobject_tree_s"', 16, true);
 
---
--- TOC Entry ID 21 (OID 673428)
---
--- Name: ezcontentobject_version_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontentobject_version_s"', 443, true);
 
---
--- TOC Entry ID 23 (OID 673436)
---
--- Name: ezenumvalue_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezenumvalue_s"', 1, false);
 
---
--- TOC Entry ID 25 (OID 673450)
---
--- Name: ezmodule_run_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezmodule_run_s"', 1, false);
 
---
--- TOC Entry ID 27 (OID 673458)
---
--- Name: eznode_assignment_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"eznode_assignment_s"', 154, true);
 
---
--- TOC Entry ID 29 (OID 673463)
---
--- Name: ezorder_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezorder_s"', 1, false);
 
---
--- TOC Entry ID 31 (OID 673471)
---
--- Name: ezpolicy_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezpolicy_s"', 318, true);
 
---
--- TOC Entry ID 33 (OID 673479)
---
--- Name: ezpolicy_limitation_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezpolicy_limitation_s"', 245, true);
 
---
--- TOC Entry ID 35 (OID 673487)
---
--- Name: ezpolicy_limitation_value_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezpolicy_limitation_value_s"', 410, true);
 
---
--- TOC Entry ID 37 (OID 673492)
---
--- Name: ezproductcollection_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezproductcollection_s"', 1, false);
 
---
--- TOC Entry ID 39 (OID 673497)
---
--- Name: ezproductcollection_item_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezproductcollection_item_s"', 1, false);
 
---
--- TOC Entry ID 41 (OID 673502)
---
--- Name: ezrole_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezrole_s"', 5, true);
 
---
--- TOC Entry ID 43 (OID 673510)
---
--- Name: ezsearch_object_word_link_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezsearch_object_word_link_s"', 1, false);
 
---
--- TOC Entry ID 45 (OID 673515)
---
--- Name: ezsearch_return_count_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezsearch_return_count_s"', 1, false);
 
---
--- TOC Entry ID 47 (OID 673520)
---
--- Name: ezsearch_search_phrase_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezsearch_search_phrase_s"', 1, false);
 
---
--- TOC Entry ID 49 (OID 673525)
---
--- Name: ezsearch_word_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezsearch_word_s"', 1, false);
 
---
--- TOC Entry ID 51 (OID 673530)
---
--- Name: ezsection_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezsection_s"', 2, true);
 
---
--- TOC Entry ID 53 (OID 673541)
---
--- Name: eztrigger_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"eztrigger_s"', 1, false);
 
---
--- TOC Entry ID 55 (OID 673547)
---
--- Name: ezuser_role_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezuser_role_s"', 26, false);
 
---
--- TOC Entry ID 57 (OID 673555)
---
--- Name: ezwishlist_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezwishlist_s"', 1, false);
 
---
--- TOC Entry ID 59 (OID 673560)
---
--- Name: ezworkflow_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezworkflow_s"', 2, false);
 
---
--- TOC Entry ID 61 (OID 673565)
---
--- Name: ezworkflow_assign_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezworkflow_assign_s"', 1, false);
 
---
--- TOC Entry ID 63 (OID 673570)
---
--- Name: ezworkflow_event_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezworkflow_event_s"', 3, false);
 
---
--- TOC Entry ID 65 (OID 673575)
---
--- Name: ezworkflow_group_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezworkflow_group_s"', 2, false);
 
---
--- TOC Entry ID 67 (OID 673586)
---
--- Name: ezworkflow_process_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezworkflow_process_s"', 1, false);
 
---
--- TOC Entry ID 69 (OID 673594)
---
--- Name: ezoperation_memento_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezoperation_memento_s"', 1, false);
 
---
--- TOC Entry ID 71 (OID 673602)
---
--- Name: ezdiscountsubrule_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezdiscountsubrule_s"', 1, false);
 
---
--- TOC Entry ID 73 (OID 673610)
---
--- Name: ezinfocollection_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezinfocollection_s"', 1, false);
 
---
--- TOC Entry ID 75 (OID 673615)
---
--- Name: ezinfocollection_attribute_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezinfocollection_attribute_s"', 1, false);
 
---
--- TOC Entry ID 77 (OID 673623)
---
--- Name: ezuser_discountrule_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezuser_discountrule_s"', 1, false);
 
---
--- TOC Entry ID 79 (OID 673628)
---
--- Name: ezvattype_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezvattype_s"', 1, false);
 
---
--- TOC Entry ID 83 (OID 673641)
---
--- Name: ezdiscountrule_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezdiscountrule_s"', 1, false);
 
---
--- TOC Entry ID 85 (OID 673646)
---
--- Name: ezorder_item_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezorder_item_s"', 1, false);
 
---
--- TOC Entry ID 87 (OID 673654)
---
--- Name: ezwaituntildatevalue_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezwaituntildatevalue_s"', 1, false);
 
---
--- TOC Entry ID 89 (OID 673659)
---
--- Name: ezcontent_translation_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcontent_translation_s"', 1, false);
 
---
--- TOC Entry ID 91 (OID 673664)
---
--- Name: ezcollab_item_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcollab_item_s"', 1, false);
 
---
--- TOC Entry ID 93 (OID 673672)
---
--- Name: ezcollab_group_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcollab_group_s"', 1, false);
 
---
--- TOC Entry ID 95 (OID 673686)
---
--- Name: ezcollab_item_message_link_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcollab_item_message_link_s"', 1, false);
 
---
--- TOC Entry ID 97 (OID 673691)
---
--- Name: ezcollab_simple_message_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcollab_simple_message_s"', 1, false);
 
---
--- TOC Entry ID 99 (OID 673699)
---
--- Name: ezcollab_profile_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezcollab_profile_s"', 1, false);
 
---
--- TOC Entry ID 101 (OID 673707)
---
--- Name: ezapprove_items_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezapprove_items_s"', 1, false);
 
---
--- TOC Entry ID 103 (OID 673712)
---
--- Name: ezurl_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezurl_s"', 1, false);
 
---
--- TOC Entry ID 105 (OID 673717)
---
--- Name: ezmessage_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezmessage_s"', 1, false);
 
---
--- TOC Entry ID 107 (OID 673722)
---
--- Name: ezproductcollection_item_opt_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezproductcollection_item_opt_s"', 1, false);
 
---
--- TOC Entry ID 109 (OID 673727)
---
--- Name: ezforgot_password_s Type: SEQUENCE SET Owner: sp
---
+
+
+
+
+
 
 SELECT setval ('"ezforgot_password_s"', 1, false);
 
