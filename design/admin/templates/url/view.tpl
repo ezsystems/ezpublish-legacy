@@ -130,7 +130,7 @@
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 
 <tr class="{$Objects.sequence}">
-    <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;{$Objects.item.name}</td>
+    <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;{$Objects.item.name|wash}</td>
     <td>{$Objects.item.version}</td>
     <td><a href={concat( 'content/edit/', $Objects.item.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/view' )}" title="{'Edit <%object_name>.'|i18n( 'design/admin/url/view',, hash( '%object_name', $Objects.item.name ) )|wash}" /></a></td>
 </tr>

@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{$classgroup.name|classgroup_icon( normal, $classgroup.name )}&nbsp;{'Edit <%group_name> [Class group]'|i18n( 'design/admin/class/groupedit',, hash( '%group_name', $classgroup.name ) )|wash}</h1>
+<h1 class="context-title">{$classgroup.name|wash|classgroup_icon( normal, $classgroup.name|wash )}&nbsp;{'Edit <%group_name> [Class group]'|i18n( 'design/admin/class/groupedit',, hash( '%group_name', $classgroup.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -17,7 +17,7 @@
 {* Name. *}
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/groupedit' )}:</label>
-    <input class="halfbox" id="name" name="Group_name" value="{$classgroup.name}" />
+    <input class="halfbox" id="name" name="Group_name" value="{$classgroup.name|wash}" />
 </div>
 
 </div>

@@ -25,7 +25,7 @@
 {section show=$already_removed}
     {let class_list=''}
     {section var=class loop=$already_removed}
-        {set class_list=concat( $class_list, $class.name )}
+        {set class_list=concat( $class_list, $class.name|wash )}
         {delimiter}{set class_list=concat( $class_list, ', ' )}{/delimiter}
     {/section}
     {section show=count( $already_removed )|eq( 1 )}

@@ -28,7 +28,7 @@
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Groups.item.id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/grouplist' )}" /></td>
 
     {* Name. *}
-    <td>{$Groups.item.name|classgroup_icon( small, $Groups.item.name )}&nbsp;<a href={concat( $module.functions.classlist.uri, '/', $Groups.item.id)|ezurl}>{$Groups.item.name|wash}</a></td>
+    <td>{$Groups.item.name|wash|classgroup_icon( small, $Groups.item.name|wash )}&nbsp;<a href={concat( $module.functions.classlist.uri, '/', $Groups.item.id)|ezurl}>{$Groups.item.name|wash}</a></td>
 
     {* Modifier. *}
     <td><a href={$Groups.item.modifier.contentobject.main_node.url_alias|ezurl}>{$Groups.item.modifier.contentobject.name|wash}</a></td>
@@ -85,7 +85,7 @@
         <tr class="{$LatestClasses.sequence}">
 
             {* Name. *}
-            <td>{$LatestClasses.identifier|class_icon( small, $LatestClasses.name )}&nbsp;<a href={concat( '/class/view/', $LatestClasses.item.id )|ezurl}>{$LatestClasses.item.name|wash}</a></td>
+            <td>{$LatestClasses.identifier|class_icon( small, $LatestClasses.name|wash )}&nbsp;<a href={concat( '/class/view/', $LatestClasses.item.id )|ezurl}>{$LatestClasses.item.name|wash}</a></td>
 
             {* ID. *}
             <td class="number" align="right">{$LatestClasses.item.id}</td>

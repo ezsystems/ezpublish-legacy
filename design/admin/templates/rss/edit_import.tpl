@@ -35,7 +35,7 @@
     {* Imported objects owner. *}
     <div class="block">
     <label>{"Imported objects will be owned by"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    <p>{$rss_import.object_owner.contentobject.name}</p>
+    <p>{$rss_import.object_owner.contentobject.name|wash}</p>
     <input class="button" type="submit" name="UserBrowse" value="{'Change user'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the user who should own the objects created by the import.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 

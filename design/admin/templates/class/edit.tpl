@@ -106,7 +106,7 @@
 {* Attribute name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
+<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 {* Attribute identifier. *}
