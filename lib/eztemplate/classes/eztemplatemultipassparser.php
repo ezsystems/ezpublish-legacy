@@ -79,13 +79,19 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $sourceLength = strlen( $sourceText );
         $sourcePosition = 0;
 
+        eZDebug::accumulatorStart( 'template_multi_parser_1', 'template_total', 'Template parser: create text elements' );
         $textElements =& $this->parseIntoTextElements( $tpl, $sourceText, $sourcePosition,
                                                        $leftDelimiter, $rightDelimiter, $sourceLength );
+        eZDebug::accumulatorStop( 'template_multi_parser_1' );
 
+        eZDebug::accumulatorStart( 'template_multi_parser_2', 'template_total', 'Template parser: remove whitespace' );
         $textElements =& $this->parseWhitespaceRemoval( $tpl, $textElements );
+        eZDebug::accumulatorStop( 'template_multi_parser_2' );
 
+        eZDebug::accumulatorStart( 'template_multi_parser_3', 'template_total', 'Template parser: construct tree' );
         $this->parseIntoTree( $tpl, $textElements, $currentRoot,
                               $rootNamespace, $relatedResource, $relatedTemplateName );
+        eZDebug::accumulatorStop( 'template_multi_parser_3' );
     }
 
     function &parseIntoTextElements( &$tpl, $sourceText, $sourcePosition,
