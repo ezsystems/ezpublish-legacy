@@ -57,7 +57,6 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                          "group_id" => "GroupID",
                                          "group_name" => "GroupName"),
                       "keys" => array( "workflow_id", "workflow_version", "group_id" ),
-                      "increment_key" => "id",
                       "class_name" => "eZWorkflowGroupLink",
                       "sort" => array( "workflow_id" => "asc" ),
                       "name" => "ezworkflow_group_link" );
