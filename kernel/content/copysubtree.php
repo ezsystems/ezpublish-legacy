@@ -220,7 +220,6 @@ function &copyPublishContentObject( &$sourceObject,
     // in a black list and skip it.
     if ( $isReadyToPublish == false )
     {
-        eZDebug::writeDebug( "", "rush: BINGO!!!!" );
         $objectIDBlackList[] = $sourceObjectID;
         return 0;
     }
@@ -472,13 +471,10 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
             eZDebug::writeError( "Too many loops while copying nodes.",
                                  "Subtree Copy Error!" );
             break;
-            //return 6;
         }
 
         for ( $i = 0; $i < count( $sourceNodeList ); $i)
         {
-            eZDebug::writeDebug( count($sourceNodeList), "rush: count( sourceNodeList ) = " );
-
             $sourceNodeID = $sourceNodeList[ $i ]->attribute( 'node_id' );
 
             // if node was alreaty copied
@@ -738,10 +734,7 @@ function browse( &$Module, &$srcNode )
                 'persistent_data'      => array( 'ObjectID' => $objectID,
                                                  'NodeID'   => $nodeID ),
                 'permission'           => array( 'access' => 'create', 'contentclass_id' => $classID ),
-                'content'              => array( 'node_id'        => $nodeID ),
-                                                 //'object_id'      => $objectID,
-                                                 //'object_version' => $object->attribute( 'current_version' ),
-                                                 //'object_language'=> $languageCode ),
+                'content'              => array( 'node_id' => $nodeID ),
                 'start_node'           => $srcParentNodeID,
                 'cancel_page'          => $Module->redirectionURIForModule( $Module, 'view',
                                                          array( $viewMode, $srcParentNodeID, $languageCode ) ),
@@ -753,7 +746,6 @@ function browse( &$Module, &$srcNode )
 Redirect to the page that lets a user to choose which versions to copy:
 either all version or the current one.
 */
-
 function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $chooseCreator, $chooseTime )
 {
         include_once( 'kernel/classes/ezcontentbrowse.php' );
@@ -781,11 +773,12 @@ $contentINI =& eZINI::instance( 'content.ini' );
 $versionHandling = $contentINI->variable( 'CopySettings', 'VersionHandling' );
 $creatorHandling = $contentINI->variable( 'CopySettings', 'CreatorHandling' );
 $timeHandling    = $contentINI->variable( 'CopySettings', 'TimeHandling' );
-$showNotification= $contentINI->variable( 'CopySettings', 'ShowCopySubtreeNotification' );
+$showCopySubtreeNotification = $contentINI->variable( 'CopySettings', 'ShowCopySubtreeNotification' );
 
 $chooseVersions = ( $versionHandling == 'user-defined' );
 $chooseCreator  = ( $creatorHandling == 'user-defined' );
 $chooseTime     = ( $timeHandling    == 'user-defined' );
+$showNotification = ( $showCopySubtreeNotification == 'enabled' );
 
 if( $chooseVersions )
     $allVersions = ( $Module->hasActionParameter( 'VersionChoice' ) and
@@ -814,6 +807,11 @@ if ( $Module->isCurrentAction( 'Copy' ) )
     // actually do copying after a user has selected object versions to copy
     $newParentNodeID =& $http->postVariable( 'SelectedNodeID' );
     $copyResult = copySubtree( $NodeID, $newParentNodeID, $allVersions, $keepCreator, $keepTime );
+
+    if ( $showNotification )
+    {
+    }
+
     return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
 }
 else if ( $Module->isCurrentAction( 'CopySubtree' ) )
@@ -832,6 +830,11 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID =& $selectedNodeIDArray[0];
         $copyResult = copySubtree( $NodeID, $newParentNodeID, $allVersions, $keepCreator, $keepTime );
+
+        if ( $showNotification )
+        {
+        }
+
         return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
     }
 }
