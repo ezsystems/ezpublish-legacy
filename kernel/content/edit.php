@@ -331,6 +331,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $discardConfirm = true;
             if ( $http->hasPostVariable( 'DiscardConfirm' ) )
                 $discardConfirm = $http->postVariable( 'DiscardConfirm' );
+            if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
+                $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );
             $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );
             $http->setSessionVariable( 'DiscardObjectLanguage', $EditLanguage );
