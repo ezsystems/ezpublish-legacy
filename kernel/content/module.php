@@ -75,6 +75,16 @@ $ViewList['removenode'] = array(
     'script' => 'removenode.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'NodeID' ) );
 
+$ViewList['removelocation'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
+    'ui_component' => 'location',
+    'single_post_actions' => array( 'ConfirmRemovalButton' => 'ConfirmRemoval',
+                                    'CancelRemovalButton' => 'CancelRemoval' ),
+    'script' => 'removelocation.php',
+    'params' => array() );
+
 $ViewList['pdf'] = array(
     'functions' => array( 'pdf' ),
     'default_navigation_part' => 'ezcontentnavigationpart',

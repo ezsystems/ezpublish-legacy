@@ -409,7 +409,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
         if ( $node )
         {
-            // Security checks
+            // Security checks, removal of current node is not allowed
+            // and we require removal rights
             if ( $node->attribute( 'node_id' ) == $nodeID )
                 continue;
             if ( !$node->canRemove() )
@@ -428,12 +429,16 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     if ( $hasChildren )
     {
-        $http->setSessionVariable( 'AssignmentRemoveList', $removeList );
+        $http->setSessionVariable( 'AssignmentRemoveData',
+                                   array( 'remove_list' => $removeList,
+                                          'object_id' => $objectID,
+                                          'node_id' => $nodeID,
+                                          'view_mode' => $viewMode,
+                                          'language_code' => $languageCode ) );
         return $module->redirectToView( 'removelocation' );
     }
     else
     {
-//        eZNodeAssignment::removeByID( $removeList );
         $mainNodeChanged = false;
         foreach ( $nodeRemoveList as $key => $node )
         {
