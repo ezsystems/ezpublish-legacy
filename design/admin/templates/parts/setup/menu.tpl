@@ -10,6 +10,7 @@
 <ul>
     <li><div><span class="disabled">{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Collected information'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>    
     <li><div><span class="disabled">{'Extensions'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Global settings'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Ini settings'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
@@ -36,6 +37,7 @@
 <ul>
     <li><div><a href={'/setup/cache/'|ezurl}>{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/class/grouplist/'|ezurl}>{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
+    <li><div><a href={'/infocollector/overview/'|ezurl}>{'Collected information'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/extensions/'|ezurl}>{'Extensions'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/content/edit/52/'|ezurl}>{'Global settings'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/settings/view'|ezurl}>{'Ini settings'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>

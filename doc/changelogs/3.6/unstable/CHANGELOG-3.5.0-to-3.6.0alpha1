@@ -22,6 +22,7 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed enhancement #5754: Fetch objects by translation
 - Updated spec #7: 'id' attribute is replaced with 'url_id' attribute in
   <link> tag. Now 'id' attribute means xhtml id.
+- Added new module for viewing and deleting collected information
   
 *Setup:
 - Optimized memory usage in site creation step by logging SQL statements only
@@ -37,6 +38,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 eZ Xmltext:
 - Modified: Handling of special characters.
   (Merged from stable/3.5 (3.5.1) rev. 10831)
+
+eZInformationCollection:
+- Added some new fetch & remove functions
 
 *Bugfixes:
 - Object name is now exported/imported in all object versions and translations.

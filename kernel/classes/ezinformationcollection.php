@@ -145,6 +145,28 @@ class eZInformationCollection extends eZPersistentObject
 
     /*!
      \static
+
+     Remove a specific collection 
+
+     \param contentobject id
+    */
+    function removeCollection( $collectionID )
+    {
+        if( !is_numeric( $collectionID ) )
+        {
+            return;
+        }
+
+        $db =& eZDB::instance();
+
+        $db->query( "DELETE FROM ezinfocollection
+                     WHERE id = '$collectionID'" );
+        $db->query( "DELETE FROM ezinfocollection_attribute
+                     WHERE informationcollection_id = '$collectionID'" );
+    }
+
+    /*!
+     \static
      \return the name of the template to use for viewing a specific information collection.
 
      The template name is determined from the content class type and object attributes.
@@ -447,6 +469,19 @@ class eZInformationCollection extends eZPersistentObject
                                        WHERE ezinfocollection.contentobject_id = '" . $db->escapeString( $objectID ) . "' " );
 
         return $resArray[0]['count'];
+    }
+
+    function fetchCollectionCountForObject( $objectID )
+    {
+        if( !is_numeric( $objectID ) )
+        {
+            return false;
+        }
+     
+        $db =& eZDB::instance();
+        $resultArray = $db->arrayQuery( 'SELECT COUNT( * ) as count FROM ezinfocollection WHERE contentobject_id=' . $objectID );
+        
+        return $resultArray[0]['count'];
     }
 
     function fetchCountList( $objectAttributeID )
