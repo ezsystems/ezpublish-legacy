@@ -45,6 +45,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/fetch_search_searches_in_backend_coded_ezselections_and_not_actual_values
 - Fixed bug with empty stopword
   http://ez.no/community/bug_reports/search_stop_words_are_not_shown_at_result_page
+- Fixed bug, added .ini settings
+  http://ez.no/community/bug_reports/search_site_ini_entries_missing
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
