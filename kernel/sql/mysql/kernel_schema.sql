@@ -787,6 +787,14 @@ CREATE TABLE ezpdf_export (
 
 
 
+CREATE TABLE ezpending_actions (
+  action varchar(64) NOT NULL,
+  param text,
+  KEY ezpending_actions_action (action)
+) TYPE=MyISAM;
+
+
+
 
 CREATE TABLE ezpolicy (
   id int(11) NOT NULL auto_increment,

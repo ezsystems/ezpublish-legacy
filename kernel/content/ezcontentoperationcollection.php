@@ -354,15 +354,30 @@ class eZContentOperationCollection
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
-        include_once( "kernel/classes/ezsearch.php" );
-        $object =& eZContentObject::fetch( $objectID );
-        // Register the object in the search engine.
-        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-        eZSearch::removeObject( $object );
-        eZDebug::accumulatorStop( 'remove_object' );
-        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-        eZSearch::addObject( $object );
-        eZDebug::accumulatorStop( 'add_object' );
+        include_once( "lib/ezutils/classes/ezini.php" );
+
+        $ini =& eZINI::instance( 'site.ini' );
+        $delayedIndexing = ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled' );
+
+        if ( $delayedIndexing )
+        {
+            include_once( "lib/ezdb/classes/ezdb.php" );
+
+            $db =& eZDB::instance();
+            $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( "index_object", '. (int)$objectID. ' )' );
+        }
+        else
+        {
+            include_once( "kernel/classes/ezsearch.php" );
+            $object =& eZContentObject::fetch( $objectID );
+            // Register the object in the search engine.
+            eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+            eZSearch::removeObject( $object );
+            eZDebug::accumulatorStop( 'remove_object' );
+            eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
+            eZSearch::addObject( $object );
+            eZDebug::accumulatorStop( 'add_object' );
+        }
     }
 
 

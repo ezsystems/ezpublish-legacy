@@ -2137,6 +2137,15 @@ CREATE TABLE ezpdf_export (
 
 
 
+CREATE TABLE ezpending_actions (
+  action character varying(64) NOT NULL,
+  param text
+);
+
+
+
+
+
 
 CREATE SEQUENCE ezrss_export_s
     START 1
@@ -2643,6 +2652,12 @@ CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribut
 
 CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
 
+
+
+
+
+
+CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree (action);
 
 
 
