@@ -160,7 +160,7 @@ class eZImageType extends eZDataType
             {
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
 
-                $imageHandler->initializeFromHTTPFile( $contentObjectAttribute, $httpFile, $imageAltText );
+                $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
             }
             if ( $imageHandler->isStorageRequired() )
             {

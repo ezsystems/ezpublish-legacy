@@ -907,8 +907,9 @@ class eZImageAliasHandler
      Initializes the content object attribute \a $contentObjectAttribute with the uploaded HTTP file \a $httpFile.
      Optionally you may also specify the alternative text in the parameter \a $imageAltText.
     */
-    function initializeFromHTTPFile( &$contentObjectAttribute, &$httpFile, $imageAltText = false )
+    function initializeFromHTTPFile( &$httpFile, $imageAltText = false )
     {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
         $this->increaseImageSerialNumber();
 
         $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
@@ -941,8 +942,9 @@ class eZImageAliasHandler
      Optionally you may also specify the alternative text in the parameter \a $imageAltText.
      \sa initialize
     */
-    function initializeFromFile( &$contentObjectAttribute, $filename, $imageAltText = false )
+    function initializeFromFile( $filename, $imageAltText = false )
     {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
         if ( !file_exists( $filename ) )
         {
             eZDebug::writeError( "The image $filename does not exists, cannot initialize image attribute with it",
