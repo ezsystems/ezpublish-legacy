@@ -160,6 +160,14 @@ a.menuheadlink
     text-decoration: none;
 }
 
+div.objectheader a.menuheadlink
+{
+    color: #b5cded;
+    text-decoration: none;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
 a.menuheadlinkgray
 {
     color: #ffffff;
