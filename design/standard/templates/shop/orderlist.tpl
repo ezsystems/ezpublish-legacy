@@ -1,6 +1,4 @@
 <form action={concat("/shop/orderlist")|ezurl} method="post" name="Orderlist">
-<a href={"/manual/user/e-commerce#Order"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/shop')}" /> </a>
-
 <div class="maincontentheader">
   <h1>{"Order list"|i18n("design/standard/shop")}</h1>
 </div>

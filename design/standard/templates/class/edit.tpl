@@ -1,5 +1,3 @@
-<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="help" /></a>
-
 <form action={concat($module.functions.edit.uri,"/",$class.id)|ezurl} method="post" name="ClassEdit">
 
 <div class="maincontentheader">

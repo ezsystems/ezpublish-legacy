@@ -1,7 +1,3 @@
-    <a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual">
-    <img src={"help.gif"|ezimage} align="right">
-    </a>
-
     <!-- Object info box start-->
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>

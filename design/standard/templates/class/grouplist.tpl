@@ -1,5 +1,3 @@
-<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} alt="{'Help'|i18n('design/standard/class/list')}" align="right"/></a>
-
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">

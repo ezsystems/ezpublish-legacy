@@ -1,5 +1,3 @@
-<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"></a>
-
 <form action={concat("class/classlist/",$GroupID)|ezurl} method="post" name="ClassList">
 
 {switch name=Sw1 match=$class_count}

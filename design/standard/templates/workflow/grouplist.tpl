@@ -1,5 +1,3 @@
-<a href={"/manual/user/workflows"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/workflow')}" title="{'Help on workflows'|i18n('design/standard/workflow')}" /> </a>
-
 <form action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">
