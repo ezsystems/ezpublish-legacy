@@ -1490,12 +1490,15 @@ class eZTemplateCompiler
                 $operatorName = $variableItemData[0];
                 $operatorHint = eZTemplateCompiler::operatorHint( $tpl, $operatorName );
                 $newVariableItem = $variableItem;
-                if ( $operatorHint )
+                if ( $operatorHint and
+                     isset( $operatorHint['input'] ) and
+                     isset( $operatorHint['output'] ) and
+                     isset( $operatorHint['parameters'] ) )
                 {
                     if ( !$operatorHint['input'] and
                          $operatorHint['output'] )
                         $newVariableData = array();
-                    if ( !$operatorHint['parameters'] )
+                    if ( !isset( $operatorHint) or !$operatorHint['parameters'] )
                         $newVariableItem[1] = array( $operatorName );
                     if ( isset ( $operatorHint['static'] ) and
                          $operatorHint['static'] )
