@@ -16,7 +16,7 @@
 	When we add these attributes we also get a choice on the right side of the attributes; the "Type". 
 	The "Type" has three lines; "Required", "Searchable" and "Information collector".</p>
 	
-<p>	<img src="/kernel/manual/user/images/infocollector.jpg"></p>
+<p>	<img src="/kernel/manual/user/images/infocollector.jpg" border="1"></p>
 	
 <p>	<p class="important">Required: if an attribute is required the use must fill in values to this attribute when an object 
 	is created.</p>
