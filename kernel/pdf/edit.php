@@ -58,12 +58,18 @@ else
 
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDF_EXPORT_GENERATE_STRING )
 {
-    if ( !generatePDF( $pdfExport ) )
+    $firstExportAttemt =& eZSessionRead( $http->sessionVariable( 'ExportPDFTicket' ) );
+    if ( $firstExportAttemt )
     {
+        eZSessionDestroy( $http->sessionVariable( 'ExportPDFTicket' ) );
+        generatePDF( $pdfExport );
+
         if ( $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
         {
             include_once( 'lib/ezutils/classes/ezexecution.php' );
         }
+
+        $http->removeSessionVariable( 'ExportPDFTicket' );
         eZExecution::cleanExit();
     }
 }
@@ -109,8 +115,15 @@ else if ( $Module->isCurrentAction( 'Export' ) )
 {
     if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
     {
-        generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
-        $pdfExport->store( 1 );
+        $firstExportAttemt =& eZSessionRead( $http->sessionVariable( 'ExportPDFTicket' ) );
+        if ( $firstExportAttemt )
+        {
+            eZSessionDestroy( $http->sessionVariable( 'ExportPDFTicket' ) );
+
+            generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
+            $pdfExport->store( 1 );
+            $http->removeSessionVariable( 'ExportPDFTicket' );
+        }
         return $Module->redirect( 'pdf', 'list' );
     }
     else
@@ -119,6 +132,12 @@ else if ( $Module->isCurrentAction( 'Export' ) )
         return $Module->redirect( 'pdf', 'list' );
     }
 }
+
+if ( !$http->hasSessionVariable( 'ExportPDFTicket' ) )
+{
+    $http->setSessionVariable( 'ExportPDFTicket', md5( (string)rand() ) );
+}
+eZSessionWrite( $http->sessionVariable( 'ExportPDFTicket' ), 1 );
 
 $tpl =& templateInit();
 
@@ -147,13 +166,12 @@ $Result['path'] = array( array( 'url' => false,
  \param PDF export object
  \param toFile, false if generate to stream, $
                 filename if generate to file
-
- \return true if successfull, false if not
 */
 function generatePDF( &$pdfExport, $toFile = false )
 {
     if ( $pdfExport == null )
-        return false;
+        return;
+
     $node = $pdfExport->attribute( 'source_node' );
     if ( $node )
     {
@@ -211,10 +229,7 @@ function generatePDF( &$pdfExport, $toFile = false )
         $uri = 'design:node/view/execute_pdf.tpl';
         $textElements = '';
         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, '', '' );
-        return true;
     }
-
-    return false;
 }
 
 ?>

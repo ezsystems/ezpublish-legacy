@@ -32,7 +32,7 @@
 <li>&#187; <a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></li>
 <li>&#187; <a href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></li>
 <li>&#187; <a href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/content/listpdf/"|ezurl}>{"PDF export"|i18n("design/admin/layout",'PDF export')}</a></li>
+<li>&#187; <a href={"/pdf/list/"|ezurl}>{"PDF export"|i18n("design/admin/layout",'PDF export')}</a></li>
 <li>&#187; <a href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a></li>
 <li>&#187; <a href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a></li>
 <li>&#187; <a href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></li>

@@ -73,22 +73,8 @@ $ViewList['list'] = array(
     'post_action_parameters' => array( 'RemoveExport' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
     'unordered_params' => array( 'language' => 'Language' ) );
 
-$FunctionList['read'] = array( 'Class' => $ClassID,
-                               'Section' => $SectionID,
-                               'Owner' => $Assigned,
-                               'Node' => $Node,
-                               'Subtree' => $Subtree );
+$FunctionList['create'] = array( );
 
-$FunctionList['create'] = array( 'Class' => $ClassID,
-                                 'Section' => $SectionID,
-                                 'ParentClass' => $ParentClassID,
-                                 'Node' => $Node,
-                                 'Subtree' => $Subtree );
-
-$FunctionList['edit'] = array( 'Class' => $ClassID,
-                               'Section' => $SectionID,
-                               'Owner' => $Assigned,
-                               'Node' => $Node,
-                               'Subtree' => $Subtree );
+$FunctionList['edit'] = array( );
 
 ?>
