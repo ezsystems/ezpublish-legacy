@@ -291,6 +291,9 @@ class eZContentCache
                                 $cacheFile = eZDir::path( array( $cacheDir, $file ) );
                                 eZDebug::writeDebug( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
                                 unlink( $cacheFile );
+                                // Write log message to storage.log
+                                include_once( 'lib/ezutils/classes/ezlog.php' );
+                                eZLog::writeStorageLog( $cacheFile );
                             }
                         }
                         closedir( $dir );
