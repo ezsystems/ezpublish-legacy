@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.1-2
 
 *Kernel:
+- Fixed bug with updating names of non translated names
 - Fixed problem with related object datatype causing input validation error.
 - Added function for returning the authors of a content object.
 - Fixed numerous problems with eZKeyword datatype.
