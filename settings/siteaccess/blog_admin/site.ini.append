@@ -1,7 +1,7 @@
+<?php /* #?ini charset="utf8"?
 
 [SiteAccessSettings]
 RequireUserLogin=true
-
 
 [DesignSettings]
 StandardDesign=standard
@@ -9,3 +9,35 @@ SiteDesign=admin
 
 [FileSettings]
 VarDir=var/blog
+
+[ContentSettings]
+TranslationList=
+
+[SiteSettings]
+SiteName=Corporate
+SiteURL=tequila:1133/index.php
+
+[DatabaseSettings]
+DatabaseImplementation=ezpostgresql
+Server=localhost
+Database=ez33
+User=derick
+Password=t5xr5l2s
+Charset=
+Socket=disabled
+
+[InformationCollectionSettings]
+EmailReceiver=
+
+[UserSettings]
+RegistrationEmail=
+
+[MailSettings]
+AdminEmail=admin@localhost
+EmailSender=
+
+[RegionalSettings]
+Locale=eng-GB
+ContentObjectLocale=eng-GB
+TextTranslation=disabled
+*/ ?>

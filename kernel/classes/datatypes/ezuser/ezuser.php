@@ -270,7 +270,13 @@ class eZUser extends eZPersistentObject
     function &removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
         eZSubtreeNotificationRule::removeByUserID( $userID );
+        eZUserSetting::remove( $userID );
+        eZUserAccountKey::remove( $userID );
+        eZForgotPassword::remove( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );

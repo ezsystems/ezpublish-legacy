@@ -2431,9 +2431,12 @@ WHERE
         eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
 
         // Clean up bookmarks
-        $nodeID = $node->attribute( 'node_id' );
         include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
         eZContentBrowseBookmark::removeByNodeID( $nodeID );
+
+        // Clean up tip-a-friend counter
+        include_once( 'kernel/classes/eztipafriendcounter.php' );
+        eZTipafriendCounter::remove( $nodeID );
     }
 
     /*!

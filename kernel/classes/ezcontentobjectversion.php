@@ -769,6 +769,8 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $contentobject->purge();
         }
+        $db->query( "DELETE FROM ezcontentobject_name
+                         WHERE contentobject_id=$contentobjectID AND content_version=$versionNum" );
     }
 
     function removeTranslation( $languageCode )
