@@ -61,54 +61,52 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
             </div>{* id="topmenu-design" *}
         </div>{* id="topmenu" *}
 
-
-        <hr class="hide" />
-
-        <div id="path">
-            <div id="path-design">
-                {include uri="design:parts/path.tpl"}
-            </div>{* id="path-design" *}
-        </div>{* id="path" *}
-
-        <hr class="hide" />
-
-        <div id="columns">
-
-            <hr class="hide" />
-
-            {cache-block}
-                {let maincontentstyle='bothmenus'}
-
-                {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
-                    {set maincontentstyle='noleftmenu'}
-                {/section}
-
-                {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
-                    {section show=$maincontentstyle|eq('noleftmenu')}
-                        {set maincontentstyle='nomenus'}
-                        {section-else}
-                        {set maincontentstyle='norightmenu'}
-                    {/section}
-                {/section}
-
-                <div id="maincontent" class="{$maincontentstyle}">
-                    <div id="fix">
-                        <div id="maincontent-design">
-                {/let}
-
-            {/cache-block}
-
-                            {$module_result.content}
-                        </div>{* id="maincontent-design" *}
-
-                    </div>{* id="fix" *}
-                    <div class="break"></div>
-                </div>{* id="maincontent" *}
-        </div>{* id="columns" *}
-
         <div class="break"></div>
     </div>{* id="topcontent" *}
 
+    <hr class="hide" />
+
+    <div id="path">
+        <div id="path-design">
+            {include uri="design:parts/path.tpl"}
+        </div>{* id="path-design" *}
+    </div>{* id="path" *}
+
+    <hr class="hide" />
+
+    <div id="columns">
+
+        <hr class="hide" />
+
+        {cache-block}
+            {let maincontentstyle='maincontent-bothmenus'}
+
+            {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
+                {set maincontentstyle='maincontent-noleftmenu'}
+            {/section}
+
+            {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
+                {section show=$maincontentstyle|eq('noleftmenu')}
+                    {set maincontentstyle='maincontent-nomenus'}
+                    {section-else}
+                    {set maincontentstyle='maincontent-norightmenu'}
+                {/section}
+            {/section}
+
+            <div id="maincontent" class="{$maincontentstyle}">
+                <div id="fix">
+                    <div id="maincontent-design">
+            {/let}
+
+        {/cache-block}
+
+                        {$module_result.content}
+                    </div>{* id="maincontent-design" *}
+
+                </div>{* id="fix" *}
+                <div class="break"></div>
+            </div>{* id="maincontent" *}
+    </div>{* id="columns" *}
 
     <div id="toolbar-bottom">
         <div class="toolbar-design">
