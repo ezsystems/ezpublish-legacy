@@ -44,7 +44,7 @@
 
 class eZNodeviewfunctions
 {
-    function &generateNodeView( $tpl, $node, $object, $languageCode, $viewMode, $offset,
+    function &generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
                                 $cacheDir, $cachePath, $viewCacheEnabled,
                                 $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                 $collectionAttributes = false, $validation = false )
