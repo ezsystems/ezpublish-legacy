@@ -105,5 +105,7 @@ $Result['path'] = array( array( 'text' => 'User',
                                 'url' => false ),
                          array( 'text' => 'Login',
                                 'url' => false ) );
+if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+    $Result['pagelayout'] = 'loginpagelayout.tpl';
 
 ?>
