@@ -141,8 +141,11 @@ if ( $storedObjectValues != null )
 
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
-    eZDiscountSubRule::remove( $discountRuleID );
-    eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
+    if ( $discountRule->attribute( 'name' ) == "" )
+    {
+        eZDiscountSubRule::remove( $discountRuleID );
+        eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
+    }
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
 }
