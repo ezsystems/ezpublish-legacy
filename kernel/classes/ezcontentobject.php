@@ -630,11 +630,11 @@ class eZContentObject extends eZPersistentObject
         if ( $language === false )
             $language = eZContentObject::defaultLanguage();
 
-        print( "Attributes fetch $this->ID, $version" );
-        
+//         print( "Attributes fetch $this->ID, $version" );
+
         if ( !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
-            print( "uncached<br>" );
+//             print( "uncached<br>" );
             $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
@@ -660,7 +660,7 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            print( "Cached<br>" );
+//             print( "Cached<br>" );
             $returnAttributeArray =& $this->ContentObjectAttributes[$version][$language];
         }
 
@@ -672,7 +672,7 @@ class eZContentObject extends eZPersistentObject
     */
     function setContentObjectAttributes( &$attributes, $version, $language )
     {
-        print( "set" );
+//         print( "set" );
         $this->ContentObjectAttributes[$version][$language] =& $attributes;
     }
 

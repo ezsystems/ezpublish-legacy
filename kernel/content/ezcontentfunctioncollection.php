@@ -123,7 +123,7 @@ class eZContentFunctionCollection
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array )
     {
         $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array" );
-        print( "fetch list $parentNodeID $hash<br>" );
+//         print( "fetch list $parentNodeID $hash<br>" );
 
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,

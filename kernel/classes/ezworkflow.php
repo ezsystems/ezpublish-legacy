@@ -267,7 +267,7 @@ class eZWorkflow extends eZPersistentObject
     function fetchEventIndexed( $index )
     {
         $id = $this->ID;
-        eZDebug::writeNotice( $index, 'index in fetchEventIndexed' );
+        eZDebug::writeDebug( $index, 'index in fetchEventIndexed' );
         $list =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                       array( "id", "placement" ),
                                                       array( "workflow_id" => $id,

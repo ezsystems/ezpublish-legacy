@@ -299,6 +299,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
+        if ( !$dataType )
+            return false;
         $dataType->deleteStoredObjectAttribute( $this, $currentVersion );
         if( $currentVersion == null )
         {
