@@ -2022,6 +2022,24 @@ class eZContentObject extends eZPersistentObject
                 $canCreateClassIDListPart =& $limitation->attribute( 'values_as_array' );
                 $hasClassIDLimitation = true;
             }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+            {
+                $limitationMatch = false;
+
+                $node =& eZContentObjectTreeNode::fetch( $this->attribute ( 'main_node_id' ) );
+                $nodePathString= $node->attribute ('path_string');
+                
+                foreach ( $limitation->attribute( 'values') as $limitationValues )
+                {
+                    if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
+                    {
+                        $limitationMatch = true;
+                        $canCreateSubtreeIDListPart =& $limitation->attribute( 'values_as_array' );
+                    }
+                }
+                if ( ! $limitationMatch )
+                    return array(); 
+            }
             elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
             {
                 if ( !in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
