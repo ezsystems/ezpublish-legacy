@@ -63,11 +63,44 @@ class eZSimpleTagsOperator
     }
 
     /*!
+     \private
+
+     Makes sure extra includes are loaded (include_once) so extra functions can be used.
+     \note This function will only run one time, if called multiple times it will simple return
+    */
+    function initializeIncludes()
+    {
+        $init =& $GLOBALS['eZSimpleTagsInit'];
+        // If we have this global variable we shouldn't do any processing
+        if ( isset( $init ) and $init )
+            return;
+
+        $init = true;
+        $ini =& eZINI::instance( 'template.ini' );
+        $extensions = $ini->variable( 'SimpleTagsOperator', 'Extensions' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $pathList = eZExtension::expandedPathList( $extensions, 'simpletags' );
+        $includeList = $ini->variable( 'SimpleTagsOperator', 'IncludeList' );
+
+        foreach ( $includeList as $includeFile )
+        {
+            foreach ( $pathList as $path )
+            {
+                $file = $path . '/' . $includeFile;
+                if ( file_exists( $file ) )
+                {
+                    include_once( $file );
+                }
+            }
+        }
+    }
+
+    /*!
      \reimp
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $elements = preg_split( "#(</?[a-zA-Z]+>)#",
+        $elements = preg_split( "#(</?[a-zA-Z0-9_-]+>)#",
                                 $operatorValue,
                                 false,
                                 PREG_SPLIT_DELIM_CAPTURE );
@@ -78,7 +111,7 @@ class eZSimpleTagsOperator
             if ( ( $i % 2 ) == 1 )
             {
                 $tagText = $element;
-                if ( preg_match( "#<(/?)([a-zA-Z]+)>#", $tagText, $matches ) )
+                if ( preg_match( "#<(/?)([a-zA-Z0-9_-]+)>#", $tagText, $matches ) )
                 {
                     $isEndTag = false;
                     if ( $matches[1] )
@@ -94,6 +127,8 @@ class eZSimpleTagsOperator
         $tagListName = 'TagList';
         if ( $namedParameters['listname'] )
             $tagListName .= '_' . $namedParameters['listname'];
+
+        $this->initializeIncludes();
 
         $tagMap = array();
         $ini =& eZINI::instance( 'template.ini' );
