@@ -143,9 +143,6 @@ class eZRole extends eZPersistentObject
         return $this->LimitValue;
     }
 
-    /*!
-     \static
-    */
     function createTemporaryVersion()
     {
         $newRole =& eZRole::createNew();
