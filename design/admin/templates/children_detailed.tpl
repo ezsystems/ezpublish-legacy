@@ -30,6 +30,9 @@
         {* Copy column *}
         <th class="copy">&nbsp;</th>
 
+        {* Move column *}
+        <th class="move">&nbsp;</th>
+
         {* Edit column *}
         <th class="edit">&nbsp;</th>
     </tr>
@@ -97,6 +100,14 @@
     <img src={'copy_disabled.png'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You can not make a copy of <%child_name> because you do not have create permissions for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
     {/section}
     </td>
+
+
+
+    {* Move button. *}
+    <td>
+    <a href={''|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
+    </td>
+
 
         {* Edit button *}
         {* section show=$can_edit *}
