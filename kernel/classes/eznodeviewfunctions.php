@@ -120,7 +120,8 @@ class eZNodeviewfunctions
                                          'viewmode' => $viewMode,
                                          'navigation_part_identifier' => $navigationPartIdentifier,
                                          'node_depth' => $node->attribute( 'depth' ),
-                                         'url_alias' => $node->attribute( 'url_alias' ) );
+                                         'url_alias' => $node->attribute( 'url_alias' ),
+                                         'persistent_variable' => $tpl->variable( 'persistent_variable' ) );
 
 
         // Check if time to live is set in template

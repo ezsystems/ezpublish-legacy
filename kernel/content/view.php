@@ -195,7 +195,8 @@ else
                                           array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                           array( 'viewmode', $Result['content_info']['viewmode'] ),
                                           array( 'depth', $Result['content_info']['node_depth'] ),
-                                          array( 'url_alias', $Result['content_info']['url_alias'] )
+                                          array( 'url_alias', $Result['content_info']['url_alias'] ),
+                                          array( 'persistent_variable', $Result['content_info']['persistent_variable'] )
                                           ) );
                     if ( isset( $Result['content_info']['class_identifier'] ) )
                         $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
