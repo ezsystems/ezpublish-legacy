@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZClassTemplate class
+// Definition of eZCodeTemplate class
 //
 // Created on: <18-Nov-2004 13:03:44 jb>
 //
@@ -35,28 +35,28 @@
 // you.
 //
 
-/*! \file ezclasstemplate.php
+/*! \file ezcodetemplate.php
 */
 
 /*!
-  \class eZClassTemplate ezclasstemplate.php
+  \class eZCodeTemplate ezcodetemplate.php
   \brief Replaces or generates blocks of code according to a template file
 
 */
 
 /// There are errors in the template code
-define( 'EZ_CLASS_TEMPLATE_STATUS_FAILED', 0 );
+define( 'EZ_CODE_TEMPLATE_STATUS_FAILED', 0 );
 /// Code files was succesfully updated
-define( 'EZ_CLASS_TEMPLATE_STATUS_OK', 1 );
+define( 'EZ_CODE_TEMPLATE_STATUS_OK', 1 );
 /// Code file was updated, but no new elements has been added
-define( 'EZ_CLASS_TEMPLATE_STATUS_NO_CHANGE', 2 );
+define( 'EZ_CODE_TEMPLATE_STATUS_NO_CHANGE', 2 );
 
-class eZClassTemplate
+class eZCodeTemplate
 {
     /*!
      Constructor
     */
-    function eZClassTemplate()
+    function eZCodeTemplate()
     {
         $this->Templates = array();
         $this->Templates['can-instantiate-class-list'] = array( 'filepath' => 'class_templates/classcreatelist.ctpl' );
@@ -67,7 +67,7 @@ class eZClassTemplate
       Applies template block in the file \a $filePath and writes back the new
       code to the same file.
 
-      \return One of the EZ_CLASS_TEMPLATE_STATUS_* status codes.
+      \return One of the EZ_CODE_TEMPLATE_STATUS_* status codes.
 
       \note It will create a backup file of the original
     */
@@ -76,8 +76,8 @@ class eZClassTemplate
         if ( !file_exists( $filePath ) )
         {
             eZDebug::writeError( "File $filePath does not exists",
-                                 'eZClassTemplate::apply' );
-            return EZ_CLASS_TEMPLATE_STATUS_FAILED;
+                                 'eZCodeTemplate::apply' );
+            return EZ_CODE_TEMPLATE_STATUS_FAILED;
         }
 
         $text = file_get_contents( $filePath );
@@ -86,8 +86,8 @@ class eZClassTemplate
         if ( !$fd )
         {
             eZDebug::writeError( "Failed to open temporary file $tempFile",
-                                 'eZClassTemplate::apply' );
-            return EZ_CLASS_TEMPLATE_STATUS_FAILED;
+                                 'eZCodeTemplate::apply' );
+            return EZ_CODE_TEMPLATE_STATUS_FAILED;
         }
 
         $createTag = 'code-template::create-block:';
@@ -136,7 +136,7 @@ class eZClassTemplate
                 if ( count( $elements ) < 1 )
                 {
                     eZDebug::writeError( "No template name found in file $filePath at offset $offset",
-                                         'eZClassTemplate::apply' );
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -148,7 +148,7 @@ class eZClassTemplate
                 if ( $templateFile === false )
                 {
                     eZDebug::writeError( "No template file for template $templateName used in file $filePath at offset $offset",
-                                         'eZClassTemplate::apply' );
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -157,7 +157,7 @@ class eZClassTemplate
                 if ( !file_exists( $templateFile ) )
                 {
                     eZDebug::writeError( "Template file $templateFile for template $templateName does not exist",
-                                         'eZClassTemplate::apply' );
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -194,7 +194,7 @@ class eZClassTemplate
                             if ( $matches[1] == 'END' )
                             {
                                 eZDebug::writeError( "Tag $currentTag was finished before it was started, skipping it",
-                                                     'eZClassTemplate::apply' );
+                                                     'eZCodeTemplate::apply' );
                                 $currentTag = false;
                                 $error = true;
                             }
@@ -222,14 +222,14 @@ class eZClassTemplate
                                 else
                                 {
                                     eZDebug::writeError( "End tag $tag does not match start tag $currentTag, skipping it",
-                                                         'eZClassTemplate::apply' );
+                                                         'eZCodeTemplate::apply' );
                                     $error = true;
                                 }
                             }
                             else
                             {
                                 eZDebug::writeError( "Start tag $tag found while $currentTag is active, skipping it",
-                                                     'eZClassTemplate::apply' );
+                                                     'eZCodeTemplate::apply' );
                                 $error = true;
                             }
                         }
@@ -334,7 +334,7 @@ class eZClassTemplate
             if ( $originalMD5 == $updatedMD5 )
             {
                 unlink( $tempFile );
-                return EZ_CLASS_TEMPLATE_STATUS_NO_CHANGE;
+                return EZ_CODE_TEMPLATE_STATUS_NO_CHANGE;
             }
             else
             {
@@ -344,11 +344,11 @@ class eZClassTemplate
                     unlink( $backupFile );
                 rename( $filePath, $backupFile );
                 rename( $tempFile, $filePath );
-                return EZ_CLASS_TEMPLATE_STATUS_OK;
+                return EZ_CODE_TEMPLATE_STATUS_OK;
             }
         }
         unlink( $tempFile );
-        return EZ_CLASS_TEMPLATE_STATUS_FAILED;
+        return EZ_CODE_TEMPLATE_STATUS_FAILED;
     }
 
     /*!

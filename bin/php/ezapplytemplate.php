@@ -38,7 +38,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Code Template updater\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ publish Code Template Generator\n\n" .
                                                          "This will apply any template blocks it finds in files\n" .
                                                          "and writes back the new file\n" .
                                                          "\n" .
@@ -61,12 +61,12 @@ if ( count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-include_once( 'kernel/classes/ezclasstemplate.php' );
+include_once( 'kernel/classes/ezcodetemplate.php' );
 
 $hasErrors = false;
 $hasModified = false;
 
-$tpl = new eZClassTemplate();
+$tpl = new eZCodeTemplate();
 foreach ( $options['arguments'] as $file )
 {
     $status = $tpl->apply( $file );
