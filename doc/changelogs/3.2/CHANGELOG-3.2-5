@@ -23,6 +23,7 @@ Changes from 3.2-4 to 3.2-5
 - Fixed language bug using sorty_by on attributes. http://ez.no/developer/ez_publish_3/bug_reports/sort_by_attribute_translation_duplicates_bug_incl_quickfix
 - Fixed bug in handling of email addresses with text (e.g name), previously the name and email were swapped giving bad To and From mail addresses.
 - Fixed ezdesign operator priority. http://ez.no/developer/ez_publish_3/bug_reports/extension_problem_with_ezdesign_operator
+- Fixed undefined property bug. http://ez.no/developer/ez_publish_3/bug_reports/undefined_property_contentobject_in_ezcontentobjecttreenode_php
 
 *Setup:
 
