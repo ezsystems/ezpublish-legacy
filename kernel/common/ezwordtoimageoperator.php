@@ -50,7 +50,9 @@ class eZWordToImageOperator
     */
     function eZWordToImageOperator()
     {
-        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon", "icon", "flag_icon" );
+        $this->Operators = array( "wordtoimage",
+                                  "mimetype_icon", "class_icon", "classgroup_icon", "action_icon", "icon",
+                                  "flag_icon" );
     }
 
     /*!
@@ -88,14 +90,24 @@ class eZWordToImageOperator
             case 'flag_icon':
             {
                 $ini =& eZINI::instance( 'icon.ini' );
-                $repository = $ini->variable( 'FlagIcons', 'Repository' );
-                $iconFormat = $ini->variable( 'FlagIcons', 'IconFormat' );
-                $icon = $operatorValue . "." . $iconFormat;
-                $iconPath = $repository . '/' . $icon;
+                $repository = $ini->variable( 'IconSettings', 'Repository' );
+                $theme = $ini->variable( 'FlagIcons', 'Theme' );
+
+                // Load icon settings from the theme
+                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+
+                $iconFormat = $themeINI->variable( 'FlagIcons', 'IconFormat' );
+                if ( $ini->hasVariable( 'FlagIcons', 'IconFormat' ) )
+                {
+                    $iconFormat = $ini->variable( 'FlagIcons', 'IconFormat' );
+                }
+
+                $icon = $operatorValue . '.' . $iconFormat;
+                $iconPath = $repository . '/' . $theme . '/' . $icon;
                 if ( !is_readable( $iconPath ) )
                 {
-                    $defaultIcon = $ini->variable( 'FlagIcons', 'DefaultIcon' );
-                    $iconPath = $repository . '/' . $defaultIcon;
+                    $defaultIcon = $themeINI->variable( 'FlagIcons', 'DefaultIcon' );
+                    $iconPath = $repository . '/' . $theme . '/' . $defaultIcon . '.' . $iconFormat;
                 }
                 if ( strlen( eZSys::wwwDir() ) > 0 )
                     $wwwDirPrefix = eZSys::wwwDir() . '/';
@@ -107,6 +119,7 @@ class eZWordToImageOperator
             case 'mimetype_icon':
             case 'class_icon':
             case 'classgroup_icon':
+            case 'action_icon':
             case 'icon':
             {
                 // Determine whether we should return only the image URI instead of the whole HTML code.
@@ -118,6 +131,22 @@ class eZWordToImageOperator
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'IconSettings', 'Theme' );
+                $groups = array( 'mimetype_icon' => 'MimeIcons',
+                                 'class_icon' => 'ClassIcons',
+                                 'classgroup_icon' => 'ClassGroupIcons',
+                                 'action_icon' => 'ActionIcons',
+                                 'icon' => 'Icons' );
+                $configGroup = $groups[$operatorName];
+
+                // Check if the specific icon type has a theme setting
+                if ( $ini->hasVariable( $configGroup, 'Theme' ) )
+                {
+                    $theme = $ini->variable( $configGroup, 'Theme' );
+                }
+
+                // Load icon settings from the theme
+                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+
                 if ( isset( $operatorParameters[0] ) )
                 {
                     $sizeName = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
@@ -125,8 +154,23 @@ class eZWordToImageOperator
                 else
                 {
                     $sizeName = $ini->variable( 'IconSettings', 'Size' );
+                    // Check if the specific icon type has a size setting
+                    if ( $ini->hasVariable( $configGroup, 'Size' ) )
+                    {
+                        $theme = $ini->variable( $configGroup, 'Size' );
+                    }
                 }
-                $sizes = $ini->variable( 'IconSettings', 'Sizes' );
+
+                // Whether we append size to path or not
+                $useSize = ( $themeINI->variable( 'IconSettings', 'UseSizeInPath' ) == 'true' );
+
+                $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
+                if ( $ini->hasVariable( 'IconSettings', 'Sizes' ) )
+                {
+                    $size = array_merge( $sizes,
+                                         $ini->variable( 'IconSettings', 'Sizes' ) );
+                }
+
                 if ( isset( $sizes[$sizeName] ) )
                 {
                     $size = $sizes[$sizeName];
@@ -135,6 +179,7 @@ class eZWordToImageOperator
                 {
                     $size = $sizes[0];
                 }
+
                 $width = false;
                 $height = false;
                 $xDivider = strpos( $size, 'x' );
@@ -143,6 +188,7 @@ class eZWordToImageOperator
                     $width = (int)substr( $size, 0, $xDivider );
                     $height = (int)substr( $size, $xDivider + 1 );
                 }
+
                 if ( isset( $operatorParameters[1] ) )
                 {
                     $altText = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
@@ -154,74 +200,39 @@ class eZWordToImageOperator
 
                 if ( $operatorName == 'mimetype_icon' )
                 {
-                    $mimeType = strtolower( $operatorValue );
-                    $mimeMap = $ini->variable( 'MimeIcons', 'MimeMap' );
-                    $icon = false;
-                    if ( isset( $mimeMap[$mimeType] ) )
-                    {
-                        $icon = $mimeMap[$mimeType];
-                    }
-                    else
-                    {
-                        $pos = strpos( $mimeType, '/' );
-                        if ( $pos !== false )
-                        {
-                            $mimeGroup = substr( $mimeType, 0, $pos );
-                            if ( isset( $mimeMap[$mimeGroup] ) )
-                            {
-                                $icon = $mimeMap[$mimeGroup];
-                            }
-                        }
-                    }
-                    if ( $icon === false )
-                    {
-                        $icon = $ini->variable( 'MimeIcons', 'Default' );
-                    }
+                    $icon = $this->iconGroupMapping( $ini, $themeINI,
+                                                     'MimeIcons', 'MimeMap',
+                                                     strtolower( $operatorValue ) );
                 }
                 else if ( $operatorName == 'class_icon' )
                 {
-                    $class = strtolower( $operatorValue );
-                    $classMap = $ini->variable( 'ClassIcons', 'ClassMap' );
-                    $icon = false;
-                    if ( isset( $classMap[$class] ) )
-                    {
-                        $icon = $classMap[$class];
-                    }
-                    if ( $icon === false )
-                    {
-                        $icon = $ini->variable( 'ClassIcons', 'Default' );
-                    }
+                    $icon = $this->iconDirectMapping( $ini, $themeINI,
+                                                      'ClassIcons', 'ClassMap',
+                                                      strtolower( $operatorValue ) );
                 }
                 else if ( $operatorName == 'classgroup_icon' )
                 {
-                    $classGroup = strtolower( $operatorValue );
-                    $classGroupMap = $ini->variable( 'ClassGroupIcons', 'ClassGroupMap' );
-                    $icon = false;
-                    if ( isset( $classGroupMap[$classGroup] ) )
-                    {
-                        $icon = $classGroupMap[$classGroup];
-                    }
-                    if ( $icon === false )
-                    {
-                        $icon = $ini->variable( 'ClassGroupIcons', 'Default' );
-                    }
+                    $icon = $this->iconDirectMapping( $ini, $themeINI,
+                                                      'ClassGroupIcons', 'ClassGroupMap',
+                                                      strtolower( $operatorValue ) );
+                }
+                else if ( $operatorName == 'action_icon' )
+                {
+                    $icon = $this->iconDirectMapping( $ini, $themeINI,
+                                                      'ActionIcons', 'ActionMap',
+                                                      strtolower( $operatorValue ) );
                 }
                 else if ( $operatorName == 'icon' )
                 {
-                    $requestedIcon = strtolower( $operatorValue );
-                    $iconMap = $ini->variable( 'Icons', 'IconMap' );
-                    $icon = false;
-                    if ( isset( $iconMap[$requestedIcon] ) )
-                    {
-                        $icon = $iconMap[$requestedIcon];
-                    }
-                    if ( $icon === false )
-                    {
-                        $icon = $ini->variable( 'Icons', 'Default' );
-                    }
+                    $icon = $this->iconDirectMapping( $ini, $themeINI,
+                                                      'Icons', 'IconMap',
+                                                      strtolower( $operatorValue ) );
                 }
 
-                $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $icon;
+                $iconPath = '/' . $repository . '/' . $theme;
+                if ( $useSize )
+                    $iconPath .= '/' . $size;
+                $iconPath .= '/' . $icon;
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
@@ -244,7 +255,122 @@ class eZWordToImageOperator
             }
 
         }
+
     }
+
+    /*!
+     \private
+     Tries to find icon file by considering \a $matchItem as a single value.
+
+     It will first try to match the whole \a $matchItem value in the mapping table.
+
+     \return The relative path to the icon file.
+
+     Example
+     \code
+     $icon = $this->iconDirectMapping( $ini, $themeINI, 'ClassIcons', 'ClassMap', 'Folder' );
+     \encode
+
+     \sa iconGroupMapping
+    */
+    function iconDirectMapping( &$ini, &$themeINI, $iniGroup, $mapName, $matchItem )
+    {
+        $map = array();
+
+        // Load mapping from theme
+        if ( $themeINI->hasVariable( $iniGroup, $mapName ) )
+        {
+            $map = array_merge( $map,
+                                $themeINI->variable( $iniGroup, $mapName ) );
+        }
+        // Load override mappings if they exist
+        if ( $ini->hasVariable( $iniGroup, $mapName ) )
+        {
+            $map = array_merge( $map,
+                                $ini->variable( $iniGroup, $mapName ) );
+        }
+
+        $icon = false;
+        if ( isset( $map[$matchItem] ) )
+        {
+            $icon = $map[$matchItem];
+        }
+        if ( $icon === false )
+        {
+            if ( $themeINI->hasVariable( $iniGroup, 'Default' ) )
+                $icon = $themeINI->variable( $iniGroup, 'Default' );
+            if ( $ini->hasVariable( $iniGroup, 'Default' ) )
+                $icon = $ini->variable( $iniGroup, 'Default' );
+        }
+        return $icon;
+    }
+
+    /*!
+     \private
+     Tries to find icon file by considering \a $matchItem as a group,
+     split into two parts and separated by a slash.
+
+     It will first try to match the whole \a $matchItem value and then
+     the group name.
+
+     \return The relative path to the icon file.
+
+     Example
+     \code
+     $icon = $this->iconGroupMapping( $ini, $themeINI, 'MimeIcons', 'MimeMap', 'image/jpeg' );
+     \encode
+
+     \sa iconDirectMapping
+    */
+    function iconGroupMapping( &$ini, &$themeINI, $iniGroup, $mapName, $matchItem )
+    {
+        $map = array();
+
+        // Load mapping from theme
+        if ( $themeINI->hasVariable( $iniGroup, $mapName ) )
+        {
+            $map = array_merge( $map,
+                                $themeINI->variable( $iniGroup, $mapName ) );
+        }
+        // Load override mappings if they exist
+        if ( $ini->hasVariable( $iniGroup, $mapName ) )
+        {
+            $map = array_merge( $map,
+                                $ini->variable( $iniGroup, $mapName ) );
+        }
+
+        $icon = false;
+        // See if we have a match for the whole match item
+        if ( isset( $map[$matchItem] ) )
+        {
+            $icon = $map[$matchItem];
+        }
+        else
+        {
+            // If not we have to check the group (first part)
+            $pos = strpos( $matchItem, '/' );
+            if ( $pos !== false )
+            {
+                $mimeGroup = substr( $matchItem, 0, $pos );
+                if ( isset( $map[$mimeGroup] ) )
+                {
+                    $icon = $map[$mimeGroup];
+                }
+            }
+        }
+
+        // No icon? If so use default
+        if ( $icon === false )
+        {
+            if ( $themeINI->hasVariable( $iniGroup, 'Default' ) )
+                $icon = $themeINI->variable( $iniGroup, 'Default' );
+            if ( $ini->hasVariable( $iniGroup, 'Default' ) )
+                $icon = $ini->variable( $iniGroup, 'Default' );
+        }
+        return $icon;
+    }
+
+    /// \privatesection
     var $Operators;
 }
 ?>
