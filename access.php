@@ -415,8 +415,13 @@ function changeAccess( $access )
     if ( $name == '' )
     {
         $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        if ( is_numeric( $access['type'] ) )
+            $type = $access['type'];
+        else
+            $type = EZ_ACCESS_TYPE_DEFAULT;
+
         $access = array( 'name' => $name,
-                         'type' => EZ_ACCESS_TYPE_DEFAULT );
+                         'type' => $type );
         if ( accessDebugEnabled() )
             eZDebug::writeDebug( "Using default site access '$name'", 'access.php' );
     }
@@ -428,6 +433,7 @@ function changeAccess( $access )
         if ( accessDebugEnabled() )
             eZDebug::writeDebug( "Adding '$name' to access path", 'access.php' );
     }
+
     if ( file_exists( "settings/siteaccess/$name" ) )
     {
         $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
@@ -436,6 +442,7 @@ function changeAccess( $access )
         if ( accessDebugEnabled() )
             eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
     }
+
     if ( $access === null )
     {
         return array( 'type' => EZ_ACCESS_TYPE_DEFAULT,
