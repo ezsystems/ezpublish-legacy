@@ -1,19 +1,35 @@
+<div class="context-block">
+
+<h2 class="title">Relations</h2>
+
 {* Show related objects: *}
+<table class="list" cellspacing="0">
+<tr>
+    <th>Related objects</th>
+</tr>
 {section show=$node.object.related_contentobject_count|gt(0)}
-    <hr />
-    <h2>This item makes use of the following {$node.object.related_contentobject_count} objects:</h2>
     {section var=RelatedObjects loop=$node.object.related_contentobject_array sequence=array( bglight, bgdark )}
-        <div class="block">{content_view_gui view=text_linked content_object=$RelatedObjects.item}</div>
+    <tr class="{$RelatedObjects.sequence}">
+        <td>{$RelatedObjects.item.node.object.content_class.identifier|class_icon( small, $RelatedObjects.item.node.object.content_class.name )}&nbsp;{content_view_gui view=text_linked content_object=$RelatedObjects.item}</td>
+    </tr>
     {/section}
 {/section}
-
+</tr>
+</table>
 
 {* Show reverse related objects: *}
+<table class="list" cellspacing="0">
+<tr>
+    <th>Object used by:</th>
+</tr>
 {section show=$node.object.reverse_related_contentobject_count|gt(0)}
-    <hr />
-    <h2>This item is in use by {$node.object.reverse_related_contentobject_count} other objects:</h2>
     {section var=ReverseRelatedObjects loop=$node.object.reverse_related_contentobject_array sequence=array( bglight, bgdark )}
-        <div class="block">{content_view_gui view=text_linked content_object=$ReverseRelatedObjects.item}</div>
+    <tr class="{$ReverseRelatedObjects.sequence}">
+        <td>{$ReverseRelatedObjects.item.node.object.content_class.identifier|class_icon( small, $ReverseRelatedObjects.item.node.object.content_class.name )}&nbsp;{content_view_gui view=text_linked content_object=$ReverseRelatedObjects.item}</td>
+    </tr>
     {/section}
 {/section}
+</tr>
+</table>
 
+</div>

@@ -403,7 +403,7 @@ div.content-navigation-childlist table.list th.name, div.content-edit table.list
     width: 99%;
 }
 
-div.content-navigation-childlist table.list img, div.content-edit table.list img
+table.list img
 {
     vertical-align: middle;
 }

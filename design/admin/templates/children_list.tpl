@@ -2,7 +2,7 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove">&nbsp;</th>
+        <th class="remove"><img src="../images/toggle-button-16x16.gif" height="16" width="16" alt="Toggle selection" /></th>
 
         {* Name column *}
         <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
