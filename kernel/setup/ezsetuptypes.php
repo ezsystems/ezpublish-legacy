@@ -1875,10 +1875,25 @@ function eZSetupCommonPreferences( &$preferences, $siteType, $parameters )
 {
     $adminAccountID = eZSetupRemoteObjectID( $parameters, '1bb4fe25487f05527efa8bfd394cecc7' );
 
-    // Make sure admin starts with the 'preview' window set as open by default
+    // Make sure admin starts with:
+    // - The 'preview' window set as open by default
+    // - The 'content structure' tool is open by default
+    // - The 'bookmarks' tool is open by default
+    // - The 'roles' and 'policies' windows are open by default
+    // - The child list limit is 25 by default
     $preferences[] = array( 'user_id' => $adminAccountID,
-                            'name' => 'admin_navigation_content',
-                            'value' => '1' );
+                            'preferences' => array( array( 'name' => 'admin_navigation_content',
+                                                           'value' => '1' ),
+                                                    array( 'name' => 'admin_navigation_roles',
+                                                           'value' => '1' ),
+                                                    array( 'name' => 'admin_navigation_policies',
+                                                           'value' => '1' ),
+                                                    array( 'name' => 'admin_list_limit',
+                                                           'value' => '2' ),
+                                                    array( 'name' => 'admin_treemenu',
+                                                           'value' => '1' ),
+                                                    array( 'name' => 'admin_bookmark_menu',
+                                                           'value' => '1' ) ) );
 }
 
 function eZSetupRoles( $siteType, $parameters )
