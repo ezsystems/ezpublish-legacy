@@ -733,7 +733,8 @@ class eZTemplateSectionFunction
             return;
 
         $showItem = null;
-        if ( isset( $parameters["show"] ) )
+        $showSet = isset( $parameters["show"] );
+        if ( $showSet )
             $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
 
         $sequenceStructure = null;
@@ -822,14 +823,13 @@ class eZTemplateSectionFunction
         }
 
         $canShowBlock = true;
-        if( $showItem !== null and ( ( is_array( $showItem ) and count( $showItem ) == 0 ) or
-                                     ( is_numeric( $showItem ) and $showItem == 0 ) or
-                                     ( is_string( $showItem ) > 0 and strlen( $showItem ) == 0 ) or
-                                     !$showItem ) )
+        if( $showSet and ( ( is_array( $showItem ) and count( $showItem ) == 0 ) or
+                           ( is_numeric( $showItem ) and $showItem == 0 ) or
+                           ( is_string( $showItem ) > 0 and strlen( $showItem ) == 0 ) or
+                           !$showItem ) )
             $canShowBlock = false;
 
-
-        if ( ( $showItem === null or ( $showItem !== null and $canShowBlock ) ) and $loopItem === null )
+        if ( ( !$showSet or ( $showSet and $canShowBlock ) ) and $loopItem === null )
         {
             $this->processChildrenOnce( $textElements, $items[1], $tpl, $rootNamespace, $name );
         }
@@ -837,7 +837,7 @@ class eZTemplateSectionFunction
         {
             $iteratorData = array( 'iterator' => false );
             $showMainBody = true;
-            if ( $showItem !== null )
+            if ( $showSet )
             {
                 if( !$canShowBlock )
                     $showMainBody = false;
