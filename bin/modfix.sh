@@ -54,3 +54,18 @@ done
 
 
 cd $CWD
+
+cd $CWD
+echo "
+*** WARNING WARNING WARNING WARNING ***
+This script sets 777 as permissions in var/
+THIS IS NOT SECURE!
+Find the user and group for your web server and make them owner of all files in var/
+You should be able to find this information in the configuration file for your web server.
+
+For example:
+If your web server user is apache and the group is apache, then run the following commands:
+# chown -R apache.apache var/
+# chmod -R 770 var/
+"
+
