@@ -119,6 +119,8 @@ class eZContentStructureTreeOperator
     */
     function &subTree( $params, $nodeID, $countChildren = false )
     {
+        $nodeListArray = array();
+
         // sorting params
         $sortingInfo =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
 
@@ -130,7 +132,14 @@ class eZContentStructureTreeOperator
         $classCondition =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
 
         // permissions
-        $limitationList =& eZContentObjectTreeNode::getLimitationList( $params['Limitation'] );
+        $limitationParams = false;
+        $limitationList =& eZContentObjectTreeNode::getLimitationList( $limitationParams );
+
+        if ( $limitationList === false )
+        {
+            return $nodeListArray;
+        }
+
         $permissionChecking =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // version
@@ -376,7 +385,7 @@ class eZContentStructureTreeOperator
     {
         // create initial subtree with root node and empty children.
         $rootTreeNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
-        if( $rootTreeNode )
+        if( $rootTreeNode && $rootTreeNode->canRead() )
         {
             $contentObject =& $rootTreeNode->attribute( 'object' );
 

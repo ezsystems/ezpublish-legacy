@@ -17,7 +17,8 @@
      autoopenCurrentNode    = ezini( 'TreeMenu', 'AutoopenCurrentNode', 'contentstructuremenu.ini' )
      contentStructureTree   = false()
      menuID                 = "content_tree_menu"
-     isDepthUnlimited       = eq($:maxDepth, 0) }
+     isDepthUnlimited       = eq($:maxDepth, 0)
+     rootNode               = false }
 
     {* check size of icons *}
     {section show=is_set($:class_icons_size)}
@@ -62,6 +63,8 @@
         {set rootNodeID=$custom_root_node_id}
     {/section}
 
+    {set rootNode=fetch( 'content', 'node', hash( node_id, $:rootNodeID ) )}
+
     {* check custom action when clicking on menu item *}
     {section show=and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}
         {set itemClickAction=$csm_menu_item_click_action}
@@ -74,7 +77,7 @@
 
     {* create menu *}
     {default current_user=fetch('user','current_user')}
-    {cache-block keys=array($:itemClickAction, $:rootNodeID,$current_user.role_id_list|implode( ',' )) subtree_expire="$:parentNode.object.name/"}
+    {cache-block keys=array($:itemClickAction, $:rootNodeID,$current_user.role_id_list|implode( ',' )) subtree_expire=$:rootNode.url_alias}
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID,
                                                             $:classFilter,
@@ -89,6 +92,7 @@
             </ul>
     {/cache-block}
     {/default}
+
     {* initialize menu *}
     <script language="JavaScript" type="text/javascript"><!--
 
@@ -107,6 +111,5 @@
         ezcst_initializeMenuState( nodesList, "{$:menuID}", "{$:autoopenCurrentNode}" );
     // -->
     </script>
-
 {/let}
 

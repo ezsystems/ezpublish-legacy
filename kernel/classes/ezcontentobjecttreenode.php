@@ -1290,7 +1290,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser =& eZUser::currentUser();
             $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
-            if ( $accessResult['accessWord'] == 'limited' )
+
+            if ( $accessResult['accessWord'] == 'no' )
+            {
+                $limitationList = false;
+                $GLOBALS['ezpolicylimitation_list']['content']['read'] = false;
+            }
+            else if ( $accessResult['accessWord'] == 'limited' )
             {
                 $limitationList =& $accessResult['policies'];
                 $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $accessResult['policies'];
