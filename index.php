@@ -427,6 +427,7 @@ while ( $moduleRunRequired )
 
         $moduleAccessAllowed = true;
         $omitPolicyCheck = true;
+        $runModuleView = true;
         if ( $policyCheckRequired )
         {
             $omitPolicyCheck = false;
@@ -461,7 +462,7 @@ while ( $moduleRunRequired )
                         if ( $limitation->attribute( 'identifier' ) == 'SiteAccess' )
                         {
                             $limitationValues =& $limitation->attribute( 'values_as_array' );
-                            eZDebug::writeDebug( $limitationValues, crc32( $access[ 'name' ] ));
+                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $limitationValues, crc32( $access[ 'name' ] ));
                             if ( in_array( crc32( $access[ 'name' ] ), $limitationValues ) )
                             {
                                 $hasAccessToSite = true;
@@ -494,23 +495,38 @@ while ( $moduleRunRequired )
             {
                 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'not able to get access to siteaccess' );
                 $moduleAccessAllowed = false;
+                $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
+                if ( $requireUserLogin )
+                {
+                    $module = eZModule::exists( 'user' );
+                    if ( get_class( $module ) == "ezmodule" )
+                    {
+                        $moduleResult =& $module->run( 'login', array(),
+                                                       array( 'SiteAccessAllowed' => false,
+                                                              'SiteAccessName' => $access['name'] ) );
+                        $runModuleView = false;
+                    }
+                }
             }
         }
 
         $GLOBALS['eZRequestedModule'] =& $module;
 
-        if ( !$moduleAccessAllowed )
+        if ( $runModuleView )
         {
-            $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-        }
-        else
-        {
-            $moduleResult =& $module->run( $function_name, $params );
+            if ( !$moduleAccessAllowed )
+            {
+                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            }
+            else
+            {
+                $moduleResult =& $module->run( $function_name, $params );
 
-            if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
-                 $moduleResult == null )
-                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
-                                                                                                               'view' => $function_name ) );
+                if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
+                     $moduleResult == null )
+                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
+                                                                                                                   'view' => $function_name ) );
+            }
         }
     }
     else

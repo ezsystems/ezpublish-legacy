@@ -49,6 +49,14 @@ $userRedirectURI = '';
 
 $loginWarning = false;
 
+$siteAccessAllowed = true;
+$siteAccessName = false;
+
+if ( isset( $Params['SiteAccessAllowed'] ) )
+    $siteAccessAllowed = $Params['SiteAccessAllowed'];
+if ( isset( $Params['SiteAccessName'] ) )
+    $siteAccessName = $Params['SiteAccessName'];
+
 if ( $Module->isCurrentAction( 'Login' ) and
      $Module->hasActionParameter( 'UserLogin' ) and
      $Module->hasActionParameter( 'UserPassword' )
@@ -105,6 +113,9 @@ $tpl->setVariable( 'login', $userLogin, 'User' );
 $tpl->setVariable( 'password', $userPassword, 'User' );
 $tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
 $tpl->setVariable( 'warning', array( 'bad_login' => $loginWarning ), 'User' );
+
+$tpl->setVariable( 'site_access', array( 'allowed' => $siteAccessAllowed,
+                                         'name' => $siteAccessName ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );

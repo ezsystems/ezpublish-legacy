@@ -11,6 +11,17 @@
     <li>{"A valid username and password is required to login."|i18n("design/standard/user")}</li>
 </ul>
 </div>
+{section-else}
+
+{section show=$site_access.allowed|not}
+<div class="warning">
+<h2>{"Access not allowed"|i18n("design/standard/user")}</h2>
+<ul>
+    <li>{"You are not allowed to access %1."|i18n("design/standard/user",,array($site_access.name))}</li>
+</ul>
+</div>
+{/section}
+
 {/section}
 
 <div class="block">

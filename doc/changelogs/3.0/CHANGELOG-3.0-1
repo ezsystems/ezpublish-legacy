@@ -58,6 +58,8 @@ links to clickable links.
 - Fixed checking of successful generation of imagevariations. 
 - Added missing include in collaboration approval.
 - Added site URL and eZ publish version to admin interface, under setup.
+- If require user login is on and the siteaccess is not allowed the user login
+  page is shown with a warning about access denied.
 
 *SDK :
 
