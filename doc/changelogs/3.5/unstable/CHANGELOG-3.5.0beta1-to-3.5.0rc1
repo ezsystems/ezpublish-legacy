@@ -95,6 +95,8 @@ Datatype:
 - Fixed bug of updating priority does not work if parent node is not main node.
   http://ez.no/community/bug_reports/set_order_priority_in_other_location_no_main_location
   (Merged from stable/3.4, rev. 9505)
+- Fixed bug in ezkeyword datatype which will store duplicated keyword if keyword contains apostrophe (').
+  (Merged from stable/3.4, rev. 9511)
 
 *Library:
 
