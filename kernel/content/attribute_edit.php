@@ -126,8 +126,8 @@ $storeActions = array( 'Preview',
                        'Apply',
                        'Publish',
                        'Store',
-                       'Discard',
-//                        'CustomAction',
+//                      'Discard',
+//                      'CustomAction',
                        'EditLanguage',
                        'BrowseForObjects',
                        'NewObject',
@@ -176,7 +176,6 @@ if ( $storingAllowed && $hasObjectInput)
 //     print( "<pre>" );
 //     var_dump( $fetchResult );
 //     print( "</pre>" );
-
     if ( $Module->isCurrentAction( 'Discard' ) )
         $inputValidated = true;
 
@@ -184,12 +183,10 @@ if ( $storingAllowed && $hasObjectInput)
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
-
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
-
 //         print( "storing<br/>" );
         // Tell attributes to store themselves if necessary
         $object->storeInput( $contentObjectAttributes,

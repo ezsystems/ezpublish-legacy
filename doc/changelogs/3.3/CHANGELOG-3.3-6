@@ -17,6 +17,8 @@ eZINI:
   http://ez.no/community/bug_reports/3_4alpha4_moving_a_node_won_t_work
 - Fixed bug of unable to save class attribute type in datatype objectrelationlist.
   http://ez.no/community/bug_reports/undefined_index_in_objectrelationlisttype
+- Fixed bug of attribute is stored when click on "Discard" button when edit a content object.
+  http://ez.no/community/bug_reports/user_account_changes_are_stored_even_when_not_validated
 
 *Library:
 
