@@ -117,3 +117,5 @@ eZDBSchema:
   based on the table name.
 - Added check for primary key length in PostgreSQL, the length of the key must
   not exceed 63 characters.
+- Added lint checker for DB schemas, this will make sure that the schema
+  can be used for all databases supported by eZ publish.

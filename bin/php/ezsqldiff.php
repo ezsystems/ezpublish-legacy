@@ -52,6 +52,7 @@ $script->startup();
 $options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password;]" .
                                 "[match-type:][match-host:][match-user:][match-password;]" .
                                 "[t:|type:][host:][u:|user:][p:|password;]" .
+                                "[lint-check]" .
                                 "[reverse][check-only]",
                                 "[source][match]",
                                 array( 'source-type' => ( "Which database type to use for source, can be one of:\n" .
@@ -80,7 +81,8 @@ if ( count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-if ( count( $options['arguments'] ) < 2 )
+if ( count( $options['arguments'] ) < 2 and
+     !$options['lint-check'] )
 {
     $cli->error( "Missing match database" );
     $script->shutdown( 1 );
@@ -99,20 +101,23 @@ $matchType = $options['match-type'] ? $options['match-type'] : $options['type'];
 $matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];
 $matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];
 $matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];
-$matchDB = $options['arguments'][1];
+$matchDB = count( $options['arguments'] ) > 2 ? $options['arguments'][1] : '';
 
 if ( !is_string( $matchDBPassword ) )
     $matchDBPassword = '';
 
-if ( strlen( trim( $sourceType ) ) == 0)
+if ( strlen( trim( $sourceType ) ) == 0 )
 {
     $cli->error( "No source type chosen" );
     $script->shutdown( 1 );
 }
-if ( strlen( trim( $matchType ) ) == 0)
+if ( strlen( trim( $matchType ) ) == 0 )
 {
-    $cli->error( "No match type chosen" );
-    $script->shutdown( 1 );
+    if ( !$options['lint-check'] )
+    {
+        $cli->error( "No match type chosen" );
+        $script->shutdown( 1 );
+    }
 }
 
 $ini =& eZINI::instance();
@@ -153,6 +158,12 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
     }
 }
 
+function &loadLintSchema( &$dbSchema, &$cli )
+{
+    include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
+    return new eZLintSchema( false, $dbSchema );
+}
+
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB, $cli );
 if ( !$sourceSchema )
 {
@@ -161,12 +172,22 @@ if ( !$sourceSchema )
     $script->shutdown( 1 );
 }
 
-$matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDB, $cli );
-if ( !$matchSchema )
+if ( $options['lint-check'] )
 {
-    $cli->error( "Failed to load schema from match database" );
-    $cli->output( "host=$matchDBHost, user=$matchDBUser, database=$matchDB" );
-    $script->shutdown( 1 );
+    $matchType = $sourceType;
+    $matchSchema = $sourceSchema;
+    unset( $sourceSchema );
+    $sourceSchema = loadLintSchema( $matchSchema, $cli );
+}
+else
+{
+    $matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDB, $cli );
+    if ( !$matchSchema )
+    {
+        $cli->error( "Failed to load schema from match database" );
+        $cli->output( "host=$matchDBHost, user=$matchDBUser, database=$matchDB" );
+        $script->shutdown( 1 );
+    }
 }
 
 function SQLName( $type )
@@ -198,7 +219,7 @@ else
     $differences = eZDbSchemaChecker::diff( $matchSchema->schema(), $sourceSchema->schema(), $matchType, $sourceType );
     if ( !$options['check-only'] )
     {
-        $cli->output( "-- Difference in SQL commands for " . SQLName( $matchType ) );
+        $cli->output( "-- Difference in SQL commands from " . SQLName( $sourceType ) . " to " . SQLName( $matchType ) );
         $sql = $matchSchema->generateUpgradeFile( $differences );
         $cli->output( $sql );
     }

@@ -145,6 +145,18 @@ class eZDBSchemaInterface
 
     /*!
      \virtual
+     Validates the current schema and returns \c true if it is correct or
+     \c false if something must be fixed.
+     \note This should not be reimplemented by normal handlers, only schema
+           checkers.
+    */
+    function validate()
+    {
+        return false;
+    }
+
+    /*!
+     \virtual
      \protected
      Fetches all rows for table defined in \a $tableInfo and returns this structure:
      - fields - Array with fields that were fetched from table, the order of the fields
