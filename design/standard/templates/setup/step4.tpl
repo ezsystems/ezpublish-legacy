@@ -53,6 +53,9 @@
 	Password: <input type="password" size="20" name="emailPassword" /><br />
 	Please write any comments that you have about this install or eZ publish:<br />
 	<textarea name="comment" cols="70" rows="5"></textarea></p>
+	<hr />
+	If you are sending an email over SMTP then the next step might take a bit longer. Please be
+	patient.<br />
 	
     <input type="hidden" name="nextStep" value="{$nextStep}" />
     <p><button name="buttonNextStep" type="submit">Next step</button></p>
