@@ -101,6 +101,18 @@
 
     <div id="infobox">
         <div class="design">
+
+               {let bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, 2,
+                                                          limit, 5 ) )}
+            <h3>Best sellers</h3>
+            <ul>
+                   {section name=Products loop=$bestseller_list}
+                       <li>
+                       <a href={concat('content/view/full/',$Products:item.main_node_id)|ezurl}>{$Products:item.name|wash}</a> 
+                       </li>
+                    {/section}
+            </ul>
+               {/let}
         
                {let news_list=fetch( content, tree, hash( parent_node_id, 2,
                                                           limit, 5,
