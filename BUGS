@@ -27,3 +27,8 @@ Images are not uploaded if some attributes does not validate
 
 View object with temporary class will show double of all attributes in list.
 Due to temporary version of class which is joined in SQL.
+
+Enum datatype
+-------------
+It does not work to edit enum datatypes when there exists a temporary version
+of the class.
