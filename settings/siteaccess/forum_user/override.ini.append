@@ -83,4 +83,10 @@ MatchFile=edit_forum_reply.tpl
 Subdir=templates
 Match[class]=22
 
+[edit_user]
+Source=content/edit.tpl
+MatchFile=edit_user.tpl
+Subdir=templates
+Match[class]=4
+
 */ ?>
