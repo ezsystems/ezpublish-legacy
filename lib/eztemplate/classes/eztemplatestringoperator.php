@@ -162,7 +162,7 @@ class eZTemplateStringOperator
             $this->TrimName         => array( 'parameters' => 1    , 'element-transformation-func' => 'customMapTransformation' ),
             $this->WrapName         => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
 
-            $this->WashName         => array( 'parameters' => false, 'element-transformation-func' => 'washTransformation' ),
+            $this->WashName         => array( 'parameters' => 1, 'element-transformation-func' => 'washTransformation' ),
         );
 
         foreach ( $this->Operators as $operator )

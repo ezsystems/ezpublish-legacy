@@ -1280,6 +1280,7 @@ class eZTemplateCompiler
                     if ( $hasTransformationSupport and
                          method_exists( $operatorObject, $transformationMethod ) )
                     {
+                        $resetNewElementList = false;
                         if ( $transformParameters )
                         {
                             $newParameters = array();
@@ -1291,7 +1292,7 @@ class eZTemplateCompiler
                                      $inputAsParameter === 'always' )
                                 {
                                     $newParameters[] = $newParameterElements;
-                                    $newElementList = array();
+                                    $resetNewElementList = true;
                                 }
                             }
 
@@ -1312,7 +1313,14 @@ class eZTemplateCompiler
                                                                                $operatorParameters );
                         if ( is_array( $newElements ) )
                         {
-                            $newElementList = array_merge( $newElementList, $newElements );
+                            if ( $resetNewElementList )
+                            {
+                                $newElementList = $newElements;
+                            }
+                            else
+                            {
+                                $newElementList = array_merge( $newElementList, $newElements );
+                            }
                         }
                         else
                         {
