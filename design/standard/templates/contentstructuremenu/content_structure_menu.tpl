@@ -88,7 +88,7 @@
 
         {* Show menu tree. All container nodes are unfolded. *}
             <ul id="{$:menuID}">
-                {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize csm_menu_item_click_action=$:itemClickAction}
+                {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize csm_menu_item_click_action=$:itemClickAction ui_context=$ui_context}
             </ul>
     {/cache-block}
     {/default}
