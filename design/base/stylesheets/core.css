@@ -382,3 +382,8 @@ span.spamfilter
 {
      display: none;
 }
+
+span.strike
+{
+    text-decoration: line-through;
+}
