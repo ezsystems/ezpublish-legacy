@@ -813,7 +813,6 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                      ";
-                
             }
             // Count query
             $where = "WHERE";
@@ -889,8 +888,9 @@ class eZSearchEngine
     {
         $text =& strToLower( $text );
 
-        // Strip multiple whitespaces
-        $text =& str_replace(".", " ", $text );
+        // fix removing of . if not inside a word.
+        $text =& preg_replace( "#\.(\s|$)#", " ", $text );
+
         $text =& str_replace(":", " ", $text );
         $text =& str_replace(",", " ", $text );
         $text =& str_replace(";", " ", $text );
