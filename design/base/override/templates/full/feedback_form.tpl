@@ -1,7 +1,7 @@
 {* Feedback form - Full view *}
 
 <div class="content-view-full">
-    <div class="class-article">
+    <div class="class-feedback-form">
 
         <h1>{$node.name|wash()}</h1>
 
