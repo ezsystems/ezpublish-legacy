@@ -34,6 +34,7 @@ Changes from 2.9-6 to 2.9-7
 - Module list in policies now works with extensions.
 - Added anchor tag as standard in XMLText 
 - Optimized fetch lists
+- Access denied page now shows a login button if the current user is anonymous.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
