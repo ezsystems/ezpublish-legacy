@@ -21,6 +21,15 @@
 {/let}
 
 
+--------------------------------
+
+{let var1=a var2=b}
+{$var1}={$var2}
+{/let}
+
+{$var1}={$var2}
+--------------------------------
+
 {default page_uri_suffix=false()
          left_max=7
          right_max=6
