@@ -370,6 +370,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         return $module->redirectToView( 'view', array( 2 ) );
     }
 
+    $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
     $viewMode = 'full';
     if ( $module->hasActionParameter( 'ViewMode' ) )
@@ -383,35 +384,70 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $languageCode = eZContentObject::defaultLanguage();
     }
 
+    $object =& eZContentObject::fetch( $objectID );
+    if ( !$object )
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+
+    if ( !$object->checkAccess( 'edit' ) )
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+
     $assignmentIDSelection = $module->actionParameter( 'AssignmentIDSelection' );
 
-    eZDebug::writeDebug( "Does nothing for now" );
+    $hasChildren = false;
 
-//     $hasChildren = false;
+    $nodeAssignments = eZNodeAssignment::fetchListByID( $assignmentIDSelection );
+    $removeList = array();
+    $nodeRemoveList = array();
+    foreach ( $nodeAssignments as $key => $nodeAssignment )
+    {
+        $nodeAssignment =& $nodeAssignments[$key];
+        $node =& $nodeAssignment->fetchNode();
 
-//     $nodeAssignments =& eZNodeAssignment::fetchByID( $assignmentIDSelection );
-//     foreach ( $nodeAssignments as $key => $nodeAssignment )
-//     {
-//         $nodeAssignment =& $nodeAssignments[$key];
-//         $node =& $nodeAssignment->fetchNode();
-//         if ( $node )
-//         {
-//             $count = $node->childrenCount( false );
-//             if ( $count > 0 )
-//             {
-//                 $hasChildren = true;
-//                 break;
-//             }
-//         }
-//     }
+        if ( $node )
+        {
+            // Security checks
+            if ( $node->attribute( 'node_id' ) == $nodeID )
+                continue;
+            if ( !$node->canRemove() )
+                continue;
 
-//     if ( $hasChildren )
-//     {
-//     }
-//     else
-//     {
-//         eZNodeAssignment::removeByID( $assignmentIDSelection );
-//     }
+            $removeList[] = $nodeAssignment->attribute( 'id' );
+            $nodeRemoveList[] =& $node;
+            $count = $node->childrenCount( false );
+            if ( $count > 0 )
+            {
+                $hasChildren = true;
+                break;
+            }
+        }
+    }
+
+    if ( $hasChildren )
+    {
+        $http->setSessionVariable( 'AssignmentRemoveList', $removeList );
+        return $module->redirectToView( 'removelocation' );
+    }
+    else
+    {
+//        eZNodeAssignment::removeByID( $removeList );
+        $mainNodeChanged = false;
+        foreach ( $nodeRemoveList as $key => $node )
+        {
+            if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
+                $mainNodeChanged = true;
+            $node->remove();
+        }
+        if ( $mainNodeChanged )
+        {
+            $allNodes =& $object->assignedNodes();
+            $mainNode =& $allNodes[0];
+            eZContentObjectTreeNode::updateMainNodeID( $mainNode->attribute( 'node_id' ), $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
+        }
+    }
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }

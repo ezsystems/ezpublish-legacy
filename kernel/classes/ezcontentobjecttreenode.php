@@ -168,6 +168,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "name" => "ezcontentobject_tree" );
     }
 
+    /*!
+     Creates a new tree node and returns it.
+     \param $parentNodeID The ID of the parent or \c null if the node is not known yet.
+     \param $contentObjectID The ID of the object it points to or \c null if it is not known yet.
+     \param $contentObjectVersion The version of the object or \c 0 if not known yet.
+     \param $sortField Number describing the field to sort by, or \c 0 if not known yet.
+     \param $sortOrder Which way to sort, \c true means ascending while \c false is descending.
+     \note The attribute \c remote_id will get an automatic and unique value.
+    */
     function &create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
                       $sortField = 0, $sortOrder = true )
     {
@@ -187,6 +196,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $node;
     }
 
+    /*!
+     Will call the function remoteID() if \c 'remote_id' is passed as \a $attr.
+     If not it lets eZPersistentObject::attribute() do the rest.
+    */
     function &attribute( $attr )
     {
         if ( $attr == 'remote_id' )
@@ -209,7 +222,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     Get remote id of content node
+     Get remote id of content node, the remote ID is often used to synchronise imports and exports.
+     If there is no remote ID a new unique one will be generated.
     */
     function remoteID()
     {
@@ -330,6 +344,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $return;
     }
 
+    /*!
+     \return \c true if the node can be read by the current user.
+     \sa checkAccess().
+    */
     function canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
@@ -340,6 +358,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
+    /*!
+     \return \c true if the node can be edited by the current user.
+     \sa checkAccess().
+    */
     function canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
@@ -350,6 +372,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
+    /*!
+     \return \c true if the current user can create a new node as child of this node.
+     \sa checkAccess().
+    */
     function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
@@ -360,6 +386,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
+    /*!
+     \return \c true if the node can be removed by the current user.
+     \sa checkAccess().
+    */
     function canRemove( )
     {
         if ( !isset( $this->Permissions["can_remove"] ) )

@@ -281,14 +281,28 @@ class eZNodeAssignment extends eZPersistentObject
         return eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
     }
 
+    /*!
+     Fetches the node assignment which has id \a $id and returns it.
+     \sa fetchListByID
+    */
     function &fetchByID( $id ,$asObject = true )
     {
         $cond = array( 'id' => $id );
         return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                null,
-                                                $cond,
+                                                null, $cond,
                                                 $asObject );
+    }
 
+    /*!
+     Fetches all node assignments which is mentioned in array \a $ID and returns it.
+     \sa fetchByID
+    */
+    function &fetchListByID( $idList ,$asObject = true )
+    {
+        $cond = array( 'id' => array( $idList ) );
+        return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
+                                                    null, $cond, null, null,
+                                                    $asObject );
     }
 
     function &clone( $nextVersionNumber = 1, $contentObjectID = false )
