@@ -18,14 +18,29 @@
 </div>
 
 <div class="block">
+
+<div class="element">
+  <label>{"Ini file location"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+  <select name="ContentClass_ezinisetting_ini_instance_{$class_attribute.id}[]" size="5" multiple="multiple" >  
+    {let selectedSiteAccess=$class_attribute.data_text4|explode(";")}
+      {section name=SiteAccess loop=$class_attribute.data_text5|explode(";")}
+        <option value="{$:index}" {section show=$selectedSiteAccess|contains($:index)}selected="selected"{/section}>
+	  {$:item|wash}
+	</option>
+      {/section}
+    {/let}
+  </select>
+</div>
+
 <div class="element">
   <label>{"Ini setting type"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
   <select name="ContentClass_ezinisetting_type_{$class_attribute.id}">
-    <option value="text" {section show=$class_attribute.data_text4|eq("text")}selected="selected"{/section}>{"Text"|i18n("design/standard/class/datatype")}</option>
-    <option value="boolean1" {section show=$class_attribute.data_text4|eq("boolean1")}selected="selected"{/section}>{"Enable/Disable"|i18n("design/standard/class/datatype")}</option>
-    <option value="boolean2" {section show=$class_attribute.data_text4|eq("boolean2")}selected="selected"{/section}>{"True/False"|i18n("design/standard/class/datatype")}</option>
-    <option value="integer" {section show=$class_attribute.data_text4|eq("integer")}selected="selected"{/section}>{"Integer"|i18n("design/standard/class/datatype")}</option>
-    <option value="float" {section show=$class_attribute.data_text4|eq("float")}selected="selected"{/section}>{"Float"|i18n("design/standard/class/datatype")}</option>
+    <option value="1" {section show=$class_attribute.data_int1|eq(1)}selected="selected"{/section}>{"Text"|i18n("design/standard/class/datatype")}</option>
+    <option value="2" {section show=$class_attribute.data_int1|eq(2)}selected="selected"{/section}>{"Enable/Disable"|i18n("design/standard/class/datatype")}</option>
+    <option value="3" {section show=$class_attribute.data_int1|eq(3)}selected="selected"{/section}>{"True/False"|i18n("design/standard/class/datatype")}</option>
+    <option value="4" {section show=$class_attribute.data_int1|eq(4)}selected="selected"{/section}>{"Integer"|i18n("design/standard/class/datatype")}</option>
+    <option value="5" {section show=$class_attribute.data_int1|eq(5)}selected="selected"{/section}>{"Float"|i18n("design/standard/class/datatype")}</option>
   </select>
 </div>
+
 </div>

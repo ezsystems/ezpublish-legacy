@@ -203,6 +203,24 @@ class eZINI
 
     /*!
      \static
+     Check wether a specified parameter in a specified section is set in a specified file
+     \param filename (optional)
+     \param directory (optional)
+     \param section name
+     \param parameter name
+     \return true if the the parameter is set.
+    */
+    function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
+    {
+        if ( !eZINI::exists( $fileName, $rootDir ) )
+            return false;
+
+        $iniInstance =& eZINI::instance( $fileName, $rootDir, null, null, null, true );
+        return $iniInstance->hasVariable( $section, $parameter );
+    }
+
+    /*!
+     \static
      \return true if the INI file \a $fileName exists in the root dir \a $rootDir.
      $fileName defaults to site.ini and rootDir to settings.
     */
@@ -212,7 +230,13 @@ class eZINI
             $fileName = "site.ini";
         if ( $rootDir == "" )
             $rootDir = "settings";
-        return file_exists( $rootDir . '/' . $fileName );
+        if ( file_exists( $rootDir . '/' . $fileName ) )
+            return true;
+        else if ( file_exists( $rootDir . '/' . $fileName . '.append' ) )
+            return true;
+        else if ( file_exists( $rootDir . '/' . $fileName . '.append.php' ) )
+            return true;
+        return false;
     }
 
     /*!
@@ -243,10 +267,10 @@ class eZINI
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $inputFiles = array();
         $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
-        if ( file_exists( $iniFile . '.php' ) )
-            $iniFile .= '.php';
         if ( file_exists( $iniFile ) )
             $inputFiles[] = $iniFile;
+        if ( file_exists( $iniFile . '.php' ) )
+            $inputFiles[] = $iniFile . '.php';
         $overrideDirs = $this->overrideDirs();
         foreach ( $overrideDirs as $overrideDirItem )
         {
@@ -459,7 +483,24 @@ class eZINI
             $this->reset();
         if ( $this->DirectAccess )
         {
-            $inputFiles = array( $this->FileName );
+            if ( $inputFiles === false )
+            {
+                $inputFiles = array();
+            }
+
+            if ( $this->RootDir !== false )
+                $fileName = $this->RootDir . '/' . $this->FileName;
+            else
+                $fileName = $this->FileName;
+
+            if ( file_exists ( $fileName ) )
+                $inputFiles[] = $fileName;
+
+            if ( file_exists ( $fileName . '.append' ) )
+                $inputFiles[] = $fileName . '.append';
+
+            if ( file_exists ( $fileName . '.append.php' ) )
+                $inputFiles[] = $fileName . '.append.php';
         }
         else
         {
@@ -613,10 +654,15 @@ class eZINI
         $dirArray = array();
         if ( $fileName === false )
             $fileName = $this->FileName;
-        if ( $useRootDir )
+        if ( $useRootDir === true )
         {
             $pathArray[] = $this->RootDir;
             $dirArray[] = $this->RootDir;
+        }
+        else if ( is_string( $useRootDir ) )
+        {
+            $pathArray[] = $useRootDir;
+            $dirArray[] = $useRootDir;
         }
         if ( $useOverride )
         {
@@ -1041,9 +1087,10 @@ class eZINI
       Returns the current instance of the given .ini file
       If $useLocalOverrides is set to true you will get a copy of the current overrides,
       but changes to the override settings will not be global.
+      Direct access is for accessing the filename directly in the specified path. .append and .append.php is automaticly added to filename
       \note Use create() if you need to get a unique copy which you can alter.
     */
-    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false )
     {
         $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
         $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
@@ -1053,7 +1100,7 @@ class eZINI
         {
             $isLoaded = false;
 
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
+            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess );
 
             $isLoaded = true;
         }
