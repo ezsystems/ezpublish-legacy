@@ -3,24 +3,28 @@
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 
+# The last version which changelogs and db updates are related to
+# For the first development release this should be empty, in
+# wich case $LAST_STABLE is used.
+PREVIOUS_VERSION="3.4.0alpha1"
+# The last version of the newest stable branch
 LAST_STABLE="3.3-3"
-LAST_DEVEL="3.4.0alpha1"
 
 MAJOR=3
 MINOR=4
 RELEASE=0
+# Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=2
 STATE="alpha2"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR"."$RELEASE
-MAJMIN=$MAJOR"."$MINOR
+BRANCH_VERSION=$MAJOR"."$MINOR
+# Is automatically set to 'true' when $STATE contains some text
 DEVELOPMENT="false"
-[ -n $STATE ] && DEVELOPMENT="true"
+# If non-empty the script will check for changelog and db update from $LAST_STABLE
+FIRST_STABLE=""
 
-LAST_VERSION=$LAST_STABLE
-if [ $REAL_RELEASE -gt 1 ]; then
-    LAST_VERSION=$LAST_DEVEL
-fi
+[ -n $STATE ] && DEVELOPMENT="true"
 
 # Check parameters
 for arg in $*; do
@@ -193,11 +197,74 @@ if ! grep -E "static QString version = \"$VERSION\";" support/lupdate-ezpublish3
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+# doc/changelogs/$version/
+
+if [ -z "$PREVIOUS_VERSION" ]; then
+    prev="$LAST_STABLE"
+else
+    prev="$PREVIOUS_VERSION"
+fi
+
+file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$VERSION"
+if [ ! -f $file ]; then
+    echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
+    echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+    echo "This file is required for a valid release"
+    if [ -n "$FIRST_STABLE" ]; then
+	echo "It should contain all the changes from all the previous development releases"
+    else
+	echo "It should contain the changes from the previous version $prev"
+    fi
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+else
+    if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
+	echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
+	echo "The changelog should contain this line at the top:"
+	echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+	echo
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+    fi
+fi
+
+if [ -n "$FIRST_STABLE" ]; then
+    prev="$PREVIOUS_VERSION"
+    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+    if [ ! -f $file ]; then
+	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
+	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+	echo "This file is required for a valid first stable release"
+	echo
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+    else
+	if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
+	    echo "The changelog should contain this line at the top:"
+	    echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+	    echo
+	    MAIN_ERROR="1"
+	    [ -n "$EXIT_AT_ONCE" ] && exit 1
+	fi
+    fi
+fi
+
+
 # update/database/*/$version/
 
 for driver in $DRIVERS; do
 
-    file="update/database/$driver/$MAJMIN/dbupdate-$LAST_VERSION-to-$VERSION.sql"
+    if [ -z "$PREVIOUS_VERSION" ]; then
+	prev="$LAST_STABLE"
+    else
+	prev="$PREVIOUS_VERSION"
+    fi
+
+    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
 	echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -225,6 +292,40 @@ for driver in $DRIVERS; do
 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	fi
     fi
+
+    if [ -n "$FIRST_STABLE" ]; then
+	prev="$LAST_STABLE"
+	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
+	if [ ! -f $file ]; then
+	    echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
+	    echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+	    echo "This file is required for a valid first stable release"
+	    echo "It should contain all the updates from all the previous development versions."
+	    echo
+	    MAIN_ERROR="1"
+	    [ -n "$EXIT_AT_ONCE" ] && exit 1
+	else
+	    if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
+		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+		echo "Should be:"
+		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
+		echo
+		MAIN_ERROR="1"
+		[ -n "$EXIT_AT_ONCE" ] && exit 1
+	    fi
+	    if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
+		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+		echo "Should be:"
+		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`' WHERE name='ezpublish-release';"
+		echo
+		MAIN_ERROR="1"
+		[ -n "$EXIT_AT_ONCE" ] && exit 1
+	    fi
+	fi
+    fi
+
 done
 
 if [ -n "$MAIN_ERROR" ]; then
