@@ -182,6 +182,17 @@ if [ -n "$SQL_ERROR" ]; then
     echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`,"
     echo "check the changes with `$SETCOLOR_EXE`svn diff`$SETCOLOR_NORMAL` and them commit them if everything is ok"
     echo
+    echo "You can copy and paste the following in your shell"
+    echo "--------------------------------------8<----------------------------------------"
+    echo
+    echo "rm -f data.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > data.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`\" >> data.sql"
+    echo
+    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`"
+    echo
+    echo "--------------------------------------8<----------------------------------------"
+    echo
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
