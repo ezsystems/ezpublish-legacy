@@ -269,6 +269,10 @@
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -338,6 +342,14 @@
     <message>
         <source>Logout</source>
         <translation type="unfinished">Logout</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,6 +436,14 @@
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -439,7 +459,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -452,7 +472,7 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2178,6 +2198,10 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2188,7 +2212,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2199,6 +2223,10 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2221,7 +2249,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2269,6 +2297,14 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2284,7 +2320,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2318,7 +2354,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2331,7 +2367,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3352,7 +3388,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Vytvořit zde</translation>
+        <translation type="obsolete">Vytvořit zde</translation>
     </message>
 </context>
 <context>
@@ -3479,6 +3515,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7437,6 +7477,17 @@ Pro vyřešení musíte udělat něco z následujících možností:</translatio
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Logout</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">Login</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Module Name</source>
@@ -8156,31 +8207,31 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Vyzkoušet</translation>
+        <translation type="obsolete">Vyzkoušet</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Další</translation>
+        <translation type="obsolete">Další</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Zabalit</translation>
+        <translation type="obsolete">Zabalit</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Přejete si zabalit do vánočního balícího papíru?</translation>
+        <translation type="obsolete">Přejete si zabalit do vánočního balícího papíru?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Ne</translation>
+        <translation type="obsolete">Ne</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ano</translation>
+        <translation type="obsolete">Ano</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Ahoj</translation>
+        <translation type="obsolete">Ahoj</translation>
     </message>
 </context>
 <context>
@@ -8191,11 +8242,11 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Nevydáno</translation>
+        <translation type="obsolete">Nevydáno</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Vydáno</translation>
+        <translation type="obsolete">Vydáno</translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -8227,11 +8278,11 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Zkontrolovat text</translation>
+        <translation type="obsolete">Zkontrolovat text</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Zpráva</translation>
+        <translation type="obsolete">Zpráva</translation>
     </message>
     <message>
         <source>Section IDs</source>
@@ -8243,15 +8294,15 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dny</translation>
+        <translation type="obsolete">Dny</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Hodiny</translation>
+        <translation type="obsolete">Hodiny</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuty</translation>
+        <translation type="obsolete">Minuty</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9502,7 +9553,7 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Uzavřít</translation>
+        <translation type="obsolete">Uzavřít</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9510,11 +9561,11 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Vydat</translation>
+        <translation type="obsolete">Vydat</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Vydat ve stanovený čas</translation>
+        <translation type="obsolete">Vydat ve stanovený čas</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9522,11 +9573,11 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Načasování</translation>
+        <translation type="obsolete">Načasování</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Zrušit vydání</translation>
+        <translation type="obsolete">Zrušit vydání</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9534,11 +9585,11 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Balení</translation>
+        <translation type="obsolete">Balení</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Ahoj uživateli</translation>
+        <translation type="obsolete">Ahoj uživateli</translation>
     </message>
 </context>
 <context>
@@ -9549,7 +9600,7 @@ instrukcemi pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Serial</translation>
+        <translation type="obsolete">Serial</translation>
     </message>
 </context>
 <context>

@@ -269,6 +269,10 @@
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -338,6 +342,14 @@
     <message>
         <source>Logout</source>
         <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,6 +436,14 @@
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -439,7 +459,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -452,7 +472,7 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2190,6 +2210,10 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2200,7 +2224,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2211,6 +2235,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2233,7 +2261,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2281,6 +2309,14 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2296,7 +2332,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2330,7 +2366,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2343,7 +2379,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3400,7 +3436,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">在此创建</translation>
+        <translation type="obsolete">在此创建</translation>
     </message>
 </context>
 <context>
@@ -3527,6 +3563,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7714,6 +7754,17 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Module Name</source>
@@ -8434,31 +8485,31 @@ your account.</source>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>结账</translation>
+        <translation type="obsolete">结账</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一步</translation>
+        <translation type="obsolete">下一步</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>包装</translation>
+        <translation type="obsolete">包装</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>你想用圣诞纸包装吗?</translation>
+        <translation type="obsolete">你想用圣诞纸包装吗?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>不</translation>
+        <translation type="obsolete">不</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>是</translation>
+        <translation type="obsolete">是</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>你好</translation>
+        <translation type="obsolete">你好</translation>
     </message>
 </context>
 <context>
@@ -8469,11 +8520,11 @@ your account.</source>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>不出版的对象</translation>
+        <translation type="obsolete">不出版的对象</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>出版的对象</translation>
+        <translation type="obsolete">出版的对象</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -8505,11 +8556,11 @@ your account.</source>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>查看文本</translation>
+        <translation type="obsolete">查看文本</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>信息</translation>
+        <translation type="obsolete">信息</translation>
     </message>
     <message>
         <source>Section IDs</source>
@@ -8521,15 +8572,15 @@ your account.</source>
     </message>
     <message>
         <source>Days</source>
-        <translation>天</translation>
+        <translation type="obsolete">天</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>小时</translation>
+        <translation type="obsolete">小时</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>分</translation>
+        <translation type="obsolete">分</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9780,7 +9831,7 @@ your account.</source>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>查看</translation>
+        <translation type="obsolete">查看</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9788,11 +9839,11 @@ your account.</source>
     </message>
     <message>
         <source>Publish</source>
-        <translation>发表</translation>
+        <translation type="obsolete">发表</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>按时发表</translation>
+        <translation type="obsolete">按时发表</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9800,11 +9851,11 @@ your account.</source>
     </message>
     <message>
         <source>Timing</source>
-        <translation>定时</translation>
+        <translation type="obsolete">定时</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>不出版</translation>
+        <translation type="obsolete">不出版</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9812,11 +9863,11 @@ your account.</source>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>包装</translation>
+        <translation type="obsolete">包装</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>你好客户</translation>
+        <translation type="obsolete">你好客户</translation>
     </message>
 </context>
 <context>
@@ -9827,7 +9878,7 @@ your account.</source>
     </message>
     <message>
         <source>Serial</source>
-        <translation>序列</translation>
+        <translation type="obsolete">序列</translation>
     </message>
 </context>
 <context>

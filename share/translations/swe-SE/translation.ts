@@ -321,6 +321,10 @@ kan du ändra inställningarna på:
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -390,6 +394,14 @@ kan du ändra inställningarna på:
     <message>
         <source>Logout</source>
         <translation type="unfinished">Logga ut</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -476,6 +488,14 @@ kan du ändra inställningarna på:
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -491,7 +511,7 @@ kan du ändra inställningarna på:
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -504,7 +524,7 @@ kan du ändra inställningarna på:
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2175,6 +2195,10 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2185,7 +2209,7 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2196,6 +2220,10 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2218,7 +2246,7 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2266,6 +2294,14 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2281,7 +2317,7 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2315,7 +2351,7 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2328,7 +2364,7 @@ Om du vill skicka kommentarer till godkännaren eller visa status, använd adres
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3307,7 +3343,7 @@ Klicka på objektnamnen för att ändra bläddringslistningen.</translation>
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Skapa</translation>
+        <translation type="obsolete">Skapa</translation>
     </message>
 </context>
 <context>
@@ -3434,6 +3470,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7367,6 +7407,17 @@ Klicka på produktnamnen för att ändra bläddringslistningen.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Logga ut</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Trigger list</source>
@@ -8023,31 +8074,31 @@ aktivera ditt konto.</translation>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Gå till kassa</translation>
+        <translation type="obsolete">Gå till kassa</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Nästa</translation>
+        <translation type="obsolete">Nästa</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Omslag</translation>
+        <translation type="obsolete">Omslag</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Vill du ha omslag i julpapper?</translation>
+        <translation type="obsolete">Vill du ha omslag i julpapper?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nej</translation>
+        <translation type="obsolete">Nej</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="obsolete">Ja</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hej</translation>
+        <translation type="obsolete">Hej</translation>
     </message>
 </context>
 <context>
@@ -8070,11 +8121,11 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Utcheckningstext</translation>
+        <translation type="obsolete">Utcheckningstext</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Meddelande</translation>
+        <translation type="obsolete">Meddelande</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -8082,23 +8133,23 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Ta tillbaka publicering av objekt</translation>
+        <translation type="obsolete">Ta tillbaka publicering av objekt</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publicera objekt</translation>
+        <translation type="obsolete">Publicera objekt</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dagar</translation>
+        <translation type="obsolete">Dagar</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Timmar</translation>
+        <translation type="obsolete">Timmar</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuter</translation>
+        <translation type="obsolete">Minuter</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9169,7 +9220,7 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Gå till kassan</translation>
+        <translation type="obsolete">Gå till kassan</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9177,11 +9228,11 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publicera</translation>
+        <translation type="obsolete">Publicera</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publicera på tid</translation>
+        <translation type="obsolete">Publicera på tid</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9189,11 +9240,11 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Timing</translation>
+        <translation type="obsolete">Timing</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Dra tillbaka publicering</translation>
+        <translation type="obsolete">Dra tillbaka publicering</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9201,11 +9252,11 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Wrapping</translation>
+        <translation type="obsolete">Wrapping</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hej användare</translation>
+        <translation type="obsolete">Hej användare</translation>
     </message>
 </context>
 <context>
@@ -9216,7 +9267,7 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Serienummer</translation>
+        <translation type="obsolete">Serienummer</translation>
     </message>
 </context>
 <context>

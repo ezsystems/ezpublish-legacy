@@ -469,6 +469,14 @@
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -484,7 +492,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -497,7 +505,7 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2241,6 +2249,10 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2251,7 +2263,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2262,6 +2274,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2284,7 +2300,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2332,6 +2348,14 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2347,7 +2371,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2381,7 +2405,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2394,7 +2418,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3417,7 +3441,7 @@ Puedes editar los borradores o eliminarlos si no los vas a necesitar más.</tran
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Crear aquí</translation>
+        <translation type="obsolete">Crear aquí</translation>
     </message>
 </context>
 <context>

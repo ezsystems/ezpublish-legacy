@@ -320,6 +320,10 @@ modifiez vos paramètres à :</translation>
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -389,6 +393,14 @@ modifiez vos paramètres à :</translation>
     <message>
         <source>Logout</source>
         <translation type="unfinished">Fermeture de session</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -475,6 +487,14 @@ modifiez vos paramètres à :</translation>
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -490,7 +510,7 @@ modifiez vos paramètres à :</translation>
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -503,7 +523,7 @@ modifiez vos paramètres à :</translation>
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2167,6 +2187,10 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2177,7 +2201,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2188,6 +2212,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2210,7 +2238,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2258,6 +2286,14 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2273,7 +2309,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2307,7 +2343,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2320,7 +2356,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3274,7 +3310,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Créer ici</translation>
+        <translation type="obsolete">Créer ici</translation>
     </message>
 </context>
 <context>
@@ -3401,6 +3437,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7215,6 +7255,17 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Fermeture de session</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Trigger list</source>
@@ -7858,31 +7909,31 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Passez en caisse</translation>
+        <translation type="obsolete">Passez en caisse</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Suivant</translation>
+        <translation type="obsolete">Suivant</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Emballage</translation>
+        <translation type="obsolete">Emballage</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Voulez vous un emballage de Noël?</translation>
+        <translation type="obsolete">Voulez vous un emballage de Noël?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Non</translation>
+        <translation type="obsolete">Non</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Oui</translation>
+        <translation type="obsolete">Oui</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Bonjour</translation>
+        <translation type="obsolete">Bonjour</translation>
     </message>
 </context>
 <context>
@@ -7905,11 +7956,11 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Texte de contrôle</translation>
+        <translation type="obsolete">Texte de contrôle</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Message</translation>
+        <translation type="obsolete">Message</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
@@ -7925,23 +7976,23 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Retirer l&apos;objet de la publication</translation>
+        <translation type="obsolete">Retirer l&apos;objet de la publication</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publier l&apos;objet</translation>
+        <translation type="obsolete">Publier l&apos;objet</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Jours</translation>
+        <translation type="obsolete">Jours</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Heures</translation>
+        <translation type="obsolete">Heures</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minutes</translation>
+        <translation type="obsolete">Minutes</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9004,7 +9055,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Passez en caisse</translation>
+        <translation type="obsolete">Passez en caisse</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9012,11 +9063,11 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publier</translation>
+        <translation type="obsolete">Publier</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publier en date du </translation>
+        <translation type="obsolete">Publier en date du </translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9024,11 +9075,11 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Timing</source>
-        <translation>Timing</translation>
+        <translation type="obsolete">Timing</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Retirer la publication</translation>
+        <translation type="obsolete">Retirer la publication</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9036,11 +9087,11 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Emballage</translation>
+        <translation type="obsolete">Emballage</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Bonjour Utilisateur</translation>
+        <translation type="obsolete">Bonjour Utilisateur</translation>
     </message>
 </context>
 <context>
@@ -9051,7 +9102,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Serial</source>
-        <translation>Série</translation>
+        <translation type="obsolete">Série</translation>
     </message>
 </context>
 <context>

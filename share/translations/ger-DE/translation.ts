@@ -317,6 +317,10 @@ change your settings at:</source>
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -386,6 +390,14 @@ change your settings at:</source>
     <message>
         <source>Logout</source>
         <translation type="unfinished">Beenden (Logout)</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -472,6 +484,14 @@ change your settings at:</source>
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -487,7 +507,7 @@ change your settings at:</source>
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -500,7 +520,7 @@ change your settings at:</source>
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2169,6 +2189,10 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2179,7 +2203,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2190,6 +2214,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2212,7 +2240,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2260,6 +2288,14 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2275,7 +2311,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2309,7 +2345,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2322,7 +2358,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3292,7 +3328,7 @@ If you wish to send comments to the approver or view the status use the URL belo
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Hier erstellen</translation>
+        <translation type="obsolete">Hier erstellen</translation>
     </message>
 </context>
 <context>
@@ -3419,6 +3455,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7453,6 +7493,17 @@ If unsure: choose URL.</source>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Beenden (Logout)</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">Login</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>No workflow</source>
@@ -8107,31 +8158,31 @@ your account.</source>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Zur Kasse</translation>
+        <translation type="obsolete">Zur Kasse</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Nächste</translation>
+        <translation type="obsolete">Nächste</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Verpacken</translation>
+        <translation type="obsolete">Verpacken</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Wollen Sie eine Geschenkverpackung?</translation>
+        <translation type="obsolete">Wollen Sie eine Geschenkverpackung?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nein</translation>
+        <translation type="obsolete">Nein</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="obsolete">Ja</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hallo</translation>
+        <translation type="obsolete">Hallo</translation>
     </message>
 </context>
 <context>
@@ -8142,11 +8193,11 @@ your account.</source>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Unveröffentlichtes Objekt</translation>
+        <translation type="obsolete">Unveröffentlichtes Objekt</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Objekt veröffentlichen</translation>
+        <translation type="obsolete">Objekt veröffentlichen</translation>
     </message>
     <message>
         <source>Editor</source>
@@ -8162,11 +8213,11 @@ your account.</source>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Abmeldetext</translation>
+        <translation type="obsolete">Abmeldetext</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Nachricht</translation>
+        <translation type="obsolete">Nachricht</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -8174,15 +8225,15 @@ your account.</source>
     </message>
     <message>
         <source>Days</source>
-        <translation>Tage</translation>
+        <translation type="obsolete">Tage</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Stunden</translation>
+        <translation type="obsolete">Stunden</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuten</translation>
+        <translation type="obsolete">Minuten</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9253,7 +9304,7 @@ your account.</source>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Zur Kasse</translation>
+        <translation type="obsolete">Zur Kasse</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9261,11 +9312,11 @@ your account.</source>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Veröffentlichen</translation>
+        <translation type="obsolete">Veröffentlichen</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Auf Zeit veröffentlichen</translation>
+        <translation type="obsolete">Auf Zeit veröffentlichen</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9273,11 +9324,11 @@ your account.</source>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Timing</translation>
+        <translation type="obsolete">Timing</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>VEröffentlichung zurücknehmen</translation>
+        <translation type="obsolete">VEröffentlichung zurücknehmen</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9285,11 +9336,11 @@ your account.</source>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Verpacken</translation>
+        <translation type="obsolete">Verpacken</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hallo Benutzer</translation>
+        <translation type="obsolete">Hallo Benutzer</translation>
     </message>
 </context>
 <context>
@@ -9300,7 +9351,7 @@ your account.</source>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Seriennumber</translation>
+        <translation type="obsolete">Seriennumber</translation>
     </message>
 </context>
 <context>

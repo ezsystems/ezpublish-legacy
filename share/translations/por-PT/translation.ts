@@ -322,6 +322,10 @@ modifique os seus dados em:</translation>
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -391,6 +395,14 @@ modifique os seus dados em:</translation>
     <message>
         <source>Logout</source>
         <translation type="unfinished">Logout</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -477,6 +489,14 @@ modifique os seus dados em:</translation>
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -492,7 +512,7 @@ modifique os seus dados em:</translation>
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -505,7 +525,7 @@ modifique os seus dados em:</translation>
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2175,6 +2195,10 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2185,7 +2209,7 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2196,6 +2220,10 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2218,7 +2246,7 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2266,6 +2294,14 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2281,7 +2317,7 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2315,7 +2351,7 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2328,7 +2364,7 @@ Se deseja enviar comentários à pessoa que deve aprovar ou verificar o seu esta
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3306,7 +3342,7 @@ avançada%2</translation>
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Criar aqui</translation>
+        <translation type="obsolete">Criar aqui</translation>
     </message>
 </context>
 <context>
@@ -3433,6 +3469,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7266,6 +7306,17 @@ campos</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Logout</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">Login</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Trigger list</source>
@@ -7910,31 +7961,31 @@ utilizador</translation>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Concluir</translation>
+        <translation type="obsolete">Concluir</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Seguinte</translation>
+        <translation type="obsolete">Seguinte</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embrulho</translation>
+        <translation type="obsolete">Embrulho</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Deseja embrulhar em papel de Natal?</translation>
+        <translation type="obsolete">Deseja embrulhar em papel de Natal?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Não</translation>
+        <translation type="obsolete">Não</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Sim</translation>
+        <translation type="obsolete">Sim</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Olá</translation>
+        <translation type="obsolete">Olá</translation>
     </message>
 </context>
 <context>
@@ -7957,11 +8008,11 @@ utilizador</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Texto de conclusão</translation>
+        <translation type="obsolete">Texto de conclusão</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Mensagem</translation>
+        <translation type="obsolete">Mensagem</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
@@ -7977,23 +8028,23 @@ utilizador</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Cancelar publicação do objecto</translation>
+        <translation type="obsolete">Cancelar publicação do objecto</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publicar objecto</translation>
+        <translation type="obsolete">Publicar objecto</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dias</translation>
+        <translation type="obsolete">Dias</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Horas</translation>
+        <translation type="obsolete">Horas</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minutos</translation>
+        <translation type="obsolete">Minutos</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9061,7 +9112,7 @@ módulo</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Concluir</translation>
+        <translation type="obsolete">Concluir</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9069,11 +9120,11 @@ módulo</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publicar</translation>
+        <translation type="obsolete">Publicar</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publicar em altura</translation>
+        <translation type="obsolete">Publicar em altura</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9081,11 +9132,11 @@ módulo</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Tempo</translation>
+        <translation type="obsolete">Tempo</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Não publicado</translation>
+        <translation type="obsolete">Não publicado</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9093,11 +9144,11 @@ módulo</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embrulho</translation>
+        <translation type="obsolete">Embrulho</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Olá utilizador</translation>
+        <translation type="obsolete">Olá utilizador</translation>
     </message>
 </context>
 <context>
@@ -9108,7 +9159,7 @@ módulo</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Série</translation>
+        <translation type="obsolete">Série</translation>
     </message>
 </context>
 <context>

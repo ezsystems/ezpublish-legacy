@@ -302,6 +302,10 @@
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -371,6 +375,14 @@
     <message>
         <source>Logout</source>
         <translation type="unfinished">Desconnecta</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -457,6 +469,14 @@
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -472,7 +492,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -485,7 +505,7 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2248,6 +2268,10 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2258,7 +2282,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2269,6 +2293,10 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2291,7 +2319,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2339,6 +2367,14 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2354,7 +2390,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2388,7 +2424,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2401,7 +2437,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3468,7 +3504,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Crea aquí</translation>
+        <translation type="obsolete">Crea aquí</translation>
     </message>
 </context>
 <context>
@@ -3595,6 +3631,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7756,6 +7796,17 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Desconnecta</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Module Name</source>
@@ -8480,31 +8531,31 @@ per activar el teu compte.</translation>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation type="obsolete">Caixa</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation type="obsolete">Següent</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation type="obsolete">Embolicar</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>El vols embolicar en paper de regal?</translation>
+        <translation type="obsolete">El vols embolicar en paper de regal?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>No</translation>
+        <translation type="obsolete">No</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Sí</translation>
+        <translation type="obsolete">Sí</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hola</translation>
+        <translation type="obsolete">Hola</translation>
     </message>
 </context>
 <context>
@@ -8515,11 +8566,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>No publiquis l&apos;objecte</translation>
+        <translation type="obsolete">No publiquis l&apos;objecte</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publica l&apos;objecte</translation>
+        <translation type="obsolete">Publica l&apos;objecte</translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -8551,11 +8602,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Text de caixa</translation>
+        <translation type="obsolete">Text de caixa</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Missatge</translation>
+        <translation type="obsolete">Missatge</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -8563,15 +8614,15 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dies</translation>
+        <translation type="obsolete">Dies</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Hores</translation>
+        <translation type="obsolete">Hores</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuts</translation>
+        <translation type="obsolete">Minuts</translation>
     </message>
     <message>
         <source>Class</source>
@@ -9822,7 +9873,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation type="obsolete">Caixa</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -9830,11 +9881,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publica</translation>
+        <translation type="obsolete">Publica</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publica en data</translation>
+        <translation type="obsolete">Publica en data</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -9842,11 +9893,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Temporalització</translation>
+        <translation type="obsolete">Temporalització</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>No el publiquis</translation>
+        <translation type="obsolete">No el publiquis</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -9854,11 +9905,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation type="obsolete">Embolicar</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hola usuari</translation>
+        <translation type="obsolete">Hola usuari</translation>
     </message>
 </context>
 <context>
@@ -9869,7 +9920,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Sèrie</translation>
+        <translation type="obsolete">Sèrie</translation>
     </message>
 </context>
 <context>

@@ -340,6 +340,10 @@ változtassa meg a beállításait itt:</translation>
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -409,6 +413,14 @@ változtassa meg a beállításait itt:</translation>
     <message>
         <source>Logout</source>
         <translation type="unfinished">Kijelentkezés</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -495,6 +507,14 @@ változtassa meg a beállításait itt:</translation>
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -510,7 +530,7 @@ változtassa meg a beállításait itt:</translation>
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -523,7 +543,7 @@ változtassa meg a beállításait itt:</translation>
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2274,6 +2294,10 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2284,7 +2308,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2295,6 +2319,10 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2317,7 +2345,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2365,6 +2393,14 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2380,7 +2416,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2414,7 +2450,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2427,7 +2463,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3483,7 +3519,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Létrehoz itt</translation>
+        <translation type="obsolete">Létrehoz itt</translation>
     </message>
 </context>
 <context>
@@ -3610,6 +3646,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7993,6 +8033,17 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Kijelentkezés</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Trigger list</source>
@@ -8728,31 +8779,31 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Kijelentkezés</translation>
+        <translation type="obsolete">Kijelentkezés</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Következő</translation>
+        <translation type="obsolete">Következő</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Csomagolás (wrapping)</translation>
+        <translation type="obsolete">Csomagolás (wrapping)</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Akar karácsonyi csomagolást?</translation>
+        <translation type="obsolete">Akar karácsonyi csomagolást?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nem</translation>
+        <translation type="obsolete">Nem</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Igen</translation>
+        <translation type="obsolete">Igen</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hello</translation>
+        <translation type="obsolete">Hello</translation>
     </message>
 </context>
 <context>
@@ -8775,11 +8826,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Kijelentkezési szöveg</translation>
+        <translation type="obsolete">Kijelentkezési szöveg</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Üzenet</translation>
+        <translation type="obsolete">Üzenet</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
@@ -8795,23 +8846,23 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Közzétételtől visszavon objektumot</translation>
+        <translation type="obsolete">Közzétételtől visszavon objektumot</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Objektumot közzétesz</translation>
+        <translation type="obsolete">Objektumot közzétesz</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Napok</translation>
+        <translation type="obsolete">Napok</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Órák</translation>
+        <translation type="obsolete">Órák</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Percek</translation>
+        <translation type="obsolete">Percek</translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -10070,7 +10121,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Kijelentkezés</translation>
+        <translation type="obsolete">Kijelentkezés</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -10078,11 +10129,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Publish</source>
-        <translation>Közzététel</translation>
+        <translation type="obsolete">Közzététel</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Közzététel idõpontban</translation>
+        <translation type="obsolete">Közzététel idõpontban</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -10090,11 +10141,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Timing</source>
-        <translation>Idõzítés</translation>
+        <translation type="obsolete">Idõzítés</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Visszahùz</translation>
+        <translation type="obsolete">Visszahùz</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -10102,11 +10153,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Csomagolás (wrapping)</translation>
+        <translation type="obsolete">Csomagolás (wrapping)</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hello felhasználó</translation>
+        <translation type="obsolete">Hello felhasználó</translation>
     </message>
 </context>
 <context>
@@ -10117,7 +10168,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Serial</source>
-        <translation>Sor / sorozat</translation>
+        <translation type="obsolete">Sor / sorozat</translation>
     </message>
 </context>
 <context>
