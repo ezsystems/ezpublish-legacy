@@ -29,6 +29,7 @@ modfix:
 - Added function of discount for module shop
 - index.php now uses the execution system, this means that controlled exits should be done with the
   /cleanExit/ function in /eZExecution/.
+- Implemented basic framework for generic information collection ( forms/polls etc )
 
 *DateType :
 - Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
