@@ -59,9 +59,10 @@ class eZSimpleShippingType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        $ini =& eZINI::instance();
+        $ini =& eZINI::instance( 'workflow.ini' );
 
         $cost = $ini->variable( "SimpleShippingWorkflow", "ShippingCost" );
+        $description = $ini->variable( "SimpleShippingWorkflow", "ShippingDescription" );
 
         $parameters = $process->attribute( 'parameter_list' );
         $orderID = $parameters['order_id'];
@@ -72,7 +73,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
         foreach ( array_keys( $orderItems ) as $key )
         {
             $orderItem =& $orderItems[$key];
-            if ( $orderItem->attribute( 'description' ) == 'Shipping' )
+            if ( $orderItem->attribute( 'description' ) == $description )
             {
                 $addShipping = false;
                 break;
@@ -81,7 +82,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
         if ( $addShipping )
         {
             $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                                 'description' => 'Shipping',
+                                                 'description' => $description,
                                                  'price' => $cost,
                                                  'vat_is_included' => true,
                                                  'vat_type_id' => 1 )
