@@ -1224,9 +1224,10 @@ WHERE user_id = '" . $userID . "' AND
     {
         $return = true;
         if ( $this->ContentObjectID == EZ_USER_ANONYMOUS_ID or
-             $this->ContentObjectID == -1
-             )
+             $this->ContentObjectID == -1 )
+        {
             $return = false;
+        }
         return $return;
     }
 

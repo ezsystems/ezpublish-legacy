@@ -203,7 +203,7 @@ class eZURLOperator
 
                         $url = $this->Sys->indexDir() . $url;
                         $url = preg_replace( "#(//)#", "/", $url );
-                        $url = preg_replace( "#(^.*)(/+)$#", '$1', $url );
+                        $url = preg_replace( "#^(.+)(/+)$#", '$1', $url );
                         $url = htmlspecialchars( $url );
                     }
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -218,7 +218,7 @@ if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or
 {
     /* Do nothing */
 }
-else 
+else
 {
     if ( strlen( %1% ) == 0 )
     {
@@ -234,7 +234,7 @@ else
     };
     %1% = %2% . %1%;
     %1% = preg_replace( "#(//)#", "/", %1% );
-    %1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );
+    %1% = preg_replace( "#^(.+)(/+)$#", "\$1", %1% );
     %1% = htmlspecialchars( %1% );
 }
 if ( %1% == "" )
