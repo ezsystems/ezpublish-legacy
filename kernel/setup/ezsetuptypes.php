@@ -180,11 +180,6 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
 
-    if ( in_array( 'products', $parameters['extra_functionality'] ) )
-    {
-        $settings['ExtensionSettings'] = array( 'ActiveAccessExtensions' => array( 'ezpaypal' ) );
-    }
-
     // Make sure viewcaching works in admin with the new admin interface
     if ( $isAdmin )
     {
@@ -198,6 +193,19 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
     {
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'ShowHiddenNodes' => 'false' ) );
     }
+    return array( 'name' => 'site.ini',
+                  'settings' => $settings );
+}
+
+function eZSetupCommonSiteINISettings( $siteType, $parameters, $isAdmin )
+{
+    $settings = array();
+
+    if ( in_array( 'products', $parameters['extra_functionality'] ) )
+    {
+        $settings['ExtensionSettings'] = array( 'ActiveExtensions' => array( 'ezpaypal' ) );
+    }
+
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
 }
@@ -1839,6 +1847,16 @@ function eZSetupAdminINISettings( $siteType, $parameters )
     $settings[] = eZSetupContentINISettings( $siteType, $parameters, true );
     $settings[] = eZSetupIconINISettings( $siteType, $parameters, true );
     $settings[] = eZSetupViewCacheINISettings( $siteType, $parameters, true );
+
+    return $settings;
+}
+
+function eZSetupCommonINISettings( $siteType, $parameters )
+{
+    $parameters = array_merge( $parameters,
+                               array( 'is_admin' => true ) );
+    $settings = array();
+    $settings[] = eZSetupCommonSiteINISettings( $siteType, $parameters );
 
     return $settings;
 }

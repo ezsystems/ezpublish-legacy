@@ -165,6 +165,8 @@ class eZStepCreateSites extends eZStepInstaller
         $siteTypes = $this->chosenSiteTypes();
 //         for ( $counter = 0; $counter < $siteCount; ++$counter )
 
+        $siteINISettings = array();
+
         $result = true;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
@@ -183,6 +185,34 @@ class eZStepCreateSites extends eZStepInstaller
                                                   'text' => "Failed to initialize site package " . $siteType['identifier'] );
                 $result = false;
                 break;
+            }
+
+            if ( $resultArray['common_settings'] )
+            {
+                $extraCommonSettings = $resultArray['common_settings'];
+
+                foreach ( $extraCommonSettings as $extraSetting )
+                {
+                    if ( $extraSetting === false )
+                        continue;
+
+                    $iniName = $extraSetting['name'];
+                    $settings = $extraSetting['settings'];
+                    $resetArray = false;
+                    if ( isset( $extraSetting['reset_arrays'] ) )
+                        $resetArray = $extraSetting['reset_arrays'];
+
+                    if ( $iniName == 'site.ini' )
+                    {
+                        $siteINISettings[] = $settings;
+                        continue;
+                    }
+
+                    $tmpINI =& eZINI::create( $iniName );
+                    $tmpINI->setVariables( $settings );
+                    $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
+                }
+
             }
         }
 
@@ -276,6 +306,14 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
             $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );
             $ini->setVariable( 'MailSettings', 'TransportPassword', $emailInfo['password'] );
+        }
+
+        if ( $saveData )
+        {
+            foreach ( $siteINISettings as $siteINISetting )
+            {
+                $ini->setVariables( $siteINISetting );
+            }
         }
 
         if ( $saveData )
@@ -643,6 +681,9 @@ class eZStepCreateSites extends eZStepInstaller
 
             $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
             $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
+            $extraCommonSettings = eZSetupCommonINISettings( $siteType['identifier'], $parameters );
+            $resultArray['common_settings'] = $extraCommonSettings;
+
             foreach ( $extraSettings as $extraSetting )
             {
                 if ( $extraSetting === false )
@@ -672,6 +713,7 @@ class eZStepCreateSites extends eZStepInstaller
                 }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
             }
+
             foreach ( $extraAdminSettings as $extraSetting )
             {
                 if ( $extraSetting === false )
