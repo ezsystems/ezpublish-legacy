@@ -228,7 +228,6 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             $ini =& eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-
             eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
             if ( $viewCacheEnabled )
             {

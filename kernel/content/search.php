@@ -42,6 +42,11 @@ include_once( "kernel/classes/ezsearchlog.php" );
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
+$Offset = $Params['Offset'];
+
+$pageLimit = 10;
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
 
 $tpl =& templateInit();
 
@@ -80,13 +85,20 @@ $Module->setTitle( "Search for: $searchText" );
 
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                        "SearchSectionID" => $searchSectionID,
-                                                       "SearchSubTreeArray" => $subTreeArray ) );
+                                                       "SearchSubTreeArray" => $subTreeArray,
+                                                       "SearchLimit" => $pageLimit,
+                                                       "SearchOffset" => $Offset ) );
 
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
 $tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
+
+$tpl->setVariable( "offset", $Offset );
+$tpl->setVariable( "page_limit", $pageLimit );
+$tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );

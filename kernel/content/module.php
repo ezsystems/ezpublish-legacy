@@ -109,7 +109,8 @@ $ViewList["search"] = array(
     "functions" => array( 'read' ),
     "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "search.php",
-    "params" => array( ) );
+    "params" => array( ),
+    "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["advancedsearch"] = array(
     "functions" => array( 'read' ),
