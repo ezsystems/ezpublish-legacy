@@ -519,28 +519,12 @@
         <translation>Innholdsobjektet %1 ble godkjent og vil bli publisert når arbeidsflyten fortsetter.</translation>
     </message>
     <message>
-        <source>The content object %1 was not approved and will be archived.</source>
-        <translation>Innholdsobjektet %1 ble ikke godkjent og vil bli arkivert.</translation>
-    </message>
-    <message>
-        <source>The content object %1 was deferred and is available as a draft.</source>
-        <translation>Innholdsobjektet %1 ble utsatt, og er tilgjengelig som utkast.</translation>
-    </message>
-    <message>
         <source>You must reedit the draft and publish it again for the approval to continue.</source>
         <translation>Du må redigere utkastet og publisere det igjen hvis du vil sende det til ny godkjenning.</translation>
     </message>
     <message>
         <source>If the approver finds the new changes satisfying the object will be accepted.</source>
         <translation>Redaktøren vil akseptere objektet hvis endringene blir godkjent.</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Rediger</translation>
-    </message>
-    <message>
-        <source>The content object %1 was deferred and will be available as a draft.</source>
-        <translation>Innholdsobjektet %1 ble utsatt, og vil bli tilgjengelig som utkast.</translation>
     </message>
     <message>
         <source>The author must reedit the draft and publish it again for the approval to continue.</source>
@@ -563,10 +547,6 @@
         <translation>Ikke godkjenn</translation>
     </message>
     <message>
-        <source>Defer</source>
-        <translation>Utsett</translation>
-    </message>
-    <message>
         <source>Participants</source>
         <translation>Deltakere</translation>
     </message>
@@ -577,6 +557,26 @@
     <message>
         <source>Messages</source>
         <translation>Meldinger</translation>
+    </message>
+    <message>
+        <source>The content object %1 was not approved and will be archived. If you wish you may publish a new version of the object by clicking the edit link.</source>
+        <translation>Innholdsobjektet %1 ble ikke godkjent, og ble arkivert. Hvis du vil kan du publisere en ny versjon av objektet ved å klikke Rediger-lenken.</translation>
+    </message>
+    <message>
+        <source>Edit the object</source>
+        <translation>Rediger objektet</translation>
+    </message>
+    <message>
+        <source>The content object %1 was not accepted but is available as a draft again.</source>
+        <translation>Innholdsobjektet %1 ble ikke godkjent, men er tilgjengelig som utkast igjen.</translation>
+    </message>
+    <message>
+        <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
+        <translation>Innholdsobjektet %1 ble ikke godkjent, men vil være tilgjengelig som utkast for forfatteren.</translation>
+    </message>
+    <message>
+        <source>Pushback</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -669,10 +669,6 @@
 <context>
     <name>design/standard/content/copy</name>
     <message>
-        <source>Versions</source>
-        <translation>Versjoner</translation>
-    </message>
-    <message>
         <source>Copy all versions</source>
         <translation>Kopier alle versjoner</translation>
     </message>
@@ -691,6 +687,10 @@
     <message>
         <source>Copying %1</source>
         <translation>Kopierer %1</translation>
+    </message>
+    <message>
+        <source>Version count is %1, and current version is %2.</source>
+        <translation>Versjonsnummer er %1, og gjeldende versjon er %2.</translation>
     </message>
 </context>
 <context>
@@ -2578,7 +2578,7 @@
     </message>
     <message>
         <source>which must available on the server or</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>SMTP</source>
@@ -2930,6 +2930,14 @@
     </message>
     <message>
         <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>which must be available on the server or</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3189,6 +3197,14 @@
     </message>
     <message>
         <source>More information on enabling the extension can be found by reading %1 and %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternatively you may create a file called %1 in your eZ publish root folder and add the following:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>.htaccess example:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3647,9 +3663,56 @@
         <source>Retype Password</source>
         <translation>Gjenta passord</translation>
     </message>
+</context>
+<context>
+    <name>design/standard/user/forgotpassword</name>
     <message>
-        <source>Generate</source>
-        <translation>Generer</translation>
+        <source>%1 new password</source>
+        <translation>%1 nytt passord</translation>
+    </message>
+    <message>
+        <source>There is no registered user with that e-mail address.</source>
+        <translation>Det er ingen registrert bruker med den epostadressen.</translation>
+    </message>
+    <message>
+        <source>Password was successfully generated and sent to:</source>
+        <translation>Passordet ble generert og sendt til:</translation>
+    </message>
+    <message>
+        <source>Have you forgotten your password?</source>
+        <translation>Har du glemt passordet ditt?</translation>
+    </message>
+    <message>
+        <source>If you have forgotten your password we can generate a new one for you. All you need to do is to enter your e-mail address and we will create a new password for you.</source>
+        <translation>Hvis du har glemt passordet ditt, kan vi generere et nytt til deg. Alt du må gjøre er å skrive inn e-postadressen din, så sender vi deg et nytt passord.</translation>
+    </message>
+    <message>
+        <source>E-mail:</source>
+        <translation>E-post:</translation>
+    </message>
+    <message>
+        <source>Generate new password</source>
+        <translation>Generer nytt passord</translation>
+    </message>
+    <message>
+        <source>Your account information</source>
+        <translation>Din kontoinformasjon</translation>
+    </message>
+    <message>
+        <source>Email:</source>
+        <translation>E-post:</translation>
+    </message>
+    <message>
+        <source>Click here to get new password:</source>
+        <translation>Klikk her for å få nytt passord:</translation>
+    </message>
+    <message>
+        <source>New password:</source>
+        <translation>Nytt passord:</translation>
+    </message>
+    <message>
+        <source>A mail has been send to the following e-mail address: %1. This e-mail contains a link you need to click so that we can confirm that the correct user is getting the new password.</source>
+        <translation>Passordet er sendt til denne e-postadressen: %1. E-posten inneholder en lenke du må klikke, dette er for å sikre at passordet blir sendt til rett bruker.</translation>
     </message>
 </context>
 <context>
@@ -3657,14 +3720,6 @@
     <message>
         <source>%1 registration info</source>
         <translation>%1 registreringsinformasjon</translation>
-    </message>
-    <message>
-        <source>%1 new password</source>
-        <translation>%1 nytt passord</translation>
-    </message>
-    <message>
-        <source>Click here to get new password:</source>
-        <translation>Klikk her for å få nytt passord:</translation>
     </message>
     <message>
         <source>New user registered at %1</source>
@@ -4540,6 +4595,10 @@
     <message>
         <source>Change password</source>
         <translation>Bytt passord</translation>
+    </message>
+    <message>
+        <source>Forgot password</source>
+        <translation>Glemt passord</translation>
     </message>
 </context>
 <context>
