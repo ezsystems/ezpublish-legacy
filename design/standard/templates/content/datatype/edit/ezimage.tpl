@@ -14,7 +14,7 @@
 {section show=or($attribute.content,$attribute.content.filename)}
 
 <div class="block">
-<img src={concat("/var/storage/variations/",$attribute.content.mime_type_category,"/",$attribute.content.small.additional_path,$attribute.content.small.filename)|ezroot} alt="" />
+<img src={$attribute.content.full_path|ezroot} alt="" />
 </div>
 
 <div class="buttonblock">
