@@ -126,6 +126,18 @@ eZDB:
 - Added method which can check if a given character set matches the one used in
   the database. Currently implemented for MySQL when 4.1.1 or higher is used.
 
+eZFileHandler:
+- Made sure copy() and move() methods check if source and destination points
+  to the same file, if so it just returns true.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+
+eZTarArchiveHandler:
+- Made sure directories have the ending slash when storing in tar file.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+- Made sure tar files are padded to 20 blocks (of 512 bytes) containing
+  zero filled blocks.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
   Merged from stable/3.3 rev. 10194, stable/3.4 rev. 10195.

@@ -719,6 +719,14 @@ class eZTARArchiveHandler extends eZArchiveHandler
               $v_stored_filename = $p_add_dir.'/'.$v_stored_filename;
       }
 
+      $isFile = $this->fileIsFile( $p_filename );
+      if ( !$isFile )
+      {
+          // Make sure directory names end with a slash
+          if ( $v_stored_filename[ strlen( $v_stored_filename ) - 1 ] != '/' )
+              $v_stored_filename .= '/';
+      }
+
       if (strlen($v_stored_filename) > 99)
       {
           $this->_warning("Stored file name is too long (max. 99) : '$v_stored_filename'");
@@ -728,7 +736,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
       }
       $v_stored_filename = $this->_pathReduction($v_stored_filename);
 
-      if ( $this->fileIsFile( $p_filename ))
+      if ( $isFile )
       {
           if (($v_file = @fopen($p_filename, "rb")) == 0)
           {
@@ -797,13 +805,23 @@ class eZTARArchiveHandler extends eZArchiveHandler
     {
       if ( $this->fileIsOpen() )
       {
-          // ----- Write the last 0 filled block for end of archive
-          $v_binary_data = pack("a512", '');
-//           if ($this->_compress)
-//             @gzputs($this->_file, $v_binary_data);
-//           else
-//             @fputs($this->_file, $v_binary_data);
-          $this->fileWrite( $v_binary_data );
+          $endBlocks = ( filesize( $this->_tarname ) / 512 ) + 1;
+          $blockPadding = 20;
+          $modulo = $endBlocks % $blockPadding;
+          if ( $modulo == 0 )
+          {
+              $blockCount = $blockPadding;
+          }
+          else
+          {
+              $blockCount = ( $blockPadding - $modulo ) + 1;
+          }
+          // ----- Write the last 0 filled block for end of archive and pad it to 20 blocks
+          for ( $i = 0; $i < $blockCount; ++$i )
+          {
+              $v_binary_data = pack("a512", '');
+              $this->fileWrite( $v_binary_data );
+          }
       }
       return true;
     }
