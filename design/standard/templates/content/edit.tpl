@@ -34,10 +34,18 @@
     <tr>
         <td class="{$Node:sequence}">
 	<span class="normal">
+	{switch match=$Node:parent_node.node_id}
+	{case match=1}
+	Top node
+	{/case}
+	{case}
         {section name=Path loop=$Node:parent_node.path}
 	{$Node:Path:item.name} /
 	{/section}
-        {$Node:parent_node.name}</span>
+        {$Node:parent_node.name}
+	{/case}
+	{/switch}
+	</span>
         </td>
         <td class="{$Node:sequence}">
         <span class="normal">

@@ -33,7 +33,7 @@
 
 <!-- Top box START -->
 
-<form action="/content/search/" method="get">
+<form action={"/content/search/"|ezurl} method="get">
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -41,23 +41,23 @@
     <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
     </td>
     <td class="topbox" width="20%" valign="bottom">
-	<label class="topline" for="Search">Search:</label><a class="topline" href="/content/advancedsearch/"><span class="small">Advanced search</span></a><div class="labelbreak"></div>
+	<label class="topline" for="Search">Search:</label><a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">Advanced search</span></a><div class="labelbreak"></div>
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
     <td class="topbox" width="20%" valign="bottom">
 	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
-{*    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p> *}
+{*    <p class="menuitem"><a class="menuitem" href={"/user/logout/"|ezurl}>Log out</a></p> *}
 
     <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
-    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/password/{$current_user.contentobject_id}">Change Password</a></p>
+    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={"/user/password/$current_user.contentobject_id"|ezurl}>Change Password</a></p>
     <p style="padding: 0;">
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
     {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-    <a class="topline" href="/user/login/">Login</a>
+    <a class="topline" href={"/user/login/"|ezurl}>Login</a>
     {section-else}
-    <a class="topline" href="/user/logout/">Logout</a>
+    <a class="topline" href={"/user/logout/"|ezurl}>Logout</a>
     {/section}
     </p>
    </td>

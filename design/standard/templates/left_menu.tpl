@@ -17,7 +17,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/content/view/sitemap/2/">Sitemap</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/sitemap/2/"|ezurl}>Sitemap</a></p>
     </td>
 </tr>
 <tr>
@@ -25,7 +25,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href="/search/stats/">Search stats</a></p>
+    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>Search stats</a></p>
     </td>
 </tr>
 </table>
@@ -41,7 +41,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/class/grouplist/">Classes</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/class/grouplist/"|ezurl}>Classes</a></p>
     </td>
 </tr>
 <tr>
@@ -49,7 +49,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/section/list/">Sections</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/section/list/"|ezurl}>Sections</a></p>
     </td>
 </tr>
 <tr>
@@ -57,7 +57,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/workflow/grouplist/">Workflows</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/workflow/grouplist/"|ezurl}>Workflows</a></p>
     </td>
 </tr>
 </table>
@@ -73,7 +73,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/shop/orderlist/">Order lists</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/shop/orderlist/"|ezurl}>Order lists</a></p>
     </td>
 </tr>
 <tr>
@@ -81,7 +81,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/shop/wishlist/">Wish list</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/shop/wishlist/"|ezurl}>Wish list</a></p>
     </td>
 </tr>
 <tr>
@@ -89,7 +89,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/shop/basket/">Shopping basket</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/shop/basket/"|ezurl}>Shopping basket</a></p>
     </td>
 </tr>
 </table>
@@ -105,7 +105,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/content/view/sitemap/5/">Users</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/sitemap/5/"|ezurl}>Users</a></p>
     </td>
 </tr>
 <tr>
@@ -113,7 +113,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/role/list/">Roles</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/role/list/"|ezurl}>Roles</a></p>
     </td>
 </tr>
 <tr>
@@ -121,7 +121,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/notification/list/">Notification rule list</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/notification/list/"|ezurl}>Notification rule list</a></p>
     </td>
 </tr>
 <tr>
@@ -129,7 +129,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/task/view/">Tasks</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/task/view/"|ezurl}>Tasks</a></p>
     </td>
 </tr>
 </table>

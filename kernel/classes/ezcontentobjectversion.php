@@ -138,17 +138,15 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $retNodes = array();
         $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
-
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
-            if( $nodeAssignment->attribute( 'parent_node' ) != '1' )
+            /*  if( $nodeAssignment->attribute( 'parent_node' ) != '1' )
             {
-//                 $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
                 $retNodes[] =& $nodeAssignment;
-            }
+            }*/
+            $retNodes[] =& $nodeAssignment;
         }
-        
         return $retNodes;
     }
     function &nodeAssignments()
