@@ -1640,7 +1640,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $cellContent = "";
                         $tdSectionLevel = $currentSectionLevel;
                         $className = $tableCell->attributeValue( 'class' );
-                        $width = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
+                        $cellWidth = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $colspan = $tableCell->attributeValueNS( 'colspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $rowspan = $tableCell->attributeValueNS( 'rowspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
 
@@ -1652,8 +1652,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $cellAttribute = "";
                         if ( $className != null )
                             $cellAttribute .= " class='$className'";
-                        if ( $width != null )
-                            $cellAttribute .= " width='$width'";
+                        if ( $cellWidth != null )
+                            $cellAttribute .= " width='$cellWidth'";
                         if ( $colspan != null )
                             $cellAttribute .= " colspan='$colspan'";
                         if ( $rowspan != null )

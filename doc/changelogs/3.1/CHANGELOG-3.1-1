@@ -9,7 +9,7 @@ Changes from 3.1.0-2 to 3.1-1
 - Added ActiveAccessExtensions variable in settings/site.ini which will be used after siteaccess has been chosen
   to allow per siteaccess extension settings.
 - Made sure template override cache file is determined by it's designs and extension designs.
-- Fixed display error in width of table cell.
+- Fixed display error in width of table and table cell.
 
 *Library:
 - Added revision number to SDK info.
