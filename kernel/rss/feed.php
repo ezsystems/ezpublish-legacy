@@ -50,7 +50,7 @@ include_once( 'kernel/classes/ezrssexportitem.php' );
 
 $config =& eZINI::instance( 'site.ini' );
 $cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
-$cacheFile = $cacheDir.'/rss/'.$feedName.'.xml';
+$cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
 
 // If cache directory does not exist, create it. Get permissions settings from site.ini
 if ( !is_dir( $cacheDir.'/rss' ) )
