@@ -68,33 +68,7 @@
 {/section}
 </table>
 
-<div class="selectbar">
-<table class="selectbar" width="100%" cellpadding="0" cellspacing="2" border="0">
-<tr>
-	{switch match=$previous|lt(0) }
-	  {case match=0}
-	<td class="selectbar" width="1%">
-          <a class="selectbar" href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$previous}"><<&nbsp;Previous</a>
-    </td>
-	  {/case}
-          {case match=1}
-	  {/case}
-        {/switch}
-    <td width="80%">
-    &nbsp;
-    </td>
-	{switch match=$next|lt($tree_count) }
-	  {case match=1}
-	<td class="selectbar" width="1%">
-          <a class="selectbar" href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$next}">Next&nbsp;>></a>
-    </td>
-          {/case}
-	  {case}
-          {/case}
-        {/switch}
-</tr>
-</table>
-</div>
+{include name=navigator uri='design:navigator/google.tpl' top_object_id=$top_object_id module=$module tree_count=$tree_count page=$page}
 
 <div class="buttonblock">
 <input class="button" type="submit" name="NewButton" value="New" />

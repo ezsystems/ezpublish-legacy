@@ -127,8 +127,10 @@ if ( array_key_exists( 'Limitation', $Params ) )
     }
 }
 
+$pageLimit = 25;
+
 $subTree =& $mainNode->subTree( array( 'Offset' => $Offset,
-                                       'Limit' => 25,
+                                       'Limit' => $pageLimit,
                                        'Limitation' => &$limitationList
                                        ) );
 
@@ -158,8 +160,12 @@ $tpl->setVariable( 'module', $Module );
 
 $tpl->setVariable( 'nodeID', $TopObjectID );
 
-$tpl->setVariable( 'previous', $Offset - 25 );
-$tpl->setVariable( 'next', $Offset + 25 );
+$tpl->setVariable( 'page', array( 'limit' => $pageLimit,
+                                  'offset' => $Offset,
+                                  'current' => (int)( $Offset / $pageLimit ),
+                                  'total' => (int)ceil( $treeCount / $pageLimit ),
+                                  'previous' => $Offset - $pageLimit,
+                                  'next' => $Offset + $pageLimit ) );
 
 $Result =& $tpl->fetch( 'design:content/sitemap.tpl' );
 
