@@ -66,6 +66,8 @@ class eZTextCodec
                          eZTextCodec::useMBString() and
                          eZMBStringMapper::hasMBStringExtension() );
 
+        $noneConversionFunction = 'convertNone';
+        $noneStrlenFunction = 'strlenNone';
         $conversionFunction = null;
         $strlenFunction = null;
         $useMapper = false;
@@ -73,8 +75,8 @@ class eZTextCodec
         // First detect conversion type
         if ( $this->InputCharsetCode == $this->OutputCharsetCode ) // Direct match, no conversion
         {
-            $conversionFunction = "convertNone";
-            $strlenFunction = "strlenNone";
+            $conversionFunction = $noneConversionFunction;
+            $strlenFunction = $noneStrlenFunction;
 //             eZDebug::writeNotice( "none " . $this->InputCharsetCode . "/" . $this->OutputCharsetCode, "eZTextCodec" );
         }
         else if ( $useMBString and
@@ -150,14 +152,23 @@ class eZTextCodec
             eZDebug::writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
                                  " to characterset " . $this->RequestedOutputCharsetCode,
                                  "eZTextCodec" );
-            $conversionFunction = "convertNone";
-            $strlenFunction = "strlenNone";
+            $conversionFunction = $noneConversionFunction;
+            $strlenFunction = $noneStrlenFunction;
 //             eZDebug::writeNotice( "failed", "eZTextCodec" );
         }
 
         $this->ConversionFunction = $conversionFunction;
         $this->StrlenFunction = $strlenFunction;
         $this->UseMapper = $useMapper;
+        $this->RequireConversion = $conversionFunction != $noneConversionFunction;
+    }
+
+    /*!/
+     \return true if a conversion is required, if false there's no need to call the textcodec functions.
+    */
+    function conversionRequired()
+    {
+        return $this->RequireConversion;
     }
 
     function setUseMBString( $use )
