@@ -253,7 +253,7 @@ class eZUserType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject_$userID'];
+        $user =& $GLOBALS["eZUserObject_$userID"];
         if ( !isset( $user ) or
              get_class( $user ) != 'ezuser' )
             $user = eZUser::fetch( $userID );
@@ -272,17 +272,17 @@ class eZUserType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         $metaString = "";
         $user =& $contentObjectAttribute->content();
+
         if ( get_class( $user ) == "ezuser" )
         {
             // create a default user account
             $metaString .= $user->attribute( 'login' ) . " ";
             $metaString .= $user->attribute( 'email' ) . " ";
         }
-
         return $metaString;
     }
 }

@@ -160,7 +160,7 @@ class eZUser extends eZPersistentObject
         $handler->setTimestamp( 'user-groups-cache', mktime() );
         $handler->store();
         // Clear memory cache
-        unset( $GLOBALS['eZUserObject_$userID'] );
+        unset( $GLOBALS["eZUserObject_$userID"] );
         eZPersistentObject::store();
     }
 
