@@ -8,14 +8,15 @@
     <message>
 	<source>Default value:</source>
 	<translation>Standardverdi</translation>
-    <message>
+    </message>
     <message>
 	<source>Empty</source>
 	<translation>Ingen verdi</translation>
-    <message>
+    </message>
     <message>
 	<source>Current time</source>
 	<translation>Nåværende tidspunkt</translation>
+    </message>
     <message>
         <source>Multiple choice</source>
         <translation>Flere valg</translation>
@@ -1036,6 +1037,14 @@
 </context>
 <context>
     <name>design/standard/layout</name>
+    <message>
+        <source>Sales</source>
+        <translation>Salg</translation>
+    </message>
+    <message>
+        <source>Overview</source>
+        <translation>Oversikt</translation>
+    </message>
     <message>
         <source>Content</source>
         <translation>Innhold</translation>
