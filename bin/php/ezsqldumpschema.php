@@ -47,7 +47,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]" .
+$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
