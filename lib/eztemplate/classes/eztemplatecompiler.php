@@ -2915,15 +2915,36 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
             {
-                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) .
-                                    "\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n" );
+                $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
+
+                // This code is used a lot so we create a variable for it
+                $phpVar = "\$$variableAssignmentName";
+                $indexName = "'" . $variableDataItem[1][0][1] . "'";
+
+                // Add sanity checking
+                $code .= ( "if ( !is_array( \$$variableAssignmentName ) )\n" .
+                           "{\n" .
+                           "    \$tpl->error( \"PHP variable $phpVar is not array, cannot do array lookup\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
+                           "    $phpVar = null;\n" .
+                           "}\n" .
+                           "else if ( !array_key_exists( $indexName, $phpVar ) )\n" .
+                           "{\n" .
+                           "    \$tpl->error( \"PHP variable $phpVar does not contain index $indexName, cannot fetch the value.\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
+                           "    $phpVar = null;\n" .
+                           "}\n" .
+                           "else\n    " );
+
+                // Add the actual code
+                $code .= "$phpVar = $phpVar" . "[" . $indexName . "];\n";
+
+                $php->addCodePiece( $code );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP )
             {
                 $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
                 $code .= <<<END
 if ( !is_object( \${$variableAssignmentName} ) )
-{ \${$variableAssignmentName} = false; }
+{ \${$variableAssignmentName} = null; }
 else if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
 { \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" ); }
 
@@ -2932,7 +2953,25 @@ END;
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL )
             {
-                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) . "\$$variableAssignmentName = \${$variableAssignmentName}->content();\n");
+                // Line number comment
+                $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
+
+                // This code is used a lot so we create a variable for it
+                $phpVar = "\$$variableAssignmentName";
+
+                // Add sanity checking
+                $code .= ( "if ( !is_object( $phpVar ) )\n" .
+                           "{\n" .
+                           "    \$tpl->error( \"PHP variable $phpVar is not an object, cannot fetch content()\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
+                           "    $phpVar = null;\n" .
+                           "}\n" .
+                           "else\n" .
+                           "    " );
+
+                // Add the actual code
+                $code .= "$phpVar = $phpVar" . "->content();\n";
+
+                $php->addCodePiece( $code );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
             {
