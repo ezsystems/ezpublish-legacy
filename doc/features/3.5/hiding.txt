@@ -146,6 +146,7 @@ New INI settings:
 site.ini:
  - SiteAccessSettings/ShowHiddenNodes (true/false):
    Determines whether to show hidden nodes in this siteaccess.
+   The default value is true.
 
 New DB fields:
  - ezcontentobject_tree.hidden
