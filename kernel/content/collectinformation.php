@@ -58,7 +58,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $contentObjectAttributes =& $version->contentObjectAttributes();
 
     $user =& eZUser::currentUser();
-    if ( !$user->attribute( 'is_logged_in' ) )
+    $isLoggedIn = $user->attribute( 'is_logged_in' );
+    $allowAnonymous = true;
+    if ( !$isLoggedIn )
     {
         $allowAnonymous = eZInformationCollection::allowAnonymous( $object );
     }
@@ -69,8 +71,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     if ( $userDataHandling == 'unique' or
          $userDataHandling == 'overwrite'  )
         $collection =& eZInformationCollection::fetchByUserIdentifier( eZInformationCollection::currentUserIdentifier(), $object->attribute( 'id' ) );
-    if ( $userDataHandling == 'unique' and
-         $collection )
+    if ( ( !$isLoggedIn and
+           !$allowAnonymous ) or
+         ( $userDataHandling == 'unique' and
+           $collection ) )
     {
         $tpl =& templateInit();
 
@@ -79,14 +83,19 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
+        $collectionID = false;
+        if ( $collection )
+            $collectionID = $collection->attribute( 'id' );
+
         $tpl->setVariable( 'node_id', $node->attribute( 'node_id' ) );
-        $tpl->setVariable( 'collection_id', $collection->attribute( 'id' ) );
+        $tpl->setVariable( 'collection_id', $collectionID );
         $tpl->setVariable( 'collection', $collection );
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'object', $object );
         $tpl->setVariable( 'attribute_hide_list', $attributeHideList );
         $tpl->setVariable( 'error', true );
-        $tpl->setVariable( 'error_existing_data', true );
+        $tpl->setVariable( 'error_existing_data', ( $userDataHandling == 'unique' and $collection ) );
+        $tpl->setVariable( 'error_anonymous_user', ( !$isLoggedIn and !$allowAnonymous ) );
 
         $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )

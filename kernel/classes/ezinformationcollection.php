@@ -191,7 +191,7 @@ class eZInformationCollection extends eZPersistentObject
         $type = eZInformationCollection::typeForObject( $contentObject );
 
         $ini =& eZINI::instance( 'collect.ini' );
-        $collectAnonymousList = $ini->variable( 'CollectionSettings', 'CollectAnonymousList' );
+        $collectAnonymousList = $ini->variable( 'CollectionSettings', 'CollectAnonymousDataList' );
 
         $collectAnonymous = false;
 
