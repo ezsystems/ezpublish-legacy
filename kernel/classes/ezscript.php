@@ -257,7 +257,7 @@ class eZScript
         $this->IsInitialized = true;
     }
 
-    function shutdown( $exitCode = false )
+    function shutdown( $exitCode = false, $exitText = false )
     {
         $db =& eZDB::instance();
 
@@ -289,7 +289,11 @@ class eZScript
         if ( $exitCode !== false )
             $this->ExitCode = $exitCode;
         if ( $this->ExitCode !== false )
+        {
+            if ( $exitText !== false )
+                $cli->output( $exitText );
             exit( $this->ExitCode );
+        }
     }
 
     function setDebugMessage( $message )
@@ -856,7 +860,7 @@ class eZScript
                 $this->shutdown();
                 exit;
             }
-            if ( $options['siteaccess'] )
+            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
                 $this->setUseSiteAccess( $options['siteaccess'] );
         }
         return $options;

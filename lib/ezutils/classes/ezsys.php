@@ -488,7 +488,7 @@ class eZSys
 
         if ( $withAccessList and count( $this->AccessPath ) > 0 )
         {
-            if (php_sapi_name() == 'cgi' )
+            if ( php_sapi_name() == 'cgi' )
             {
                 if ( $text != "" )
                     $text .= "/";
@@ -697,7 +697,7 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( $def_index = "index.php", $force_VirtualHost = false)
+    function init( $def_index = "index.php", $force_VirtualHost = false )
     {
         $isCGI = ( php_sapi_name() == 'cgi' );
 

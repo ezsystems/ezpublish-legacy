@@ -66,7 +66,7 @@ $options = $script->getOptions( "[source-type:][source-host:][source-user:][sour
                                        'match-user' => "User for login to match database",
                                        'match-password' => "Password to use when connecting to match database",
                                        'type' => ( "Which database type to use for match and source, can be one of:\n" .
-                                                   "mysql, postgresql\n" ),
+                                                   "mysql, postgresql" ),
                                        'host' => "Connect to host match and source database",
                                        'user' => "User for login to match and source database",
                                        'password' => "Password to use when connecting to match and source database",
