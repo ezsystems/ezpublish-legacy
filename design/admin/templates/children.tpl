@@ -31,6 +31,8 @@ function togglestuff( formname, checkboxname )
 
 <h2 class="context-title">Children</h2>
 
+<form name="children" method="post" action={'content/action'|ezurl}>
+
 {* Generic children list for admin interface. *}
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
@@ -124,7 +126,7 @@ function togglestuff( formname, checkboxname )
 <a href={$node.parent.url_alias|ezurl}>[Up one level]</a>
 {/section}
 -->
-<form name="children" method="post" action={'content/action'|ezurl}>
+
 {* Display the actual list of nodes. *}
 {switch match=ezpreference( 'viewmode' )}
 
