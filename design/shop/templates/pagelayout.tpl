@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,corporate_package))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,shop_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
@@ -9,8 +9,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-   {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-      @import url("/design/shop/stylesheets/shop-blue.css");
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    {*  @import url("/design/shop/stylesheets/shop-blue.css"); *}
 </style>
 
 </head>

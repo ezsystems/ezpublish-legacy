@@ -59,8 +59,8 @@ div#mainmenu ul
 
 div#mainmenu li a
 {
-    padding-left: 1em;
-    padding-right: 3em;
+    padding-left: 0.5em;
+    padding-right: 1em;
 }
 
 div#mainmenu a
