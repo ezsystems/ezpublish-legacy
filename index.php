@@ -149,12 +149,15 @@ function eZAppendWarningItem( $parameters = array() )
 {
     global $warningList;
     $parameters = array_merge( array( 'error' => false,
-                                      'text' => false ),
+                                      'text' => false,
+                                      'identifier' => false ),
                                $parameters );
     $error = $parameters['error'];
     $text = $parameters['text'];
+    $identifier = $parameters['identifier'];
     $warningList[] = array( 'error' => $error,
-                            'text' => $text );
+                            'text' => $text,
+                            'identifier' => $identifier );
 }
 
 include_once( 'lib/ezutils/classes/ezexecution.php' );
@@ -837,6 +840,8 @@ $moduleResult['ui_component'] = $module->uiComponentName();
 
 $templateResult = null;
 
+$a = $b;
+
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
@@ -896,6 +901,27 @@ if ( $show_page_layout )
 
     if ( $show_page_layout )
     {
+        if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
+        {
+            if ( isset( $GLOBALS['eZDebugError'] ) and
+                 $GLOBALS['eZDebugError'] )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'error',
+                                                              'number' => 1 ),
+                                            'identifier' => 'ezdebug-first-error',
+                                            'text' => ezi18n( 'index.php', 'Some errors occured, see debug for more information.' ) ) );
+            }
+
+            if ( isset( $GLOBALS['eZDebugWarning'] ) and
+                 $GLOBALS['eZDebugWarning'] )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'warning',
+                                                              'number' => 1 ),
+                                            'identifier' => 'ezdebug-first-warning',
+                                            'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+            }
+        }
+
         if ( $userObjectRequired )
         {
             // include user class

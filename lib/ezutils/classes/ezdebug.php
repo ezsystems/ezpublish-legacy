@@ -120,18 +120,23 @@ class eZDebug
 
         $this->OutputFormat = array( EZ_LEVEL_NOTICE => array( "color" => "green",
                                                                'style' => 'notice',
+                                                               'xhtml-identifier' => 'ezdebug-first-notice',
                                                                "name" => "Notice" ),
                                      EZ_LEVEL_WARNING => array( "color" => "orange",
                                                                 'style' => 'warning',
+                                                                'xhtml-identifier' => 'ezdebug-first-warning',
                                                                 "name" => "Warning" ),
                                      EZ_LEVEL_ERROR => array( "color" => "red",
                                                               'style' => 'error',
+                                                              'xhtml-identifier' => 'ezdebug-first-error',
                                                               "name" => "Error" ),
                                      EZ_LEVEL_DEBUG => array( "color" => "brown",
                                                               'style' => 'debug',
+                                                              'xhtml-identifier' => 'ezdebug-first-debug',
                                                               "name" => "Debug" ),
                                      EZ_LEVEL_TIMING_POINT => array( "color" => "blue",
                                                                      'style' => 'timing',
+                                                                     'xhtml-identifier' => 'ezdebug-first-timing-point',
                                                                      "name" => "Timing" ) );
         $this->LogFiles = array( EZ_LEVEL_NOTICE => array( "var/log/",
                                                            "notice.log" ),
@@ -338,6 +343,8 @@ class eZDebug
     /*!
       \static
       Writes a debug notice.
+
+      The global variable \c 'eZDebugNotice' will be set to \c true if the notice is added.
     */
     function writeNotice( $string, $label="" )
     {
@@ -347,6 +354,7 @@ class eZDebug
             return;
         if ( is_object( $string ) || is_array( $string ) )
              $string =& eZDebug::dumpVariable( $string );
+        $GLOBALS['eZDebugNotice'] = true;
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -362,6 +370,8 @@ class eZDebug
     /*!
       \static
       Writes a debug warning.
+
+      The global variable \c 'eZDebugWarning' will be set to \c true if the notice is added.
     */
     function writeWarning( $string, $label="" )
     {
@@ -371,6 +381,7 @@ class eZDebug
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+        $GLOBALS['eZDebugWarning'] = true;
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -386,6 +397,8 @@ class eZDebug
     /*!
       \static
       Writes a debug error.
+
+      The global variable \c 'eZDebugError' will be set to \c true if the notice is added.
     */
     function writeError( $string, $label="" )
     {
@@ -395,6 +408,7 @@ class eZDebug
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+        $GLOBALS['eZDebugError'] = true;
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -410,6 +424,8 @@ class eZDebug
     /*!
       \static
       Writes a debug message.
+
+      The global variable \c 'eZDebugDebug' will be set to \c true if the notice is added.
     */
     function writeDebug( $string, $label="" )
     {
@@ -419,6 +435,7 @@ class eZDebug
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+        $GLOBALS['eZDebugDebug'] = true;
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -1152,6 +1169,12 @@ td.timingpoint2
             $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
         }
 
+        $hasLevel = array( EZ_LEVEL_NOTICE => false,
+                           EZ_LEVEL_WARNING => false,
+                           EZ_LEVEL_ERROR => false,
+                           EZ_LEVEL_TIMING_POINT => false,
+                           EZ_LEVEL_DEBUG => false );
+
         foreach ( $this->DebugStrings as $debug )
         {
             if ( !in_array( $debug['Level'], $allowedDebugLevels ) )
@@ -1161,13 +1184,19 @@ td.timingpoint2
             $outputData = $this->OutputFormat[$debug["Level"]];
             if ( is_array( $outputData ) )
             {
+                $identifierText = '';
+                if ( !$hasLevel[$debug['Level']] )
+                {
+                    $hasLevel[$debug['Level']] = true;
+                    $identifierText = 'id="' . $outputData['xhtml-identifier'] . '"';
+                }
                 $color = $outputData["color"];
                 $name = $outputData["name"];
                 $label = $debug["Label"];
                 if ( $as_html )
                 {
                     $label = htmlspecialchars( $label );
-                    $returnText .= "<tr><td class='debugheader' valign='top'><b><font color=\"$color\">$name:</font> $label</b></td>
+                    $returnText .= "<tr><td class='debugheader' valign='top'$identifierText><b><font color=\"$color\">$name:</font> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
                                     <tr><td colspan='2'><pre>" .  htmlspecialchars( $debug["String"] )  . "</pre></td></tr>";
                 }

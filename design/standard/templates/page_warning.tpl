@@ -5,7 +5,7 @@
   {section name=Warning loop=$warning_list}
 <tr>
     <td>
-      <h3 class="error">{$Warning:item.error.type} ({$Warning:item.error.number})</h3>
+      <h3 class="error">{section show=$Warning:item.identifier}<a href="#{$Warning:item.identifier}">{/section}{$Warning:item.error.type}::{$Warning:item.error.number}{section show=$Warning:item.identifier}</a>{/section}</h3>
       <ul class="error">
         <li>{$Warning:item.text}</li>
       </ul>
