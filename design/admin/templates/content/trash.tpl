@@ -29,7 +29,7 @@ function toggleCheckboxes( formname, checkboxname )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      object_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
                                                           offset, $view_parameters.offset ) )
-     list_count=fetch( 'content', 'trash_count' ) }
+     list_count=fetch( content, trash_count ) }
 
 {section show=$object_list}
 
@@ -80,10 +80,10 @@ function toggleCheckboxes( formname, checkboxname )
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 <tr class="{$Objects.sequence}">
     <td>
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Objects.item.id}" />
+    <input type="checkbox" name="DeleteIDArray[]" value="{$Objects.item.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/content/trash' )|wash()}" />
     </td>
     <td>
-    {$Objects.item.content_class.identifier|class_icon( small, $Objects.item.content_class.name )}&nbsp;    <a href={concat( '/content/versionview/', $Objects.item.id, '/', $Objects.item.current_version, '/' )|ezurl}>{$Objects.item.name|wash}</a>
+    {$Objects.item.content_class.identifier|class_icon( small, $Objects.item.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.id, '/', $Objects.item.current_version, '/' )|ezurl}>{$Objects.item.name|wash}</a>
     </td>
     <td>
     {$Objects.item.content_class.name|wash}
