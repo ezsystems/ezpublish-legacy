@@ -91,7 +91,7 @@
 </div>
 
 {* Related objects window. *}
-{include uri='design:content/edit_related.tpl'}
+{include uri='design:content/edit_relations.tpl'}
 
 {* Locations window. *}
 {section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' )}
