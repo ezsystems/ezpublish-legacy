@@ -252,13 +252,12 @@ if ( !function_exists( 'checkContentActions' ) )
         }
     }
 }
-eZDebug::writeError("77777777777777777777777777777777777777777");
 $Module->addHook( 'action_check', 'checkContentActions' );
-eZDebug::writeError("6666666666666666666666666666666666666666666666666");
 $includeResult = include( 'kernel/content/attribute_edit.php' );
 
 if ( $includeResult != 1 )
     return $includeResult;
+
 
 /********** Custom Action Code Start ***************/
 // $customAction = false;

@@ -63,6 +63,18 @@ class eZTextType extends eZDataType
         $classAttribute->store();
     }
 
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion )
+    {
+         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+         if ( $contentClassAttribute->attribute( "data_int1" ) == 0 )
+         {
+              $contentClassAttribute->setAttribute( "data_int1", 10 );
+              $contentClassAttribute->store();
+         }
+    }
 
     /*!
      Validates the input and returns true if the input was

@@ -63,12 +63,37 @@ include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
+define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE', '_ezxmltext_cols_' );
 
 class eZXMLTextType extends eZDataType
 {
     function eZXMLTextType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, "XML Text field" );
+    }
+
+    /*!
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD ) == null )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, 10 );
+        $classAttribute->store();
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion )
+    {
+         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+         if ( $contentClassAttribute->attribute( "data_int1" ) == 0 )
+         {
+              $contentClassAttribute->setAttribute( "data_int1", 10 );
+              $contentClassAttribute->store();
+         }
     }
 
     /*!
@@ -102,7 +127,31 @@ class eZXMLTextType extends eZDataType
 
                 foreach ( $objects as $object )
                 {
-                    print( $object->attributeValue( 'id' ) );
+                    $objectID = $object->attributeValue( 'id' );
+                    $currentObject =& eZContentObject::fetch( $objectID );
+                    $editVersion = $contentObjectAttribute->attribute('version');
+                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
+                    $editObject =& eZContentObject::fetch( $editObjectID );
+                    if (  $currentObject == null )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                             'ezXMLTextType',
+                                                                             'Object '. $objectID .' does not exist.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }else
+                    {
+                        $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
+                        $relatedObjectIDArray = array();
+                        foreach (  $relatedObjects as  $relatedObject )
+                        {
+                            $relatedObjectID =  $relatedObject->attribute( 'id' );
+                            $relatedObjectIDArray[] =  $relatedObjectID;
+                        }
+                        if ( !in_array(  $objectID, $relatedObjectIDArray ) )
+                        {
+                            $editObject->addContentObjectRelation( $objectID, $editVersion );
+                        }
+                    }
                 }
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
@@ -115,6 +164,16 @@ class eZXMLTextType extends eZDataType
         }
 
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $column = $base .EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $column ) )
+        {
+            $columnValue = $http->postVariable( $column );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD,  $columnValue );
+        }
     }
 
     /*!
@@ -215,6 +274,7 @@ class eZXMLTextType extends eZDataType
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
+                eZDebug::writeError("qqqqdqd");
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode );
             }
         }
@@ -250,7 +310,7 @@ class eZXMLTextType extends eZDataType
         {
             $output = "";
             $children =& $node[0]->children();
-            $output .= $this->inputSectionXML( $node[0] );
+            $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
         }
         return $output;
     }
@@ -527,6 +587,9 @@ class eZXMLTextType extends eZDataType
             case 'object' :
             {
                 $view = $tag->attributeValue( 'view' );
+                if ( strlen( $view ) == 0 )
+                    $view = "embed";
+
                 $objectID = $tag->attributeValue( 'id' );
                 $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
             }break;

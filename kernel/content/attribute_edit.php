@@ -166,7 +166,6 @@ if ( $storingAllowed )
 
     if ( $inputValidated == true && $requreStoreAction )
     {
-
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
             return;
 
@@ -196,8 +195,6 @@ if ( $inputValidated == true )
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
         return;
 }
-
-
 if ( isset( $Params['TemplateObject'] ) )
     $tpl =& $Params['TemplateObject'];
 

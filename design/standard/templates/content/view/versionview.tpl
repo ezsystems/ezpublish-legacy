@@ -26,7 +26,7 @@ Viewing version {$object_version} in language {$object_languagecode}
 {section name=Object loop=$related_contentobject_array show=$related_contentobject_array sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Object:sequence}">
-	{content_view_gui view=line content_object=$Object:item}
+	{content_view_gui view=text_linked content_object=$Object:item}
 	</td>
 </tr>
 {section-else}

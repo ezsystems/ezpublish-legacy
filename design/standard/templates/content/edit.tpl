@@ -148,11 +148,6 @@ _editor_url = "";
 	<input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
 	</td>
     </tr>
-    <tr>
-        <td class="{$Object:sequence}" colspan="2">
-	<span class="small">&lt;object id='{$Object:item.id}' view='inline' /&gt;</span>
-	</td>
-    </tr>
     {/section}
     <tr>
         <td>
