@@ -294,6 +294,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( $i > 0 )
                 $relkindText .= ' AND ';
             $relkindText .= "relkind='$relationKind'";
+            $i++;
         }
         if ( $this->isConnected() )
         {
@@ -342,8 +343,8 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            $sql = "SELECT relname FROM pg_class WHERE relkind='$relkind' AND NOT relname~'pg_.*'";
-            $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
+            $sql = "SELECT relname FROM pg_class WHERE relkind='$relationKind' AND NOT relname~'pg_.*'";
+            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
         }
         return $array;
     }
