@@ -37,6 +37,7 @@ $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezutils/classes/ezextension.php' );
 include_once( 'lib/version.php' );
 
 $ini =& eZINI::instance( );
@@ -45,10 +46,18 @@ $tpl =& templateInit();
 $db =& eZDB::instance();
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
+$tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
 $tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'database_info', $db->databaseName() );
-
+$tpl->setVariable( 'database_charset', $db->charset() );
+$tpl->setVariable( 'php_loaded_extensions', get_loaded_extensions() );
+$phpINI = array();
+foreach ( array( 'safe_mode', 'register_globals', 'open_basedir', 'file_uploads', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )
+{
+    $phpINI[$iniName] = ini_get( $iniName );
+}
+$tpl->setVariable( 'php_ini', $phpINI );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/info.tpl" );
