@@ -2603,7 +2603,8 @@ class Cpdf
         }
         return array( 'directive' => $directive,
                       'y' => (float)$y,
-                      'noClose' => $noClose );
+                      'noClose' => $noClose,
+                      'run_final' => ( $f == 0 ) );
     }
 
 /**
@@ -2652,7 +2653,7 @@ class Cpdf
                     $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
                     $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
                 }
-                if ($f){
+                if ( !$directiveArray['run_final'] ){
                     // then there was nothing drastic done here, restore the contents
                     $this->setCurrentFont();
                 } else {
