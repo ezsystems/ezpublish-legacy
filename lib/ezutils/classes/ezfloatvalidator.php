@@ -51,8 +51,8 @@ class eZFloatValidator extends eZRegExpValidator
     */
     function eZFloatValidator( $min = false, $max = false )
     {
-        $rule = array( "accepted" => "/^-?[0-9]+(.[0-9]+)?$/",
-                       "intermediate" => "/(-?[0-9]+(.[0-9]+)?)/",
+        $rule = array( "accepted" => "/^-?[0-9]+([.][0-9]+)?$/",
+                       "intermediate" => "/(-?[0-9]+([.][0-9]+)?)/",
                        "fixup" => "" );
         $this->eZRegExpValidator( $rule );
         $this->MinValue = $min;
