@@ -39,40 +39,18 @@
 
 */
 
-class eZSimplifiedXMLInput
+include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
+
+class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData )
     {
-        $this->XMLData =& $xmlData;
-    }
-
-    function hasAttribute( $name )
-    {
-        if ( $name == 'input_xml' )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function &attribute( $name )
-    {
-        switch ( $name )
-        {
-            case 'input_xml' :
-            {
-                return $this->inputXML();
-
-            }break;
-        }
+        $this->eZXMLInputHandler( $xmlData );
     }
 
     /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
+     \reimp
+     Validates the input and returns true if the input was valid for this datatype.
     */
     function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
@@ -161,7 +139,7 @@ class eZSimplifiedXMLInput
     }
 
     /*!
-     \private
+     \reimp
     */
     function &convertInput( &$text )
     {
@@ -459,6 +437,7 @@ class eZSimplifiedXMLInput
     }
 
     /*!
+     \reimp
      Returns the input XML representation of the datatype.
     */
     function &inputXML( )
@@ -718,9 +697,6 @@ class eZSimplifiedXMLInput
         }
         return $output;
     }
-
-    /// Contains the XML data
-    var $XMLData;
 }
 
 ?>

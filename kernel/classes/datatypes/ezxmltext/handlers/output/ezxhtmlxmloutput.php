@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZXHTMLOutput class
+// Definition of eZXHTMLXMLOutput class
 //
 // Created on: <28-Jan-2003 15:05:00 bf>
 //
@@ -35,38 +35,23 @@
 //
 
 /*!
-
 */
 
-class eZXHTMLOutput
+include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+
+class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
-    function eZXHTMLOutput( &$xmlData )
+    function eZXHTMLXMLOutput( &$xmlData )
     {
-        $this->XMLData =& $xmlData;
+        $this->eZXMLOutputHandler( $xmlData );
     }
 
-    function hasAttribute( $name )
+    /*!
+     \reimp
+    */
+    function &outputText()
     {
-        if ( $name == 'xhtml' )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function &attribute( $name )
-    {
-        switch ( $name )
-        {
-            case 'xhtml' :
-            {
-                return $this->xhtml();
-
-            }break;
-        }
+        return $this->xhtml();
     }
 
     /*!
@@ -431,8 +416,6 @@ class eZXHTMLOutput
         return $tagText;
     }
 
-    /// Contains the XML data
-    var $XMLData;
 }
 
 ?>

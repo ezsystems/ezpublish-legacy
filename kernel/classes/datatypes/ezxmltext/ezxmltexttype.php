@@ -151,6 +151,71 @@ class eZXMLTextType extends eZDataType
     {
     }
 
+    /*!
+     \reimp
+    */
+    function &viewTemplate( &$contentobjectAttribute )
+    {
+        $template = $this->DataTypeString;
+        $suffix = $this->viewTemplateSuffix( $contentobjectAttribute );
+        if ( $suffix )
+            $template .= '_' . $suffix;
+        return $template;
+    }
+
+    /*!
+     \reimp
+    */
+    function &editTemplate( &$contentobjectAttribute )
+    {
+        $template = $this->DataTypeString;
+        $suffix = $this->editTemplateSuffix( $contentobjectAttribute );
+        if ( $suffix )
+            $template .= '_' . $suffix;
+        return $template;
+    }
+
+    /*!
+     \reimp
+    */
+    function &informationTemplate( &$contentobjectAttribute )
+    {
+        $template = $this->DataTypeString;
+        $suffix = $this->informationTemplateSuffix( $contentobjectAttribute );
+        if ( $suffix )
+            $template .= '_' . $suffix;
+        return $template;
+    }
+
+    /*!
+     \reimp
+    */
+    function &viewTemplateSuffix( &$contentobjectAttribute )
+    {
+        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $outputHandler =& $content->attribute( 'output' );
+        return $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+    }
+
+    /*!
+     \reimp
+    */
+    function &editTemplateSuffix( &$contentobjectAttribute )
+    {
+        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $inputHandler =& $content->attribute( 'input' );
+        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+    }
+
+    /*!
+     \reimp
+    */
+    function &informationTemplateSuffix( &$contentobjectAttribute )
+    {
+        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $inputHandler =& $content->attribute( 'input' );
+        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+    }
 
     /*!
      Returns the content.

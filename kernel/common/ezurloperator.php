@@ -249,17 +249,34 @@ class eZURLOperator
 
             case $this->DesignName:
             {
-                $ini =& eZINI::instance();
-                $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-                $site_base = eZTemplateDesignResource::designSetting( 'site' );
-                $std_file = "design/$std_base/$operatorValue";
-                $site_file = "design/$site_base/$operatorValue";
-                if ( file_exists( $site_file ) )
-                    $operatorValue = $this->Sys->wwwDir() . "/$site_file";
-                else if ( file_exists( $std_file ) )
-                    $operatorValue = $this->Sys->wwwDir() . "/$std_file";
-                else
+                $path = $operatorValue;
+                $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
+
+                $designResource =& eZTemplateDesignResource::instance();
+                $matchKeys = $designResource->keys();
+                $matchedKeys = array();
+
+                include_once( 'kernel/common/ezoverride.php' );
+                $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
+                if ( $match === null )
+                {
                     $tpl->warning( 'eZURLOperator', "Design element $operatorValue does not exist in any design" );
+                    return false;
+                }
+
+                $file = $match["file"];
+                $operatorValue = $this->Sys->wwwDir() . "/$file";
+
+//                 $ini =& eZINI::instance();
+//                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );
+//                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
+//                 $std_file = "design/$std_base/$operatorValue";
+//                 $site_file = "design/$site_base/$operatorValue";
+//                 if ( file_exists( $site_file ) )
+//                     $operatorValue = $this->Sys->wwwDir() . "/$site_file";
+//                 else if ( file_exists( $std_file ) )
+//                     $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+//                 else
             } break;
         }
         $quote = "\"";

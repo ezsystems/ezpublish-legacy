@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZXMLInputHandler class
+// Definition of eZXMLOutputHandler class
 //
 // Created on: <06-Nov-2002 15:10:02 wy>
 //
@@ -34,12 +34,12 @@
 // you.
 //
 
-/*! \file ezxmlinputhandler.php
+/*! \file ezxmloutputhandler.php
 */
 
 /*!
-  \class eZXMLInputHandler
-  \brief The class eZXMLInputHandler does
+  \class eZXMLOutputHandler
+  \brief The class eZXMLOutputHandler does
 
 */
 
@@ -48,12 +48,12 @@ include_once( "lib/ezxml/classes/ezdomnode.php" );
 include_once( "lib/ezxml/classes/ezdomdocument.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-class eZXMLInputHandler
+class eZXMLOutputHandler
 {
     /*!
      Constructor
     */
-    function eZXMLInputHandler( &$xmlData )
+    function eZXMLOutputHandler( &$xmlData )
     {
         $this->XMLData =& $xmlData;
     }
@@ -63,7 +63,7 @@ class eZXMLInputHandler
     */
     function attributes()
     {
-        return array( 'input_xml' );
+        return array( 'output_text' );
     }
 
     /*!
@@ -71,7 +71,7 @@ class eZXMLInputHandler
     */
     function hasAttribute( $name )
     {
-        if ( $name == 'input_xml' )
+        if ( $name == 'output_text' )
             return true;
         return false;
     }
@@ -83,29 +83,19 @@ class eZXMLInputHandler
     {
         switch ( $name )
         {
-            case 'input_xml':
+            case 'output_text':
             {
-                return $this->inputXML();
+                return $this->outputText();
             } break;
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
         return null;
     }
-
     /*!
      \pure
      \return the suffix for the attribute template, if false it is ignored.
     */
-    function &editTemplateSuffix( &$contentobjectAttribute )
-    {
-        return false;
-    }
-
-    /*!
-     \pure
-     \return the suffix for the attribute template, if false it is ignored.
-    */
-    function &informationTemplateSuffix( &$contentobjectAttribute )
+    function &viewTemplateSuffix( &$contentobjectAttribute )
     {
         return false;
     }
@@ -120,29 +110,10 @@ class eZXMLInputHandler
 
     /*!
      \pure
-     Validates user input and returns whether it can be used or not.
+     Returns the output text representation of the XML structure, implement this to turn
+     XML into an output format.
     */
-    function &validateInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-    }
-
-    /*!
-     \pure
-     Converts text input \a $text into an XML structure and returns it.
-     \return an array where index 0 is the xml structure and index 1 is a message.
-    */
-    function &convertInput( &$text )
-    {
-        return null;
-    }
-
-    /*!
-     \pure
-     Returns the text representation of the XML structure, implement this to turn
-     XML back into user input.
-    */
-    function &inputXML()
+    function &outputText()
     {
         return null;
     }

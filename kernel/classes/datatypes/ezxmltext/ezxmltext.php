@@ -74,10 +74,7 @@ class eZXMLText
             {
                 if ( $this->XMLInputHandler === null )
                 {
-                    include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
-                    $this->XMLInputHandler = new eZSimplifiedXMLInput( $this->XMLData );
-//                    include_once( 'extension/xmleditor/dhtml/ezdhtmlinput.php' );
-//                    $this->XMLInputHandler = new eZDHTMLInput( $this->XMLData );
+                    $this->XMLInputHandler =& $this->inputHandler();
                 }
                 return $this->XMLInputHandler;
             }break;
@@ -86,8 +83,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    include_once( 'kernel/classes/datatypes/ezxmltext/ezxhtmloutput.php' );
-                    $this->XMLOutputHandler = new eZXHTMLOutput( $this->XMLData );
+                    $this->XMLOutputHandler =& $this->outputHandler();
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -97,6 +93,68 @@ class eZXMLText
                 return $this->XMLData;
             }break;
         }
+    }
+
+    function &inputHandler()
+    {
+        $inputHandler = null;
+        if ( eZExtension::findExtensionType( array( 'ini-name' => 'ezxml.ini',
+                                                    'repository-group' => 'HandlerSettings',
+                                                    'repository-variable' => 'Repositories',
+                                                    'extension-group' => 'HandlerSettings',
+                                                    'extension-variable' => 'ExtensionRepositories',
+                                                    'type-group' => 'InputSettings',
+                                                    'type-variable' => 'Handler',
+                                                    'alias-group' => 'InputSettings',
+                                                    'alias-variable' => 'Alias',
+                                                    'subdir' => 'input',
+                                                    'type-directory' => false,
+                                                    'extension-subdir' => 'ezxmltext/handlers/input',
+                                                    'suffix-name' => 'xmlinput.php' ),
+                                             $out ) )
+        {
+            $filePath = $out['found-file-path'];
+            include_once( $filePath );
+            $class = $out['type'] . 'XMLInput';
+            $inputHandler = new $class( $this->XMLData );
+        }
+        else
+        {
+            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimpifiedxmlinput.php' );
+            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData );
+        }
+        return $inputHandler;
+    }
+
+    function &outputHandler()
+    {
+        $outputHandler = null;
+        if ( eZExtension::findExtensionType( array( 'ini-name' => 'ezxml.ini',
+                                                    'repository-group' => 'HandlerSettings',
+                                                    'repository-variable' => 'Repositories',
+                                                    'extension-group' => 'HandlerSettings',
+                                                    'extension-variable' => 'ExtensionRepositories',
+                                                    'type-group' => 'OutputSettings',
+                                                    'type-variable' => 'Handler',
+                                                    'alias-group' => 'OutputSettings',
+                                                    'alias-variable' => 'Alias',
+                                                    'subdir' => 'output',
+                                                    'type-directory' => false,
+                                                    'extension-subdir' => 'ezxmltext/handlers/output',
+                                                    'suffix-name' => 'xmloutput.php' ),
+                                             $out ) )
+        {
+            $filePath = $out['found-file-path'];
+            include_once( $filePath );
+            $class = $out['type'] . 'XMLOutput';
+            $outputHandler = new $class( $this->XMLData );
+        }
+        else
+        {
+            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
+            $outputHandler = new eZXHTMLXMLOutput( $this->XMLData );
+        }
+        return $outputHandler;
     }
 
     /// Contains the XML data

@@ -5,6 +5,12 @@ Changes from 2.9-7 to 3.0-1
 - Added autolink template operator for automatic conversion of e-mail http and ftp
 links to clickable links.
 - Added design on admin interface
+- The ezxmltext datatype has been changed to support extensions, this means
+  that custom handlers can be made in extensions.
+- ezxmltext handlers can now be overriden by other handlers.
+- The ezdesign template operator now fully supports designs and extensions.
+- It's now possible to add javascripts in subtemplates by using run-once
+  and append-block.
 
 *SDK :
 
@@ -19,6 +25,9 @@ eZ template:
   to handle transparency, alignment and placement.
 - eztemplateimagelayer.php file has been moved to lib/ezimage and all classes
   has been given new names and files.
+- New function append-block which works like set-block but instead creates an
+  array out of all appended items.
+- New function run-once which will run the children once per session.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

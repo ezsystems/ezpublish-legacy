@@ -37,20 +37,39 @@
 /*!
   \class eZTemplateBlockFunction eztemplateblockfunction.php
   \ingroup eZTemplateFunctions
-  \brief Advanced block handling in templates using function "set-block".
+  \brief Advanced block handling
 
+  set-block
   Renders all it's children as text and sets it as a template variable.
   This is useful for allowing one template to return multiple text portions,
   for instance an email template could set subject as a block and return
   the rest as body.
 
 \code
-// Example of template code
 {set-block name=Space scope=global variable=text}
 {$item} - {$item2}
 {/set-block}
 \endcode
 
+  append-block
+  Similar to set-block but will make the variable an array where each append-block
+  adds an item.
+
+\code
+{append-block scope=global variable=extra_header_data}
+<script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>
+<link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
+{/append-block}
+\endcode
+
+  run-once
+  Makes sure that the block is run only once.
+
+\code
+{run-once}
+<p>This appears only one time</p>
+{/run-once}
+\endcode
 */
 
 define( 'EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE', 1 );
@@ -61,12 +80,15 @@ define( 'EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL', 3 );
 class eZTemplateBlockFunction
 {
     /*!
-     Initializes the object with a name, the name is required for determining
-     the name of the -else tag.
+     Initializes the object with names.
     */
-    function eZTemplateBlockFunction( $name = "set-block" )
+    function eZTemplateBlockFunction( $blockName = 'set-block',
+                                      $appendBlockName = 'append-block',
+                                      $onceName = 'run-once' )
     {
-        $this->Name = $name;
+        $this->BlockName = $blockName;
+        $this->AppendBlockName = $appendBlockName;
+        $this->OnceName = $onceName;
     }
 
     /*!
@@ -75,72 +97,137 @@ class eZTemplateBlockFunction
     */
     function functionList()
     {
-        return array( $this->Name );
+        return array( $this->BlockName, $this->AppendBlockName, $this->OnceName );
     }
+
     /*!
      Processes the function with all it's children.
     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        $children = $functionChildren;
-        $parameters = $functionParameters;
+        switch ( $functionName )
+        {
+            case $this->BlockName:
+            case $this->AppendBlockName:
+            {
+                $children = $functionChildren;
+                $parameters = $functionParameters;
 
-        $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
-        if ( isset( $parameters["scope"] ) )
-        {
-             $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
-             if ( $scopeText == 'relative' )
-                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
-             else if ( $scopeText == 'root' )
-                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
-             else if ( $scopeText == 'global' )
-                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
-             else
-                 $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
-        }
+                $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+                if ( isset( $parameters["scope"] ) )
+                {
+                    $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
+                    if ( $scopeText == 'relative' )
+                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+                    else if ( $scopeText == 'root' )
+                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
+                    else if ( $scopeText == 'global' )
+                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
+                    else
+                        $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
+                }
 
-        $name = null;
-        if ( isset( $parameters["name"] ) )
-             $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
-        if ( $name === null )
-        {
-            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
-                $name = $currentNamespace;
-            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
-                $name = $rootNamespace;
-            else
-                $name = '';
-        }
-        else
-        {
-            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
-                 $currentNamespace != '' )
-                $name = "$currentNamespace:$name";
-            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
-                      $rootNamespace != '' )
-                $name = "$rootNamespace:$name";
-        }
-        $variableItem = null;
-        if ( isset( $parameters["variable"] ) )
-        {
-            $hasLoopItemParameter = true;
-            $variableItem =& $tpl->elementValue( $parameters["variable"], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
-        else
-        {
-            $tpl->missingParameter( $functionName, 'variable' );
-            return;
-        }
+                $name = null;
+                if ( isset( $parameters["name"] ) )
+                    $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+                if ( $name === null )
+                {
+                    if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
+                        $name = $currentNamespace;
+                    else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
+                        $name = $rootNamespace;
+                    else
+                        $name = '';
+                }
+                else
+                {
+                    if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
+                         $currentNamespace != '' )
+                        $name = "$currentNamespace:$name";
+                    else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
+                              $rootNamespace != '' )
+                        $name = "$rootNamespace:$name";
+                }
+                $variableItem = null;
+                if ( isset( $parameters["variable"] ) )
+                {
+                    $hasLoopItemParameter = true;
+                    $variableItem =& $tpl->elementValue( $parameters["variable"], $rootNamespace, $currentNamespace, $functionPlacement );
+                }
+                else
+                {
+                    $tpl->missingParameter( $functionName, 'variable' );
+                    return;
+                }
 
-        $childTextElements = array();
-        foreach ( array_keys( $children ) as $childKey )
-        {
-            $child =& $children[$childKey];
-            $tpl->processNode( $child, $childTextElements, $rootNamespace, $name );
-        }
-        $text = implode( '', $childTextElements );
-        $tpl->setVariable( $variableItem, $text, $name );
+                $childTextElements = array();
+                foreach ( array_keys( $children ) as $childKey )
+                {
+                    $child =& $children[$childKey];
+                    $tpl->processNode( $child, $childTextElements, $rootNamespace, $name );
+                }
+                $text = implode( '', $childTextElements );
+                if ( $functionName == $this->AppendBlockName )
+                {
+                    $textArray = array();
+                    if ( $tpl->hasVariable( $variableItem, $name ) )
+                        $textArray = $tpl->variable( $variableItem, $name );
+                    $textArray[] = $text;
+                    $tpl->setVariable( $variableItem, $textArray, $name );
+                }
+                else
+                    $tpl->setVariable( $variableItem, $text, $name );
+            } break;
 
+            case $this->OnceName:
+            {
+                $key = $this->placementKey( $functionPlacement );
+                if ( $key !== false and !$this->hasPlacementKey( $key ) )
+                {
+                    $this->registerPlacementKey( $key, $functionPlacement );
+
+                    foreach ( array_keys( $functionChildren ) as $childKey )
+                    {
+                        $child =& $functionChildren[$childKey];
+                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    }
+                }
+            } break;
+        }
+    }
+
+    /*!
+     Generates an md5 key from the start, stop and file of the template function and returns it.
+     \return false if the key could not be made.
+    */
+    function placementKey( $placement )
+    {
+        if ( isset( $placement[0] ) and
+             isset( $placement[1] ) and
+             isset( $placement[2] ) )
+        {
+            $input = $placement[0][0] . ',' . $placement[0][1] . "\n";
+            $input .= $placement[1][0] . ',' . $placement[1][1] . "\n";
+            $input = $placement[2];
+            return md5( $input );
+        }
+        return false;
+    }
+
+    /*!
+     \return true if the placement key is registered which means that the block has already been run.
+    */
+    function hasPlacementKey( $key )
+    {
+        return isset( $GLOBALS['eZTemplateRunOnceKeys'][$key] );
+    }
+
+    /*!
+     Registers the placement key \a $key with the data \a $placement.
+    */
+    function registerPlacementKey( $key, $placement )
+    {
+        return $GLOBALS['eZTemplateRunOnceKeys'][$key] = $placement;
     }
 
     /*!

@@ -125,33 +125,37 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $matches = array();
 
+        $elementText = '';
+        if ( $element !== false )
+            $elementText = $element . '/';
+
         // Override
         if ( !$onlyStandard )
-            $matches[] = array( "file" => "design/$siteBase/override/$element/$path",
+            $matches[] = array( "file" => "design/$siteBase/override/$elementText$path",
                                 "type" => "override" );
-        $matches[] = array( "file" => "design/$standardBase/override/$element/$path",
+        $matches[] = array( "file" => "design/$standardBase/override/$elementText$path",
                             "type" => "override" );
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$element/$path",
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$elementText$path",
                                     'type' => 'override' );
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/override/$element/$path",
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/override/$elementText$path",
                                 'type' => 'override' );
         }
 
         // Normal
         if ( !$onlyStandard )
-            $matches[] = array( "file" => "design/$siteBase/$element/$path",
+            $matches[] = array( "file" => "design/$siteBase/$elementText$path",
                                 "type" => "normal" );
-        $matches[] = array( "file" => "design/$standardBase/$element/$path",
+        $matches[] = array( "file" => "design/$standardBase/$elementText$path",
                             "type" => "normal" );
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$element/$path",
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$elementText$path",
                                     'type' => 'normal' );
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$element/$path",
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$elementText$path",
                                 'type' => 'normal' );
         }
 
@@ -258,6 +262,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     function clearKeys()
     {
         $this->Keys = array();
+    }
+
+    /*!
+     \return the match keys.
+     \sa setKeys
+    */
+    function keys()
+    {
+        return $this->Keys;
     }
 
     /*!

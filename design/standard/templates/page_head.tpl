@@ -7,6 +7,12 @@
 
     <title>{$site_title}</title>
 
+    {section show=and(is_set($#Header:extra_data),is_array($#Header:extra_data))}
+      {section name=ExtraData loop=$#Header:extra_data}
+      {$:item}
+      {/section}
+    {/section}
+
     {* check if we need a http-equiv refresh *}
     {section show=$site.redirect}
     <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
