@@ -3,13 +3,13 @@
 
 {* Selection method. *}
 <div class="block">
-    <label>{'Selection method'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>{$content.selection_type|choose( 'Browse'|i18n( 'design/standard/class/datatype' ), 'Drop-down list'|i18n( 'design/standard/class/datatype' ), 'Drop-down tree'|i18n( 'design/standard/class/datatype' ) )}</p>
 </div>
 
 {* Selection item/node. *}
 <div class="block">
-<label>{'Default selection item'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Default selection item'|i18n( 'design/standard/class/datatype' )}:</label>
 {section show=$content.default_selection_node}
     {let selection_node=fetch( content, node, hash( node_id, $content.default_selection_node ) )}
     <table class="list" cellspacing="0">
@@ -32,7 +32,7 @@
 
 {* Fuzzy match. *}
 <div class="block">
-    <label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
     {section show=$content.fuzzy_match}
         <p>{'Yes'|i18n( 'design/standard/class/datatype' )}</p>
     {section-else}

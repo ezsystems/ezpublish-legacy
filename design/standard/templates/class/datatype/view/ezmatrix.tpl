@@ -2,7 +2,7 @@
 
 {* Default name.*}
 <div class="block">
-    <label>{'Default name'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Default name'|i18n( 'design/standard/class/datatype' )}:</label>
     {section show=$class_attribute.data_text1}
         <p>{$class_attribute.data_text1}</p>
     {section-else}
@@ -12,13 +12,13 @@
 
 {* Default number of rows. *}
 <div class="block">
-    <label>{'Default number of rows'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Default number of rows'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>{$class_attribute.data_int1}</p>
 </div>
 
 {* Columns. *}
 <div class="block">
-<label>{'Columns'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Columns'|i18n( 'design/standard/class/datatype' )}:</label>
 {section show=$class_attribute.content.columns}
 <table class="list" cellspacing="0">
 <tr>

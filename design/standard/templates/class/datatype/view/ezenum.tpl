@@ -2,7 +2,7 @@
 
 {* Style. *}
 <div class="block">
-<label>{'Style'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Style'|i18n( 'design/standard/class/datatype' )}:</label>
 <p>
 {section show=$class_attribute.data_int1}
     {'Multiple choice'|i18n( 'design/standard/class/datatype' )}
@@ -14,7 +14,7 @@
 
 {* Interface. *}
 <div class="block">
-<label>{'Interface'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Interface'|i18n( 'design/standard/class/datatype' )}:</label>
 <p>
 {section show=$class_attribute.data_int2}
     {'Dropdown menu / multiselect'|i18n( 'design/standard/class/datatype' )}
@@ -26,7 +26,7 @@
 
 {* Elements. *}
 <div class="block">
-<label>{'Elements'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Elements'|i18n( 'design/standard/class/datatype' )}:</label>
 {section show=$class_attribute.content.enum_list}
 <table class="list" cellspacing="0">
 <tr>

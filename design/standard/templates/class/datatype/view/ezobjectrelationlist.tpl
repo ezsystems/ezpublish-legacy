@@ -3,7 +3,7 @@
 
 {* Type. *}
 <div class="block">
-    <label>{'Type'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>
     {switch match=$content.type}
     {case match=0}{'New and existing objects'|i18n( 'design/standard/class/datatype' )}{/case}
@@ -16,7 +16,7 @@
 
 {* Allowed classes. *}
 <div class="block">
-    <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
     {section show=$content.class_constraint_list|count|lt( 1 )}
     <p>{'Any'|i18n( 'design/standard/class/datatype' )}</p>
     {section-else}
@@ -28,7 +28,7 @@
 
 {* Default location. *}
 <div class="block">
-<label>{'Default location for objects'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Default location for objects'|i18n( 'design/standard/class/datatype' )}:</label>
 {section show=$content.default_placement}
 {let default_location=fetch( content, node, hash( node_id, $content.default_placement.node_id ) )}
 <table class="list" cellspacing="0">
