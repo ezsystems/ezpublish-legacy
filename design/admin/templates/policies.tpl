@@ -13,7 +13,7 @@
 {section show=count( $policies )}
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Module'|i18n( 'design/standard/role' )}</td>
+    <th>{'Module'|i18n( 'design/admin/node/view/full' )}</td>
     <th>{'Function'|i18n( 'design/admin/node/view/full' )}</td>
     <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</td>
 </tr>
@@ -35,7 +35,7 @@
         </td>
         <td>
             {section show=eq($Policy.limitation,'*')}
-                <i>{'No limitations'|i18n('design/admin/node/view/full')}</i>
+                <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
             {section-else}
                 {section var=Limitation loop=$Policy.limitation}
                   {$Limitation.identifier|wash}(
