@@ -14,18 +14,18 @@ LAST_STABLE="3.5.0"
 LAST_STABLE_CHANGED="false"
 
 MAJOR=3
-MINOR=5
-RELEASE=1
+MINOR=6
+RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
-REAL_RELEASE=6
-STATE=""
+REAL_RELEASE=1
+STATE="alpha1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
 # Is automatically set to 'true' when $STATE contains some text
-DEVELOPMENT="false"
+DEVELOPMENT="true"
 # Whether the previous release is a development release or not.
-DEVELOPMENT_PREVIOUS="true"
+DEVELOPMENT_PREVIOUS="false"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
 FINAL="false"
