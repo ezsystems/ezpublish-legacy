@@ -46,11 +46,9 @@
     $newID = $option->addMultiOption("name",$priority,false);
     $option->addOption( $newID, "Red", "12.50",false );
     $option->addValue( $newID, "Green", "18.50",false );
-
     $newID = $option->addMultiOption( "Size",$priority, false );
     $option->addOption( $newID, "Size - A", "" );
     $option->addValue( $newID, "Size - B", "" );
-
   // Serialize the class to an XML document
   $xmlString =& $option->xmlString();
   \endcode
@@ -92,11 +90,11 @@ class eZMultiOption
     function addMultiOption( $name, $multiOptionPriority, $defaultValue )
     {
         $this->MultiOptionCount += 1;
-        $this->Options[$this->MultiOptionCount] =array( "id" => $this->MultiOptionCount,
-                                                        "name" => $name,
-                                                        'priority'=> $multiOptionPriority,
-                                                        "default_value" => $defaultValue,
-                                                        'optionlist' => array() );
+        $this->Options[$this->MultiOptionCount] = array( "id" => $this->MultiOptionCount,
+                                                           "name" => $name,
+                                                           'priority'=> $multiOptionPriority,
+                                                           "default_value" => $defaultValue,
+                                                           'optionlist' => array() );
         //     $this->MultiOptionCount += 1;
         return $this->MultiOptionCount;
     }
@@ -109,7 +107,7 @@ class eZMultiOption
         $key=count( $this->Options[$newID]['optionlist'] ) + 1;
         $this->Options[$newID]['optionlist'][] = array( "id" => $key,
                                                         "value" => $optionValue,
-                                                        'additional_price' => $optionAdditionalPrice);
+                                                        'additional_price' => $optionAdditionalPrice );
     }
 
     /*!
@@ -118,12 +116,12 @@ class eZMultiOption
     function changeMultiOptionId()
     {
         $i = 1 ;
-        foreach($this->Options as $key => $opt)
+        foreach( $this->Options as $key => $opt )
         {
-            print_r("æ");
+            print_r( "æ" );
             $this->Options[$key][id] = $i++;
         }
-        $this->MultiOptionCount = $i-1;
+        $this->MultiOptionCount = $i - 1;
     }
 
     /*!
@@ -134,7 +132,7 @@ class eZMultiOption
         $options =& $this->Options;
         foreach( $array_remove as $id )
         {
-            unset( $options[$id-1] );
+            unset( $options[ $id - 1 ] );
         }
         $options = array_values( $options );
         $this->changeMultiOptionId();
@@ -148,11 +146,11 @@ class eZMultiOption
         $options =& $this->Options;
         foreach( $arrayRemove as  $id )
         {
-            unset($options[$optionId]['optionlist'][$id-1] );
+            unset( $options[$optionId]['optionlist'][$id - 1] );
         }
         $options = array_values( $options );
         $i = 1;
-        foreach( $options[$optionId]['optionlist'] as $key => $opt)
+        foreach( $options[$optionId]['optionlist'] as $key => $opt )
         {
             $options[$optionId]['optionlist'][$key]['id'] = $i;
             $i++;
@@ -218,7 +216,7 @@ class eZMultiOption
                 //Loop for Options
                 foreach( $optionNode as $option )
                 {
-                    $this->addOption( $newID, $option->attributeValue("value"), $option->attributeValue( "additional_price" ) );
+                    $this->addOption( $newID, $option->attributeValue( "value" ), $option->attributeValue( "additional_price" ) );
                 }
             }
         }

@@ -32,12 +32,11 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-//
 
-//!! eZKernel
-//! The class eZMultiOptionType does
 /*!
-
+class eZMultiOption ezmultioption.php
+ingroup eZKernel
+brief eZMultiOption handles option set datatypes
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
@@ -79,7 +78,7 @@ class eZMultiOptionType extends eZDataType
             }
             if ( trim( $valueList[0] ) != "" )
             {
-                for ( $i=0; $i<count( $idList ); $i++ )
+                for ( $i = 0; $i < count( $idList ); $i++ )
                 {
                     $value =  $valueList[$i];
                     if ( trim( $value ) == "" )
@@ -108,7 +107,7 @@ class eZMultiOptionType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-    	$multioption =& $contentObjectAttribute->content();
+        $multioption =& $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $multioption->xmlString() );
     }
 
@@ -117,7 +116,7 @@ class eZMultiOptionType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-    	$multioption = new eZMultiOption( "" );
+        $multioption = new eZMultiOption( "" );
         $multioption->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
         return $multioption;
     }
@@ -141,8 +140,8 @@ class eZMultiOptionType extends eZDataType
         {
             $multioptionName =& $http->postVariable( $base . "_data_multioption_name_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
             $optionIDArray =& $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-	        $optionPriority =& $http->postVariable( $base . "_data_multioption_priority_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-	        $optionDefaultValue =& $http->postVariable($base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id );
+            $optionPriority =& $http->postVariable( $base . "_data_multioption_priority_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+            $optionDefaultValue =& $http->postVariable( $base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id );
             $newID = $multioption->addMultiOption( $multioptionName,$optionPriority, $optionDefaultValue );
             $i = 0;
             foreach ( $optionIDArray as $optionID )
@@ -153,7 +152,7 @@ class eZMultiOptionType extends eZDataType
                 $i++;
             }
         }
-        usort($multioption->Options,create_function('$a,$b','if($a["priority"] == $b["priority"]){return 0;}return($a["priority"]<$b["priority"]) ? -1 : 1;'));
+        usort( $multioption->Options, create_function( '$a, $b', 'if( $a["priority"] == $b["priority"] ) { return 0; } return ( $a["priority"] < $b["priority"] ) ? -1 : 1;' ) );
         $multioption->changeMultiOptionId();
         $contentObjectAttribute->setContent( $multioption );
         return true;
@@ -181,16 +180,16 @@ class eZMultiOptionType extends eZDataType
         {
             //To add New option
             $multioption =& $contentObjectAttribute->content();
-            $multioption->addOption(($actionlist[1]-1), "", "", false);
+            $multioption->addOption( ( $actionlist[1] - 1 ), "", "", false);
             $contentObjectAttribute->setContent( $multioption );
             $contentObjectAttribute->store();
         }
-        elseif($actionlist[0] == "remove-selected-option")
+        elseif( $actionlist[0] == "remove-selected-option" )
         {
             $multioption =& $contentObjectAttribute->content();
             $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" ) . "_" . $actionlist[1];
             $array_remove = $http->postVariable( $postvarname );
-            $multioption->removeOptions( $array_remove,$actionlist[1]-1 );
+            $multioption->removeOptions( $array_remove,$actionlist[1] - 1 );
             $contentObjectAttribute->setContent( $multioption );
             $contentObjectAttribute->store();
         }
@@ -217,7 +216,7 @@ class eZMultiOptionType extends eZDataType
                             return;
                         }
                     }*/
-                    $newID = $multioption->addMultiOption( "" ,0,false);
+                    $newID = $multioption->addMultiOption( "" ,0,false );
                     $multioption->addOption( $newID, "", "" );
                     $multioption->addOption( $newID, "", "" );
                     $contentObjectAttribute->setContent( $multioption );
@@ -248,7 +247,7 @@ class eZMultiOptionType extends eZDataType
     */
     function title( &$contentObjectAttribute, $name = "name" )
     {
-        $multioption =& $contentObjectAttribute->content( );
+        $multioption =& $contentObjectAttribute->content();
         $value = $multioption->attribute( $name );
         return $value;
     }
@@ -290,7 +289,7 @@ class eZMultiOptionType extends eZDataType
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
 
-            if ($defaultValueValue == "")
+            if ( $defaultValueValue == "" )
             {
                 $defaultValueValue = "";
             }
