@@ -113,6 +113,10 @@ div#path p
     margin: 0;
 }
 
+div#path span.disabled
+{
+}
+
 div#columns
 {
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
