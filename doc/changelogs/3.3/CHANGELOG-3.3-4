@@ -100,6 +100,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
 - Fixed small bugs in clearing the cache files
   http://ez.no/community/bug_reports/kernel_classes_ezcache_php_fatal_error_missing_includes_more
+- Fixed missing {section} start in ezrangeoption.tpl. (Merged from 3.2 rev. 5487)
+  http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
 - Removed event_ezpaynet workflow event from the standard workflow.ini file.
   http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
 - Made sure the image system works even if a reference of an alias does not exist,
