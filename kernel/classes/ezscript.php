@@ -773,7 +773,7 @@ class eZScript
         {
             $helpText .= " [OPTION]...";
         }
-        if ( $argumentConfig )
+        if ( $argumentConfig && isset( $argumentConfig['list'] ) && is_array( $argumentConfig['list'] ) )
         {
             foreach ( $argumentConfig['list'] as $argumentItem )
             {
