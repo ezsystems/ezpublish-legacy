@@ -174,7 +174,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'url_alias' => 'urlAlias',
                                                       'class_identifier' => 'classIdentifier',
                                                       'class_name' => 'className',
-                                                      'hidden_invisible_string' => 'hiddenInvisibleString'
+                                                      'hidden_invisible_string' => 'hiddenInvisibleString',
+                                                      'hidden_status_string' => 'hiddenStatusString'
                                                       ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
@@ -3528,11 +3529,26 @@ WHERE
 
     /*!
     \return combined string representation of both "is_hidden" and "is_invisible" attributes
+    Used in the node view templates.
+    FIXME: this method probably should be removed in the future.
     */
-
     function &hiddenInvisibleString()
     {
         return ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
+    }
+
+    /*!
+    \return combined string representation of both "is_hidden" and "is_invisible" attributes
+    Used in the limitation handling templates.
+    */
+    function &hiddenStatusString()
+    {
+        if( $this->IsHidden )
+            return 'Hidden';
+        else if( $this->IsInvisible )
+            return 'Hidden by parent';
+        else
+            return 'Visible';
     }
 
     /*!

@@ -52,6 +52,8 @@
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
+	<th colspan="1">{"Current status"|i18n("design/standard/content/edit")}</th>
+	<th colspan="1">{"After publishing"|i18n("design/standard/content/edit")}</th>
     {/section}
     </tr>
     {let existingParentNodes=$object.parent_nodes}
@@ -111,6 +113,28 @@
 {*     {section show=eq($Node:item.parent_node,$main_node_id)|not}*}
             <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"trash.png"|ezimage} value="{$Node:item.parent_node}"  />
 {*     {/section}*}
+        </td>
+        {/section}
+
+        {section show=$:has_top_levels|not}
+        <td class="{$Node:sequence}" align="right">
+        {section show=$Node:item.node}
+        {$Node:item.node.hidden_status_string}
+        {section-else}
+        N/A
+        {/section}
+        </td>
+
+        <td class="" align="right">
+        <select name="FutureNodeHiddenState_{$Node:parent_node.node_id}">
+         <option value="unchanged" selected="selected">Unchanged</option>
+         {section show=or($Node:item.node|not, $Node:item.node.is_hidden)}
+         <option value="visible">Visible</option>
+         {/section}
+         {section show=or($Node:item.node|not, $Node:item.node.is_hidden|not)}
+         <option value="hidden">Hidden</option>
+         {/section}
+        </select>
         </td>
         {/section}
 

@@ -367,11 +367,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $node = $object->mainNode();
 
-            // set 'is_invisible' flag for the newly created node (depending on visibility of its parent)
-            $parentNode =& eZContentObjectTreeNode::fetch( $node->attribute( 'parent_node_id' ) );
-            eZContentObjectTreeNode::updateNodeVisibility( $node, $parentNode, /* $recursive = */ false );
-            unset( $parentNode );
-
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
             {
@@ -436,6 +431,41 @@ if ( !function_exists( 'checkContentActions' ) )
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
             eZDebug::accumulatorStop( 'publish' );
+
+            // set chosen hidden/invisible attributes for object nodes
+            $http          =& eZHTTPTool::instance();
+            $assignedNodes =& $object->assignedNodes( true );
+            foreach ( $assignedNodes as $node )
+            {
+                $nodeID               =& $node->attribute( 'node_id' );
+                $parentNodeID         =& $node->attribute( 'parent_node_id' );
+                $updateNodeVisibility =  false;
+                $postVarName          = "FutureNodeHiddenState_$parentNodeID";
+
+                if ( !$http->hasPostVariable( $postVarName ) )
+                    $updateNodeVisibility = true;
+                else
+                {
+                    $futureNodeHiddenState =& $http->postVariable( $postVarName );
+                    if ( $futureNodeHiddenState == 'hidden' )
+                        eZContentObjectTreeNode::hideSubTree( $node );
+                    else if ( $futureNodeHiddenState == 'visible' )
+                        eZContentObjectTreeNode::unhideSubTree( $node );
+                    else if ( $futureNodeHiddenState == 'unchanged' )
+                        $updateNodeVisibility = true;
+                    else
+                        eZDebug::writeWarning( "Unknown value for the future node hidden state: '$futureNodeHiddenState'" );
+                }
+
+                if ( $updateNodeVisibility )
+                {
+                    // this might be redundant
+                    $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+                    eZContentObjectTreeNode::updateNodeVisibility( $node, $parentNode, /* $recursive = */ false );
+                    unset( $node, $parentNode );
+                }
+            }
+            unset( $assignedNodes );
 
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
 
