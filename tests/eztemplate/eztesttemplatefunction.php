@@ -68,6 +68,16 @@ class eZTestTemplateFunction extends eZTestCase
 
     function testTemplate( &$tr, $templateFile )
     {
+        $expectedFileName = str_replace( '.tpl', '.exp', $templateFile );
+        if ( file_exists( $expectedFileName ) )
+        {
+            $expected = file_get_contents( $expectedFileName );
+        }
+        else
+        {
+            $tr->assert( false, 'Missing expected test file ' . $expectedFileName );
+        }
+
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
         eZTemplateDesignResource::setDesignStartPath( "tests/eztemplate/design" );
@@ -91,16 +101,6 @@ class eZTestTemplateFunction extends eZTestCase
         }
 
         $actual = $tpl->fetch( $templateFile );
-
-        $expectedFileName = str_replace( '.tpl', '.exp', $templateFile );
-        if ( file_exists( $expectedFileName ) )
-        {
-            $expected = file_get_contents( $expectedFileName );
-        }
-        else
-        {
-            $tr->assert( false, 'Missing expected test file ' . $expectedFileName );
-        }
 
         $actualFileName = str_replace( '.tpl', '.out', $templateFile );
         $fp = fopen( $actualFileName, 'w' );

@@ -321,13 +321,13 @@ foreach ( $suiteList as $suiteName )
                     }
                     else
                     {
-                        $cli->warning( "Could not find test unit class '" . $cli->stylize( $testUnitClass ) . "' for test suite " .
+                        $cli->warning( "Could not find test unit class '" . $cli->stylize( 'emphasize', $testUnitClass ) . "' for test suite " .
                                        $cli->stylize( 'emphasize', $suiteName ) );
                     }
                 }
                 else
                 {
-                    $cli->warning( "Could not find a test unit file '" . $cli->stylize( $testUnitFile ) . "' for test suite " .
+                    $cli->warning( "Could not find a test unit file '" . $cli->stylize( 'emphasize', $testUnitFile ) . "' for test suite " .
                                    $cli->stylize( 'emphasize', $suiteName ) );
                 }
             }

@@ -45,8 +45,16 @@ $SuiteDefinition['tests'][] = array( 'name' => 'Operator',
                                      'file' => 'eztesttemplateoperator.php',
                                      'class' => 'eZTestTemplateOperator' );
 
+$SuiteDefinition['tests'][] = array( 'name' => 'ProcessedOperator',
+                                     'file' => 'eztestprocessedtemplateoperator.php',
+                                     'class' => 'eZTestProcessedTemplateOperator' );
+
 $SuiteDefinition['tests'][] = array( 'name' => 'Function',
                                      'file' => 'eztesttemplatefunction.php',
                                      'class' => 'eZTestTemplateFunction' );
+
+$SuiteDefinition['tests'][] = array( 'name' => 'ProcessedFunction',
+                                     'file' => 'eztestprocessedtemplatefunction.php',
+                                     'class' => 'eZTestProcessedTemplateFunction' );
 
 ?>

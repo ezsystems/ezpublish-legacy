@@ -34,25 +34,25 @@
 // you.
 //
 
-/*! \file eztesttemplateoutput.php
+/*! \file eztesttemplatefunction.php
 */
 
 /*!
-  \class eZTestTemplateOutput eztesttemplateoutput.php
-  \brief The class eZTestTemplateOutput does
+  \class eZTestTemplateFunction eztesttemplatefunction.php
+  \brief The class eZTestTemplateFunction does
 
 */
 
-class eZTestTemplateOperator extends eZTestCase
+class eZTestProcessedTemplateFunction extends eZTestCase
 {
     /*!
      Constructor
     */
-    function eZTestTemplateOperator( $name = false )
+    function eZTestProcessedTemplateFunction( $name = false )
     {
         $this->eZTestCase( $name );
 
-        foreach ( glob('tests/eztemplate/operators/*.tpl') as $template )
+        foreach ( glob('tests/eztemplate/functions/*.tpl') as $template )
         {
             $this->addTemplateTest( $template );
         }
@@ -60,7 +60,7 @@ class eZTestTemplateOperator extends eZTestCase
 
     function addTemplateTest( $file )
     {
-        $name = str_replace( 'tests/eztemplate/operators/', '', $file );
+        $name = str_replace( 'tests/eztemplate/functions/', '', $file );
         $name = str_replace( '.tpl', '', $name );
         $name = ucwords( $name );
         $this->addTest( 'testTemplate', $name, $file );
@@ -80,9 +80,9 @@ class eZTestTemplateOperator extends eZTestCase
 
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
+        eZTemplateDesignResource::setDesignStartPath( "tests/eztemplate/design" );
         $tpl->reset();
-
-        eZTemplateCompiler::setSettings( array( 'compile' => true,
+        eZTemplateCompiler::setSettings( array( 'compile' => false,
                                                 'comments' => false,
                                                 'accumulators' => false,
                                                 'timingpoints' => false,
@@ -92,14 +92,22 @@ class eZTestTemplateOperator extends eZTestCase
                                                 'generate' => true,
                                                 'compilation-directory' => 'tests/eztemplate/compilation' ) );
 
+        preg_match( "/^(.+).tpl/", $templateFile, $matches );
+        $phpFile = $matches[1] . '.php';
+
+        if ( file_exists( $phpFile ) )
+        {
+            include( $phpFile );
+        }
+
         $actual = $tpl->fetch( $templateFile );
 
-        $actualFileName = str_replace( '.tpl', '.out', $templateFile );
+        $actualFileName = str_replace( '.tpl', '.pout', $templateFile );
         $fp = fopen( $actualFileName, 'w' );
         fwrite( $fp, $actual );
         fclose( $fp );
 
-        $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of compiled results' );
+        $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of results' );
     }
 }
 

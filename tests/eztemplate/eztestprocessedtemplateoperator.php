@@ -43,12 +43,12 @@
 
 */
 
-class eZTestTemplateOperator extends eZTestCase
+class eZTestProcessedTemplateOperator extends eZTestCase
 {
     /*!
      Constructor
     */
-    function eZTestTemplateOperator( $name = false )
+    function eZTestProcessedTemplateOperator( $name = false )
     {
         $this->eZTestCase( $name );
 
@@ -82,7 +82,7 @@ class eZTestTemplateOperator extends eZTestCase
         $tpl =& templateInit();
         $tpl->reset();
 
-        eZTemplateCompiler::setSettings( array( 'compile' => true,
+        eZTemplateCompiler::setSettings( array( 'compile' => false,
                                                 'comments' => false,
                                                 'accumulators' => false,
                                                 'timingpoints' => false,
@@ -94,12 +94,12 @@ class eZTestTemplateOperator extends eZTestCase
 
         $actual = $tpl->fetch( $templateFile );
 
-        $actualFileName = str_replace( '.tpl', '.out', $templateFile );
+        $actualFileName = str_replace( '.tpl', '.pout', $templateFile );
         $fp = fopen( $actualFileName, 'w' );
         fwrite( $fp, $actual );
         fclose( $fp );
 
-        $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of compiled results' );
+        $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of processed results' );
     }
 }
 
