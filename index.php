@@ -39,7 +39,21 @@
 ignore_user_abort( true );
 require 'lib/compat.php';
 
-@ini_set( 'memory_limit', '42M' );
+$memLimit = ini_get( 'memory_limit' );
+switch ( $memLimit{strlen( $memLimit ) - 1} )
+{
+    case 'G':
+        $memLimit *= 1024;
+    case 'M':
+        $memLimit *= 1024;
+    case 'K':
+        $memLimit *= 1024;
+}
+if ( $memLimit != -1 && $memLimit < 44040192) /* 42*1024*1024 */
+{
+    @ini_set( 'memory_limit', '42M' );
+}
+
 $scriptStartTime = microtime();
 ob_start();
 
