@@ -151,7 +151,7 @@ class eZApproveType extends eZWorkflowEventType
         /*
           If we run event first time ( when we click publish in admin ) we do not have user_id set in workflow process,
           so we take current user and store it in workflow process, so next time when we run event from cronjob we fetch
-'         user_id from there.
+          user_id from there.
          */
         if ( $process->attribute( 'user_id' ) == 0 )
         {

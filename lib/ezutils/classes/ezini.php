@@ -73,6 +73,8 @@
   which files are load, if cache files are used and when cache files are written.
 */
 
+include_once 'lib/ezutils/classes/ezdebug.php';
+
 /*!
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
