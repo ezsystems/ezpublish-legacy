@@ -10,8 +10,8 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<table class="list" cellspacing="0">
 {section show=$pdfexport_list}
+<table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" onclick="ezjs_toggleCheckboxes( document.pdfexportlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/pdf/list' )}</th>
@@ -36,10 +36,13 @@
 
 </tr>
 {/section}
-{section-else}
-    {'There are no PDF exports in the list.'|i18n( 'design/admin/pdf/list' )}
-{/section}
 </table>
+{section-else}
+<div class="block">
+<p>{'There are no PDF exports in the list.'|i18n( 'design/admin/pdf/list' )}</p>
+</div>
+{/section}
+
 
 {* DESIGN: Content END *}</div></div></div>
 
