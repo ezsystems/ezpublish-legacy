@@ -119,7 +119,7 @@ function processList( &$module )
 
 </head>
 
-<body style="background: url(/design/standard/images/grid-background.gif);">
+<body>
 
 
 
@@ -437,17 +437,74 @@ function process( &$module, $component, $command, $part, $rest )
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
 
-<table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td class="topline" valign="bottom"  width="210">
-<a href="%index_path_prepend%%exampleURI%">
-    <img src="%path_prepend%/design/standard/images/ezpublish-logo.gif" width="210" height="60" alt="" border="0" /></a>
+    <td class="headlogo" width="560">
+    <img src="%path_prepend%/design/standard/images/ezpublish_logo_blue.gif" alt="eZ publish" /></td>
+    <td class="headlink" width="66">
+
+<table width="66" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="menuheadgraygfx" width="3">
+    <img src="%path_prepend%/design/standard/images/dark-left-corner.gif" alt=""/></td>
+    <td class="menuheadgraytopline" width="60">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="60" height="1" /></td>
+    <td class="menuheadgraygfx" width="3">
+    <img src="%path_prepend%/design/standard/images/dark-right-corner.gif" alt=""/></td>
+</tr>
+<tr>
+    <td class="menuheadgrayleftline" width="3">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="1" height="15" /></td>
+    <td class="menuheadgray">
+    <p class="menuheadgray">
+    <a class="menuheadlink" href="/manual/">Manual</a>
+    </p>
     </td>
-    <td valign="bottom" class="topline" width="100%">
-    <h1><font color="white">%nameTM%</font></h1>
+    <td class="menuheadgrayrightline" width="3">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="1" height="15" /></td>
+</tr>
+</table>
+
+</td>
+
+    <td class="menuheadspacer" width="3">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="3" height="1" /></td>
+    <td class="headlink" width="66">
+
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="menuheadselectedgfx">
+    <img src="%path_prepend%/design/standard/images/light-left-corner.gif" alt=""/></td>
+    <td class="menuheadselectedtopline">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="60" height="1" /></td>
+    <td class="menuheadselectedgfx">
+    <img src="%path_prepend%/design/standard/images/light-right-corner.gif" alt=""/></td>
+</tr>
+<tr>
+    <td class="menuheadselectedleftline">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="1" height="19" /></td>
+    <td class="menuheadselected">
+    <p class="menuheadselected">
+    <a class="menuheadlink" href="/sdk/">SDK</a>
+    </p>
+    </td>
+    <td class="menuheadselectedrightline">
+    <img src="%path_prepend%/design/standard/images/1x1.gif" alt="" width="1" height="19" /></td>
+</tr>
+</table>
+
+    </td>
+   <td class="headlogo" width="50%">
+   &nbsp;</td>
+</tr>
+    <td colspan="11" class="menuheadtoolbar">
+    &nbsp;
     </td>
 </tr>
 </table>
+
 
 <table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
