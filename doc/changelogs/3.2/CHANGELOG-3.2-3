@@ -15,6 +15,7 @@ Changes from 3.2.2 to 3.2-3
   Removed the sum operator from the array operator collection. Implemented support
   for summarizing arrays put as input value to the operator as well as parameters.
   The sub operator was also fixed to work with arrays.
+- Added stylesheets to the redirect template to make the buttons appear in Opera.
 
 *Setup:
 
