@@ -127,7 +127,7 @@ $storeActions = array( 'Preview',
                        'Publish',
                        'Store',
                        'Discard',
-                       'CustomAction',
+//                        'CustomAction',
                        'EditLanguage',
                        'BrowseForObjects',
                        'NewObject',
@@ -136,6 +136,8 @@ $storeActions = array( 'Preview',
                        'DeleteNode',
                        'MoveNode' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
+if ( $http->hasPostVariable( 'CustomActionButton' ) )
+    $storingAllowed = true;
 
 // These variables will be modified according to validation
 $inputValidated = true;

@@ -62,12 +62,17 @@ eZURL:
   the first time an object is created. Also made sure orphant links are removed.
   http://ez.no/developer/ez_publish_3/bug_reports/url_management_bug_for_link_datatype
 
+eZXML:
+- Made sure the validation only gives an error when there are data available.
+
 *Optimizations:
 - Fixed update search script to use less memory. Changed so it only fetches 50 objects a time.
 
 *Bugfixes:
 - Added the missing include.
   http://ez.no/developer/ez_publish_3/bug_reports/cant_remove_objects_undefined_class_name_ezurlalias
+- Fixed problem with assignment and custom actions
+  http://ez.no/developer/ez_publish_3/bug_reports/moving_and_removing_assignments_fails
 
 *Files:
 - Made sure ezpublish.cron is included in the release (Was missing in 3.2-1).
