@@ -531,7 +531,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 if ( $conditionKey == 'url_alias' )
                                     $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
                                 else
-                                    $matchCondition .= "( ( is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
+                                    $matchCondition .= "( ( isset( \$matchKeys[\\'$conditionKey\\'] ) and is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
                                         "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) ) or " .
                                         "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\')";
 

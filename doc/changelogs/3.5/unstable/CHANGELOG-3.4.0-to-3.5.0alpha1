@@ -78,9 +78,11 @@ Changes from 3.4.0 to 3.5.0alpha1
   http://ez.no/community/bug_reports/notification_toolbox_is_listed_twice
 - Fixed broken XHTML code. (Merged from stable/3.4, rev. 7824)
   http://ez.no/community/bug_reports/layout_break_in_line_file_tpl
-- Fixed MySQL 4.1 incompatibility. (Merged from stable/3.5, rev. 7827)
+- Fixed MySQL 4.1 incompatibility. (Merged from stable/3.4, rev. 7827)
   http://ez.no/community/bug_reports/mysql_4_incompatibility
-  
+- Fixed a warning with conditional overrides. (Merged from stable/3.4, rev. 7831)
+  http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
+
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
   the old code in basket and wishlist which were hardcoded against ezoption.
