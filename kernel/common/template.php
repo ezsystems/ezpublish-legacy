@@ -91,17 +91,23 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 if ( count( $match_keys ) == 0 )
                     continue;
-                if ( file_exists( $tpl_path ) and
-                     is_dir( $tpl_path ) ) // Do advanced match with multiple keys
+                $tpl_dir = false;
+                if ( preg_match( "#^(.+)/(.+)(\.tpl)$#", $tpl_path, $regs ) )
                 {
-                    $hd = opendir( $tpl_path );
+                    $tpl_dir = $regs[1] . "/" . $regs[2];
+                }
+                if ( file_exists( $tpl_dir ) and
+                     is_dir( $tpl_dir ) ) // Do advanced match with multiple keys
+                {
+                    $hd = opendir( $tpl_dir );
                     $key_regex = "([0-9]*)";
                     if ( count( $match_keys ) > 1 )
                         $key_regex .= str_repeat( ",([0-9]*)", count( $match_keys ) - 1 );
                     while( ( $file = readdir( $hd ) ) !== false )
                     {
                         if ( $file == "." or
-                             $file == ".." )
+                             $file == ".." or
+                             $file[0] == "." )
                             continue;
                         if ( !preg_match( "#^$key_regex\.tpl$#", $file, $regs ) )
                             continue;
@@ -132,7 +138,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         if ( !$found )
                             continue;
                         $match = $tpl_match;
-                        $match["file"] = "$tpl_path/$file";
+                        $match["file"] = "$tpl_dir/$file";
 //                         eZDebug::writeNotice( "Multi match found, using override " . $match["file"]  );
                         break;
                     }
@@ -396,9 +402,9 @@ function &templateInit()
                                      "output_name" => "object",
                                      "namespace" => "ContentView",
                                      "attribute_keys" => array( "object" => array( "id" ),
-                                                                "class" => array( "contentclass_id" ) ),
-                                     "attribute_access" => array( array( "contentclass_id" ),
-                                                                  array( "class_name" ) ),
+                                                                "class" => array( "contentclass_id" ),
+                                                                "section" => array( "section_id" ) ),
+                                     "attribute_access" => array(),
                                      "use_views" => "view" ),
         "event_edit_gui" => array( "template_root" => "workflow/eventtype/edit",
                                    "input_name" => "event",
