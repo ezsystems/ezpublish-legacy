@@ -28,7 +28,7 @@
     <p>{"Total number of sessions"|i18n( "design/admin/setup/session" )}: {$sessions_active}<br/>
         {let logged_in_count=fetch( user, logged_in_count )
              anonymous_count=fetch( user, anonymous_count )}
-        {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/standard/toolbar',,
+        {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/admin/setup/session',,
           hash( '%logged_in_count', $logged_in_count, '%anonymous_count', $anonymous_count ) )}
         {/let}
     </p>
