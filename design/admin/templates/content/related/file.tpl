@@ -8,5 +8,5 @@
     <td class="name">{$related_object.name|wash}</td>
     <td class="filetype">{$related_object.data_map.file.content.mime_type|wash}</td>
     <td class="filesize">{$related_object.data_map.file.content.filesize|si( byte )}</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;"></td>
+    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;" readonly="readonly" /></td>
 </tr>
