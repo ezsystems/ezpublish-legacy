@@ -2888,6 +2888,7 @@ class Cpdf
 			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
                 if ( $addTextArray['height'] != -1 )
                 {
+		  if( $returnArray['height'] < $addTextArray['height'] )
                     $returnArray['height'] = $addTextArray['height'];
                 }
 			}
@@ -2910,6 +2911,7 @@ class Cpdf
 			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
                 if ( $addTextArray['height'] != -1 )
                 {
+		  if( $returnArray['height'] < $addTextArray['height'] )
                     $returnArray['height'] = $addTextArray['height'];
                 }
 			}
@@ -2950,6 +2952,7 @@ class Cpdf
 
         if ( $addTextArray['height'] != -1 )
         {
+	  if( $returnArray['height'] < $addTextArray['height'] )
             $returnArray['height'] = $addTextArray['height'];
         }
 	}
