@@ -156,7 +156,7 @@ class eZContentObject extends eZPersistentObject
         }
         elseif ( $attr == 'parent_nodes' )
         {
-            return $this->parentNodes( true );
+            return $this->parentNodes( true, false );
         }
         elseif ( $attr == 'main_node' )
         {
@@ -625,15 +625,32 @@ class eZContentObject extends eZPersistentObject
         $retNodes = array();
         if ( $version )
         {
-            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ) );
+            if( is_numeric( $version ) )
+            {
+                $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );
+            }
+            else
+            {
+                $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
+            }
             foreach ( array_keys( $nodeAssignmentList ) as $key )
             {
                 $nodeAssignment =& $nodeAssignmentList[$key];
-                $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+                if ( $asObject )
+                {
+                    $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+                }
+                else
+                {
+                    $retNodes[] =& $nodeAssignment->attribute( 'parent_node' );
+                }
             }
+            return $retNodes;
         }
         $nodes = $this->attribute( 'assigned_nodes' );
         //  $retNodes = array();
+        var_dump($retNodes);
+        print("<br/>");
         if ( $asObject )
         {
             foreach ( $nodes as $node )
@@ -651,6 +668,7 @@ class eZContentObject extends eZPersistentObject
                 $retNodes[] = $node->attribute( 'parent_node_id' );
             }
         }
+        var_dump($retNodes);
         return $retNodes;
     }
 

@@ -144,7 +144,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $nodeAssignment =& $nodeAssignmentList[$key];
                 $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
                 $runTrigger = true;
-                $status = "";
+                $status['Status'] = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
                 if ( get_class( $existingNode ) == 'ezcontentobjecttreenode' )
                 {
                     if ( $existingNode->attribute( 'contentobject_version' ) == $version->attribute( 'version' ) )
@@ -158,16 +158,15 @@ if ( !function_exists( 'checkContentActions' ) )
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
                     $version->store();
                     $status = eZTrigger::runTrigger( 'pre_publish',
-		                                     'content',
+                                                     'content',
                                                      'publish',
                                                      array( 'object'  => $object,
                                                             'version' => $version->attribute( 'version' ),
                                                             'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )
-                                                            ),
-                                                     $module
+                                                            )
                                                      );
                 }
-                if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
+                if ( $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
                 {
                     $oldVersion =& $object->attribute( 'current' );
                     $oldVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );

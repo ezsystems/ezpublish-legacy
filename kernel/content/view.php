@@ -117,23 +117,28 @@ if ( $LanguageCode != '' )
 
 if ( $ViewMode == 'full' )
 {
-    $sessionKey = eZHttpTool::getSessionKey();
-    $status = eZTrigger::runTrigger( 'pre_view',
-                                     'content',
-                                     'view',
-                                     array( 'object'  => $object,
-                                            'node_id' => $node->attribute( 'node_id' ),
-                                            'session_key' => $sessionKey
-                                            ),
-                                     $Module
-                                     );
-    eZDebug::writeDebug( $status, 'Returned Trigger status in view' );
+     $sessionKey = eZHttpTool::getSessionKey();
+     $user =& eZUser::currentUser();
+     
+     $status = eZTrigger::runTrigger( 'pre_view',
+                                      'content',
+                                      'view',
+                                      array( 'contentobject_id' => $object->attribute( 'id' ),
+                                             'node_id' => $node->attribute( 'node_id' ),
+                                             'session_key' => $sessionKey,
+                                             'user_id' => $user->id() ),
+                                      array( 'contentobject_id',
+                                             'node_id',
+                                             'session_key',
+                                             'user_id' ) );
+     eZDebug::writeDebug( $status, 'Returned Trigger status in view' );
 }else
+
 {
-    $status = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
+    $status['Status'] = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
 }
 
-if ( $status == EZ_TRIGGER_WORKFLOW_DONE || $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
+if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
 {
 
 
@@ -172,9 +177,9 @@ if ( $status == EZ_TRIGGER_WORKFLOW_DONE || $status == EZ_TRIGGER_NO_CONNECTED_W
     $Result['path'] =& $path;
     $Result['section_id'] =& $object->attribute( 'section_id' );
 }
-else
+elseif ( $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE )
 {
-
+    $Result['content'] = $status['Result'];
 }
 
 ?>

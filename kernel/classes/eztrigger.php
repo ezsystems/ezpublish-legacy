@@ -115,7 +115,7 @@ class eZTrigger extends eZPersistentObject
 
 
 
-    function runTrigger( $name, $moduleName, $function, $parameters = array(), &$Result )
+    function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
@@ -129,87 +129,14 @@ class eZTrigger extends eZPersistentObject
             $workflow =& eZWorkflow::fetch( $workflowID );
             eZDebug::writeNotice( $workflowID, "we are going to start workflow:" );
 
-            $keyArray = array();
-            if ( is_numeric( $workflowID ) )
-            {
-                $keyArray['workflow_id'] = $workflowID;
-            }
-            else
-            {
-                eZDebug::writeNotice( "can't get workflowID", 'eZTrigger::runTrigger' );
-            }
+            $keys[] = 'workflow_id';
+            $parameters['workflow_id'] = $workflowID;
+            $processKey = eZWorkflowProcess::createKey( $parameters, $keys );
 
-            $currentUser = eZUser::currentUser();
-            if ( !is_null( $currentUser ) )
-            {
-                $userID = $currentUser->id();
-                $keyArray['user_id'] = $userID;
-            }
-            else
-            {
-                eZDebug::writeNotice( "can't get userID", 'eZTrigger::runTrigger' );
-            }
+//            $searchKey = eZWorkflowProcess::createKey( $keyArray );
 
-            $contentObject =& $parameters[ 'object' ];
-            if ( !is_null( $contentObject ) )
-            {
-                $objectID = $contentObject->attribute( 'id' );
-                $keyArray['content_id'] = $objectID;
-            }
-            else
-            {
-                eZDebug::writeNotice( "can't get contentobjectID", 'eZTrigger::runTrigger' );
-            }
+            $workflowProcessList =& eZWorkflowProcess::fetchListByKey( $processKey );
 
-//            $keyArray['node_id'] = '0';
-//            $keyArray['content_version'] = '0';
-//            $keyArray['session_key'] = '0';
-            if ( array_key_exists( 'version', $parameters ) &&  !is_null( $parameters['version'] ) )
-            {
-                $keyArray['content_version'] = $parameters['version'];
-            }
-            else
-            {
-                eZDebug::writeNotice( "can't get object Version", 'eZTrigger::runTrigger' );
-            }
-
-            if( array_key_exists( 'parent_node_id', $parameters ) && !is_null( $parameters['parent_node_id'] ) )
-            {
-                $keyArray['node_id'] = $parameters['parent_node_id'];
-            }
-
-            if( array_key_exists( 'session_key', $parameters ) && !is_null( $parameters['session_key'] ) )
-            {
-                $keyArray['session_key'] = $parameters['session_key'];
-            }
-
-            if( array_key_exists( 'node_id', $parameters ) && !is_null( $parameters['node_id'] ) )
-            {
-                $keyArray['node_id'] = $parameters['node_id'];
-            }
-
-            $searchKey = eZWorkflowProcess::createKey( $keyArray );
-
-            $workflowProcessList =& eZWorkflowProcess::fetchListByKey( $searchKey );
-
-/*
-            if ( $workflow->attribute( 'workflow_type_string' ) == 'group_ezcontentbased' )
-            {
-                $workflowProcessList =& eZWorkflowProcess::fetchForContent( $workflowID, $userID,
-                                                                            $objectID, $version, $nodeID,
-                                                                            true );
-            }
-            elseif ( $workflow->attribute( 'workflow_type_string' ) == 'group_ezsessionbased' )
-            {
-
-                $conditions = array( 'session_key' => $sessionKey,
-                                     'workflow_id' => $workflowID,
-                                     'node_id' => $parameters['node_id'] );
-                $workflowProcessList =& eZWorkflowProcess::fetchList( $conditions );
-//                $workflowProcessList =& eZWorkflowProcess::fetchForSession( $sessionKey, $workflowID,  );
-//                var_dump($workflowProcessList);
-
-            }*/
             if ( count( $workflowProcessList ) > 0 )
             {
                 $existingWorkflowProcess =& $workflowProcessList[0];
@@ -223,47 +150,50 @@ class eZTrigger extends eZPersistentObject
                     case EZ_WORKFLOW_STATUS_NONE:
                     case EZ_WORKFLOW_STATUS_BUSY:
                     {
-                        return EZ_TRIGGER_WORKFLOW_CANCELED;
+                        return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                                      'Result' => null );
                     } break;
                     case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
                     {
-                        return eZTrigger::runWorkflow( $existingWorkflowProcess, $Result );
+                        return eZTrigger::runWorkflow( $existingWorkflowProcess );
 //                        return EZ_TRIGGER_FETCH_TEMPLATE;
                     } break;
                     case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
                     {
-                        return EZ_TRIGGER_STATUS_CRON_JOB;
+                        return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                                      'Result' => null );
                     } break;
                     case EZ_WORKFLOW_STATUS_DONE:
                     {
-                        return EZ_TRIGGER_WORKFLOW_DONE;
+                        return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
+                                      'Result' => null );
                     }
                 }
-                    return EZ_TRIGGER_WORKFLOW_CANCELED;
+                    return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                                  'Result' => null );
             }else
             {
                 print( "\n starting new workflow process \n");
                 var_dump( $keyArray );
 //                print( " $workflowID, $userID, $objectID, $version, $nodeID, \n ");
             }
-
-            $workflowProcess =& eZWorkflowProcess::create( $searchKey, $keyArray );
+            $workflowProcess =& eZWorkflowProcess::create( $processKey, $parameters );
 
             $workflowProcess->store();
-//            eZModuleRun::createFromModule( $workflowProcess->attribute( 'id' ), $Result );
 
-            return eZTrigger::runWorkflow( $workflowProcess, $module );
+            return eZTrigger::runWorkflow( $workflowProcess );
 
         }
         else
         {
             eZDebug::writeNotice( $name.$moduleName.$function, "there is no connected workflow for:" );
-            return EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
+            return array( 'Status' => EZ_TRIGGER_NO_CONNECTED_WORKFLOWS,
+                          'Result' => null );
         }
     }
 
 
-    function runWorkflow( &$workflowProcess, &$Result )
+    function runWorkflow( &$workflowProcess )
     {
         $workflow =& eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
         $workflowEvent = null;
@@ -278,31 +208,36 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_NONE:
             case EZ_WORKFLOW_STATUS_BUSY:
             {
-                return EZ_TRIGGER_WORKFLOW_CANCELED;
+                return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                              'Result' => null );
             } break;
             case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
             {
                 $tpl =& templateInit();
-                $Result = array();
+                $result = array();
                 foreach ( array_keys( $workflowProcess->Template['templateVars'] ) as $key )
                 {
                     $value =& $workflowProcess->Template['templateVars'][$key];
                     $tpl->setVariable( $key, $value );
                 }
-                $Result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
-//                $module->setViewResult( $Result );
-                return EZ_TRIGGER_FETCH_TEMPLATE;
+                $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
+                return array( 'Status' => EZ_TRIGGER_FETCH_TEMPLATE,
+                              'Result' => $result['content'] );
             } break;
             case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
             {
-                return EZ_TRIGGER_STATUS_CRON_JOB;
+                return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                              'Result' => null );
             } break;
             case EZ_WORKFLOW_STATUS_DONE:
             {
-                return EZ_TRIGGER_WORKFLOW_DONE;
+                return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
+                              'Result' => null );
             }
         }
 
+        return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                      'Result' => null );
 
 
 

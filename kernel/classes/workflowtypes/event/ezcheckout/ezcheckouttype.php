@@ -58,11 +58,13 @@ class eZCheckoutType extends eZWorkflowEventType
     {
         var_dump( $process );
         eZDebug::writeNotice( $process, "process" );
-        if ( $process->attribute( 'node_id' ) == 0 )
+        $processParameters =& $process->attribute( 'parameter_list' );
+        
+        if ( $processParameters['node_id'] == 0 )
         {
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
-        $node =& eZContentObjectTreeNode::fetch( $process->attribute( 'node_id' ) );
+        $node =& eZContentObjectTreeNode::fetch(  $processParameters['node_id'] );
         $process->Template = array( 'templateName' => 'design:workflow/eventtype/result/' . 'event_ezcheckout' . '.tpl',
                                      'templateVars' => array( 'node' => $node,
                                                               'viewmode' => 'full' )

@@ -516,6 +516,19 @@ class eZModule
                 }
             }
         }
+/*        if ( isset( $this->Functions[$view]['group_post_actions'] ) )
+        {
+            $singlePostActions =& $this->Functions[$view]['group_post_actions'];
+            foreach( $singlePostActions as $postActionName => $realActionName )
+            {
+                if ( $http->hasPostVariable( $postActionName ) )
+                {
+                    $this->ViewActions[$view] = $realActionName;
+                    return $this->ViewActions[$view];
+                }
+            }
+        }
+*/
         $this->ViewActions[$view] = false;
         return false;
     }

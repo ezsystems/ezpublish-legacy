@@ -104,7 +104,23 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
             {
                 if ( !in_array( $nodeID, $assignedIDArray ) )
                 {
-                    $version->assignToNode( $nodeID, 0, $fromNodeID );
+                    $oldAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                                       null,
+                                                                       array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                              'parent_node' => $fromNodeID,
+                                                                              'contentobject_version' => $version->attribute( 'version' )
+                                                                              ),
+                                                                       true );
+//                    var_dump( $oldAssignment );
+                    if ( $oldAssignment->attribute( 'main' ) == '1' )
+                    {
+                        $version->assignToNode( $nodeID, 1, $fromNodeID );
+                    }
+                    else
+                    {
+                        $version->assignToNode( $nodeID, 0, $fromNodeID );
+                    }
+
                     $version->removeAssignment( $fromNodeID );
                 }
             }
@@ -189,7 +205,11 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     }
     if ( $module->isCurrentAction( 'DeleteNode' ) )
     {
-        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
+
+        eZDebug::writeDebug( $http->attribute( 'post' ), "post vars in edit" );
+        eZDebug::writeDebug( $module->currentAction(), "Action Name" );
+
+/*        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
         {
             $nodesID = $http->postVariable( 'DeleteParentIDArray' );
         }
@@ -197,7 +217,14 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         {
             $nodesID = array();
         }
+*/
+        if ( $http->hasPostVariable( 'RemoveNodeID' ) )
+        {
+            $nodesID = array( $http->postVariable( 'RemoveNodeID' ) );
+        }
         $mainNodeID = $http->postVariable( 'MainNodeID' );
+        eZDebug::writeDebug( $nodesID, "NodesID" );
+
         foreach ( $nodesID as $node )
         {
             if ( $node != $mainNodeID )
@@ -212,39 +239,49 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     {
                         $module->redirectTo( "/content/deletenode/" . $node . '/' . $objectID . '/' . $editVersion   );
                     }
+                    else
+                    {
+                        $version->removeAssignment( $node );
+                    }
                 }
                 //$version->removeAssignment( $node );
             }
         }
 
     }
+    
     if ( $module->isCurrentAction( 'MoveNode' ) )
     {
         $objectID = $object->attribute( 'id' );
-        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
+/*        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
         {
             $sourceNodeID = $http->postVariable( 'DeleteParentIDArray' );
         }
-        $fromNodeID = $sourceNodeID[0];
+*/
+        if ( $http->hasPostVariable( 'MoveNodeID' ) )
+        {
+            $fromNodeID = $http->postVariable( 'MoveNodeID' ); //$sourceNodeID[0];
 
-        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
-        $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
-        $http->setSessionVariable( 'FromNodeID', $fromNodeID );
-        $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
-        $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
-        $mainParentID = $version->attribute( 'main_parent_node_id' );
-        $node = eZContentObjectTreeNode::fetch( $mainParentID );
-        $nodePath =  $node->attribute( 'path' );
-        $rootNodeForObject = $nodePath[0];
-        if ( $rootNodeForObject != null )
-        {
-            $nodeID = $rootNodeForObject->attribute( 'node_id' );
-        }else
-        {
-            $nodeID = $mainParentID;
+            eZDebug::writeDebug( $fromNodeID, "We are going to move from node:" );
+            $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
+            $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
+            $http->setSessionVariable( 'FromNodeID', $fromNodeID );
+            $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
+            $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
+            $mainParentID = $version->attribute( 'main_parent_node_id' );
+            $node = eZContentObjectTreeNode::fetch( $mainParentID );
+            $nodePath =  $node->attribute( 'path' );
+            $rootNodeForObject = $nodePath[0];
+            if ( $rootNodeForObject != null )
+            {
+                $nodeID = $rootNodeForObject->attribute( 'node_id' );
+            }else
+            {
+                $nodeID = $mainParentID;
+            }
+            $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion, $fromNodeID ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
-        $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion, $fromNodeID ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 

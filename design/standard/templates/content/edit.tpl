@@ -32,6 +32,7 @@
         <th width="40%" colspan="3">{"Sort by"|i18n('content/object')}</th>
     </tr>
     {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
+   {let existingParentNodes=$object.parent_nodes}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {let parent_node=$Node:item.parent_node_obj}
     <tr>
@@ -68,10 +69,24 @@
         <td class="{$Node:sequence}" align="right">
         <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
         <input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />
+
+
+      {switch match=$Node:item.parent_node}
+      {case in=$Node:existingParentNodes}
+        <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+      {/case}
+      {case}
+      &nbsp;&nbsp;
+      {/case}
+      {/switch}
+
+        <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"remove.png"|ezimage} value="{$Node:item.parent_node}"  />
+
         </td>
     </tr>
     {/let}
     {/section}
+    {/let}
     {/let}
  </table>
     {switch match=$main_node_id}

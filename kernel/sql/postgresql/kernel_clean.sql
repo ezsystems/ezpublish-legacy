@@ -1220,7 +1220,13 @@ CREATE TABLE "ezworkflow_process" (
 	Constraint "ezworkflow_process_pkey" Primary Key ("id")
 );
 
+CREATE SEQUENCE "ezoperation_memento_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
+create table "ezoperation_memento" (
+    "id" integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
+    "memento_key" char(32) NOT NULL,
+    "memento_data" text
+    );
 
 
 

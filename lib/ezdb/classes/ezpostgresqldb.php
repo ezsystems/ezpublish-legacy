@@ -186,6 +186,12 @@ class eZPostgreSQLDB extends eZDBInterface
         return " substring( $string from $from for $len ) ";
     }
 
+    function cancatString( $strings = array() )
+    {
+        $str = implode( " || " , $strings );
+        return "  $str   ";
+    }
+
     /*!
      \reimp
     */

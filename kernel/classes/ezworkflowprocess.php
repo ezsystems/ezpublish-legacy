@@ -72,7 +72,8 @@ class eZWorkflowProcess extends eZPersistentObject
                                          'created' => 'Created',
                                          'modified' => 'Modified',
                                          'activation_date' => 'ActivationDate',
-                                         'status' => 'Status' ),
+                                         'status' => 'Status',
+                                         'parameters' => 'Parameters' ),
                       'keys' => array( 'id' ),
                       "increment_key" => "id",
                       'class_name' => 'eZWorkflowProcess',
@@ -80,28 +81,29 @@ class eZWorkflowProcess extends eZPersistentObject
                       'name' => 'ezworkflow_process' );
     }
 
-    function &create( $processKey, $parameters = array() )
+    function &create( $processKey, $parameters )
 //                      $workflowID, $userID,
 //                      $contentID, $contentVersion, $nodeID, $sessionKey = '' )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $dateTime = eZDateTime::currentTimeStamp();
-        $row = array(
-            'process_key' => $processKey,
-            'workflow_id' => $parameters['workflow_id'],
-            'user_id' => $parameters['user_id'],
-            'content_id' => $parameters['content_id'],
-            'content_version' => $parameters['content_version'],
-            'node_id' => $parameters['node_id'],
-            'session_key' => $parameters['session_key'],
-            'event_id' => 0,
-            'event_position' => 0,
-            'last_event_id' => 0,
-            'last_event_position' => 0,
-            'last_event_status' => 0,
-            'event_status' => 0,
-            'created' => $dateTime,
-            'modified' => $dateTime );
+
+        $row = array( 'process_key' => $processKey,
+                      'workflow_id' => $parameters['workflow_id'],
+                      'user_id' => $parameters['user_id'],
+                      'content_id' => 0,
+                      'content_version' => 0,
+                      'node_id' => 0,
+                      'session_key' => 0,
+                      'event_id' => 0,
+                      'event_position' => 0,
+                      'last_event_id' => 0,
+                      'last_event_position' => 0,
+                      'last_event_status' => 0,
+                      'event_status' => 0,
+                      'created' => $dateTime,
+                      'modified' => $dateTime,
+                      'parameters' => serialize( $parameters ) );
         return new eZWorkflowProcess( $row );
     }
 
@@ -339,13 +341,24 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     $asObject );
     }
 
-    function createKey( $parameters )
+    function createKey( $parameters, $keys = null )
     {
+
         $string = '';
-        foreach ( array_keys( $parameters ) as $key )
+        if ( $keys != null )
         {
-            $value =& $parameters[$key];
-            $string .= $key . $value;
+            foreach ( $keys as $key )
+            {
+                $value = $parameters[$key];
+                $string .= $key . $value;
+            }
+        }else
+        {
+            foreach ( array_keys( $parameters ) as $key )
+            {
+                $value =& $parameters[$key];
+                $string .= $key . $value;
+            }
         }
         return md5( $string );
     }
@@ -422,14 +435,24 @@ class eZWorkflowProcess extends eZPersistentObject
         return array_merge( eZPersistentObject::attributes(),
                             array( 'user',
                                    'content', 'node',
-                                   'workflow', 'workflow_event', 'last_workflow_event' ) );
+                                   'workflow', 'workflow_event', 'last_workflow_event', 'parameter_list' ) );
     }
 
+    function &setParameters( $parameterList = null )
+    {
+        if ( !is_null( $parameterList ) )
+        {
+            $this->Parameters =& $parameterList;
+        }
+        $this->setAttribute( 'parameters', serialize( $this->Parameters ) );
+        return $this->attribute( 'parameter_list' );
+    }
     function hasAttribute( $attr )
     {
         return ( $attr == 'user' or
                  $attr == 'content' or $attr == 'node' or
                  $attr == 'workflow' or $attr == 'workflow_event' or $attr =='last_workflow_event' or
+                 $attr == 'parameter_list' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -473,6 +496,14 @@ class eZWorkflowProcess extends eZPersistentObject
                 $event =& eZWorkflowEvent::fetch( $this->LastEventID );
                 return $event;
             } break;
+            case 'parameter_list':
+            {
+                if ( !isset( $this->ParameterList ) )
+                {
+                    $this->ParameterList = unserialize( $this->attribute( 'parameters' ) );
+                }
+                return $this->ParameterList;
+            }break;
             default:
                 return eZPersistentObject::attribute( $attr );
         }

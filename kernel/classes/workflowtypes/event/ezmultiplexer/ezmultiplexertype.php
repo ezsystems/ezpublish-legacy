@@ -56,24 +56,27 @@ class eZMultiplexerType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        var_dump( $process );
-        $objectID = $process->attribute( 'content_id' );
+//        var_dump( $process );
+        $processParameters = $process->attribute( 'parameter_list' );
+        var_dump( $processParameters );
+        $objectID = $processParameters[ 'contentobject_id'];
         $object =& eZContentObject::fetch( $objectID );
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
-        $user =& eZUser::currentUser();
-        if ( ! in_array( $user->attribute( 'contentobject_id' ), $userArray ) )
+///        $user =& eZUser::currentUser();
+        $userID = $processParameters['user_id'];
+        if ( ! in_array( $userID, $userArray ) )
         {
             $sectionArray = explode( ',', $event->attribute( 'data_text1' ) );
             if ( in_array( $object->attribute( 'section_id' ), $sectionArray ) )
             {
-                $sessionKey = eZHttpTool::getSessionKey();
+                $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
                 $workflowToRun = 7;
 
                 $childParameters = array( 'workflow_id' => $workflowToRun,
-                                          'user_id' => $user->id(),
-                                          'content_id' => $objectID,
-                                          'node_id' => $process->attribute( 'node_id' ),
+                                          'user_id' => $userID,
+                                          'contentobject_id' => $objectID,
+                                          'node_id' => $processParameters['node_id'],
                                           'session_key' => $sessionKey
                                           );
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );

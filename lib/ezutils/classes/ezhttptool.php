@@ -165,8 +165,39 @@ class eZHTTPTool
         if ( get_class( $instance ) != "ezhttptool" )
         {
             $instance = new eZHTTPTool();
+            $instance->createPostVarsFromImageButtons();
         }
         return $instance;
+    }
+
+    function createPostVarsFromImageButtons()
+    {
+
+        foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
+        {
+            if ( substr( $key, -2 ) == '_x' )
+            {
+                $yKey = substr( $key, 0, -2 ) . '_y';
+                if ( array_key_exists( $yKey, $GLOBALS["HTTP_POST_VARS"] ) )
+                {
+                    $keyClean = substr( $key, 0, -2 );
+                    $matches = array();
+                    eZDebug::writeDebug( $keyClean , "Made keyClean:" );
+                    if ( preg_match( "/_(\d+)$/", $keyClean, $matches ) )
+                    {
+                        $value =  $matches[1];
+                        $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
+                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
+                        eZDebug::writeNotice( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
+                    }
+                    else
+                    {
+                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = true;
+                        eZDebug::writeNotice( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
+                    }
+                }
+            }
+        }
     }
 
     /*!
