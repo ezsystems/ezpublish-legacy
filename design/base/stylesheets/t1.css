@@ -876,13 +876,27 @@ div.attribute-file
 }
 
 /* Embedded tags in XML fields */
-div.factbox-design, div.content-view-embed div.class-folder
+div.factbox-design, div.content-view-embed div.class-folder, div.content-view-embed div.class-article
 { 
     width: 178px;
     padding-top: 0px;
     padding-left: 10px;
     background-color: #fff;
     border: 1px solid #369;
+}
+
+div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed div.class-folder h2,  div#maincontent-design div.content-view-embed div.class-article h2
+{ 
+    width: 100%;
+    position: relative;
+    left: -10px;
+    padding-left: 10px;
+    margin-top: 0px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    font: 12px regular;
+    background-color: #336699;
+    color: #fff;
 }
 
 div.quote
@@ -938,20 +952,6 @@ div.object-center
     clear: both;
     margin-left: auto;
     margin-right: auto;
-}
-
-div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed div.class-folder h2
-{ 
-    width: 100%;
-    position: relative;
-    left: -10px;
-    padding-left: 10px;
-    margin-top: 0px;
-    padding-top: 2px;
-    padding-bottom: 3px;
-    font: 12px regular;
-    background-color: #336699;
-    color: #fff;
 }
 
 div.factbox h3
@@ -1185,36 +1185,36 @@ table th
 }
 
 /* shop tables */
-div.view-shop div.content-basket table
+div.shop-basket table, div.shop-confirmorder table, div.shop-orderview table
 {
     width: 100%;
     padding: 0px;
     margin: 0px;
 }
 
-div.view-shop div.content-basket table th
+div.shop-basket table th, div.shop-confirmorder th, div.shop-orderview th
 {
     padding: 3px;
     margin: 0px;
 }
 
-div.view-shop div.content-basket table td
+div.shop-basket table td, div.shop-confirmorder td, div.shop-orderview td
 {
     padding: 3px;
     margin: 0px;
 }
 
-div.view-shop div.content-basket table td.product-details
+div.shop-basket table td.product-details, div.shop-confirmorder td.product-details, div.shop-orderview td.product-details
 {
     border-bottom: 1px solid #9cf;
 }
 
-div.view-shop div.content-basket table td.product-price
+div.shop-basket table td.product-price, div.shop-confirmorder table td.product-price, div.shop-orderview table td.product-price
 {
     text-align: right;
 }
 
-div.view-shop div.content-basket table td.product-subtotal
+div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.product-subtotal, div.shop-orderview table td.product-subtotal
 {
     text-align: right;
     border-bottom: 1px solid #9cf;

@@ -1,5 +1,4 @@
-<div class="view-shop">
-    <div class="basket-design">
+<div class="shop-basket">
 
     <form method="post" action={"/shop/basket/"|ezurl}>
 
@@ -114,6 +113,4 @@
      {/section}
 
     </form>
-
-    </div>
 </div>

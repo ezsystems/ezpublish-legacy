@@ -38,13 +38,13 @@ Match[class_identifier]=folder
 
 # Article templates
 
-[full_article]
+[article_full]
 Source=node/view/full.tpl
 MatchFile=full/article.tpl
 Subdir=templates
 Match[class_identifier]=article
 
-[line_article]
+[article_line]
 Source=node/view/line.tpl
 MatchFile=line/article.tpl
 Subdir=templates
@@ -53,6 +53,12 @@ Match[class_identifier]=article
 [article_listitem]
 Source=node/view/listitem.tpl
 MatchFile=listitem/article.tpl
+Subdir=templates
+Match[class_identifier]=article
+
+[article_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/article.tpl
 Subdir=templates
 Match[class_identifier]=article
 
@@ -168,11 +174,11 @@ MatchFile=listitem/image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
-[embed_image]
+[image_embed]
 Source=content/view/embed.tpl
 MatchFile=embed/image.tpl
 Subdir=templates
-Match[class]=image
+Match[class_identifier]=image
 
 # Flash templates
 
