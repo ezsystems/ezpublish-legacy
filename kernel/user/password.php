@@ -37,17 +37,22 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $currentUser =& eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
-$UserID = $currentUserID;
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $message = 0;
 $oldPasswordNotValid = 0;
 $newPasswordNotMatch = 0;
 
-if ( isset( $Params["UserID"] ) )
+if ( is_numeric( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
+else
+    $UserID = $currentUserID;
 
 $user =& eZUser::fetch( $UserID );
+$currentUser =& eZUser::currentUser();
+if ( $currentUser->attribute( 'contentobject_id' ) != $user->attribute( 'contentobject_id' ) or
+     !$currentUser->isLoggedIn() )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "OKButton" ) )
 {
@@ -72,7 +77,7 @@ if ( $http->hasPostVariable( "OKButton" ) )
     {
         if (  $newPassword ==  $confirmPassword )
         {
-            $message = "Password successfully updated";
+            $message = true;
             $newHash = $user->createHash( $login, $newPassword, $site, $type );
             $user->setAttribute( "password_hash", $newHash );
             $user->store();
@@ -85,14 +90,14 @@ if ( $http->hasPostVariable( "OKButton" ) )
             $newPassword = "";
             $confirmPassword = "";
             $newPasswordNotMatch = 1;
-            $message = "Password didn't match, please retype your new password";
+            $message = true;
         }
     }
     else
     {
         $oldPassword = "";
         $oldPasswordNotValid = 1;
-        $message = "Please retype your old password";
+        $message = true;
     }
 }
 
