@@ -43,6 +43,10 @@ $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 
 $NodeID = $Params["NodeID"];
+$Offset = $Params['Offset'];
+
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
 
 if ( array_key_exists( 'Limitation', $Params ) )
 {
@@ -71,9 +75,15 @@ if ( ! $contentObject->attribute( 'can_read' ) )
 
 $objectArray =& $node->subTree( array( "Depth" => 1,
                                        "Offset" => $Offset,
-                                       "Limit" => 30,
+                                       "Limit" => 10,
                                        'Limitation' => $limitationList
                                        ) );
+
+$objectCount =& $node->subTreeCount( array( "Depth" => 1,
+                                            'Limitation' => $limitationList
+                                            ) );
+
+
 $parents =& $node->attribute( 'path' );
 
 $path = array();
@@ -99,6 +109,12 @@ $tpl->setVariable( "node_id", $NodeID );
 
 $tpl->setVariable( "object_array", $objectArray );
 $tpl->setVariable( "parents", $parents );
+$tpl->setVariable( "browse_list_count", $objectCount );
+
+$viewParameters = array( 'offset' => $Offset );
+$tpl->setVariable( 'view_parameters', $viewParameters );
+
+
 
 $Result = array();
 $Result['path'] =& $path;

@@ -34,6 +34,7 @@ Changes from 2.9-6 to 2.9-7
 - Added anchor tag as standard in XMLText 
 - Optimized fetch lists
 - Access denied page now shows a login button if the current user is anonymous.
+- Added next/previous navigation on browse page
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

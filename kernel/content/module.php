@@ -105,7 +105,8 @@ $ViewList["advancedsearch"] = array(
 $ViewList["browse"] = array(
     "functions" => array( 'read' ),
     "script" => "browse.php",
-    "params" => array( "NodeID", "ObjectID", "EditVersion" ) );
+    "params" => array( "NodeID", "ObjectID", "EditVersion" ),
+    "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["removeobject"] = array(
     "functions" => array( 'read' ),

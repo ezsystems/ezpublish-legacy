@@ -599,12 +599,6 @@ class eZXMLTextType extends eZDataType
                 $tagText .= $tag->content();
             }break;
 
-            // one liner tags
-            case 'br' :
-            {
-
-            }break;
-
             case 'object' :
             {
                 $objectID = $tag->attributeValue( 'id' );

@@ -166,15 +166,22 @@ class eZHiOMenuOperator
 
                     if ( $className == "Link" )
                     {
-                        $map =& $tmpObj->attribute( "data_map" );
-                        $tmpURL =& $map['url']->content();
+                        $map = $tmpObj->attribute( "data_map" );
+                        $tmpURL = $map['url']->content();
                         $url = "$tmpURL";
+                        $urlAlias = $url;
                     }
                     else
+                    {
                         $url = "/content/view/full/$tmpNodeID/";
+                        $urlAlias = $child->attribute( 'url_alias' );
+                    }
+
+                    $urlAlias = $child->attribute( 'url_alias' );
                     if ( $addToMenu == true )
                         $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                                  'level' => $i,
+                                                 'url_alias' => "/" . $urlAlias,
                                                  'url' => $url,
                                                  'text' => $name );
                 }
@@ -238,12 +245,20 @@ class eZHiOMenuOperator
                             $map = $tmpObj->attribute( "data_map" );
                             $tmpURL = $map['url']->content();
                             $url = "$tmpURL";
+                            $urlAlias = $url;
                         }
                         else
+                        {
                             $url = "/content/view/full/$tmpNodeID/";
+                            $urlAlias = $child->attribute( 'url_alias' );
+                        }
+
+
+
                         if ( $addToMenu == true  )
                             $pathArray[] = array( 'id' => $tmpNodeID,
                                                   'level' => $i,
+                                                  'url_alias' => "/" . $urlAlias,
                                                   'url' => $url,
                                                   'text' => $name );
                     }

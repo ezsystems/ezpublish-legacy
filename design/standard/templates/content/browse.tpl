@@ -86,6 +86,13 @@
 </tr>
 </table>
 
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/browse/',$main_node.node_id)
+         item_count=$browse_list_count
+         view_parameters=$view_parameters
+         item_limit=10}
+
 
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
 

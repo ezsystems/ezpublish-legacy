@@ -156,11 +156,13 @@ switch( $operationResult['status'] )
             foreach ( $parents as $parent )
             {
                 $path[] = array( 'text' => $parent->attribute( 'name' ),
-                                 'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
+                                 'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                                 'url_alias' => $parent->attribute( 'url_alias' )
                                  );
             }
             $path[] = array( 'text' => $object->attribute( 'name' ),
-                             'url' => false );
+                             'url' => false,
+                             'url_alias' => false);
 
             $Result = array();
             $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
