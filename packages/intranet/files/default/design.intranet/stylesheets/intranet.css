@@ -1,0 +1,161 @@
+/* Intranet demo stylesheet                                    */
+/* This is an additional stylesheet to the default core.css,   */
+/* which needs to be included for this one to be correct.      */
+
+body
+{
+    background-color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-size: 120%;
+    color: #df3902;
+    font-weight: bold;
+}
+
+div.maincontentheader h1
+{
+    margin-top: 2px;
+}
+
+h2
+{
+    font-size: 120%;
+}
+
+h3
+{
+    font-size: 90%;
+}
+
+table.menubox th, table.menubox td
+{
+    font-size: 80%;
+}
+
+img.toplogo
+{
+    margin-top: 8px;
+    margin-left: 9px;
+    margin-bottom: 8px;
+}
+
+td.topline
+{
+    background-repeat: repeat-x;
+}
+
+input.searchbox
+{
+    font-family: Arial, Helvetica, sans-serif;
+    width: 128px;
+    margin: 8px;
+    font-size: 80%;
+}
+
+input.searchbutton
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 70%;
+    font-weight: bold;
+    padding: 0px;
+    color: #333333;
+    background-color: #f5c2b1;
+    border: 1px solid #aa2a00;
+}
+
+div.path
+{
+    margin-top: 4px;
+    margin-left: 8px;
+}
+
+p.path a
+{
+    color: #d13400;
+    text-decoration: none;
+}
+
+p.path a:hover
+{
+    text-decoration: underline;
+}
+
+td.leftmenu, td.rightmenu
+{
+    vertical-align: top;
+    width: 120px;
+}
+
+td.leftmenu
+{
+    padding-left: 8px;
+}
+
+td.rightmenu
+{
+    padding-right: 8px;
+}
+
+td.maincontent
+{
+    width: 100%;
+}
+
+div.menubox
+{
+    border: 1px solid #df3902;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    padding: 2px;
+}
+
+table.menubox
+{
+    border: 1px solid #ffffff;
+    width: 120px;
+}
+
+table.menubox th
+{
+    background-color: #df3902;
+    color: #ffffff;
+    font-weight: bold;
+    margin: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+table.menubox th
+{
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+table.menubox td
+{
+    padding: 4px;
+}
+
+td.menuchoice a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+td.menuchoice a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
