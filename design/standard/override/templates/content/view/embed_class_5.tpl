@@ -1,5 +1,28 @@
-<div class="imagecenter">
-<img src={concat("/var/storage/variations/",$object.data_map.image.content.mime_type_category,"/",$object.data_map.image.content.large.additional_path,$object.data_map.image.content.large.filename)|ezroot} width="{$object.data_map.image.content.large.width}" height="{$object.data_map.image.content.large.height}" border="{$border_size}" /><br />
+{default $attribute_parameters=array()}
+{switch match=$attribute_parameters[0].alignment}
+{case match="left"}
+<div class="imageleft">
+
+<img src="{$attribute_parameters[0].src}" border="{$border_size}" /><br />
 
 {attribute_view_gui attribute=$object.data_map.caption}
 </div>
+{/case}
+{case match="right"}
+<div class="imageright">
+
+<img src="{$attribute_parameters[0].src}" border="{$border_size}" /><br />
+
+{attribute_view_gui attribute=$object.data_map.caption}
+</div>
+{/case}
+{case}
+<div class="imagecenter">
+
+<img src="{$attribute_parameters[0].src}" border="{$border_size}" /><br />
+
+{attribute_view_gui attribute=$object.data_map.caption}
+</div>
+{/case}
+{/switch}
+{/default}

@@ -35,6 +35,7 @@
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
+include_once( "kernel/classes/ezcontentclassattribute.php" );
 $Module =& $Params["Module"];
 $message = 0;
 $userIDNotValid = 0;
