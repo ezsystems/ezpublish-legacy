@@ -19,6 +19,8 @@ eZINI:
   http://ez.no/community/bug_reports/undefined_index_in_objectrelationlisttype
 - Fixed bug of attribute is stored when click on "Discard" button when edit a content object.
   http://ez.no/community/bug_reports/user_account_changes_are_stored_even_when_not_validated
+- Added check for "is_required" in datatype ezobjectrelation.
+  http://ez.no/community/bug_reports/datatype_price_and_objectrelation
 
 *Library:
 

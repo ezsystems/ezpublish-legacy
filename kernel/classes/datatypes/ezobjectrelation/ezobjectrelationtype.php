@@ -64,6 +64,19 @@ class eZObjectRelationType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $postVariableName ) )
+        {
+            $relatedObjectID =& $http->postVariable( $postVariableName );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            if ( $classAttribute->attribute( "is_required" ) and $relatedObjectID == 0 )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Missing objectrelation input.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
