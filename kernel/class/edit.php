@@ -170,7 +170,8 @@ $unvalidatedAttributes = array();
 
 $storeActions = array( "StoreButton",
                        "ApplyButton",
-                       "NewButton");
+                       "NewButton",
+                       "CustomActionButton");
 $validationRequired = false;
 foreach( $storeActions as $storeAction )
 {
