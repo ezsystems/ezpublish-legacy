@@ -122,3 +122,16 @@
 {/section}
 
 </table>
+
+<h2>{"Override templates"|i18n("design/standard/class/edit")}</h2>
+<table class="list" cellspacing="0" cellpadding="0" width="100%">
+<tr><th>{"SiteAccess"|i18n("design/standard/class/edit")}</th><th>{"Override"|i18n("design/standard/class/edit")}</th><th>{"Source template"|i18n("design/standard/class/edit")}</th><th>{"Override template"|i18n("design/standard/class/edit")}</th><th>{"Edit"|i18n("design/standard/class/edit")}</th></tr>
+{let test=fetch( class, override_template_list, hash( class_id, $class.id ) )}
+
+{section loop=$test}
+<tr><td>{$:item.siteaccess}</td><td>{$:item.block}</td><td><a href={concat( "/setup/templateview/", $:item.source )|ezurl}>{$:item.source}</td><td>{$:item.target}</td><td><a href={concat("/setup/templateedit/",$:item.target)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a></td></tr>
+{/section}
+
+{/let}
+</table>
+
