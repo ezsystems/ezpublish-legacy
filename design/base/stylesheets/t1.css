@@ -14,6 +14,7 @@ div#allcontent
 {
     background-color: #fff;
     width: 750px;
+    margin: 0 auto 0 auto;
 }
 
 div#header
@@ -119,6 +120,143 @@ div#sep
    clear: both;
 }
 
+/* Top menu */
+div#topmenu
+{
+    padding: 0;
+    margin: 0;
+}
+
+div#topmenu-design
+{
+    background-color: #336699;
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    vertical-align: middle;
+}
+
+div#topmenu ul
+{
+    padding: 0;
+    margin: 0;
+}
+
+div#topmenu li
+{
+    height: 22px;
+    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-color: #336699;
+    margin: 0;
+    padding: 0;
+    display: block;
+    float: left;
+}
+
+div#topmenu li.selected
+{
+    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-color: #80a7d8;
+}
+
+div#topmenu li.first
+{
+    background-image: none;
+    border-left: none;
+}
+
+div#topmenu li div.spacing
+{
+    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+div#topmenu li a
+{
+    color: #ffffff;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+div#topmenu li.selected div.spacing
+{
+    background-image: url(../images/t1/t1-tab-divider-right.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div#topmenu li.last div.spacing
+{
+    background-image: none;
+}
+
+div#topmenu li.selected a
+{
+    color: #ffffff;
+    font-weight: bold;
+}
+
+div#topmenu li a:hover
+{
+    text-decoration: underline;
+}
+
+div#submenu
+{
+    height: 22px;
+    background-color: #7b92bc;
+}
+
+div#submenu-design
+{
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    vertical-align: middle;
+}
+
+div#submenu ul
+{
+    padding: 0;
+    margin: 0;
+}
+
+div#submenu li
+{
+    margin: 0;
+    display: block;
+    float: left;
+    padding-left: 10px;
+}
+
+div#submenu li.first
+{
+    padding-left: 12px;
+}
+
+div#submenu li a
+{
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#submenu li a:hover
+{
+    text-decoration: underline;
+}
+
+
+/*
+
 div#topmenu
 {
 }
@@ -176,6 +314,8 @@ div#submenu li a
     padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
 }
+
+*/
 
 div#path
 {
@@ -395,9 +535,34 @@ div#footer
     clear: both;
 }
 
+div#footer-design 
+{
+    background-color: #ffffff;
+    color: #003366;
+    font-size: 9px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div#footer-design address
+{
+    font-style: normal;
+}
+
+div#footer-design a
+{
+    text-decoration: none;
+}
+
+div#footer-design a:hover
+{
+    color: #003399;
+}
 
 /* COMMON STYLES SET JUST AS AN EXAMPLE */
 /* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
+/*div#leftmenu-design
 div#footer-design 
 {
     background-color: #ffffff;
@@ -405,7 +570,7 @@ div#footer-design
     padding: 0.5em;
     border: 1px dashed #a0a0a0;
     overflow: visible;
-}
+}*/
 
 div#header-design
 {

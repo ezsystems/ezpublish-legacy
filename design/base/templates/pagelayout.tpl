@@ -101,7 +101,9 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="footer">
 <div id="footer-design">
 
-<address>DevSite: Cut &amp; Paste - Basic development site for eZ publish 3</address>
+<address>Powered by <a href="http://ez.no">eZ publish&reg;&trade; open source content management system</a> and development framework.<br />
+{ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+</address>
 
 </div>
 </div>
