@@ -245,7 +245,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language, '/', $from_language )|ezurl}>
-{section show=and( eq( $version.status, 0 ), $is_creator, $object.can_edit )}
+{section show=$object.can_edit}
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version is not a draft and thus it can not be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
