@@ -123,10 +123,24 @@ class eZDebug
                                                               "name" => "Debug" ),
                                      EZ_LEVEL_TIMING_POINT => array( "color" => "blue",
                                                                      "name" => "Timing" ) );
-        $this->LogFiles = array( EZ_LEVEL_NOTICE => "var/log/notice.log",
-                                 EZ_LEVEL_WARNING => "var/log/warning.log",
-                                 EZ_LEVEL_ERROR => "var/log/error.log",
-                                 EZ_LEVEL_DEBUG => "var/log/debug.log" );
+        $this->LogFiles = array( EZ_LEVEL_NOTICE => array( "var/log/",
+                                                           "notice.log" ),
+                                 EZ_LEVEL_WARNING => array( "var/log/",
+                                                            "warning.log" ),
+                                 EZ_LEVEL_ERROR => array( "var/log/",
+                                                          "error.log" ),
+                                 EZ_LEVEL_DEBUG => array( "var/log/",
+                                                          "debug.log" ) );
+        $this->MessageTypes = array( EZ_LEVEL_NOTICE,
+                                     EZ_LEVEL_WARNING,
+                                     EZ_LEVEL_ERROR,
+                                     EZ_LEVEL_TIMING_POINT,
+                                     EZ_LEVEL_DEBUG );
+        $this->LogFileEnabled = array( EZ_LEVEL_NOTICE => true,
+                                       EZ_LEVEL_WARNING => true,
+                                       EZ_LEVEL_ERROR => true,
+                                       EZ_LEVEL_TIMING_POINT => true,
+                                       EZ_LEVEL_DEBUG => true );
         $this->ShowTypes = EZ_SHOW_ALL;
         $this->HandleType = EZ_HANDLE_NONE;
         $this->OldHandler = false;
@@ -427,6 +441,37 @@ class eZDebug
     }
 
     /*!
+      Adds a new timing point for the benchmark report.
+    */
+    function addTimingPoint( $description = "" )
+    {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
+        if ( !eZDebug::showMessage( EZ_SHOW_TIMING_POINT ) )
+            return;
+        $debug =& eZDebug::instance();
+
+        $time = microtime();
+        $tp = array( "Time" => $time,
+                     "Description" => $description );
+        $debug->TimePoints[] = $tp;
+        $desc = "Timing Point: $description";
+        foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR, EZ_LEVEL_DEBUG ) as $lvl )
+        {
+            if ( $debug->TmpTimePoints[$lvl] === false and
+                 $debug->isLogFileEnabled( $lvl ) )
+            {
+                $files =& $debug->logFiles();
+                $file = $files[$lvl];
+                $debug->writeFile( $file, $desc, $lvl );
+            }
+            else
+                array_push( $debug->TmpTimePoints[$lvl],  $tp );
+        }
+        $debug->write( $description, EZ_LEVEL_TIMING_POINT );
+    }
+
+    /*!
       Writes a debug log message.
     */
     function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="" )
@@ -451,7 +496,7 @@ class eZDebug
             print( "$verbosityLevel: $string ($label)\n" );
         }
         $files =& $this->logFiles();
-        $fileName = "";
+        $fileName = false;
         if ( isset( $files[$verbosityLevel] ) )
             $fileName = $files[$verbosityLevel];
         if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE )
@@ -462,19 +507,28 @@ class eZDebug
                                            "Label" => $label,
                                            "String" => $string );
 
-            if ( $fileName != "" )
+            if ( $fileName !== false )
             {
                 $timePoints = $this->TmpTimePoints[$verbosityLevel];
                 if ( is_array( $timePoints ) )
                 {
-                    foreach ( $timePoints as $tp )
+                    if ( $this->isLogFileEnabled( $verbosityLevel ) )
                     {
-                        $desc = "Timing Point: " . $tp["Description"];
-                        $this->writeFile( $fileName, $desc );
+                        foreach ( $timePoints as $tp )
+                        {
+                            $desc = "Timing Point: " . $tp["Description"];
+                            if ( $this->isLogFileEnabled( $verbosityLevel ) )
+                            {
+                                $this->writeFile( $fileName, $desc, $verbosityLevel );
+                            }
+                        }
                     }
                     $this->TmpTimePoints[$verbosityLevel] = false;
                 }
-                $this->writeFile( $fileName, $string );
+                if ( $this->isLogFileEnabled( $verbosityLevel ) )
+                {
+                    $this->writeFile( $fileName, $string, $verbosityLevel );
+                }
             }
         }
     }
@@ -483,10 +537,22 @@ class eZDebug
      \private
      Writes the log message $string to the file $fileName.
     */
-    function writeFile( &$fileName, &$string )
+    function writeFile( &$logFileData, &$string, $verbosityLevel )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
+        if ( !$this->isLogFileEnabled( $verbosityLevel ) )
+            return;
+        $logDir = $logFileData[0];
+        $logName = $logFileData[1];
+        $fileName = $logDir . $logName;
+        if ( !file_exists( $logDir ) )
+        {
+            include_once( 'lib/ezutils/classes/ezdir.php' );
+            eZDir::mkdir( $logDir, 0775, true );
+        }
+        $oldumask = umask( 0 );
+        $fileExisted = file_exists( $fileName );
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
@@ -494,7 +560,55 @@ class eZDebug
             $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR' ) . "] " . $string . "\n";
             fwrite( $logFile, $notice );
             fclose( $logFile );
+            if ( !$fileExisted )
+                chmod( $fileName, 0664 );
+            umask( $oldumask );
         }
+        else
+        {
+            umask( $oldumask );
+            $logEnabled = $this->isLogFileEnabled( $verbosityLevel );
+            $this->setLogFileEnabled( false, $verbosityLevel );
+            if ( $verbosityLevel != EZ_LEVEL_ERROR or
+                 $logEnabled )
+            {
+                $this->writeError( "Cannot open log file '$fileName' for writing\n" .
+                                   "The web server must be allowed to modify the file.\n" .
+                                   "File logging for '$fileName' is disabled." , 'eZDebug::writeFile' );
+            }
+        }
+    }
+
+    /*!
+     Enables or disables logging to file for a given message type.
+     If \a $types is not supplied it will do the operation for all types.
+    */
+    function setLogFileEnabled( $enabled, $types = false )
+    {
+        if ( $types === false )
+            $types =& $this->messageTypes();
+        if ( !is_array( $types ) )
+            $types = array( $types );
+        foreach ( $types as $type )
+        {
+            $this->LogFileEnabled[$type] = $enabled;
+        }
+    }
+
+    /*!
+     \return true if the message type \a $type has logging to file enabled.
+    */
+    function isLogFileEnabled( $type )
+    {
+        return $this->LogFileEnabled[$type];
+    }
+
+    /*!
+     \return an array with the available message types.
+    */
+    function messageTypes()
+    {
+        return $this->MessageTypes;
     }
 
     /*!
@@ -589,37 +703,6 @@ ezdebug.reload();
                 return $report;
         }
         return null;
-    }
-
-
-    /*!
-      Adds a new timing point for the benchmark report.
-    */
-    function addTimingPoint( $description = "" )
-    {
-        if ( !eZDebug::isDebugEnabled() )
-            return;
-        if ( !eZDebug::showMessage( EZ_SHOW_TIMING_POINT ) )
-            return;
-        $debug =& eZDebug::instance();
-
-        $time = microtime();
-        $tp = array( "Time" => $time,
-                     "Description" => $description );
-        $debug->TimePoints[] = $tp;
-        $desc = "Timing Point: $description";
-        foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR, EZ_LEVEL_DEBUG ) as $lvl )
-        {
-            if ( $debug->TmpTimePoints[$lvl] === false )
-            {
-                $files =& $debug->logFiles();
-                $file = $files[$lvl];
-                $debug->writeFile( $file, $desc );
-            }
-            else
-                array_push( $debug->TmpTimePoints[$lvl],  $tp );
-        }
-        $debug->write( $description, EZ_LEVEL_TIMING_POINT );
     }
 
     /*!
@@ -1050,6 +1133,12 @@ td.timingpoint2
 
     /// Determines how messages are output (screen/log)
     var $MessageOutput;
+
+    /// A list of message types
+    var $MessageTypes;
+
+    /// A map with message types and whether they should do file logging.
+    var $LogFileEnabled;
 
     /// The time when the script was started
     var $ScriptStart;

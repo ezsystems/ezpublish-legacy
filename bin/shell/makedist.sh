@@ -13,7 +13,7 @@ DIST_SRC=`pwd`
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
-FILTER_FILES="settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
+FILTER_FILES="bin/modfix.sh settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
 
 . ./bin/shell/common.sh
 

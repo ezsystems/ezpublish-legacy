@@ -103,7 +103,7 @@ class eZDir
             if ( !eZDir::mkdirRecursive( $new_dir, $perm ) )
                 return false;
         }
-        if ( !eZFile::doMkdir( $dir, $perm ) )
+        if ( !eZDir::doMkdir( $dir, $perm ) )
             return false;
         return true;
     }
