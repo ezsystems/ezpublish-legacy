@@ -1,7 +1,7 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<h3 class="hide">Left menu</h3>
+<h3 class="hide">{"Left menu"|i18n("design/base")}</h3>
 
 {let docs=treemenu( $module_result.path,
                     $module_result.node_id,

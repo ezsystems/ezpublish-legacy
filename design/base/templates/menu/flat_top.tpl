@@ -1,7 +1,7 @@
 <div id="topmenu">
     <div id="topmenu-design">
 
-    <h3 class="hide">Top menu</h3>
+    <h3 class="hide">{"Top menu"|i18n("design/base")}</h3>
 
     {let root_node=fetch( content, node, hash( node_id, 2 ) )
          menuitems=fetch( 'content', 'list', hash( 'parent_node_id', 2,

@@ -129,7 +129,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 <div id="footer">
 <div id="footer-design">
 
-<address>Powered by <a href="http://ez.no">eZ publish&reg;&trade; open source content management system</a> and development framework.<br />
+<address>{"Powered by"|i18n("design/base")} <a href="http://ez.no">{"eZ publish&reg;&trade; open source content management system"|i18n("design/base")} </a> {"and development framework."|i18n("design/base")}<br />
 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 </address>
 

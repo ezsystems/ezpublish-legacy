@@ -10,19 +10,19 @@
     <table cellspacing="0">
     <tr>
 	    <th>
-        {"Quantity"|i18n("design/standard/shop")}
+        {"Quantity"|i18n("design/base/shop")}
         </th>
         <th>
         {"VAT"|i18n("design/standard/shop")}
         </th>
         <th>
-    	{"Price"|i18n("design/standard/shop")}
+    	{"Price"|i18n("design/base/shop")}
         </th>
         <th>
 	    {"Discount"|i18n("design/standard/shop")}
         </th>
         <th>
-     	{"Total Price"|i18n("design/standard/shop")}
+     	{"Total Price"|i18n("design/base/shop")}
         </th>
     </tr>
     {section var=product_item loop=$order.product_items sequence=array(bglight,bgdark)}
@@ -51,7 +51,7 @@
      {section show=$product_item.item.item_object.option_list}
      <tr>
          <td class="{$product_item.sequence}" colspan='4'>
-         Selected options
+         {"Selected options"|i18n("design/standard/shop")}
          {section name=Options loop=$product_item.item_object.option_list}
              {$product_item.name}<br/>
              {$product_item.value}<br/>
@@ -63,7 +63,7 @@
      {/section}
      <tr>
          <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT:"|i18n("design/standard/shop")}
+         {"Subtotal Inc. VAT:"|i18n("design/base/shop")}
          <strong>{$order.product_total_inc_vat|l10n(currency)}</strong>
          </td>
          <td class="product-subtotal">

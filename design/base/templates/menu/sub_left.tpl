@@ -1,7 +1,7 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<h3 class="hide">Left sub menu</h3>
+<h3 class="hide">{"Left sub menu"|i18n("design/base")}</h3>
 
 {section show=and( is_set( $module_result.path[1] ), is_set( $module_result.node_id ) )}
 {let root_node=fetch( content, node, hash( node_id, 2 ) )

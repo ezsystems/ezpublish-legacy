@@ -2,7 +2,7 @@
 <div id="topmenu">
     <div id="topmenu-design">
 
-    <h3 class="hide">Top menu</h3>
+    <h3 class="hide">{"Top menu"|i18n("design/base")}</h3>
 
     {let menuitems=fetch( 'content', 'list', hash( 'parent_node_id', 2,
                                                    'sort_by', $root_node.sort_array ) )}
@@ -31,7 +31,7 @@
 <div id="submenu">
     <div id="submenu-design">
 
-    <h3 class="hide">Sub menu</h3>
+    <h3 class="hide">{"Sub menu"|i18n("design/base")}</h3>
 
     <ul>
         {section var=menu loop=fetch( 'content', 'list', hash( parent_node_id, $module_result.path[1].node_id,
