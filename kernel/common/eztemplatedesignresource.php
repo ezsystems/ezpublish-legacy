@@ -788,11 +788,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $overrideMatchFilePath = false;
             // Find the matching file in the available resources
             $triedFiles = array();
+            $resourceInUse = false;
             foreach ( $resourceArray as $resource )
             {
                 if ( file_exists( $resource . "/" . $overrideMatchFile ) )
                 {
                     $overrideMatchFilePath = $resource . "/" . $overrideMatchFile;
+                    $resourceInUse = $resource;
                 }
                 else
                     $triedFiles[] = $resource . '/' . $overrideMatchFile;
@@ -803,7 +805,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $customMatchArray['match_file'] = $overrideMatchFilePath;
             $customMatchArray['override_name'] = $overrideName;
             $matchFileArray[$overrideSource]['custom_match'][] = $customMatchArray;
-
+            if( $resourceInUse && !isset($matchFileArray[$overrideSource]['base_dir']))
+            {
+                $matchFileArray[$overrideSource]['base_dir'] = $resource;
+                $matchFileArray[$overrideSource]['template'] = $overrideSource;
+            }
             if ( ! $overrideMatchFilePath )
             {
                 eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
