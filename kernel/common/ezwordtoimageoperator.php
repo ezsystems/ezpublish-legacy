@@ -161,9 +161,6 @@ class eZWordToImageOperator
                     }
                 }
 
-                // Whether we append size to path or not
-                $useSize = ( $themeINI->variable( 'IconSettings', 'UseSizeInPath' ) == 'true' );
-
                 $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
                 if ( $ini->hasVariable( 'IconSettings', 'Sizes' ) )
                 {
@@ -230,8 +227,7 @@ class eZWordToImageOperator
                 }
 
                 $iconPath = '/' . $repository . '/' . $theme;
-                if ( $useSize )
-                    $iconPath .= '/' . $size;
+                $iconPath .= '/' . $size;
                 $iconPath .= '/' . $icon;
 
                 $wwwDirPrefix = "";
