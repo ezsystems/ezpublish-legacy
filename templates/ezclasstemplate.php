@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZCodeTemplate class
+// Definition of eZClassTemplate class
 //
 // Created on: <18-Nov-2004 13:03:44 jb>
 //
@@ -35,39 +35,31 @@
 // you.
 //
 
-/*! \file ezcodetemplate.php
+/*! \file ezclasstemplate.php
 */
 
 /*!
-  \class eZCodeTemplate ezcodetemplate.php
+  \class eZClassTemplate ezclasstemplate.php
   \brief Replaces or generates blocks of code according to a template file
 
 */
 
-/// There are errors in the template code
-define( 'EZ_CODE_TEMPLATE_STATUS_FAILED', 0 );
-/// Code files was succesfully updated
-define( 'EZ_CODE_TEMPLATE_STATUS_OK', 1 );
-/// Code file was updated, but no new elements has been added
-define( 'EZ_CODE_TEMPLATE_STATUS_NO_CHANGE', 2 );
-
-class eZCodeTemplate
+class eZClassTemplate
 {
     /*!
      Constructor
     */
-    function eZCodeTemplate()
+    function eZClassTemplate()
     {
         $this->Templates = array();
-        $this->Templates['can-instantiate-class-list'] = array( 'filepath' => 'templates/classcreatelist.ctpl' );
-        $this->Templates['class-list-from-policy'] = array( 'filepath' => 'templates/classlistfrompolicy.ctpl' );
+        $this->Templates['can-instantiate-class-list'] = array( 'filepath' => 'class_templates/classcreatelist.ctpl' );
     }
 
     /*!
       Applies template block in the file \a $filePath and writes back the new
       code to the same file.
 
-      \return One of the EZ_CODE_TEMPLATE_STATUS_* status codes.
+      \return \c true if it file was successfully made.
 
       \note It will create a backup file of the original
     */
@@ -76,18 +68,18 @@ class eZCodeTemplate
         if ( !file_exists( $filePath ) )
         {
             eZDebug::writeError( "File $filePath does not exists",
-                                 'eZCodeTemplate::apply' );
-            return EZ_CODE_TEMPLATE_STATUS_FAILED;
+                                 'eZClassTemplate::apply' );
+            return false;
         }
 
         $text = file_get_contents( $filePath );
-        $tempFile = dirname( $filePath ) . '/#' . basename( $filePath ) . '#';
+        $tempFile = dirname( $filePath ) . '#' . basename( $filePath ) . '#';
         $fd = fopen( $tempFile, 'wb' );
         if ( !$fd )
         {
             eZDebug::writeError( "Failed to open temporary file $tempFile",
-                                 'eZCodeTemplate::apply' );
-            return EZ_CODE_TEMPLATE_STATUS_FAILED;
+                                 'eZClassTemplate::apply' );
+            return false;
         }
 
         $createTag = 'code-template::create-block:';
@@ -136,7 +128,7 @@ class eZCodeTemplate
                 if ( count( $elements ) < 1 )
                 {
                     eZDebug::writeError( "No template name found in file $filePath at offset $offset",
-                                         'eZCodeTemplate::apply' );
+                                         'eZClassTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -148,7 +140,7 @@ class eZCodeTemplate
                 if ( $templateFile === false )
                 {
                     eZDebug::writeError( "No template file for template $templateName used in file $filePath at offset $offset",
-                                         'eZCodeTemplate::apply' );
+                                         'eZClassTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -157,7 +149,7 @@ class eZCodeTemplate
                 if ( !file_exists( $templateFile ) )
                 {
                     eZDebug::writeError( "Template file $templateFile for template $templateName does not exist",
-                                         'eZCodeTemplate::apply' );
+                                         'eZClassTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -173,13 +165,12 @@ class eZCodeTemplate
                 // available blocks in the file
                 $templateText = file_get_contents( $templateFile );
 
-                $tagSplit = '#((?:<|/\*)(?:START|END):code-template::(?:[a-zA-Z]+[a-zA-Z0-9_|&-]*)(?:>|\*/)[\n]?)#';
-                $tagRegexp = '#(?:<|/\*)(START|END):code-template::([a-zA-Z]+[a-zA-Z0-9_|&-]*)[\n]?(?:>|\*/)#';
+                $tagSplit = '#(<(?:START|END):code-template::(?:[a-zA-Z]+[a-zA-Z0-9_-]*)>)#';
+                $tagRegexp = '#<(START|END):code-template::([a-zA-Z]+[a-zA-Z0-9_-]*)>#';
 
                 $split = preg_split( $tagSplit, $templateText, -1, PREG_SPLIT_DELIM_CAPTURE );
 
                 $currentBlocks = array();
-                $blocks = array();
                 $currentTag = false;
                 for ( $i = 0; $i < count( $split ); ++$i )
                 {
@@ -194,7 +185,7 @@ class eZCodeTemplate
                             if ( $matches[1] == 'END' )
                             {
                                 eZDebug::writeError( "Tag $currentTag was finished before it was started, skipping it",
-                                                     'eZCodeTemplate::apply' );
+                                                     'eZClassTemplate::apply' );
                                 $currentTag = false;
                                 $error = true;
                             }
@@ -222,14 +213,14 @@ class eZCodeTemplate
                                 else
                                 {
                                     eZDebug::writeError( "End tag $tag does not match start tag $currentTag, skipping it",
-                                                         'eZCodeTemplate::apply' );
+                                                         'eZClassTemplate::apply' );
                                     $error = true;
                                 }
                             }
                             else
                             {
                                 eZDebug::writeError( "Start tag $tag found while $currentTag is active, skipping it",
-                                                     'eZCodeTemplate::apply' );
+                                                     'eZClassTemplate::apply' );
                                 $error = true;
                             }
                         }
@@ -258,31 +249,9 @@ class eZCodeTemplate
                 {
                     if ( isset( $block['tag'] ) )
                     {
-                        $tagText = $block['tag'];
-                        if ( strpos( $tagText, '&' ) !== false )
+                        if ( in_array( $block['tag'], $parameters ) )
                         {
-                            $tags = explode( '&', $tagText );
-                            // Check if all tags are present in parameters (and match)
-                            if ( count( array_intersect( $parameters, $tags ) ) == count( $tags ) )
-                            {
-                                $resultText .= implode( '', $block['blocks'] );
-                            }
-                        }
-                        else if ( strpos( $tagText, '|' ) !== false )
-                        {
-                            $tags = explode( '|', $tagText );
-                            // Check if at least one tag is present in parameters (or match)
-                            if ( count( array_intersect( $parameters, $tags ) ) == count( $tags ) )
-                            {
-                                $resultText .= implode( '', $block['blocks'] );
-                            }
-                        }
-                        else
-                        {
-                            if ( in_array( $tagText, $parameters ) )
-                            {
-                                $resultText .= implode( '', $block['blocks'] );
-                            }
+                            $resultText .= implode( '', $block['blocks'] );
                         }
                     }
                     else
@@ -302,7 +271,7 @@ class eZCodeTemplate
                 $offset = $end;
 
                 // Remove any existing auto-generated code
-                $autogenRegexp = '#^[ \t]*// code-template::auto-generated:START ' . $templateName . '.+[ \t]*// code-template::auto-generated:END ' . $templateName . '\n#ms';
+                $autogenRegexp = '#^[ \t]*// code-template::auto-generated:START.+[ \t]*// code-template::auto-generated:END\n#ms';
                 $postText = substr( $text, $offset );
                 $postText = preg_replace( $autogenRegexp, '', $postText );
                 $text = substr( $text, 0, $offset ) . $postText;
@@ -316,7 +285,7 @@ class eZCodeTemplate
 
                 fwrite( $fd, $resultText );
                 fwrite( $fd, ( "\n$indentText// This code is automatically generated from $templateFile\n" .
-                               "$indentText// code-template::auto-generated:END $templateName\n" ) );
+                               "$indentText// code-template::auto-generated:END\n" ) );
 
             }
             else
@@ -329,26 +298,16 @@ class eZCodeTemplate
         fclose( $fd );
         if ( !$error )
         {
-            $originalMD5 = md5_file( $filePath );
-            $updatedMD5 = md5_file( $tempFile );
-            if ( $originalMD5 == $updatedMD5 )
-            {
-                unlink( $tempFile );
-                return EZ_CODE_TEMPLATE_STATUS_NO_CHANGE;
-            }
-            else
-            {
-                $backupFile = $filePath . eZSys::backupFilename();
-                // Make a backup and make the temporary file the real one
-                if ( file_exists( $backupFile ) )
-                    unlink( $backupFile );
-                rename( $filePath, $backupFile );
-                rename( $tempFile, $filePath );
-                return EZ_CODE_TEMPLATE_STATUS_OK;
-            }
+            $backupFile = $filePath . eZSys::backupFilename();
+            // Make a backup and make the temporary file the real one
+            if ( file_exists( $backupFile ) )
+                unlink( $backupFile );
+            rename( $filePath, $backupFile );
+            rename( $tempFile, $filePath );
+            return true;
         }
         unlink( $tempFile );
-        return EZ_CODE_TEMPLATE_STATUS_FAILED;
+        return false;
     }
 
     /*!
