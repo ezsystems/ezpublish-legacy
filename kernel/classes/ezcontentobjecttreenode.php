@@ -1624,6 +1624,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
                             $notEqParentString
+                            ezcontentobject_tree.contentobject_is_published = 1 AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id
                             $versionNameJoins
@@ -1648,6 +1649,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $attributeFilterWhereSQL
                            ezcontentclass.version=0 AND
                            $notEqParentString
+                           ezcontentobject_tree.contentobject_is_published = 1 AND
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id
                            $versionNameJoins ";
