@@ -268,35 +268,6 @@ class eZLocale
 
     /*!
      \private
-     Call back function to use with preg_replace_callback to format date/time types.
-    */
-    function __formatCallback($matches)
-    {
-        switch ($this->__formatAction)
-        {
-            case 'datetime': {
-                $formatArray = $this->DateTimePHPArray;
-            } break;
-            case 'date': {
-                $formatArray = $this->DatePHPArray;
-            } break;
-            case 'time': {
-                $formatArray = $this->TimePHPArray;
-            } break;
-        }
-
-        if ( in_array( $matches[0][1], $formatArray ) )
-        {
-            return date( $matches[0][1], $this->__formatDate );
-        }
-        else
-        {
-            return $matches[0];
-        }
-    }
-
-    /*!
-     \private
     */
     function reset()
     {
@@ -953,14 +924,7 @@ class eZLocale
         if ( $time == false )
             $time =& time();
 
-        $timeSlashInputArray = $this->TimeSlashInputArray;
-        $timeSlashOutputArray = $this->TimeSlashOutputArray;
-
-        $fmt = preg_replace( $timeSlashInputArray, $timeSlashOutputArray, $fmt );
-        $this->__formatAction = 'time';
-        $this->__formatDate = $time;
-        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
-
+        $text = date( eZLocale::transformToPHPFormat( $fmt, $this->TimePHPArray ), $time );
         $text = str_replace( array( '%a', '%A' ),
                              array( $this->meridiemName( $time, false ),
                                     $this->meridiemName( $time, true ) ),
@@ -1033,14 +997,7 @@ class eZLocale
         if ( $date === false )
             $date = time();
 
-        $dateSlashInputArray = $this->DateSlashInputArray;
-        $dateSlashOutputArray = $this->DateSlashOutputArray;
-
-        $fmt = preg_replace( $dateSlashInputArray, $dateSlashOutputArray, $fmt );
-        $this->__formatAction = 'date';
-        $this->__formatDate = $date;
-        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
-
+        $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DatePHPArray ), $date );
         $text = str_replace( array( '%D', '%l', '%M', '%F' ),
                              array( $this->shortDayName( date( 'w', $date ) ),
                                     $this->longDayName( date( 'w', $date ) ),
@@ -1060,14 +1017,9 @@ class eZLocale
         if ( $datetime === false )
             $datetime = time();
 
-        $dateTimeSlashInputArray = $this->DateTimeSlashInputArray;
-        $dateTimeSlashOutputArray = $this->DateTimeSlashOutputArray;
-
-        $fmt = preg_replace( $dateTimeSlashInputArray, $dateTimeSlashOutputArray, $fmt );
-        $this->__formatAction = 'datetime';
-        $this->__formatDate = $datetime;
-        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
-
+        $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DateTimePHPArray ), $datetime );
+        // Replace some special 'date' formats that needs to be handled
+        // internally by the i18n system and not by PHP
         $text = str_replace( array( '%D', '%l', '%M', '%F',
                                     '%a', '%A' ),
                              array( $this->shortDayName( date( 'w', $datetime ) ),
@@ -1078,6 +1030,73 @@ class eZLocale
                                     $this->meridiemName( $datetime, true ) ),
                              $text );
         return $text;
+    }
+
+    /*!
+     \private
+     \static
+     Transforms the date/time string \a $fmt into a string that can be
+     passed to the PHP function 'date'.
+     \param $fmt An eZ publish locale format, %x means a 'formatting character' from PHPs 'date' function.
+     \param $allowed An array with characters that are considered allowed 'formatting characters'
+                     Any character not found in this array will be kept intact by escaping it.
+     \sa http://www.php.net/manual/en/function.date.php
+    */
+    function transformToPHPFormat( $fmt, $allowed )
+    {
+        // This goes trough each of the characters in the format
+        // string $fmt, if a valid %x character is found it is replaced
+        // with just x (like date expects).
+        // It will also escape all characters in the range a-z and A-Z
+        // expect does that are valid %x formats.
+        // A special case is formats of the type %%, they will become %
+        $dateFmt = '';
+        $offs = 0;
+        $len = strlen( $fmt );
+        while ( $offs < $len )
+        {
+            $char = $fmt[$offs];
+            if ( $char == '%' )
+            {
+                if ( $offs + 1 < $len )
+                {
+                    $type = $fmt[$offs + 1];
+                    if ( $type == '%' )
+                    {
+                        $dateFmt .= '%';
+                    }
+                    else if ( ( $type >= 'a' and $type <= 'z' ) or
+                              ( $type >= 'A' and $type <= 'Z' ) )
+                    {
+                        // Escape the $type character if it is not in
+                        // the allowed 'format character' list
+                        if ( !in_array( $type, $allowed ) )
+                            $dateFmt .= '%\\';
+                        $dateFmt .= $type;
+                    }
+                    else
+                    {
+                        $dateFmt .= $char . $type;
+                    }
+                    $offs += 2;
+                }
+                else
+                {
+                    $dateFmt .= '\\' . $char;
+                    ++$offs;
+                }
+            }
+            else
+            {
+                // Escape a-zA-Z to avoid PHPs 'date' using them as a 'format character'
+                if ( ( $char >= 'a' and $char <= 'z' ) or
+                     ( $char >= 'A' and $char <= 'Z' ) )
+                    $dateFmt .= '\\';
+                $dateFmt .= $char;
+                ++$offs;
+            }
+        }
+        return $dateFmt;
     }
 
     /*!
@@ -1576,12 +1595,6 @@ class eZLocale
     var $DateArray;
     var $TimePHPArray;
     var $DatePHPArray;
-    //@}
-
-    //@{
-    /// Variables used to pass information to the callback function
-    var $__formatAction;
-    var $__formatDate;
     //@}
 
     //@{
