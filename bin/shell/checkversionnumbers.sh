@@ -88,6 +88,16 @@ if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+if ! grep "VERSION_STABLE=\"$LAST_STABLE\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Stable version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STABLE"
+    echo "Should be:"
+    echo "VERSION_STABLE=\"`$SETCOLOR_EMPHASIZE`$LAST_STABLE`$SETCOLOR_NORMAL`\""
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
 if ! grep "VERSION_STATE=\"$STATE\"" bin/shell/common.sh &>/dev/null; then
     echo "`$SETCOLOR_FAILURE`Version state mismatch`$SETCOLOR_NORMAL`"
     echo "Wrong version state in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STATE"

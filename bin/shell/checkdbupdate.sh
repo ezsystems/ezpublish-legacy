@@ -3,11 +3,15 @@
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 
-DEVELOPMENT="false"
-[ -n $VERSION_STATE ] && DEVELOPMENT="true"
+#DEVELOPMENT="false"
+#if [ -n $VERSION_STATE ]; then
+#    DEVELOPMENT="true"
+#fi
 
 SUBPATH=""
-[ "$DEVELOPMENT" == "true" ] && SUBPATH="unstable/"
+if [ "$DEVELOPMENT" == "true" ]; then
+    SUBPATH="unstable/"
+fi
 
 # Check parameters
 for arg in $*; do
@@ -56,8 +60,17 @@ if [ -z "$DATABASE_NAME" ]; then
 fi
 
 DEST="/tmp/ez-$USER"
-SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION"
-PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION_PREVIOUS"
+
+if [ "$VERSION" == "$VERSION_ONLY"".0" ]; then
+    to="$VERSION"
+    from="$VERSION_STABLE"
+else
+    to="$VERSION"
+    from="$VERSION_PREVIOUS"
+fi
+
+SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$to"
+PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$from"
 
 [ -d "$DEST" ] || mkdir "$DEST"
 
@@ -95,7 +108,7 @@ if [ "$DB_TYPE" == "mysql" ]; then
 
     rm -rf "$DEST/mysql"
 
-    dbupdatefile="update/database/mysql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$VERSION_PREVIOUS""-to-""$VERSION"".sql"
+    dbupdatefile="update/database/mysql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
     echo -n " `$POSITION_STORE`Updating"
     mysql -uroot "$DATABASE_NAME" < "$dbupdatefile"
     if [ $? -ne 0 ]; then
@@ -158,7 +171,7 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 
     rm -rf "$DEST/postgresql"
 
-    dbupdatefile="update/database/postgresql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$VERSION_PREVIOUS""-to-""$VERSION"".sql"
+    dbupdatefile="update/database/postgresql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
     echo -n " `$POSITION_STORE`Updating"
     psql "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
