@@ -36,16 +36,14 @@
 
 
 /*
- 
+
 Here a short todo list (more or less in order of importance):
-    - use internationalization    
-    - more tests: 
+    - more tests (these are not trivial):
         + critical combinations (winxp + php_isapi + ezsession = crash)
         + redhat: multipart/form-data
+    - use internationalization
     - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
     - create classes (?)
-    - installation of demo data
-    - register email to ez systems
     - download of ez publish by php script
     - upgrade option
 
@@ -76,7 +74,7 @@ $http =& eZHttpTool::instance();
 if ( $http->hasVariable( "nextStep" ) )
     $step = $http->postVariable( "nextStep" );
 else
-    $step = 1; 
+    $step = 1;
 
 
 // Some common variables for all steps
@@ -106,5 +104,6 @@ else
 eZDebug::addTimingPoint( "End" );
 
 print( eZDisplayDebug() );
-exit;
+require_once( "lib/ezutils/classes/ezexecution.php" );
+eZExecution::cleanExit();
 ?>

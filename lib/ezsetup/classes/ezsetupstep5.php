@@ -66,7 +66,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		$sendEmail = true;
 	else
 		$sendEmail = false;
-    
+
     // Set values in ini
     $ini->setVariable( "SiteSettings", "SiteName", $siteName );
     $ini->setVariable( "SiteSettings", "SiteURL", $siteURL );
@@ -76,7 +76,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
     $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
-                        
+
 	// Set values in i18n ini
 	$i18n = eZIni::instance( "i18n.ini", "" );
 	$i18n->setVariable( "CharacterSettings", "Charset", $siteCharset );
@@ -86,13 +86,30 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		$mbstring = "disabled";
 	$i18n->setVariable( "CharacterSettings", "MBStringExtension", $mbstring );
 	$savingStatus = writeIni( $i18n );
-    
+
+
+    // TODO: this is a first start. The rules of image.ini are a problem because they have the same key.
+    //       dont know how to read and write several rules then.
+    /*
+    // Set values in image.ini
+    $imageIni = eZIni::instance( "image.ini" );
+    if ( $testItems["libgd"]["pass"] === true )
+        $imageIni->setVariable( "ConverterSettings", "UseGD", "true" );
+    else
+        $imageIni->setVariable( "ConverterSettings", "UseGD", "false" );
+
+    if ( $testItems["imagemagick"]["pass"] === true )
+        $imageIni->setVariable( "ConverterSettings", "UseConvert", "true" );
+    else
+        $imageIni->setVariable( "ConverterSettings", "UseConvert", "false" );
+    */
+
 	// Write ini file
 	if ( $savingStatus )
 	    $savingStatus = writeIni( $ini );
 	else
 		$errorMessage = "unsuccessful (i18n.ini writing)!";
-	
+
     if ( $savingStatus )
     {
         $tpl->setVariable( "configWrite", "successful" );
@@ -145,13 +162,13 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		$body .= "\n\n";
 		$body .= "Comments:\n";
 		$body .= "\"" . $http->postVariable( "comment" ) . "\"\n";
-		
+
 		$email->setBody( $body );
 		$email->send();
 	}
-    
+
     // Show template
-    $tpl->display( "design/standard/templates/setup/step5.tpl" );    
+    $tpl->display( "design/standard/templates/setup/step5.tpl" );
 }
 
 
@@ -173,7 +190,7 @@ function writeIni( $iniLocal )
 
 	// Create the proper path
     $filePath = eZSys::siteDir() . $iniLocal->rootDir() . "/" . $iniLocal->FileName;
-	
+
 	//Backup file
 	$backup = backupFile( $filePath );
     if ( $backup )
@@ -207,11 +224,11 @@ function backupFile( $filePath )
             $ext = ".b$i.php";
         $i++;
     }
-    
+
 	// Backup the file with the right extension
 	if ( file_exists( $filePath . ".php" ) )
 	{
-        $backup = rename( $filePath . ".php", $filePath . $ext ); 
+        $backup = rename( $filePath . ".php", $filePath . $ext );
 		return $backup;
 	}
 	else

@@ -71,16 +71,8 @@ function eZSetupStep( &$tpl, &$http )
 	else
 		$dbParams["delete_tables"]= false;
 
-
-	// Go back to step 2, if create_pass != create_pass2
-	if ( $dbParams["create_pass"] != $dbParams["create_pass2"] )
-	{
-		$tpl->setVariable( "step", "2" );
-		$tpl->setVariable( "nextStep", "3" );
-		include_once( "lib/ezsetup/classes/ezsetupstep2.php" );
-		step( $tpl, $http );
-		return;
-	}
+    // Our switch to see if tests were successful
+    $continue = true;
 
     // Set template variables
     $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
@@ -101,14 +93,24 @@ function eZSetupStep( &$tpl, &$http )
     $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );
 
     // The different sections
+	$tpl->setVariable( "connectDb", false );
 	$tpl->setVariable( "unpackDemo", false );
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
     $tpl->setVariable( "createUser", false );
     $tpl->setVariable( "deleteTables", false );
 
-    // Only continue, if we are successful
-    $continue = true;
+	// Go back to step 2, if create_pass != create_pass2
+	if ( $dbParams["create_pass"] != $dbParams["create_pass2"] )
+    {
+		$error["desc"] = "The passwords for the user that you want to create are not the same. ";
+		$error["suggest"] = "Please go back and make sure that you type in the same password.";
+        $continue = false;
+	}
+	else
+	{
+	    $tpl->setVariable( "connectDb", true );
+	}
 
 	// Switch if should install demo data or not.
 	if ( $http->hasVariable( "unpackDemo" ) && $http->postVariable( "unpackDemo" ) == "true" )
@@ -116,7 +118,7 @@ function eZSetupStep( &$tpl, &$http )
 	else
 		$unpackDemo = false;
 
-	if ( $unpackDemo )
+	if ( $continue && $unpackDemo )
 	{
 		$tpl->setVariable( "unpackDemo", true );
 
@@ -160,7 +162,7 @@ function eZSetupStep( &$tpl, &$http )
 		// Create a database object.
 		$dbObject = new $dbModule( $dbParams );
 
-		// TODO: The error number thing is no goooood!
+		// TODO: The error number thing is noooo goooood!
 		if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
 		{
 			$tpl->setVariable( "dbConnect", "unsuccessful." );
@@ -218,7 +220,7 @@ function eZSetupStep( &$tpl, &$http )
 			$dbObject->OutputSQL = false;
 			while( $i < count( $sqlResult ) )
 			{
-				$sqlQuery = "DROP TABLE " . $sqlResult[$i][0];
+				$sqlQuery = "DROP TABLE '" . $sqlResult[$i][0] . "'";
 				$dbObject->query( $sqlQuery );
 				if ( $dbObject->errorNumber() != 0 )
 				{
@@ -257,8 +259,8 @@ function eZSetupStep( &$tpl, &$http )
 		$dbParams["user"] = $dbParams["create_user"];
 		$dbParams["password"] = $dbParams["create_pass"];
 
-		// Try to create user TODO: Does this work on other databases?
-		$sqlQuery = "grant all on ". $dbParams["database"] . ".* to " . $dbParams["user"] . "@localhost identified by \"" . $dbParams["password"] . "\"";
+		// Try to create user TODO: Does this work on other databases? Is this safe enough?
+		$sqlQuery = "grant all on ". $dbObject->escapeString( $dbParams["database"] ). ".* to " . $dbObject->escapeString( $dbParams["user"] ). "@localhost identified by '" . $dbObject->escapeString( $dbParams["password"] ). "'";
 		$dbObject->OutputSQL = false;
 		$dbObject->query( $sqlQuery );
 		$dbObject->OutputSQL = true;

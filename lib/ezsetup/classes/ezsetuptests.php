@@ -149,7 +149,7 @@ function testProgram( $parameters )
 		$searchPaths = preg_split( "/;/", $searchPaths );
 
 	$pass = false;
-	$status = "not found";
+	$status = false;
 	foreach( $searchPaths as $path )
 	{
 		$pathProgram = $path . "/" . $program;

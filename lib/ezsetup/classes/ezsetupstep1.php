@@ -49,6 +49,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 
 	// Some variables which we need for the testing of the databases
 	$dbAvailable = false;
+	$imgAvailable = false;
 	$databaseArray = array();
 	$handoverResult = array();
 
@@ -70,6 +71,16 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 				$dbAvailable = true;
 		}
 
+		// TODO: still problems with image.ini rules= so leaving it out for now
+		// Fill the image array to see later if we have an image library or imagemagick
+        /*
+		if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "image" )
+        {
+		    $imageArray[$key] =& $testItems[$key];
+		    if ( $resultArray[$key]["pass"] == true )
+		        $imgAvailable = true;
+		}
+        */
 
         // Don't continue if we had a fatal error
 		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
@@ -95,6 +106,18 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		}
 	}
 
+    // TODO: see todo above
+    /*
+    // Do the same for the image converters
+    if ( $imgAvailable )
+    {
+        foreach(  array_keys( $imageArray ) as $key)
+		{
+			if ( $resultArray[$key]["pass"] == false )
+				$imageArray[$key]["req"] = false;
+		}
+    }
+    */
 
 	// Loop over items for output
 	// Notice: Separate loop to keep first loop simpler.
