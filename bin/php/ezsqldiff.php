@@ -49,8 +49,8 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL diff\n\
 
 $script->startup();
 
-$options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password:]" .
-                                "[match-type:][match-host:][match-user:][match-password:]" .
+$options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password;]" .
+                                "[match-type:][match-host:][match-user:][match-password;]" .
                                 "[t:|type:][host:][u:|user:][p:|password:]" .
                                 "[reverse][check-only]",
                                 "[source][match]",
@@ -92,12 +92,17 @@ $sourceDBUser = $options['source-user'] ? $options['source-user'] : $options['us
 $sourceDBPassword = $options['source-password'] ? $options['source-password'] : $options['password'];
 $sourceDB = $options['arguments'][0];
 
+if( !is_string( $sourceDBPassword ) )
+    $sourceDBPassword = '';
+
 $matchType = $options['match-type'] ? $options['match-type'] : $options['type'];
 $matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];
 $matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];
 $matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];
 $matchDB = $options['arguments'][1];
 
+if ( !is_string( $matchDBPassword ) )
+    $matchDBPassword = '';
 
 if ( strlen( trim( $sourceType ) ) == 0)
 {

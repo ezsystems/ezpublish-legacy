@@ -73,6 +73,7 @@ Datatype:
   changing anything.
 - Fixed bug of no warning messages shows when xml data are not valid.
   http://ez.no/community/bug_reports/xml_field_validation_trouble
+- Fixed bug: ezsqldiff.php did not accept empty db user passwords.
 
 *Library:
 
