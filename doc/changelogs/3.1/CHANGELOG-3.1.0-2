@@ -9,6 +9,8 @@ Changes from 3.1.0-1 to 3.1
 - Added missing tables to mysql kernel_schema.sql ezkeyword and ezkeyword_attribute_link.
 - Added removeKey function to the eZTemplateDesignResource class
 - Fixed override by classification ( class attribute on tags )
+- Fixed bug in override system which would cause override files to not be used if no
+  design keys were set (for instance from shop/basket).
 
 *Library :
 eZ xml:
