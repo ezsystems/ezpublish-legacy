@@ -400,6 +400,212 @@ class eZCLI
         return !$this->IsQuiet;
     }
 
+    function parseOptionString( $configString )
+    {
+        $len = strlen( $configString );
+        $i = 0;
+        $optionConfig = array( 'list' => array(),
+                               'short' => array(),
+                               'long' => array() );
+        while ( $i < $len )
+        {
+            $option = $configString[$i];
+            if ( $option == '[' )
+            {
+                $end = strpos( $configString, ']', $i + 1 );
+                if ( $end === false )
+                {
+                    eZDebug::writeError( "Missing end marker ] in option string at position $i",
+                                         'eZCLI::parseOptionString' );
+                    return $optionConfig;
+                }
+                $optionList = substr( $configString, $i + 1, $end - $i - 1 );
+                $i += 1 + ( $end - $i );
+                $end = strpos( $optionList, '[' );
+                if ( $end !== false )
+                {
+                    eZDebug::writeError( "Start marker [ found in option string at position, it should not be present. Skipping current option" . ( $i + 1 + $end ),
+                                         'eZCLI::parseOptionString' );
+                    continue;
+                }
+                $optionList = explode( '|', $optionList );
+            }
+            else
+            {
+                $text = $option;
+                ++$i;
+                if ( $i < $len and
+                     in_array( $configString[$i], array( ':', ';' ) ) )
+                {
+                    $text .= $configString[$i];
+                    ++$i;
+                }
+                $optionList = array( $text );
+            }
+            $optionStoreName = false;
+            unset( $optionConfigList );
+            $optionConfigList = array();
+            foreach ( $optionList as $optionItem )
+            {
+                $optionLen = strlen( $optionItem );
+                $hasValue = false;
+                $optionName = $optionItem;
+                if ( $optionLen > 0 and $optionItem[$optionLen - 1] == ':' )
+                {
+                    $hasValue = true;
+                    $optionName = substr( $optionItem, 0, $optionLen - 1 );
+                }
+                else if ( $optionLen > 0 and $optionItem[$optionLen - 1] == ';' )
+                {
+                    $hasValue = 'optional';
+                    $optionName = substr( $optionItem, 0, $optionLen - 1 );
+                }
+                $optionLen = strlen( $optionName );
+                if ( $optionLen == 0 )
+                    continue;
+                $optionStoreName = $optionName;
+                $optionConfigItem = array( 'name' => $optionName,
+                                           'has-value' => $hasValue,
+                                           'store-name' => false,
+                                           'is-long-option' => strlen( $optionName ) > 1 );
+                $optionConfigList[] = $optionConfigItem;
+            }
+            foreach ( array_keys( $optionConfigList ) as $optionConfigItemKey )
+            {
+                $optionConfigItem =& $optionConfigList[$optionConfigItemKey];
+                $optionName = $optionConfigItem['name'];
+                $optionConfigItem['store-name'] = $optionStoreName;
+                $optionConfig['list'][] = $optionConfigItem;
+                if ( $optionConfigItem['is-long-option'] )
+                    $optionConfig['long'][$optionName] = $optionConfigItem;
+                else
+                    $optionConfig['short'][$optionName] = $optionConfigItem;
+            }
+        }
+        return $optionConfig;
+    }
+
+    function getOptions( $config, $arguments = false )
+    {
+        if ( $arguments === false )
+        {
+            $arguments = $GLOBALS['argv'];
+            $program = $arguments[0];
+            array_shift( $arguments );
+        }
+
+        if ( isset( $this ) and get_class( $this ) == 'ezcli' )
+            $cli =& $this;
+        else
+            $cli =& eZCLI::instance();
+
+        if ( is_string( $config ) )
+            $config = eZCLI::parseOptionString( $config );
+
+        $options = array();
+
+        $helpOption = false;
+        $helpText = false;
+        if ( isset( $config['short']['h'] ) )
+            $helpOption = '-h';
+        else if ( isset( $config['short']['help'] ) )
+            $helpOption = '--help';
+        if ( $helpOption )
+            $helpText = "\n" . "Try `$program $helpOption' for more information.";
+
+        $argumentCount = count( $arguments );
+        for ( $i = 0; $i < $argumentCount; ++$i )
+        {
+            $argument = $arguments[$i];
+            $argumentLen = strlen( $argument );
+            if ( $argumentLen > 1 and
+                 $argument[0] == '-' )
+            {
+                $argumentValue = false;
+                if ( $argumentLen > 2 and
+                     $argument[1] == '-' )
+                {
+                    $optionName = substr( $argument, 2 );
+                    $assignPosition = strpos( $optionName, '=' );
+                    if ( $assignPosition !== false )
+                    {
+                        $argumentValue = substr( $optionName, $assignPosition + 1 );
+                        $optionName = substr( $optionName, 0, $assignPosition );
+                    }
+                    $optionType = 'long';
+                    $optionPrefix = '--';
+                    $checkNext = false;
+                }
+                else
+                {
+                    $optionName = $argument[1];
+                    if ( $argumentLen > 2 )
+                    {
+                        $argumentValue = substr( $argument, 2 );
+                    }
+                    $optionType = 'short';
+                    $optionPrefix = '-';
+                    $checkNext = true;
+                }
+                $configItem =& $config[$optionType][$optionName];
+                if ( isset( $configItem ) )
+                {
+                    $value = true;
+                    if ( $configItem['has-value'] )
+                    {
+                        $hasArgumentValue = false;
+                        if ( $argumentValue !== false )
+                        {
+                            $value = $argumentValue;
+                        }
+                        else if ( $checkNext )
+                        {
+                            ++$i;
+                            if ( $i < $argumentCount )
+                            {
+                                $hasArgumentValue = true;
+                            }
+                            else
+                            {
+                                --$i;
+                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
+                                return false;
+                            }
+                            if ( $hasArgumentValue )
+                                $value = $arguments[$i];
+                        }
+                        else
+                        {
+                            if ( $configItem['has-value'] !== 'optional' )
+                            {
+                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
+                                return false;
+                            }
+                        }
+                    }
+                    $optionStoreName = $configItem['store-name'];
+                    if ( !$optionStoreName )
+                        $optionStoreName = $optionName;
+                    $options[$optionStoreName] = $value;
+                }
+                else
+                {
+                    $cli->error( "$program: invalid option `$optionPrefix$optionName'" . $helpText );
+                }
+            }
+            else
+            {
+            }
+        }
+        foreach ( $config['list'] as $configItem )
+        {
+            $optionStoreName = $configItem['store-name'];
+            if ( $optionStoreName and !isset( $options[$optionStoreName] ) )
+                $options[$optionStoreName] = null;
+        }
+        return $options;
+    }
+
     /*!
      \return the unique instance for the cli class.
     */
