@@ -51,6 +51,7 @@ define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
 define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
 define( 'EZ_PHPCREATOR_INCLUDE', 7 );
 define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
+define( 'EZ_PHPCREATOR_DEFINE', 9 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
@@ -175,7 +176,11 @@ class eZPHPCreator
             for ( $i = 0; $i < $count; ++$i )
             {
                 $element =& $this->Elements[$i];
-                if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
+                if ( $element[0] == EZ_PHPCREATOR_DEFINE )
+                {
+                    $this->writeDefine( $element );
+                }
+                else if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
                 {
                     $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
                 }
@@ -249,26 +254,53 @@ class eZPHPCreator
         $this->TextChunks[] = $text;
     }
 
+    function writeDefine( $element )
+    {
+        $name = $element[1];
+        $value = $element[2];
+        $caseSensitive = $element[3];
+        $parameters = $element[4];
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
+        $text = str_repeat( ' ', $spacing );
+        $nameText = $this->variableText( $name, 0 );
+        $valueText = $this->variableText( $value, 0 );
+        $text .= "define( $nameText, $valueText";
+        if ( !$caseSensitive )
+            $text .= ", true";
+        $text .= " );\n";
+        $this->write( $text );
+    }
+
     function writeInclude( $element )
     {
         $includeFile = $element[1];
         $includeType = $element[2];
+        $parameters = $element[3];
         if ( $includeType == EZ_PHPCREATOR_INCLUDE_ONCE )
             $includeName = 'include_once';
         else if ( $includeType == EZ_PHPCREATOR_INCLUDE_ALWAYS )
             $includeName = 'include';
         $includeFileText = $this->variableText( $includeFile, 0 );
         $text = "$includeName( $includeFileText );\n";
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
+        $text = str_repeat( ' ', $spacing ) . $text;
         $this->write( $text );
     }
 
     function writeComment( $element )
     {
         $elementAttributes = $element[2];
+        $spacing = 0;
+        if ( isset( $elementAttributes['spacing'] ) )
+            $spacing = $elementAttributes['spacing'];
         $whitespaceHandling = $elementAttributes['whitespace-handling'];
         $eol = $elementAttributes['eol'];
+        $newCommentArray = array();
         $commentArray = explode( "\n", $element[1] );
-        $text = '';
         foreach ( $commentArray as $comment )
         {
             $textLine = '// ' . $comment;
@@ -277,8 +309,12 @@ class eZPHPCreator
                 $textLine = rtrim( $textLine );
                 $textLine = str_replace( "\t", '    ', $textLine );
             }
-            $text .= $textLine . "\n";
+            $textLine = str_repeat( ' ', $spacing ) . $textLine;
+            $newCommentArray[] = $textLine;
         }
+        $text = implode( "\n", $newCommentArray );
+        if ( $eol )
+            $text .= "\n";
         $this->write( $text );
     }
 
@@ -291,7 +327,22 @@ class eZPHPCreator
     function writeCodePiece( $element )
     {
         $code = $element[1];
-        $this->write( $code );
+        $parameters = $element[2];
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
+        $codeArray = explode( "\n", $code );
+        $newCodeArray = array();
+        foreach ( $codeArray as $code )
+        {
+            if ( trim( $code ) == '' )
+                $codeLine = $code;
+            else
+                $codeLine = str_repeat( ' ', $spacing ) . $code;
+            $newCodeArray[] = $codeLine;
+        }
+        $text = implode( "\n", $newCodeArray );
+        $this->write( $text );
     }
 
     function writeText( $element )
@@ -350,10 +401,12 @@ class eZPHPCreator
     function writeVariable( $variableName, $variableValue, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                             $variableParameters = array() )
     {
-        $variableParameters = array_merge( array( 'full-tree' => false ),
+        $variableParameters = array_merge( array( 'full-tree' => false,
+                                                  'spacing' => 0 ),
                                            $variableParameters );
         $fullTree = $variableParameters['full-tree'];
-        $text = $this->variableNameText( $variableName, $assignmentType, $variableParameters );
+        $spacing = $variableParameters['spacing'];
+        $text = str_repeat( ' ', $spacing ) . $this->variableNameText( $variableName, $assignmentType, $variableParameters );
         $maxIterations = 2;
         if ( $fullTree )
             $maxIterations = false;
@@ -389,7 +442,7 @@ class eZPHPCreator
         return $text;
     }
 
-    function variableText( $value, $column, $iteration = 0, $maxIterations = 2 )
+    function variableText( $value, $column = 0, $iteration = 0, $maxIterations = 2 )
     {
         if ( is_bool( $value ) )
             $text = ( $value ? 'true' : 'false' );
@@ -523,6 +576,16 @@ class eZPHPCreator
         return $variableName;
     }
 
+    function addDefine( $name, $value, $caseSensitive = true, $parameters = array() )
+    {
+        $element = array( EZ_PHPCREATOR_DEFINE,
+                          $name,
+                          $value,
+                          $caseSensitive,
+                          $parameters );
+        $this->Elements[] = $element;
+    }
+
     function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                           $parameters = array() )
     {
@@ -567,27 +630,30 @@ class eZPHPCreator
         $this->Elements[] = $element;
     }
 
-    function addCodePiece( $code )
+    function addCodePiece( $code, $parameters = array() )
     {
         $element = array( EZ_PHPCREATOR_CODE_PIECE,
-                          $code );
+                          $code,
+                          $parameters );
         $this->Elements[] = $element;
     }
 
-    function addComment( $comment, $eol = true, $whitespaceHandling = true )
+    function addComment( $comment, $eol = true, $whitespaceHandling = true, $parameters = array() )
     {
         $element = array( EZ_PHPCREATOR_EOL_COMMENT,
                           $comment,
-                          array( 'eol' => $eol,
-                                 'whitespace-handling' => $whitespaceHandling ) );
+                          array_merge( $parameters,
+                                       array( 'eol' => $eol,
+                                              'whitespace-handling' => $whitespaceHandling ) ) );
         $this->Elements[] = $element;
     }
 
-    function addInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
+    function addInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE, $parameters = array() )
     {
         $element = array( EZ_PHPCREATOR_INCLUDE,
                           $file,
-                          $type );
+                          $type,
+                          $parameters );
         $this->Elements[] = $element;
     }
 
