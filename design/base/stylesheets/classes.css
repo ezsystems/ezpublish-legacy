@@ -289,9 +289,10 @@ div.object-left
 
 div.object-center
 { 
-    float: center;
+/*    float: center;*/
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 
 div.factbox h3
