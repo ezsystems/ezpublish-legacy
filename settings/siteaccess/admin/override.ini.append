@@ -10,176 +10,164 @@ Match[navigation_part_identifier]=ezmedianavigationpart
 Source=node/view/browse_thumbnail.tpl
 MatchFile=image_browse_thumbnail.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [browse_thumbnail_folder]
 Source=node/view/browse_thumbnail.tpl
 MatchFile=folder_browse_thumbnail.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
 [media_folder]
 Source=node/view/full.tpl
 MatchFile=media_folder.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 Match[navigation_part_identifier]=ezmedianavigationpart
 
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
 [thumbnail_folder]
 Source=node/view/thumbnail.tpl
 MatchFile=folder_thumbnail.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
 [folder_plain]
 Source=node/view/plain.tpl
 MatchFile=folder_plain.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
 [article]
 Source=node/view/full.tpl
 MatchFile=article.tpl
 Subdir=templates
-Match[class]=2
+Match[class_identifier]=article
 
 [article_plain]
 Source=node/view/plain.tpl
 MatchFile=article_plain.tpl
 Subdir=templates
-Match[class]=2
+Match[class_identifier]=article
 
 [user_group]
 Source=node/view/full.tpl
 MatchFile=user_group.tpl
 Subdir=templates
-Match[class]=3
+Match[class_identifier]=user_group
 
 [user_group_plain]
 Source=node/view/plain.tpl
 MatchFile=user_group_plain.tpl
 Subdir=templates
-Match[class]=3
+Match[class_identifier]=user_group
 
 [user]
 Source=node/view/full.tpl
 MatchFile=user.tpl
 Subdir=templates
-Match[class]=4
+Match[class_identifier]=user
 
 [user_plain]
 Source=node/view/plain.tpl
 MatchFile=user_plain.tpl
 Subdir=templates
-Match[class]=4
+Match[class_identifier]=user
 
 [forum]
 Source=node/view/full.tpl
 MatchFile=forum.tpl
 Subdir=templates
-Match[class]=6
+Match[class_identifier]=forum
 
 [forum_plain]
 Source=node/view/plain.tpl
 MatchFile=forum_plain.tpl
 Subdir=templates
-Match[class]=6
-
-[forum_message]
-Source=node/view/full.tpl
-MatchFile=forum_message.tpl
-Subdir=templates
-Match[class]=7
+Match[class_identifier]=forum
 
 [product]
 Source=node/view/full.tpl
 MatchFile=product.tpl
 Subdir=templates
-Match[class]=8
+Match[class_identifier]=product
 
 [product_plain]
 Source=node/view/plain.tpl
 MatchFile=product_plain.tpl
 Subdir=templates
-Match[class]=8
-
-[product_review]
-Source=node/view/full.tpl
-MatchFile=product_review.tpl
-Subdir=templates
-Match[class]=9
-
-[info_page]
-Source=node/view/full.tpl
-MatchFile=info_page.tpl
-Subdir=templates
-Match[class]=10
-
-[info_page_plain]
-Source=node/view/plain.tpl
-MatchFile=info_page_plain.tpl
-Subdir=templates
-Match[class]=10
+Match[class_identifier]=product
 
 [file]
 Source=node/view/full.tpl
 MatchFile=file.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
 
 [file_plain]
 Source=node/view/plain.tpl
 MatchFile=file_plain.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
 
 [comment]
 Source=node/view/full.tpl
 MatchFile=comment.tpl
 Subdir=templates
-Match[class]=13
+Match[class_identifier]=comment
 
 [linkclass]
 Source=node/view/full.tpl
 MatchFile=linkclass.tpl
 Subdir=templates
-Match[class]=11
+Match[class_identifier]=link
+
+[person]
+Source=node/view/full.tpl
+MatchFile=person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[company]
+Source=node/view/full.tpl
+MatchFile=company.tpl
+Subdir=templates
+Match[class_identifier]=company
 
 [embed_image]
 Source=content/view/embed.tpl
 MatchFile=embed_image.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [text_linked_image]
 Source=content/view/text_linked.tpl
 MatchFile=text_linked_image.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [thumbnail_image]
 Source=node/view/thumbnail.tpl
 MatchFile=image_thumbnail.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [image_plain]
 Source=node/view/plain.tpl
 MatchFile=image_plain.tpl
 Subdir=templates
-Match[class]=5
+Match[class_identifier]=image
 
 [edit_common_ini_settings]
 Source=content/edit.tpl
@@ -202,6 +190,24 @@ Match[class_identifier]=person
 [edit_company_datatype_matrix]
 Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=edit_datatype_ezmatrix.tpl
+Subdir=templates
+Match[class_identifier]=company
+
+[matrix_person_view]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=matrix_view.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[matrix_person_view]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=matrix_view.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[matrix_company_view]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=matrix_view.tpl
 Subdir=templates
 Match[class_identifier]=company
 
