@@ -1,0 +1,31 @@
+*Title: Move out node assignment handling from content/edit
+
+Incentive:
+By not having the node assignment list in content/edit you will gain more space for other
+more important elements. This will also allow nodes placements to be handled outside of content/edit.
+
+*Documentation:
+A new INI switch is added which will enabled/disable the controls in content/edit. It can be
+enabled for backwards compatability.
+
+The node handling is now moved out to the navigation interface.
+
+New global template variables:
+
+New global HTTP variables:
+UseNodeAssigments - This is set when the controls are disabled and set to the value '0'
+                    If '0' the edit code will skip all node handling.
+
+New INI variables:
+content.ini:
+[EditSettings]
+EmbedNodeAssignmentHandling - Controls the inclusion of node assignment handling controls in content/edit
+                              'enabled' to enable, 'disabled' to disable.
+                              If disabled these template variables will no longer be available:
+                              assigned_node_array, assigned_remote_map, published_node_array and main_node_id.
+
+
+*Testing:
+
+*SVN Revisions:
+

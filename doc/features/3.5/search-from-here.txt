@@ -1,0 +1,31 @@
+*Title: Search from here
+
+Incentive:
+Has been requested by lots of people from the community.
+See Workshop notes: http://ez.no/community/news/workshop_notes
+
+*Documentation:
+The search toolbar has been extended, it will now give the user a choice to search from the current
+location or globally (like before).
+
+New tool settings:
+relative_check:  'yes' or 'no'
+
+New post variables:
+SubTreeArray: This is filled in to restrict searching to a given subtree.
+
+New CSS:
+The option block in the tool is turned inline to make them be presented on a line.
+
+*Testing:
+Add a search tool and enable the 'Relative search' option, you should now see two
+radio buttons, one with 'Global' and one with 'From here'.
+
+Create two top folders on the site, then create two subarticles containing the same words.
+
+Search for one of the words using the 'Global' option, the search should find both articles.
+
+Enter one of the folders and search for the same word using the 'From here' option, the search should only show the article in the current folder..
+
+*SVN Revisions:
+trunk 7105

@@ -1,0 +1,58 @@
+*Title: UI context variables
+
+Incentive:
+Makes it possible to check for the type of UI in use from pagelayout and other templates,
+this can be used to for instance determine which menus/toolbars to show or perform other logic.
+
+*Documentation:
+The context variables should make it possible to change the UI based on the context and component.
+Context provides the general UI method in place while component determines the module/part in work.
+Having two separate variables allows checking on one or the other (or combined).
+
+The component value will be determined according to the following rules in the following order:
+- The name of the currently running module
+- The name of the currently running view if 'ui_component_match' is set to 'view' in $Module array (module.php) (optional)
+- The 'ui_component' setting in the view definition ($ViewList in module.php) (optional)
+- The value set by eZModule::setUIComponentName() in the running module. (optional)
+
+ui_component: The current module or subpart in place, possible values:
+              content, shop etc. , i.e any module in the system
+              node, subpart of content module
+              toolbar, subpart of setup module
+
+
+The context value will be determined according to the following rules in the following order:
+- The default value 'navigation'
+- The 'ui_context' setting in the view definition ($ViewList in module.php) (optional)
+- The value set by eZModule::setUIContextName() in the running module. (optional)
+
+
+While the context can contain any string value it is recommended to reuse these standard values:
+- navigation:     Navigation on the webpage using urls, this is the default unless changed
+                  by module. In general all views that don't change values but only has navigation/selection
+                  should use this. for instance content/view, class/list
+- edit:           Editing of user input and storing, for instance content/edit, class/edit,
+                  these pages should not be interrupted with other forms.
+- upload:         Upload of files, e.g. content/upload
+- administration: Somewhat similar to 'edit' but generally involves configuration or administration
+                  of site. for instance setup/session
+- browse:         Somewhat similar to navigation but means navigation for a specific item
+                  which is returned to a part of the system, for instance content/browse
+
+
+The current context and component values can be read by PHP code using
+$module->uiComponentName()
+$module->uiContextName()
+
+New global template variables:
+$ui_context
+$ui_component
+
+Also available in the $module_result variable
+$module_result['ui_context']
+$module_result['ui_component']
+
+*Testing:
+
+*SVN Revisions:
+7371

@@ -1,0 +1,29 @@
+*Title: General option handling for datatypes
+
+Incentive:
+Replace the code in shopping functionality which is hardcoded against certain datatypes
+to use a more general interface. This will make it much easier to write new datatypes
+that supports options.
+
+*Documentation:
+A new method is introduced to the eZDatatype interface, it is used to query information about an option.
+
+productOptionInformation(): Returns option information about a given option specified using an option ID
+                            The datatype must make sure that the option ID is unique and persisten since
+                            the system may ask about this information at a later time.
+
+The method must return the following structure:
+- id - The unique ID of the selected option, this must be unique in the attribute and will later on
+       be used to recalculate prices.
+- name - The name of the option list ( e.g. Color, Size etc.)
+- value - The display string of the selected option ( E.g red, green, big, small)
+- additional_price - A value which is added to the total product price, 0 or false means no price
+
+
+datatypes:
+Added for eZOption, eZRangeOption and eZMultiOption.
+
+*Testing:
+
+*SVN Revisions:
+7505

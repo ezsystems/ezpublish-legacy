@@ -1,0 +1,54 @@
+*Title: General insertion interface for datatypes
+
+Incentive:
+Make it easier to inserts files, text and complex xml into any datatype trough a common interface.
+This will reduce code involved and remove a lot of the internal variable handling to the given
+datatype. It will also simplify future updates of eZ publish.
+
+
+*Documentation:
+Some new methods are introduced to the eZDatatype interface, there are one method
+for querying for a special insert type and one for doing the actual insertions.
+
+isxxxInsertionSupported(): Returns true if supported or false if not, default for all datatypes is false
+insertxxx(): Tries to insert the type, returns true on success, false on failure or null if not supported.
+
+
+Insertion types:
+HTTP file: This is a file that is uploaded by the user using the web interface
+
+methods:
+ - isHTTPFileInsertionSupported(): Returns true if the datatype supports this
+ - insertHTTPFile(): Inserts the specified HTTP file
+
+datatypes:
+ - ezimage: Stores as image
+ - ezbinaryfile: Stores as binaryfile
+ - ezmedia: Stores as media file
+
+
+Insertion types:
+Regular file: This is a file that exists on the system
+
+methods:
+ - isRegularFileInsertionSupported(): Returns true if the datatype supports this
+ - insertRegularFile(): Inserts the specified file
+
+datatypes:
+none yet
+
+Insertion types:
+Simple string: A simple string on one or multiple lines.
+
+methods:
+ - isSimpleStringInsertionSupported(): Returns true if the datatype supports this
+ - insertSimpleString(): Inserts the string
+
+datatypes:
+ - ezstring: Stored as data_text
+ - eztext: Stored as data_text
+
+*Testing:
+
+*SVN Revisions:
+7425

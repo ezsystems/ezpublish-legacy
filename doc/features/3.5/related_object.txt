@@ -1,0 +1,29 @@
+*Title: Improved related object handling
+
+Incentive:
+Add support for grouping the related objects in content/edit based on their type (content class).
+For instance it is a good idea to show images separately from files.
+
+*Documentation:
+
+New template variables:
+in edit.tpl the variable $grouped_related_contentobjects is available,
+it is an associative array with each group being the key and the element being
+the relation list.
+
+New INI settings:
+content.ini:
+ - RelationGroupSettings/Groups:
+   An array with groups that should be defined, a group is defined by an identifier as a string, e.g image
+ - RelationGroupSettings/DefaultGroup:
+   Defines the group which all unmatched relation items are placed.
+
+For each group defined in Groups there must be a variable called <group>ClassList where <group> is the
+group identifier. The variable must be an array which should contain a list of content class identifiers
+that belong to this group.
+
+
+*Testing:
+
+*SVN Revisions:
+7381
