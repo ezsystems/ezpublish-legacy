@@ -147,8 +147,11 @@ class eZContentBrowse
         if ( !isset( $parameters['start_node'] ) )
             $parameters['start_node'] = $ini->variable( $parameters['type'], 'StartNode' );
 
-        if ( !isset( $parameters['ignore_nodes'] ) )
-            $parameters['ignore_nodes'] = array();
+        if ( !isset( $parameters['ignore_nodes_select'] ) )
+            $parameters['ignore_nodes_select'] = array();
+
+        if ( !isset( $parameters['ignore_nodes_click'] ) )
+            $parameters['ignore_nodes_click'] = array();
 
         if ( !isset( $parameters['class_array'] ) )
         {
