@@ -58,6 +58,11 @@ for arg in $*; do
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
+	--postgresql-user=*)
+	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
+		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
+	    fi
+	    ;;
 	--schema-sql=*)
 	    if echo $arg | grep -e "--schema-sql=" >/dev/null; then
 		SCHEMAFILE=`echo $arg | sed 's/--schema-sql=//'`
@@ -103,6 +108,10 @@ if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" ]; then
     exit 1
 fi
 
+if [ -z $POST_USER ]; then
+    POST_USER=$USER
+fi
+
 USERARG="-u$USER"
 
 if [ "$USE_MYSQL" != "" ]; then
@@ -123,10 +132,10 @@ if [ "$USE_MYSQL" != "" ]; then
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    ./update/common/scripts/flatten.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
-    ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER --clean
-    ./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER
-    ./update/common/scripts/cleanup.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
+    ./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
+    ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
+    ./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
+    ./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
 
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
@@ -151,6 +160,16 @@ else
 	echo "Importing SQL file $sql"
 	psql "$DBNAME" < "$sql" &>/dev/null
     done
+
+    if [ ! -z $USE_PAUSE ]; then
+	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
+    fi
+
+    ./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+    ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
+    ./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
+    ./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then

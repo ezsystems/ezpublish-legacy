@@ -18,6 +18,8 @@ function help
 USE_MYSQL=""
 USE_POSTGRESQL=""
 
+POST_USER="root"
+
 # Check parameters
 for arg in $*; do
     case $arg in
@@ -30,6 +32,11 @@ for arg in $*; do
 	    ;;
 	--postgresql)
 	    USE_POSTGRESQL="yes"
+	    ;;
+	--postgresql-user=*)
+	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
+		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
+	    fi
 	    ;;
 	--pause)
 	    USE_PAUSE="yes"
@@ -143,16 +150,16 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql --sql-schema-only $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-schema-only $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
     fi
 
     if [ ! -z $USE_PAUSE ]; then
-	./bin/shell/sqlredump.sh --postgresql --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
     else
-	./bin/shell/sqlredump.sh --postgresql --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
     fi
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_DATA_FILE"
@@ -161,9 +168,9 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
 
     for sql in $PACKAGE_POSTGRESQL_FILES; do
 	if [ ! -z $USE_PAUSE ]; then
-	    ./bin/shell/sqlredump.sh --postgresql --sql-full --pause $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full --pause $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
 	else
-	    ./bin/shell/sqlredump.sh --postgresql --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
 	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
