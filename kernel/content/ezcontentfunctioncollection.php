@@ -209,6 +209,11 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        if ( $node === null )
+        {
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
                                                       'ClassFilterArray' => $class_filter_array,

@@ -77,6 +77,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/undefined_index_base_dir_in_kernel_common_eztemplatedesignresource_php_on_line_367
 - Fixed bug, Assumed variable ContentActionList allways was an array in contentobject.php
   http://ez.no/community/bug_reports/error_invalid_argument_supplied_for_foreach_in_ezcontentobject_php
+- Fixed bug, doing a list_count fetch on a nonexisting node caused crash
+  http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
 
 
 *Library:
