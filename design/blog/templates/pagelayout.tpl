@@ -2,7 +2,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 {* fetch object by attribute_id, see definition in settings/fetchalias.ini *}
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,forum_package)9)}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,blog_package))}
 <head>
 {* Fetch the template for metadata. Normally located in design/standard/templates/ *}
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
@@ -10,7 +10,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({"stylesheets/blog.css"|ezdesign});
+     {* @import url({"stylesheets/blog.css"|ezdesign}); *}
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
 </style>
 </head>
 
@@ -109,6 +110,7 @@
             {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
             {section name=poll loop=$poll_list}
                 {node_view_gui view=full content_node=$poll:item}
+	    {/section}
             {/let}
             </p>   
          </div>
