@@ -49,9 +49,9 @@
 {* Manage versions *}
 <div class="block">
 {section show=$object.versions|count|gt( 1 )}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being edited).'|i18n( 'design/admin/content/edit' )}/>
 {/section}
 </div>
 
@@ -96,10 +96,10 @@
 </p>
 
 <div class="block">
-<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" title="{'Preview the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 <div class="block">
-<input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n( 'design/admin/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
 {section show=fetch( content, translation_list )|count|gt( 1 )}
@@ -159,14 +159,14 @@
 {/section}
 
 <div class="block">
-{section show=$Translation:other_translation_list|not}
-<input class="button-disabled" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+{section show=$Translation:other_translation_list}
+<input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 {section-else}
-<input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" />
+<input class="button-disabled" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'The draft that is being edited only exists in one language; thus this button is disabled.'|i18n( 'design/admin/content/edit' )}" />
 {/section}
 </div>
 <div class="block">
-<input class="button" type="submit" name="TranslateButton" value="{'Manage translations'|i18n('design/admin/content/edit' )}" />
+<input class="button" type="submit" name="TranslateButton" value="{'Manage translations'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (add/remove) translations for the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 {/section}
 
