@@ -40,7 +40,7 @@ Contents
 
 1. eZ publish 3 requirements
 ----------------------------
-- PHP >= 4.1.x
+- PHP >= 4.2.3
   http://www.php.net
 - Apache 1.3 (apache 2.0 might/might not work)
   http://www.apache.org

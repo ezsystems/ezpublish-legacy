@@ -51,8 +51,15 @@ $roleID =& $Params["RoleID"];
 
 $role =& eZRole::fetch( $roleID );
 
+// Redirect to role edit
+if ( $http->hasPostVariable( "EditRoleButton" ) )
+{
+    $Module->redirectTo( "/role/edit/" . $roleID );
+    return;
+}
+
 // Redirect to content node browse in the user tree
-if ( $http->hasPostVariable( "AssignRoleButton" )  )
+if ( $http->hasPostVariable( "AssignRoleButton" ) )
 {
     $http->setSessionVariable( "BrowseFromPage", "/role/view/" . $roleID . "/" );
 
@@ -80,7 +87,7 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
 }
 
 // Remove the role assignment
-if ( $http->hasPostVariable( "RemoveRoleAssignmentButton" )  )
+if ( $http->hasPostVariable( "RemoveRoleAssignmentButton" ) )
 {
     $userIDArray = $http->postVariable( "UserIDArray" );
 

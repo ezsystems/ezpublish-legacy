@@ -1695,6 +1695,14 @@
         <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
         <translation>Hvis du fjerner noden %1 blir også %2 av denne fjernet! %3</translation>
     </message>
+    <message>
+        <source>Note:</source>
+        <translation>Merk:</translation>
+    </message>
+    <message>
+        <source>Removed nodes can be retrieved later. You will find them in the trash.</source>
+        <translation>Noder som er fjernet kan hentes tilbake senere. Du finner dem i papirkurven.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
@@ -1749,6 +1757,10 @@
     <message>
         <source>Section</source>
         <translation>Seksjon</translation>
+    </message>
+    <message>
+        <source>Create here</source>
+        <translation>Lag her</translation>
     </message>
 </context>
 <context>
@@ -2516,7 +2528,7 @@
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Merk:</translation>
     </message>
     <message>
         <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
@@ -3123,7 +3135,7 @@
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Merk:</translation>
     </message>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
@@ -3666,10 +3678,6 @@
         <translation>Aktiver konto</translation>
     </message>
     <message>
-        <source>Activate</source>
-        <translation>Aktiver</translation>
-    </message>
-    <message>
         <source>Registed user profile</source>
         <translation>Registrert brukerprofil</translation>
     </message>
@@ -3758,10 +3766,6 @@
         <translation>Du har ikke tilgang til å aksessere %1.</translation>
     </message>
     <message>
-        <source>Login ID</source>
-        <translation>Bruker ID</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Passord</translation>
     </message>
@@ -3803,6 +3807,10 @@
     <message>
         <source>New user registered at %1</source>
         <translation>Ny bruker registrert på %1</translation>
+    </message>
+    <message>
+        <source>Confirm user registration at %1</source>
+        <translation>Bekreft brukerregistrering %1</translation>
     </message>
 </context>
 <context>

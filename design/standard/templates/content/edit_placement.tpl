@@ -72,10 +72,10 @@
           </select>
         </td>
         <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"asc.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} /></nobr>
+	<nobr><img src={"asc-transp.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} /></nobr>
 	</td>
         <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"desc.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} /></nobr>
+	<nobr><img src={"desc-transp.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} /></nobr>
         </td>
         <td class="{$Node:sequence}" align="right">
         <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />

@@ -7,6 +7,10 @@
 </ul>
 </div>
 
+<p><b>{"Note:"|i18n("design/standard/node")}</b> {"Removed nodes can be retrieved later. You will find them in the trash."|i18n("design/standard/node")}</p>
+<br/>
+
+
 <form action={concat($module.functions.removeobject.uri)|ezurl} method="post" name="ObjectRemove">
 
 <div class="buttonblock">

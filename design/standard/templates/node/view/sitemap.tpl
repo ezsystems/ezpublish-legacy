@@ -64,10 +64,10 @@
 <tr>
 	<td class="{$Tree:sequence}">
        	<img src={"1x1.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
-	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
+	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_2.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.class_name}</td>
-	<td class="{$Tree:sequence}" align="right">{$Tree:item.object.section_id}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
 	{section show=$:can_edit}
 	<td class="{$Tree:sequence}">
 	{section show=$Tree:item.object.can_edit}

@@ -70,6 +70,7 @@
 {section show=$is_editable}
    {switch match=$content_object.can_edit}
    {case match=1}
+   <br/>
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    {/case}
@@ -109,6 +110,9 @@
     <th>
       <nobr>{"Class"|i18n("design/standard/node/view")}</nobr>
     </th>
+    <th>
+      <nobr>{"Section"|i18n("design/standard/node/view")}</nobr>
+    </th>
     {section show=eq($node.sort_array[0][0],'priority')}
     <th>
       <nobr>{"Priority"|i18n("design/standard/node/view")}</nobr>
@@ -137,6 +141,8 @@
         {node_view_gui view=line content_node=$Child:item}
 	</td>
         <td class="{$Child:sequence}">{$Child:item.object.class_name}
+	</td>
+        <td class="{$Child:sequence}">{$Child:item.object.section_id}
 	</td>
 	{section show=eq($node.sort_array[0][0],'priority')}
 	<td width="40" align="left" class="{$Child:sequence}">
@@ -168,6 +174,8 @@
 </tr>
 {/section}
 <tr>
+    <td>
+    </td>
     <td>
     </td>
     <td>
@@ -217,7 +225,7 @@
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
 {/case}
 {case match=0}
 

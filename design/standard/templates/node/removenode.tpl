@@ -5,6 +5,9 @@
 </ul>
 </div>
 
+<p><b>{"Note:"|i18n("design/standard/node")}</b> {"Removed nodes can be retrieved later. You will find them in the trash."|i18n("design/standard/node")}</p>
+<br/>
+
 
 <form enctype="multipart/form-data" method="post" action={concat("/content/removenode/",$object.id,"/",$edit_version,"/",$node.node_id,"/")|ezurl}>
 

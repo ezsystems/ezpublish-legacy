@@ -4,7 +4,9 @@
 <form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
 <div class="block">
 <label>{"Name"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
-<p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}><img alt="{'Edit'|i18n('design/standard/role')}" src={"edit.png"|ezimage} /></a></p>
+{* <p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}><img alt="{'Edit'|i18n('design/standard/role')}" src={"edit.png"|ezimage} /></a></p> *}
+<p class="box">{$role.name}</p>
+<input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n('design/standard/role')}" />
 </div>
 
 <h2>{"Role policies"|i18n("design/standard/role")}</h2>

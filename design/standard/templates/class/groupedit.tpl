@@ -15,7 +15,7 @@
 </div>
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value="Store"|i18n("design/standard/class/edit")}
+{include uri="design:gui/defaultbutton.tpl" name=Store id_name=StoreButton value="Store"|i18n("design/standard/class/edit")}
 {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard"|i18n("design/standard/class/edit")}
 </div>
 
