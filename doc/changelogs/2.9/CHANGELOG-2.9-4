@@ -21,8 +21,11 @@ Changes from 2.9-3 to 2.9-4
 - Fixed bug in list stylesheet.
 - Changed node assignment interface when editing objects.
 - Changed role editing interface. Policy creation wizard is added.
+- Added new template operator /ezroot/ which prepends the wwwDir to urls,
+  useful for stored images, files etc.
+
 Datatypes:
-- Datatypes can now report if the are non-translateable.
+- Datatypes can now report if they are non-translateable.
 
 *Library :
 
