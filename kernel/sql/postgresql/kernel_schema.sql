@@ -2299,12 +2299,19 @@ CREATE TABLE ezview_counter (
 
 
 
+
+
+
 CREATE SEQUENCE tmp_notification_rule_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
+
+
+
+
 
 
 
@@ -2725,6 +2732,14 @@ CREATE INDEX ezsession_user_id ON ezsession USING btree (user_id);
 
 
 CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
+
+
+
+
+
+
+
+CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
 
 
 

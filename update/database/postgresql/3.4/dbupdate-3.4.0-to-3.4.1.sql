@@ -17,3 +17,6 @@ CREATE SEQUENCE tmp_notification_rule_s
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
+
+-- Missing index
+CREATE INDEX idx_object_version_objver ON ezcontentobject_version ( contentobject_id, version );
