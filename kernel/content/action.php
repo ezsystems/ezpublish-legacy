@@ -760,8 +760,34 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
 else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
     include_once( 'kernel/classes/ezcontentcache.php' );
+    if ( $http->hasPostVariable( 'ViewMode' ) )
+    {
+        $viewMode = $http->postVariable( 'ViewMode' );
+    }
+    else
+    {
+        $viewMode = 'full';
+    }
+
+    if ( $http->hasPostVariable( 'ContentNodeID' ) )
+    {
+        $contentNodeID = $http->postVariable( 'ContentNodeID' );
+    }
+    else
+    {
+        eZDebug::writeError( "Variable 'ContentNodeID' can not be found in template." );
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
+        return;
+    }
     if ( $http->hasPostVariable( 'Priority' ) and $http->hasPostVariable( 'PriorityID' ) )
     {
+        $contentNode = eZContentObjectTreeNode::fetch( $contentNodeID );
+        if ( !$contentNode->attribute( 'can_edit' ) )
+        {
+            eZDebug::writeError( 'Current user can not update the priorities because he has no permissions to edit the node' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
+            return;
+        }
         $db =& eZDB::instance();
         $priorityArray =& $http->postVariable( 'Priority' );
         $priorityIDArray =& $http->postVariable( 'PriorityID' );
@@ -771,23 +797,6 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
             $nodeID = $priorityIDArray[$i];
             $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
         }
-    }
-
-    if ( $http->hasPostVariable( 'ViewMode' ) )
-    {
-        $viewMode = $http->postVariable( 'ViewMode' );
-    }
-    else
-    {
-        $viewMode = 'full';
-    }
-    if ( $http->hasPostVariable( 'TopLevelNode' ) )
-    {
-        $topLevelNode = $http->postVariable( 'TopLevelNode' );
-    }
-    else
-    {
-        $topLevelNode = '2';
     }
 
     $clearNodeArray = array();
@@ -806,7 +815,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
 
-    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
     return;
 }
 else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )

@@ -4,7 +4,7 @@
 
 <div class="context-block">
 <form name="children" method="post" action={'content/action'|ezurl}>
-
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 {* Generic children list for admin interface. *}
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )

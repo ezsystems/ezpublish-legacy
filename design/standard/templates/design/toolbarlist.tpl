@@ -18,9 +18,9 @@
 <label>{'SiteAccess'|i18n( 'design/standard/design/toolbar' )}:</label>
 
     {section show=$current_siteaccess}
-{*        <p>{'Current siteaccess'|i18n( 'design/standard/setup' )}: <strong>{$current_siteaccess}</strong></p> *}
+{*        <p>{'Current siteaccess'|i18n( 'design/standard/design/toolbar' )}: <strong>{$current_siteaccess}</strong></p> *}
     {/section}
-{*        <label>{'Select siteaccess'|i18n( 'design/standard/setup' )}</label><div class="labelbreak"></div> *}
+{*        <label>{'Select siteaccess'|i18n( 'design/standard/design/toolbar' )}</label><div class="labelbreak"></div> *}
 
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}
