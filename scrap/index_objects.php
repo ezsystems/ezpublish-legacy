@@ -1,3 +1,4 @@
+#!/usr/local/php/bin/php
 <?php
 //
 // Created on: <28-Nov-2002 12:45:40 bf>
@@ -33,21 +34,46 @@
 //
 
 set_time_limit( 0 );
+
+print( "Starting Rotary import\n" );
+
+//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+
+include_once( "lib/ezutils/classes/ezmodule.php" );
+eZModule::setGlobalPathList( array( "kernel" ) );
+include_once( 'lib/ezutils/classes/ezexecution.php' );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
-eZINI::setIsCacheEnabled( false );
-eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
-// eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-
-header( 'X-Powered-By: eZ publish' );
-// header( 'Content-Type: text/plain' );
-
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezsearch.php' );
-include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
+
+eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+eZDebug::setLogFileEnabled( false );
+eZINI::setIsCacheEnabled( false );
+
+function eZDBCleanup()
+{
+    if ( class_exists( 'ezdb' )
+         and eZDB::hasInstance() )
+    {
+        $db =& eZDB::instance();
+        $db->setIsSQLOutputEnabled( false );
+    }
+//     session_write_close();
+}
+
+function eZFatalError()
+{
+    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    print( "Fatal error: eZ publish did not finish it's request\n" );
+    print( "The execution of eZ publish was abruptly ended." );
+}
+
+eZExecution::addCleanupHandler( 'eZDBCleanup' );
+eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
 $db =& eZDB::instance();
 $db->setIsSQLOutputEnabled( false );
+
 
 // Get top node
 $node =& eZContentObjectTreeNode::fetch( 5082 );
@@ -82,7 +108,5 @@ foreach ( $subTree as $node )
 }
 
 print( $endl . "done" . $endl );
-
-eZDebug::printReport( );
 
 ?>
