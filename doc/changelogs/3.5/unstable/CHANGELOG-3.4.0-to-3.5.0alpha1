@@ -458,6 +458,11 @@ Workflow:
 - Added all RFC 2396 allowed characters to the autolink operator. (Merged from
   stable/3.4 rev. 7900)
   http://www.ez.no/community/bug_reports/autolink_operator__2
+- Fixed bug of ezdate and ezdatetime datatypes indexing in the search
+  engine.
+  (Merged from stable/3.3 rev. 7903)
+  http://ez.no/community/bug_reports/index_of_ezdate_ezdatetime
+
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
