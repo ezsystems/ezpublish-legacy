@@ -944,13 +944,13 @@ function definition()
      \return the attribute data for \a $attr, this is either returned from the member variables
              or a member function depending on whether the definition field or function attributes matched.
     */
-    function &attribute( $attr )
+    function &attribute( $attr, $noFunction = false )
     {
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
         $attrFunctions =& $def["function_attributes"];
-        if ( isset( $attrFunctions[$attr] ) )
+        if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
             return $this->$functionName();

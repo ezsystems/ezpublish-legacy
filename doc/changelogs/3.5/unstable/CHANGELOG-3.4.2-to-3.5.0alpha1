@@ -78,6 +78,8 @@ Changes from 3.4.2 to 3.5.0alpha1
 - Added google navigator for url/view.
 - Fixed in wrokflow grouplist. All selected objects can be removed now.
 - Changed eZPersistenObject::attribute() to check and return "function_attributes" before "fields".
+- Changed eZPersistenObject::attribute() to have a second parameter which
+  can be used to disabled checking of 'function_attributes'.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
