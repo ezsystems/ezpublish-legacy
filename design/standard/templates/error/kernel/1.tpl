@@ -11,6 +11,13 @@
     {/section}
     <li>{"You misspelled some parts of your url, try changing it."|i18n("design/standard/error/kernel")}</li>
 </ul>
+{section show=is_set($module_required)}
+<p>{"Permission required"|i18n("design/standard/error/kernel")}</p>
+<ul>
+<li>{"Module : "|i18n("design/standard/error/kernel")}{$module_required} </li>
+<li>{"Function : "|i18n("design/standard/error/kernel")}{$function_required}</li>
+</ul>
+{/section}
 </div>
 
 {section show=eq($current_user.contentobject_id,$anonymous_user_id)}

@@ -1833,7 +1833,7 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, $accessList = array() )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
@@ -1856,13 +1856,16 @@ class eZContentObject extends eZPersistentObject
         {
             $policies  =& $accessResult['policies'];
             $access = 'denied';
-            foreach ( array_keys( $policies ) as $key  )
+
+            foreach ( array_keys( $policies ) as $pkey  )
             {
-                $limitationArray =& $policies[ $key ];
+                $limitationArray =& $policies[ $pkey ];
                 if ( $access == 'allowed' )
                 {
                     break;
                 }
+
+                $limitationList = array();
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
                     switch( $key )
@@ -1886,6 +1889,9 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key,
+                                    'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1899,6 +1905,9 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key,
+                                    'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1911,6 +1920,9 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key,
+                                    'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1923,6 +1935,9 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key );
+//                                    'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1947,6 +1962,9 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key,
+                                    'Required' => $limitationArray[$key] );
                                 break;
                             }
                         } break;
@@ -1994,18 +2012,38 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
+                                $limitationList = array (
+                                    'Limitation' => $key,
+                                    'Required' => $limitationArray[$key] );
                             }
                         } break;
                     }
 
                     if ( $access == 'denied' )
                     {
+/*                        $limitationList = array (
+                            'Limitation' => 'unknown',
+                            'PolicyID' => '',
+                            'Required' => ''); */
                         break;
                     }
                 }
+
+                $policyList[] = array( 
+                                                   'PolicyID' => $pkey,
+                                                   'LimitationList' => $limitationList
+                                                   );
+
             }
             if ( $access == 'denied' )
             {
+                $accessList = array(
+                    'FunctionRequired' => array ( 'Module' => 'content',
+                            'Function' => $functionName,
+                            'ClassID' => $classID,
+                            'MainNodeID' => $this->attribute( 'main_node_id' ) ),
+                    'PolicyList' => $policyList);
+
                 return 0;
             }
             else
@@ -2104,11 +2142,11 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns true if the current
     */
-    function canRead( )
+    function canRead( $accessList = array() )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
-            $this->Permissions["can_read"] = $this->checkAccess( 'read' );
+            $this->Permissions["can_read"] = $this->checkAccess( 'read', false, false, &$accessList );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
@@ -2125,11 +2163,11 @@ class eZContentObject extends eZPersistentObject
     }
 
 
-    function canEdit( )
+    function canEdit( $accessList = array() )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', false, false, &$accessList );
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();

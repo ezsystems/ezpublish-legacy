@@ -44,8 +44,10 @@ $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$obj->attribute( 'can_edit' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+//if ( !$obj->attribute( 'can_edit' ) )
+//    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+if ( !$obj->canEdit( &$accessList ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
 
 $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );

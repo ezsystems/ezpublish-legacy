@@ -46,13 +46,14 @@ $tpl->setVariable( 'parameters', $extraErrorParameters );
 $siteBasics = $GLOBALS['eZSiteBasics'];
 $userObjectRequired = $siteBasics['user-object-required'];
 
+$ini =& eZINI::instance();
+
 if ( $userObjectRequired )
 {
     // include user class
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
     $currentUser =& eZUser::currentUser();
-    $ini =& eZINI::instance();
     $tpl->setVariable( "current_user", $currentUser );
     $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 }
@@ -141,6 +142,29 @@ $embedContent = false;
             $embedResult =& $embedModule->run( $viewName, $embedParameters );
             $embedContent = $embedResult['content'];
         }
+
+        // write reason to debug
+//        $accessMessage = print_r($Params['ExtraParameters']['AccessList']['FunctionRequired'], true);
+        // Function required
+        if ( isset( $Params['ExtraParameters']['AccessList'] ) )
+        {
+            $accessMessage = "Function required:\n";
+            foreach ( array_keys ( $Params['ExtraParameters']['AccessList']['FunctionRequired'] ) as $key )
+                $accessMessage .= " $key : " . $Params['ExtraParameters']['AccessList']['FunctionRequired'][$key] . "\n" ;
+            $accessMessage .= "Policies that didn't match:\n";
+            foreach ( $Params['ExtraParameters']['AccessList']['PolicyList'] as $policy )
+            {
+                $accessMessage .= " PolicyID : " . $policy['PolicyID'] . "\n" ;
+                $accessMessage .= "  Limitation : " . $policy['LimitationList']['Limitation'] . "\n" ;
+                $accessMessage .= "  Required : ";
+                foreach ( $policy['LimitationList']['Required'] as $required )
+                    $accessMessage .= "$required, ";
+                $accessMessage .= "\n";
+            }
+
+            eZDebug::writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
+        }
+
     }
 }
 
@@ -153,6 +177,13 @@ if ( get_class( $requestedURI ) == 'ezuri' )
 }
 $tpl->setVariable( 'redirect_uri', $userRedirectURI );
 $tpl->setVariable( 'embed_content', $embedContent );
+
+if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable( 'RoleSettings', 'ShowAccessDeniedReason' ) === "enabled" ) )
+{
+    $tpl->setVariable( 'module_required', $Params['ExtraParameters']['AccessList']['FunctionRequired']['Module'] );
+    $tpl->setVariable( 'function_required', $Params['ExtraParameters']['AccessList']['FunctionRequired']['Function'] );
+}
+
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );

@@ -1097,7 +1097,7 @@ WHERE user_id = '" . $userID . "' AND
         return $str;
     }
 
-    function &hasAccessTo( $module, $function )
+    function &hasAccessTo( $module, $function, $accessList = array() )
     {
         $accessArray = null;
         $ini =& eZINI::instance();
@@ -1138,6 +1138,12 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
+            $accessList = array(
+                'FunctionRequired' => array ( 'Module' => $module,
+                                              'Function' => $function,
+                                              'ClassID' => '',
+                                              'MainNodeID' => '' ),
+                'PolicyList' => array() );
             return array( 'accessWord' => 'no' );
         }
 
@@ -1151,6 +1157,12 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
+            $accessList = array(
+                'FunctionRequired' => array ( 'Module' => $module,
+                                              'Function' => $function,
+                                              'ClassID' => '',
+                                              'MainNodeID' => '' ),
+                'PolicyList' => array() );
             return array( 'accessWord' => 'no' );
         }
 

@@ -525,6 +525,7 @@ while ( $moduleRunRequired )
             if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
             $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
             {
@@ -552,7 +553,7 @@ while ( $moduleRunRequired )
 
             if ( $hasAccessToSite )
             {
-                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
+                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0], &$accessList );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $moduleName = $module->attribute( 'name' );
@@ -592,7 +593,10 @@ while ( $moduleRunRequired )
             }
             else if ( !$moduleAccessAllowed )
             {
-                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                if ( isset( $accessList ) )
+                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
+                else
+                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
             else
             {

@@ -218,7 +218,7 @@ class eZModule
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function &handleError( $errorCode, $errorType = false, $parameters = array() )
+    function &handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
     {
         if ( !$errorType )
         {
@@ -228,9 +228,11 @@ class eZModule
         }
         $errorModule =& eZModule::errorModule();
         $module =& eZModule::findModule( $errorModule['module'], $this );
+
         if ( $module === null )
             return false;
-        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters ) );
+
+        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
         // The error module may want to redirect to another URL, see error.ini
         if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT and
              $this->exitStatus() != EZ_MODULE_STATUS_RERUN )
