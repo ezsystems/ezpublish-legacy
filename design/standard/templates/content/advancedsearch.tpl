@@ -152,6 +152,11 @@ selected="selected"
 </div>
 {/section}
 
+{section name=SubTree loop=$search_sub_tree}
+<input type="hidden" name="SubTreeArray[]" value="{$:item}" />
+{/section}
+
+
 <div class="break"></div>
 </div>
 
@@ -180,7 +185,7 @@ selected="selected"
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/advancedsearch')
-         page_uri_suffix=concat('?SearchText=',$search_text|urlencode,'&PhraseSearchText=',$phrase_search_text|urlencode,'&SearchContentClassID=',$search_contentclass_id,'&SearchContentClassAttributeID=',$search_contentclass_attribute_id,'&SearchSectionID=',$search_section_id,$search_timestamp|gt(0)|choose('',concat('&SearchTimestamp=',$search_timestamp)),$search_sub_tree|gt(0)|choose( '', concat( '&SubTreeArray[]=', $search_sub_tree|implode( '&SubTreeArray[]=' ) ) ),'&SearchDate=',$search_date,'&SearchPageLimit=',$search_page_limit)
+         page_uri_suffix=concat('?SearchText=',$search_text|urlencode,'&PhraseSearchText=',$phrase_search_text|urlencode,'&SearchContentClassID=',$search_contentclass_id,'&SearchContentClassAttributeID=',$search_contentclass_attribute_id,'&SearchSectionID=',$search_section_id,$search_timestamp|gt(0)|choose('',concat('&SearchTimestamp=',$search_timestamp)),$search_sub_tree|gt(0)|choose( '', concat( '&', 'SubTreeArray[]'|urlencode, '=', $search_sub_tree|implode( concat( '&', 'SubTreeArray[]'|urlencode, '=' ) ) ) ),'&SearchDate=',$search_date,'&SearchPageLimit=',$search_page_limit)
          item_count=$search_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
