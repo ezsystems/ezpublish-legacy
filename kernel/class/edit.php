@@ -171,7 +171,8 @@ $validation = array( "processed" => false,
 $unvalidatedAttributes = array();
 
 $storeActions = array( "StoreButton",
-                       "ApplyButton" );
+                       "ApplyButton",
+                       "NewButton");
 $validationRequired = false;
 foreach( $storeActions as $storeAction )
 {
@@ -409,6 +410,8 @@ if ( $http->hasPostVariable( "NewButton" ) )
     $new_attribute =& eZContentClassAttribute::create( $ClassID, $cur_datatype );
     $attrcnt = count( $attributes ) + 1;
     $new_attribute->setAttribute( "name", "new attribute$attrcnt" );
+    $dataType = $new_attribute->dataType();
+    $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
     $attributes[] =& $new_attribute;
 }

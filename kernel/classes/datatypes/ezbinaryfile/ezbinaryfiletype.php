@@ -106,20 +106,23 @@ class eZBinaryFileType extends eZDataType
         {
             $count = 0;
             $currentBinaryFile =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-            $mimeType =  $currentBinaryFile->attribute( "mime_type" );
-            $currentFileName = $currentBinaryFile->attribute( "filename" );
-            list( $prefix, $suffix ) = split ('[/]', $mimeType );
-            $orig_dir = "var/storage/original/" . $prefix;
-            foreach ( $binaryFiles as $binaryFile )
+            if ( $currentBinaryFile != null )
             {
-                $fileName = $binaryFile->attribute( "filename" );
-                if( $currentFileName == $fileName )
-                     $count += 1;
-            }
-            if( $count == 1 )
-            {
-                if( file_exists( $orig_dir . "/" . $currentFileName ) )
-                    unlink( $orig_dir . "/" .  $currentFileName );
+                $mimeType =  $currentBinaryFile->attribute( "mime_type" );
+                $currentFileName = $currentBinaryFile->attribute( "filename" );
+                list( $prefix, $suffix ) = split ('[/]', $mimeType );
+                $orig_dir = "var/storage/original/" . $prefix;
+                foreach ( $binaryFiles as $binaryFile )
+                {
+                    $fileName = $binaryFile->attribute( "filename" );
+                    if( $currentFileName == $fileName )
+                        $count += 1;
+                }
+                if( $count == 1 )
+                {
+                    if( file_exists( $orig_dir . "/" . $currentFileName ) )
+                        unlink( $orig_dir . "/" .  $currentFileName );
+                }
             }
         }
         eZBinaryFile::remove( $contentObjectAttributeID, $version );

@@ -43,6 +43,8 @@
 include_once( "kernel/classes/ezdatatype.php" );
 
 define( "EZ_DATATYPESTRING_TEXT", "eztext" );
+define( 'EZ_DATATYPESTRING_TEXT_COLS_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_TEXT_COLS_VARIABLE', '_eztext_cols_' );
 
 class eZTextType extends eZDataType
 {
@@ -50,6 +52,17 @@ class eZTextType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_TEXT, "Text field" );
     }
+
+    /*!
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD ) == null )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, 10 );
+        $classAttribute->store();
+    }
+
 
     /*!
      Validates the input and returns true if the input was
@@ -100,6 +113,16 @@ class eZTextType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_text" );
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $column = $base .EZ_DATATYPESTRING_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $column ) )
+        {
+            $columnValue = $http->postVariable( $column );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD,  $columnValue );
+        }
     }
 
     /*!

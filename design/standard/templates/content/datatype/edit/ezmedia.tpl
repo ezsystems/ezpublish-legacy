@@ -2,7 +2,7 @@
 {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
 {case match=flash}
 <tr>
-	<td class="bglight">
+	<td class="bglight" width="400">
 	<b>{"Filename"|i18n}</b>:<br/>
 	</td>
 	<td class="bglight">
@@ -22,7 +22,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="bglight" width="200">
+	<td class="bglight">
 	<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 	<input name="ContentObjectAttribute_data_mediafilename_{$attribute.id}" type="file" />
 	</td>
