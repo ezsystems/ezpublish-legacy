@@ -404,8 +404,10 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $fileDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'original-path', $filename ) );
         $fileDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'path', $path ) );
 
-        eZDir::mkdir( eZDir::dirpath( $this->Package->packageRepositoryPath() . '/' .  eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path ),  eZDir::directoryPermission(),  true );
-        eZFileHandler::copy( $filename, $this->Package->packageRepositoryPath() . '/' . eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path );
+
+        $destinationPath = $this->Package->path() . '/' .  eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path;
+        eZDir::mkdir( eZDir::dirpath( $destinationPath ),  eZDir::directoryPermission(),  true );
+        eZFileHandler::copy( $filename, $destinationPath );
 
         return $fileDOMNode;
     }
