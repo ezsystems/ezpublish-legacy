@@ -833,6 +833,9 @@ WHERE user_id = '" . $userID . "' AND
         $http =& eZHTTPTool::instance();
 
         $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
+        // Set/overwrite the global user, this will be accessed from
+        // instance() when there is no ID passed to the function.
+        $GLOBALS["eZUserGlobalInstance_"] =& $user;
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
         eZSessionRegenerate();
         $user->cleanup();
