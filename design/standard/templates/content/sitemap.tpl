@@ -1,3 +1,4 @@
+{let page_limit=1}
 <h1>{"Site map"|i18n('content/object')}</h1>
 
 <form action="{$module.functions.sitemap.uri}/{$top_object_id}" method="post" >
@@ -15,7 +16,7 @@
 </tr>
 
 
-{section name=Tree loop=$tree sequence=array(bglight,bgdark)}
+{section name=Tree loop=fetch('content','tree',hash(parent_node_id,$nodeID,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
 	<td class="{$Tree:sequence}">
@@ -75,7 +76,13 @@
 {/section}
 </table>
 
-{include name=navigator uri='design:navigator/google.tpl' top_object_id=$top_object_id module=$module tree_count=$tree_count page=$page}
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat($module.functions.sitemap.uri,'/',$top_object_id)
+         module=$module
+         item_count=fetch('content','tree_count',hash(parent_node_id,$nodeID))
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 <div class="buttonblock">
 <input class="button" type="submit" name="NewButton" value="New" />
@@ -89,3 +96,4 @@
 </div>
 
 </form>
+{/let}

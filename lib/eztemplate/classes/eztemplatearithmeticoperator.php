@@ -58,6 +58,9 @@
   floor
   round
 
+  int
+  float
+
 */
 
 class eZTemplateArithmeticOperator
@@ -68,7 +71,8 @@ class eZTemplateArithmeticOperator
     function eZTemplateArithmeticOperator( $sumName = 'sum', $subName = 'sub', $incName = 'inc', $decName = 'dec',
                                            $divName = 'div', $modName = 'mod', $mulName = 'mul',
                                            $maxName = 'max', $minName = 'min',
-                                           $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round' )
+                                           $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round',
+                                           $intName = 'int', $floatName = 'float' )
     {
         $this->SumName = $sumName;
         $this->SubName = $subName;
@@ -87,10 +91,14 @@ class eZTemplateArithmeticOperator
         $this->FloorName = $floorName;
         $this->RoundName = $roundName;
 
+        $this->IntName = $intName;
+        $this->FloatName = $floatName;
+
         $this->Operators = array( $sumName, $subName, $incName, $decName,
                                   $divName, $modName, $mulName,
                                   $maxName, $minName,
-                                  $absName, $ceilName, $floorName, $roundName );
+                                  $absName, $ceilName, $floorName, $roundName,
+                                  $intName, $floatName );
     }
 
     /*!
@@ -308,6 +316,22 @@ class eZTemplateArithmeticOperator
                     } break;
                 }
             } break;
+            case $this->IntName:
+            {
+                if ( count( $operatorParameters ) > 0 )
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $namespace ) );
+                else
+                    $value = $operatorValue;
+                $operatorValue = (int)$value;
+            } break;
+            case $this->FloatName:
+            {
+                if ( count( $operatorParameters ) > 0 )
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $namespace ) );
+                else
+                    $value = $operatorValue;
+                $operatorValue = (float)$value;
+            } break;
         }
     }
 
@@ -330,6 +354,8 @@ class eZTemplateArithmeticOperator
     var $FloorName;
     var $RoundName;
 
+    var $IntName;
+    var $FloatName;
 }
 
 ?>

@@ -77,6 +77,42 @@ class eZContentFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => &$children );
     }
+
+    function &fetchObjectListCount( $parentNodeID )
+    {
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $childrenCount =& $node->subTreeCount( array( 'Depth' => 1,
+                                                      'Limitation' => null ) );
+        if ( $childrenCount === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$childrenCount );
+    }
+
+    function &fetchObjectTree( $parentNodeID, $offset, $limit )
+    {
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $children =& eZContentObjectTreeNode::subTree( array( 'Offset' => $offset,
+                                                              'Limit' => $limit,
+                                                              'Limitation' => null ),
+                                                       $parentNodeID );
+        if ( $children === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$children );
+    }
+
+    function &fetchObjectTreeCount( $parentNodeID )
+    {
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $childrenCount =& $node->subTreeCount( array( 'Limitation' => null ) );
+        if ( $childrenCount === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$childrenCount );
+    }
 }
 
 ?>

@@ -1,3 +1,4 @@
+{let page_limit=1}
 <form method="post" action="/content/action/">
 
 <table width="100%" cellspacing="0" cellpadding="0">
@@ -78,7 +79,7 @@
 
 <h1>Children</h1>
 <table width="100%">
-{section name=Child loop=$node.children sequence=array(bglight,bgdark)}
+{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
 
@@ -120,32 +121,13 @@
 
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 
-<table width="100%">
-<tr>
-	<td>
-	{switch match=$previous|lt(0) }
-	  {case match=0}
-          <a href="{$module.functions.view.uri}/full/{$nodeID}/offset/{$previous}"> << Previous </a>
-	  {/case}
-          {case match=1}
-	  Previous
-	  {/case}
-        {/switch}
-
-	</td>
-	<td align="right">
-	{switch match=$next|lt($children_count) }
-	  {case match=1}
-          <a href="{$module.functions.view.uri}/full/{$nodeID}/offset/{$next}"> Next >> </a>
-          {/case}
-	  {case}
-	  Next
-          {/case}
-        {/switch}
-
-	</td>
-</tr>
-</table>
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat($module.functions.view.uri,'/full/',$node.node_id)
+         module=$module
+         item_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 

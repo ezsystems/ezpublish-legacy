@@ -1,10 +1,12 @@
+{let item_previous=sub($view_parameters.offset,$item_limit) item_next=sum($view_parameters.offset,$item_limit)
+     page_count=int(ceil(div($item_count,$item_limit))) current_page=int(ceil(div($view_parameters.offset,$item_limit)))}
 <div class="selectbar">
 <table class="selectbar" width="100%" cellpadding="0" cellspacing="2" border="0">
 <tr>
-	{switch match=$page.previous|lt(0) }
+	{switch match=$item_previous|lt(0) }
 	  {case match=0}
 	<td class="selectbar" width="1%">
-          <a class="selectbar" href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$page.previous}"><<&nbsp;Previous</a>
+          <a class="selectbar" href="{$page_uri}/offset/{$item_previous}"><<&nbsp;Previous</a>
     </td>
 	  {/case}
           {case match=1}
@@ -14,13 +16,13 @@
     &nbsp;
     </td>
     <td width="10%">
-    {section name=Quick loop=$page.total max=10}
+    {section name=Quick loop=$page_count max=10 show=$page_count|gt(1)}
     {switch match=$Quick:index}
-      {case match=$page.current}
+      {case match=$current_page}
         <b>{$Quick:number}</b>
       {/case}
       {case}
-        {$Quick:number}
+        <a href="{$page_uri}/offset/{mul($Quick:index,$item_limit)}">{$Quick:number}</a>
       {/case}
     {/switch}
     {/section}
@@ -28,10 +30,10 @@
     <td width="35%">
     &nbsp;
     </td>
-	{switch match=$page.next|lt($tree_count) }
+	{switch match=$item_next|lt($item_count) }
 	  {case match=1}
 	<td class="selectbar" width="1%">
-          <a class="selectbar" href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$page.next}">Next&nbsp;>></a>
+          <a class="selectbar" href="{$page_uri}/offset/{$item_next}">Next&nbsp;>></a>
     </td>
           {/case}
 	  {case}
@@ -40,3 +42,4 @@
 </tr>
 </table>
 </div>
+{/let}

@@ -89,6 +89,7 @@ $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object I
                       ) );
 
 $tpl->setVariable( "node", $node );
+$tpl->setVariable( 'view_parameters', array( 'offset' => $Offset ) );
 
 /*
 $tpl->setVariable( "previous", $Offset - $Limit );
