@@ -70,7 +70,7 @@ class eZStepCreateSites extends eZStepInstaller
      */
     function init()
     {
-        $saveData = false;
+        $saveData = true; // set to true to save data
 
         $ini =& eZINI::create();
         $databaseMap = eZSetupDatabaseMap();
@@ -250,13 +250,15 @@ WHERE
             else
                 $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'admin' );
 
-            if ( $saveData )
+            if ( $saveData ){
+                print( "KAKE !");
                 $saveResult = $ini->save( false, '.php', 'append', true );
+            }
         }
 
 
-            if ( $saveResult )
-            {
+        if ( $saveResult )
+        {
             $setupINI = eZINI::create( 'setup.ini' );
             $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
             $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
