@@ -366,7 +366,7 @@ CREATE TABLE ezuser_setting (
   is_enabled int(1) NOT NULL default '0',
   max_login int(11) default NULL,
   PRIMARY KEY  (user_id)
-) TYPE=MyISAM;
+);
 
 
 # Search
