@@ -136,6 +136,7 @@ function accessType( &$uri, $host, $port, $file )
                 $match_type = $ini->variable( 'SiteAccessSettings', 'HostMatchType' );
                 if ( $match_type != 'text' and
                      $match_type != 'map' and
+                     $match_type != 'element' and
                      $match_type != 'regexp' )
                     continue;
                 $match_item = $host;
