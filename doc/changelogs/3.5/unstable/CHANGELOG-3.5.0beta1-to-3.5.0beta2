@@ -9,6 +9,8 @@ Changes from 3.5.0beta1 to 3.5.0beta2
 - Fixed bug: Deleting user account that is not yet activated caused fatal error when activating the account.
   (Merged from stable/3.3 rev. 9174, also in stable/3.4 rev. 9175)
   http://ez.no/community/bug_reports/deleting_user_account_not_activated
+- Fixed bug: New role cancel does not work.
+  http://ez.no/community/bug_reports/new_role_cancel_does_not_work=======
 - Fixed bug: Apache crashes or suddenly stops on some pages, e.g on content/edit page with
   a translation chosen or using attribute( show, 2 ) on a node.
   http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map

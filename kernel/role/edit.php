@@ -99,8 +99,13 @@ if ( $http->hasPostVariable( 'Apply' ) )
 
 if ( $http->hasPostVariable( 'Discard' ) )
 {
-    $originalRole = eZRole::fetch( $roleID ) ;
-    $originalRole->remove();
+    $role = eZRole::fetch( $roleID ) ;
+    $originalRole = eZRole::fetch( $role->attribute( 'version') );
+    $role->remove();
+    if ( $originalRole != null && $originalRole->attribute( 'is_new' ) == 1 )
+    {
+        $originalRole->remove();
+    }
     $Module->redirectTo( $Module->functionURI( 'list' ) . '/' );
 
 }

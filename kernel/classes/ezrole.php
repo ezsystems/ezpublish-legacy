@@ -94,7 +94,11 @@ class eZRole extends eZPersistentObject
                                          "name" => array( 'name' => "Name",
                                                           'datatype' => 'string',
                                                           'default' => '',
-                                                          'required' => true ) ),
+                                                          'required' => true ),
+                                         "is_new" => array( 'name' => "IsNew",
+                                                            'datatype' => 'integer',
+                                                            'default' => '0',
+                                                            'required' => false ) ),
                       "function_attributes" => array( "policies" => "policyList",
                                                       'limit_identifier' => 'limitIdentifier',
                                                       'limit_value' => 'limitValue' ),
@@ -160,6 +164,7 @@ class eZRole extends eZPersistentObject
     {
         $role = new eZRole( array() );
         $role->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'New role' ) );
+        $role->setAttribute( 'is_new', 1 );
         $role->store();
         return $role;
     }
@@ -233,6 +238,7 @@ class eZRole extends eZPersistentObject
             return 0;
         $this->removePolicies();
         $this->setAttribute( 'name', $temporaryVersion->attribute( 'name') );
+        $this->setAttribute( 'is_new', 0 );
         $this->store();
 
         $db =& eZDB::instance();
@@ -806,12 +812,19 @@ class eZRole extends eZPersistentObject
         }
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false )
+    function &fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
     {
-        if ( $ignoreTemp )
+
+        if ( $ignoreTemp && $ignoreNew )
+            $igTemp = array( 'version' => '0',
+                             'is_new' => '0' );
+        elseif ( $ignoreTemp )
             $igTemp = array( 'version' => '0' );
+        elseif ( $ignoreNew )
+            $igTemp = array( 'is_new' => '0' );
         else
             $igTemp = null;
+
         return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                     null,
                                                     $igTemp,

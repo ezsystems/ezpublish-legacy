@@ -1731,7 +1731,8 @@ CREATE TABLE ezrole (
     id integer DEFAULT nextval('ezrole_s'::text) NOT NULL,
     "version" integer DEFAULT 0,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    value character(1)
+    value character(1),
+    is_new integer DEFAULT 0 NOT NULL
 );
 
 

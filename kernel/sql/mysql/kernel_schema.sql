@@ -918,6 +918,7 @@ CREATE TABLE ezrole (
   version int(11) default '0',
   name varchar(255) NOT NULL default '',
   value char(1) default NULL,
+  is_new int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
