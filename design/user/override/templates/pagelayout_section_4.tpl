@@ -41,13 +41,14 @@
 <AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="10">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
+<br />
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td><a href={"content/view/full/32/"|ezurl}><img src={"images/crossroads_logo.gif"|ezdesign} alt="Crossroads forum" border="0" /></a></td>
+    <td><a href={"content/view/full/32/"|ezurl}><img src={"images/crossroads_logo.gif"|ezdesign} alt="Forum fora" border="0" /></a></td>
 </tr>
 <tr>
     <td>

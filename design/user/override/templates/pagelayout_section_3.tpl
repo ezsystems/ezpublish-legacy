@@ -68,11 +68,11 @@
 	<br />
         <form action={"/content/search/"|ezurl} method="get">
         <input type="hidden" name="SectionID" value="3">
-        <input  type="text" size="10" name="SearchText" id="Search" value="" />
-        <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
+        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" style="font-size: 7px; margin: 0px; padding: 0px;" /><br />
+        <input  type="text" size="10" name="SearchText" id="Search" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px; background: #ffffff;" />
 	</form>
         <br /><br />
-	&nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+	<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-orange.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
         </td>
     </tr>
     </table>
