@@ -23,11 +23,11 @@
 
             <form method="post" action="{$script}">
                 {section name=handover loop=$handover}
-                <input type="hidden" name="{$continue:handover:item.name}" value="{$continue:handover:item.value}" />
+                <input type="hidden" name="{$:item.name}" value="{$:item.value}" />
                 {/section}
                 <input type="hidden" name="nextStep" value="{$nextStep}" />
                 <div class="buttonblock">
-                <button class="button" name="buttonNextStep" type="submit" value="Next Step" />
+                <input class="button" type="submit" name="buttonNextStep" value="Next Step" />
                 </div>
             </form>
 
