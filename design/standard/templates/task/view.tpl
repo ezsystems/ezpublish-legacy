@@ -1,7 +1,7 @@
 {section show=$task_id|eq(0)}
-<form action={concat($module.functions.view.uri)|ezurl}" method="post" name="TaskList">
+<form action={concat("task/view/")|ezurl} method="post" name="TaskList">
 {section-else}
-<form action={concat($module.functions.view.uri,"/",$task_id)|ezurl}" method="post" name="TaskList">
+<form action={concat("task/view/",$task_id)|ezurl} method="post" name="TaskList">
 {/section}
 
 {section show=$task_id|gt(0)}
@@ -12,9 +12,9 @@
 
 {section show=$task_id|gt(0)}
   {section show=$task.parent_task_id|gt(0)}
-<a href={concat($module.functions.view.uri,"/",$task.parent_task_id)|ezurl}>Parent</a>
+<a href={concat("task/view/",$task.parent_task_id)|ezurl}>Parent</a>
   {section-else}
-<a href={concat($module.functions.view.uri)|ezurl}>Parent</a>
+<a href={concat("task/view/")|ezurl}>Parent</a>
   {/section}
 {/section}
 
@@ -61,12 +61,12 @@
 </tr>
 {section name=Incoming loop=$incoming_task_list sequence=array('bglight','bgdark')}
 <tr>
-  <td class="{$Incoming:sequence}"><a href={concat($module.functions.view.uri,"/",$Incoming:item.id)|ezurl}>{$Incoming:item.id}</a></td>
+  <td class="{$Incoming:sequence}"><a href={concat("task/view/",$Incoming:item.id)|ezurl}>{$Incoming:item.id}</a></td>
   <td class="{$Incoming:sequence}">
 {section show=$Incoming:item.task_type|eq(1)}
 {let message=$Incoming:item.first_message}
   {section show=$Incoming:message}
-  <a href={concat($module.functions.view.uri,"/",$Incoming:item.id)|ezurl}>{$Incoming:message.name}</a>
+  <a href={concat("task/view/",$Incoming:item.id)|ezurl}>{$Incoming:message.name}</a>
   {/section}
 {/let}
 {section-else}
@@ -104,12 +104,12 @@
   {/section}
 {section name=Outgoing loop=$outgoing_task_list sequence=array('bglight','bgdark')}
 <tr>
-  <td class="{$Outgoing:sequence}"><a href="{$module.functions.view.uri}/{$Outgoing:item.id}">{$Outgoing:item.id}</a></td>
+  <td class="{$Outgoing:sequence}"><a href={concat("task/view/",$Outgoing:item.id)|ezurl}>{$Outgoing:item.id}</a></td>
   <td class="{$Outgoing:sequence}">
 {section show=$Outgoing:item.task_type|eq(1)}
 {let message=$Outgoing:item.first_message}
   {section show=$Outgoing:message}
-  <a href="{$module.functions.view.uri}/{$Outgoing:item.id}">{$Outgoing:message.name}</a>
+  <a href={concat("task/view/",$Outgoing:item.id)|ezurl}>{$Outgoing:message.name}</a>
   {/section}
 {/let}
 {section-else}

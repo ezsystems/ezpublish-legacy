@@ -1,4 +1,4 @@
-<form action={concat($module.functions.edit.uri,"/",$task.id)|ezurl} method="post" name="TaskEdit">
+<form action={concat("task/edit/",$task.id)|ezurl} method="post" name="TaskEdit">
 
 <h1>Creating new task</h1>
 
@@ -25,7 +25,7 @@
 
 {section show=$task.parent_task_id|gt(0)}
 Parent type: {$task.parent_task_type|choose('None','Task','Workflow')}<br/>
-Parent ID: <a href={concat($module.functions.list.uri,"/",$task.parent_task_id)|ezurl}>{$task.parent_task_id}</a><br/>
+Parent ID: <a href={concat("task/list/",,$task.parent_task_id)|ezurl}>{$task.parent_task_id}</a><br/>
 {/section}
 
 {section show=$task.task_type|eq(2)}
