@@ -85,15 +85,40 @@ if ( !file_exists( EZ_WEBDAV_ROOT_DIRECTORY ) )
 }
 
 
-
-
-// Temp. log function.
-function append_to_log( $log_string )
+/*!
+ \return \c true if logging is enabled.
+*/
+function eZWebDavCheckLogSetting()
 {
-    $logfile  = fopen( "/tmp/webdavlog.txt", "a" );
-    $now_time = date( "Y-m-d H:i:s : " );
-    fwrite( $logfile, $now_time.$log_string."\n" );
-    fclose( $logfile );
+    $useLogging =& $GLOBALS['eZWebDavLogging'];
+    if ( !isset( $useLogging ) )
+    {
+        $ini =& eZINI::instance( 'webdav.ini' );
+        $useLogging = $ini->variable( 'GeneralSettings', 'Logging' ) == 'enabled';
+    }
+    return $useLogging;
+}
+
+/*!
+ Convencience function for calling eZWebDavAppendToLog()
+*/
+function append_to_log( $logString )
+{
+    eZWebDavAppendToLog( $logString );
+}
+
+/*!
+  Logs the string \a $logString to the logfile /tmp/webdavlog.txt
+  if logging is enabled.
+*/
+function eZWebDavAppendToLog( $logString )
+{
+    if ( !eZWebDavCheckLogSetting() )
+        return false;
+    $logFile  = fopen( "/tmp/webdavlog.txt", "a" );
+    $nowTime = date( "Y-m-d H:i:s : " );
+    fwrite( $logFile, $nowTime . $logString . "\n" );
+    fclose( $logFile );
 }
 
 
@@ -294,11 +319,12 @@ class eZWebDAVServer
     {
         header( "HTTP/1.1 200 OK" );
         header( "MS-Author-Via: DAV" );
-        header( "DAV: 1,2\nDAV: <http://apache.org/dav/propset/fs/1>\n");
+        header( "DAV: 1,2,<http://apache.org/dav/propset/fs/1>\n");
 
         if (!$options)
         {
-            header( "Allow: OPTIONS,PROPFIND,HEAD,GET,PUT,MKCOL,COPY,MOVE,DELETE" );
+            header( "Allow: OPTIONS, PROPFIND, HEAD, GET, PUT, MKCOL, COPY, MOVE, DELETE" );
+//             header( "Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK, SEARCH" );
         }
         else
         {
