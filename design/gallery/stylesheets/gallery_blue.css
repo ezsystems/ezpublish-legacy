@@ -14,15 +14,13 @@ div#infobox img
 
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
-    background-color: #a3a3a3;
+    background-color: #315682;
     height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
 div#header
 {
-    background-image: url(../images/gray_header.png);
-    background-position: top left;
-    background-repeat: repeat;
+    background-color: #5487be;
     border-bottom: 1px dotted #cccccc;
 }
 
@@ -42,9 +40,9 @@ div#logo
 
 div#subheader
 {
-    background-color: #c3c3c3;
-    padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
-    border-bottom: 1px dotted #cccccc;
+    background-color: #fe9900;
+    padding: 0.5em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
+    border-bottom: 1px dotted #fff;
 }
 
 div#mainmenu
@@ -107,6 +105,7 @@ div#searchbox input.searchbutton
 
 div#path
 {
+    color: #fff;
     margin-top: 1.7em;
     margin-bottom: 1em;
 }
@@ -118,7 +117,7 @@ div#path p
 
 div#path a
 {
-    color: #000000;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -149,7 +148,7 @@ div#submenu li
 
 div#submenu a
 {
-    color: #202020;
+    color: #fff;
     font-weight: bold;
     text-decoration: none;
 }
@@ -170,10 +169,9 @@ div#infobox
 
 div#infobox div.design
 {
-    border: 1px solid #e4eaf3;
-    background-position: top left;
-    background-image: url(../images/gray_info.png);
-    background-repeat: repeat;
+    border-right: 1px dotted #e4eaf3;
+    border-bottom: 1px dotted #e4eaf3;
+    background-color: #5487c0;
 }
 
 div#infobox h3
@@ -208,6 +206,7 @@ div#maincontent
     margin-right: 8em;
     margin-left: 240px;
     clear: none;
+    color: #fff;
 }
 
 div#footer
@@ -240,7 +239,7 @@ div#footer
 
 #folder div.child h2
 { 
-    color: #444444;
+    color: #fff;
     margin: 0px;
     padding: 0px;
     padding-top: 5px;
@@ -254,7 +253,7 @@ div#footer
 
 #folder div.child div.byline p
 { 
-    color: #888888;
+    color: #aaa;
     font-size: small;
     margin: 0px;
     padding: 0px;
@@ -353,7 +352,7 @@ div.image_line h2
 #image .navigation h2
 {
     font-size: 85%;
-    background-color: #333333;
+    background-color: #5781d5;
     color: #ffffff;
     padding: 0.5em;
 }
@@ -380,7 +379,7 @@ div.image_line h2
 {
     text-align: center;
     font-size: 85%;
-    background-color: #333333;
+    background-color: #5781d5;
     color: #ffffff;
     padding: 0.5em;    
 }
@@ -398,7 +397,7 @@ div.image_line h2
 #album .navigation h2
 {
     font-size: 85%;
-    background-color: #333333;
+    background-color: #5781d5;
     color: #ffffff;
     padding: 0.5em;
 }
@@ -438,7 +437,7 @@ div.image_line h2
 
 #gallery .list .info h2
 {
-    background-color: #333;
+    background-color: #5781d5;
     color: #fff;
     padding: 0.5em;
 }
@@ -497,7 +496,7 @@ h1
 { 
     font: bold 130% Georgia,Serif;
     margin-bottom: 8px;
-    color: #333333;
+    color: #fff;
 }
 
 div.editbutton
