@@ -97,3 +97,4 @@ eZXML:
   the content. This is also available on some of the other functions.
 - New function firstChild() which returns the first child of all the children
   or null if no children.
+- Added support for cloning DOM nodes.
