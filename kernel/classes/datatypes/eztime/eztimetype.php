@@ -95,6 +95,7 @@ class eZTimeType extends eZDataType
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
+    /*
     function makeSeconds( $hour, $minute )
     {
         if ( strlen($hour) == 0 || strlen($minute) == 0 )
@@ -108,6 +109,7 @@ class eZTimeType extends eZDataType
             return ( $hour * 60 + $minute ) * 60;
         }
     }
+    */
 
     /*!
      Fetches the http post var integer input and stores it in the data instance.
@@ -116,10 +118,14 @@ class eZTimeType extends eZDataType
     {
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
 
-        $contentObjectAttribute->setAttribute( "data_int", $secondsSinceMidnight );
+        $time = null;
+        if ( $hour != '' or $minute != '')
+        {
+            $time = new eZTime();
+            $time->setHMS( $hour, $minute, 0 );
+        }
+        $contentObjectAttribute->setAttribute( "data_int", (is_null($time)) ? null : $time->timeStamp() );
         return true;
     }
 
@@ -128,22 +134,20 @@ class eZTimeType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $content = array();
-        $value = $contentObjectAttribute->attribute( 'data_int' );
-        if ( !is_null($value) )
+        $stamp = $contentObjectAttribute->attribute( 'data_int' );
+
+        if ( !is_null( $stamp ) )
         {
-
-            $seconds = $value % eZTime::secondsPerDay();
-            $hour    = (int) ( $seconds / 3600 );
-            $minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
-
-            $content = array( 'is_valid' => true, 'hour' => $hour, 'minute' => $minute );
+            //$seconds = $value % eZTime::secondsPerDay();
+            //$hour    = (int) ( $seconds / 3600 );
+            //$minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
+            $time = new eZTime( $stamp );
+            return $time;
         }
         else
         {
-            $content = array( 'is_valid' => true, 'hour' => '', 'minute' => '' );
+            return array( 'is_valid' => false, 'hour' => '', 'minute' => '', 'timestamp' => '' );
         }
-        return $content;
     }
 
     /*!
@@ -151,7 +155,20 @@ class eZTimeType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_int' );
+        //return $contentObjectAttribute->attribute( 'data_int' );
+        // translate time from GMT to local time for proper sort key
+        $gmtSeconds = $contentObjectAttribute->attribute( 'data_int' );
+        if ( !is_null($gmtSeconds) )
+        {
+            $gmtSeconds %= eZTime::secondsPerDay();
+            $localSeconds = ( $gmtSeconds + date( 'Z' ) ) % eZTime::secondsPerDay();
+            return $localSeconds;
+        }
+        else
+        {
+            $gmtSeconds = 0;
+            return $gmtSeconds;
+        }
     }
 
     /*!
@@ -189,11 +206,13 @@ class eZTimeType extends eZDataType
 
             if ( $defaultType == 1 )
             {
-                $curTime = time();
-                $hour    = date( 'H', $curTime );
-                $minute  = date( 'M', $curTime );
-                $secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
-                $contentObjectAttribute->setAttribute( 'data_int', $secondsSinceMidnight );
+                //$curTime = time();
+                //$hour    = date( 'H', $curTime );
+                //$minute  = date( 'M', $curTime );
+                //$secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
+                //$contentObjectAttribute->setAttribute( 'data_int', $secondsSinceMidnight );
+                $time = new eZTime();
+                $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() );
             }
         }
     }
@@ -228,7 +247,7 @@ class eZTimeType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_int' ) != 0;
+        return !is_null( $contentObjectAttribute->attribute( 'data_int' ) );
     }
 
     /*!
