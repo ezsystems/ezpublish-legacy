@@ -45,7 +45,7 @@
 
 <div class="toolbox">
     <div class="toolbox-design">
-    <h2>Calendar</h2>
+    <h2>{'Calendar'|i18n( 'design/standard/toolbar' )}</h2>
 
     <div class="toolbox-content">
 {*     {let log_node_id=$module_result.content_info.node_id *}
