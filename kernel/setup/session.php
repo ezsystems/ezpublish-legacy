@@ -144,8 +144,8 @@ ORDER BY $orderBy";
         $session['idle']['minute'] = (int)( ( $idleTime / 60 ) % 60 );
         $session['idle']['second'] = abs( $idleTime % 60 );
 
-        if ( $session['idle']['minute'] < 10 && $session['idle']['minute']>=0 )
-        {
+        if ( $session['idle']['minute'] < 10 and $session['idle']['minute'] >= 0 )
+	{
             $session['idle']['minute'] = "0" . $session['idle']['minute'];
         }
 
