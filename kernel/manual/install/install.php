@@ -43,7 +43,7 @@
 	<li>Now the installation will start. This can take a few minutes</li>
 	<li>When the installation is done you need to start eZ publish by clicking on the eZ publish icon 
 	on the desktop. This will open eZ publish in your default browser. eZ publish will open at the User site.
-	To start the Admin site simply write /admin after the rest in the address. Log in with <i>admin</i> 
+	To start the Admin site simply write /admin after the rest in the address. Log in with <i>admin</i>
 	and <i>publish</i>.</li>
 	<li>You are ready to start using eZ publish.</li>
 </ol>
@@ -57,7 +57,7 @@
 <ol>
 	<li>Open your web browser and go to <a href="http://ez.no/download">http://ez.no/download</a></li>
 	<li>Find the Linux installer matching your distribution. These installers are tested on Linux Redhat, but might as well work fine on other distributions.</li>
-	<li>Become root by running <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for root</p></pre></li>
+	<li>Become root by running <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for the root user</p></pre></li>
 	<li>Unpack the downloaded file <pre class="example"> # tar xvfz ezpublish-3.0-xxx-x-Linux-xxx.i386.tar.gz</pre> Replace ezpublish-3.0-xxx-x-Linux-xxx.i386.tar.gz with your current version.</li>
 	<li>Enter the extracted directory <pre class="example"> # cd ezpublish-3.0-xxx-x-Linux-xxx.i386 </pre></li>
 	<li>Run the installation program <pre class="example"> # ./install.sh</pre></li>
@@ -79,7 +79,7 @@
 <ol>
 	<li>Open your web browser and go to <a href="http://ez.no/download">http://ez.no/download</a></li>
 	<li>Find the FreeBSD installer. This installer is tested on FreeBSD 4.6.2, but should work on other versions of FreeBSD as well. </li>
-	<li>Become root by running: <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for root.</p></li>
+	<li>Become root by running: <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for the root user.</p></li>
 	<li>Unpack the downloaded file <pre class="example"> # tar xvfz ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386.tar.gz</pre> Replace ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386.tar.gz with your current version.</li>
 	<li>Enter the extracted directory <pre class="example"> # cd ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386</pre></li>
 	<li>Run the installation program: <pre class="example"> # ./install.sh</pre></li>
