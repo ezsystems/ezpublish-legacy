@@ -102,9 +102,6 @@ $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "classgroup", $classgroup->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "http", $http );
-$tpl->setVariable( "validation", $validation );
-$tpl->setVariable( "can_store", $canStore );
-$tpl->setVariable( "require_fixup", $requireFixup );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "classgroup", $classgroup );
 
