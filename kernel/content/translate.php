@@ -232,7 +232,6 @@ if ( $activeTranslation )
                         eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' success' );
                     }
                     $contentObjectAttribute->fetchInput( $http, 'ContentObjectAttribute' );
-
                 }
             }
         }
