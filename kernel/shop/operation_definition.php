@@ -71,9 +71,13 @@ $OperationList['checkout'] = array( 'name' => 'checkout',
                                                             'frequency' => 'once',
                                                             'method' => 'activateOrder',
                                                             ),
-                                                         array( 'type' => 'method',
-                                                                'name' => 'send-order-email',
-                                                                'frequency' => 'once',
-                                                                'method' => 'sendOrderEmails',
-                                                                ) ) );
+                                                     array( 'type' => 'method',
+                                                            'name' => 'send-order-email',
+                                                            'frequency' => 'once',
+                                                            'method' => 'sendOrderEmails',
+                                                            ),
+                                                     array( 'type' => 'trigger',
+                                                            'name' => 'post_checkout',
+                                                            'keys' => array( 'order_id' ) ),
+                                                     ) );
 ?>

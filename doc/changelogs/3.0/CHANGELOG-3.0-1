@@ -102,7 +102,7 @@ links to clickable links.
 - Added possibility to insert options in ezoption datatype
 - Added site.ini variable to allow special characters in created password
 - Fixed bug with sending user information feedback to you, password is not empty
-
+- Changed operation deffinition for checkout, added possibility to call post_checkout trigger
 *SDK :
 
 *Library :

@@ -63,7 +63,8 @@ $ViewList["forgetpassword"] = array(
     "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
-                                                            'Email' => 'UserEmail' ) ) );
+                                                            'Email' => 'UserEmail' ) ),
+    "params" => array( "HashKey" ) );
 
 $ViewList["edit"] = array(
     "script" => "edit.php",

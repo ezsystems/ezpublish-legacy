@@ -37,16 +37,62 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "kernel/classes/ezforgotpassword.php" );
 
 
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $tpl->setVariable( 'generated', false );
 $tpl->setVariable( 'wrong_email', false );
+$tpl->setVariable( 'link', false );
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
+$hashKey =& $Params["HashKey"];
 
+if ( strlen( $hashKey ) == 32 )
+{
+    $forgotPasswdObj =& eZForgotPassword::fetchByKey( $hashKey );
+    $user =& eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
+    $email = $user->attribute( 'email' );
+
+    $ini =& eZINI::instance();
+    $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
+    $password = eZUser::createPassword( $passwordLength );
+    $passwordConfirm = $password;
+
+    $userToSendEmail =& $user;
+    $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
+
+
+    include_once( "kernel/common/template.php" );
+    include_once( 'lib/ezutils/classes/ezmail.php' );
+    include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+
+    $receiver = $email;
+    $mail = new eZMail();
+    if ( !$mail->validate( $receiver ) )
+    {
+    }
+    $tpl =& templateInit();
+
+    $tpl->setVariable( 'user', $userToSendEmail );
+    $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
+    $tpl->setVariable( 'password', $password );
+
+    eZDebug::writeDebug( $password, "New Password" );
+    $templateResult =& $tpl->fetch( 'design:user/forgetpasswordmail.tpl' );
+    $mail->setReceiver( $receiver );
+    $subject = ezi18n( 'kernel/user/register', 'Registration info' );
+    if ( $tpl->hasVariable( 'subject' ) )
+        $subject = $tpl->variable( 'subject' );
+    $mail->setSubject( $subject );
+    $mail->setBody( $templateResult );
+    $mailResult = eZMailTransport::send( $mail );
+    $tpl->setVariable( 'generated', true );
+    $tpl->setVariable( 'email', $email );
+    $forgotPasswdObj->remove();
+}
 
 if ( $module->isCurrentAction( "Generate" ) )
 {
@@ -76,18 +122,18 @@ if ( $module->isCurrentAction( "Generate" ) )
                                                        true );
         if ( count($users) > 0 )
         {
-            $userToSendEmail =& $users[0];
-            foreach ( array_keys( $users ) as $key )
-            {
-                $user =& $users[$key];
-                $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
-                $user->store();
-            }
+            $user =& $users[0];
+            $time = time();
+            $hashKey = md5( $time );
+            $forgotPasswdObj =& eZForgotPassword::createNew( $user->id(), $hashKey, $time );
+            $forgotPasswdObj->store();
+
+            $userToSendEmail =& $user;
             include_once( "kernel/common/template.php" );
             include_once( 'lib/ezutils/classes/ezmail.php' );
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
             $receiver = $email;
+
             $mail = new eZMail();
             if ( !$mail->validate( $receiver ) )
             {
@@ -96,8 +142,14 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'user', $userToSendEmail );
             $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
             $tpl->setVariable( 'password', $password );
+            $tpl->setVariable( 'link', true );
+            $tpl->setVariable( 'hash_key', $hashKey );
             eZDebug::writeDebug( $password, "New Password" );
+            include_once( 'lib/ezutils/classes/ezhttptool.php' );
+            $http =& eZHTTPTool::instance();
+            $http->UseFullUrl = true;
             $templateResult =& $tpl->fetch( 'design:user/forgetpasswordmail.tpl' );
+            $http->UseFullUrl = false;
             $mail->setReceiver( $receiver );
             $subject = ezi18n( 'kernel/user/register', 'Registration info' );
             if ( $tpl->hasVariable( 'subject' ) )
@@ -105,8 +157,8 @@ if ( $module->isCurrentAction( "Generate" ) )
             $mail->setSubject( $subject );
             $mail->setBody( $templateResult );
             $mailResult = eZMailTransport::send( $mail );
-            $tpl->setVariable( 'generated', true );
             $tpl->setVariable( 'email', $email );
+
         }
         else
         {
