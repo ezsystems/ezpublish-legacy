@@ -545,6 +545,14 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $attr_pos = $attr_pos_start;
                         $attr_name_pos = $this->ElementParser->identifierEndPosition( $tpl, $text, $attr_pos, $text_len );
                         $attr_name = substr( $text, $attr_pos, $attr_name_pos - $attr_pos );
+
+                        /* Skip whitespace between here and the next one */
+                        $equal_sign_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_name_pos, $text_len );
+                        if ( ( $equal_sign_pos < $text_len ) && ( $text[$equal_sign_pos] == '=' ) )
+                        {
+                            $attr_name_pos = $equal_sign_pos;
+                        }
+                        
                         if ( $attr_name_pos >= $text_len or
                              ( $text[$attr_name_pos] != '=' and
                                preg_match( "/[ \t\r\n]/", $text[$attr_name_pos] ) ) )
