@@ -272,6 +272,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     function &generateFetchAliasArray()
     {
         $fetchAliasListDOMNode = eZDOMDocument::createElementNode( 'fetch-alias-list' );
+        $registeredAliases = array();
 
         foreach( array_keys( $this->TemplateFileArray ) as $siteAccess )
         {
@@ -296,6 +297,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                 foreach( $matchArray[1] as $fetchAlias )
                 {
+                    if ( isset( $registeredAliases[$fetchAlias] ) )
+                    {
+                        continue;
+                    }
+                    $registeredAliases[$fetchAlias] = true;
+
                     $fetchAliasDOMNode = eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
                                                                                                  'site-access' => $siteAccess ) );
 
