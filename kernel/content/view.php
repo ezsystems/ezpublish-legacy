@@ -58,9 +58,7 @@ if ( array_key_exists( 'Limitation', $Params ) )
         $limitationList[] = $policy->attribute( 'limitations' );
     }
 }
-eZDebug::writeNotice( $limitationList, "Limitation" );
-
-
+//eZDebug::writeNotice( $limitationList, "Limitation" );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 $contentObject = $node->attribute( 'contentobject' );

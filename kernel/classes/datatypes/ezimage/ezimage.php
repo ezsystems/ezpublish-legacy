@@ -95,11 +95,32 @@ class eZImage extends eZPersistentObject
                 return $types[1];
             } break;
             case "small":
+            case "medium":
+            case "large":
+            case "reference":
             {
-                $width = $ini->variable( "ImageSettings" , "SmallSizeWidth" );
-                $height = $ini->variable( "ImageSettings" , "SmallSizeHeight" );
+                if ( $attr == "small" )
+                {
+                    $width = $ini->variable( "ImageSettings" , "SmallSizeWidth" );
+                    $height = $ini->variable( "ImageSettings" , "SmallSizeHeight" );
+                }
+                elseif ( $attr == "medium" )
+                {
+                    $width = $ini->variable( "ImageSettings" , "MediumSizeWidth" );
+                    $height = $ini->variable( "ImageSettings" , "MediumSizeHeight" );
+                }
+                elseif ( $attr == "large" )
+                {
+                    $width = $ini->variable( "ImageSettings" , "LargeSizeWidth" );
+                    $height = $ini->variable( "ImageSettings" , "LargeSizeHeight" );
+                }
+                elseif ( $attr == "reference" )
+                {
+                    $width = $ini->variable( "ImageSettings" , "ReferenceSizeWidth" );
+                    $height = $ini->variable( "ImageSettings" , "ReferenceSizeHeight" );
+                }
 
-                $cacheString = $this->ContentObjectAttributeID . '-small' . "-" . $width . "-" . $height;
+                $cacheString = $this->ContentObjectAttributeID . '-' . $attr . "-" . $width . "-" . $height;
 
                 if ( !isset( $GLOBALS[$cacheString] ) )
                 {
@@ -111,27 +132,6 @@ class eZImage extends eZPersistentObject
                     $img_variation =& $GLOBALS[$cacheString];
                 }
                 return $img_variation;
-            }break;
-            case "large":
-            {
-                $width = $ini->variable( "ImageSettings" , "LargeSizeWidth" );
-                $height = $ini->variable( "ImageSettings" , "LargeSizeHeight" );
-                $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
-                return $img_variation;
-            }break;
-            case "medium":
-            {
-                $width = $ini->variable( "ImageSettings" , "MediumSizeWidth" );
-                $height = $ini->variable( "ImageSettings" , "MediumSizeHeight" );
-                $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
-                return $img_variation;
-            }break;
-            case "reference":
-            {
-                $width = $ini->variable( "ImageSettings" , "ReferenceSizeWidth" );
-                $height = $ini->variable( "ImageSettings" , "ReferenceSizeHeight" );
-                $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
-                 return $img_variation;
             }break;
             default:
                 return eZPersistentObject::attribute( $attr );
