@@ -85,7 +85,7 @@ function stepFour( &$tpl, &$http, &$ini )
     }
     else
     {
-        $tpl->setVariable( "configWrite", "unsuccessul" );
+        $tpl->setVariable( "configWrite", "unsuccessful" );
         $tpl->setVariable( "continue", false );
     }
     
