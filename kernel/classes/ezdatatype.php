@@ -478,17 +478,23 @@ class eZDataType
         $datatype = $objectAttribute->attribute( 'data_type_string' );
         $ini =& eZINI::instance( 'datatype.ini' );
         $editGrouped = in_array( $datatype, $ini->variable( 'EditSettings', 'GroupedInput' ) );
+        $viewGrouped = in_array( $datatype, $ini->variable( 'ViewSettings', 'GroupedInput' ) );
+        $resultGrouped = in_array( $datatype, $ini->variable( 'ResultSettings', 'GroupedInput' ) );
         $collectionGrouped = in_array( $datatype, $ini->variable( 'CollectionSettings', 'GroupedInput' ) );
 
         $info = array( 'edit' => array( 'grouped_input' => false ),
-                       'view' => array(),
+                       'view' => array( 'grouped_input' => false),
                        'collection' => array( 'grouped_input' => false ),
-                       'result' => array() );
+                       'result' => array( 'grouped_input' => false ) );
         $override = array();
         if ( $editGrouped )
             $override['edit']['grouped_input'] = true;
         if ( $collectionGrouped )
             $override['collection']['grouped_input'] = true;
+        if ( $viewGrouped )
+            $override['view']['grouped_input'] = true;
+        if ( $resultGrouped )
+            $override['result']['grouped_input'] = true;
 
         if ( $mergeInfo )
         {
