@@ -107,7 +107,8 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'div', 'mod', 'mul',
                                                                'max', 'min',
                                                                'abs', 'ceil', 'floor', 'round',
-                                                               'count' ) );
+                                                               'count',
+                                                               'roman' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',

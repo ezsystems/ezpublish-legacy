@@ -111,6 +111,7 @@ eZ template:
 - New template operator 'maketime' for creating timestamp from hour, minutes, seconds, month, day and year.
 - New template operator 'makedate' for creating timestamp from month, day and year.
 - New template operator 'gettime' for returning time information on a timestamp.
+- New template operator 'roman' for converting numbers into roman numerals
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.

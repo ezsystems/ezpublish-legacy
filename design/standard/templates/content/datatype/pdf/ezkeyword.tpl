@@ -1,1 +1,1 @@
-{pdf(text,$attribute.content.keyword_string|wash(pdf))}
+{pdf(keyword,$attribute.content.keyword_string|wash(pdf))}

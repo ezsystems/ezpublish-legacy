@@ -38,13 +38,11 @@
 include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
 include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
-include_once( 'lib/ezfile/classes/ezfile.php' );
-include_once( 'lib/ezutils/classes/eztexttool.php' );
+//include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
   \class eZPDF ezpdf.php
   \brief The class eZPDF does
-
 */
 
 class eZPDF
@@ -56,6 +54,7 @@ class eZPDF
     function eZPDF( $name = "pdf" )
     {
         $this->Operators = array( $name );
+        $this->Config =& eZINI::instance( 'pdf.ini' );
     }
 
     /*!
@@ -202,7 +201,8 @@ class eZPDF
 
             case 'close':
             {
-                include_once( 'lib/ezutils/classes/eztexttool.php' );
+//                include_once( 'lib/ezutils/classes/eztexttool.php' );
+                include_once( 'lib/ezfile/classes/ezfile.php' );
                 $filename = 'tmp.pdf';
                 eZFile::create( $filename, eZSys::storageDirectory() .'/pdf', $this->PDF->ezOutput() );
                 eZDebug::writeNotice( 'PDF file closed and saved to '. eZSys::storageDirectory() .'/pdf/'. $filename, 'eZPDF::modify' );
@@ -224,6 +224,207 @@ class eZPDF
 
                 $this->PDF->ezText( $text );
                 eZDebug::writeNotice( 'Execute text in PDF: "'. $text .'"', 'eZPDF::modify' );
+            } break;
+
+            case 'pageNumber':
+            {
+                $numberDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                if ( isset( $numberDesc['identifier'] ) )
+                {
+                    $identifier = $numberDesc['identifier'];
+                }
+                else
+                {
+                    $identifier = 'main';
+                }
+
+                if ( isset( $numberDesc['start'] ) )
+                {
+                    $operatorValue = '<C:callStartPageCounter:action:start:identifier:'. $identifier .'>';
+                }
+                else if ( isset( $numberDesc['stop'] ) )
+                {
+                    $operatorValue = '<C:callStartPageCounter:action:stop:identifier:'. $identifier .'>';
+                }
+            } break;
+
+            case 'footer':
+            case 'header':
+            {
+                $frameDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $operatorValue  = '<ezGroup:callFrame';
+                $operatorValue .= ':location:'. $namedParameters['operation'];
+
+                if ( $namedParameters['operation'] == 'footer' )
+                {
+                    $frameType = 'Footer';
+                }
+                else if( $namedParameters['operation'] == 'header' )
+                {
+                    $frameType = 'Header';
+                }
+
+                if ( isset( $frameDesc['align'] ) )
+                {
+                    $operatorValue .= ':justification:'. $frameDesc['align'];
+                }
+
+                if ( isset( $frameDesc['page'] ) )
+                {
+                    $operatorValue .= ':page:'. $frameDesc['page'];
+                }
+                else
+                {
+                    $operatorValue .= ':page:all';
+                }
+
+                $operatorValue .= ':pageOffset:';
+                if ( isset( $frameDesc['pageOffset'] ) )
+                {
+                    $operatorValue .= $frameDesc['pageOffset'];
+                }
+                else
+                {
+                    $operatorValue .= $this->Config->variable( $frameType, 'PageOffset' );
+                }
+
+                if ( isset( $frameDesc['size'] ) )
+                {
+                    $operatorValue .= ':size:'. $frameDesc['size'];
+                }
+
+                if ( isset( $frameDesc['font'] ) )
+                {
+                    $operatorValue .= ':font:'. $frameDesc['font'];
+                }
+
+                $operatorValue .= '>';
+
+                if ( isset( $frameDesc['text'] ) )
+                {
+                    $operatorValue .= $frameDesc['text'];
+                }
+
+                $operatorValue .= '</ezGroup:callFrame>';
+
+                if ( isset( $frameDesc['margin'] ) )
+                {
+                    $operatorValue .= '<C:callFrameMargins';
+
+                    $operatorValue .= 'identifier:'. $namedParameters['operation'];
+
+                    $operatorValue .= ':topMargin:';
+                    if ( isset( $frameDesc['margin']['top'] ) )
+                    {
+                        $operatorValue .= $frameDesc['margin']['top'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'TopMargin' );
+                    }
+
+                    $operatorValue .= ':bottomMargin:';
+                    if ( isset( $frameDesc['margin']['bottom'] ) )
+                    {
+                        $operatorValue .= $frameDesc['margin']['bottom'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'BottomMargin' );
+                    }
+
+                    $operatorValue .= ':leftMargin:';
+                    if ( isset( $frameDesc['margin']['left'] ) )
+                    {
+                        $operatorValue .= $frameDesc['margin']['left'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'LeftMargin' );
+                    }
+
+                    $operatorValue .= ':rightMargin:';
+                    if ( isset( $frameDesc['margin']['right'] ) )
+                    {
+                        $operatorValue .= $frameDesc['margin']['right'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'RightMargin' );
+                    }
+
+                    $operatorValue .= ':height:';
+                    if ( isset( $frameDesc['margin']['height'] ) )
+                    {
+                        $operatorValue .= $frameDesc['margin']['height'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'Height' );
+                    }
+
+                    $operatorValue .= '>';
+                }
+
+                if ( isset( $frameDesc['line'] ) )
+                {
+                    $operatorValue .= '<C:callFrameLine';
+                    $operatorValue .= ':location:'. $namedParameters['operation'];
+
+                    $operatorValue .= ':margin:';
+                    if( isset( $frameDesc['line']['margin'] ) )
+                    {
+                        $operatorValue .= $frameDesc['line']['margin'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'LineMargin' );
+                    }
+
+                    if ( isset( $frameDesc['line']['leftMargin'] ) )
+                    {
+                        $operatorValue .= ':leftMargin:'. $frameDesc['line']['leftMargin'];
+                    }
+                    if ( isset( $frameDesc['line']['rightMargin'] ) )
+                    {
+                        $operatorValue .= ':rightMargin:'. $frameDesc['line']['rightMargin'];
+                    }
+
+                    $operatorValue .= ':pageOffset:';
+                    if ( isset( $frameDesc['line']['pageOffset'] ) )
+                    {
+                        $operatorValue .= $frameDesc['line']['pageOffset'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'PageOffset' );
+                    }
+
+                    $operatorValue .= ':page:';
+                    if ( isset( $frameDesc['line']['page'] ) )
+                    {
+                        $operatorValue .= $frameDesc['line']['page'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'Page' );
+                    }
+
+                    $operatorValue .= ':thicknes:';
+                    if ( isset( $frameDesc['line']['thicknes'] ) )
+                    {
+                        $operatorValue .= $frameDesc['line']['thicknes'];
+                    }
+                    else
+                    {
+                        $operatorValue .= $this->Config->variable( $frameType, 'LineThicknes' );
+                    }
+
+                    $operatorValue .= '>';
+                }
+
             } break;
 
             /* add keyword to pdf document */
@@ -312,6 +513,7 @@ class eZPDF
     /// The array of operators, used for registering operators
     var $Operators;
     var $PDF;
+    var $Config;
 }
 
 

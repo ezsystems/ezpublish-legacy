@@ -75,7 +75,8 @@ class eZTemplateArithmeticOperator
                                            $maxName = 'max', $minName = 'min',
                                            $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round',
                                            $intName = 'int', $floatName = 'float',
-                                           $countName = 'count' )
+                                           $countName = 'count',
+                                           $romanName = 'roman' )
     {
         $this->SumName = $sumName;
         $this->SubName = $subName;
@@ -99,12 +100,15 @@ class eZTemplateArithmeticOperator
 
         $this->CountName = $countName;
 
+        $this->RomanName = $romanName;
+
         $this->Operators = array( $sumName, $subName, $incName, $decName,
                                   $divName, $modName, $mulName,
                                   $maxName, $minName,
                                   $absName, $ceilName, $floorName, $roundName,
                                   $intName, $floatName,
-                                  $countName );
+                                  $countName,
+                                  $romanName );
     }
 
     /*!
@@ -128,12 +132,15 @@ class eZTemplateArithmeticOperator
     */
     function namedParameterList()
     {
-        return array( $this->IncName => array( "value" => array( "type" => "mixed",
-                                                                 "required" => false,
-                                                                 "default" => false ) ),
-                      $this->DecName => array( "value" => array( "type" => "mixed",
-                                                                 "required" => false,
-                                                                 "default" => false ) ) );
+        return array( $this->IncName => array( 'value' => array( 'type' => 'mixed',
+                                                                 'required' => false,
+                                                                 'default' => false ) ),
+                      $this->DecName => array( 'value' => array( 'type' => 'mixed',
+                                                                 'required' => false,
+                                                                 'default' => false ) ),
+                      $this->RomanName => array( 'value' => array( 'type' => 'mixed',
+                                                                   'required' => false,
+                                                                   'default' => false ) ) );
     }
 
     function numericalValue( $mixedValue )
@@ -162,6 +169,15 @@ class eZTemplateArithmeticOperator
     {
         switch ( $operatorName )
         {
+            case $this->RomanName:
+            {
+                if ( $namedParameters['value'] !== false )
+                    $value = $this->numericalValue( $namedParameters['value'] );
+                else
+                    $value = $this->numericalValue( $operatorValue );
+
+                $operatorValue = $this->buildRoman( $value );
+            } break;
             case $this->CountName;
             {
                 if ( count( $operatorParameters ) == 0 )
@@ -232,7 +248,7 @@ class eZTemplateArithmeticOperator
             {
                 if ( count( $operatorParameters ) < 1 )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
+                    $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
                 $i = 0;
@@ -251,7 +267,7 @@ class eZTemplateArithmeticOperator
             {
                 if ( count( $operatorParameters ) < 1 )
                 {
-                    $tpl->warning( $operatorName, "Missing dividend and divisor" );
+                    $tpl->warning( $operatorName, 'Missing dividend and divisor' );
                     return;
                 }
                 if ( count( $operatorParameters ) == 1 )
@@ -270,7 +286,7 @@ class eZTemplateArithmeticOperator
             {
                 if ( count( $operatorParameters ) < 1 )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
+                    $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
                 $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
@@ -285,7 +301,7 @@ class eZTemplateArithmeticOperator
             {
                 if ( count( $operatorParameters ) < 1 )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
+                    $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
                 $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
@@ -301,7 +317,7 @@ class eZTemplateArithmeticOperator
             {
                 if ( count( $operatorParameters ) < 1 )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
+                    $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
                 $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
@@ -362,6 +378,64 @@ class eZTemplateArithmeticOperator
     }
 
     /// \privatesection
+
+    /*!
+     \private
+
+     Recursive function for calculating roman numeral from integer
+
+     \param integer value
+     \return next chars for for current value
+    */
+    function buildRoman( $value )
+    {
+        if ( $value > 1000 )
+            return 'M'.$this->buildRoman( $value - 1000 );
+        if ( $value > 500 )
+        {
+            if ( $value >= 900 )
+                return 'CM'.$this->buildRoman( $value - 900 );
+            else
+                return 'D'.$this->buildRoman( $value - 500 );
+        }
+        if ( $value > 100 )
+        {
+            if( $value >= 400 )
+                return 'CD'.$this->buildRoman( $value - 400 );
+            else
+                return 'C'.$this->buildRoman( $value - 100 );
+        }
+        if ( $value > 50 )
+        {
+            if( $value >= 90 )
+                return 'XC'.$this->buildRoman( $value - 90 );
+            else
+                return 'L'.$this->buildRoman( $value - 50 );
+        }
+        if ( $value > 10 )
+        {
+            if( $value >= 40 )
+                return 'XL'.$this->buildRoman( $value - 40 );
+            else
+                return 'X'.$this->buildRoman( $value - 10 );
+        }
+        if ( $value > 5 )
+        {
+            if( $value == 9 )
+                return 'IX'.$this->buildRoman( $value - 9 );
+            else
+                return 'V'.$this->buildRoman( $value - 5 );
+        }
+        if ( $value >= 1 )
+        {
+            if( $value == 4 )
+                return 'IV'.$this->buildRoman( $value - 4 );
+            else
+                return 'I'.$this->buildRoman( $value - 1 );
+        }
+        return '';
+    }
+
     var $Operators;
     var $SumName;
     var $SubName;
@@ -384,6 +458,8 @@ class eZTemplateArithmeticOperator
     var $FloatName;
 
     var $CountName;
+
+    var $RomanName;
 }
 
 ?>

@@ -42,6 +42,11 @@ define( 'EZ_PDF_LIB_NEWLINE', '<C:callNewLine>' );
 define( 'EZ_PDF_LIB_SPACE', '<C:callSpace>' );
 define( 'EZ_PDF_LIB_TAB', '<C:callTab>' );
 
+define( 'EZ_PDF_LIB_PAGENUM', '#page' );
+define( 'EZ_PDF_LIB_TOTAL_PAGENUM', '#total' );
+define( 'EZ_PDF_LIB_HEADER_LEVEL', '#level' );
+define( 'EZ_PDF_LIB_HEADER_LEVEL_INDEX', '#indexLevel' );
+
 /**
  This class extents Cezpdf ( class.ezpdf.php ) and adds extra support to tables.
 */
@@ -57,6 +62,8 @@ class eZPDFTable extends Cezpdf
         $this->Cezpdf();
         $this->TOC = array();
         $this->KeywordArray = array();
+        $this->PageCounter = array();
+        $this->initFrameMargins();
 
         $this->ez['textStack'] = array();
 
@@ -65,19 +72,34 @@ class eZPDFTable extends Cezpdf
         $this->DocSpecification = array();
     }
 
+    /*!
+     * \private
+     * Initialize footer and header frame margins. Called by constructor
+     */
+    function initFrameMargins()
+    {
+        $this->ezFrame = array();
+
+        $config =& eZINI::instance( 'pdf.ini' );
+
+        $this->ezFrame['header'] = array( 'y0' => $this->ez['pageHeight'],
+                                          'leftMargin' => $config->variable( 'Header', 'LeftMargin' ),
+                                          'rightMargin' => $config->variable( 'Header', 'RightMargin' ),
+                                          'topMargin' => $config->variable( 'Header', 'TopMargin' ),
+                                          'bottomMargin' => $config->variable( 'Header', 'BottomMargin' ) );
+        $this->ezFrame['footer'] = array( 'y0' => $this->ez['bottomMargin'],
+                                          'leftMargin' => $config->variable( 'Header', 'LeftMargin' ),
+                                          'rightMargin' => $config->variable( 'Header', 'RightMargin' ),
+                                          'topMargin' => $config->variable( 'Header', 'TopMargin' ),
+                                          'bottomMargin' => $config->variable( 'Header', 'BottomMargin' ) );
+    }
+
     /**
      Get the current Y offset
     */
     function offsetY()
     {
         return $this->y;
-    }
-
-    /*!
-      Add a basic XHTML table to the pdf. This funtions converts basich html, and adds to the pdf file
-    */
-    function addXHTMLTable( &$table, $options='' )
-    {
     }
 
     /** add a table of information to the pdf document
@@ -812,9 +834,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $paramString = $info['p'].'>';
-
-        $this->extractParameters( $paramString, 0, $params, true );
+        $this->extractParameters( $info['p'], 0, $params, true );
 
         $xOffset = $this->ez['leftMargin'];
         if ( isset( $params['xOffset'] ) )
@@ -850,7 +870,7 @@ class eZPDFTable extends Cezpdf
 
             $this->addDestination( 'keyword:'.$label,
                                    'FitH',
-                                   $this->offsetY() + $this->getFontHeight( $this->fontSize() ) );
+                                   $this->offsetY() );
         }
     }
 
@@ -865,9 +885,10 @@ class eZPDFTable extends Cezpdf
         $level = $params[1];
 
         $tocCount = count( $this->TOC );
-        $this->TOC[] = array( $this->fixWhitespace( rawurldecode( $label ) ),
-                              $this->ezWhatPageNumber($this->ezGetCurrentPageNumber()),
-                              $level );
+        $this->TOC[] = array( 'label' => $this->fixWhitespace( rawurldecode( $label ) ),
+                              'localPageNumber' => $this->ezWhatPageNumber($this->ezGetCurrentPageNumber()),
+                              'level' => $level,
+                              'pageNumber' => $this->ezGetCurrentPageNumber() );
         $this->addDestination( 'toc'. $tocCount,
                                'FitH',
                                $this->offsetY() + $this->getFontHeight( $this->fontSize() ) );
@@ -911,7 +932,7 @@ class eZPDFTable extends Cezpdf
 
             foreach( array_keys( $this->KeywordArray[$keyWord] ) as $page )
             {
-                Cezpdf::ezText( '<c:ilink:keyword:'. $this->KeywordArray[$keyWord][$page]['label'] .'>'. $page .'</c:ilink>',
+                Cezpdf::ezText( '<c:ilink:keyword:'. $this->KeywordArray[$keyWord][$page]['label'] .'> '. $page .'</c:ilink>',
                                 $fontSize,
                                 array( 'justification' => 'right' ) );
             }
@@ -919,7 +940,6 @@ class eZPDFTable extends Cezpdf
 
         $this->ezColumnsStop();
         $this->setFontSize( $fontSize );
-
     }
 
     /*!
@@ -943,21 +963,21 @@ class eZPDFTable extends Cezpdf
         Cezpdf::ezText("Contents\n", 26, array('justification'=>'centre'));
 
         foreach($this->TOC as $k=>$v){
-            if ( $v[2] <= $level )
+            if ( $v['level'] <= $level )
             {
                 if ( $dots )
                 {
-                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v[0] .'</c:ilink><C:dots:'. $sizeArray[$v[2]-1].$v[1] .'>'. "\n",
-                                   $sizeArray[$v[2]-1],
-                                   array('left' => $indentArray[$v[2]-1] ) );
+                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v['label'] .'</c:ilink><C:dots:'. $sizeArray[$v['level']-1].$v['localPageNumber'] .'>'. "\n",
+                                   $sizeArray[$v['level']-1],
+                                   array('left' => $indentArray[$v['level']-1] ) );
                 }
                 else
                 {
-                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'.$v[0].'</c:ilink>',
-                                    $sizeArray[$v[2]-1],
-                                    array( 'left' => $indentArray[$v[2]-1] ) );
-                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v[1] .'</c:ilink>'. "\n",
-                                    $sizeArray[$v[2]-1],
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'.$v['label'].'</c:ilink>',
+                                    $sizeArray[$v['level']-1],
+                                    array( 'left' => $indentArray[$v['level']-1] ) );
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v['localPageNumber'] .'</c:ilink>'. "\n",
+                                    $sizeArray[$v['level']-1],
                                     array( 'justification' => 'right' ) );
                 }
             }
@@ -1091,7 +1111,184 @@ class eZPDFTable extends Cezpdf
         return $this->outputDocSpecification();
     }
 
-    /**
+    /*!
+      Function for adding footer definition to PDF document. creates call on stack for ezInsertFooter
+
+      \param parameters
+      \text inside ezGroup Tags
+    */
+    function callFrame( $params, $text )
+    {
+        if ( strlen( $text ) > 0 )
+        {
+            $this->addDocSpecFunction( 'ezInsertFrame', array( $this->fixWhitespace( $text ), $params) );
+        }
+    }
+
+    /*!
+      Function for setting frame margins. Frames are used to define for example footer and header areas
+
+      \param info, standard ezpdf callback function
+    */
+    function callFrameMargins( $info )
+    {
+        $params = array();
+        $this->extractParameters( $info['p'], 0, $params, true );
+
+        if( isset( $this->ezFrame[$params['identifier']] ) )
+        {
+            $this->ezFrame[$params['identifier']] = array_merge( $this->ezFrame[$params['identifier']],
+                                                                 $params );
+        }
+        else
+        {
+            $this->ezFrame[$params['identifier']] = $params;
+        }
+    }
+
+    /*!
+      Insert footer/header into PDF document
+
+      \param text
+      \param text parameters
+    */
+    function ezInsertFrame( $text, $textParameters )
+    {
+        $size = $this->fontSize();
+        if ( isset( $textParameters['size'] ) )
+        {
+            $size = $textParameters['size'];
+        }
+
+        $previousFont = $this->currentFont();
+        if ( isset( $textParameters['font'] ) )
+        {
+            $this->setCurrentFont( $textParameters['font'] );
+        }
+
+        $justification = $this->justification();
+        if ( isset( $textParameters['justification'] ) )
+        {
+            $justification = $textParameters['justification'];
+        }
+
+        switch( $textParameters['location'] )
+        {
+            case 'footer':
+            {
+                $frameCoords =& $this->ezFrame['footer'];
+            } break;
+
+            case 'header':
+            {
+                $frameCoords =& $this->ezFrame['header'];
+            } break;
+
+            default:
+            {
+                $frameCoords =& $this->ezFrame[0];
+            } break;
+        }
+
+        foreach ( $this->ezPages as $pageNum => $pageID )
+        {
+            if ( $pageNum < $textParameters['pageOffset'] )
+                continue;
+
+            $frameText = $text; //Create copy of text
+            if( $textParameters['page'] == 'even' &&
+                $pageNum % 2 == 1 )
+                continue;
+            else if ( $textParameters['page'] == 'odd' &&
+                      $pageNum % 2 == 0 )
+                continue;
+
+            $countIdentifier = '';
+            if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
+            {
+                foreach ( array_keys( $this->PageCounter ) as $identifier )
+                {
+                    if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
+                         $this->PageCounter[$identifier]['end'] >= $pageNum )
+                    {
+                        $frameText = str_replace( EZ_PDF_LIB_PAGENUM,
+                                                  $this->ezWhatPageNumber( $pageNum, $identifier ),
+                                                  $frameText );
+                        $countIdentifier = $identifier;
+                        break;
+                    }
+                }
+            }
+
+            if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+            {
+                if( $countIdentifier == '' )
+                {
+                    foreach ( array_keys( $this->PageCounter ) as $identifier )
+                    {
+                        if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
+                             $this->PageCounter[$identifier]['end'] >= $pageNum )
+                        {
+                            $countIdentifier = $identifier;
+                            break;
+                        }
+                    }
+                }
+                $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+                                          $this->PageCounter[$countIdentifier]['end'] - $this->PageCounter[$countIdentifier]['start'] + 1,
+                                          $frameText );
+            }
+
+            for( $levelCount = 0; $levelCount < 9; $levelCount++ )
+            {
+                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                {
+                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                                              $this->headerLabel( $pageNum, $levelCount ),
+                                              $frameText );
+                }
+
+                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                {
+                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                                              $this->headerIndex( $pageNum, $levelCount ),
+                                              $frameText );
+                }
+            }
+
+            $yOffset = $frameCoords['y0'] - $frameCoords['topMargin'];
+
+            $yOffset -= $this->getFontHeight( $size );
+            $xOffset = $frameCoords['leftMargin'];
+            $pageWidth = $this->ez['pageWidth'] - $frameCoords['leftMargin'] - $frameCoords['rightMargin'];
+
+            $this->reopenObject($pageID);
+
+            $lines = explode( "\n", $frameText );
+            foreach ( array_keys( $lines ) as $key )
+            {
+                $start=1;
+                $line = $lines[$key];
+                while (strlen($line) || $start){
+                    $start = 0;
+                    $textInfo = $this->addTextWrap( $xOffset, $yOffset, $pageWidth, $frameText, $justification );
+                    $line = $textInfo['text'];
+
+                    if ( strlen( $line ) )
+                    {
+                        $yOffset -= $this->getFontHeight( $size );
+                    }
+                    var_dump( $line );
+                }
+            }
+
+            $this->closeObject();
+        }
+
+        $this->setCurrentFont( $previousFont );
+    }
+
+    /*!
      * Function for generating table definition. Called by ezGroup specification
      *
      * \param parameters
@@ -1203,6 +1400,11 @@ class eZPDFTable extends Cezpdf
     function extractParameters( &$text, $offSet, &$parameters, $skipFirstChar=false )
     {
         $endOffset = strpos( $text, '>', $offSet );
+        if ( $endOffset === false )
+        {
+            $endOffset = strlen( $text ) - 1;
+        }
+
         if ( $skipFirstChar === false )
             $offSet++;
         while ( $offSet < $endOffset )
@@ -1376,10 +1578,172 @@ class eZPDFTable extends Cezpdf
         array_push( $this->PreStack, $currentElement );
     }
 
+    /*!
+      Draw line related to a frame.
+    */
+    function callFrameLine( $info )
+    {
+        $parameters = array();
+        $this->extractParameters( $info['p'], 0, $parameters, true );
+
+        $location = $parameters['location'];
+        $yOffset = $parameters['margin'];
+        if ( $location == 'header' )
+        {
+            $yOffset = $this->ez['pageHeight'] - $parameters['margin'];
+        }
+
+        $rightMargin = $this->ez['rightMargin'];
+        if ( isset( $parameters['rightMargin'] ) )
+        {
+            $rightMargin = $parameters['rightMargin'];
+        }
+
+        $leftMargin = $this->ez['leftMargin'];
+        if ( isset( $parameters['leftMargin'] ) )
+        {
+            $leftMargin = $parameters['leftMargin'];
+        }
+
+        foreach ( $this->ezPages as $pageNum => $pageID )
+        {
+            if( $pageNum < $parameters['pageOffset'] )
+                continue;
+
+            if ( $parameters['page'] == 'odd' &&
+                 $pageNum % 2 == 0 )
+                continue;
+
+            if ( $parameters['page'] == 'even' &&
+                 $pageNum % 2 == 1 )
+                continue;
+
+            $this->reopenObject( $pageID );
+            $this->line( $leftMargin, $yOffset, $this->ez['pageWidth'] - $rightMargin, $yOffset );
+            $this->closeObject();
+        }
+    }
+
+    /*!
+     Start page counter in PDF document
+
+     \param counter identifier
+    */
+    function callStartPageCounter( $info )
+    {
+        $params = array();
+
+        $this->extractParameters( $info['p'], 0, $params, true );
+
+        $identifier = 'main';
+        if ( isset( $params['identifier'] ) )
+        {
+            $identifier = $params['identifier'];
+        }
+
+        switch( $params['action'] )
+        {
+            case 'start':
+            case 'begin':
+            {
+                $this->PageCounter[$identifier] = array( 'start' => $this->ezGetCurrentPageNumber() );
+            } break;
+
+            case 'stop':
+            case 'end':
+            {
+                $this->PageCounter[$identifier] = array( 'end' => $this->ezGetCurrentPageNumber() );
+            } break;
+        }
+    }
+
+    /*!
+     \reimp
+
+     \param real page number
+     \param pagecounter identifier
+    */
+    function ezWhatPageNumber( $pageNum, $identifier = false )
+    {
+        if ( $identifier === false )
+        {
+            foreach ( array_keys( $this->PageCounter ) as $identifier )
+            {
+                if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
+                     $this->PageCounter[$identifier]['end'] >= $pageNum )
+                    return $pageNum - $this->PageCounter[$identifier]['start'];
+            }
+        }
+        else
+            return $pageNum - $this->PageCounter[$identifier]['start'];
+    }
+
     /* --- Private --- */
+    /*!
+      \private
+
+      Get header label of content on specified page and specified level
+
+      \param current page
+      \param level
+    */
+    function headerLabel( $page, $level )
+    {
+        $headerLabel = '';
+        foreach ( array_keys( $this->TOC ) as $key )
+        {
+            $header = $this->TOC[$key];
+            if ( $header['pageNumber'] > $page )
+                return $headerLabel;
+
+            if ( $header['level'] == $level )
+            {
+                $headerLabel = $header['label'];
+            }
+            else if ( $header['level'] < $level )
+            {
+                $headerLabel = '';
+            }
+        }
+
+        return $headerLabel;
+    }
+
+    /*!
+      \private
+
+      Get header label of content on specified page and specified level
+
+      \param current page
+      \param level
+    */
+    function headerIndex( $page, $level )
+    {
+        $headerIndex = 0;
+        foreach ( array_keys( $this->TOC ) as $key )
+        {
+            $header = $this->TOC[$key];
+            if ( $header['pageNumber'] > $page )
+                return ( $headerIndex != 0 ? $headerIndex : '' );
+
+            if ( $header['level'] == $level )
+            {
+                $headerIndex++;
+            }
+            else if ( $header['level'] < $level )
+            {
+                $headerLabel = 0;
+            }
+        }
+
+        return ( $headerIndex != 0 ? $headerIndex : '' );
+    }
 
     var $TOC; // Table of content array
     var $KeywordArray; // keyword array
+    var $PageCounter;
+
+    var $ezFrame; // array containing frame definitions
 
     /* Stack and array used for preprocessing document */
     var $PreStack;
