@@ -466,9 +466,9 @@ class eZContentObject extends eZPersistentObject
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
                 $ini =& eZINI::instance();
-                if ( $lang == false )
+                if ( $language == false )
                 {
-                    $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                    $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
                 }
 
                 $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
@@ -1288,9 +1288,9 @@ class eZContentObject extends eZPersistentObject
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
             $ini =& eZINI::instance();
-            if ( $lang == false )
+            if ( $language == false )
             {
-                $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
             }
 
             $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
