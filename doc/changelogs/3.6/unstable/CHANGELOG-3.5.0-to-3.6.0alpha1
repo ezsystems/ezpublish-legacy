@@ -198,6 +198,7 @@ eZInformationCollection:
 - Fixed bug #6270: Error in ezpackage.php
   (Merged from stable/3.4 (3.4.6) rev.11052, stable/3.5 (3.5.2) rev. 11054)
 - Fixed: Session data was rewritten in case of HTTP request errors.
+- Fixed bug #6307: Ini arrays' definitions were erased when saving ini files.
 
 *Library:
 PDF:

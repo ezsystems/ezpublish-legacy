@@ -635,6 +635,15 @@ class eZINI
                 $varName = trim( $valueArray[1] );
                 $this->BlockValues[$currentBlock][$varName] = array();
                 $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
+
+                // In direct access mode we create empty elements at the beginning of an array
+                // in case it is redefined in this ini file. So when we will save it, definition
+                // will be created as well.
+                if ( $this->DirectAccess )
+                {
+                    $this->BlockValues[$currentBlock][$varName][] = "";
+                }
+                
             }
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {

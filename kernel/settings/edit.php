@@ -44,7 +44,7 @@ $settingTypeArray = array( 'array' => 'Array',
 
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
-$ini =& eZINI::instance();
+//$ini =& eZINI::instance();
 
 if ( $Params['INIFile'] )
     $iniFile = $Params['INIFile'];
@@ -61,7 +61,7 @@ if ( $Params['Setting'] )
 if ( $Params['Placement'] )
     $settingPlacement = $Params['Placement'];
 
-if ( $http->hasPostVariable( 'INIFile' )  )
+if ( $http->hasPostVariable( 'INIFile' ) )
     $iniFile = $http->variable( "INIFile" );
 
 if ( $http->hasPostVariable( 'SiteAccess' ) )
@@ -70,13 +70,13 @@ if ( $http->hasPostVariable( 'SiteAccess' ) )
 if ( $http->hasPostVariable( 'Block' ) )
     $block = trim( $http->postVariable( 'Block' ) );
 
-if ( $http->hasPostVariable( 'SettingType' )  )
+if ( $http->hasPostVariable( 'SettingType' ) )
     $settingType = trim( $http->postVariable( 'SettingType' ) );
 
-if ( $http->hasPostVariable( 'SettingName' )  )
+if ( $http->hasPostVariable( 'SettingName' ) )
     $settingName = trim( $http->postVariable( 'SettingName' ) );
 
-if ( $http->hasPostVariable( 'SettingPlacement' )  )
+if ( $http->hasPostVariable( 'SettingPlacement' ) )
     $settingPlacement = trim( $http->postVariable( 'SettingPlacement' ) );
 
 if ( $http->hasPostVariable( 'Value' ) )
@@ -95,7 +95,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
     else
         $path = 'settings/override';
 
-    $ini =& eZINI::instance( $iniFile . '.append.php', $path, null, null, null, true );
+    $ini =& eZINI::instance( $iniFile . '.append', $path, null, null, null, true );
 
     $hasValidationError = false;
     include_once( 'kernel/settings/validation.php' );
@@ -114,13 +114,13 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
         {
             $valueArray = explode( "\n", $valueToWrite );
             $valuesToWriteArray = array();
+
             $settingCount = 0;
             foreach( $valueArray as $value )
             {
-                $value = trim( $value );
                 if ( preg_match( "/^\[(.+)\]\=(.+)$/", $value, $matches ) )
                 {
-                    $valuesToWriteArray[$matches[1]] = $matches[2];
+                    $valuesToWriteArray[$matches[1]] = trim( $matches[2], "\r\n" );
                 }
                 else
                 {
@@ -132,18 +132,19 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
                     }
                     else
                     {
-                        $valuesToWriteArray[] = $value;
+                        $valuesToWriteArray[] = trim( $value, "\r\n" );
                     }
                 }
                 ++$settingCount;
             }
+
             $ini->setVariable( $block, $settingName, $valuesToWriteArray );
         }
         else
         {
             $ini->setVariable( $block, $settingName, $valueToWrite );
         }
-        $writeOk = $ini->save();
+        $writeOk = $ini->save(); // false, false, false, false, true, true );
 
         if ( !$writeOk )
         {
@@ -187,12 +188,14 @@ if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
 $value = $ini->variable( $block, $settingName );
 
 // Do modifications to the value before it's sent to the template
-if ( $value and !$settingType )
+if ( $value and !isset( $settingType ) )
 {
     $settingType = $ini->settingType( $value );
     if ( $settingType == 'array' )
     {
         $valueArray = array();
+        $valueArray[] = "=";
+
         foreach( $value as $param=>$key )
         {
             if ( !is_numeric( $param ) )
@@ -204,8 +207,7 @@ if ( $value and !$settingType )
                 $valueArray[] = "=$key";
             }
         }
-        $value = $valueArray;
-        $value = implode( "\n", $value );
+        $value = implode( "\n", $valueArray );
     }
 }
 
