@@ -4,10 +4,7 @@
 <h1>{"Wish list"|i18n}</h1>
 </div>
 
-<div class="block">
-<label>Wish list ID:</label><div class="labelbreak"></div>
-<p class="box">{$wish_list.id}</p>
-</div>
+{section show=$wish_list.items}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -39,7 +36,7 @@
     &nbsp;
 	</th>
 </tr>
-{section name=ProductItem loop=$wish_list.items show=$wish_list.items sequence=array(bglight,bgdark)}
+{section name=ProductItem loop=$wish_list.items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
@@ -73,22 +70,23 @@
 	<input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$ProductItem:item.id}" />
 	</td>
 </tr>
-{section-else}
-<tr>
-	<td>
-<div class="feedback">
-<h2>Empty wish list</h2>
-</div>
-    </td>
-</tr>
 {/section}
 </table>
-
-<p class="comment">To be done: The structure of this template needs to be changed so that the headers of the table don't print if the basket is empty, and the "Empty..." message isn't inside the table at all. th[eZ]</p>
 
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreChangesButton" value="Store" />
 <input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
 </div>
+
+{section-else}
+
+
+<div class="feedback">
+<h2>Empty wish list</h2>
+</div>
+{/section}
+
+
+
 
 </form>

@@ -89,13 +89,17 @@
 	<td class="{$Child:sequence}">
         <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
 	</td>
-        <td class="{$Child:sequence}">{$Child:item.object.class_name}</td>
-	{section show=eq($node.sort_array[0][0],'priority')}<td width="40" align="left">
-	<input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
-	<input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}"></td>{/section}
+        <td class="{$Child:sequence}">{$Child:item.object.class_name}
+	</td>
+	{section show=eq($node.sort_array[0][0],'priority')}
+	<td width="40" align="left" class="{$Child:sequence}">
+	  <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
+          <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
+	</td>
+	{/section}
 	{switch name=sw match=$Child:item.object.can_edit}
         {case match=1}
-	<td width="1%">
+	<td width="1%" class="{$Child:sequence}">
         <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
         </td>
 	{/case}
@@ -103,7 +107,7 @@
 	<td class="{$Child:sequence}" width="1%">
 	</td>
         {/case}
-        {/switch} 
+        {/switch}
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
 	<td class="{$Child:sequence}" align="right" width="1%">

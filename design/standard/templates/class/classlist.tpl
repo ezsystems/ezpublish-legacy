@@ -48,12 +48,12 @@
 {/section}
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New Class"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n('content/class')}
 {switch name=Sw match=$count}
   {case match=0}
   {/case}
   {case}
-  {include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Delete"|i18n('content/class')}
+  {include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Remove"|i18n('content/class')}
   {/case}
 {/switch}
 </div>

@@ -25,8 +25,8 @@
 </table>
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New Group"|i18n('content/class')}
-{include uri="design:gui/button.tpl" name=deletegroup id_name=DeleteGroupButton value="Delete"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=deletegroup id_name=DeleteGroupButton value="Remove"|i18n('content/class')}
 </div>
 
 </form>
