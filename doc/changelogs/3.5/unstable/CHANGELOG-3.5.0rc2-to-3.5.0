@@ -10,7 +10,9 @@ Changes from 3.5.0rc2 to 3.5.0
 - Fixed bug in workflow triggering system: object approval didn't work.
 - Fixed bug with exporting packages
   http://ez.no/community/bug_reports/3_5_0rc2_package_file_size_is_0b
-
+- Fixed bug: Deleting nodes -> role assignment isn't deleted.
+  http://ez.no/community/bug_reports/3_5rc2_deleting_nodes_role_assignment_isn_t_deleted
+  (Merged from stable/3.4/ rev. 10363)
 *Library:
 
 eZDebug:
