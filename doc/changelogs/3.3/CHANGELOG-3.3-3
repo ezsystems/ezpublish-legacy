@@ -10,6 +10,7 @@ Changes from 3.3-2 to 3.3-3
 - Added storeData() function for eZContentObjectAttribute, this function is safe for datatypes to call (unlike store() ).
 - Fixed eZCache to use eZDir::mkdir when creating folders.
 - Fixed showing correct class list in admin->setup->classes.
+- Added setup node to browse tree.
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
@@ -55,6 +56,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_lib
 - Fixed several bugs in kernel.
   http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_kernel__1
+- Fixed having whitespace before settings in ini files.
+  http://ez.no/community/bug_reports/override_mechanism_not_working_3_3_1
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
