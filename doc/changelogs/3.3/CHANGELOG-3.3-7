@@ -60,6 +60,7 @@ Changes from 3.3-6 to 3.3-7
   X emails in Y hours.
 - Fixed bug #4299: No Translations update when changing an Object Relation Attribute with Disabled Translation.
   http://ez.no/community/bugs/no_translations_update_when_changing_an_object_relation_attribute_with_disabled_translation
+- Fixed bug #5943: When changing the list of objects related to object A, translation of A were not updated.
 
 *Library:
 

@@ -302,6 +302,9 @@ class eZObjectRelationListType extends eZDataType
     {
         if ( $currentVersion != false )
         {
+            $dataText = $originalContentObjectAttribute->attribute( 'data_text' );
+            $contentObjectAttribute->setAttribute( 'data_text', $dataText );
+
             if ( $contentObjectAttribute->attribute( 'contentobject_id' ) != $originalContentObjectAttribute->attribute( 'contentobject_id' ) )
             {
                 $classContent =& eZObjectRelationListType::defaultClassAttributeContent();
