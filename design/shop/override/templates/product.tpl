@@ -30,15 +30,15 @@
 {/let}
 
 <div class="controls">
-    <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="Add to basket" />
+    <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="{"Add to basket"|i18n("design/shop/layout")}" />
 
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
     <input type="hidden" name="ViewMode" value="full" /> 
 
-    <input class="button" type="submit" name="ActionAddToNotification" value="Notify me about updates {*to {$node.name}*}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="{"Notify me about updates"|i18n("design/shop/layout")}{*to {$node.name}*}" />
 
-    <div class="rightobject"><p><a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}>Printerfriendly version</a></p></div>
+    <div class="rightobject"><p><a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}>{"Printerfriendly version"|i18n("design/shop/layout")}</a></p></div>
 </div>
 
 </form>
