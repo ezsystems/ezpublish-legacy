@@ -128,7 +128,7 @@
     </tr>
     <tr>
         <td class="menu" colspan="2">
-	    <p class="menufieldlabel">{"Created"|i18n("design/standard/content/edit")}:</p>
+	    <p class="menufieldlabel">{"Created:"|i18n("design/standard/content/edit")}</p>
 	    {section show=$object.published}
 	    <p class="menufield">{$object.published|l10n(date)}</p>
 	    {section-else}
@@ -145,7 +145,7 @@
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Editing"|i18n("design/standard/content/edit")}:</p>
+	    <p class="menufieldlabel">{"Editing:"|i18n("design/standard/content/edit")}</p>
         </td>
         <td class="menu" width="1">
 	    <p class="menufield">{$edit_version}</p>
