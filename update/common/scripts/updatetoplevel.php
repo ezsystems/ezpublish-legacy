@@ -33,7 +33,34 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+function upgradeMenuINI( $menuGroup, $newNodeID )
+{
+    $cli = eZCLI::instance();
+    $menuINI = eZINI::instance( 'menu.ini' );
 
+    if ( !$menuINI->hasVariable( "Topmenu_$menuGroup", 'URL' ) )
+        return;
+    $oldURLList = $menuINI->variable( "Topmenu_$menuGroup", 'URL' );
+    $changed = false;
+    foreach ( $oldURLList as $context => $url )
+    {
+        if ( is_numeric( $newNodeID ) )
+        {
+            $url = preg_replace( "/\/(\d+)(\/?)$/", '/'. $newNodeID . "\\2", $url );
+            $oldURLList[$context] = $url;
+            $changed = true;
+        }
+    }
+    if ( $changed )
+    {
+        $menuINI->setVariable( "Topmenu_$menuGroup", 'URL',  $oldURLList );
+
+        $cli->output();
+        $cli->output( "Writing back changes to menu.ini" );
+        $menuINI->save( false, false, 'append', true );
+
+    }
+}
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
@@ -119,6 +146,7 @@ foreach ( $checkNodes as $checkNode )
             $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
             $cli->output( "The actual node ID is " . $cli->stylize( 'emphasize', $rootNode->attribute( 'node_id' ) ) . ", will update content.ini with this" );
             $contentINI->setVariable( 'NodeSettings', $iniVariable, $rootNode->attribute( 'node_id' ) );
+            upgradeMenuINI( $nodeURLName, $rootNode->attribute( 'node_id' ) );
             $cli->output( "Updated content.ini with new ID " );
             $storeContentINI = true;
         }
@@ -207,6 +235,7 @@ foreach ( $checkNodes as $checkNode )
                 if ( $rootNodeID != $node->attribute( 'node_id' ) )
                 {
                     $contentINI->setVariable( 'NodeSettings', $iniVariable, $node->attribute( 'node_id' ) );
+                    upgradeMenuINI( $nodeURLName, $node->attribute( 'node_id' ) );
                     $cli->output( "Updated content.ini with new ID " );
                     $storeContentINI = true;
                 }
@@ -215,7 +244,7 @@ foreach ( $checkNodes as $checkNode )
             if ( $name == 'Design' )
             {
                 $cli->output( "Moving node /setup/ez_publish to /design", false );
-                $setupEzPublushNode =& ezContentObjectTreeNode::fetchByURLPath( 'setup/ez_publish' );
+                $setupEzPublushNode =& eZContentObjectTreeNode::fetchByURLPath( 'setup/ez_publish' );
                 if ( !is_object( $setupEzPublushNode ) )
                 {
 
