@@ -43,6 +43,7 @@ define( 'EZ_SETUP_TEST_FAILURE', 2 );
 function eZSetupTestTable()
 {
     return array( 'phpversion' => array( 'eZSetupTestPhpVersion' ),
+                  'php_session' => array( 'eZSetupTestExtension' ),
                   'directory_permissions' => array( 'eZSetupTestFilePermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
