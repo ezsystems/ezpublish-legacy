@@ -196,6 +196,12 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                     $dbError = true;
             }
             if ( !$dbError and
+                 $databaseChoice == 3 )
+            {
+                $template = "design:setup/init/database_done.tpl";
+                $persistenceList['database_info']['initialized'] = true;
+            }
+            else if ( !$dbError and
                  ( $databaseChoice == 1 or
                    $databaseChoice == 2 ) )
             {

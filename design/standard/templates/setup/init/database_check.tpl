@@ -6,6 +6,7 @@
 <p>
  The database is ready for initialization, click the <i>Create Database</i> when ready.
 </p>
+{section show=$database_info.info.has_demo_data}
 <p>
  If you wish the setup can add some demo data to your database, the demo data will
  give a good demonstration of the capabilites of eZ publish {$#version.text}.
@@ -17,6 +18,9 @@
  <input type="checkbox" name="eZSetupDemoData" value="1" {section show=$demo_data.use}checked="checked"{/section} />
 <p>
 </div>
+{section-else}
+ <input type="hidden" name="eZSetupDemoData" value="0" />
+{/section}
 
 {section show=$database_status.error}
 <div class="error">
