@@ -264,14 +264,15 @@ if ( !function_exists( 'checkContentActions' ) )
                     $parentNode =& $parentNodes[$parentNodeKey];
                     $nodeList[] = $parentNode->attribute( 'node_id' );
                 }
-                if ( $oldObjectName != $newObjectName )
-                {
-                    $assignedNodes =& $object->assignedNodes();
-                    foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
-                    {
-                        $assignedNode =& $assignedNodes[$assignedNodeKey];
-                        $nodeList[] = $assignedNode->attribute( 'node_id' );
 
+                $assignedNodes =& $object->assignedNodes();
+                foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
+                {
+                    $assignedNode =& $assignedNodes[$assignedNodeKey];
+                    $nodeList[] = $assignedNode->attribute( 'node_id' );
+
+                    if ( $oldObjectName != $newObjectName )
+                    {
                         $children =& eZContentObjectTreeNode::subTree( false, $assignedNode->attribute( 'node_id' ) );
                         foreach ( array_keys( $children ) as $childKey )
                         {
