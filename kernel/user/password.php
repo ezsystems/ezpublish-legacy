@@ -45,6 +45,15 @@ $oldPasswordNotValid = 0;
 $newPasswordNotMatch = 0;
 $newPasswordTooShort = 0;
 
+if( !isset( $oldPassword ) )
+    $oldPassword = '';
+
+if( !isset( $newPassword ) )
+    $newPassword = '';
+
+if( !isset( $confirmPassword ) )
+    $confirmPassword = '';
+
 if ( is_numeric( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 else
