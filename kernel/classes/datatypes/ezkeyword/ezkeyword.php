@@ -284,8 +284,16 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                $return =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
-            }
+		$aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );		
+		foreach ( $aNodes as $key => $node )
+		{
+		    $theObject = $node->object();
+		    if ( $theObject->canRead() )
+		    {
+			$return[] = $node;
+		    }
+		}
+	    }
         }
         return $return;
     }
