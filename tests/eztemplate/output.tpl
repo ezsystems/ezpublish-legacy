@@ -21,7 +21,7 @@
 {/section}
 
 
-{ldelim}section{/rdelim}
+{ldelim}section{rdelim}
 
 {switch match=$a}
 {case match=1}

@@ -7,7 +7,6 @@ shortdatetime  - {1077552775|l10n( 'shortdatetime' )}
 currency       - {1234.567|l10n( 'currency' )}
 clean_currency - {1234.567|l10n( 'clean_currency' )}
 number         - {1234.567|l10n( 'number' )}
-error          - {1234.567|l10n( 'error' )}
 
 
 {let number=1234.567 timestamp=1077552775}
@@ -20,7 +19,6 @@ shortdatetime  - {$timestamp|l10n( 'shortdatetime' )}
 currency       - {$number|l10n( 'currency' )}
 clean_currency - {$number|l10n( 'clean_currency' )}
 number         - {$number|l10n( 'number' )}
-error          - {$number|l10n( 'error' )}
 {/let}
 
 

@@ -1,4 +1,5 @@
-{let name="Sub1" 
+{let var1="root-kake" var2=concat($var1, "mann")}
+{let name="Sub1"
      var1="kake"
      var2=concat($Sub1:var1, "mann")}
 {set var1="balle"}
@@ -8,6 +9,7 @@
 {$:var2}
 {$var1}
 {$var2}
+
 {let name="Sub2"
      var1="eZ"
      var2=concat($Sub1:var1, "brok")}
@@ -19,6 +21,7 @@
 {$Sub1:var2}
 {/let}
 {/let}
+{/let}
 
 
 --------------------------------
@@ -27,7 +30,6 @@
 {$var1}={$var2}
 {/let}
 
-{$var1}={$var2}
 --------------------------------
 
 {default page_uri_suffix=false()
