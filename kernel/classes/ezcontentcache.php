@@ -132,7 +132,7 @@ class eZContentCache
         $timestamp = false;
 
         $fileInfo = @stat( $cachePath );
-        if ( $fileInfo ) )
+        if ( $fileInfo )
         {
             $timestamp = $fileInfo['mtime'];
             include_once( 'kernel/classes/ezcontentobject.php' );
