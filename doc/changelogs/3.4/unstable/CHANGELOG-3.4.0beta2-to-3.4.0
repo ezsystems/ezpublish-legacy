@@ -77,7 +77,9 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/eztemplatearrayoperator_php_undef_var
 - Fixed bug in wishlist of wrong culculation of VAT and discount.
   Merged from stable 3.3  rev. 6682.
-  http://ez.no/community/bug_reports/wishlist_is_buggy  
+  http://ez.no/community/bug_reports/wishlist_is_buggy
+- Fixed typo in ezlog.
+  http://ez.no/community/bug_reports/typo_in_ezlog
 
 *Library:
 

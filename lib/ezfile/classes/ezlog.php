@@ -135,7 +135,7 @@ class eZLog
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
             return $maxLogrotateFiles;
-        return EZ_DEBUG_MAX_LOGROTATE_FILES;
+        return EZ_MAX_LOGROTATE_FILES;
     }
 
     /*!
