@@ -226,13 +226,13 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
     {* Design menu *}
     {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezdesignnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig' menu_item_order='selected-middle'}
+        {section show=eq($navigation_part.identifier,'ezvisualnavigationpart')}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='middle'}
     {/section}
 
     {* Set up menu *}
@@ -308,8 +308,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {include uri='design:parts/user/menu.tpl'}
 {/section}
 
-{section show=eq( $navigation_part.identifier, 'ezdesignnavigationpart' )}
-    {include uri='design:parts/design/menu.tpl'}
+{section show=eq( $navigation_part.identifier, 'ezvisualnavigationpart' )}
+    {include uri='design:parts/visual/menu.tpl'}
 {/section}
 
 {section show=eq( $navigation_part.identifier, 'ezsetupnavigationpart' )}
