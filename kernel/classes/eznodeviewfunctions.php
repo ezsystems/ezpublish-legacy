@@ -199,7 +199,7 @@ class eZNodeviewfunctions
         }
         $ini =& eZINI::instance();
 
-        $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.php';
+        $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
         $extraPath = eZDir::filenamePath( $nodeID );
         $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $designSetting, $viewMode, $language, $extraPath ) );
         $cachePath = eZDir::path( array( $cacheDir, $cacheFile ) );
