@@ -153,6 +153,7 @@ selected="selected"
   {/case}
 {/switch}
 </div>
+{/section}
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
@@ -165,6 +166,7 @@ selected="selected"
 
 </div>
 
+{section show=ne($search_count,0)}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search',, array( $search_text, $search_count ) )|wash}</h2>
@@ -178,7 +180,6 @@ selected="selected"
 {include name=Result
          uri='design:content/searchresult.tpl'
          search_result=$search_result}
-{/section}
 
 <div class="context-toolbar">
 {include name=navigator
@@ -193,6 +194,6 @@ selected="selected"
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
-
+{/section}
 </form>
 {/let}
