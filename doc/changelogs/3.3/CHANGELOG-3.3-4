@@ -12,7 +12,6 @@ Changes from 3.3-3 to 3.3-4
 - Added possibility to add multiple objects to a objectrelationlist in the browse view
   http://ez.no/community/bug_reports/ezobjectrelationlist_doesn_t_support_multiple_values
 
-
 *Setup:
 - Fixed checking of existing MySQL databases to use mysql_list_dbs().
 
@@ -21,6 +20,7 @@ Changes from 3.3-3 to 3.3-4
 - Added checkbox 'make empty array' when editing datatype inisetting if ini
   variable is array.
 - Added remove empty ini block function for datatype inisetting.
+- eZBinaryFile now uses eZMimeType for mime type handling. Merged from trunk (Rev. 5194)
 
 *Bugs:
 - Fixed broken datatype range option.
@@ -111,6 +111,10 @@ eZ db:
 eZ Locale:
 - Removed space between dollar sign and pricevalue in eng-US
   http://ez.no/community/bug_reports/space_after_dollar_sign_should_be_removed
+
+eZ MIMEType:
+- Added mimetypes for OpenOffice for Writer, Calc and Impress. Merged from trunk (Rev. 5194)
+- Added .htm as suffix match to text/html MIMEType. Merged from trunk (Rev. 5194)
 
 *Design:
 
