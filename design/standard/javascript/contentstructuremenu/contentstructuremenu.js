@@ -419,7 +419,7 @@ function ezcst_restoreMenuState( rootNode )
 function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCurrentNode )
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
-    var currentNodeID = additionalNodesList.pop();           // remove current node;
+    var currentNodeID = additionalNodesList.pop();           // remove current node from list.
 
     if ( menu != null )
     {

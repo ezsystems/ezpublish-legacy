@@ -3,13 +3,15 @@
          children       = $contentStructureTree.children
          haveChildren   = count($contentStructureTree.children)|gt(0)
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
-         classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
          toolTip        = ""
          visibility     = 'Visible' }
+
+        {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' ) }
 
         {section show=is_set($class_icons_size)}
             {set classIconsSize=$class_icons_size}
         {/section}
+
 
         {section show=$:parentNode.node.is_hidden}
             <li id="n{$:parentNode.node.node_id}" class="hiddennode">
@@ -68,5 +70,6 @@
                     </ul>
                 {/section}
         </li>
+        {/default}
     {/let}
 {/section}

@@ -16,7 +16,8 @@
      preloadClassIcons      = ezini( 'TreeMenu', 'PreloadClassIcons', 'contentstructuremenu.ini' )
      autoopenCurrentNode    = ezini( 'TreeMenu', 'AutoopenCurrentNode', 'contentstructuremenu.ini' )
      contentStructureTree   = false()
-     menuID                 = "content_tree_menu" }
+     menuID                 = "content_tree_menu"
+     isDepthUnlimited       = eq($:maxDepth, 0) }
 
     {* check size of icons *}
     {section show=is_set($:class_icons_size)}
@@ -94,8 +95,9 @@
         var nodesList = new Array();
 
         {section var=path loop=$module_result.path}
-            {section show=is_set($:path.node_id)}
+            {section show=and(is_set($:path.node_id), or($:isDepthUnlimited, $:maxDepth|gt(0)))}
                 nodesList.push( "n{$:path.node_id}" );
+                {set maxDepth = dec($:maxDepth)}
             {/section}
         {/section}
 
