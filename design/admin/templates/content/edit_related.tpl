@@ -124,6 +124,7 @@ function deSelectAll()
 </div>
 
 {*
+
 <div class="context-block">
 
 <div class="box-header">
@@ -140,7 +141,7 @@ function deSelectAll()
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
         <label>{'Location'|i18n( 'design/standard/content/edit' )}:</label>
@@ -166,9 +167,11 @@ function deSelectAll()
         <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div></div></div></div></div></div>
 
 </div>
 
 </div>
+
 *}
+
