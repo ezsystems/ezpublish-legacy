@@ -90,7 +90,7 @@ $ViewList['removeassignment'] = array(
     'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'edit',
-    'ui_component' => 'location',
+    'ui_component' => 'content',
     'single_post_actions' => array( 'ConfirmRemovalButton' => 'ConfirmRemoval',
                                     'CancelRemovalButton' => 'CancelRemoval' ),
     'script' => 'removeassignment.php',
