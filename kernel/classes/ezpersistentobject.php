@@ -252,6 +252,16 @@ class eZPersistentObject
             {
                 $obj->setAttribute( $field_name, $field_def[ 'default' ] );
             }
+
+	    if ( !is_null( $value )                             &&
+                 $field_def['datatype'] === 'string'            &&
+                 array_key_exists( 'max_length', $field_def )   &&
+                 $field_def['max_length'] > 0                   &&
+                 strlen( $value ) > $field_def['max_length'] )
+            {
+                $obj->setAttribute( $field_name, substr( $value, 0, $field_def['max_length'] ) );
+                eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
+            }
         }
         $key_conds = array();
         foreach ( $keys as $key )

@@ -1,0 +1,5 @@
+UPDATE ezsite_data SET value='6' WHERE name='ezpublish-release';
+
+-- incrementing size of 'sort_key_string' to 255 characters
+ALTER TABLE ezcontentobject_attribute MODIFY sort_key_string VARCHAR(255) NOT NULL default '';
+
