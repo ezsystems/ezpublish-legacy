@@ -143,12 +143,12 @@
 
 {* Remove selected attributes button *}
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/edit' )}" {section show=$attributes}disabled="disabled"{/section} />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" {section show=$attributes}disabled="disabled"{/section} />
 </div>
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'New'|i18n( 'design/admin/class/edit' )}" />
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 </div>
