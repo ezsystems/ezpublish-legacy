@@ -59,12 +59,14 @@ static bool untranslated = false;    // Untranslated translation is off by defau
 
 static void printUsage()
 {
-    qWarning( "Create or update an eZ publish 3 translation from eng-GB to one or more languages.\n"
+    qWarning( "Creates or updates eZ publish 3 translations.\n"
               "Usage: ezlupdate [OPTION]... [LANGUAGE]...\n\n"
               "Options:\n"
               "    -h, --help                Display this information and exit\n"
-              "    -e, --extension EXT       Extension mode. Scans extension EXT instead of kernel, lib and design\n"
-              "    -d, --dirs DIR [DIR]...   Directories to scan in addition to kernel, lib and design\n"
+              "    -e, --extension EXT       Extension mode. Scans extension EXT instead of\n"
+              "                              kernel, lib and design\n"
+              "    -d, --dirs DIR [DIR]...   Directories to scan in addition to kernel, lib\n"
+              "                              and design\n"
               "    -u, --untranslated        Create/update the untranslated file as well\n"
               "    -no, --noobsolete         Drop all obsolete strings\n"
               "    -v, --verbose             Explain what is being done\n"
@@ -74,6 +76,13 @@ static void printUsage()
 
 int main( int argc, char **argv )
 {
+    // If no arguments, print help and exit
+    if ( argc < 2 )
+    {
+        printUsage();
+        return 0;
+    }
+
     // Argument handling
     bool noObsolete = false;
     QStringList languages;
