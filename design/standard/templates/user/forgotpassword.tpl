@@ -19,7 +19,7 @@
       <h2>{"The key is invalid or has been used. "|i18n('design/standard/user/forgotpassword')}</h2>
       </div>
       {section-else}
-      <form method="post" name="forgetpassword" action={"/user/forgetpassword/"|ezurl}>
+      <form method="post" name="forgotpassword" action={"/user/forgotpassword/"|ezurl}>
       <div class="maincontentheader">
       <h1>{"Have you forgotten your password?"|i18n('design/standard/user/forgotpassword')}</h1>
       </div>
