@@ -43,7 +43,7 @@
 
 */
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezorderitem.php' );
+include_once( 'kernel/classes/ezorderitem.php' );
 define( "EZ_WORKFLOW_TYPE_WRAPPING_ID", "ezwrapping" );
 
 class eZWrappingType extends eZWorkflowEventType
