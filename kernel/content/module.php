@@ -174,6 +174,10 @@ $ViewList["translate"] = array(
     'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
     "params" => array( "ObjectID", "EditVersion" ) );
 
+$ViewList["draft"] = array(
+    "script" => "draft.php",
+    "params" => array( ) );
+
 
 
 

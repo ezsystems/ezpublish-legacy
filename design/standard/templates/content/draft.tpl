@@ -4,6 +4,8 @@
 <h1>{"My drafts"|i18n('draft/list')}</h1>
 </div>
 
+{section show=$draft_list}
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th width="1%">ID:</th>
@@ -38,3 +40,12 @@
 <div class="buttonblock">
 <input type="submit" name="RemoveButton" value="Remove draft" />
 </div>
+
+{section-else}
+
+<div class="feedback">
+<h2>You have no drafts</h2>
+</div>
+
+{/section}
+

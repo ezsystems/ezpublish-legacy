@@ -10,6 +10,7 @@ Changes from 2.9-5 to 2.9-6
 - Changed user registration so that it reuses the attribute edit
 - Added functionality for adding new related objects in content edit
 - Added template for sending information collection results in mail
+- Moved drafts to content module
 
 index.php:
 - Added siteBasics array which contains references to some variables
