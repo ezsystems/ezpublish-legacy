@@ -69,10 +69,10 @@ define( "EZ_WEBDAV_TEMP_FILE_PREFIX", "eZWebDAVUpload_" );
 // Temp. log function.
 function append_to_log( $log_string )
 {
-    $logfile  = fopen( "/tmp/webdavlog.txt", "a" );
-    $now_time = date( "Y-m-d H:i:s : " );
-    fwrite( $logfile, $now_time.$log_string."\n" );
-    fclose( $logfile );
+//    $logfile  = fopen( "/tmp/webdavlog.txt", "a" );
+//    $now_time = date( "Y-m-d H:i:s : " );
+//    fwrite( $logfile, $now_time.$log_string."\n" );
+//    fclose( $logfile );
 }
 
 
