@@ -14,7 +14,7 @@
                      <em>{$Rows:Columns:item|choose( "Phone", "Telefax", "Email", "Homepage" )}:</em>
                {/case}
                {case match='company_address'}
-                     <em>{$Rows:Columns:item|choose( "Postal Address", "Postal Province",  "Postal Zip" , "Postal Place", "Visitor Addres", "Visitor Province", "Visitor Place" )}:</em>
+                     <em>{$Rows:Columns:item|choose( "Postal Address", "Visitor Addres" )}:</em>
                {/case}
                {case}
                {/case}

@@ -2,7 +2,7 @@
 
 {switch match=$attribute.contentclass_attribute_identifier}
 {case match='company_address'}
-    {let selectbox_content=array("Postal Address", "Postal Province",  "Postal Zip" , "Postal Place", "Visitor Addres", "Visitor Province", "Visitor Place") }
+    {let selectbox_content=array("Postal Address", "Visitor Addres" ) }
     {include uri="design:datatype_edit_ezmatrix_selectcomponent.tpl" }
     {/let}
 {/case}
