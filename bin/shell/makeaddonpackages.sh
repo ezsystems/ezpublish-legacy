@@ -82,6 +82,7 @@ mkdir -p "$SITE_PACKAGES_EXPORT" || exit 1
 if [[ -z $ADDON || $ADDON = 'contacts' ]]; then
     site='contacts'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Contacts" "$VERSION" -- \
 	set $site description "Adds a simple contact database, it contains companies and persons." -- \
 	set $site type 'contentobject' -- \
@@ -94,6 +95,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'contact_us' ]]; then
     site='contact_us'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Contact us" "$VERSION" -- \
 	set $site description "Adds feedback form functionality." -- \
 	set $site type 'contentobject' -- \
@@ -106,6 +108,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'files' ]]; then
     site='files'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Files" "$VERSION" -- \
 	set $site description "Adds a file database." -- \
 	set $site type 'contentobject' -- \
@@ -118,6 +121,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'forum' ]]; then
     site='files'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Forum" "$VERSION" -- \
 	set $site description "Adds forum functionality. You can add multiple forums which can have multiple topics with replies." -- \
 	set $site type 'contentobject' -- \
@@ -130,6 +134,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'gallery' ]]; then
     site='gallery'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Image gallery" "$VERSION" -- \
 	set $site description "Adds image gallery functionality. Allows for creation of multiple galleries which can show images either as thumbnails or slideshow." -- \
 	set $site type 'contentobject' -- \
@@ -142,6 +147,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'links' ]]; then
     site='links'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Links" "$VERSION" -- \
 	set $site description "Adds a link database." -- \
 	set $site type 'contentobject' -- \
@@ -154,6 +160,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'media' ]]; then
     site='media'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Media types" "$VERSION" -- \
 	set $site description "Adds media functionality. Allows for publishing of Flash, Quicktime, Real video and Windows media files." -- \
 	set $site type 'contentobject' -- \
@@ -166,6 +173,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'news' ]]; then
     site='news'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "News" "$VERSION" -- \
 	set $site description "Adds article/news functionality to your site." -- \
 	set $site type 'contentobject' -- \
@@ -178,6 +186,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'poll' ]]; then
     site='poll'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Polls" "$VERSION" -- \
 	set $site description "Adds functionality for handling simple user-surveys/polls." -- \
 	set $site type 'contentobject' -- \
@@ -190,6 +199,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'products' ]]; then
     site='products'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Products" "$VERSION" -- \
 	set $site description "Adds products with shopping functionality." -- \
 	set $site type 'contentobject' -- \
@@ -202,6 +212,7 @@ fi
 if [[ -z $ADDON || $ADDON = 'weblog' ]]; then
     site='weblog'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+	-ladmin -ppublish \
 	create $site "Weblog" "$VERSION" -- \
 	set $site description "Adds blogging/weblog functionality." -- \
 	set $site type 'contentobject' -- \
@@ -230,6 +241,7 @@ for addon in $ADDON_PACKAGES; do
 
     if [ -d "$OUTPUT_REPOSITORY/$addon" ]; then
 	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
+            -ladmin -ppublish \
 	    export $addon -d "$OUTPUT_REPOSITORY_EXPORT" || exit 1
     fi
 
