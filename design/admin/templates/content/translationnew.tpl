@@ -27,9 +27,9 @@ function toggleInputs( selection )
 
 <div class="context-block">
 {section show=$is_edit}
-<h2 class="context-title">{'Change translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>3
+<h2 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'Change translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>3
 {section-else}
-<h2 class="context-title">{'New translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>
+<h2 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'New translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>
 {/section}
 
 <div class="context-attributes">

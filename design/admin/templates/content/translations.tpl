@@ -18,6 +18,7 @@
 
     {* Language. *}
 	<td>
+    {'translation'|icon( 'small', 'Translation'|i18n( 'design/admin/content/translations' ) )}
     {section show=$Translations.item.name}
         {$Translations.item.name|wash}
     {section-else}
