@@ -66,11 +66,11 @@ class eZTemplatesStatisticsReporter
 
         if ( $as_html )
         {
-            $stats .= "<h2>Templates usage statistics:</h2>";
+            $stats .= "<h2>Templates used to render the page:</h2>";
             $stats .= ( "<table style='border: 1px dashed black;' cellspacing='0'>" .
                    "<tr><th>&nbsp;Template</th>" .
                    "<th>&nbsp;Requested template</th>" .
-                   "<th>&nbsp;Full filename</th>" .
+                   "<th>&nbsp;Template loaded</th>" .
                    "<th>&nbsp;Edit</th>" .
                    "<th>&nbsp;Override</th></tr>" );
         }
@@ -78,7 +78,7 @@ class eZTemplatesStatisticsReporter
         {
             $formatString = "%-40s%-40s%-40s\n";
             $stats .= "Templates usage statistics\n";
-            $stats .= sprintf( $formatString, 'Templates', 'Requested template', 'Full filename' );
+            $stats .= sprintf( $formatString, 'Templates', 'Requested template', 'Template loaded' );
         }
 
         if ( $as_html )

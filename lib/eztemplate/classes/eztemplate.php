@@ -2461,12 +2461,30 @@ class eZTemplate
         $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
         $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );
 
-        $templateInfo = array( 'actual-template-name' => $actualTemplateName,
-                               'requested-template-name' => $requestedTemplateName,
-                               'template-filename' => $templateFileName );
-
         $tpl =& eZTemplate::instance();
-        $tpl->TemplatesUsageStatistics[] =& $templateInfo;
+        $needToAppend = true;
+
+        // don't add template info if it is a duplicate of previous.
+        $statsSize = count( $tpl->TemplatesUsageStatistics );
+        if ( $statsSize > 0 )
+        {
+            $lastTemplateInfo =& $tpl->TemplatesUsageStatistics[$statsSize-1];
+            if ( $lastTemplateInfo['actual-template-name'] === $actualTemplateName &&
+                 $lastTemplateInfo['requested-template-name'] === $requestedTemplateName &&
+                 $lastTemplateInfo['template-filename'] === $templateFileName )
+            {
+                $needToAppend = false;
+            }
+        }
+
+        if ( $needToAppend )
+        {
+            $templateInfo = array( 'actual-template-name' => $actualTemplateName,
+                                   'requested-template-name' => $requestedTemplateName,
+                                   'template-filename' => $templateFileName );
+
+            $tpl->TemplatesUsageStatistics[] = $templateInfo;
+        }
     }
 
     /*!
