@@ -5,6 +5,8 @@ Changes from 3.2-1 to 3.2-2
   for installed site packages will work.
 - Fixed attribute_base for xml text field.
 - Added missing script for updating the database with attribute based filtering and sorting.
+- Added author_array attribute to eZContentObject class, it was created in 3.1 but was
+  missing from 3.2 and trunk.
 
 *DataType:
 
@@ -24,6 +26,10 @@ Changes from 3.2-1 to 3.2-2
 *Package system:
 
 *Library :
+
+eZ template:
+- Fixed the 'shorten' operator to only shorten the text if the text length is longer
+  than the specified maximum length.
 
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
