@@ -176,9 +176,6 @@ class eZWebDAVServer
         $this->appendLogEntry( "Target: " . $_SERVER["REQUEST_URI"], 'processClientRequest' );
         $this->appendLogEntry( "----------------------------------------" );
 
-        // Read the XML body, PHP should discard it but it's a bug in some PHP versions
-        $xmlBody = file_get_contents( "php://input" );
-//        $this->appendLogEntry( $xmlBody, 'xmlBody' );
         $status = EZ_WEBDAV_FAILED_NOT_FOUND;
 
         switch ( $_SERVER["REQUEST_METHOD"] )
@@ -204,7 +201,7 @@ class eZWebDAVServer
                 $collection = $this->getCollectionContent( $target, $depth );
                 if ( is_array( $collection ) )
                 {
-                    $status = $this->outputCollectionContent( $collection, $xmlBody );
+                    $status = $this->outputCollectionContent( $collection, $this->xmlBody() );
                 }
                 else
                 {
@@ -235,7 +232,7 @@ class eZWebDAVServer
                 $status = EZ_WEBDAV_OK_CREATED;
 
                 // Attempt to get file/resource sent from client/browser.
-                $tempFile = $this->createTempFile( $xmlBody );
+                $tempFile = $this->storeUploadedFile( $target );
 
                 // If there was an actual file:
                 if ( $tempFile )
@@ -244,6 +241,8 @@ class eZWebDAVServer
                     $status = $this->put( $target, $tempFile );
 
                     unlink( $tempFile );
+                    include_once( 'lib/ezfile/classes/ezdir.php' );
+                    eZDir::cleanupEmptyDirectories( dirname( $tempFile ) );
                 }
                 // Else: something went wrong...
                 else
@@ -257,7 +256,7 @@ class eZWebDAVServer
             case "MKCOL":
             {
                 $this->appendLogEntry( "MKCOL was issued from client.", 'processClientRequest' );
-                if ( strlen( $xmlBody ) > 0 )
+                if ( strlen( $this->xmlBody() ) > 0 )
                 {
                     $this->appendLogEntry( "MKCOL body error.", 'processClientRequest' );
                     $status = EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -541,28 +540,38 @@ class eZWebDAVServer
 
     /*!
       \protected
-      Will create a temporary file containing the body of the PUT request.
-      If permission is denied false will be returned.
+      Will try to store the uploaded to a temporary location using \a $target
+      for name.
+      \return The name of the temp file or \c false if it failed.
     */
-    function createTempFile( &$body )
+    function storeUploadedFile( $target )
     {
-        $tempFileName = tempnam( EZ_WEBDAV_TEMP_DIRECTORY, EZ_WEBDAV_TEMP_FILE_PREFIX );
+        $dir = EZ_WEBDAV_TEMP_DIRECTORY . '/' . md5( microtime() . '-' . $target );
+        $filePath = $dir . '/' . basename( $target );
 
-        $fpWrite = fopen( $tempFileName, "wb" );
+        if ( !file_exists( $dir ) )
+        {
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $dir, false, true );
+        }
 
-        if ( $fpWrite )
+        if ( copy( "php://input", $filePath ) )
         {
             header( "HTTP/1.1 201 Created" );
-
-            fwrite( $fpWrite, $body );
-            fclose( $fpWrite );
-
-            return $tempFileName;
+            return $filePath;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+    }
+
+    /*!
+      \return The XML body text for the current request.
+    */
+    function xmlBody()
+    {
+        // Read the XML body, PHP should discard it but it's a bug in some PHP versions
+        $xmlBody = file_get_contents( "php://input" );
+//        $this->appendLogEntry( $xmlBody, 'xmlBody' );
+        return $xmlBody;
     }
 
     /*!
