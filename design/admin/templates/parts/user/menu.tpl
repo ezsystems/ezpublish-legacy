@@ -8,10 +8,15 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+<p>
 <label>{'Name'|i18n( 'design/admin/parts/user/menu' )}:</label>
-<p>{$role.name}</p>
+{$role.name|wash}
+</p>
+
+<p>
 <label>{'ID'|i18n( 'design/admin/parts/user/menu' )}:</label>
-<p>{$role.id}</p>
+{$role.id|wash}
+</p>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
