@@ -111,6 +111,15 @@ if ( $module->isCurrentAction( 'ClearCache' ) )
     $cacheCleared['list'] = $cacheItemList;
 }
 
+if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
+{
+    include_once( 'kernel/classes/ezstaticcache.php' );
+
+    $staticCache = new eZStaticCache();
+    $staticCache->generateCache( true, true );
+    $cacheCleared['static'] = true;
+}
+
 $tpl->setVariable( "cache_cleared", $cacheCleared );
 $tpl->setVariable( "cache_enabled", $cacheEnabled );
 $tpl->setVariable( 'cache_list', $cacheList );

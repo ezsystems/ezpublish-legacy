@@ -56,7 +56,8 @@ $ViewList["cache"] = array(
                                     'ClearAllCacheButton' => 'ClearAllCache',
                                     'ClearContentCacheButton' => 'ClearContentCache',
                                     'ClearINICacheButton' => 'ClearINICache',
-                                    'ClearTemplateCacheButton' => 'ClearTemplateCache' ),
+                                    'ClearTemplateCacheButton' => 'ClearTemplateCache',
+                                    'RegenerateStaticCacheButton' => 'RegenerateStaticCache' ),
     'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
     "params" => array() );
 

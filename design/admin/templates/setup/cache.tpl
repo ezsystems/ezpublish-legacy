@@ -23,6 +23,12 @@
     </div>
 {/section}
 
+{section show=$cache_cleared.static}
+    <div class="message-feedback">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Static content cache was regenerated'|i18n( 'design/admin/setup/cache' )}</h2>
+    </div>
+{/section}
+
 {section show=$cache_cleared.list}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The following caches were cleared'|i18n( 'design/admin/setup/cache' )}:</h2>
@@ -67,7 +73,7 @@
 <td><input class="button" type="submit" name="ClearContentCacheButton" value="{'Clear content caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have changed something inside a cache block.'|i18n( 'design/admin/setup/cache' )}"/></td>
 </tr>
 
-{* Configuration cahce. *}
+{* Configuration cache. *}
 <tr class="bglight">
 <td>{'Configuration (ini) caches'|i18n( 'design/admin/setup/cache' )}:</td>
 <td><input class="button" type="submit" name="ClearINICacheButton" value="{'Clear ini caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed some settings.'|i18n( 'design/admin/setup/cache' )}" /></td>
@@ -77,6 +83,12 @@
 <tr class="bgdark">
 <td>{'Everything'|i18n( 'design/admin/setup/cache' )}:</td>
 <td><input class="button" type="submit" name="ClearAllCacheButton" value="{'Clear all caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear ALL the caches and may lead to long response times until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
+</tr>
+
+{* Static content cache. *}
+<tr class="bgdark">
+<td>{'Static content cache'|i18n( 'design/admin/setup/cache' )}:</td>
+<td><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the "bin/php/makestaticcache.php" shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 </table>
