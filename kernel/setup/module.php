@@ -144,10 +144,10 @@ $ViewList["menuconfig"] = array(
     "params" => array() );
 
 $ViewList["templatelist"] = array(
-    "script" => "templatelist.php",
-    "default_navigation_part" => 'ezvisualnavigationpart',
-    "params" => array( ),
-    "unordered_params" => array( "offset" => "Offset" ) );
+    'script' => 'templatelist.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'params' => array( ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList["templateview"] = array(
     "script" => "templateview.php",

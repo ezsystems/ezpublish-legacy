@@ -21,4 +21,9 @@ Source=visual/toolbar.tpl
 MatchFile=setup/toolbar.tpl
 Subdir=templates
 
+[visual_templatelist]
+Source=visual/templatelist.tpl
+MatchFile=setup/templatelist.tpl
+Subdir=templates
+
 */ ?>
