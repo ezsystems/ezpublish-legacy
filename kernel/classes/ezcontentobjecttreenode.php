@@ -577,6 +577,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'path_string';
                         } break;
+                        case 'path_string':
+                        {
+                            $sortingFields .= 'path_identification_string';
+                        } break;
                         case 'published':
                         {
                             $sortingFields .= 'ezcontentobject.published';

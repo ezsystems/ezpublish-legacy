@@ -13,7 +13,9 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - The fetch functions content/list, content/tree, content/list_count
   and content/tree_count can now pass the parameter 'limitation' which controls
   the permission handling of the list.
-- Added possibility top configure top admin menu thrue menu.ini. 
+- Added possibility top configure top admin menu thrue menu.ini.
+- Added functionality to sort on path_identification_string.
+  http://ez.no/community/bug_reports/content_fetch_add_sort_by_path_string
 - Added class-type versioning for PDF export and RSS import/export.
 - Removed checking for contentobject_is_published in subTree() in eZContentObjectTreeNode,
   the use of this attribute is deprecated and should be removed.
