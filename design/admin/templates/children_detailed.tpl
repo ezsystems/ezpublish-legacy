@@ -2,7 +2,8 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;"/></th>
+        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/layout' )}" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/layout' )}" /></th>
+
         {* Name column *}
         <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
 
@@ -24,9 +25,7 @@
         {/section}
 
         {* Copy column *}
-        {* section show=$can_copy *}
-            <th class="copy">&nbsp;</th>
-        {* /section *}
+        <th class="copy">&nbsp;</th>
 
         {* Edit column *}
         <th class="edit">&nbsp;</th>
