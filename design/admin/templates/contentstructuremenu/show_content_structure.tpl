@@ -7,8 +7,8 @@
          toolTip        = ""
          visibility     = 'Visible' }
 
-        {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' ) }
-        {default last_item = false() }
+        {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' )
+                 last_item      = false() }
 
         {section show=is_set($class_icons_size)}
             {set classIconsSize=$class_icons_size}
