@@ -246,6 +246,7 @@ while ( $moduleRunRequired )
     include_once( "lib/ezutils/classes/ezhttptool.php" );
     $http =& eZHTTPTool::instance();
     $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     $currentUser =& eZUser::currentUser();
 
     $check = eZHandlePreChecks();
@@ -301,7 +302,8 @@ while ( $moduleRunRequired )
 //             $module->attribute( 'name' ) != 'error' &&
              $module->attribute( 'name' ) != 'user' &&
              $module->attribute( 'name' ) != 'layout' &&
-             $module->attribute( 'name' ) != 'dhtml'
+             $module->attribute( 'name' ) != 'dhtml' &&
+             $module->attribute( 'name' ) != 'paynet'
 //             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
              )
         {
@@ -503,6 +505,7 @@ if ( $show_page_layout )
                               );
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         while ( !$done )
         {
 

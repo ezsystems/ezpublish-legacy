@@ -154,6 +154,7 @@ class eZTrigger extends eZPersistentObject
                     case EZ_WORKFLOW_STATUS_NONE:
                     case EZ_WORKFLOW_STATUS_BUSY:
                     {
+                        $existingWorkflowProcess->remove();
                         return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                                       'Result' => null );
                     } break;
@@ -219,6 +220,7 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_NONE:
             case EZ_WORKFLOW_STATUS_BUSY:
             {
+                $workflowProcess->remove();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                               'Result' => null );
             } break;

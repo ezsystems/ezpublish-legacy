@@ -74,7 +74,7 @@ class eZMultiplexerType extends eZWorkflowEventType
             {
                 $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
-                $workflowToRun = 7;
+                $workflowToRun = 10;
 
                 $childParameters = array( 'workflow_id' => $workflowToRun,
                                           'user_id' => $userID,
@@ -116,11 +116,17 @@ class eZMultiplexerType extends eZWorkflowEventType
                 else if ( $childStatus ==  EZ_WORKFLOW_STATUS_REDIRECT )
                 {
                     $process->RedirectUrl =& $childProcess->RedirectUrl;
-                    return EZ_WORKFLOW_TYPE_STATUS_REDIRECT;
+                    return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT;
                 }
                 else if ( $childStatus ==  EZ_WORKFLOW_STATUS_DONE  )
                 {
                     $childProcess->remove();
+                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                }
+                else if ( $childStatus == EZ_WORKFLOW_STATUS_CANCELLED || $childStatus == EZ_WORKFLOW_STATUS_FAILED )
+                {
+                    $childProcess->remove();
+                    return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
                 }
                 return $childProcess->attribute( 'last_event_status' );
 

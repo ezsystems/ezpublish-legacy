@@ -285,6 +285,13 @@ class eZWorkflowType
         $this->Information = $inf;
     }
 
+    function needCleanup()
+    {
+        return false;
+    }
+    function cleanup( &$process, &$event )
+    {
+    }
     /// \privatesection
     var $Group;
     var $Type;

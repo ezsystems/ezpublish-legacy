@@ -231,6 +231,15 @@ class eZWorkflowProcess extends eZPersistentObject
                 if ( is_subclass_of( $eventType, "ezworkflowtype" ) )
                 {
                     $lastEventStatus = $eventType->execute( $this, $workflowEvent );
+// code idea :
+                    $workflowParameters =& $this->attribute( 'parameter_list' );
+
+                    $cleanupList =& $workflowParameters['cleanup_list'];
+                    if ( $eventType->needCleanup() )
+                    {
+                        $cleanupList[] = $workflowEvent->attribute( 'id' );
+                        $this->setAttribute( 'parameters', serialize( $workflowParameters ) );
+                    }
 //                    print( "<br>lastEventStatus" . $lastEventStatus );
                     eZDebug::writeNotice( $lastEventStatus, "lastEventStatus" );
                     switch( $lastEventStatus )
@@ -307,6 +316,10 @@ class eZWorkflowProcess extends eZPersistentObject
                 $event_pos = $this->attribute( "event_position" );
                 eZDebug::writeNotice( $this , 'workflow_process' );
                 $next_event_pos = $event_pos + 1;
+                if ( !is_object( $workflow ) )
+                {
+                    eZDebug::printReport();
+                }
                 $next_event_id = $workflow->fetchEventIndexed( $next_event_pos );
                 eZDebug::writeNotice( $event_pos , "workflow  not done");
 
@@ -525,6 +538,25 @@ class eZWorkflowProcess extends eZPersistentObject
             default:
                 return eZPersistentObject::attribute( $attr );
         }
+
+    }
+
+    function remove()
+    {
+        $workflowParameters = $this->attribute( 'parameter_list' );
+        $cleanupList = array();
+        if ( isset( $workflowParameters['cleanup_list'] ) && is_array( $workflowParameters['cleanup_list'] ) )
+        {
+            $cleanupList = $workflowParameters['cleanup_list'];
+            foreach ( array_keys( $cleanupList ) as $key )
+            {
+                $workflowEventID = $cleanupList[$key];
+                $workflowEvent = eZWorkflowEvent::fetch( $workflowEventID );
+                $workflowType =& $workflowEvent->eventType();
+                $workflowType->cleanup( $this, $workflowEvent );
+            }
+        }
+        eZPersistentObject::removeObject( eZWorkflowProcess::definition(), array( 'id' => $this->attribute( 'id' ) ) );
     }
 
     /// \privatesection

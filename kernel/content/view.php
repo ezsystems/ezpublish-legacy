@@ -94,158 +94,79 @@ $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_
 eZDebug::addTimingPoint( 'Operation end' );
 
 eZDebug::writeDebug( $operationResult );
-if ( $operationResult != null && !isset( $operationResult['result'] ) && ! isset( $operationResult['redirect_url'] ) )
+
+switch( $operationResult['status'] )
 {
-    $viewParameters = array( 'offset' => $Offset );
-    $object = $operationResult[ 'object' ];
-    $node = $operationResult[ 'node' ];
+    case EZ_MODULE_OPERATION_CONTINUE:
+    {
+        if ( $operationResult != null &&
+             !isset( $operationResult['result'] ) &&
+             ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
+        {
+            $viewParameters = array( 'offset' => $Offset );
+            $object = $operationResult[ 'object' ];
+            $node = $operationResult[ 'node' ];
+            if ( ! is_object( $object ) )
+            {
+                eZDebug::printReport();
+            }
 
-    $res =& eZTemplateDesignResource::instance();
-    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                          array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                          array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
-                          array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
-                          array( 'view_offset', $Offset ),
-                          array( 'viewmode', $ViewMode ),
-                          ) );
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                                  array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
+                                  array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                                  array( 'view_offset', $Offset ),
+                                  array( 'viewmode', $ViewMode ),
+                                  ) );
 
-    include_once( 'kernel/classes/ezsection.php' );
-    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+            include_once( 'kernel/classes/ezsection.php' );
+            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
-    $tpl->setVariable( 'node', $node );
-    $tpl->setVariable( 'view_parameters', $viewParameters );
+            $tpl->setVariable( 'node', $node );
+            $tpl->setVariable( 'view_parameters', $viewParameters );
 
 // create path
-    $parents =& $node->attribute( 'path' );
+            $parents =& $node->attribute( 'path' );
 
-    $path = array();
-    foreach ( $parents as $parent )
+            $path = array();
+            foreach ( $parents as $parent )
+            {
+                $path[] = array( 'text' => $parent->attribute( 'name' ),
+                                 'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
+                                 );
+            }
+            $path[] = array( 'text' => $object->attribute( 'name' ),
+                             'url' => false );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
+            $Result['view_parameters'] =& $viewParameters;
+            $Result['path'] =& $path;
+            $Result['section_id'] =& $object->attribute( 'section_id' );
+        }
+    }break;
+    case EZ_MODULE_OPERATION_HALTED:
     {
-        $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
-                         );
-    }
-    $path[] = array( 'text' => $object->attribute( 'name' ),
-                     'url' => false );
-
-    $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
-    $Result['view_parameters'] =& $viewParameters;
-    $Result['path'] =& $path;
-    $Result['section_id'] =& $object->attribute( 'section_id' );
-}
-else if (  isset( $operationResult['redirect_url'] ) )
-{
-    $Module->redirectTo( $operationResult['redirect_url'] );
-    return;
-}
-else if ( isset( $operationResult['result'] ) )
-{
-    $Result['content'] =& $operationResult['result'];
-    eZDebug::writeDebug( 'operation seted result<br/>' );
-}else
-{
-    eZDebug::writeDebug( 'operation null result<br/>' );
-    $Result = array();
-}
-
-
-
-/*
-
-//if ( !$operationResult['status'] )
-//{
-//   $Result = $operationResult['result'];
-//    return;
-//}
-
-$node =& eZContentObjectTreeNode::fetch( $NodeID );
-
-if ( $node === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-
-$object = $node->attribute( 'object' );
-
-if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-if ( !$object->attribute( 'can_read' ) )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-}
-
-if ( $LanguageCode != '' )
-{
-    $object->setCurrentLanguage( $LanguageCode );
-}
-
-
-if ( $ViewMode == 'full' )
-{
-     $sessionKey = eZHTTPTool::getSessionKey();
-     $user =& eZUser::currentUser();
-
-     $status = eZTrigger::runTrigger( 'pre_view',
-                                      'content',
-                                      'view',
-                                      array( 'contentobject_id' => $object->attribute( 'id' ),
-                                             'node_id' => $node->attribute( 'node_id' ),
-                                             'session_key' => $sessionKey,
-                                             'user_id' => $user->id() ),
-                                      array( 'contentobject_id',
-                                             'node_id',
-                                             'session_key',
-                                             'user_id' ) );
-     eZDebug::writeDebug( $status, 'Returned Trigger status in view' );
-}else
-{
-    $status['Status'] = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
-}
-
-if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
-{
-
-
-    $viewParameters = array( 'offset' => $Offset );
-
-    $res =& eZTemplateDesignResource::instance();
-    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                          array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                          array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
-                          array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
-                          array( 'view_offset', $Offset ),
-                          array( 'viewmode', $ViewMode ),
-                          ) );
-
-    include_once( 'kernel/classes/ezsection.php' );
-    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-
-    $tpl->setVariable( 'node', $node );
-    $tpl->setVariable( 'view_parameters', $viewParameters );
-
-// create path
-    $parents =& $node->attribute( 'path' );
-
-    $path = array();
-    foreach ( $parents as $parent )
+        if (  isset( $operationResult['redirect_url'] ) )
+        {
+            $Module->redirectTo( $operationResult['redirect_url'] );
+            return;
+        }
+        else if ( isset( $operationResult['result'] ) )
+        {
+            $Result['content'] =& $operationResult['result'];
+            eZDebug::writeDebug( 'operation seted result<br/>' );
+        }
+    }break;
+    case EZ_MODULE_OPERATION_CANCELED:
     {
-        $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
-                         );
+        eZDebug::writeDebug( 'operation null result<br/>' );
+        $Result = array();
+        $Result['content'] = "- I think you are not able to view that object :) <br/>
+                              - Why?<br/>
+                              - Because I think so :)";
     }
-    $path[] = array( 'text' => $object->attribute( 'name' ),
-                     'url' => false );
+}
 
-    $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
-    $Result['view_parameters'] =& $viewParameters;
-    $Result['path'] =& $path;
-    $Result['section_id'] =& $object->attribute( 'section_id' );
-}
-elseif ( $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE )
-{
-    $Result['content'] = $status['Result'];
-}
-*/
 ?>

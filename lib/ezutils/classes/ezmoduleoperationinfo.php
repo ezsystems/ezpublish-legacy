@@ -500,6 +500,7 @@ class eZModuleOperationInfo
                             case EZ_MODULE_OPERATION_CANCELED:
                             {
                                 $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CANCELED;
+                                return $bodyReturnValue;
                             }break;
                             case EZ_MODULE_OPERATION_HALTED:
                             {
