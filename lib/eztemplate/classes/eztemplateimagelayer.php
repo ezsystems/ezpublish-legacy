@@ -635,6 +635,15 @@ class eZTemplateImageLayer
         return $this->Height;
     }
 
+    function setX( $px )
+    {
+        $this->X = $px;
+    }
+
+    function setY( $py )
+    {
+        $this->Y = $py;
+    }
     function x()
     {
         return $this->X;

@@ -349,8 +349,13 @@ class eZXMLInputHandler
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID );
                 else
+                {
                     $href = $tag->attributeValue( 'href' );
-                $output .= "<$tagName href='$href'>" . $childTagText . "</$tagName>";
+                    $target = $tag->attributeValue( 'target' );
+                    if ( strlen( $target ) == 0 ) )
+                        $target = "self_";
+                }
+                $output .= "<$tagName href='$href' target='$target'>" . $childTagText . "</$tagName>";
             }break;
 
             case 'tr' :
