@@ -11,8 +11,8 @@ Datatype:
 
 *Bugfixes:
 - Fixed bug: Workflow multiplexer doesn't store Users without workflow ID's
-  http://ez.no/community/bug_reports/workflow_multiplexer_doesn_t_store_users_without_workflow_id_s
   (Merged from stable/3.4 rev. 9172)
+  http://ez.no/community/bug_reports/workflow_multiplexer_doesn_t_store_users_without_workflow_id_s
 - Fixed bug: Deleting user account that is not yet activated caused fatal error when activating the account.
   (Merged from stable/3.3 rev. 9174, also in stable/3.4 rev. 9175)
   http://ez.no/community/bug_reports/deleting_user_account_not_activated
@@ -20,8 +20,8 @@ Datatype:
   http://ez.no/community/bug_reports/new_role_cancel_does_not_work
 - Fixed bug: Apache crashes or suddenly stops on some pages, e.g on content/edit page with
   a translation chosen or using attribute( show, 2 ) on a node.
-  http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map
   (Merged from stable/3.4 (3.4.3) rev. 9217)
+  http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map
 - Fixed bug: The location box was not updated after adding/removing assignments.
   http://ez.no/community/bug_reports/location_box_does_not_update
 - Fixed bug: New password was not checked for validity when changing a user's password.
@@ -39,19 +39,20 @@ Datatype:
 - Fixed bug: Previous/Next Links in Gallery are wrong.
   http://ez.no/community/bug_reports/previous_next_links_in_gallery_are_wrong
 - Fixed template warning with ISBN datatype when no number is entered.
-  (Merged from stable/3.4 (3.4.3) rev. 9237)
+  (Merged from stable/3.4 rev. 9237)
 - Fixed bug: added validation while creating/editing the RSS Exports, If RSS Export is Active then a valid Access URL is required.
-  (merged from 3.4 rev. 9236)
+  (Merged from 3.4 rev. 9236)
 - Added missing operator i18n for RSS Exports.
 - Fixed bug: management is not working when using old admin interface.
   http://ez.no/community/bug_reports/old_admin_menu_management
 - Fixed problem with versionview not displaying objects in trash.
+  (Merged from stable/3.4 rev. 9270)
   http://ez.no/community/bug_reports/view_in_trash
-  (Merged from stable/3.4 (3.4.3) rev. 9270)
 - Fixed bug in matrix datatype. now it will remove all selected columns from ezmatrix datatype after clicking on remove selected button.
+  (Merged from stable/3.4 rev. 9278)
   http://ez.no/community/bug_reports/matrix_datatype_odd_behavior_in_class_edit_mode
-  (merged from stable/3.4/rev. 9278)
 - Fixed bug:  Cancel button in browse doesn't work in  old_admin.
   http://ez.no/community/bug_reports/old_admin_cancel_button_in_browse_doesn_t_work
-- Fixed bug: http://ez.no/community/bug_reports/broken_datatype
-  Merged from 3.3/r9321, 3.4/r9322.
+  (Merged from stable/3.3, rev. 9321, also in stable/3.4 rev. 9322)
+- Fixed bug: Broken datatype
+  http://ez.no/community/bug_reports/broken_datatype
