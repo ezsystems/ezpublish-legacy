@@ -81,7 +81,10 @@ class eZURLOperator
         {
             case $this->URLName:
             {
-                $value = $this->Sys->wwwDir() . $this->Sys->indexFile() . "/$value";
+                if ( strlen( $value ) > 0 and
+                     $value[0] != '/' )
+                    $value = '/' . $value;
+                $value = $this->Sys->wwwDir() . $this->Sys->indexFile() . $value;
             } break;
 
             case $this->ImageName:

@@ -1251,7 +1251,11 @@ class eZTemplate
                 $struct["operators"] = $this->parseOperators( $text, $pos, $end_pos, $len, $def_nspace );
             }
             if ( $pos == $end_pos )
+            {
+//             print( substr( $text, $pos ) );
+//             exit();
                 break;
+            }
             $pos = $end_pos;
 //         }
         $end = $end_pos;

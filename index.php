@@ -6,7 +6,7 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
 // Enable this line to get eZINI debug output
-// eZINI::setIsDebugEnabled( true );
+eZINI::setIsDebugEnabled( true );
 
 function eZDisplayDebug()
 {

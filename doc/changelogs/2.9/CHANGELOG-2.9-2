@@ -57,6 +57,7 @@ eZ ini :
 - Made static functions setting whether debugging is used(default false), textcodecs are
   used(default true) and whether caching is used(default true).
 - Added function exists() to check if an INI file exists, can be used before trying the instance() function.
+- Made sure the ordered group array was properly written to the cache file.
 
 eZ debug:
 - Output report can now be shown as plain text as well as HTML, which is good for

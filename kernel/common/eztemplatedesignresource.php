@@ -196,7 +196,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $extraParameters['ezdesign:used_keys'] = $usedKeys;
         $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
         $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
-        $tpl->setVariable( 'matched', $usedKeys, 'DesignKeys' );
+        $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
         return eZTemplateFileResource::handleResource( $tpl, $text, $tstamp, $file, $method, $extraParameters );
     }
 

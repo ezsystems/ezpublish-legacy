@@ -1,4 +1,8 @@
 {*?template charset=utf8?*}
+{let gallery_limit=8
+     gallery_pre_items=2
+     gallery_post_items=2}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -94,17 +98,21 @@
   <td bgcolor="#e2e2e2" class="links"><center>
     <table cellpadding="4" cellspacing="4">
     <tr>
-    {let gallery_item_list=fetch(content,list,hash(parent_node_id,$Gallery:item.node_id,limit,8))}
+    {let gallery_page=int(div($DesignKeys:used.view_offset,$gallery_limit))
+         gallery_page_offset=mul($Gallery:gallery_page,$gallery_limit)
+         gallery_req_offset=max(0,sub($Gallery:gallery_page_offset,$gallery_pre_items))
+         gallery_req_limit=sum($gallery_limit,$gallery_post_items,sub($Gallery:gallery_page_offset,$Gallery:gallery_req_offset))
+         gallery_item_list=fetch(content,list,hash(parent_node_id,$Gallery:item.node_id,offset,$Gallery:gallery_req_offset,limit,$Gallery:gallery_req_limit))}
     {section name=Item loop=$Gallery:gallery_item_list}
 
       {* Check for current image *}
-      {section show=eq($module_result.view_parameters,$Gallery:Item:index)}
+{*      {section show=eq($module_result.view_parameters,$Gallery:Item:index)}
       <td>
-      {section-else}
+      {section-else} *}
       <td>
-      {/section}
+{*      {/section} *}
 
-      <a href={concat('content/view/slideshow/',$Gallery:item.node_id,'/offset/',$Gallery:Item:index)|ezurl})>{content_view_gui view=small content_node=$Gallery:Item:item}</a>
+      <a href={concat('content/view/slideshow/',$Gallery:item.node_id,'/offset/',sum($Gallery:Item:index,$Gallery:gallery_req_offset))|ezurl})>{node_view_gui view=small content_node=$Gallery:Item:item}</a>
       </td>
     {delimiter modulo=2}
     </tr>
@@ -154,3 +162,4 @@
 
 </body>
 </html>
+{/let}

@@ -272,7 +272,7 @@ class eZINI
         {
             $useCache = true;
             if ( eZINI::isDebugEnabled() )
-                eZDebug::writeNotice( "Loading cache $cachedFile for file " . $this->FileName, "eZINI" );
+                eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
             $charset = null;
             $blockValues = array();
             $orderedBlockValues = array();
@@ -281,7 +281,7 @@ class eZINI
                  $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
-                    eZDebug::writeNotice( "Too old cache file, recreating: $cachedFile", "eZINI" );
+                    eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
                 $this->reset();
                 $useCache = false;
             }
@@ -316,7 +316,7 @@ class eZINI
             $fp = @fopen( $cachedFile, "w+" );
             if ( $fp === false )
             {
-                eZDebug::writeError( "Couldn't create cache file $cachedFile, perhaps wrong permissions", "eZINI" );
+                eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
                 return;
             }
             fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
@@ -332,7 +332,13 @@ class eZINI
                     $tmpVal = str_replace( "\"", "\\\"", $val );
 
                     fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
-                    fwrite( $fp, "\$orderedGroupArray[] = array(\"$key\", \"$tmpVal\");\n" );
+                }
+                while ( list( $key, $val ) = each ( $this->OrderedBlockValues[$groupKey] ) )
+                {
+                    $tmpKey = $val[0];
+                    $tmpVal = str_replace( "\"", "\\\"", $val[1] );
+
+                    fwrite( $fp, "\$orderedGroupArray[] = array(\"$tmpKey\", \"$tmpVal\");\n" );
                 }
 
                 fwrite( $fp, "\$blockValues[\"$groupKey\"] =& \$groupArray;\n" );
@@ -343,7 +349,7 @@ class eZINI
             fwrite( $fp, "\n?>" );
             fclose( $fp );
             if ( eZINI::isDebugEnabled() )
-                eZDebug::writeNotice( "Wrote $cachedFile", "eZINI" );
+                eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
         }
     }
 
@@ -360,14 +366,16 @@ class eZINI
         $overrideName = $this->RootDir . "/$override_dir/" . $file;
         if ( file_exists( $overrideName ) )
         {
-            $this->parseFile( $this->RootDir . "/" . $file );
+            $this->parseFile( $overrideName );
         }
         else
         {
             $appendName = $this->RootDir . "/$override_dir/" . $file . ".append";
             $this->parseFile( $this->RootDir . "/" . $file );
             if ( file_exists( $appendName ) )
+            {
                 $this->parseFile( $appendName );
+            }
         }
     }
 
@@ -378,7 +386,7 @@ class eZINI
     function &parseFile( $file )
     {
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Parsing file \"$file\"", "eZINI" );
+            eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
         include_once( "lib/ezutils/classes/ezfile.php" );
         $lines =& eZFile::splitLines( $file );
         if ( $lines === false )
@@ -533,7 +541,7 @@ class eZINI
     function setOverrideDir( $dir )
     {
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Changing override dir to $dir", "eZINI" );
+            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
         $GLOBALS["eZINIOverrideDir"] = $dir;
     }
 
@@ -592,7 +600,7 @@ class eZINI
         {
             if ( !isset( $this->OrderedBlockValues[$blockName] ) )
             {
-                eZDebug::writeError( "Unknown group: $origBlockName", "eZINI" );
+                eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
                 return null;
             }
             $ret = $this->OrderedBlockValues[$blockName];
@@ -601,7 +609,7 @@ class eZINI
         {
             if ( !isset( $this->BlockValues[$blockName] ) )
             {
-                eZDebug::writeError( "Unknown group: $origBlockName", "eZINI" );
+                eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
                 return null;
             }
             $ret = $this->BlockValues[$blockName];

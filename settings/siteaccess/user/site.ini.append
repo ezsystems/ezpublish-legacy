@@ -30,9 +30,9 @@ ErrorHandler=defaultpage
 RequireUserLogin=true
 
 [SiteAccessRules]
-Access=disable
-ModuleAll=true
 Access=enable
+ModuleAll=true
+Access=disable
 Module=sdk
 
 [SitePrecheckRules]

@@ -57,6 +57,7 @@ $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                     'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
+                                                               'node_view_gui',
                                                                'content_view_gui',
                                                                'event_edit_gui',
                                                                'class_attribute_edit_gui' ) );

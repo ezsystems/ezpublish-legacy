@@ -32,13 +32,13 @@
 // you.
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 
 $http =& eZHTTPTool::instance();
 
@@ -49,7 +49,8 @@ $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
 $LanguageCode = $Params['LanguageCode'];
 $Offset = $Params['Offset'];
-if ( !$Offset )
+
+if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
 $limitationList = array();
@@ -77,7 +78,7 @@ if ( !$object->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-if ( $LanguageCode != "" )
+if ( $LanguageCode != '' )
 {
     $object->setCurrentLanguage( $LanguageCode );
 }
@@ -85,14 +86,15 @@ if ( $LanguageCode != "" )
 $viewParameters = array( 'offset' => $Offset );
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-                      array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
-                      array( "section", $object->attribute( 'section_id' ) ), // Section ID
-                      array( "node", $node->attribute( 'node_id' ) ), // Node ID
+$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                      array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                      array( 'section', $object->attribute( 'section_id' ) ), // Section ID
+                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                      array( 'view_offset', $Offset ),
                       array( 'viewmode', $ViewMode ),
                       ) );
 
-$tpl->setVariable( "node", $node );
+$tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 // create path
@@ -101,15 +103,15 @@ $parents =& $node->attribute( 'path' );
 $path = array();
 foreach ( $parents as $parent )
 {
-    $path[] = array( "text" => $parent->attribute( "name" ),
-                    "url" => "/content/view/full/" . $parent->attribute( "node_id" )
+    $path[] = array( 'text' => $parent->attribute( 'name' ),
+                    'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
                     );
 }
-$path[] = array( "text" => $object->attribute( "name" ),
-                 "url" => false );
+$path[] = array( 'text' => $object->attribute( 'name' ),
+                 'url' => false );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:node/view/$ViewMode.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
 $Result['view_parameters'] =& $viewParameters;
 $Result['path'] =& $path;
 ?>
