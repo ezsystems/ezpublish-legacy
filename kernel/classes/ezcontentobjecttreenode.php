@@ -330,7 +330,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $return;
     }
 
-    function canRead( )
+    function &canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
@@ -340,7 +340,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
-    function canEdit( )
+    function &canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -350,7 +350,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
-    function canCreate( )
+    function &canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
@@ -360,7 +360,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( )
+    function &canRemove( )
     {
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
@@ -1799,7 +1799,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      The array will contain one element which is an array with sort field
      and sort order.
     */
-    function sortArray()
+    function &sortArray()
     {
         $sort = array( eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ),
                        $this->attribute( 'sort_order' ) );
@@ -2045,12 +2045,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    function fetchParent()
+    function &fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
-    function pathArray()
+    function &pathArray()
     {
         $pathString = $this->attribute( 'path_string' );
         $pathItems = explode( '/', $pathString );
@@ -2063,7 +2063,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathArray;
     }
 
-    function fetchPath()
+    function &fetchPath()
     {
         $nodeID = $this->attribute( 'node_id' );
         $nodePath = $this->attribute( 'path_string' );
@@ -3152,14 +3152,14 @@ WHERE
     /*!
     \return the creator of the version published in the node.
     */
-    function creator()
+    function &creator()
     {
         $db =& eZDB::instance();
-         $query = "SELECT creator_id
-                           FROM ezcontentobject_version
-                           WHERE
-                                contentobject_id = '$this->ContentObjectID' AND
-                                version = '$this->ContentObjectVersion' ";
+        $query = "SELECT creator_id
+                  FROM ezcontentobject_version
+                  WHERE
+                        contentobject_id = '$this->ContentObjectID' AND
+                        version = '$this->ContentObjectVersion' ";
 
         $creatorArray = $db->arrayQuery( $query );
         return eZContentObject::fetch( $creatorArray[0]['creator_id'] );
