@@ -1,6 +1,29 @@
 A list of issues:
 -----------------
 
+SEARCH
+------
+Fix problems with ащ type characters in search. MySQL will think
+bug and bщg is the same word and the search will be messed up.
+In ez.no test it bugs in 20 of 12000+ words.
+
+Implement support for ш->oe е->aa translation in search index.
+
+Improve search algorithm for large databases.
+
+
+DESIGN/LAYOUT
+------------
+Create custom templates for a default setup
+Usability tests on 3.0 final for improvements
+Improve browser compatibility
+WAI testsCr
+
+Information collection
+---------------------
+Validation on fields
+
+
 
 SPEED
 -------
