@@ -31,6 +31,7 @@ persistentobject:
 content:
 - Added fetch functions content, version and node to fetch the content object,
   content object version and content node.
+- Changed the serialize function to use namespaces and also changed the xml structure.
 
 eZ extension:
 - Added some helper functions for extension include.
@@ -48,3 +49,13 @@ eZINI:
 
 eZModuleFunctionInfo:
 - Added support for extension definitions.
+
+eZ db:
+- Mysql db driver no longer fetches indexed array only associative arrays.
+
+eZ debug:
+- Added missing class variable for group loop in debug output.
+
+eZXML:
+- Some minor fixes to the toString() function with regards to text output.
+- Added prefix to attribute creation function in eZDOMDocument.

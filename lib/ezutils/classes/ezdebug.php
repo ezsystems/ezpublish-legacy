@@ -1010,8 +1010,14 @@ td.timingpoint2
                                            'children' => $timeList );
         }
 
+        $j = 0;
         foreach ( $groupList as $group )
         {
+            if ( $j % 2 == 0 )
+               $class = "timingpoint1";
+            else
+               $class = "timingpoint2";
+            ++$j;
             $groupName = $group['name'];
             $groupChildren = $group['children'];
             if ( count( $groupChildren ) == 0 and

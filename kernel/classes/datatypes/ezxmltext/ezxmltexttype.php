@@ -830,12 +830,24 @@ class eZXMLTextType extends eZDataType
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
 
-        $node = new eZDOMNode();
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
+        include_once( 'lib/ezxml/classes/ezxml.php' );
+        $xml = new eZXML();
+        $dom =& $xml->domTree( $objectAttribute->attribute( "data_text" ) );
 
-        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+//         $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+        $contentNode = new eZDOMNode();
+        $contentNode->setPrefix( 'ezobject' );
+        $contentNode->setName( 'content' );
+        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
+
+        $contentNode->appendChild( $dom->root() );
+        $node->appendChild( $contentNode );
 
         return $node;
     }

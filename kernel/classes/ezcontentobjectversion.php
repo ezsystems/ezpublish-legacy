@@ -692,6 +692,41 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
+     \return a DOM structure of the content object version, it's translations and attributes.
+    */
+    function &serialize()
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+        $versionNode = new eZDOMNode();
+
+        $versionNode->setName( 'version' );
+        $versionNode->setPrefix( 'ezobject' );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'version', $this->Version ) );
+
+        $translationList =& $this->translationList( false, false );
+        foreach ( $translationList as $translationItem )
+        {
+            $language = $translationItem;
+            $translationNode = new eZDOMNode();
+            $translationNode->setName( 'object-translation' );
+            $translationNode->setPrefix( 'ezobject' );
+            $translationNode->appendAttribute( eZDOMDocument::createAttributeNode( 'language', $language ) );
+
+            eZDebug::writeDebug( "Attribute fetch start", 'eZContentObjectVersion::serialize' );
+            $attributes =& $this->contentObjectAttributes( $language );
+            eZDebug::writeDebug( "Attribute fetch end", 'eZContentObjectVersion::serialize' );
+            foreach ( $attributes as $attribute )
+            {
+                $translationNode->appendChild( $attribute->serialize() );
+            }
+            $versionNode->appendChild( $translationNode );
+        }
+
+        return $versionNode;
+    }
+
+    /*!
      \return the creator of the current version.
     */
     function &creator()

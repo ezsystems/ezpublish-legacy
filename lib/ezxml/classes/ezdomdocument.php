@@ -185,10 +185,12 @@ class eZDOMDocument
     /*!
       Creates and returns an attribute node
     */
-    function &createAttributeNode( $name, $content )
+    function &createAttributeNode( $name, $content, $prefix = false )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
+        if ( $prefix )
+            $node->setPrefix( $prefix );
         $node->setContent( $content );
         $node->setType( 2 );
 

@@ -22,6 +22,7 @@ function ezcurrentLanguage()
 $ini =& eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
+    include_once( 'kernel/classes/ezextension.php' );
     function &ezi18n( $context, $source, $comment = null )
         {
             return eZTranslateText( false, $context, $source, $comment );

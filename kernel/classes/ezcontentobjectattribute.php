@@ -227,7 +227,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
-            eZDebug::writeNotice( "Identifier not cached, fetching from db", "eZContentClassAttribute::contentClassAttributeIdentifier()" );
+//             eZDebug::writeDebug( "Identifier not cached '" . $this->ContentClassAttributeIdentifier . "', fetching from db", "eZContentClassAttribute::contentClassAttributeIdentifier()" );
         }
         return $this->ContentClassAttributeIdentifier;
     }

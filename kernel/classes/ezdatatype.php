@@ -377,15 +377,29 @@ class eZDataType
     /*!
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( $objectAttribute )
+    function &serializeContentObjectAttribute( &$objectAttribute )
+    {
+        $node =& $this->contentObjectAttributeDOMNode( $objectAttribute );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+        return $node;
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &contentObjectAttributeDOMNode( &$objectAttribute )
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
 
         $node = new eZDOMNode();
 
+        $node->setPrefix( 'ezobject' );
         $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', 'Unsupported datatype for serialization' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
         return $node;
     }
 

@@ -146,25 +146,90 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
-        return eZPersistentObject::fetchObject( eZContentClassAttribute::definition(),
-                                                $field_filters,
-                                                array( 'id' => $id,
-                                                       'version' => $version ),
-                                                $asObject );
+        $object = null;
+        if ( $field_filters === null and $asObject )
+        {
+            $object =& $GLOBALS['eZContentClassAttributeCache'][$id][$version];
+        }
+        if ( !isset( $object ) or
+             $object === null )
+        {
+            $object = eZPersistentObject::fetchObject( eZContentClassAttribute::definition(),
+                                                       $field_filters,
+                                                       array( 'id' => $id,
+                                                              'version' => $version ),
+                                                       $asObject );
+        }
+        return $object;
     }
 
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $objects = null;
+        if ( $asObject )
+        {
+            $objects =& $GLOBALS['eZContentClassAttributeCacheListFull'];
+        }
+        if ( !isset( $objects ) or
+             $objects === null )
+        {
+            $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+                                                                null, null, null, null,
+                                                                $asObject );
+            foreach ( array_keys( $objectList ) as $objectKey )
+            {
+                $objectItem =& $objectList[$objectKey];
+                $objectID = $objectItem->ID;
+                $objectVersion = $objectItem->Version;
+                $GLOBALS['eZContentClassAttributeCache'][$id][$version] =& $objectItem;
+            }
+            $objects = $objectList;
+        }
+        return $objects;
+    }
+
+    function &fetchListByClassID( $classID, $version = 0, $asObject = true )
+    {
+        $objects = null;
+        if ( $asObject )
+        {
+            $objects =& $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version];
+        }
+        if ( !isset( $objects ) or
+             $objects === null )
+        {
+            $cond = array( 'contentclass_id' => $classID,
+                           'version' => $version );
+            $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+                                                                null, $cond, null, null,
+                                                                $asObject );
+            foreach ( array_keys( $objectList ) as $objectKey )
+            {
+                $objectItem =& $objectList[$objectKey];
+                $objectID = $objectItem->ID;
+                $objectVersion = $objectItem->Version;
+                if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
+                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+            }
+            $objects = $objectList;
+        }
+        return $objects;
     }
 
     function &fetchFilteredList( $cond, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                    null, $cond, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+                                                            null, $cond, null, null,
+                                                            $asObject );
+        foreach ( array_keys( $objectList ) as $objectKey )
+        {
+            $objectItem =& $objectList[$objectKey];
+            $objectID = $objectItem->ID;
+            $objectVersion = $objectItem->Version;
+            if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
+                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+        }
+        return $objectList;
     }
 
     /*!

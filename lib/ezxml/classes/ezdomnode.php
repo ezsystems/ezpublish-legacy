@@ -289,13 +289,15 @@ class eZDOMNode
 
                 // generate attributes string
                 if ( count( $this->Attributes ) > 0 )
-                foreach ( $this->Attributes as $attr )
                 {
-                    $attrPrefix = "";
-                    if ( $attr->prefix() != false )
-                        $attrPrefix = $attr->prefix(). ":";
+                    foreach ( $this->Attributes as $attr )
+                    {
+                        $attrPrefix = "";
+                        if ( $attr->prefix() != false )
+                            $attrPrefix = $attr->prefix(). ":";
 
-                    $attrStr .= " " . $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\" ";
+                        $attrStr .= " " . $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\" ";
+                    }
                 }
 
                 if ( $isOneLiner )
@@ -311,13 +313,15 @@ class eZDOMNode
                 $ret = "$spacer<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
 
                 if ( count( $this->Children ) > 0 )
-                foreach ( $this->Children as $child )
                 {
-                    $ret .= $child->toString( $level + 1 );
+                    foreach ( $this->Children as $child )
+                    {
+                        $ret .= "\n" . $child->toString( $level + 1 );
+                    }
                 }
 
                 if ( !$isOneLiner )
-                    $ret .= "</" . $prefix . $this->Name . ">\n";
+                    $ret .= "$spacer</" . $prefix . $this->Name . ">\n";
 //                    $ret .= "$spacer</" . $prefix . $this->Name . ">\n";
 
             }break;

@@ -199,7 +199,7 @@ class eZMySQLDB extends eZDBInterface
                         if ( $this->UseBuiltinEncoding and
                              $this->InputTextCodec->conversionRequired() )
                         {
-                            $tmp_row =& mysql_fetch_array( $result );
+                            $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
                             unset( $conv_row );
                             $conv_row = array();
                             reset( $tmp_row );
@@ -213,14 +213,14 @@ class eZMySQLDB extends eZDBInterface
                             $retArray[$i + $offset] =& $conv_row;
                         }
                         else
-                            $retArray[$i + $offset] =& mysql_fetch_array( $result );
+                            $retArray[$i + $offset] =& mysql_fetch_array( $result, MYSQL_ASSOC );
                     }
                 }
                 else
                 {
                     for ( $i=0; $i < mysql_num_rows($result); $i++ )
                     {
-                        $tmp_row =& mysql_fetch_array( $result );
+                        $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
                         if ( $this->UseBuiltinEncoding and
                              $this->InputTextCodec->conversionRequired() )
                         {

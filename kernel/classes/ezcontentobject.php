@@ -1269,22 +1269,65 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Returns the attributes for the content object version \a $version and content object \a $contentObjectID.
+     \a $language defines the language to fetch.
+     \static
+     \sa attributes
+    */
+    function &fetchClassAttributes( $version = 0, $asObject = true )
+    {
+        return eZContentClassAttribute::fetchListByClassID( $this->attribute( 'contentclass_id' ), $version, $asObject );
+    }
+
+    /*!
      \return a DOM structure of the content object and it's attributes.
     */
-    function &serialize()
+    function &serialize( $specificVersion = false )
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $objectNode = new eZDOMNode();
 
         $objectNode->setName( 'object' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID ) );
-        $attributes =& $this->contentObjectAttributes();
+        $objectNode->setPrefix( 'ez' );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
 
-        foreach ( $attributes as $attribute )
+        $versions = array();
+        if ( $specificVersion === false )
         {
-            $objectNode->appendChild( $attribute->serialize() );
+            $versions =& $this->versions();
         }
+        else if ( $specificVersion === true )
+        {
+            $versions[] = $this->currentVersion();
+        }
+        else
+        {
+            $versions[] = $this->version( $specificVersion );
+        }
+
+        $this->fetchClassAttributes();
+
+        $versionsNode = new eZDOMNode();
+        $versionsNode->setPrefix( 'ez' );
+        $versionsNode->setName( 'version-list' );
+        $versionsNode->appendAttribute( eZDOMDocument::createAttributeNode( 'active_version', $this->CurrentVersion ) );
+        $versionsNode->appendAttribute( eZDOMDocument::createAttributeNamespaceDefNode( "ezobject", "http://ez.no/object/" ) );
+        foreach ( array_keys( $versions ) as $versionKey )
+        {
+            $version =& $versions[$versionKey];
+            $versionNode =& $version->serialize();
+//             $attributes =& $this->contentObjectAttributes( true, $version );
+
+//             foreach ( $attributes as $attribute )
+//             {
+//                 $objectNode->appendChild( $attribute->serialize() );
+//             }
+            $versionsNode->appendChild( $versionNode );
+        }
+        $objectNode->appendChild( $versionsNode );
         return $objectNode;
     }
 
