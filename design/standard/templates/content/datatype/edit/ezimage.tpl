@@ -5,9 +5,6 @@
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 
     <label>{"Local image file for upload"|i18n("design/standard/content/datatype")}</label>
-    {section show=$attribute_content.original.is_valid}
-        <p class="box">{$attribute_content.filename|wash(xhtml)}</p>
-    {/section}
     <div class="labelbreak"></div>
 
     <input class="box" name="{$attribute_base}_data_imagename_{$attribute.id}" type="file" />
