@@ -16,7 +16,7 @@
     </td>
     <td>
         {attribute_edit_gui attribute_base=concat($attribute_base,'_ezorl_init_class_',$Class:item.id,'_attr_',$:item.id)
-                            class='half'
+                            html_class='half'
                             attribute=$:item.temporary_object_attribute}
     </td>
 </tr>
@@ -67,7 +67,7 @@
 </td>
 <td>
                     {attribute_edit_gui attribute_base=concat($attribute_base,'_ezorl_edit_object_',$Relation:item.contentobject_id)
-                                        class='half'
+                                        html_class='half'
                                         attribute=$:item}
 </td>
 </tr>

@@ -7,6 +7,14 @@ Changes from 3.2-1 to 3.2-2
 - Added missing script for updating the database with attribute based filtering and sorting.
 - Added author_array attribute to eZContentObject class, it was created in 3.1 but was
   missing from 3.2 and trunk.
+- Made sure literal text is trimmed before being sent to pre tag.
+- Added support for filtering on the normal properties (published, created) as you can with sorting.
+- Added shorten operator to path list.
+- Renamed the parameter class to datatype edit templates to html_class to make sure it
+  doesn't crash with existing parameters. Also made sure full size is used
+  if there is no match.
+- Made sure the left and right max count can be set when including the google navigator.
+- Added support for attribute_filter parameter to list and tree count which was missing.
 
 *DataType:
 
