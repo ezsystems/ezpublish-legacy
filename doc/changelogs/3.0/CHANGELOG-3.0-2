@@ -19,6 +19,8 @@ Changes from 3.0-1 to 3.0-2
 - Fixed parsing of nice URL's with internal links #.
 - Made eZ user datatype searchable
 - Fixed proper indexing of e-mail addresses and numbers containing .
+- Fixed bug of discard function in class group which will remove the class group. After fixing, Class group will be 
+  removed only if there is no any defined class in this group. 
 
 Binary file:
 - Fixed bug with stored file not being removed when the object was deleted (removed from trash).

@@ -63,11 +63,14 @@ else
 $http =& eZHttpTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
-    eZContentClassGroup::removeSelected( $GroupID );
+    $existingClassList =& eZContentClassClassGroup::fetchClassList( 0, $GroupID );
+    if ( count( $existingClassList ) == 0 )
+    {
+        eZContentClassGroup::removeSelected( $GroupID );
+    }
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
-
 
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
