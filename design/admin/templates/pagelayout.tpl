@@ -249,9 +249,9 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {* Personal *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to you.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='selected-last'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='selected-last'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to you.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='last'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='last'}
         {/section}
     {section-else}
         {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' )  menu_url='/content/draft/' menu_item_order='last'}
