@@ -38,8 +38,79 @@ div#header h1
 
 div#toolbar-top
 { 
-   border: 1px solid #333;
-   height: 70px;
+    /*border: 1px solid #333;*/
+    height: 70px;
+    padding: 0;
+    text-align: right;
+    position: relative;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+
+div#toolbar-design
+{
+}
+
+div#toolbar-top div.toolbar-item
+{
+    border-right: 1.5px solid #339999;
+    font-size: 9pt;
+    display: inline;
+    color: #339999;
+    font-weight: bold;
+    padding: 0 8px 0 8px;
+}
+
+div#toolbar-top div.toolbar-item a
+{ 
+    color: #339999;
+}
+
+div#toolbar-top div.toolbar-item.first
+{
+    display: inline;
+}
+
+div#toolbar-top div.toolbar-item.last
+{
+    border-right: none;
+    display: inline;
+}
+
+div#toolbar-bottom
+{
+    background-color: #d9e5f2;
+    height: 22px;
+    padding: 0;
+    text-align: center;
+    position: relative;
+}
+
+div#toolbar-bottom div.toolbar-item
+{
+    border-right: 1.5px solid #003366;
+    font-size: 9pt;
+    display: inline;
+    color: #003366;
+    font-weight: bold;
+    padding: 0 8px 0 8px;
+}
+
+div#toolbar-bottom div.toolbar-item a
+{ 
+    color: #003399;
+}
+
+div#toolbar-bottom div.toolbar-item.first
+{
+    display: inline;
+}
+
+div#toolbar-bottom div.toolbar-item.last
+{
+    border-right: none;
+    display: inline;
 }
 
 div#sep
