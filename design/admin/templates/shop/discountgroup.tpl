@@ -26,7 +26,9 @@
 {/section}
 </table>
 {section-else}
-<p>There are no discount groups.</p>
+<div class="block">
+<p>{'There are no discount groups.'|i18n( 'design/admin/shop/discountgroup' )}</p>
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
