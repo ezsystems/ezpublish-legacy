@@ -338,7 +338,7 @@ div.right
 div.block
 {
     display: block;
-    clear: both;
+    clear: none;
     padding: 0em;
     margin-top: 0.25em;
     margin-bottom: 0.25em;
@@ -347,7 +347,7 @@ div.block
 div.step
 {
     display: block;
-    clear: both;
+    clear: none;
     margin: 0;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
@@ -357,7 +357,7 @@ div.step
 
 div.buttonblock
 {
-    clear: both;
+    clear: none;
     margin: 0em;
     padding-top: 0.25em;
     padding-bottom: 0.5em;
@@ -376,14 +376,13 @@ div.element
     display: block;
     padding-right: 1em;
     padding-left: 0em;
-    clear: right;
+    clear: none;
 }
 
 div.break
 /* Used on an empty tag set after one or more div.element has been used, to ensure proper floating and breaking of the elements. */
 {
     display: block;
-    clear: both;
 }
 
 /* ARTICLE FORMATTING */
@@ -409,7 +408,7 @@ div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject
     margin-top: 0.3em;
     margin-bottom: 0.1em;
     display: inline;
-    clear: both;
+    clear: none;
 }
 
 div.imagecenter, div.factboxcenter, div.centerobject

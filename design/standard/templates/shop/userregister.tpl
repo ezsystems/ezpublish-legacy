@@ -25,7 +25,7 @@ Input did not validate, all fields marked with * must be filled in
     </div>
     <div class="break"></div>
 </div>
-
+<br />
 <div class="block">
 <label>
 E-mail:*
@@ -47,7 +47,6 @@ Street:*
 <input class="box" type="text" name="Street2" size="20" value="{$street2}" />
 </div>
 
-
 <div class="block">
     <div class="element">
     <label>
@@ -63,7 +62,7 @@ Street:*
     </div>
     <div class="break"></div>
 </div>
-
+<br/>
 <div class="block">
 <label>
 State:
