@@ -194,37 +194,7 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'kernel/classes/ezstaticcache.php' );
 
 $staticCache = new eZStaticCache();
-
-$staticURLArray = $staticCache->cachedURLArray();
-$db =& eZDB::instance();
-foreach ( $staticURLArray as $url )
-{
-    if ( strpos( $url, '*') === false )
-    {
-        print( "caching: $url " );
-        $staticCache->cacheURL( $url, false, !$force );
-        print( "done\n" );
-    }
-    else
-    {
-        print( "wildcard cache: $url\n" );
-        $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
-
-        $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
-        foreach ( $aliasArray as $urlAlias )
-        {
-            $url = "/" . $urlAlias['source_url'];
-            preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
-            $id = $matches[1];
-            if ( $staticCache->cacheURL( $url, (int) $id, !$force ) )
-            {
-                print( "  cache $url\n" );
-            }
-        }
-
-        print( "done\n" );
-    }
-}
+$staticCache->generateCache( $force );
 
 $script->shutdown();
 

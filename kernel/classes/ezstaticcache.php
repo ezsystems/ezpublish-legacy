@@ -107,14 +107,15 @@ class eZStaticCache
          	{
                 eZDir::mkdir( $dir, 0777, true );
             }
+
+            $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
+            foreach ( $alternativeStaticLocations as $location )
+            {
+                $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $location );
+            }
             /* Get rid of cache files */
             if ( !$skipUnlink )
             {
-                $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
-                foreach ( $alternativeStaticLocations as $location )
-                {
-                    $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $location );
-                }
                 foreach ( $cacheFiles as $file )
                 {
                     if ( file_exists ( $file ) )
@@ -123,6 +124,7 @@ class eZStaticCache
                     }
                 }
             }
+
             /* Generate new content */
             $fileName = "http://$hostname$dir$url";
             $content = file_get_contents( $fileName );
@@ -179,6 +181,45 @@ class eZStaticCache
     function &cachedURLArray()
     {
         return $this->CachedURLArray;
+    }
+
+    function generateCache( $force = false, $quiet = false )
+    {
+        $staticURLArray = $this->cachedURLArray();
+        $db =& eZDB::instance();
+        foreach ( $staticURLArray as $url )
+        {
+            if ( strpos( $url, '*') === false )
+            {
+                if ( !$quiet )
+                    print( "caching: $url " );
+                $this->cacheURL( $url, false, !$force );
+                if ( !$quiet )
+                    print( "done\n" );
+            }
+            else
+            {
+                if ( !$quiet )
+                    print( "wildcard cache: $url\n" );
+                $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
+
+                $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
+                foreach ( $aliasArray as $urlAlias )
+                {
+                    $url = "/" . $urlAlias['source_url'];
+                    preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
+                    $id = $matches[1];
+                    if ( $this->cacheURL( $url, (int) $id, !$force ) )
+                    {
+                        if ( !$quiet )
+                            print( "  cache $url\n" );
+                    }
+                }
+
+                if ( !$quiet )
+                    print( "done\n" );
+            }
+        }
     }
 
     var $HostName;
