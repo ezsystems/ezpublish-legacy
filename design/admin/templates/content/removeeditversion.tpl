@@ -51,12 +51,54 @@
 {/section}
 </p>
 
+{* Manage versions. *}
+<div class="block">
+<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/removeeditversion' )}" disabled="disabled" />
+</div>
+
+</div></div></div></div></div></div>
+
+</div>
+
+<br />
+
+<div class="drafts">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Current draft'|i18n( 'design/admin/content/removeeditversion' )}</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* Created. *}
+<p>
+<label>{'Created'|i18n( 'design/admin/content/removeeditversion' )}:</label>
+{$version.created|l10n( shortdatetime )}<br />
+{$version.creator.name}
+</p>
+
+{* Modified. *}
+<p>
+<label>{'Modified'|i18n( 'design/admin/content/removeeditversion' )}:</label>
+{$version.modified|l10n( shortdatetime )}<br />
+{$version.creator.name}
+</p>
+
+{* Version. *}
+<p>
+<label>{'Version'|i18n( 'design/admin/content/removeeditversion' )}:</label>
+{$version.version}
+</p>
+
 </div></div></div></div></div></div>
 
 </div>
 
 </div>
 </div>
+
 
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
