@@ -25,7 +25,7 @@
 <tr class="{$Groups.sequence}">
 
     {* Remove. *}
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Groups.item.id}" title="{'Select the <%class_group_name> class group for removal.'|i18n( 'design/admin/class/grouplist',, hash( '%class_group_name', $Groups.item.name ) )|wash}" /></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Groups.item.id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/grouplist' )}" /></td>
 
     {* Name. *}
     <td>{$Groups.item.name|classgroup_icon( small, $Groups.item.name )}&nbsp;<a href={concat( $module.functions.classlist.uri, '/', $Groups.item.id)|ezurl}>{$Groups.item.name|wash}</a></td>
