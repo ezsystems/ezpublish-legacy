@@ -37,11 +37,11 @@ include_once( "kernel/classes/ezwishlist.php" );
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
+$offset = $Params['Offset'];
 
 $user =& eZUser::currentUser();
 if ( !$user->isLoggedIn() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
@@ -155,6 +155,9 @@ $tpl =& templateInit();
 $wishList =& eZWishList::currentWishList();
 
 $tpl->setVariable( "wish_list", $wishList );
+
+$viewParameters = array( 'offset' => $offset );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/wishlist.tpl" );

@@ -133,6 +133,22 @@ class eZShopFunctionCollection
         }
         return array( 'result' => $contentObjectList );
     }
+
+    function &fetchWishList( $production_id, $offset = false, $limit = false )
+    {
+        include_once( 'kernel/classes/ezwishlist.php' );
+
+        $result =& eZWishList::items( true, $production_id, $offset, $limit );
+        return array( 'result' => $result );
+    }
+
+    function &fetchWishListCount( $production_id )
+    {
+        include_once( 'kernel/classes/ezwishlist.php' );
+
+        $result =& eZWishList::itemCount( $production_id );
+        return array( 'result' => $result );
+    }
 }
 
 ?>

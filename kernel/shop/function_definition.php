@@ -71,5 +71,32 @@ $FunctionList['related_purchase'] = array( 'name' => 'related_purchase',
                                                                        'type' => 'integer',
                                                                        'required' => true ) ) );
 
+$FunctionList['wish_list'] = array( 'name' => 'wish_list',
+                                    'operation_types' => array( 'read' ),
+                                    'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                            'class' => 'eZShopFunctionCollection',
+                                                            'method' => 'fetchWishList' ),
+                                    'parameter_type' => 'standard',
+                                    'parameters' => array( array( 'name' => 'production_id',
+                                                                  'type' => 'integer',
+                                                                  'required' => true ),
+                                                           array( 'name' => 'offset',
+                                                                  'type' => 'integer',
+                                                                  'required' => false,
+                                                                  'default' => false ),
+                                                           array( 'name' => 'limit',
+                                                                  'type' => 'integer',
+                                                                  'required' => false,
+                                                                  'default' => false ) ) );
+
+$FunctionList['wish_list_count'] = array( 'name' => 'wish_list_count',
+                                          'operation_types' => array( 'read' ),
+                                          'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                  'class' => 'eZShopFunctionCollection',
+                                                                  'method' => 'fetchWishListCount' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array( array( 'name' => 'production_id',
+                                                                        'type' => 'integer',
+                                                                        'required' => true ) ) );
 
 ?>

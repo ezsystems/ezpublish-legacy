@@ -133,8 +133,6 @@ class eZShopOperationCollection
 
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
-
-
 }
 
 ?>

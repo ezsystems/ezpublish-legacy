@@ -74,6 +74,7 @@ $ViewList["wishlist"] = array(
     "functions" => array( 'buy' ),
     "script" => "wishlist.php",
     "default_navigation_part" => 'ezmynavigationpart',
+    'unordered_params' => array( 'offset' => 'Offset' ),
     "params" => array(  ) );
 
 $ViewList["orderlist"] = array(

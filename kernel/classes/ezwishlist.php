@@ -122,13 +122,29 @@ class eZWishList extends eZPersistentObject
         return $discountPercent;
     }
 
-    function &items( $asObject = true )
+    function &itemCount( $alternativeProductionID = false )
+    {
+        $custom = array( array( 'operation' => 'count( id )',
+                                'name' => 'count' ) );
+        $countRes =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                       array(),
+                                                       array( "productcollection_id" => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
+                                                       null,
+                                                       null,
+                                                       false,
+                                                       false,
+                                                       $custom );
+        return $countRes[0]['count'];
+    }
+
+    function &items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
     {
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                    ),
                                                        null,
+                                                       array( 'productcollection_id' => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
                                                        null,
+                                                       array( 'offset' => $offset,
+                                                              'length' => $limit ),
                                                        $asObject );
 //        $discountPercent = $this->discountPercent();
         $addedProducts = array();
@@ -177,7 +193,6 @@ class eZWishList extends eZPersistentObject
                                        'item_object' =>$productItem );
                 $addedProducts[] = $addedProduct;
             }
-
         }
         return $addedProducts;
     }

@@ -1,10 +1,14 @@
+{let item_type=ezpreference( 'items' )
+     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
+     wish_list_items=fetch( 'shop', 'wish_list', hash( 'production_id', $wish_list.productcollection_id, 'offset', $view_parameters.offset, 'limit', number_of_items ) )
+     wish_list_count=fetch( 'shop', 'wish_list_count', hash( 'production_id', $wish_list.productcollection_id ) )}
 <form name="wishlistform" method="post" action={'/shop/wishlist/'|ezurl}>
 
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'My wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list.items|count ) )}</h1>
+<h1 class="context-title">{'My wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,7 +16,37 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$wish_list.items}
+{section show=$wish_list_items}
+{* Items per page *}
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+<p>
+    {switch match=$number_of_items}
+    {case match=25}
+        <a href={'/user/preferences/set/items/1/shop/wishlist'|ezurl}>10</a>
+        <span class="current">25</span>
+        <a href={'/user/preferences/set/items/3/shop/wishlist'|ezurl}>50</a>
+    {/case}
+
+    {case match=50}
+        <a href={'/user/preferences/set/items/1/shop/wishlist'|ezurl}>10</a>
+        <a href={'/user/preferences/set/items/2/shop/wishlist'|ezurl}>25</a>
+        <span class="current">50</span>
+    {/case}
+
+    {case}
+        <span class="current">10</span>
+        <a href={'/user/preferences/set/items/2/shop/wishlist'|ezurl}>25</a>
+        <a href={'/user/preferences/set/items/3/shop/wishlist'|ezurl}>50</a>
+    {/case}
+    {/switch}
+</p>
+</div>
+<div class="break"></div>
+</div>
+</div>
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" onclick="ezjs_toggleCheckboxes( document.wishlistform, 'RemoveProductItemDeleteList[]' ); return false;" /></th>
@@ -25,7 +59,7 @@
     <th>{'Total price (ex. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
     <th>{'Total price (inc. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
 </tr>
-{section var=WishedItems loop=$wish_list.items sequence=array( bglight, bgdark )}
+{section var=WishedItems loop=$wish_list_items sequence=array( bglight, bgdark )}
 <tr class="{$WishedItems.sequence}">
 
     {* Remove. *}
@@ -86,6 +120,15 @@
 {/section}
 </table>
 
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri='/shop/wishlist'
+         item_count=$wish_list_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
+
 {section-else}
 <div class="block">
 <p>{'The wish list is empty.'|i18n( 'design/admin/shop/wishlist')}</p>
@@ -111,3 +154,4 @@
 </div>
 
 </form>
+{/let}
