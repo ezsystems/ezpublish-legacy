@@ -15,22 +15,22 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Name'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <input class="box" type="text" name="Name" value="" />
 </div>
 
 <div class="block">
-<label>{'Handles input'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Handles input'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <input type="checkbox" name="InputCheck" value="1" checked="checked" />
 </div>
 
 <div class="block">
-<label>{'Generates output'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Generates output'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <input type="checkbox" name="OutputCheck" value="1" checked="checked" />
 </div>
 
 <div class="block">
-<label>{'Parameters'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Parameters'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <select name="Parameter">
     <option value="1">{'No parameters'|i18n( 'design/admin/setup/rad/templateoperator' )}</option>
     <option value="2">{'Named parameters'|i18n( 'design/admin/setup/rad/templateoperator' )}</option>

@@ -75,7 +75,7 @@
         </div>
     {section-else}
             <div class="block">
-            <label>{'Users'|i18n( 'design/admin/setup/session' )}</label>
+            <label>{'Users'|i18n( 'design/admin/setup/session' )}:</label>
             <select class="combobox" name="FilterType">
                 <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/admin/setup/session" )}</option>
                 <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/admin/setup/session" )}</option>
@@ -85,7 +85,7 @@
            </div>
 
 <div class="block">
-<label>{'Include inactive users'|i18n( 'design/admin/setup/session' )}</label>
+<label>{'Include inactive users'|i18n( 'design/admin/setup/session' )}:</label>
 <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" />
 </div>
 <input type="hidden" name="InactiveUsersCheckExists" />

@@ -13,17 +13,17 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Class name'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Class name'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <input class="box" type="text" name="ClassName" value="{$class_name|wasah}" />
 </div>
 
 <div class="block">
-<label>{'Author'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Author'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <input class="box" type="text" name="CreatorName" value="{fetch(user,current_user).contentobject.name|wash}" />
 </div>
 
 <div class="block">
-<label>{'Description'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Description'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <textarea class="box" name="Description" cols="60" rows="5">
 {'Handles template operator %operator_name. By using %operator_name you can...'|i18n( 'design/admin/setup/rad/templateoperator',, hash( '%operator_name', $operator_name))}
 </textarea>
@@ -31,7 +31,7 @@
 </div>
 
 <div class="block">
-<label>{'Example code'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
+<label>{'Example code'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
 <textarea class="box" name="ExampleCode" cols="60" rows="3">{$example_code|wash}</textarea>
 <p>{'Hint: Feel free to add example code that demonstrates how the operator works.'|i18n( 'design/admin/setup/rad/templateoperator' )}</p>
 </div>

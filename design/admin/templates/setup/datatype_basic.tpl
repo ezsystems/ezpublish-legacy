@@ -13,17 +13,17 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Name'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="Name" value="" />
 </div>
 
 <div class="block">
-<label>{'Descriptive name'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Descriptive name'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="DescName" value="" />
 </div>
 
 <div class="block">
-<label>{'Handle input on class level'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Handle input on class level'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input type="checkbox" name="ClassInput" value="1" />
 </div>
 

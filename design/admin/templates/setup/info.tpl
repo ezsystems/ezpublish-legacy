@@ -11,42 +11,44 @@
 
 <div class="context-attributes">
 
-    <h2>{'eZ publish'|i18n( 'design/admin/setup/info' )}</h2>
+    <fieldset>
+    <legend>{'eZ publish'|i18n( 'design/admin/setup/info' )}</legend>
 
     <div class="block">
-        <label>{'Site'|i18n( 'design/admin/setup/info' )}</label>
+        <label>{'Site'|i18n( 'design/admin/setup/info' )}:</label>
         {ezini('SiteSettings','SiteURL')}
     </div>
 
     <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'eZ publish version' )}</label>
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'eZ publish version' )}:</label>
         {$ezpublish_version}
     </div>
 
     <div class="block">
-        <label>{'SVN revision'|i18n( 'design/admin/setup/info', 'eZ publish version' )}</label>
+        <label>{'SVN revision'|i18n( 'design/admin/setup/info', 'eZ publish version' )}:</label>
         {$ezpublish_revision}
     </div>
 
     <div class="block">
-        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ publish extensions' )}</label>
+        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ publish extensions' )}:</label>
         {section loop=$ezpublish_extensions}{$:item}{delimiter}, {/delimiter}{/section}
     </div>
+    </fieldset>
 
-
-    <h2>{'PHP'|i18n( 'design/admin/setup/info' )}</h2>
+    <fieldset>
+    <legend>{'PHP'|i18n( 'design/admin/setup/info' )}</legend>
     <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP version' )}</label>
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP version' )}:</label>
         {$php_version}
     </div>
 
     <div class="block">
-        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'PHP extensions' )}</label>
+        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'PHP extensions' )}:</label>
         {section loop=$php_loaded_extensions}{$:item}{delimiter}, {/delimiter}{/section}
     </div>
 
     <div class="block">
-    <label>{'Miscellaneous'|i18n( 'design/admin/setup/info' )}</label>
+    <label>{'Miscellaneous'|i18n( 'design/admin/setup/info' )}:</label>
         {section show=$php_ini.safe_mode}
             {'Safe mode is on.'|i18n( 'design/admin/setup/info' )}<br/>
         {section-else}
@@ -71,19 +73,20 @@
         {'Script memory limit is %1.'|i18n( 'design/admin/setup/info' ,,array( $php_ini.memory_limit ) )}<br/>
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
+    </fieldset>
 
-
-<h2>{'PHP Accelerator'|i18n( 'design/admin/setup/info' )}</h2>
+<fieldset>
+<legend>{'PHP Accelerator'|i18n( 'design/admin/setup/info' )}</legend>
 
 {section show=$php_accelerator}
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/setup/info', 'PHP Accelerator name' )}</label>
+<label>{'Name'|i18n( 'design/admin/setup/info', 'PHP Accelerator name' )}:</label>
 {section show=$php_accelerator.url}<a href="{$php_accelerator.url|wash}">{/section}{$php_accelerator.name|wash}{section show=$php_accelerator.url}</a>{/section}
 </div>
 
 <div class="block">
-    <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP Accelerator version' )}</label>
+    <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP Accelerator version' )}:</label>
     {section show=$php_accelerator.version_string}
         {$php_accelerator.version_string|wash}
         {section-else}
@@ -92,7 +95,7 @@
 </div>
 
 <div class="block">
-    <label>{'Status'|i18n( 'design/admin/setup/info' ,'PHP Accelerator status')}</label>
+    <label>{'Status'|i18n( 'design/admin/setup/info' ,'PHP Accelerator status')}:</label>
     {section show=$php_accelerator.enabled}
         {'Enabled.'|i18n( 'design/admin/setup/info' )}
     {section-else}
@@ -103,24 +106,25 @@
 {section-else}
     {'A known and active PHP accelerator could not be found.'|i18n( 'design/admin/setup/info' )}
 {/section}
+</fieldset>
 
-
-    <h2>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</h2>
+    <fieldset>
+    <legend>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</legend>
 
     {section show=$webserver_info}
 
     <div class="block">
-        <label>{'Name'|i18n( 'design/admin/setup/info', 'Webserver name')}</label>
+        <label>{'Name'|i18n( 'design/admin/setup/info', 'Webserver name')}:</label>
         {$webserver_info.name}
     </div>
 
     <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'Webserver version')}</label>
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'Webserver version')}:</label>
         {$webserver_info.version}
     </div>
 
     <div class="block">
-    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Webserver modules')}</label>
+    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Webserver modules')}:</label>
     {section show=$webserver_info.modules}
         {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
     {section-else}
@@ -131,34 +135,37 @@
     {section-else}
         {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
     {/section}
+    </fieldset>
 
-    <h2>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</h2>
+    <fieldset>
+    <legend>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</legend>
 
     <div class="block">
-        <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
+        <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}:</label>
         {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
     </div>
 
     <div class="block">
-        <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
+        <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}:</label>
         {$system_info.memory_size|si( byte )}
     </div>
+    </fieldset>
 
-
-<h2>{'Database'|i18n( 'design/admin/setup/info' )}</h2>
+<fieldset>
+<legend>{'Database'|i18n( 'design/admin/setup/info' )}</legend>
 
 <div class="block">
-    <label>{'Type'|i18n( 'design/admin/setup/info', 'Database type' )}</label>
+    <label>{'Type'|i18n( 'design/admin/setup/info', 'Database type' )}:</label>
     {$database_info}
 </div>
 
 <div class="block">
-    <label>{'Server'|i18n( 'design/admin/setup/info', 'Database server' )}</label>
+    <label>{'Server'|i18n( 'design/admin/setup/info', 'Database server' )}:</label>
     {$database_object.database_server}
 </div>
 
 <div class="block">
-    <label>{'Socket path'|i18n( 'design/admin/setup/info', 'Database socket path' )}</label>
+    <label>{'Socket path'|i18n( 'design/admin/setup/info', 'Database socket path' )}:</label>
     {section show=$database_object.database_socket_path}
         {$database_object.database_socket_path}
     {section-else}
@@ -167,31 +174,33 @@
 </div>
 
 <div class="block">
-    <label>{'Database name'|i18n( 'design/admin/setup/info', 'Database name' )}</label>
+    <label>{'Database name'|i18n( 'design/admin/setup/info', 'Database name' )}:</label>
     {$database_object.database_name}
 </div>
 
 <div class="block">
-    <label>{'Connection retry count'|i18n( 'design/admin/setup/info', 'Database retry count' )}</label>
+    <label>{'Connection retry count'|i18n( 'design/admin/setup/info', 'Database retry count' )}:</label>
     {$database_object.retry_count}
 </div>
 
 <div class="block">
-    <label>{'Character set'|i18n( 'design/admin/setup/info', 'Database charset' )}</label>
+    <label>{'Character set'|i18n( 'design/admin/setup/info', 'Database charset' )}:</label>
     {$database_charset|wash}{section show=$database_object.is_internal_charset} ({'Internal'|i18n( 'design/admin/setup/info' )}){/section}
 </div>
+</fieldset>
 
-<h2>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</h2>
+<fieldset>
+<legend>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</legend>
 
 {section show=$database_object.use_slave_server}
 
     <div class="block">
-        <label>{'Server'|i18n( 'design/admin/setup/info', 'Database server' )}</label>
+        <label>{'Server'|i18n( 'design/admin/setup/info', 'Database server' )}:</label>
         {$database_object.slave_database_server}
     </div>
 
     <div class="block">
-        <label>{'Database'|i18n( 'design/admin/setup/info', 'Database name' )}</label>
+        <label>{'Database'|i18n( 'design/admin/setup/info', 'Database name' )}:</label>
         {$database_object.slave_database_name}
     </div>
 
@@ -200,6 +209,8 @@
     {'There is no slave database in use.'|i18n( 'design/admin/setup/info' )}
 
 {/section}
+
+</fieldset>
 
 </div>
 

@@ -13,23 +13,23 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name of class'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Name of class'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="ClassName" value="{$class_name|wash}" />
 </div>
 
 <div class="block">
-<label>{'Constant name'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Constant name'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="ConstantName" value="{$constant_name|wash}" />
 </div>
 
 
 <div class="block">
-<label>{'The creator of the datatype'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'The creator of the datatype'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="CreatorName" value="{fetch(user,current_user).contentobject.name|wash}" />
 </div>
 
 <div class="block">
-<label>{'Description'|i18n( 'design/admin/setup/rad/datatype' )}</label>
+<label>{'Description'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <textarea class="box" name="Description" cols="60" rows="5">
 {'Handles the datatype %datatype_name. By using %datatype_name you can ...'|i18n( 'design/admin/setup/rad/datatype',, hash( '%datatype_name', $datatype_name ) )}
 </textarea>
