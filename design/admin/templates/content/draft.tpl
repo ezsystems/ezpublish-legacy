@@ -6,7 +6,14 @@
 <form name="draftaction" action={concat( 'content/draft/' )|ezurl} method="post">
 
 <div class="context-block">
-<h2 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/standard/content/draft',, hash( '%draft_count', $list_count ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/admin/content/draft',, hash( '%draft_count', $list_count ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$draft_list}
 
@@ -44,12 +51,12 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></th>
-    <th>{'Name'|i18n( 'design/standard/content/draft' )}</th>
-    <th>{'Type'|i18n( 'design/standard/content/draft' )}</th>
-    <th>{'Section'|i18n( 'design/standard/content/draft' )}</th>
-    <th>{'Version'|i18n( 'design/standard/content/draft' )}</th>
-    <th>{'Modified'|i18n( 'design/standard/content/draft' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/admin/content/draft' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" /></th>
+    <th>{'Name'|i18n( 'design/admin/content/draft' )}</th>
+    <th>{'Type'|i18n( 'design/admin/content/draft' )}</th>
+    <th>{'Section'|i18n( 'design/admin/content/draft' )}</th>
+    <th>{'Version'|i18n( 'design/admin/content/draft' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/draft' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
@@ -67,7 +74,7 @@
 </table>
 {section-else}
 
-<p>{'There are no drafts.'|i18n( 'design/standard/content/draft' )}</p>
+<p>{'There are no drafts.'|i18n( 'design/admin/content/draft' )}</p>
 
 {/section}
 
@@ -80,11 +87,15 @@
          item_limit=$number_of_items}
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" {section show=$draft_list|not}disabled="disabled"{/section} />
     <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" {section show=$draft_list|not}disabled="disabled"{/section} />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
