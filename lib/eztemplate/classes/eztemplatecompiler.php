@@ -541,7 +541,7 @@ class eZTemplateCompiler
         }
         $php->addCodePiece('$setArray = $oldSetArray_'. md5( $resourceData['template-filename'] ). ";\n");
 
-        $php->store();
+        $php->store( true );
 
         return true;
     }
@@ -1874,7 +1874,7 @@ $lbracket
 $rbracket
 ";
         $php->addCodePiece( $initText );
-        $php->store();
+        $php->store( true );
     }
 
     /*!
