@@ -390,7 +390,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Must stop line tag if a paragraph tag find
         if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "line" )
         {
-            while ( $parentNodeTag != "section" )
+            while ( $parentNodeTag != "paragraph" )
             {
                 $lastNodeArray = array_pop( $TagStack );
                 $lastNode =& $lastNodeArray["ParentNodeObject"];
@@ -407,6 +407,37 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
                 }
             }
+
+            //pop up paragraph tag
+            $lastNodeArray = array_pop( $TagStack );
+            $lastNode =& $lastNodeArray["ParentNodeObject"];
+            unset( $currentNode );
+            $currentNode =& $lastNode;
+
+            $parentNodeArray = array_pop( $TagStack );
+            if ( $parentNodeArray !== null )
+            {
+                $parentNodeTag = $parentNodeArray["TagName"];
+                $parentNode =& $parentNodeArray["ParentNodeObject"];
+                $parentChildTag = $parentNodeArray["ChildTag"];
+                array_push( $TagStack,
+                            array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
+            }
+
+            // Add paragraph tag
+            unset( $subNode );
+            $subNode = new eZDOMNode();
+
+            $subNode->Name = "paragraph";
+            $subNode->LocalName = "paragraph";
+            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+            $domDocument->registerElement( $subNode );
+            $currentNode->appendChild( $subNode );
+            $childTag = $this->subTagArray['paragraph'];
+            array_push( $TagStack,
+                        array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+            $currentNode =& $subNode;
+            $parentNodeTag = "paragraph";
         }
 
         if ( in_array( $currentTag, $this->subTagArray[$parentNodeTag] ) and $currentTag != $parentNodeTag )
@@ -1342,7 +1373,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $customTagContent = "";
                 foreach ( $tag->children() as $tagChild )
                 {
-                    $customTagContent .= $this->inputParagraphXML( $tagChild );
+                    $customTagContent .= $this->inputTdXML( $tagChild );
                 }
                 $output .= "<$tagName name='$name'>" .  $customTagContent . "</$tagName>";
             }break;
