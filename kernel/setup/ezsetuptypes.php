@@ -1606,7 +1606,7 @@ function eZSetupImageINISettings( $siteType, $parameters )
 function eZSetupContentINISettings( $siteType, $parameters )
 {
     $designList = $parameters['design_list'];
-    $image = array( 'name' => 'image.ini',
+    $image = array( 'name' => 'content.ini',
                     'reset_arrays' => true,
                     'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList ) ) );
 
