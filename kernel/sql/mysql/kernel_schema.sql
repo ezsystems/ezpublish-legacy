@@ -857,7 +857,7 @@ CREATE TABLE ezproductcollection_item (
   discount float default NULL,
   PRIMARY KEY  (id),
   KEY ezproductcollection_item_productcollection_id (productcollection_id),
-  KEY ezproductcollection_item_contentobject_id (productcollection_id)
+  KEY ezproductcollection_item_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;
 
 
@@ -1052,7 +1052,6 @@ CREATE TABLE ezsubtree_notification_rule (
   node_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezsubtree_notification_rule_id (id),
   KEY ezsubtree_notification_rule_user_id (user_id)
 ) TYPE=MyISAM;
 
