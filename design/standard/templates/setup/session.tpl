@@ -116,7 +116,7 @@ function checkAll()
 <td>
     <input type="image" name="RemoveSelectedSessionsButton" value="{"Remove selected sessions"|i18n("design/standard/setup")}" src="/trunk/design/standard/images/trash.png" />
 </td>
-<td colspan="4">
+<td colspan="5">
     <input name="selectall" onclick=checkAll() type="button" value="Select all">
 </td>
 </tr>
