@@ -84,6 +84,25 @@ class eZPackageOperator
         $class = $namedParameters['class'];
         switch ( $class )
         {
+            case 'thumbnail':
+            {
+                if ( get_class( $operatorValue ) == 'ezpackage' )
+                {
+                    $fileList = $operatorValue->fileList( 'default' );
+                    foreach ( array_keys( $fileList ) as $key )
+                    {
+                        $file =& $fileList[$key];
+                        $fileType = $file["type"];
+                        if ( $fileType == 'thumbnail' )
+                        {
+                            $operatorValue = $operatorValue->fileItemPath( $file, 'default' );
+                            return;
+                        }
+                    }
+                    $operatorValue = false;
+                }
+            } break;
+
             case 'filepath':
             {
                 if ( get_class( $operatorValue ) == 'ezpackage' )
@@ -100,6 +119,9 @@ class eZPackageOperator
                             return;
                         }
                     }
+                    $tpl->error( $operatorName,
+                                 "No filepath found for variable $variableName in package " . $package->attribute( 'name' ) );
+                    $operatorValue = false;
                 }
             } break;
 
@@ -129,6 +151,9 @@ class eZPackageOperator
                             return;
                         }
                     }
+                    $tpl->error( $operatorName,
+                                 "No documentpath found for document $documentName in package " . $package->attribute( 'name' ) );
+                    $operatorValue = false;
                 }
             } break;
 
