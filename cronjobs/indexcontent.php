@@ -53,7 +53,7 @@ $limit = 50;
 
 while( true )
 {
-    $entries = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = "index_object"',
+    $entries = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action = 'index_object'",
                                 array( 'limit' => $limit,
                                        'offset' => $offset ) );
     $inSQL = '';
@@ -79,7 +79,7 @@ while( true )
             }
         }
 
-        $db->query( 'DELETE FROM ezpending_actions WHERE action = "index_object" AND param IN ( ' . $inSQL . ')' );
+        $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param IN ($inSQL)" );
         $offset += $limit;
     }
     else
