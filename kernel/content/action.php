@@ -288,6 +288,43 @@ else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
     return;
 }
+else if ( $http->hasPostVariable( "ActionAddToNotification" ) )
+{
+    include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+    $user =& eZUser::currentUser();
+
+    $nodeID = $http->postVariable( 'ContentNodeID' );
+
+    if ( $http->hasPostVariable( 'ViewMode' ) )
+        $viewMode = $http->postVariable( 'ViewMode' );
+    else
+        $viewMode = 'full';
+
+    if ( !$user->isLoggedIn() )
+    {
+        eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
+                             'kernel/content/action.php' );
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+        return;
+    }
+    $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+    if ( !$contentNode->attribute( 'can_read' ) )
+    {
+        eZDebug::writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
+                             'kernel/content/action.php' );
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+        return;
+    }
+
+    $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+    if ( !in_array( $nodeID, $nodeIDList ) )
+    {
+        $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
+        $rule->store();
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+    return;
+}
 else if ( $http->hasPostVariable( "ContentObjectID" )  )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
@@ -314,47 +351,9 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
     }
-    else if ( $http->hasPostVariable( "ActionAddToNotification" ) )
-    {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-        $user =& eZUser::currentUser();
-
-        $nodeID = $http->postVariable( 'ContentNodeID' );
-
-        if ( $http->hasPostVariable( 'ViewMode' ) )
-            $viewMode = $http->postVariable( 'ViewMode' );
-        else
-            $viewMode = 'full';
-
-        if ( !$user->isLoggedIn() )
-        {
-            eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
-                                 'kernel/content/action.php' );
-            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
-            return;
-        }
-        $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
-        if ( !$contentNode->attribute( 'can_read' ) )
-        {
-            eZDebug::writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
-                                 'kernel/content/action.php' );
-            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
-            return;
-        }
-
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
-        if ( !in_array( $nodeID, $nodeIDList ) )
-        {
-            $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
-            $rule->store();
-        }
-        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
-        return;
-    }
     else if ( $http->hasPostVariable( "ActionPreview" ) )
     {
         $user =& eZUser::currentUser();
-        $objectID = $http->postVariable( 'ContentObjectID' );
         $object =& eZContentObject::fetch(  $objectID );
         $module->redirectTo( $module->functionURI( 'versionview' ) . '/' . $objectID . '/' . $object->attribute( 'current_version' ) . '/' );
         return;
