@@ -285,8 +285,6 @@ class eZBinaryFileType extends eZDataType
 			
         $binaryFile =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
 
-		print_r( $binaryFile );
-
         $contentObjectAttribute->setContent( $binaryFile );
 
         //$binaryFile =& $contentObjectAttribute->content();
