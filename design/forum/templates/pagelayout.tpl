@@ -25,6 +25,28 @@
             </div>
            {/let}
                   
+            <div id="usermenu">
+                <div class="design">
+
+                <h3 class="invisible">User menu</h3>
+                <ul>
+                {section show=eq($current_user.is_logged_in)}
+                    <li><a href={"/user/login"|ezurl}>login</a></li>
+                {section-else}
+                    <li><a href={"/user/logout"|ezurl}>logout ({$current_user.contentobject.name})</a></li>
+                {/section}
+                
+                {section show=$current_user.is_logged_in}
+                    <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
+                    <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
+                {/section}
+                </ul>
+
+                </div>
+            </div>
+
+            <div class="break"></div> {* This is needed for proper flow of floating objects *}
+
         </div>
     </div>
 
@@ -44,17 +66,6 @@
 
                 <h3 class="invisible">Main menu</h3>
                 <ul>
-                {section show=eq($current_user.is_logged_in)}
-                    <li><a href={"/user/login"|ezurl}>login</a></li>
-                {section-else}
-                    <li><a href={"/user/logout"|ezurl}>logout ({$current_user.contentobject.name})</a></li>
-                {/section}
-                
-                {section show=$current_user.is_logged_in}
-                    <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
-                    <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
-                {/section}
-
                 {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
                 {section name=Folder loop=$folder_list}
                     <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>

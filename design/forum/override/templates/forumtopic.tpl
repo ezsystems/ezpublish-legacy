@@ -1,12 +1,9 @@
 
 {let child_list=fetch('content','list',hash(parent_node_id,$node.node_id,limit,20,offset,$view_parameters.offset,sort_by,array(array(published,true()))))
      child_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
-<h2>{$node.name|wash}</h2>
+<h1>{$node.name|wash}</h1>
 
 
-<table width="100%">
-<tr>
-    <td>
 {section show=$node.depth|le(6)}
 <form method="post" action={"content/action/"|ezurl}>
 
@@ -54,35 +51,31 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
 {/section}
 
-    </td>
-
-    <td align="right">
+<div class="selectedsearch">
     <form action={"/content/search/"|ezurl} method="get">
-    <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
-    <input class="button" name="SearchButton" type="submit" value="Search forum" />
+    <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+    <input class="searchbutton" name="SearchButton" type="submit" value="Search forum" />
     <input type="hidden" name="SearchContentClassID" value="22" />
     <input type="hidden" name="SubTreeArray[]" value="{$node.parent_node_id}" />
     </form>
-    </td>
-</tr>
-</table>
+</div>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="1">
-<tr>
-    <td class="forumhead" width="80%">
-    <h2>Topic: {$node.name|wash}</h2>
-    </td>
-    <td class="forumhead" width="20%">
+<table class="forum" cellspacing="0">
+<tr class="topheader">
+    <th class="messagetopic">
+    Topic: {$node.name|wash}
+    </th>
+    <th class="messageauthor">
     Author
-    </td>
+    </th>
 </tr>
-<tr>
-    <td class="bglightforum">
+<tr class="bglightforum">
+    <td>
     <p>
     {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
     </p>
     </td>
-    <td class="bglightforum" valign="top">
+    <td>
     <h3>{$node.object.owner.name|wash}</h3>
     <p>
     {$node.object.owner.data_map.title.content|wash}<br /><br />
@@ -120,14 +113,14 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     <td>
 </tr>
 {section name=Child loop=$child_list sequence=array(bgdarkforum,bglightforum)}
-<tr>
-    <td class="{$Child:sequence}">
+<tr class="{$Child:sequence}">
+    <td>
     <a name="msg{$Child:item.node_id}"></a><h3 class="forum">{$Child:item.name|wash}</h3>
     <p>
     {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
     </p>
     </td>
-    <td valign="top" class="{$Child:sequence}">
+    <td>
     <h3>{$Child:item.object.owner.name|wash}</h3>
     <p>
     {$Child:item.object.owner.data_map.title.content|wash}<br /><br />

@@ -41,15 +41,18 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
 
 <table class="forum" cellspacing="0">
-<tr>
-    <th class="topheader">
+<tr class="topheader">
+    <th class="forumtopic">
     Topics
     </th>
-    <th class="topheader">
+    <th class="forumauthor">
+    Author
+    </th>
+    <th class="forumreplies">
     Replies
     </th>
-    <th class="topheader">
-    Author
+    <th class="forumlastreply">
+    Last reply
     </th>
 </tr>
 
@@ -60,6 +63,19 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     {section show=$Child:item.object.data_map.sticky.content}<img src="/design/forum/images/sticky_icon-red.gif" height="20" width="20" align="middle" alt="" />{/section}
     <a href={$Child:item.url_alias|ezurl}>{$Child:item.object.name|wash}</a>
     </p>
+    </td>
+    <td>
+    <p>
+    {$Child:item.object.owner.name|wash}<br />
+    <span class="forumdate">({$Child:item.object.published|l10n(shortdatetime)})</span>
+    </p>
+    </td>
+    <td>
+    <p>
+    {fetch('content','tree_count',hash(parent_node_id,$Child:item.node_id))}
+    </p>
+    </td>
+    <td>
     {let last_reply=fetch('content','list',hash(parent_node_id,$Child:item.node_id,sort_by,array(array('published',false())),limit,1))}
     {section name=Reply loop=$Child:last_reply show=$Child:last_reply}
     <p class="lastreply">
@@ -69,18 +85,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     {/section}
     {/let}
     </td>
-    <td>
-    <p>
-    {fetch('content','tree_count',hash(parent_node_id,$Child:item.node_id))}
-    </p>
-    </td>
-    <td>
-    <p>
-    {$Child:item.object.owner.name|wash}<br />
-    <span class="forumdate">({$Child:item.object.published|l10n(shortdatetime)})</span>
-    </p>
-    </td>
-
 </tr>
 {/section}
 </table>
