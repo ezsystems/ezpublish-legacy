@@ -13,11 +13,12 @@
 
 <p>
     {"These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %addbutton button.
+      If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
 
       Removing objects will only remove them from this list."
       |i18n("design/standard/content/view",,
-            hash('%addbutton',concat('<i>','Add bookmarks'|i18n('design/standard/content/view'),'</i>')))
+            hash( '%emphasize_start', '<i>',
+                  '%emphasize_stop', '</i>' ) )
       |nl2br}
 </p>
 

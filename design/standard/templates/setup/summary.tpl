@@ -79,7 +79,7 @@
       <div class="setup_summary_empty">
     {/section}
   
-    {"Language(s):"|i18n("design/standard/setup")}</div></td>
+    {"Language:"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count($languages)}
@@ -100,7 +100,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Site(s):"|i18n("design/standard/setup")}</td>
+    {"Site:"|i18n("design/standard/setup")}</td>
 
     <td>
     {section show=$sites}

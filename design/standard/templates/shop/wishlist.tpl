@@ -75,7 +75,7 @@
 
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" />
-<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove item(s)'|i18n('design/standard/shop')}" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove items'|i18n('design/standard/shop')}" />
 </div>
 
 {section-else}

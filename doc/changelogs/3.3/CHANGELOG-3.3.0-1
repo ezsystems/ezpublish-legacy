@@ -81,3 +81,7 @@ eZ utils:
 
 eZ soap:
 - Added support for arrays and boolean in ezsoapresponse return values
+
+*Translations:
+- Several strings has been improved in terms of language use and
+  to make them easier to translate.
