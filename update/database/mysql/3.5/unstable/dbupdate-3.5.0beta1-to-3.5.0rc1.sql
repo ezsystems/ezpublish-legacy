@@ -127,3 +127,9 @@ UPDATE tmp_ezrss_export_item SET status='1';
 DROP TABLE ezrss_export_item;
 
 ALTER TABLE tmp_ezrss_export_item RENAME TO ezrss_export_item;
+
+--- ezproductcollection_item
+--- Added attribute name for storing a product name
+
+ALTER TABLE ezproductcollection_item ADD COLUMN name VARCHAR(255) NOT NULL DEFAULT '';
+UPDATE ezproductcollection_item SET name='Unknown product';

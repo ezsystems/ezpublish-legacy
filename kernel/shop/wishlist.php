@@ -118,6 +118,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
         $item =& eZProductCollectionItem::create( $wishList->attribute( "productcollection_id" ) );
 
+        $item->setAttribute( 'name', $object->attribute( 'name' ) );
         $item->setAttribute( "contentobject_id", $objectID );
         $item->setAttribute( "item_count", 1 );
         //$item->setAttribute( "price", $price );

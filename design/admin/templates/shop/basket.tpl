@@ -43,12 +43,12 @@
 	<td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Products.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/shop/basket' )}" /></td>
 	<td><input type="hidden" name="ProductItemIDList[]" value="{$Products.item.id}" /><a href={concat( '/content/view/full/', $Products.item.node_id, '/' )|ezurl}>{$Products.item.object_name}</a></td>
 	<td><input type="text" name="ProductItemCountList[]" value="{$Products.item.item_count}" size="3" /></td>
-	<td>{$Products.item.vat_value} %</td>
-	<td>{$Products.item.price_ex_vat|l10n( currency )}</td>
-	<td>{$Products.item.price_inc_vat|l10n( currency )}</td>
-	<td>{$Products.item.discount_percent}%</td>
-	<td>{$Products.item.total_price_ex_vat|l10n( currency )}</td>
-	<td>{$Products.item.total_price_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Products.item.vat_value} %</td>
+	<td class="number" align="right">{$Products.item.price_ex_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Products.item.price_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Products.item.discount_percent}%</td>
+	<td class="number" align="right">{$Products.item.total_price_ex_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Products.item.total_price_inc_vat|l10n( currency )}</td>
 </tr>
 {section show=$Products.item.item_object.option_list}
 <tr class="{$Products.sequence}">
@@ -74,8 +74,8 @@
 <tr>
 <td colspan="7">
 </td>
-<td>{$basket.total_ex_vat|l10n( currency )}</td>
-<td>{$basket.total_inc_vat|l10n( currency )}</td>
+<td class="number" align="right">{$basket.total_ex_vat|l10n( currency )}</td>
+<td class="number" align="right">{$basket.total_inc_vat|l10n( currency )}</td>
 </tr>
 </table>
 

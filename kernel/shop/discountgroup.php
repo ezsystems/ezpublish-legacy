@@ -66,6 +66,11 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     {
         eZDiscountRule::remove( $discountRuleID );
     }
+
+    // we changed prices of products (no discount now) => remove content caches
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();
+
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );
     return;
 }

@@ -16,17 +16,33 @@
 <div class="block">
 <fieldset>
 <legend>{'Address'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</legend>
-<label>{'Company'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.street1}
-<label>{'Street'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.street2}
-<label>{'Zip code'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.zip}
-<label>{'Place'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.place}
-<label>{'State'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.state}
-<label>{'Country'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
-{$order.account_information.country}
+
+<table class="list" cellspacing="0">
+<tr>
+    <td>{'Company'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.street1}</td>
+</tr>
+<tr>
+    <td>{'Street'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.street2}</td>
+</tr>
+<tr>
+    <td>{'Zip code'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.zip}</td>
+</tr>
+<tr>
+    <td>{'Place'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.place}</td>
+</tr>
+<tr>
+    <td>{'State'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.state}</td>
+</tr>
+<tr>
+    <td>{'Country'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{$order.account_information.country}</td>
+</tr>
+</table>
+
 </fieldset>
 </div>

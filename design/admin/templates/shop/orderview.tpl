@@ -24,19 +24,44 @@
 	<th>{'Discount'|i18n( 'design/admin/shop/orderview' )}</th>
 	<th>{'Total Price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 	<th>{'Total Price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>&nbsp;</th>
 </tr>
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
-	<td>{node_view_gui content_node=$ProductItem:item.item_object.contentobject.main_node view=line}</td>
-	<td>{$ProductItem:item.item_count}</td>
-	<td>{$ProductItem:item.vat_value}&nbsp;%</td>
-	<td>{$ProductItem:item.price_ex_vat|l10n(currency)}</td>
-	<td>{$ProductItem:item.price_inc_vat|l10n(currency)}</td>
-	<td>{$ProductItem:item.discount_percent}&nbsp;%</td>
-	<td>{$ProductItem:item.total_price_ex_vat|l10n(currency)}</td>
-	<td>{$ProductItem:item.total_price_inc_vat|l10n(currency)}</td>
+    {section show=and( $ProductItem:item.item_object.contentobject, $ProductItem:item.item_object.contentobject.main_node )}
+    {let node_url=$ProductItem:item.item_object.contentobject.main_node.url_alias}
+    <td>{$ProductItem:item.item_object.contentobject.class_identifier|class_icon( small,$ProductItem:item.item_object.contentobject.class_name )}&nbsp;{section show=$:node_url}<a href={$:node_url|ezurl}>{/section}{$ProductItem:item.item_object.contentobject.name}{section show=$:node_url}</a>{/section}</td>
+    {/let}
+    {section-else}
+    <td>{false()|class_icon( small )}&nbsp;{$ProductItem:item.item_object.name}</td>
+    {/section}
+	<td class="number" align="right">{$ProductItem:item.item_count}</td>
+	<td class="number" align="right">{$ProductItem:item.vat_value}&nbsp;%</td>
+	<td class="number" align="right">{$ProductItem:item.price_ex_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$ProductItem:item.price_inc_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$ProductItem:item.discount_percent}&nbsp;%</td>
+	<td class="number" align="right">{$ProductItem:item.total_price_ex_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$ProductItem:item.total_price_inc_vat|l10n(currency)}</td>
 </tr>
+{section show=$ProductItem:item.item_object.option_list}
+<tr>
+    <td colspan='3'>
+    <table border="0">
+    <tr>
+        <td colspan='3'>{'Selected options'|i18n( 'design/admin/shop/confirmorder' )}</td>
+    </tr>
+    {section var=Options loop=$ProductItem:item.item_object.option_list}
+    <tr>
+        <td>{$:Options.item.name}</td>
+        <td>{$:Options.item.value}</td>
+        <td class="number" align="right">{$:Options.item.price|l10n( currency )}</td>
+    </tr>
+    {/section}
+    </table>
+    </td>
+    <td colspan='5'>
+  </td>
+</tr>
+{/section}
 {/section}
 </table>
 
@@ -44,21 +69,21 @@
 <table class="list" cellspacing="0">
 <tr>
     <td>{'Subtotal of items'|i18n( 'design/admin/shop/orderview' )}:</td>
-    <td>{$order.product_total_ex_vat|l10n(currency)}</td>
-    <td>{$order.product_total_inc_vat|l10n(currency)}</td>
+    <td class="number" align="right">{$order.product_total_ex_vat|l10n(currency)}</td>
+    <td class="number" align="right">{$order.product_total_inc_vat|l10n(currency)}</td>
 </tr>
 
 {section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
 <tr>
 	<td>{$OrderItem:item.description}:</td>
-	<td>{$OrderItem:item.price_ex_vat|l10n(currency)}</td>
-	<td>{$OrderItem:item.price_inc_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$OrderItem:item.price_ex_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$OrderItem:item.price_inc_vat|l10n(currency)}</td>
 </tr>
 {/section}
 <tr>
     <td><b>{'Order total'|i18n( 'design/admin/shop/orderview' )}</b></td>
-    <td><b>{$order.total_ex_vat|l10n(currency)}</b></td>
-    <td><b>{$order.total_inc_vat|l10n(currency)}</b></td>
+    <td class="number" align="right"><b>{$order.total_ex_vat|l10n(currency)}</b></td>
+    <td class="number" align="right"><b>{$order.total_inc_vat|l10n(currency)}</b></td>
 </tr>
 </table>
 

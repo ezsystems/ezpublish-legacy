@@ -57,8 +57,8 @@
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/orderlist' )}" /></td>
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
 	<td><a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a></td>
-	<td>{$Orders.item.total_ex_vat|l10n( currency )}</td>
-	<td>{$Orders.item.total_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
 </tr>
 {/section}

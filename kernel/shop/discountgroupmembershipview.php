@@ -60,10 +60,7 @@ $http =& eZHttpTool::instance();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {
-    $params = array();
-    $params[] = $discountGroupID;
-    $module->run( "discountruleedit", $params );
-    return;
+    return $module->redirectTo( $module->functionURI( 'discountruleedit' ) . '/' . $discountGroupID );
 }
 
 if ( $http->hasPostVariable( "RemoveRuleButton" ) )
@@ -74,6 +71,11 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     {
         eZDiscountSubRule::remove( $discountRuleID );
     }
+
+    // we changed prices => remove content cache
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();
+
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
 }
@@ -102,6 +104,10 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
             $userRule->store();
         }
     }
+
+    // because we changed users, we have to remove content cache
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();      
 }
 if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
 {
@@ -113,8 +119,11 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
             eZUserDiscountRule::removeUser( $customerID );
         }
     }
+
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();
 }
-$module->setTitle( "View membership" );
+
 $membershipList = eZUserDiscountRule::fetchByRuleID( $discountGroupID );
 $customers = array();
 foreach ( $membershipList as $membership )
@@ -136,54 +145,90 @@ foreach ( $ruleList as $rule )
         $ruleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID );
         if ( $ruleValues != null )
         {
-            $limitation = "Class ";
+            $limitation = ezi18n( 'kernel/shop', 'Classes' ).' ';
+            $firstLoop = true;
             foreach ( $ruleValues as $ruleValue )
             {
                 $classID = $ruleValue->attribute( 'value' );
                 $class =& eZContentClass::fetch( $classID );
                 if ( $class )
                 {
+                    if ( !$firstLoop )
+                    {
+                        $limitation .= ', ';
+                    }
+                    else
+                    {
+                        $firstLoop = false;
+                    }
                     $className = $class->attribute( 'name' );
-                    $limitation .= "'". $className . "' ";
+                    $limitation .= "'". $className . "'";
                 }
             }
+        }
+        else
+        {
+            $limitation = ezi18n( 'kernel/shop', 'Any class' );
         }
         $sectionRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
         if ( $sectionRuleValues != null )
         {
-            $limitation .= "  in  section ";
+            $limitation .= ' '.ezi18n( 'kernel/shop', 'in sections' ).' ';
+            $firstLoop = true;
             foreach ( $sectionRuleValues as $sectionRuleValue )
             {
                 $sectionID = $sectionRuleValue->attribute( 'value' );
                 $section =& eZSection::fetch( $sectionID );
                 if ( $section )
                 {
+                    if ( !$firstLoop )
+                    {
+                        $limitation .= ', ';
+                    }
+                    else
+                    {
+                        $firstLoop = false;
+                    }
                     $sectionName = $section->attribute( 'name' );
-                    $limitation .= "'".$sectionName . "' ";
+                    $limitation .= "'".$sectionName . "'";
                 }
             }
+        }
+        else
+        {
+            $limitation .= ' '.ezi18n( 'kernel/shop', 'in any section' );
         }
         $productRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
 
         if ( $productRuleValues != null )
         {
-            $limitation = "Product: ";
+            $limitation = ezi18n( 'kernel/shop', 'Products' ).' ';
+            $firstLoop = true;
             foreach ( $productRuleValues as $productRuleValue )
             {
                 $objectID = $productRuleValue->attribute( 'value' );
                 $product =& eZContentObject::fetch( $objectID );
                 if ( $product )
                 {
+                    if ( !$firstLoop )
+                    {
+                        $limitation .= ', ';
+                    }
+                    else
+                    {
+                        $firstLoop = false;
+                    }
                     $productName = $product->attribute( 'name' );
-                    $limitation .= "'".$productName . "' ";
+                    $limitation .= "'".$productName . "'";
                 }
             }
         }
     }
     else
     {
-        $limitation = "Any products";
+        $limitation = ezi18n( 'kernel/shop', 'Any product' );
     }
+
     $item = array( "name" => $name,
                    "discount_percent" => $percent,
                    "id" => $discountRuleID,

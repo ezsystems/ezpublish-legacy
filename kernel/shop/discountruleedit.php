@@ -33,6 +33,9 @@
 // you.
 //
 
+// TODO: it was not in the original code, but we may consider to add support for "folder with products",
+//       not only products (i.e. objects with attribute of the ezprice datatype).
+
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezdiscountrule.php' );
@@ -177,7 +180,7 @@ else
         $discountRuleSelectedSections = array( -1 );
         $discountRuleSelectedProducts = array();
 
-        $discountRule = array( 'id' => false,
+        $discountRule = array( 'id' => 0,
                                'name' => $discountRuleName,
                                'discount_percent' => $discountRulePercent );
     }

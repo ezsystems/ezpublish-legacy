@@ -320,6 +320,7 @@ class eZOrder extends eZPersistentObject
         $totalSumIncVAT = 0;
         $totalSumExVAT = 0;
         $sumCount = 0;
+        $name = false;
         $productCount = count( $productArray );
         foreach( $productArray as $productItem )
         {
@@ -333,11 +334,12 @@ class eZOrder extends eZPersistentObject
             }
             if ( $currentContentObjectID != $contentObjectID and $itemCount != 1 )
             {
-                $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+                $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
                 unset( $productObject );
                 $sumExVAT = 0;
                 $sumIncVAT = 0;
                 $sumCount = 0;
+                $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
                 $productObject =& eZContentObject::fetch( $currentContentObjectID );
             }
@@ -386,7 +388,7 @@ class eZOrder extends eZPersistentObject
         }
         $productItemArrayCount = count( $productItemArray );
         if ( $productItemArrayCount != 0 or ( $productCount != 0 and  $productItemArrayCount == 0 ) )
-            $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+            $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
 
         $statisticArray[] = array( "product_list" => $productItemArray, "total_sum_ex_vat" => $totalSumExVAT, "total_sum_inc_vat" => $totalSumIncVAT );
         return $statisticArray;
@@ -453,28 +455,30 @@ class eZOrder extends eZPersistentObject
         $sumIncVAT = 0;
         $itemCount = 0;
         $sumCount = 0;
+        $name = false;
         for( $i=0; $i < count( $productArray ); $i++ )
         {
             $productItem =& $productArray[$i];
             $itemCount++;
             $contentObjectID = $productItem['contentobject_id'];
-            if (  $productObject == null )
+            if ( $productObject == null )
             {
                 $productObject =& eZContentObject::fetch( $contentObjectID );
                 $currentContentObjectID = $contentObjectID;
             }
             if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
             {
-                $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+                $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
                 unset( $productObject );
                 $sumExVAT = 0;
                 $sumIncVAT = 0;
                 $sumCount = 0;
+                $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
                 $productObject =& eZContentObject::fetch( $currentContentObjectID );
             }
 
-            if ( $productItem['ignore_vat']== true )
+            if ( $productItem['ignore_vat'] == true )
             {
                 $vatValue = 0;
             }
@@ -514,7 +518,7 @@ class eZOrder extends eZPersistentObject
         }
         if ( count( $productArray ) != 0 )
         {
-            $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+            $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
         }
         return $productItemArray;
     }
@@ -775,56 +779,61 @@ class eZOrder extends eZPersistentObject
             $id = $productItem->attribute( 'id' );
             $contentObject = $productItem->attribute( 'contentobject' );
 
-            if ( $contentObject !== null )
+            if ( $this->IgnoreVAT == true )
             {
-                if ( $this->IgnoreVAT == true )
-                {
-                    $vatValue = 0;
-                }
-                else
-                {
-                    $vatValue = $productItem->attribute( 'vat_value' );
-                }
-                $count = $productItem->attribute( 'item_count' );
-                $discountPercent = $productItem->attribute( 'discount' );
+                $vatValue = 0;
+            }
+            else
+            {
+                $vatValue = $productItem->attribute( 'vat_value' );
+            }
+            $count = $productItem->attribute( 'item_count' );
+            $discountPercent = $productItem->attribute( 'discount' );
+            if ( $contentObject )
+            {
                 $nodeID = $contentObject->attribute( 'main_node_id' );
                 $objectName = $contentObject->attribute( 'name' );
-
-                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
-                $price = $productItem->attribute( 'price' );
-
-                if ( $isVATIncluded )
-                {
-                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
-                    $priceIncVAT = $price;
-                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                    $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                }
-                else
-                {
-                    $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                    $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                }
-
-                $addedProduct = array( "id" => $id,
-                                       "vat_value" => $vatValue,
-                                       "item_count" => $count,
-                                       "node_id" => $nodeID,
-                                       "object_name" => $objectName,
-                                       "price_ex_vat" => $priceExVAT,
-                                       "price_inc_vat" => $priceIncVAT,
-                                       "discount_percent" => $discountPercent,
-                                       "total_price_ex_vat" => $totalPriceExVAT,
-                                       "total_price_inc_vat" => $totalPriceIncVAT,
-                                       'item_object' =>$productItem );
-                $addedProducts[] = $addedProduct;
             }
+            else
+            {
+                $nodeID = false;
+                $objectName = $productItem->attribute( 'name' );
+            }
+
+            $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
+            $price = $productItem->attribute( 'price' );
+
+            if ( $isVATIncluded )
+            {
+                $priceExVAT = $price / ( 100 + $vatValue ) * 100;
+                $priceIncVAT = $price;
+                $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
+            }
+            else
+            {
+                $priceExVAT = $price;
+                $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
+                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
+            }
+
+            $addedProduct = array( "id" => $id,
+                                   "vat_value" => $vatValue,
+                                   "item_count" => $count,
+                                   "node_id" => $nodeID,
+                                   "object_name" => $objectName,
+                                   "price_ex_vat" => $priceExVAT,
+                                   "price_inc_vat" => $priceIncVAT,
+                                   "discount_percent" => $discountPercent,
+                                   "total_price_ex_vat" => $totalPriceExVAT,
+                                   "total_price_inc_vat" => $totalPriceIncVAT,
+                                   'item_object' => $productItem );
+            $addedProducts[] = $addedProduct;
         }
         return $addedProducts;
     }

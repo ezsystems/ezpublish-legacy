@@ -40,8 +40,8 @@
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 <tr class="{$Orders.sequence}">
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td>{$Orders.item.total_ex_vat|l10n( currency )}</td>
-	<td>{$Orders.item.total_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
 </tr>
 {/section}
@@ -75,10 +75,16 @@
 
 {section var=Products loop=$product_list sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">
-	<td>{node_view_gui view=line content_node=$Products.product.main_node}</td>
-    <td>{$Products.sum_count}</td>
-	<td>{$Products.sum_ex_vat|l10n( currency )}</td>
-	<td>{$Products.sum_inc_vat|l10n( currency )}</td>
+    {section show=and( $Products.product, $Products.product.main_node )}
+    {let node_url=$Products.product.main_node.url_alias}
+    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name}{section show=$node_url}</a>{/section}</td>
+    {/let}
+    {section-else}
+    <td>{false()|class_icon( small )}&nbsp;{$Products.name}</td>
+    {/section}
+    <td class="number" align="right">{$Products.sum_count}</td>
+	<td class="number" align="right">{$Products.sum_ex_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Products.sum_inc_vat|l10n( currency )}</td>
 </tr>
 {/section}
 </table>

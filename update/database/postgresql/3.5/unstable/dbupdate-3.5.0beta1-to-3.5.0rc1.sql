@@ -328,3 +328,11 @@ ALTER TABLE ezrss_export_item ALTER status SET NOT NULL;
 
 ALTER TABLE ezrss_export_item
     ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id,status);
+
+--- ezproductcollection_item
+--- Added attribute name for storing a product name
+
+ALTER TABLE ezproductcollection_item ADD COLUMN name varchar(255);
+UPDATE ezproductcollection_item SET name='Unknown product';
+ALTER TABLE ezproductcollection_item ALTER name SET NOT NULL;
+ALTER TABLE ezproductcollection_item ALTER name SET DEFAULT '';

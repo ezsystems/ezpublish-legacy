@@ -21,17 +21,23 @@
 </tr>
 {section var=Products loop=$statistic_result[0].product_list sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">
-	<td>{node_view_gui view=line content_node=$Products.product.main_node}</td>
-    <td>{$Products.sum_count}</td>
-	<td>{$Products.sum_ex_vat|l10n(currency)}</td>
-	<td>{$Products.sum_inc_vat|l10n(currency)}</td>
+    {section show=and( $Products.product, $Products.product.main_node )}
+    {let node_url=$Products.product.main_node.url_alias}
+    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name}{section show=$node_url}</a>{/section}</td>
+    {/let}
+    {section-else}
+    <td>{false()|class_icon( small )}&nbsp;{$Products.name}</td>
+    {/section}
+    <td class="number" align="right">{$Products.sum_count}</td>
+	<td class="number" align="right">{$Products.sum_ex_vat|l10n(currency)}</td>
+	<td class="number" align="right">{$Products.sum_inc_vat|l10n(currency)}</td>
 </tr>
 {/section}
 <tr>
 	<td><strong>{'SUM'|i18n( 'design/admin/shop/orderstatistics' )}</strong>:</td>
     <td>&nbsp;</td>
-	<td><strong>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</strong></td>
-	<td><strong>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</strong></td>
+	<td class="number" align="right"><strong>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</strong></td>
+	<td class="number" align="right"><strong>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</strong></td>
 </tr>
 </table>
 {section-else}
