@@ -36,6 +36,7 @@
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 // General status OK return codes:
 define( "EZ_WEBDAV_OK",                   10 ); //
@@ -64,15 +65,32 @@ $varDir = eZSys::varDirectory();
 
 // Temporary (uploaded) file stuff:
 define( "EZ_WEBDAV_TEMP_DIRECTORY",   $varDir."/webdav/tmp" );
+define( "EZ_WEBDAV_ROOT_DIRECTORY",   $varDir."/webdav/root" );
 define( "EZ_WEBDAV_TEMP_FILE_PREFIX", "eZWebDAVUpload_" );
+
+
+// Check if necessary temp. dir. actually exists, if not: create it!
+if ( !file_exists( EZ_WEBDAV_TEMP_DIRECTORY ) )
+{
+    eZDir::mkdir( EZ_WEBDAV_TEMP_DIRECTORY, 0770, true);
+}
+
+// Check if necessary root dir. actually exists, if not: create it!
+if ( !file_exists( EZ_WEBDAV_ROOT_DIRECTORY ) )
+{
+    eZDir::mkdir( EZ_WEBDAV_ROOT_DIRECTORY, 0770, true);
+}
+
+
+
 
 // Temp. log function.
 function append_to_log( $log_string )
 {
-//    $logfile  = fopen( "/tmp/webdavlog.txt", "a" );
-//    $now_time = date( "Y-m-d H:i:s : " );
-//    fwrite( $logfile, $now_time.$log_string."\n" );
-//    fclose( $logfile );
+    $logfile  = fopen( "/tmp/webdavlog.txt", "a" );
+    $now_time = date( "Y-m-d H:i:s : " );
+    fwrite( $logfile, $now_time.$log_string."\n" );
+    fclose( $logfile );
 }
 
 
@@ -447,8 +465,11 @@ class eZWebDAVServer
                 header( 'Content-Type: '.$mimeType );
                 header( 'ETag: '.$eTag );
 
+                // Attempt to open the file.
+                $fp = fopen( $realPath, "rb" );
+
                 // Output the actual contents of the file.
-                $status = readfile( $realPath );
+                $status = fpassthru( $fp );
 
                 // Check if the last command succeded..
                 if ($status == $size)
@@ -480,14 +501,14 @@ class eZWebDAVServer
     {
         $tempFileName = tempnam( EZ_WEBDAV_TEMP_DIRECTORY, EZ_WEBDAV_TEMP_FILE_PREFIX );
 
-        $fpWrite = fopen( $tempFileName, "w" );
+        $fpWrite = fopen( $tempFileName, "wb" );
 
         // Check if we're able to open the file...
         if ( $fpWrite )
         {
             header( "HTTP/1.1 201 Created" );
 
-            $fpRead  = fopen( "php://input", "r" );
+            $fpRead  = fopen( "php://input", "rb" );
 
             // As long as there is input: write it out in 4096-byte chunks.
             while ( !feof( $fpRead ) )

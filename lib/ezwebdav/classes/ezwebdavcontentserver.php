@@ -46,6 +46,10 @@ include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "kernel/classes/ezurlalias.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( "access.php" );
+
+
+
 
 //
 eZModule::setGlobalPathList( array( "kernel" ) );
@@ -56,6 +60,49 @@ $varDir = eZSys::varDirectory();
 define( "VIRTUAL_CONTENT_FOLDER_NAME", "content" );
 define( "VIRTUAL_INFO_FILE_NAME",      $varDir."/webdav/root/info.txt" );
 define( "WEBDAV_INI_FILE", "webdav.ini" );
+
+
+
+
+/*
+ */
+function getSiteAccessList()
+{
+    //
+    $siteAccessList = array();
+
+    //
+    $webdavINI =& eZINI::instance();
+    $siteList = $webdavINI->variable( 'SiteAccessSettings', 'SiteList' );
+
+    ob_start(); var_dump( $siteList ); $output = ob_get_contents(); ob_end_clean();
+
+    //
+    append_to_log( $output );
+}
+
+
+
+
+/*
+ */
+function setSiteAccess( $site )
+{
+    $access = array( 'name' => $site,
+                     'type' => EZ_ACCESS_TYPE_STATIC );
+
+    //
+    $access = changeAccess( $access );
+
+    //
+    eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
+
+    //
+    $GLOBALS['eZCurrentAccess'] =& $access;
+}
+
+setSiteAccess( 'plain' );
+
 
 
 
@@ -446,7 +493,7 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
 
     // Attempt to reveal the MIME type for this image.
     $mimeObj = new eZMimeType();
-    $mime = $mimeObj->mimeTypeFor( false, $originalImageFileName );
+    $mime = $mimeObj->mimeTypeFor( false, strtolower( $originalImageFileName ) );
 
     // Extract stuff from the MIME string.
     list( $type, $extension ) = split ("/", $mime );
@@ -542,7 +589,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
     $mimeObj = new eZMimeType();
 
     // Attempt to determine the mime type of the file to be saved.
-    $mime = $mimeObj->mimeTypeFor( false, $fileOriginalFileName );
+    $mime = $mimeObj->mimeTypeFor( false, strtolower( $fileOriginalFileName ) );
 
     // Extract elements from the mime array.
     list( $subdir, $extension ) = split ("/", $mime );
@@ -700,7 +747,7 @@ function getNodeInfo( $node )
         // Get the object's datamap.
         $dataMap = $object->dataMap();
 
-        // 
+        //
         $attribute = $dataMap[$attributeID];
 
         //
@@ -722,7 +769,9 @@ function getNodeInfo( $node )
                 $pathInfo  = pathinfo( $originalName );
                 $extension = '.'.$pathInfo["extension"];
 
-                $entry["size"]      = filesize( $filePath );
+                $originalImageDir = getPathToOriginalImageDir();
+
+                $entry["size"]      = filesize( $originalImageDir.'/'.$filename );
                 $entry["mimetype"]  = $mime;
                 $entry["name"]      .= $extension;
             }break;
@@ -778,6 +827,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
      */
     function getCollectionContent( $collection )
     {
+        getSiteAccessList();
+
         // Bail if the current user doesn't have the required privileges:
         if ( !gotPermission() )
         {
@@ -941,7 +992,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
                 // Attempt to determine the mime type of the file that has been uploaded.
                 $mimeObj = new eZMimeType();
-                $mime = $mimeObj->mimeTypeFor( false, basename( $target ) );
+                $mime = $mimeObj->mimeTypeFor( false, strtolower( basename( $target ) ) );
 
                 // Extract elements from the mime array.
                 list( $type, $extension ) = split ("/", $mime );
