@@ -288,6 +288,7 @@ class eZSearchEngine
             $placement++;
         }
 
+        $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
             if ( count( $valuesStringList ) > 0 )
