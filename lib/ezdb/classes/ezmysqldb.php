@@ -88,7 +88,14 @@ class eZMySQLDB extends eZDBInterface
             ini_set( "mysql.default_socket", $socketPath );
         }
 
-        $connection = @mysql_pconnect( $server, $user, $password );
+        if ( $this->UsePersistentConnection == true )
+        {
+            $connection = @mysql_pconnect( $server, $user, $password );
+        }
+        else
+        {
+            $connection = @mysql_connect( $server, $user, $password );
+        }
         $dbErrorText = mysql_error();
         $maxAttempts = $this->connectRetryCount();
         $waitTime = $this->connectRetryWaitTime();
@@ -96,7 +103,14 @@ class eZMySQLDB extends eZDBInterface
         while ( $connection == false and $numAttempts <= $maxAttempts )
         {
             sleep( $waitTime );
-            $connection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+            if ( $this->UsePersistentConnection == true )
+            {
+                $connection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+            }
+            else
+            {
+                $connection = @mysql_connect( $this->Server, $this->User, $this->Password );
+            }
             $numAttempts++;
         }
         $this->setError();

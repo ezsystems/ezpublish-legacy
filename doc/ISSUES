@@ -20,6 +20,9 @@ Template variables:
   the actual objects and lists using the /fetch/ operator.
 - Better names for template variables, for instance variables named attributes
   should be changed into attribute_list.
+- Close the leak between view tempaltes and pagelayout.tpl -> so people will 
+  not be confused when using cached views?
+
 Path:
 - Make sure all views has at least a simple path element.
 - Figure out a way to allow templates to override path and other variables
@@ -40,6 +43,8 @@ foreach ( array_keys( $list ) as $key )
 {
   $item =& $list[$key];
 }
+
+
 
 Module:
 - Do some changes the eZModule class, it should be created a eZModuleView class
@@ -92,6 +97,9 @@ not shown in views but instead used to control objects, like "have comments".
 Add a mass add text field which one can enter datatypes one line after another and click
 add to get them all, this makes it easier to setup classes. To make this work the combobox
 must default to a None entry. It might even be possible to have options for datatypes.
+
+Add the posibility to include classes. E.g. have a base class which is included/inherited
+by some other classes.
 
 Policy:
 Make policy checking more centralized instead of copying code all the time.

@@ -148,6 +148,7 @@ class eZDB
             $user = $ini->variable( 'DatabaseSettings', 'User' );
             $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
             $db = $ini->variable( 'DatabaseSettings', 'Database' );
+            $usePersistentConnection = $ini->variable( 'DatabaseSettings', 'UsePersistentConnection' );
             $socketPath = false;
             $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
             if ( trim( $socket != "" ) and $socket != "disabled" )
@@ -170,7 +171,8 @@ class eZDB
                                                 'charset' => $charset,
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
-                                                'connect_retries' => $retries );
+                                                'connect_retries' => $retries,
+                                                'use_persistent_connection' => $usePersistentConnection );
             if ( $databaseParameters === false )
             {
                 $databaseParameters = $defaultDatabaseParameters;

@@ -55,7 +55,6 @@ define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
                                  EZ_DB_RELATION_VIEW_BIT |
                                  EZ_DB_RELATION_INDEX_BIT ) );
 
-
 class eZDBInterface
 {
     /*!
@@ -71,6 +70,11 @@ class eZDBInterface
         $charset = $parameters['charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
         $connectRetries = $parameters['connect_retries'];
+
+        if ( $parameters['use_persistent_connection'] == 'enabled' )
+        {
+            $this->UsePersistentConnection = true;
+        }
 
         $this->DB = $db;
         $this->Server = $server;
@@ -473,6 +477,8 @@ class eZDBInterface
     var $ErrorNumber;
     /// If true then ErrorMessage and ErrorNumber get filled
     var $RecordError = true;
+    /// If true then the database connection should be persistent
+    var $UsePersistentConnection = false;
 }
 
 ?>
