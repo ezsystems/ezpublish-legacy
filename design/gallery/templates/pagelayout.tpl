@@ -44,7 +44,10 @@
 
                 <h3 class="invisible">Main menu</h3>
                 <ul>
-                {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
+                {let folder_list=fetch( content, list, hash( parent_node_id, 2, 
+                                                             sort_by, array( array( priority ) ),
+  							     class_filter_type, exclude, 
+							     class_filter_array, array( 'gallery' ) ) )}
                 {section name=Folder loop=$folder_list}
                     <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
                 {/section}
