@@ -264,7 +264,7 @@ class eZPersistentObject
         $important_keys = $keys;
         if ( is_array( $relations ) )
         {
-            $important_keys = array();
+//            $important_keys = array();
             foreach( $relations as $relation => $relation_data )
             {
                 if ( !in_array( $relation, $keys ) )
