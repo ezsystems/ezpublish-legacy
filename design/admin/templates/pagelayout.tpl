@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-{include uri="design:page_head.tpl"}
+{include uri='design:page_head.tpl'}
 
 {* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
 {* Cache header for each navigation part *}
 
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/site.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={'stylesheets/core.css'|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={'stylesheets/site.css'|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={'stylesheets/debug.css'|ezdesign} />
 
 {literal}
 <!--[if lt IE 6.0]>
@@ -40,14 +40,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="header-design">
 
 <div id="logo">
-<a href="/"><img src={"ezpublish-logo-200x40.gif"|ezimage} width="200" height="40" alt="" border="0" /></a>
+<a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="" border="0" /></a>
 </div>
 
 {* --- Search ---*}
 <div id="search">
-<form action={"/content/search/"|ezurl} method="get">
+<form action={'/content/search/'|ezurl} method="get">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
-    <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+    <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
     <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/content/advancedsearch/">Advanced</a></p>
 </form>
 </div>
@@ -66,50 +66,50 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 
 {* Browse mode... *}
-{section show=eq($ui_context, 'browse')}
+{section show=eq( $ui_context, 'browse' )}
 <ul>
     <li><div>
     {* Content menu *}
     {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
     {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n('design/admin/layout')}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' )}
     {/section}
     </div></li>
     <li><div>
     {* Media menu *}
     {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini('NodeSettings','MediaRootNode','content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini('NodeSettings','MediaRootNode','content.ini' ) )}
     {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n('design/admin/layout')}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' )}
     {/section}
     </div></li>
     <li><div>
     {* Users menu *}
     {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
     {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/layout' )}
+    {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' )}
     {/section}
     </div></li>
     <li><div>
     {* Shop menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/layout' )}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' )}
     </div></li>
     <li><div>
     {* Set up menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/layout' )}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' )}
     </div></li>
 
     <li><div>
     {* Design menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/layout' )}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' )}
     </div></li>
 
 
     <li><div>
     {* Personal *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/layout' )}
+    {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' )}
     </div></li>
 </ul>
 
@@ -118,58 +118,58 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <ul>
     <li><div>
     {* Content menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat('/content/view/full/',ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
     {/section}
     </div></li>
     <li><div>
     {* Media menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
     {/section}
     </div></li>
     <li><div>
     {* Users menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/'}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+        {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/'}
     {/section}
     </div></li>
     <li><div>
     {* Shop menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/'}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/'}
     {/section}
     </div></li>
     <li><div>
     {* Design menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Design'|i18n('design/admin/layout') menu_url="/design/menuconfig"}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig'}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Design'|i18n('design/admin/layout') menu_url="/design/menuconfig"}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig'}
     {/section}
     </div></li>
     <li><div>
     {* Set up menu *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/'}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/'}
     {/section}
     </div></li>
     <li><div>
     {* Personal *}
-    {section show=ne($ui_context,'edit')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {section show=ne( $ui_context, 'edit' )}
+        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/'}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}
+        {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/'}
     {/section}
     </div></li>
 </ul>
@@ -187,7 +187,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="path">
 <div id="path-design">
 
-{include uri="design:page_toppath.tpl"}
+{include uri='design:page_toppath.tpl'}
 
 </div>
 </div>
@@ -247,11 +247,10 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
 <ul>
-{section show=ne($ui_context,'edit')}
-    <li><a href={concat("/content/edit/",$current_user.contentobject_id,"/")|ezurl}>Change information</a></li>
-    <li><a href={concat("/user/password/",$current_user.contentobject_id )|ezurl}>Change password</a></li>
-    <li><a href={"/user/logout"|ezurl}>Logout</a></li>
-
+{section show=ne( $ui_context, 'edit' )}
+    <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>Change information</a></li>
+    <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>Change password</a></li>
+    <li><a href={'/user/logout'|ezurl}>Logout</a></li>
 {section-else}
     <li><span class="disabled">Change user info</span></li>
     <li><span class="disabled">Logout</span></li>
@@ -260,100 +259,55 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {* --- Bookmarks --- *}
 <div id="bookmarks">
-{section show=eq(ezpreference('bookmark_menu'),'on')}
-    {section show=ne($ui_context,'edit')}
-     <h4><a href={"/content/bookmark/"|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/layout' )}">{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+{section show=ezpreference( 'admin_bookmark_menu' ) )}
+    {section show=ne( $ui_context, 'edit' )}
+     <h4><a href={'/content/bookmark/'|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl}>[-]</a></h4> 
     {section-else}
-     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[-]</span></h4> 
+     <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[-]</span></h4> 
     {/section}
 
 <ul>
-{let bookmark_list=fetch(content,bookmarks)}
-{section name=BookMark loop=$bookmark_list}
-    {section show=ne($ui_context,'edit')}
-    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
-    {section-else}
-    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<span class="disabled">{$:item.node.name|wash}</span></li>
+{let bookmark_list=fetch( content, bookmarks )}
+{section var=Bookmarks loop=$bookmark_list}
+    {section show=ne( $ui_context, 'edit' )}
+    <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={$Bookmarks.item.node.url_alias|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
+{section-else}
+    <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
     {/section}
 {/section}
 {/let}
 </ul>
 {section-else}
-    {section show=ne($ui_context,'edit')}
-    <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4>
+    {section show=ne( $ui_context,'edit' )}
+    <h4><a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl}>[+]</a></h4>
     {section-else}
-     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[+]</span></h4> 
+     <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4> 
     {/section}
 {/section}
 </div>
 
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}
-{section show=$node.node_id|is_set()}
-<form method="post" action={"content/action"|ezurl}>
+{section show=$node.node_id|is_set}
+<form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark item'|i18n('design/standard/node/view')}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/layout' )}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark item'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/pagelayout' )}" />
 </form>
 {/section}
-
-{* --- History --- *}
-{*
-<div id="history">
-{section show=eq(ezpreference('history_menu'),'on')}
-    {section show=ne($ui_context,'edit')}
-    <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
-    {section-else}
-    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[-]</span></h4> 
-    {/section}
-<ul>
-{let history_list=fetch(content,recent)}
-{section name=History loop=$history_list}
-    {section show=ne($ui_context,'edit')}
-    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
-    {section-else}
-    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<span class="disabled">{$:item.node.name|wash}</span></li>
-    {/section}
-{/section}
-{/let}
-</ul>
-{section-else}
-    {section show=ne($ui_context,'edit')}
-     <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
-    {section-else}
-    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled">[+]</span></h4> 
-    {/section}
-{/section}
-</div>
-*}
 
 {* --- Notifications --- *}
-    {section show=ne($ui_context,'edit')}
-    <h4><a href={"/notification/settings"|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/layout' )}">{"Notifications"|i18n("design/admin/layout")}</a></h4> 
-    {section-else}
-    <h4><span class="disabled">{"Notifications"|i18n("design/admin/layout")}</span></h4> 
-    {/section}
-{* Show "Add to notification" button if we're viewing an actual node. *}
-{section show=$node.node_id|is_set()}
-<form method="post" action={"content/action"|ezurl}>
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Add the current item to your personal notification list.'|i18n( 'design/admin/layout' )}" />
-</form>
+{section show=ne( $ui_context, 'edit' )}
+<h4><a href={'/notification/settings'|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/pagelayout' )}">{'Notifications'|i18n( 'design/admin/pagelayout' )}</a></h4> 
+{section-else}
+<h4><span class="disabled">{'Notifications'|i18n( 'design/admin/pagelayout' )}</span></h4> 
 {/section}
 
-{* --- Interface mode --- *}
-{*
-<h4>Interface mode</h4>
-{section show=eq(ezpreference('interface_mode'),'simple')}
-<p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
-<form method="post" action={"/user/preferences/set/interface_mode/advanced"|ezurl}>
-<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to advanced'|i18n('/design/admin/layout')}" title="{'Click here to put the user interface into advanced mode. Advanced mode provides a full-blown interface for power users and administrators.'|i18n( 'design/admin/layout' )}" />
-</form>
-{section-else}
-<p>{"Current mode"|i18n("design/admin/layout")}: {"Advanced"|i18n("design/admin/layout")}</p>
-<form method="post" action={"/user/preferences/set/interface_mode/simple"|ezurl}>
-<input class="button" type="submit" name="SetInterfaceModeSimple" value="{'Switch to simple'|i18n('/design/admin/layout')}" title="{'Click here to put the user interface into simple mode. Simple mode provides a lightweight interface for content authors.'|i18n( 'design/admin/layout' )}" />
+{* Show "Add to notification" button if we're viewing an actual node. *}
+{section show=$node.node_id|is_set}
+<form method="post" action={'content/action'|ezurl}>
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your personal notification list.'|i18n( 'design/admin/pagelayout' )}" />
 </form>
 {/section}
-*}
 
 </div>
 </div>
@@ -366,7 +320,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <!-- Maincontent START -->
 {* Main area START *}
 
-{include uri="design:page_mainarea.tpl"}
+{include uri='design:page_mainarea.tpl'}
 
 {* Main area END *}
 
@@ -383,7 +337,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="footer">
 <div id="footer-design">
 
-{include uri="design:page_copyright.tpl"}
+{include uri='design:page_copyright.tpl'}
 
 </div>
 </div>
@@ -398,7 +352,7 @@ $ui_context:   {$ui_context}<br />
 $ui_component: {$ui_component}<br />
 
 {* The popup menu include must be outside all divs. It is hidden by default. *}
-{include uri="design:popupmenu/popup_menu.tpl}
+{include uri='design:popupmenu/popup_menu.tpl'
 
 </body>
 </html>
