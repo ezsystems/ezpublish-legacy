@@ -10,7 +10,7 @@
         {attribute_view_gui attribute=$Attributes.item}
     </fieldset>
     {section-else}
-        <label>{$Attributes.item.contentclass_attribute.name|wash}</label>
+        <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
         {attribute_view_gui attribute=$Attributes.item}
     {/section}
     </div>
