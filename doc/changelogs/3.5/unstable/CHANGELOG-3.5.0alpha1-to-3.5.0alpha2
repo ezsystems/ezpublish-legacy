@@ -95,6 +95,10 @@ Payment:
 - Fixed bug: disappearing images due to broken XML
   http://ez.no/community/bug_reports/3_5alpha1_images_disappear_after_editing
   http://ez.no/community/bug_reports/problem_with_image
+- Fixed bug: Page navigation does not work in forum
+  (Merged from stable/3.4 rev. 8714)
+  http://ez.no/community/bug_reports/page_navigation_does_not_work_in_forum
+
 
 *Library:
 

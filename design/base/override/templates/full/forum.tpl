@@ -113,7 +113,7 @@
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/view','/full/',$node.node_id)
-         item_count=$child_count
+         item_count=$topic_count
          view_parameters=$view_parameters
          item_limit=20}
 
