@@ -145,7 +145,7 @@ function &eZFetchActiveSessions( $params = array() )
         $offset = $params['offset'];
     else
         $offset = 0;
-    $orderBy = "ezsession.expiration_time DESC";
+    $orderBy = " expiration_time DESC";
 
     switch ( $params['sortby'] )
     {
@@ -166,7 +166,7 @@ function &eZFetchActiveSessions( $params = array() )
 
         case 'idle':
         {
-            $orderBy = "ezsession.expiration_time DESC";
+            $orderBy = " expiration_time DESC";
         } break;
     }
 
@@ -227,7 +227,7 @@ function &eZFetchActiveSessions( $params = array() )
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $query = "SELECT ezsession.user_id, $expirationSQL, ezsession.session_key $countField
+    $query = "SELECT ezsession.user_id, $expirationSQL, max(session_key) as session_key  $countField
 FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id=ezuser.contentobject_id AND
       ezsession.user_id=ezcontentobject.id

@@ -169,7 +169,8 @@ Datatype:
   you should specify site URLs.
   http://ez.no/community/bug_reports/cronjob_linkcheck_has_outdated_code_when_checking_relative_urls
   (Merged from stable/3.4 (3.4.5) rev. 9819)
-
+- Fixed bug:  PostgreSQL and session list.
+  http://ez.no/community/bug_reports/postgresql_and_session_list
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
   including storing data during the wizard.
