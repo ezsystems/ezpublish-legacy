@@ -11,7 +11,7 @@ eZINI:
 - Made sure the recreated array line includes all elements not just
   the first and second.
 
-*Bugs:
+*Bugfixes:
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.2 rev. 5647)
 - Fixed bug in datatype ezmedia which will crash when upload a media file.
@@ -29,6 +29,7 @@ eZINI:
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 - Fixed bug in checking number of parameters to array_merge() (Merged from 3.2, rev. 5899)
   http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
+- Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.2 rev. 5901)
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
