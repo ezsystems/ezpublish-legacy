@@ -115,6 +115,7 @@ function eZWebDavAppendToLog( $logString )
 {
     if ( !eZWebDavCheckLogSetting() )
         return false;
+
     $logFile  = fopen( "/tmp/webdavlog.txt", "a" );
     $nowTime = date( "Y-m-d H:i:s : " );
     fwrite( $logFile, $nowTime . $logString . "\n" );
@@ -184,7 +185,7 @@ class eZWebDAVServer
         append_to_log( "WebDAV server started..." );
 
         // Dump some custom header/info.
-		header( "WebDAV-Powered-By: eZ publish" );
+		//header( "WebDAV-Powered-By: eZ publish" );
 
         // Clear file status cache (just in case).
         clearstatcache();
@@ -317,19 +318,11 @@ class eZWebDAVServer
      */
     function outputOptions( $options )
     {
-        header( "HTTP/1.1 200 OK" );
-        header( "MS-Author-Via: DAV" );
-        header( "DAV: 1,2,<http://apache.org/dav/propset/fs/1>\n");
-
-        if (!$options)
-        {
-            header( "Allow: OPTIONS, PROPFIND, HEAD, GET, PUT, MKCOL, COPY, MOVE, DELETE" );
-//             header( "Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK, SEARCH" );
-        }
-        else
-        {
-            header( $options );
-        }
+        header("Content-Length: 0");
+        header("MS-Author-Via: DAV");
+        header("Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK");
+        header("DAV: 1,2,<http://apache.org/dav/propset/fs/1>");
+        header("Content-Type: text/plain; charset=iso-8859-1");
 
         return( EZ_WEBDAV_OK_SILENT );
     }
@@ -444,8 +437,11 @@ class eZWebDAVServer
 
         // Send the necessary headers...
         header( 'HTTP/1.1 207 Multi-Status' );
-        header( 'Content-Type: text/xml' );
-        header( 'Content-Length: '.strlen( $xml ) );
+        header( 'Content-Type: text/xml; charset=utf-8' );
+
+        // Comment out the next line if you don't
+        // want to use chunked transfer encoding.
+        // header( 'Content-Length: '.strlen( $xml ) );
 
         // Dump the actual XML data containing collection list.
         print( $xml );

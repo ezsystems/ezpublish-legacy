@@ -36,7 +36,6 @@
 
 
 
-
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
@@ -95,12 +94,19 @@ if ( $enable == true )
             // Change site to the site being browsed:
             setSiteAccess( $currentSite );
 
-            // Check if username & password contain someting, attempt to login.
-            if ( ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) || ( !isset($_SERVER['PHP_AUTH_PW'] ) ) ||
-                 ( !ezuser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) )
-            {
-                append_to_log("LOGIN: Username: " . $_SERVER['PHP_AUTH_USER'] . " Password: " . $_SERVER['PHP_AUTH_PW'] . " FIKK IKKE LOGGET INN" );
+            // Get the username and the password.
+            $loginUsername = $_SERVER['PHP_AUTH_USER'];
+            $loginPassword = $_SERVER['PHP_AUTH_PW'];
 
+            // Strip away "domainname\" from a possible "domainname\password" string.
+            if ( preg_match( "#(.*)\\\\(.*)$#", $loginUsername, $matches ) )
+            {
+                $loginUsername = $matches[2];
+            }
+            // Check if username & password contain someting, attempt to login.
+            if ( ( !isset( $loginUsername ) ) || ( !isset( $loginPassword ) ) ||
+                 ( !ezuser::loginUser( $loginUsername, $loginPassword ) ) )
+            {
                 header('HTTP/1.0 401 Unauthorized');
                 header('WWW-Authenticate: Basic realm="'.WEBDAV_AUTH_REALM.'"');
                 print( WEBDAV_AUTH_FAILED );
@@ -108,7 +114,6 @@ if ( $enable == true )
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
-                append_to_log("LOGIN: Username: " . $_SERVER['PHP_AUTH_USER'] . " Password: " . $_SERVER['PHP_AUTH_PW'] . " FIKK LOGGET INN" );
                 // Create & initialize a new instance of the content server.
                 $testServer = new eZWebDAVContentServer ();
 
