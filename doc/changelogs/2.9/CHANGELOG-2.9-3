@@ -43,7 +43,7 @@ _ Fixed bug for finding node
 - Fixed bug for duplicated role assignment.
 - Fixed bug for duplicated related object assignment.
 - Fixed bug for duplicated node assignment.
-
+- Made the user/login page be configurable with site.ini, it can now either be embedded or use a custom pagelayout.
 
 
 *Library :

@@ -320,3 +320,7 @@ Link XML TAG
 -----------
 Store links in link database ( ezlink ). Make upgrade script which will convert
 all links stored without this reference to correct.
+
+Locale
+-------
+Add documents explaining how to write locale files and how to use them.
