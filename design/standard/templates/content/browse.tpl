@@ -7,16 +7,15 @@
 
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
-     select_attribute=contentobject_id}
+     select_attribute='contentobject_id'}
 
 {section show=eq($browse.return_type,'NodeID')}
     {set select_name='SelectedNodeIDArray'}
-    {set select_attribute=node_id}
+    {set select_attribute='node_id'}
 {/section}
 {section show=eq($browse.selection,'single')}
     {set select_type='radio'}
 {/section}
-
 
 <form action={concat($browse.from_page)|ezurl} method="post">
 
@@ -158,7 +157,7 @@
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
             </td>
         
             <td>
