@@ -267,7 +267,7 @@ class eZUser extends eZPersistentObject
         $currentUser = eZUser::fetch( $id );
         if ( !$currentUser )
         {
-            $currentUser =& eZUser::fetchBuiltin( $id );
+            $currentUser = new eZUser( array( 'id' => -1, 'login' => 'NoUser' ) );
             eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
 
@@ -384,7 +384,7 @@ class eZUser extends eZPersistentObject
     /*!
      \return an array of id's with all the groups the user belongs to.
     */
-    function &  groups( $as_object = false, $userID = false )
+    function &groups( $as_object = false, $userID = false )
     {
         $db =& eZDB::instance();
 

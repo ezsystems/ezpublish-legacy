@@ -68,8 +68,6 @@ Setting: Send notification in bulk. E.g. once a week. Or immediately.
 Every registered and logged in user can create their own notification rules.
 </p>
 
-
-
 <h2>Notification rules</h2>
 
 <h3>Examples</h3>
