@@ -320,6 +320,7 @@ include_once( 'kernel/common/i18n.php' );
 if ( $sessionRequired )
     $dbRequired = true;
 
+$db = false;
 if ( $dbRequired or
      $sessionRequired )
 {

@@ -244,7 +244,10 @@ class eZINI
             else
                 $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
             if ( file_exists( $overrideFile . '.php' ) )
+            {
                 $overrideFile .= '.php';
+                $inputFiles[] = $overrideFile;
+            }
             else if ( file_exists( $overrideFile ) )
                 $inputFiles[] = $overrideFile;
 
@@ -253,7 +256,10 @@ class eZINI
             else
                 $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
             if ( file_exists( $overrideFile . '.php' ) )
+            {
                 $overrideFile .= '.php';
+                $inputFiles[] = $overrideFile;
+            }
             else if ( file_exists( $overrideFile ) )
                 $inputFiles[] = $overrideFile;
         }
@@ -340,6 +346,7 @@ class eZINI
             {
                 $this->Charset = $charset;
                 $this->BlockValues = $blockValues;
+                $this->ModifiedBlockValues = array();
                 unset( $blockValues );
             }
         }
@@ -564,7 +571,8 @@ class eZINI
       If \a $useOverride is true then the file will be placed in the override directory,
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
-    function &save( $fileName = false, $suffix = false, $useOverride = false )
+    function &save( $fileName = false, $suffix = false, $useOverride = false,
+                    $onlyModified = false )
     {
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
@@ -573,8 +581,8 @@ class eZINI
         $pathArray[] = $this->RootDir;
         if ( $useOverride )
         {
-            $overrideDirs = $this->overrideDir();
-            $pathArray[] = $overrideDirs[0];
+//             $overrideDirs = $this->overrideDirs();
+            $pathArray[] = 'override';
         }
         if ( is_string( $useOverride ) and
              $useOverride == "append" )
@@ -607,6 +615,20 @@ class eZINI
         {
             foreach( array_keys( $this->BlockValues ) as $blockName )
             {
+                if ( $onlyModified )
+                {
+                    $groupHasModified = false;
+                    if ( isset( $this->ModifiedBlockValues[$blockName] ) )
+                    {
+                        foreach ( $this->ModifiedBlockValues[$blockName] as $modifiedValue )
+                        {
+                            if ( $modifiedValue )
+                                $groupHasModified = true;
+                        }
+                    }
+                    if ( !$groupHasModified )
+                        continue;
+                }
                 $written = 0;
                 if ( $i > 0 )
                     $written = fwrite( $fp, "$lineSeparator" );
@@ -623,6 +645,12 @@ class eZINI
                 }
                 foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
                 {
+                    if ( $onlyModified )
+                    {
+                        if ( !isset( $this->ModifiedBlockValues[$blockName][$blockVariable] ) or
+                             !$this->ModifiedBlockValues[$blockName][$blockVariable] )
+                            continue;
+                    }
                     $varKey = $blockVariable;
                     $varValue = $this->BlockValues[$blockName][$blockVariable];
                     if ( is_array( $varValue ) )
@@ -692,6 +720,7 @@ class eZINI
     function reset()
     {
         $this->BlockValues = array();
+        $this->ModifiedBlockValues = array();
     }
 
     /*!
@@ -784,6 +813,15 @@ class eZINI
     }
 
     /*!
+      \return true if the variable \a $varName in group \a $blockName has been modified.
+    */
+    function &isVariableModified( $blockName, $varName )
+    {
+        return ( isset( $this->ModifiedBlockValues[$blockName][$varName] ) and
+                 $this->ModifiedBlockValues[$blockName][$varName] );
+    }
+
+    /*!
       Reads a variable from the ini file. The variable
       will be returned as an array. ; is used as delimiter.
      */
@@ -834,6 +872,7 @@ class eZINI
     function &setVariable( $blockName, $varName, $varValue )
     {
         $this->BlockValues[$blockName][$varName] = $varValue;
+        $this->ModifiedBlockValues[$blockName][$varName] = true;
     }
 
     /*!
@@ -883,6 +922,9 @@ class eZINI
 
     /// Variable to store the ini file values.
     var $BlockValues;
+
+    /// Variable to store whether variables are modified or not
+    var $ModifiedBlockValues;
 
     /// Stores the filename
     var $FileName;

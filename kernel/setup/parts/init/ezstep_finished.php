@@ -70,7 +70,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     if ( !$saveData )
         $saveResult = true;
     if ( $saveData )
-        $saveResult = $imageINI->save( false, '.php', false );
+        $saveResult = $imageINI->save( false, '.php', 'append', true );
 
     $charset = false;
     if ( $saveResult )
@@ -169,7 +169,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
             $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'admin' );
 
         if ( $saveData )
-            $saveResult = $ini->save( false, '.php', false );
+            $saveResult = $ini->save( false, '.php', 'append', true );
     }
 
     if ( $saveResult )
@@ -180,7 +180,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
         $setupINI->setVariable( "DatabaseSettings", "DefaultPassword", $databaseInfo['password'] );
         if ( $saveData )
-            $saveResult = $setupINI->save( false, '.php', false );
+            $saveResult = $setupINI->save( false, '.php', 'append', true );
     }
 
     if ( $saveResult and
@@ -189,7 +189,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $i18nINI =& eZINI::instance( 'i18n.ini' );
         $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
         if ( $saveData )
-            $saveResult = $i18nINI->save( false, '.php', false );
+            $saveResult = $i18nINI->save( false, '.php', 'append', true );
     }
 
     $tpl->setVariable( 'site_info', $siteInfo );
