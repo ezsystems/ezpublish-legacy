@@ -199,7 +199,7 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
 }
 
 // validate name, identifier, object pattern name
-$bacisClassAttributesInitialized = true;
+$basicClassAttributesInitialized = true;
 
 // Validate input
 $storeActions = array( 'MoveUp',
@@ -407,8 +407,8 @@ if ( $contentClassHasInput )
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
-    $id = $class->attribute( 'id' );
     $class_name = $class->attribute( 'name' );
+    $id = $class->attribute( 'id' );
     $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
 
@@ -416,7 +416,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     {
         $canStore = false;
         $validation['processed'] = false;
-        $bacisClassAttributesInitialized = false;
+        $basicClassAttributesInitialized = false;
     }
     else
     {
@@ -560,7 +560,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
-$tpl->setVariable( 'basic_class_attributes_initialized', $bacisClassAttributesInitialized );
+$tpl->setVariable( 'basic_class_attributes_initialized', $basicClassAttributesInitialized );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );
