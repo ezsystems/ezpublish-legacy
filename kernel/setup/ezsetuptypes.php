@@ -1638,6 +1638,19 @@ function eZSetupContentINISettings( $siteType, $parameters, $isAdmin )
     return $image;
 }
 
+function eZSetupCommonRoles( &$roles, $siteType, $parameters )
+{
+    $guestAccountsID = eZSetupRemoteObjectID( $parameters, '5f7f0bdb3381d6a461d8c29ff53d908f' );
+    $anonAccountsID = eZSetupRemoteObjectID( $parameters, '15b256dbea2ae72418ff5facc999e8f9' );
+
+    // Add possibility to read rss by default for anonymous/guests
+    $roles[] = array( 'name' => 'Anonymous',
+                      'policies' => array( array( 'module' => 'rss',
+                                                  'function' => 'read' ) ),
+                      'assignments' => array( array( 'user_id' => $guestAccountsID ),
+                                              array( 'user_id' => $anonAccountsID ) ) );
+}
+
 function eZSetupForumRoles( &$roles, $siteType, $parameters )
 {
     if ( !in_array( 'forum', $parameters['extra_functionality'] ) )
@@ -1791,6 +1804,7 @@ function eZSetupRoles( $siteType, $parameters )
     eZSetupForumRoles( $roles, $siteType, $parameters );
     eZSetupShopRoles( $roles, $siteType, $parameters );
     eZSetupWeblogRoles( $roles, $siteType, $parameters );
+    eZSetupCommonRoles( $roles, $siteType, $parameters );
     return $roles;
 }
 
