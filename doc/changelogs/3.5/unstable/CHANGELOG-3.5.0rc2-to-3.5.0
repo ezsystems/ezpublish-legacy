@@ -5,6 +5,8 @@ Changes from 3.5.0rc2 to 3.5.0
   type.
 - Fixed a problem in redirection when the redirect url did not start with a
   slash.
+- Fixed wrong creation of tree node in content/versionview which could lead to
+  undefined member variables.
 
 *Bugfixes:
 - Fixed problem with class/edit and removal of object attributes
