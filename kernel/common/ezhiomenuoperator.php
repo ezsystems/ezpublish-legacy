@@ -119,9 +119,12 @@ class eZHiOMenuOperator
 
             $node =& eZContentObjectTreeNode::fetch( $namedParameters['node_id']  );
 
-            if ( $node->attribute( 'main_node_id' ) != $namedParameters['node_id'] )
+            if ( is_object( $node )
             {
-                $offset = 0;
+                if ( $node->attribute( 'main_node_id' ) != $namedParameters['node_id'] )
+                {
+                    $offset = 0;
+                }
             }
 
             while ( !$done )
