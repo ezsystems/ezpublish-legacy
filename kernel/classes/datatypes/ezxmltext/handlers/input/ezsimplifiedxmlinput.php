@@ -88,7 +88,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                   'object_id' => array( 'required' => false ),
                                                   'node_id' => array( 'required' => false ),
                                                   'show_path' => array( 'required' => false ),
-                                                  'anchor_name' => array( 'required' => false ) );
+                                                  'anchor_name' => array( 'required' => false ),
+                                                  'url_id' => array( 'required' => false ) );
 
         $this->TagAttributeArray['anchor'] = array( 'name' => array( 'required' => true ) );
 
@@ -107,7 +108,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                             'show_path' => array( 'required' => false ),
                                             'size' => array( 'required' => false, 'value' => $sizeArray),
                                             'align' => array( 'required' => false ),
-                                            'view' => array( 'required' => false ) );
+                                            'view' => array( 'required' => false ),
+                                            'id' => array( 'required' => false ) );
 
         $this->TagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
@@ -283,78 +285,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $objects !== null )
                 {
-                  /*
-                    $editVersion = $contentObjectAttribute->attribute('version');
-                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
-                    $editObject =& eZContentObject::fetch( $editObjectID );
-                    // Fetch ID's of all embeded objects
-                    $relatedObjectIDArray = array();
-                    foreach ( array_keys( $objects ) as $objectKey )
-                    {
-                        $object =& $objects[$objectKey];
-                        $objectID = $object->attributeValue( 'id' );
-                        // protect from self-embedding
-                        if ( $objectID == $contentObjectID )
-                        {
-                            $GLOBALS[$isInputValid] = false;
-                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                        }
-                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
-                            $relatedObjectIDArray[] = $objectID;
-                    }
-                    // Check that all embeded objects exists in database
-                    $db =& eZDB::instance();
-
-                    $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
-                    $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
-                    $objectRowArray =& $db->arrayQuery( $objectQuery );
-
-                    eZDebug::writeDebug( $objectRowArray, "objectRowArray" );
-
-                    $existingObjectIDArray = array();
-                    if ( count( $objectRowArray ) > 0 )
-                    {
-                        foreach ( array_keys( $objectRowArray ) as $key )
-                        {
-                            $existingObjectIDArray[] = $objectRowArray[$key]['id'];
-                        }
-                    }
-
-                    if ( count( array_diff( $relatedObjectIDArray, $existingObjectIDArray ) ) > 0 )
-                    {
-                        $GLOBALS[$isInputValid] = false;
-                        $objectIDString = implode( ', ', array_diff( $relatedObjectIDArray, $existingObjectIDArray ) );
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Object %1 does not exist.', false, array( $objectIDString ) ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
-
-                    // Fetch existing related objects
-                    $relatedObjectQuery = "SELECT to_contentobject_id
-                                           FROM ezcontentobject_link
-                                           WHERE from_contentobject_id = $contentObjectID AND
-                                                 from_contentobject_version = $editVersion";
-
-                    $relatedObjectRowArray =& $db->arrayQuery( $relatedObjectQuery );
-                    // Add existing embeded objects to object relation list if it is not already
-                    $existingRelatedObjectIDArray = array();
-                    foreach ( $relatedObjectRowArray as $relatedObjectRow )
-                    {
-                        $existingRelatedObjectIDArray[] = $relatedObjectRow['to_contentobject_id'];
-                    }
-
-                    if ( array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray ) )
-                    {
-                        $diffIDArray = array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray );
-                        foreach ( $diffIDArray as $relatedObjectID )
-                        {
-                            $editObject->addContentObjectRelation( $relatedObjectID, $editVersion );
-                        }
-                    }
-                 */
-
                     foreach ( array_keys( $objects ) as $objectKey )
                     {
                         $object =& $objects[$objectKey];
@@ -602,18 +532,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 								$url = strtok( $href, '#' );
                                 $anchorName = strtok( '#' );
 
-                                $link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
+                                if ( $anchorName )
+                                    $link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
 
                                 if ( !in_array( $url, $urlArray ) )
                                     $urlArray[] = $url;
                             }
                         }
 
-                        // If id attribute is present, we should get url from ezurl list
+                        // If url_id attribute is present, we should get url from ezurl list
                         //   and add it to urlArray
-                        if ( $link->attributeValue( 'id' ) != null )
+                        if ( $link->attributeValue( 'url_id' ) != null )
                         {
-                            $linkID = $link->attributeValue( 'id' );
+                            $linkID = $link->attributeValue( 'url_id' );
                             $url =& eZURL::url( $linkID );
                             if ( $url == null )
                             {
@@ -631,39 +562,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                     }
 
- /*                   // Optimized for speed, find all url's then fetch from DB
-                    foreach ( array_keys( $links ) as $linkKey )
-                    {
-                        $link =& $links[$linkKey];
-                        // Cache all URL's not converted to relations
-                        if ( $link->attributeValue( 'href' ) != null )
-                        {
-                            $url = $link->attributeValue( 'href' );
+                    // Optimized for speed, we have found all urls and now fetch them from DB
 
-                            if ( !in_array( $url, $urlArray ) )
-                                $urlArray[] = $url;
-                        }
-
-                        if ( $link->attributeValue( 'id' ) != null )
-                        {
-                            $linkID = $link->attributeValue( 'id' );
-                            $url =& eZURL::url( $linkID );
-                            if ( $url == null )
-                            {
-                                $GLOBALS[$isInputValid] = false;
-                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link %1 does not exist.',
-                                                                                     false, array( $linkID ) ) );
-                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                            }
-                            else
-                            {
-                                if ( !in_array( $url, $urlArray ) )
-                                    $urlArray[] = $url;
-                            }
-                        }
-                    }
-   */
                     if ( count( $urlArray ) > 0 )
                     {
                         // Fetch the ID's of all existing URL's and register unexisting
@@ -725,8 +625,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             {
                                 $linkID = $linkIDArray[$url];
 
-                                if ( $link->attributeValue( 'id' ) == null )
-                                    $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                                if ( $link->attributeValue( 'url_id' ) == null )
+                                    $link->appendAttribute( $dom->createAttributeNode( 'url_id', $linkID ) );
                             }
                         }
                         $link->removeNamedAttribute( 'href' );
@@ -977,6 +877,17 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $attrPart = str_replace( " href", "image:ezurl_href", $attrPart );
                 $attrPart = str_replace( " ezurl_id", "image:ezurl_id", $attrPart );
                 $attrPart = str_replace( " target", "image:ezurl_target", $attrPart );
+            }
+
+            if ( $currentTag == "embed" )
+            {
+                $attrPart = str_replace( " id", "xhtml:id", $attrPart );
+            }
+
+            if ( $currentTag == "link" )
+            {
+                $attrPart = str_replace( " id", "xhtml:id", $attrPart );
+                $attrPart = str_replace( " title", "xhtml:title", $attrPart );
             }
 
             $attr =& $this->parseAttributes( $attrPart );
@@ -2026,11 +1937,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    $linkIDValue = $link->attributeValue( 'id' );                
+                    $linkIDValue = $link->attributeValue( 'url_id' );
                     if ( !$linkIDValue )
                         continue;
                     if ( !in_array( $linkIDValue, $linkIDArray ) )
-                         $linkIDArray[] = $link->attributeValue( 'id' );
+                         $linkIDArray[] = $linkIDValue;
                 }
 
                 if ( count($linkIDArray) > 0 )
@@ -2285,6 +2196,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $objectID = $tag->attributeValue( 'object_id' );
                 $nodeID = $tag->attributeValue( 'node_id' );
                 $showPath = $tag->attributeValue( 'show_path' );
+                $htmlID = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
 
                 if ( $objectID != null )
                 {
@@ -2309,6 +2221,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $objectAttr .= " align='$alignment'";
                 if ( $view != null )
                     $objectAttr .= " view='$view'";
+                if ( $htmlID != '' )
+                    $attributes[] = "id='$htmlID'";
 
                 $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
                 foreach ( $customAttributes as $attribute )
@@ -2481,14 +2395,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             case 'link' :
             {
-                $linkID = $tag->attributeValue( 'id' );
+                $linkID = $tag->attributeValue( 'url_id' );
                 $target = $tag->attributeValue( 'target' );
                 $className = $tag->attributeValue( 'class' );
-                $title = $tag->attributeValue( 'title' );
                 $objectID = $tag->attributeValue( 'object_id' );
                 $nodeID = $tag->attributeValue( 'node_id' );
                 $anchorName = $tag->attributeValue( 'anchor_name' );
                 $showPath = $tag->attributeValue( 'show_path' );
+
+                $htmlID = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+                $htmlTitle = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
 
                 if ( $objectID != null )
                 {
@@ -2528,8 +2444,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $attributes[] = "href='$href'";
                 if ( $target != '' )
                     $attributes[] = "target='$target'";
-                if ( $title != '' )
-                    $attributes[] = "title='$title'";
+                if ( $htmlTitle != '' )
+                    $attributes[] = "title='$htmlTitle'";
+                if ( $htmlID != '' )
+                    $attributes[] = "id='$htmlID'";
 
                 $attributeText = '';
                 if ( count( $attributes ) > 0 )

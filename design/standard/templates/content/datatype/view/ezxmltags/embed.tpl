@@ -13,7 +13,7 @@
         {case/}
     {/switch}
 
-    <div class="object-{$object_align}{section show=ne($classification|trim,'')} {$classification|wash}{/section}">
+    <div class="object-{$object_align}{section show=ne($classification|trim,'')} {$classification|wash}{/section}"{section show=$id} id="{$id}"{/section}>
         {content_view_gui view=$view object_parameters=$object_parameters attribute_parameters=$object_parameters content_object=$object}
     </div>
 

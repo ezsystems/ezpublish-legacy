@@ -84,7 +84,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    $linkID = $link->attributeValue( 'id' );
+                    $linkID = $link->attributeValue( 'url_id' );
                     if ( $linkID != null )
                         if ( !in_array( $linkID, $linkIDArray ) )
                             $linkIDArray[] = $linkID;
@@ -470,13 +470,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 	            break;
             }
 
-/*            elseif ( $tag->attributeValue( 'node_id' ) != null )
-            {
-                $nodeID = $tag->attributeValue( 'node_id' );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                $objectID = $node->attribute('contentobject_id');
-            }
-*/
             // fetch attributes
             $embedAttributes =& $tag->attributes();
             $object =& $this->ObjectArray["$objectID"];
@@ -763,15 +756,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $res->setKeys( array( array( 'classification', $class ) ) );
 
                 $target = $tag->attributeValue( 'target' );
-                $title = $tag->attributeValue( 'title' );
                 if ( $target == '_self' )
                     $target = false;
 
+                $htmlTitle = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+                $htmlID = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+
                 include_once( 'lib/ezutils/classes/ezmail.php' );
 
-                if ( $tag->attributeValue( 'id' ) != null )
+                if ( $tag->attributeValue( 'url_id' ) != null )
                 {
-                    $linkID = $tag->attributeValue( 'id' );
+                    $linkID = $tag->attributeValue( 'url_id' );
                     $href = $this->LinkArray[$linkID];
 
                     if ( eZMail::validate( $href ) )
@@ -818,7 +813,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tpl->setVariable( 'href', $href, 'xmltagns' );
                 $tpl->setVariable( 'target', $target, 'xmltagns' );
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
-                $tpl->setVariable( 'title', $title, 'xmltagns' );
+                $tpl->setVariable( 'title', $htmlTitle, 'xmltagns' );
+                $tpl->setVariable( 'id', $htmlID, 'xmltagns' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
