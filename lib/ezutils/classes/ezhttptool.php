@@ -264,18 +264,20 @@ class eZHTTPTool
                 $protocol = $matches[1];
             $path = $matches[2];
         }
-        if ( preg_match( '#^//([^./:]+(\.[^./:]+)+)(:([0-9]+))?(.*)$#', $path, $matches ) )
+        if ( preg_match( '#^//((([a-zA-Z0-9_.]+)(:([a-zA-Z0-9_.]+))?)@)?([^./:]+(\.[^./:]+)+)(:([0-9]+))?(.*)$#', $path, $matches ) )
         {
-            if ( $matches[1] )
-                $host = $matches[1];
-            $path = $matches[5];
-            if ( $matches[4] )
-                $port = $matches[4];
+            if ( $matches[6] )
+            {
+                $host = $matches[6];
+            }
+            if ( $matches[3] )
+                $username = $matches[3];
+            if ( $matches[5] )
+                $password = $matches[5];
+            if ( $matches[9] )
+                $port = $matches[9];
+            $path = $matches[10];
         }
-        if ( $parameters['override_host'] )
-            $host = $parameters['override_host'];
-        if ( $parameters['override_port'] )
-            $port = $parameters['override_port'];
         if ( $parameters['pre_url'] )
         {
             if ( strlen( $path ) > 0 and
@@ -289,6 +291,10 @@ class eZHTTPTool
             }
         }
 
+        if ( $parameters['override_host'] )
+            $host = $parameters['override_host'];
+        if ( $parameters['override_port'] )
+            $port = $parameters['override_port'];
         if ( !is_string( $host ) )
             $host = eZSys::hostname();
         if ( !is_string( $protocol ) )
@@ -307,6 +313,7 @@ class eZHTTPTool
             if ( eZSys::serverPort() == $sslPort )
             {
                 $protocol = 'https';
+                $port = false;
             }
         }
         if ( $parameters['override_protocol'] )

@@ -102,16 +102,24 @@ class eZStepData
     */
     function progress( &$step )
     {
-        $totalSteps = count( $this->StepTable );
+        $totalSteps = 0;
+        foreach ( $this->StepTable as $tableStep )
+        {
+            if ( !isset( $tableStep['count_step'] ) or
+                 $tableStep['count_step'] )
+                ++$totalSteps;
+        }
 
         $currentStep = 0;
         foreach ( $this->StepTable as $key => $tableStep )
         {
             if ( $step['class'] == $tableStep['class'] )
             {
-                $currentStep = $key;
                 break;
             }
+            else if ( !isset( $tableStep['count_step'] ) or
+                 $tableStep['count_step'] )
+                ++$currentStep;
         }
 
         return (int) ( $currentStep * 100 / ( $totalSteps - 1 ) );
@@ -140,9 +148,11 @@ class eZStepData
                             array( 'file' => 'registration',
                                    'class' => 'Registration' ),
                             array( 'file' => 'database_create',
-                                   'class' => 'DatabaseCreate' ),
+                                   'class' => 'DatabaseCreate',
+                                   'count_step' => false ),
                             array( 'file' => 'create_sites',
-                                   'class' => 'CreateSites' ),
+                                   'class' => 'CreateSites',
+                                   'count_step' => false ),
                             array( 'file' => 'final',
                                    'class' => 'Final') );
 

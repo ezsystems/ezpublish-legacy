@@ -141,11 +141,17 @@ class eZDBInterface
             {
                 // Fix SQL file by deleting all comments and newlines
 //            eZDebug::writeDebug( $buffer, "read data" );
-                $sqlQuery = preg_replace( array( "/^#.*\n" . "/m", "/^--.*\n" . "/m" ), array( "", "" ),  $buffer );
+                $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
+                                                 "/^--.*\n" . "/m",
+                                                 "/\n|\r\n|\r/m" ),
+                                          array( "",
+                                                 "",
+                                                 "\n" ),
+                                          $buffer );
 //            eZDebug::writeDebug( $sqlQuery, "read data" );
 
                 // Split the query into an array
-                $sqlQueryArray = preg_split( '/;\n/m', $sqlQuery );
+                $sqlQueryArray = preg_split( "/;\n/m", $sqlQuery );
 
                 if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
                 {

@@ -607,14 +607,22 @@ class eZINI
     function &save( $fileName = false, $suffix = false, $useOverride = false,
                     $onlyModified = false, $useRootDir = true )
     {
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
+        $dirArray = array();
         if ( $fileName === false )
             $fileName = $this->FileName;
         if ( $useRootDir )
+        {
             $pathArray[] = $this->RootDir;
+            $dirArray[] = $this->RootDir;
+        }
         if ( $useOverride )
+        {
             $pathArray[] = 'override';
+            $dirArray[] = 'override';
+        }
         if ( is_string( $useOverride ) and
              $useOverride == "append" )
             $fileName .= ".append";
@@ -623,6 +631,10 @@ class eZINI
         $originalFileName = $fileName;
         $backupFileName = $originalFileName . eZSys::backupFilename();
         $fileName .= '.tmp';
+
+        $dirPath = eZDir::path( $dirArray );
+        if ( !file_exists( $dirPath ) )
+            eZDir::mkdir( $dirPath, octdec( '777' ), true );
 
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $filePath = eZDir::path( array_merge( $pathArray, $fileName ) );

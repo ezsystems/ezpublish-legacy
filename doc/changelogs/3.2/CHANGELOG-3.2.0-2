@@ -1,0 +1,22 @@
+Changes from 3.2.0-1 to 3.2.0-2
+
+*Kernel:
+
+*Setup:
+- Made sure the password is used when connecting to database.
+- Made sure some steps are not counted in the total number of steps when calculating percent.
+
+*Package system:
+
+*Templates:
+
+*Library :
+*eZ db:
+- Fixed insertFile() function to work with non-unix endlines in SQL files.
+
+*eZ utils:
+- Fixed the detection of existing urls in eZHTTPTool::createRedirectURL, now username and password
+  are detected and extracted.
+
+eZ ini:
+- Added check for existing settings directory, if it doesn't exist it creates the path.
