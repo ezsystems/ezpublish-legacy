@@ -475,8 +475,6 @@ class eZEnumType extends eZDataType
         foreach ( array_keys( $elementList ) as $elementKey )
         {
             $element =& $elementList[$elementKey];
-            print( "element\n" );
-            print_r( $element );
             $elementID = $element->attributeValue( 'id' );
             $elementName = $element->attributeValue( 'name' );
             $elementValue = $element->attributeValue( 'value' );

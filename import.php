@@ -45,7 +45,6 @@ $cli->startup();
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
 
-$packageFile = false;
 $siteaccess = false;
 $debugOutput = false;
 $useColors = false;
@@ -53,14 +52,26 @@ $isQuiet = false;
 $useLogFiles = true;
 $userLogin = false;
 $userPassword = false;
+$command = false;
+
+$packageFile = false;
+$outputFile = false;
+$exportType = false;
+$exportParameters = array();
+
 
 $optionsWithData = array( 's', 'o', 'l', 'p' );
 $longOptionsWithData = array( 'siteaccess', 'login', 'password' );
 
 function help()
 {
-    print( "Usage: " . $argv[0] . " [OPTION]... PACKAGE\n" .
-           "Imports ezpublish packages.\n\n" .
+    $argv = $_SERVER['argv'];
+    print( "Usage: " . $argv[0] . " [OPTION]... COMMAND\n" .
+           "Handles ezpublish packages.\n" .
+           "\n" .
+           "Type " . $argv[0] . " help for command overview\n" .
+           "\n" .
+           "General options:\n" .
            "  -h,--help          display this help and exit \n" .
            "  -q,--quiet         do not give any output except errors occur\n" .
            "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
@@ -70,6 +81,42 @@ function help()
            "  -p,--password PWD  use PWD as password for USER\n" .
            "  --no-logfiles      do not create log files\n" .
            "  --no-colors        do not use ANSI coloring (default)\n" );
+}
+
+function helpExport()
+{
+    print( "export: Export a part of the eZ publish installation into a package.\n" .
+           "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
+           "\n" .
+           "Options:\n" .
+           "  -o,--output FILE   export to file "
+           );
+}
+
+function helpImport()
+{
+    print( "import: Import an eZ publish package installation and install it.\n" .
+           "usage: import PACKAGE\n" .
+           "\n" .
+           "PACKAGE can be specified with just the name of the of package or\n" .
+           "the filename of the package. If just the name is used the package\n" .
+           "will be looked for by appending .ezpkg\n"
+           );
+}
+
+function helpHelp()
+{
+    $argv = $_SERVER['argv'];
+    print( "help: Displays help information on commands.\n" .
+           "usage: help COMMAND\n" .
+           "\n" .
+           "Type \"" . $argv[0] . " help COMMAND\" for help on a specific command.\n" .
+           "\n" .
+           "Available commands:\n" .
+           "    help\n" .
+           "    import\n" .
+           "    export\n"
+           );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
@@ -182,6 +229,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 changeSiteAccessSetting( $siteaccess, $optionData );
             }
+            else if ( $flag == 'o' )
+            {
+                $outputFile = $optionData;
+            }
             else if ( $flag == 'l' )
             {
                 $userLogin = $optionData;
@@ -194,16 +245,67 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
     else
     {
-        if ( $packageFile === false )
+        if ( $command === false )
         {
-            $packageFile = $arg;
+            $command = $arg;
+            if ( !in_array( $command,
+                           array( 'help', 'import', 'export' ) ) )
+            {
+                help();
+                exit();
+            }
+        }
+        else
+        {
+            if ( $command == 'help' )
+            {
+                $helpTopic = $arg;
+                if ( $helpTopic == 'import' )
+                    helpImport();
+                else if ( $helpTopic == 'export' )
+                    helpExport();
+                else
+                    helpHelp();
+                exit();
+            }
+            else if ( $command == 'import' )
+            {
+                if ( $packageFile === false )
+                    $packageFile = $arg;
+            }
+            else if ( $command == 'export' )
+            {
+                if ( $exportType === false )
+                {
+                    $readOptions = false;
+                    $exportType = $arg;
+                }
+                else
+                    $exportParameters[] = $arg;
+            }
         }
     }
 }
 
-if ( !$packageFile )
+if ( $command == 'import' )
 {
-    help();
+    if ( !$packageFile )
+    {
+        helpImport();
+        exit();
+    }
+}
+else if ( $command == 'export' )
+{
+    if ( !$exportType )
+    {
+        helpExport();
+        exit();
+    }
+}
+else if ( $command == 'help' )
+{
+    helpHelp();
     exit();
 }
 
@@ -280,14 +382,65 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
-$package =& eZPackageHandler::fetchFromFile( $packageFile );
-if ( $package )
+if ( $command == 'import' )
 {
-    $package->install();
+    $package =& eZPackageHandler::fetchFromFile( $packageFile );
+    if ( $package )
+    {
+        $package->install();
+    }
+    else
+    {
+        $cli->warning( "Could not open package file $packageFile" );
+    }
 }
-else
+else if ( $command == 'export' )
 {
-    $cli->warning( "Could not open package file $packageFile" );
+    $packageName = 'mytest';
+    $packageSummary = 'hm';
+    $packageExtension = 'myext';
+
+    $package =& eZPackageHandler::create( $packageName, array( 'summary' => $packageSummary,
+                                                               'extension' => $packageExtension ) );
+
+    $user =& eZUser::currentUser();
+    $userObject = $user->attribute( 'contentobject' );
+
+    $package->appendMaintainer( $userObject->attribute( 'name' ), 'jb@ez.no', 'lead' );
+
+    $package->appendDocument( 'README' );
+    $package->appendDocument( 'readme.html', 'text/html', false, 'end-user' );
+    $package->appendDocument( 'INSTALL', false, 'unix', 'site-admin' );
+
+    $package->appendGroup( 'design' );
+    $package->appendGroup( 'community/forum' );
+
+    $package->appendChange( 'Jan Borsodi', 'jb@ez.no', 'Added some stuff' );
+
+    $package->setRelease( '1.0.5', '2', false, 'GPL', 'beta' );
+
+// $package->appendFileList( array( array( 'role' => 'override',
+//                                         'md5sum' => false,
+//                                         'name' => 'forum.tpl' ) ),
+//                           'template', false,
+//                           array( 'design' => 'standard' ) );
+
+// $package->appendInstall( 'part', 'Classes', false, true,
+//                          array( 'content' => 'yup' ) );
+
+    $exportList = array();
+    $exportList[] = array( 'type' => $exportType,
+                           'parameters' => $exportParameters );
+    $package->handleExportList( $exportList );
+
+    if ( $outputFile )
+    {
+        $package->storeToFile( $outputFile );
+    }
+    else
+    {
+        print( $package->toString() . "\n" );
+    }
 }
 
 if ( $db->isConnected() )
