@@ -6,8 +6,10 @@
 
 <input class="box" name="ContentObjectAttribute_data_imagename_{$attribute.id}" type="file" />
 
+<div class="block">
 <label>{"Alternative image text"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input class="box" name="ContentObjectAttribute_data_imagealttext_{$attribute.id}" type="text" value="{$attribute.content.alternative_text|wash(xhtml)}" />
+</div>
 
 {section-else}
 <div class="labelbreak"></div>
