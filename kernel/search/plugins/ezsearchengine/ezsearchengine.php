@@ -76,6 +76,8 @@ class eZSearchEngine
         $wordCount = 0;
         $placement = 0;
         $previousWord = '';
+
+        eZContentObject::recursionProtectionStart();
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
 
@@ -134,6 +136,7 @@ class eZSearchEngine
                 }
             }
         }
+        eZContentObject::recursionProtectionEnd();
 
         $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
 

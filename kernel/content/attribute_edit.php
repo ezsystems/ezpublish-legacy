@@ -208,6 +208,7 @@ elseif ( $storingAllowed )
 {
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
+    eZContentObject::recursionProtectionStart();
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
@@ -217,6 +218,7 @@ elseif ( $storingAllowed )
                                                  'current-redirection-uri' => $currentRedirectionURI ) );
         $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
     }
+    eZContentObject::recursionProtectionEnd();
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) )

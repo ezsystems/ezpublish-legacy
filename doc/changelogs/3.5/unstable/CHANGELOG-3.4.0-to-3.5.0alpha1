@@ -497,6 +497,8 @@ Workflow:
   parent_node_id's as argument.
   (Merged from stable/3.4 rev.7960)
   http://ez.no/community/bug_reports/parent_node_id_array_use_inconsistent
+- Fixed bug with recursively linked objects. (Merged from stable/3.4, rev. 7965)
+  http://www.ez.no/community/bug_reports/object_relation_list_causes_document_contains_no_data_error
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
