@@ -38,80 +38,115 @@
 
 /*!
   \brief
-  This file contains the methods needed to create very cool and flexible javascript
-  menus for eZ publish.
+  This javascript provides a very cool and flexible DHTML popupmenu.
+  In order to use this javascript you must also include ezlibdomsupport.js.
 
- How to use this script:
- You need to do two things in order to use this script:
 
- 1. Set up the HTML/CSS structures for your menus
- Each menu must be defined. The outer element should be a "div". The clickable menuitems should be of type "a".
- Both the menu and the menuitems must be given and "id". This id is used in the menuArray to set up that menu/item.
- Also each item in the menu must have its onmouseover activate the ezpopmenu_mouseOver method with the name of the menu
- as parameter.
- To open a submenu use the ezpopmenu_ShowSubLevel method. It takes the name of the menu as parameter.
+  Features:
+  - Multilevel popupmenu
+  - Supports all major browsers
+  - All HTML code in template
+  - Supports context sensitivity for eZ publish through:
+     - String substitution in the href attribute of menuitems.
+     - Form submital with string substitution.
+
+  Currenty not supported but possible if requested:
+  - Dynamic building of menus based on eZ publish content.
+
+ Public interface:
+ezpopmenu_showTopLevel - This method opens a new top-level popupmenu.
+ezpopmenu_showSubLevel - This menu opens a sublevel popupmenu. It does not hide any parent menus.
+ezpopmenu_submitForm - This method is used to activate a form.
+ezpopmenu_mouseOver - This method should be called by all menuitems when a mouseover event occurs. It currently hides and submenus that should not be shown.
+ez_createAArray - Helper method to create associative arrays. It takes an array with an even number of elements and makes a associate element out of every two array elements.
+
+In order to use the popupmenu javascript you need to provide:
+1. The HTML/CSS structure for you menu(s)
+2. The menuArray javascript array containing the configuration of your popupmenu(s).
+
+eZ publish provides a default template for this purpose. It is located in popupmenu/popup_menu.tpl. You are encouraged to override this file in the siteacess where you want to use the menu.
+
+ 1. Setting up the HTML/CSS structure for your popup menu(s).
+ Your menu should be set up completely with all elements. The following requirements apply:
+- The outer element should be a "div".
+- The css of the outer div must have the following CSS attributes set:
+  position: absolute;
+  z-index: +1;
+  visibility: hidden;
+- The menuitems must be of type "a".
+- Both the menu and the menuitems must be given and "id". This id is used in the menuArray to set up that menu/item.
+- Each menuitem must call ezpopmenu_mouseOver or one of the methods spawning a metnu on the mouseover event. The name of the enclosing menu must be given as parameter.
+- The menus should be defined in the order they will be shown. In other words, the mainmenu first and then any submenus. This is to ensure the correct visible stack order.
+
+An example example with a menu and a submenu.
 
  example with a main menu and a submenu:
- <div class="menu" id="ContextMenu">
-  <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">Edit</a>
-  <a id="menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">View</a>
-  <hr />
-  <a id="menu-new" href="#" onmouseover="ezpopmenu_showSubLevel( 'submenu', 'menu-new' )" >Create new</a>
+ -------------------------------------------------------------------------------
+<!-- The main menu -->
+ <div class="menu" id="mainmenu">
+  <a id="menu-main" href="http://www.ez.no" onmouseover="ezpopmenu_mouseOver( 'mainmenu' )" >ez.no</a>
+  <a id="menu-substitute" href="#" onmouseover="ezpopmenu_mouseOver( 'mainmenu' )" >Dynamic node view</a>
+  <a id="menu-spawn" href="#" onmouseover="ezpopmenu_showSubLevel( 'submenu', 'menu-spawn' )" >Show submenu</a>
  </div>
- The submenu basically works the same way.
+<!-- The submenu -->
  <div class="menu" id="submenu">
-  <a id="menu-new-article" href="#" onmouseover="ezpopmenu_mouseOver( 'submenu')">Article</a>
-  <a id="menu-new-folder" href="#" onmouseover="ezpopmenu_mouseOver( 'submenu')">Folder</a>
+  <a id="submenu-item" href="#" onmouseover="ezpopmenu_submitForm( 'myform' )">Form submitter</a>
  </div>
+--------------------------------------------------------------------------------
 
- To activate the first menu call the method ezpopmenu_showTopLevel. In this case links in the setup array containing the string
- %nodeID% will be substituted by 42.
+
+ 2. Setting up the menuArray array containing the popupmenu configuration.
+ The menuArray is a multilevel array describing the features of your menus. The structure of the
+ menuArray array is flat. This means that each menu is described in the toplevel array.
+ Each menu can have the following properties set:
+  - "depth" [required]: The depth of the menu. Toplevel menus have depth 0. Menus appearing from a toplevel menu
+    have depth 1 etc.
+  - "elements": The elements property must be yet another array containing all the menuitems that require string substitution.
+    Each item can contain the following properties:
+      + "url": The URL that this element should point at. Put the part that should be substituted within "%" symbols.
+
+The following example configures the menu created in step 1.
+--------------------------------------------------------------------------------
+<script language="JavaScript1.2" type="text/javascript">
+
+ var menuArray = new Array();
+ <!-- main menu -->
+ menuArray['mainmenu'] = new Array();
+ menuArray['mainmenu']['depth'] = 0;
+ menuArray['mainmenu']['elements'] = new Array();
+ menuArray['mainmenu']['elements']['menu-substitute'] = new Array();
+ menuArray['mainmenu']['elements']['menu-substitute']['url'] = {'/content/view/%nodeID%'|ezurl};
+
+ <!-- submenu -->
+ menuArray['submenu'] = new Array();
+ menuArray['submenu']['depth'] = 1; // this is a first level submenu of ContextMenu
+
+</script>
+
+ <!-- The form submitted by the submenu -->
+ {* Remove a node. *}
+<form id="myform" method="post" action="someactionhere">
+  <!-- Notice that there is autoamatic string translation for the contents of value -->
+  <input type="hidden" name="example" value="%nodeID%" />
+</form>
+
+--------------------------------------------------------------------------------
+
+
+ Finally you will need to activate the "mainmenu" menu somehow. This is achieved through a call to ezpopmenu_showToplevel. In the eaxample case links in the setup array containing the string %nodeID% will be substituted by 42.
 
  example:
  <a onmouseclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( array( %nodeID%, 42) ) ); return false;">show</a><br />
 
 
-  Note that the menus need to have the following css properties set:
-  position: absolute;
-  z-index: +1;
-  visibility: hidden;
-
- 2. Set up the menuArray javascript array.
- The example demonstrates how to configure the menuArray. Noteworthy features are:
- elements: An array of element "id" tags. Items present here will be processed. Items left out
- will just be shown without any manipulation.
- url: You can put a "%" in the url. It will be exchanged with the node id.
- disabled_for: List the elements you want to be shown with a special class.
-
- example:
- var menuArray = new Array();
- <!-- Context Menu -->
- menuArray['ContextMenu'] = new Array();
- menuArray['ContextMenu']['depth'] = 0;  // depth of menu. Toplevel = 0.
- menuArray['ContextMenu']['elements'] = new Array();
- menuArray['ContextMenu']['elements']['menu-view'] = new Array();
- menuArray['ContextMenu']['elements']['menu-view']['url'] = '/content/view/%nodeID%';
-
- menuArray['ContextMenu']['elements']['menu-edit'] = new Array();
- menuArray['ContextMenu']['elements']['menu-edit']['url'] = '/content/edit/%nodeID%';
- menuArray['ContextMenu']['elements']['menu-view']['disabled_for'] = new Array();
- menuArray['ContextMenu']['elements']['menu-view']['disabled_for'][35] = 'yes';
- menuArray['ContextMenu']['elements']['menu-view']['disabled_for'][55] = 'yes';
-
- <!-- New menu -->
- menuArray['submenu'] = new Array();
- menuArray['submenu']['depth'] = 1; // this is a first level submenu of ContextMenu
-
- Note: in order to use this script you must include ezlib.js
-
- Devloper info:
+#################### Developer info ##############################
  This script defines the following global constants/variables:
  EZPOPMENU_OFFSET - Added to the x,y position of the mouse when showing the menu.
  CurrentNodeID - Used to remember the node we are currently showing the menu for. Used by submenus.
  VisibleMenus - An array containing the currently visible menus.
  */
 
-//Global CONSTANS
+//Global CONSTANTS
 EZPOPMENU_OFFSET = 8;
 EZPOPMENU_SUBTOPOFFSET = 4;
 
@@ -119,8 +154,7 @@ EZPOPMENU_SUBTOPOFFSET = 4;
 // CurrentNodeID holds id of current node to edit for submenu's
 var CurrentSubstituteValues = -1;
 var CurrentDisableID = -1;
-// VisibleMenus is an array that holds the names of the currently shown menu's
-// for each level.
+// VisibleMenus is an array that holds the names of the currently visible menus
 var VisibleMenus = new Array();
 
 
