@@ -319,16 +319,41 @@ class eZFilePackageHandler extends eZPackageHandler
                 $fileFileType = false;
                 if ( is_dir( $realFilePath ) )
                     $fileFileType = 'dir';
-                $fileList[] = array( 'file' => $file,
-                                     'package-path' => $packagePath,
-                                     'type' => $type,
-                                     'role' => $role,
-                                     'role-value' => $roleValue,
-                                     'variable-name' => $currentVariableName,
-                                     'file-type' => $fileFileType,
-                                     'design' => $design,
-                                     'collection' => $currentCollection,
-                                     'path' => $realFilePath );
+                if ( $currentType == 'ini' and
+                     $fileFileType == 'dir' )
+                {
+                    $iniFiles = eZDir::recursiveFind( $realFilePath, "" );
+                    $fileFileType = 'file';
+                    foreach ( $iniFiles as $iniFile )
+                    {
+                        $iniFile = $this->iniMatch( $iniFile, $role, $roleValue, $file, $triedFiles );
+                        if ( !$iniFile )
+                            continue;
+                        $fileList[] = array( 'file' => $file,
+                                             'package-path' => $packagePath,
+                                             'type' => $type,
+                                             'role' => $role,
+                                             'role-value' => $roleValue,
+                                             'variable-name' => $currentVariableName,
+                                             'file-type' => $fileFileType,
+                                             'design' => $design,
+                                             'collection' => $currentCollection,
+                                             'path' => $iniFile );
+                    }
+                }
+                else
+                {
+                    $fileList[] = array( 'file' => $file,
+                                         'package-path' => $packagePath,
+                                         'type' => $type,
+                                         'role' => $role,
+                                         'role-value' => $roleValue,
+                                         'variable-name' => $currentVariableName,
+                                         'file-type' => $fileFileType,
+                                         'design' => $design,
+                                         'collection' => $currentCollection,
+                                         'path' => $realFilePath );
+                }
                 $realPath = false;
             }
         }
@@ -379,52 +404,10 @@ class eZFilePackageHandler extends eZPackageHandler
                 $filePath = $file;
                 if ( file_exists( $filePath ) )
                 {
-                    if ( preg_match( "#^settings/siteaccess/([^/]+)/([^/]+)$#", $filePath, $matches ) )
-                    {
-                        $role = 'siteaccess';
-                        $roleValue = $matches[1];
-                        $file = $matches[2];
+                    $filePath = $this->iniMatch( $filePath, $role, $roleValue, $file, $triedFiles );
+                    if ( $filePath )
                         return $filePath;
-                    }
-                    else if ( preg_match( "#^settings/override/([^/]+)$#", $filePath, $matches ) )
-                    {
-                        $role = 'override';
-                        $roleValue = false;
-                        $file = $matches[1];
-                        return $filePath;
-                    }
-                    else if ( preg_match( "#^settings/([^/]+)$#", $filePath, $matches ) )
-                    {
-                        $role = 'standard';
-                        $roleValue = false;
-                        $file = $matches[1];
-                        return $filePath;
-                    }
                 }
-                $triedFiles[] = $filePath;
-                $filePath = 'settings';
-                if ( $role == 'siteaccess' )
-                {
-                    $filePath = 'settings/siteaccess';
-                    if ( $roleValue )
-                        $filePath .= '/' . $roleValue;
-                }
-                else if ( $role == 'override' )
-                    $filePath = 'settings/override';
-                $filePath .= '/' . $file;
-                if ( file_exists( $filePath ) )
-                {
-                    return $filePath;
-                }
-                $triedFiles[] = $filePath;
-                $filePath = $file;
-                if ( file_exists( $filePath ) )
-                {
-                    if ( preg_match( "#^.+/([^/]+)$#", $filePath, $matches ) )
-                        $file = $matches[1];
-                    return $filePath;
-                }
-                $triedFiles[] = $filePath;
             } break;
             case 'thumbnail':
             {
@@ -571,6 +554,56 @@ class eZFilePackageHandler extends eZPackageHandler
                 }
             } break;
         }
+        return false;
+    }
+
+    function iniMatch( $filePath, &$role, &$roleValue, &$file )
+    {
+        if ( preg_match( "#^settings/siteaccess/([^/]+)/([^/]+)$#", $filePath, $matches ) )
+        {
+            $role = 'siteaccess';
+            $roleValue = $matches[1];
+            $file = $matches[2];
+            return $filePath;
+        }
+        else if ( preg_match( "#^settings/override/([^/]+)$#", $filePath, $matches ) )
+        {
+            $role = 'override';
+            $roleValue = false;
+            $file = $matches[1];
+            return $filePath;
+        }
+        else if ( preg_match( "#^settings/([^/]+)$#", $filePath, $matches ) )
+        {
+            $role = 'standard';
+            $roleValue = false;
+            $file = $matches[1];
+            return $filePath;
+        }
+        $triedFiles[] = $filePath;
+        $filePath = 'settings';
+        if ( $role == 'siteaccess' )
+        {
+            $filePath = 'settings/siteaccess';
+            if ( $roleValue )
+                $filePath .= '/' . $roleValue;
+        }
+        else if ( $role == 'override' )
+            $filePath = 'settings/override';
+        $filePath .= '/' . $file;
+        if ( file_exists( $filePath ) )
+        {
+            return $filePath;
+        }
+        $triedFiles[] = $filePath;
+        $filePath = $file;
+        if ( file_exists( $filePath ) )
+        {
+            if ( preg_match( "#^.+/([^/]+)$#", $filePath, $matches ) )
+                $file = $matches[1];
+            return $filePath;
+        }
+        $triedFiles[] = $filePath;
         return false;
     }
 
