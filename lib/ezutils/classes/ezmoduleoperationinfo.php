@@ -45,6 +45,7 @@
 
 include_once( 'lib/ezutils/classes/ezmodule.php' );
 include_once( 'lib/ezutils/classes/ezdebug.php' );
+include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
 
 define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS', 5 );
 define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD', 6 );
@@ -98,6 +99,24 @@ class eZModuleOperationInfo
         return true;
     }
 
+    function makeKeyArray( &$operationDefinition, $operationParameters )
+    {
+        $keyArray = array();
+        if ( array_key_exists( 'keys', $operationDefinition ) && is_array( $operationDefinition['keys'] ) )
+        {
+            foreach ( $operationDefinition['keys'] as $key )
+            {
+                $keyArray[$key] = $operationParameters[$key];
+            }
+            return $keyArray;
+        }
+        foreach ( $operationDefinition['parameters'] as $operationParameter )
+        {
+            $keyArray[$operationParameter['name']] = $operationParameters[$operationParameter['name']];
+        }
+        return $keyArray;
+    }
+    
     function execute( $operationName, $operationParameters, $lastTrigger = null )
     {
         $moduleName = $this->ModuleName;
@@ -131,9 +150,26 @@ class eZModuleOperationInfo
              isset( $callMethod['class'] ) )
         {
             $callValues = array( 'loop_run' => array() );
-            $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
-                                                $operationDefinition['parameters'], $operationParameters,
-                                                $lastTrigger, $callValues );
+
+
+
+            $keyArray = $this->makeKeyArray( $operationDefinition, $operationParameters );
+            $keyArray['session_key'] = eZHttpTool::getSessionKey();
+            $mementoList = eZOperationMemento::fetchList( $keyArray );
+
+            if ( count( $mementoList ) > 0 )
+            {
+                 ///restoring running operation
+                
+            }
+            else
+            {
+                ///start  new operation
+
+                $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                                                    $operationDefinition['parameters'], $operationParameters,
+                                                    $lastTrigger, $callValues, $operationDefinition['name'] );
+            }
 //             print( "result=" );
             print( "<pre>" );
 //             var_dump( $resultArray );
@@ -224,7 +260,7 @@ class eZModuleOperationInfo
 
     function executeBody( $includeFile, $className, $bodyStructure,
                           $operationParameterDefinitions, $operationParameters,
-                          &$lastTrigger, &$callValues, $currentLoopData = null )
+                          &$lastTrigger, &$callValues, $operationName,$currentLoopData = null )
     {
         $bodyReturnValue = array( 'status' => true );
         foreach ( $bodyStructure as $body )
@@ -258,7 +294,7 @@ class eZModuleOperationInfo
                         print( "skipped $bodyName due to trigger restore<br/>" );
                         $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                            $tmpOperationParameterDefinitions, $operationParameters,
-                                                           $lastTrigger, $callValues );
+                                                           $lastTrigger, $callValues, $operationName );
                         print( "returned from loop<br/>" );
                         if ( !$returnValue['status'] )
                             return $returnValue;
@@ -288,9 +324,9 @@ class eZModuleOperationInfo
                             print( "loop " . $count . "<br/>" );
                             $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                                $tmpOperationParameterDefinitions, $tmpOperationParameters,
-                                                               $lastTrigger, $callValues, array( 'name' => $loopName,
-                                                                                                 'count' => count( $parameters ),
-                                                                                                 'index' => $count  ) );
+                                                               $lastTrigger, $callValues, $operationName, array( 'name' => $loopName,
+                                                                                                                 'count' => count( $parameters ),
+                                                                                                                 'index' => $count  ) );
                             if ( !$returnValue['status'] )
                                 $bodyReturnValue = $returnValue;
                         }
@@ -325,6 +361,18 @@ class eZModuleOperationInfo
                     }
                     else
                     {
+/*
+                        $triggerParameters = array();
+                        foreach ( $triggerKeys as $key )
+                        {
+                            $triggerParameters[$key] = $operationParameters[$key];
+                        }
+
+                        $Result = array();
+                        $triggerStatus =  eZTrigger::runTrigger( $triggerName, $this->ModuleName, $operationName, $triggerParameters, $Result );
+*/
+
+
                         // Hack to get trigger for node id 16
 //                         if ( $bodyName == 'pre_read' and
 //                              $operationParameters['node_id'] == 16 )

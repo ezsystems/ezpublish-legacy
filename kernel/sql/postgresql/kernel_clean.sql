@@ -1205,7 +1205,7 @@ CREATE TABLE "ezworkflow_process" (
 	"content_id" integer DEFAULT '0' NOT NULL,
 	"content_version" integer DEFAULT '0' NOT NULL,
 	"node_id" integer DEFAULT '0' NOT NULL,
-    "session_key" DEFAULT '0' varchar(32),
+    "session_key"  varchar(32) DEFAULT '0',
 	"event_id" integer NOT NULL,
 	"event_position" integer NOT NULL,
 	"last_event_id" integer NOT NULL,

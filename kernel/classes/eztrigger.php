@@ -68,7 +68,8 @@ class eZTrigger extends eZPersistentObject
                                          'module_name' => 'ModuleName',
                                          'function_name' => 'FunctionName',
                                          'connect_type' => 'ConnectType',
-                                         'workflow_id' => 'WorkflowID'
+                                         'workflow_id' => 'WorkflowID',
+                                         'name' => 'Name'
                                           ),
                       "class_name" => "eZTrigger",
                       "name" => "eztrigger" );
@@ -102,6 +103,10 @@ class eZTrigger extends eZPersistentObject
         {
             $filterArray['connect_type'] = $parameters['connectType'];
         }
+        if ( array_key_exists('name', $parameters ) && $parameters[ 'name' ] != '' )
+        {
+            $filterArray['name'] = $parameters['name'];
+        }
         $triggers =& eZPersistentObject::fetchObjectList( eZTrigger::definition(),
                                                           null, $filterArray, array( 'module_name' , 'function_name', 'connect_type'), null,
                                                           true );
@@ -110,13 +115,13 @@ class eZTrigger extends eZPersistentObject
 
 
 
-    function runTrigger( $moduleName, $function, $type, $parameters = array(), &$module )
+    function runTrigger( $name, $moduleName, $function, $parameters = array(), &$Result )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
-                                                array( 'module_name' => $moduleName,
-                                                       'function_name' => $function,
-                                                       'connect_type' => $type ),
+                                                array( 'name' => $name,
+                                                       'module_name' => $moduleName,
+                                                       'function_name' => $function ),
                                                 true);
         if ( $trigger !== NULL )
         {
@@ -222,8 +227,8 @@ class eZTrigger extends eZPersistentObject
                     } break;
                     case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
                     {
-                        return eZTrigger::runWorkflow( $existingWorkflowProcess, $module );
-                        return EZ_TRIGGER_FETCH_TEMPLATE;
+                        return eZTrigger::runWorkflow( $existingWorkflowProcess, $Result );
+//                        return EZ_TRIGGER_FETCH_TEMPLATE;
                     } break;
                     case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
                     {
@@ -245,20 +250,20 @@ class eZTrigger extends eZPersistentObject
             $workflowProcess =& eZWorkflowProcess::create( $searchKey, $keyArray );
 
             $workflowProcess->store();
-            eZModuleRun::createFromModule( $workflowProcess->attribute( 'id' ), $module );
+//            eZModuleRun::createFromModule( $workflowProcess->attribute( 'id' ), $Result );
 
             return eZTrigger::runWorkflow( $workflowProcess, $module );
 
         }
         else
         {
-            eZDebug::writeNotice( $moduleName.$function.$type, "there is no connected workflow for:" );
+            eZDebug::writeNotice( $name.$moduleName.$function, "there is no connected workflow for:" );
             return EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
         }
     }
 
 
-    function runWorkflow( &$workflowProcess, &$module )
+    function runWorkflow( &$workflowProcess, &$Result )
     {
         $workflow =& eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
         $workflowEvent = null;
@@ -285,7 +290,7 @@ class eZTrigger extends eZPersistentObject
                     $tpl->setVariable( $key, $value );
                 }
                 $Result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
-                $module->setViewResult( $Result );
+//                $module->setViewResult( $Result );
                 return EZ_TRIGGER_FETCH_TEMPLATE;
             } break;
             case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:

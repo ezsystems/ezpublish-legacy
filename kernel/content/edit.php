@@ -157,9 +157,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 {
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
                     $version->store();
-                    $status = eZTrigger::runTrigger( 'content',
+                    $status = eZTrigger::runTrigger( 'pre_publish',
+		                                     'content',
                                                      'publish',
-                                                     'b',
                                                      array( 'object'  => $object,
                                                             'version' => $version->attribute( 'version' ),
                                                             'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )

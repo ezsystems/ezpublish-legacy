@@ -97,6 +97,7 @@ $node =& eZContentObjectTreeNode::fetch( $NodeID );
 if ( $node === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+
 $object = $node->attribute( 'object' );
 
 if ( $object === null )
@@ -115,16 +116,16 @@ if ( $LanguageCode != '' )
 if ( $ViewMode == 'full' )
 {
     $sessionKey = eZHttpTool::getSessionKey();
-    $status = eZTrigger::runTrigger( 'content',
+    $status = eZTrigger::runTrigger( 'pre_view',
+                                     'content',
                                      'view',
-                                     'b',
                                      array( 'object'  => $object,
                                             'node_id' => $node->attribute( 'node_id' ),
                                             'session_key' => $sessionKey
                                             ),
                                      $Module
                                      );
-    eZDebug::writeNotice( $status, 'Returned Trigger status in view' );
+    eZDebug::writeDebug( $status, 'Returned Trigger status in view' );
 }else
 {
     $status = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;

@@ -191,7 +191,6 @@ $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'Owner' => $Assigned );
 
-$FunctionList['publish'] = array();
 /*
 $ViewArray["view"] = array(
     "functions" => array( "read", ""
