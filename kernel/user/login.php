@@ -75,14 +75,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), 'user' );
         return $Module->redirectTo( $redirectionURI );
     }
-
-    if ( $userLogin == 'admin' and
-         $userPassword == 'publish' )
-    {
-        $http->setSessionVariable( 'eZUserLoggedInID', 1 );
-
-        return $Module->redirectTo( $redirectionURI );
-    }
 }
 else
 {

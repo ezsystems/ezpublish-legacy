@@ -72,7 +72,7 @@ if ( ! $object->attribute( 'can_edit' ) )
 
 $version =& $object->version( $EditVersion );
 
-$classID = $object->attribute( "class_id" );
+$classID = $object->attribute( "contentclass_id" );
 $class =& eZContentClass::fetch( $classID );
 
 $originalContentAttributes =& $version->attributes();
