@@ -53,12 +53,13 @@
         </tr>
         <tr>
             <td class="bglight">
-	    {section show=and( or( $browse.permission|not,
-                                   fetch( content, access,
-                                          cond( is_set( $browse.permission.contentclass_id ),
+            {section show=and( or( $browse.permission|not,
+                                   cond( is_set( $browse.permission.contentclass_id ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $main_node,
-                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                      contentclass_id, $browse.permission.contentclass_id ) ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $main_node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $main_node.node_id )|not() )}
@@ -98,11 +99,12 @@
         <tr class="{$Object:sequence}">
             <td>
             {section show=and( or( $browse.permission|not,
-                                   fetch( content, access,
-                                          cond( is_set( $browse.permission.contentclass_id ),
+                                   cond( is_set( $browse.permission.contentclass_id ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item,
-                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                      contentclass_id, $browse.permission.contentclass_id ) ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item ) ) ) ),
                                $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
@@ -164,11 +166,12 @@
             {let top_node=fetch( content, node, hash( node_id, $:item ) )}
             <td width="1">
             {section show=and( or( $browse.permission|not,
-                                   fetch( content, access,
-                                          cond( is_set( $browse.permission.contentclass_id ),
+                                   cond( is_set( $browse.permission.contentclass_id ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:top_node,
-                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                      contentclass_id, $browse.permission.contentclass_id ) ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:top_node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $:item )|not() )}
@@ -201,11 +204,12 @@
         <tr class="{$:sequence}">
             <td width="1">
             {section show=and( or( $browse.permission|not,
-                                   fetch( content, access,
-                                          cond( is_set( $browse.permission.contentclass_id ),
+                                   cond( is_set( $browse.permission.contentclass_id ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item.node,
-                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                      contentclass_id, $browse.permission.contentclass_id ) ),
+                                         fetch( content, access,
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item.node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
@@ -256,13 +260,14 @@
             <tr class="{$:sequence}">
                 <td width="1">
                 {section show=and( or( $browse.permission|not,
-                                   fetch( content, access,
-                                          cond( is_set( $browse.permission.contentclass_id ),
-                                                hash( access, $browse.permission.access,
-                                                      contentobject, $:item.node,
-                                                      contentclass_id, $browse.permission.contentclass_id ),
-                                                hash( access, $browse.permission.access,
-                                                      contentobject, $:item.node ) ) ) ),
+                                       cond( is_set( $browse.permission.contentclass_id ),
+                                             fetch( content, access,
+                                                    hash( access, $browse.permission.access,
+                                                          contentobject, $:item.node,
+                                                          contentclass_id, $browse.permission.contentclass_id ) ),
+                                             fetch( content, access,
+                                                    hash( access, $browse.permission.access,
+                                                          contentobject, $:item.node ) ) ) ),
                                    $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
                   {section show=is_array($browse.class_array)|not()}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
