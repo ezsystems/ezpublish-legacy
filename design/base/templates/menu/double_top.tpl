@@ -50,4 +50,6 @@
 
 </div>
 
+{/section}
+
 {/let}
