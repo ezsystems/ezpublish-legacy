@@ -100,7 +100,7 @@ create table ezinformationcollection (
   id int(11) NOT NULL auto_increment,
   contentobject_id int(11) not null default 0,
   created int(11) not null default 0,
-  PRIMARY KEY  (id) 
+  PRIMARY KEY  (id)
 );
 
 create table ezinformationcollection_attribute (
@@ -109,18 +109,60 @@ create table ezinformationcollection_attribute (
   data_text text,
   data_int int(11) default NULL,
   data_float float default NULL,
-  PRIMARY KEY  (id) 
+  PRIMARY KEY  (id)
 );
 
 # After beta 4
 
+# For mysql
+alter table ezcontentobject_tree  drop md5_path;
+alter table ezcontentobject_tree  drop left_margin;
+alter table ezcontentobject_tree  drop right_margin;
+# For postgresql
+#create table temp_tree as select * from ezcontentobject_tree;
+#drop table ezcontentobject_tree;
+#CREATE TABLE "ezcontentobject_tree" (
+#	"node_id" integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
+#	"parent_node_id" integer NOT NULL,
+#	"contentobject_id" integer,
+#	"contentobject_version" integer,
+#	"contentobject_is_published" integer,
+#	"crc32_path" integer,
+#	"depth" integer NOT NULL,
+#	"path_string" character varying(255) NOT NULL,
+#	"path_identification_string" text,
+#   "sort_field" integer default 1,
+#   "sort_order" smallint default 1,
+#   "priority" integer  default 0,
+#	Constraint "ezcontentobject_tree_pkey" Primary Key ("node_id")
+#);
+#insert into ezcontentobject_tree select node_id, parent_node_id, contentobject_id, contentobject_version,  contentobject_is_published,crc32_path, depth, path_string, path_identification_string,sort_field,sort_order,priority from temp_tree;
+#drop table temp_tree;
+alter table eznode_assignment rename column main to is_main;
+alter table ezcontentobject drop main_node_id;
+alter table ezcontentobject drop permission_id;
+
 CREATE TABLE ezdiscountrule (
- id int(11) NOT NULL auto_increment,
- name varchar(255) NOT NULL,
- PRIMARY KEY  (id)
-) TYPE=MyISAM;
+    id int(11) NOT NULL auto_increment,
+    name varchar(255) NOT NULL,
+    PRIMARY KEY  (id)
+ );
 
 alter table ezorder add is_temporary int not null default 1;
+create table ezorder_item(
+    id int primary key NOT NULL auto_increment,
+    order_id int not null,
+    description varchar(255),
+    price float,
+    vat_is_included int,
+    vat_type_id int
+    );
 
-create table ezorder_item( id int primary key NOT NULL auto_increment, order_id int not null, description varchar(255), price float, vat_is_included int, vat_type_id int );
-
+create table ezcontentobject_name(
+    contentobject_id int not null,
+    name varchar(255),
+    content_version int not null,
+    content_translation varchar(20) not null,
+    real_translation varchar(20),
+    primary key (contentobject_id,content_version, content_translation )
+    );
