@@ -48,7 +48,13 @@ function &ezinsertarguments( $text, $arguments )
 $ini =& eZINI::instance();
 $useTextTranslation = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
+{
+    $language =& ezcurrentLanguage();
+    if ( file_exists( 'share/translation/' . $language . '/translation.ts' ) )
+    {
         $useTextTranslation = true;
+    }
+}
 
 if ( $useTextTranslation )
 {
@@ -69,9 +75,6 @@ if ( $useTextTranslation )
     function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
         $language =& ezcurrentLanguage();
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) == 'disabled' )
-            return ezinsertarguments( $source, $arguments );
 
         $file = 'translation.ts';
 
