@@ -11,6 +11,18 @@ Implement support for ø->oe å->aa translation in search index.
 
 Improve search algorithm for large databases.
 
+Multipage articles 
+------------------
+Needs a solution
+
+Data views, like calendars
+--------------------------
+
+
+SORTING
+-------
+Attribute value sorting.
+
 
 DESIGN/LAYOUT
 ------------
