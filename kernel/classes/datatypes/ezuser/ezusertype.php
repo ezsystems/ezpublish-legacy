@@ -134,8 +134,7 @@ class eZUserType extends eZDataType
                         if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'User with this email already exists, if you forgot your password go to the
-                                                                                  forgot password.',
+                                                                                 'A user with this email already exists.',
                                                                                  'eZUserType' ) );
                             return EZ_INPUT_VALIDATOR_STATE_INVALID;
                         }

@@ -4396,8 +4396,9 @@
         <translation>Oppgi minst et valg.</translation>
     </message>
     <message>
-        <source>User with this email already exists, if you forgot your password go to the</source>
-        <translation type="unfinished"></translation>
+        <source>A user with this email already exists.</source>
+        <comment>eZUserType</comment>
+        <translation>Det er allerede registrert en bruker med denne e-postadressen.</translation>
     </message>
 </context>
 <context>
