@@ -86,6 +86,9 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/bug_with_images_if_reference_is_a_invallid_alias
 - Made sure the image is checked for validity before fetching the specified alias.
   http://ez.no/community/bug_reports/potential_error_in_standard_ezimage_tpl
+- Removed the extraneous space after the child count in content/removeobject.php
+  which caused bad template behaviour.
+  http://ez.no/community/bug_reports/comparation_in_design_node_removeobject_tpl_always_return_true
 
 *Library:
 
