@@ -4,6 +4,10 @@ Changes from 3.3-5 to 3.3-6
 - Added rounding to two digits after dot in ezorder class to functions which calculate total
   amounts.
 - Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
+- Made sure the eZContentObject::contentObjectListRelatingThis function uses
+  the eZContentObject::reverseRelatedObjectList function.
+- eZContentObject::reverseRelatedObjectList now only lists relations from published
+  versions and not drafts.
 
 *Setup:
 
