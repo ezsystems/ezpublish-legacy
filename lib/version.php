@@ -76,7 +76,7 @@ class eZPublishSDK
     */
     function release()
     {
-        return 6;
+        return 7;
     }
 
     /*!
@@ -84,7 +84,7 @@ class eZPublishSDK
     */
     function alias()
     {
-        return '3.0-rc1';
+        return '3.0-rc2';
     }
 }
 

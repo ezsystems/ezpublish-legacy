@@ -10,7 +10,8 @@ This is an overview of all the releases and their revision numbers.
 
 2.9-6:
 - AKA 3.0-rc1
-- Revision=1159
+- Start Revision=1159
+- Merged Revision=1159:1162
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0-rc1
 - Version url=http://zev.ez.no/svn/nextgen/versions/2.9-6
 - Date 13-Dec-2002
