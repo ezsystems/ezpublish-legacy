@@ -137,12 +137,16 @@ $storeActions = array( 'Preview',
                        'MoveNode' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
+$hasObjectInput = true;
+if ( $http->hasPostVariable( 'HasObjectInput' ) )
+    $hasObjectInput =  $http->postVariable( 'HasObjectInput' );
+
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
 $validatedAttributes = array();
 
-if ( $storingAllowed )
+if ( $storingAllowed && $hasObjectInput)
 {
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
@@ -193,6 +197,20 @@ if ( $storingAllowed )
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
+}
+elseif ( $storingAllowed )
+{
+    if ( !isset( $currentRedirectionURI ) )
+        $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $object->handleCustomHTTPActions( $contentObjectAttribute,  $attributeDataBaseName,
+                                          $customActionAttributeArray,
+                                          array( 'module' => &$Module,
+                                                 'current-redirection-uri' => $currentRedirectionURI ) );
+        $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
+    }
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) )
