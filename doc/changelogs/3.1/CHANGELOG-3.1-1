@@ -12,6 +12,8 @@ Changes from 3.0-? to 3.1
 - Made object preview compatible with simple view templates, the $node object will be available in the same manner as the in the node view
 - Added function for permission policy editing.
 - Added options "Node" and "Subtree" when creating permission policy for content module.
+- Fixed proper HTTP 404 header error on unrecogniced url's
+
 Binary file:
 - Added support for resuming downloads.
 Search:
@@ -32,13 +34,15 @@ Admin:
 
 *Library :
 eZUtils:
+- Added groups() function to eZINI which returns all the defined group as an accociative array
 - Added functions to eZDir::recursiveFind() and eZDir::recursiveFindRelative() which will return files matched within a subdir
+- Added memory usage to debug timing points.
+
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
 - postgresql driver changed to set up correct errorMesage variables
 
-eZUtils:
--Added memory usage to debug timing points.
+
 
 *Settings :
 site.ini:

@@ -68,6 +68,8 @@ if ( $Type == 'kernel' )
          $Number == EZ_ERROR_KERNEL_MODULE_NOT_FOUND or
          $Number == EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND )
     {
+        // Set apache error headers
+        header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " 404 Not Found" );
         header( "Status: 404 Not Found" );
     }
 }

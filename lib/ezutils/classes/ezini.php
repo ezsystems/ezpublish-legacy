@@ -771,6 +771,7 @@ class eZINI
     */
     function appendOverrideDir( $dir, $globalDir = false )
     {
+        print( $dir );
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
         $dirs =& $GLOBALS["eZINIOverrideDirList"];
@@ -870,6 +871,14 @@ class eZINI
         $ret = $this->BlockValues[$blockName];
 
         return $ret;
+    }
+
+    /*!
+     Fetches all defined groups and returns them as an associative array
+    */
+    function &groups()
+    {
+        return $this->BlockValues;
     }
 
     /*!
