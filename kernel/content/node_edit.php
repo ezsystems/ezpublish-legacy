@@ -632,7 +632,11 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) != 'enabled' )
     {
         if( eZPreferences::value( 'admin_edit_show_locations' ) == '0')
+        {
+            $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
+            $tpl->setVariable( 'main_node_id', $mainParentNodeID );
             return;
+        }
     }
 
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
@@ -677,6 +681,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     if ( $currentVersion !== null )
         $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
+    
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'assigned_remote_map', $remoteMap );
     $tpl->setVariable( 'published_node_array', $publishedNodeArray );
