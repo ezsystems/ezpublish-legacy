@@ -449,10 +449,34 @@ class eZRole extends eZPersistentObject
 
         $roles =& eZRole::fetchByUser( $userIDArray );
 
+        $userLimitation = false;
         foreach ( array_keys ( $roles )  as $roleKey )
         {
             $accessArray = array_merge_recursive( $accessArray, $roles[$roleKey]->accessArray() );
+            if ( $roles[$roleKey]->attribute( 'limit_identifier' ) )
+            {
+                $userLimitation = true;
+            }
         }
+
+        if ( $userLimitation )
+        {
+            foreach( array_keys( $accessArray ) as $moduleKey )
+            {
+                foreach( array_keys( $accessArray[$moduleKey] ) as $functionKey )
+                {
+                    foreach( array_keys( $accessArray[$moduleKey][$functionKey] ) as $policyKey )
+                    {
+                        foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
+                        {
+                            $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];
+                            $limitKeyArray = array_unique( $limitKeyArray );
+                        }
+                    }
+                }
+            }
+        }
+
 
         if ( $enableCaching == 'true' )
         {

@@ -359,7 +359,7 @@ class eZPolicyLimitation extends eZPersistentObject
             $valueArray[] = $limitValues[$valueKey]->attribute( 'value' );
         }
 
-        return array( $this->attribute( 'identifier' ) => array_unique( $valueArray ) );
+        return array( $this->attribute( 'identifier' ) => $valueArray );
     }
 
     function & allValues()
