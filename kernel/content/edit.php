@@ -66,7 +66,7 @@ $object =& eZContentObject::fetch( $ObjectID );
 
 if ( ! $object->attribute( 'can_edit' ) )
 {
-        $Module->redirectTo( '/error/error/403' );
+        $Module->redirectTo( '/error/403' );
         return;
 }
 
