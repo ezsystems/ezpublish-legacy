@@ -38,6 +38,8 @@ Changes from 3.2-1 to 3.2-2
 eZ template:
 - Fixed the 'shorten' operator to only shorten the text if the text length is longer
   than the specified maximum length.
+- Fixed bug in cond operator, the iterator was not multiplied with 2 and caused
+  the expression to fail.
 
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
