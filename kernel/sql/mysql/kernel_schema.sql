@@ -69,9 +69,9 @@ CREATE TABLE ezcollab_item (
   type_identifier varchar(40) NOT NULL default '',
   creator_id int(11) NOT NULL default '0',
   status int(11) NOT NULL default '1',
-  data_text1 text NOT NULL,
-  data_text2 text NOT NULL,
-  data_text3 text NOT NULL,
+  data_text1 longtext NOT NULL,
+  data_text2 longtext NOT NULL,
+  data_text3 longtext NOT NULL,
   data_int1 int(11) NOT NULL default '0',
   data_int2 int(11) NOT NULL default '0',
   data_int3 int(11) NOT NULL default '0',
@@ -163,7 +163,7 @@ CREATE TABLE ezcollab_profile (
   id int(11) NOT NULL auto_increment,
   user_id int(11) NOT NULL default '0',
   main_group int(11) NOT NULL default '0',
-  data_text1 text NOT NULL,
+  data_text1 longtext NOT NULL,
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
@@ -177,9 +177,9 @@ CREATE TABLE ezcollab_simple_message (
   id int(11) NOT NULL auto_increment,
   message_type varchar(40) NOT NULL default '',
   creator_id int(11) NOT NULL default '0',
-  data_text1 text NOT NULL,
-  data_text2 text NOT NULL,
-  data_text3 text NOT NULL,
+  data_text1 longtext NOT NULL,
+  data_text2 longtext NOT NULL,
+  data_text3 longtext NOT NULL,
   data_int1 int(11) NOT NULL default '0',
   data_int2 int(11) NOT NULL default '0',
   data_int3 int(11) NOT NULL default '0',
@@ -258,8 +258,8 @@ CREATE TABLE ezcontentclass_attribute (
   identifier varchar(50) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   data_type_string varchar(50) NOT NULL default '',
-  is_searchable int(1) NOT NULL default '0',
-  is_required int(1) NOT NULL default '0',
+  is_searchable int(11) NOT NULL default '0',
+  is_required int(11) NOT NULL default '0',
   placement int(11) NOT NULL default '0',
   data_int1 int(11) default NULL,
   data_int2 int(11) default NULL,
@@ -273,7 +273,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
   data_text4 varchar(255) default NULL,
-  data_text5 text,
+  data_text5 longtext,
   is_information_collector int(11) NOT NULL default '0',
   can_translate int(11) default '1',
   PRIMARY KEY  (id,version)
@@ -334,13 +334,13 @@ CREATE TABLE ezcontentobject_attribute (
   version int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
   contentclassattribute_id int(11) NOT NULL default '0',
-  data_text mediumtext,
+  data_text longtext,
   data_int int(11) default NULL,
   data_float float default NULL,
   attribute_original_id int(11) default '0',
   sort_key_int int(11) NOT NULL default '0',
-  sort_key_string varchar(50) NOT NULL default '',
-  data_type_string varchar(50) NOT NULL default '',
+  sort_key_string varchar(50) default '',
+  data_type_string varchar(50) default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
@@ -387,11 +387,11 @@ CREATE TABLE ezcontentobject_tree (
   depth int(11) NOT NULL default '0',
   path_string varchar(255) NOT NULL default '',
   sort_field int(11) default '1',
-  sort_order int(1) default '1',
+  sort_order int(11) default '1',
   priority int(11) NOT NULL default '0',
-  path_identification_string text,
+  path_identification_string longtext,
   main_node_id int(11) default NULL,
-  modified_subnode int(11) NOT NULL default '0',
+  modified_subnode int(11) default '0',
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
@@ -412,7 +412,7 @@ CREATE TABLE ezcontentobject_version (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   status int(11) NOT NULL default '0',
-  workflow_event_pos int(11) NOT NULL default '0',
+  workflow_event_pos int(11) default '0',
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -447,7 +447,7 @@ CREATE TABLE ezdiscountsubrule (
 CREATE TABLE ezdiscountsubrule_value (
   discountsubrule_id int(11) NOT NULL default '0',
   value int(11) NOT NULL default '0',
-  issection int(1) NOT NULL default '0',
+  issection int(11) NOT NULL default '0',
   PRIMARY KEY  (discountsubrule_id,value,issection)
 ) TYPE=MyISAM;
 
@@ -527,7 +527,7 @@ CREATE TABLE ezimage (
 CREATE TABLE ezimagefile (
   id int(11) NOT NULL auto_increment,
   contentobject_attribute_id int(11) NOT NULL default '0',
-  filepath text NOT NULL,
+  filepath longtext NOT NULL,
   PRIMARY KEY  (id),
   KEY ezimagefile_coid (contentobject_attribute_id),
   KEY ezimagefile_file (filepath(200))
@@ -558,7 +558,7 @@ CREATE TABLE ezinfocollection (
   contentobject_id int(11) NOT NULL default '0',
   created int(11) NOT NULL default '0',
   user_identifier varchar(34) default NULL,
-  modified int(11) NOT NULL default '0',
+  modified int(11) default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -569,7 +569,7 @@ CREATE TABLE ezinfocollection (
 CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
   informationcollection_id int(11) NOT NULL default '0',
-  data_text text,
+  data_text longtext,
   data_int int(11) default NULL,
   data_float float default NULL,
   contentclass_attribute_id int(11) NOT NULL default '0',
@@ -612,12 +612,12 @@ CREATE TABLE ezmedia (
   mime_type varchar(50) NOT NULL default '',
   width int(11) default NULL,
   height int(11) default NULL,
-  has_controller int(1) default NULL,
-  is_autoplay int(1) default NULL,
+  has_controller int(11) default '0',
+  is_autoplay int(11) default '0',
   pluginspage varchar(255) default NULL,
   quality varchar(50) default NULL,
   controls varchar(50) default NULL,
-  is_loop int(1) default NULL,
+  is_loop int(11) default '0',
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
@@ -632,8 +632,8 @@ CREATE TABLE ezmessage (
   send_time varchar(50) NOT NULL default '',
   destination_address varchar(50) NOT NULL default '',
   title varchar(255) NOT NULL default '',
-  body text,
-  is_sent int(1) NOT NULL default '0',
+  body longtext,
+  is_sent int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -646,7 +646,7 @@ CREATE TABLE ezmodule_run (
   workflow_process_id int(11) default NULL,
   module_name varchar(255) default NULL,
   function_name varchar(255) default NULL,
-  module_data text,
+  module_data longtext,
   PRIMARY KEY  (id),
   UNIQUE KEY ezmodule_run_workflow_process_id_s (workflow_process_id)
 ) TYPE=MyISAM;
@@ -661,7 +661,7 @@ CREATE TABLE eznode_assignment (
   contentobject_version int(11) default NULL,
   parent_node int(11) default NULL,
   sort_field int(11) default '1',
-  sort_order int(1) default '1',
+  sort_order int(11) default '1',
   is_main int(11) NOT NULL default '0',
   from_node_id int(11) default '0',
   remote_id int(11) NOT NULL default '0',
@@ -677,8 +677,8 @@ CREATE TABLE eznotificationcollection (
   event_id int(11) NOT NULL default '0',
   handler varchar(255) NOT NULL default '',
   transport varchar(255) NOT NULL default '',
-  data_subject text NOT NULL,
-  data_text text NOT NULL,
+  data_subject longtext NOT NULL,
+  data_text longtext NOT NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -707,10 +707,10 @@ CREATE TABLE eznotificationevent (
   data_int2 int(11) NOT NULL default '0',
   data_int3 int(11) NOT NULL default '0',
   data_int4 int(11) NOT NULL default '0',
-  data_text1 text NOT NULL,
-  data_text2 text NOT NULL,
-  data_text3 text NOT NULL,
-  data_text4 text NOT NULL,
+  data_text1 longtext NOT NULL,
+  data_text2 longtext NOT NULL,
+  data_text3 longtext NOT NULL,
+  data_text4 longtext NOT NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -721,7 +721,7 @@ CREATE TABLE eznotificationevent (
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
   memento_key varchar(32) NOT NULL default '',
-  memento_data text NOT NULL,
+  memento_data longtext NOT NULL,
   main int(11) NOT NULL default '0',
   main_key varchar(32) NOT NULL default '',
   PRIMARY KEY  (id,memento_key),
@@ -739,11 +739,11 @@ CREATE TABLE ezorder (
   created int(11) NOT NULL default '0',
   is_temporary int(11) NOT NULL default '1',
   order_nr int(11) NOT NULL default '0',
-  data_text_2 text,
-  data_text_1 text,
+  data_text_2 longtext,
+  data_text_1 longtext,
   account_identifier varchar(100) NOT NULL default 'default',
   ignore_vat int(11) NOT NULL default '0',
-  email varchar(150) NOT NULL default '',
+  email varchar(150) default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -769,8 +769,8 @@ CREATE TABLE ezpdf_export (
   id int(11) NOT NULL auto_increment,
   title varchar(255) default NULL,
   show_frontpage int(11) default NULL,
-  intro_text text,
-  sub_text text,
+  intro_text longtext,
+  sub_text longtext,
   source_node_id int(11) default NULL,
   export_structure varchar(255) default NULL,
   export_classes varchar(255) default NULL,
@@ -787,11 +787,13 @@ CREATE TABLE ezpdf_export (
 
 
 
+
 CREATE TABLE ezpending_actions (
-  action varchar(64) NOT NULL,
-  param text,
+  action varchar(64) NOT NULL default '',
+  param longtext,
   KEY ezpending_actions_action (action)
 ) TYPE=MyISAM;
+
 
 
 
@@ -859,7 +861,7 @@ CREATE TABLE ezproductcollection_item (
   productcollection_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
   item_count int(11) NOT NULL default '0',
-  price double default NULL,
+  price float default '0',
   is_vat_inc int(11) default NULL,
   vat_value float default NULL,
   discount float default NULL,
@@ -906,7 +908,7 @@ CREATE TABLE ezrss_export (
   modifier_id int(11) default NULL,
   modified int(11) default NULL,
   url varchar(255) default NULL,
-  description text,
+  description longtext,
   image_id int(11) default NULL,
   active int(11) default NULL,
   access_url varchar(255) default NULL,
@@ -940,7 +942,7 @@ CREATE TABLE ezrss_export_item (
 CREATE TABLE ezrss_import (
   id int(11) NOT NULL auto_increment,
   name varchar(255) default NULL,
-  url text,
+  url longtext,
   destination_node_id int(11) default NULL,
   class_id int(11) default NULL,
   class_title varchar(255) default NULL,
@@ -1035,7 +1037,7 @@ CREATE TABLE ezsection (
 CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
   expiration_time int(11) unsigned NOT NULL default '0',
-  data text NOT NULL,
+  data longtext NOT NULL,
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
@@ -1046,9 +1048,19 @@ CREATE TABLE ezsession (
 
 CREATE TABLE ezsite_data (
   name varchar(60) NOT NULL default '',
-  value text NOT NULL,
+  value longtext NOT NULL,
   PRIMARY KEY  (name)
 ) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezsubtree_expiry (
+  subtree varchar(255) NOT NULL default '',
+  cache_file varchar(255) NOT NULL default '',
+  KEY ezsubtree_expiry_subtree (subtree)
+) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 
 
@@ -1065,12 +1077,6 @@ CREATE TABLE ezsubtree_notification_rule (
 ) TYPE=MyISAM;
 
 
-
-CREATE TABLE ezsubtree_expiry (
-  subtree varchar(255) NOT NULL default '',
-  cache_file varchar(255) NOT NULL default '',
-  KEY ezsubtree_expiry_subtree (subtree)
-) DELAY_KEY_WRITE=1 TYPE=MyISAM;
 
 
 
@@ -1128,9 +1134,9 @@ CREATE TABLE ezurl_object_link (
 
 CREATE TABLE ezurlalias (
   id int(11) NOT NULL auto_increment,
-  source_url text NOT NULL,
+  source_url longtext NOT NULL,
   source_md5 varchar(32) default NULL,
-  destination_url text NOT NULL,
+  destination_url longtext NOT NULL,
   is_internal int(11) NOT NULL default '1',
   forward_to_id int(11) NOT NULL default '0',
   is_wildcard int(11) NOT NULL default '0',
@@ -1209,7 +1215,7 @@ CREATE TABLE ezuser_session_link (
 
 CREATE TABLE ezuser_setting (
   user_id int(11) NOT NULL default '0',
-  is_enabled int(1) NOT NULL default '0',
+  is_enabled int(11) NOT NULL default '0',
   max_login int(11) default NULL,
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
@@ -1267,7 +1273,7 @@ CREATE TABLE ezwishlist (
 CREATE TABLE ezworkflow (
   id int(11) NOT NULL auto_increment,
   version int(11) NOT NULL default '0',
-  is_enabled int(1) NOT NULL default '0',
+  is_enabled int(11) NOT NULL default '0',
   workflow_type_string varchar(50) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   creator_id int(11) NOT NULL default '0',
@@ -1286,7 +1292,7 @@ CREATE TABLE ezworkflow_assign (
   workflow_id int(11) NOT NULL default '0',
   node_id int(11) NOT NULL default '0',
   access_type int(11) NOT NULL default '0',
-  as_tree int(1) NOT NULL default '0',
+  as_tree int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1362,7 +1368,7 @@ CREATE TABLE ezworkflow_process (
   activation_date int(11) default NULL,
   event_state int(11) default NULL,
   status int(11) default NULL,
-  parameters text,
+  parameters longtext,
   memento_key varchar(32) default NULL,
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
