@@ -92,7 +92,7 @@
 
 
 
-        <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
         {section loop=$:children sequence=array( bglight, bgdark )}
 

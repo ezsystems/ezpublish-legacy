@@ -14,12 +14,10 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{'User group'|i18n('design/admin/node/view')}</h2>
+    <h2>{$node_name|wash} [{'User group'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash}</h1>
-
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>

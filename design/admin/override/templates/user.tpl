@@ -14,11 +14,10 @@
 
 
 <div class="objectheader">
-    <h2>{'User'|i18n('design/admin/node/view')}</h2>
+    <h2>{$node_name|wash} &lt;{$user_attribute.content.email|wash}&gt; [{'User'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
-    <h3>{$node_name|wash} &lt;{$user_attribute.content.email|wash}&gt;</h3>
     <p>{node_view_gui view=text_linked content_node=$content_object.main_node.parent}</p>
     <p>Login: <i>{$user_attribute.content.login|wash}</i></p>
     <p>User ID: <i>{$user_attribute.content.contentobject_id}</i></p>

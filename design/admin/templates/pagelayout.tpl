@@ -19,6 +19,8 @@
 
 {* Cache header for each navigation part *}
 
+{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
 <tr>
     <td style="padding: 4px" colspan="13">
@@ -173,8 +175,10 @@
 <tr>
     <td colspan="13" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="1" height="8" /></td>
-<tr>
+</tr>
 </table>
+
+{/cache-block}
 
 {* Top box END *}
 

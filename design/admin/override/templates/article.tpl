@@ -13,14 +13,11 @@
     <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-
 <div class="objectheader">
-    <h2>{'Article'|i18n('design/admin/node/view')}</h2>
+    <h2>{$node_name|wash} [{'Article'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash}</h1>
-
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <div class="imageright">
