@@ -11,8 +11,8 @@
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
-{section var=Translations loop=$existing_translations sequence=array(bglight,bgdark)}
-<tr>
+{section var=Translations loop=$existing_translations sequence=array( bglight, bgdark )}
+<tr class="{$Translations.sequence}">
     {* Remove. *}
 	<td><input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.id}" /></td>
 
