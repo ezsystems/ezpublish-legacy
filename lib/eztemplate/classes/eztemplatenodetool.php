@@ -287,7 +287,7 @@ class eZTemplateNodeTool
     */
     function isInternalCodePiece( $elements )
     {
-        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE )
+        if ( isset( $elements[0][0]) && ( $elements[0][0] == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE ) )
             return true;
         return false;
     }
@@ -297,7 +297,7 @@ class eZTemplateNodeTool
     */
     function isVariableElement( $elements )
     {
-        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_VARIABLE )
+        if ( isset( $elements[0][0] ) && ( $elements[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) )
             return true;
         return false;
     }
