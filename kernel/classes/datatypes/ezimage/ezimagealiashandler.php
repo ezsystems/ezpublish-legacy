@@ -903,7 +903,77 @@ class eZImageAliasHandler
         eZImageFile::appendFilepath( $contentObjectAttribute->attribute( 'id' ), $filePath );
     }
 
-    function initialize( $mimeData, &$httpFile, $imageAltText )
+    /*!
+     Initializes the content object attribute \a $contentObjectAttribute with the uploaded HTTP file \a $httpFile.
+     Optionally you may also specify the alternative text in the parameter \a $imageAltText.
+    */
+    function initializeFromHTTPFile( &$contentObjectAttribute, &$httpFile, $imageAltText = false )
+    {
+        $this->increaseImageSerialNumber();
+
+        $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
+        if ( !$mimeData['is_valid'] )
+        {
+            $mimeData = eZMimeType::findByName( $httpFile->attribute( 'mime_type' ) );
+            if ( !$mimeData['is_valid'] )
+            {
+                $mimeData = eZMimeType::findByURL( $httpFile->attribute( 'original_filename' ) );
+            }
+        }
+        $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+                                                                 $contentObjectAttribute->attribute( 'contentobject_id' ) );
+        $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
+        $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
+
+        eZMimeType::changeBaseName( $mimeData, $objectName );
+        eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
+
+        $this->removeAliases();
+
+        $httpFile->store( false, false, $mimeData );
+
+        $originalFilename = $httpFile->attribute( 'original_filename' );
+        return $this->initialize( $mimeData, $originalFilename, $imageAltText );
+    }
+
+    /*!
+     Initializes the content object attribute \a $contentObjectAttribute with the filename \a $filename.
+     Optionally you may also specify the alternative text in the parameter \a $imageAltText.
+     \sa initialize
+    */
+    function initializeFromFile( &$contentObjectAttribute, $filename, $imageAltText = false )
+    {
+        if ( !file_exists( $filename ) )
+        {
+            eZDebug::writeError( "The image $filename does not exists, cannot initialize image attribute with it",
+                                 'eZImageAliasHandler::initializeFromFile' );
+            return false;
+        }
+
+        $this->increaseImageSerialNumber();
+
+        $mimeData = eZMimeType::findByFileContents( $filename );
+        $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+                                                                 $contentObjectAttribute->attribute( 'contentobject_id' ) );
+        $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
+        $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
+
+        eZMimeType::changeBaseName( $mimeData, $objectName );
+        eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
+
+        $this->removeAliases();
+
+        return $this->initialize( $mimeData, $filename, $imageAltText );
+    }
+
+    /*!
+     Makes sure the attribute contains the image file mentioned in \a $mimeData.
+     This involves removing any previous image (and image aliases), increasing
+     the image name counter, figuring out the image size and creating
+     the internal XML structure.
+     \return \c true on success.
+    */
+    function initialize( $mimeData, $originalFilename, $imageAltText = false )
     {
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
@@ -941,7 +1011,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', $mimeData['basename'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', $mimeData['dirpath'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'url', $mimeData['url'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $httpFile->attribute( 'original_filename' ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $originalFilename ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', $mimeData['name'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'width', $width ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
@@ -951,6 +1021,7 @@ class eZImageAliasHandler
         $this->setDOMTree( $doc );
 
         eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $mimeData['url'] );
+        return true;
     }
 
     /*!

@@ -158,34 +158,9 @@ class eZImageType extends eZDataType
             $httpFile =& $imageHandler->httpFile( true );
             if ( $httpFile )
             {
-                $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-                $version = $contentObjectAttribute->attribute( "version" );
-
-                $imageHandler->increaseImageSerialNumber();
-
-                $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
-                if ( !$mimeData['is_valid'] )
-                {
-                    $mimeData = eZMimeType::findByName( $httpFile->attribute( 'mime_type' ) );
-                    if ( !$mimeData['is_valid'] )
-                    {
-                        $mimeData = eZMimeType::findByURL( $httpFile->attribute( 'original_filename' ) );
-                    }
-                }
-                $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
-                                                                         $contentObjectAttribute->attribute( 'contentobject_id' ) );
-                $objectName = $imageHandler->imageName( $contentObjectAttribute, $contentVersion );
-                $objectPathString = $imageHandler->imagePath( $contentObjectAttribute, $contentVersion, true );
-
-                eZMimeType::changeBaseName( $mimeData, $objectName );
-                eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
-
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
-                $imageHandler->removeAliases();
 
-                $httpFile->store( false, false, $mimeData );
-
-                $imageHandler->initialize( $mimeData, $httpFile, $imageAltText );
+                $imageHandler->initializeFromHTTPFile( $contentObjectAttribute, $httpFile, $imageAltText );
             }
             if ( $imageHandler->isStorageRequired() )
             {
