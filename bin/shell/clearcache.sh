@@ -8,6 +8,7 @@ CLEAR_IMAGE="0"
 CLEAR_INI="0"
 CLEAR_TEMPLATE="0"
 CLEAR_TEMPLATE_BLOCK="0"
+CLEAR_TEMPLATE_OVERRIDE="0"
 CLEAR_TRANSLATION="0"
 CLEAR_EXPIRY="0"
 
@@ -24,6 +25,7 @@ for arg in $*; do
 	    echo "         --clear-content            Remove content cache(default)"
 	    echo "         --clear-ini                Remove ini file cache"
 	    echo "         --clear-tpl                Remove template cache"
+	    echo "         --clear-tpl-override       Remove template override cache"
 	    echo "         --clear-tpl-block          Remove template-block cache"
 	    echo "         --clear-ts                 Remove translation cache"
 	    echo "         --clear-expiry             Remove expiry cache"
@@ -52,6 +54,9 @@ for arg in $*; do
 	--clear-tpl)
 	    CLEAR_TEMPLATE="1"
 	    ;;
+	--clear-tpl-override)
+	    CLEAR_TEMPLATE_OVERRIDE="1"
+	    ;;
 	--clear-tpl-block)
 	    CLEAR_TEMPLATE_BLOCK="1"
 	    ;;
@@ -66,6 +71,8 @@ for arg in $*; do
 	    CLEAR_IMAGE="1"
 	    CLEAR_INI="1"
 	    CLEAR_TEMPLATE="1"
+	    CLEAR_TEMPLATE_BLOCK="1"
+	    CLEAR_TEMPLATE_OVERRIDE="1"
 	    CLEAR_TRANSLATION="1"
 	    CLEAR_EXPIRY="1"
 	    ;;
@@ -86,6 +93,7 @@ CONTENT_CACHEDIR="$DIR/cache/content"
 IMAGE_CACHEDIR="$DIR/cache/texttoimage"
 INI_CACHEDIR="$DIR/cache/ini"
 TEMPLATE_CACHEDIR="$DIR/cache/template"
+TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
 TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
 TRANSLATION_CACHEDIR="$DIR/cache/translation"
 EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
@@ -115,6 +123,13 @@ if [ "$CLEAR_TEMPLATE" -eq 1 ]; then
     if [ -d "$TEMPLATE_CACHEDIR" ]; then
 	echo "Removing template cache files in $TEMPLATE_CACHEDIR"
 	rm -rf "$TEMPLATE_CACHEDIR"
+    fi
+fi
+
+if [ "$CLEAR_TEMPLATE_OVERRIDE" -eq 1 ]; then
+    if [ -d "$TEMPLATE_OVERRIDE_CACHEDIR" ]; then
+	echo "Removing template override cache files in $TEMPLATE_OVERRIDE_CACHEDIR"
+	rm -rf "$TEMPLATE_OVERRIDE_CACHEDIR"
     fi
 fi
 
