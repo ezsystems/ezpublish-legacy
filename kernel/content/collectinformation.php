@@ -79,15 +79,20 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     // Send e-mail
     $tpl =& templateInit();
     $tpl->setVariable( 'collection', $collection );
+    $tpl->setVariable( 'object', $object );
     $templateResult =& $tpl->fetch( 'design:content/collectedinfomail.tpl' );
 
     $subject =& $tpl->variable( 'subject' );
+    $receiver =& $tpl->variable( 'email_receiver' );
 
     $ini =& eZINI::instance();
-
     $mail = new eZMail();
 
-    $receiver = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
+    if ( !$mail->validate( $receiver ) )
+    {
+        // receiver does not contain a valid email address, get the default one
+        $receiver = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
+    }
 
     $mail->setReceiver( $receiver );
     $mail->setSubject( $subject );
