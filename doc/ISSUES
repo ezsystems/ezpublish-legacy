@@ -564,3 +564,30 @@ Text aren't escaped properly when storing as cache (eg. \ fails).
 Tables
 ----------
 css hover on table rows.
+
+Removal of objects
+------------------
+It should be possible to remove objects when viewing them, not just from the parent.
+And more importantly it should be possible to copy/edit/remove from search if you
+have the proper permissions.
+
+Emails
+---------------------
+Better texts in emails by default
+
+Workflows/Operations
+----------------------
+It should be possible to set parameters in one workflow event and then able to read it later
+either in an operation function or in a later workflow event in the same or later workflow.
+This means that parameters are persistent between the entire operation.
+
+Setup
+----------
+Explain the socket in mysql setup. Maybe use right hand info messages like on ez.no
+
+Template/Design
+-------------
+Support having more than just sitedesign and standard design. It should be possible to have
+an array with designs which are tried in order. This makes it possible to create designs
+which work on top of existing designs such as admin.
+Fix bug with extension design where you have to link the design to /design to make it work.

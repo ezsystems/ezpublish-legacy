@@ -67,7 +67,7 @@ foreach ( $emailMessages as $emailMessage )
     $sendWeekday = $emailMessage->attribute( "send_weekday" );
     $sendHour =  $emailMessage->attribute( "send_time" );
     $sendWeekdayArray = explode( ',', $sendWeekday );
-    if ( $sendWeekday == -1 )
+    if ( $sendWeekday == '' and $sendHour == -1 )
     {
         $send = true;
         $sendNow = true;
