@@ -925,6 +925,11 @@ class eZContentObjectVersion extends eZPersistentObject
             $languageNode =& $languageNodeArray[$languageKey];
             $language =& $languageNode->attributeValue( 'language' );
 
+            // unserialize object name in current version-translation
+            $objectName =& $languageNode->attributeValue( 'object_name' );
+            if ( $objectName )
+                $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
+
             $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
             $attributeNodeArray =& $languageNode->elementsByName( 'attribute' );
             foreach( array_keys( $attributeArray ) as $attributeKey )
@@ -984,6 +989,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
 
         $translationList =& $this->translationList( false, false );
+        $contentObject   =& $this->attribute( 'contentobject' );
         foreach ( $translationList as $translationItem )
         {
             $language = $translationItem;
@@ -996,6 +1002,20 @@ class eZContentObjectVersion extends eZPersistentObject
             $translationNode->setName( 'object-translation' );
             $translationNode->setPrefix( 'ezobject' );
             $translationNode->appendAttribute( eZDOMDocument::createAttributeNode( 'language', $language ) );
+
+            // serialize object name in current version-translation
+            $objectName =& $contentObject->name( $this->Version, $language );
+            if ( $objectName )
+            {
+                $translationNode->appendAttribute( eZDOMDocument::createAttributeNode( 'object_name', $objectName ) );
+            }
+            else
+            {
+                eZDebug::writeWarning( sprintf( "Name for object %s of version %s in translation %s not found",
+                                                $contentObject->attribute( 'id' ),
+                                                $this->Version,
+                                                $language ) );
+            }
 
             eZDebug::writeDebug( "Attribute fetch start", 'eZContentObjectVersion::serialize' );
             $attributes =& $this->contentObjectAttributes( $language );
