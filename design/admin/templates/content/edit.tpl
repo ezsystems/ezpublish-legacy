@@ -12,15 +12,15 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-{include uri="design:content/edit_validation.tpl"}
+{include uri='design:content/edit_validation.tpl'}
 
 <div class="content-edit">
 
-    <div class="context-block">
+<div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-    <h1 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;{'Edit <%object_name> [%class_name]'|i18n( 'design/admin/content/edit',, hash( '%object_name', $object.name, '%class_name', $class.name ) )|wash}</h1>
+<h1 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;{'Edit <%object_name> [%class_name]'|i18n( 'design/admin/content/edit',, hash( '%object_name', $object.name, '%class_name', $class.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -30,7 +30,7 @@
 
 <div class="context-information">
 <p class="translation">
- {let language_index=0
+{let language_index=0
      default_translation=$content_version.translation
      other_translation_list=$content_version.translation_list
      translation_list=$other_translation_list|array_prepend($default_translation)}
@@ -48,25 +48,14 @@
 <div class="break"></div>
 </div>
 
-    {* The location edit field is only used when the INI setting is set to enabled *}
-    {section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
-    {include uri="design:content/edit_placement.tpl"}
-    {section-else}
-    {* This disables all node assignment checking in content/edit *}
-    <input type="hidden" name="UseNodeAssigments" value="0" />
-    {/section}
-
-    <div class="context-attributes">
-    {include uri="design:content/edit_attribute.tpl"}
-    </div>
+<div class="context-attributes">
+    {include uri='design:content/edit_attribute.tpl'}
+</div>
 
 {* DESIGN: Content END *}</div></div></div>
-
-    <div class="controlbar">
-
+<div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-
-    <div class="block">
+<div class="block">
     <select>
         <option>{'Publish as visible'|i18n( 'design/admin/content/edit' )}</option>
         <option>{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</option>
@@ -75,30 +64,28 @@
         <option>{'Publish all (%locations) as hidden'|i18n( 'design/admin/content/edit',, hash( '%locations', $object.assigned_nodes|count ) )}</option>
         {/section}
     </select>
-    {*<label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>*}
-    </div>
-    <div class="block">
-<input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
-<input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
-
-{*
-<div class="right">
-<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
-<input class="button" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n('design/standard/content/edit')}" />
 </div>
-*}
-
+<div class="block">
+    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" title="{'Discard the draft that is being edited. This will also get rid of the translations that belong to the draft (if any).'}" />
     <input type="hidden" name="DiscardConfirm" value="1" />
-    </div>
-
+</div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
 
-    </div>
+</div>
 
-    </div>
+{* Related objects window. *}
+{include uri='design:content/edit_related.tpl'}
 
-    {include uri="design:content/edit_related.tpl"}
+{* Locations window. *}
+{section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
+{include uri='design:content/edit_placement.tpl'}
+{section-else}
+{* This disables all node assignment checking in content/edit *}
+<input type="hidden" name="UseNodeAssigments" value="0" />
+{/section}
 
 </div>
 
@@ -108,6 +95,8 @@
 </div></div>
 
 </form>
+
+
 
 
 {literal}
