@@ -58,7 +58,7 @@ div.topmenu-line
 
 div#topmenu li
 {
-    background-image: url(../images/t1/t1-tab-normal-left.gif);
+    background-image: url(../../images/t1/t1-tab-normal-left.gif);
     background-repeat: no-repeat;
     background-position: top left;
     background-color: #336699;
@@ -67,7 +67,7 @@ div#topmenu li
 
 div#topmenu li.selected
 {
-    background-image: url(../images/t1/t1-tab-selected-left.gif);
+    background-image: url(../../images/t1/t1-tab-selected-left.gif);
     background-repeat: no-repeat;
     background-position: top left;
     background-color: #7b92bc;
@@ -75,7 +75,7 @@ div#topmenu li.selected
 
 div#topmenu li div.spacing
 {
-    background-image: url(../images/t1/t1-tab-normal-right.gif);
+    background-image: url(../../images/t1/t1-tab-normal-right.gif);
     background-repeat: no-repeat;
     background-position: top right;
 }
@@ -87,7 +87,7 @@ div#topmenu li a
 
 div#topmenu li.selected div.spacing
 {
-    background-image: url(../images/t1/t1-tab-selected-right.gif);
+    background-image: url(../../images/t1/t1-tab-selected-right.gif);
     background-repeat: no-repeat;
     background-position: top right;
 }
@@ -212,7 +212,7 @@ div.toolbox-design div.info-text p
 
 div.toolbox-design div.attribute-link p
 { 
-    background-image: url(../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t1/t1-arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
