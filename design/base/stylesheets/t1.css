@@ -944,7 +944,7 @@ div#maincontent-design div.factbox-design h2, div#maincontent-design div.content
     color: #fff;
 }
 
-div#maincontent-design div.content-view-embed div.content-view-children, div.factbox-content
+div#maincontent-design div.content-view-embed div.content-view-children, div.factbox-content, div.embedded-content
 { 
     padding-left: 10px;
     padding-top: 3px;
