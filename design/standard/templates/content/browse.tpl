@@ -7,11 +7,11 @@
 
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
-     select_attribute=contentobject_id}
+     select_attribute='contentobject_id'}
 
 {section show=eq($browse.return_type,'NodeID')}
     {set select_name='SelectedNodeIDArray'}
-    {set select_attribute=node_id}
+    {set select_attribute='node_id'}
 {/section}
 {section show=eq($browse.selection,'single')}
     {set select_type='radio'}
@@ -190,12 +190,12 @@
 	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
 		  {section show=is_array($browse.class_array)}
 	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
-		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
 		    {section-else}
 		      &nbsp;
 		    {/section}
 		  {section-else}
-		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
 		  {/section}
                 {section-else}
                     &nbsp;

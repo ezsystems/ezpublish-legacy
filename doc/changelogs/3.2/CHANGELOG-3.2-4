@@ -39,6 +39,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed the forwarding of custom actions to the objects in the object relation list.
   This makes it possible to perform actions such as removing images, adding entries to
   all entries of an object relation list, it even allows nesting relation lists. (Also in 3.3 Rev: 4315)
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typos_in_designstandardcontentbrowsetpl
 
 *Library :
 
