@@ -40,6 +40,11 @@ h3
     font-size: 90%;
 }
 
+h4, h5, h6
+{
+    font-size: 80%;
+}
+
 p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td
 /* This is the "regular" font size. */
 {
@@ -66,7 +71,7 @@ ul ul, ol ol
  
 /* HEADINGS */
 
-h1, h2, h3
+h1, h2, h3, h4, h5, h6
 {
     padding-left: 0px;
     padding-right: 0px;
@@ -85,13 +90,13 @@ h1, h2
     font-weight: normal;
 }
 
-h2, h3
+h2, h3, h4, h5, h6
 {
     padding-top: 1.5ex;
     padding-bottom: 0.5ex;
 }
 
-h3
+h3, h4, h5, h6
 {
     font-weight: bold;
 }
