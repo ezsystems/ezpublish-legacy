@@ -17,7 +17,7 @@
    {'Design resource'|i18n( 'design/admin/visual/templatelist' )}
    </th>
 </tr>
-{section var=Templates max=20 offset=$view_parameters.offset loop=$template_array sequence=array( bglight, bgdark )}
+{section var=Templates max=20 offset=first_set( $view_parameters.offset, 0 ) loop=$template_array sequence=array( bglight, bgdark )}
 <tr class="{$Templates.sequence}">
    <td><a href={concat( '/visual/templateview', $Templates.item.template )|ezurl} title="{'Manage overrides for template.'|i18n( 'design/admin/visual/templatelist' )}">{$Templates.item.template}</a></td>
    <td>{$Templates.item.base_dir}</td>
