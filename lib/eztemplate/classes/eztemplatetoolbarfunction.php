@@ -119,54 +119,27 @@ class eZTemplateToolbarFunction
 
                 $uriString = "design:toolbar/$viewMode/$tool.tpl";
 
+                $placementValue = "";
+                $firstValue = false;
+                $lastValue = false;
                 if ( $placement == 1 )
                 {
                     if ( $placement == count( $toolArray ) )
                     {
-                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                        {
-                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item last\">" );
-                        }
-                        else
-                        {
-                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item last\">" );
-                        }
-
+                        $firstValue = true;
+                        $lastValue = true;
+                        $placementValue = "last";
                     }
                     else
                     {
-                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                        {
-                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item first\">" );
-                        }
-                        else
-                        {
-                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item first\">" );
-                        }
+                        $firstValue = true;
+                        $placementValue = "first";
                     }
                 }
                 else if ( $placement == count( $toolArray ) )
                 {
-                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item last\">" );
-                    }
-                    else
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item last\">" );
-                    }
-
-                }
-                else
-                {
-                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item\">" );
-                    }
-                    else
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item\">" );
-                    }
+                    $lastValue = true;
+                    $placementValue = "last";
                 }
 
                 $resourceName = "";
@@ -218,25 +191,25 @@ class eZTemplateToolbarFunction
                                                                       array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "offset" ) );
                 $variableList[] = "offset";
 
+                // Add parameter first, last and placement
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $firstValue, false, array(),
+                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "first" ) );
+                $variableList[] = "first";
+
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $lastValue, false, array(),
+                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "last" ) );
+                $variableList[] = "last";
+
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $placementValue, false, array(),
+                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "placement" ) );
+                $variableList[] = "placement";
+
                 $newNodes = array_merge( $newNodes, $includeNodes );
 
                 foreach ( $variableList as $variableName )
                 {
                     $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
                 }
-
-                 if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                 {
-                     $newNodes[] = eZTemplateNodeTool::createTextNode( "</li>" );
-                     if ( $placement == count( $toolArray ) )
-                     {
-                         $newNodes[] = eZTemplateNodeTool::createTextNode( "</ul>" );
-                     }
-                 }
-                 else
-                 {
-                     $newNodes[] = eZTemplateNodeTool::createTextNode( "</div>" );
-                 }
             }
         }
         return $newNodes;
@@ -316,62 +289,34 @@ class eZTemplateToolbarFunction
                         {
                             if ( count( $toolArray ) == 1 )
                             {
-                                if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                                {
-                                    $textElements[] = "<ul><li class=\"toolbar-item last\">";
-                                }
-                                else
-                                {
-                                    $textElements[] = "<div class=\"toolbar-item first\">";
-                                }
+                                $tpl->setVariable( "first", true );
+                                $tpl->setVariable( "last", true );
+                                $tpl->setVariable( "placement", "last" );
+                                $definedVariables[] = "first";
+                                $definedVariables[] = "last";
+                                $definedVariables[] = "placement";
                             }
                             else
                             {
-                                if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                                {
-                                    $textElements[] = "<ul><li class=\"toolbar-item first\">";
-                                }
-                                else
-                                {
-                                    $textElements[] = "<div class=\"toolbar-item first\">";
-                                }
+                                $tpl->setVariable( "first", true );
+                                $tpl->setVariable( "placement", "first" );
+                                $definedVariables[] = "first";
+                                $definedVariables[] = "placement";
                             }
                         }
                         else if ( $placement == count( $toolArray ) )
                         {
-                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                            {
-                                $textElements[] = "<li class=\"toolbar-item last\">";
-                            }
-                            else
-                            {
-                                $textElements[] = "<div class=\"toolbar-item first\">";
-                            }
+                            $tpl->setVariable( "last", true );
+                            $tpl->setVariable( "placement", "last" );
+                            $definedVariables[] = "last";
+                            $definedVariables[] = "placement";
                         }
                         else
                         {
-                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                            {
-                                $textElements[] = "<li class=\"toolbar-item\">";
-                            }
-                            else
-                            {
-                                $textElements[] = "<div class=\"toolbar-item\">";
-                            }
+                            $tpl->setVariable( "placement", "" );
+                            $definedVariables[] = "placement";
                         }
                         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
-                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
-                        {
-                            $textElements[] = "</li>";
-                            if ( $placement == count( $toolArray ) )
-                            {
-                                $textElements[] = "</ul>";
-                            }
-                        }
-                        else
-                        {
-                            $textElements[] = "</div>";
-                        }
                         foreach ( $definedVariables as $variable )
                         {
                             $tpl->unsetVariable( $variable, $currentNamespace );

@@ -598,6 +598,7 @@ eZ Template:
   templates. This is on by default.
 - Fixed faulty index on table ezurl_object_link, merged from stable/3.4 rev. 7696.
 - Reverted workflow fix in bug report : http://ez.no/community/bug_reports/bugs_in_kernel__2, merged from stable/3.4 rev. 7736.
+- Removed hard html code in toolbar function and moved those code to corresponding templates.
 
 eZPHPCreator:
 - Start using PHP's var_export function to generate all variables.
