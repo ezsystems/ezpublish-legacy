@@ -35,6 +35,9 @@
 // you.
 //
 
+$module =& $Params['Module'];
+return $module->redirectTo( '/visual/menuconfig' );
+
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
