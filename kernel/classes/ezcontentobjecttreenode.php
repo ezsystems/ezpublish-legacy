@@ -1257,12 +1257,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentNodeID = $this->attribute( 'parent_node_id' );
         $nodeID = $this->attribute( 'node_id' );
 
+        $db =& eZDb::instance();
+
+        $sqlToCheckOriginalName = 'select path_identification_string
+                                   from ezcontentobject_tree
+                                   where  path_identification_string = \'' . $path . '\'
+                                          and node_id != ' . $nodeID;
+
+        $retNode = $db->arrayQuery( $sqlToCheckOriginalName );
+        if ( count( $retNode ) == 0 )
+        {
+            return $path;
+        }
         $sqlToCheckCurrentName = 'select path_identification_string
                                   from ezcontentobject_tree
                                   where ( path_identification_string = \'' . $path . '\' or
                                           path_identification_string like \'' . $path . '\\\_\\\_%\' )
                                           and node_id = ' . $nodeID ;
-        $db =& eZDb::instance();
         $retNode = $db->arrayQuery( $sqlToCheckCurrentName );
         if ( count( $retNode ) > 0 )
         {
