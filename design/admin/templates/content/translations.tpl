@@ -14,7 +14,7 @@
 {section var=Translations loop=$existing_translations sequence=array( bglight, bgdark )}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
-	<td><input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.id}" /></td>
+	<td><input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.id}" {section show=$Translations.index|not}disabled="disabled" title="{'The default translation can not be removed.'|i18n( 'design/admin/content/translations' )}" {/section} /></td>
 
     {* Language. *}
 	<td>
