@@ -3,17 +3,17 @@
 <div class="view-full">
     <div class="class-folder">
 
-        <h1>{$node.name}</h1>
+        <h1>{$node.object.data_map.name.content|wash()}</h1>
 
-        {section show=ne($node.object.data_map.short_description.content.output.output_text,'')}
+        {section show=ne($node.object.data_map.summary.content.output.output_text,'')}
             <div class="content-short">
-                {attribute_view_gui attribute=$node.object.data_map.short_description}
+                {attribute_view_gui attribute=$node.object.data_map.summary}
             </div>
         {/section}
 
-        {section show=ne($node.object.data_map.full_description.content.output.output_text,'')}
+        {section show=ne($node.object.data_map.description.content.output.output_text,'')}
             <div class="content-long">
-                {attribute_view_gui attribute=$node.object.data_map.full_description}
+                {attribute_view_gui attribute=$node.object.data_map.description}
             </div>
         {/section}
 
@@ -28,7 +28,7 @@
                 {node_view_gui view=line content_node=$Child:item}
             {/section}
         </div>
-        
+
         {include name=navigator
                  uri='design:navigator/google.tpl'
                  page_uri=concat( '/content/view', '/full/', $node.node_id )
