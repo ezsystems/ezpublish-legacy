@@ -26,6 +26,8 @@
 
 <h2 id="Linux_FreeBSD_Macos">Using the setup guide on Linux, FreeBSD and Mac OS X</h2>
 
+<h3 id="Linux_FreeBSD_Macos_Database">Database setup</h3>
+
 <h4>MySQL</h4>
 <p>
 	We need to login, create a new database, grant permissions to a user and insert a database.
