@@ -340,6 +340,7 @@ class eZHTTPTool
 			{
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key] );
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
+				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
         }
         foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
@@ -348,6 +349,7 @@ class eZHTTPTool
 			{
 				$GLOBALS["_GET"][$key] = str_replace( "\'", "'", $GLOBALS["_GET"][$key] );
 				$GLOBALS["_GET"][$key] = str_replace( '\"', '"', $GLOBALS["_GET"][$key] );
+				$GLOBALS["_GET"][$key] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key] );
 			}
          }
 	}
