@@ -126,7 +126,6 @@
 					if(!$this->auth())
 						return FALSE;
 				}
-print "FROM: " .$this->from . "<br />";
 				$this->mail($this->from);
 				if(is_array($this->recipients))
 					foreach($this->recipients as $value)
