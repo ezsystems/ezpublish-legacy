@@ -40,6 +40,7 @@
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 class eZSearchEngine
