@@ -24,7 +24,7 @@
 <td>{$Triggers.item.operation}</td>
 <td>{$Triggers.item.connect_type}</td>
 <td>
-<select name="WorkflowID_{$Triggers.item.key}">
+<select name="WorkflowID_{$Triggers.item.key}" title="{'Select the workflow that should be triggered %type the %function function is executed within the %module module.'|i18n( 'design/admin/trigger/list',, hash( '%type', $Triggers.item.connect_type, '%function', $Triggers.item.operation, '%module', $Triggers.item.module ) )|wash}">
 <option value="-1">{'No workflow'|i18n( 'design/admin/trigger/list' )}</option>
 {section var=Workflows loop=$Triggers.item.allowed_workflows}
 <option value="{$Workflows.item.id}" {section show=eq( $Workflows.item.id, $Triggers.item.workflow_id )} selected="selected" {/section}>{$Workflows.item.name} 
@@ -44,7 +44,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n( 'design/admin/trigger/list' )}" />
+<input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n( 'design/admin/trigger/list' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/trigger/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

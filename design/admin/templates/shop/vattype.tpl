@@ -47,7 +47,7 @@
 </div>
 <div class="button-right">
     {section show=$vattype_array}
-    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" title="{'Use this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/vattype' )}" />
+    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/vattype' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
     {/section}

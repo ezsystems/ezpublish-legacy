@@ -103,7 +103,7 @@
 </tr>
 {section var=Users loop=$user_array sequence=array( bglight, bgdark )}
 <tr class="{$Users.sequence}">
-    <td><input type="checkbox" value="{$Users.item.user_role_id}" name="IDArray[]" /></td>
+    <td><input type="checkbox" value="{$Users.item.user_role_id}" name="IDArray[]" title="{'Select user or user group for removal.'|i18n( 'design/admin/role/view' )}" /></td>
 
 <td>    {$Users.item.user_object.content_class.identifier|class_icon( 'small', $Users.item.user_object.content_class.name )}
 <a href={$Users.item.user_object.main_node.url_alias|ezurl}>{$Users.item.user_object.name|wash}</a></td>
@@ -132,17 +132,21 @@
 <div class="block">
 
 {section show=$user_array}
-<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" />
+<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected users and/or user groups.'|i18n( 'design/admin/role/view' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />
-<input class="button" type="submit" name="AssignRoleLimitedButton" value="{'Assign limited'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />on
-<select name="AssignRoleType">
+<input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n( 'design/admin/role/view' )}" title="{'Assign the <%role_name> role to a user or a user group.'|i18n( 'design/admin/role/view',, hash( '%role_name', $role.name ) )|wash}" />
+</div>
+<div class="block">
+<select name="AssignRoleType" title="{'Select limitation.'|i18n( 'design/admin/role/view' )}">
     <option value="subtree">{'Subtree'|i18n( 'design/admin/role/view' )}</option>
     <option value="section">{'Section'|i18n( 'design/admin/role/view' )}</option>
 </select>
+
+<input class="button" type="submit" name="AssignRoleLimitedButton" value="{'Assign with limitation'|i18n( 'design/admin/role/view' )}" title="{'Assign the <%role_name> role with limitation (specified to the left) to a user or a user group.'|i18n( 'design/admin/role/view',, hash( '%role_name', $role.name ) )|wash}" />
+
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

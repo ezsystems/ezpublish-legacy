@@ -30,8 +30,8 @@
 <form action={'workflow/grouplist'|ezurl} method="post" name="GroupList">
     <input type="hidden" name="ContentClass_id_checked[]" value="{$group.id}" />
     <input type="hidden" name="EditGroupID" value="{$group.id}" />
-    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" />
-    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove'|i18n( 'design/admin/workflow/workflowlist' )}" />
+    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit this workflow group.'|i18n( 'design/admin/workflow/workflowlist' )}" />
+    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Remove this workflow group.'|i18n( 'design/admin/workflow/workflowlist' )}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -43,7 +43,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl} title="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows [%workflow_count]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
+<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl} {'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows [%workflow_count]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -70,7 +70,7 @@
     {/let}
     </td>
     <td>{$Workflows.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img name="edit" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit the <%workflow_name> workflow.'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_name', $Workflows.item.name ) )}" /></a></td>
+    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img name="edit" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit the <%workflow_name> workflow.'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_name', $Workflows.item.name ) )|wash}" /></a></td>
     </tr>
    {/section}
 </table>

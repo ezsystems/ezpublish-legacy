@@ -42,7 +42,7 @@
     {section show=$groups}
     <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}"  />
     {section-else}
-    <input class="button-disabled" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  disabled="disabled" />
+    <input class="button-disabled" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}" disabled="disabled" />
     {/section}
     <input class="button" type="submit" name="NewGroupButton" value="{'New workflow group'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Create a new workflow group.'|i18n( 'design/admin/workflow/grouplist' )}" />
 </div>

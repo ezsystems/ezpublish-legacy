@@ -1,14 +1,14 @@
 {section show=$md5_result}
   {section show=$md5_result|eq('ok')}
     <div class="message-feedback">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"File consistency check OK"|i18n("design/admin/setup")}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"File consistency check OK."|i18n("design/admin/setup")}</h2>
     </div>
   {section-else}
     <div class="message-warning">
     {section show=$failure_reason}
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$failure_reason}</h2>
     {section-else}
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files "|i18n("design/admin/setup")}:</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files"|i18n("design/admin/setup")}:</h2>
     <p>
       {section loop=$md5_result}
         {$:item|wash}
@@ -48,13 +48,16 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{'Before you upgrade to a newer version of eZ publish it is important to check that your installation is ready. We provide two means of checking your installation.'|i18n('design/admin/setup')}
+<div class="block">
+
+{'Before you upgrade to a newer version of eZ publish it is important to check that your installation is ready. We provide two means of checking an installation.'|i18n('design/admin/setup')}
 <h3>{'File consistency'|i18n('design/admin/setup')}</h3>
 {'The file consistency tool checks if you have altered any of the files that came with your current installation. Upgrading your installation may cause these files to be overwritten. Also, if a file is replaced this usually means that there are feature improvements or bugfixes. Make sure that you incorporate these changes into your version of the file.'|i18n('design/admin/setup')}
 <h3>{'Database consistency'|i18n('design/admin/setup')}</h3>
 {'The database consistency tool checks if your database is synchronized with the database schema delivered with your current eZ publish installation. If inconsistencies are found, the tool suggests SQL statements that brings your database up to date. Please run these SQL statements on your database prior to upgrading.'|i18n('design/admin/setup')}
 <div class="block">
-<p><strong>{'Warning'|i18n('design/admin/setup')}: </strong>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
+<p><b>{'Warning'|i18n('design/admin/setup')}: </b>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
+</div>
 
 </div>
 

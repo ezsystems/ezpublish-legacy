@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Remove section?'|i18n( 'design/admin/section/confirmremove' )}</h1>
+<h1 class="context-title">{'Section removal'|i18n( 'design/admin/section/confirmremove' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -20,11 +20,13 @@
 
 <ul>
 {section name=Result loop=$delete_result}
-    <li>{$Result:item.name} ({$Result:item.id})</li>
+    <li>{$Result:item.name}</li>
 {/section}
 </ul>
 
-<p>{'Removing a section may corrupt permission settings, template output and other things in the system. Proceed only if you know what you are doing.'|i18n( 'design/admin/section/confirmremove' )}</p>
+<p><b>{'Warning:'|i18n( 'design/admin/section/confirmremove' )}</b></p>
+<p>{'Removing a section may corrupt permission settings, template output and other things in the system.'|i18n( 'design/admin/section/confirmremove' )}</p>
+<p>{'Proceed only if you know what you are doing.'|i18n( 'design/admin/section/confirmremove' )}</p>
 
 </div>
 

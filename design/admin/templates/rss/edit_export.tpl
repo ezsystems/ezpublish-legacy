@@ -33,7 +33,7 @@
     <div class="block">
     <label>{'Image'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" maxlength="50" />
-    <input class="button" type="submit" name="BrowseImageButton" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Use this button to select an image for the RSS export. Note that images only work with RSS version 2.0'|i18n('design/admin/rss/edit_export')}" />
+    <input class="button" type="submit" name="BrowseImageButton" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select an image for the RSS export. Note that images only work with RSS version 2.0'|i18n('design/admin/rss/edit_export')}" />
     </div>
 
     <div class="block">
@@ -85,7 +85,7 @@
        <div class="block">
        <label>{'Source path'|i18n( 'design/admin/rss/edit_export' )}:</label>
        <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" maxlength="60" />
-       <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Use this button to select the source node for RSS export source. Objects of the type selected in the drop down below published as sub-items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
+       <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select the source node for RSS export source. Objects of the type selected in the drop down below published as sub-items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
        </div>
 
        <div class="block">
@@ -98,7 +98,7 @@
        {/section} value="{$:item.id}">{$:item.name|wash}</option>
        {/section}
        </select>
-       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Use this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_export')}" />
+       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_export')}" />
        </div>
 
        {section name=Attribute show=count( $rss_export.item_list[$Source:index] )|gt( 0 )}

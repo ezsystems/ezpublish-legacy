@@ -14,7 +14,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{"Session admin"|i18n( "design/admin/setup/session" )}</h1>
+<h1 class="context-title">{'Session administration'|i18n( "design/admin/setup/session" )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -74,24 +74,25 @@
             <input class="button" type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/admin/setup/session" )}" />
         </div>
     {section-else}
+            <div class="block">
+            <label>{'Users'|i18n( 'design/admin/setup/session' )}</label>
             <select class="combobox" name="FilterType">
                 <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/admin/setup/session" )}</option>
                 <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/admin/setup/session" )}</option>
                 <option value="anonymous"{cond( eq( $filter_type, 'anonymous' ), ' selected="selected"', '' )}>{"Anonymous users"|i18n( "design/admin/setup/session" )}</option>
             </select>
-           <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/admin/setup/session" )}" /><br />
+           <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/admin/setup/session" )}" />
+           </div>
+
+<div class="block">
 <label>{'Include inactive users'|i18n( 'design/admin/setup/session' )}</label>
-           <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" />
-
-
-
-                                                   <br/>
-
-            <input type="hidden" name="InactiveUsersCheckExists" /><br />
+<input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" />
+</div>
+<input type="hidden" name="InactiveUsersCheckExists" />
 
     {/section}
 
-
+{section show=$sessions_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
 {section show=$user_id}'SessionKeyArray[]'{section-else}'UserIDArray[]'{/section}
@@ -123,9 +124,9 @@
     {let session_user=fetch( content,object, hash( 'object_id', $session.user_id ) )}
     <td width="1%">
     {section show=$user_id}
-        <input type="checkbox" name="SessionKeyArray[]" value="{$session.session_key|wash}" />
+        <input type="checkbox" name="SessionKeyArray[]" value="{$session.session_key|wash}" title="{'Select session for removal.'|i18n( 'design/admin/setup/session' )}" />
     {section-else}
-        <input type="checkbox" name="UserIDArray[]" value="{$session.user_id}" />
+        <input type="checkbox" name="UserIDArray[]" value="{$session.user_id}" title="{'Select session for removal.'|i18n( 'design/admin/setup/session' )}" />
     {/section}
     </td>
     <td width="15%">
@@ -158,6 +159,12 @@
 </tr>
 {/section}
 </table>
+{section-else}
+<div class="block">
+<p>{'There are no sessions matching the selected options.'|i18n( 'design/admin/setup/session' )}</p>
+</div>
+{/section}
+
 
 
 </div>
@@ -167,7 +174,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( 'design/admin/setup/session' )}" />
+{section show=$sessions_list}
+<input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{'Remove selected'|i18n( 'design/admin/setup/session' )}" title="{'Remove selected sessions.'|i18n( 'design/admin/setup/session' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveSelectedSessionsButton" value="{'Remove selected'|i18n( 'design/admin/setup/session' )}" disabled="disabled" />
+{/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

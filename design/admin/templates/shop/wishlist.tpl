@@ -99,7 +99,7 @@
 <div class="block">
 {section show=$wish_list.items}
 <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items from the wish list.'|i18n( 'design/admin/shop/wishlist' )}" />
-<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Use this button after changing quantity and option values.'|i18n( 'design/admin/shop/wishlist' )}" />
+<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Click this button after changing the quantity and option values.'|i18n( 'design/admin/shop/wishlist' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
 <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />

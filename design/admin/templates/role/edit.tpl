@@ -37,7 +37,7 @@
 
     {* Remove. *}
     <td>
-        <input type="checkbox" name="DeleteIDArray[]" value="{$Policies.item.id}" />
+        <input type="checkbox" name="DeleteIDArray[]" value="{$Policies.item.id}" title="{'Select policy for removal.'|i18n( 'design/admin/role/edit' )}" />
     </td>
 
     {* Module. *}
@@ -87,12 +87,12 @@
 
 {* Policy manipulation buttons. *}
 {section show=$policies}
-<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" />
+<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies.'|i18n( 'design/admin/role/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" />
+<input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" title="{'Create a new policy.'|i18n( 'design/admin/role/edit' )}" />
 
 </div>
 

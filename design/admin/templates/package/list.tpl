@@ -83,9 +83,8 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 <div class="context-attributes">
 
-<p>{'The following packages are available on this system'|i18n('design/admin/package/list')}</p>
-
-<label>{'Repositories'|i18n( 'design/admin/package/list' )}</label>
+<div class="block">
+<label>{'Repository'|i18n( 'design/admin/package/list' )}</label>
 <select name="RepositoryID">
     <option value="">{'All'|i18n( 'design/admin/package/list' )}</option>
 {section var=repository loop=$repository_list}
@@ -93,7 +92,10 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {/section}
 </select>
 &nbsp;<input class="button" type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/admin/package/list' )}" />
+</div>
 
+
+{section show=$package_list}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.packagelist, 'PackageSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package/list' )}" /></th>
@@ -105,7 +107,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
     {section show=$can_remove}
-    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"{section show=$:item.is_local|not}disabled="disabled"{/section}/></td>
+    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"{section show=$:item.is_local|not}disabled="disabled"{/section} /></td>
     {section-else}
       <input type="checkbox" disabled="disabled">
     {/section}
@@ -126,6 +128,10 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 </tr>
 {/section}
 </table>
+{section-else}
+<p>{'There are no packages matching the selected repository.'|i18n( 'design/admin/package/list' )}</p>
+{/section}
+
 
 </div>
 {* DESIGN: Content END *}</div></div></div>

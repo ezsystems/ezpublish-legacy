@@ -29,14 +29,14 @@
     <div class="block">
     <label>{"Destination path"|i18n( 'design/admin/rss/edit_import' )}:</label>
     <input type="text" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" maxlength="60" />
-    <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Use this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
+    <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {* Imported objects owner. *}
     <div class="block">
     <label>{"Imported objects will be owned by"|i18n( 'design/admin/rss/edit_import' )}:</label>
     <p>{$rss_import.object_owner.contentobject.name}</p>
-    <input class="button" type="submit" name="UserBrowse" value="{'Change user'|i18n( 'design/admin/rss/edit_import' )}" title="{'Use this button to select the user who should own the objects created by the import.'|i18n('design/admin/rss/edit_import')}" />
+    <input class="button" type="submit" name="UserBrowse" value="{'Change user'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the user who should own the objects created by the import.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {* Class. *}
@@ -51,7 +51,7 @@
     </option>
     {/section}
     </select>
-    <input class="button" type="submit" name="Update_Class" value="{'Set'|i18n( 'design/admin/rss/edit_import' )}" title="{'Use this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_import')}" />
+    <input class="button" type="submit" name="Update_Class" value="{'Set'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {* Title. *}
