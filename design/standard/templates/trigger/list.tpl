@@ -1,3 +1,5 @@
+<a href={"/sdk/tutorials/view/workflows"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+
 <h1>{"Triggers list"|i18n("design/standard/trigger")}</h1>
 
 <form action={$module.functions.list.uri|ezurl} method="post" >
