@@ -142,6 +142,7 @@ Changes from 3.1-1 to 3.2.0-1
 - Add content cache expiry variable in template which makes it possible to set cache limit or disable
   cache depending on template file.
 - Added feedback message for forgot password if user use an invalid key to confirm.
+- Fixed bug for content preview which can't show children.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.
