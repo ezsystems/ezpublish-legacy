@@ -24,6 +24,7 @@ Changes from 2.9-3 to 2.9-4
 - Changed role editing interface. Policy creation wizard is added.
 - Added new template operator /ezroot/ which prepends the wwwDir to urls,
   useful for stored images, files etc.
+- Fixed geometry setting for convert to use quotes around the geometry value.
 - Added warning page for removing group, fixed bug of unable to delete group classes.
 - Added warning page for removing published object. When an object is assigned to different nodes, remove an
   object in one place will not remove the object, only the specified placement will be removed.
@@ -54,5 +55,9 @@ eZ debug:
 eZ module:
 - Added support for parameters to handleError, this parameters are read by the error module
   and set as template variables for the template.
+
 eZ http:
 - Added suport for images buttons
+
+eZ image:
+- Added support for exec path for eZImageShell.
