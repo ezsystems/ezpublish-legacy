@@ -64,12 +64,12 @@ class eZTemplateStringOperator
             $this->$name = $operator;
         }
 
-        $this->phpMap = array ('upcase' => 'strtoupper',
-                               'downcase' => 'strtolower',
+        $this->phpMap = array ('upcase' => 'mb_strtoupper,strtoupper',
+                               'downcase' => 'mb_strtolower,strtolower',
                                'break' => 'nl2br',
                                'upfirst' => 'ucfirst',
                                'upword' => 'ucwords',
-                               'count_chars' => 'strlen');
+                               'count_chars' => 'mb_strlen,strlen');
 
         $this->customMap = array ( 'count_words' => array( 'return' => 'int',
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
@@ -121,10 +121,10 @@ class eZTemplateStringOperator
                                                                   {
                                                                       $seq = $staticValues[2];
                                                                   }
-                                                                  $maxLength = $length - strlen( $seq );
-                                                                  if ( ( strlen( $staticValues[0] ) > $length ) && strlen( $staticValues[0] ) > $maxLength )
+                                                                  $maxLength = $length - $strlenFunc( $seq );
+                                                                  if ( ( $strlenFunc( $staticValues[0] ) > $length ) && $strlenFunc( $staticValues[0] ) > $maxLength )
                                                                   {
-                                                                      $result = trim( substr( $staticValues[0], 0, $maxLength) ) . $seq;
+                                                                      $result = trim( $substrFunc( $staticValues[0], 0, $maxLength) ) . $seq;
                                                                   }
                                                                   else
                                                                   {
@@ -226,7 +226,15 @@ class eZTemplateStringOperator
                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
-        $phpFunction = $this->phpMap[$operatorName];
+        $phpFunctionList = explode( ',', $this->phpMap[$operatorName] );
+        foreach ( $phpFunctionList as $element )
+        {
+            if ( function_exists( $element ) )
+            {
+                $phpFunction = $element;
+                break;
+            }
+        }
         $newElements = array();
 
         if ( count ( $parameters ) != 1 )
@@ -256,6 +264,15 @@ class eZTemplateStringOperator
         $newElements = array();
         $mapEntry = $this->customMap[$operatorName];
         $paramCount = count( $parameters );
+        $strlenFunc = 'strlen';
+        $substrFunc = 'substr';
+        $code = "\$strlenFunc = 'strlen'; \$substrFunc = 'substr';\n";
+        if ( function_exists( 'mb_strlen' ) )
+        {
+            $strlenFunc = 'mb_strlen';
+            $substrFunc = 'mb_substr';
+            $code = "\$strlenFunc = 'mb_strlen'; \$substrFunc = 'mb_substr';\n";
+        }
 
         if ( $paramCount < 1 )
         {
@@ -303,11 +320,11 @@ class eZTemplateStringOperator
             }
             if ( isset( $mapEntry['code'. $paramCount] ) )
             {
-                $code = str_replace( $replaceMap, $replacementMap, $mapEntry['code' . $paramCount] ) . "\n";
+                $code .= str_replace( $replaceMap, $replacementMap, $mapEntry['code' . $paramCount] ) . "\n";
             }
             else
             {
-                $code = str_replace( $replaceMap, $replacementMap, $mapEntry['code'] ) . "\n";
+                $code .= str_replace( $replaceMap, $replacementMap, $mapEntry['code'] ) . "\n";
             }
         }
 
@@ -459,13 +476,15 @@ class eZTemplateStringOperator
             // Convert all alphabetical chars of operatorvalue to uppercase.
             case $this->UpcaseName:
             {
-                $operatorValue = strtoupper( $operatorValue );
+                $funcName = function_exists( 'mb_strtoupper' ) ? 'mb_strtoupper' : 'strtoupper';
+                $operatorValue = $funcName( $operatorValue );
             } break;
 
             // Convert all alphabetical chars of operatorvalue to lowercase.
             case $this->DowncaseName:
             {
-                $operatorValue = strtolower( $operatorValue );
+                $funcName = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+                $operatorValue = $funcName( $operatorValue );
             } break;
 
             // Count and return the number of words in operatorvalue.
@@ -477,7 +496,8 @@ class eZTemplateStringOperator
             // Count and return the number of chars in operatorvalue.
             case $this->Count_charsName:
             {
-                $operatorValue = strlen( $operatorValue );
+                $funcName = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
+                $operatorValue = $funcName( $operatorValue );
             }break;
 
             // Insert HTML line breaks before newlines.
@@ -555,11 +575,13 @@ class eZTemplateStringOperator
             // Shorten string [default or specified length, length=text+"..."] and add '...'
             case $this->ShortenName:
             {
+                $strlenFunc = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
+                $substrFunc = function_exists( 'mb_substr' ) ? 'mb_substr' : 'substr';
                 if ( strlen( $operatorValue ) > $namedParameters['chars_to_keep'] )
                 {
-                    $chop = $namedParameters['chars_to_keep'] - strlen( $namedParameters['str_to_append'] );
-                    $operatorLength = strlen( $operatorValue );
-                    $operatorValue = substr( $operatorValue, 0, $chop );
+                    $chop = $namedParameters['chars_to_keep'] - $strlenFunc( $namedParameters['str_to_append'] );
+                    $operatorLength = $strlenFunc( $operatorValue );
+                    $operatorValue = $substrFunc( $operatorValue, 0, $chop );
                     $operatorValue = trim( $operatorValue );
                     if ( $operatorLength > $chop )
                         $operatorValue = $operatorValue.$namedParameters['str_to_append'];
