@@ -48,27 +48,15 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th>
-    {'Phrase'|i18n( 'design/admin/search/stats' )}
-    </th>
-    <th>
-    {'Number of phrases'|i18n( 'design/admin/search/stats' )}
-    </th>
-    <th>
-    {'Average result returned'|i18n( 'design/admin/search/stats' )}
-    </th>
+    <th>{'Phrase'|i18n( 'design/admin/search/stats' )}</th>
+    <th>{'Number of phrases'|i18n( 'design/admin/search/stats' )}</th>
+    <th>{'Average result returned'|i18n( 'design/admin/search/stats' )}</th>
 </tr>
 {section var=Phrases loop=$most_frequent_phrase_array sequence=array( bglight, bgdark )}
 <tr class="{$Phrases.sequence}">
-    <td>
-    {$Phrases.item.phrase|wash}
-    </td>
-    <td>
-    {$Phrases.item.phrase_count}
-    </td>
-    <td>
-    {$Phrases.item.result_count|l10n( number )}
-    </td>
+    <td>{$Phrases.item.phrase|wash}</td>
+    <td class="number" align="right">{$Phrases.item.phrase_count}</td>
+    <td class="number" align="right">{$Phrases.item.result_count|l10n( number )}</td>
 </tr>
 {/section}
 </table>

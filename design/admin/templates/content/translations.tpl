@@ -44,7 +44,7 @@
 	<td>{$Translations.item.translation.locale_object.locale_code|wash}</td>
 
     {* Object count *}
-	<td>{$Translations.item.object_count}</td>
+	<td class="number" align="right">{$Translations.item.object_count}</td>
 </tr>
 {/section}
 </table>

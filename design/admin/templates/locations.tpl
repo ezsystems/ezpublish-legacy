@@ -53,7 +53,7 @@
 
 
     {* Sub items. *}
-    <td>{$assignment.item.node.children_count}</td>
+    <td class="number" align="right">{$assignment.item.node.children_count}</td>
 
     {* Sorting. *}
 {*
