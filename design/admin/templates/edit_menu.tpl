@@ -88,21 +88,19 @@
 <div class="block">
 <div class="element">
 <p>
-<label>{'Editing'|i18n( 'design/admin/content/edit' )}:</label>
-{$edit_version}
+<label>{'Published'|i18n( 'design/admin/content/edit' )}:</label>
+{$object.current_version}
 </p>
 </div>
 <div class="element">
 <p>
-<label>{'Current'|i18n( 'design/admin/content/edit' )}:</label>
-{$object.current_version}
+<label>{'Editing'|i18n( 'design/admin/content/edit' )}:</label>
+{$edit_version}
 </p>
 </div>
 </div>
 <div class="block">
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
-
-{* <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/admin/content/edit')}" /> *}
 
 </div>
 </div></div></div></div>
@@ -115,17 +113,23 @@
 </div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
+<p>
+<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+{$content_version.created|l10n( shortdatetime )}<br />
+{$content_version.creator.name}
+</p>
 <p>
 <label>{'Last modified'|i18n( 'design/admin/content/edit' )}:</label>
-{section show=$object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
-{section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/section}
+{$content_version.modified|l10n( shortdatetime )}<br />
+{$content_version.creator.name}
 </p>
 
+
+
+
+<div class="block">
+<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/admin/content/edit')}" />
+</div>
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />
 <input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
