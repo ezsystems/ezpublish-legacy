@@ -32,8 +32,6 @@
 // you.
 //
 
-
-
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezsession.php' );
@@ -50,50 +48,139 @@ if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
     eZSessionEmpty();
     $sessionsRemoved = true;
 }
-elseif ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
+else if ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
 {
     eZSessionGarbageCollector();
     $sessionsRemoved = true;
 }
-elseif ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
+else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
 {
     if ( eZHTTPTool::hasPostVariable( 'SessionKeyArray' ) )
     {
         $sessionKeyArray = eZHTTPTool::postVariable( 'SessionKeyArray' );
-        foreach( $sessionKeyArray as $sessionKeyItem )
+        foreach ( $sessionKeyArray as $sessionKeyItem )
         {
             eZSessionDestroy( $sessionKeyItem );
         }
     }
 }
 
-$view_parameters = $Params['UserParameters'];
-if ( is_Numeric( $view_parameters['offset'] ) )
+$viewParameters = $Params['UserParameters'];
+if ( isset( $viewParameters['offset'] ) and
+     is_numeric( $viewParameters['offset'] ) )
 {
-    $param['offset'] = $view_parameters['offset'];
+    $param['offset'] = $viewParameters['offset'];
 }
 else
 {
     $param['offset'] = 0;
-    $view_parameters['offset'] = 0;
+    $viewParameters['offset'] = 0;
 }
 
-$param['sortby'] = $view_parameters['sortby'];
-$sessionsActive = eZSessionCountActive();
-$sessionsList =& eZSessionGetActive( $param );
 
-if ( $param['offset'] >= $sessionsActive && $sessionsActive != 0 )
+/*
+  Get all sessions by limit and offset, and returns it
+*/
+function &eZFetchActiveSessions( $params = array() )
+{
+    if ( isset( $params['limit'] ) )
+        $limit = $params['limit'];
+    else
+        $limit = 20;
+
+    if ( isset( $params['offset'] ) )
+        $offset = $params['offset'];
+    else
+        $offset = 0;
+    $orderBy = "ezsession.expiration_time DESC";
+
+    switch ( $params['sortby'] )
+    {
+        case 'login':
+        {
+            $orderBy = "ezuser.login ASC";
+        } break;
+
+        case 'email':
+        {
+            $orderBy = "ezuser.email ASC";
+        } break;
+
+        case 'name':
+        {
+            $orderBy = "ezcontentobject.name ASC";
+        } break;
+
+        case 'idle':
+        {
+            $orderBy = "ezsession.expiration_time DESC";
+        } break;
+    }
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    $query = "SELECT ezsession.user_id, ezsession.expiration_time, ezsession.session_key
+FROM ezsession, ezuser, ezcontentobject
+WHERE ezsession.user_id=ezuser.contentobject_id AND
+      ezsession.user_id=ezcontentobject.id
+ORDER BY $orderBy";
+
+    $rows = $db->arrayQuery( $query, array( 'offset' => $offset, 'limit' => $limit ) );
+
+    $time = mktime();
+    $ini =& eZINI::instance();
+    $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+    $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+    $sessionTimeoutValue = $time - $sessionTimeout;
+
+    $resultArray = array();
+    foreach ( $rows as $row )
+    {
+        $sessionUser =& eZUser::fetch( $row['user_id'], true );
+        $session['user_id'] = $row['user_id'];
+        $session['expiration_time'] = $row['expiration_time'];
+        $session['session_key'] = $row['session_key'];
+        $session['idle_time'] = $row['expiration_time'] - $sessionTimeout;
+        $idleTime = $time - $row['expiration_time'] + $sessionTimeout;
+        $minute = abs( $time % 60 );
+        $hour = (int)( $time / 60 );
+        $session['idle']['hour'] = (int)( $idleTime / 3600 );
+        $session['idle']['minute'] = (int)( ( $idleTime / 60 ) % 60 );
+        $session['idle']['second'] = abs( $idleTime % 60 );
+
+        if ( $session['idle']['minute'] < 10 )
+        {
+            $session['idle']['minute'] = "0" . $session['idle']['minute'];
+        }
+
+        if ( $session['idle']['second'] < 10 )
+        {
+            $session['idle']['second'] = "0" . $session['idle']['second'];
+        }
+
+        $session['email'] = $sessionUser->attribute( 'email' );
+        $session['login'] = $sessionUser->attribute( 'login' );
+        $resultArray[] = $session;
+    }
+    return $resultArray;
+}
+
+$param['sortby'] = false;
+if ( isset( $viewParameters['sortby'] ) )
+    $param['sortby'] = $viewParameters['sortby'];
+$sessionsActive = eZSessionCountActive();
+$sessionsList =& eZFetchActiveSessions( $param );
+
+if ( $param['offset'] >= $sessionsActive and $sessionsActive != 0 )
 {
     $module->redirectTo( '/setup/session' );
 }
 
-
 $tpl->setVariable( "sessions_removed", $sessionsRemoved );
-$tpl->setVariable( "sessions_active",  $sessionsActive  );
-$tpl->setVariable( "sessions_list",  $sessionsList  );
-$tpl->setVariable( "page_limit",  $param['limit']  );
-$tpl->setVariable( "view_parameters",  $view_parameters  );
-$tpl->setVariable( "form_parameter_string",  $view_parameters  );
+$tpl->setVariable( "sessions_active", $sessionsActive );
+$tpl->setVariable( "sessions_list", $sessionsList );
+$tpl->setVariable( "page_limit", $param['limit'] );
+$tpl->setVariable( "view_parameters", $viewParameters );
+$tpl->setVariable( "form_parameter_string", $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/session.tpl" );
