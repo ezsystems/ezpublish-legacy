@@ -286,7 +286,7 @@ class eZOrder extends eZPersistentObject
     */
     function &orderStatistics( $year = false, $month = false )
     {
-        if ( $year == false and $month == false )
+        if ( $year == false )
         {
             $startDate = 0;
             $stopDate =& mktime( 0, 0, 0, 12, 31, 2037 );
