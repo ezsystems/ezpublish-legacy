@@ -180,14 +180,14 @@ div#contentstructure a.nodetext:hover
     text-decoration: underline;
 }
 
-div#contentstructure li.currentnode a.nodetext
+div#contentstructure li.currentnode a.nodetext /* Highlighting of current node */
 {
-    background-color: #ffffff;
+    font-weight: bold;
 }
 
 div#contentstructure li.currentnode li a.nodetext
 {
-    background-color: transparent;
+    font-weight: normal;
 }
 
 div#leftmenu div.translations label
@@ -264,8 +264,6 @@ div#fix /* Breaks unwanted connection between the content of the maincontent box
     width: 100%;
 }
 
-/* COMMON STYLES SET JUST AS AN EXAMPLE */
-/* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
 div#header-design, div#topmenu-design, div#path-design, div#leftmenu-design, div#rightmenu-design, div#status-design, div#footer-design 
 {
     margin: 0.5em 0 0 0;
@@ -298,6 +296,141 @@ div.mainobject-vindow
     overflow: scroll;
 }
 
+div.menu-block
+{
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #ffffff;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
+
+div.menu-block ul
+{
+    margin: 0;
+    padding: 0;
+}
+
+div.menu-block li
+{
+    display: inline;
+    border: 1px solid #ffffff;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
+
+div.menu-block a
+{
+    color: #000000;
+    padding: 0 0.5em 0 0.5em;
+    text-decoration: none;
+}
+
+div.menu-block a.enabled
+{
+    color: #ffffff;
+    background-color: #606060;
+}
+
+div.menu-block a:hover
+{
+    color: #ffffff;
+    background-color: #000000;
+    text-decoration: none;
+}
+
+div.context-block
+{
+    border: 1px solid #000000;
+}
+
+div.context-block
+{
+    margin: 1em 0 2em 0;
+}
+
+div.context-attributes
+{
+    background-color: #f8f8f8;
+    padding: 0.5em;
+}
+
+h2.context-title
+{
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #606060;
+    padding: 0.2em;
+    margin: 0;
+}
+
+div.context-block h2.context-title img
+{
+    vertical-align: middle;
+}
+
+div.context-block table.list
+{
+    margin: 0;
+    padding: 0;
+}
+
+div.context-toolbar
+{
+    background-color: #ffffff;
+}
+
+div.context-toolbar div.block
+{
+    margin: 0;
+}
+
+div.context-information p
+{
+    background-color: #d0d0d0;
+}
+div.context-toolbar p, div.context-information p
+{
+    font-size: 0.85em;
+    margin: 0;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+div.context-toolbar a, div.context-toolbar span.current
+{
+    color: #000000;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
+div.context-toolbar span.current, div.context-toolbar span.current
+{
+    color: #ffffff;
+    background-color: #808080;
+}
+
+div.context-toolbar a:hover
+{
+    color: #ffffff;
+    background-color: #000000;
+    text-decoration: none;
+}
+
+div.context-controlbar
+{
+    background-color: #606060;
+    border: 1px solid #606060;
+    padding: 0 0.25em 0 0.25em;
+    margin: 0;
+}
+
+div.context-controlbar select
+{
+    font-size: 0.85em;
+}
+
 div.viewbar, div.controlbar
 {
     background-color: #606060;
@@ -308,7 +441,13 @@ div.viewbar, div.controlbar
 
 div.controlbar div.block
 {
+    margin: 0.5em 0 0.5em 0;
     border-bottom: 1px solid #606060; /* Set to avoid Mozilla bug */
+}
+
+div.controlbar label
+{
+    color: #ffffff;
 }
 
 div.controlbar input.button
@@ -319,6 +458,14 @@ div.controlbar input.button
     background-color: #a0a0a0;
     margin: 0;
     padding: 0;
+}
+
+div.content-control
+{
+    margin-top: 1em;
+    padding: 0.5em;
+    border: 1px solid #000000;
+    background-color: #f0f0f0;
 }
 
 div.content-view-children div.viewbar
@@ -389,10 +536,6 @@ input#searchbutton, input.menubutton
 {
     font-weight: normal;
     background-color: #e0e0e0;
-}
-
-div.content-navigation-childlist
-{
 }
 
 div.content-navigation-childlist table.list th
@@ -528,159 +671,4 @@ div.popupmenu hr
 }
 
 
-/* --- */
-
-div.context-block, div.menu-block
-{
-    border: 1px solid #000000;
-}
-
-div.context-block
-{
-    margin: 1em 0 2em 0;
-}
-
-div.context-attributes
-{
-    background-color: #f8f8f8;
-    padding: 0.5em;
-}
-
-div.menu-block
-{
-    padding: 0.1em 0.2em 0.1em 0.2em;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid #ffffff;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
-}
-
-div.menu-block ul
-{
-    margin: 0;
-    padding: 0;
-}
-
-div.menu-block li
-{
-    display: inline;
-    border: 1px solid #ffffff;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
-}
-
-div.menu-block a
-{
-    color: #000000;
-    padding: 0 0.5em 0 0.5em;
-    text-decoration: none;
-}
-
-div.menu-block a.enabled
-{
-    color: #ffffff;
-    background-color: #606060;
-}
-
-div.menu-block a:hover
-{
-    color: #ffffff;
-    background-color: #000000;
-    text-decoration: none;
-}
-
-h2.context-title
-{
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #606060;
-    padding: 0.2em;
-    margin: 0;
-}
-
-div.context-block h2.context-title img
-{
-    vertical-align: middle;
-}
-
-div.context-block table.list
-{
-    margin: 0;
-    padding: 0;
-}
-
-div.context-toolbar
-{
-    background-color: #ffffff;
-}
-
-div.context-toolbar div.block
-{
-    margin: 0;
-}
-
-div.context-information p
-{
-    background-color: #d0d0d0;
-}
-div.context-toolbar p, div.context-information p
-{
-    font-size: 0.85em;
-    margin: 0;
-    padding: 0.1em 0.2em 0.1em 0.2em;
-}
-
-div.context-toolbar a, div.context-toolbar span.current
-{
-    color: #000000;
-    padding: 0 0.25em 0 0.25em;
-    text-decoration: none;
-}
-
-div.context-toolbar span.current, div.context-toolbar span.current
-{
-    color: #ffffff;
-    background-color: #808080;
-}
-
-div.context-toolbar a:hover
-{
-    color: #ffffff;
-    background-color: #000000;
-    text-decoration: none;
-}
-
-div.context-controlbar
-{
-    background-color: #606060;
-    border: 1px solid #606060;
-    padding: 0 0.25em 0 0.25em;
-    margin: 0;
-}
-
-div.context-controlbar select
-{
-    font-size: 0.85em;
-}
-
-div.controlbar div.block
-{
-    margin: 0.5em 0 0.5em 0;
-}
-
-div.controlbar label
-{
-    color: #ffffff;
-}
-
-div.controlbar input.button
-{
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #a0a0a0;
-    margin: 0;
-    padding: 0;
-}
+/* th[eZ] */
