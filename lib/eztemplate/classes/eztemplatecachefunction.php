@@ -513,7 +513,7 @@ ENDADDCODE;
 
     /// \privatesection
     /// Name of the function
-    var $Name;
+    var $BlockName;
 }
 
 ?>
