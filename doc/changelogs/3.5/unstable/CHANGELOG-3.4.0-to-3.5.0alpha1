@@ -182,6 +182,8 @@ eztc.php:
 - Fixed bug unabling to send draft for publishing after denial.
   Merged from stable/3.4 rev. 6995.
   http://ez.no/community/bug_reports/problems_with_denied_objects_in_approval_and_drafts
+- Fixed bug
+  http://ez.no/community/bug_reports/ini_settings_editing_causes_change_of_the_current_layout
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

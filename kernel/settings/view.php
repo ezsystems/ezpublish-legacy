@@ -55,11 +55,12 @@ if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
 if ( !isset( $currentSiteAccess ) )
     $currentSiteAccess = $siteAccessList[0];
 
-$ini =& eZINI::instance( $settingFile, 'settings', null, null, false );
+unset( $ini );
+$ini = eZINI::instance( $settingFile, 'settings', null, null, false );
 $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
 $ini->loadCache();
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
+if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     $placements = $ini->groupPlacements();
     if ( $http->hasPostVariable( 'RemoveSettingsArray' ) )
@@ -98,10 +99,11 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
+
 if ( $http->hasPostVariable( 'ChangeINIFile' ) or
      ( $Params['SiteAccess'] and $Params['INIFile'] ) )
 {
-    $ini =& eZINI::instance( $settingFile, 'settings', null, null, false );
+    $ini = eZINI::instance( $settingFile, 'settings', null, null, false );
     $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
     $ini->loadCache();
 
@@ -200,6 +202,8 @@ sort( $iniFiles );
 $tpl->setVariable( 'ini_files', $iniFiles );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
+
+
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:settings/view.tpl' );
