@@ -508,7 +508,13 @@ class eZUser extends eZPersistentObject
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
-            $loginArray[] = "email='$loginEscaped'";
+        {
+            include_once( 'lib/ezutils/classes/ezmail.php' );
+            if ( eZMail::validate( $login ) )
+            {
+                $loginArray[] = "email='$loginEscaped'";
+            }
+        }
         if ( count( $loginArray ) == 0 )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
