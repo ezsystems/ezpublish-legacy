@@ -5,7 +5,7 @@
 </div>
 
 {section show=$message}
-<div class="warning">
+<div class="feedback">
 <h2>{$message}</h2>
 </div>
 {/section}
