@@ -122,22 +122,22 @@ class eZTemplateToolbarFunction
                 {
                     if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class='toolbar-item first'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item first\">" );
                     }
                     else
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item first'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item first\">" );
                     }
                 }
                 else if ( $placement == count( $toolArray ) )
                 {
                     if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class='toolbar-item last'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item last\">" );
                     }
                     else
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item last'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item last\">" );
                     }
 
                 }
@@ -145,11 +145,11 @@ class eZTemplateToolbarFunction
                 {
                     if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class='toolbar-item'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item\">" );
                     }
                     else
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item'>" );
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item\">" );
                     }
                 }
 
@@ -282,33 +282,33 @@ class eZTemplateToolbarFunction
                         {
                             if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                             {
-                                $textElements[] = "<ul><li class='toolbar-item first'>";
+                                $textElements[] = "<ul><li class=\"toolbar-item first\">";
                             }
                             else
                             {
-                                $textElements[] = "<div class='toolbar-item first'>";
+                                $textElements[] = "<div class=\"toolbar-item first\">";
                             }
                         }
                         else if ( $placement == count( $toolArray ) )
                         {
                             if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                             {
-                                $textElements[] = "<li class='toolbar-item last'>";
+                                $textElements[] = "<li class=\"toolbar-item last\">";
                             }
                             else
                             {
-                                $textElements[] = "<div class='toolbar-item first'>";
+                                $textElements[] = "<div class=\"toolbar-item first\">";
                             }
                         }
                         else
                         {
                             if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                             {
-                                $textElements[] = "<li class='toolbar-item'>";
+                                $textElements[] = "<li class=\"toolbar-item\">";
                             }
                             else
                             {
-                                $textElements[] = "<div class='toolbar-item'>";
+                                $textElements[] = "<div class=\"toolbar-item\">";
                             }
                         }
                         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
