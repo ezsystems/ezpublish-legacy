@@ -29,3 +29,5 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/weird_search_limitations_binary_file
 - Fixed undefined variabled. ( merged from stable 3.2 branch rev. 4697 )
   http://ez.no/developer/ez_publish_3/bug_reports/undefined_variables_in_class_groupedit_and_workflow_groupedit
+- Fixed language bug using sorty_by on attributes. ( merged from stable 3.2 branch rev. 4700 )
+  http://ez.no/developer/ez_publish_3/bug_reports/sort_by_attribute_translation_duplicates_bug_incl_quickfix
