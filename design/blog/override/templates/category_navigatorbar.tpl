@@ -1,5 +1,5 @@
 {let item_node_id=$module_result.content_info.parent_node_id
-     all_category_list=fetch( content, list, hash( parent_node_id, $item_node_id,
+     all_category_list=fetch( content, list, hash( parent_node_id, cond( $item_node_id|eq(1), 50 , $item_node_id ),
                                                    class_filter_type, include,
                                                    class_filter_array, array( 'folder' ),
                                                    sort_by, array( 'name', true() ) ) )}
