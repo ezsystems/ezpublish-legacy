@@ -338,7 +338,7 @@ class eZPackageInstallationHandler
     */
     function rootDOMNode()
     {
-        if ( !$this->InstallItem['content'] )
+        if ( !isset( $this->InstallItem['content'] ) || !$this->InstallItem['content'] )
         {
             $filename = $this->InstallItem['filename'];
             $subdirectory = $this->InstallItem['sub-directory'];
