@@ -189,9 +189,7 @@ class eZTemplateSwitchFunction
         }
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
 
-       
         return $newNodes;
-        return false;
     }
 
     /*!

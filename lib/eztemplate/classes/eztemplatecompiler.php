@@ -1149,6 +1149,7 @@ class eZTemplateCompiler
             {
                 $hasTransformationSupport = false;
                 $transformChildren = true;
+                $transformParameters = false;
                 if ( method_exists( $functionObject, 'functionTemplateHints' ) )
                 {
                     $hints = $functionObject->functionTemplateHints();
@@ -2181,12 +2182,14 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                 $variableAssignmentName = $node[1];
                 $variableData = $node[2];
                 $variablePlacement = $node[3];
-                $variableOnlyExisting = $node[5];
-                $variableOverWrite = $node[6];
+
                 $variableParameters = array();
                 if ( isset( $node[4] ) and
                      $node[4] )
                     $variableParameters = $node[4];
+                $variableOnlyExisting = isset( $node[5] ) ? $node[5] : false;
+                $variableOverWrite = isset( $node[6] ) ? $node[6] : false;
+
                 $spacing = $currentParameters['spacing'];
                 if ( isset( $variableParameters['spacing'] ) )
                     $spacing += $variableParameters['spacing'];
