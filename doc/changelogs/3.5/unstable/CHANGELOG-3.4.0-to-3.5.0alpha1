@@ -76,6 +76,8 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added indexcontent.php to cronjobs.ini, merged from stable/3.4 rev. 7890.
 - Fixed cronjobs/indexcontent.php to be more fault tolerant and scale better, 
   merged from stable/3.4 rev. 7890.
+- Optimized links in xmltext fields. Instead of two queries per URL we only do
+  one query per content attribute now. (Merged from stable/3.4, rev 7916)
 
 
 Database:

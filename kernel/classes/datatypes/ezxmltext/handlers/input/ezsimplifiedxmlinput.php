@@ -357,11 +357,35 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $linkIDArray =& eZURL::registerURLArray( $urlArray );
 
                     // Register all unique URL's for this object attribute
-                    foreach ( array_keys( $linkIDArray ) as $url )
+                    /* We're not using the persistent object interface here as
+                     * that's a bit suboptimal as it checks if the record
+                     * exists first (and we're sure it doesn't as we removed
+                     * the whole bunch before in this function). We also
+                     * optimize for mysql as it supports multiple insertions
+                     * per query. */
+                    $db =& eZDB::instance();
+                    $dbImpl = $db->databaseName();
+                    if ( $dbImpl == 'mysql' )
                     {
-                        $linkID = $linkIDArray[$url];
-                        $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-                        $linkObjectLink->store();
+                        $baseQuery = 'INSERT INTO ezurl_object_link(url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES';
+                        $valueArray = array();
+                        foreach ( $linkIDArray as $url => $linkID)
+                        {
+                            $valueArray[] = "($linkID, $contentObjectAttributeID, $contentObjectAttributeVersion)";
+                        }
+                        if ( count( $valueArray ) )
+                        {
+                            $db->query( $baseQuery . implode( ', ', $valueArray ) );
+                        }
+                    }
+                    else
+                    {
+                        $baseQuery = 'INSERT INTO ezurl_object_link(url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES';
+                        foreach ( $linkIDArray as $url => $linkID)
+                        {
+                            $value = "($linkID, $contentObjectAttributeID, $contentObjectAttributeVersion)";
+                            $db->query( $baseQuery . $value );
+                        }
                     }
 
                     // Update XML to only store id, not href
