@@ -177,6 +177,12 @@ if ( !function_exists( 'checkContentActions' ) )
                     $object->setAttribute( 'published', mktime() );
                     $object->store();
 
+                    $class =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
+                    $objectName = $class->contentObjectName( $object );
+                    $object->setAttribute( 'name', $objectName );
+                    $object->store();
+
+
                     $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
                     $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
 
@@ -216,7 +222,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
             if( !$count )
             {
-                $module->redirectToView( 'sitemap', array(2) );
+                $module->redirectToView( 'view', array( 'sitemap',2 ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
             else

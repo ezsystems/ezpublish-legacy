@@ -175,10 +175,6 @@ if ( $storingAllowed )
             $contentObjectAttribute =& $contentObjectAttributes[$key];
             $contentObjectAttribute->store();
         }
-
-        $objectName = $class->contentObjectName( $object );
-        $object->setAttribute( 'name', $objectName );
-        $object->store();
     }
 
     $validation['processed'] = true;
