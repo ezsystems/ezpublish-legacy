@@ -140,6 +140,13 @@ MatchFile=line/image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
+
+[image_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
 [embed_image]
 Source=content/view/embed.tpl
 MatchFile=embed/image.tpl

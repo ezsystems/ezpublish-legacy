@@ -150,24 +150,24 @@ div#leftmenu-design
 div#rightmenu 
 {
     float: right;
-    width: 178px;
 }
 
 div#rightmenu-design
 {
+    margin-right: 6px;
+    width: 178px;
 }
 
 div#maincontent
 {
     margin-left: 11em;
-    margin-right: 178px;
+    margin-right: 184px;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
 /* Toolbar design */
 div.toolbox
 { 
-    padding-right: 6px;
     margin-bottom: 8px;
     margin-top: 8px;
 }
@@ -196,7 +196,6 @@ div.toolbox-design h2
 /* Tool list design */
 div.toollist
 { 
-    padding-right: 6px;
     margin-bottom: 8px;
     margin-top: 8px;
 }
@@ -212,13 +211,12 @@ div.toollist-design
 
 div.toollist-design h2
 { 
-    margin-top: 0px;
-    margin-bottom: 6px;
     width: 100%;
     position: relative;
     left: -10px;
     padding-left: 10px;
-    padding-top: 3px;
+    padding-top: 0px;
+    margin-top: 0px;
     padding-bottom: 3px;
     font: 12px regular;
     background-color: #336699;
@@ -337,20 +335,15 @@ div.factbox-design
 
 div.factbox-design h2
 { 
+    width: 100%;
     position: relative;
-    left: -6px;
-
-    width: 178px;
+    left: -10px;
+    padding-left: 10px;
+    padding-top: 0px;
     margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 6px;
-
-    padding-left: 6px;
-    padding-top: 3px;
     padding-bottom: 3px;
-
     font: 12px regular;
-    background-color: #369;
+    background-color: #336699;
     color: #fff;
 }
 
@@ -371,3 +364,23 @@ div.factbox div.content-file p
 }
 
 
+
+/* list item styles  */
+div.view-listitem h3
+{ 
+    margin-top: 6px;
+}
+
+div.view-listitem div.class-image div.content-image p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
+div.view-listitem div.class-image div.content-caption p
+{ 
+    font: 9pt regular;
+    padding: 0px;
+    margin: 0px;
+    color: #666;
+}

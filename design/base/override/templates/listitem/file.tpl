@@ -1,15 +1,16 @@
-{* File - Line view *}
+{* File - List item view *}
 
-<div class="view-line">
+<div class="view-listitem">
     <div class="class-file">
-    <h2>{$node.name}</h2>
+
+    <h3>{$node.name}</h3>
 
     <div class="content-short">
         {attribute_view_gui attribute=$node.object.data_map.description}
     </div>
 
     <div class="content-file">
-        <p>{attribute_view_gui attribute=$node.object.data_map.file}</p>
+        <p>{attribute_view_gui attribute=$node.object.data_map.file icon=no}</p>
     </div>
 
     </div>

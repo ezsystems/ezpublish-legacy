@@ -9,7 +9,7 @@
         <p>{attribute_view_gui attribute=$node.object.data_map.image image_class=small href=$node.url_alias|ezurl()}</p>
     </div>
 
-    <div class="content-short">
+    <div class="content-caption">
         {attribute_view_gui attribute=$node.object.data_map.caption}
     </div>
 
