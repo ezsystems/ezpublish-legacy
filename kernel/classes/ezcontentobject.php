@@ -2594,13 +2594,26 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Sets all content cache files to be expired.
+     Sets all content cache files to be expired. Both view cache and cache blocks are expired.
     */
     function expireAllCache()
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->setTimestamp( 'content-view-cache', mktime() );
+        $handler->setTimestamp( 'template-block-cache', mktime() );
+        $handler->store();
+    }
+
+    /*!
+     Expires all template block cache. This should be expired anytime any content
+     is published/modified or removed.
+    */
+    function expireTemplateBlockCache()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'template-block-cache', mktime() );
         $handler->store();
     }
 
@@ -2622,9 +2635,9 @@ class eZContentObject extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        if ( !$handler->hasTimestamp( 'content-cache' ) )
+        if ( !$handler->hasTimestamp( 'content-view-cache' ) )
             return false;
-        $expiryTime = $handler->timestamp( 'content-cache' );
+        $expiryTime = $handler->timestamp( 'content-view-cache' );
         if ( $expiryTime > $timestamp )
             return true;
         return false;

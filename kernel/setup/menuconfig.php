@@ -120,11 +120,13 @@ if ( $module->isCurrentAction( 'Store' ) )
     $compiledTemplateDir = $cacheDir ."/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
-    // Delete template cache.
-    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-    $handler =& eZExpiryHandler::instance();
-    $handler->setTimestamp( 'content-cache', mktime() );
-    $handler->store();
+    // Expire template block cache
+    $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
+
+    if ( $templateBlockCacheEnabled )
+    {
+        eZContentObject::expireTemplateBlockCache();
+    }
 }
 
 $availableMenuArray = $menuINI->variable( 'MenuSettings', 'AvailableMenuArray' );

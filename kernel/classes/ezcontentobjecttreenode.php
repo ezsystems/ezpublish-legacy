@@ -241,9 +241,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-cache' ) )
+        if ( $handler->hasTimestamp( 'content-view-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-cache' );
+            $expiryTime = $handler->timestamp( 'content-view-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )
@@ -297,9 +297,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-cache' ) )
+        if ( $handler->hasTimestamp( 'content-view-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-cache' );
+            $expiryTime = $handler->timestamp( 'content-view-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )
@@ -386,9 +386,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-cache' ) )
+        if ( $handler->hasTimestamp( 'content-view-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-cache' );
+            $expiryTime = $handler->timestamp( 'content-view-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )
@@ -2387,10 +2387,6 @@ WHERE
         include_once( "kernel/classes/ezrole.php" );
         include_once( "kernel/classes/ezpolicy.php" );
         include_once( "kernel/classes/ezpolicylimitation.php" );
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', time() );
-        $handler->store();
 
         if ( $nodeID == 0 )
         {
@@ -2430,6 +2426,20 @@ WHERE
         // Clean up subtree expiry blocks
         include_once( 'kernel/classes/ezcontentcache.php' );
         eZContentCache::subtreeCleanup( array ( $urlAlias ) );
+
+        // Clean up template cache bocks
+        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
+        if ( $templateBlockCacheEnabled )
+        {
+            eZContentObject::expireTemplateBlockCache();
+        }
+
+        // Clean up content view cache
+        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+        if ( $viewCacheEnabled )
+        {
+            eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
+        }
 
         // Clean up policies and limitations
         $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ) );
@@ -2978,11 +2988,6 @@ WHERE
 
     function store()
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
-        $handler->store();
-
         eZPersistentObject::storeObject( $this );
     }
 

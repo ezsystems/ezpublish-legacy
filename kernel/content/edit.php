@@ -391,6 +391,12 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             $ini =& eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+            $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
+
+            if ( $templateBlockCacheEnabled )
+            {
+                eZContentObject::expireTemplateBlockCache();
+            }
 
             eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
             if ( $viewCacheEnabled )
@@ -454,7 +460,6 @@ if ( !function_exists( 'checkContentActions' ) )
                     eZContentObject::expireAllCache();
                 }
                 eZDebug::accumulatorStop( 'node_cleanup' );
-
             }
             eZDebug::accumulatorStop( 'check_cache' );
 

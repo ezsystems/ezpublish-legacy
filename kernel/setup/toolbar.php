@@ -410,11 +410,12 @@ function removeRelatedCache( $siteAccess )
     include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'template-block' );
 
-    // Delete template cache.
-    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-    $handler =& eZExpiryHandler::instance();
-    $handler->setTimestamp( 'content-cache', mktime() );
-    $handler->store();
+    // Expire content view cache
+    $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+    if ( $viewCacheEnabled )
+    {
+        eZContentObject::expireAllCache();
+    }
 }
 
 ?>
