@@ -28,7 +28,7 @@ function toggleCheckboxes( formname, checkboxname )
 <form name="role" action={concat( $module.functions.view.uri, '/', $role.id, '/')|ezurl} method="post" >
 
 <div class="context-block">
-<h2 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( 'design/admin/role/view' ) )}&nbsp;{$role.name|wash}&nbsp;[{'Role'|i18n( 'design/admin/role/view' )}]</h2>
+<h2 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( 'design/admin/role/view' ) )}&nbsp;{'%role_name [Role]'|i18n( 'design/admin/role/view',, hash( '%role_name', $role.name ) )|wash}</h2>
 
 <div class="context-attributes">
 <div class="block">
@@ -85,7 +85,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="context-block">
 
-<h2 class="context-title">{'Users and groups using this role'|i18n( 'design/admin/role/view' )} [{$user_array|count}]</h2>
+<h2 class="context-title">{'Users and groups using the <%role_name> role [%users_count]'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array|count) )|wash}</h2>
 
 <table class="list" cellspacing="0">
 <tr>

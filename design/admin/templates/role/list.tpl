@@ -28,7 +28,7 @@ function toggleCheckboxes( formname, checkboxname )
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-<h2 class="context-title">{'Roles'|i18n( 'design/admin/role/list' )} [{$role_count}]</h2>
+<h2 class="context-title">{'Roles [%role_count]'|i18n( 'design/admin/role/list',, hash( '%role_count', $role_count ) )}</h2>
 
 {* Items per page selector. *}
 <div class="context-toolbar">
