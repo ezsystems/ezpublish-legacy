@@ -185,14 +185,14 @@ alter table ezorder add order_nr int not null default 0;
 
 
 # After RC1
-create table ezpublishontimevalue(
-    id int(11) NOT NULL auto_increment,
-    workflow_event_id int(11) NOT NULL default '0',
-    workflow_event_version int(11) NOT NULL default '0',
-    contentclass_id int(11) NOT NULL default '0',
-    contentclass_attribute_id int(11) NOT NULL default '0',
+create table ezwaituntildatevalue(
+    id int NOT NULL auto_increment,
+    workflow_event_id int NOT NULL default '0',
+    workflow_event_version int NOT NULL default '0',
+    contentclass_id int NOT NULL default '0',
+    contentclass_attribute_id int NOT NULL default '0',
     PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
-    KEY ezpublishontimevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
+    KEY ezwaituntildatevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
     );
 
 alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
@@ -200,3 +200,4 @@ alter table ezsession add cache_mask_1 int default 0 not null;
 alter table ezcontentobject_tree add column md5_path varchar(32);
 # remember to run scrap/updateniceurls.php to update path_identification strings
 update ezcontentobject_tree set md5_path = md5( path_identification_string );
+alter table ezcontentobject drop column parent_id;

@@ -52,7 +52,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     */
     function eZWaitUntilDateType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "Publish on time" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "Wait until date" );
     }
 
     function execute( &$process, &$event )
