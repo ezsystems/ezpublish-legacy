@@ -93,9 +93,10 @@ function eZCheckUser( &$siteBasics, &$uri )
          $http->sessionVariable( "eZUserLoggedInID" ) != '' and
          $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
     {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $currentUser =& eZUser::currentUser();
-        if ( !$currentUser->isEnabled() )
+        if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
+            $currentUser =& eZUser::currentUser();
+
+        if ( is_object( $currentUser ) && !$currentUser->isEnabled() )
         {
             eZUser::logoutCurrent();
             $currentUser =& eZUser::currentUser();

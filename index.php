@@ -117,7 +117,7 @@ function eZUpdateDebugSettings()
 
     $settings = array();
     list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['debug-ip-list'], $logList ) =
-        $ini->variableMulti( 'DebugSettings', 
+        $ini->variableMulti( 'DebugSettings',
                              array( 'DebugOutput', 'DebugByIP', 'DebugIPList', 'AlwaysLog' ),
                              array( 'enabled', 'enabled' ) );
     $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
@@ -567,46 +567,48 @@ while ( $moduleRunRequired )
         }
         if ( !$omitPolicyCheck )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $currentUser =& eZUser::currentUser();
-
-            $availableViewsInModule = $module->attribute( 'views' );
-            $runningFunctions = false;
-            if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
-                $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
-            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
-
-            $hasAccessToSite = false;
-            if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
+            if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
             {
-                $policyChecked = false;
-                foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+                $currentUser =& eZUser::currentUser();
+
+                $availableViewsInModule = $module->attribute( 'views' );
+                $runningFunctions = false;
+                if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
+                    $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
+                $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+
+                $hasAccessToSite = false;
+                if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
-                    $policy =& $siteAccessResult['policies'][$key];
-                    if ( isset( $policy['SiteAccess'] ) )
+                    $policyChecked = false;
+                    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                     {
-                        $policyChecked = true;
-                        eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
-                        if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                        $policy =& $siteAccessResult['policies'][$key];
+                        if ( isset( $policy['SiteAccess'] ) )
                         {
-                            $hasAccessToSite = true;
-                            break;
+                            $policyChecked = true;
+                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
+                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            {
+                                $hasAccessToSite = true;
+                                break;
+                            }
                         }
+                        if ( $hasAccessToSite )
+                            break;
                     }
-                    if ( $hasAccessToSite )
-                        break;
+                    if ( !$policyChecked )
+                        $hasAccessToSite = true;
                 }
-                if ( !$policyChecked )
+                else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
+                {
+                    eZDebugSetting::writeDebug( 'kernel-siteaccess', "access is yes" );
                     $hasAccessToSite = true;
-            }
-            else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
-            {
-                eZDebugSetting::writeDebug( 'kernel-siteaccess', "access is yes" );
-                $hasAccessToSite = true;
-            }
-            else if ( $siteAccessResult['accessWord'] == 'no' )
-            {
-                $accessList = $siteAccessResult['accessList'];
+                }
+                else if ( $siteAccessResult['accessWord'] == 'no' )
+                {
+                    $accessList = $siteAccessResult['accessList'];
+                }
             }
 
             if ( $hasAccessToSite )
@@ -1010,9 +1012,9 @@ if ( $show_page_layout )
         if ( $userObjectRequired )
         {
             // include user class
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
+                $currentUser =& eZUser::currentUser();
 
-            $currentUser =& eZUser::currentUser();
             $tpl->setVariable( "current_user", $currentUser );
             $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
         }
