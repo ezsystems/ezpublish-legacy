@@ -220,7 +220,7 @@ function eZSetupStep( &$tpl, &$http )
 			$dbObject->OutputSQL = false;
 			while( $i < count( $sqlResult ) )
 			{
-				$sqlQuery = "DROP TABLE '" . $sqlResult[$i][0] . "'";
+				$sqlQuery = "DROP TABLE " . $sqlResult[$i][0];
 				$dbObject->query( $sqlQuery );
 				if ( $dbObject->errorNumber() != 0 )
 				{
