@@ -1,0 +1,12 @@
+
+<table>
+<tr><th>Sequence value</th><th>Section item</th></tr>
+
+<tr><td>0. a</td><td>0. foo</td></tr>
+<tr><td>1. b</td><td>1. bar</td></tr>
+<tr><td>2. c</td><td>1. bar</td></tr>
+<tr><td>3. a</td><td>2. baz</td></tr>
+<tr><td>4. b</td><td>2. baz</td></tr>
+<tr><td>5. c</td><td>3. foo</td></tr>
+
+</table>

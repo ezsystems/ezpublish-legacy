@@ -61,9 +61,9 @@ class eZTemplateSequenceFunction
     /*!
      Initializes the function with the function name $inc_name.
     */
-    function eZTemplateSequenceFunction( $inc_name = "sequence" )
+    function eZTemplateSequenceFunction()
     {
-        $this->SequenceName = $inc_name;
+        $this->SequenceName = 'sequence';
     }
 
     /*!
@@ -72,6 +72,83 @@ class eZTemplateSequenceFunction
     function &functionList()
     {
         return array( $this->SequenceName );
+    }
+
+    /*!
+     * Returns the array with hits for the template compiler.
+     */
+    function functionTemplateHints()
+    {
+        return array( $this->SequenceName => array( 'parameters' => true,
+                                                    'static' => false,
+                                                    'parameter-transformation' => true,
+                                                    'tree-transformation' => true ) );
+    }
+
+    function templateNodeSequenceCreate( &$node, &$tpl, &$resourceData, $parameters, $nameValue, $loopValue )
+    {
+        $newNodes = array();
+
+        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['loop'],
+                                                              eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                              array( 'variable-name' => '_array',
+                                                                     'text-result' => false ) );
+
+        $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$GLOBALS['eZTemplateSequence-$nameValue'] = array( 'iteration' => 0, 'index' => 0, 'loop' => \$_array );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$GLOBALS['eZTemplateSequence-$nameValue']['loop'][0], \$currentNamespace );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', 0, \$currentNamespace );\n" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( '_array' );
+        $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+
+        return $newNodes;
+    }
+
+    function templateNodeSequenceIterate( &$node, &$tpl, &$resourceData, $parameters, $nameValue )
+    {
+        $newNodes = array();
+ 
+        $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$_seq_var = &\$GLOBALS['eZTemplateSequence-$nameValue'];\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "++\$_seq_var['index'];\n++\$_seq_var['iteration'];" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$_seq_var['index'] >= count( \$_seq_var['loop'] ) )\n\t\$_seq_var['index'] = 0;\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$_seq_var['loop'][\$_seq_var['index']], \$currentNamespace );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', \$_seq_var['iteration'], \$currentNamespace );\n" );
+        $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+
+        return $newNodes;
+    }
+
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData, $parameters )
+    {
+        $newNodes = array();
+        $namespaceValue = false;
+        $varName = 'match';
+
+        if ( !isset( $parameters['name'] ) )
+        {
+            return false;
+        }
+
+        $nameData = $parameters['name'];
+        $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $nameData, false, $resourceData );
+        $nameValue = $nameDataInspection['new-data'][0][1];
+
+        if ( isset( $parameters['loop'] ) )
+        {
+            $loopData = $parameters['loop'];
+            $loopDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $loopData, false, $resourceData );
+            $loopValue = $loopDataInspection['new-data'][0][1];
+
+            $newNodes = $this->templateNodeSequenceCreate( $node, $tpl, $resourceData, $parameters, $nameValue, $loopValue );
+        }
+        else
+        {
+            $newNodes = $this->templateNodeSequenceIterate( $node, $tpl, $resourceData, $parameters, $nameValue );
+        }
+       
+        return $newNodes;
     }
 
     /*!
