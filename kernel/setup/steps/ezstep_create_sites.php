@@ -575,6 +575,35 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
             $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
 
+            // Make sure the database has the correct locale on objects etc.
+            $saveResult = true;
+
+            if ( $saveResult )
+            {
+                // Make sure objects use the selected main language instead of eng-GB
+                if ( $primaryLanguageLocaleCode != 'eng-GB' )
+                {
+                    // Updates databases that have eng-GB data to the new locale.
+                    $updateSql = "UPDATE ezcontentobject_name
+SET
+  content_translation='$primaryLanguageLocaleCode',
+  real_translation='$primaryLanguageLocaleCode'
+WHERE
+  content_translation='eng-GB' OR
+  real_translation='eng-GB'";
+                    $db->query( $updateSql );
+
+                    $updateSql = "UPDATE ezcontentobject_attribute
+SET
+  language_code='$primaryLanguageLocaleCode'
+WHERE
+  language_code='eng-GB'";
+                    $db->query( $updateSql );
+//                 }
+                }
+            }
+
+
             $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
             $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
                                                $this->PersistenceList['additional_packages'] :
@@ -911,36 +940,8 @@ class eZStepCreateSites extends eZStepInstaller
 //         else
 //             eZDebug::writeError( "Failed fetching package " . $siteType['identifier'] );
 
-        $saveResult = true;
-
-        if ( $saveResult )
-        {
-//            eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
-
-            // Make sure objects use the selected main language instead of eng-GB
-            if ( $primaryLanguageLocaleCode != 'eng-GB' )
-            {
-                // Updates databases that have eng-GB data to the new locale.
-                $updateSql = "UPDATE ezcontentobject_name
-SET
-  content_translation='$primaryLanguageLocaleCode',
-  real_translation='$primaryLanguageLocaleCode'
-WHERE
-  content_translation='eng-GB' OR
-  real_translation='eng-GB'";
-                $db->query( $updateSql );
-
-                $updateSql = "UPDATE ezcontentobject_attribute
-SET
-  language_code='$primaryLanguageLocaleCode'
-WHERE
-  language_code='eng-GB'";
-                $db->query( $updateSql );
-//                 }
-            }
-        }
-
         // This the end, my friend
+        // Well, almost
         return true;
     }
 
