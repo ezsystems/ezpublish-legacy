@@ -27,6 +27,8 @@ eZINI:
   http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
 - Fixed misuse of in_array() function (Merged from 3.2, rev. 5893)
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
+- Fixed bug in checking number of parameters to array_merge() (Merged from 3.2, rev. 5899)
+  http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path

@@ -313,7 +313,7 @@ class eZTemplateArrayOperator
                     $tmpArray   = array();
                     $tmpArray[] = $operatorValue;
 
-                    if ( count( $operatorParameters ) < 2 )
+                    if ( count( $operatorParameters ) < 1 )
                     {
                         $tpl->error( $operatorName, "Requires an array (and at least one item!)" );
                         return;
