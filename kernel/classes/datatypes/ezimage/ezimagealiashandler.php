@@ -455,6 +455,7 @@ class eZImageAliasHandler
         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_language', $originalData['attribute_language'] ) );
 //         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has_file_copy', $originalData['has_file_copy'] ) );
     }
+
     function recreateDOMTree()
     {
         $aliasList =& $this->aliasList();

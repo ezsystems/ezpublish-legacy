@@ -271,7 +271,8 @@ class eZBinaryFileType extends eZDataType
             $version = $contentObjectAttribute->attribute( "version" );
 
             $mimeObj = new  eZMimeType();
-            $mime = $mimeObj->mimeTypeFor( $binaryFile->attribute( "original_filename" ), true );
+            $mimeData = $mimeObj->findByURL( $binaryFile->attribute( "original_filename" ), true );
+            $mime = $mimeData['name'];
             if ( $mime == '' )
             {
                 $mime = $binaryFile->attribute( "mime_type" );

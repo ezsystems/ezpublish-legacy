@@ -5,7 +5,7 @@
 {section show=is_set($attribute_parameters.size)}
 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
 {section-else}
-{set image_variation=$object.data_map.image.content["medium"]}
+{set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
 {/section}
 
 {section show=is_set($attribute_parameters.align)}

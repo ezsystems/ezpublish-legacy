@@ -115,8 +115,9 @@ class eZBinaryFileHandler
      Figures out the filename from the binary object \a $binary.
      Currently supports eZBinaryFile, eZMedia and eZImageAliasHandler.
      \return \c false if no file was found.
+     \param $returnMimeData If this is set to \c true then it will return a mime structure, otherwise it returns the filename.
     */
-    function storedFilename( &$binary )
+    function storedFilename( &$binary, $returnMimeData = false )
     {
         $origDir = eZSys::storageDirectory() . '/original';
 
@@ -140,7 +141,10 @@ class eZBinaryFileHandler
             $mimeData = eZMimeType::findByFileContents( $fileName );
             $mimeData['original_filename'] = $originalFilename;
             $mimeData['name'] = 'application/octet-stream';
-            return $mimeData;
+            if ( $returnMimeData )
+                return $mimeData;
+            else
+                return $mimeData['url'];
         }
         return false;
     }
@@ -229,7 +233,7 @@ class eZBinaryFileHandler
         if ( $fileObject === null )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 
-        $mimeData = $this->storedFilename( $fileObject );
+        $mimeData = $this->storedFilename( $fileObject, true );
         if ( !$mimeData )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 

@@ -655,6 +655,8 @@ WHERE
                                            "_",
                                            "_" ),
                                       $urlElement );
+        if ( strlen( $urlElement ) == 0 )
+            $urlElement = '_';
         return $urlElement;
     }
 

@@ -120,8 +120,12 @@ class eZImageType extends eZDataType
     {
         $result = false;
         $imageAltText = false;
+        $hasImageAltText = false;
         if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
             $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+            $hasImageAltText = true;
+        }
 
         $content =& $contentObjectAttribute->attribute( 'content' );
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
@@ -140,7 +144,8 @@ class eZImageType extends eZDataType
 
         if ( $content )
         {
-            $content->setAttribute( 'alternative_text', $imageAltText );
+            if ( $hasImageAltText )
+                $content->setAttribute( 'alternative_text', $imageAltText );
             $result = true;
         }
 

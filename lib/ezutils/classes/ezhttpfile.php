@@ -145,7 +145,7 @@ class eZHTTPFile
             $dest_name = $dir .  "/". basename( $this->Filename ) . $suffixString;
         }
 
-        eZDebug::writeDebug( $this->Filename );
+//         eZDebug::writeDebug( $this->Filename );
         if ( !move_uploaded_file( $this->Filename, $dest_name ) )
         {
             eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name" );
