@@ -75,6 +75,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/3_5_max_text_input_restriction_don_t_work_with_utf_8
 - Fixed bug with unchecked nodeID
   http://ez.no/community/bug_reports/node_not_set_and_fatal_error
+- Fixed bug with indexing of attributes and translations
+  http://ez.no/community/bug_reports/search_doubled_indexed_words_in_ezsearch_object_word_link
 
 *Library:
 
