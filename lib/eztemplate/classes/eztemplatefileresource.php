@@ -59,6 +59,7 @@ class eZTemplateFileResource
     {
         $this->Name = $name;
         $this->ServesStaticData = $servesStaticData;
+        $this->TemplateCache = array();
     }
 
     /*!
@@ -76,6 +77,62 @@ class eZTemplateFileResource
     function servesStaticData()
     {
         return $this->ServesStaticData;
+    }
+
+    function cacheKey( $uri, $res, $templatePath, &$extraParameters )
+    {
+        $key = md5( $uri );
+        return $key;
+    }
+
+    function &cachedTemplateTree( $uri, $res, $templatePath, &$extraParameters )
+    {
+        $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
+        return $this->cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
+    }
+
+    function setCachedTemplateTree( $uri, $res, $templatePath, &$extraParameters, &$root )
+    {
+        $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
+        $this->setCachedTree( $key, $uri, $res, $templatePath, $extraParameters, $root );
+    }
+
+    function &cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
+    {
+        $templateCache =& $GLOBALS['eZTemplateFileResourceCache'];
+        if ( !is_array( $templateCache ) )
+            $templateCache = array();
+        $root = null;
+        if ( isset( $templateCache[$key] ) )
+        {
+            $root =& $templateCache[$key];
+            eZDebug::writeDebug( "Cache hit for uri '$uri' with key '$key'", 'eZTemplateFileResource::cachedTree' );
+        }
+        else
+            eZDebug::writeDebug( "Cache miss for uri '$uri' with key '$key'", 'eZTemplateFileResource::cachedTree' );
+//         else
+//         {
+//             eZDebug::writeWarning( "Template cache for key '$key', created from uri '$uri', does not exist", 'eZTemplateFileResource;:cachedTree' );
+//         }
+        return $root;
+    }
+
+    function setCachedTree( $key, $uri, $res, $templatePath, &$extraParameters, &$root )
+    {
+        if ( $root === null )
+            return;
+        $templateCache =& $GLOBALS['eZTemplateFileResourceCache'];
+        if ( !is_array( $templateCache ) )
+            $templateCache = array();
+        if ( isset( $templateCache[$key] ) )
+        {
+            eZDebug::writeWarning( "Template cache for key '$key', created from uri '$uri', already exists", 'eZTemplateFileResource;:setCachedTree' );
+        }
+        else
+        {
+            eZDebug::writeDebug( "Setting cache for uri '$uri' with key '$key'", 'eZTemplateFileResource::setCachedTree' );
+        }
+        $templateCache[$key] =& $root;
     }
 
     /*!
@@ -140,6 +197,8 @@ class eZTemplateFileResource
     var $Name;
     /// True if the data served from this resource is static, ie it can be cached properly
     var $ServesStaticData;
+    /// The cache for templates
+    var $TemplateCache;
 }
 
 ?>

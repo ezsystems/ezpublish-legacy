@@ -310,19 +310,104 @@ class eZTemplate
     }
 
     /*!
+     Fetches the result of the template file and displays it.
+     If $template is supplied it will load this template file first.
+    */
+    function display( $template = false, $extraParameters = false )
+    {
+        $output =& $this->fetch( $template, $extraParameters );
+        if ( $this->ShowDetails )
+        {
+            echo '<h1>Result:</h1>' . "\n";
+            echo '<hr/>' . "\n";
+        }
+        echo "$output";
+        if ( $this->ShowDetails )
+        {
+            echo '<hr/>' . "\n";
+        }
+        if ( $this->ShowDetails )
+        {
+            echo "<h1>Template data:</h1>";
+            echo "<p class=\"filename\">" . $template . "</p>";
+            echo "<pre class=\"example\">" . htmlspecialchars( $this->Text ) . "</pre>";
+            reset( $this->IncludeText );
+            while ( ( $key = key( $this->IncludeText ) ) !== null )
+            {
+                $item =& $this->IncludeText[$key];
+                echo "<p class=\"filename\">" . $key . "</p>";
+                echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
+                next( $this->IncludeText );
+            }
+            echo "<h1>Result text:</h1>";
+            echo "<p class=\"filename\">" . $template . "</p>";
+            echo "<pre class=\"example\">" . htmlspecialchars( $output ) . "</pre>";
+            reset( $this->IncludeOutput );
+            while ( ( $key = key( $this->IncludeOutput ) ) !== null )
+            {
+                $item =& $this->IncludeOutput[$key];
+                echo "<p class=\"filename\">" . $key . "</p>";
+                echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
+                next( $this->IncludeOutput );
+            }
+        }
+    }
+
+    /*!
+     Tries to fetch the result of the template file and returns it.
+     If $template is supplied it will load this template file first.
+    */
+    function &fetch( $template = false, $extraParameters = false )
+    {
+        eZDebug::accumulatorStart( 'template_total' );
+        eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
+        $root = null;
+        if ( is_string( $template ) )
+            $root =& $this->load( $template, $extraParameters );
+        eZDebug::accumulatorStop( 'template_load' );
+        $text = "";
+        if ( $root !== null )
+        {
+            if ( $this->ShowDetails )
+                eZDebug::addTimingPoint( "Process" );
+            eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
+            $root->process( $this, $text, "", "" );
+            eZDebug::accumulatorStop( 'template_processing' );
+            if ( $this->ShowDetails )
+                eZDebug::addTimingPoint( "Process done" );
+        }
+        eZDebug::accumulatorStop( 'template_total' );
+        return $text;
+    }
+
+    /*!
      Loads the template using the URI $uri and parses it.
     */
-    function load( $uri, $extraParameters = false )
+    function &load( $uri, $extraParameters = false )
     {
-        $res =& $this->loadURI( $uri, true, $extraParameters );
-        $this->Text = "";
-        if ( $res )
+        $canCache = true;
+        $resource =& $this->resourceFor( $uri, $resourceName, $templateName );
+        if ( !$resource->servesStaticData() )
+            $canCache = false;
+        $root = null;
+        if ( $canCache )
+            $root = $this->cachedTemplateTree( $uri, $extraParameters );
+        if ( $root === null )
         {
-            $this->Text =& $res["text"];
-            $this->TimeStamp =& $res["time-stamp"];
-            $this->Tree->clear();
-            $this->parse( $this->Text, $this->Tree, "", $res );
+            $res =& $this->loadURI( $uri, true, $extraParameters );
+            $this->Text = "";
+            if ( $res )
+            {
+                $this->Text =& $res["text"];
+                $this->TimeStamp =& $res["time-stamp"];
+                $this->Tree->clear();
+                $this->parse( $this->Text, $this->Tree, "", $res );
+                $root =& $this->Tree;
+                if ( $canCache )
+                    $this->setCachedTemplateTree( $uri, $extraParameters, $this->Tree );
+            }
         }
+        return $root;
     }
 
     function parse( &$sourceText, &$rootElement, $rootNamespace, $relation )
@@ -373,7 +458,7 @@ class eZTemplate
      \return the root or null if no root is cached.
      \sa setCachedTemplateTree
     */
-    function &cachedTemplateTree( $uri )
+    function &cachedTemplateTree( $uri, &$extraParameters )
     {
         $res = "";
         $template = "";
@@ -385,9 +470,28 @@ class eZTemplate
                 $this->warning( "", "No resource for \"$res\" and no default resource, aborting." );
             return $root;
         }
-        if ( isset( $this->TemplateTrees[$uri] ) )
-            $root = $this->TemplateTrees[$uri];
+        $root =& $resobj->cachedTemplateTree( $uri, $res, $template, $root );
+//         if ( isset( $this->TemplateTrees[$uri] ) )
+//             $root = $this->TemplateTrees[$uri];
         return $root;
+    }
+
+    /*!
+     Sets the cached template tree for \a $uri to \a $root.
+    */
+    function setCachedTemplateTree( $uri, &$extraParameters, &$root )
+    {
+        $res = "";
+        $template = "";
+        $resobj =& $this->resourceFor( $uri, $res, $template );
+        if ( !is_object( $resobj ) )
+        {
+            if ( $displayErrors )
+                $this->warning( "setCachedTemplateTree", "No resource for \"$uri\" and no default resource, aborting." );
+            return;
+        }
+        $resobj->setCachedTemplateTree( $uri, $res, $template, $extraParameters, $root );
+//         $this->TemplateTrees[$uri] =& $root;
     }
 
     /*!
@@ -717,73 +821,6 @@ class eZTemplate
             $str = false;
             return $str;
         }
-    }
-
-    /*!
-     Fetches the result of the template file and displays it.
-     If $template is supplied it will load this template file first.
-    */
-    function display( $template = false, $extraParameters = false )
-    {
-        $output =& $this->fetch( $template, $extraParameters );
-        if ( $this->ShowDetails )
-        {
-            echo '<h1>Result:</h1>' . "\n";
-            echo '<hr/>' . "\n";
-        }
-        echo "$output";
-        if ( $this->ShowDetails )
-        {
-            echo '<hr/>' . "\n";
-        }
-        if ( $this->ShowDetails )
-        {
-            echo "<h1>Template data:</h1>";
-            echo "<p class=\"filename\">" . $template . "</p>";
-            echo "<pre class=\"example\">" . htmlspecialchars( $this->Text ) . "</pre>";
-            reset( $this->IncludeText );
-            while ( ( $key = key( $this->IncludeText ) ) !== null )
-            {
-                $item =& $this->IncludeText[$key];
-                echo "<p class=\"filename\">" . $key . "</p>";
-                echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
-                next( $this->IncludeText );
-            }
-            echo "<h1>Result text:</h1>";
-            echo "<p class=\"filename\">" . $template . "</p>";
-            echo "<pre class=\"example\">" . htmlspecialchars( $output ) . "</pre>";
-            reset( $this->IncludeOutput );
-            while ( ( $key = key( $this->IncludeOutput ) ) !== null )
-            {
-                $item =& $this->IncludeOutput[$key];
-                echo "<p class=\"filename\">" . $key . "</p>";
-                echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
-                next( $this->IncludeOutput );
-            }
-        }
-    }
-
-    /*!
-     Tries to fetch the result of the template file and returns it.
-     If $template is supplied it will load this template file first.
-    */
-    function &fetch( $template = false, $extraParameters = false )
-    {
-        eZDebug::accumulatorStart( 'template_total' );
-        eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
-        if ( is_string( $template ) )
-            $this->load( $template, $extraParameters );
-        eZDebug::accumulatorStop( 'template_load' );
-        $text = "";
-        if ( $this->ShowDetails )
-            eZDebug::addTimingPoint( "Process" );
-        eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
-        $this->Tree->process( $this, $text, "", "" );
-        eZDebug::accumulatorStop( 'template_processing' );
-        if ( $this->ShowDetails )
-            eZDebug::addTimingPoint( "Process done" );
-        eZDebug::accumulatorStop( 'template_total' );
-        return $text;
     }
 
     /*!
@@ -1317,14 +1354,6 @@ class eZTemplate
             eZDebug::writeError( $txt, "eZTemplate:$name" );
         else
             eZDebug::writeError( $txt, "eZTemplate" );
-    }
-
-    /*!
-     Sets the cached template tree for \a $uri to \a $root.
-    */
-    function setCachedTemplateTree( $uri, &$root )
-    {
-        $this->TemplateTrees[$uri] =& $root;
     }
 
     /*!

@@ -53,7 +53,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function eZTemplateDesignResource( $name = "design" )
     {
-        $this->eZTemplateFileResource( $name );
+        $this->eZTemplateFileResource( $name, true );
         $this->Keys = array();
     }
 
@@ -155,6 +155,29 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
         $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
         return eZTemplateFileResource::handleResource( $tpl, $text, $tstamp, $file, $method, $extraParameters );
+    }
+
+    function cacheKey( $uri, $res, $templatePath, &$extraParameters )
+    {
+        $matches = $this->fileMatchingRules( 'templates', $templatePath );
+
+        $matchKeys = $this->Keys;
+        $matchedKeys = array();
+
+        if ( is_array( $extraParameters ) and
+             isset( $extraParameters['ezdesign:keys'] ) )
+        {
+            $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
+        }
+
+        include_once( 'kernel/common/ezoverride.php' );
+        $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
+        if ( $match === null )
+            return false;
+
+        $file = $match["file"];
+        $key = md5( $file );
+        return $key;
     }
 
     /*!

@@ -156,6 +156,9 @@ class eZObjectForwarder
                 $tpl->error( $func_name,
                              'Unknown template root type: ' . $templateRoot['type'] );
         }
+
+        $root = null;
+        $canCache = false;
         if ( is_array( $attribute_access ) )
         {
             for ( $i = 0; $i < count( $attribute_access ) && !$res; ++$i )
@@ -164,24 +167,56 @@ class eZObjectForwarder
                 $output_var =& $tpl->variableAttribute( $input_var, $attribute_access_array );
                 $incfile =& $output_var;
                 $uri = "design:$template_dir$view_dir/$incfile.tpl";
-                $res =& $tpl->loadURI( $uri, false, $extraParameters );
-                $tried_files[] = $uri;
+
+                $canCache = true;
+                $resource =& $tpl->resourceFor( $uri, $resourceName, $templateName );
+                if ( !$resource->servesStaticData() )
+                    $canCache = false;
+                if ( $canCache )
+                    $root = $tpl->cachedTemplateTree( $uri, $extraParameters );
+
+                if ( $root === null )
+                {
+                    $res =& $tpl->loadURI( $uri, false, $extraParameters );
+                    $tried_files[] = $uri;
+                }
+                else
+                    break;
             }
-            if ( !is_array( $res ) and $rule["use_views"] )
+            if ( ( $root === null or
+                   !is_array( $res ) ) and
+                 $rule["use_views"] )
             {
                 $uri = "design:$template_dir/$view_mode.tpl";
-                $res =& $tpl->loadURI( $uri, false, $extraParameters );
-                $tried_files[] = $uri;
+                $canCache = true;
+                $resource =& $tpl->resourceFor( $uri, $resourceName, $templateName );
+                if ( !$resource->servesStaticData() )
+                    $canCache = false;
+                if ( $canCache )
+                    $root = $tpl->cachedTemplateTree( $uri, $extraParameters );
+                if ( $root === null )
+                {
+                    $res =& $tpl->loadURI( $uri, false, $extraParameters );
+                    $tried_files[] = $uri;
+                }
             }
         }
 
-        if ( is_array( $res ) )
+        if ( $root !== null or
+             is_array( $res ) )
         {
-            $root = new eZTemplateRoot();
-            $tpl_text =& $res["text"];
-            $nspace = $rule["namespace"];
-            $tpl->setIncludeText( $uri, $tpl_text );
-            $tpl->parse( $tpl_text, $root, "", $res );
+            if ( $root === null and
+                 $res )
+            {
+                $root = new eZTemplateRoot();
+                $tpl_text =& $res["text"];
+                $nspace = $rule["namespace"];
+                $tpl->setIncludeText( $uri, $tpl_text );
+                $tpl->parse( $tpl_text, $root, "", $res );
+                if ( $canCache )
+                    $tpl->setCachedTemplateTree( $uri, $extraParameters, $root );
+            }
+
             $designUsedKeys = array();
             $designMatchedKeys = array();
             if ( isset( $extraParameters['ezdesign:used_keys'] ) )
@@ -225,10 +260,13 @@ class eZObjectForwarder
                 }
             }
 
-            $root->process( $tpl, $sub_text, $current_nspace, $current_nspace );
-            $tpl->setIncludeOutput( $uri, $sub_text );
+            if ( $root )
+            {
+                $root->process( $tpl, $sub_text, $current_nspace, $current_nspace );
+                $tpl->setIncludeOutput( $uri, $sub_text );
 
-            $txt =& $sub_text;
+                $txt =& $sub_text;
+            }
             foreach ( $setVariableArray as $setVariableName )
             {
                 $tpl->unsetVariable( $setVariableName, $current_nspace );

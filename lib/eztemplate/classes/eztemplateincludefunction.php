@@ -129,8 +129,9 @@ class eZTemplateIncludeFunction
         if ( !$resource->servesStaticData() )
             $canCache = false;
         $root = null;
+        $extraParameters = null;
         if ( $canCache )
-            $root = $tpl->cachedTemplateTree( $uri );
+            $root = $tpl->cachedTemplateTree( $uri, $extraParameters );
 //         $root = null;
         if ( $root === null )
         {
@@ -143,7 +144,7 @@ class eZTemplateIncludeFunction
                 $tpl->setIncludeText( $uri, $tpl_text );
                 $tpl->parse( $tpl_text, $root, "", $res );
                 if ( $canCache )
-                    $tpl->setCachedTemplateTree( $uri, $root );
+                    $tpl->setCachedTemplateTree( $uri, $extraParameters, $root );
             }
         }
         if ( $root )
