@@ -42,6 +42,7 @@
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
+
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish is_container update script\n\n" .
                                                          "This script will set the is_container attribute on known eZ publish classes\n" .
@@ -59,6 +60,19 @@ $options = $script->getOptions( "", "",
                                 array() );
 
 $script->initialize();
+
+include_once( 'lib/version.php' );
+define( "EZ_UPDATEISCONTAINER_VERSION_FROM", '3.4.2' );
+define( "EZ_UPDATEISCONTAINER_VERSION_TO", '3.5.0' );
+$ezversion = eZPublishSDK::version();
+if ( version_compare( EZ_UPDATEISCONTAINER_VERSION_FROM, $ezversion , 'gt' ) ||
+     version_compare( EZ_UPDATEISCONTAINER_VERSION_TO, $ezversion , 'lt' ) )
+{
+    $cli->output( "Unsuitable eZ publish version: " . $ezversion );
+    $cli->output( eZPublishSDK::version() );
+    $script->shutdown();
+    exit();
+}
 
 $db =& eZDB::instance();
 
