@@ -151,7 +151,7 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
         {
             return array( 'edit_template', 'view_template',
                           'name', 'contentclass_attribute',
-                          'data_type_string',
+                          'data_type_string', 'is_information_collector',
                           'id', 'data_text', 'data_int' );
         }
 
@@ -159,7 +159,7 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
         {
             return in_array( $name, array( 'edit_template', 'view_template',
                                            'name', 'contentclass_attribute',
-                                           'data_type_string',
+                                           'data_type_string', 'is_information_collector',
                                            'section_id', 'contentclass_id', 'class_identifier',
                                            'id', 'data_text', 'data_int' ) );
         }
@@ -168,6 +168,14 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
         {
             if ( $name == 'edit_template' )
                 return $this->ClassAttribute->attribute( 'data_type_string' );
+            else if ( $name == 'data_type_string' )
+            {
+                return $this->ClassAttribute->DataTypeString;
+            }
+            else if ( $name == 'is_information_collector' )
+            {
+                return $this->ClassAttribute->IsInformationCollector;
+            }
             else if ( $name == 'view_template' )
                 return $this->ClassAttribute->attribute( 'data_type_string' );
             else if ( $name == 'name' )
