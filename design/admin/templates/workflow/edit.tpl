@@ -54,7 +54,7 @@
 <table class="list" cellspacing="0">
 <tr>
 <th>
-<input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Event:item.id}" />
+<input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Events.item.id}" />
 &nbsp;
 {$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}/{$Events.item.workflow_type.name}
 <div class="right">
