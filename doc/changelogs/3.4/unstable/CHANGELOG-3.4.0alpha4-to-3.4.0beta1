@@ -19,6 +19,8 @@ Changes from 3.4.0alpha4 to 3.4.0beta1
   by default but can be changed.
 - The versionview page will now set the $versionview_mode variable
   when including full template.
+- Fixed the version number check in package creator to allow version
+  of the form 3.4.0beta1
 
 *Database:
 - Moved the 'Anonymous' role assignment from the 'Anonymous User' to the

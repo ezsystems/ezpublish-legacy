@@ -732,10 +732,10 @@ class eZPackageCreationHandler
                                   'description' => ezi18n( 'kernel/package', 'Summary is missing' ) );
             $result = false;
         }
-        if ( !preg_match( "#^[0-9](\.[0-9])*$#", $packageVersion ) )
+        if ( !preg_match( "#^[0-9](\.[0-9]([a-zA-Z]+[0-9]*)?)*$#", $packageVersion ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Version' ),
-                                  'description' => ezi18n( 'kernel/package', 'The version must only contain numbers and must be delimited by dots (.), e.g. 1.0' ) );
+                                  'description' => ezi18n( 'kernel/package', 'The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1' ) );
             $result = false;
         }
         return $result;
