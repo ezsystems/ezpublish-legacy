@@ -203,7 +203,7 @@
 <label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label>
 
 <div class="original">
-{attribute_view_gui attribute=$ContentAttribute:item}<br />
+{attribute_view_gui attribute=$ContentAttribute:item}
 </div>
 
 <div class="translation">

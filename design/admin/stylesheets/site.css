@@ -380,6 +380,7 @@ div#leftmenu div#content-tree div.box-content
 
 div.box-content
 {
+    position: relative;
     padding: 0 2px 3px 1px;
 }
 
@@ -950,6 +951,13 @@ div.context-information p.translation
     text-align: right;
 }
 
+div.content-edit p.translation
+{
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+}
+
 div.context-information a
 {
     color: #8a8a85;
@@ -985,7 +993,7 @@ div.context-toolbar a:hover
 
 div.context-attributes
 {
-    background-color: #f8f8f8;
+    background-color: #fefefb;
     padding: 0.5em 0.5em 0.5em 0.5em;
 }
 
@@ -1299,12 +1307,12 @@ a.nodeicon
   text-decoration: none;
 }
 
-div.content-translation div.original
+div#maincontent div.content-translation div.block div.original
 {
-/*    background-color: #ecece4; */
+    background-color: #ecece4;
     margin: 0.5em 0 0.5em 0;
-    padding: 0.3em;
-    border: 1px dashed #000000;
+    padding: 0.2em;
+    border: 1px dashed #bfbeb6;
 }
 
 div.content-translation div.translation
