@@ -276,7 +276,8 @@ class eZContentCache
         $pathExisted = file_exists( $path );
         $ini =& eZINI::instance();
         $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
-        $fp = @fopen( $path, "w" );
+        $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
+        $fp = @fopen( "$cacheDir/$uniqid", "w" );
         if ( !$fp )
         {
             eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
@@ -291,6 +292,7 @@ class eZContentCache
         {
             fwrite( $fp, $serializeString );
             fclose( $fp );
+            rename( "$cacheDir/$uniqid", $path );
         }
 
         return $fp;
