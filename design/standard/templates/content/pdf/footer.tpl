@@ -28,9 +28,11 @@
 		     pageOffset, 0 ) )  *}
 
 {pdf(footer, hash( text, "eZ publish PDF export"|i18n( "design/standard/content/pdf" )|wash(pdf),
+                   size, 10,
 	           align, "left" ) ) }
 {pdf(footer, hash( text, "#page of #total"|i18n( "design/standard/content/pdf" )|wash(pdf),
-                   align, "right" ) ) }
+                   align, "right",
+		   size, 10 ) ) }
 {pdf(footer, hash( line, hash( margin, 30,
 		               thicknes, 1,
 			       size, "full" ) ) ) }

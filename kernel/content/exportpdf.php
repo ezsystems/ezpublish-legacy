@@ -62,22 +62,23 @@ if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) )
     $pdfExport->store( );
 }
 
-if ( isset( $pdfExport ) &&
-     $Module->hasActionParameter( 'SourceNode' ) &&
-     $Module->hasActionParameter( 'DestinationType' ) &&
-     $Module->hasActionParameter( 'ClassList' ) &&
-     $Module->hasActionParameter( 'SiteAccess' ) &&
-     $Module->hasActionParameter( 'Title' ) )
+if ( $Module->isCurrentAction( 'BrowseSource' ) ||
+     $Module->isCurrentAction( 'Export' ) )
 {
     $pdfExport->setAttribute( 'title', $Module->actionParameter( 'Title' ) );
-    $pdfExport->setAttribute( 'show_frontpage', $Module->actionParameter( 'DisplayFrontpage' ) );
+    $pdfExport->setAttribute( 'show_frontpage', $Module->hasActionParameter( 'DisplayFrontpage' ) ? 1 : 0 );
     $pdfExport->setAttribute( 'intro_text', $Module->actionParameter( 'IntroText' ) );
     $pdfExport->setAttribute( 'sub_text', $Module->actionParameter( 'SubText' ) );
-    $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
     $pdfExport->setAttribute( 'site_access', $Module->actionParameter( 'SiteAccess' ) );
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
     $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', $Module->actionParameter( 'DestinationFile' ) );
+
+    if ( $Module->isCurrentAction( 'Export' ) )
+    {
+        $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
+    }
+
     $pdfExport->store( );
 }
 
@@ -102,6 +103,10 @@ else if ( $Module->isCurrentAction( 'Export' ) )
 
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'generate_toc', 1 );
+
+        $tpl->setVariable( 'tree_traverse',
+                           $pdfExport->attribute( 'export_structure' ) == 'tree' ? 1 : 0 );
+        $tpl->setVariable( 'class_array', explode( ':', $pdfExport->attribute( 'export_classes' ) ) );
 
         if ( $Module->actionParameter( 'DestinationType' ) == 'download' )
         {

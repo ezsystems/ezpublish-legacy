@@ -22,9 +22,11 @@
 
 
 {pdf(header, hash( text, "#level1 - #level2"|i18n( "design/standard/content/pdf" )|wash(pdf),
-		   align, "left" ) ) }
+		   align, "left",
+		   size, 10 ) ) }
 {pdf(header, hash( text, "#levelIndex1:#levelIndex2"|i18n( "design/standard/content/pdf" )|wash(pdf),
-		   align, "right" ) ) }
+		   align, "right",
+		   size, 10 ) ) }
 {pdf(header, hash( line, hash( valign, "bottom",
                                thicknes, 1,
 			       size, "full" ) ) ) }

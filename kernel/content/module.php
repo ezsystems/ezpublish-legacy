@@ -169,7 +169,16 @@ $ViewList['exportpdf'] = array(
                                                           'ClassList' => 'ClassList',
                                                           'SiteAccess' => 'SiteAccess',
                                                           'DestinationType' => 'DestinationType',
-                                                          'DestinationFile' => 'DestinationFile' ) ),
+                                                          'DestinationFile' => 'DestinationFile' ),
+                                       'BrowseSource' => array( 'Title' => 'Title',
+                                                                'DisplayFrontpage' => 'DisplayFrontpage',
+                                                                'IntroText' => 'IntroText',
+                                                                'SubText' => 'SubText',
+                                                                'ExportType' => 'ExportType',
+                                                                'ClassList' => 'ClassList',
+                                                                'SiteAccess' => 'SiteAccess',
+                                                                'DestinationType' => 'DestinationType',
+                                                                'DestinationFile' => 'DestinationFile' ) ),
     'unordered_params' => array( 'language' => 'Language' ),
     'params' => array( 'PDFExportID' ) );
 
