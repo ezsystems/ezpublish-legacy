@@ -84,7 +84,7 @@ $FunctionList['object_list_count'] = array( 'name' => 'object_list_count',
                                                                           'type' => 'integer',
                                                                           'required' => true ) ) );
 
-$FunctionList['roles'] = array( 'name' => 'fetch_roles',
+$FunctionList['roles'] = array( 'name' => 'roles',
                                 'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
                                                         'class' => 'eZSectionFunctionCollection',
                                                         'method' => 'fetchRoles' ),
@@ -93,7 +93,7 @@ $FunctionList['roles'] = array( 'name' => 'fetch_roles',
                                                               'type' => 'integer',
                                                               'required' => true ) ) );
 
-$FunctionList['user_roles'] = array( 'name' => 'fetch_user_roles',
+$FunctionList['user_roles'] = array( 'name' => 'user_roles',
                                      'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
                                                              'class' => 'eZSectionFunctionCollection',
                                                              'method' => 'fetchUserRoles' ),
