@@ -221,8 +221,16 @@ class eZSys
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
+
         include_once( 'lib/ezutils/classes/ezdir.php' );
-        return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
+        if ( $cacheDir[0] == "/" )
+        {
+            return eZDir::path( array( $cacheDir ) );
+        }
+        else
+        {
+            return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
+        }
     }
 
     /*!

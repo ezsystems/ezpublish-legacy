@@ -324,7 +324,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $overrideKey = md5( $siteBase . $standardBase );
-        $overrideCacheFile = "var/cache/override/override_$overrideKey.php";
+        $cacheDir = eZSys::cacheDirectory();
+        $overrideCacheFile = "$cacheDir/override/override_$overrideKey.php";
         // Build matching cache only of it does not already exists,
         // or override file has been updated
         if ( !file_exists( $overrideCacheFile ) )
@@ -333,7 +334,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
             // Generate PHP compiled cache file.
             include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-            $phpCache = new eZPHPCreator( "var/cache/override", "override_$overrideKey.php" );
+            $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
             $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
             $i = 0;
@@ -396,7 +397,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             else
             {
                 // Cache could not be created
-                eZDebug::writeError( "Could not write template override cache file, check permissions in var/cache/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
                 $GLOBALS['eZTemplateOverrideArray'] =& $matchFileArray;
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;

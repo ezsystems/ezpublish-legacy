@@ -98,7 +98,8 @@ class eZTemplateCacheFunction
                 include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                 $md5Key = md5( $keyString );
 
-                $phpCache = new eZPHPCreator( "var/cache/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
+                $cacheDir = eZSys::cacheDirectory();
+                $phpCache = new eZPHPCreator( "$cacheDir/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
 
                 // Check if a custom expiry time is defined
                 if ( isset( $functionParameters["expiry"] ) )
