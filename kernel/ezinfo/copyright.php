@@ -21,7 +21,7 @@
 // PURPOSE.
 //
 // The "eZ publish professional licence" is available at
-// http://ez.no/home/licences/professional/. For pricing of this licence
+// http://ez.no/products/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
 //
@@ -50,7 +50,7 @@ THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 PURPOSE.</p>
 
 <p>The \"eZ publish professional licence\" is available at
-<a href=\"http://ez.no/home/licences/professional/\">http://ez.no/home/licences/professional/</a>. For pricing of this licence
+<a href=\"http://ez.no/products/licences/professional/\">http://ez.no/products/licences/professional/</a>. For pricing of this licence
 please contact us via e-mail. Further contact
 information is available at <a href=\"http://ez.no/home/contact/\">http://ez.no/home/contact/</a>.</p>
 

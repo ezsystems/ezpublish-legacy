@@ -18,7 +18,7 @@
 // PURPOSE.
 //
 // The "eZ publish professional licence" is available at
-// http://ez.no/home/licences/professional/. For pricing of this licence
+// http://ez.no/products/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
 //
