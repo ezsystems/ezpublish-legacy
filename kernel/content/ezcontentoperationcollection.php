@@ -44,12 +44,6 @@
 
 */
 
-// ViewCache. Smart Clear Types
-define( 'EZ_VCSC_CLEAR_NODE_CACHE'      , 1 );
-define( 'EZ_VCSC_CLEAR_PARENT_CACHE'    , 2 );
-define( 'EZ_VCSC_CLEAR_RELATING_CACHE'  , 4 );
-define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 7 );
-
 class eZContentOperationCollection
 {
     /*!
@@ -203,12 +197,13 @@ class eZContentOperationCollection
     */
     function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
     {
+        // AHTUNG!! modifing this function don't forget to modify
+        // eZContentCacheManager::clearObjectViewCache() too.
+
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
         $ini =& eZINI::instance();
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-
-        if ( $viewCacheEnabled )
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
         {
             $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
             if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )

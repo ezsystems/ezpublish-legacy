@@ -38,7 +38,6 @@
 */
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "kernel/classes/ezcontentcache.php" );
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
@@ -152,19 +151,11 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $object = $node->attribute( 'object' );
         if ( $node != null )
         {
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $nodeList = array();
-            $nodeList[] = $node->attribute( 'node_id' );
-            $nodeList[] = $node->attribute( 'parent_node_id' );
-
-            if ( eZContentCache::cleanup( $nodeList ) )
-            {
-                eZDebug::writeDebug( 'cache cleaned up', 'content, remove' );
-            }
+            include_once( "kernel/classes/ezcontentcachemanager.php" );
+            eZContentCacheManager::clearObjectViewCache( $object->attribute( 'id' ), true );
 
             if ( $node->attribute( 'main_node_id' ) == $deleteID )
             {
-                $object = $node->attribute( 'object' );
                 $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
                 foreach( array_keys( $allAssignedNodes ) as $key )
                 {
