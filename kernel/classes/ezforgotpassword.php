@@ -68,14 +68,14 @@ class eZForgotPassword extends eZPersistentObject
                       "name" => "ezforgot_password" );
     }
 
-    function& createNew( $userID, $hashKey, $time)
+    function &createNew( $userID, $hashKey, $time)
     {
         return new eZForgotPassword( array( "user_id" => $userID,
                                             "hash_key" => $hashKey,
                                             "time" => $time ) );
     }
 
-    function& fetchByKey( $hashKey )
+    function &fetchByKey( $hashKey )
     {
         return eZPersistentObject::fetchObject( eZForgotPassword::definition(),
                                                 null,
