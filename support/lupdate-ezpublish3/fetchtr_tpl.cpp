@@ -38,18 +38,40 @@
 
 static QTextStream stream;
 
-static QString getString( QString content, int pos, bool reverse )
+static QString getString( QString content, int pos, bool reverse, int &endpos )
 {
     int tpos = pos;
+    int qpos = pos;
     bool found = false;
-    QChar quote = content[pos];
+    QChar quote;
+    endpos = -1;
+    do
+    {
+        quote = content[tpos];
+        if ( reverse )
+            --tpos;
+        else
+            ++tpos;
+    } while ( ( quote == ' ' ||
+                quote == '\t' ||
+                quote == '\r' ||
+                quote == '\n' ) &&
+              tpos >= 0 &&
+              tpos < (int)content.length() );
+    if ( tpos < 0 ||
+         tpos >= (int)content.length() )
+        return QString::null;
+    if ( quote != '\'' &&
+         quote != '"' )
+        return QString::null;
+    qpos = tpos;
 
     while ( !found )
     {
         if ( reverse )
-            tpos = content.findRev( quote, tpos - 1 );
+            tpos = content.findRev( quote, tpos );
         else
-            tpos = content.find( quote, tpos + 1 );
+            tpos = content.find( quote, tpos );
 
         if ( content[tpos-1] != QChar( '\\' ) )
             found = true;
@@ -59,22 +81,55 @@ static QString getString( QString content, int pos, bool reverse )
             qWarning( "lupdate error: end quote not found" );
             return QString::null;
         }
+        if ( !found )
+        {
+            if ( reverse )
+                --tpos;
+            else
+                ++tpos;
+        }
     }
 
     QString str;
     if ( reverse )
-        str = content.mid( tpos + 1, pos - tpos - 1 );
+        str = content.mid( tpos + 1, qpos - tpos );
     else
-        str = content.mid( pos + 1, tpos - pos - 1 );
+        str = content.mid( qpos, tpos - qpos );
+    str = str.replace( "\\'", "'" );
+    str = str.replace( "\\\"", "\"" );
+    endpos = tpos;
+    if ( reverse )
+        --endpos;
+    else
+        ++endpos;
     return str;
+}
+
+static void skipComma( const QString &content, int pos, int &endpos )
+{
+    QChar c;
+    endpos = -1;
+    do
+    {
+        c = content[pos];
+        ++pos;
+    } while( pos < (int)content.length() &&
+             ( c == ' ' ||
+               c == '\t' ||
+               c == '\r' ||
+               c == '\n' ) );
+    if ( c == ',' )
+        endpos = pos;
+    return;
 }
 
 static void parse( MetaTranslator *tor )
 {
-    QRegExp i18nRE( "\\|[xi]18n\\(" );
+    QRegExp i18nRE( "\\|[ \t\r\n]*[xi]18n[ \t\r\n]*\\(" );
     QString content = stream.read();
-    QString context, source;
+    QString context, source, comment;
     int startpos, pos = 0;
+    int endpos;
 
     while ( pos >= 0 )
     {
@@ -83,21 +138,47 @@ static void parse( MetaTranslator *tor )
         if ( pos < 0 )
             return;
 
-        source = getString( content, startpos - 1, true );
+        source = getString( content, startpos - 1, true, endpos );
         if ( source.isNull() )
-            return;
+        {
+            qWarning( "ezlupdate error: Found non-quoted source, skipping translation" );
+            continue;
+        }
 
         if ( content[startpos+1] == 'x' )
         {
-            QString ext = getString( content, pos, false );
-            pos += ext.length() + 3;      // two quotes and a comma
+            QString ext = getString( content, pos, false, endpos );
+            if ( endpos < 0 )
+                continue;
+            pos = endpos;
+            skipComma( content, pos, endpos );
+            if ( endpos < 0 )
+                continue;
+            pos = endpos;
         }
-        context = getString( content, pos, false );
+        context = getString( content, pos, false, endpos );
+        if ( endpos < 0 )
+        {
+            qWarning( "ezlupdate error: Found non-quoted context, skipping translation" );
+            continue;
+        }
+        pos = endpos;
+        skipComma( content, pos, endpos );
+        if ( endpos < 0 )
+            continue;
+        pos = endpos;
+
+        comment = getString( content, pos, false, endpos );
+        if ( endpos >= 0 &&
+             comment.length() == 0 )
+                comment = QString::null;
+        else if ( endpos < 0 )
+            qWarning( "ezlupdate error: Found non-quoted comment, skipping translation" );
 
         if ( context.isNull() )
-            return;
+            continue;
 
-        tor->insert( MetaTranslatorMessage( context.latin1(), source.latin1(), "",
+        tor->insert( MetaTranslatorMessage( context.latin1(), source.latin1(), comment,
                                             QString::null, false ) );
     }
 }

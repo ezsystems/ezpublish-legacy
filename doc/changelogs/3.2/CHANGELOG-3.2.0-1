@@ -92,6 +92,17 @@ Changes from 3.1-1 to 3.2.0-1
 - Added version and relase numbers to database, that way it's possible to now
   the state of a database for future upgrades.
 - Added custom attribute support for object and custom tag.
+- Optimized text translation system, it will now only fetch requested contexts instead of all.
+  The optimization reduced both time taken and memory used.
+- Added support for letting extensions override translations in the kernel translation files.
+- Improved the i18n template operator to work with extensions. This means that the x18n
+  operator is deprecated.
+- Added support for having translation files in a specific charset. These translations
+  are used when the internal charset is the same as the translation charset thus
+  removing the need for charset translation.
+- Improved the template parser for ezlupdate, it will now allow more whitespaces between elements.
+- Added support for creating/updating multiple translations for ezlupdate.
+- Added detection for non-strings in i18n translations in ezlupdate.
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.

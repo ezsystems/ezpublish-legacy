@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<package version="3.2" xmlns:ezpackage="http://ez.no/ezpackage">
+  <name>forum</name>
+  <summary>Simple forum</summary>
+  <description>Creates a simple forum:
+* Straight lists</description>
+  <vendor>eZ systems</vendor>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezmaintainer">
+    <maintainer>
+      <name>Jan Borsodi</name>
+      <email>jb@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging>
+    <timestamp>32523452345</timestamp>
+    <host>jb.ez.no</host>
+    <packager>eZ systems. &lt;http://ez.no&gt;</packager>
+  </packaging>
+  <signature type="dsa/sha1">86cd29baf</signature>
+  <source>http://ez.no/developer</source>
+  <documents>
+    <document type="text/plain">README</document>
+    <document audience="end-user" type="text/plain">README-enduser</document>
+    <document type="text/plain">INSTALL</document>
+    <document type="text/plain" os='win32'>INSTALL-Windows.txt</document>
+    <document type="text/html">readme.html</document>
+  </documents>
+  <groups>
+   <group name="design" />
+   <group name="community/forum" />
+  </groups>
+  <release>
+    <version xmlns:ezversion="http://ez.no/ezversion">
+      <number>1.5.0</number>
+      <release>1</release>
+    </version>
+    <timestamp>21342345435</timestamp>
+    <license>GPL</license>
+    <state>stable</state>
+    <changelog xmlns:ezchangelog="http://ez.no/ezchangelog">
+      <entry>
+        <timestamp>293459235</timestamp>
+        <person>Jan Borsodi</person>
+        <email>jb@ez.no</email>
+        <change>Next/previous on forum lists</change>
+      </entry>
+    </changelog>
+    <dependencies xmlns:ezdependency="http://ez.no/">
+      <provides>
+        <function name="array_reverse" />
+      </provides>
+      <requires>
+        <package name="ezpublish" version="3.2" />
+        <file name="index.php" md5sum="" />
+        <library name="eztemplate" version="3.0" />
+        <any>
+          <module name="content" view="view" />
+          <template name="node/view/full.tpl" design="standard" />
+          <all>
+            <module name="content" />
+            <module name="notification" />
+            <module name="content" />
+          </all>
+        </any>
+        
+      </requires>
+      <obsoletes>
+       <package name="vbulletin" />
+      </obsoletes>
+      <conflicts>
+       <package name="simple-forum" />
+      </conflicts>
+    <dependencies>
+
+    <provides type="function" name="array_change_key_case" />
+    <filelist role="template" design="standard">
+      <file role="override" md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.tpl" />
+    </filelist>
+    <filelist role="image" design="standard">
+      <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="size.png"/>
+    </filelist>
+    <filelist role="css" design="standard">
+      <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.css"/>
+    </filelist>
+  </release>
+  <install>
+    <pre>
+      <run type="php" name="setup.php" />
+      <run type="shell" os='unix' name="init.sh" />
+      <run type="shell" os='win32' name="init.bat" />
+      <database import="forum.sql" />
+      <database import="forum_common.sql" driver='all' />
+      <database>
+        <table name="ezforum">
+          <field name='id' type='integer' autoincrement="true" />
+          <field name='name' type='varchar' size="50" />
+        </table>
+        <insert>
+          <field name='name'>First forum</field>
+        </insert>
+      </database>
+      <create type='contentobject' class='folder' >
+       <placement node='root' />
+        <attribute name='title'>Forums</attribute>
+      </create>
+    </pre>
+    <post>
+      <operation name="clearcache" clear="template-override" />
+    </post>
+  </install>
+  <uninstall>
+    <pre>
+    </pre>
+    <post>
+      <run type="php" name="uninstall.php" />
+      <operation name="clearcache" clear="template-override" />
+    </post>
+  </uninstall>
+</package>
+
+
+
+<class version="3.2">
+  <remote>
+    <url>http://nextgen.amos.dvh1.ez.no/class/view/2</url>
+    <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
+    <class-id value="2" />
+    <class-groups>
+      <class-group id="1" name="Content" />
+    </class-groups>
+  </remote>
+  <name>Article</name>
+  <identifier>article</name>
+  <object-name-pattern>&lt;title&gt;</object-name-pattern>
+  <meta-data>
+    <created>1024392098</created>
+    <modified>1024392098</modified>
+    <creator user-id='14' user-login='admin' />
+    <modifier user-id='14' user-login='admin' />
+  </meta-data>
+  <attributes>
+    <attribute datatype="ezstring" required="true" searchable="true" />
+      <name>Title</name>
+      <identifier>title</identifier>
+      <datatype-parameters>
+        <default-value>New article</default-value>
+        <max-string-length>255</max-string-length>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezxmltext" required="true" searchable="true" />
+      <name>Intro</name>
+      <identifier>intro</identifier>
+      <datatype-parameters>
+        <preferred-row-count>10</preferred-row-count>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezxmltext" searchable="true" />
+      <name>Body</name>
+      <identifier>body</identifier>
+      <datatype-parameters>
+        <preferred-row-count>20</preferred-row-count>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezimage" />
+      <name>Thumbnail</name>
+      <identifier>thumbnail</identifier>
+      <datatype-parameters>
+        <max-file-size size='mega'>2</max-file-size>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute type="ezboolean" />
+      <name>Enable comments</name>
+      <identifier>emable_comments</identifier>
+      <datatype-parameters>
+        <default-value enabled="false" />
+      </datatype-parameters>
+    </attribute>
+  </attributes>
+</class>
+
+
+<template-override>
+  <remote>
+    <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
+    <siteaccess>admin</siteaccess>
+  </remote>
+  <override name='folder'>
+    <source>node/view/full.tpl</source>
+    <destination>
+      <file>folder.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='1' />
+  </override>
+  <override name='folder_plain'>
+    <source>node/view/plain.tpl</source>
+    <destination>
+      <file>folder_plain.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='1' />
+  </override>
+  <override name='article>
+    <source>node/view/full.tpl</source>
+    <destination>
+      <file>article.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='2' />
+  </override>
+  <override name='search'>
+    <source>content/search.tpl</source>
+    <destination>
+      <file>search.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+  </override>
+</template-override>
+
+
+
+

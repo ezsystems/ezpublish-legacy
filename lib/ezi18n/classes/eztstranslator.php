@@ -53,108 +53,268 @@ class eZTSTranslator extends eZTranslatorHandler
     /*!
      Construct the translator and loads the translation file $file if it is set and exists.
     */
-    function eZTSTranslator( $file = null, $root = false, $useCache = true )
+    function eZTSTranslator( $locale, $filename = null, $useCache = true )
     {
         $this->UseCache = $useCache;
         $this->BuildCache = false;
         $this->eZTranslatorHandler( true );
 
-        if ( $root === false )
-            $root = "share/translations";
-        $this->File = $file;
-        $this->RootDir = $root;
+        $this->Locale = $locale;
+        $this->File = $filename;
         $this->Messages = array();
         $this->CachedMessages = array();
-
-        if ( $file !== null )
-            $this->load( $this->File );
+        $this->HasRestoredCache = false;
+        $this->RootCache = false;
     }
 
     /*!
      \static
-     \return true if the translation file exists.
+     Initialize the ts translator and context if this is not already done.
     */
-    function exists( $file, $root = false )
-    {
-        if ( $root === false )
-            $root = "share/translations";
-        $path = "$root/$file";
-        return file_exists( $path );
-    }
-
-    /*!
-     \static
-     Initialize the ts translator if this is not allready done.
-    */
-    function &initialize( $file, $root = false, $useCache = true )
+    function &initialize( $context, $locale, $filename, $useCache = true )
     {
         $tables =& $GLOBALS["eZTSTranslationTables"];
-        if ( isset( $tables[$root][$file] ) and get_class( $tables[$root][$file] ) == "eztstranslator" )
-            return $tables[$root][$file];
-//         $translator = null;
-//         if ( eZTSTranslator::exists( $file, $root ) )
-//         {
-        $translator = new eZTSTranslator( $file, $root, $useCache );
-        $tables[$root][$file] =& $translator;
-        $man =& eZTranslatorManager::instance();
-        $man->registerHandler( $translator );
-//         }
-        return $translator;
+        $instance = false;
+        $file = $locale . '/' . $filename;
+        if ( isset( $tables[$file] ) and
+             get_class( $tables[$file] ) == "eztstranslator" )
+            $instance =& $tables[$file];
+        if ( $instance and
+             $instance->hasInitializedContext( $context ) )
+            return $instance;
+        eZDebug::createAccumulatorGroup( 'tstranslator', 'TS translator' );
+        eZDebug::accumulatorStart( 'tstranslator_init', 'tstranslator', 'TS init' );
+        if ( !$instance )
+        {
+            $instance = new eZTSTranslator( $locale, $filename, $useCache );
+            $tables[$file] =& $instance;
+            $manager =& eZTranslatorManager::instance();
+            $manager->registerHandler( $instance );
+        }
+        $instance->load( $context );
+        eZDebug::accumulatorStop( 'tstranslator_init' );
+        return $instance;
     }
 
-    function load( $file )
+    /*!
+     \return true if the context \a $context is already initialized.
+    */
+    function hasInitializedContext( $context )
     {
-        $root = $this->rootDir();
-        $override = eZTSTranslator::overrideDir();
+        return isset( $this->CachedMessages[$context] );
+    }
+
+    /*!
+     Tries to load the context \a $requestedContext for the translation and returns true if was successful.
+    */
+    function load( $requestedContext )
+    {
+        return $this->loadTranslationFile( $this->Locale, $this->File, $requestedContext );
+    }
+
+    /*!
+     \private
+    */
+    function loadTranslationFile( $locale, $filename, $requestedContext )
+    {
         include_once( 'lib/ezutils/classes/ezdir.php' );
-        $path = eZDir::path( array( $root, '/', $file ) );
-        if ( !file_exists( $path ) )
+
+        // First try for current charset
+        $charset = eZTextCodec::internalCharset();
+        $tsTimeStamp = false;
+
+        if ( !$this->RootCache )
         {
-            eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator::load" );
-            return false;
+            $ini =& eZINI::instance();
+            $roots = array( $ini->variable( 'RegionalSettings', 'TranslationRepository' ) );
+            $extensionBase = eZExtension::baseDirectory();
+            $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
+            foreach ( $translationExtensions as $translationExtension )
+            {
+                $extensionPath = $extensionBase . '/' . $translationExtension . '/translations';
+                if ( file_exists( $extensionPath ) )
+                {
+                    $roots[] = $extensionPath;
+                }
+            }
+            $this->RootCache = array( 'roots' => $roots );
+        }
+        else
+        {
+            $roots = $this->RootCache['roots'];
+            $tsTimeStamp = $this->RootCache['timestamp'];
         }
 
         // Load cached translations if possible
         if ( $this->UseCache == true )
         {
-            $tsTimeStamp = filemtime( $path );
-            $key = 'cachecontexts';
-            if ( eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
+            if ( !$tsTimeStamp )
             {
-                eZTranslationCache::restoreCache( $key );
-                $contexts = eZTranslationCache::contextCache( $key );
-                if ( !is_array( $contexts ) )
-                    $contexts = array();
-                foreach ( $contexts as $context_name )
+                foreach ( $roots as $root )
                 {
-                    if ( eZTranslationCache::canRestoreCache( $context_name, $tsTimeStamp ) )
+                    $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
+                    if ( file_exists( $path ) )
                     {
-                        eZTranslationCache::restoreCache( $context_name );
-                        $this->CachedMessages[$context_name] =
-                             eZTranslationCache::contextCache( $context_name );
-
-                        foreach ( $this->CachedMessages[$context_name] as $key => $msg )
+                        $timestamp = filemtime( $path );
+                        if ( $timestamp > $tsTimeStamp )
+                            $tsTimeStamp = $timestamp;
+                    }
+                    else
+                    {
+                        $path = eZDir::path( array( $root, $locale, $filename ) );
+                        if ( file_exists( $path ) )
                         {
-                            $this->Messages[$key] = $msg;
+                            $timestamp = filemtime( $path );
+                            if ( $timestamp > $tsTimeStamp )
+                                $tsTimeStamp = $timestamp;
                         }
                     }
                 }
-                eZDebug::writeNotice( "Loading cached translation", "eZTSTranslator::load" );
-                return true;
+                $this->RootCache['timestamp'] = $tsTimeStamp;
             }
-            eZDebug::writeNotice( "Translation cache has expired. Will rebuild it from source.",
-                                  "eZTSTranslator::load" );
+            $key = 'cachecontexts';
+            if ( $this->HasRestoredCache or
+                 eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
+            {
+                eZDebug::accumulatorStart( 'tstranslator_cache_load', 'tstranslator', 'TS cache load' );
+                if ( !$this->HasRestoredCache )
+                {
+                    if ( !eZTranslationCache::restoreCache( $key ) )
+                    {
+                        $this->BuildCache = true;
+                    }
+                    $contexts = eZTranslationCache::contextCache( $key );
+                    if ( !is_array( $contexts ) )
+                        $contexts = array();
+                    $this->HasRestoredCache = $contexts;
+                }
+                else
+                    $contexts = $this->HasRestoredCache;
+                if ( !$this->BuildCache )
+                {
+//                     foreach ( $contexts as $contextName )
+                    $contextName = $requestedContext;
+                    if ( !isset( $this->CachedMessages[$contextName] ) )
+                    {
+                        eZDebug::accumulatorStart( 'tstranslator_context_load', 'tstranslator', 'TS context load' );
+                        if ( eZTranslationCache::canRestoreCache( $contextName, $tsTimeStamp ) )
+                        {
+                            if ( !eZTranslationCache::restoreCache( $contextName ) )
+                            {
+                                $this->BuildCache = true;
+//                                 break;
+                            }
+                            $this->CachedMessages[$contextName] =
+                                 eZTranslationCache::contextCache( $contextName );
+
+                            foreach ( $this->CachedMessages[$contextName] as $key => $msg )
+                            {
+                                $this->Messages[$key] = $msg;
+                            }
+                        }
+                        eZDebug::accumulatorStop( 'tstranslator_context_load' );
+                    }
+                }
+                eZDebugSetting::writeNotice( 'i18n-tstranslator', "Loading cached translation", "eZTSTranslator::loadTranslationFile" );
+                eZDebug::accumulatorStop( 'tstranslator_cache_load' );
+                if ( !$this->BuildCache )
+                {
+                    return true;
+                }
+            }
+            eZDebugSetting::writeNotice( 'i18n-tstranslator',
+                                         "Translation cache has expired. Will rebuild it from source.",
+                                         "eZTSTranslator::loadTranslationFile" );
             $this->BuildCache = true;
         }
 
-        $fd = fopen( $path, "r" );
-        $trans_xml = fread( $fd, filesize( $path ) );
-        fclose( $fd );
+        $status = false;
+        foreach ( $roots as $root )
+        {
+            $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
+            if ( !file_exists( $path ) )
+            {
+                $path = eZDir::path( array( $root, $locale, $filename ) );
+                if ( !file_exists( $path ) )
+                {
+                    eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator::loadTranslationFile" );
+                    continue;
+                }
+            }
 
-        include_once( "lib/ezxml/classes/ezxml.php" );
-        $xml = new eZXML();
+            eZDebug::accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
+            $fd = fopen( $path, "r" );
+            $trans_xml = fread( $fd, filesize( $path ) );
+            fclose( $fd );
 
-        $schema_xml = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            include_once( "lib/ezxml/classes/ezxml.php" );
+            $xml = new eZXML();
+
+            $tree =& $xml->domTree( $trans_xml );
+
+            if ( !$this->validateDOMTree( $tree ) )
+            {
+                eZDebug::writeWarning( "XML text for file $path did not validate", 'eZTSTranslator::loadTranslationFile' );
+                continue;
+            }
+            $status = true;
+
+            $treeRoot =& $tree->Root;
+            $children =& $treeRoot->Children;
+            foreach( $children as $child )
+            {
+                if ( $child->type() == 1 )
+                {
+                    if ( $child->name() == "context" )
+                    {
+                        $context =& $child;
+                        $this->handleContextNode( $context );
+                    }
+                    else
+                        eZDebug::writeError( "Unknown element name: " . $child->name(),
+                                             "eZTSTranslator::loadTranslationFile" );
+                }
+                else
+                    eZDebug::writeError( "Unknown DOMnode type: " . $child->type(),
+                                         "eZTSTranslator::loadTranslationFile" );
+            }
+            eZDebug::accumulatorStop( 'tstranslator_load' );
+        }
+
+        // Save translation cache
+        if ( $this->UseCache == true && $this->BuildCache == true )
+        {
+            eZDebug::accumulatorStart( 'tstranslator_store_cache', 'tstranslator', 'TS store cache' );
+            if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
+            {
+                $contexts = array_keys( $this->CachedMessages );
+                eZTranslationCache::setContextCache( 'cachecontexts',
+                                                     $contexts );
+                eZTranslationCache::storeCache( 'cachecontexts' );
+                $this->HasRestoredCache = $contexts;
+            }
+
+            foreach ( $this->CachedMessages as $contextName => $context )
+            {
+                if ( eZTranslationCache::contextCache( $contextName ) == null )
+                    eZTranslationCache::setContextCache( $contextName, $context );
+                eZTranslationCache::storeCache( $contextName );
+            }
+            $this->BuildCache = false;
+            eZDebug::accumulatorStop( 'tstranslator_store_cache' );
+        }
+
+        return $status;
+    }
+
+    /*!
+     Validates the DOM tree \a $tree and returns true if it is correct.
+     \warning There's no validation done yet, for it returns \c true for all DOM trees.
+    */
+    function validateDOMTree( &$tree )
+    {
+        return true;
+/*        $xmlSchema = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 xmlns="http://www.w3.org/2001/XMLSchema/default">
 
 <xsd:annotation>
@@ -195,60 +355,17 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
 </xsd:schema>';
 
-        $tree =& $xml->domTree( $trans_xml );
+        include_once( "lib/ezxml/classes/ezschema.php" );
 
-//         include_once( "lib/ezxml/classes/ezschema.php" );
+        $schema = new eZSchema( );
+        $schema->setSchema( $xmlSchema );
 
-//         $schema = new eZSchema( );
-//         $schema->setSchema( $schema_xml );
-
-//         $schema->validate( $tree );
-
-        $root =& $tree->Root;
-        $children =& $root->Children;
-        foreach( $children as $child )
-        {
-            if ( $child->type() == 1 )
-            {
-                if ( $child->name() == "context" )
-                {
-                    $context =& $child;
-                    $this->handleContextNode( $context );
-                }
-                else
-                    eZDebug::writeError( "Unknown element name: " . $child->name(),
-                                         "eZTSTranslator::load" );
-            }
-            else
-                eZDebug::writeError( "Unknown DOMnode type: " . $child->type(),
-                                     "eZTSTranslator::load" );
-        }
-
-        // Save translation cache
-        if ( $this->UseCache == true && $this->BuildCache == true )
-        {
-            if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
-            {
-                eZTranslationCache::setContextCache( 'cachecontexts',
-                                                     array_keys( $this->CachedMessages ) );
-                eZTranslationCache::storeCache( 'cachecontexts' );
-            }
-
-            foreach ( $this->CachedMessages as $context_name => $context )
-            {
-                if ( eZTranslationCache::contextCache( $context_name ) == null )
-                    eZTranslationCache::setContextCache( $context_name, $context );
-                eZTranslationCache::storeCache( $context_name );
-            }
-            $this->BuildCache = false;
-        }
-
-        return true;
+        return $schema->validate( $tree );*/
     }
 
     function handleContextNode( &$context )
     {
-        $context_name = null;
+        $contextName = null;
         $messages = array();
         $context_children =& $context->children();
         foreach( $context_children as $context_child )
@@ -261,7 +378,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     if ( count( $name_el ) > 0 )
                     {
                         $name_el = $name_el[0];
-                        $context_name = $name_el->content();
+                        $contextName = $name_el->content();
                     }
                 }
                 else if ( $context_child->name() == "message" )
@@ -276,7 +393,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                 eZDebug::writeError( "Unknown DOMnode type: " . $context_child->type(),
                                      "eZTSTranslator::handleContextNode" );
         }
-        if ( $context_name === null )
+        if ( $contextName === null )
         {
             eZDebug::writeError( "No context name found, skipping context",
                                  "eZTSTranslator::handleContextNode" );
@@ -285,12 +402,12 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
         foreach( $messages as $message )
         {
-            $this->handleMessageNode( $context_name, $message );
+            $this->handleMessageNode( $contextName, $message );
         }
         return true;
     }
 
-    function handleMessageNode( $context_name, &$message )
+    function handleMessageNode( $contextName, &$message )
     {
         $source = null;
         $translation = null;
@@ -341,40 +458,8 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 //             eZDebug::writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
             return false;
         }
-        $this->insert( $context_name, $source, $translation, $comment );
+        $this->insert( $contextName, $source, $translation, $comment );
         return true;
-    }
-
-    function setRootDir( $dir )
-    {
-        $this->RootDir = $dir;
-    }
-
-    function rootDir()
-    {
-        return $this->RootDir;
-    }
-
-    /*!
-     \static
-     \return the override directory, if no directory has been set "override" is returned.
-
-     The override directory is relative to the rootDir().
-    */
-    function overrideDir()
-    {
-        $dir =& $GLOBALS["eZTSTranslatorOverrideDir"];
-        if ( !isset( $dir ) or !is_string( $dir ) )
-            $dir = "override";
-        return $dir;
-    }
-
-    /*!
-     Sets the override directory to $dir.
-    */
-    function setOverrideDir( $dir )
-    {
-        $GLOBALS["eZTSTranslatorOverrideDir"] = $dir;
     }
 
     /*!
@@ -441,12 +526,13 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     */
     function insert( $context, $source, $translation, $comment = null )
     {
+//         eZDebug::writeDebug( "context=$context" );
         if ( $context == "" )
             $context = "default";
         $man =& eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
-        if ( isset( $this->Messages[$key] ) )
-            return $key;
+//         if ( isset( $this->Messages[$key] ) )
+//             return $key;
         $msg =& $man->createMessage( $context, $source, $comment, $translation );
         $msg["key"] = $key;
         $this->Messages[$key] =& $msg;
@@ -490,8 +576,6 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /// Contains the hash table with message translations
     var $Messages;
     var $File;
-    var $RootDir;
-    var $RootDir;
     var $UseCache;
     var $BuildCache;
     var $CachedMessages;

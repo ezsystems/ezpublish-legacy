@@ -54,34 +54,26 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 
     function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( false, $context, $source, $comment, $arguments );
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
     function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( $extension, $context, $source, $comment, $arguments );
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
-    function &eZTranslateText( $extension, $context, $source, $comment = null, $arguments = null )
+    function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
         $language =& ezcurrentLanguage();
         if ( $language == "eng-GB" ) // eng-GB does not need translation
             return ezinsertarguments( $source, $arguments );
 
         $file = 'translation.ts';
-        $root = false;
-        if ( $extension !== false )
-        {
-            $baseDir = eZExtension::baseDirectory();
-            $extensionDir = $baseDir . '/' . $extension . '/translations';
-            if ( file_exists( $extensionDir ) )
-                $root = $extensionDir;
-        }
 
         // translation.ts translation
         $ini =& eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
-        eZTSTranslator::initialize( $language . '/' . $file, $root, $useCache );
+        eZTSTranslator::initialize( $context, $language, $file, $useCache );
 
         // Bork translation: Makes it easy to see what is not translated.
         // If no translation is found in the eZTSTranslator, a Bork translation will be returned.

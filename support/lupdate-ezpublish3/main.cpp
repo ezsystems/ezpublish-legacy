@@ -50,43 +50,33 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
 
 static int verbose = 0;
-static QString version = "3.1-1"; // eZ publish version plus local version
+static QString version = "3.2-1"; // eZ publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
 static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}$" );
+static bool untranslated = false;    // Untranslated translation is off by default
 
 static void printUsage()
 {
-    qWarning( QString( "ezlupdate version %1-%2\n" ).arg( QT_VERSION_STR ).arg( version ) +
-              "Create or update an eZ publish 3 translation from eng-GB to [language]\n\n"
-              "Usage: ezlupdate [options] [language]\n"
+    qWarning( "Create or update an eZ publish 3 translation from eng-GB to one or more languages.\n"
+              "Usage: ezlupdate [OPTION]... [LANGUAGE]...\n\n"
               "Options:\n"
-              "    --help | -h\n"
-              "           Display this information and exit\n"
-              "    --extension | -e extension/myextension\n"
-              "           Extension mode. Scans extension instead of kernel, lib and design\n"
-              "    --dirs | -d dir1 dir2 ...\n"
-              "           Directories to scan in addition to kernel, lib and design\n"
-              "    --noobsolete | -no\n"
-              "           Drop all obsolete strings\n"
-              "    --verbose | -v | -vv\n"
-              "           Explain what is being done\n"
-              "    --version\n"
-              "           Display the version of ezlupdate and exit\n" );
+              "    -h, --help                Display this information and exit\n"
+              "    -e, --extension EXT       Extension mode. Scans extension EXT instead of kernel, lib and design\n"
+              "    -d, --dirs DIR [DIR]...   Directories to scan in addition to kernel, lib and design\n"
+              "    -u, --untranslated        Create/update the untranslated file as well\n"
+              "    -no, --noobsolete         Drop all obsolete strings\n"
+              "    -v, --verbose             Explain what is being done\n"
+              "    -vv                       Really explain what is being done\n"
+              "    --version                 Display the version of ezlupdate and exit\n" );
 }
 
 int main( int argc, char **argv )
 {
-    if ( argc < 2 )
-    {
-        printUsage();
-        return 0;
-    }
-
     // Argument handling
     bool noObsolete = false;
-    QString language;
+    QStringList languages;
     for ( int i = 1; i < argc; i++ )
     {
         if ( qstrcmp( argv[i], "--help" ) == 0 ||
@@ -94,6 +84,11 @@ int main( int argc, char **argv )
         {
             printUsage();
             return 0;
+        }
+        else if ( qstrcmp( argv[i], "--untranslated" ) == 0 ||
+                  qstrcmp( argv[i], "-u" ) == 0 )
+        {
+            untranslated = true;
         }
         else if ( qstrcmp( argv[i], "--extension" ) == 0 ||
                   qstrcmp( argv[i], "-e" ) == 0 )
@@ -163,12 +158,26 @@ int main( int argc, char **argv )
         }
         else
         {
-            language = argv[i];
+            QString language = argv[i];
             if ( localeRE.match( language ) == -1 )
             {
-                qFatal( "ERROR - Locale should be on the form aaa-AA" );
+                qFatal( "ERROR - Locale should be on the form aaa-AA. Examples: eng-GB, nor-NO" );
             }
+            else
+                languages.append( language );
         }
+    }
+
+    if ( untranslated )
+    {
+        // Add the untranslated file to the list
+        languages.append( "untranslated" );
+    }
+
+    if ( languages.count() == 0 )
+    {
+        qFatal( "ERROR - No languages defined, cannot continue." );
+        return 1;
     }
 
     // Create/verify translation directory
@@ -187,16 +196,22 @@ int main( int argc, char **argv )
             qFatal( "ERROR - eZ publish translations directory could not be created: " + tfdir.path() );
         }
     }
-    tfdir.setPath( tfdir.path() + QDir::separator() + language );
-    if ( !tfdir.exists() )
+
+    for ( QStringList::ConstIterator it = languages.begin(); it != languages.end(); ++it )
     {
-        if ( QDir::current().mkdir( tfdir.path() ) )
+        const QString &language = *it;
+        QDir languageDir;
+        languageDir.setPath( tfdir.path() + QDir::separator() + language );
+        if ( !languageDir.exists() )
         {
-            qWarning( "eZ publish translations directory created: " + tfdir.path() );
-        }
-        else
-        {
-            qFatal( "ERROR - eZ publish translations directory could not be created: " + tfdir.path() );
+            if ( QDir::current().mkdir( languageDir.path() ) )
+            {
+                qWarning( "eZ publish translations directory created: " + languageDir.path() );
+            }
+            else
+            {
+                qFatal( "ERROR - eZ publish translations directory could not be created: " + languageDir.path() );
+            }
         }
     }
 
@@ -221,8 +236,6 @@ int main( int argc, char **argv )
     // Additional directories
     for ( QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it )
         traverse( *it, fetchedTor );
-
-    MetaTranslator tor;
 
 //         // Try to find codec from locale file
 //         QString codec;
@@ -255,17 +268,23 @@ int main( int argc, char **argv )
 //         else
 //             qWarning( "Warning: No codec found, setting codec for .ts file to default: iso-8859-1" );
 
-    QFileInfo fi( tfdir.path() + "/translation.ts" );
-    tor.load( fi.filePath() );
-    if ( verbose )
-        qWarning( "Updating '%s'", fi.filePath().latin1() );
-    merge( &tor, &fetchedTor, verbose );
-    if ( noObsolete )
-        tor.stripObsoleteMessages();
-    tor.stripEmptyContexts();
+    for ( QStringList::ConstIterator it = languages.begin(); it != languages.end(); ++it )
+    {
+        const QString &language = *it;
+        MetaTranslator tor;
 
-    if ( !tor.save( fi.filePath() ) )
-        qWarning( "ezlupdate error: Cannot save '%s': %s", fi.filePath().latin1(), strerror( errno ) );
+        QFileInfo fi( tfdir.path() + QDir::separator() + language + QDir::separator() + "translation.ts" );
+        tor.load( fi.filePath() );
+        if ( verbose )
+            qWarning( "Updating '%s'", fi.filePath().latin1() );
+        merge( &tor, &fetchedTor, verbose );
+        if ( noObsolete )
+            tor.stripObsoleteMessages();
+        tor.stripEmptyContexts();
+
+        if ( !tor.save( fi.filePath() ) )
+            qWarning( "ezlupdate error: Cannot save '%s': %s", fi.filePath().latin1(), strerror( errno ) );
+    }
 
     return 0;
 }

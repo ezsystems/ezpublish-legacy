@@ -1,5 +1,49 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>&quot;design/standard/node/view&quot;</name>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>&apos;design/standard/collaboration/approval&apos;,,
+</name>
+    <message>
+        <source>below.&apos;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>&apos;design/standard/node/view&apos;</name>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>&apos;design/standard/notification&apos;</name>
+    <message>
+        <source>If you do not wish to continue receiving these notifications,
+change your settings at:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>&apos;design/standard/notification&apos;,,
+</name>
+    <message>
+        <source>system&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -51,7 +95,7 @@
     </message>
     <message>
         <source>My Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Collaboration</source>
@@ -89,16 +133,122 @@
         <source>Personal</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>My notification settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RAD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extension setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/node/view</name>
+    <message>
+        <source>Article</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Placed in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forum message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default object view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Product review</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Also part of these groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/shop</name>
+    <message>
+        <source>Payment was canceled. Try to buy again.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Max file size:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Default value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Empty</source>
@@ -126,11 +276,11 @@
     </message>
     <message>
         <source>Enum Element:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Enum Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Enum Element</source>
@@ -142,23 +292,23 @@
     </message>
     <message>
         <source>Min float value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Max float value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Min integer value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Max integer value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Media player type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Flash</source>
@@ -178,11 +328,11 @@
     </message>
     <message>
         <source>Default name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>VAT type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Price inc. VAT</source>
@@ -194,14 +344,106 @@
     </message>
     <message>
         <source>Max string length:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Preferred number of rows:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Current time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max file size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enum Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enum Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min float value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max float value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min integer value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max integer value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default naumber of rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matrix Column</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Column</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media player type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allowed classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default placement for objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New objects will not be placed in the content tree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select placement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable placement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAT type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max string length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferred number of rows</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -209,11 +451,11 @@
     <name>design/standard/class/edit</name>
     <message>
         <source>Editing class</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>on</source>
@@ -225,23 +467,23 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Object name pattern:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Member of groups:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Add to group</source>
@@ -265,7 +507,7 @@
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Required</source>
@@ -289,7 +531,7 @@
     </message>
     <message>
         <source>Datatypes:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
@@ -313,7 +555,7 @@
     </message>
     <message>
         <source>Editing class group</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modified by</source>
@@ -347,35 +589,103 @@
         <source>Removing class group %1 will remove the classes %2!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Editing class - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object name pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Member of groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datatypes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing class group - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
     <message>
         <source>Defined class groups</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New group</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -391,42 +701,74 @@
     </message>
     <message>
         <source>ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Copy:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New class</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -462,7 +804,7 @@
     </message>
     <message>
         <source>%1 was deferred for reediting</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>%1 awaits your approval</source>
@@ -525,31 +867,31 @@
     </message>
     <message>
         <source>The content object %1 was not approved and will be archived.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The content object %1 was deferred and is available as a draft.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>If the approver finds the new changes satisfying the object will be accepted.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The content object %1 was deferred and will be available as a draft.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The author must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Comment</source>
@@ -569,7 +911,7 @@
     </message>
     <message>
         <source>Defer</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Participants</source>
@@ -577,10 +919,34 @@
     </message>
     <message>
         <source>Content object class - %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The content object %1 was not accepted but is available as a draft again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit the object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pushback</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -648,23 +1014,23 @@
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Country:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Locale:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
@@ -674,16 +1040,51 @@
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/</name>
+    <message>
+        <source>Create new %classname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add %classname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove objects</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
     <message>
         <source>Copying:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Copy all versions</source>
@@ -699,6 +1100,14 @@
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copying %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version count is %1, and current version is %2.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -721,11 +1130,11 @@
     <name>design/standard/content/datatype</name>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>E-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New author</source>
@@ -737,15 +1146,15 @@
     </message>
     <message>
         <source>Filename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>MIME Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Filesize:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove</source>
@@ -753,31 +1162,31 @@
     </message>
     <message>
         <source>Year:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Month:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Day:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Hour:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Minute:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Image filename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Alternative image text:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove image</source>
@@ -785,19 +1194,19 @@
     </message>
     <message>
         <source>ISBN:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Width:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Height:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>High</source>
@@ -833,7 +1242,7 @@
     </message>
     <message>
         <source>Controls:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>ImageWindow</source>
@@ -857,15 +1266,15 @@
     </message>
     <message>
         <source>Existing filename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Existing orignal filename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Existing mime/type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No relation</source>
@@ -877,7 +1286,7 @@
     </message>
     <message>
         <source>Options:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New option</source>
@@ -885,43 +1294,43 @@
     </message>
     <message>
         <source>Start value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Stop value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Step value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Text:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>User ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Login:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>E-Mail:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Confirm password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No</source>
@@ -949,6 +1358,146 @@
     </message>
     <message>
         <source>Email:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MIME Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filesize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative image text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISBN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing orignal filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing mime/type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -956,7 +1505,7 @@
     <name>design/standard/content/edit</name>
     <message>
         <source>Collected information from:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The following information was collected:</source>
@@ -972,7 +1521,7 @@
     </message>
     <message>
         <source>Store Draft</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Send for publishing</source>
@@ -1048,7 +1597,7 @@
     </message>
     <message>
         <source>Created:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Not yet published</source>
@@ -1056,11 +1605,11 @@
     </message>
     <message>
         <source>Version info</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Editing:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Current</source>
@@ -1114,6 +1663,38 @@
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Collected information from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %1 - %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 (No locale information available)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
@@ -1123,35 +1704,35 @@
     </message>
     <message>
         <source>No results were found when searching for:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search for:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>returned</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>matches</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search all the words:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search the exact phrase:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search with at least one of the words:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any class</source>
@@ -1159,7 +1740,7 @@
     </message>
     <message>
         <source>Class attribute:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Update attributes</source>
@@ -1167,7 +1748,7 @@
     </message>
     <message>
         <source>In:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any section</source>
@@ -1175,7 +1756,7 @@
     </message>
     <message>
         <source>Published:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any time</source>
@@ -1207,18 +1788,161 @@
     </message>
     <message>
         <source>For more options try the %1advanced search%2</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No results were found for searching:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Object name</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class name</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>For more options try the %1Advanced search%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following words were excluded from the search:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results were found when searching for &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search all the words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search the exact phrase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search with at least one of the words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class attribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display per page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>10 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>20 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>30 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>50 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/tipafriend</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The message was sent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click here to return to the original page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The message was not sent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The message was not sent due to an unknown error. Please notify the site administrator about this error.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please correct the following errors:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Receivers name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Receivers email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This message was sent to you because &quot;%1 &lt;%2&gt;&quot; thought you might find the page &quot;%3&quot; at %4 interesting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is the link to the page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment by &quot;%1 &lt;%2&gt;&quot;:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1226,7 +1950,7 @@
     <name>design/standard/content/translate</name>
     <message>
         <source>Translating</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>%1 input was stored successfully</source>
@@ -1234,15 +1958,15 @@
     </message>
     <message>
         <source>Remove the following translations from</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Locale:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>(No locale information available)</source>
@@ -1258,7 +1982,7 @@
     </message>
     <message>
         <source>Translate into:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Add</source>
@@ -1274,7 +1998,7 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Store</source>
@@ -1282,6 +2006,30 @@
     </message>
     <message>
         <source>Edit Object</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Translating &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove the following translations from &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translate into</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1293,27 +2041,27 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Section:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Current version:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Restore:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1323,12 +2071,36 @@
         <source>Trash is empty</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Empty Trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/version</name>
     <message>
         <source>Versions for:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Version not a draft</source>
@@ -1336,11 +2108,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>is not available for editing anymore, only drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
@@ -1352,7 +2124,7 @@
     </message>
     <message>
         <source>was not created by you, only your own drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Version:</source>
@@ -1376,10 +2148,42 @@
     </message>
     <message>
         <source>Object Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Copy</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Versions for: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 was not created by you, only your own drafts can be edited.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to create new version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version history limit has been excessed and no archived version can be removed by the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can change your setting about version history in content.ini, remove draft versions or edit existing drafts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy and edit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1391,11 +2195,11 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Select:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Select</source>
@@ -1407,23 +2211,23 @@
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Section:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1435,7 +2239,7 @@
     </message>
     <message>
         <source>Current version:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Related objects</source>
@@ -1447,15 +2251,15 @@
     </message>
     <message>
         <source>Translation:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Placement:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site Design:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Change</source>
@@ -1471,6 +2275,95 @@
     </message>
     <message>
         <source>Versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up one level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top levels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch top levels by clicking one of these items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recent items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recent items are added on publishing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Empty Draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
+      You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Placement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site Design</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1518,6 +2411,22 @@
     </message>
     <message>
         <source>The object is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The view %2/%1 is disabled and cannot be accessed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The module %1 is disabled and cannot be accessed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1589,7 +2498,7 @@
     </message>
     <message>
         <source>Redirecting to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Redirect</source>
@@ -1605,6 +2514,14 @@
     </message>
     <message>
         <source>Undefined module: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revision:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Redirecting to %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1647,10 +2564,22 @@
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2!</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The following items were removed from your basket, because the products were changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removed nodes can be retrieved later. You will find them in the trash.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1662,27 +2591,27 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Copy:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>User</source>
@@ -1718,14 +2647,50 @@
     </message>
     <message>
         <source>Object:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Section ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You are not allowed to create child objects</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Bookmark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep me updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me about updates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1733,111 +2698,111 @@
     <name>design/standard/notification</name>
     <message>
         <source>Notification registration form</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Send Method:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>SMS</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Internal message</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Send day:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Immediately</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Send time:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Register</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Rule Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Keyword:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Additional constraint:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1845,6 +2810,69 @@
     </message>
     <message>
         <source>Send Message</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>below.&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not wish to continue receiving these notifications,
+change your settings at:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>system&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Receive all messages combined in one digest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%sitename.&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to receive messages combined in digest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digest settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of the week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/notification/collaboration</name>
+    <message>
+        <source>Collaboration notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose which collaboration items you wish to get notifications for.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1852,19 +2880,19 @@
     <name>design/standard/notification/rules</name>
     <message>
         <source>Content Class Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Keyword:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -1879,7 +2907,7 @@
     </message>
     <message>
         <source>Give access to module:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Every module</source>
@@ -1899,11 +2927,11 @@
     </message>
     <message>
         <source>Module:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Access:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Limited</source>
@@ -1931,7 +2959,7 @@
     </message>
     <message>
         <source>Function:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Go back to step 2</source>
@@ -1943,15 +2971,15 @@
     </message>
     <message>
         <source>Specify limitations in function</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>in module</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>&apos;Any&apos; means no limitation by this parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any</source>
@@ -1963,23 +2991,23 @@
     </message>
     <message>
         <source>Role edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Current policies:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Limitations:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
@@ -2003,11 +3031,11 @@
     </message>
     <message>
         <source>Assign:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Role view</source>
@@ -2023,7 +3051,7 @@
     </message>
     <message>
         <source>Limitation:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Users and groups assigned to this role</source>
@@ -2031,10 +3059,78 @@
     </message>
     <message>
         <source>User:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Assign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give access to module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Role edit %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current policies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subtree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2050,14 +3146,26 @@
     </message>
     <message>
         <source>Phrase:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Number of phrases:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Average result returned:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Phrase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of phrases</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Average result returned</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2093,11 +3201,11 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Navigation Part:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Content</source>
@@ -2129,19 +3237,19 @@
     </message>
     <message>
         <source>ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Assign:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
@@ -2149,6 +3257,42 @@
     </message>
     <message>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Navigation Part</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About Navigation Parts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The eZ publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Assign</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2302,6 +3446,376 @@
         <source>setup</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cache admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache was cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini file cache was cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template cache was cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View cache is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View cache is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini cache is always enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datatype wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basic information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of datatype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descriptive name of datatype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handle input on class level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Optional information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constant name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The creator of the datatype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description of your datatype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The first line will be used as the brief description and the rest are operator documentation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handles the datatype %datatypename
+By using %datatypename you can ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extension setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SVN revision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Safe mode is on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Safe mode is off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basedir restriction is on and set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basedir restriction is off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global variable registration is on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global variable registration is off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File uploading is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File uploading is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size of post data (text and files) is %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script memory limit is %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum execution time is %1 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rapid Application Development Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template operator wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new template override for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create template, permission denied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template will be placed in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Base template on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Empty file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy of default template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container ( with children )</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View ( without children )</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most common templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Design Resource</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Complete template list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>One operator in class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handles operator input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generates operator output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parameter handling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The creator of the operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description of your operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handles template operator %operatorname
+By using %operatorname you can ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Example code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish you can add some example code to explain how your operator should work.
+The default code was made from the basic parameters you chose.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default template resource</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match conditions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/setup/datatypecode</name>
+    <message>
+        <source>Constructor</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/db</name>
@@ -2402,15 +3916,15 @@
     <name>design/standard/setup/init</name>
     <message>
         <source>The database is ready for initialization, click the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Create Database</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>button when ready.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
@@ -2474,11 +3988,11 @@
     </message>
     <message>
         <source>Continue and remove the data.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Continue and skip database initialization.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Let me choose a new database.</source>
@@ -2490,7 +4004,7 @@
     </message>
     <message>
         <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
@@ -2514,15 +4028,15 @@
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Driver:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unicode support:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>no</source>
@@ -2534,7 +4048,7 @@
     </message>
     <message>
         <source>The database was succesfully initialized, you are now ready for some post configuration of the site. Click the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Configure</source>
@@ -2542,7 +4056,7 @@
     </message>
     <message>
         <source>button to start the configuration process.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No database connection</source>
@@ -2594,27 +4108,27 @@
     </message>
     <message>
         <source>Servername:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Socket:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Databasename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Confirm password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
@@ -2710,7 +4224,7 @@
     </message>
     <message>
         <source>which must available on the server or</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>SMTP</source>
@@ -2758,7 +4272,7 @@
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>eZ publish website</source>
@@ -2766,7 +4280,7 @@
     </message>
     <message>
         <source>If you find a bug (error), please go to</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
@@ -2774,27 +4288,27 @@
     </message>
     <message>
         <source>and report it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click on the URL to access your new</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>or click the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Done</source>
@@ -2802,7 +4316,7 @@
     </message>
     <message>
         <source>button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
@@ -2910,15 +4424,15 @@
     </message>
     <message>
         <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Title of your site:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>URL to your site:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Register Site</source>
@@ -3026,11 +4540,11 @@
     </message>
     <message>
         <source>button to re-run the system checking.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Welcome to the setup program for eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
@@ -3050,6 +4564,149 @@
     </message>
     <message>
         <source>System Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database is ready for initialization, click the %1 button when ready.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue but remove the data first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep data and skip database initialization.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It can take some time initializing the database so please be patient and wait until the new page is finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database was succesfully initialized. You are now ready for some post configuration of the site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the %1 button to start the configuration process.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Servername</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Databasename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>which must be available on the server or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>features.&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ez.no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>systems!&quot;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The default username for the administrator is %1 and the default password is %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is running in virtualhost mode and is considered secure. You may safely continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
+If you do not have the possiblity to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.
+       The administrator email is used as sender email from all emails sent from eZ publish, it&apos;s adviced to set this correctly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title of your site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL to your site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Administrator E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Securing Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the checkboxes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the setup program for eZ publish %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/setup/operatorcode</name>
+    <message>
+        <source>Example</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constructor, does nothing by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>\return an array with the template operator name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3241,27 +4898,27 @@
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>configuration and set</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>and</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>More information on the subject can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Configuration example:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Insufficient PHP version</source>
@@ -3311,6 +4968,46 @@
         <source>More information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on the subject can be found at %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>php.ini example:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternatively you may create a file called %1 in your eZ publish root folder and add the following:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>.htaccess example:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PHP option %1 is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PHP safe mode is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop</name>
@@ -3320,35 +5017,35 @@
     </message>
     <message>
         <source>Product:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Count:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Price ex. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Price inc. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Discount:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Total Price ex. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Total Price inc. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Subtotal Ex. VAT:</source>
@@ -3412,11 +5109,11 @@
     </message>
     <message>
         <source>Defined discount groups</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
@@ -3428,11 +5125,11 @@
     </message>
     <message>
         <source>Editing discount group</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Discard</source>
@@ -3444,11 +5141,11 @@
     </message>
     <message>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Defined rules:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Percent</source>
@@ -3456,7 +5153,7 @@
     </message>
     <message>
         <source>Apply to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Add Rule</source>
@@ -3484,15 +5181,15 @@
     </message>
     <message>
         <source>Discount percent:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any</source>
@@ -3500,7 +5197,7 @@
     </message>
     <message>
         <source>Section:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Order:</source>
@@ -3556,7 +5253,7 @@
     </message>
     <message>
         <source>Percentage:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Wish list</source>
@@ -3570,16 +5267,120 @@
         <source>Empty wish list</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price ex. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price inc. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total Price ex. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total Price inc. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discount groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit discount group - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined rules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attributes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discount percent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rule settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose which classes, sections or objects ( products ) applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Percentage</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/trigger</name>
     <message>
         <source>Triggers list</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Triggers editing</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Module Name</source>
@@ -3595,7 +5396,7 @@
     </message>
     <message>
         <source>Workflow ID</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No workflow</source>
@@ -3603,6 +5404,14 @@
     </message>
     <message>
         <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflow</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3648,6 +5457,17 @@
         <source>URL has not been checked</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects which use this link:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/url/edit</name>
+    <message>
+        <source>Editing URL - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user</name>
@@ -3661,31 +5481,31 @@
     </message>
     <message>
         <source>Login ID:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Registed user profile</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Login:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>e-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Update Profile</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Change Password</source>
@@ -3725,15 +5545,15 @@
     </message>
     <message>
         <source>Old Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Retype Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>OK</source>
@@ -3783,6 +5603,116 @@
         <source>Your account was successfully created.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>User profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please retype your old password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password didn&apos;t match, please retype your new password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password successfully updated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retype Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/user/forgotpassword</name>
+    <message>
+        <source>A mail has been send to the following e-mail address: %1. This e-mail contains a link you need to click so that we can confirm that the correct user is getting the new password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no registered user with that e-mail address.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password was successfully generated and sent to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Have you forgotten your password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you have forgotten your password we can generate a new one for you. All you need to do is to enter your e-mail address and we will create a new password for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate new password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 new password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your account information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click here to get new password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/user/register</name>
+    <message>
+        <source>Confirm user registration at %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New user registered at %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 registration info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
@@ -3804,7 +5734,7 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Groups</source>
@@ -3816,15 +5746,15 @@
     </message>
     <message>
         <source>Pos:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
@@ -3844,7 +5774,7 @@
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>on</source>
@@ -3856,15 +5786,15 @@
     </message>
     <message>
         <source>Defined workflow groups</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
@@ -3976,18 +5906,50 @@
     </message>
     <message>
         <source>Defined workflows for</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Temporary workflows for</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Pos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflow groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflows in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New workflow</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3995,11 +5957,11 @@
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Editor:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Sections:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any</source>
@@ -4007,23 +5969,23 @@
     </message>
     <message>
         <source>Users without approval:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Checkout text:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Section IDs:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Users without workflow IDs:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unpublish object</source>
@@ -4035,15 +5997,15 @@
     </message>
     <message>
         <source>Days:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Hours:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -4059,10 +6021,58 @@
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class Attributes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users without approval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checkout text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Classes to run workflow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users without workflow IDs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflow to run</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4214,6 +6224,14 @@
         <source>Cancelled whole workflow</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Workflow fetches template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflow redirects user view</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatype/ezbinaryfiletype</name>
@@ -4227,7 +6245,7 @@
     <message>
         <source>At least one author is requied.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
@@ -4330,7 +6348,7 @@
     <message>
         <source>At least one option is requied.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
@@ -4392,6 +6410,21 @@
     </message>
     <message>
         <source>Link </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one author is required.</source>
+        <comment>eZAuthorType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one option is required.</source>
+        <comment>eZOptionType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A user with this email already exists.</source>
+        <comment>eZUserType</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4468,6 +6501,26 @@
         <source>Versions</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>My bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip from %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The email address of the sender is not valid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The email address of the receiver is not valid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -4525,10 +6578,14 @@
     <name>kernel/notification</name>
     <message>
         <source>Notification edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Notification rule list</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Notification settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4548,10 +6605,14 @@
     </message>
     <message>
         <source>Role edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Role list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing policy</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4570,6 +6631,49 @@
     </message>
     <message>
         <source>Sections</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/setup</name>
+    <message>
+        <source>Cache admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template operator wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extension configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rapid Application Development</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate extensions</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4611,6 +6715,10 @@
         <source>VAT types</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Checkout</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/trigger</name>
@@ -4637,6 +6745,10 @@
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>URL edit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/user</name>
@@ -4654,6 +6766,21 @@
     </message>
     <message>
         <source>Register</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forgot password</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/user/register</name>
+    <message>
+        <source>Registration info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New user registered</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4704,6 +6831,21 @@
     <name>lib/eztemplate</name>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>setup/templateadmin</name>
+    <message>
+        <source>Template edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
