@@ -66,7 +66,12 @@ class eZTemplateImageOperator
 
         include_once( "lib/ezutils/classes/ezsys.php" );
         $ini =& eZINI::instance( 'texttoimage.ini' );
-        $this->FontDir = realpath( "." ) . "/" . $ini->variable( "PathSettings", "FontDir" );
+        $fontDirs = $ini->variable( "PathSettings", "FontDir" );
+        $this->FontDir = array();
+        foreach ( $fontDirs as $fontDir )
+        {
+            $this->FontDir[] = realpath( "." ) . "/" . $fontDir;
+        }
         $this->CacheDir = realpath( "." ) . "/" . $ini->variable( "PathSettings", "CacheDir" );
         $this->HTMLDir = eZSys::wwwDir() . $ini->variable( "PathSettings", "HtmlDir" );
 
@@ -477,7 +482,18 @@ class eZTemplateImageOperator
             if ( $namedParameters["textcolor"] !== null )
                 $textcol = $this->decodeColor( $namedParameters["textcolor"] );
 
-            $font =& new eZTemplateImageFont( $family, $size, $this->FontDir );
+            $fontDir = false;
+            foreach ( $this->FontDir as $fontPath )
+            {
+                if ( eZTemplateImageFont::exists( $family, $fontPath ) )
+                {
+                    $fontDir = $fontPath;
+                    break;
+                }
+            }
+            if ( !$fontDir )
+                return;
+            $font =& new eZTemplateImageFont( $family, $size, $fontDir );
 
             if ( $bgcol === null )
                 $bgcol = $this->color( "bgcolor" );

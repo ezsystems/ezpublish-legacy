@@ -74,21 +74,35 @@ class eZTemplateImageFont
         return $this->PointSize;
     }
 
+    /*!
+     \static
+     \return true if the font family \a $fontFamily exists in the path \a $fontPath.
+    */
+    function exists( $fontFamily, $fontPath )
+    {
+        return eZTemplateImageFont::fontFile( $fontFamily, $fontPath ) != false;
+    }
+
     function initialize()
     {
-        if ( preg_match( '/\.ttf$/', $this->FontFamily ) )
-            $family_file = $this->FontFamily;
+        $this->FontFile = eZTemplateImageFont::fontFile( $this->FontFamily, $this->FontPath );
+    }
+
+    function fontFile( $fontFamily, $fontPath )
+    {
+        if ( preg_match( '/\.ttf$/', $fontFamily ) )
+            $family_file = $fontFamily;
         else
-            $family_file = $this->FontFamily . '.ttf';
-        if ( $this->FontPath != '' )
+            $family_file = $fontFamily . '.ttf';
+        if ( $fontPath != '' )
         {
-            $font = $this->FontPath . "/$family_file";
+            $font = $fontPath . "/$family_file";
             if ( !file_exists( $font ) )
-                $font = $family;
+                $font = false;
         }
         else
-            $font = $this->FontFamily;
-        $this->FontFile = $font;
+            $font = $fontFamily;
+        return $font;
     }
 
     /// \privatesection
