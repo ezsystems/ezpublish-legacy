@@ -2,30 +2,6 @@
 <div class="maincontentheader">
 <h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
 </div>
-{section show=$search_text}
-{switch name=Sw match=$search_count}
-  {case match=0}
-<div class="warning">
-<h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text))}</h2>
-</div>
-  {/case}
-  {case}
-<div class="feedback">
-<h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text,$search_count))}</h2>
-</div>
-  {/case}
-{/switch}
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
-  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-<tr>
-	<td class="{$SearchResult:sequence}">
-	<a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
-	</td>
-</tr>
-  {/section}
-</table>
-{/section}
-
 
 <div class="block">
 <label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
@@ -116,5 +92,38 @@ selected="selected"
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
-</form>
 
+{section show=$search_text}
+<br/>
+{switch name=Sw match=$search_count}
+  {case match=0}
+<div class="warning">
+<h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text))}</h2>
+</div>
+  {/case}
+  {case}
+<div class="feedback">
+<h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text,$search_count))}</h2>
+</div>
+  {/case}
+{/switch}
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+  <th>{"Name"|i18n("design/standard/content/search")}</th>
+  <th>{"Class"|i18n("design/standard/content/search")}</th>
+</tr>
+
+  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
+<tr>
+  <td class="{$SearchResult:sequence}">
+    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
+  </td>
+  <td class="{$SearchResult:sequence}">
+    {$SearchResult:item.object.class_name}
+  </td>
+</tr>
+  {/section}
+</table>
+{/section}
+
+</form>

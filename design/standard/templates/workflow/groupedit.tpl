@@ -5,8 +5,7 @@
 </div>
 
 <div class="byline">
-<p class="created">{"Created by"|i18n("design/standard/workflow")} {$workflow_group.creator_id} {"on"|i18n("design/standard/workflow")} {$workflow_group.created|l10n(shortdatetime)}</p>
-<p class="modified">{"Modified by"|i18n("design/standard/workflow")} {$workflow_group.modifier_id} {"on"|i18n("design/standard/workflow")} {$workflow_group.modified|l10n(shortdatetime)}</p>
+<p class="modified">{"Modified by"|i18n("design/standard/workflow")} {content_view_gui view=text_linked content_object=$workflow_group.modifier.contentobject} {"on"|i18n("design/standard/workflow")} {$workflow_group.modified|l10n(shortdatetime)}</p>
 </div>
 
 <div class="block">

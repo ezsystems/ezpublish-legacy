@@ -354,10 +354,6 @@
 <context>
     <name>design/standard/class/list</name>
     <message>
-        <source>Defined class groups</source>
-        <translation>Definerte klassegrupper</translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Ny</translation>
     </message>
@@ -380,6 +376,10 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Class groups</source>
+        <translation>Klassegrupper</translation>
     </message>
 </context>
 <context>
@@ -664,6 +664,10 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slett</translation>
     </message>
 </context>
 <context>
@@ -1006,10 +1010,6 @@
         <translation>Forkast</translation>
     </message>
     <message>
-        <source>Version info</source>
-        <translation>Versjonsinformasjon</translation>
-    </message>
-    <message>
         <source>Current</source>
         <translation>Nåværende</translation>
     </message>
@@ -1109,6 +1109,10 @@
         <source>%1 (No locale information available)</source>
         <translation>%1 (Ingen stedsinformasjon tilgjengelig)</translation>
     </message>
+    <message>
+        <source>Versions</source>
+        <translation>Versjoner</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
@@ -1157,18 +1161,6 @@
         <translation>Søk</translation>
     </message>
     <message>
-        <source>Object name</source>
-        <translation>Objektnavn</translation>
-    </message>
-    <message>
-        <source>Class name</source>
-        <translation>Klassenavn</translation>
-    </message>
-    <message>
-        <source>For more options try the %1advanced search%2</source>
-        <translation>For flere valg, prøv %1avansert søk%2</translation>
-    </message>
-    <message>
         <source>Search all the words</source>
         <translation>Søk etter alle ordene</translation>
     </message>
@@ -1207,6 +1199,14 @@
     <message>
         <source>The following words were excluded from the search:</source>
         <translation>Følgende ord ble ekskludert fra søket:</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>For more options try the %1Advanced search%2</source>
+        <translation>For flere valg, prøv %1Avansert søk%2</translation>
     </message>
 </context>
 <context>
@@ -1315,16 +1315,8 @@
         <translation>Oversett</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
-    </message>
-    <message>
         <source>Store</source>
         <translation>Lagre</translation>
-    </message>
-    <message>
-        <source>Edit Object</source>
-        <translation>Rediger objekt</translation>
     </message>
     <message>
         <source>%1 input was stored successfully</source>
@@ -1341,6 +1333,10 @@
     <message>
         <source>Translate into</source>
         <translation>Oversett til</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
     </message>
 </context>
 <context>
@@ -1429,12 +1425,12 @@
         <translation>Endret tidspunkt:</translation>
     </message>
     <message>
-        <source>Object Edit</source>
-        <translation>Rediger objekt</translation>
+        <source>Edit</source>
+        <translation>Rediger</translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation>Kopier</translation>
+        <source>Copy and edit</source>
+        <translation>Kopier og rediger</translation>
     </message>
 </context>
 <context>
@@ -1514,6 +1510,14 @@
     <message>
         <source>Site Design</source>
         <translation>Nettstedsdesign</translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation>For å velge objekter, trykk tilsvarende radioknapp eller avkrysningsboks(er) og trykk på &quot;Velg&quot;-knappen.</translation>
+    </message>
+    <message>
+        <source>To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.</source>
+        <translation>Klikk på navnet til et objekt og du får en liste over barna til dette objektet. Slik kan du velge et objekt som er på et høyere nivå i treet.</translation>
     </message>
 </context>
 <context>
@@ -2172,6 +2176,14 @@
     <message>
         <source>Assign</source>
         <translation>Tilordne</translation>
+    </message>
+    <message>
+        <source>About Navigation Parts</source>
+        <translation>Om navigasjonsdeler</translation>
+    </message>
+    <message>
+        <source>The eZ publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed.</source>
+        <translation>Admin-grensesnittet i eZ publish er delt inn i navigasjonsdeler. Dette er en måtte å gruppere forskjellige deler av administrasjonsoppgavene på. Velg navigasjonsdelen som skal være aktiv for denne seksjonen.</translation>
     </message>
 </context>
 <context>
@@ -3588,14 +3600,6 @@
 <context>
     <name>design/standard/trigger</name>
     <message>
-        <source>Triggers list</source>
-        <translation>Utløserliste</translation>
-    </message>
-    <message>
-        <source>Triggers editing</source>
-        <translation>Redigering av utløsere</translation>
-    </message>
-    <message>
         <source>Module Name</source>
         <translation>Modulnavn</translation>
     </message>
@@ -3608,16 +3612,20 @@
         <translation>Tilkoblingstype</translation>
     </message>
     <message>
-        <source>Workflow ID</source>
-        <translation>Arbeidsflyt-ID</translation>
-    </message>
-    <message>
         <source>No workflow</source>
         <translation>Ingen arbeidsflyt</translation>
     </message>
     <message>
         <source>Store</source>
         <translation>Lagre</translation>
+    </message>
+    <message>
+        <source>Trigger list</source>
+        <translation>Utløserliste</translation>
+    </message>
+    <message>
+        <source>Workflow</source>
+        <translation>Arbeidsflyt</translation>
     </message>
 </context>
 <context>
@@ -3856,20 +3864,12 @@
         <translation>Redigerer arbeidsflytgruppe</translation>
     </message>
     <message>
-        <source>Created by</source>
-        <translation>Laget av</translation>
-    </message>
-    <message>
         <source>on</source>
         <translation> den</translation>
     </message>
     <message>
         <source>Modified by</source>
         <translation>Endret av</translation>
-    </message>
-    <message>
-        <source>Defined workflow groups</source>
-        <translation>Definerte arbeidsflytgrupper</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -3980,10 +3980,6 @@
         <translation>Informasjon</translation>
     </message>
     <message>
-        <source>Defined workflows for</source>
-        <translation>Definert arbeidsflyt for</translation>
-    </message>
-    <message>
         <source>Pos</source>
         <translation>Pos</translation>
     </message>
@@ -3998,6 +3994,14 @@
     <message>
         <source>Modified</source>
         <translation>Endringstidspunkt</translation>
+    </message>
+    <message>
+        <source>Workflow groups</source>
+        <translation>Arbeidsflytgrupper</translation>
+    </message>
+    <message>
+        <source>Workflows in %1</source>
+        <translation>Arbeidsflyt i %1</translation>
     </message>
 </context>
 <context>

@@ -4,7 +4,7 @@
 
 <div class="block">
 {let adv_url='/content/advancedsearch/'|ezurl}
-<label>{"For more options try the %1advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
+<label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
 {/let}
 </div>
 
@@ -34,8 +34,8 @@
 {/switch}
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 {section show=$search_result}
-<th>{"Object name"|i18n("design/standard/content/search")}</th>
-<th>{"Class name"|i18n("design/standard/content/search")}</th>
+<th>{"Name"|i18n("design/standard/content/search")}</th>
+<th>{"Class"|i18n("design/standard/content/search")}</th>
 <tr>
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
     <td class="{$SearchResult:sequence}">

@@ -1,19 +1,15 @@
 <a href={"/sdk/tutorials/view/workflows"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
 
-<h1>{"Triggers list"|i18n("design/standard/trigger")}</h1>
+<h1>{"Trigger list"|i18n("design/standard/trigger")}</h1>
 
 <form action={$module.functions.list.uri|ezurl} method="post" >
-
-
-<h4>{"Triggers editing"|i18n("design/standard/trigger")}</h4>
-
 
 <table width="100%" cellspacing="0">
 <tr>
 	<th align="left">{"Module Name"|i18n("design/standard/trigger")}</th>
 	<th align="left">{"Function Name"|i18n("design/standard/trigger")}</th>
 	<th align="left">{"Connect Type"|i18n("design/standard/trigger")}</th>
-	<th align="left">{"Workflow ID"|i18n("design/standard/trigger")}</th>
+	<th align="left">{"Workflow"|i18n("design/standard/trigger")}</th>
 </tr>
 
 
@@ -37,7 +33,5 @@
 
 </table>
 <input type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/trigger')}" />
-
-
 
 </form>

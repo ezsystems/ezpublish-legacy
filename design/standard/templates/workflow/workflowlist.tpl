@@ -1,7 +1,7 @@
 <form action={concat($module.functions.workflowlist.uri,"/",$group_id)|ezurl} method="post" name="WorkflowList">
 
 <div class="maincontentheader">
-<h1>{"Defined workflows for"|i18n("design/standard/workflow")} {$group_name}</h1>
+<h1>{"Workflows in %1"|i18n("design/standard/workflow","%1 is workflow group",array($group_name))}</h1>
 </div>
 
 {section show=$workflow_list}

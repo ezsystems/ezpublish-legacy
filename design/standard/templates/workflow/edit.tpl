@@ -16,8 +16,7 @@
 {/section}
 
 <div class="byline">
-<p class="created">Created by {$workflow.creator_id} on {$workflow.created|l10n(shortdatetime)}</p>
-<p class="modified">Modified by {$workflow.modifier_id} on {$workflow.modified|l10n(shortdatetime)}</p>
+<p class="modified">{"Modified by"|i18n("design/standard/workflow")} {content_view_gui view=text_linked content_object=$workflow.creator.contentobject} {"on"|i18n("design/standard/workflow")} {$workflow.modified|l10n(shortdatetime)}</p>
 </div>
 
 <div class="block">
@@ -34,6 +33,11 @@
 </tr>
 {/section}
 <tr>
+    <td></td>
+    <td>
+    {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete"}
+    </td>
+</tr>
 </table>
 
 <div class="buttonblock">
@@ -42,8 +46,7 @@
 <option name="Workflow_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
 {/section}
 </select>
-{include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
-{include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}
+&nbsp;{include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
 </div>
 
 <h2>{"Events"|i18n("design/standard/workflow")}</h2>

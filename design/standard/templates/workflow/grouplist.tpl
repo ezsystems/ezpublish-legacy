@@ -3,7 +3,7 @@
 <form action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">
-<h1>{"Defined workflow groups"|i18n("design/standard/workflow")}</h1>
+<h1>{"Workflow groups"|i18n("design/standard/workflow")}</h1>
 </div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
