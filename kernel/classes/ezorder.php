@@ -548,7 +548,7 @@ class eZOrder extends eZPersistentObject
         }
 
         $emailString = implode( ", ", $customEmailArray );
-        if ( !strlen( $emailstring ) )
+        if ( !strlen( $emailString ) )
         {
             $emailString = "''";
         }
