@@ -145,10 +145,6 @@ function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID
 	CurrentDisableID = disableID;
     }
 
-    // reposition menu
-    document.getElementById( menuID ).style.left = ( MouseX + EZPOPMENU_OFFSET ) + "px";
-    document.getElementById( menuID ).style.top = ( MouseY + EZPOPMENU_OFFSET ) + "px";
-
     // Do URL replace for all items in that menu
     for ( var i in menuArray[menuID]['elements'] )
     {
@@ -179,6 +175,7 @@ function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID
     }
 
     // make menu visible
+    ezpopmenu_moveOnScreen( menuID );
     var styleObject = ezjslib_getStyleObject( menuID, document );
     if( styleObject ) styleObject.visibility = 'visible';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
@@ -186,6 +183,35 @@ function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID
     document.getElementById( menuID ).onmouseover = function() { document.onmousedown = null; }
     document.getElementById( menuID ).onmouseout = function() { document.onmousedown = ezpopmenu_hideAll; }
     document.onmousedown = ezpopmenu_hideAll;
+}
+
+/*!
+  Makes sure the complete menu is visible in the viewing area.
+  The menu is repositioned like most OS's do. If it doesn't fit it is moved
+  to the opposite side of the mouse pointer.
+*/
+function ezpopmenu_moveOnScreen( menuID )
+{
+    menuElement = document.getElementById( menuID );
+    screenData = ezjslib_getScreenProperties();
+    newX = 0; newY = 0;
+    if( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
+	newY = MouseY - EZPOPMENU_OFFSET - menuElement.offsetHeight; // compensate if we are below the screen
+    else if( screenData.scrollY > EZPOPMENU_OFFSET + MouseY )
+	 newY = screenData.scrollY;  // compensate if we are above the top of the screen
+    else
+	newY = MouseY + EZPOPMENU_OFFSET;
+        
+    if( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
+	newX = MouseX - EZPOPMENU_OFFSET - menuElement.offsetWidth;     // compensate if we are to the right of the screen
+    else if( screenData.scrollX > EZPOPMENU_OFFSET + MouseX )
+	 newX = screenData.scrollX;  // compensate if we are to the left
+    else
+	newX = MouseX + EZPOPMENU_OFFSET;
+
+    // reposition menu
+    menuElement.style.left = newX + "px";
+    menuElement.style.top = newY + "px";
 }
 
 /*!

@@ -186,3 +186,55 @@ function ezjslib_getStyleObject( objID )
         return false;
     }
 }
+
+/*!
+  Get the properties of the visible screen. Returns an object containing
+  .ScrollX - The amount of pixels the page has been scrolled vertically
+  .ScrollY - The amount of pixels the page has been scrolled horizontally
+  .Height - The height of the browser window
+  .Width - The width of the browser window.
+*/
+function ezjslib_getScreenProperties()
+{
+  // client width and height
+  result = new Array();
+  if( typeof( window.innerWidth ) == 'number' ) 
+  {
+    // all but IE
+    result.Width = window.innerWidth;
+    result.Height = window.innerHeight;
+  } 
+  else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) 
+  {
+    // IE 6
+    result.Width = document.documentElement.clientWidth;
+    result.Height = document.documentElement.clientHeight;
+  } 
+  else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) 
+  {
+    // IE 4
+    result.Width = document.body.clientWidth;
+    result.Height = document.body.clientHeight;
+  }
+
+  // offsets
+  if( typeof( window.pageYOffset ) == 'number' ) 
+  {
+    // Netscape compliant
+    result.ScrollY = window.pageYOffset;
+    result.ScrollX = window.pageXOffset;
+  } 
+  else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) 
+  {
+    // DOM
+    result.ScrollY = document.body.scrollTop;
+    result.ScrollX = document.body.scrollLeft;
+  } 
+  else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) 
+  {
+    // IE6
+    result.ScrollY = document.documentElement.scrollTop;
+    result.ScrollX = document.documentElement.scrollLeft;
+  }
+  return result;
+}
