@@ -10,6 +10,7 @@
     <li><a href={'/setup/cache/'|ezurl}>{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/class/grouplist/'|ezurl}>{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/setup/extensions/'|ezurl}>{'Extensions'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
+    <li><a href={'/content/edit/52/'|ezurl}>{'Global settings'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/settings/view'|ezurl}>{'Ini settings'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
 <!-- Removed from 3.5. Enable if you have special requirements.   <li><a href={'/notification/runfilter/'|ezurl}>{'Notification'|i18n( 'design/admin/parts/setup/menu' )}</a></li> -->
     <li><a href={'/pdf/list/'|ezurl}>{'PDF export'|i18n( 'design/admin/parts/setup/menu' ,'PDF export')}</a></li>
