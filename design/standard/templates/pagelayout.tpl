@@ -62,9 +62,9 @@
 
 <table>
 <tr><td><a href="/class/grouplist/"><nobr><img src={"configure.png"|ezimage} border="0" alt=""/>Classes</nobr></a></td></tr>
-<tr><td><a href="/content/view/full/1/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Contents</nobr></a></td></tr>
-<tr><td><a href="/content/sitemap/1/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Sitemap</nobr></a></td></tr>
-<tr><td><a href="/content/sitemap/4/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Users</nobr></a></td></tr>
+<tr><td><a href="/content/view/full/2/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Contents</nobr></a></td></tr>
+<tr><td><a href="/content/sitemap/2/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Sitemap</nobr></a></td></tr>
+<tr><td><a href="/content/sitemap/5/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Users</nobr></a></td></tr>
 <tr><td><a href="/workflow/list/"><nobr><img src={"uml.png"|ezimage} border="0" alt=""/> Workflows</nobr></a></td></tr>
 <tr><td><a href="/shop/orderlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Order list</nobr></a></td></tr>
 <tr><td><a href="/shop/wishlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Wish list</nobr></a></td></tr>
