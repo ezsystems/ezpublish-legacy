@@ -428,9 +428,35 @@ class eZXMLTextType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
         $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $domDocument =& $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+
         if ( $domDocument )
         {
+            /* For all links found in the XML, do the following:
+             * - add "href" attribute fetching it from ezurl table.
+             * - remove "id" attribute.
+             */
+            {
+                include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+
+                $links =& $domDocument->elementsByName( 'link' );
+                if ( !is_array( $links ) )
+                    $links = array();
+                foreach ( array_keys( $links ) as $index )
+                {
+                    $linkRef =& $links[$index];
+                    $linkID =& $linkRef->attributeValue( 'id' );
+                    if ( !( $urlObj =& eZURL::fetch( $linkID ) ) ) // an error occured
+                        continue;
+                    $url =& $urlObj->attribute( 'url' );
+                    $linkRef->removeNamedAttribute( 'href' );
+                    $linkRef->appendAttribute( eZDOMDocument::createAttributeNode( 'href', $url ) );
+                    $linkRef->removeNamedAttribute( 'id' );
+                    unset( $urlObj );
+                }
+            }
+
             $node->appendChild( $domDocument->root() );
         }
 
@@ -447,6 +473,53 @@ class eZXMLTextType extends eZDataType
         $rootNode = $attributeNode->firstChild();
         if ( $rootNode )
         {
+
+            /* For all links found in the XML, do the following:
+             * Search for url specified in 'href' link attribute (in ezurl table).
+             * If the url not found then create a new one.
+             * Then associate the found (or created) URL with the object attribute by creating new url-object link.
+             * After that, remove "href" attribute, add new "id" attribute.
+             * This new 'id' will always refer to the existing url object.
+             */
+            {
+                include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+
+                $xml = new eZXML();
+                $domDocument =& $xml->domTree( $rootNode->toString( 0 ) );
+
+                if ( $domDocument )
+                {
+                    $links =& $domDocument->elementsByName( 'link' );
+                    if ( !is_array( $links ) )
+                        $links = array();
+
+                    foreach ( array_keys( $links ) as $index )
+                    {
+                        $linkRef =& $links[$index];
+                        $href    =  $linkRef->attributeValue( 'href' );
+
+                        $urlObj =& eZURL::urlByURL( $href );
+
+                        if ( !$urlObj )
+                        {
+                            $urlObj =& eZURL::create( $href );
+                            $urlObj->store();
+                        }
+
+                        $linkRef->removeNamedAttribute( 'href' );
+                        $linkRef->removeNamedAttribute( 'id' );
+                        $linkRef->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $urlObj->attribute( 'id' ) ) );
+                        $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                                                                   $objectAttribute->attribute( 'id' ),
+                                                                   $objectAttribute->attribute( 'version' ) );
+                        $urlObjectLink->store();
+
+                    }
+                    $rootNode =& $domDocument->root();
+                }
+            }
+
             $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
         }
     }
