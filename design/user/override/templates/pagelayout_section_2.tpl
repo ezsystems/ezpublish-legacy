@@ -11,7 +11,7 @@
     <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/gallery.css"|ezdesign} />
 
 <!-- Javascript START -->
 

@@ -56,139 +56,134 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <!-- Top box START -->
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
-<br />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" /><br /><br />
 
-<map name="map">
-<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
+<map id="map">
+<area shape="rect" coords="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<area shape="rect" coords="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<area shape="rect" coords="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<area shape="rect" coords="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<area shape="rect" coords="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<area shape="rect" coords="393,3,472,23" href={"content/view/full/200/"|ezurl} />
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
      news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
-<br />
-<table width="700" border="0" cellspacing="0" cellpadding="0">
+<table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
-    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0"/></a></td>
+    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
+    </td>
 </tr>
 <tr>
-    <td colspan="2" bgcolor="#e4eaf3">
-    <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-    <table width="700" border="0" cellspacing="0" cellpadding="0">
+    <td class="topmenuline" colspan="2">
+
+    <form action={"/content/search/"|ezurl} method="get">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         {section name=Folder loop=$folder_list}
-        <td align="left">
-        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font>
+        <td class="topmenu" width="98%">
+        <a href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a> 
         </td>
         {/section}
-        <td align="right" width="30">
-        <input type="hidden" name="SectionID" value="6">
-        <input  type="text" size="10" name="SearchText" id="Search" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px; background: #ffffff;"/>&nbsp;
-	</td>
-	<td align="right" width="30">
-        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" style="font-size: 7px; margin: 0px; padding: 0px;" />
+        <td align="right" width="1%">
+        <input type="hidden" name="SectionID" value="6" />
+        <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />&nbsp;
+    	</td>
+	    <td align="right" width="1%">
+        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" />
         </td>
     </tr>
     </table>    
+
     </form>
+
     </td>
 </tr>
 <tr>
     <td valign="top">
-    &nbsp;<span class="small">&gt;</span>
+    <p class="path">
+    &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
+        <a href="{$Path:item.url}">{$Path:item.text}</a>
         {section-else}
-	<span class="small">{$Path:item.text}</span>
+	{$Path:item.text}
         {/section}
 
         {delimiter}
-        <span class="small">/</span>
+        /
         {/delimiter}
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        <a href="{$Path:item.url}">{$Path:Path:item.text}</a>
         {section-else}
-	<span class="small">{$Path:Path:item.text}</span>
+	    {$Path:Path:item.text}
         {/section}
 
         {delimiter}
-        <span class="small">/</span>
+        /
         {/delimiter}
      {/section}
     {/section}
-    <table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
+    </p>
+
+    <table class="layout" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td valign="top" width="100">
+        <td class="leftedge" valign="top">
 	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1,24))) show=eq($DesignKeys:used.viewmode,'full')}
-	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a>
+	<p class="leftmenuitem"><a href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a></p>
 	{delimiter}
-	<br />
+
 	{/delimiter}
 	{/section}
 	
-	<br />
-        </td>
+       </td>
 
-        <td valign="top" width="396">
-	{$module_result.content}
+        <td class="maincontent" valign="top" width="99%">
+	    {$module_result.content}
         </td>
     </tr>
     </table>
+
     </td>
     <td width="204" valign="top">
-    <table width="100%"  bgcolor="#e4eaf3" border="0" alt="" cellpadding="0" cellspacing="1">
+
+    <img src={"speed.jpg"|ezimage} width="204" height="116" alt="" /><br />
+
+    <table class="menu" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td>
-        <img width="204" height="116" src={"speed.jpg"|ezimage} alt="" /><br />
+        <th class="menuhead">
+	    News
+        </th>
+    </tr>
+    {section name=News loop=$news_list}
+	 <tr>
+        <td class="menuitem">
+
+        <div class="menuname">
+        <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a>
+        </div>
+	    <div class="menudate">({$News:item.object.published|l10n(shortdate)})</div>
+
         </td>
     </tr>
-    <tr>
-        <td bgcolor="#e4eaf3">
-	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="2">
-	<tr>
-	   <td>
-	   &nbsp;&nbsp;<b>News</b>
-	   </td>
-	</tr>
-	</table> 	
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="#ffffff">
-	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
-	<tr>
-	   <td>
-        {section name=News loop=$news_list}
-	<a class="small" href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a><br />
-	<span class="small">({$News:item.object.published|l10n(shortdate)})</span>
 	{delimiter}
-	<br clear="all" /><br />
 	{/delimiter}
 	{/section}
-            </td>
-	</tr>
-	</table> 	
-        </td>
-    </tr>
-    </td>
     </table>
+
+<div class="credits" align="center">
+<p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2002</p>
+<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
+</div>
+
+    </td>
 </tr>
 </table>
-
-<br />
-<div align="center" class="small">
-Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.<br />
-<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
-</div>
 
 </body>
 </html>

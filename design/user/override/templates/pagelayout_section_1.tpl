@@ -56,30 +56,31 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <!-- Top box START -->
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" />
 <br />
 
 <map name="map">
-<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
+<area shape="rect" coords="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<area shape="rect" coords="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<area shape="rect" coords="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<area shape="rect" coords="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<area shape="rect" coords="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<area shape="rect" coords="393,3,472,23" href={"content/view/full/200/"|ezurl} />
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
      news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
-<br />
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
-    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0"/></a></td>
+    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0" /></a>
+    </td>
 </tr>
 <tr>
     <td colspan="2" bgcolor="#e4eaf3">
     <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+
     <table width="700" border="0" cellspacing="0" cellpadding="0">
     <tr>
         {section name=Folder loop=$folder_list}
@@ -97,10 +98,12 @@ function OpenWindow ( URL, WinName, Features ) {
     </tr>
     </table>    
     </form>
+
     </td>
 </tr>
 <tr>
     <td valign="top">
+
     &nbsp;<span class="small">&gt;</span>
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
@@ -143,8 +146,10 @@ function OpenWindow ( URL, WinName, Features ) {
         </td>
     </tr>
     </table>
+
     </td>
     <td width="204" valign="top">
+
     <table width="100%"  bgcolor="#e4eaf3" border="0" alt="" cellpadding="0" cellspacing="1">
     <tr>
         <td>
@@ -153,6 +158,7 @@ function OpenWindow ( URL, WinName, Features ) {
     </tr>
     <tr>
         <td bgcolor="#e4eaf3">
+
 	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="2">
 	<tr>
 	   <td>
@@ -160,13 +166,15 @@ function OpenWindow ( URL, WinName, Features ) {
 	   </td>
 	</tr>
 	</table> 	
+
         </td>
     </tr>
     <tr>
         <td bgcolor="#ffffff">
+
 	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
 	<tr>
-	   <td>
+	    <td>
         {section name=News loop=$news_list}
 	<a class="small" href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a><br />
 	<span class="small">({$News:item.object.published|l10n(shortdate)})</span>
@@ -174,13 +182,15 @@ function OpenWindow ( URL, WinName, Features ) {
 	<br clear="all" /><br />
 	{/delimiter}
 	{/section}
-            </td>
+        </td>
 	</tr>
 	</table> 	
+
         </td>
     </tr>
-    </td>
     </table>
+
+    </td>
 </tr>
 </table>
 

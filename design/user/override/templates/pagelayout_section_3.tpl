@@ -7,7 +7,6 @@
     <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/news24.css"|ezdesign} />
 
 {* check if we need a http-equiv refresh *}
