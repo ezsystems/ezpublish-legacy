@@ -127,6 +127,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     foreach ( $deleteIDArray as $deleteID )
     {
         $node =& eZContentObjectTreeNode::fetch( $deleteID );
+        $object = $node->attribute( 'object' );
         if ( $node != null )
         {
             $parentNodeID = $node->attribute( 'parent_node_id' );
@@ -139,16 +140,34 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                 eZDebug::writeDebug( 'cache cleaned up', 'content, remove' );
             }
 
-
-            $object = $node->attribute( 'object' );
-            $children =& $node->subTree();
-            foreach ( $children as $child )
+            if ( $node->attribute( 'main_node_id' ) == $deleteID )
             {
-                $childObject =& $child->attribute( 'object' );
-                $childNodeID = $child->attribute( 'node_id' );
-                $childObject->remove( true, $childNodeID );
+                $object = $node->attribute( 'object' );
+                $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                foreach( array_keys( $allAssignedNodes ) as $key )
+                {
+                    $assignedNode =& $allAssignedNodes[$key];
+                    $children =& $assignedNode->subTree();
+                    foreach ( $children as $child )
+                    {
+                        $childObject =& $child->attribute( 'object' );
+                        $childNodeID = $child->attribute( 'node_id' );
+                        $childObject->remove( true, $childNodeID );
+                    }
+                }
+                $object->remove( true, $deleteID );
             }
-            $object->remove( true, $deleteID );
+            else
+            {
+                $children =& $node->subTree();
+                foreach ( $children as $child )
+                {
+                    $childObject =& $child->attribute( 'object' );
+                    $childNodeID = $child->attribute( 'node_id' );
+                    $childObject->remove( true, $childNodeID );
+                }
+                $object->remove( true, $deleteID );
+            }
         }
     }
     $Module->redirectTo( '/content/view/' . $viewMode . '/' . $contentNodeID . '/'  );
