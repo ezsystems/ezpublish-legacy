@@ -1861,6 +1861,18 @@
         <source>Additional constraint</source>
         <translation>Tilleggsberensning</translation>
     </message>
+    <message>
+        <source>Update on %1</source>
+        <translation>Oppdatering på %1</translation>
+    </message>
+    <message>
+        <source>The following pages have been updated</source>
+        <translation>Følgende sider er oppdatert</translation>
+    </message>
+    <message>
+        <source>The following page has been updated</source>
+        <translation>Den følgende siden er oppdatert</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification/rules</name>
@@ -3769,12 +3781,28 @@
         <source>Retype Password</source>
         <translation>Gjenta passord</translation>
     </message>
+    <message>
+        <source>Generate</source>
+        <translation>Generer</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/register</name>
     <message>
         <source>%1 registration info</source>
         <translation>%1 registreringsinformasjon</translation>
+    </message>
+    <message>
+        <source>%1 new password</source>
+        <translation>%1 nytt passord</translation>
+    </message>
+    <message>
+        <source>Click here to get new password:</source>
+        <translation>Klikk her for å få nytt passord:</translation>
+    </message>
+    <message>
+        <source>New user registered at %1</source>
+        <translation>Ny bruker registrert på %1</translation>
     </message>
 </context>
 <context>
