@@ -175,7 +175,8 @@ $user->setAttribute( "password", "ikkeno" );
 print( "Current user id: " . $user->attribute( "id" ) . "<br>" );
 eZDebug::writeNotice( $user, "User account"  );
 
-$contentObject =& eZContentObject::createNew( 2 );
+/************** This next line doesn't work anymore ***********/
+// $contentObject =& eZContentObject::createNew( 2 );
 
 //$contentObject =& eZContentObject::fetch( 1 );
 
