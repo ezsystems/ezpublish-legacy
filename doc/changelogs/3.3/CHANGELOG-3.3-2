@@ -1,0 +1,4 @@
+Changes from 3.3-1 to 3.3-2
+
+*Bugfixes:
+- Fixed creating new classes using postgresql database. http://ez.no/developer/ez_publish_3/bug_reports/incorrect_work_in_classes
