@@ -188,7 +188,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $nodeIDList = array_unique( $nodeIDList );
 
-        $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList );
+        $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
 //// needs to be rebuilt
         $locale =& eZLocale::instance();
