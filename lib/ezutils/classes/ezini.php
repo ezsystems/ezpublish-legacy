@@ -398,13 +398,19 @@ class eZINI
                                 $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
                             else
                                 $tmpArrayKey = $arrayKey;
-                            $tmpVal = str_replace( "\"", "\\\"", $arrayValue );
+                            // Escape ", \ and $
+                            $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
+                            $tmpVal = str_replace( "$", "\\$", $tmpVal );
+                            $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
                             fwrite( $fp, "\$groupArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
                         }
                     }
                     else
                     {
-                        $tmpVal = str_replace( "\"", "\\\"", $val );
+                        // Escape ", \ and $
+                        $tmpVal = str_replace( "\\", "\\\\", $val );
+                        $tmpVal = str_replace( "$", "\\$", $tmpVal );
+                        $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
 
                         fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
                     }

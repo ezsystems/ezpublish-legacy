@@ -44,6 +44,9 @@ Security:
 
 *Library :
 
+eZ utils:
+- Fixed correct escaping of \ and $ characters in .ini file cache
+
 eZ template:
 - Locale operator no longer keeps a locale instance but calls eZLocale::instance when needed.
 
