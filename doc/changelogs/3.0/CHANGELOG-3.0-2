@@ -62,6 +62,7 @@ eZ mail:
   This means that it will no longer ask for placement when using Create Here button.
 - Added missing dollar symbol in design/standard/templates/content/datatype/view/ezdate.tpl,
   thus fixing date display.
+- Added i18n code to forgotpassword templates, to enable translation.
 
 *New documentation :
 
