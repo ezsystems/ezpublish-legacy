@@ -40,18 +40,16 @@ include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 $Module =& $Params["Module"];
 $http =& eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
-$deleteResult = array();
-$tmpData = array();
+$groupsInfo = array();
 $deleteClassIDList = array();
 foreach ( $deleteIDArray as $deleteID )
 {
-    $deletedClassName = "";
     $group =& eZContentClassGroup::fetch( $deleteID );
-    if( $group != null )
+    if ( $group != null )
     {
         $GroupName = $group->attribute( 'name' );
         $classList =& eZContentClassClassGroup::fetchClassList( null, $deleteID );
-        $tmpClassList = array();
+        $groupClassesInfo = array();
         foreach ( $classList as $class )
         {
             $classID = $class->attribute( "id" );
@@ -59,21 +57,13 @@ foreach ( $deleteIDArray as $deleteID )
             if ( count( $classGroups ) == 1 )
             {
                 $classObject =& eZContentclass::fetch( $classID );
-                $className = $classObject->attribute( "name" );
-                $deletedClassName .= " '" . $className . "'" ;
                 $deleteClassIDList[] = $classID;
-                $tmpObjectCount = $classObject->objectCount();
-                $tmpClassList[] = array( 'class_name' => $className,
-                                         'object_count' => $tmpObjectCount );
+                $groupClassesInfo[] = array( 'class_name'   => $classObject->attribute( 'name' ),
+                                             'object_count' => $classObject->objectCount() );
             }
         }
-        if ( $deletedClassName == "" )
-            $deletedClassName = ezi18n( 'kernel/class', '(no classes)' );
-        $item = array( "groupName" => $GroupName,
-                       "deletedClassName" => $deletedClassName );
-        $deleteResult[] = $item;
-        $tmpData[] = array( 'group_name' => $GroupName,
-                            'class_list' => $tmpClassList );
+        $groupsInfo[] = array( 'group_name' => $GroupName,
+                               'class_list' => $groupClassesInfo );
     }
 }
 if ( $http->hasPostVariable( "ConfirmButton" ) )
@@ -103,8 +93,7 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 $tpl->setVariable( "module", $Module );
-$tpl->setVariable( "DeleteResult", $deleteResult );
-$tpl->setVariable( "TmpData", $tmpData );
+$tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removegroup/',

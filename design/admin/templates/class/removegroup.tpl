@@ -12,14 +12,14 @@
 
 <div class="message-confirmation">
 
-{section show=$DeleteResult|count|eq(1)}
+{section show=$groups_info|count|eq(1)}
     <h2>{'Are you sure you want to remove the class group?'|i18n( 'design/admin/class/removegroup' )}</h2>
 {section-else}
     <h2>{'Are you sure you want to remove the class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
 {/section}
 
 
-{section var=ClassGroups loop=$TmpData}
+{section var=ClassGroups loop=$groups_info}
 <p>{'The following classes will be removed from the <%group_name> class group'|i18n( 'design/admin/class/removegroup',, hash( '%group_name', $ClassGroups.item.group_name ) )|wash}:</p>
 
 <ul>
