@@ -395,8 +395,7 @@ class eZSys
                  or $attr == "wwwdir"
                  or $attr == "sitedir"
                  or $attr == "indexfile"
-                 or $attr == "indexdir"
-                 or $attr == "imagesize");
+                 or $attr == "indexdir" );
     }
 
     /*!
@@ -424,10 +423,6 @@ class eZSys
         else if ( $attr == 'indexdir' )
         {
             return $this->indexDir();
-        }
-        else if ( $attr == 'imagesize' )
-        {
-            return $this->imageSize();
         }
         else
         {
