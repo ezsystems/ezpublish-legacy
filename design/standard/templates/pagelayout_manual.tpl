@@ -134,7 +134,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/install"|ezurl}>{"Install eZ publish 3"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/install"|ezurl}>{"Install using installers"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 <tr>
@@ -142,7 +142,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/without_installer"|ezurl}>{"Without installer"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/without_installer"|ezurl}>{"Install manually"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 <tr>
