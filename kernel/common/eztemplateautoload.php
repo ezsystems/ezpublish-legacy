@@ -87,11 +87,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator
 
 $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
-                                    'function_names' => array( 'my_gui',
-                                                               'my_gui_view',
-                                                               'my_gui2',
-                                                               'my_gui3',
-                                                               'attribute_edit_gui',
+                                    'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
                                                                'attribute_result_gui',
                                                                'attribute_pdf_gui',
