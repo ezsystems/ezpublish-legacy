@@ -2008,7 +2008,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
+                           ezcontentclass.name as class_name,
+                           ezcontentclass.identifier as class_identifier
                            $versionNameTargets
                     FROM ezcontentobject_tree,
                          ezcontentobject,
