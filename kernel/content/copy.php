@@ -109,6 +109,10 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                               'version'   => $curVersion ) );
+    // Update "is_invisible" attribute for the newly created node.
+    $newNode =& $newObject->attribute( 'main_node' );
+    eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
+
     return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
 }
 

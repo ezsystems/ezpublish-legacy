@@ -2873,6 +2873,10 @@ WHERE
 
                 eZRole::expireCache();
             }
+
+            // Update "is_invisible" node attribute.
+            $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
         }
     }
 
@@ -3489,27 +3493,35 @@ WHERE
     /*!
      \a static
 
+     \param $node            Root node of the subtree
+     \param $modifyRootNode  Whether to modify the root node (true/false)
+
      Hide algorithm:
-     if ( current node is visible )
+     if ( root node of the subtree is visible )
      {
-        1) Mark current node as hidden and invisible
+        1) Mark root node as hidden and invisible
         2) Recursively mark child nodes as invisible except for ones which have been previously marked as invisible
      }
      else
      {
-        Mark current node as hidden
+        Mark root node as hidden
      }
 
+     In some cases we don't want to touch the root node when (un)hiding a subtree, for example
+     after content/move or content/copy.
+     That's why $modifyRootNode argument is used.
+
     */
-    function &hideSubTree( &$node )
+    function &hideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID =& $node->attribute( 'node_id' );
         $db     =& eZDB::instance();
 
-        if ( !$node->attribute( 'is_invisible' ) ) // if current node is visible
+        if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
         {
-            // 1) Mark current node as hidden and invisible.
-            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
+            // 1) Mark root node as hidden and invisible.
+            if ( $modifyRootNode )
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
             $nodePath =& $node->attribute( 'path_string' );
@@ -3517,27 +3529,31 @@ WHERE
         }
         else
         {
-            // Mark current node as hidden
-            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
+            // Mark root node as hidden
+            if ( $modifyRootNode )
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
         }
     }
 
     /*!
      \a static
 
+     \param $node            Root node of the subtree
+     \param $modifyRootNode  Whether to modify the root node (true/false)
+
      Unhide algorithm:
      if ( parent node is visible )
      {
-        1) Mark current node as not hidden and visible.
+        1) Mark root node as not hidden and visible.
         2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
      }
      else
      {
-        Mark current node as not hidden.
+        Mark root node as not hidden.
      }
 
     */
-    function &unhideSubTree( &$node )
+    function &unhideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID        =& $node->attribute( 'node_id' );
         $nodePath      =& $node->attribute( 'path_string' );
@@ -3548,12 +3564,13 @@ WHERE
 
         if ( ! $parentNode->attribute( 'is_invisible' ) ) // if parent node is visible
         {
-            // 1) Mark current node as not hidden and visible.
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
+            // 1) Mark root node as not hidden and visible.
+            if ( $modifyRootNode )
+                $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
 
-            // 2.1) $hiddenChildren = Fetch all hidden children for the current node
+            // 2.1) $hiddenChildren = Fetch all hidden children for the root node
             $hiddenChildren =& $db->arrayQuery( "SELECT path_string FROM ezcontentobject_tree " .
                                                 "WHERE node_id <> $nodeID AND is_hidden=1 AND path_string LIKE '$nodePath%'" );
             $skipSubtreesString = '';
@@ -3565,11 +3582,34 @@ WHERE
         }
         else
         {
-            // Mark current node as not hidden.
-            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
+            // Mark root node as not hidden.
+            if ( $modifyRootNode )
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
         }
     }
 
+    /*!
+     \a static
+     Depending on the new parent node visibility, recompute "is_invisible" attribute for the given node and its children.
+     (used after content/move or content/copy)
+    */
+    function updateNodeVisibility( &$node, &$newParentNode )
+    {
+        if ( $node->attribute( 'is_hidden' ) == 0 &&
+             $newParentNode->attribute( 'is_invisible' ) != $node->attribute( 'is_invisible' ) )
+        {
+            $newParentNodeIsVisible =& $newParentNode->attribute( 'is_invisible' );
+            $nodeID                 =& $node->attribute( 'node_id' );
+            $db                     =& eZDB::instance();
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=$newParentNodeIsVisible WHERE node_id=$nodeID" );
+
+            // update visibility for children of the node
+            if( $newParentNodeIsVisible )
+                eZContentObjectTreeNode::hideSubTree( &$node, $modifyRootNode = false );
+            else
+                eZContentObjectTreeNode::unhideSubTree( &$node, $modifyRootNode = false );
+        }
+    }
 
     /// The current language for the node
     var $CurrentLanguage = false;
