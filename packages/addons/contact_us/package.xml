@@ -7,7 +7,7 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1083051563">Contact_us</name>
+  <name modified="1083051563">contact_us</name>
   <summary modified="1083051563">Provides feedback form functionality</summary>
   <description modified="1083051563">This package contains the following nodes :
 Contact us - subtree</description>
