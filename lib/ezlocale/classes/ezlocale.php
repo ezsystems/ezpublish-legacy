@@ -264,10 +264,7 @@ class eZLocale
 
         if ( $this->MondayFirst )
         {
-            array_push( $this->DayNames, array_shift( $this->DayNames ) );
             array_push( $this->WeekDays, array_shift( $this->WeekDays ) );
-            array_push( $this->LongWeekDayNames, array_shift( $this->LongWeekDayNames ) );
-            array_push( $this->ShortWeekDayNames, array_shift( $this->ShortWeekDayNames ) );
         }
 
         $this->AM = 'am';
@@ -903,9 +900,16 @@ class eZLocale
     function &weekDayNames( $short = false )
     {
         if ( $short )
-            return $this->ShortWeekDayNames;
+            $dayList =& $this->ShortWeekDayNames;
         else
-            return $this->LongWeekDayNames;
+            $dayList =& $this->LongWeekDayNames;
+
+        $resultDayList = array();
+        foreach ( $this->WeekDays as $day )
+        {
+            $resultDayList[] = $dayList[ $day ];
+        }
+        return $resultDayList;
     }
 
     /*!
