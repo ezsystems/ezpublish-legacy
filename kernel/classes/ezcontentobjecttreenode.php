@@ -2486,6 +2486,7 @@ WHERE
     */
     function updateAndStoreModified()
     {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $pathString =& $this->attribute( 'path_string' );
 
         $pathArray = explode( '/', $pathString );
