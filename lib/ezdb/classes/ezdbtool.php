@@ -83,6 +83,10 @@ class eZDBTool
             $relationItems = $db->relationList( $relationType );
             foreach ( $relationItems as $relationItem )
             {
+                // skip non-ez relations
+                if ( !eregi( "^ez", $relationItem ) )
+                    continue;
+
                 if ( !$db->removeRelation( $relationItem, $relationType ) )
                 {
                     $result = false;
