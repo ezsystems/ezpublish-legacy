@@ -207,6 +207,14 @@ class eZAuthorType extends eZDataType
 
         return $value;
     }
+
+    /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_AUTHOR, "ezauthortype" );
