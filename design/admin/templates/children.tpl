@@ -142,7 +142,7 @@
 
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
-    {section show=$can_edit}
+    {section show=$node.object.can_edit}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" />
     {section-else}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" disabled="disabled" />
