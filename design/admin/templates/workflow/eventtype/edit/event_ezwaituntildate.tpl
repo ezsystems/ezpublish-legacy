@@ -6,7 +6,7 @@
         <option value="{$Classes.item.id}">{$Classes.item.name}</option>
     {/section}
     </select>
-    <input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Select class'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
+    <input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Update attributes'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
 </div>
 
 

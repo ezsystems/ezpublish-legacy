@@ -134,6 +134,19 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 if ( isset ( $GLOBALS['eZWaitUntilDateSelectedClass'] ) )
                 {
                     $classID = $GLOBALS['eZWaitUntilDateSelectedClass'];
+                }
+                else
+                {
+                    // if nothing was preselected, we will use the first one:
+                    // POSSIBLE ENHANCEMENT: in the common case, the contentclass_list fetch will be called twice
+                    $classID = eZWaitUntilDateType::attribute( 'contentclass_list' );
+                    if ( isset( $classID[0] ) )
+                        $classID = $classID[0]['id'];
+                    else
+                        $classID = false;
+                }
+                if ( $classID )
+                {
                     $attributeList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                            array( 'id', 'name', 'data_type_string' ),
                                                                            array( 'contentclass_id'=> $classID,
@@ -147,14 +160,8 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             }break;
             case 'has_class_attributes' :
             {
-                if ( isset ( $GLOBALS['eZWaitUntilDateSelectedClass'] ) )
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                // for the backward compatability:
+                return 1;
             }break;
             default:
                 return eZWorkflowEventType::attribute( $attr );

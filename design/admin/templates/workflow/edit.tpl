@@ -12,12 +12,6 @@
 </div>
 {/section}
 
-{section show=$can_store}
-<div class="message-feedback">
-<h2>{'The workflow was successfully stored.'|i18n( 'design/admin/workflow/edit' )}</h2>
-</div>
-{/section}
-
 {section show=$require_fixup}
 <div class="message-warning">
 <h2>{'Data requires fixup'|i18n( 'design/admin/workflow/edit' )}</h2>
