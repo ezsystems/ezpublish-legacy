@@ -118,6 +118,11 @@ class eZStepRegistration extends eZStepInstaller
         $imageMagickProgram = $this->PersistenceList['imagemagick_program'];
         $imageGDExtension = $this->PersistenceList['imagegd_extension'];
         $phpVersion = $this->PersistenceList['phpversion'];
+        $webserverInfo = false;
+        if ( function_exists( 'apache_get_version' ) )
+        {
+            $webserverInfo = array( 'version' => apache_get_version() );
+        }
 
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
@@ -153,6 +158,7 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl->setVariable( 'imagemagick_program', $imageMagickProgram );
         $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );
         $mailTpl->setVariable( 'phpversion', $phpVersion );
+        $mailTpl->setVariable( 'webserver', $webserverInfo );
         $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
         $mailTpl->setVariable( 'optional_tests', $testResults );
         include_once( 'lib/version.php' );
@@ -245,6 +251,11 @@ class eZStepRegistration extends eZStepInstaller
         $imageMagickProgram = $this->PersistenceList['imagemagick_program'];
         $imageGDExtension = $this->PersistenceList['imagegd_extension'];
         $phpVersion = $this->PersistenceList['phpversion'];
+        $webserverInfo = false;
+        if ( function_exists( 'apache_get_version' ) )
+        {
+            $webserverInfo = array( 'version' => apache_get_version() );
+        }
 
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
@@ -272,6 +283,7 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl->setVariable( 'imagemagick_program', $imageMagickProgram );
         $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );
         $mailTpl->setVariable( 'phpversion', $phpVersion );
+        $mailTpl->setVariable( 'webserver', $webserverInfo );
         $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
         $mailTpl->setVariable( 'optional_tests', $testResults );
         include_once( 'lib/version.php' );

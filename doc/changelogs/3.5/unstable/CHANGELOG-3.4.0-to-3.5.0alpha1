@@ -51,6 +51,10 @@ Class:
 - Storing a class will now jump to the class view instead of the group/class listing.
   (Merged from stable/3.4 rev. 7186)
 
+Setup:
+- Added information on Apache webserver to registration email (if Apache is used).
+  (Merged from stable/3.4 rev. 7243)
+
 *Scripts:
 eztc.php:
 - Added support for compiling files by filepath.
