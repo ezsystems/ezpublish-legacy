@@ -3,6 +3,9 @@
   {case match="<p></p>"}
   &nbsp;
   {/case}
+  {case match=""}
+  &nbsp;
+  {/case}
   {case}
   {$content}
   {/case}
