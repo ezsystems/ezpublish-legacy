@@ -22,6 +22,8 @@ div.menu-block li { width: 19%; } /* Avoid width bug in IE */
 div.notranslations li { width: 24%; } /* Avoid width bug in IE */
 div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 div#maincontent div#maincontent-design { width: 99%; } /* Avoid width bug in IE 5.5 */
+input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
+
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
