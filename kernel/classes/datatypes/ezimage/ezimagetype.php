@@ -115,7 +115,7 @@ class eZImageType extends eZDataType
                 while ( $file = readdir($dir))
                 {
                     if( preg_match( "/$variationFileName/", $file ) )
-                         unlink( $vari_dir . "/" . $additionalPath . $file );
+                         unlink( $vari_dir . "/" . $additionalPath . "/" . $file );
                 }
             }
         }
@@ -147,7 +147,9 @@ class eZImageType extends eZDataType
                 while ( $file = readdir($dir))
                 {
                     if ( preg_match( "/$variationFileName/", $file ) )
-                         unlink( $vari_dir . "/" . $additionalPath . $file );
+                    {
+                         unlink( $vari_dir . "/" . $additionalPath . "/" . $file );
+                    }
                 }
             }
         }
@@ -189,7 +191,8 @@ class eZImageType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         // Fetch the alt name
-        $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+        if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
+             $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
 
         if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -234,7 +237,6 @@ class eZImageType extends eZDataType
 
             $orig_dir = $imageFile->storageDir( "original" );
             $ref_dir = $imageFile->storageDir( "reference" );
-            eZDebug::writeNotice( "dir=$ref_dir" );
 
             $image->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
             $image->setAttribute( "version", $version );

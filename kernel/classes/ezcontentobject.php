@@ -756,7 +756,9 @@ class eZContentObject extends eZPersistentObject
         }
         $db =& eZDB::instance();
 
-        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+//        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+
+        $contentobjectAttributes =& $contentobject->attribute( 'contentobject_attributes' );
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
         {
             $classAttribute =& $contentobjectAttribute->contentClassAttribute();
@@ -781,8 +783,6 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
-
-
     }
 
     function remove( $id = false, $nodeID = null )
@@ -1442,6 +1442,7 @@ class eZContentObject extends eZPersistentObject
     function classListFromLimitation( $limitationList )
     {
         $canCreateClassIDListPart = array();
+        $hasClassIDLimitation = false;
         foreach ( $limitationList as $limitation )
         {
             if ( $limitation->attribute( 'identifier' ) == 'Class' )
