@@ -105,6 +105,32 @@ class eZTemplateUnitOperator
             return false;
         }
 
+        // We do not support non-static values for decimal_count, decimal_symbol and thousands_separator
+        if ( count( $parameters ) > 3 and
+             !eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
+            return false;
+        if ( count( $parameters ) > 4 and
+             !eZTemplateNodeTool::isStaticElement( $parameters[4] ) )
+            return false;
+        if ( count( $parameters ) > 5 and
+             !eZTemplateNodeTool::isStaticElement( $parameters[5] ) )
+            return false;
+
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale =& eZLocale::instance();
+        $decimalCount = $locale->decimalCount();
+        $decimalSymbol = $locale->decimalSymbol();
+        $decimalThousandsSeparator = $locale->thousandsSeparator();
+        if ( count( $parameters ) > 3 )
+            $decimalCount = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+        if ( count( $parameters ) > 4 )
+            $decimalSymbol = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
+        if ( count( $parameters ) > 5 )
+            $decimalThousandsSeparator = eZTemplateNodeTool::elementStaticValue( $parameters[5] );
+
+        $decimalSymbolText = eZPHPCreator::variableText( $decimalSymbol, 0, 0, false );
+        $decimalThousandsSeparatorText = eZPHPCreator::variableText( $decimalThousandsSeparator, 0, 0, false );
+
         $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
         if ( count( $parameters ) > 2 )
@@ -134,10 +160,12 @@ class eZTemplateUnitOperator
             $base = $unit_ini->variable( "Base", $unit );
         }
 
+        $hasInput = false;
         $output = false;
         if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
             $output = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $hasInput = true;
         }
 
         $prefix_var = "";
@@ -154,7 +182,7 @@ class eZTemplateUnitOperator
             usort( $prefixes, "eZTemplateUnitCompareFactor" );
             $prefix_var = "";
 
-            if ( $output )
+            if ( $hasInput )
             {
                 foreach ( $prefixes as $prefix )
                 {
@@ -162,7 +190,7 @@ class eZTemplateUnitOperator
                     if ( $val <= $output )
                     {
                         $prefix_var = $prefix[1];
-                        $output = number_format( $output / $val, 2 );
+                        $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                         break;
                     }
                 }
@@ -180,7 +208,7 @@ class eZTemplateUnitOperator
                      '  if ( %tmp2% <= %1% )' . "\n" .
                      '  {' . "\n" .
                      '    %tmp3% = %tmp1%[1];' . "\n" .
-                     '    %1% = number_format( %1% / %tmp2%, 2 );' . "\n" .
+                     '    %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
                      '    break;' . "\n" .
                      '  }' . "\n" .
                      '}' . "\n" .
@@ -200,7 +228,7 @@ class eZTemplateUnitOperator
             usort( $prefixes, "eZTemplateUnitCompareFactor" );
             $prefix_var = "";
 
-            if ( $output )
+            if ( $hasInput )
             {
                 foreach ( $prefixes as $prefix )
                 {
@@ -208,7 +236,7 @@ class eZTemplateUnitOperator
                     if ( $val <= $output )
                     {
                         $prefix_var = $prefix[1];
-                        $output = number_format( $output / $val, 2 );
+                        $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                         break;
                     }
                 }
@@ -226,7 +254,7 @@ class eZTemplateUnitOperator
                      '  if ( %tmp2% <= %1% )' . "\n" .
                      '  {' . "\n" .
                      '    %tmp3% = %tmp1%[1];' . "\n" .
-                     '    %1% = number_format( %1% / %tmp2%, 2 );' . "\n" .
+                     '    %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
                      '    break;' . "\n" .
                      '  }' . "\n" .
                      '}' . "\n" .
@@ -242,11 +270,6 @@ class eZTemplateUnitOperator
                 $prefix_base = 2;
                 $prefix_var = $unit_ini->variableArray( "BinaryPrefixes", $prefix );
             }
-            else if ( $unit_ini->hasVariable( "FakeBinaryPrefixes", $prefix ) )
-            {
-                $prefix_base = 2;
-                $prefix_var = $unit_ini->variableArray( "FakeBinaryPrefixes", $prefix );
-            }
             else if ( $unit_ini->hasVariable( "DecimalPrefixes", $prefix ) )
             {
                 $prefix_base = 10;
@@ -254,15 +277,30 @@ class eZTemplateUnitOperator
             }
             else if ( $prefix == "none" )
             {
-                $prefix_var = "";
+                $prefix_var = '';
+                if ( $hasInput )
+                {
+                    $output = number_format( $output, 0, $decimalSymbol, $decimalThousandsSeparator );
+                }
+                else
+                {
+                    $values = array();
+                    $values[] = $parameters[0];
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $prefix_var[1] ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
+
+                    $code = '%output% = number_format( %1%, 0, ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' ) . \' \' . %2% . %3%;';
+
+                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+                }
             }
 
             if ( is_array( $prefix_var ) )
             {
-                if ( $output )
+                if ( $hasInput )
                 {
                     $val = pow( $prefix_base, (int)$prefix_var[0] );
-                    $output = number_format( $output / $val, 2 );
+                    $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                     $prefix_var = $prefix_var[1];
                 }
                 else
@@ -273,14 +311,14 @@ class eZTemplateUnitOperator
                     $values[] = array( eZTemplateNodeTool::createStringElement( $prefix_var[1] ) );
                     $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
 
-                    $code = '%output% = number_format( %1% / %2%, 2 ) . \' \' . %3% . %4%;';
+                    $code = '%output% = number_format( %1% / %2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' ) . \' \' . %3% . %4%;';
 
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
                 }
             }
         }
 
-        if ( $output )
+        if ( $hasInput )
         {
             return array( eZTemplateNodeTool::createStringElement( $output . ' ' . $prefix_var . $base ) );
         }
@@ -305,7 +343,16 @@ class eZTemplateUnitOperator
                                        "default" => false ),
                       "prefix" => array( "type" => "string",
                                          "required" => false,
-                                         "default" => "auto" ) );
+                                         "default" => "auto" ),
+                      "decimal_count" => array( "type" => "integer",
+                                                "required" => false,
+                                                "default" => false ),
+                      "decimal_symbol" => array( "type" => "string",
+                                                 "required" => false,
+                                                 "default" => false ),
+                      "thousands_separator" => array( "type" => "string",
+                                                      "required" => false,
+                                                      "default" => false ) );
     }
 
     /*!
@@ -315,6 +362,19 @@ class eZTemplateUnitOperator
     {
         $unit = $namedParameters["unit"];
         $prefix = $namedParameters["prefix"];
+
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale =& eZLocale::instance();
+        $decimalCount = $locale->decimalCount();
+        $decimalSymbol = $locale->decimalSymbol();
+        $decimalThousandsSeparator = $locale->thousandsSeparator();
+        if ( $namedParameters['decimal_count'] )
+            $decimalCount = $namedParameters['decimal_count'];
+        if ( strlen( $namedParameters['decimal_symbol'] ) > 0 )
+            $decimalSymbol = $namedParameters['decimal_symbol'];
+        if ( strlen( $namedParameters['thousands_separator'] ) > 0 )
+            $decimalThousandsSeparator = $namedParameters['thousands_separator'];
+
         $ini =& eZINI::instance();
         if ( $prefix == "auto" )
         {
@@ -354,7 +414,7 @@ class eZTemplateUnitOperator
                 if ( $val <= $operatorValue )
                 {
                     $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, 2 );
+                    $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                     break;
                 }
             }
@@ -375,7 +435,7 @@ class eZTemplateUnitOperator
                 if ( $val <= $operatorValue )
                 {
                     $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, 2 );
+                    $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                     break;
                 }
             }
@@ -387,11 +447,6 @@ class eZTemplateUnitOperator
                 $prefix_base = 2;
                 $prefix_var = $unit_ini->variableArray( "BinaryPrefixes", $prefix );
             }
-            else if ( $unit_ini->hasVariable( "FakeBinaryPrefixes", $prefix ) )
-            {
-                $prefix_base = 2;
-                $prefix_var = $unit_ini->variableArray( "FakeBinaryPrefixes", $prefix );
-            }
             else if ( $unit_ini->hasVariable( "DecimalPrefixes", $prefix ) )
             {
                 $prefix_base = 10;
@@ -400,13 +455,14 @@ class eZTemplateUnitOperator
             else if ( $prefix == "none" )
             {
                 $prefix_var = "";
+                $operatorValue = number_format( $operatorValue, 0, $decimalSymbol, $decimalThousandsSeparator );
             }
             else
                 $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found" );
             if ( is_array( $prefix_var ) )
             {
                 $val = pow( $prefix_base, (int)$prefix_var[0] );
-                $operatorValue = number_format( $operatorValue / $val, 2 );
+                $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                 $prefix_var = $prefix_var[1];
             }
         }

@@ -21,6 +21,7 @@ Changes from 3.4.0alpha4 to 3.4.0beta1
 eZ template:
 - Fixed a major bug in the si operator, the calculations and prefixes
   were wrong in many cases.
+- Made the si operator use the current locale settings when displaying numbers.
 
 eZ locale:
 - Made the number and currency settings availabe as methods and attributes.
