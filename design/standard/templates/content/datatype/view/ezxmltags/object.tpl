@@ -1,4 +1,4 @@
-{let object_align='center'}
+{let object_align='right'}
 
     {switch match=$object_parameters.align}
         {case match='left'}
@@ -6,6 +6,9 @@
         {/case}
         {case match='right'}
             {set object_align='right'}
+        {/case}
+        {case match='center'}
+            {set object_align='center'}
         {/case}
         {case/}
     {/switch}

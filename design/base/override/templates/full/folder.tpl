@@ -45,9 +45,7 @@
             {/section}
 
             <div class="view-children">
-{$list_items}
                 {section var=child loop=$list_items sequence=array(bglight,bgdark)}
-                    {$child}
                     {node_view_gui view=line content_node=$child}
                 {/section}
             </div>

@@ -864,7 +864,7 @@ div.attribute-file
 }
 
 /* Embedded tags in XML fields */
-div.factbox-design, div.content-view-embed div.class-folder, div.content-view-embed div.class-article
+div.factbox-design, div.content-view-embed
 { 
     width: 178px;
     padding: 0px;
@@ -872,7 +872,7 @@ div.factbox-design, div.content-view-embed div.class-folder, div.content-view-em
     border: 1px solid #369;
 }
 
-div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed div.class-folder h2,  div#maincontent-design div.content-view-embed div.class-article h2
+div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed h2
 { 
     padding-left: 10px;
     margin-top: 0px;
