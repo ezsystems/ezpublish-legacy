@@ -3839,14 +3839,14 @@ WHERE
             if ( isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
             {
                 $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'];
-                eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
-                                      'eZContentObjectTreeNode::unserialize()' );
+//                 eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
+//                                       'eZContentObjectTreeNode::unserialize()' );
             }
             else if ( isset( $options['top_nodes_map']['*'] ) )
             {
                 $parentNodeID = $options['top_nodes_map']['*'];
-                eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
-                                      'eZContentObjectTreeNode::unserialize()' );
+//                 eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
+//                                       'eZContentObjectTreeNode::unserialize()' );
 
             }
             else
