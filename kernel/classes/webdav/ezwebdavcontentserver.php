@@ -1330,7 +1330,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         // Set up attributes for the virtual site-list folder:
         $contentEntry["name"]     = '/';
-        $contentEntry["href"]     = $_SERVER['SCRIPT_URI'];
+        $contentEntry["href"]     = $_SERVER['SCRIPT_URL'];
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
         $contentEntry["ctime"]    = filectime( 'var' );
@@ -1347,7 +1347,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             foreach ( $sites as $site )
             {
                 // Set up attributes for the virtual site-list folder:
-                $contentEntry["name"]     = $_SERVER['SCRIPT_URI'] . $site;
+                $contentEntry["name"]     = $_SERVER['SCRIPT_URL'] . $site;
                 $contentEntry["size"]     = 0;
                 $contentEntry["mimetype"] = 'httpd/unix-directory';
                 $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
