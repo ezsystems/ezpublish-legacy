@@ -66,18 +66,18 @@ define ( 'EZ_TEMPLATE_UNDEF_FUNCTION_NAME', 'undef' );
 class eZTemplateDefFunction
 {
     /*!
-     Returns an array of the function names, required for eZTemplate::registerFunctions.
-    */
+     * Returns an array of the function names, required for eZTemplate::registerFunctions.
+     */
     function &functionList()
     {
         return array( EZ_TEMPLATE_DEF_FUNCTION_NAME, EZ_TEMPLATE_UNDEF_FUNCTION_NAME );
     }
 
     /*!
-     Returns the attribute list which is 'delimiter', 'elseif' and 'else'.
-     key:   parameter name
-     value: can have children
-    */
+     * Returns the attribute list which is 'delimiter', 'elseif' and 'else'.
+     * key:   parameter name
+     * value: can have children
+     */
     function attributeList()
     {
         return array();
@@ -100,7 +100,7 @@ class eZTemplateDefFunction
     }
 
     /*!
-     TODO: write a description here!
+     * Compiles the function into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, &$parameters, $privateData )
@@ -147,8 +147,8 @@ class eZTemplateDefFunction
     }
 
     /*!
-     TODO: write a description here!
-    */
+     * Actually executes the function (in processed mode).
+     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $undef = ( $functionName == EZ_TEMPLATE_UNDEF_FUNCTION_NAME ) ? true : false;
@@ -191,8 +191,8 @@ class eZTemplateDefFunction
     }
 
     /*!
-     Returns false telling the template parser that the function cannot have children.
-    */
+     * Returns false, telling the template parser that the function cannot have children.
+     */
     function hasChildren()
     {
         return false;

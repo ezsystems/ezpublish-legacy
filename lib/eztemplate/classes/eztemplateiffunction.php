@@ -65,8 +65,8 @@ define ( 'EZ_TEMPLATE_IF_FUNCTION_NAME', 'if' );
 class eZTemplateIfFunction
 {
     /*!
-     Returns an array of the function names, required for eZTemplate::registerFunctions.
-    */
+     * Returns an array of the function names, required for eZTemplate::registerFunctions.
+     */
     function &functionList()
     {
         //eZDebug::writeDebug( "if::functionList()" );
@@ -74,10 +74,10 @@ class eZTemplateIfFunction
     }
 
     /*!
-     Returns the attribute list which is 'delimiter', 'elseif' and 'else'.
-     key:   parameter name
-     value: can have children
-    */
+     * Returns the attribute list which is 'delimiter', 'elseif' and 'else'.
+     * key:   parameter name
+     * value: can have children
+     */
     function attributeList()
     {
         return array( 'elseif'    => false,
@@ -97,7 +97,7 @@ class eZTemplateIfFunction
     }
 
     /*!
-     TODO: write a description here!
+     * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, $parameters, $privateData )
@@ -169,8 +169,8 @@ class eZTemplateIfFunction
     }
 
     /*!
-     TODO: write a description here!
-    */
+     * Actually executes the function and its children (in processed mode).
+     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( count( $functionParameters ) == 0 || !count( $functionParameters['condition'] ) )
@@ -233,21 +233,18 @@ class eZTemplateIfFunction
                 {
                     if ( !$show )
                             continue;
-                    //eZDebug::writeDebug( 'if: {break} found' );
                     return array( 'breakFunctionFound' => 1 );
                 }
                 elseif ( $childFunctionName == 'continue' )
                 {
                     if ( !$show )
                             continue;
-                    //eZDebug::writeDebug( 'if: {continue} found' );
                     return array( 'continueFunctionFound' => 1 );
                 }
                 elseif ( $childFunctionName == 'skip' )
                 {
                     if ( !$show )
                             continue;
-                    //eZDebug::writeDebug( 'if: {skip} found' );
                     return array( 'skipFunctionFound' => 1 );
                 }
             }
@@ -268,11 +265,10 @@ class eZTemplateIfFunction
     }
 
     /*!
-     Returns true, telling the template parser that the function can have children.
-    */
+     * Returns true, telling the template parser that the function can have children.
+     */
     function hasChildren()
     {
-        //eZDebug::writeDebug( "if::hasChildren()" );
         return true;
     }
 }

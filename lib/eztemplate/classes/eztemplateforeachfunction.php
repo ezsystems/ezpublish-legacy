@@ -73,18 +73,18 @@ define ( 'EZ_TEMPLATE_FOREACH_FUNCTION_NAME', 'foreach' );
 class eZTemplateForeachFunction
 {
     /*!
-     Returns an array of the function names, required for eZTemplate::registerFunctions.
-    */
+     * Returns an array of the function names, required for eZTemplate::registerFunctions().
+     */
     function &functionList()
     {
         return array( EZ_TEMPLATE_FOREACH_FUNCTION_NAME );
     }
 
     /*!
-     Returns the attribute list.
-     key:   parameter name
-     value: can have children
-    */
+     * Returns the attribute list.
+     * key:   parameter name
+     * value: can have children
+     */
     function attributeList()
     {
         return array( 'delimiter' => true,
@@ -106,7 +106,7 @@ class eZTemplateForeachFunction
     }
 
     /*!
-     TODO: write a description here!
+     * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, $parameters, $privateData )
@@ -245,8 +245,8 @@ class eZTemplateForeachFunction
     }
 
     /*!
-     TODO: write a description here!
-    */
+     * Actually executes the function and its children (in processed mode).
+     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         /*
@@ -377,8 +377,8 @@ class eZTemplateForeachFunction
     }
 
     /*!
-     Returns true, telling the template parser that the function can have children.
-    */
+     * Returns true, telling the template parser that the function can have children.
+     */
     function hasChildren()
     {
         return true;

@@ -66,7 +66,7 @@ class eZTemplateLoopSequence
 /*!
   \class eZTemplateLoop eztemplateloop.php
   \ingroup eZTemplateFunctions
-  \brief Code common for the loop functions
+  \brief Code common for the loop functions in processed mode.
 */
 class eZTemplateLoop
 {
@@ -125,13 +125,16 @@ class eZTemplateLoop
     }
 
     /*!
-    \return true if the object has been correctly initialized, false otherwise
-    */
+     * \return true if the object has been correctly initialized, false otherwise
+     */
     function initialized()
     {
         return $this->Initialized;
     }
 
+    /*! Export current loop sequence value to the template variable
+     *  specified in loop parameters.
+     */
     function setSequenceVar()
     {
         if ( !$this->hasSequence() )
@@ -140,15 +143,18 @@ class eZTemplateLoop
         $this->Tpl->setVariable( $this->SequenceVarName,  $this->Sequence->val() );
     }
 
+    /*!
+     * Should be called each time a new iteration is started.
+     *  Resets some internal variables.
+     */
     function resetIteration()
     {
         $this->SkipDelimiter         = false;
         $this->SkipSequenceIncrement = false;
     }
 
-
     /*!
-     Sets sequence variable in the template (if sequence was specified)
+     * Increment current sequence value.
      */
     function incrementSequence()
     {
@@ -156,11 +162,18 @@ class eZTemplateLoop
             $this->Sequence->next();
     }
 
+    /*!
+     * Returns true if sequence has been specified for the loop in its parameters.
+     */
     function hasSequence()
     {
         return !is_null( $this->Sequence );
     }
 
+
+    /*!
+     * Destroys template variables defined by the loop.
+     */
     function cleanup()
     {
         // destroy loop variable(s)
@@ -169,8 +182,12 @@ class eZTemplateLoop
     }
 
     /*
-    \return true if the caller loop should break, false otherwise
-    */
+     * Processes loop children, i.e. all tags and text that is
+     * between start and end tags of the loop.
+     * Besides, does special handling of {break}, {skip}, {continue} and {delimiter} tags.
+     *
+     * \return true if the caller loop should break, false otherwise
+     */
     function processChildren()
     {
         foreach ( array_keys( $this->FunctionChildren ) as $childKey )
@@ -229,8 +246,10 @@ class eZTemplateLoop
     }
 
     /*!
-    \return true if the caller loop should break, false otherwise
-    */
+     * If \c $loopCondition is true, shows delimiter (if one has been specified).
+     *
+     * \return true if the caller loop should break, false otherwise
+     */
     function processDelimiter( $loopCondition )
     {
         if ( !( !is_null( $this->Delimiter ) && !$this->SkipDelimiter ) )
@@ -248,10 +267,13 @@ class eZTemplateLoop
     }
 
     /*!
-    Parses the given function parameter that is supposed to contain a variable name.
-    Extracted variable name is stored to $dst.
-    \return false if specified parameter is not found or it is wrong, otherwise true is returned.
-    */
+     * Parses the given function parameter that is supposed to contain a variable name.
+     * Extracted variable name is stored to $dst.
+     *
+     * @param $paramName Parameter name.
+     * @param $dst       Where to store parameter value.
+     * @return           false if specified parameter is not found or it is wrong, otherwise true is returned.
+     */
     function parseParamVarName( $paramName, &$dst )
     {
         $dst = null;
@@ -273,6 +295,14 @@ class eZTemplateLoop
         return true;
     }
 
+    /*!
+     * Parses given function parameter and makes sure that it is not a proxy object ({section} loop iterator).
+     *
+     * @param  $paramName      Parameter name.
+     * @param  $dst            Where to store parameter value.
+     * @param  $isProxyObject  boolean true is stored here if value of the parameter is a proxy object.
+     * @return                 false if specified parameter is not found or it is wrong, otherwise true is returned.
+     */
     function parseScalarParamValue( $paramName, &$dst, &$isProxyObject )
     {
         $dst = null;
@@ -297,9 +327,12 @@ class eZTemplateLoop
     }
 
     /*!
-    Parses value the given function parameter and stores it to $dst.
-    \return false if specified parameter is not found or it is wrong, otherwise true is returned.
-    */
+     * Parses value the given function parameter and stores it to $dst.
+     *
+     * @param  $paramName      Parameter name.
+     * @param  $dst            Where to store parameter value.
+     * @return                 false if specified parameter is not found or it is wrong, otherwise true is returned.
+     */
     function parseParamValue( $paramName, &$dst )
     {
         $dst = null;
@@ -313,8 +346,9 @@ class eZTemplateLoop
     }
 
     /*!
-     * Check if the given loop variable already exists. If it does, store its name for later cleanup.
-     * Otherwise show a warning message.
+     * Checks if the given loop variable already exists. If it does, store its name for later cleanup.
+     * Otherwise shows a warning message.
+     *
      * @see eZTemplateLoop::$loopVariablesNames
      */
     function initLoopVariable( $varName )
@@ -324,6 +358,10 @@ class eZTemplateLoop
         else
             $this->LoopVariablesNames[] = $varName;
     }
+
+    ///
+    /// \privatesection
+    ///
 
     var $FunctionName;
     var $FunctionParameters;

@@ -56,11 +56,17 @@ class eZTemplateCompiledLoop
         $this->PrivateData   =& $privateData;
     }
 
+    /*!
+     * Returns true if sequence has been specified for the loop in its parameters.
+     */
     function hasSequence()
     {
         return isset( $this->Parameters['sequence_var'] );
     }
 
+    /*!
+     * Destroys PHP and template variables defined by the loop.
+     */
     function cleanup()
     {
         if ( $this->hasSequence() )
@@ -80,6 +86,9 @@ class eZTemplateCompiledLoop
     }
 
 
+    /*!
+     * Create PHP and template variables representing sequence specified for the loop.
+     */
     function createSequenceVars()
     {
         if ( !$this->hasSequence() )
@@ -96,6 +105,9 @@ class eZTemplateCompiledLoop
         $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$${fName}_sequence_var_$uniqid = current( \$${fName}_sequence_array_$uniqid );\n" );
     }
 
+    /*!
+     * Export current sequence value to the template variable specified in loop parameters.
+     */
     function setCurrentSequenceValue()
     {
         if ( !$this->hasSequence() )
@@ -110,6 +122,9 @@ class eZTemplateCompiledLoop
                                                                     false, true, true );
     }
 
+    /*!
+     * Increments loop sequence.
+     */
     function iterateSequence()
     {
         if ( !$this->hasSequence() )
@@ -131,8 +146,10 @@ class eZTemplateCompiledLoop
 
 
     /*
-    \return true if the caller loop should break, false otherwise
-    */
+     * Compiles loop children (=code residing between start and end tags of the loop).
+     * Besides, does special handling of {break}, {continue}, {skip} and {delimiter} functions.
+     * \return true if the caller loop should break, false otherwise
+     */
     function processChildren()
     {
         // process the loop body
@@ -182,6 +199,9 @@ class eZTemplateCompiledLoop
         }
     }
 
+    /*!
+     * Generates loop body.
+     */
     function processBody()
     {
         // export current sequence value to the specified template variable <$sequence_var>
@@ -193,6 +213,9 @@ class eZTemplateCompiledLoop
         $this->iterateSequence();
     }
 
+    /*!
+     * create PHP and template variables needed for the loop.
+     */
     function initVars()
     {
         // initialize delimiter processing
@@ -202,6 +225,9 @@ class eZTemplateCompiledLoop
         $this->createSequenceVars();
     }
 
+    ///
+    /// \privatesection
+    ///
     var $Name;
     var $Parameters;
     var $NodePlacement;
