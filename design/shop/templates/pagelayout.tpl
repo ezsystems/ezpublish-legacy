@@ -162,8 +162,20 @@
                     {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.parent_node,
                                                           limit, 5 ) )}
                 {/case}
-	        {case}
-                    {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.node,
+	        {case match=1}
+                    {switch match=$module_result.path[1].node_id}
+		    {case match=154}
+                        {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.node,
+                                                          limit, 5 ) )}
+                    {/case}
+                    {case}
+                        {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, 2,
+                                                          limit, 5 ) )}
+                    {/case}
+		    {/switch}
+                {/case}
+                {case}
+                    {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, 2,
                                                           limit, 5 ) )}
                 {/case}
             {/switch}

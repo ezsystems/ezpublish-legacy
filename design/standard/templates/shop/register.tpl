@@ -30,6 +30,6 @@
 </tr>
 </table>
 
-<input type="submit" name="StoreButton" value="Store" />
 <input type="submit" name="CancelButton" value="Cancel" />
+<input type="submit" name="StoreButton" value="Store" />
 </form>
