@@ -41,7 +41,7 @@
 <div class="context-block">
 
 <h2 class="context-title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
-<i>Last modified: {$node.object.modified|l10n(shortdatetime)} by {$node.object.current.creator.name}</i>
+<i>{'Last modified:'|i18n( 'design/admin/navigation' )} {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</i>
 
 
 {* Content preview. *}
