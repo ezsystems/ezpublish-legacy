@@ -956,7 +956,8 @@ function eZUpdateDebugSettings( $useDebug = null )
     $ini =& eZINI::instance();
     $cli =& eZCLI::instance();
     $debugSettings = array();
-    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    $debugSettings['debug-enabled'] = ( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' and
+                                        $ini->variable( 'DebugSettings', 'ScriptDebugOutput' ) == 'enabled' );
     if ( $useDebug !== null )
         $debugSettings['debug-enabled'] = $useDebug;
     $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
