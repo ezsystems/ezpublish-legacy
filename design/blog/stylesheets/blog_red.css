@@ -108,12 +108,8 @@ div#subsubheader
 div#path
 {
     border-bottom:1px dotted #2e4a7d; 
-}
-
-div#path div.design
-{
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 div#path p
@@ -140,22 +136,22 @@ div#maincol
 {
     background-color: #ffffff;
     margin-top: 0px;
-    margin-left: 0px;
-    width: 75%;
-    float: right;
+    margin-left: 14em;
+    padding-left: 1em;
     min-height: 700px;
     border-left: 1px dotted #2e4a7d;
 }
 
-div#maincol div.design
+div#maincol div.design div#innercontent
 {
-    margin-left: 0px;
+    display: table;
+    width: 100%;
 }
 
 /* navigation column */
 div#navigationcol
 {
-    width: 22%;
+    width: 13em;
     float: left;
 }
 

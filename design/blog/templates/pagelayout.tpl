@@ -11,8 +11,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-  {*   @import url({"stylesheets/blog_red.css"|ezdesign}); *}
-   @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
+    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
+{*    @import url("/design/blog/stylesheets/blog_blue.css"); *}
 </style>
 </head>
 
@@ -82,36 +82,6 @@
         </div>
     </div>
 
-    <div id="maincol">
-        <div id="path">
-            <div class="design">
-
-	       <p>
-	       &gt;
-	       {section name=Path loop=$module_result.path }
-		   {section show=$Path:item.url}
-			    {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
-				{section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
-				    <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
-				{/section}
-			    {/let}
-		   {section-else}
-		  {$Path:item.text|wash}
-		   {/section}
-
-		{/section}
-	       </p>
-
-	    </div>
-	</div>
-{/let}
-{/cache-block}
-        <div class="design">
-
-            {$module_result.content}
-        </div>
-    </div>
-
     {cache-block keys=$uri_string}
 
     <div id="navigationcol">
@@ -149,6 +119,37 @@
 
         </div>
     </div>
+
+    <div id="maincol">
+        <div id="path">
+
+	       <p>
+	       &gt;
+	       {section name=Path loop=$module_result.path }
+		   {section show=$Path:item.url}
+			    {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
+				{section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
+				    <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+				{/section}
+			    {/let}
+		   {section-else}
+		  {$Path:item.text|wash}
+		   {/section}
+
+		{/section}
+	       </p>
+
+	</div>
+{/let}
+{/cache-block}
+        <div class="design">
+        <div id="innercontent">
+
+            {$module_result.content}
+        </div>
+        </div>
+    </div>
+
         
         </div>
     </div>
