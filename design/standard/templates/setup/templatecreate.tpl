@@ -43,7 +43,7 @@
     </td>
     <td>
     <select name="Match[class]">
-        <option value="-1">Any</option>
+        <option value="-1">{"Any"|i18n("design/standard/setup")}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
         <option value="{$Class:item.id}">{$Class:item.name}</option>
         {/section}
@@ -58,7 +58,7 @@
     </td>
     <td>
     <select name="Match[section]">
-        <option value="-1">Any</option>        
+        <option value="-1">{"Any"|i18n("design/standard/setup")}</option>        
         {section name=Section loop=fetch( 'content', 'section_list' )}
             <option value="{$:item.id}">{$:item.name}</option>        
         {/section}        
@@ -106,7 +106,7 @@
     </td>
     <td>
     <select name="Match[class]">
-        <option value="-1">Any</option>
+        <option value="-1">{"Any"|i18n("design/standard/setup")}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
         <option value="{$Class:item.id}">{$Class:item.name}</option>
         {/section}
@@ -121,7 +121,7 @@
     </td>
     <td>
     <select name="Match[section]">
-        <option value="-1">Any</option>        
+        <option value="-1">{"Any"|i18n("design/standard/setup")}</option>
         {section name=Section loop=fetch( 'content', 'section_list' )}
             <option value="{$:item.id}">{$:item.name}</option>        
         {/section}        
@@ -175,7 +175,7 @@
 {/switch}
 
 <div class="buttonblock">
-<input class="button" type="submit" value="Create" name="CreateOverrideButton" />
+<input class="button" type="submit" value="{"Create"|i18n("design/standard/setup")}" name="CreateOverrideButton" />
 </div>
 
 </form>

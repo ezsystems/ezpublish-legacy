@@ -16,7 +16,7 @@
 
 <table cellspacing="4" cellpadding="4" border="0">
 <tr>
-  <td rowspan="2" align="top">
+  <td rowspan="2" valign="top">
 
 <div class="objectheader">
 <h2>{"Approval"|i18n('design/standard/collaboration/approval')}</h2>

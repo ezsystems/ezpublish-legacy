@@ -30,7 +30,7 @@
 {section show=$cache_cleared.list}
 <div class="feedback">
 {section name=Cache loop=$cache_cleared.list}
-{$:item.name} was cleared
+{"%name was cleared."|i18n('design/standard/setup', '', hash( '%name', $:item.name ) )}
 {delimiter}<br/>{/delimiter}
 {/section}
 </div>
