@@ -89,7 +89,7 @@ function toggleCheckboxes( formname, checkboxname )
     {$Objects.item.content_class.name|wash}
     </td>
     <td>
-    {fetch( section, object, hash( section_id, $Objects.item.section_id ) ).name|wash} ({$Objects.item.section_id})
+    {fetch( section, object, hash( section_id, $Objects.item.section_id ) ).name|wash}
     </td>
     <td>
     <a href={concat( '/content/edit/', $Objects.item.id, '/' )|ezurl}><img src={'edit.png'|ezimage} border="0"></a>
