@@ -483,6 +483,24 @@ class eZRole extends eZPersistentObject
         }
     }
 
+    function &fetchByOffset( $offset, $limit, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZRole::definition(),
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
+    }
+
+    function &roleCount()
+    {
+        $db =& eZDB::instance();
+
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole" );
+        return $countArray[0]['count'];
+    }
+
     function checkItem( $accessItem = array() )
     {
 

@@ -44,6 +44,9 @@ $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 
+$offset = $Params['Offset'];
+$limit = 3;
+
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
@@ -73,13 +76,19 @@ if ( $http->hasPostVariable( 'NewButton' )  )
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 
+$viewParameters = array( 'offset' => $offset );
 $tpl =& templateInit();
 
-$roles =& eZRole::fetchList();
+//$roles =& eZRole::fetchList();
+$roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true );
+$roleCount =& eZRole::roleCount();
 $tempRoles = & eZRole::fetchList( 'temporaryVersions' );
 $tpl->setVariable( 'roles', $roles );
+$tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );
 $tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( "limit", $limit );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
