@@ -700,6 +700,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $i++;
         }
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
+        $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE contentobject_id IN ( $inSQL )" );
     }
 
     function &fetchByCRC( $pathStr )

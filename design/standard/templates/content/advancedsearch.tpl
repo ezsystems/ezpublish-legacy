@@ -1,17 +1,18 @@
 <form action={"/content/advancedsearch/"|ezurl} method="get">
 {section show=$search_text}
-<h1>Search for: "{$search_text}" returned {$search_count} objects</h1>
+{switch name=Sw match=$search_count}
+  {case match=0}
+  <h1>No results were found for searching: "{$search_text}"</h1>
+  {/case}
+  {case}
+  <h1>Search for: "{$search_text}" returned {$search_count} matches</h1>
+  {/case}
+{/switch}
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$SearchResult:sequence}">
 	<a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
-	</td>
-</tr>
-  {section-else}
-<tr>
-	<td>
-	<h3>Your search returned no result</h3>
 	</td>
 </tr>
   {/section}

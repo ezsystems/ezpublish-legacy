@@ -1,6 +1,11 @@
-
-<h1>Search for: "{$search_text}" returned {$search_count} objects</h1>
-
+{switch name=Sw match=$search_count}
+  {case match=0}
+  <h1>No results were found for searching: "{$search_text}"</h1>
+  {/case}
+  {case}
+  <h1>Search for: "{$search_text}" returned {$search_count} matches</h1>
+  {/case}
+{/switch}
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 {section show=$search_text}
 <tr>
@@ -17,9 +22,6 @@
 
 
   {section-else}
-	<td>
-	<h3>Your search returned no result</h3>
-	</td>
   {/section}
 {/section}
 </tr>
