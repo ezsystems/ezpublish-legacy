@@ -61,7 +61,7 @@
 {/section}
 {/let}
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
+{* DESIGN: Subline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
