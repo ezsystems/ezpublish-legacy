@@ -14,6 +14,7 @@ links to clickable links.
 - The ezdesign template operator now fully supports designs and extensions.
 - It's now possible to add javascripts in subtemplates by using run-once
   and append-block.
+- Added plugin system for shop accounts, which enables simpler checkout without regstering users
 
 *SDK :
 
