@@ -1467,9 +1467,22 @@ class eZTemplate
         if ( ( ( isset( $functionDefinition['function'] ) or
                  ( isset( $functionDefinition['script'] ) and
                    isset( $functionDefinition['class'] ) ) ) and
-               isset( $functionDefinition['function_names'] ) ) )
+               ( isset( $functionDefinition['function_names_function'] ) or
+                 isset( $functionDefinition['function_names'] ) ) ) )
         {
-            foreach ( $functionDefinition['function_names'] as $functionName )
+            if ( isset( $functionDefinition['function_names_function'] ) )
+            {
+                $functionNamesFunction = $functionDefinition['function_names_function'];
+                if ( !function_exists( $functionNamesFunction ) )
+                {
+                    $this->error( 'registerFunctions', "Cannot register function definition, missing function names function '$functionNamesFunction'" );
+                    return;
+                }
+                $functionNames = $operatorNamesFunction();
+            }
+            else
+                $functionNames = $functionDefinition['function_names'];
+            foreach ( $functionNames as $functionName )
             {
 //                 eZDebug::writeDebug( "Autoload for function $functionName", 'eztemplate:registerAutoloadFunctions' );
                 $this->Functions[$functionName] =& $functionDefinition;
@@ -1598,9 +1611,22 @@ class eZTemplate
         if ( ( ( isset( $operatorDefinition['function'] ) or
                  ( isset( $operatorDefinition['script'] ) and
                    isset( $operatorDefinition['class'] ) ) ) and
-               isset( $operatorDefinition['operator_names'] ) ) )
+               ( isset( $operatorDefinition['operator_names_function'] ) or
+                 isset( $operatorDefinition['operator_names'] ) ) ) )
         {
-            foreach ( $operatorDefinition['operator_names'] as $operatorName )
+            if ( isset( $operatorDefinition['operator_names_function'] ) )
+            {
+                $operatorNamesFunction = $operatorDefinition['operator_names_function'];
+                if ( !function_exists( $operatorNamesFunction ) )
+                {
+                    $this->error( 'registerOperators', "Cannot register operator definition, missing operator names function '$operatorNamesFunction'" );
+                    return;
+                }
+                $operatorNames = $operatorNamesFunction();
+            }
+            else
+                $operatorNames = $operatorDefinition['operator_names'];
+            foreach ( $operatorNames as $operatorName )
             {
 //                 eZDebug::writeDebug( "Autoload for operator $operatorName", 'eztemplate:registerAutoloadOperators' );
                 $this->Operators[$operatorName] =& $operatorDefinition;

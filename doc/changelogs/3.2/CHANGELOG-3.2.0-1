@@ -55,6 +55,16 @@ Changes from 3.1-1 to 3.2.0-1
 - Fixed workflow status id to name function, now all status ids are converted.
 - Improved google and simple navigator to allow url suffix data (eg. ?Search=)
 - Improved search templates to use google navigator.
+- PHP function to template operator mapping can now be controlled by template.ini, this means
+  that it's possible to add new php functions as template operators without programming.
+  Added urlencode to default list.
+- Added fetch function for search.
+- Changed the content normal and advanced search to allow the use of the new fetch search.
+  The default behaviour searches using PHP code like before but the new mode can be turned on.
+  The new fetch function can also be used in other template code.
+- Moved search result list with navigator into a separate template, there's now a normal
+  search result template and an 'edit' search result template.
+- Added support for specifying result items per page for advanced search.
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
@@ -76,6 +86,10 @@ eZ i18n:
   and to this encoding is supported seamlessly.
 - Cleaned up the code which decides how the conversion should be done from input charset to output charset.
 - Removed bad use of reference in eZUTF8Codec.
+
+eZ template:
+- Added support for defining template function and operator names dynamically trought a php function
+  in template autoloading.
 
 eZ ini:
 - Added support for more characters in accociative arrays defined in .ini files

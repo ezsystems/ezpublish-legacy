@@ -1,20 +1,33 @@
+{let search=false()}
+{section show=$use_template_search}
+    {set page_limit=10}
+    {set search=fetch(content,search,
+                      hash(text,$search_text,
+                           section_id,$search_section_id,
+                           subtree_array,$search_subtree_array,
+                           offset,$view_parameters.offset,
+                           limit,$page_limit))}
+    {set search_result=$search['SearchResult']}
+    {set search_count=$search['SearchCount']}
+    {set stop_word_array=$search['StopWordArray']}
+    {set search_data=$search}
+{/section}
+
+<form action={"/content/search/"|ezurl} method="get">
+
 <div class="maincontentheader">
 <h1>{"Search"|i18n("design/standard/content/search")}</h1>
 </div>
-
-<form action={"/content/search/"|ezurl} method="get">
 
 <div class="block">
     <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
     <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 </div>
 
-</form>
-
 <div class="block">
-{let adv_url='/content/advancedsearch/'|ezurl}
-<label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
-{/let}
+    {let adv_url=concat('/content/advancedsearch/',$search_text|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
+    <label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
+    {/let}
 </div>
 
 {section show=$stop_word_array}
@@ -48,33 +61,18 @@
   </div>
   {/case}
 {/switch}
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
-{section show=$search_result}
-<th>{"Name"|i18n("design/standard/content/search")}</th>
-<th>{"Class"|i18n("design/standard/content/search")}</th>
-<tr>
-  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-    <td class="{$SearchResult:sequence}">
-    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name|wash}</a>
-       
-    </td>
-    <td class="{$SearchResult:sequence}">
-      {$SearchResult:item.object.class_name|wash}
-    </td>
-  {delimiter modulo=1}
-</tr>
-<tr>
-  {/delimiter}
-  {section-else}
-  {/section}
-{/section}
-</tr>
-</table>
 
-{include name=navigator
+{include name=Result
+         uri='design:content/searchresult.tpl'
+         search_result=$search_result}
+
+{include name=Navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/search')
-         page_uri_suffix=concat('?SearchText=',$search_text_enc)
+         page_uri_suffix=concat('?SearchText=',$search_text|urlencode)
          item_count=$search_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
+
+</form>
+{/let}

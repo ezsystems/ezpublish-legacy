@@ -1,3 +1,38 @@
+{let search=false()}
+{section show=$use_template_search}
+    {set page_limit=10}
+    {switch match=$search_page_limit}
+    {case match=1}
+        {set page_limit=5}
+    {/case}
+    {case match=2}
+        {set page_limit=10}
+    {/case}
+    {case match=3}
+        {set page_limit=20}
+    {/case}
+    {case match=4}
+        {set page_limit=30}
+    {/case}
+    {case match=5}
+        {set page_limit=50}
+    {/case}
+    {case/}
+    {/switch}
+    {set search=fetch(content,search,
+                      hash(text,$search_text,
+                           section_id,$search_section_id,
+                           subtree_array,$search_sub_tree,
+                           class_id,$search_contentclass_id,
+                           class_attribute_id,$search_contentclass_attribute_id,
+                           offset,$view_parameters.offset,
+                           limit,$page_limit))}
+    {set search_result=$search['SearchResult']}
+    {set search_count=$search['SearchCount']}
+    {set stop_word_array=$search['StopWordArray']}
+    {set search_data=$search}
+{/section}
+
 <form action={"/content/advancedsearch/"|ezurl} method="get">
 <div class="maincontentheader">
 <h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
@@ -81,14 +116,27 @@ selected="selected"
 
 <label>{"Published"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchDate">
-<option value="-1" {section show=eq($search_date,-1)}selected{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
-<option value="1" {section show=eq($search_date,1)}selected{/section}>{"Last day"|i18n("design/standard/content/search")}</option>
-<option value="2" {section show=eq($search_date,2)}selected{/section}>{"Last week"|i18n("design/standard/content/search")}</option>
-<option value="3" {section show=eq($search_date,3)}selected{/section}>{"Last month"|i18n("design/standard/content/search")}</option>
-<option value="4" {section show=eq($search_date,4)}selected{/section}>{"Last three months"|i18n("design/standard/content/search")}</option>
-<option value="5" {section show=eq($search_date,5)}selected{/section}>{"Last year"|i18n("design/standard/content/search")}</option>
+<option value="-1" {section show=eq($search_date,-1)}selected="selected"{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
+<option value="1" {section show=eq($search_date,1)}selected="selected"{/section}>{"Last day"|i18n("design/standard/content/search")}</option>
+<option value="2" {section show=eq($search_date,2)}selected="selected"{/section}>{"Last week"|i18n("design/standard/content/search")}</option>
+<option value="3" {section show=eq($search_date,3)}selected="selected"{/section}>{"Last month"|i18n("design/standard/content/search")}</option>
+<option value="4" {section show=eq($search_date,4)}selected="selected"{/section}>{"Last three months"|i18n("design/standard/content/search")}</option>
+<option value="5" {section show=eq($search_date,5)}selected="selected"{/section}>{"Last year"|i18n("design/standard/content/search")}</option>
 </select>
 </div>
+
+{section show=$use_template_search}
+<div class="element">
+<label>{"Display per page"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<select name="SearchPageLimit">
+<option value="1" {section show=eq($search_page_limit,1)}selected="selected"{/section}>{"5 items"|i18n("design/standard/content/search")}</option>
+<option value="2" {section show=or(array(1,2,3,4,5)|contains($search_page_limit)|not,eq($search_page_limit,2))}selected="selected"{/section}>{"10 items"|i18n("design/standard/content/search")}</option>
+<option value="3" {section show=eq($search_page_limit,3)}selected="selected"{/section}>{"20 items"|i18n("design/standard/content/search")}</option>
+<option value="4" {section show=eq($search_page_limit,4)}selected="selected"{/section}>{"30 items"|i18n("design/standard/content/search")}</option>
+<option value="5" {section show=eq($search_page_limit,5)}selected="selected"{/section}>{"50 items"|i18n("design/standard/content/search")}</option>
+</select>
+</div>
+{/section}
 
 <div class="break"></div>
 </div>
@@ -112,31 +160,19 @@ selected="selected"
 </div>
   {/case}
 {/switch}
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-  <th>{"Name"|i18n("design/standard/content/search")}</th>
-  <th>{"Class"|i18n("design/standard/content/search")}</th>
-</tr>
 
-  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-<tr>
-  <td class="{$SearchResult:sequence}">
-    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name|wash}</a>
-  </td>
-  <td class="{$SearchResult:sequence}">
-    {$SearchResult:item.object.class_name|wash}
-  </td>
-</tr>
-  {/section}
-</table>
+{include name=Result
+         uri='design:content/searchresult.tpl'
+         search_result=$search_result}
 {/section}
 
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/advancedsearch')
-         page_uri_suffix=concat('?SearchText=',$search_text_enc,'&PhraseSearchText=',$phrase_search_text_enc,'&SearchContentClassID=',$search_contentclass_id,'&SearchContentClassAttributeID=',$search_contentclass_attribute_id,'&SearchSectionID=',$search_section_id,'&SearchDate=',$search_date)
+         page_uri_suffix=concat('?SearchText=',$search_text|urlencode,'&PhraseSearchText=',$phrase_search_text|urlencode,'&SearchContentClassID=',$search_contentclass_id,'&SearchContentClassAttributeID=',$search_contentclass_attribute_id,'&SearchSectionID=',$search_section_id,'&SearchDate=',$search_date,'&SearchPageLimit=',$search_page_limit)
          item_count=$search_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
 </form>
+{/let}

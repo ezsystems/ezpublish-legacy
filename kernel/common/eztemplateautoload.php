@@ -68,12 +68,8 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoper
 
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
-                                    'class' => 'eZTemplatePHPOperator',
-                                    'class_parameter' => array( 'upcase' => 'strtoupper',
-                                                                'downcase' => 'strtolower',
-                                                                'reverse' => 'strrev',
-                                                                'nl2br' => 'nl2br' ),
-                                    'operator_names' => array( 'upcase', 'reverse', 'nl2br' ) );
+                                    'function' => 'eZPHPOperatorInit',
+                                    'operator_names_function' => 'eZPHPOperatorNameInit' );
 
 // Function autoloading
 
@@ -91,6 +87,27 @@ $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                                                'collaboration_participation_view',
                                                                'event_edit_gui',
                                                                'class_attribute_edit_gui' ) );
+
+if ( !function_exists( 'eZPHPOperatorInit' ) )
+{
+    function &eZPHPOperatorInit()
+        {
+            include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
+            $ini =& eZINI::instance( 'template.ini' );
+            $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
+            return new eZTemplatePHPOperator( $operatorList );
+        }
+}
+
+if ( !function_exists( 'eZPHPOperatorNameInit' ) )
+{
+    function eZPHPOperatorNameInit()
+        {
+            $ini =& eZINI::instance( 'template.ini' );
+            $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
+            return array_keys( $operatorList );
+        }
+}
 
 if ( !function_exists( 'eZObjectForwardInit' ) )
 {

@@ -47,8 +47,18 @@ $Offset = $Params['Offset'];
 $pageLimit = 10;
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
+$searchPageLimit = false;
 
 $tpl =& templateInit();
+
+$ini =& eZINI::instance();
+$useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
+$logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
+
+if ( $http->hasVariable( 'SearchPageLimit' ) )
+{
+    $searchPageLimit = $http->variable( 'SearchPageLimit' );
+}
 
 if ( $http->hasVariable( "SearchText" ) )
 {
@@ -83,11 +93,14 @@ if ( $http->hasVariable( "SubTreeArray" ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
-$searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
-                                                       "SearchSectionID" => $searchSectionID,
-                                                       "SearchSubTreeArray" => $subTreeArray,
-                                                       "SearchLimit" => $pageLimit,
-                                                       "SearchOffset" => $Offset ) );
+if ( $useSearchCode )
+{
+    $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
+                                                           "SearchSectionID" => $searchSectionID,
+                                                           "SearchSubTreeArray" => $subTreeArray,
+                                                           "SearchLimit" => $pageLimit,
+                                                           "SearchOffset" => $Offset ) );
+}
 
 if ( $searchSectionID != -1 )
 {
@@ -98,18 +111,34 @@ if ( $searchSectionID != -1 )
 
 $viewParameters = array( 'offset' => $Offset );
 
+$searchData = false;
+$tpl->setVariable( "search_data", $searchData );
 $tpl->setVariable( "search_section_id", $searchSectionID );
-$tpl->setVariable( "search_result", $searchResult["SearchResult"] );
+$tpl->setVariable( "search_subtree_array", $subTreeArray );
 $tpl->setVariable( "search_text", $searchText );
-$tpl->setVariable( "search_count", $searchResult["SearchCount"] );
-$tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
 
 $tpl->setVariable( "view_parameters", $viewParameters );
+$tpl->setVariable( 'use_template_search', !$useSearchCode );
 
 // --- Compatability code start ---
-$tpl->setVariable( "offset", $Offset );
-$tpl->setVariable( "page_limit", $pageLimit );
-$tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+if ( $useSearchCode )
+{
+    $tpl->setVariable( "offset", $Offset );
+    $tpl->setVariable( "page_limit", $pageLimit );
+    $tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+    $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
+    $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
+    $tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
+}
+else
+{
+    $tpl->setVariable( "offset", false );
+    $tpl->setVariable( "page_limit", false );
+    $tpl->setVariable( "search_text_enc", false );
+    $tpl->setVariable( "search_result", false );
+    $tpl->setVariable( "search_count", false );
+    $tpl->setVariable( "stop_word_array", false );
+}
 // --- Compatability code end ---
 
 $Result = array();
@@ -118,7 +147,15 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ),
                          array( 'text' => 'Normal',
                                 'url' => false ) );
+if ( !$useSearchCode )
+{
+    $searchData = $tpl->variable( "search_data" );
+}
+else
+{
+    $searchData = $searchResult;
+}
 
-if ( trim( $searchText ) != "" )
-    eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
+if ( $logSearchStats and trim( $searchText ) != "" )
+    eZSearchLog::addPhrase( $searchText, $searchData["SearchCount"] );
 ?>

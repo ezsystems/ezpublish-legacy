@@ -53,13 +53,23 @@ if ( $ViewMode == 'offset' )
 
 $tpl =& templateInit();
 
+$ini =& eZINI::instance();
+$useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
+$logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
+
 $searchText = '';
 $originalSearchText = '';
 $phraseSearchText = '';
+$searchPageLimit = false;
 
 $pageLimit = 10;
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
+
+if ( $http->hasVariable( 'SearchPageLimit' ) )
+{
+    $searchPageLimit = $http->variable( 'SearchPageLimit' );
+}
 
 if ( $http->hasVariable( 'PhraseSearchText' ) and trim( $http->variable( 'PhraseSearchText' ) ) != '' )
 {
@@ -138,42 +148,62 @@ $sectionArray =& eZSection::fetchList();
                                                        'SearchOffset' => $Offset ) ); */
 $searchArray =& eZSearch::buildSearchArray();
 
-$searchResult =& eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
-                                                       'SearchContentClassID' => $searchContentClassID,
-                                                       'SearchContentClassAttributeID' => $searchContentClassAttributeID,
-                                                       'SearchSubTreeArray' => $subTreeArray,
-                                                       'SearchDate' => $searchDate,
-                                                       'SearchLimit' => $pageLimit,
-                                                       'SearchOffset' => $Offset ),
-                                   $searchArray );
-if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
+if ( $useSearchCode )
 {
-    $searchText = 'search by additional parameter';
+    $searchResult =& eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
+                                                           'SearchContentClassID' => $searchContentClassID,
+                                                           'SearchContentClassAttributeID' => $searchContentClassAttributeID,
+                                                           'SearchSubTreeArray' => $subTreeArray,
+                                                           'SearchDate' => $searchDate,
+                                                           'SearchLimit' => $pageLimit,
+                                                           'SearchOffset' => $Offset ),
+                                       $searchArray );
+    if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
+    {
+        $searchText = 'search by additional parameter';
+    }
 }
 
 $viewParameters = array( 'offset' => $Offset );
 
+$searchData = false;
+$tpl->setVariable( "search_data", $searchData );
 $tpl->setVariable( 'search_contentclass_id', $searchContentClassID );
 $tpl->setVariable( 'search_contentclass_attribute_id', $searchContentClassAttributeID );
 $tpl->setVariable( 'search_section_id', $searchSectionID );
 $tpl->setVariable( 'search_date', $searchDate );
 $tpl->setVariable( 'search_sub_tree', $subTreeArray );
-
-$tpl->setVariable( "view_parameters", $viewParameters );
-
-// --- Compatability code start ---
-$tpl->setVariable( 'offset', $Offset );
-$tpl->setVariable( 'page_limit', $pageLimit );
-$tpl->setVariable( 'search_text_enc', urlencode( $originalSearchText ) );
-$tpl->setVariable( 'phrase_search_text_enc', urlencode( $phraseSearchText ) );
-// --- Compatability code end ---
-
-$tpl->setVariable( 'search_result', $searchResult['SearchResult'] );
-$tpl->setVariable( 'search_count', $searchResult['SearchCount'] );
-$tpl->setVariable( 'stop_word_array', $searchResult['StopWordArray'] );
 $tpl->setVariable( 'search_text', $searchText );
+$tpl->setVariable( 'search_page_limit', $searchPageLimit );
 $tpl->setVariable( 'full_search_text', $fullSearchText );
 $tpl->setVariable( 'phrase_search_text', $phraseSearchText );
+
+$tpl->setVariable( "view_parameters", $viewParameters );
+$tpl->setVariable( 'use_template_search', !$useSearchCode );
+
+// --- Compatability code start ---
+if ( $useSearchCode )
+{
+    $tpl->setVariable( 'offset', $Offset );
+    $tpl->setVariable( 'page_limit', $pageLimit );
+    $tpl->setVariable( 'search_text_enc', urlencode( $originalSearchText ) );
+    $tpl->setVariable( 'phrase_search_text_enc', urlencode( $phraseSearchText ) );
+    $tpl->setVariable( 'search_result', $searchResult['SearchResult'] );
+    $tpl->setVariable( 'search_count', $searchResult['SearchCount'] );
+    $tpl->setVariable( 'stop_word_array', $searchResult['StopWordArray'] );
+}
+else
+{
+    $tpl->setVariable( 'offset', false );
+    $tpl->setVariable( 'page_limit', false );
+    $tpl->setVariable( 'search_text_enc', false );
+    $tpl->setVariable( 'phrase_search_text_enc', false );
+    $tpl->setVariable( 'search_result', false );
+    $tpl->setVariable( 'search_count', false );
+    $tpl->setVariable( 'stop_word_array', false );
+}
+// --- Compatability code end ---
+
 $tpl->setVariable( 'content_class_array', $classArray );
 $tpl->setVariable( 'section_array', $sectionArray );
 $tpl->setVariable( 'search_content_class_attribute_array', $searchContentClassAttributeArray );
@@ -217,6 +247,16 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                          array( 'text' => ezi18n( 'kernel/content', 'Advanced' ),
                                 'url' => false ) );
 
-eZSearchLog::addPhrase( $searchText, $searchResult['SearchCount'] );
+if ( !$useSearchCode )
+{
+    $searchData = $tpl->variable( "search_data" );
+}
+else
+{
+    $searchData = $searchResult;
+}
+
+if ( $logSearchStats and trim( $searchText ) != "" )
+    eZSearchLog::addPhrase( $searchText, $searchData['SearchCount'] );
 
 ?>

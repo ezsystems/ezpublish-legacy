@@ -202,6 +202,30 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
+    function &fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $publishDate, $sectionID, $classID, $classAttributeID )
+    {
+        include_once( "kernel/classes/ezsearch.php" );
+        $searchArray =& eZSearch::buildSearchArray();
+        $parameters = array();
+        if ( $classID !== false )
+            $parameters['SearchContentClassID'] = $classID;
+        if ( $classAttributeID !== false )
+            $parameters['SearchContentClassAttributeID'] = $classAttributeID;
+        if ( $sectionID !== false )
+            $parameters['SearchSectionID'] = $sectionID;
+        if ( $publishDate !== false )
+            $parameters['SearchDate'] = $publishDate;
+        $parameters['SearchLimit'] = $limit;
+        $parameters['SearchOffset'] = $offset;
+        if ( $subTreeArray !== false )
+            $parameters['SearchSubTreeArray'] = $subTreeArray;
+        $searchResult =& eZSearch::search( $searchText,
+                                           $parameters,
+                                           $searchArray );
+
+        return array( 'result' => &$searchResult );
+    }
+
     function fetchTrashObjectCount()
     {
         $trashObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
