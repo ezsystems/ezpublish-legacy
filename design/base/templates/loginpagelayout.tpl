@@ -50,6 +50,16 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 <div class="break"></div>
 
+<div id="topmenu">
+    <div id="topmenu-design">
+
+    <h3 class="hide">Top menu</h3>
+        &nbsp;
+    	<div class="break"></div>
+    </div>
+</div>
+
+
 <hr class="hide" />
 
 
@@ -89,6 +99,13 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 </div></div>
 
 <div class="break"></div>
+</div>
+
+
+<div id="toolbar-bottom">
+    <div class="toolbar-design">
+     &nbsp;
+    <div class="break"></div>
 </div>
 
 
