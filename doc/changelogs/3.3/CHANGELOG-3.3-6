@@ -262,6 +262,8 @@ eZINI:
 - Fixed bug: Users were able to add existing objects of non-allowed classes to the
   object relation list datatype.
   http://ez.no/community/bug_reports/object_relation_list_allowed_classes_should_be_redone
+- Fixed bug: Wrong check for "content/edit" privilege in user/setting.
+  http://ez.no/community/bug_reports/user_settings_and_no_access_canedit
 
 *Library:
 
