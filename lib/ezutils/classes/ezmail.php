@@ -39,7 +39,7 @@
 
 */
 
-include_once( 'lib/i18n/classes/eztextcodec.php' );
+include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
 // The line separator as defined by RFC 2045
 // Using \n as a separator is not correct

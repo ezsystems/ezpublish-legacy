@@ -1,6 +1,7 @@
 Changes from 3.1.0-2 to 3.1-1
 
 *Kernel:
+- Fixed typo in ezmail include file
 - Fixed correct database initializing in setup so eZ publish will not crash when PHP only has PostgreSQL support
 - Added some error checking to values used in eZContentObject::purge.
 - Added revision number to setup page and system info page.
