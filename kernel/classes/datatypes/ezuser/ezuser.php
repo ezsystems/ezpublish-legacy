@@ -465,7 +465,7 @@ class eZUser extends eZPersistentObject
             $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
-            eZUser::cleanup();
+            $user->cleanup();
             return $user;
         }
         else
@@ -476,13 +476,15 @@ class eZUser extends eZPersistentObject
      Cleans up any cache or session variables that are set.
      This at least called on login and logout but can be used other places
      where you must ensure that the cache user values are refetched.
+     \note If $contentObjectID is \c false or not supplied the ID will be fetch from \c $this.
     */
-    function cleanup()
+    function cleanup( $contentObjectID = false )
     {
         $http =& eZHTTPTool::instance();
         $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', false );
-        $contentobjectID = $this->attribute( 'contentobject_id' );
-        $http->setSessionVariable( 'eZUserGroupsCache_' . $contentobjectID, false );
+        if ( !$contentObjectID )
+            $contentObjectID = $this->attribute( 'contentobject_id' );
+        $http->setSessionVariable( 'eZUserGroupsCache_' . $contentObjectID, false );
     }
 
     /*!
@@ -491,7 +493,7 @@ class eZUser extends eZPersistentObject
     function loginCurrent()
     {
         eZHTTPTool::setSessionVariable( 'eZUserLoggedInID', $this->ContentObjectID );
-        eZUser::cleanup();
+        $this->cleanup();
     }
 
     /*!
@@ -500,8 +502,10 @@ class eZUser extends eZPersistentObject
     function logoutCurrent()
     {
         $http =& eZHTTPTool::instance();
+        $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
         $http->removeSessionVariable( "eZUserLoggedInID" );
-        eZUser::cleanup();
+        if ( $contentObjectID )
+            eZUser::cleanup( $contentObjectID );
     }
 
     /*!
