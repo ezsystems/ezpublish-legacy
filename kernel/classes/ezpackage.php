@@ -1381,7 +1381,7 @@ class eZPackage
                 fclose( $fd );
 
                 $xml = new eZXML();
-                $dom =& $xml->domTree( $xmlText );
+                $dom =& $xml->domTree( $xmlText, array ( 'CharsetConversion' => true ) );
                 return $dom;
             }
         }
@@ -1408,7 +1408,7 @@ class eZPackage
             fclose( $fd );
 
             $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlText );
+            $dom =& $xml->domTree( $xmlText, array ( 'CharsetConversion' => true ) );
 
             $package =& new eZPackage();
             $parameters = $package->parseDOMTree( $dom );
