@@ -2069,20 +2069,106 @@ $rbracket
                     if ( isset( $node[7]['spacing'] ) )
                         $spacing += $node[7]['spacing'];
                     $newRootNamespace = $node[8];
+                    $resourceVariableName = $node[9];
 
-                    $templateNameText = $php->variableText( $node[2], 0 );
-                    $uri = $node[2];
-                    if ( $resource )
-                        $uri = $resource . ':' . $uri;
-                    unset( $tmpResourceData );
-                    $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $node[2] );
-                    $uriText = $php->variableText( $uri, 0 );
+//                    $templateNameText = $php->variableText( $node[2], 0 );
+                    $useFallbackCode = true;
+                    $uriMap = $node[2];
+                    if ( is_string( $uriMap ) )
+                    {
+                        $uriMap = array( $uriMap );
+                    }
+                    else
+                    {
+                        $useFallbackCode = false;
+                    }
 
-                    $resourceCanCache = true;
-                    if ( !$resourceObject->servesStaticData() )
-                        $resourceCanCache = false;
-                    if ( !$tpl->isCachingAllowed() )
-                        $resourceCanCache = false;
+                    $resourceMap = array();
+                    $hasCompiledCode = false;
+                    foreach ( $uriMap as $uriKey => $originalURI )
+                    {
+                        $uri = $originalURI;
+                        if ( $resource )
+                            $uri = $resource . ':' . $uri;
+                        unset( $tmpResourceData );
+                        $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $originalURI );
+                        $uriText = $php->variableText( $uri, 0 );
+
+                        $resourceCanCache = true;
+                        if ( !$resourceObject->servesStaticData() )
+                            $resourceCanCache = false;
+                        if ( !$tpl->isCachingAllowed() )
+                            $resourceCanCache = false;
+
+                        $tmpResourceData['text'] = null;
+                        $tmpResourceData['root-node'] = null;
+                        $tmpResourceData['compiled-template'] = false;
+                        $tmpResourceData['time-stamp'] = null;
+                        $tmpResourceData['key-data'] = null;
+                        $subSpacing = 0;
+                        $hasResourceData = false;
+                        if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
+                        {
+                            $tmpFileName = $tmpResourceData['template-filename'];
+                            unset( $tmpResourceData );
+                            $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
+                            $tmpResourceData['compiled-template'] = true;
+                            $hasResourceData = true;
+                            $hasCompiledCode = true;
+                        }
+                        else
+                        {
+                            if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                            {
+                                if ( !$tmpResourceData['compiled-template'] and
+                                     $tmpResourceData['root-node'] === null )
+                                {
+                                    $root =& $tmpResourceData['root-node'];
+                                    $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+                                    $templateText =& $tmpResourceData["text"];
+                                    $keyData = $tmpResourceData['key-data'];
+                                    $rootNamespace = '';
+                                    $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
+                                    $hasResourceData = false;
+                                }
+                                if ( !$tmpResourceData['compiled-template'] and
+                                     $resourceCanCache and
+                                     $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
+                                {
+                                    $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
+                                    if ( $generateStatus )
+                                        $tmpResourceData['compiled-template'] = true;
+                                }
+                            }
+                            $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
+                        }
+//                         $tmpResourceData2 = $tmpResourceData;
+//                         unset( $tmpResourceData2['text'] );
+//                         unset( $tmpResourceData2['root-node'] );
+//                         var_dump( $tmpResourceData2 );
+                        if ( $tmpResourceData['compiled-template'] )
+                            $hasCompiledCode = true;
+                        $textName = eZTemplateCompiler::currentTextName( $parameters );
+                        if ( $tmpResourceData['compiled-template'] )
+                        {
+                            if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
+                                $useFallbackCode = false;
+                            $keyData = $tmpResourceData['key-data'];
+                            $templatePath = $tmpResourceData['template-name'];
+                            $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
+                            $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $tmpResourceData );
+
+                            $directory = eZTemplateCompiler::compilationDirectory();
+                            $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
+                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            $resourceMap[$uriKey] = array( 'key' => $uriKey,
+                                                           'uri' => $uri,
+                                                           'phpscript' => $phpScript );
+                        }
+                        else
+                        {
+                        }
+                    }
 
                     if ( $useComments )
                     {
@@ -2095,72 +2181,59 @@ $rbracket
                         }
                     }
 
-                    $tmpResourceData['text'] = null;
-                    $tmpResourceData['root-node'] = null;
-                    $tmpResourceData['compiled-template'] = false;
-                    $tmpResourceData['time-stamp'] = null;
-                    $tmpResourceData['key-data'] = null;
-                    $subSpacing = 0;
-                    $hasResourceData = false;
-                    if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
+                    if ( $resourceVariableName )
                     {
-                        $tmpFileName = $tmpResourceData['template-filename'];
-                        unset( $tmpResourceData );
-                        $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
-                        $tmpResourceData['compiled-template'] = true;
-                        $hasResourceData = true;
-                    }
-                    else
-                    {
-                        if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
-                        {
-                            if ( !$tmpResourceData['compiled-template'] and
-                                 $tmpResourceData['root-node'] === null )
-                            {
-                                $root =& $tmpResourceData['root-node'];
-                                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-                                $templateText =& $tmpResourceData["text"];
-                                $keyData = $tmpResourceData['key-data'];
-                                $rootNamespace = '';
-                                $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
-                                $hasResourceData = false;
-                            }
-                            if ( !$tmpResourceData['compiled-template'] and
-                                 $resourceCanCache and
-                                 $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
-                            {
-                                $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
-                                if ( $generateStatus )
-                                    $tmpResourceData['compiled-template'] = true;
-                            }
-                        }
-                        $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
-                    }
-                    $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $useFallbackCode = true;
-                    if ( $tmpResourceData['compiled-template'] )
-                    {
-                        if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
-                            $useFallbackCode = false;
-                        $keyData = $tmpResourceData['key-data'];
-                        $templatePath = $tmpResourceData['template-name'];
-                        $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
-                        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $tmpResourceData );
-
-                        $directory = eZTemplateCompiler::compilationDirectory();
-                        $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
                         $phpScriptText = $php->variableText( $phpScript, 0 );
-                        $keyText = $php->variableText( $key, 0 );
-                        $php->addCodePiece( "\$resourceFound = false;\nif ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                        $phpScriptText = '$phpScript';
+                        $phpScriptArray = array();
+                        foreach ( $resourceMap as $resourceMapItem )
+                        {
+                            $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
+                        }
+                        $php->addVariable( "phpScriptArray", $phpScriptArray );
+                        $resourceVariableNameText = "\$$resourceVariableName";
+                        $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n" );
+                        $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
                         $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
                         if ( $newRootNamespace )
                         {
                             $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
-                            $code .= "if ( !\$currentNamespace )\n    \$rootNamespace = $newRootNamespaceText;\nelse\n    \$rootNamespace = \$currentNamespace . ':' . $newRootNamespaceText;\n";
+                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
                         }
-                        $code .= "\$currentNamespace = \$rootNamespace;
-include( $phpScriptText );
+                        else
+                        {
+                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                        }
+                        $code .= "include( $phpScriptText );
+list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
+                        $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
+                        if ( $useFallbackCode )
+                            $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
+                        else
+                            $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
+                        $subSpacing = 4;
+                    }
+                    else
+                    {
+                        $php->addCodePiece( "\$resourceFound = false;\n", array( 'spacing' => $spacing ) );
+                        $phpScript = $resourceMap[0]['phpscript'];
+                        $phpScriptText = $php->variableText( $phpScript, 0 );
+                        if ( $resourceIndex > 0 )
+                            $php->addCodePiece( "else " );
+                        $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+
+                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
+                        if ( $newRootNamespace )
+                        {
+                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
+                        }
+                        else
+                        {
+                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                        }
+                        $code .= "include( $phpScriptText );
 list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
                         if ( $useFallbackCode )
@@ -2175,7 +2248,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
                     }
 
-                    if ( $tmpResourceData['compiled-template'] and $useFallbackCode )
+                    if ( $hasCompiledCode and $useFallbackCode )
                     {
                         $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                     }

@@ -609,7 +609,7 @@ class eZTemplateNodeTool
 
     function createResourceAcquisitionNode( $resourceName, $templateName, $fileName,
                                             $method, $extraParameters, $placement = false,
-                                            $parameters = array(), $newRootNamespace = false )
+                                            $parameters = array(), $newRootNamespace = false, $resourceVariableName = false )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION,
                        $resourceName, $templateName, $fileName,
@@ -619,6 +619,7 @@ class eZTemplateNodeTool
         else
             $node[] = false;
         $node[] = $newRootNamespace;
+        $node[] = $resourceVariableName;
         return $node;
     }
 

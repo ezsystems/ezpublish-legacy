@@ -268,17 +268,20 @@ class eZObjectForwarder
                 $acquisitionNodes = array();
                 $templateCounter = 0;
                 $hasAcquisitionNodes = false;
+                $matchLookupArray = array();
                 foreach ( $matchList as $matchItem )
                 {
+                    $tmpAcquisitionNodes = array();
                     $matchPart = $matchItem['match_part'];
                     if ( preg_match( "/^(.+)\.tpl$/", $matchPart, $matches ) )
                         $matchPart = $matches[1];
                     $code = "if ( \$attributeAccess == '$matchPart' )\n{\n";
                     if ( $templateCounter > 0 )
                         $code = "else " . $code;
-                    $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $spacing ) );
+                    $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $spacing ) );
 
                     $defaultMatchSpacing = $spacing;
+                    $useArrayLookup = false;
                     if ( isset( $matchItem['custom_match'] ) )
                     {
                         $customSpacing = $spacing + 4;
@@ -308,33 +311,58 @@ class eZObjectForwarder
                             }
                             $code .= " )\n{";
                             $matchFile = $customMatch['match_file'];
-                            $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $customSpacing ) );
+                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $customSpacing ) );
                             $hasAcquisitionNodes = true;
-                            $acquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                      $matchFile, $matchFile,
                                                                                                      EZ_RESOURCE_FETCH, false,
                                                                                                      $node[4], array( 'spacing' => $customSpacing + 4 ),
                                                                                                      $rule['namespace'] );
-                            $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
+                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
                             ++$matchCount;
                         }
-                        $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{", array( 'spacing' => $customSpacing ) );
+                        $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{", array( 'spacing' => $customSpacing ) );
+                    }
+                    else
+                    {
+                        $matchFile = $matchItem['base_dir'] . $matchItem['template'];
+                        $matchLookupArray[$matchPart] = $matchFile;
+                        $useArrayLookup = true;
                     }
 
-                    $matchFile = $matchItem['base_dir'] . $matchItem['template'];
-                    $acquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
-                                                                                             $matchFile, $matchFile,
-                                                                                             EZ_RESOURCE_FETCH, false,
-                                                                                             $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ),
-                                                                                             $rule['namespace'] );
-                    $hasAcquisitionNodes = true;
-                    if ( isset( $matchItem['custom_match'] ) )
-                        $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
+                    if ( !$useArrayLookup )
+                    {
+                        $matchFile = $matchItem['base_dir'] . $matchItem['template'];
+                        $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                                                                                                    $matchFile, $matchFile,
+                                                                                                    EZ_RESOURCE_FETCH, false,
+                                                                                                    $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ),
+                                                                                                    $rule['namespace'] );
+                        $hasAcquisitionNodes = true;
+                        if ( isset( $matchItem['custom_match'] ) )
+                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
 
-                    $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $spacing ) );
-                    ++$templateCounter;
+                        $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $spacing ) );
+                        ++$templateCounter;
+                        $acquisitionNodes = array_merge( $acquisitionNodes, $tmpAcquisitionNodes );
+                    }
                 }
 
+                if ( count( $matchLookupArray ) > 0 )
+                {
+                    $newNodes = array_merge( $newNodes, $accessNodes );
+                    $accessNodes = array();
+                    $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                                                                                     $matchLookupArray, false,
+                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                     $node[4], array( 'spacing' => $spacing ),
+                                                                                     $rule['namespace'], 'attributeAccess' );
+                    if ( $hasAcquisitionNodes )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{", array( 'spacing' => $spacing ) );
+                        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+                    }
+                }
                 if ( $hasAcquisitionNodes )
                 {
                     $newNodes = array_merge( $newNodes, $accessNodes, $acquisitionNodes );
@@ -345,12 +373,17 @@ class eZObjectForwarder
                     }
                     ++$attributeAccessCount;
                 }
-                else
+                else if ( count( $matchLookupArray ) == 0 )
                 {
                     $newNodes[] = eZTemplateNodeTool::createErrorNode( "Failed to load template",
                                                                        $functionName,
                                                                        eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                        array( 'spacing' => $acquisitionSpacing ) );
+                }
+                if ( count( $matchLookupArray ) > 0 and $hasAcquisitionNodes )
+                {
+                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $spacing ) );
                 }
             }
         }
