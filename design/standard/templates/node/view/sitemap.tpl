@@ -42,7 +42,7 @@
 <tr>
 	<td class="{$Tree:sequence}"><a href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></td>
 	<td class="{$Tree:sequence}">
-       	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" />
+       	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.owner_id}</td>
@@ -54,10 +54,10 @@
         {case match=1}  
 	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="edit" border="0"></a>
 	    {/case}
 	    {case}
-            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="edit" border="0"></a>
 	    {/case}
         {/switch}
         {/case}

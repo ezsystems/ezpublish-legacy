@@ -89,7 +89,7 @@
 	{switch name=sw match=$Child:item.object.can_edit}
         {case match=1}
 	<td width="1%">
-        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
         </td>
 	{/case}
         {case} 
@@ -102,7 +102,7 @@
 	<td class="{$Child:sequence}" align="right" width="1%">
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
-	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} alt="Edit" /></td>
+	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} alt="Edit" border="0" /></td>
 	{/case}
         {case} 
 	<td class="{$Child:sequence}" align="right" width="1%">
