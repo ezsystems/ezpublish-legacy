@@ -607,7 +607,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
 
                     $withNewLine = false;
-                    if ( $convertedTag == 'line' and $lastInsertedNodeTag == "paragraph" )
+                    if ( $convertedTag == 'line' and ( $lastInsertedNodeTag == "paragraph" or $lastInsertedNodeTag == "li" ) )
                     {
                         $isValidTag = true;
                         $deletedNodeArray = array();
