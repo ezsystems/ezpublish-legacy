@@ -83,7 +83,7 @@ class eZContentCache
             }
         }
         $md5Text = md5( implode( '-', $md5Input ) );
-        $cacheFile = $nodeID . '-' . $md5Text . '.php';
+        $cacheFile = $nodeID . '-' . $md5Text . '.cache';
         $extraPath = eZDir::filenamePath( "$nodeID" );
         $ini =& eZINI::instance();
         $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $siteDesign, $viewMode, $language, $extraPath ) );
@@ -369,7 +369,7 @@ class eZContentCache
         {
             $branch = preg_replace('@/[^/]+$@', '', $node);
             $alias = $db->escapeString( $branch );
-            
+
             $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
             foreach ( $entries as $entry )
             {
@@ -424,7 +424,7 @@ class eZContentCache
                             if ( $file == '.' or
                                  $file == '..' )
                                 continue;
-                            if ( preg_match( "/^$nodeID" . "-.*\\.php$/", $file ) )
+                            if ( preg_match( "/^$nodeID" . "-.*\\.cache$/", $file ) )
                             {
                                 $cacheFile = eZDir::path( array( $cacheDir, $file ) );
                                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
