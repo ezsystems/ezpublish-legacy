@@ -1,6 +1,21 @@
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
-<div class="objectinfo">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h4>Object info</h4>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-bl"><div class="box-br">
+<div class="box-content">
+
+<div class="objectinfo">
+
 <p>
 <label>{"Created"|i18n("design/standard/content/edit")}:</label>
 {section show=$object.published}
@@ -81,12 +96,17 @@
 </p>
 
 {/let}
+
+</div>
+</div></div>
+</div></div></div>
+
 </div>
 
 <!-- Translation box end-->
 
 <!-- Dummy link tool START -->
-
+{*
 <div class="linktool">
 <h4>Internal link tool</h4>
 <p>
@@ -94,7 +114,7 @@
 <input class="linkbox" type="text" readonly="readonly" value="&lt;link id=123 /&gt;" />
 </p>
 </div>
-
+*}
 <!-- Dummy link tool END -->
 
 </form>

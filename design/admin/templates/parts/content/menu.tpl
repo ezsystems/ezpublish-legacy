@@ -1,5 +1,7 @@
 {* Treemenu. *}
+<div id="content-tree">
 {section show=ezpreference( 'admin_treemenu' )}
+
 <div class="box-header">
 <div class="box-tc"><div class="box-ml"><div class="box-mr">
 <div class="box-tl"><div class="box-tr">
@@ -64,3 +66,4 @@
 </div></div></div>
 
 {/section}
+</div>

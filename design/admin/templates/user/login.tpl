@@ -22,7 +22,20 @@
 
 <form method="post" action={"/user/login/"|ezurl}>
 
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
+
+<div class="header-mainline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-ml"><div class="box-mr">
+<div class="box-content">
 
 <div class="context-attributes">
 
@@ -42,11 +55,24 @@
 
 </div>
 
+</div>
+</div></div>
+
 <div class="controlbar">
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-tc">
+<div class="box-bl"><div class="box-br">
+
 <div class="block">
     <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
     <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
+
+</div></div>
+</div>
+</div></div></div>
+
 </div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />

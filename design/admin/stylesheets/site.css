@@ -298,14 +298,19 @@ div#leftmenu div.box-br, div#rightmenu div.box-br, div#maincontent div.box-br
     background-repeat: no-repeat;
 }
 
+div#leftmenu div#content-tree div.box-content
+{
+    padding: 0 1px 0.5em 0.5em;  
+}
+
 div#leftmenu div.box-content
 {
-    padding: 0 1px 0 0.5em;  
+    padding: 0.1em 0.5em 0.5em 0.5em;  
 }
 
 div#maincontent div.box-content
 {
-    padding: 0 2px 3px 1px;  
+    padding: 0 2px 2px 1px;  
 }
 
 div.controlbar div.box-br
@@ -331,7 +336,7 @@ div#maincontent div.controlbar div.box-bc
 
 div#rightmenu div.box-content
 {
-    padding: 0.5em 0.5em 0.5em 0.8em;  
+    padding: 0.5em 0.5em 0.5em 0.5em;  
 }
 
 div#contentstructure
@@ -518,28 +523,6 @@ div#fix /* Breaks unwanted connection between the content of the maincontent box
     width: 100%;
 }
 
-div#status-design, div#footer-design 
-{
-    margin: 0.5em 0 0 0;
-    padding: 0.5em;
-    background-color: #f0f0f0;
-    border: 1px solid #d0d0d0;
-    border-bottom-color: #ffffff;
-    border-right-color: #ffffff;
-    overflow: visible;
-}
-
-/* div#maincontent-design
-{
-    background-color: #ffffff;
-    margin: 0.5em 0 0 0;
-    padding: 0.5em;
-    border: 1px solid #d0d0d0;
-    border-bottom-color: #ffffff;
-    border-right-color: #ffffff;
-    overflow: visible;
-} */
-
 div.mainobject-window
 {
     background-color: #f8f8f4;
@@ -552,7 +535,7 @@ div.mainobject-window
 
 div.menu-block
 {
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.5em 0.5em 0 0.5em;
     text-align: center;
 }
 
@@ -697,7 +680,7 @@ div.context-block
 
 div.context-block
 {
-    margin: 0 0 2em 0;
+    margin: 0.5em 0 2em 0;
 }
 
 h2.context-title
@@ -877,8 +860,7 @@ div.context-toolbar div.block
 div.controlbar div.block
 {
     margin: 0.5em 0 0.5em 0;
-    padding: 0;
-    border-bottom: 1px solid transparent;  /* Set to avoid Mozilla bug */
+    padding-bottom: 1px; /* Set to avoid Mozilla bug */
 }
 
 div.controlbar label
@@ -889,7 +871,7 @@ div.controlbar label
 div.controlbar input.button
 {
     font-size: 0.9em;
-    font-weight: bold;
+    font-weight: normal;
     color: #ffffff;
     background-color: #2d537a;
     margin: 0;
