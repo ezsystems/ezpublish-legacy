@@ -104,28 +104,35 @@ class eZTemplateSwitchFunction
     {
         if ( $node[2] == 'case' )
         {
-            if ( is_array( $node[3] ) && count( $node[3] ) && isset( $node[3]['match'] ) )
+            if ( is_array( $node[3] ) && count( $node[3] ) )
             {
-                $match = $node[3]['match'];
-                $match = eZTemplateCompiler::processElementTransformationList( $tpl, $node, $match, $privateData );
-
-                $dynamicCase = false;
-                if ( eZTemplateNodeTool::isStaticElement( $match ) )
+                if ( isset( $node[3]['match'] ) )
                 {
-                    $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
-                    $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
-                }
-                else
-                {
-                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $match, false, array(), 'case' . $caseCounter );
-                    $caseText = "\$case" . $caseCounter;
-                    ++$caseCounter;
-                    $dynamicCase = true;
-                }
+                    $match = $node[3]['match'];
+                    $match = eZTemplateCompiler::processElementTransformationList( $tpl, $node, $match, $privateData );
 
-                $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    case $caseText:\n    {" );
-                if ( $dynamicCase )
-                    $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "        unset( $caseText );" );
+                    $dynamicCase = false;
+                    if ( eZTemplateNodeTool::isStaticElement( $match ) )
+                    {
+                        $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
+                        $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
+                    }
+                    else
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $match, false, array(), 'case' . $caseCounter );
+                        $caseText = "\$case" . $caseCounter;
+                        ++$caseCounter;
+                        $dynamicCase = true;
+                    }
+
+                    $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    case $caseText:\n    {" );
+                    if ( $dynamicCase )
+                        $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "        unset( $caseText );" );
+                }
+                else if ( isset( $node[3]['in'] ) )
+                {
+                    return false;
+                }
             }
             else
             {
@@ -192,7 +199,10 @@ class eZTemplateSwitchFunction
             $childType = $child[0];
             if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
-                $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData );
+                if ( $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData ) === false )
+                {
+                    return false;
+                }
             }
         }
         $newNodes = array_merge( $newNodes, $tmpNodes );
@@ -215,7 +225,6 @@ class eZTemplateSwitchFunction
     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-//         $text = "";
         $children = $functionChildren;
         $params = $functionParameters;
         $name = "";
@@ -269,10 +278,9 @@ class eZTemplateSwitchFunction
                                 }
                             }
                             else
+                            {
                                 $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping" );
-//                             }
-//                             else
-//                                 $tpl->warning( $this->SwitchName, "Match value $child_match for case is not set" );
+                            }
                         }
                         else if ( isset( $child_params["in"] ) )
                         {
@@ -298,7 +306,6 @@ class eZTemplateSwitchFunction
                                     reset( $child_in );
                                     while( ( $ckey = key( $child_in ) ) !== null )
                                     {
-//                                         if ( $child_in[$ckey][$key_name] == $match )
                                         if ( !is_array( $key_name ) )
                                             $key_name_array = array( $key_name );
                                         else
@@ -313,9 +320,6 @@ class eZTemplateSwitchFunction
                                     }
                                 }
                             }
-//                             }
-//                             else
-//                                 $tpl->warning( $this->SwitchName, "In value $child_in for case is not set" );
                         }
                         else
                         {
@@ -340,8 +344,11 @@ class eZTemplateSwitchFunction
             }
             next( $children );
         }
+
         if ( is_null( $case ) )
+        {
             $case =& $def;
+        }
 
         if ( $case !== null )
         {

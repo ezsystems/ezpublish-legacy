@@ -958,7 +958,7 @@ class eZINI
     /*!
      Appends the override directory \a $dir to the override directory list.
     */
-    function appendOverrideDir( $dir, $globalDir = false )
+    function appendOverrideDir( $dir, $globalDir = false, $identifier = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );

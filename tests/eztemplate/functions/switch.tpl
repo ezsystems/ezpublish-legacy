@@ -59,3 +59,17 @@ We were trying to find {$:foobar}
 
 =========================================================
 
+{let my_array=array(2, 3, 4)
+     myvar=2}
+{switch name=Sw3 match=$myvar}
+
+{case in=$my_array}
+Match : {$:match}
+{/case}
+
+{case}
+No Match for {$:match}
+{/case}
+
+{/switch}
+{/let}
