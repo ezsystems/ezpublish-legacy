@@ -989,6 +989,16 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                     'class_identifier' => 'link'
                     ),
                 ),
+            'listitem_link' =>
+            array (
+                'Source' => 'node/view/listitem.tpl',
+                'MatchFile' => 'listitem/link.tpl',
+                'Subdir' => 'templates',
+                'Match' =>
+                array (
+                    'class_identifier' => 'link'
+                    ),
+                ),
             'line_link' =>
             array (
                 'Source' => 'node/view/line.tpl',

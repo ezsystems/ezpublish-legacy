@@ -185,6 +185,12 @@ MatchFile=full/link.tpl
 Subdir=templates
 Match[class_identifier]=link
 
+[listitem_link]
+Source=node/view/listitem.tpl
+MatchFile=listitem/link.tpl
+Subdir=templates
+Match[class_identifier]=link
+
 [line_link]
 Source=node/view/line.tpl
 MatchFile=line/link.tpl

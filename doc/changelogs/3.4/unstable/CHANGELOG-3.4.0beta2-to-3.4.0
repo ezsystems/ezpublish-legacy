@@ -2,6 +2,7 @@ Changes from 3.4.0beta2 to 3.4.0
 
 *Kernel:
 - Updated webdav content server to use the new policy checking.
+- Added listitem template for link class in base design.
 
 *Updates:
 - Made sure the database update files has SQL commands which can be run on MysQL 3.23
