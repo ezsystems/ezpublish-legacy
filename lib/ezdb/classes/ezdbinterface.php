@@ -104,7 +104,15 @@ class eZDBInterface
 
         $this->OutputTextCodec = null;
         $this->InputTextCodec = null;
-        if ( $this->UseBuiltinEncoding )
+/*
+        This is pseudocode, there is no such function as
+        mysql_supports_charset() of course
+        if ( $this->UseBuiltinEncoding and mysql_supports_charset( $charset ) )
+        {
+            mysql_session_set_charset( $charset );
+        }
+        else
+*/
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
