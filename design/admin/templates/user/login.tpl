@@ -3,7 +3,7 @@
 <div class="message-warning">
 <h2>{'The system could not log you in.'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
-    <li>{'Make sure that the user name and password is correct.'|i18n( 'design/admin/user/login' )}</li>
+    <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
     <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
     <li>{'Please try again or contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
 </ul>
