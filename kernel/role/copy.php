@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <15-Aug-2002 14:36:10 bf>
+// Created on: <13-Dec-2004 10:00:30 gl>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -33,35 +33,23 @@
 // you.
 //
 
-$Module = array( 'name' => 'eZRole' );
+/*! \file copy.php
+*/
 
-$ViewList = array();
-$ViewList['list'] = array(
-    'script' => 'list.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'post_actions' => array( 'BrowseActionName' ),
-    'unordered_params' => array( 'offset' => 'Offset' ),
-    'params' => array(  ) );
-$ViewList['edit'] = array(
-    'script' => 'edit.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'params' => array( 'RoleID' ) );
-$ViewList['copy'] = array(
-    'script' => 'copy.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'params' => array( 'RoleID' ) );
-$ViewList['policyedit'] = array(
-    'script' => 'policyedit.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'params' => array( 'PolicyID' ) );
-$ViewList['view'] = array(
-    'script' => 'view.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'post_actions' => array( 'BrowseActionName' ),
-    'params' => array( 'RoleID' ) );
-$ViewList['assign'] = array(
-    'script' => 'assign.php',
-    'default_navigation_part' => 'ezusernavigationpart',
-    'params' => array( 'RoleID', 'LimitIdent', 'LimitValue' ) );
+include_once( 'kernel/classes/ezrole.php' );
+
+$Module =& $Params['Module'];
+$roleID =& $Params['RoleID'];
+
+$role = eZRole::fetch( $roleID );
+if ( $role )
+{
+    $newRole = $role->copy();
+    return $Module->redirectToView( 'edit', array( $newRole->attribute( 'id' ) ) );
+}
+else
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
 
 ?>
