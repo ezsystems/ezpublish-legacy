@@ -1,13 +1,12 @@
 {let image_variation="false"
      align="center"
-     href=''}
-
+     href=''
+     attribute_parameters=$object_parameters}
 {section show=is_set($attribute_parameters.size)}
 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
 {section-else}
 {set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
 {/section}
-
 {section show=is_set($attribute_parameters.align)}
 {set align=$attribute_parameters.align}
 {section-else}
