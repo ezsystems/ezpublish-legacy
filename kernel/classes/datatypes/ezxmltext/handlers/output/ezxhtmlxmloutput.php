@@ -239,7 +239,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $output;
     }
 
-        /*!
+    /*!
      \private
      \return the XHTML rendered version of the section
     */
