@@ -79,7 +79,7 @@ function stepTwo( &$tpl, &$http )
     $tpl->setVariable( "dbName", $dbName );
     $tpl->setVariable( "dbServer", $dbServer );
     $tpl->setVariable( "dbMainUser", $dbMainUser );        
-    $tpl->setVariable( "dbCharset", $dbCharset );        
+    //$tpl->setVariable( "dbCharset", $dbCharset );        
     $tpl->setVariable( "dbEncoding", $dbEncoding );        
     $tpl->setVariable( "dbCreateUser", $dbCreateUser );
     $tpl->setVariable( "dbDeleteTables", $dbDeleteTables );

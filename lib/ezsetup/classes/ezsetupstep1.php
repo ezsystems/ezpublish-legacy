@@ -84,8 +84,8 @@ function stepOne( &$tpl, &$http )
 	$outputArray = array();
 	foreach( array_keys( $testItems ) as $key )
 	{
-		$result   = $resultArray[$key];
-		$testItem = $testItems[$key];
+		$result   =& $resultArray[$key];
+		$testItem =& $testItems[$key];
 
 		// Convert strings "true" and "false" to proper true and false
 		if ( is_string( $testItem["req"] ) )
@@ -166,7 +166,7 @@ function stepOne( &$tpl, &$http )
 	// Error reporting
 	foreach( array_keys( $testItems ) as $key)
 	{
-		if ( $resultArray[$key]["pass"] == false )
+		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
 		{
 			// Don't show error message for failed db module if we have a working db module
 			if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" && $dbAvailable )
