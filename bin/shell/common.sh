@@ -61,6 +61,136 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 POSITION_STORE="echo -en \\033[s"
 POSITION_RESTORE="echo -en \\033[u"
 
+# Moves the console cursor to a given column
+# If the column is not specified it uses the default
+# which is defined in $RES_COL
+# Syntax:
+# ez_move_to_col [col]
+# Usage:
+# ez_move_to_col
+# ez_move_to_col 40
+function ez_move_to_col
+{
+    local col
+    if [ $# -gt 0 ]; then
+	col=$1
+    else
+	col=$RES_COL
+    fi
+    echo -en "\\033[${col}G"
+}
+
+# Stores the current console position which can be restored
+# with ez_restore_pos later on.
+# Syntax:
+# ez_store_pos
+# Usage:
+# ez_store_pos
+function ez_store_pos
+{
+    echo -en "\\033[s"
+}
+
+# Restores a previously stored console position
+# Syntax:
+# ez_restore_pos
+# Usage:
+# ez_restore_pos
+function ez_restore_pos
+{
+    echo -en "\\033[u"
+}
+
+# Colorizes the input string as an success
+# Syntax:
+# ez_color_ok <string>
+# Usage:
+# ez_color_ok 'Success'
+function ez_color_ok
+{
+    echo -n "`$SETCOLOR_SUCCESS`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string as an failure
+# Syntax:
+# ez_color_fail <string>
+# Usage:
+# ez_color_fail 'Failed'
+function ez_color_fail
+{
+    echo -n "`$SETCOLOR_FAILURE`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string as an warning
+# Syntax:
+# ez_color_warn <string>
+# Usage:
+# ez_color_warn 'Warning'
+function ez_color_warn
+{
+    echo -n "`$SETCOLOR_WARNING`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string as a file
+# Syntax:
+# ez_color_file <string>
+# Usage:
+# ez_color_file myfile.txt
+function ez_color_file
+{
+    echo -n "`$SETCOLOR_FILE`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string as a dir
+# Syntax:
+# ez_color_dir <string>
+# Usage:
+# ez_color_dir share/locale
+function ez_color_dir
+{
+    echo -n "`$SETCOLOR_DIR`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string as a exe
+# Syntax:
+# ez_color_exe <string>
+# Usage:
+# ez_color_exe ls
+function ez_color_exe
+{
+    echo -n "`$SETCOLOR_EXE`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string with emphasize
+# Syntax:
+# ez_color_em <string>
+# Usage:
+# ez_color_em 'some text'
+function ez_color_em
+{
+    echo -n "`$SETCOLOR_EMPHASIZE`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string to make it look like a comment
+# Syntax:
+# ez_color_comment <string>
+# Usage:
+# ez_color_comment 'some text'
+function ez_color_comment
+{
+    echo -n "`$SETCOLOR_COMMENT`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string to make it look new
+# Syntax:
+# ez_color_new <string>
+# Usage:
+# ez_color_new 'some text'
+function ez_color_new
+{
+    echo -n "`$SETCOLOR_NEW`$1`$SETCOLOR_NORMAL`"
+}
+
 # Prints Success or Failure at a given column and prints the message
 # Syntax:
 # ez_result_output <status> <failure-text>
@@ -70,11 +200,11 @@ POSITION_RESTORE="echo -en \\033[u"
 function ez_result_output
 {
     if [ $1 -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
 	echo "$2"
 	return 1
     fi
-    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+    echo "`ez_move_to_col``ez_color_ok '[ Success ]'`"
     return 0
 }
 
@@ -87,21 +217,10 @@ function ez_result_output
 function ez_result_file
 {
     if [ $1 -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
 	cat "$2"
 	return 1
     fi
-    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+    echo "`ez_move_to_col``ez_color_ok '[ Success ]'`"
     return 0
-}
-
-
-# Colorizes the input string as a file
-# Syntax:
-# ez_color_file <string.
-# Usage:
-# ez_color_file myfile.txt
-function ez_color_file
-{
-    echo -n "`$SETCOLOR_FILE`$1`$SETCOLOR_NORMAL`"
 }
