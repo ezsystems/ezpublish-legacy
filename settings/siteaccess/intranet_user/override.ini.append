@@ -35,6 +35,12 @@ MatchFile=article_line.tpl
 Subdir=templates
 Match[class]=2
 
+[comment_line]
+Source=node/view/line.tpl
+MatchFile=comment_line.tpl
+Subdir=templates
+Match[class]=13
+
 [person]
 Source=node/view/full.tpl
 MatchFile=person.tpl
@@ -88,6 +94,12 @@ Source=content/edit.tpl
 MatchFile=edit/article.tpl
 Subdir=templates
 Match[class_identifier]=article
+
+[edit_comment]
+Source=content/edit.tpl
+MatchFile=edit/comment.tpl
+Subdir=templates
+Match[class_identifier]=comment
 
 [edit_file]
 Source=content/edit.tpl

@@ -92,9 +92,9 @@
     {* Login box START *}
     <div id="login">
     {section show=eq($current_user.is_logged_in)}
-    <a href="/user/login">login</a>
+    <a href={"/user/login"|ezurl}>login</a>
     {section-else}
-    <a href="/user/logout">logout</a> ( {$current_user.contentobject.name} )
+    <a href={"/user/logout"|ezurl}>logout</a> ( {$current_user.contentobject.name} )
     {/section}
     </div>
     {* Login box END *}
@@ -111,8 +111,18 @@
     {* Main part START *}
     <div id="mainframe">
 
+    {* Main area START *}
+
+    <div id="maincontent">
+       <div class="design">
+       {$module_result.content}    
+       </div>
+    </div>
+
+
     {* Main menu START *}
     <div id="submenu">
+       <div class="design">
     {let sub_menu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 3)}
             <ul>
         {section name=Menu loop=$sub_menu}
@@ -120,16 +130,31 @@
         {/section}
         </ul>
     {/let}
-    
+
+            {let news_list=fetch( content, tree, hash( parent_node_id, 2,
+  					               limit, 5,
+						       sort_by, array( published, false() ),
+					               class_filter_type, include, 
+						       class_filter_array, array( 'article' ) ) )}
+                                                          
+            <div id="latestnews">
+            <h3>Latest news</h3>
+            <ul>
+                   {section var=news loop=$news_list sequence=array(bglight,bgdark)}
+                       <li class="{$news.sequence}">
+                       <a href={$news.item.url_alias|ezurl}>{$news.item.name|wash}</a>
+                       <div class="date">
+                        ({$news.item.object.published|l10n( shortdate )})
+                       </div>  
+                       </li>
+                    {/section}
+            </ul>
+            </div>
+           {/let}
+       </div>
     </div>
 
     {* Main menu END *}
-
-    {* Main area START *}
-
-    <div id="maincontent">
-    {$module_result.content}    
-    </div>
     
     </div>
     

@@ -166,15 +166,16 @@ div#mainmenu a:hover
    width: 100%;
 }
 
-
-
 /* sub menu */
 div#submenu
 { 
-   float: left;
-   padding-left: 16px;  
-   margin: 0px;
    width: 150px;
+   float: left;
+}
+
+div#submenu div.design
+{ 
+    padding-left: 1em;
 }
 
 div#submenu a
@@ -209,11 +210,16 @@ div#submenu li.level_4
 
 #maincontent
 { 
-   background-color: #ffffff;
-   width: 75%;
+   width: 80%;
    float: right;
-   padding: 0px 5px 10px 10px;
-   overflow: auto;
+   clear: none;
+   background-color: #ffffff;
+}
+
+#maincontent div.design
+{ 
+   border-left: 1px dashed #eee;
+   padding-left: 2em;
 }
 
 /* Footer */
@@ -333,7 +339,6 @@ div#person div.contact table
 
 div#person div.comment
 { 
-    clear: both;
     margin-top: 1em;
     margin-bottom: 1em;
     background-color: #eee;
