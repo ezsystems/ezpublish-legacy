@@ -138,6 +138,10 @@ CREATE TABLE ezview_counter (
 
 ALTER TABLE ezcontentobject_attribute ADD COLUMN data_type_string VARCHAR(50);
 
+UPDATE ezcontentobject_attribute
+SET data_type_string=ezcontentclass_attribute.data_type_string 
+WHERE ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id;
+
 ALTER TABLE ezcontentobject_version ADD COLUMN workflow_event_pos INT;
 ALTER TABLE ezcontentobject_version ALTER workflow_event_pos SET DEFAULT 0;
 
