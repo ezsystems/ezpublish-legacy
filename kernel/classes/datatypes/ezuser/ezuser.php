@@ -126,6 +126,12 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
+    function store()
+    {
+        eZSessionCache::expireSessions( "EZ_SESSION_CACHE_USER_INFO" );
+        eZPersistentObject::store();
+    }
+
     /*!
      Fills in the \a $id, \a $login, \a $email and \a $password for the user
      and creates the proper password hash.
@@ -287,7 +293,7 @@ class eZUser extends eZPersistentObject
     function &instance( $id = false )
     {
         $currentUser =& $GLOBALS["eZUserGlobalInstance"];
-        if( get_class( $currentUser ) == 'ezuser' )
+        if ( get_class( $currentUser ) == 'ezuser' )
         {
             return $currentUser;
         }
@@ -297,16 +303,45 @@ class eZUser extends eZPersistentObject
         if ( $id === false )
         {
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
-//             eZDebug::writeDebug( $id, "userID" );
 
             if ( !is_numeric( $id ) )
                 $id = EZ_USER_ANONYMOUS_ID;
         }
 
-        $currentUser = eZUser::fetch( $id );
+        // Check cache
+        $fetchFromDB = true;
+        if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_INFO ) )
+        {
+            $userArray =& $http->sessionVariable( 'eZUserInfoCache_' . $id );
+
+            if ( is_numeric( $userArray['contentobject_id'] ) )
+            {
+                $currentUser = new eZUser( $userArray );
+                $fetchFromDB = false;
+            }
+        }
+
+        if ( $fetchFromDB == true )
+        {
+            $currentUser =& eZUser::fetch( $id );
+            // store cache
+
+            if ( $currentUser )
+            {
+                $http->setSessionVariable( 'eZUserInfoCache_' . $id,
+                                           array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                                                  'login' => $currentUser->attribute( 'login' ),
+                                                  'email' => $currentUser->attribute( 'email' ),
+                                                  'password_hash' => $currentUser->attribute( 'password_hash' ),
+                                                  'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
+                                                  ) );
+            }
+        }
+
         if ( !$currentUser )
         {
             $currentUser = new eZUser( array( 'id' => -1, 'login' => 'NoUser' ) );
+
             eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
 
@@ -319,7 +354,8 @@ class eZUser extends eZPersistentObject
     */
     function &currentUser()
     {
-        return eZUser::instance();
+        $user =& eZUser::instance();
+        return $user;
     }
 
     /*!
@@ -403,11 +439,11 @@ class eZUser extends eZPersistentObject
         {
             $str = md5( "$user\n$password\n$site" );
         }
-        else if( $type == EZ_USER_PASSWORD_HASH_MYSQL )
+        else if ( $type == EZ_USER_PASSWORD_HASH_MYSQL )
         {
             // Do some MySQL stuff here
         }
-        else if( $type == EZ_USER_PASSWORD_HASH_PLAINTEXT )
+        else if ( $type == EZ_USER_PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
         }
@@ -535,7 +571,6 @@ class eZUser extends eZPersistentObject
                     $userGroupArray[] = new eZContentObject( $group );
                 }
                 $this->GroupsAsObjects =& $userGroupArray;
-                
             }
             return $this->GroupsAsObjects;
         }

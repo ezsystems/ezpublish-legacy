@@ -335,10 +335,6 @@ while ( $moduleRunRequired )
 
     include_once( "lib/ezutils/classes/ezhttptool.php" );
     $http =& eZHTTPTool::instance();
-/*    $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-    $currentUser =& eZUser::currentUser();
-*/
 
     $displayMissingModule = false;
     if ( $uri->isEmpty() )
@@ -371,7 +367,7 @@ while ( $moduleRunRequired )
         if ( $policyCheckRequired )
         {
             $omitPolicyCheck = false;
-            $moduleName = $module->attribute( 'name');
+            $moduleName = $module->attribute( 'name' );
             $viewName = $function_name;
             if ( in_array( $moduleName, $policyCheckOmitList ) )
                 $omitPolicyCheck = true;

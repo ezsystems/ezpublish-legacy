@@ -111,7 +111,7 @@ class eZMySQLDB extends eZDBInterface
                  $this->InputTextCodec->conversionRequired() )
             {
                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
-                $sql = $this->InputTextCodec->convertString( $sql );
+                $sql =& $this->InputTextCodec->convertString( $sql );
                 eZDebug::accumulatorStop( 'mysql_conversion' );
             }
 

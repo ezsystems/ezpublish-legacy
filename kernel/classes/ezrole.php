@@ -145,10 +145,7 @@ class eZRole extends eZPersistentObject
                     {
                         $policyArray = array();
                     }
-
-                    eZDebug::writeDebug(  $policyArray, "using policies from db for role_id=$roleID" );
                     $policyArray["$roleID"] = $policiesForCurrentRole;
-
                 }
                 $this->Policies =& $policies;
             }
@@ -205,7 +202,6 @@ class eZRole extends eZPersistentObject
         if ( $roleID )
         {
             $role =& eZRole::fetch( $roleID );
-            eZDebug::writeNotice( $role, 'role' );
         }
         else
         {
@@ -245,8 +241,6 @@ class eZRole extends eZPersistentObject
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
-        eZDebug::writeDebug( $enableCaching, "" );
-
         $roleArray = false;
         if ( $enableCaching == 'true' )
         {
@@ -278,11 +272,9 @@ class eZRole extends eZPersistentObject
                 $http->removeSessionVariable( 'UserLimitationValues' );
                 eZSessionCache::setIsValid( EZ_SESSION_CACHE_USER_ROLES );
             }
-            eZDebug::writeDebug( 'roles fetched from DB' );
         }
         else
         {
-            eZDebug::writeDebug( 'use cached roles' );
         }
         $roles = array();
         foreach ( $roleArray as $roleRow )

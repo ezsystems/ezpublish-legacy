@@ -4,29 +4,6 @@
     <p class="menuhead">{"Content"|i18n("design/standard/layout")}</p>
     </th>
 </tr>
-<tr>
-    <td class="menu" colspan="2">
-    <p class="menuhead">{"Create"|i18n("design/standard/layout")}</p>
-
-{switch match=fetch('content', 'can_instantiate_classes')}
-{case match=1}
-<form method="post" action={"content/action"|ezurl}>
-
-         <select name="ClassID">
-	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
-	      {/section}
-         </select>
-         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-</form>
-{/case}
-{case match=0}
-
-{/case}
-{/switch}
-
-    </td>
-</tr>
 
 <tr>
     <td class="bullet" width="1">

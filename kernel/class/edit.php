@@ -214,7 +214,7 @@ if ( $validationRequired )
 if ( $requireFixup )
 {
     reset( $attributes );
-    while( ( $key = key( $attributes ) ) !== null )
+    while ( ( $key = key( $attributes ) ) !== null )
     {
         $attribute =& $attributes[$key];
         $dataType =& $attribute->dataType();
@@ -225,9 +225,9 @@ if ( $requireFixup )
 
 $cur_datatype = 0;
 // Apply HTTP POST variables
-eZHttpPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
+eZHTTPPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
                           $attributes, $http, true );
-/*eZHttpPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
+/*eZHTTPPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
   $attributes, $http, true );*/
 eZHttpPersistence::fetch( "ContentClass", eZContentClass::definition(),
                           $class, $http, false );

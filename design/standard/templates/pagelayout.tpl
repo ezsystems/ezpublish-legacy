@@ -44,29 +44,15 @@
     <td class="topline" width="40%">
     <img src={"ezpublish_admin.gif"|ezimage}  alt="" />
     </td>
-    <td class="topbox" align="right" width="20%" valign="bottom">
+    <td class="topbox" align="right" width="50%" valign="bottom">
        &nbsp;<br />
-	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
+	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" /><br />
 	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a><div class="labelbreak"></div>
     </td>
-    <td class="topbox" valign="top" width="20%">
+    <td class="topbox" valign="top" width="10%">
        &nbsp;<br />
 	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
     </td>
-    <td class="topbox" valign="bottom" width="20%">
-{*    <p class="menuitem"><a class="menuitem" href={"/user/logout/"|ezurl}>Log out</a></p> *}
-
-    <label class="topline">{"Name:"|i18n("design/standard/layout")} {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
-    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change Password"|i18n("design/standard/layout")}</a></p>
-    <p style="padding: 0;">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
-    {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-    <a class="topline" href={"/user/login/"|ezurl}>{"Login"|i18n("design/standard/layout")}</a>
-    {section-else}
-    <a class="topline" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")}</a>
-    {/section}
-    </p>
-   </td>
 </tr>
 </table>
 
@@ -105,6 +91,57 @@
 
 <!-- Main path END -->
 
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+<table width="100%">
+<tr>
+    <td  class="pathline">
+
+{* Toolbar *}
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td width="99">
+{switch match=fetch('content', 'can_instantiate_classes')}
+{case match=1}
+<form method="post" action={"content/action"|ezurl}>
+
+         <select name="ClassID">
+	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
+	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	      {/section}
+         </select>
+         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+</form>
+{/case}
+{case match=0}
+
+{/case}
+{/switch}
+
+    </td>
+</tr>
+</table>
+
+    <td class="pathline">
+    <p style="padding: 0;"><a class="path" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change Password"|i18n("design/standard/layout")}</a></p>
+
+    </td>
+    <td align="right" class="pathline">
+
+    <p style="padding: 0;">
+    {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+    <a class="path" href={"/user/login/"|ezurl}>{"Login"|i18n("design/standard/layout")}</a>
+    {section-else}
+    <a class="path" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")} ({content_view_gui view=text_linked content_object=$current_user.contentobject})</label><div class="labelbreak"></a>
+    {/section}
+    </p>
+
+    </td>
+</tr>
+</table>
+    
     </td>
 </tr>
 <tr>
