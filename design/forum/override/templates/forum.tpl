@@ -7,6 +7,27 @@
 {attribute_view_gui attribute=$node.object.data_map.description}
 
 
+<form method="post" action={"content/action/"|ezurl}>
+
+{switch match=$node.object.can_create}
+{case match=1}
+<input class="button" type="submit" name="NewButton" value="New topic" />
+
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
+{/case}
+{case match=0}
+<p>
+You need to be logged in to get access to the forums. You can do so <a href={"/user/login/"|ezurl}>here</a></p>
+{/case}
+{/switch}
+<input type="hidden" name="NodeID" value="{$node.node_id}" />
+<input type="hidden" name="ClassID" value="21" />
+
+</form>
+
+
 
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>

@@ -12,6 +12,16 @@
 <body>
 {* Top box START *}
 
+{section show=eq($current_user.is_logged_in)}
+    <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href={"/user/login"|ezurl}>login</a></span>
+{section-else}
+    <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href={"/user/logout"|ezurl}>logout</a> ( {$current_user.contentobject.name} )</span>
+{/section}
+
+{section show=$current_user.is_logged_in}
+    <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href="/notification/settings">notifications</a></span>
+{/section}
+
 <div id="mainlayout">
    <div id="header">
    {let content=$pagedesign.data_map.image.content}
