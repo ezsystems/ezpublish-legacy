@@ -683,11 +683,17 @@ class eZXMLTextType extends eZDataType
             case 'literal' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                eZDebug::writeDebug("ooo" .$childTagText);
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
+                $tagText =& str_replace(">", "&gt;", $tagText );
+                $tagText =& str_replace("<", "&lt;", $tagText );
+                $tagText =& str_replace("&lt;pre&gt;", "<pre>", $tagText );
+                $tagText =& str_replace("&lt;/pre&gt;", "</pre>", $tagText );
+                eZDebug::writeDebug("ooo" .$tagText);
             }break;
 
             // normal content tags
@@ -696,20 +702,6 @@ class eZXMLTextType extends eZDataType
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
-
-                $textElements = array();
-                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
-            }break;
-
-            case 'custom' :
-            {
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-
-                // Get the name of the custom tag.
-                $name = $tag->attributeValue( 'name' );
-
-                $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
