@@ -58,10 +58,17 @@ class eZLayoutFunctionCollection
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI =& eZINI::instance( 'content.ini' );
-        if ( !$contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
+        if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
+        {
+            $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        }
+        else if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
+        {
+            $sitedesignList = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
+        }
+        if ( !$sitedesignList )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
         return array( 'result' => $sitedesignList );
     }
 
