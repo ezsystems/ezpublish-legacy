@@ -247,7 +247,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 
 <h4>Interface mode</h4>
 {section show=eq(ezpreference('interface_mode'),'simple')}
-<p>{"Current mode"|i18n("design/admin/layout")}:{"Simple"|i18n("design/admin/layout")}</p>
+<p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
 <p><a href={"/user/preferences/set/interface_mode/advanced"|ezurl}>{"Change to advanced"|i18n("/design/admin/layout")}</a></p>
 {section-else}
 <p>{"Current mode"|i18n("design/admin/layout")}:{"Advanced"|i18n("design/admin/layout")}</p>
