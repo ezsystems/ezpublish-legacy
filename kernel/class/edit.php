@@ -439,7 +439,6 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
             $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
             $basicClassPropertiesValid = false;
         }
-        unset( $newClassAttributes );
 
         // validate class identifier
         $db              =& eZDB::instance();
