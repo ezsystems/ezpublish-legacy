@@ -186,6 +186,10 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
                 </form>
                 {/section}
 -->
+                                       
+<b>{$current_user.contentobject.name|wash}</b>
+
+
 
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
