@@ -35,8 +35,25 @@
 //
 
 //!! eZKernel
-//! The class eZXMLTextType does
+//! The class eZXMLTextType haneles XML formatted datatypes
 /*!
+The formatted datatypes store the data in XML. A typical example of this is shown below:
+\code
+<?xml version="1.0" encoding="utf-8" ?>
+<section>
+<header>This is a level one header</header>
+<paragraph>
+This is a <emphasize>block</emphasize> of text.
+</paragraph>
+  <section>
+  <header>This is a level two header</header>
+  <paragraph>
+  This is the second paragraph.
+  </paragraph>
+  </section>
+</section>
+
+\endcode
 
 */
 
@@ -291,8 +308,13 @@ class eZXMLTextType extends eZDataType
             case 'object' :
             {
                 $objectID = $tag->attributeValue( 'id' );
+                $view = $tag->attributeValue( 'view' );
+                if ( strlen( $view ) == 0 )
+                    $view = "embed";
+
                 $object =& eZContentObject::fetch( $objectID );
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
+                $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
                 $tagText .= $text;
@@ -379,8 +401,9 @@ class eZXMLTextType extends eZDataType
 
                 case 'object' :
                 {
+                    $view = $paragraphNode->attributeValue( 'view' );
                     $objectID = $paragraphNode->attributeValue( 'id' );
-                    $output .= "<$tagName id='$objectID'/>" . $paragraphNode->textContent();
+                    $output .= "<$tagName id='$objectID' view='$view'/>" . $paragraphNode->textContent();
                 }break;
 
 
