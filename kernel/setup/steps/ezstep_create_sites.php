@@ -65,6 +65,8 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 
   EZSW-060: Could not fetch style package <package>
 
+  EZSW-070: Could not create ezpreference for <user_id>
+
 */
 
 
@@ -829,6 +831,7 @@ WHERE
                 }
             }
 
+            // Setup all roles according to site chosen and addons
             $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
             foreach ( $extraRoles as $extraRole )
             {
@@ -871,6 +874,24 @@ WHERE
                         }
                         $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
                     }
+                }
+            }
+
+            // Setup user preferences based on the site chosen and addons
+            include_once( 'kernel/classes/ezpreferences.php' );
+            $prefs = eZSetupPreferences( $siteType['identifier'], $parameters );
+            foreach ( $prefs as $pref )
+            {
+                if ( !$pref )
+                    continue;
+                $prefUserID = $pref['user_id'];
+                $prefName = $pref['name'];
+                $prefValue = $pref['value'];
+                if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-070',
+                                                      'text' => "Could not create ezpreference for $prefUserID" );
+                    return false;
                 }
             }
 

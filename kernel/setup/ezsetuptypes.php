@@ -1871,6 +1871,16 @@ function eZSetupCommonINISettings( $siteType, $parameters )
     return $settings;
 }
 
+function eZSetupCommonPreferences( &$preferences, $siteType, $parameters )
+{
+    $adminAccountID = eZSetupRemoteObjectID( $parameters, '1bb4fe25487f05527efa8bfd394cecc7' );
+
+    // Make sure admin starts with the 'preview' window set as open by default
+    $preferences[] = array( 'user_id' => $adminAccountID,
+                            'name' => 'admin_navigation_content',
+                            'value' => '1' );
+}
+
 function eZSetupRoles( $siteType, $parameters )
 {
     $roles = array();
@@ -1879,6 +1889,13 @@ function eZSetupRoles( $siteType, $parameters )
     eZSetupWeblogRoles( $roles, $siteType, $parameters );
     eZSetupCommonRoles( $roles, $siteType, $parameters );
     return $roles;
+}
+
+function eZSetupPreferences( $siteType, $parameters )
+{
+    $preferences = array();
+    eZSetupCommonPreferences( $preferences, $siteType, $parameters );
+    return $preferences;
 }
 
 ?>
