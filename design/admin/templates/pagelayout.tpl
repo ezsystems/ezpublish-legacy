@@ -8,7 +8,7 @@
 {* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
 {* Cache header for each navigation part *}
 
-<script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
+<script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
 <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
@@ -62,10 +62,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <![endif]-->
 {/literal}
 
-    {section show=and( or( eq( $navigation_part.identifier, 'ezcontentnavigationpart' ),
-                           eq( $navigation_part.identifier, 'ezmedianavigationpart' ),
-                           eq( $navigation_part.identifier, 'ezusernavigationpart' ) ),
-                       ezpreference( 'admin_left_menu_width' )|gt( 0 ) )}
+{section show=ezpreference( 'admin_left_menu_width' )|gt( 0 )}
 <style type="text/css">
 div#leftmenu {ldelim} width: {ezpreference( 'admin_left_menu_width' )}em; {rdelim}
 div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width' ), 0.5 )}em; {rdelim}
