@@ -85,8 +85,7 @@ class eZURLOperator
         {
             case $this->URLName:
             {
-                if ( strlen( $value ) > 0 and
-                     $value[0] != '/' )
+                if ( $value[0] != '/' )
                     $value = '/' . $value;
                 $value = $this->Sys->indexDir() . $value;
                 $value = preg_replace( "#^(//)#", "/", $value );

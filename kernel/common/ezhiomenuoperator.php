@@ -253,8 +253,6 @@ class eZHiOMenuOperator
                             $urlAlias = $child->attribute( 'url_alias' );
                         }
 
-
-
                         if ( $addToMenu == true  )
                             $pathArray[] = array( 'id' => $tmpNodeID,
                                                   'level' => $i,
