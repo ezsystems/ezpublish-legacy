@@ -1,5 +1,5 @@
 <div class="block">
-<input type="hidden" name="MAX_FILE_SIZE" value="$attribute.contentclass_attribute.data_int1}000000" />
+<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 
 {section show=or($attribute.content,$attribute.content.filename)}
 <label>{"Image filename:"|i18n("design/standard/content/datatype")}</label><p class="box">{$attribute.content.filename}</p><div class="labelbreak"></div>
