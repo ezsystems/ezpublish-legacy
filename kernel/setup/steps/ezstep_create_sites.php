@@ -296,9 +296,9 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $sitePackage['existing_database'] == 2 )
             {
                 $tableArray = $db->eZTableList();
-                foreach ( $tableArray as $table )
+                foreach ( array_keys( $tableArray ) as $table )
                 {
-                    $db->removeRelation( $table, EZ_DB_RELATION_TABLE );
+                    $db->removeRelation( $table, $tableArray[$table] );
                 }
             }
             $installParameters = array( 'path' => '.' );

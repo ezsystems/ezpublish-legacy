@@ -447,7 +447,7 @@ class eZMySQLDB extends eZDBInterface
                 $tableName = mysql_tablename( $result, $i );
                 if ( substr( $tableName, 0, 2 ) == 'ez' )
                 {
-                    $tables[] = $tableName;
+                    $tables[$tableName] = EZ_DB_RELATION_TABLE;
                 }
             }
             mysql_free_result( $result );
