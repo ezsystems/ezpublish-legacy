@@ -63,7 +63,7 @@
 */
 
 enum { Tok_Eof, Tok_class, Tok_namespace, Tok_return, Tok_tr,
-       Tok_trUtf8, Tok_translate, Tok_Ident, Tok_i18n,
+       Tok_trUtf8, Tok_translate, Tok_Ident, Tok_i18n, Tok_x18n,
        Tok_Comment, Tok_String, Tok_SString, Tok_Colon, Tok_Gulbrandsen,
        Tok_LeftBrace, Tok_RightBrace, Tok_LeftParen, Tok_RightParen,
        Tok_Comma, Tok_Semicolon };
@@ -139,6 +139,8 @@ static int getToken()
                 case 'e':
                     if ( strcmp(yyIdent + 1, "zi18n") == 0 )
                         return Tok_i18n;
+                    else if ( strcmp(yyIdent + 1, "zx18n") == 0 )
+                        return Tok_x18n;
                     break;
             }
             return Tok_Ident;
@@ -372,6 +374,7 @@ static void parse( MetaTranslator *tor, const char *initialContext,
     QMap<QCString, QCString> qualifiedContexts;
     QStringList namespaces;
     QCString context;
+    QCString ext;
     QCString text;
     QCString comment;
     QCString functionContext = initialContext;
@@ -385,12 +388,33 @@ static void parse( MetaTranslator *tor, const char *initialContext,
                 utf8 = FALSE;
                 yyTok = getToken();
                 if ( match( Tok_LeftParen ) &&
-                     matchString( &context ) || matchSString( &context ) &&
+                     ( matchString( &context ) || matchSString( &context ) ) &&
                      match( Tok_Comma ) &&
-                     matchString( &text ) || matchSString( &text ) )
+                     ( matchString( &text ) || matchSString( &text ) ) )
                 {
                     if ( ( match( Tok_Comma ) &&
-                           matchString( &comment ) || matchSString( &comment ) &&
+                           ( matchString( &comment ) || matchSString( &comment ) ) &&
+                           match( Tok_RightParen ) ) == false )
+                    {
+                        comment = "";
+                    }
+                    tor->insert( MetaTranslatorMessage( context, text, comment, QString::null, utf8 ) );
+                }
+//                 else
+//                     qDebug( " --- token failed ------------" );
+                break;
+            case Tok_x18n:
+                utf8 = FALSE;
+                yyTok = getToken();
+                if ( match( Tok_LeftParen ) &&
+                     ( matchString( &ext ) || matchSString( &ext ) ) &&
+                     match( Tok_Comma ) &&
+                     ( matchString( &context ) || matchSString( &context ) ) &&
+                     match( Tok_Comma ) &&
+                     ( matchString( &text ) || matchSString( &text ) ) )
+                {
+                    if ( ( match( Tok_Comma ) &&
+                           ( matchString( &comment ) || matchSString( &comment ) ) &&
                            match( Tok_RightParen ) ) == false )
                     {
                         comment = "";

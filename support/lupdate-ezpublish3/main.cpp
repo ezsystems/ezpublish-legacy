@@ -28,7 +28,8 @@
 // http://www.gnu.org/copyleft/gpl.html
 //
 
-#include <qstring.h>
+#include <qstringlist.h>
+#include <qregexp.h>
 #include <qdir.h>
 // #include <qfile.h>
 // #include <qtextstream.h>
@@ -49,7 +50,9 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
 
 static int verbose = 0;
-static int version = 1;
+static QString version = "3.0-1"; // eZ publish version plus local version
+static QStringList dirs;          // Additional scan directories
+static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}$" );
 
 static void printUsage()
 {
@@ -59,6 +62,8 @@ static void printUsage()
               "Options:\n"
               "    --help | -h\n"
               "           Display this information and exit\n"
+              "    --dirs | -d dir1 dir2 ...\n"
+              "           Directories to scan in addition to kernel, lib and design\n"
               "    --noobsolete | -no\n"
               "           Drop all obsolete strings\n"
               "    --verbose | -v | -vv\n"
@@ -86,6 +91,27 @@ int main( int argc, char **argv )
             printUsage();
             return 0;
         }
+        else if ( qstrcmp( argv[i], "--dirs" ) == 0 ||
+                  qstrcmp( argv[i], "-d" ) == 0 )
+        {
+            while ( i < argc )
+            {
+                i++;
+                QString arg( argv[i] );
+                QDir dir( arg );
+                if ( !arg.startsWith( "-" ) && dir.exists() )
+                {
+                    qWarning( "Added scan directory: " + arg );
+                    dirs.append( arg );
+                }
+                else
+                {
+                    i--;
+                    break;
+                }
+            }
+            continue;
+        }
         else if ( qstrcmp( argv[i], "--noobsolete" ) == 0 ||
                   qstrcmp( argv[i], "-no" ) == 0 )
         {
@@ -111,6 +137,11 @@ int main( int argc, char **argv )
         else
         {
             language = argv[i];
+            if ( localeRE.match( language ) == -1 )
+            {
+                qWarning( "ERROR - Locale should be on the form aaa-AA" );
+                return 1;
+            }
         }
     }
 
@@ -152,6 +183,10 @@ int main( int argc, char **argv )
     traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
     traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
     traverse( dir.path() + QDir::separator() + "design", fetchedTor );
+
+    // Additional directories
+    for ( QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it )
+        traverse( *it, fetchedTor );
 
     MetaTranslator tor;
 

@@ -71,7 +71,7 @@ static QString getString( QString content, int pos, bool reverse )
 
 static void parse( MetaTranslator *tor )
 {
-    QRegExp i18nRE( "\\|i18n\\(" );
+    QRegExp i18nRE( "\\|[xi]18n\\(" );
     QString content = stream.read();
     QString context, source;
     int startpos, pos = 0;
@@ -87,7 +87,13 @@ static void parse( MetaTranslator *tor )
         if ( source.isNull() )
             return;
 
+        if ( content[startpos+1] == 'x' )
+        {
+            QString ext = getString( content, pos, false );
+            pos += ext.length() + 3;      // two quotes and a comma
+        }
         context = getString( content, pos, false );
+
         if ( context.isNull() )
             return;
 
