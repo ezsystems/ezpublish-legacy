@@ -167,6 +167,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <div id="rightmenu-design">
 
 <h3 class="hide">Right</h3>
+{let quoted_node=concat( '"', $node.name, '"' )|wash()}
 
 {* --- Current user ---*}
 <h4>Current user</h4>
@@ -179,7 +180,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {* --- Bookmarks --- *}
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
- <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+ <h4><a href={"/content/bookmark/"|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/layout' )}">{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let bookmark_list=fetch(content,bookmarks)}
 {section name=BookMark loop=$bookmark_list}
@@ -196,7 +197,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" title="{'Click here to add the item that is being displayed to your personal bookmarks.'|i18n( '/design/admin/layout' )}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" title="{'Click here to add %quoted_node to your personal bookmarks.'|i18n( '/design/admin/layout',, hash( '%quoted_node', $quoted_node ) )}" />
 </form>
 {/section}
 
@@ -217,12 +218,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </div>
 
 {* --- Notifications --- *}
-<h4><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/admin/layout")}</a></h4> 
+<h4><a href={"/notification/settings"|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/layout' )}">{"Notifications"|i18n("design/admin/layout")}</a></h4> 
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Click here to add the item that is being displayed to your personal notifications list.'|i18n( 'design/admin/layout' )}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Click here to add %quoted_node to your personal notification list.'|i18n( 'design/admin/layout',, hash( '%quoted_node', $quoted_node ) )}" />
 </form>
 {/section}
 
@@ -243,6 +244,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 
 </div>
 </div>
+{/let}
 
 <hr class="hide" />
 

@@ -28,8 +28,8 @@
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let quoted_child=concat( '&quot;', $Nodes.item.name|wash(), '&quot;' )
-         quoted_node=concat( '&quot;', $node.name|wash(), '&quot;'  )}
+    {let quoted_child=concat( '"', $Nodes.item.name, '"' )|wash()
+         quoted_node=concat( '"', $node.name, '"' )|wash()}
 
         <tr class="{$Children.sequence}">
 
