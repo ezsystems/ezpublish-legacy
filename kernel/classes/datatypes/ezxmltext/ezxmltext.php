@@ -57,7 +57,8 @@ class eZXMLText
     {
         if ( $name == 'input' or
              $name == 'output' or
-             $name == 'xml_data' )
+             $name == 'xml_data' or
+             $name == 'is_empty' )
         {
             return true;
         }
@@ -92,6 +93,26 @@ class eZXMLText
             case 'xml_data' :
             {
                 return $this->XMLData;
+            }break;
+
+            case 'is_empty' :
+            {
+                $isEmpty = true;
+                $xml = new eZXML();
+                $dom =& $xml->domTree( $this->XMLData );
+                if ( $dom )
+                {
+                    $node =& $dom->elementsByName( "section" );
+
+                    $sectionNode =& $node[0];
+                    if ( get_class( $sectionNode ) == "ezdomnode" )
+                    {
+                        $children =& $sectionNode->children();
+                        if ( count( $children ) > 0 )
+                            $isEmpty = false;
+                    }
+                }
+                return $isEmpty;
             }break;
         }
     }

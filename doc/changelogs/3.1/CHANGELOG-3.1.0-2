@@ -1,0 +1,5 @@
+Changes from 3.1.0-1 to 3.1.0-2
+
+* Kernel:
+- Added function is_empty to eZXMLText datatype- Added function is_empty to eZXMLText datatype
+
