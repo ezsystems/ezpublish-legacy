@@ -8,7 +8,7 @@
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
     {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-    @import url("/design/corporate/stylesheets/gallery.css");
+    @import url("/design/gallery/stylesheets/gallery.css");
 </style>
 
 </head>
@@ -64,21 +64,7 @@
         
             <h3 class="invisible">Sub menu</h3>
             <ul>
-                {let mainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
-                    {section name=Menu loop=$mainMenu}
-            	    {section show=$:item.is_selected}
-            
-                        {/section}
-            
-                        <li class="level_{$:item.level}">
-                           <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
-                        </li>
-            
-            	    {section show=$:item.is_selected}
-            
-                        {/section}
-                    {/section}
-                {/let}
+                <li>Sub menu</li>
             </ul>
         
         </div>
