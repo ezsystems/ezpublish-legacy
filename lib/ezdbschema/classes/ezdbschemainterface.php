@@ -273,7 +273,7 @@ class eZDBSchemaInterface
 		if ( $fp )
 		{
             $schema = $this->schema( $params );
-            $this->transformSchemaToLocal( $schema );
+            $this->transformSchema( $schema, true );
             if ( $includeSchema )
             {
                 fputs( $fp, $this->generateSchemaFile( $schema, $params ) );
@@ -1003,28 +1003,11 @@ class eZDBSchemaInterface
     }
 
     /*!
-    \virtual
     \protected
-    */
-    function transformSchemaToGeneric( &$schema )
-    {
-        return $this->transformSchema( $schema, false );
-    }
-
-    /*!
     \virtual
-    \protected
-    */
-    function transformSchemaToLocal( &$schema )
-    {
-        return $this->transformSchema( $schema, true );
-    }
-
-    /*!
-    \private
     \return true on success, false otherwise
 
-    Transforms database schema to the given direction, either applying local hacks or removing them.
+    Transforms database schema to the given direction, applying the transformation rules.
     */
     function transformSchema( &$schema, /* bool */ $toLocal )
     {
