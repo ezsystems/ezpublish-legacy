@@ -162,6 +162,7 @@ class eZPackageType extends eZDataType
 
 
         // Expire template block cache
+        $ini =& eZIni::instance();
         $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
 
         if ( $templateBlockCacheEnabled )

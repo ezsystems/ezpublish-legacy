@@ -36,3 +36,6 @@ Payment:
   http://ez.no/community/bug_reports/package_export_not_working_with_datatype_ezenum
 - Fixed bug: wrong declared property name
   http://ez.no/community/bug_reports/undefined_member_variable_in_eztemplatecachefunction_php
+- Fixed bug: fatal error when storing an attribute of the ezpackage datatype.
+  (Merged from stable/3.4 rev. 8481)
+  http://ez.no/community/bug_reports/fatal_error_in_ezpackagetype_php
