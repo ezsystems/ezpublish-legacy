@@ -88,7 +88,6 @@ Changes from 3.1-1 to 3.2.0-1
   and another to the author.
 - Added version and relase numbers to database, that way it's possible to now
   the state of a database for future upgrades.
-- Fixed database query concerning phrase search
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.
