@@ -379,6 +379,7 @@ class eZTemplateLogicOperator
             return false;
         }
 
+        $tmpValues = false;
         $newElements = array();
         /* This is an optimization step, but a worthwhile one if you need to
          * pick from a large array */
@@ -402,7 +403,7 @@ class eZTemplateLogicOperator
             $array = $parameters;
             unset( $array[0] );
             
-            $code = "\$tmp$tmpName = array( ";
+            $code = "%tmp1% = array( ";
             $counter = 2;
             foreach ($array as $element)
             {
@@ -411,10 +412,10 @@ class eZTemplateLogicOperator
                 $counter++;
             }
             $code .= " );\n";
-            $code .= '%output% = $tmp'. $tmpName. "[%1%];\n";
-            $code .= "unset( \$tmp$tmpName );\n";
+            $code .= "%output% = %tmp1%[%1%];\n";
+            $tmpValues = array (1);
         }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpValues );
         return $newElements;
     }
 

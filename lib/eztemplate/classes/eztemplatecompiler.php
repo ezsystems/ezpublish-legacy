@@ -1182,12 +1182,15 @@ class eZTemplateCompiler
                     if ( $hasTransformationSupport and
                          method_exists( $operatorObject, $transformationMethod ) )
                     {
-                        if ( $transformParameters and
-                             count( $operatorParameters ) > 0 )
+                        if ( $transformParameters )
                         {
                             $newParameters = array();
                             if ( $inputAsParameter )
                             {
+                                /* We only unset the first element if the
+                                 * newElement list only has ONE element,
+                                 * otherwise there might be some other case
+                                 * which we don't handle here. */
                                 if ( count ($newElementList) == 1 )
                                 {
                                     unset ( $newElementList[0] );
@@ -2306,11 +2309,11 @@ else
                 $matchMap = array( '%input%', '%output%' );
                 $replaceMap = array( '$' . $variableAssignmentName, '$' . $variableAssignmentName );
                 $unsetList = array();
+                $counter = 1;
                 if ( isset( $variableDataItem[3] ) )
                 {
                     $newParameters = $parameters;
                     $values = $variableDataItem[3];
-                    $counter = 1;
                     foreach ( $values as $value )
                     {
                         $newParameters['counter'] += 1;
@@ -2324,6 +2327,17 @@ else
                         eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
                                                                       $persistence, $newParameters );
                         ++$counter;
+                    }
+                }
+                if ( isset( $variableDataItem[4] ) )
+                {
+                    $values = $variableDataItem[4];
+                    
+                    foreach ( $values as $value )
+                    {
+                        $matchMap[] = "%tmp$value%";
+                        $replaceMap[] = '$tmp_' . $newParameters['variable'] . $value;
+                        $unsetList[] = 'tmp_' . $newParameters['variable'] . $value;
                     }
                 }
                 $code = str_replace( $matchMap, $replaceMap, $code );
