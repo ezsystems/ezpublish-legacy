@@ -130,12 +130,12 @@ function &copyPublishContentObject( &$sourceObject,
 
     $srcNodeList = $sourceObject->attribute( 'assigned_nodes' );
 
-    // if we were already trying to copy that contentobject and failed, then just skip them:
-    $key = array_search( $sourceObjectID, $objectIDBlackList );
-    if ( $key !== false )
-    {
+    // if we already failed to copy that contentobject, then just skip it:
+    if ( in_array( $sourceObjectID, $objectIDBlackList ) )
         return 0;
-    }
+    // if we already failed to copy that node, then just skip it:
+    //if ( in_array( $sourceNodeID, $nodeIDBlackList ) )
+    //    return 0;
 
     // if cannot read contentobject then remember it and all its nodes (nodes
     // which are inside subtree being copied) in black list, and skip current node:
@@ -143,66 +143,84 @@ function &copyPublishContentObject( &$sourceObject,
     {
         $objectIDBlackList[] = $sourceObjectID;
 
+        $srcNodeList = $sourceObject->attribute( 'assigned_nodes' );
         foreach( $srcNodeList as $srcNode )
         {
             $srcNodeID = $srcNode->attribute( 'node_id' );
             $sourceParentNodeID = $srcNode->attribute( 'parent_node_id' );
 
             $key = array_search( $sourceParentNodeID, $sourceSubtreeNodeIDList );
-            if ( $key === false )
+            if ( $key !== false )
             {
-                continue;
+                $nodeIDBlackList[] = $srcNodeID;
             }
-            $nodeIDBlackList[] = $srcNodeID;
         }
-
         return 0;
     }
-
 
     // check if all possible parent nodes for given contentobject are already published:
     $isReadyToPublish = false;
     foreach ( $srcNodeList as $srcNode )
     {
-        $sourceParentNodeID = $srcNode->attribute( 'parent_node_id' );
+        $srcNodeID = $srcNode->attribute( 'node_id' );
+
+        if ( in_array( $srcNodeID, $nodeIDBlackList ) )
+            continue;
+
+        $srcParentNodeID = $srcNode->attribute( 'parent_node_id' );
 
         // if parent node for this node is outside
         // of subtree being copied, then skip this node:
-        $key = array_search( $sourceParentNodeID, $sourceSubtreeNodeIDList );
+        $key = array_search( $srcParentNodeID, $sourceSubtreeNodeIDList );
         if ( $key === false )
+            continue;
+
+        // if parent node for this node wasn't copied yet and is in black list
+        // then add that node in black list and just skip it:
+        $key = array_search( $srcParentNodeID, $nodeIDBlackList );
+        if ( $key !== false )
         {
+            $nodeIDBlackList[] = $srcNodeID;
             continue;
         }
 
-        $key = array_search( $sourceParentNodeID, $syncNodeIDListSrc );
+        $key = array_search( $srcParentNodeID, $syncNodeIDListSrc );
         if ( $key === false )
         {
-            $key = array_search( $sourceParentNodeID, $nodeIDBlackList );
-            if ( $key !== false )
-            {
-                continue;
-            }
-            else
-            {
-                eZDebug::writeDebug( "One of parent nodes for contentobject ID = $sourceObjectID is not published yet.",
-                                     "Subtree copy: copyPublishContentObject()" );
-                return 2;
-            }
+            // if parent node is not copied yet and not in black list,
+            // then just skip sourceObject from copying for next time
+            eZDebug::writeDebug( "Parent node (ID = $srcParentNodeID) for contentobject (ID = $sourceObjectID) is not published yet.",
+                                 "Subtree copy: copyPublishContentObject()" );
+            return 2;
         }
         else
         {
-            $isReadyToPublish = true;
-            //if ( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
-            //{
-            //    eZDebug::writeError( "Cannot fetch one of parent nodes. There are error somewhere above",
-            //                         "Subtree copy error: copyPublishContentObject()" );
-            //    return 3;
-            //}
+            $newParentNodeID = $syncNodeIDListNew[ $key ];
+            $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
+            if ( $newParentNode === null )
+            {
+                eZDebug::writeError( "Cannot fetch one of parent nodes. Error are somewhere above",
+                                     "Subtree copy error: copyPublishContentObject()" );
+                return 3;
+            }
+
+            if ( $newParentNode->checkAccess( 'create', $sourceObject->attribute( 'contentclass_id' ) ) != 1 )
+            {
+                $nodeIDBlackList[] = $srcNodeID;
+                continue;
+            }
+            else
+                $isReadyToPublish = true;
         }
     }
 
+    // if all nodes of sourceObject were skiped as black list entry or
+    // as outside of subtree being copied, then sourceObject cannot be
+    // copied and published in any new location. So insert sourceObject
+    // in a black list and skip it.
     if ( $isReadyToPublish == false )
     {
+        eZDebug::writeDebug( "", "rush: BINGO!!!!" );
         $objectIDBlackList[] = $sourceObjectID;
         return 0;
     }
@@ -275,9 +293,10 @@ function &copyPublishContentObject( &$sourceObject,
 
     foreach ( $newNodeList as $newNode )
     {
-        $newParentNodeID = $newNode->attribute( 'parent_node_id' );
-        $keyA = array_search( $newParentNodeID, $syncNodeIDListNew );
+        $newParentNode = $newNode->fetchParent();
+        $newParentNodeID = $newParentNode->attribute( 'node_id' );
 
+        $keyA = array_search( $newParentNodeID, $syncNodeIDListNew );
         if ( $keyA === false )
         {
             eZDebug::writeError( "Algoritm ERROR! Cannot find new parent node ID in new ID's list",
@@ -295,7 +314,12 @@ function &copyPublishContentObject( &$sourceObject,
             {
                 $newNode->setAttribute( 'priority',     $srcNode->attribute( 'priority' ) );
                 $newNode->setAttribute( 'is_hidden',    $srcNode->attribute( 'is_hidden' ) );
-                $newNode->setAttribute( 'is_invisible', $srcNode->attribute( 'is_invisible' ) );
+                // Update node visibility
+                if ( $newParentNode->attribute( 'is_invisible' ) or $newParentNode->attribute( 'is_hidden' ) )
+                    $newNode->setAttribute( 'is_invisible', 1 );
+                else
+                    $newNode->setAttribute( 'is_invisible', $srcNode->attribute( 'is_invisible' ) );
+
                 $syncNodeIDListSrc[] = $srcNode->attribute( 'node_id' );
                 $syncNodeIDListNew[] = $newNode->attribute( 'node_id' );
                 $bSrcParentFound = true;
@@ -309,10 +333,6 @@ function &copyPublishContentObject( &$sourceObject,
         }
         $newNode->store();
     }
-
-    // Update "is_invisible" attribute for the newly created node.
-    $newNode =& $newObject->attribute( 'main_node' );
-    eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode ); // ??? do we need this here?
 
     // if $keepCreator == true then keep owner of contentobject being
     // copied and creator of its published version Unchaged
@@ -404,7 +424,7 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     if ( !$sourceSubTreeMainNode )
     {
         eZDebug::writeError( "Cannot get subtree main node (nodeID = $srcNodeID).",
-                             "Subtree copy Error! copySubtree():" );
+                             "Subtree copy Error!" );
         return 1;
     }
     if ( !$destinationNode )
@@ -431,7 +451,7 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     $objectIDBlackList = array(); // array of contentobjects which are unable to copy in any location inside new subtree
 
     $sourceNodeList = array_merge( $sourceNodeList,
-                                   eZContentObjectTreeNode::subTree( false, $sourceSubTreeMainNodeID ) );
+                                   eZContentObjectTreeNode::subTree( array( 'Limitation' => array() ), $sourceSubTreeMainNodeID ) );
     $countNodeList = count( $sourceNodeList );
 
     // Prepare list of source node IDs. We will need it in the future
@@ -451,66 +471,46 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
         {
             eZDebug::writeError( "Too many loops while copying nodes.",
                                  "Subtree Copy Error!" );
-            return 6;
+            break;
+            //return 6;
         }
 
         for ( $i = 0; $i < count( $sourceNodeList ); $i)
         {
+            eZDebug::writeDebug( count($sourceNodeList), "rush: count( sourceNodeList ) = " );
+
             $sourceNodeID = $sourceNodeList[ $i ]->attribute( 'node_id' );
 
+            // if node was alreaty copied
             if ( in_array( $sourceNodeID, $syncNodeIDListSrc ) )
             {
                 array_splice( $sourceNodeList, $i, 1 );
+                continue;
+            }
+
+            //////////// check permissions START
+            // if node is already in black list, then skip current node:
+            if ( in_array( $sourceNodeID, $nodeIDBlackList ) )
+            {
+                array_splice( $sourceNodeList, $i, 1 );
+                continue;
+            }
+
+            $sourceObject =& $sourceNodeList[ $i ]->object();
+
+            $srcSubtreeNodeIDlist = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
+            $copyResult = copyPublishContentObject( $sourceObject,
+                                                    $srcSubtreeNodeIDlist,
+                                                    $syncNodeIDListSrc, $syncNodeIDListNew,
+                                                    $syncObjectIDListSrc, $syncObjectIDListNew,
+                                                    $objectIDBlackList, $nodeIDBlackList,
+                                                    $allVersions, $keepCreator, $keepTime );
+            if ( $copyResult === 0 )
+            {   // if copying successful then remove $sourceNode from $sourceNodeList
+                array_splice( $sourceNodeList, $i, 1 );
             }
             else
-            {
-                //$sourceNodeID = $sourceNodeList[ $i ]->attribute( 'node_id' );
-                //////////// check permissions START
-                // if node is already in black list, then skip current node:
-                $key = array_search( $sourceNodeList[ $i ]->attribute( 'node_id' ), $nodeIDBlackList );
-                if ( $key !== false )
-                {
-                    array_splice( $sourceNodeList, $i, 1 );
-                    continue;
-                }
-
-                $sourceObject =& $sourceNodeList[ $i ]->object();
-
-                // if cannot create current node under new parent node (if new parent node exist)
-                // then remember current node in black list and skip it:
-                $sourceParentNodeID = $sourceNodeList[ $i ]->attribute( 'parent_node_id' );
-                $key = array_search( $sourceParentNodeID, $syncNodeIDListSrc );
-                if ( $key !== false )
-                {
-                    $sourceObjectClass =& $sourceObject->contentClass();
-
-                    $newParentNodeID = $syncNodeIDListNew[ $key ];
-                    $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
-
-                    if ( !$newParentNode->checkAccess( 'create', $sourceObjectClass ) )
-                    {
-                        $nodeIDBlackList[] = $srcNodeID;
-                        array_splice( $sourceNodeList, $i, 1 );
-                        continue;
-                    }
-                }
-                //////////// check permissions END
-
-                $srcSubtreeNodeIDlist = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
-
-                $copyResult = copyPublishContentObject( $sourceObject,
-                                                        $srcSubtreeNodeIDlist,
-                                                        $syncNodeIDListSrc, $syncNodeIDListNew,
-                                                        $syncObjectIDListSrc, $syncObjectIDListNew,
-                                                        &$objectIDBlackList, &$nodeIDBlackList,
-                                                        $allVersions, $keepCreator, $keepTime );
-                if ( $copyResult === 0 )
-                {   // if copying successful then remove $sourceNode from $sourceNodeList
-                    array_splice( $sourceNodeList, $i, 1 );
-                }
-                else
-                    $i++;
-            }
+                $i++;
         }
         $k++;
     }
@@ -521,13 +521,16 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     eZDebug::writeDebug( count( $syncNodeIDListNew ) ,"Number of copied nodes: " );
     eZDebug::writeDebug( count( $syncObjectIDListNew ), "Number of copied contentobjects: " );
 
+    eZDebug::writeDebug( $objectIDBlackList, "Copy subtree: Not copied object IDs list:" );
+    eZDebug::writeDebug( $nodeIDBlackList, "Copy subtree: Not copied node IDs list:" );
+
     // 2. fetch all new subtree
 
     $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
     if ( $key === false )
     {
-        eZDebug::writeError( "Cannot find subtree root node in array of IDs of copied nodes.",
-                             "Subtree copy Error!" );
+        eZDebug::writeDebug( "Root node of given subtree was not copied.",
+                             "Subtree copy:" );
         return 2;
     }
 
@@ -778,6 +781,7 @@ $contentINI =& eZINI::instance( 'content.ini' );
 $versionHandling = $contentINI->variable( 'CopySettings', 'VersionHandling' );
 $creatorHandling = $contentINI->variable( 'CopySettings', 'CreatorHandling' );
 $timeHandling    = $contentINI->variable( 'CopySettings', 'TimeHandling' );
+$showNotification= $contentINI->variable( 'CopySettings', 'ShowCopySubtreeNotification' );
 
 $chooseVersions = ( $versionHandling == 'user-defined' );
 $chooseCreator  = ( $creatorHandling == 'user-defined' );
