@@ -47,6 +47,11 @@ set_time_limit( 0 );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
+$fixErrors = true; 
+$fixAllAttributes = true; 
+$fixAttribute = true; 
+$fixURL = true;
+
 $cli =& eZCLI::instance();
 $endl = $cli->endlineString();
 

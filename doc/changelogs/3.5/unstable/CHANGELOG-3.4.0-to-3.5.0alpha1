@@ -199,6 +199,10 @@ eztc.php:
 - Fixed bug with class filter in treemenu operator.
   http://ez.no/community/bug_reports/menu_management_contact_us_missing_from_some_menu_types
   Merged from stable/3.4 rev.7032
+- Fixed bug regarding missing declaration for several global variables.
+  Merged from stable/3.4 rev. 7038.
+  http://ez.no/community/bug_reports/updatexmltext_php_doesn_t_do_anything
+
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 
