@@ -225,23 +225,14 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     {
         // Creates an order and redirects
         $basket =& eZBasket::currentBasket();
-        $order =& $basket->createOrder();
-
-        //
-        $basket =& eZBasket::currentBasket();
         $productCollectionID = $basket->attribute( 'productcollection_id' );
 
         $verifyResult =& eZProductCollection::verify( $productCollectionID  );
 
         if ( $verifyResult === true )
         {
-            $user =& eZUser::currentUser();
-            $userID = $user->attribute( 'contentobject_id' );
-
-            $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
-                                         'user_id' => $userID,
-                                         'is_temporary' => 1,
-                                         'created' => mktime() ) );
+            $order =& $basket->createOrder();
+            $order->setAttribute( 'account_identifier', "default" );
             $order->store();
 
             eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );

@@ -46,11 +46,11 @@ class eZShopAccountHandler
     */
     function &instance()
     {
-//        include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
-//        $accountHandler =& new eZDefaultShopAccountHandler();
+        include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
+        $accountHandler =& new eZDefaultShopAccountHandler();
 
-        include_once( 'kernel/classes/shopaccounthandlers/ezsimpleshopaccounthandler.php' );
-        $accountHandler =& new eZSimpleShopAccountHandler();
+//        include_once( 'kernel/classes/shopaccounthandlers/ezsimpleshopaccounthandler.php' );
+//        $accountHandler =& new eZSimpleShopAccountHandler();
         return $accountHandler;
     }
 }

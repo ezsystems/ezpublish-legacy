@@ -2,6 +2,7 @@
 
 <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
 
+<b>{"Customer:"|i18n("design/standard/shop")}</b> 
 {shop_account_view_gui order=$order}
 
 <b>{"Product items"|i18n("design/standard/shop")}</b>
