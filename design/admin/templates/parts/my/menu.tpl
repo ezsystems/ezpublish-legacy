@@ -18,15 +18,8 @@
 
     <li>
     <li>{'Edit mode settings'}</li>
-    <ul>
-    <li>{'Relations'}:
-    {section show=ezpreference( 'admin_edit_show_relations' )}
-        <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={'/user/preferences/set/admin_edit_show_relations/0'|ezurl} title="{'Hide related objects in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
-    {section-else}
-        <a href={'/user/preferences/set/admin_edit_show_relations/1'|ezurl} title="{'Show related objects in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<b>{'off'|i18n( 'design/admin/parts/my/menu' )}</b>
-    {/section}
-    </li>
 
+    <ul>
     <li>{'Locations'}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
         <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Hide locations in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>

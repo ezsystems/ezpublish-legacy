@@ -90,10 +90,7 @@
 
 </div>
 
-{* Related objects window. *}
-{section show=ne( ezpreference( 'admin_edit_show_relations' ), 0 )|not}
-    {include uri='design:content/edit_relations.tpl'}
-{/section}
+{include uri='design:content/edit_relations.tpl'}
 
 
 {* Locations window. *}
