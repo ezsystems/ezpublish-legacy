@@ -348,18 +348,22 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <ul>
 {let basket=fetch( shop, basket )}
+
 {section show=ne( $ui_context, 'edit' )}
     <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl} title="{'Change name, e-mail, password, etc.'|i18n( 'design/admin/pagelayout' )}">{'Change information'|i18n( 'design/admin/pagelayout' )}</a></li>
     <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl} title="{'Change password for <%username>.'|i18n( 'design/admin/pagelayout',, hash( '%username', $current_user.contentobject.name ) )|wash}">{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
 
 {section show=$basket.is_empty|not}
-<li><a href={'shop/basket'|ezurl}>{'Shopping basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
+<li><a href={'shop/basket'|ezurl} title="{'There are %basket_count items in the shopping basket.'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}">{'Shopping basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
 {/section}
 
         <li><a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a></li>
 {section-else}
     <li><span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span></li>
     <li><span class="disabled">{'Change password'|i18n( 'design/admin/pagelayout' )}</span></li>
+    {section show=$basket.is_empty|not}
+    <li><span class="disabled">{'Shopping basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</span></li>
+    {/section}
     <li><span class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span></li>
 {/section}
 {/let}
