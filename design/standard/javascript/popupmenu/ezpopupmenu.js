@@ -225,7 +225,6 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
         var header = document.getElementById( menuArray[menuID]['headerID'] );
         if ( header ) header.innerHTML = menuHeader;
     }
-
 }
 
 /*!
