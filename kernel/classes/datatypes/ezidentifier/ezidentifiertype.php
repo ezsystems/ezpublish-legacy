@@ -320,10 +320,7 @@ class eZIdentifierType extends eZDataType
                 $dataText = $db->escapeString( $contentObjectAttribute->attribute( 'data_text' ) );
                 $dataInt = (int)$contentObjectAttribute->attribute( 'data_int' );
 
-                include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                $trans =& eZCharTransform::instance();
-                $sortText = $db->escapeString( $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ),
-                                                                         'lowercase' ) );
+                $sortText = $db->escapeString( strtolower( $contentObjectAttribute->attribute( 'data_text' ) ) );
 
                 $db->query( "UPDATE ezcontentobject_attribute\n" .
                             "SET    data_text = '$dataText', data_int = $dataInt, sort_key_string = '$sortText'\n" .
@@ -351,9 +348,7 @@ class eZIdentifierType extends eZDataType
     */
     function sortKey( &$contentObjectAttribute )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
-        return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
 
     /*!
