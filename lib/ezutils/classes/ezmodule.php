@@ -406,6 +406,7 @@ class eZModule
     */
     function redirectTo( $uri )
     {
+        $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
         $this->RedirectURI = $uri;
         $this->setExitStatus( EZ_MODULE_STATUS_REDIRECT );
     }

@@ -36,6 +36,9 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/advanced_search_fails
 - Fixed deleting information collection information when deleting content object.
   http://ez.no/developer/ez_publish_3/bug_reports/information_collection_won_t_be_deleted
+- Merged wrong order of forwarding url translator bug fix from stable/3.2 rev. 4828
+  http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
+- Fixed removing duplicate // from eZModule::redirectTo( ... )
 
 *Library:
 
