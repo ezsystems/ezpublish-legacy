@@ -1,4 +1,4 @@
-<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ), '' ) )|ezurl}>
+<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ), '' ), $is_translating_content|not|choose( concat( $from_language, '/' ), '' ) )|ezurl}>
 
 <div id="leftmenu">
 <div id="leftmenu-design">
@@ -31,6 +31,7 @@
 <div class="context-information">
 <p class="translation">
 {let language_index=0
+     from_language_index=0
      default_translation=$content_version.translation
      other_translation_list=$content_version.translation_list
      translation_list=$other_translation_list|array_prepend($default_translation)}
@@ -41,16 +42,40 @@
   {/section}
 {/section}
 
-{$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
+{section show=$is_translating_content}
+
+    {section loop=$translation_list}
+      {section show=eq( $from_language, $item.language_code)}
+        {set from_language_index=$:index}
+      {/section}
+    {/section}
+
+    {'Translating from %from_lang to %to_lang'|i18n( 'design/admin/content/edit',,
+hash( '%from_lang', concat( $translation_list[$from_language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$from_language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$from_language_index].language_code, '" />' ),
+'%to_lang', concat( $translation_list[$language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$language_index].language_code, '" />' ) ) )}
+
+{section-else}
+
+    {$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
+
+{/section}
 
 {/let}
 </p>
 <div class="break"></div>
 </div>
 
+{section show=$is_translating_content}
+<div class="content-translation">
+{/section}
+
 <div class="context-attributes">
     {include uri='design:content/edit_attribute.tpl'}
 </div>
+
+{section show=$is_translating_content}
+</div>
+{/section}
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">

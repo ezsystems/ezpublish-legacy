@@ -62,7 +62,7 @@ $ViewList['edit'] = array(
                                        'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     'script' => 'edit.php',
-    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage' ) );
+    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );
 
 $ViewList['removenode'] = array(
     'functions' => array( 'edit' ),

@@ -15,7 +15,9 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   If it's specified and set to true(), the operators return only the icon URI instead of the whole HTML code.
 - Related object file upload in content/edit will now work even if there is
   no HTTP file available, in which it will go to content/upload to get the file.
-  
+- Translating of content objects can now be done in the normal edit page instead
+  of the separate content/translate page. The old system is kept but will not
+  be shown with in the new admin interface.
 
 *Datatype:
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 

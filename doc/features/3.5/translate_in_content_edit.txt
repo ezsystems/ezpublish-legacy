@@ -1,0 +1,21 @@
+*Title: Translate support in content edit
+
+*Incentive:
+Make it easier to perform translations of content from one
+language to another. Instead of using a separate edit screen
+the same as normal editing should be used.
+This allows the user to have all the controls he would normally
+have.
+
+*Documentation:
+A new parameter was added to content/edit called FromLanguage which
+when specified will show attribute data from this language beside/above
+the attribute that is being edited.
+
+For instance to translate from eng-GB and into nor-NO
+content/edit/10/1/nor-NO/eng-GB
+
+Also new template variables has been available to edit.tpl:
+- from_language - The language entered in the url or false if none
+- from_content_attributes - An array with attributes taken from FromLanguage or false if no such language
+- is_translating_content - Set to true if the edit page is translating from another language, false otherwise

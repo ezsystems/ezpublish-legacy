@@ -64,9 +64,18 @@ if ( !isset( $EditLanguage ) )
 if ( !is_string( $EditLanguage ) or
      strlen( $EditLanguage ) == 0 )
     $EditLanguage = false;
+if ( !isset( $FromLanguage ) and
+     isset( $Params['FromLanguage'] ) )
+    $FromLanguage = $Params['FromLanguage'];
+if ( !is_string( $FromLanguage ) or
+     strlen( $FromLanguage ) == 0 )
+    $FromLanguage = false;
 
 if ( $EditLanguage == eZContentObject::defaultLanguage() )
     $EditLanguage = false;
+
+if ( $FromLanguage == $EditLanguage )
+    $FromLanguage = false;
 
 
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage ) ) )
@@ -88,6 +97,21 @@ $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
     $contentObjectAttributes =& $version->contentObjectAttributes();
+
+$fromContentObjectAttributes = false;
+$isTranslatingContent = false;
+if ( $FromLanguage !== false )
+{
+    $isTranslatingContent = true;
+    $fromContentObjectAttributes =& $version->contentObjectAttributes( $FromLanguage );
+    if ( $fromContentObjectAttributes === null or
+         count( $fromContentObjectAttributes ) == 0 )
+    {
+        unset( $fromContentObjectAttributes );
+        $fromContentObjectAttributes = false;
+        $isTranslatingContent = false;
+    }
+}
 
 $http =& eZHTTPTool::instance();
 
@@ -327,9 +351,12 @@ foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
 
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
+$tpl->setVariable( 'from_language', $FromLanguage );
 $tpl->setVariable( 'content_version', $version );
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
+$tpl->setVariable( 'from_content_attributes', $fromContentObjectAttributes );
+$tpl->setVariable( 'is_translating_content', $isTranslatingContent );
 $tpl->setVariable( 'content_attributes_data_map', $contentObjectDataMap );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
