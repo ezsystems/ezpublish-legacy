@@ -465,7 +465,10 @@ while ( $moduleRunRequired )
             $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
         if ( $currentURI != $lastAccessedURI )
         {
-            if ( preg_match( "/\/content\/view\/.*/", $currentURI  ) or $currentURI === '/' )
+            // FIXME: these patterns should be specified in a .ini file
+            if ( strpos( $currentURI, '/content/view/' ) !== false or
+                 strpos( $currentURI, '/url/list' )      !== false or
+                 $currentURI === '/' )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
             }
@@ -728,7 +731,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
                             break;
                         }
                     }
-                    else 
+                    else
                     {
                         if ( $matches[1] == $ipAddress )
                         {
