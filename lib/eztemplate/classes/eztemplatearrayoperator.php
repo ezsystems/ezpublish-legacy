@@ -421,76 +421,148 @@ class eZTemplateArrayOperator
 
             case $this->ContainsName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) &&
-                     eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-                {
-                    $inArray = in_array( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
-                    return array( eZTemplateNodeTool::createBooleanElement( $inArray ) );
-                }
-
-                $code = '%output% = in_array( ';
-
-                $paramCount = 0;
-
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-                {
-                    $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), 0, 0, false );
-                }
-                else
-                {
-                    $values[] = $parameters[1];
-                    $code .= '%' . count( $values ) . '%';
-                }
-
-                $code .= ', ';
+                $values = array();
+                $inParam = null;
+                $isString = false;
+                $isArray = false;
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
-                    $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                    $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    if ( is_string( $inParam ) )
+                    {
+                        $isString = true;
+                    }
+                    else if( is_array( $inParam ) )
+                    {
+                        $isArray = true;
+                    }
+
+                    $inParamCode = eZPHPCreator::variableText( $inParam, 0, 0, false );
                 }
                 else
                 {
                     $values[] = $parameters[0];
-                    $code .= '%' . count( $values ) . '%';
+                    $inParamCode = '%' . count( $values ) . '%';
                 }
 
-                $code .= ' );';
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    if ( count( $values ) == 0 )
+                    {
+                        if ( $isString )
+                        {
+                            $result = (bool)strstr( $inParam, $matchParam );
+                        }
+                        else if( $isArray )
+                        {
+                            $result = in_array( $matchParam, $inParam );
+                        }
+
+                        return array( eZTemplateNodeTool::createBooleanElement( $result ) );
+                    }
+                    $matchParamCode = eZPHPCreator::variableText( $matchParam, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $matchParamCode = '%' . count( $values ) . '%';
+                }
+
+                if ( $isString )
+                {
+                    $code = '%output% = (bool)strstr( ' . $inParamCode . ', ' . $matchParamCode . ' );';
+                }
+                else if ( $isArray )
+                {
+                    $code = '%output% = in_array( ' . $matchParamCode . ', ' . $inParamCode . ' );';
+                }
+                else
+                {
+                    $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = (bool)strstr( ' . $inParamCode . ', ' . $matchParamCode . ' );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = in_array( ' . $matchParamCode . ', ' . $inParamCode . ' );' . "\n" .
+                         '}';
+                }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
 
             case $this->CompareName:
             {
+                $inParam = null;
+                $isString = false;
+                $isArray = false;
                 $values = array();
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
-                    $array1 = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                    $array1Code = eZPHPCreator::variableText( $array1, 0, 0, false );
+                    $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    if ( is_string( $inParam ) )
+                    {
+                        $isString = true;
+                    }
+                    else if( is_array( $inParam ) )
+                    {
+                        $isArray = true;
+                    }
+
+                    $inParamCode = eZPHPCreator::variableText( $inParam, 0, 0, false );
                 }
                 else
                 {
                     $values[] = $parameters[0];
-                    $array1Code = '%' . count( $values ) . '%';
+                    $inParamCode = '%' . count( $values ) . '%';
                 }
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
-                    $array2 = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-                    $array2Code = eZPHPCreator::variableText( $array2, 0, 0, false );
+                    $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    if ( count( $values ) == 0 )
+                    {
+                        if ( $isString )
+                        {
+                            $result = ( $inParam == $matchParam );
+                        }
+                        else if( $isArray )
+                        {
+                            $result = ( array_diff( $matchParam, $inParam ) == array_diff( $inParam, $matchParam ) );
+                        }
+
+                        return array( eZTemplateNodeTool::createBooleanElement( $result ) );
+                    }
+                    $matchParamCode = eZPHPCreator::variableText( $matchParam, 0, 0, false );
                 }
                 else
                 {
                     $values[] = $parameters[1];
-                    $array2Code = '%' . count( $values ) . '%';
+                    $matchParamCode = '%' . count( $values ) . '%';
                 }
 
-                if ( count( $values ) == 0 )
+                if ( $isString )
                 {
-                    return array( eZTemplateNodeTool::createBooleanElement( ( array_diff( $array1, $array2 ) == array_diff( $array2, $array1 ) ) ) );
+                    $code = '%output% = ( ' . $inParamCode . ' == ' . $matchParamCode . ' );';
                 }
-
-                $code = '%output% = ( array_diff( ' . $array1Code . ', ' . $array2Code . ' ) == array_diff( ' . $array2Code . ', ' . $array1Code . ' ) ) ;';
+                else if ( $isArray )
+                {
+                    $code = '%output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) );';
+                }
+                else
+                {
+                    $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = ( ' . $inParamCode . ' == ' . $matchParamCode . ' );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) );' . "\n" .
+                         '}';
+                }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
@@ -545,49 +617,89 @@ class eZTemplateArrayOperator
 
             case $this->ExplodeName:
             {
-                $values = array();
+                $inParam = null;
+                $isString = false;
+                $isArray = false;
 
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    if ( is_string( $inParam ) )
+                    {
+                        $isString = true;
+                    }
+                    else if( is_array( $inParam ) )
+                    {
+                        $isArray = true;
+                    }
+
+                    $inParamCode = eZPHPCreator::variableText( $inParam, 0, 0, false );
+                }
+                else
                 {
                     $values[] = $parameters[0];
-                    $code = '%tmp1% = %1%;' . "\n";
-                }
-                else
-                {
-                    $code = '%tmp1% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false ) . ';' ."\n";
+                    $inParamCode = '%' . count( $values ) . '%';
                 }
 
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
-                    $values[] = $parameters[1];
-                    $code .= '%output% = array( array_slice( %tmp1%, 0, %' . count( $values ) . '% ), array_slice( %tmp1%, %' . count( $values ) . '% ) );';
-                }
-                else
-                {
-                    $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     if ( count( $values ) == 0 )
                     {
-                        $arrayIn = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                        $array = array( array_slice( $arrayIn, 0, $offset ), array_slice( $arrayIn, $offset ) );
-                        return array( eZTemplateNodeTool::createArrayElement( $array ) );
+                        if ( $isString )
+                        {
+                            $result = explode( $inParam, $matchParam );
+                        }
+                        else if( $isArray )
+                        {
+                            $result = array( array_slice( $inParam, 0, $matchParam ), array_slice( $inParam, $matchParam ) );
+                        }
+
+                        return array( eZTemplateNodeTool::createArrayElement( $result ) );
                     }
-                    else
-                    {
-                        $code .= '%output% = array( array_slice( %tmp1%, 0, ' . $offset . ' ), array_slice( %tmp1%, ' . $offset . ' ) );';
-                    }
+                    $matchParamCode = eZPHPCreator::variableText( $matchParam, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $matchParamCode = '%' . count( $values ) . '%';
                 }
 
-                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
+                if ( $isString )
+                {
+                    $code = '%output% = explode( ' . $inParamCode . ', ' . $matchParamCode . ' );';
+                }
+                else if ( $isArray )
+                {
+                    $code = '%output% = array( array_slice( ' . $inParamCode . ', 0,' . $matchParamCode . ' ), array_slice( ' . $inParamCode . ', ' . $matchParamCode .' ) );';
+                }
+                else
+                {
+                    $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = explode( ' . $inParamCode . ', ' . $matchParamCode . ' );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = array( array_slice( ' . $inParamCode . ', 0,' . $matchParamCode . ' ), array_slice( ' . $inParamCode . ', ' . $matchParamCode .' ) );' . "\n" .
+                         '}';
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
 
             case $this->RemoveName:
             {
                 $values = array();
+                $isArray = false;
+                $isString = false;
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
+                    $isString = is_string( $inputArray );
+                    $isArray = is_array( $inputArray );
                 }
                 else
                 {
@@ -624,14 +736,39 @@ class eZTemplateArrayOperator
 
                 if ( count( $values ) == 0 )
                 {
-                    $array_one = array_slice( $inputArray, 0, $offset );
-                    $array_two = array_slice( $inputArray, $offset + $length );
+                    if ( $isString )
+                    {
+                        return array( eZTemplateNodeTool::createStringElement( substr( $inputArray, $offset, $length ) ) );
+                    }
+                    else if ( $isArray )
+                    {
+                        $array_one = array_slice( $inputArray, 0, $offset );
+                        $array_two = array_slice( $inputArray, $offset + $length );
 
-                    return array ( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_two ) ) );
+                        return array ( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_two ) ) );
+                    }
                 }
 
-                $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
-                     '%output% = array_merge( array_slice( %tmp1%, 0, ' . $offsetCode . ' ), array_slice( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' ) );';
+                if ( $isString )
+                {
+                    $code = '%output% = substr( ' . $inputArrayCode . ', ' . $offsetCode . ', ' . $lengthCode . ' );';
+                }
+                else if ( $isArray )
+                {
+                    $code = '%output% = array_merge( array_slice( ' .  $inputArrayCode . ', 0, ' . $offsetCode . ' ), array_slice( ' . $inputArrayCode . ', ' . $offsetCode . ' + ' . $lengthCode . ' ) );';
+                }
+                else
+                {
+                    $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                         'if ( is_string( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = substr(  %tmp1%, ' . $offsetCode . ', ' . $lengthCode . ' );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = array_merge( array_slice( %tmp1%, 0, ' . $offsetCode . ' ), array_slice( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' ) );' . "\n" .
+                         '}';
+                }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
             } break;
@@ -639,11 +776,15 @@ class eZTemplateArrayOperator
             case $this->InsertName:
             {
                 $values = array();
+                $isArray = false;
+                $isString = false;
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
+                    $isString = is_string( $inputArray );
+                    $isArray = is_array( $inputArray );
                 }
                 else
                 {
@@ -660,6 +801,14 @@ class eZTemplateArrayOperator
                 {
                     $values[] = $parameters[1];
                     $offsetCode = '%' . count( $values ) . '%';
+                }
+
+                if ( count( $parameters ) > 2 )
+                {
+                    if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+                    {
+                        $insertText = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                    }
                 }
 
                 $insertElemCode = array();
@@ -679,45 +828,100 @@ class eZTemplateArrayOperator
 
                 if ( count( $values ) == 0 )
                 {
-                    $array_one = array_slice( $inputArray, 0, $offset );
-                    $array_two = array_slice( $inputArray, $offset );
-
-                    $array_to_insert = array();
-                    for ( $i = 2; $i < count( $parameters ); ++$i )
+                    if ( $isString )
                     {
-                        $array_to_insert[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                        return array( eZTemplateNodeTool::createStringElement( concat( substr( $inputArray, 0, $offset ), $insertText, substr( $inputArray, $offset ) ) ) );
                     }
+                    else if ( $isArray )
+                    {
+                        $array_one = array_slice( $inputArray, 0, $offset );
+                        $array_two = array_slice( $inputArray, $offset );
 
-                    return array( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_to_insert, $array_two ) ) );
+                        $array_to_insert = array();
+                        for ( $i = 2; $i < count( $parameters ); ++$i )
+                        {
+                            $array_to_insert[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                        }
+
+                        return array( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_to_insert, $array_two ) ) );
+                    }
                 }
 
-                $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
-                     '%tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
-                     '%tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
-                     '%tmp4% = array( ';
-                for( $i = 0; $i < count( $insertElemCode ); ++$i )
+                $tmpCount = 0;
+                if ( $isString )
                 {
-                    if ( $i != 0 )
-                    {
-                        $code .= ", ";
-                    }
-                    $code .= $insertElemCode[$i];
+                    $code = '%output% = concat( substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ), ' . $insertElemCode[0] . ', substr( ' . $inputArrayCode . ', ' . $offsetCode . ' ) );';
                 }
-                $code .= ' );' . "\n" .
-                     '%output% = array_merge( %tmp2%, %tmp4%, %tmp3% );' . "\n";
+                else if ( $isArray )
+                {
+                    $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                         '%tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
+                         '%tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
+                         '%tmp4% = array( ';
+                    for( $i = 0; $i < count( $insertElemCode ); ++$i )
+                    {
+                        if ( $i != 0 )
+                        {
+                            $code .= ", ";
+                        }
+                        $code .= $insertElemCode[$i];
+                    }
+                    $code .= ' );' . "\n" .
+                         '%output% = array_merge( %tmp2%, %tmp4%, %tmp3% );' . "\n";
+                    $tmpCount = 4;
+                }
+                else
+                {
+                    $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                         '%tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
+                         '%tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
+                         '%tmp4% = array( ';
+                    for( $i = 0; $i < count( $insertElemCode ); ++$i )
+                    {
+                        if ( $i != 0 )
+                        {
+                            $code .= ", ";
+                        }
+                        $code .= $insertElemCode[$i];
+                    }
+                    $code .= ' );' . "\n" .
+                         'if ( is_string( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = concat( substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ), ' . $insertElemCode[0] . ', substr( ' . $inputArrayCode . ', ' . $offsetCode . ' ) );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = array_merge( %tmp2%, %tmp4%, %tmp3% );' . "\n" .
+                         '}' . "\n";
+                    $tmpCount = 4;
+                }
 
-                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 4 ) );
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpCount ) );
             } break;
 
             case $this->ReverseName:
             {
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
-                    return array( eZTemplateNodeTool::createArrayElement( array_reverse( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                    if ( is_string( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) )
+                    {
+                        return array( eZTemplateNodeTool::createStringElement( strrev( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                    }
+                    else if ( is_array( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) )
+                    {
+                        return array( eZTemplateNodeTool::createArrayElement( array_reverse( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                    }
                 }
 
                 $values = array( $parameters[0] );
-                $code = '%output% = array_reverse( %1% );';
+                $code = 'if ( is_string( %1% ) )' . "\n" .
+                     '{' . "\n".
+                     '  %output% = strrev( %1% );' . "\n" .
+                     '}' . "\n" .
+                     'else if( is_array( %1% ) )' . "\n" .
+                     '{' . "\n" .
+                     '  %output% = array_reverse( %1% );' . "\n" .
+                     '}' . "\n";
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
@@ -738,6 +942,8 @@ class eZTemplateArrayOperator
             case $this->RepeatName:
             {
                 $values = array();
+                $isString = false;
+                $isArray = false;
 
                 if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
@@ -747,6 +953,8 @@ class eZTemplateArrayOperator
                 else
                 {
                     $arrayCode = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                    $isString = is_string( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+                    $isArray = is_array( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
                 }
 
                 if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
@@ -760,24 +968,44 @@ class eZTemplateArrayOperator
 
                     if ( count( $values ) == 0 )
                     {
-                        $retArray = array();
-                        $origArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                        for ( $i = 0; $i < $count; $i++)
+                        if ( $isString )
                         {
-                            $retArray = array_merge( $retArray, $origArray );
-                        }
+                            $retText = '';
+                            $origText = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                            for ( $i = 0; $i < $count; $i++)
+                            {
+                                $retText .= $origText;
+                            }
 
-                        return array( eZTemplateNodeTool::createArrayElement( $retArray ) );
+                            return array( eZTemplateNodeTool::createStringElement( $retText ) );
+                        }
+                        else if ( $isArray )
+                        {
+                            $retArray = array();
+                            $origArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                            for ( $i = 0; $i < $count; $i++)
+                            {
+                                $retArray = array_merge( $retArray, $origArray );
+                            }
+
+                            return array( eZTemplateNodeTool::createArrayElement( $retArray ) );
+                        }
                     }
 
                     $countCode = (string)$count;
                 }
 
-                $code = '%output% = array();' . "\n" .
-                     '%tmp2% = ' . $arrayCode . ';' . "\n" .
+                $code = '%tmp2% = ' . $arrayCode . ';' . "\n" .
+                     'if ( is_string( %tmp2% ) )' . "\n" .
+                     '  %output% = \'\';' . "\n" .
+                     'else if ( is_array(  %tmp2% ) )' . "\n" .
+                     '  %output% = array();' . "\n" .
                      'for( %tmp1% = 0; %tmp1% < ' . $countCode . '; ++%tmp1% )' . "\n" .
                      '{' . "\n" .
-                     '  %output% = array_merge( %output%, %tmp2% );' . "\n" .
+                     '  if ( is_string( %tmp2% )  )' . "\n" .
+                     '    %output% .= %tmp2%;' . "\n" .
+                     '  else if ( is_array( %tmp2% ) )' . "\n" .
+                     '    %output% = array_merge( %output%, %tmp2% );' . "\n" .
                      '}' . "\n";
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
