@@ -34,8 +34,11 @@ alter table ezworkflow_process add column process_key char(32) NOT NULL ;
 
 
 #After beta 2:
+# for mysql
 alter table eznode_assignment add from_node_id int default 0;
-
+# for Postgresql
+alter table eznode_assignment add from_node_id int;
+alter table eznode_assignment alter column from_node_id set default 0;
 
 # Beta 3 changes
 CREATE TABLE ezoperation_memento (
