@@ -92,6 +92,10 @@ class eZSOAPClient
         $this->Server = $server;
         $this->Path = $path;
         $this->Port = $port;
+        if ( is_numeric( $port ) )
+            $this->Port = $port;
+        else
+            $this->Port = 80;
     }
 
     /*!

@@ -579,12 +579,15 @@ Workflow:
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 - Added eZFile::download() method.
-- Added eZSOAPServer::registerObject() method.
 - Improved Image interface methods and GD resource handling.
 - Added adjustment of placement when using centered alignment in eZImageObject.
 - Fixed logical problem in eZLocale attributes:
   'weekday_list' changed to 'weekday_name_list'
   'weekday_name_list' changed to 'weekday_number_list'
+
+eZ SOAP:
+- Added eZSOAPServer::registerObject() method.
+- Improved SOAP Client port setting.
 
 eZ WebDAV:
 - Added removal of temporary files after upload
