@@ -357,7 +357,7 @@ class eZRole extends eZPersistentObject
                                       ezuser_role.limit_value
                       FROM ezrole,
                            ezuser_role,
-                           ezcontentobject_tree as role_tree
+                           ezcontentobject_tree role_tree
                       WHERE ezuser_role.contentobject_id = role_tree.contentobject_id AND
                             ezuser_role.role_id = ezrole.id AND
                             role_tree.node_id IN ( ' . implode( ',', $userNodeIDArray ) . ' )';
