@@ -1022,8 +1022,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'path_string', $newNodePath );
 //        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
 
-        $insertedNode->setAttribute( 'path_identification_string', $insertedNode->pathWithNames() );
-        $insertedNode->setAttribute( 'crc32_path', crc32 ( $insertedNode->attribute( 'path_identification_string' ) ) );
         $insertedNode->store();
         if ( $asObject )
         {
@@ -1038,12 +1036,83 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( $nodeID == 0 )
         {
-            $node = $this;
+            $node =& $this;
         }else
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
-        $nodeList = $node->attribute( 'path' );
+        eZDebug::writeDebug( $this, 'node3' );
+
+//        $nodeList = $node->attribute( 'path' );
+//        array_shift( $nodeList );
+        $nodeList =& $node->attribute( 'path' );
+        $parentNodeID = $node->attribute( 'parent_node_id' );
+        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+        $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
+
+
+
+
+        if ( count( $nodeList ) > 0 )
+        {
+            $topLevelNode = $nodeList[0];
+            $topLevelName = $topLevelNode->getName();
+            $topLevelName = strtolower( $topLevelName );
+            $topLevelName = preg_replace( array( "/[^a-z0-9_ ]/" ,
+                                                 "/ /",
+                                                 "/__+/" ),
+                                          array( "",
+                                                 "_",
+                                                 "_" ),
+                                          $topLevelName );
+            $pathElementArray = explode( '/', $parentNodePathString );
+            if( count( $pathElementArray ) > 0 )
+            {
+                $parentNodePathString = implode( '/', $pathElementArray );
+            }else
+            {
+                $parentNodePathString = '';
+            }
+        }
+        else
+        {
+            $parentNodePathString = '';
+        }
+//            eZDebug::writeDebug( $pathElementArray, "pathElementArray" );
+//            eZDebug::writeDebug( $nodeList, "nodeList" );
+
+
+
+        if ( count( $nodeList ) > 0 )
+        {
+            
+            $nodeName = $node->attribute( 'name' );
+            $nodeName = strtolower( $nodeName );
+            $nodeName = preg_replace( array( "/[^a-z0-9_ ]/" ,
+                                             "/ /",
+                                             "/__+/" ),
+                                      array( "",
+                                             "_",
+                                             "_" ),
+                                      $nodeName );
+            
+            if ( $parentNodePathString != '' )
+            {
+                $nodePath = $parentNodePathString . '/' . $nodeName ;
+            }
+            else
+            {
+                $nodePath = $nodeName ;
+            }
+        }
+        else
+        {
+            $nodePath = '';
+        }
+
+        $nodePath = $node->checkPath( $nodePath );
+        return $nodePath;
+/*        
         $nodeList = array_merge( $nodeList, array( &$node ) );
         $nodePathElementList = array();
         foreach ( $nodeList as $nodeInPath )
@@ -1060,8 +1129,57 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                       $nodeName );
             $nodePathElementList[]=$nodeName;
         }
-        return implode( '/', $nodePathElementList );
+        $nodePath = implode( '/', $nodePathElementList );
+//        eZDebug::writeDebug( $nodePath, 'path1' );
+        $nodePath = $node->checkPath( $nodePath );
+        return $nodePath;
+*/
+    }
 
+    function checkPath( $path )
+    {
+        eZDebug::writeDebug( $path, 'path2' );
+        $depth = $this->attribute( 'depth' );
+        $parentNodeID = $this->attribute( 'parent_node_id' );
+        $nodeID = $this->attribute( 'node_id' );
+
+        $sqlToCheckCurrentName = 'select path_identification_string
+                                  from ezcontentobject_tree
+                                  where ( path_identification_string = "' . $path . '" or
+                                          path_identification_string like "' . $path . '\_\_%" )
+                                          and node_id = ' . $nodeID ;
+        $db =& eZDb::instance();
+        $retNode = $db->arrayQuery( $sqlToCheckCurrentName );
+        if ( count( $retNode ) > 0 )
+        {
+            return $retNode[0]['path_identification_string'];
+        }
+        $sql = 'select path_identification_string
+                from ezcontentobject_tree
+                where parent_node_id = ' . $parentNodeID . ' and
+                      depth = ' . $depth . ' and
+                      ( path_identification_string = "' . $path . '" or path_identification_string like "' . $path . '\_\_%" ) and
+                      node_id != ' . $nodeID ;
+
+        $retNodes = $db->arrayQuery( $sql );
+        if( count( $retNodes ) > 0 )
+        {
+            $nodeNum = 0;
+            $matchedArray = array();
+            foreach ( $retNodes as $node )
+            {
+                if ( preg_match( '/__(\d+)$/', $node['path_identification_string'], $matchedArray ) )
+                {
+                    $nodeNumTemp = $matchedArray[1];
+                    if ( $nodeNumTemp > $nodeNum )
+                    {
+                        $nodeNum = $nodeNumTemp;
+                    }
+                }
+            }
+            $path = $path . '__' . ++$nodeNum;
+        }
+        return $path;
     }
 
 /*    function updatePathWithNames()
@@ -1070,12 +1188,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
         $this->store();
     }
-*/  function updateSubTreePath()
+*/
+    function updateSubTreePath()
     {
         $oldPathString = $this->attribute( 'path_identification_string' );
         $oldPathStringLength = strlen( $oldPathString );
 
+        eZDebug::writeDebug( $this, 'node2' );
         $newPathString = $this->pathWithNames();
+        eZDebug::writeDebug( $oldPathString .'  ' . $oldPathStringLength . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
 
         $this->setAttribute( 'crc32_path', crc32 ( $newPathString ) );
@@ -1086,6 +1207,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
          {
                $node =& $subTree[$key];
                $nodeOldPathString = $node->attribute( 'path_identification_string' );
+               eZDebug::writeDebug( $nodeOldPathString , 'nodeOldPathString' );
                $node->setAttribute( 'path_identification_string', $newPathString . substr( $nodeOldPathString, $oldPathStringLength ) );
                $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
                $node->store();
