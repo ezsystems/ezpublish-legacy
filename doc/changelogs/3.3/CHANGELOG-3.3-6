@@ -105,6 +105,8 @@ eZINI:
   http://ez.no/community/bug_reports/folder_thumnbnail_tpl_doesn_t_work_without_friendly_url_s
 - Fixed bug with not using an entered MySQL socket during setup
   http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
+- Fixed bug causing that the siteaccess names could not be written in capitals
+  http://ez.no/community/bug_reports/changing_the_siteaccess_name_causes_a_module_not_found_error
 *Library:
 
 eZ Locale:
