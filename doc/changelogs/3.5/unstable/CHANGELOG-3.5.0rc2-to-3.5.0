@@ -21,6 +21,9 @@ Setup:
 - Fixed bug in workflow triggering system: object approval didn't work.
 - Fixed bug with exporting packages
   http://ez.no/community/bug_reports/3_5_0rc2_package_file_size_is_0b
+  (Merged from stable/3.5, rev. 10355)
+- Fixed bug: links in xmltext fields are not exported/imported.
+  http://ez.no/community/bug_reports/3_5_package_export_xml_field_links_aren_t_exportet_importet
 - Fixed bug: Deleting nodes -> role assignment isn't deleted.
   http://ez.no/community/bug_reports/3_5rc2_deleting_nodes_role_assignment_isn_t_deleted
   (Merged from stable/3.4/ rev. 10363)
@@ -29,7 +32,10 @@ Setup:
 - Fixed bug with wrongly quotes query for Delayed Indexing
   http://ez.no/community/bug_reports/delayed_indexing
 - Fixed incorrect display of requirements for package name.
-  (Merged from trunk rev. 10348)
+- Fixed bugs happening when exporting object along with all its versions and then importing that object:
+  * Version status was set only for current version when importing.
+  * Lots of fatal errors were shown when importing because of missing object name in all the exported translations.
+- Fixed inproper work of item_count function with active collaboration items.
 - Fixed problem with & being escaped inside attributes
   http://ez.no/community/bug_reports/xml_and_broken_link_with
 - Fixed SQL error in PostgreSQL when versionviewing objects in trash.
@@ -45,5 +51,3 @@ Setup:
 eZDebug:
 - The number of times a warning, error, debug or notice occurs is now stored
   in a global variable.
-
-*Design:

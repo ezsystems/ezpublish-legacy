@@ -1,0 +1,34 @@
+Changes from 3.5.0 to 3.5.1
+
+NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.0 and merged
+      to 3.5.1 should not be present
+
+*Bugfixes
+- Fixed doxygen comment in ezrole.
+  http://ez.no/community/bug_reports/ezrole_createtemporaryversion_claims_to_be_static_but_isn_t
+  (Merged from stable/3.4, rev. 10357)
+- Fixed bug: Deleting nodes -> role assignment isn't deleted.
+  http://ez.no/community/bug_reports/3_5rc2_deleting_nodes_role_assignment_isn_t_deleted
+  (Merged from stable/3.4/ rev. 10363)	  
+- Fixed bug: Call to undefined function: ezi18n in eztopmenuoperator.php.
+  http://ez.no/community/bug_reports/fatal_error_call_to_undefined_function_ezi18n_in_eztopmenuoperator_php
+  (Merged from stable/3.5/ rev. 10368).
+- Fixed bug: Wrong highlited tab and wrong redirection using "look and feel"
+  http://ez.no/community/bugs/3_5_0rc2_wrong_highlited_tab_and_wrong_redirection_using_look_and_feel_option
+- Fixed bug: Override template content/browse.tpl is not possible when match like section or class_identifier.
+  http://ez.no/community/bugs/ovveride_template_browse_and_section_id
+- Fixed bug: errors when usign 'attribute' template-operator.
+  http://ez.no/community/bugs/object_ezcontentclassattribute_problems
+  (Merged from stable/3.4 rev.10415)
+- Fixed bug in 'ezinisetting' datatype validation.
+  (http://ez.no/community/bugs/3_5rc2_global_settings_common_ini_settings_will_not_save)
+- Fixed bug: possible undefined offset in sortKeyByClassAttributeID function
+  (http://ez.no/community/bugs/3_5rc2_undefined_offset_undefined_index_in_ezcontentobjecttreenode_php)
+- Fixed bug: fatal error when $node variable is not defined in template
+  http://ez.no/community/bugs/template_compile_include_crash_when_node_not_defined
+- Fixed bug that caused errors when searching for exact phrases with ezsearchengine plugin.
+- Fixed bug  recursive object inclusion in xml field.
+  http://ez.no/bugs/view/5989
+
+*Templates:
+- Added nl2br operator to eztext view output to keep newlines in textfield datatype.

@@ -2832,7 +2832,10 @@ class eZContentObject extends eZPersistentObject
                                                                          $nodeList,
                                                                          $options,
                                                                          $package );
-            $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList );
+            $versionStatus = $versionDOMNode->attributeValue( 'status' ); // we're really getting value of ezremote:status here
+            $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList,
+                                                                                'status' =>    $versionStatus );
+            unset( $versionStatus );
 
             $firstVersion = false;
             if ( $versionDOMNode->attributeValue( 'version' ) == $versionListActiveVersion )
@@ -2852,6 +2855,36 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
         $contentObject->setAttribute( 'name', $name );
         $contentObject->store();
+
+        $versions   =& $contentObject->versions();
+        $objectName =& $contentObject->name();
+        $objectID   =& $contentObject->attribute( 'id' );
+        foreach ( $versions as $version )
+        {
+            $versionNum       = $version->attribute( 'version' );
+            $oldVersionStatus = $version->attribute( 'status' );
+            $newVersionStatus = isset( $versionList[$versionNum] ) ? $versionList[$versionNum]['status'] : null;
+
+            // set the correct status for non-published versions
+            if ( isset( $newVersionStatus ) && $oldVersionStatus != $newVersionStatus && $newVersionStatus != EZ_VERSION_STATUS_PUBLISHED )
+            {
+                $version->setAttribute( 'status', $newVersionStatus );
+                $version->store( array( 'status' ) );
+            }
+
+            // when translation does not have object name set then we copy object name from the current object version
+            $translations =& $version->translations( false );
+            if ( !$translations )
+                continue;
+            foreach ( $translations as $translation )
+            {
+                if ( ! $contentObject->name( $versionNum, $translation ) )
+                {
+                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)" );
+                    $contentObject->setName( $objectName, $versionNum, $translation );
+                }
+            }
+        }
 
         include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
@@ -2877,6 +2910,7 @@ class eZContentObject extends eZPersistentObject
             $contentObject->setAttribute( 'published', $published );
             $contentObject->store( array( 'published' ) );
         }
+
         return $contentObject;
     }
 

@@ -490,9 +490,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( array_keys( $dataTypeArray ) as $key )
             {
                 unset( $dataType );
-                $datatype =& eZDataType::create( $key );
+                $dataType =& eZDataType::create( $key );
 
-                $dataTypeArray[$key] = $datatype->sortKeyType();
+                $dataTypeArray[$key] = $dataType->sortKeyType();
             }
             unset( $dataType );
 
@@ -501,6 +501,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
             $phpCache->store();
         }
+
+        if ( !isset( $attributeTypeArray[$classAttributeID] ) ) 
+            return false;
+
         return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
     }
 
@@ -704,7 +708,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                    eZDebug::writeWarning( "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
 
@@ -1646,7 +1650,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                    eZDebug::writeWarning( "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
             if ( count( $classIDArray ) > 0  )

@@ -2,7 +2,7 @@
 <div class="warning">
 <h2>{"Access denied"|i18n("design/standard/error/kernel")}</h2>
 <p>{"You don't have permission to access this area."|i18n("design/standard/error/kernel")}</p>
-<p>{"Possible reasons for this is."|i18n("design/standard/error/kernel")}</p>
+<p>{"Possible reasons for this are:"|i18n("design/standard/error/kernel")}</p>
 <ul>
     {section show=ne($current_user.contentobject_id,$anonymous_user_id)}
     <li>{"Your current user does not have the proper privileges to access this page."|i18n("design/standard/error/kernel")}</li>

@@ -365,7 +365,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &object()
     {
-        return eZContentObject::fetch( $this->ContentObjectID );
+        $object = null;
+
+        if( $this->ContentObjectID !== false )
+            $object =& eZContentObject::fetch( $this->ContentObjectID );
+
+        return $object;
     }
 
     /*!
@@ -877,7 +882,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &dataType()
     {
-        return eZDataType::create( $this->DataTypeString );
+        $dataType = null;
+        if( !is_null( $this->DataTypeString ) )
+            $dataType =& eZDataType::create( $this->DataTypeString );
+
+        return $dataType;
     }
 
     /*!

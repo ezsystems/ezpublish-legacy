@@ -290,18 +290,30 @@ class eZURL extends eZPersistentObject
             $db =& eZDB::instance();
             if ( $asCount )
             {
-                $urls = $db->arrayQuery( "SELECT count(*) as count from ezurl WHERE 1
+                $urls = $db->arrayQuery( "SELECT count(*) AS count FROM ezurl WHERE 1=1
                                                  $conditionQuery" );
                 return $urls[0]['count'];
             }
             else
             {
-                $query = "SELECT DISTINCT ezurl.*
-                            FROM ezurl_object_link, ezcontentobject_version, ezurl
-                           WHERE ezurl_object_link.contentobject_attribute_version = ezcontentobject_version.version
-                             AND ezcontentobject_version.status = 1
-                             AND  ezurl_object_link.url_id = ezurl.id
+                include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+                $cObjAttrVersionColumn = eZPersistentObject::getShortAttributeName( $db, eZURLObjectLink::definition(), 'contentobject_attribute_version' );
+
+                $query = "SELECT ezurl.*
+                            FROM
+                                  ezurl,
+                                  ezurl_object_link,
+                                  ezcontentobject_attribute,
+                                  ezcontentobject_version
+                            WHERE
+                                  ezurl.id                                     = ezurl_object_link.url_id
+                              AND ezurl_object_link.contentobject_attribute_id = ezcontentobject_attribute.id
+                              AND ezurl_object_link.$cObjAttrVersionColumn     = ezcontentobject_attribute.version
+                              AND ezcontentobject_attribute.contentobject_id   = ezcontentobject_version.contentobject_id
+                              AND ezcontentobject_attribute.version            = ezcontentobject_version.version
+                              AND ezcontentobject_version.status               = 1
                              $conditionQuery";
+
                 if ( !$offset && !$limit )
                 {
                     $urlArray =& $db->arrayQuery( $query );

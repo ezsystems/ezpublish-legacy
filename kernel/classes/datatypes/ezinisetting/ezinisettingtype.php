@@ -98,8 +98,13 @@ class eZIniSettingType extends eZDataType
             if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
             {
                 $iniArray = array();
-                if ( eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray ) === false )
+   //             if ( eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray ) === false )
+                if ( eZIniSettingType::parseArrayInput( $http->postVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( 'id' ) ), $iniArray ) === false )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'Wrong text field value.' ) );
+
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
