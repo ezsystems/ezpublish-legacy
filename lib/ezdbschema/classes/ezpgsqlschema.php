@@ -489,6 +489,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	function generateAddIndexSql( $table_name, $index_name, $def, $params )
 	{
         $diffFriendly = $params['diff_friendly'];
+        $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
+        $spacing = $postgresqlCompatible ? "\n    " : " ";
 		switch ( $def['type'] )
 		{
             case 'primary':
@@ -498,7 +501,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 {
                     eZDebug::writeError( "The primary key '$pkeyName' (" . strlen( $pkeyName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
                 }
-                $sql = "ALTER TABLE ONLY $table_name ADD CONSTRAINT $pkeyName PRIMARY KEY";
+                $sql = "ALTER TABLE ONLY $table_name" . $spacing . "ADD CONSTRAINT $pkeyName PRIMARY KEY";
             } break;
 
             case 'non-unique':
@@ -511,9 +514,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 $sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree";
             } break;
 		}
-		$sql .= ( $diffFriendly ? " (\n  \"" : '( "' );
 
-        $sql .= ( $diffFriendly ? " (\n    " : " ( " );
+        $sql .= ( $diffFriendly ? " (\n    " : ( $postgresqlCompatible ? ' (' : ' ( ' ) );
         $i = 0;
         foreach ( $def['fields'] as $fieldDef )
         {
@@ -523,16 +525,24 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             }
             if ( is_array( $fieldDef ) )
             {
-                $sql .= $fieldDef['name'];
+                $fieldName = $fieldDef['name'];
             }
             else
             {
-                $sql .= $fieldDef;
+                $fieldName = $fieldDef;
+            }
+            if ( in_array( $fieldName, $this->reservedKeywordList() ) )
+            {
+                $sql .= '"' . $fieldName . '"';
+            }
+            else
+            {
+                $sql .= $fieldName;
             }
             ++$i;
         }
 
-        $sql .= ( $diffFriendly ? "\"\n)" : '" )' );
+        $sql .= ( $diffFriendly ? "\n)" : ( $postgresqlCompatible ? ')' : ' )' ) );
 
 		return $sql . ";\n";
 	}
@@ -559,7 +569,15 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true, $params )
 	{
         $diffFriendly = $params['diff_friendly'];
-		$sql_def = $field_name;
+
+        if ( in_array( $field_name, $this->reservedKeywordList() ) )
+        {
+            $sql_def = '"' . $field_name . '"';
+        }
+        else
+        {
+            $sql_def = $field_name;
+        }
 
         $sql_def .= ( $diffFriendly ? "\n    " : " " );
 		if ( $def['type'] != 'auto_increment' )
@@ -572,13 +590,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			}
 			if ( $add_default_not_null )
 			{
-                $defaultDef = eZPGSQLSchema::generateDefaultDef( false, false, $def );
+                $defaultDef = eZPGSQLSchema::generateDefaultDef( false, false, $def, $params );
                 if ( $defaultDef )
                 {
                     $sql_def .= ( $diffFriendly ? "\n    " : " " );
                     $sql_def .= rtrim( $defaultDef );
                 }
-                $nullDef = eZPGSQLSchema::generateNullDef( false, false, $def );
+                $nullDef = eZPGSQLSchema::generateNullDef( false, false, $def, $params );
                 if ( $nullDef )
                 {
                     $sql_def .= ( $diffFriendly ? "\n    " : " " );
@@ -603,22 +621,44 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     /*!
      \private
     */
-    function generateDefaultDef( $table_name, $field_name, $def )
+    function generateDefaultDef( $table_name, $field_name, $def, $params )
     {
+        $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
         $sql_def = '';
         if ( $table_name and $field_name )
         {
             $sql_def .= "ALTER TABLE $table_name ALTER $field_name SET ";
         }
-        if ( array_key_exists( 'default', $def ) )
+        if ( array_key_exists( 'default', $def ) and
+             $def['default'] !== false )
         {
             if ( $def['default'] === null )
             {
-                $sql_def .= "DEFAULT NULL ";
+                if ( !$postgresqlCompatible )
+                    $sql_def .= "DEFAULT NULL ";
             }
             else if ( $def['default'] !== false )
             {
-                $sql_def .= "DEFAULT '{$def['default']}' ";
+                if ( $def['type'] == 'int' )
+                {
+                    $sql_def .= "DEFAULT {$def['default']} ";
+                }
+                else if ( $def['type'] == 'float' )
+                {
+                    $sql_def .= "DEFAULT {$def['default']}::double precision ";
+                }
+                else if ( $def['type'] == 'varchar' )
+                {
+                    $sql_def .= "DEFAULT '{$def['default']}'::character varying ";
+                }
+                else if ( $def['type'] == 'char' )
+                {
+                    $sql_def .= "DEFAULT '{$def['default']}'::bpchar ";
+                }
+                else
+                {
+                    $sql_def .= "DEFAULT '{$def['default']}' ";
+                }
             }
         }
         else if ( $table_name and $field_name )
@@ -631,7 +671,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     /*!
      \private
     */
-    function generateNullDef( $table_name, $field_name, $def )
+    function generateNullDef( $table_name, $field_name, $def, $params )
     {
         $sql_def = '';
         if ( $table_name and $field_name )
@@ -652,14 +692,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAddFieldSql( $table_name, $field_name, $def )
+	function generateAddFieldSql( $table_name, $field_name, $def, $params )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false ) . ";\n";
-        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def );
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
+        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def, $params );
         if ( $defaultSQL )
             $sql .= $defaultSQL . ";\n";
-        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def );
+        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def, $params );
         if ( $nullSQL )
             $sql .= $nullSQL . ";\n";
         $sql .= "\n";
@@ -669,15 +709,15 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAlterFieldSql( $table_name, $field_name, $def )
+	function generateAlterFieldSql( $table_name, $field_name, $def, $params )
 	{
 		$sql = "ALTER TABLE $table_name RENAME COLUMN $field_name TO " . $field_name . "_tmp;\n";
 		$sql .= "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false ) . ";\n";
-        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def );
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
+        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def, $params );
         if ( $defaultSQL )
             $sql .= $defaultSQL . ";\n";
-        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def );
+        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def, $params );
         if ( $nullSQL )
             $sql .= $nullSQL . ";\n";
         $sql .= "UPDATE $table_name SET $field_name=" . $field_name . "_tmp;\n";
@@ -690,29 +730,125 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	 */
 	function generateTableSchema( $table, $table_def, $params )
 	{
+        $arrays = $this->generateTableArrays( $table, $table_def, $params );
+        $sql = ( join( "\n\n", $arrays['sequences'] ) . "\n" .
+                 join( "\n\n", $arrays['tables'] ) . "\n" .
+                 join( "\n\n", $arrays['indexes'] ) . "\n" .
+                 join( "\n\n", $arrays['constraints'] ) . "\n" );
+    }
+
+	/*!
+	 \private
+    */
+	function generateTableArrays( $table, $table_def, $params )
+	{
         $diffFriendly = $params['diff_friendly'];
-		$sql = '';
+        $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
+        $arrays = array( 'sequences' => array(),
+                         'tables' => array(),
+                         'indexes' => array(),
+                         'constraints' => array() );
+
         $sql_fields = array();
+
+        $spacing = $postgresqlCompatible ? '    ' : '  ';
+
         /* First we need to check if we use auto increment fields as
          * sequences need to exist before we use them */
+        foreach ( $table_def['fields'] as $field_name => $field_def )
+        {
+            if ( $field_def['type'] == 'auto_increment' )
+            {
+                $sequenceFields = array( "CREATE SEQUENCE {$table}_s",
+                                         "START 1",
+                                         "INCREMENT 1",
+                                         "MAXVALUE 9223372036854775807",
+                                         "MINVALUE 1",
+                                         "CACHE 1" );
+                $arrays['sequences'][] = join( "\n$spacing", $sequenceFields ) . ";";
+            }
+        }
+
+        $sql = "CREATE TABLE $table (\n";
+        $fields = $table_def['fields'];
+        foreach ( $fields as $field_name => $field_def )
+        {
+            $sql_fields[] = $spacing . eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def, true, $params );
+        }
+        $sql .= join( ",\n", $sql_fields ) . "\n);";
+        $arrays['tables'][] = $sql;
+
+        foreach ( $table_def['indexes'] as $index_name => $index_def )
+        {
+            if ( $index_def['type'] != 'primary' )
+            {
+                $arrays['indexes'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
+            }
+        }
         foreach ( $table_def['indexes'] as $index_name => $index_def )
         {
             if ( $index_def['type'] == 'primary' )
             {
-                $sql .= "CREATE SEQUENCE {$table}_s\n  START 1\n  INCREMENT 1\n  MAXVALUE 9223372036854775807\n  MINVALUE 1\n  CACHE 1;\n";
+                $arrays['constraints'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
             }
         }
 
-        $sql .= "CREATE TABLE $table (\n";
-        foreach ( $table_def['fields'] as $field_name => $field_def )
-        {
-            $sql_fields[] = "  " . eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def, true, $params );
-        }
-        $sql .= join( ",\n", $sql_fields ) . "\n);\n";
+		return $arrays;
+	}
 
-        foreach ( $table_def['indexes'] as $index_name => $index_def )
+    /*!
+      \reimp
+    */
+    function generateSchemaFile( $schema, $params = array() )
+	{
+		$sql = '';
+        $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
+        $i = 0;
+        $allArrays = array( 'sequences' => array(),
+                            'tables' => array(),
+                            'indexes' => array(),
+                            'constraints' => array() );
+
+		foreach ( $schema as $table => $tableDef )
+		{
+            // Skip the info structure, this is not a table
+            if ( $table == '_info' )
+                continue;
+
+            $arrays = $this->generateTableArrays( $table, $tableDef, $params );
+            if ( $postgresqlCompatible )
+            {
+                $allArrays['sequences'] = array_merge( $allArrays['sequences'],
+                                                       $arrays['sequences'] );
+                $allArrays['tables'] = array_merge( $allArrays['tables'],
+                                                    $arrays['tables'] );
+                $allArrays['indexes'] = array_merge( $allArrays['indexes'],
+                                                     $arrays['indexes'] );
+                $allArrays['constraints'] = array_merge( $allArrays['constraints'],
+                                                         $arrays['constraints'] );
+            }
+            else
+            {
+                if ( $i > 0 )
+                    $sql .= "\n\n";
+                ++$i;
+
+                $sql .= ( join( "\n", $arrays['sequences'] ) . "\n" .
+                          join( "\n", $arrays['tables'] ) . "\n" .
+                          join( "\n", $arrays['indexes'] ) . "\n" .
+                          join( "\n", $arrays['constraints'] ) . "\n" );
+            }
+		}
+
+        if ( $postgresqlCompatible )
         {
-            $sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
+            $sql = ( str_repeat( "\n", 11 ) .
+                     join( str_repeat( "\n", 8 ), $allArrays['sequences'] ) . str_repeat( "\n", 8 ) .
+                     join( str_repeat( "\n", 8 ), $allArrays['tables'] ) . str_repeat( "\n", 8 ) .
+                     join( str_repeat( "\n", 7 ), $allArrays['indexes'] ) . str_repeat( "\n", 8 ) .
+                     join( str_repeat( "\n", 7 ), $allArrays['constraints'] ) . str_repeat( "\n", 8 ) );
         }
 
 		return $sql;
@@ -732,6 +868,309 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     function schemaType()
     {
         return 'postgresql';
+    }
+
+    /*!
+     \return An array with keywords that are reserved by PostgreSQL.
+    */
+    function reservedKeywordList()
+    {
+        return array( 'abort',
+                      'absolute',
+                      'access',
+                      'action',
+                      'add',
+                      'after',
+                      'aggregate',
+                      'all',
+                      'alter',
+                      'analyse',
+                      'analyze',
+                      'and',
+                      'any',
+                      'as',
+                      'asc',
+                      'assertion',
+                      'assignment',
+                      'at',
+                      'authorization',
+                      'backward',
+                      'before',
+                      'begin',
+                      'between',
+                      'bigint',
+                      'binary',
+                      'bit',
+                      'boolean',
+                      'both',
+                      'by',
+                      'cache',
+                      'called',
+                      'cascade',
+                      'case',
+                      'cast',
+                      'chain',
+                      'char',
+                      'character',
+                      'characteristics',
+                      'check',
+                      'checkpoint',
+                      'class',
+                      'close',
+                      'cluster',
+                      'coalesce',
+                      'collate',
+                      'column',
+                      'comment',
+                      'commit',
+                      'committed',
+                      'constraint',
+                      'constraints',
+                      'conversion',
+                      'convert',
+                      'copy',
+                      'create',
+                      'createdb',
+                      'createuser',
+                      'cross',
+                      'current_date',
+                      'current_time',
+                      'current_timestamp',
+                      'current_user',
+                      'cursor',
+                      'cycle',
+                      'database',
+                      'day',
+                      'deallocate',
+                      'dec',
+                      'decimal',
+                      'declare',
+                      'default',
+                      'deferrable',
+                      'deferred',
+                      'definer',
+                      'delete',
+                      'delimiter',
+                      'delimiters',
+                      'desc',
+                      'distinct',
+                      'do',
+                      'domain',
+                      'double',
+                      'drop',
+                      'each',
+                      'else',
+                      'encoding',
+                      'encrypted',
+                      'end',
+                      'escape',
+                      'except',
+                      'exclusive',
+                      'execute',
+                      'exists',
+                      'explain',
+                      'external',
+                      'extract',
+                      'false',
+                      'fetch',
+                      'float',
+                      'for',
+                      'force',
+                      'foreign',
+                      'forward',
+                      'freeze',
+                      'from',
+                      'full',
+                      'function',
+                      'get',
+                      'global',
+                      'grant',
+                      'group',
+                      'handler',
+                      'having',
+                      'hour',
+                      'ilike',
+                      'immediate',
+                      'immutable',
+                      'implicit',
+                      'in',
+                      'increment',
+                      'index',
+                      'inherits',
+                      'initially',
+                      'inner',
+                      'inout',
+                      'input',
+                      'insensitive',
+                      'insert',
+                      'instead',
+                      'int',
+                      'integer',
+                      'intersect',
+                      'interval',
+                      'into',
+                      'invoker',
+                      'is',
+                      'isnull',
+                      'isolation',
+                      'join',
+                      'key',
+                      'lancompiler',
+                      'language',
+                      'leading',
+                      'left',
+                      'level',
+                      'like',
+                      'limit',
+                      'listen',
+                      'load',
+                      'local',
+                      'localtime',
+                      'localtimestamp',
+                      'location',
+                      'lock',
+                      'match',
+                      'maxvalue',
+                      'minute',
+                      'minvalue',
+                      'mode',
+                      'month',
+                      'move',
+                      'names',
+                      'national',
+                      'natural',
+                      'nchar',
+                      'new',
+                      'next',
+                      'no',
+                      'nocreatedb',
+                      'nocreateuser',
+                      'none',
+                      'not',
+                      'nothing',
+                      'notify',
+                      'notnull',
+                      'null',
+                      'nullif',
+                      'numeric',
+                      'of',
+                      'off',
+                      'offset',
+                      'oids',
+                      'old',
+                      'on',
+                      'only',
+                      'operator',
+                      'option',
+                      'or',
+                      'order',
+                      'out',
+                      'outer',
+                      'overlaps',
+                      'overlay',
+                      'owner',
+                      'partial',
+                      'password',
+                      'path',
+                      'pendant',
+                      'placing',
+                      'position',
+                      'precision',
+                      'prepare',
+                      'primary',
+                      'prior',
+                      'privileges',
+                      'procedural',
+                      'procedure',
+                      'read',
+                      'real',
+                      'recheck',
+                      'references',
+                      'reindex',
+                      'relative',
+                      'rename',
+                      'replace',
+                      'reset',
+                      'restrict',
+                      'returns',
+                      'revoke',
+                      'right',
+                      'rollback',
+                      'row',
+                      'rule',
+                      'schema',
+                      'scroll',
+                      'second',
+                      'security',
+                      'select',
+                      'sequence',
+                      'serializable',
+                      'session',
+                      'session_user',
+                      'set',
+                      'setof',
+                      'share',
+                      'show',
+                      'similar',
+                      'simple',
+                      'smallint',
+                      'some',
+                      'stable',
+                      'start',
+                      'statement',
+                      'statistics',
+                      'stdin',
+                      'stdout',
+                      'storage',
+                      'strict',
+                      'substring',
+                      'sysid',
+                      'table',
+                      'temp',
+                      'template',
+                      'temporary',
+                      'then',
+                      'time',
+                      'timestamp',
+                      'to',
+                      'toast',
+                      'trailing',
+                      'transaction',
+                      'treat',
+                      'trigger',
+                      'trim',
+                      'true',
+                      'truncate',
+                      'trusted',
+                      'type',
+                      'unencrypted',
+                      'union',
+                      'unique',
+                      'unknown',
+                      'unlisten',
+                      'until',
+                      'update',
+                      'usage',
+                      'user',
+                      'using',
+                      'vacuum',
+                      'valid',
+                      'validator',
+                      'values',
+                      'varchar',
+                      'varying',
+                      'verbose',
+                      'version',
+                      'view',
+                      'volatile',
+                      'when',
+                      'where',
+                      'with',
+                      'without',
+                      'work',
+                      'write',
+                      'year',
+                      'zone' );
     }
 }
 ?>
