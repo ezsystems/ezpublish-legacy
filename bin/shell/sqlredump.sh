@@ -140,11 +140,11 @@ else
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
-	pg_dump --no-owner --schema-only "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --schema-only "$DBNAME" > "$SQLFILE".0
     elif [ "$SQLDUMP" == "data" ]; then
-	pg_dump --no-owner --data-only "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --data-only "$DBNAME" > "$SQLFILE".0
     else
-	pg_dump --no-owner "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
     fi
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi

@@ -459,6 +459,12 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function rollback()
     {
+        if ( $this->TransactionCounter <= 0 )
+        {
+            eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZPostgreSQLDB::rollback' );
+            return false;
+        }
+        --$this->TransactionCounter;
         if ( $this->isConnected() )
         {
             $this->query( "ROLLBACK WORK" );
