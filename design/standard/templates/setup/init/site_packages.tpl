@@ -30,7 +30,7 @@
     {/section}
     <input type="hidden" name="eZSetup_site_packages[]" value="" />
 
-    {$site_type.summary|wash}</p>
+    {$site_type.summary|wash|break}</p>
 
 {/let}
 
