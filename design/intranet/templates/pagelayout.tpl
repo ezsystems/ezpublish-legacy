@@ -14,7 +14,7 @@
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
  {*    @import url({"stylesheets/intranet.css"|ezdesign});*}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); 
+    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot}); 
 </style>
 </head>
 

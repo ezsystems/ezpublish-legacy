@@ -34,7 +34,7 @@
     <div class="block">
     <label>Appearance:</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[3].id}" />
-        {attribute_edit_gui attribute=$object.data_map.css}
+        {attribute_edit_gui attribute=$object.data_map.sitestyle}
     </div>
 
     <div class="block">
