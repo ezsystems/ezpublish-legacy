@@ -61,6 +61,7 @@ links to clickable links.
 - If require user login is on and the siteaccess is not allowed the user login
   page is shown with a warning about access denied.
 - Added node_id to url array
+- Fixed object rendering as block tag
 
 *SDK :
 
@@ -74,6 +75,9 @@ eZ XML:
 - Added eZTextCodec conversion, it will now return text in UTF-8 encoding
   by default and will decode the input xml from the specified charset in
   the XML file, UTF-8 is default.
+- Added function to remove DOM nodes by name 
+- Added function to remove the last appended DOM node
+- Added function to return the last appended child of a DOM node.
 
 eZ utils:
 - Removed cyclic dependecy between eZDebugSetting and eZINI

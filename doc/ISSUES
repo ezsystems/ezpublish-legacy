@@ -48,6 +48,11 @@ Section issue:
 Problem when having two node placements in different "sections". The main node section
 will force the design. Makes it harder to share content between sitedesigns.
 
+Class/object feature
+-----------------
+To have the possibility to get additional attributes dynamically. Similar to the 
+article types in 2.2.
+
 
 Module:
 - Do some changes the eZModule class, it should be created a eZModuleView class
