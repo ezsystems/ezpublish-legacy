@@ -60,11 +60,12 @@ class eZXML
     }
 
     /*!
-      Will return an DOM object tree from the well formed XML.
+      Will return a DOM object tree from the well formed XML.
 
       $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.
+      $params["CharsetConversion"] = false/true : Whether charset conversion is done or not, default is true.
     */
-    function &domTree( $xmlDoc, $params=array() )
+    function &domTree( $xmlDoc, $params = array() )
     {
         $params["TrimWhiteSpace"] = true;
 
@@ -73,6 +74,10 @@ class eZXML
         {
             $schema = $params["Schema"];
         }
+        $charset = 'UTF-8';
+        if ( isset( $params['CharsetConversion'] ) and
+             !$params['CharsetConversion'] )
+            $charset = false;
 
         $TagStack = array();
 
@@ -83,10 +88,22 @@ class eZXML
         {
             $xmlAttributeText = $matches[1];
             $xmlAttributes = $this->parseAttributes( $xmlAttributeText );
+            for ( $i = 0; $i < count( $xmlAttributes ); ++$i )
+            {
+                $xmlAttribute =& $xmlAttributes[$i];
+                if ( $xmlAttribute->name() == 'charset' )
+                    $charset = $xmlAttribute->content();
+            }
         }
         else if ( !preg_match( "#<[a-zA-Z0-9_-]+>#", $xmlDoc ) )
         {
             return null;
+        }
+        if ( $charset !== false )
+        {
+            include_once( 'lib/ezi18n/eztextcodec.php' );
+            $codec =& eZTextCodec::instance( $charset );
+            $xmlDoc =& $codec->convertString( $xmlDoc );
         }
 
         $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
@@ -302,8 +319,8 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-				if ( !isset( $params["TrimWhiteSpace"] ) )
-					$params["TrimWhiteSpace"] = true;
+                if ( !isset( $params["TrimWhiteSpace"] ) )
+                    $params["TrimWhiteSpace"] = true;
 
                 if ( ( ( $params["TrimWhiteSpace"] == true ) and ( trim( $tagContent ) != "" ) ) or ( $params["TrimWhiteSpace"] == false ) )
                 {

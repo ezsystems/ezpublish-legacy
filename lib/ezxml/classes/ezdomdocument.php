@@ -259,16 +259,28 @@ class eZDOMDocument
     /*!
       Returns a XML string of the DOM document
     */
-    function &toString()
+    function &toString( $charset = true, $charsetConversion = true )
     {
-        $ret = "<?xml version=\"1.0\"?>\n";
+        $charsetText = '';
+        if ( $charset === true )
+            $charset = 'UTF-8';
+        if ( $charset !== false )
+            $charsetText = " charset=\"$charset\"";
+        $text = "<?xml version=\"1.0\"$charsetText?>\n";
 
         if ( get_class( $this->Root ) == "ezdomnode" )
         {
-            $ret .= $this->Root->toString( 0 );
+            $text .= $this->Root->toString( 0, $charset );
         }
 
-        return $ret;
+        if ( $charsetConversion )
+        {
+            include_once( 'lib/ezi18n/eztextcodec.php' );
+            $codec =& eZTextCodec::instance( false, $charset );
+            $text =& $codec->convertString( $text );
+        }
+
+        return $text;
     }
 
     /*!

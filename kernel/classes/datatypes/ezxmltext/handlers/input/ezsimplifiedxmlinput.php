@@ -128,10 +128,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
                 $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
-//                 print( "<pre>" );
-//                 print( htmlspecialchars( $contentObjectAttribute->attribute( "data_text" ) ) . "<br/>" );
-//                 print_r( $dom );
-//                 print( "</pre>" );
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
         }

@@ -297,7 +297,7 @@ class eZDOMNode
     /*!
       Returns a XML string of the DOM Node and subnodes
     */
-    function &toString( $level )
+    function &toString( $level, $charset = false )
     {
         $spacer = str_repeat( " ", $level*2 );
         $ret = "";

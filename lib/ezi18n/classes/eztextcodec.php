@@ -286,6 +286,8 @@ class eZTextCodec
 
     function &instance( $inputCharsetCode, $outputCharsetCode = false )
     {
+        if ( $inputCharsetCode === false )
+            $inputCharsetCode = eZTextCodec::internalCharset();
         if ( $outputCharsetCode === false )
             $outputCharsetCode = eZTextCodec::internalCharset();
         $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );

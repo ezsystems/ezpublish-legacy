@@ -15,6 +15,10 @@ links to clickable links.
 - It's now possible to add javascripts in subtemplates by using run-once
   and append-block.
 - Added plugin system for shop accounts, which enables simpler checkout without regstering users
+- The eZXMLText datatype now stores correct XML formats using UTF-8 encoding.
+  It uses a new timestamp value to know which version the xml format is in
+  and allows automatic conversion when older versions are detected.
+  Use update/common/scripts/updateurllink.php to update all XML fields.
 
 *SDK :
 
@@ -23,6 +27,9 @@ links to clickable links.
 
 eZ XML:
 - Added reference to the attributes() function in eZDomNode.
+- Added eZTextCodec conversion, it will now return text in UTF-8 encoding
+  by default and will decode the input xml from the specified charset in
+  the XML file, UTF-8 is default.
 
 eZ utils:
 - Removed cyclic dependecy between eZDebugSetting and eZINI

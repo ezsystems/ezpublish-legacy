@@ -83,6 +83,12 @@ define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE', '_ezxmltext_cols_' );
 
+// The timestamp of the format for eZ publish 3.0.
+define( 'EZ_XMLTEXT_VERSION_30_TIMESTAMP', 1045487555 );
+// Contains the timestamp of the current xml format, if the stored
+// timestamp is less than this it needs to be upgraded until it is correct.
+define( 'EZ_XMLTEXT_VERSION_TIMESTAMP', EZ_XMLTEXT_VERSION_30_TIMESTAMP );
+
 class eZXMLTextType extends eZDataType
 {
     function eZXMLTextType()
@@ -149,6 +155,7 @@ class eZXMLTextType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
+        $attribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
     }
 
     /*!
@@ -218,12 +225,32 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
+     \return the RAW XML text from the attribute \a $contentobjectAttribute.
+             If the XML format is older than the current one it will
+             be upgraded to the current before being returned.
+    */
+    function rawXMLText( &$contentObjectAttribute )
+    {
+        $text = $contentObjectAttribute->attribute( 'data_text' );
+        $timestamp = $contentObjectAttribute->attribute( 'data_int' );
+        if ( $timestamp < EZ_XMLTEXT_VERSION_30_TIMESTAMP )
+        {
+            include_once( 'lib/ezi18n/eztextcodec.php' );
+            $charset = 'UTF-8';
+            $codec =& eZTextCodec::instance( false, $charset );
+            $text =& $codec->convertString( $text );
+            $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
+        }
+        return $text;
+    }
+
+    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
-        $xmlText = new eZXMLText( $contentObjectAttribute->attribute( 'data_text' ) );
+        $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
         return $xmlText;
     }
 
@@ -233,10 +260,9 @@ class eZXMLTextType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         $metaData = "";
-        $doc =& $contentObjectAttribute->attribute( "data_text" );
 
         $xml = new eZXML();
-        $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute->attribute ) );
 
         if ( $dom )
         {
@@ -255,9 +281,9 @@ class eZXMLTextType extends eZDataType
     /*!
      Returns the text.
     */
-    function title( &$data_instance )
+    function title( &$contentObjectAttribute )
     {
-        return $data_instance->attribute( "data_text" );
+        return eZXMLTextType::rawXMLText( $contentObjectAttribute );
     }
 
     /*!
@@ -291,9 +317,8 @@ class eZXMLTextType extends eZDataType
 //         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
         include_once( 'lib/ezxml/classes/ezxml.php' );
         $xml = new eZXML();
-        $dom =& $xml->domTree( $objectAttribute->attribute( "data_text" ) );
+        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $objectAttribute ) );
 
-//         $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
         $contentNode = new eZDOMNode();
         $contentNode->setPrefix( 'ezobject' );
         $contentNode->setName( 'content' );

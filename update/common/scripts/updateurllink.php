@@ -166,11 +166,20 @@ function findAndReplaceLinks( &$doc, &$node )
                     if ( $showDebug )
                         print( "Found '$href'\n" );
                     $url =& $urlRefMap[$href];
-                    $idAttribute = $doc->createAttributeNode( 'id', $url->attribute( 'id' ) );
-                    $child->appendAttribute( $idAttribute );
-                    $child->removeNamedAttribute( 'href' );
-                    $foundLinks = true;
                 }
+                else
+                {
+                    if ( $showDebug )
+                        print( "Found new '$href'\n" );
+                    $urlID = eZURL::registerURL( $href );
+                    $url =& eZURL::fetch( $urlID );
+                    $urlRefMap[$href] =& $url;
+                    $urlIDMap[$urlID] =& $url;
+                }
+                $idAttribute = $doc->createAttributeNode( 'id', $url->attribute( 'id' ) );
+                $child->appendAttribute( $idAttribute );
+                $child->removeNamedAttribute( 'href' );
+                $foundLinks = true;
             }
             if ( $targetAttribute !== null )
             {
@@ -272,12 +281,14 @@ if ( $fixAttribute )
                 $doc =& $xml->domTree( $xmlData );
                 if ( $doc )
                 {
-                    if ( findAndReplaceLinks( $doc, $doc->root() ) )
+                    if ( findAndReplaceLinks( $doc, $doc->root() ) or
+                         $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP )
                     {
                         if ( $showDebug )
                             print( "Links found and replaced\n" );
 //                 print( $doc->toString() . "\n" );
                         $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '*' );
                     }
@@ -294,6 +305,7 @@ if ( $fixAttribute )
                         $doc = new eZDOMDocument();
                         $doc->setRoot( $doc->createElementNode( 'section' ) );
                         $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '0' );
                     }
@@ -303,6 +315,7 @@ if ( $fixAttribute )
                         $doc = new eZDOMDocument();
                         $doc->setRoot( $doc->createElementNode( 'section' ) );
                         $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
                                                 'version' => $objectAttribute->attribute( 'version' ) );
