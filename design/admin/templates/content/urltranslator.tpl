@@ -135,7 +135,7 @@ title="{'Use this field to enter a valid existing virtual URL in the system. A v
 {'Example: /developer/*'|i18n( 'design/admin/content/urltranslator' )}
 </td>
 <td>
-{'Example:'|i18n( 'design/admin/content/urltranslator' )}&nbsp;{literal}/dev/{1}{/literal}
+{'Example'|i18n( 'design/admin/content/urltranslator' )}:&nbsp;{literal}/dev/{1}{/literal}
 </td>
 <td>
 &nbsp;
@@ -186,7 +186,7 @@ title="{'Use this field to enter a valid existing virtual URL in the system. A v
 </tr>
 {section name=Alias loop=$alias_list show=$alias_list sequence=array( bglight, bgdark )}
 <tr class="{$Alias:sequence}">
-    <td><input type="checkbox" name="URLAliasSelection[]" value="{$Alias:item.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n('design/admin/content/urltranslation')|wash}"/></td>
+    <td><input type="checkbox" name="URLAliasSelection[]" value="{$Alias:item.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n('design/admin/content/urltranslator')|wash}"/></td>
     <td>
         <input type="text" name="URLAliasSourceValue[{$Alias:item.id}]" value="{$Alias:item.source_url|wash}" />
     </td>

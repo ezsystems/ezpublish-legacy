@@ -81,7 +81,7 @@
             </select>
            <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/admin/setup/session" )}" /><br />
 <label>{'Include inactive users'|i18n( 'design/admin/setup/session' )}</label>
-           <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" /> 
+           <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" />
 
 
 
@@ -95,7 +95,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
 {section show=$user_id}'SessionKeyArray[]'{section-else}'UserIDArray[]'{/section}
-); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+); return false;" title="{'Invert selection.'|i18n( 'design/admin/setup/session' )}" /></th>
 
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/login' )|ezurl}>{"Login"|i18n( "design/admin/setup/session" )}</a>
@@ -167,7 +167,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/admin/setup/session ")}" />
+  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( 'design/admin/setup/session' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

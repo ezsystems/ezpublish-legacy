@@ -10,7 +10,7 @@
 
 <div class="context-attributes">
 
-<p>{'The rapid application development (RAD) tools make the creation of new/extended functionality for eZ publish easier. Currently there are two RAD tools available: the template operator wizard and the datatype wizard. The template operator wizard basically generates a valid framework (PHP code) for a new template operator. The datatype wizard generates a valid framework (PHP code) for a new datatype.'|i18n( 'design/standard/setup/rad' )}</p>
+<p>{'The rapid application development (RAD) tools make the creation of new/extended functionality for eZ publish easier. Currently there are two RAD tools available: the template operator wizard and the datatype wizard. The template operator wizard basically generates a valid framework (PHP code) for a new template operator. The datatype wizard generates a valid framework (PHP code) for a new datatype.'|i18n( 'design/admin/setup/rad' )}</p>
 
 <div class="block">
 <h3>{'Available RAD tools'|i18n( 'design/admin/setup/rad' )}</h3>

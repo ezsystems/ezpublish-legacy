@@ -10,20 +10,20 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please provide information on the maintainer of the package.'|i18n('design/standard/package')}</p>
+    <p>{'Please provide information on the maintainer of the package.'|i18n('design/admin/package')}</p>
 
     <div class="block">
-        <label>{'Name'|i18n('design/standard/package','Maintainer name')}</label>
+        <label>{'Name'|i18n('design/admin/package','Maintainer name')}</label>
         <input class="box" type="text" name="PackageMaintainerPerson" value="{$persistent_data.maintainer_person|wash}" />
     </div>
 
     <div class="block">
-        <label>{'E-Mail'|i18n('design/standard/package')}</label>
+        <label>{'E-Mail'|i18n('design/admin/package')}</label>
         <input class="box" type="text" name="PackageMaintainerEmail" value="{$persistent_data.maintainer_email|wash}" />
     </div>
 
     <div class="block">
-        <label>{'Role'|i18n( 'design/standard/package', 'Maintainer role' )}</label>
+        <label>{'Role'|i18n( 'design/admin/package', 'Maintainer role' )}</label>
         <select class="combobox" name="PackageMaintainerRole">
         {section var=role loop=$maintainer_role_list}
             <option value="{$role.id|wash}">{$role.name|wash}</option>

@@ -12,12 +12,12 @@
         {$package.name|wash}-{$package.version-number}-{$package.release-number}{section show=$package.release-timestamp}({$package.release-timestamp|l10n( shortdatetime )}){/section}{section show=$package.type|wash} [{$package.type}]{/section}
         - {section show=$package.install_type|eq( 'install' )}
             {section show=$package.is_installed}
-                {'Installed'|i18n('design/standard/package')}
+                {'Installed'|i18n('design/admin/package')}
             {section-else}
-                {'Not installed'|i18n('design/standard/package')}
+                {'Not installed'|i18n('design/admin/package')}
             {/section}
         {section-else}
-            {'Imported'|i18n('design/standard/package')}
+            {'Imported'|i18n('design/admin/package')}
         {/section}
 </h1>
 
@@ -38,37 +38,37 @@
         <td>
 
         <div class="summary">
-            <label>{'Summary'|i18n('design/standard/package')}</label>
+            <label>{'Summary'|i18n('design/admin/package')}</label>
             <p>{$package.summary|wash}</p>
         </div>
 
         <div class="state">
-            <label>{'State'|i18n('design/standard/package')}</label>
+            <label>{'State'|i18n('design/admin/package')}</label>
             <p>{$package.state|wash}</p>
         </div>
 
         <div class="licence">
-            <label>{'Licence'|i18n('design/standard/package')}</label>
+            <label>{'Licence'|i18n('design/admin/package')}</label>
             <p>{$package.licence|wash}</p>
         </div>
 
         <div class="maintainers">
-            <label>{'Maintainers'|i18n('design/standard/package')}</label>
+            <label>{'Maintainers'|i18n('design/admin/package')}</label>
             <p>
                 {section var=maintainer loop=$package.maintainers}
-                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/standard/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/standard/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
+                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/admin/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
                 {delimiter}, {/delimiter}
                 {/section}
             </p>
         </div>
 
         <div class="description">
-            <label>{'Description'|i18n('design/standard/package')}</label>
+            <label>{'Description'|i18n('design/admin/package')}</label>
             <p>{$package.description}</p>
         </div>
 
         <div class="documents">
-            <label>{'Documents'|i18n('design/standard/package')}</label>
+            <label>{'Documents'|i18n('design/admin/package')}</label>
             <p>
                 {section var=document loop=$package.documents}
                 {let document_path=$package|ezpackage( documentpath, $document.name )}
@@ -80,10 +80,10 @@
         </div>
 
         <div class="changelog">
-            <label>{'Changelog'|i18n('design/standard/package')}</label>
+            <label>{'Changelog'|i18n('design/admin/package')}</label>
             <p>
                 {section var=log loop=$package.changelog}
-                    <h3><p class="byline"><em class="date">({$log.item.timestamp|l10n( shortdatetime )})</em> <a href="mailto:{$log.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/standard/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/standard/package')}">{$log.item.person|wash}</a></p></h3>
+                    <h3><p class="byline"><em class="date">({$log.item.timestamp|l10n( shortdatetime )})</em> <a href="mailto:{$log.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/admin/package')}">{$log.item.person|wash}</a></p></h3>
                     <ul>
                     {section var=change loop=$log.item.changes}
                     <li>
@@ -115,7 +115,7 @@
 
     <div class="links">
         {section show=$package.file-count|gt( 0 )}
-        <p>[ <a href={concat( "package/view/files/", $package.name )|ezurl}>{'File list'|i18n('design/standard/package')}</a> ]</p>
+        <p>[ <a href={concat( "package/view/files/", $package.name )|ezurl}>{'File list'|i18n('design/admin/package')}</a> ]</p>
         {/section}
     </div>
 
@@ -130,12 +130,12 @@
     <div class="block">
         {section show=$package.install_type|eq( 'install' )}
             {section show=$package.is_installed}
-                <input class="button" type="submit" name="UninstallButton" value="{'Uninstall'|i18n( 'design/standard/package')}" />
+                <input class="button" type="submit" name="UninstallButton" value="{'Uninstall'|i18n( 'design/admin/package')}" />
             {section-else}
-                <input class="button" type="submit" name="InstallButton" value="{'Install'|i18n( 'design/standard/package')}" />
+                <input class="button" type="submit" name="InstallButton" value="{'Install'|i18n( 'design/admin/package')}" />
             {/section}
         {/section}
-        <input class="button" type="submit" name="ExportButton" value="{'Export to file'|i18n( 'design/standard/package')}" />
+        <input class="button" type="submit" name="ExportButton" value="{'Export to file'|i18n( 'design/admin/package')}" />
     </div>
     {/section}
 

@@ -43,7 +43,7 @@
 {section show=$no_functions|not}
 
 <p>
-{'Instructions:'|i18n( 'design/admin/role/createpolicystep2' )}
+{'Instructions'|i18n( 'design/admin/role/createpolicystep2' )}:
 <ul>
 <li>{'Use the dropdown menu to select the function that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
 <li>{'Click on one of the "Grant.." buttons (explained below) in order to go to the next step.'}</li>

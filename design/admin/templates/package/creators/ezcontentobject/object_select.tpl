@@ -8,15 +8,15 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please choose objects you wish to include in the package.'|i18n('design/standard/package')}</p>
+    <p>{'Please choose objects you wish to include in the package.'|i18n('design/admin/package')}</p>
 
     {section show=$node_list|count}
 
-    <label>{'Selected nodes'|i18n('design/standard/package')}</label>
+    <label>{'Selected nodes'|i18n('design/admin/package')}</label>
     <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
-        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/grouplist' )}" /></th>	    <th>{"Node"|i18n("design/standard/class/list")}</th>
-	    <th>{"Export type"|i18n("design/standard/class/list")}</th>
+        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package' )}" /></th>	    <th>{"Node"|i18n("design/admin/package")}</th>
+	    <th>{"Export type"|i18n("design/admin/package")}</th>
 	</tr>
         {section var=node loop=$node_list sequence=array(bglight,bgdark)}
 	    <tr class="{$node.sequence}">
@@ -29,14 +29,14 @@
 
     {section-else}
     <div class="block">
-    <p>{'There are currently no objects selected for exportation'|i18n('design/package/creators/ezcontentobject')}</p>
+    <p>{'There are currently no objects selected for exportation'|i18n('design/admin/package')}</p>
     </div>
     {/section}
 
     <div class="block">
-        <input class="button" type="submit" Name="RemoveSelected" value="{"Remove selected"|i18n("design/package/creators/ezcontentobject")}" />
-        <input class="button" type="submit" Name="AddSubtree" value="{"Add subtree"|i18n("design/package/creators/ezcontentobject")}" />
-        <input class="button" type="submit" Name="AddNode" value="{"Add node"|i18n("design/package/creators/ezcontentobject")}" />
+        <input class="button" type="submit" Name="RemoveSelected" value="{"Remove selected"|i18n("design/admin/package")}" />
+        <input class="button" type="submit" Name="AddSubtree" value="{"Add subtree"|i18n("design/admin/package")}" />
+        <input class="button" type="submit" Name="AddNode" value="{"Add node"|i18n("design/admin/package")}" />
     </div>
 
     {include uri="design:package/navigator.tpl"}

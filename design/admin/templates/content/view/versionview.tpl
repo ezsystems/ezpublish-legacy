@@ -55,9 +55,9 @@
 <div class="block">
 {section show=$allow_versions_button}
 {section show=$object.versions|count|gt( 1 )}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )} />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )} />
 {/section}
 {section-else}
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage the versions of this object.'i18n( 'design/admin/content/view/versionview' )}" />
@@ -119,7 +119,7 @@
 
 {* Translation *}
 {section show=fetch( content, translation_list )|count|gt( 1 )}
-<label>{'Translation'|i18n( 'design/admin/view/versionview' )}:</label>
+<label>{'Translation'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
 {section show=$version.language_list|count|gt( 1 )}
 {section var=Translations loop=$version.language_list}

@@ -20,9 +20,9 @@
 <label>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</label><div class="labelbreak"></div>
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Module'|i18n(' design/admin/role/view ')}</th>
-    <th>{'Function'|i18n(' design/admin/role/view ')}</th>
-    <th>{'Limitation'|i18n(' design/admin/role/view ')}</th>
+    <th>{'Module'|i18n( 'design/admin/role/view' )}</th>
+    <th>{'Function'|i18n( 'design/admin/role/view' )}</th>
+    <th>{'Limitation'|i18n( 'design/admin/role/view' )}</th>
 </tr>
 {section var=Policies loop=$policies sequence=array( bglight, bgdark )}
 <tr class="{$Policies.sequence}">

@@ -208,7 +208,7 @@
 
 {* Sorting *}
 <div class="right">
-<label>{'Sorting:'|i18n( 'design/admin/node/view/full' )}</label>
+<label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
 
 {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                        7, 'Class name'|i18n( 'design/admin/node/view/full' ),

@@ -124,7 +124,7 @@
 
 <h2>{'Are you sure you want to remove the translations?'|i18n( 'design/admin/content/translate' )}</h2>
 
-<p>{'The following translations (along with translated content) will be removed from the draft:'|i18n( 'design/admin/content/translate' )}</p>
+<p>{'The following translations (along with translated content) will be removed from the draft'|i18n( 'design/admin/content/translate' )}:</p>
 
 <ul>
 {section var=Languages loop=$remove_language_list}

@@ -127,7 +127,7 @@
   </td>
 
   {* Edit. *}
-  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/list ')}" /></a></td>
+  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/list')}" /></a></td>
 
 </tr>
 {/section}

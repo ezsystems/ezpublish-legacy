@@ -23,8 +23,8 @@ If you do all the children will be removed as well.'|i18n( 'design/admin/content
 
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Path'|i18n( 'design/standard/location' )}</th>
-    <th>{'Count'|i18n( 'design/standard/location' )}</th>
+    <th>{'Path'|i18n( 'design/admin/content/removelocation' )}</th>
+    <th>{'Count'|i18n( 'design/admin/content/removelocation' )}</th>
 </tr>
 {section var=remove_item loop=$node_remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}">
@@ -42,8 +42,8 @@ If you do all the children will be removed as well.'|i18n( 'design/admin/content
 
 <div class="block">
 
-<input type="submit" class="button" name="ConfirmRemovalButton" value="{'Remove locations'|i18n( 'design/standard/location' )}" />
-<input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel removal'|i18n( 'design/standard/location' )}" />
+<input type="submit" class="button" name="ConfirmRemovalButton" value="{'Remove locations'|i18n( 'design/admin/content/removelocation' )}" />
+<input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel removal'|i18n( 'design/admin/content/removelocation' )}" />
 
 </div>
 

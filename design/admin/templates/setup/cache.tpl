@@ -25,7 +25,7 @@
 
 {section show=$cache_cleared.list}
     <div class="message-feedback">
-        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The following caches were cleared:'|i18n( 'design/admin/setup/cache' )}</h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The following caches were cleared'|i18n( 'design/admin/setup/cache' )}:</h2>
         <ul>
         {section var=Caches loop=$cache_cleared.list}
             <li>{'%name was cleared'|i18n( 'design/admin/setup/cache',, hash( '%name', $Caches.item.name ) )}</li>

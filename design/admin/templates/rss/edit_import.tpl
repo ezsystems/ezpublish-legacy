@@ -2,7 +2,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Edit <%rss_import_name> [RSS Import]'|i18n( '/design/admin/rss/edit_import',, hash( '%rss_import_name', $rss_import.name ) )|wash}</h2>
+<h2 class="context-title">{'Edit <%rss_import_name> [RSS Import]'|i18n( 'design/admin/rss/edit_import',, hash( '%rss_import_name', $rss_import.name ) )|wash}</h2>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

@@ -8,7 +8,7 @@
     {section show=$failure_reason}
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$failure_reason}</h2>
     {section-else}
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files :"|i18n("design/admin/setup")}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files "|i18n("design/admin/setup")}:</h2>
     <p>
       {section loop=$md5_result}
         {$:item|wash}
@@ -28,7 +28,7 @@
   {section-else}
     <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, your database is not consistent with the distribution database."|i18n("design/admin/setup")}</h2>
-    <p>{"To synchronize your database with the distribution setup, run the following SQL queries:"|i18n("design/admin/setup")}</p>
+    <p>{"To synchronize your database with the distribution setup, run the following SQL queries"|i18n("design/admin/setup")}:</p>
     <p>
       {$upgrade_sql|wash|break}
     </p>

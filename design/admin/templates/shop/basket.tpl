@@ -2,7 +2,7 @@
 {section show=$removed_items}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Items removed'|i18n( 'design/admin/shop/basket' )}</h2>
-<p>{'The following items were removed from your basket because the products have changed:'|i18n( 'design/admin/shop/basket' )}</p>
+<p>{'The following items were removed from your basket because the products have changed'|i18n( 'design/admin/shop/basket' )}:</p>
 <ul>
 {section var=RemovedItems loop=$removed_items}
 <li><a href={concat( '/content/view/full/', $RemovedItems.item.contentobject.main_node_id, '/' )|ezurl}>{$RemovedItems.item.contentobject.name}</a></li>

@@ -21,7 +21,7 @@
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/removeeeditversion' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/removeeditversion' )}:</label>
 {section show=$version.contentobject.published}
 {$version.contentobject.published|l10n( shortdatetime )}<br />
 {$version.contentobject.current.creator.name}

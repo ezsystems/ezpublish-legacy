@@ -5,7 +5,7 @@
                 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft could not be stored.'|i18n( 'design/admin/content/edit' )}</h2>
 
                 {section show=$validation.attributes}
-                    <p>{'Required data is either missing or is invalid:'|i18n( 'design/admin/content/edit' )}</p>
+                    <p>{'Required data is either missing or is invalid'|i18n( 'design/admin/content/edit' )}:</p>
                     <ul>
                         {section var=UnvalidatedAttributes loop=$validation.attributes}
                             <li>{$UnvalidatedAttributes.item.name|wash}: {$UnvalidatedAttributes.item.description}</li>
@@ -14,7 +14,7 @@
                 {/section}
 
                 {section show=$validation.placement}
-                    <p>{'The following locations are invalid:'|i18n( 'design/admin/content/edit' )}</p>
+                    <p>{'The following locations are invalid'|i18n( 'design/admin/content/edit' )}:</p>
                     <ul>
                         {section var=UnvalidatedPlacements loop=$validation.placement}
                             <li>{$UnvalidatedPlacements.item.text}</li>

@@ -19,10 +19,10 @@ include_once( "kernel/classes/ezdatatype.php" );
 
 define( {$constant_name}, "{$datatype_name}" );
 
-class {$full_class_name} extends eZDataType 
+class {$full_class_name} extends eZDataType
 {literal}{{/literal}
     /*!
-      {'Constructor'|i18n('design/standard/setup/datatypecode')}
+      {'Constructor'|i18n('design/admin/setup/datatypecode')}
     */
     function {$full_class_name}()
     {literal}{{/literal}

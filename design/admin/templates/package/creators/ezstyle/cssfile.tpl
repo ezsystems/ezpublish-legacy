@@ -9,19 +9,19 @@
 
     {include uri="design:package/header.tpl"}
     <div class="block">
-    <p>{'Please select the site CSS file to be included in the package.'|i18n('design/standard/package')}</p>
+    <p>{'Please select the site CSS file to be included in the package.'|i18n('design/admin/package')}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input class="box" name="PackageSiteCSSFile" type="file" />
     </div>
-    
+
     <div class="block">
-    <p>{'Please select the classes CSS file to be included in the package.'|i18n('design/standard/package')}</p>
+    <p>{'Please select the classes CSS file to be included in the package.'|i18n('design/admin/package')}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input class="box" name="PackageClassesCSSFile" type="file" />
     </div>
-    
+
     {include uri="design:package/navigator.tpl"}
 
     </form>

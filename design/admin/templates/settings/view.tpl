@@ -13,7 +13,7 @@
 
 <div class="object">
 {section show=$settings}
-<p>{'Using siteaccess:'|i18n('design/admin/settings')} <strong>{$current_siteaccess}</strong></p>
+<p>{'Using siteaccess'|i18n('design/admin/settings')}: <strong>{$current_siteaccess}</strong></p>
 <p>{'%ini_file consist of %blocks section(s) and %setting_count different setting(s)'|i18n( 'design/admin/settings','', hash( '%ini_file', $ini_file, '%blocks', $block_count, '%setting_count', $setting_count) )}</p>
 {section-else}
 <p>{'Please select an ini file from the dropdown below'|i18n('design/admin/settings')}</p>

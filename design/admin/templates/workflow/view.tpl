@@ -21,7 +21,7 @@
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
 <div class="context-information">
-<p>{'Last modified:'|i18n( 'design/admin/workflow/view' )}&nbsp;{$workflow.modified|l10n( shortdatetime )}&nbsp;<a href={$workflow.creator.contentobject.main_node.url_alias|ezurl}>{$workflow.creator.contentobject.name}</a></p>
+<p>{'Last modified'|i18n( 'design/admin/workflow/view' )}:&nbsp;{$workflow.modified|l10n( shortdatetime )}&nbsp;<a href={$workflow.creator.contentobject.main_node.url_alias|ezurl}>{$workflow.creator.contentobject.name}</a></p>
 </div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>

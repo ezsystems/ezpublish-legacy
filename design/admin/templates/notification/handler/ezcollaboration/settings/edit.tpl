@@ -3,9 +3,9 @@
      selection=$handler.collaboration_selections}
 
 <div class="contentheader">
-    <h2>{"Collaboration notification"|i18n("design/standard/notification/collaboration")}</h2>
+    <h2>{"Collaboration notification"|i18n("design/admin/notification/collaboration")}</h2>
 </div>
-<p>{"Choose which collaboration items you wish to get notifications for."|i18n("design/standard/notification/collaboration")}</p>
+<p>{"Choose which collaboration items you wish to get notifications for."|i18n("design/admin/notification/collaboration")}</p>
 
 <input type="hidden" name="CollaborationHandlerSelection" value="1" />
 

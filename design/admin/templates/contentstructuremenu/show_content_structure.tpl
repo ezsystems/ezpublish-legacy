@@ -14,7 +14,7 @@
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=$:haveChildren}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}"
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
                       onclick="ezpopmenu_hideAll(); ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
                     <span class="openclose"></span>

@@ -53,7 +53,7 @@
 </ul>
 </div>
 
-<a href={'content/view/sitemap/2'|ezurl}>{'Sitemap'|i18n('design/admin/layout')}</a>
+<a href={'content/view/sitemap/2'|ezurl}>{'Sitemap'|i18n( 'design/admin/parts/content/menu' )}</a>
 
 {* Left menu width control. *}
 <p>

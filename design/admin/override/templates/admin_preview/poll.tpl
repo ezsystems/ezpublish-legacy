@@ -27,7 +27,7 @@
         </form>
 
         <div class="attribute-link">
-            <p><a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/base")}</a></p>
+            <p><a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/admin/preview/poll")}</a></p>
         </div>
 
     </div>

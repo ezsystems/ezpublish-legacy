@@ -3,7 +3,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Install package'|i18n('design/standard/package')}</h1>
+<h1 class="context-title">{'Install package'|i18n('design/admin/package')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -16,9 +16,9 @@
 
 
     <p>{'The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
-If you do not wish to install the package at this time you can do so later on the view page for the package.'|i18n('design/standard/package')|break}</p>
+If you do not wish to install the package at this time you can do so later on the view page for the package.'|i18n('design/admin/package')|break}</p>
 
-    <h3>{'Install items'|i18n('design/standard/package')|break}</h3>
+    <h3>{'Install items'|i18n('design/admin/package')|break}</h3>
     <ul>
     {section var=install loop=$install_elements}
         <li>{$install.description|wash}</li>
@@ -31,8 +31,8 @@ If you do not wish to install the package at this time you can do so later on th
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-        <input class="button" type="submit" name="InstallPackageButton" value="{'Install package'|i18n('design/standard/package')}" />
-        <input class="button" type="submit" name="SkipPackageButton" value="{'Skip installation'|i18n('design/standard/package')}" />
+        <input class="button" type="submit" name="InstallPackageButton" value="{'Install package'|i18n('design/admin/package')}" />
+        <input class="button" type="submit" name="SkipPackageButton" value="{'Skip installation'|i18n('design/admin/package')}" />
     </div>
 </form>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

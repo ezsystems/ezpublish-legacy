@@ -50,7 +50,7 @@
 {* Excluded words. *}
 {section show=$stop_word_array}
 <p>
-{'The following words were excluded from the search:'|i18n( 'design/admin/content/search' )} 
+{'The following words were excluded from the search'|i18n( 'design/admin/content/search' )}:
 {section name=StopWord loop=$stop_word_array}
     {$StopWord:item.word|wash}
     {delimiter}, {/delimiter}

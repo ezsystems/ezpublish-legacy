@@ -28,10 +28,10 @@
 </tr>
 {/section}
 <tr>
-	<td><b>{'SUM:'|i18n( 'design/admin/shop/orderstatistics' )}</b></td>
+	<td><strong>{'SUM'|i18n( 'design/admin/shop/orderstatistics' )}</strong>:</td>
     <td>&nbsp;</td>
-	<td><b>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</b></td>
-	<td><b>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</b></td>
+	<td><strong>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</strong></td>
+	<td><strong>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</strong></td>
 </tr>
 </table>
 {section-else}

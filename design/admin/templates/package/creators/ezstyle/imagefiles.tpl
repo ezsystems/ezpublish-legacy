@@ -10,11 +10,11 @@
     {include uri="design:package/header.tpl"}
 
     <p>{'Select an image file to be included in the package and click Next.
-Click "Next" without choosing an image to continue to the next step.'|i18n('design/standard/package')|break}</p>
-    
+Click "Next" without choosing an image to continue to the next step.'|i18n('design/admin/package')|break}</p>
+
     {section show=$persistent_data.imagefiles}
     <div class="files">
-        <h3>{'Currently added image files'|i18n('design/standard/package')}</h3>
+        <h3>{'Currently added image files'|i18n('design/admin/package')}</h3>
         <ul>
             {section var=imagefile loop=$persistent_data.imagefiles}
             <li>{$imagefile.filename|wash}</li>
@@ -22,12 +22,12 @@ Click "Next" without choosing an image to continue to the next step.'|i18n('desi
         </ul>
     </div>
     {/section}
-    
+
     <div class="block">
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input class="box" name="PackageImageFile" type="file" />
     </div>
-    
+
     {include uri="design:package/navigator.tpl"}
 
     </form>

@@ -45,7 +45,7 @@
 {section show=$content_object.published}
 {$content_object.current.version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/upload ' )}
+{'Not yet published'|i18n( 'design/admin/content/upload' )}
 {/section}
 </p>
 

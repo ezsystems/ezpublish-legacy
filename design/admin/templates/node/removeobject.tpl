@@ -36,7 +36,7 @@
   <input type="hidden" name="SupportsMoveToTrash" value="1" />
   <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
 
-  <p><b>{"Note:"|i18n("design/admin/node/removeobject")}</b> {"If %trashname is checked you will find the removed items in the trash afterwards."
+  <p><strong>{"Note"|i18n("design/admin/node/removeobject")}:</strong> {"If %trashname is checked you will find the removed items in the trash afterwards."
                                                     |i18n( 'design/admin/node/removeobject',,
                                                            hash( '%trashname', concat( '<i>', 'Move to trash' | i18n( 'design/admin/node/removeobject' ), '</i>' ) ) )}</p>
   <br/>

@@ -22,7 +22,7 @@
 </div>
 
 <div class="block">
-<label>{'Items to be purchased:'|i18n( 'design/admin/shop/confirmorder' )}</label>
+<label>{'Items to be purchased'|i18n( 'design/admin/shop/confirmorder' )}:</label>
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Product'|i18n( 'design/admin/shop/confirmorder' )}</th>

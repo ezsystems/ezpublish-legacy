@@ -55,7 +55,7 @@
 <h2>{'Step three: set function limitations'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
 
 <p>
-{'Instructions:'|i18n( 'design/admin/role/createpolicystep3' )}
+{'Instructions'|i18n( 'design/admin/role/createpolicystep3' )}:
 <ol>
 <li>{'Set the desired function limitations using the controls below.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
 <li>{'Click the "OK" button to finish the wizard. The policy will be added to the role that is currently being edited.'|i18n( 'design/admin/role/createpolicystep3' )}</li>

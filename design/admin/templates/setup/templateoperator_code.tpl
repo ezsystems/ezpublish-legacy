@@ -15,7 +15,7 @@
 
 {section show=$example_code}
 
-  {'Example'|i18n('design/standard/setup/operatorcode')}:
+  {'Example'|i18n('design/admin/setup/operatorcode')}:
 \code
 {$example_code}
 \endcode
@@ -40,14 +40,14 @@ $eZTemplateOperatorArray[] = array( 'script' => '{$file_name}',
 class {$full_class_name}
 {literal}{{/literal}
     /*!
-      {'Constructor, does nothing by default.'|i18n('design/standard/setup/operatorcode')}
+      {'Constructor, does nothing by default.'|i18n('design/admin/setup/operatorcode')}
     */
     function {$full_class_name}()
     {literal}{{/literal}
     {literal}}{/literal}
 
     /*!
-     {'\return an array with the template operator name.'|i18n('design/standard/setup/operatorcode')}
+     {'\return an array with the template operator name.'|i18n('design/admin/setup/operatorcode')}
     */
     function operatorList()
     {literal}{{/literal}
@@ -85,7 +85,7 @@ class {$full_class_name}
 {/section}
 
     /*!
-     {'Executes the PHP function for the operator cleanup and modifies \a $operatorValue.'|i18n('design/standard/setup/operatorcode')}
+     {'Executes the PHP function for the operator cleanup and modifies \a $operatorValue.'|i18n('design/admin/setup/operatorcode')}
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue{section show=$parameter_check|eq(2)}, &$namedParameters{/section} )
     {literal}{{/literal}
@@ -107,10 +107,10 @@ class {$full_class_name}
 {/section}
 
 {section show=$single_operator}
-        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/standard/setup/operatorcode')}
+        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
         {section show=$use_output}$operatorValue = {/section}trim({section show=$use_input} $operatorValue {/section});
 {section-else}
-        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/standard/setup/operatorcode')}
+        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
         switch ( $operatorName )
         {literal}{{/literal}
             case '{$operator_name}':

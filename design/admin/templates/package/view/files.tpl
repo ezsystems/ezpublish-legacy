@@ -15,12 +15,12 @@
         {$package.name|wash}-{$package.version-number}-{$package.release-number}{section show=$package.release-timestamp}({$package.release-timestamp|l10n( shortdatetime )}){/section}{section show=$package.type|wash} [{$package.type}]{/section}
         - {section show=$package.install_type|eq( 'install' )}
             {section show=$package.is_installed}
-                {'Installed'|i18n('design/standard/package')}
+                {'Installed'|i18n('design/admin/package')}
             {section-else}
-                {'Not installed'|i18n('design/standard/package')}
+                {'Not installed'|i18n('design/admin/package')}
             {/section}
         {section-else}
-            {'Imported'|i18n('design/standard/package')}
+            {'Imported'|i18n('design/admin/package')}
         {/section}
 </h1>
 
@@ -34,14 +34,14 @@
 
     <div class="object">
         <div class="summary">
-            <label>{'Summary'|i18n('design/standard/package')}</label>
+            <label>{'Summary'|i18n('design/admin/package')}</label>
             <p>{$package.summary|wash}</p>
         </div>
     </div>
 
     {section var=collection loop=$package.file-list}
     <div class="objectheader">
-        <h2>{'Files [%collectionname]'|i18n('design/standard/package',, hash( '%collectionname', $collection.key ))}</h2>
+        <h2>{'Files [%collectionname]'|i18n('design/admin/package',, hash( '%collectionname', $collection.key ))}</h2>
     </div>
     <div class="object">
         <div class="files">
@@ -57,7 +57,7 @@
     {/section}
 
     <div class="links">
-        <p>[ <a href={concat( "package/view/full/", $package.name )|ezurl}>{'Details'|i18n('design/standard/package')}</a> ]</p>
+        <p>[ <a href={concat( "package/view/full/", $package.name )|ezurl}>{'Details'|i18n('design/admin/package')}</a> ]</p>
     </div>
     </div>
 
@@ -69,12 +69,12 @@
     <div class="block">
         {section show=$package.install_type|eq( 'install' )}
             {section show=$package.is_installed}
-                <input class="button" type="submit" name="UninstallButton" value="{'Uninstall'|i18n( 'design/standard/package')}" />
+                <input class="button" type="submit" name="UninstallButton" value="{'Uninstall'|i18n( 'design/admin/package')}" />
             {section-else}
-                <input class="button" type="submit" name="InstallButton" value="{'Install'|i18n( 'design/standard/package')}" />
+                <input class="button" type="submit" name="InstallButton" value="{'Install'|i18n( 'design/admin/package')}" />
             {/section}
         {/section}
-        <input class="button" type="submit" name="ExportButton" value="{'Export to file'|i18n( 'design/standard/package')}" />
+        <input class="button" type="submit" name="ExportButton" value="{'Export to file'|i18n( 'design/admin/package')}" />
     </div>
     {/section}
 

@@ -21,7 +21,7 @@
 
 <h2>{'Step one: select module'|i18n( 'design/admin/role/createpolicystep1' )}</h2>
 <p>
-{'Instructions:'|i18n( 'design/admin/role/createpolicystep1' )}
+{'Instructions'|i18n( 'design/admin/role/createpolicystep1' )}:
 <ol>
 <li>{'Use the dropdown menu to select the module that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
 <li>{'Click one of the "Grant.." buttons (explained below) in order to go to the next step.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
