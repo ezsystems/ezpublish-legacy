@@ -18,6 +18,9 @@ Changes from 3.4.1 to 3.4.2
   content class id parameter being false.
 - Fixed problem with character set conversion which was always done when using utf-8
 
+Database:
+- Added index on ezcontentobject_tree( path_identification_string ).
+
 eZ template compiler:
 - Added support for compiling a specific template.
   (Manuall merged from trunk (3.5))
@@ -166,7 +169,9 @@ edit_placement.tpl:
   http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
 - Fixed a couple of warnings about the navigationPartIdentifier
   http://ez.no/community/bug_reports/with_debug_enabled_i_am_getting_the_following_error
-  
+- Fixed bug in cache block with subtree expiry. Subtree expiry partly rewritten.
+  http://ez.no/community/bug_reports/cache_block_subtree_expiry_after_deleting
+
 *Lib:
 
 eZ template:
