@@ -79,12 +79,16 @@ class eZXML
     */
     function &domTree( $xmlDoc, $params = array(), $native = false )
     {
+        /* We remove all control chars from the text, although they
+         * should have not be there in the first place. This is
+         * iso-8859-1 and UTF-8 safe. Those characters might also never exist
+         * in an XML document in the first place
+         * (http://w3.org/TR/2004/REC-xml-20040204/#NT-Char) so it's safe to
+         * remove them */
+        $xmlDoc = preg_replace('/[\x00-\x08\x0b-\x0c\x0e-\x1f]/', '', $xmlDoc);
+
         if ( $native and function_exists( 'domxml_open_mem' ) )
         {
-            /* We remove all control chars from the text, although they
-             * should have not be there in the first place. This is
-             * iso-8859-1 and UTF-8 safe. */
-            $xmlDoc = preg_replace('/[\x00-\x09\x0b-\x0c\x0e-\x1f]/', '', $xmlDoc);
             return domxml_open_mem( $xmlDoc );
         }
         $params["TrimWhiteSpace"] = true;
