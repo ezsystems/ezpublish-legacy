@@ -241,6 +241,7 @@ class eZPolicy extends eZPersistentObject
 
         return $this->Limitations;
     }
+
     function &fetch( $policyID )
     {
         return eZPersistentObject::fetchObject( eZPolicy::definition(),

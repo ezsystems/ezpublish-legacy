@@ -39,7 +39,7 @@
 
 /*!
   \class eZPreferences ezpreferences.php
-  \brief The class eZPreferences handles user/session preferences
+  \brief Handles user/session preferences
 
   Preferences can be either pr user or pr session. eZPreferences will automatically
   set a session preference if the user is not logged in, if not a user preference will be set.
@@ -48,14 +48,16 @@
 
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
+define( 'EZ_PREFERENCES_SESSION_NAME', 'eZPreferences' );
+
 class eZPreferences
 {
     function eZPreferences()
     {
-
     }
 
     /*!
+     \static
      Sets a preference value for the current user. If
      the user is anonymous the value is only stored in session.
     */
@@ -84,26 +86,19 @@ class eZPreferences
                 $db->query( $query );
             }
         }
-
-        // Set session variable
-        $http =& eZHTTPTool::instance();
-        $http->setSessionVariable( 'Preferences-' . $name, $value );
+        eZPreferences::storeInSession( $name, $value );
     }
 
     /*!
+     \static
      \return the session variable for the current user/session. If no variable is found
      false is returned. The preferences variable is stored in session after fetching.
     */
     function value( $name )
     {
         $value = false;
-        // Check session
-        $http =& eZHTTPTool::instance();
-        if ( $http->hasSessionVariable( 'Preferences-' . $name ) )
-        {
-            $value = $http->sessionVariable( 'Preferences-' . $name );
-            return $value;
-        }
+        if ( eZPreferences::isStoredInSession( $name ) )
+            return eZPreferences::storedSessionValue( $name );
 
         $db =& eZDB::instance();
         $name = $db->escapeString( $name );
@@ -114,13 +109,65 @@ class eZPreferences
         if ( count( $existingRes ) == 1 )
         {
             $value = $existingRes[0]['value'];
-            $http->setSessionVariable( 'Preferences-' . $name, $value );
+            eZPreferences::storeInSession( $name, $value );
         }
         else
         {
-            $http->setSessionVariable( 'Preferences-' . $name, false );
+            eZPreferences::storeInSession( $name, false );
         }
         return $value;
+    }
+
+    /*!
+     \static
+     Makes sure the stored session values are cleaned up.
+    */
+    function sessionCleanup()
+    {
+        $http =& eZHTTPTool::instance();
+        $http->removeSessionVariable( EZ_PREFERENCES_SESSION_NAME );
+    }
+
+    /*!
+     \static
+     Makes sure the preferences named \a $name is stored in the session with the value \a $value.
+    */
+    function storeInSession( $name, $value )
+    {
+        $http =& eZHTTPTool::instance();
+        $preferencesInSession = array();
+        if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+             $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $preferencesInSession[$name] = $value;
+        $http->setSessionVariable( EZ_PREFERENCES_SESSION_NAME, $preferencesInSession );
+    }
+
+    /*!
+     \static
+     \return \c true if the preference named \a $name is stored in session.
+    */
+    function isStoredInSession( $name )
+    {
+        $http =& eZHTTPTool::instance();
+        if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+            return false;
+        $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        return array_key_exists( $name, $preferencesInSession );
+    }
+
+    /*!
+     \static
+     \return the stored preferenced value found in the session or \c null if none were found.
+    */
+    function storedSessionValue( $name )
+    {
+        $http =& eZHTTPTool::instance();
+        if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+            return null;
+        $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        if ( !array_key_exists( $name, $preferencesInSession ) )
+            return null;
+        return $preferencesInSession[$name];
     }
 }
 

@@ -485,15 +485,22 @@ class eZUser extends eZPersistentObject
         $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', false );
         if ( !$contentObjectID )
             $contentObjectID = $this->attribute( 'contentobject_id' );
-        $http->setSessionVariable( 'eZUserGroupsCache_' . $contentObjectID, false );
+        $http->removeSessionVariable( 'eZUserGroupsCache' );
+
+        $http->removeSessionVariable( 'eZUserInfoCache' );
 
         $http->removeSessionVariable( 'UserPolicies' );
+        $http->removeSessionVariable( 'UserRoles' );
         $http->removeSessionVariable( 'UserLimitations' );
         $http->removeSessionVariable( 'UserLimitationValues' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
 
+        // Note: This must be done more generic with an internal
+        //       callback system.
+        include_once( 'kernel/classes/ezpreferences.php' );
+        eZPreferences::sessionCleanup();
     }
 
     /*!
@@ -556,29 +563,36 @@ class eZUser extends eZPersistentObject
 
         if ( $userArrayTimestamp > $expiredTimeStamp )
         {
-            $userArray =& $http->sessionVariable( 'eZUserInfoCache_' . $id );
+            $userInfo = array();
+            if ( $http->hasSessionVariable( 'eZUserInfoCache' ) )
+                $userInfo =& $http->sessionVariable( 'eZUserInfoCache' );
 
-            if ( is_numeric( $userArray['contentobject_id'] ) )
+            if ( isset( $userInfo[$id] ) )
             {
-                $currentUser = new eZUser( $userArray );
-                $fetchFromDB = false;
+                $userArray =& $userInfo[$id];
+
+                if ( is_numeric( $userArray['contentobject_id'] ) )
+                {
+                    $currentUser = new eZUser( $userArray );
+                    $fetchFromDB = false;
+                }
             }
         }
 
         if ( $fetchFromDB == true )
         {
             $currentUser =& eZUser::fetch( $id );
-            // store cache
 
             if ( $currentUser )
             {
-                $http->setSessionVariable( 'eZUserInfoCache_' . $id,
-                                           array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
-                                                  'login' => $currentUser->attribute( 'login' ),
-                                                  'email' => $currentUser->attribute( 'email' ),
-                                                  'password_hash' => $currentUser->attribute( 'password_hash' ),
-                                                  'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
-                                                  ) );
+                $userInfo = array();
+                $userInfo[$id] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                                        'login' => $currentUser->attribute( 'login' ),
+                                        'email' => $currentUser->attribute( 'email' ),
+                                        'password_hash' => $currentUser->attribute( 'password_hash' ),
+                                        'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
+                                        );
+                $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
                 $http->setSessionVariable( 'eZUserInfoCache_Timestamp', mktime()  );
             }
         }
@@ -895,25 +909,34 @@ class eZUser extends eZPersistentObject
                 // check for cached version
                 if ( $userGroupTimestamp > $expiredTimeStamp )
                 {
-                    $userGroupsTmp =& $http->sessionVariable( 'eZUserGroupsCache_' . $contentobjectID );
+                    $userGroupsInfo = array();
+                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
+                        $userGroupsInfo =& $http->sessionVariable( 'eZUserGroupsCache' );
 
-                    if ( count( $userGroupsTmp ) > 0 )
+                    if ( isset( $userGroupsInfo[$contentobjectID] ) )
                     {
-                        $userGroups =& $userGroupsTmp;
+                        $userGroupsTmp =& $userGroupsInfo[$contentobjectID];
+
+                        if ( count( $userGroupsTmp ) > 0 )
+                        {
+                            $userGroups =& $userGroupsTmp;
+                        }
                     }
                 }
 
                 if ( $userGroups === false or
                      count( $userGroups ) == 0 )
                 {
+                    $userGroupsInfo = array();
                     $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
                                                 WHERE b.contentobject_id='$contentobjectID' AND
                                                       b.parent_node_id = c.node_id
                                                 ORDER BY c.contentobject_id  ");
+                    $userGroupsInfo[$contentobjectID] =& $userGroups;
 
-                    $http->setSessionVariable( 'eZUserGroupsCache_' . $contentobjectID, $userGroups );
+                    $http->setSessionVariable( 'eZUserGroupsCache', $userGroupsInfo );
                     $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
                 }
 

@@ -27,6 +27,10 @@ Changes from 3.2-3 to 3.2-4
 - Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
 - The clearcache.sh will now also clear the var directories for all siteaccess.
 - Fixed bug of unable to save unregisted link in xml textfield.
+- Changed the caching of eZPreferences in session to use an array for all variables, this makes it
+  easier to cleanup up. The preferences are now cleared on login/logout.
+- Changed the caching of user information and user groups in sessions, the new method uses arrays
+  and is easier to cleanup.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
