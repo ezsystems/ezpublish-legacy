@@ -37,6 +37,8 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/developer/ez_publish_3/bug_reports/undefined_property_contentobject_in_ezcontentobjecttreenode_php
 - Fixed wrong order of forwarding url translator.
   http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
+- Fixed SMTP parameters.
+  http://ez.no/community/bug_reports/class_ezsmtptransport_extends_ezmailtransport
 
 *Setup:
 
