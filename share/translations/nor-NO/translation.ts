@@ -4226,11 +4226,6 @@
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
-        <source>At least one author is requied.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">Oppgi minst en forfatter.</translation>
-    </message>
-    <message>
         <source>Author name should be provided.</source>
         <comment>eZAuthorType</comment>
         <translation>Oppgi forfatternavn.</translation>
@@ -4319,11 +4314,6 @@
         <source>A valid file is required.</source>
         <comment>eZMediaType</comment>
         <translation>Oppgi en gyldig fil.</translation>
-    </message>
-    <message>
-        <source>At least one option is requied.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Oppgi minst et valg.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>

@@ -147,38 +147,79 @@ Requires an end tag.</dd>
 
 <dl>
 <dt>attribute_edit_gui</dt>
-<dd></dd>
+<dd>Edit a content attribute. You must supply the attribute parameter. Any other parameters are passed
+on as template variables.<br/>
+E.g. {attribute_edit_gui attribute=$myAttribute}</dd>
 
 <dt>attribute_view_gui</dt>
-<dd></dd>
+<dd>Show a content attribute. You must supply the attribute parameter. Any other parameters are passed
+on as template variables.<br/>
+E.g. {attribute_view_gui attribute=$myAttribute}</dd>
 
-<dt>node_view_gui</dt>
+<dt>class_attribute_edit_gui</dt>
+<dd>Edit an class attribute, this is used when editing classes. You must supply the class_attribute
+parameter. Any other parameters are passed on as template variables.<br/>
+E.g. {class_attribute_edit_gui class_attribute=$myAttribute}</dd>
 <dd></dd>
 
 <dt>content_view_gui</dt>
-<dd></dd>
-
-<dt>shop_account_view_gui</dt>
-<dd></dd>
+<dd>Show a content object. You must supply the content_object parameter. The view parameter, specifying
+which view mode to use, is optional. Any other parameters are passed on as template variables.<br/>
+E.g. {content_view_gui view=text_linked content_object=$myObject}</dd>
 
 <dt>content_version_view_gui</dt>
-<dd></dd>
+<dd>Show a content object version. You must supply the content_version parameter. The view parameter,
+specifying which view mode to use, is optional. Any other parameters are passed on as template
+variables.<br/>
+E.g. {content_version_view_gui view=full content_version=$myContentVersion}</dd>
 
 <dt>collaboration_view_gui</dt>
-<dd></dd>
+<dd>Show a collaboration item. You must supply the item_class and collaboration_item parameters.
+The view parameter, specifying which view mode to use, is optional. Any other parameters are passed
+on as template variables.<br/>
+E.g. {collaboration_view_gui view=line item_class=$myCollaborationItemClass
+collaboration_item=$myCollaborationItem}</dd>
 
 <dt>collaboration_icon</dt>
-<dd></dd>
+<dd>Show the icon for a collaboration item. You must supply the collaboration_item parameter.
+The view parameter, specifying which view mode to use, is optional. Any other parameters are passed
+on as template variables.<br/>
+E.g. {collaboration_icon view=small collaboration_item=$myCollaborationItem}</dd>
 
 <dt>collaboration_simple_message_view</dt>
-<dd></dd>
+<dd>Show a collaboration message. You must supply the sequence, is_read, item_link and
+collaboration_message parameters. The view parameter, specifying which view mode to use, is optional.
+Any other parameters are passed on as template variables.<br/>
+E.g. {collaboration_simple_message_view
+view=element
+sequence=$:sequence
+is_read=$current_participant.last_read|gt($:item.modified)
+item_link=$:item
+collaboration_message=$:item.simple_message}</dd>
 
 <dt>collaboration_participation_view</dt>
-<dd></dd>
+<dd>Show a collaboration participation. You must supply the collaboration_participant parameter.
+The view parameter, specifying which view mode to use, is optional. Any other parameters are passed
+on as template variables.<br/>
+E.g. {collaboration_participation_view view=text_linked collaboration_participant=$:item}</dd>
 
 <dt>event_edit_gui</dt>
-<dd></dd>
+<dd>Edit an event, this is used in the workflow edit form. You must supply the event parameter. Any
+other parameters are passed on as template variables.<br/>
+E.g. {event_edit_gui event=$myEvent}</dd>
 
-<dt>class_attribute_edit_gui</dt>
-<dd></dd>
+<dt>node_view_gui</dt>
+<dd>Show a node. You must supply the content_node parameter. The view parameter, specifying which view
+mode to use, is optional. Any other parameters are passed on as template variables.<br/>
+E.g. {node_view_gui view=full content_node=$myNode}</dd>
+
+<dt>notification_edit_gui</dt>
+<dd>Edit a notification, this is used in the notification edit form, for custom notification types. You
+must supply the notification_type parameter. Any other parameters are passed on as template variables.<br/>
+E.g. {notification_edit_gui notification_type=$myNotificationType}</dd>
+
+<dt>shop_account_view_gui</dt>
+<dd>Show a shop account. You must supply the order parameter. The view parameter, specifying
+which view mode to use, is optional. Any other parameters are passed on as template variables.<br/>
+E.g. {shop_account_view_gui view=html order=$myOrder}</dd>
 </dl>

@@ -100,6 +100,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'namespace' => '',
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
+
                 'attribute_view_gui' => array( 'template_root' => array( 'type' => 'multi_match',
                                                                          'attributes' => array( 'contentclass_attribute',
                                                                                                 'is_information_collector' ),
@@ -113,12 +114,14 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'namespace' => 'ContentAttribute',
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'use_views' => false ),
+
                 'shop_account_view_gui' => array( 'template_root' => "shop/accounthandlers",
                                                   'input_name' => 'order',
                                                   'output_name' => 'order',
                                                   'namespace' => 'ShopAccount',
                                                   'attribute_access' => array( array( 'account_view_template' ) ),
                                                   'use_views' => 'view' ),
+
                 'content_view_gui' => array( 'template_root' => 'content/view',
                                              'input_name' => 'content_object',
                                              'output_name' => 'object',
@@ -128,6 +131,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                         'section' => array( 'section_id' ) ),
                                              'attribute_access' => array(),
                                              'use_views' => 'view' ),
+
                 'content_version_view_gui' => array( 'template_root' => 'content/version/view',
                                                      'input_name' => 'content_version',
                                                      'output_name' => 'version',
@@ -135,6 +139,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                      'attribute_keys' => array( 'object' => array( 'contentobject_id' ) ),
                                                      'attribute_access' => array(),
                                                      'use_views' => 'view' ),
+
                 'node_view_gui' => array( 'template_root' => 'node/view',
                                           'input_name' => 'content_node',
                                           'output_name' => 'node',
@@ -146,6 +151,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'section' => array( 'object', 'section_id' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
+
                 'collaboration_view_gui' => array( 'template_root' => 'collaboration/handlers/view',
                                                    'input_name' => 'collaboration_item',
                                                    'output_name' => 'item',
@@ -153,6 +159,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                    'attribute_keys' => array(),
                                                    'attribute_access' => array( array( 'type_identifier' ) ),
                                                    'use_views' => 'view' ),
+
                 'collaboration_icon' => array( 'template_root' => 'collaboration/handlers/icon',
                                                'input_name' => 'collaboration_item',
                                                'output_name' => 'item',
@@ -160,6 +167,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'attribute_keys' => array(),
                                                'attribute_access' => array( array( 'type_identifier' ) ),
                                                'use_views' => 'view' ),
+
                 'collaboration_simple_message_view' => array( 'template_root' => 'collaboration/message/view',
                                                               'input_name' => 'collaboration_message',
                                                               'output_name' => 'item',
@@ -167,6 +175,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                               'attribute_keys' => array(),
                                                               'attribute_access' => array( array( 'message_type' ) ),
                                                               'use_views' => 'view' ),
+
                 'collaboration_participation_view' => array( 'template_root' => array( 'type' => 'multi_match',
                                                                                        'attributes' => array( 'is_builtin_type' ),
                                                                                        'matches' => array( array( true,
@@ -180,12 +189,14 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                              'attribute_keys' => array(),
                                                              'attribute_access' => array( array( 'participant_type_string' ) ),
                                                              'use_views' => 'view' ),
+
                 'event_edit_gui' => array( 'template_root' => 'workflow/eventtype/edit',
                                            'input_name' => 'event',
                                            'output_name' => 'event',
                                            'namespace' => 'WorkflowEvent',
                                            'attribute_access' => array( array( 'workflow_type_string' ) ),
                                            'use_views' => false ),
+
                 'notification_edit_gui' => array( 'template_root' => 'notification/rules',
                                                   'input_name' => 'notification_type',
                                                   'output_name' => 'notification_type',
@@ -193,6 +204,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                   'attribute_access' => array( array( 'information',
                                                                                       'string' ) ),
                                                   'use_views' => false ),
+
                 'class_attribute_edit_gui' => array( 'template_root' => 'class/datatype/edit',
                                                      'input_name' => 'class_attribute',
                                                      'output_name' => 'class_attribute',

@@ -79,7 +79,8 @@ if ( ! $contentObject->attribute( 'can_read' ) )
 $objectArray =& $node->subTree( array( 'Depth' => 1,
                                        'Offset' => $Offset,
                                        'Limit' => 10,
-                                       'Limitation' => $limitationList
+                                       'Limitation' => $limitationList,
+                                       'SortBy' => $node->sortArray()
                                        ) );
 
 $objectCount =& $node->subTreeCount( array( 'Depth' => 1,
