@@ -49,7 +49,15 @@ function useDirectXAlphaBlender()
         if( images[i].className == "transparent-png-icon" )
         {
             images[i].runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + images[i].src + "', sizingMethod='scale')";
-            images[i].src = emptyIcon;
+            
+            if( images[i].width == 16 )
+            {           
+                images[i].src = emptyIcon16;
+            }
+            else
+            {
+                images[i].src = emptyIcon32;
+            }
         }
     }
 }

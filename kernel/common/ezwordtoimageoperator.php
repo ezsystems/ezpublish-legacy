@@ -369,7 +369,7 @@ class eZWordToImageOperator
                 }
 
                 // The class will be detected by ezpngfix.js, which will force alpha blending in IE.
-                if ( ( !isset( $sizeName ) || $sizeName == 'normal' ) && strstr( strtolower( $iconPath ), ".png" ) )
+                if ( ( !isset( $sizeName ) || $sizeName == 'normal' || $sizeName == 'original' ) && strstr( strtolower( $iconPath ), ".png" ) )
                 {
                     $class = 'class="transparent-png-icon" ';
                 }

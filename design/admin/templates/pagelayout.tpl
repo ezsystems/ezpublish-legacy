@@ -73,7 +73,10 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 {/section}
 
 <!--[if gte IE 5.5000]>
-<script type="text/javascript">var emptyIcon = {'32x32.gif'|ezimage};</script>
+<script type="text/javascript">
+    var emptyIcon16 = {'16x16.gif'|ezimage};
+    var emptyIcon32 = {'32x32.gif'|ezimage};
+</script>
 <script type="text/javascript" src={'javascript/tools/eziepngfix.js'|ezdesign}></script>
 <![endif]-->
 
