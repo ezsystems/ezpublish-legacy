@@ -295,35 +295,33 @@ div#maincontent
 {
 }
 
-
-div.bothmenus#maincontent
+div.maincontent-bothmenus
 { 
     margin-left: 14em;
     margin-right: 15em;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-div.noleftmenu#maincontent
+div.maincontent-noleftmenu
 { 
     margin-left: 10px;
     margin-right: 15em;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-div.norightmenu#maincontent
+div.maincontent-norightmenu
 { 
     margin-left: 14em;
     margin-right: 10px;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-div.nomenus#maincontent
+div.maincontent-nomenus
 { 
     margin-left: 10px;
     margin-right: 10px;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
-
 
 div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
 {
@@ -375,6 +373,7 @@ div.toolbox-design
 div.toolbox-design h2
 { 
     font-size: 1em;
+    margin-top: 0px;
     padding-left: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -559,5 +558,11 @@ input.button
 input.searchbutton
 {
     border: 1px solid;
+}
+
+input.searchimage
+{
+    width: 18px;
+    height: 18px;
 }
 

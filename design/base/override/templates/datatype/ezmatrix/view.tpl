@@ -7,10 +7,7 @@
         {section name=Columns loop=$Rows:item.columns}
             {section show=0|eq($Rows:Columns:index)}
                {switch match=$attribute.contentclass_attribute_identifier}
-               {case match='person_numbers'}
-                     <em>{$Rows:Columns:item}:</em>
-               {/case}
-               {case match='company_numbers'}
+               {case match='contact_information'}
                      <em>{$Rows:Columns:item}:</em>
                {/case}
                {case match='company_address'}
