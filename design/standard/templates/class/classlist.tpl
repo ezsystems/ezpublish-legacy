@@ -1,4 +1,3 @@
-<a href="/UNDEFINED" target="_blank"><img src="/design/standard/images/help.gif" align="right"> </a>
 <form action={concat("class/classlist/",$GroupID)|ezurl} method="post" name="ClassList">
 
 {switch name=Sw1 match=$class_count}

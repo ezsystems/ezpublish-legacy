@@ -1,4 +1,3 @@
-<a href="/UNDEFINED" target="_blank"><img src="/design/standard/images/help.gif" align="right"> </a>
 <form action={concat($module.functions.edit.uri,"/",$class.id)|ezurl} method="post" name="ClassEdit">
 
 <div class="maincontentheader">

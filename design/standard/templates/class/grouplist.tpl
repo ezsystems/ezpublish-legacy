@@ -1,6 +1,6 @@
-<form action={"class/grouplist"|ezurl} method="post" name="GroupList">
+<a href="/manual/user/everyday#Classes" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
 
-<a href="/UNDEFINED" target="_blank"><img src="/design/standard/images/help.gif" align="right"> </a>
+<form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">
 <h1>{"Defined class groups"|i18n("design/standard/class/list")}</h1>
