@@ -2,8 +2,8 @@
 <div class="block">
 <label>{'Preferred number of rows'|i18n( 'design/standard/class/datatype' )}</label>
 <select name="ContentClass_ezxmltext_cols_{$class_attribute.id}">
-    <option value="2"  {section show=eq( $class_attribute.data_int1, 2 )}selected="selected"{/section}>2</option>
-    <option value="5"  {section show=eq( $class_attribute.data_int1, 5 )}selected="selected"{/section}>5</option>
+    <option value="2"  {section show=eq( $class_attribute.data_int1,  2 )}selected="selected"{/section}>2</option>
+    <option value="5"  {section show=eq( $class_attribute.data_int1,  5 )}selected="selected"{/section}>5</option>
     <option value="10" {section show=eq( $class_attribute.data_int1, 10 )}selected="selected"{/section}>10</option>
     <option value="15" {section show=eq( $class_attribute.data_int1, 15 )}selected="selected"{/section}>15</option>
     <option value="20" {section show=eq( $class_attribute.data_int1, 20 )}selected="selected"{/section}>20</option>

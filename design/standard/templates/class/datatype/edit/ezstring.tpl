@@ -9,5 +9,5 @@
 {* Maximum string length. *}
 <div class="block">
     <label>{'Max string length'|i18n( 'design/standard/class/datatype' )}</label>
-    <input type="text" name="ContentClass_ezstring_max_string_length_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="5" maxlength="5" />&nbsp;<span class="normal">{'characters'|i18n( 'design/standard/class/datatype' )}</span>
+    <input type="text" name="ContentClass_ezstring_max_string_length_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="5" maxlength="5" />&nbsp;{'characters'|i18n( 'design/standard/class/datatype' )}
 </div>
