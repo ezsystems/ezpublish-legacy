@@ -105,12 +105,30 @@ class eZURLAlias extends eZPersistentObject
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
     */
-    function &create( $sourceURL, $destinationURL, $isInternal = true )
+    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false )
     {
+        if ( !$forwardToID )
+            $forwardToID = 0;
         $row = array( 'source_url' => $sourceURL,
                       'destination_url' => $destinationURL,
-                      'is_internal' => $isInternal );
+                      'is_internal' => $isInternal,
+                      'forward_to_id' => $forwardToID );
         $alias = new eZURLAlias( $row );
+        return $alias;
+    }
+
+    /*!
+     Creates a new URL alias which will forward the to this URL alias, the url which will
+     be forwarded is \a $forwardURL. The forwarding URL is usually an old url you
+     want to work with your new and renamed url.
+     The difference between a forwarding and translation is that forwarding will the browser
+     and crawlers that the url is no longer in use and give the new one.
+     \return the URL alias object
+    */
+    function &createForForwarding( $forwardURL )
+    {
+        $alias =& eZURLAlias::create( $forwardURL, $this->attribute( 'destination_url' ),
+                                      $this->attribute( 'is_internal' ), $this->attribute( 'id' ) );
         return $alias;
     }
 
@@ -195,8 +213,19 @@ WHERE
     {
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
-                                                array( "id" => $id
-                                                      ),
+                                                array( "id" => $id ),
+                                                $asObject );
+    }
+
+    /*!
+     \static
+      Fetches the URL alias by ID.
+    */
+    function &fetchByURL( $url, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
+                                                null,
+                                                array( "source_url" => $url ),
                                                 $asObject );
     }
 
