@@ -156,6 +156,10 @@ function eZSessionStart()
     if ( isset( $hasStarted ) and
          $hasStarted )
          return false;
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    if ( !$db->isConnected() )
+        return false;
     eZRegisterSessionFunctions();
     session_start();
 //     eZDebug::writeDebug( "Session is started" );

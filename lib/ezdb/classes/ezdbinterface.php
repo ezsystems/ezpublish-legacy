@@ -55,6 +55,8 @@ define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
                                  EZ_DB_RELATION_VIEW_BIT |
                                  EZ_DB_RELATION_INDEX_BIT ) );
 
+define( 'EZ_DB_ERROR_MISSING_EXTENSION', 1 );
+
 class eZDBInterface
 {
     /*!

@@ -1713,10 +1713,13 @@ class eZTemplate
             if ( !isset( $hasAppendWarning ) or
                  !$hasAppendWarning )
             {
-                eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
-                                                              'number' => EZ_ERROR_TEMPLATE_FILE_ERRORS ),
-                                            'text' => ezi18n( 'lib/eztemplate', 'Some template errors occured, see debug for more information.' ) ) );
-                $hasAppendWarning = true;
+                if ( function_exists( 'eZAppendWarningItem' ) )
+                {
+                    eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
+                                                                  'number' => EZ_ERROR_TEMPLATE_FILE_ERRORS ),
+                                                'text' => ezi18n( 'lib/eztemplate', 'Some template errors occured, see debug for more information.' ) ) );
+                    $hasAppendWarning = true;
+                }
             }
         }
     }

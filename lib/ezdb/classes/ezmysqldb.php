@@ -47,6 +47,18 @@ class eZMySQLDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
+        if ( !extension_loaded( 'mysql' ) )
+        {
+            if ( function_exists( 'eZAppendWarningItem' ) )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'ezdb',
+                                                              'number' => EZ_DB_ERROR_MISSING_EXTENSION ),
+                                            'text' => 'MySQL extension was not found, the DB handler will not be initialized.' ) );
+                $this->IsConnected = false;
+                return;
+            }
+        }
+
         $socketPath = $this->socketPath();
 
         if ( $this->DBConnection == false )

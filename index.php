@@ -309,10 +309,7 @@ $access = accessType( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-//if ( $access !== null )
-//{
 $access = changeAccess( $access );
-//}
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 $check = eZHandlePreChecks( $siteBasics );
 
@@ -337,7 +334,6 @@ if ( $dbRequired or
                                                   'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
-
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();

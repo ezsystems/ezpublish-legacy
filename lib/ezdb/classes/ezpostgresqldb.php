@@ -48,6 +48,18 @@ class eZPostgreSQLDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
+        if ( !extension_loaded( 'pgsql' ) )
+        {
+            if ( function_exists( 'eZAppendWarningItem' ) )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'ezdb',
+                                                              'number' => EZ_DB_ERROR_MISSING_EXTENSION ),
+                                            'text' => 'PostgreSQL extension was not found, the DB handler will not be initialized.' ) );
+                $this->IsConnected = false;
+                return;
+            }
+        }
+
         $ini =& eZINI::instance();
 
         $server = $this->Server;

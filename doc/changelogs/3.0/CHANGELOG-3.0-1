@@ -51,7 +51,9 @@ links to clickable links.
 - Now element works for host matching as well.
 - Siteaccess matching can now be debugged with DebugAccess and DebugExtraAccess in
   site.ini under SiteAccessSettings.
-- Added article comments to demo site
+- Added article comments to demo site.
+- Made sure the session is not started if the DB is not connected, avoids PHP
+  core dumps.
 
 *SDK :
 
@@ -94,3 +96,6 @@ eZ image:
 eZ locale:
 - Made sure %l was converted using locale translations instead of PHP names.
 
+eZ db:
+- The MySQL and PostgreSQL drivers will report if the extension is missing and
+  will not initialize the DB.
