@@ -91,7 +91,7 @@ links to clickable links.
   Controlled by a site.ini setting.
 - Fixed storing of VAT value instead of reference in order item
 - Improved clearcache to be able to handle more cache types.
-
+- Added suport for custom cancel message ( template ) in checkout
 *SDK :
 
 *Library :

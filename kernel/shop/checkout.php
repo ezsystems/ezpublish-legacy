@@ -77,9 +77,12 @@ if ( get_class( $order ) == 'ezorder' )
             case EZ_MODULE_OPERATION_CANCELED:
             {
                 $Result = array();
-                $Result['content'] = "- I think you are not able to view that object :) <br/>
-                              - Why?<br/>
-                              - Because I think so :)";
+                include_once( "kernel/common/template.php" );
+                $tpl =& templateInit();
+                $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
+                $Result['path'] = array( array( 'url' => false,
+                                                'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+
                 return;
             }
 
