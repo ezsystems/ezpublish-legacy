@@ -92,6 +92,9 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed bug Workflow results are ignored in content/edit.php.
   http://ez.no/community/bug_reports/workflow_results_are_ignored_in_content_edit_php
   (Manually merged from stable/3.4 rev. 10261).
+- Changed workflow mechanism so that the before and after connection types can
+  be specified in the workflow.ini.
+
 *Library:
 
 eZURI:

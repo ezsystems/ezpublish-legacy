@@ -66,45 +66,46 @@ $triggers =& makeTriggerArray( eZTrigger::fetchList() );
 
 foreach ( $operations as $operation )
 {
-    list( $module_name, $operation ) = explode( '_', $operation );
-    $trigger=array();
-    $trigger['module'] = $module_name;
-    $trigger['operation'] = $operation;
-    $trigger['connect_type'] = 'before';
-    $trigger['key'] = $module_name . '_' . $operation . '_b';
-    $trigger['workflow_id'] = 0;
-    $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
+    $trigger = array();
 
-    foreach ( array_keys ( $triggers ) as $key )
+    // the operation string has either two or three underscore characters. 
+    // Eg: shop_checkout, before_shop_checkout, after_shop_checkout.
+    // Only the strings before and after are allowed in front of the module.
+    $explodedOperation = explode ('_', $operation);
+    $i = 0;
+
+    if (sizeof ($explodedOperation) >= 3) 
     {
-        $existendTrigger =& $triggers[$key];
+        if (strcmp($explodedOperation[$i], "before") == 0 || strcmp($explodedOperation[$i], "after") == 0)
+            $moduleParts = array ($explodedOperation[$i++]);
+    }
+    else
+    {    
+        $moduleParts = array ("before", "after");
+    }
 
-        if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
-             $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
-             $existendTrigger->attribute( 'connect_type' ) == 'b' )
+    foreach ($moduleParts as $trigger['connect_type'])
+    {
+        $trigger['module'] = $explodedOperation[$i]; // $i is either 0 or 1
+        $trigger['operation'] = $explodedOperation[$i + 1];
+        $trigger['workflow_id'] = 0;
+        $trigger['key'] = $trigger['module'] . '_' . $trigger['operation'] . '_' . $trigger['connect_type'][0]; 
+        $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
+
+        foreach ( array_keys ( $triggers ) as $key )
         {
-                $trigger['workflow_id'] = $existendTrigger->attribute( 'workflow_id' );
+            $existendTrigger =& $triggers[$key];
+
+            if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
+                 $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
+                 $existendTrigger->attribute( 'connect_type' ) == $trigger['connect_type'][0] )
+            {
+                 $trigger['workflow_id'] = $existendTrigger->attribute( 'workflow_id' );
+            }
         }
 
+        $possibleTriggers[] = $trigger;
     }
-    $possibleTriggers[] = $trigger;
-    $trigger['workflow_id'] = 0;
-    foreach ( array_keys ( $triggers ) as $key )
-    {
-        $existendTrigger =& $triggers[$key];
-        if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
-             $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
-             $existendTrigger->attribute( 'connect_type' ) == 'a' )
-        {
-                $trigger['workflow_id'] = $existendTrigger->attribute( 'workflow_id' );
-        }
-
-    }
-    $trigger['key'] = $module_name . '_' . $operation . '_a';
-
-    $trigger['connect_type'] = 'after';
-    $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
-    $possibleTriggers[] = $trigger;
 }
 
 if ( $http->hasPostVariable( 'StoreButton' )  )
