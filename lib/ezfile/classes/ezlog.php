@@ -67,7 +67,7 @@ class eZLog
         $logDir = 'log';
         $logName = "storage.log";
         $fileName = $varDir . "/" . $logDir . "/" . $logName;
-        if ( !file_exists( $logDir ) )
+        if ( !file_exists( $varDir . "/" . $logDir ) )
         {
             include_once( 'lib/ezutils/classes/ezdir.php' );
             eZDir::mkdir( $logDir, 0775, true );

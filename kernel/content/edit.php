@@ -104,7 +104,7 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
         }
         else
         {
-            $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+            $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $obj->attribute( 'current_version' );
             $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
