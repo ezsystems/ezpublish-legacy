@@ -74,6 +74,24 @@ class eZSMTPTransport extends eZMailTransport
             $parameters['pass'] = $password;
         }
 
+        /* If email sender hasn't been specified or is empty
+         * we substitute it with either MailSettings.EmailSender or AdminEmail.
+         */
+        if ( !$mail->senderText() )
+        {
+            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+            if ( !$emailSender )
+                $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
+
+            eZMail::extractEmail( $emailSender, &$emailSenderAddress, &$emailSenderName );
+
+            if ( !eZMail::validate( $emailSenderAddress ) )
+                $emailSender = false;
+
+            if ( $emailSender )
+                $mail->setSenderText( $emailSender );
+        }
+
         $sendData = array();
         $sendData['from'] = $mail->senderText();
         $sendData["recipients"] = $mail->receiverTextList();
