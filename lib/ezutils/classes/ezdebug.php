@@ -224,6 +224,8 @@ class eZDebug
     {
         if ( error_reporting() == 0 ) // @ error-control operator is used
             return;
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         $str = "$errstr in $errfile on line $errline";
         $errnames =& $GLOBALS["eZDebugPHPErrorNames"];
         if ( !is_array( $errnames ) )
@@ -276,6 +278,8 @@ class eZDebug
     */
     function writeNotice( $string, $label="" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( !eZDebug::showMessage( EZ_SHOW_NOTICE ) )
             return;
         if ( is_object( $string ) || is_array( $string ) )
@@ -294,6 +298,8 @@ class eZDebug
     */
     function writeWarning( $string, $label="" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( !eZDebug::showMessage( EZ_SHOW_WARNING ) )
             return;
         if ( is_object( $string ) || is_array( $string ) )
@@ -312,6 +318,8 @@ class eZDebug
     */
     function writeError( $string, $label="" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( !eZDebug::showMessage( EZ_SHOW_ERROR ) )
             return;
         if ( is_object( $string ) || is_array( $string ) )
@@ -330,6 +338,8 @@ class eZDebug
     */
     function writeDebug( $string, $label="" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( !eZDebug::showMessage( EZ_SHOW_ERROR ) )
             return;
         if ( is_object( $string ) || is_array( $string ) )
@@ -406,6 +416,8 @@ class eZDebug
     */
     function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         switch ( $verbosityLevel )
         {
             case EZ_LEVEL_NOTICE:
@@ -458,6 +470,8 @@ class eZDebug
     */
     function writeFile( &$fileName, &$string )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
@@ -478,25 +492,41 @@ class eZDebug
     }
 
     /*!
+     \static
+     \return true if debug should be enabled.
+    */
+    function isDebugEnabled()
+    {
+        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+        if ( isset( $debugEnabled ) )
+            return $debugEnabled;
+        $ini =& eZINI::instance();
+
+        $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIP" );
+
+        $debugEnabled = true;
+
+        if ( !in_array( "enabled", $debugIPArray ) )
+        {
+            if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR' ), $debugIPArray ) )
+            {
+            }
+            else if ( in_array( "disabled", $debugIPArray ) )
+            {
+                $debugEnabled = false;
+            }
+        }
+        return $debugEnabled;
+    }
+
+    /*!
       \static
       Prints the debug report
     */
     function &printReport( $newWindow = false, $as_html = true, $returnReport = false )
     {
-        $ini =& eZINI::instance();
-
-        $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIP" );
-
-        if ( !in_array( "enabled", $debugIPArray ) )
-        if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR' ), $debugIPArray ) )
-        {
-        }
-        else
-        if ( in_array( "disabled", $debugIPArray ) )
-        {
+        if ( !eZDebug::isDebugEnabled() )
             return null;
-        }
-
 
         $debug =& eZDebug::instance();
         $report =& $debug->printReportInternal( $as_html );
@@ -547,6 +577,8 @@ ezdebug.reload();
     */
     function addTimingPoint( $description = "" )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( !eZDebug::showMessage( EZ_SHOW_TIMING_POINT ) )
             return;
         $debug =& eZDebug::instance();
