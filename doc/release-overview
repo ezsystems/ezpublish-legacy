@@ -77,3 +77,10 @@ Datatype branch:
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.1-beta2 (2696)
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.1.0-2 (2697)
 - Date 10-June-2003
+
+3.1-1
+- AKA 3.1 final
+- Revision=2786
+- Release url=http://zev.ez.no/svn/nextgen/releases/3.1/
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.1-1/
+- Date 24-Jun-2003
