@@ -4,7 +4,11 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
+{section show=ne( $ui_context, 'browse' )}
 <h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide content structure."><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Content structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
+{section-else}
+<h4>{'Content structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
+{/section}
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 

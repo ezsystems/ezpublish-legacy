@@ -94,25 +94,12 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="search">
 <form action={'/content/search/'|ezurl} method="get">
 
-{section show=eq( $ui_context, 'edit' )}
+{section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
     <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" disabled="disabled" />
     <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
 {section-else}
     <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" />
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-    {*
-    {literal}
-    <script language="JavaScript" type="text/javascript">
-    <!--
-        window.onload=function()
-        {
-            document.getElementById('searchtext').focus();
-            document.getElementById('searchtext').select();
-        }
-    -->
-    </script>
-    {/literal}
-    *}
 {/section}
     <p class="select">
     {let disabled=false()
