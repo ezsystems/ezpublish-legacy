@@ -125,7 +125,7 @@ class eZTemplateToolbarFunction
                     {
                         if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                         {
-                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item last\">" );
+                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item last\">" );
                         }
                         else
                         {
@@ -318,7 +318,7 @@ class eZTemplateToolbarFunction
                             {
                                 if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
                                 {
-                                    $textElements[] = "<li class=\"toolbar-item last\">";
+                                    $textElements[] = "<ul><li class=\"toolbar-item last\">";
                                 }
                                 else
                                 {
