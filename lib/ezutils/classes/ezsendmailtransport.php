@@ -59,11 +59,17 @@ class eZSendmailTransport extends eZMailTransport
     /*!
      \reimp
     */
+
     function sendMail( &$mail )
     {
         $message = $mail->body();
         $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
-        return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
+        $ini =& eZINI::instance();
+        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+        if ( preg_match("/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/", $emailSender ) )
+            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, '-f' . $emailSender );
+        else
+            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
     }
 }
 
