@@ -145,6 +145,7 @@ class eZDataType
         {
             $className = $types[$dataTypeString];
             $def =& $GLOBALS["eZDataTypeObjects"][$dataTypeString];
+
             if ( get_class( $def ) != $className )
             {
                 $def = new $className();

@@ -222,17 +222,14 @@ if ( !function_exists( 'checkContentActions' ) )
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
             {
-                if ( $node === null )
-                {
-                    $parentArray = $http->sessionVariable( 'ParentObject' );
-                    $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
-                    $parentObject = eZContentObject::fetch( $parentArray[0] );
-                    $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
-                    $http->removeSessionVariable( 'ParentObject' );
-                    $http->removeSessionVariable( 'NewObjectID' );
-                    $module->redirectTo( $parentURL );
-                    $hasRedirected = true;
-                }
+                $parentArray = $http->sessionVariable( 'ParentObject' );
+                $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
+                $parentObject = eZContentObject::fetch( $parentArray[0] );
+                $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
+                $http->removeSessionVariable( 'ParentObject' );
+                $http->removeSessionVariable( 'NewObjectID' );
+                $module->redirectTo( $parentURL );
+                $hasRedirected = true;
             }
             if ( !$hasRedirected )
             {

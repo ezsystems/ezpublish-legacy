@@ -159,31 +159,30 @@ class eZEnumType extends eZDataType
              $http->hasPostVariable( $enumValue ) &&
              $http->hasPostVariable( $selectedEnumElement ) )
         {
-             $array_enumID = $http->postVariable( $enumID );
-             $array_enumElement = $http->postVariable( $enumElement );
-             $array_enumValue = $http->postVariable( $enumValue );
-             $array_selectedEnumElement = $http->postVariable( $selectedEnumElement );
+            $array_enumID = $http->postVariable( $enumID );
+            $array_enumElement = $http->postVariable( $enumElement );
+            $array_enumValue = $http->postVariable( $enumValue );
+            $array_selectedEnumElement = $http->postVariable( $selectedEnumElement );
 
-             // Remove stored enumerations before we store new enumerations
-             eZEnum::removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion );
-             for ( $i=0;$i<count( $array_enumElement );$i++ )
-             {
-                 for ( $j=0;$j<count( $array_selectedEnumElement );$j++ )
-                 {
-                     if ( $array_enumElement[$i] === $array_selectedEnumElement[$j] )
-                     {
-                         $eID = $array_enumID[$i];
-                         $eElement = $array_enumElement[$i];
-                         $eValue = $array_enumValue[$i];
-                         eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
-                                                         $contentObjectAttributeVersion,
-                                                         $eID,
-                                                         $eElement,
-                                                         $eValue );
-                     }
-                 }
-
-             }
+            // Remove stored enumerations before we store new enumerations
+            eZEnum::removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion );
+            for ( $i=0;$i<count( $array_enumElement );$i++ )
+            {
+                for ( $j=0;$j<count( $array_selectedEnumElement );$j++ )
+                {
+                    if ( $array_enumElement[$i] === $array_selectedEnumElement[$j] )
+                    {
+                        $eID = $array_enumID[$i];
+                        $eElement = $array_enumElement[$i];
+                        $eValue = $array_enumValue[$i];
+                        eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
+                                                        $contentObjectAttributeVersion,
+                                                        $eID,
+                                                        $eElement,
+                                                        $eValue );
+                    }
+                }
+            }
         }
     }
 

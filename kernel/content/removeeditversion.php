@@ -70,10 +70,25 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     }
 
     $versionObject->remove();
-    if ( $nodeID != null )
-        $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
-    else
-        $Module->redirectTo( '/content/view/full/2/' );
+
+    $hasRedirected = false;
+    if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $objectID )
+    {
+        $parentArray = $http->sessionVariable( 'ParentObject' );
+        $parentURL = $Module->redirectionURI( 'content', 'edit', $parentArray );
+        $http->removeSessionVariable( 'ParentObject' );
+        $http->removeSessionVariable( 'NewObjectID' );
+        $Module->redirectTo( $parentURL );
+        $hasRedirected = true;
+    }
+
+    if ( $hasRedirected == false )
+    {
+        if ( $nodeID != null )
+            $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
+        else
+            $Module->redirectTo( '/content/view/full/2/' );
+    }
 }
 
 if ( $http->hasPostVariable( "CancelButton" ) )
