@@ -8,3 +8,7 @@
 24=24
 8=8
 2=2
+
+Test of input + parameters:
+2|mul( 3, 4 )=24: 24
+$a|mul( $b, $c )=24: 24

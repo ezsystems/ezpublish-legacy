@@ -11,3 +11,11 @@
 8={mul( 2, 2, 2 )}
 2={mul( 2 )}
 {/let}
+
+
+Test of input + parameters:
+
+{let a=2 b=3 c=4}
+2|mul( 3, 4 )=24: {2|mul( 3, 4 )}
+$a|mul( $b, $c )=24: {$a|mul( $b, $c )}
+{/let}

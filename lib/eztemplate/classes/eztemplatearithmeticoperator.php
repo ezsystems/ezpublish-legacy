@@ -647,7 +647,7 @@ class eZTemplateArithmeticOperator
                     return;
                 }
                 $i = 0;
-                if ( count( $operatorParameters ) == 1 )
+                if ( $operatorValue !== null )
                     $value = $operatorValue;
                 else
                     $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace );
@@ -684,8 +684,12 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
-                for ( $i = 1; $i < count( $operatorParameters ); ++$i )
+                $i = 0;
+                if ( $operatorValue !== null )
+                    $value = $operatorValue;
+                else
+                    $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace );
+                for ( ; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $value *= $tmpValue;

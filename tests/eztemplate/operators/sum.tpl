@@ -11,3 +11,11 @@
 3={sum( 1, 1, 1 )}
 1={sum( 1 )}
 {/let}
+
+
+Test of input + parameters:
+
+{let a=2 b=3 c=4}
+2|sum( 3, 4 )=9: {2|sum( 3, 4 )}
+$a|sum( $b, $c )=9: {$a|sum( $b, $c )}
+{/let}

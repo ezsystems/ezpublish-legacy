@@ -11,3 +11,11 @@
 -1={sub( 1, 1, 1 )}
 1={sub( 1 )}
 {/let}
+
+
+Test of input + parameters:
+
+{let a=2 b=3 c=4}
+2|sub( 3, 4 )=-5: {2|sub( 3, 4 )}
+$a|sub( $b, $c )=-5: {$a|sub( $b, $c )}
+{/let}
