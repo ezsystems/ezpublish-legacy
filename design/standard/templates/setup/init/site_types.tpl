@@ -28,7 +28,7 @@
       <td class="setup_site_templates">
             <label for="{$site.identifier|wash}">
             {section show=$site.thumbnail}
-              <img class="site-type" src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
+              <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
             {section-else}
               <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}"  />
             {/section}

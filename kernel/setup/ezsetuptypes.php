@@ -69,35 +69,35 @@ function eZSetupTypes()
     return array( 'news' => array( 'name' => 'News',
                                    'identifier' => 'news',
                                    'summary' => 'With the eZ publish open source News site solution you can publish articles and news and communicate with your readers in a online newspaper containing the features you would normally need.',
-                                   'thumbnail' => 't1.png' ),
+                                   'thumbnail' => 'news.png' ),
                   'blog' => array( 'name' => 'Blog',
                                    'identifier' => 'blog',
                                    'summary' => '',
-                                   'thumbnail' => 't3.png' ),
+                                   'thumbnail' => 'blog.png' ),
                   'corporate' => array( 'name' => 'Corporate',
                                         'identifier' => 'corporate',
                                         'summary' => '',
-                                        'thumbnail' => 't1.png' ),
+                                        'thumbnail' => 'corporate.png' ),
                   'forum' => array( 'name' => 'Forum',
                                     'identifier' => 'forum',
                                     'summary' => '',
-                                    'thumbnail' => 't8.png' ),
+                                    'thumbnail' => 'forum.png' ),
                   'gallery' => array( 'name' => 'Gallery',
                                       'identifier' => 'gallery',
                                       'summary' => '',
-                                      'thumbnail' => 't20.png' ),
+                                      'thumbnail' => 'gallery.png' ),
                   'intranet' => array( 'name' => 'Intranet',
                                        'identifier' => 'intranet',
                                        'summary' => '',
-                                       'thumbnail' => 't19.png' ),
+                                       'thumbnail' => 'intranet.png' ),
                   'shop' => array( 'name' => 'Shop',
                                    'identifier' => 'shop',
                                    'summary' => '',
-                                   'thumbnail' => 't4.png' ),
+                                   'thumbnail' => 'shop.png' ),
                   'plain' => array( 'name' => 'Plain',
                                     'identifier' => 'plain',
                                     'summary' => "Stripped install.\nContains no special toolbar or menu choices",
-                                    'thumbnail' => 't2.png' )
+                                    'thumbnail' => 'plain.png' )
                   );
 }
 
@@ -107,25 +107,25 @@ function eZSetupFunctionality( $siteType )
     {
         return array( 'required' => array( 'weblog' ),
                       'recommended' => array(),
-                      'theme' => 't3' );
+                      'theme' => 't03' );
     }
     else if ( $siteType == 'news' )
     {
         return array( 'required' => array( 'news' ),
                       'recommended' => array( 'media', 'galler' ),
-                      'theme' => 't1' );
+                      'theme' => 't01' );
     }
     else if ( $siteType == 'corporate' )
     {
         return array( 'required' => array( 'news' ),
                       'recommended' => array( 'contact_us' ),
-                      'theme' => 't1' );
+                      'theme' => 't01' );
     }
     else if ( $siteType == 'forum' )
     {
         return array( 'required' => array( 'forum' ),
                       'recommended' => array( 'poll' ),
-                      'theme' => 't8' );
+                      'theme' => 't08' );
     }
     else if ( $siteType == 'gallery' )
     {
@@ -143,13 +143,13 @@ function eZSetupFunctionality( $siteType )
     {
         return array( 'required' => array( 'products' ),
                       'recommended' => array( 'contact_us' ),
-                      'theme' => 't4' );
+                      'theme' => 't04' );
     }
     else
     {
         return array( 'required' => array(),
                       'recommended' => array(),
-                      'theme' => 't2' );
+                      'theme' => 't02' );
     }
 }
 
