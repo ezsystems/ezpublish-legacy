@@ -42,6 +42,9 @@ eZObjectRelation:
 
 eZ Utils:
 - Added function to redirect client to other URL, with POST parameters. eZHTTPTool::sendHTTPRequest()
+- Use TRUNCATE TABLE instead of DELETE FROM, which is a faster alternative and
+  works on MySQL, PostGreSQL and Oracle.
+  http://ez.no/community/bug_reports/ezsession_truncate_instead_of_delete
 
 eZ ini:
 

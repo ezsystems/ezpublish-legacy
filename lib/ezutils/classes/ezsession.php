@@ -135,7 +135,7 @@ function eZSessionEmpty()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $query = "DELETE FROM ezsession";
+    $query = "TRUNCATE TABLE ezsession";
 
     $db->query( $query );
 }
