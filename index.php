@@ -802,22 +802,22 @@ if ( is_object( $db ) and $db->isConnected() and
     // Fetched stored session variables
     if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     {
-        $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
+        $lastAccessedViewURI = $http->sessionVariable( "LastAccessesURI" );
     }
     if ( $http->hasSessionVariable( "LastAccessedModifyingURI" ) )
     {
-        $lastAccessedModifyingURI = $http->sessionVariable( "LastAccessedModifyingURI" );
+        $lastAccessedURI = $http->sessionVariable( "LastAccessedModifyingURI" );
     }
 
     // Update last accessed view page
-    if ( $currentURI != $lastAccessedURI and
+    if ( $currentURI != $lastAccessedViewURI and
          !in_array( $module->uiContextName(), array( 'edit', 'administration', 'browse', 'authentication' ) ) )
     {
         $http->setSessionVariable( "LastAccessesURI", $currentURI );
     }
 
     // Update last accessed non-view page
-    if ( $currentURI != $lastAccessedModifyingURI )
+    if ( $currentURI != $lastAccessedURI )
     {
         $http->setSessionVariable( "LastAccessedModifyingURI", $currentURI );
     }
