@@ -1,1 +1,1 @@
-{$content.data_date|l10n(date)}
+{$attribute.data_text}

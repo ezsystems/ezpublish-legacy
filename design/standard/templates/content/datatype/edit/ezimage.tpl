@@ -23,6 +23,8 @@
 	<td class="bglight">
 	<b>{"Existing mime/type"|i18n}</b>:<br/>
 	</td>
+	<td class="bglight">
+	</td>
 </tr>
 <tr>
 	<td class="bglight">
@@ -33,6 +35,9 @@
 	</td>
 	<td class="bglight">
 	{$attribute.content.mime_type}
+	</td>
+	<td class="bglight">
+	<input type="submit" name="CustomActionButton[{$attribute.id}_delete_image]" value="{'Delete'|i18n}" />
 	</td>
 </tr>
 <tr>

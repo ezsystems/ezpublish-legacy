@@ -78,10 +78,15 @@ class eZIntegerType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = str_replace(" ", "", $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
             $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
             $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
+            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
             switch( $input_state )
             {
                 case EZ_INTEGER_NO_MIN_MAX_VALUE:

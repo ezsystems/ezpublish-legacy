@@ -103,6 +103,16 @@ class eZStringType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if( $classAttribute->attribute( "is_required" ) == true )
+            {
+                if( $data == "" )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZStringType',
+                                                                         'Text line is empty, content required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
             if ( (strlen( $data ) <= $maxLen ) || ( $maxLen == 0 ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;

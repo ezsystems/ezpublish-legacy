@@ -43,6 +43,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 
 define( "EZ_DATATYPESTRING_DATE", "ezdate" );
+include_once( "lib/ezlocale/classes/ezdate.php" );
 
 class eZDateType extends eZDataType
 {
@@ -57,9 +58,18 @@ class eZDateType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
-        if ( preg_match( "#[0-9]+/[0-9]+/[0-9]+#", $data ) )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $http->hasPostVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = str_replace(" ", "", $data );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            if ( preg_match( "#[0-9]+[/.-][0-9]+[/.-][0-9]+#", $data ) )
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -68,16 +78,34 @@ class eZDateType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
-        $data_instance->setAttribute( "data_date", $data );
+        if ( $http->hasPostVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
+            if( $data != null )
+            {
+                list ( $day, $month, $year) = split ('[/.-]', $data);
+                $date = $day . "." . $month . "." . $year;
+                $contentObjectAttribute->setAttribute( "data_text", $date );
+            }
+            else
+                $contentObjectAttribute->setAttribute( "data_text", null );
+        }
+    }
+
+    /*!
+     Returns the meta data used for storing search indeces.
+    */
+    function metaData( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
     }
 
     /*!
      Returns the date.
     */
-    function title( &$data_instance )
+    function title( &$contentObjectAttribute )
     {
-        return $data_instance->attribute( "data_date" );
+        return $contentObjectAttribute->attribute( "data_text" );
     }
 }
 

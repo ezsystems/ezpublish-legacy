@@ -147,6 +147,18 @@ class eZImageType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if( $classAttribute->attribute( "is_required" ) == true )
+        {
+            $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
+            if( $file == null )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                     'eZImageType',
+                                                                     'A valid image file is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
@@ -159,7 +171,6 @@ class eZImageType extends eZDataType
             return false;
 
         $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
-
         $contentObjectAttribute->setContent( $file );
     }
 
@@ -224,6 +235,16 @@ class eZImageType extends eZDataType
                                             false, $mime );
 
             $contentObjectAttribute->setContent( $image );
+        }
+    }
+
+    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    {
+        if( $action == "delete_image" )
+        {
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $this->deleteStoredObjectAttribute( &$contentObjectAttribute, $version );
         }
     }
 

@@ -57,6 +57,21 @@ class eZTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+            $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if( $classAttribute->attribute( "is_required" ) == true )
+            {
+                if( $data == "" )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZStringType',
+                                                                         'Text field is empty, content required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 

@@ -57,10 +57,19 @@ class eZPriceType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
-        // TODO: Make better matching
-        if ( preg_match( "#[0-9]+(.[0-9]+)?#", $data ) )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $http->hasPostVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = str_replace(" ", "", $data );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            // TODO: Make better matching
+            if ( preg_match( "#[0-9]+(.[0-9]+)?#", $data ) )
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 

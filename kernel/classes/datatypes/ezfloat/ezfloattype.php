@@ -109,10 +109,15 @@ class eZFloatType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = str_replace(" ", "", $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
             $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
             $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
+            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
             switch( $input_state )
             {
                 case EZ_FLOAT_NO_MIN_MAX_VALUE:
@@ -313,9 +318,9 @@ class eZFloatType extends eZDataType
      Returns the float value.
     */
 
-    function title( &$data_instance )
+    function title( &$contentObjectAttribute )
     {
-        return $data_instance->attribute( "data_float" );
+        return $contentObjectAttribute->attribute( "data_float" );
     }
 
     /// \privatesection
