@@ -2329,6 +2329,9 @@ WHERE
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
 
+        eZNodeAssignment::remove( $node->attribute( 'parent_node_id' ),
+                                  $node->attribute( 'contentobject_id' ) );
+
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
