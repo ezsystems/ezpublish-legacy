@@ -91,11 +91,13 @@ class eZTemplateFileResource
         $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
 //         if ( eZTemplateTreeCache::canRestoreCache( $key ) )
 //             eZTemplateTreeCache::restoreCache( $key );
-        return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
+//         return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
+        return null;
     }
 
     function setCachedTemplateTree( $uri, $res, $templatePath, &$extraParameters, &$root )
     {
+        return;
         $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
         eZTemplateTreeCache::setCachedTree( $key, $uri, $res, $templatePath, $extraParameters, $root );
 //         eZTemplateTreeCache::storeCache( $key );
