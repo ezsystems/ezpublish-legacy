@@ -126,10 +126,35 @@ class eZPackageHandler
      \pure
      Fills in extra information on the dependency node \a $dependencyNode which is
      specific to the current handler.
+     \param $package The current package.
      \param $dependencyItem Contains all variables for the dependency
-     \param $dependencyType The type of dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
+     \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function createDependencyNode( &$package, $export, &$dependencyNode, $dependencyItem, $dependencyType )
+    function createDependencyNode( &$package, $export, &$dependencyNode, $dependencyItem, $dependencySection )
+    {
+    }
+
+    /*!
+     \pure
+     Parses the XML node \c $dependencyNode and fills in extra information not handled
+     by the package parser.
+     \param $package The current package.
+     \param $dependencyParameters Reference to an array with must be filled with specific data for the current handler.
+     \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
+    */
+    function parseDependencyNode( &$package, &$dependencyNode, &$dependencyParameters, $dependencySection )
+    {
+    }
+
+    /*!
+     \virtual
+     Creates a text specific for the dependency item \a $dependencyItem and returns it.
+     \param $package The current package.
+     \param $dependencyItem Associative array with dependency values.
+     \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
+     \return \c false if no special text is required.
+    */
+    function createDependencyText( &$package, $dependencyItem, $dependencySection )
     {
     }
 
@@ -137,6 +162,7 @@ class eZPackageHandler
      \pure
      Fills in extra information on the install node \a $installNode which is
      specific to the current handler.
+     \param $package The current package.
      \param $installItem Contains all variables for the install
      \param $installType The type of install, can be \c 'install' or \c 'uninstall'
     */
@@ -146,23 +172,13 @@ class eZPackageHandler
 
     /*!
      \pure
-     Parses the XML node \c $dependencyNode and fills in extra information not handled
-     by the package parser.
-     \param $dependencyParameters Reference to an array with must be filled with specific data for the current handler.
-     \param $dependencyType The type of dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
-    */
-    function parseDependencyNode( &$dependencyNode, &$dependencyParameters, $dependencySection )
-    {
-    }
-
-    /*!
-     \pure
      Parses the XML node \c $installNode and fills in extra information not handled
      by the package parser.
+     \param $package The current package.
      \param $installParameters Reference to an array which must be filled with specific data for the current handler.
      \param $isInstall Is \c true if this is an install node, \c false if it is an uninstall node
     */
-    function parseInstallNode( &$installNode, &$installParameters, $isInstall )
+    function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
     {
     }
 }

@@ -67,6 +67,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                       &$content )
     {
         print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
+        return false;
         $className = $content->elementTextContentByName( 'name' );
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
@@ -147,6 +148,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             print( "Linked to class group " . $classGroup->attribute( 'id' ) . "\n" );
             $classGroup->appendClass( $class );
         }
+        return true;
     }
 
     /*!

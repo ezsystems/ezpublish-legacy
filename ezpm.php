@@ -33,7 +33,6 @@
 // you.
 //
 
-
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
@@ -53,140 +52,151 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    print( "Usage: " . $argv[0] . " [OPTION]... COMMAND [-- COMMAND]...\n" .
-           "eZ publish package manager.\n" .
-           "\n" .
-           "Type " . $argv[0] . " help for command overview\n" .
-           "\n" .
-           "General options:\n" .
-           "  -h,--help          display this help and exit \n" .
-           "  -q,--quiet         do not give any output except when errors occur\n" .
-           "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-           "  -d,--debug         display debug output at end of execution\n" .
-           "  -c,--colors        display output using ANSI colors\n" .
-           "  -l,--login USER    login with USER and use it for all operations\n" .
-           "  -p,--password PWD  use PWD as password for USER\n" .
-           "  --logfiles         create log files\n" .
-           "  --no-logfiles      do not create log files (default)\n" .
-           "  --no-colors        do not use ANSI coloring (default)\n" );
+    $cli =& eZCLI::instance();
+    $cli->output( "Usage: " . $argv[0] . " [OPTION]... COMMAND [-- COMMAND]...\n" .
+                  "eZ publish package manager.\n" .
+                  "\n" .
+                  "Type " . $argv[0] . " help for command overview\n" .
+                  "\n" .
+                  "General options:\n" .
+                  "  -h,--help          display this help and exit \n" .
+                  "  -q,--quiet         do not give any output except when errors occur\n" .
+                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
+                  "  -d,--debug         display debug output at end of execution\n" .
+                  "  -c,--colors        display output using ANSI colors\n" .
+                  "  -l,--login USER    login with USER and use it for all operations\n" .
+                  "  -p,--password PWD  use PWD as password for USER\n" .
+                  "  --logfiles         create log files\n" .
+                  "  --no-logfiles      do not create log files (default)\n" .
+                  "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
 function helpCreate()
 {
-    print( "create: Create a new package.\n" .
-           "usage: create NAME [SUMMARY [VERSION [LICENCE]]] [PARAMETERS]\n" .
-           "\n" .
-           "Parameters:\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "create: Create a new package.\n" .
+                  "usage: create NAME [SUMMARY [VERSION [LICENCE]]] [PARAMETERS]\n" .
+                  "\n" .
+                  "Parameters:\n"
+                  );
 }
 
 function helpExport()
 {
-    print( "export: Export a part of the eZ publish installation into a package.\n" .
-           "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
-           "\n" .
-           "Options:\n" .
-           "  -o,--output FILE   export to file\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "export: Export a part of the eZ publish installation into a package.\n" .
+                  "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
+                  "\n" .
+                  "Options:\n" .
+                  "  -o,--output FILE   export to file\n"
+                  );
 }
 
 function helpImport()
 {
-    print( "import: Import an eZ publish package installation and install it.\n" .
-           "usage: import PACKAGE\n" .
-           "\n" .
-           "PACKAGE can be specified with just the name of the of package or\n" .
-           "the filename of the package. If just the name is used the package\n" .
-           "will be looked for by appending .ezpkg\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "import: Import an eZ publish package installation and install it.\n" .
+                  "usage: import PACKAGE\n" .
+                  "\n" .
+                  "PACKAGE can be specified with just the name of the of package or\n" .
+                  "the filename of the package. If just the name is used the package\n" .
+                  "will be looked for by appending .ezpkg\n"
+                  );
 }
 
 function helpList()
 {
-    print( "list (ls): Lists all packages in the repository.\n" .
-           "usage: list\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "list (ls): Lists all packages in the repository.\n" .
+                  "usage: list\n"
+                  );
 }
 
 function helpInfo()
 {
-    print( "info: Displays information on a given package.\n" .
-           "usage: info PACKAGE\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "info: Displays information on a given package.\n" .
+                  "usage: info PACKAGE\n"
+                  );
 }
 
 function helpAdd()
 {
-    print( "add: Adds an eZ publish item to the package.\n" .
-           "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
-           "\n" .
-           "Items:\n" .
-           "  group: Add categorization groups\n" .
-           "  ezcontentclass: Add contentclass definitions\n" .
-           "Note: Will open up a new release if no open releases exists yet.\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "add: Adds an eZ publish item to the package.\n" .
+                  "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
+                  "\n" .
+                  "Items:\n" .
+                  "  group: Add categorization groups\n" .
+                  "  ezcontentclass: Add contentclass definitions\n" .
+                  "Note: Will open up a new release if no open releases exists yet.\n"
+                  );
 }
 
 function helpSet()
 {
-    print( "set: Sets an attribute in the package.\n" .
-           "usage: set PACKAGE ATTRIBUTE ATTRIBUTEVALUE\n" .
-           "\n" .
-           "Attributes:\n" .
-           "  summary     :\n" .
-           "  description :\n" .
-           "  vendor      :\n" .
-           "  priority    :\n" .
-           "  type        :\n" .
-           "  extension   :\n" .
-           "  source      :\n" .
-           "  version     :\n" .
-           "  licence     :\n" .
-           "  state       :\n" .
-           "Note: Will open up a new release if no open releases exists yet.\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "set: Sets an attribute in the package.\n" .
+                  "usage: set PACKAGE ATTRIBUTE ATTRIBUTEVALUE\n" .
+                  "\n" .
+                  "Attributes:\n" .
+                  "  summary     :\n" .
+                  "  description :\n" .
+                  "  vendor      :\n" .
+                  "  priority    :\n" .
+                  "  type        :\n" .
+                  "  extension   :\n" .
+                  "  source      :\n" .
+                  "  version     :\n" .
+                  "  licence     :\n" .
+                  "  state       :\n" .
+                  "Note: Will open up a new release if no open releases exists yet.\n"
+                  );
 }
 
 function helpDelete()
 {
-    print( "delete (del, remove, rm): Removes an eZ publish item from the package.\n" .
-           "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
-           "\n" .
-           "Note: Will open up a new release if no open releases exists yet.\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "delete (del, remove, rm): Removes an eZ publish item from the package.\n" .
+                  "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
+                  "\n" .
+                  "Note: Will open up a new release if no open releases exists yet.\n"
+                  );
 }
 
 function helpHelp()
 {
     $argv = $_SERVER['argv'];
-    print( "help: Displays help information on commands.\n" .
-           "usage: help COMMAND\n" .
-           "\n" .
-           "Type \"" . $argv[0] . " help COMMAND\" for help on a specific command.\n" .
-           "\n" .
-           "Available commands:\n" .
-           "   help (?, h)\n" .
-           "   create\n" .
-           "   import\n" .
-           "   export\n" .
-           "   add\n" .
-           "   set\n" .
-           "   delete (del, remove, rm)\n" .
-           "   list\n" .
-           "   info\n"
-           );
+    $cli =& eZCLI::instance();
+    $cli->output( "help: Displays help information on commands.\n" .
+                  "usage: help COMMAND\n" .
+                  "\n" .
+                  "Type \"" . $argv[0] . " help COMMAND\" for help on a specific command.\n" .
+                  "\n" .
+                  "Available commands:\n" .
+                  "   help (?, h)\n" .
+                  "   create\n" .
+                  "   import\n" .
+                  "   export\n" .
+                  "   add\n" .
+                  "   set\n" .
+                  "   delete (del, remove, rm)\n" .
+                  "   list\n" .
+                  "   info\n"
+                  );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
-        print( "Using siteaccess $siteaccess for cronjob" );
+        $cli->notice( "Using siteaccess $siteaccess for cronjob" );
     }
     else
     {
-        print( "Siteaccess $optionData does not exist, using default siteaccess" );
+        $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
 
@@ -484,6 +494,21 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 if ( $commandItem['name'] === false )
                     $commandItem['name'] = $arg;
+                else if ( $arg[0] == '-' )
+                {
+                    $infoOptions = substr( $arg, 1 );
+                    if ( preg_match( '#[dfi]#', $infoOptions ) )
+                    {
+                        if ( !isset( $commandItem['info-types'] ) )
+                            $commandItem['info-types'] = array();
+                        if ( strpos( $infoOptions, 'd' ) !== false )
+                            $commandItem['info-types'][] = 'dependency';
+                        if ( strpos( $infoOptions, 'f' ) !== false )
+                            $commandItem['info-types'][] = 'file';
+                        if ( strpos( $infoOptions, 'i' ) !== false )
+                            $commandItem['info-types'][] = 'info';
+                    }
+                }
             }
             else if ( $commandItem['command'] == 'import' )
             {
@@ -617,13 +642,50 @@ foreach ( $commandList as $commandItem )
         $package =& eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
-            $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
-            $cli->output( "Version     : " . $package->attribute( 'version-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'version-number' ) ) ) . "Source  : " . $package->attribute( 'source' ) );
-            $cli->output( "Release     : " . $package->attribute( 'release-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'release-number' ) ) ) . "Licence : " . $package->attribute( 'licence' ) );
-            $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'state' ) );
-            $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
-                          " (" . $package->attribute( 'ezpublish-version' ) . ")" );
-            $cli->output( "Description : " . $package->attribute( 'description' ) );
+            $showInfo = false;
+            $showFiles = false;
+            $showDependencies = false;
+            if ( isset( $commandItem['info-types'] ) )
+            {
+                $showInfo = in_array( 'info', $commandItem['info-types'] );
+                $showFiles = in_array( 'file', $commandItem['info-types'] );
+                $showDependencies = in_array( 'dependency', $commandItem['info-types'] );
+            }
+            else
+                $showInfo = true;
+            if ( $showInfo )
+            {
+                $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
+                $cli->output( "Version     : " . $package->attribute( 'version-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'version-number' ) ) ) . "Source  : " . $package->attribute( 'source' ) );
+                $cli->output( "Release     : " . $package->attribute( 'release-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'release-number' ) ) ) . "Licence : " . $package->attribute( 'licence' ) );
+                $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'state' ) );
+                $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
+                              " (" . $package->attribute( 'ezpublish-version' ) . ")" );
+                $cli->output( "Description : " . $package->attribute( 'description' ) );
+            }
+            if ( $showDependencies )
+            {
+                $i = 0;
+                foreach ( array( 'provides', 'requires', 'obsoletes', 'conflicts' ) as $dependencySection )
+                {
+                    $dependencyItems = $package->dependencyItems( $dependencySection, false, false, false );
+                    if ( count( $dependencyItems ) == 0 )
+                        continue;
+                    if ( $i > 0 )
+                        $cli->output();
+                    $cli->output( $dependencySection . ':' );
+                    $dependencyTypes = $package->groupDependencyItemsByType( $dependencyItems );
+                    foreach ( $dependencyTypes as $dependencyTypeName => $dependencyItems )
+                    {
+                        foreach ( $dependencyItems as $dependencyItem )
+                        {
+                            $dependencyText = $package->createDependencyText( $cli, $dependencyItem, $dependencySection );
+                            $cli->output( $dependencyText );
+                        }
+                    }
+                    ++$i;
+                }
+            }
 //             print_r( $package->Parameters );
         }
         else
@@ -737,16 +799,6 @@ foreach ( $commandList as $commandItem )
         }
         else
             $cli->error( "Could not open package " . $commandItem['name'] . ", none of these files were found: " . implode( ',', $archiveNames ) );
-//         $cli->notice( 'Disabled for now' );
-//     $package =& eZPackage::fetchFromFile( $packageFile );
-//     if ( $package )
-//     {
-// //         $package->install();
-//     }
-//     else
-//     {
-//         $cli->warning( "Could not open package file $packageFile" );
-//     }
     }
     else if ( $command == 'export' )
     {
@@ -759,60 +811,16 @@ foreach ( $commandList as $commandItem )
                 $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
             }
             else
+            {
                 $package->export( $exportDirectory );
+                $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
+            }
         }
         else
         {
             $exportPath = $package->archive( $package->exportName() );
-            $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file $exportPath" );
+            $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
         }
-
-//         $cli->notice( 'Disabled for now' );
-//     $packageName = 'mytest';
-//     $packageSummary = 'hm';
-//     $packageExtension = 'myext';
-
-//     $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary,
-//                                                         'extension' => $packageExtension ) );
-
-//     $user =& eZUser::currentUser();
-//     $userObject = $user->attribute( 'contentobject' );
-
-//     $package->appendMaintainer( $userObject->attribute( 'name' ), 'jb@ez.no', 'lead' );
-
-//     $package->appendDocument( 'README' );
-//     $package->appendDocument( 'readme.html', 'text/html', false, 'end-user' );
-//     $package->appendDocument( 'INSTALL', false, 'unix', 'site-admin' );
-
-//     $package->appendGroup( 'design' );
-//     $package->appendGroup( 'community/forum' );
-
-//     $package->appendChange( 'Jan Borsodi', 'jb@ez.no', 'Added some stuff' );
-
-//     $package->setRelease( '1.0.5', '2', false, 'GPL', 'beta' );
-
-// // $package->appendFileList( array( array( 'role' => 'override',
-// //                                         'md5sum' => false,
-// //                                         'name' => 'forum.tpl' ) ),
-// //                           'template', false,
-// //                           array( 'design' => 'standard' ) );
-
-// // $package->appendInstall( 'part', 'Classes', false, true,
-// //                          array( 'content' => 'yup' ) );
-
-//     $exportList = array();
-//     $exportList[] = array( 'type' => $exportType,
-//                            'parameters' => $exportParameters );
-//     $package->handleExportList( $exportList );
-
-//     if ( $outputFile )
-//     {
-//         $package->storeToFile( $outputFile );
-//     }
-//     else
-//     {
-//         print( $package->toString() . "\n" );
-//     }
     }
     else if ( $command == 'create' )
     {
@@ -841,15 +849,6 @@ foreach ( $commandList as $commandItem )
                                   "-------\n" .
                                   "Insert licence here...\n" );
         $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
-
-// $package->appendFileList( array( array( 'role' => 'override',
-//                                         'md5sum' => false,
-//                                         'name' => 'forum.tpl' ) ),
-//                           'template', false,
-//                           array( 'design' => 'standard' ) );
-
-// $package->appendInstall( 'part', 'Classes', false, true,
-//                          array( 'content' => 'yup' ) );
 
         $package->store();
         $cli->output( "Created package " . $commandItem['name'] );

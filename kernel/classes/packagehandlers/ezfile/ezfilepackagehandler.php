@@ -61,6 +61,15 @@ class eZFilePackageHandler extends eZPackageHandler
                       &$content )
     {
         print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
+        $collectionName = $parameters['collection'];
+        $fileList = $package->fileList( $collectionName );
+        if ( $fileList )
+        {
+            foreach ( $fileList as $fileItem )
+            {
+            }
+        }
+        return true;
     }
 
     /*!
@@ -68,19 +77,31 @@ class eZFilePackageHandler extends eZPackageHandler
     */
     function add( $packageType, &$package, &$cli, $parameters )
     {
+        $collections = array();
         foreach ( $parameters['file-list'] as $fileItem )
         {
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   null, null, true, null );
+            if ( !in_array( $fileItem['collection'], $collections ) )
+                $collections[] = $fileItem['collection'];
             $cli->notice( "Adding file " . $cli->style( 'file' ) . $fileItem['file'] . $cli->style( 'file-end' ) . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ") to package" );
-//             $package->appendInstall( 'ezfile', false, false, true,
-//                                      'class-' . $classID, 'ezfile',
-//                                      array( 'content' => $classNode ) );
-//             $package->appendProvides( 'ezfile', $class->attribute( 'identifier' ) );
-//             $package->appendInstall( 'ezfile', false, false, false,
-//                                      'class-' . $classID, 'ezfile',
-//                                      array( 'content' => false ) );
+        }
+        foreach ( $collections as $collection )
+        {
+            $installItems = $package->installItems( 'ezfile', false, $collection, true );
+            if ( count( $installItems ) == 0 )
+                $package->appendInstall( 'ezfile', false, false, true,
+                                         false, false,
+                                         array( 'collection' => $collection ) );
+            $dependencyItems = $package->dependencyItems( 'provides', 'ezfile', 'collection', $collection );
+            if ( count( $dependencyItems ) == 0 )
+                $package->appendDependency( 'provides', 'ezfile', 'collection', $collection );
+            $installItems = $package->installItems( 'ezfile', false, $collection, false );
+            if ( count( $installItems ) == 0 )
+                $package->appendInstall( 'ezfile', false, false, false,
+                                         false, false,
+                                         array( 'collection' => $collection ) );
         }
     }
 
@@ -240,6 +261,7 @@ class eZFilePackageHandler extends eZPackageHandler
             } break;
             case 'design':
             {
+                $roleFileName = false;
                 switch ( $role )
                 {
                     case 'template':
@@ -366,6 +388,23 @@ class eZFilePackageHandler extends eZPackageHandler
             } break;
         }
         return false;
+    }
+
+    /*!
+     \reimp
+    */
+    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    {
+        $installNode->appendAttribute( eZDOMDocument::createAttributeNode( 'collection', $installItem['collection'] ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
+    {
+        $collection = $installNode->attributeValue( 'name' );
+        $installParameters['collection'] = $collection;
     }
 }
 

@@ -370,12 +370,12 @@ class eZHTTPTool
                         $value =  $matches[1];
                         $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
                         $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
-                        eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
+//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
                     }
                     else
                     {
                         $GLOBALS["HTTP_POST_VARS"][$keyClean] = true;
-                        eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
+//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
                     }
                 }
             }

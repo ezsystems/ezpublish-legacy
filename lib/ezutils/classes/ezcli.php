@@ -80,11 +80,11 @@ class eZCLI
         $this->WebOutput = $webOutput;
         $this->TerminalStyles = array( 'warning' => "\033[1;35m",
                                        'warning-end' => "\033[0;39m",
-                                       'error' => "\033[1;31m",
+                                       'error' => "\033[0;31m",
                                        'error-end' => "\033[0;39m",
-                                       'notice' => "\033[1;32m",
+                                       'notice' => "\033[0;32m",
                                        'notice-end' => "\033[0;39m",
-                                       'debug' => "\033[1;30m",
+                                       'debug' => "\033[0;30m",
                                        'debug-end' => "\033[0;39m",
                                        'timing' => "\033[1;34m",
                                        'timing-end' => "\033[0;39m",
@@ -94,9 +94,13 @@ class eZCLI
                                        'file-end' => "\033[0;39m",
                                        'dir' => "\033[1;34m",
                                        'dir-end' => "\033[0;39m",
+                                       'link' => "\033[0;36m",
+                                       'link-end' => "\033[0;39m",
+                                       'symbol' => "\033[0;37m",
+                                       'symbol-end' => "\033[0;39m",
                                        'emphasize' => "\033[1;38m",
                                        'emphasize-end' => "\033[0;39m",
-                                       'strong' => "\033[1;38m",
+                                       'strong' => "\033[1;39m",
                                        'strong-end' => "\033[0;39m",
                                        'mark' => "\033[1;30m",
                                        'mark-end' => "\033[0;39m",
@@ -126,6 +130,10 @@ class eZCLI
                                   'file-end' => "</i>",
                                   'dir' => "<font color=\"blue\">",
                                   'dir-end' => "</font>",
+                                  'link' => "<font color=\"cyan\">",
+                                  'link-end' => "</font>",
+                                  'symbol' => "<i>",
+                                  'symbol-end' => "</i>",
                                   'emphasize' => "<i>",
                                   'emphasize-end' => "</i>",
                                   'strong' => "<b>",
@@ -223,6 +231,16 @@ class eZCLI
     }
 
     /*!
+     \return the text \a $text wrapped in the style \a $styleName.
+    */
+    function stylize( $styleName, $text )
+    {
+        $preStyle = $this->style( $styleName );
+        $postStyle = $this->style( $styleName . '-end' );
+        return $preStyle . $text . $postStyle;
+    }
+
+    /*!
      Controls whether styles are to be used or not. If disabled
      empty strings are returned when asking for styles.
      \note This only controls the style() function.
@@ -244,7 +262,7 @@ class eZCLI
      Outputs the string \a $string to the current interface.
      If \a $addEOL is true then the end-of-line string is added.
     */
-    function output( $string, $addEOL = true )
+    function output( $string = false, $addEOL = true )
     {
         print( $string );
         if ( $addEOL )
@@ -255,7 +273,7 @@ class eZCLI
      Outputs the string \a $string to the current interface as a notice.
      If \a $addEOL is true then the end-of-line string is added.
     */
-    function notice( $string, $addEOL = true )
+    function notice( $string = false, $addEOL = true )
     {
         print( $string );
         if ( $addEOL )
@@ -266,7 +284,7 @@ class eZCLI
      Outputs the string \a $string to the current interface as an warning.
      If \a $addEOL is true then the end-of-line string is added.
     */
-    function warning( $string, $addEOL = true )
+    function warning( $string = false, $addEOL = true )
     {
         print( $string );
         if ( $addEOL )
@@ -277,7 +295,7 @@ class eZCLI
      Outputs the string \a $string to the current interface as an error.
      If \a $addEOL is true then the end-of-line string is added.
     */
-    function error( $string, $addEOL = true )
+    function error( $string = false, $addEOL = true )
     {
         print( $string );
         if ( $addEOL )
