@@ -212,7 +212,7 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     {
         $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for cronjob" );
+            $cli->notice( "Using siteaccess $siteaccess for package creating" );
     }
     else
     {
