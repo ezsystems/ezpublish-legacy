@@ -2863,10 +2863,10 @@ class eZContentObject extends eZPersistentObject
         {
             $versionNum       = $version->attribute( 'version' );
             $oldVersionStatus = $version->attribute( 'status' );
-            $newVersionStatus = $versionList[$versionNum]['status'];
+            $newVersionStatus = isset( $versionList[$versionNum] ) ? $versionList[$versionNum]['status'] : null;
 
             // set the correct status for non-published versions
-            if ( $oldVersionStatus != $newVersionStatus && $newVersionStatus != EZ_VERSION_STATUS_PUBLISHED )
+            if ( isset( $newVersionStatus ) && $oldVersionStatus != $newVersionStatus && $newVersionStatus != EZ_VERSION_STATUS_PUBLISHED )
             {
                 $version->setAttribute( 'status', $newVersionStatus );
                 $version->store( array( 'status' ) );
