@@ -83,6 +83,8 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed problem with approve workflow event which displayed non-published users. Also users that are
   disabled are no longer shown (merged from stable 4600).
   http://ez.no/developer/ez_publish_3/bug_reports/bogus_users_in_gallery_package
+- Made sure empty body mementos are skipped
+  http://ez.no/developer/ez_publish_3/bug_reports/missing_error_handling_in_workflow_cronjob
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
