@@ -42,6 +42,7 @@
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
 
 class eZSearchEngine
 {
@@ -673,7 +674,7 @@ class eZSearchEngine
     function &normalizeText( $text )
     {
         $text =& strToLower( $text );
-        
+
         // Strip multiple whitespaces
         $text = str_replace(".", " ", $text );
         $text = str_replace(":", " ", $text );
