@@ -143,7 +143,7 @@
 
 {* Remove selected attributes button *}
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" {section show=$attributes}disabled="disabled"{/section} />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" {section show=$attributes|not}disabled="disabled"{/section} />
 </div>
 
 <div class="block">
