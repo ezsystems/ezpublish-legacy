@@ -15,14 +15,10 @@
 <div class="element">
 <label>{'Day'|i18n( 'design/standard/content/datatype' )}</label>
 <input type="text" name="{$attribute_base}_datetime_day_{$attribute.id}" size="3" value="{section show=$attribute.content.is_valid}{$attribute.content.day}{/section}" />
-</div>
-
-<div class="element">
-<p>&nbsp;</p>
-</div>
-
-<div class="element">
-<p>&nbsp;</p>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 </div>
 
 <div class="element">

@@ -5,58 +5,64 @@
       {switch match=$attribute.content.enum_isoption}
         {case match=0}
           {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-            <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />  
-            <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />  
-	    <input type="hidden" name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" /> 
-	    <input type="checkbox" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" 
+            <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />
+            <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />
+	    <input type="hidden" name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" />
+    <p><label>
+     <input type="checkbox" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}"
 	  {section name=EnumObjectList loop=$attribute.content.enumobject_list}
           {switch match=$EnumList:item.enumelement}
             {case match=$EnumList:EnumObjectList:item.enumelement}
-	       checked
+	       checked="checked"
             {/case}
 	    {case}{/case}
-	  {/switch} 
+	  {/switch}
 	  {/section}
-	    />&nbsp;<label class="check">{$EnumList:item.enumelement}</label><div class="labelbreak"></div>
+	    />&nbsp;{$EnumList:item.enumelement}</label></p>
 	  {/section}
        {/case}
        {case match=1}
           {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	  <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />  
+	  <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />
           <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />
-	  <input type="hidden" name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" /> 
-	  {/section} 
+	  <input type="hidden" name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" />
+	  {/section}
 	  <select name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" size="4" multiple >
 	  {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	    <option name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" {section name=ObjectList loop=$attribute.content.enumobject_list show=$attribute.content.enumobject_list} 
+	    <option name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" {section name=ObjectList loop=$attribute.content.enumobject_list show=$attribute.content.enumobject_list}
 {section show=eq($EnumList:item.enumelement,$EnumList:ObjectList:item.enumelement)}selected="selected"{/section} {/section}>{$EnumList:item.enumelement}</option>
-          {/section}  
+          {/section}
 	  </select>
        {/case}
        {case}{/case}
-     {/switch} 
+     {/switch}
   {/case}
   {case match=0}
 
       {switch match=$attribute.content.enum_isoption}
+
         {case match=0}
           {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
 	    <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />
-	    <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />  
+	    <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />
 	    <input type="hidden" name="{$attribute_base}_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" />
-	    <input type="radio" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" 
+        <p><label>
+	    <input type="radio" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}"
           {section name=EnumObjectList loop=$attribute.content.enumobject_list}
+
           {switch match=$EnumList:item.enumelement}
             {case match=$EnumList:EnumObjectList:item.enumelement}
-	       checked
+	       checked="checked"
             {/case}
 	    {case}{/case}
           {/switch}
+
           {/section}
-            />&nbsp;<label class="check">{$EnumList:item.enumelement}</label><div class="labelbreak"></div>
+            />&nbsp;{$EnumList:item.enumelement}</label></p>
           {/section}
         {/case}
         {case match=1}
+
 	  {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
 	    <input type="hidden" name="{$attribute_base}_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />  
             <input type="hidden" name="{$attribute_base}_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />  
