@@ -61,7 +61,7 @@
 
     <div id="infobox">
         <div class="design">
-               {let image_list=fetch( content, tree, hash( parent_node_id, 2,
+               {let gallery_list=fetch( content, tree, hash( parent_node_id, 2,
 							   limit, 5,
 							   sort_by, array( published, false() ),
 							   class_filter_type, include, 
@@ -81,7 +81,7 @@
 							   limit, 5,
 							   sort_by, array( published, false() ),
 							   class_filter_type, include, 
-							   class_filter_array, array( 2 ) ) )}
+							   class_filter_array, array( 'image' ) ) )}
                                                           
             <h3>Latest images</h3>
             <ul>
@@ -96,7 +96,7 @@
                                                           limit, 5,
                                                           sort_by, array( published, false() ),
                                                           class_filter_type, include, 
-                                                          class_filter_array, array( 2 ) ) )}
+                                                          class_filter_array, array( 'article' ) ) )}
                                                           
             <h3>Latest news</h3>
             <ul>
@@ -115,7 +115,7 @@
                                                           limit, 5,
                                                           sort_by, array( published, false() ),
                                                           class_filter_type, include, 
-                                                          class_filter_array, array( 2 ) ) )}
+                                                          class_filter_array, array( 'comment' ) ) )}
                                                           
             <h3>Latest comments</h3>
             <ul>

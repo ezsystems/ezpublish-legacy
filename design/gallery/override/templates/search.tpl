@@ -13,6 +13,7 @@
     {set stop_word_array=$search['StopWordArray']}
     {set search_data=$search}
 {/section}
+<div id="search">
 
 <form action={"/content/search/"|ezurl} method="get">
 
@@ -81,4 +82,7 @@
 
 
 </form>
+
+</div>
+
 {/let}
