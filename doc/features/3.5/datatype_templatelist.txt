@@ -1,0 +1,19 @@
+*Title: Template listing for datatypes
+
+Incentive:
+Let the datatypes return which templates they depend on.
+This list of templates will be used by the export system
+to pick related templates more correctly.
+
+*Documentation:
+Add a new method templateList() to eZDataType. This will return
+an array with template files to search for either as a filepath
+or as a regular expression.
+A return value of false means no template relations.
+
+Datatypes that has this implemented:
+eZXMLType - Provides ezxmltags relation.
+
+*Testing:
+
+*SVN Revisions:

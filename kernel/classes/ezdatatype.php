@@ -750,6 +750,23 @@ class eZDataType
     }
 
     /*!
+     Can be called to figure out if a datatype has certain special templates that it relies on.
+     This can for instance be used to figure out which override templates to include in a package.
+     \return An array with template files that this datatype relies on.
+             Each element can be one of the following types:
+             - string - The filepath of the template
+             - array - Advanced matching criteria, element 0 determines the type:
+               - 'regexp' - A regular expression, element 1 is the regexp string (PREG)
+             If \c false is returned it means there are no relations to any templates.
+     \note All matching is done relative from templates directory in the given design.
+     \note The templates that are found in content/datatype/* should not be included.
+    */
+    function templateList()
+    {
+        return false;
+    }
+
+    /*!
      Adds the necessary dom structure to the attribute parameters.
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.

@@ -385,6 +385,16 @@ class eZXMLTextType extends eZDataType
 
     /*!
      \reimp
+     Makes sure content/datatype/.../ezxmltags/... are included.
+    */
+    function templateList()
+    {
+        return array( array( 'regexp',
+                             '#^content/datatype/[a-zA-Z]+/ezxmltags/#' ) );
+    }
+
+    /*!
+     \reimp
     */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
