@@ -76,7 +76,7 @@
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
-define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1052920095 );
+define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1069426958 );
 
 class eZTemplateCompiler
 {
@@ -621,7 +621,11 @@ $rbracket
                                                                      'counter' => 0 ) );
                 if ( $variableParameters['text-result'] )
                 {
-                    $php->addCodePiece( "if ( is_object( \$$generatedVariableName ) )
+                    $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( 'templateValue' ) )
+{
+    \$$generatedVariableName =& \$$generatedVariableName" . "->templateValue();
+}
+if ( is_object( \$$generatedVariableName ) )
     \$text .= compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName );
 else
     \$text .= \$$generatedVariableName;

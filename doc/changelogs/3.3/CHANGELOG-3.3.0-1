@@ -102,7 +102,9 @@ eZImage
 
 eZ template:
 - Added support for using one variable to hold the iterator values instead of multiple variables.
-  This helps with avoiding overuse of namespaces. The new parameter is 'var'.
+  This helps with avoiding overuse of namespaces. The new parameter for section is 'var'.
+  The holding iterator variable is an object that offers transparent access to the attributes
+  of it's current item.
 - Added support for accessing the last iteration of a section loop, this only work with
   thew new variable iterator. Can be turned off with the 'no-last-value' parameter.
 - Added support for reversing the loop in a section, the parameter is 'reverse'.

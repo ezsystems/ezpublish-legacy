@@ -177,6 +177,7 @@ class eZSys
     {
         $text = eZSys::phpVersionText();
         $elements = explode( '.', $text );
+        return $elements;
     }
 
     /*!
@@ -193,7 +194,7 @@ class eZSys
             return false;
         $phpVersion = eZSys::phpVersion();
         $len = min( count( $phpVersion ), count( $requiredVersion ) );
-        for ( $i = 0; $i < $len; ++$i )
+         for ( $i = 0; $i < $len; ++$i )
         {
             if ( $phpVersion[$i] > $requiredVersion[$i] )
                 return true;

@@ -941,6 +941,11 @@ class eZTemplate
                 }
             }
         }
+        if ( is_object( $value ) and
+             method_exists( $value, 'templateValue' ) )
+        {
+            $value =& $value->templateValue();
+        }
         return $value;
     }
 
@@ -1410,7 +1415,13 @@ class eZTemplate
     {
         if ( !is_array( $textElements ) )
             $textElements = array();
-        if ( is_object( $item ) )
+        if ( is_object( $item ) and
+             method_exists( $item, 'templateValue' ) )
+        {
+            $item =& $item->templateValue();
+            $textElements[] = "$item";
+        }
+        else if ( is_object( $item ) )
         {
             $hasTemplateData = false;
             if ( method_exists( $item, 'templateData' ) )
