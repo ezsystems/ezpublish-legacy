@@ -32,6 +32,10 @@ update ezpolicy_limitation set function_name='read', module_name='content', iden
 alter table ezworkflow_process add column session_key varchar(32) NOT NULL DEFAULT '0';
 alter table ezworkflow_process add column process_key char(32) NOT NULL ;
 
+# Change data type for messages
+alter table ezmessage change title title varchar(255);
+alter table ezmessage change body body text;
+
 
 #After beta 2:
 # for mysql
