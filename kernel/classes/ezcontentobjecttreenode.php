@@ -448,6 +448,43 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
     }
 
+    /*!
+     Fetches the number of nodes which exists in the system.
+    */
+    function fetchListCount()
+    {
+        $sql = "SELECT count( node_id ) as count FROM ezcontentobject_tree";
+        $db =& eZDB::instance();
+        $rows = $db->arrayQuery( $sql );
+        return $rows[0]['count'];
+    }
+
+    /*!
+     Fetches a list of nodes and returns it. Offset and limitation can be set if needed.
+    */
+    function fetchList( $asObject = true, $offset = false, $limit = false )
+    {
+        $sql = "SELECT * FROM ezcontentobject_tree";
+        $parameters = array();
+        if ( $offset !== false )
+            $parameters['offset'] = $offset;
+        if ( $limit !== false )
+            $parameters['limit'] = $limit;
+        $db =& eZDB::instance();
+        $rows = $db->arrayQuery( $sql, $parameters );
+        $nodes = array();
+        if ( $asObject )
+        {
+            foreach ( $rows as $row )
+            {
+                $nodes[] = new eZContentObjectTreeNode( $row );
+            }
+            return $nodes;
+        }
+        else
+            return $rows;
+    }
+
     function &subTree( $params = false ,$nodeID = 0 )
     {
         if ( !is_numeric( $nodeID ) )

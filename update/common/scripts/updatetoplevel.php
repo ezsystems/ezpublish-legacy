@@ -40,7 +40,7 @@ $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Setup Node Creator\n\n" .
                                                          "This script will create the setup top level node if it does not exist,\n" .
                                                          "\n" .
-                                                         "createsetup.php" ),
+                                                         "updatetoplevel.php" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
