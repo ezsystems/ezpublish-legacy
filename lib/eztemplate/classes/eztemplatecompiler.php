@@ -1930,7 +1930,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n",
                 if ( $variableParameters['text-result'] )
                 {
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( 'templateValue' ) )
+                    $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )
 {
     \$$generatedVariableName =& \$$generatedVariableName" . "->templateValue();
 }
