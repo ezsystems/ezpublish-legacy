@@ -146,6 +146,20 @@
         <source>Packages</source>
         <translation>Pakker</translation>
     </message>
+    <message>
+        <source>RSS</source>
+        <comment>Really Simple Syndication</comment>
+        <translation>RSS</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avansert</translation>
+    </message>
+    <message>
+        <source>PDF export</source>
+        <comment>PDF export</comment>
+        <translation>PDF-eksport</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -186,10 +200,6 @@
         <translation>Infoside</translation>
     </message>
     <message>
-        <source>Default object view</source>
-        <translation type="obsolete">Standard objektvisning</translation>
-    </message>
-    <message>
         <source>Product</source>
         <translation>Produkt</translation>
     </message>
@@ -210,19 +220,403 @@
         <translation>Brukergruppe</translation>
     </message>
     <message>
-        <source>Users</source>
-        <translation type="obsolete">Brukere</translation>
-    </message>
-    <message>
         <source>Link</source>
         <translation>Lenke</translation>
     </message>
 </context>
 <context>
-    <name>design/shop</name>
+    <name>design/blog/layout</name>
     <message>
-        <source>Payment was canceled. Try to buy again.</source>
-        <translation type="obsolete">Betalingen ble avbrutt. Prøv å kjøpe igjen.</translation>
+        <source>Log entries</source>
+        <translation>Loggmeldinger</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Beskrivelse:</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation>Lag ny bloggmelding</translation>
+    </message>
+    <message>
+        <source>Latest blogs</source>
+        <translation>Siste blogger</translation>
+    </message>
+    <message>
+        <source>Log Archive by Entry</source>
+        <translation>Loggarkiv etter melding</translation>
+    </message>
+    <message>
+        <source>Comments disabled</source>
+        <translation>Kommentarer deaktivert</translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation>Resultat</translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation>Spørreundersøkelse</translation>
+    </message>
+    <message>
+        <source>Recent links</source>
+        <translation>Siste linker</translation>
+    </message>
+</context>
+<context>
+    <name>design/corporate/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+</context>
+<context>
+    <name>design/forum/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Melding</translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Replies</source>
+        <translation>Svar</translation>
+    </message>
+    <message>
+        <source>Last reply</source>
+        <translation>Siste svar</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation>Siste meldinger</translation>
+    </message>
+    <message>
+        <source>Number of Topics:</source>
+        <translation>Antall tema:</translation>
+    </message>
+    <message>
+        <source>Number of Posts:</source>
+        <translation>Antall meldinger:</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Varsler</translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation>Rediger konto</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Logg inn</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Logg ut</translation>
+    </message>
+</context>
+<context>
+    <name>design/gallery/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Galleries</source>
+        <translation>Gallerier</translation>
+    </message>
+    <message>
+        <source>Latest images</source>
+        <translation>Siste bilder</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+    <message>
+        <source>Latest comments</source>
+        <translation>Siste kommentarer</translation>
+    </message>
+    <message>
+        <source>Edit gallery</source>
+        <translation>Rediger galleri</translation>
+    </message>
+    <message>
+        <source>Create a new gallery</source>
+        <translation>Lag nytt galleri</translation>
+    </message>
+    <message>
+        <source>Name of your album</source>
+        <translation>Navn på fotoalbumet ditt</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Number of columns</source>
+        <translation>Antall kolonner</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Gallery list</source>
+        <translation>Galleriliste</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Logg ut</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Logg inn</translation>
+    </message>
+</context>
+<context>
+    <name>design/intranet/layout</name>
+    <message>
+        <source>Comment this article!</source>
+        <translation>Skriv en kommentar til denne artikkelen!</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+    <message>
+        <source>Contact information</source>
+        <translation>Kontaktinformasjon</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/content/poll</name>
+    <message>
+        <source>Results</source>
+        <translation>Resultater</translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation>Anonyme brukere kan ikke stemme i denne spørreundersøkelsen, vennligst logg inn.</translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation>Du har allerede stemt i denne spørreundersøkelsen.</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/layout</name>
+    <message>
+        <source>Related stories</source>
+        <translation>Beslektede saker</translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation>Tips en venn</translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation>Kommentarer</translation>
+    </message>
+    <message>
+        <source>Comment this article!</source>
+        <translation>Skriv en kommentar til denne artikkelen!</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation>Resultat</translation>
+    </message>
+    <message>
+        <source>View all polls</source>
+        <translation>Vis alle spørreundersøkelser</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation>Nyheter</translation>
+    </message>
+    <message>
+        <source>Most popular</source>
+        <translation>Mest populær</translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation>Spørreundersøkelse</translation>
+    </message>
+</context>
+<context>
+    <name>design/shop/layout</name>
+    <message>
+        <source>login</source>
+        <translation>Logg inn</translation>
+    </message>
+    <message>
+        <source>logout</source>
+        <translation>Logg ut</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Les mer</translation>
+    </message>
+    <message>
+        <source>Write your own review</source>
+        <translation>Skriv din egen anmeldelse</translation>
+    </message>
+    <message>
+        <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
+        <translation>Skriv en anmeldelse og del dine meninger. Vennligst pass på at kommentarene dine er relevante for produktet.</translation>
+    </message>
+    <message>
+        <source>How do you rate the product?</source>
+        <translation>Hvordan vil du bedømme produktet?</translation>
+    </message>
+    <message>
+        <source>Title of your review:</source>
+        <translation>Tittel på anmeldelsen din:</translation>
+    </message>
+    <message>
+        <source>Your review:</source>
+        <translation>Anmeldelsen din:</translation>
+    </message>
+    <message>
+        <source>Related products</source>
+        <translation>Beslektede produkter</translation>
+    </message>
+    <message>
+        <source>Add to basket</source>
+        <translation>Legg i handlekurven</translation>
+    </message>
+    <message>
+        <source>Notify me about updates</source>
+        <translation>Gi meg beskjed om oppdateringer</translation>
+    </message>
+    <message>
+        <source>Printerfriendly version</source>
+        <translation>Utskriftsvennlig versjon</translation>
+    </message>
+    <message>
+        <source>People who bought this also bought</source>
+        <translation>Andre som kjøpte dette, kjøpte også</translation>
+    </message>
+    <message>
+        <source>Reviews</source>
+        <translation>Anmeldelser</translation>
+    </message>
+    <message>
+        <source>Write a review</source>
+        <translation>Skriv en anmeldelse</translation>
+    </message>
+    <message>
+        <source>No rating</source>
+        <translation>Ingen bedømmelser</translation>
+    </message>
+    <message>
+        <source>Main menu</source>
+        <translation>Hovedmeny</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Søk</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Varsler</translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation>Rediger konto</translation>
+    </message>
+    <message>
+        <source>View basket</source>
+        <translation>Vis handlekurven</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Logg ut</translation>
+    </message>
+    <message>
+        <source>Register new customer</source>
+        <translation>Registrer ny kunde</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Logg inn</translation>
+    </message>
+    <message>
+        <source>Products</source>
+        <translation>Produkter</translation>
+    </message>
+    <message>
+        <source>Latest products</source>
+        <translation>Siste produkter</translation>
+    </message>
+    <message>
+        <source>Shopping basket</source>
+        <translation>Handlekurv</translation>
+    </message>
+    <message>
+        <source>View all details</source>
+        <translation>Vis alle detaljer</translation>
+    </message>
+    <message>
+        <source>Your basket is empty</source>
+        <translation>Handlekurven din er tom</translation>
+    </message>
+    <message>
+        <source>Best sellers</source>
+        <translation>Bestselgere</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Siste nytt</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation>Klassen er låst</translation>
     </message>
 </context>
 <context>
@@ -387,17 +781,165 @@
         <source>New option</source>
         <translation>Nytt valg</translation>
     </message>
+    <message>
+        <source>Pretext</source>
+        <translation>Førtekst</translation>
+    </message>
+    <message>
+        <source>Posttext</source>
+        <translation>Ettertekst</translation>
+    </message>
+    <message>
+        <source>Current value: </source>
+        <translation>Nåværende verdi:</translation>
+    </message>
+    <message>
+        <source> (This value are the current identifier)</source>
+        <translation>(Denne verdien er den nåværende identifikatoren)</translation>
+    </message>
+    <message>
+        <source>Current temporary value: </source>
+        <translation>Nåværende midlertidig verdi:</translation>
+    </message>
+    <message>
+        <source> (This value is a copy of the original identifier)</source>
+        <translation>(Denne verdien er en kopi av den originale identifikatoren)</translation>
+    </message>
+    <message>
+        <source>Digits</source>
+        <translation>Siffer</translation>
+    </message>
+    <message>
+        <source>Start value</source>
+        <translation>Startverdi</translation>
+    </message>
+    <message>
+        <source>Update identifier</source>
+        <translation>Oppdater identifikator</translation>
+    </message>
+    <message>
+        <source>Ini file</source>
+        <translation>Ini-fil</translation>
+    </message>
+    <message>
+        <source>Ini Section</source>
+        <translation>Ini-seksjon</translation>
+    </message>
+    <message>
+        <source>Ini Parameter</source>
+        <translation>Ini-parameter</translation>
+    </message>
+    <message>
+        <source>Ini file location</source>
+        <translation>Plassering av ini-fil</translation>
+    </message>
+    <message>
+        <source>Ini setting type</source>
+        <translation>Type ini-innstilling</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Tekst</translation>
+    </message>
+    <message>
+        <source>Enable/Disable</source>
+        <translation>Aktiver/Deaktiver</translation>
+    </message>
+    <message>
+        <source>True/False</source>
+        <translation>Riktig/Feil</translation>
+    </message>
+    <message>
+        <source>Integer</source>
+        <translation>Heltall</translation>
+    </message>
+    <message>
+        <source>Float</source>
+        <translation>Flyttall</translation>
+    </message>
+    <message>
+        <source>Array</source>
+        <translation>Liste</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Create or browse objects</source>
+        <translation>Lag eller let i objekter</translation>
+    </message>
+    <message>
+        <source>New and existing objects</source>
+        <translation>Nye og eksisterende objekter</translation>
+    </message>
+    <message>
+        <source>Only new objects</source>
+        <translation>Bare nye objekter</translation>
+    </message>
+    <message>
+        <source>Only existing objects</source>
+        <translation>Bare eksisterende objekter</translation>
+    </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Velg hvilke klasser brukeren kan opprette</translation>
+    </message>
+    <message>
+        <source>Package Type</source>
+        <translation>Pakketype</translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation>Avkrysset</translation>
+    </message>
+    <message>
+        <source>Unchecked</source>
+        <translation>Ikke avkrysset</translation>
+    </message>
+    <message>
+        <source>Single choice</source>
+        <translation>Eksklusivt valg</translation>
+    </message>
+    <message>
+        <source>Warning, the ini file settings value and object value does not match.</source>
+        <translation>Advarsel, innstillingen i ini-filen og objektverdien stemmer ikke overens.</translation>
+    </message>
+    <message>
+        <source>The ini file has probably been modified manually since last time.</source>
+        <translation>Ini-filen har sannsynligvis blitt endret siden sist gang objektet ble endret.</translation>
+    </message>
+    <message>
+        <source>Ini File : </source>
+        <translation>Ini-fil:</translation>
+    </message>
+    <message>
+        <source>Ini Value: </source>
+        <translation>Ini-verdi:</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktivert</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deaktivert</translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation>Riktig</translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation>Feil</translation>
+    </message>
+    <message>
+        <source>Make empty array</source>
+        <translation>Lag tom liste</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
-    <message>
-        <source>on</source>
-        <translation type="obsolete"> den</translation>
-    </message>
-    <message>
-        <source>Modified by</source>
-        <translation type="obsolete">Endret av</translation>
-    </message>
     <message>
         <source>Input did not validate</source>
         <translation>Den innlagte informasjonen ble ikke godkjent</translation>
@@ -457,10 +999,6 @@
     <message>
         <source>Cancel</source>
         <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Last modified by</source>
-        <translation type="obsolete">Sist endret av</translation>
     </message>
     <message>
         <source>Discard Changes</source>
@@ -538,6 +1076,46 @@
         <source>Modified by %username on %time</source>
         <translation>Redigert av %username den %time</translation>
     </message>
+    <message>
+        <source>Retry</source>
+        <translation>Prøv igjen</translation>
+    </message>
+    <message>
+        <source>Class - %1</source>
+        <translation>Klasse - %1</translation>
+    </message>
+    <message>
+        <source>Is required</source>
+        <translation>Er påkrevet</translation>
+    </message>
+    <message>
+        <source>Is not required</source>
+        <translation>Er ikke påkrevet</translation>
+    </message>
+    <message>
+        <source>Is searchable</source>
+        <translation>Er søkbar</translation>
+    </message>
+    <message>
+        <source>Is not searchable</source>
+        <translation>Er ikke søkbar</translation>
+    </message>
+    <message>
+        <source>Collects information</source>
+        <translation>Samler informasjon</translation>
+    </message>
+    <message>
+        <source>Does not collect information</source>
+        <translation>Samler ikke informasjon</translation>
+    </message>
+    <message>
+        <source>Translation is disabled</source>
+        <translation>Oversettelse er deaktivert</translation>
+    </message>
+    <message>
+        <source>Translation is enabled</source>
+        <translation>Oversettelse er aktivert</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
@@ -570,8 +1148,12 @@
         <translation>Ny gruppe</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
+        <source>Last modified classes</source>
+        <translation>Sist endrede klasser</translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation>Oppsettmeny</translation>
     </message>
 </context>
 <context>
@@ -619,6 +1201,10 @@
     <message>
         <source>New class</source>
         <translation>Ny klasse</translation>
+    </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation>Klikk &quot;Ny&quot;-knappen for å lage en ny klasse.</translation>
     </message>
 </context>
 <context>
@@ -686,6 +1272,10 @@
     <message>
         <source>Summary</source>
         <translation>Sammendrag</translation>
+    </message>
+    <message>
+        <source>[more]</source>
+        <translation>[mer]</translation>
     </message>
 </context>
 <context>
@@ -878,6 +1468,73 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <source>Add</source>
         <translation>Legg til</translation>
     </message>
+    <message>
+        <source>PDF Export</source>
+        <translation>PDF-eksport</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Tittel</translation>
+    </message>
+    <message>
+        <source>Intro text</source>
+        <translation>Introtekst</translation>
+    </message>
+    <message>
+        <source>Sub text</source>
+        <translation>Undertekst</translation>
+    </message>
+    <message>
+        <source>Source node</source>
+        <translation>Kildenode</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Bla igjennom</translation>
+    </message>
+    <message>
+        <source>Export structure</source>
+        <translation>Eksportstruktur</translation>
+    </message>
+    <message>
+        <source>Tree</source>
+        <translation>Tre</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Node</translation>
+    </message>
+    <message>
+        <source>Export classes</source>
+        <translation>Eksporter klasser</translation>
+    </message>
+    <message>
+        <source>Site access</source>
+        <translation>Nettstedstilgang</translation>
+    </message>
+    <message>
+        <source>Export destination</source>
+        <translation>Eksportmål</translation>
+    </message>
+    <message>
+        <source>Export to URL</source>
+        <translation>Eksporter til URL</translation>
+    </message>
+    <message>
+        <source>Export for direct download</source>
+        <translation>Eksporter for direkte nedlasting</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Eksporter</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/browse</name>
+    <message>
+        <source>Create new</source>
+        <translation>Lag ny</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
@@ -1040,10 +1697,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <translation>Filnavn</translation>
     </message>
     <message>
-        <source>MIME Type</source>
-        <translation type="obsolete">MIME type</translation>
-    </message>
-    <message>
         <source>Filesize</source>
         <translation>Filstørrelse</translation>
     </message>
@@ -1066,10 +1719,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Minute</source>
         <translation>Minutt</translation>
-    </message>
-    <message>
-        <source>Image filename</source>
-        <translation>Bildefilnavn</translation>
     </message>
     <message>
         <source>Alternative image text</source>
@@ -1098,10 +1747,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Existing filename</source>
         <translation>Eksisterende filnavn</translation>
-    </message>
-    <message>
-        <source>Existing orignal filename</source>
-        <translation>Eksisterende originalfilnavn</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1168,24 +1813,52 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <translation>Ny rad</translation>
     </message>
     <message>
-        <source>Create new %classname</source>
-        <translation>Lag ny %classname</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation>Legg til %classname</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation>Rediger objekter</translation>
-    </message>
-    <message>
         <source>Remove objects</source>
         <translation>Fjern objekter</translation>
     </message>
     <message>
         <source>MIME-Type</source>
         <translation>MIME-Type</translation>
+    </message>
+    <message>
+        <source>View Mode</source>
+        <translation>Visningsmodus</translation>
+    </message>
+    <message>
+        <source>Local image file for upload</source>
+        <translation>Lokal bildefil for opplasting</translation>
+    </message>
+    <message>
+        <source>Image preview</source>
+        <translation>Forhåndsvisning av bilde</translation>
+    </message>
+    <message>
+        <source>Original filename for image</source>
+        <translation>Original filnavn for bilde</translation>
+    </message>
+    <message>
+        <source>Existing original filename</source>
+        <translation>Eksisterende originalt filnavn</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation>Åpne objekter for redigering</translation>
+    </message>
+    <message>
+        <source>Browse for objects</source>
+        <translation>Let etter objekter</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Legg til</translation>
+    </message>
+    <message>
+        <source>Value (optional)</source>
+        <translation>Verdi (valgfri)</translation>
     </message>
 </context>
 <context>
@@ -1269,10 +1942,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard the draft?</source>
-        <translation>Er du sikker på at du vil fjerne utkastet?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -1361,6 +2030,171 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>New draft</source>
         <translation>Nytt utkast</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation>Lagre</translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <source>Feedback from %1</source>
+        <translation>Tilbakemelding fra %1</translation>
+    </message>
+    <message>
+        <source>The following feedback was collected:</source>
+        <translation>Følgende tilbakemelding ble innhentet:</translation>
+    </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation>Den nåværende publiserte versjonen er %version og ble publisert %time.</translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation>Den siste endringen ble gjort %modified.</translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation>Objektet er eid av %owner.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Objektet blir allerede redigerert av deg og andre.
+Du kan enten fortsette å redigere et av dine utkast, eller du kan lage et nytt utkast.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Objektet blir allerede redigerert av deg.
+Du kan enten fortsette å redigere et av dine utkast, eller du kan lage et nytt utkast.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation>Objektet blir allerede redigerert av andre.
+Du kan enten kontakte den/de som redigerer det, eller du kan lage et nytt utkast for personlig redigering.</translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation>Nåværende utkast</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versjon</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Eier</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Sist endret</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation>Deler av den innlagte informasjonen ble lagret</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to discard the draft %versionname?</source>
+        <translation>Er du sikker på at du vil fjerne utkastet %versionname?</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/ezoption</name>
+    <message>
+        <source>No value chosen</source>
+        <translation>Ingen verdi er valgt</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/feedback</name>
+    <message>
+        <source>Feedback for %feedbackname</source>
+        <translation>Tilbakemelding for %feedbackname</translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation>Du har allerede sendt inn data til denne tilbakemeldingen. Dine tidligere data var følgende:</translation>
+    </message>
+    <message>
+        <source>Thanks for your feedback, the following information was collected.</source>
+        <translation>Takk for tilbakemeldingen, følgende informasjon ble innhentet:</translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation>Tilbake til nettstedet</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/form</name>
+    <message>
+        <source>Form %formname</source>
+        <translation>Skjema %formname</translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
+        <translation>Du har allerede sendt inn data til dette skjemaet. Dine tidligere data var følgende:</translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation>Tilbake til nettstedet</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/pdf</name>
+    <message>
+        <source>eZ publish PDF export</source>
+        <translation>eZ publish PDF-eksport</translation>
+    </message>
+    <message>
+        <source>#page of #total</source>
+        <translation>#page av #total</translation>
+    </message>
+    <message>
+        <source>#level1 - #level2</source>
+        <translation>#level1 - #level2</translation>
+    </message>
+    <message>
+        <source>#levelIndex1:#levelIndex2</source>
+        <translation>#levelIndex1:#levelIndex2</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Innhold</translation>
+    </message>
+    <message>
+        <source>Versionview not supported in PDF yet</source>
+        <translation>Versjonsvisning er ikke støttet i PDF ennå</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll</name>
+    <message>
+        <source>Poll %pollname</source>
+        <translation>Spørreundersøkelse %pollname</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Resultater</translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation>Anonyme brukere kan ikke stemme i denne spørreundersøkelsen, vennligst logg inn.</translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation>Du har allerede stemt i denne spørreundersøkelsen.</translation>
+    </message>
+    <message>
+        <source>%count total votes</source>
+        <translation>%count stemmer totalt</translation>
+    </message>
+    <message>
+        <source>Poll results</source>
+        <translation>Resultater av spørreundersøkelsen</translation>
     </message>
 </context>
 <context>
@@ -1744,7 +2578,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>Du kan endre instillingene for versjonshistorien i content.ini, fjerne utkastversjoner eller redigere eksisterende utkast.</translation>
+        <translation>Du kan endre innstillingene for versjonshistorien i content.ini, fjerne utkastversjoner eller redigere eksisterende utkast.</translation>
     </message>
 </context>
 <context>
@@ -1836,16 +2670,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>My bookmarks</source>
         <translation>Mine bokmerker</translation>
-    </message>
-    <message>
-        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %addbutton button.
-
-      Removing objects will only remove them from this list.</source>
-        <translation>Dette er objektene du har laget bokmerker for. Klikk et objekt for å se på det, eller hvis du har rettigheter til det kan du redigere objektet ved å klikke rediger-knappen.
-Hvis du vil legge til flere objekter i denne listen, klikk %addbutton-knappen.
-
-Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
@@ -1977,7 +2801,7 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     </message>
     <message>
         <source>Empty Draft</source>
-        <translation>Tomt utkast</translation>
+        <translation>Fjern alle utkast</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -1994,6 +2818,20 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>Your pending list is empty</source>
         <translation>Din publiseringskø er tom</translation>
+    </message>
+    <message>
+        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
+      If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
+
+      Removing objects will only remove them from this list.</source>
+        <translation>Dette er objektene du har laget bokmerker for. Klikk et objekt for å vise det. Hvis du har rettigheter til det, kan du redigere objektet ved å klikke redigeringsknappen.
+Hvis du vil legge til flere objekter i denne listen, klikk %emphasize_startLegg til bokmerker%emphasize_stop-knappen.
+
+Når du fjerner et bokmerke fjernes det bare fra denne listen, og ikke fra innholdstreet.</translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation>For å velge objekter, velg den tilhørende radioknappen eller avkrysningsboksen(e), og klikk &quot;Velg&quot;-knappen.</translation>
     </message>
 </context>
 <context>
@@ -2019,44 +2857,16 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Visning ikke funnet</translation>
     </message>
     <message>
-        <source>Unavailable</source>
-        <translation type="obsolete">Ikke tilgjengelig</translation>
-    </message>
-    <message>
-        <source>The object is not available.</source>
-        <translation type="obsolete">Objektet er ikke tilgjengelig.</translation>
-    </message>
-    <message>
-        <source>Login to get proper permissions.</source>
-        <translation type="obsolete">Logg inn for å få tilgang.</translation>
-    </message>
-    <message>
         <source>Click the Login button to login.</source>
         <translation>Klikk Logg inn-knappen for å logge inn.</translation>
-    </message>
-    <message>
-        <source>The requested module &apos;%1&apos; could not be found.</source>
-        <translation type="obsolete">Modulen &apos;%1&apos; ble ikke funnet.</translation>
-    </message>
-    <message>
-        <source>The requested view &apos;%1&apos; could not be found in module: &apos;%2&apos;</source>
-        <translation type="obsolete">Visningen &apos;%1&apos; ble ikke funnet i modulen &apos;%2&apos;</translation>
     </message>
     <message>
         <source>View is disabled</source>
         <translation>Visningen er sperret</translation>
     </message>
     <message>
-        <source>The view %2/%1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">Visningen %2/%1 er sperret og kan ikke brukes.</translation>
-    </message>
-    <message>
         <source>Module is disabled</source>
         <translation>Modulen er sperret</translation>
-    </message>
-    <message>
-        <source>The module %1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">Modulen %1 er sperret og kan ikke brukes.</translation>
     </message>
     <message>
         <source>Possible reasons for this is.</source>
@@ -2065,10 +2875,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
         <translation>Brukeren din har ikke de riktige rettighetene for å aksessere denne siden.</translation>
-    </message>
-    <message>
-        <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation>Du er ikke logget inn på siden, for å få riktige rettigheter må du enten lage en ny bruker eller logge inn med en eksisterende bruker.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -2150,6 +2956,10 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <source>You should automatically be redirected to the new location. If not click %url.</source>
         <translation>Du vil bli automatisk vist til den nye lokasjonen. Hvis dette ikke skjer kan du trykke på %url.</translation>
     </message>
+    <message>
+        <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
+        <translation>Du er ikke logget inn. For å få tilgang, lag en ny bruker eller logg inn med en eksisterende bruker.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/form</name>
@@ -2174,10 +2984,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>Sitemap</source>
         <translation>Nettstedskart</translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="obsolete">Restart</translation>
     </message>
     <message>
         <source>Welcome to eZ publish administration</source>
@@ -2224,14 +3030,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Forside</translation>
     </message>
     <message>
-        <source>%1 front page</source>
-        <translation type="obsolete">%1 forside</translation>
-    </message>
-    <message>
-        <source>Search %1</source>
-        <translation type="obsolete">Søk %1</translation>
-    </message>
-    <message>
         <source>Printable version</source>
         <translation>Utskriftsvennlig versjon</translation>
     </message>
@@ -2250,14 +3048,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>Version:</source>
         <translation>Versjon:</translation>
-    </message>
-    <message>
-        <source>Redirecting to %1</source>
-        <translation type="obsolete">Videresender til %1</translation>
-    </message>
-    <message>
-        <source>Revision:</source>
-        <translation type="obsolete">Revisjon:</translation>
     </message>
     <message>
         <source>%sitetitle front page</source>
@@ -2290,10 +3080,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
 <context>
     <name>design/standard/node</name>
     <message>
-        <source>Removing node assignment of</source>
-        <translation type="obsolete">Fjerner nodetilordning av</translation>
-    </message>
-    <message>
         <source>Confirm</source>
         <translation>Bekreft</translation>
     </message>
@@ -2306,20 +3092,8 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Er du sikker på at du vil fjerne %1 fra noden %2?</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove these nodes?</source>
-        <translation>Er du sikker på at du vil fjerne disse nodene?</translation>
-    </message>
-    <message>
-        <source>Removing this assignment will also remove it&apos;s %1!</source>
-        <translation type="obsolete">Hvis du fjerner denne tilordningen blir også %1 av denne fjernet!</translation>
-    </message>
-    <message>
         <source>The following items were removed from your basket, because the products were changed</source>
         <translation>De følgende varene ble fjernet fra handlekurven din, fordi produktene er endret</translation>
-    </message>
-    <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
-        <translation type="obsolete">Hvis du fjerner noden %1 blir også %2 av denne fjernet! %3</translation>
     </message>
     <message>
         <source>Note:</source>
@@ -2330,16 +3104,32 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Noder som er fjernet kan hentes tilbake senere. Du finner dem i papirkurven.</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation>Fjernes denne plasseringen vil også alle %1 barna fjernes.</translation>
-    </message>
-    <message>
         <source>Removing node assignment of %1</source>
         <translation>Fjerner node plassering for %1</translation>
     </message>
     <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation>Fjerning av %1 vil fjerne noden og alle dens %2 barn. %3</translation>
+        <source>Removing this assignment will also remove its %1 children.</source>
+        <translation>Hvis du fjerner denne noden, vil også %1 barn av noden bli fjernet.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation>Er du sikker på at du vil fjerne disse nodene?</translation>
+    </message>
+    <message>
+        <source>%nodename and its %childcount children. %additionalwarning</source>
+        <translation>%nodename og dens %childcount barn. %additionalwarning</translation>
+    </message>
+    <message>
+        <source>%nodename %additionalwarning</source>
+        <translation>%nodename %additionalwarning</translation>
+    </message>
+    <message>
+        <source>Move to trash</source>
+        <translation>Flytt til papirkurven</translation>
+    </message>
+    <message>
+        <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
+        <translation>Hvis %trashname er avkrysset, vil du finne de fjernede objektene i papirkurven senere.</translation>
     </message>
 </context>
 <context>
@@ -2432,6 +3222,54 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <source>Click to create a custom template</source>
         <translation>Klikk for å lage en ny tilpasset mal</translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation>NodeID</translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation>ObjectID</translation>
+    </message>
+    <message>
+        <source>New log</source>
+        <translation>Ny logg</translation>
+    </message>
+    <message>
+        <source>New image</source>
+        <translation>Nytt bilde</translation>
+    </message>
+    <message>
+        <source>New gallery</source>
+        <translation>Nytt galleri</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>Nytt album</translation>
+    </message>
+    <message>
+        <source>New file</source>
+        <translation>Ny fil</translation>
+    </message>
+    <message>
+        <source>New article</source>
+        <translation>Ny artikkel</translation>
+    </message>
+    <message>
+        <source>New person</source>
+        <translation>Ny person</translation>
+    </message>
+    <message>
+        <source>New company</source>
+        <translation>Nytt firma</translation>
+    </message>
+    <message>
+        <source>Input did not validate</source>
+        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
+    </message>
+    <message>
+        <source>Default object view.</source>
+        <translation>Standard objektvisning.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -2502,16 +3340,6 @@ Du kan se den ved å klikke på URL-en nedenfor.</translation>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation>Denne eposten er sendt for å informere deg om nyheter på %sitename.</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] Objektet &quot;%itemname&quot; av klassen %classname ble publisert</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation>Et nytt objekt er publisert på %sitename.
-Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>Notification admin</source>
@@ -2595,6 +3423,275 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
         <source>Install package</source>
         <translation>Installer pakke</translation>
     </message>
+    <message>
+        <source>Please provide information on the changes.</source>
+        <translation>Vennligst oppgi informasjon om endringene.</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>E-post</translation>
+    </message>
+    <message>
+        <source>Changes</source>
+        <translation>Endringer</translation>
+    </message>
+    <message>
+        <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
+The change will continue to the next change marker.</source>
+        <translation>Start en anførsel med en markør ( %emstart-%emend (strek) eller %emstart*%emend (stjerne) ) på begynnelsen av linjen.
+Endringen fortsetter fram til neste endringsmarkør.</translation>
+    </message>
+    <message>
+        <source>Please provide some basic information for your package.</source>
+        <translation>Vennligst oppgi grunnleggende informasjon om pakken din.</translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation>Pakkenavn</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Licence</source>
+        <translation>Lisens</translation>
+    </message>
+    <message>
+        <source>Package host</source>
+        <translation>Server for pakken</translation>
+    </message>
+    <message>
+        <source>Packager</source>
+        <translation>Distributør</translation>
+    </message>
+    <message>
+        <source>Please provide information on the maintainer of the package.</source>
+        <translation>Vennligst oppgi informasjon om vedlikeholderen av pakken.</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>Maintainer name</comment>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <comment>Maintainer role</comment>
+        <translation>Rolle</translation>
+    </message>
+    <message>
+        <source>Please select a thumbnail file to be included in the package,
+if you do not wish to have a thumbnail simply click Next.</source>
+        <translation>Vennligst velg et miniatyrbilde til pakken.
+Hvis du ikke vil ha et miniatyrbilde, klikk Neste.</translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation>Lag pakke</translation>
+    </message>
+    <message>
+        <source>Available wizards</source>
+        <translation>Tilgjengelige veivisere</translation>
+    </message>
+    <message>
+        <source>Choose one of the following wizards for creating a package</source>
+        <translation>Velg en av de følgende veiviserne for å lage en pakke</translation>
+    </message>
+    <message>
+        <source>Please choose the content classes you wish to be included in the package.</source>
+        <translation>Vennligst velg innholdsklassen du vil ha med i pakken.</translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation>Klasseliste</translation>
+    </message>
+    <message>
+        <source>Please select a CSS file to be included in the package.</source>
+        <translation>Vennligst velg en CSS-fil du vil ha med i pakken.</translation>
+    </message>
+    <message>
+        <source>Select an image file to be included in the package and click Next.
+When you are done with adding images click Next without choosing an image.</source>
+        <translation>Velg en bildefil du vil ha med i pakken, og klikk Neste.
+Når du er ferdig med å legge til bilder, klikk Neste uten å velge et bilde.</translation>
+    </message>
+    <message>
+        <source>Currently added image files</source>
+        <translation>Nåværende bildefiler</translation>
+    </message>
+    <message>
+        <source>Package wizard: %wizardname</source>
+        <translation>Pakkeveiviser: %wizardname</translation>
+    </message>
+    <message>
+        <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
+If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
+        <translation>Pakken kan bli installert på systemet ditt. Hvis du installerer pakken vil den kopiere filer, lage innholdsklasser o.l., avhengig av hva pakken inneholder.
+Hvis du ikke vil installere pakken nå, kan du gjøre det senere fra visningssiden til pakken.</translation>
+    </message>
+    <message>
+        <source>Install items</source>
+        <translation>Installer pakker</translation>
+    </message>
+    <message>
+        <source>Skip installation</source>
+        <translation>Ikke installer</translation>
+    </message>
+    <message>
+        <source>Removal of packages</source>
+        <translation>Fjern pakker</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to remove the following packages?
+The packages will be lost forever.
+Note: The packages will not be uninstalled.</source>
+        <translation>Er du sikker på at du vil fjerne de følgende pakkene?
+Pakkene vil fjernes permanent.
+NB: Pakkene blir ikke avinstallert.</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>Bekreft fjerning.</translation>
+    </message>
+    <message>
+        <source>Keep packages</source>
+        <translation>Behold pakkene</translation>
+    </message>
+    <message>
+        <source>Package removal was cancelled.</source>
+        <translation>Fjerning av pakker ble avbrutt.</translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation>Valg</translation>
+    </message>
+    <message>
+        <source>Installed</source>
+        <translation>Installert</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation>Ikke installert</translation>
+    </message>
+    <message>
+        <source>Imported</source>
+        <translation>Importert</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation>Fjern pakke</translation>
+    </message>
+    <message>
+        <source>Import package</source>
+        <translation>Importer pakke</translation>
+    </message>
+    <message>
+        <source>Next %arrowright</source>
+        <translation>Neste %arrowright</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>Avslutt</translation>
+    </message>
+    <message>
+        <source>Uninstall package</source>
+        <translation>Avinstaller pakke</translation>
+    </message>
+    <message>
+        <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
+If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
+You may also remove the package without uninstalling it from the package list.</source>
+        <translation>Pakken kan bli avinstallert fra systemet ditt. Hvis du avinstallerer pakken vil den slette filer, innholdsklasser o.l., avhengig av hva pakken inneholder.
+Hvis du ikke vil avinstallere pakken nå, kan du gjøre det senere fra visningssiden til pakken.
+Du kan også fjerne pakken fra pakkelisten, uten å avinstallere den.</translation>
+    </message>
+    <message>
+        <source>Uninstall items</source>
+        <translation>Avinstaller pakker</translation>
+    </message>
+    <message>
+        <source>Skip uninstallation</source>
+        <translation>Ikke avinstaller</translation>
+    </message>
+    <message>
+        <source>Files [%collectionname]</source>
+        <translation>Filer [%collectionname]</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detaljer</translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation>Avinstaller</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Installer</translation>
+    </message>
+    <message>
+        <source>Export to file</source>
+        <translation>Eksporter til fil</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Tilstand</translation>
+    </message>
+    <message>
+        <source>Maintainers</source>
+        <translation>Vedlikeholdere</translation>
+    </message>
+    <message>
+        <source>Regarding eZ publish package &apos;%packagename&apos;</source>
+        <translation>Angående eZ publish-pakken &apos;%packagename&apos;</translation>
+    </message>
+    <message>
+        <source>Send E-Mail to the maintainer</source>
+        <translation>Send en e-post til vedlikeholderen</translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation>Dokumenter</translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation>Endringslogg</translation>
+    </message>
+    <message>
+        <source>File list</source>
+        <translation>Filliste</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>PDF Exports</source>
+        <translation>PDF-eksporter</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation>Opprettet av</translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation>Opprettet</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation>Ny eksport</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/reference/ez</name>
@@ -2636,7 +3733,7 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation>Fil liste</translation>
+        <translation>Filliste</translation>
     </message>
     <message>
         <source>Compound members</source>
@@ -2858,14 +3955,6 @@ menyen på toppen.</translation>
         <translation>Fjern valgte regler</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation>Hjelp med roller</translation>
-    </message>
-    <message>
         <source>Edit role</source>
         <translation>Rediger rolle</translation>
     </message>
@@ -2884,6 +3973,246 @@ menyen på toppen.</translation>
     <message>
         <source>Remove selected assignments</source>
         <translation>Fjern valgte tilordninger</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss</name>
+    <message>
+        <source>Choose export node</source>
+        <translation>Velg eksportnode</translation>
+    </message>
+    <message>
+        <source>Please choose where to export from.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Vennligst velg hvor du vil eksportere fra.
+
+Velg plasseringene dine og klikk %buttonname-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Velg</translation>
+    </message>
+    <message>
+        <source>Choose import destination</source>
+        <translation>Velg importmål</translation>
+    </message>
+    <message>
+        <source>Please choose where to store imported items.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Vennligst velg hvor du vil lagre importerte objekter.
+
+Velg plasseringene dine og klikk %buttonname-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
+    </message>
+    <message>
+        <source>Choose RSS image</source>
+        <translation>Velg RSS-bilde</translation>
+    </message>
+    <message>
+        <source>Please choose image to use in RSS export.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Vennligst velg bilde for bruk i RSS eksport.
+
+Velg plasseringene dine og klikk %buttonname-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
+    </message>
+    <message>
+        <source>Choose export source</source>
+        <translation>Velg eksportkilde</translation>
+    </message>
+    <message>
+        <source>Choose owner of imported objects</source>
+        <translation>Velg eier av importerte objekter</translation>
+    </message>
+    <message>
+        <source>Please select the owner of the objects to import
+
+    Select the user and click the %buttonname button.
+    Using the recent and bookmark items for quick selection is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Vennligst velg eier av objektene som skal importeres.
+
+Velg brukeren og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/edit</name>
+    <message>
+        <source>Display frontpage</source>
+        <translation>Vis framside</translation>
+    </message>
+    <message>
+        <source>RSS Export</source>
+        <translation>RSS-eksport</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Tittel</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Site URL</source>
+        <translation>Nettsteds-URL</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation>Bilde</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Bla igjennom</translation>
+    </message>
+    <message>
+        <source>Site Access</source>
+        <translation>Nettstedstilgang</translation>
+    </message>
+    <message>
+        <source>RSS version</source>
+        <translation>RSS-versjon</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Aktiv</translation>
+    </message>
+    <message>
+        <source>Access URL</source>
+        <translation>Tilgangs-URL</translation>
+    </message>
+    <message>
+        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
+        <translation>NB: Hver kilde henter bare 5 objekter fra 1 nivå under.</translation>
+    </message>
+    <message>
+        <source>Source path</source>
+        <translation>Kildesti</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Klasse</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Oppdater</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation>Lagre</translation>
+    </message>
+    <message>
+        <source>Add Source</source>
+        <translation>Legg til kilde</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>RSS Import</source>
+        <translation>RSS-import</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Destination path</source>
+        <translation>Målsti</translation>
+    </message>
+    <message>
+        <source>Imported objects owner</source>
+        <translation>Eier av importerte objekter</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Velg</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/list</name>
+    <message>
+        <source>RSS Feeds</source>
+        <translation>RSS-fremføringer</translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation>RSS-eksporter</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versjon</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Aktiv</translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation>Endret av</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Endringstidspunkt</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nei</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation>Ny eksport</translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation>RSS-importer</translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation>Ny import</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/view</name>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
@@ -2915,10 +4244,6 @@ menyen på toppen.</translation>
 </context>
 <context>
     <name>design/standard/section</name>
-    <message>
-        <source>Assign section</source>
-        <translation type="obsolete">Tilordne seksjon</translation>
-    </message>
     <message>
         <source>Assign section to node</source>
         <translation>Tilordne seksjon til node</translation>
@@ -3012,10 +4337,6 @@ menyen på toppen.</translation>
         <translation>Nodemeldinger</translation>
     </message>
     <message>
-        <source>Notification settings</source>
-        <translation type="obsolete">Meldingsinnstillinger</translation>
-    </message>
-    <message>
         <source>Choose section assignment</source>
         <translation>Velg seksjonstilordning</translation>
     </message>
@@ -3040,14 +4361,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <translation>Media</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation>Hjelp med seksjoner</translation>
-    </message>
-    <message>
         <source>Remove selected sections</source>
         <translation>Fjern valgte seksjoner</translation>
     </message>
@@ -3055,28 +4368,12 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
 <context>
     <name>design/standard/setup</name>
     <message>
-        <source>URL</source>
-        <translation type="obsolete">URL</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Versjon</translation>
-    </message>
-    <message>
         <source>Name</source>
-        <translation type="obsolete">Navn</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="obsolete">Type</translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="obsolete">Sti</translation>
-    </message>
-    <message>
-        <source>setup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sti</translation>
     </message>
     <message>
         <source>Cache admin</source>
@@ -3536,14 +4833,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Versjon</translation>
     </message>
     <message>
-        <source>PHP Accelerator is enabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PHP Accelerator is disabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>There is no known PHP accelerator active.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3552,47 +4841,169 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>System check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished">Ok</translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mail server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sitedesign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Help</source>
         <translation type="unfinished">Hjelp</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sammendrag</translation>
     </message>
     <message>
         <source>Site:</source>
         <translation type="unfinished">Nettsted:</translation>
     </message>
     <message>
-        <source>Image processing</source>
+        <source>All caches were cleared.</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>design/standard/setup)}&lt;/b&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;{ezini(</name>
     <message>
-        <source>Site:</source>
-        <translation type="obsolete">Nettsted:</translation>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished">Seleksjon</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished">Deaktivert</translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>PHP Accelerator name</comment>
+        <translation type="unfinished">Navn</translation>
+    </message>
+    <message>
+        <source>Could not detect version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <comment>Database server</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket path</source>
+        <comment>Database socket path</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <comment>Database name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection retry count</source>
+        <comment>Database retry count</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current read-only database (Slave)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>Image system:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Prioritet</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Oppdater</translation>
     </message>
 </context>
 <context>
@@ -3642,7 +5053,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Detaljer</translation>
     </message>
     <message>
         <source>MySQL is a good choice for handling most western languages, however it&apos;s currently not the best choice for Unicode or non-western languages.</source>
@@ -3880,14 +5291,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation type="unfinished">Passord</translation>
     </message>
@@ -3925,7 +5328,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sammendrag</translation>
     </message>
     <message>
         <source>button, or the</source>
@@ -3969,38 +5372,6 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Details of your system, like OS type etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The test results for your system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The database type you are using</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The name of your site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The url of your site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The languages you chose</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4092,10 +5463,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>However if you wish to finetune your system you should click the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Finetune System</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4112,16 +5479,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <source>Servername</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Username</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Confirm password</source>
-        <translation type="obsolete">Bekreft passord</translation>
     </message>
     <message>
         <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
@@ -4231,7 +5590,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nettstedstilgang</translation>
     </message>
     <message>
         <source>Site details</source>
@@ -4258,17 +5617,9 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Next</source>
         <comment>next button in installation</comment>
         <translation type="unfinished">Neste</translation>
-    </message>
-    <message>
-        <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
@@ -4288,18 +5639,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter database system user information in the boxes below</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Socket (optional)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4308,36 +5647,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>E-mail settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Specify email settings for eZ publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mail system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Finished!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tittel</translation>
     </message>
     <message>
         <source>URL</source>
@@ -4356,29 +5667,12 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forum</source>
-        <comment>forum link</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language and country selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4407,15 +5701,7 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>These and other additional languages can also be installed later.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about language customization, see the %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4428,15 +5714,7 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The registration email:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4444,33 +5722,7 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
-If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Site access configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
- If unsure choose URL.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4502,10 +5754,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4514,20 +5762,8 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access see the %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4548,34 +5784,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Site url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hostname for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL for admin access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port for admin access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hostname for admin access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database not empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4600,23 +5808,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose site templates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose one or more site templates for your site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select which sites you would like to install on your system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template require a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4628,31 +5820,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Welcome to eZ publish %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information on how to configure site access, see the %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4666,35 +5838,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Fill out the details for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update database list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Requirements</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>recommended</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4712,6 +5856,348 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please input database access information in the form below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Servername:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket (optional):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail delivery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username (optional): </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password (optional): </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forums</source>
+        <comment>forum link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information about language customization, please refer to the %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comments:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System details (OS type, etc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The test results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The site name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url of the site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages chosen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This data will help to improve future releases of eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you have shell access, you can run the following commmands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This security tweak takes care of protecting configuration files and other important files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires web server setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires DNS setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access, please refer to the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database not empty: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You may modify the details for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information about how to configure site access, please refer to the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next &amp;gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data will be stored in the database until the final step of the setup.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4797,14 +6283,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing imagegd extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>template operator will not be available.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4814,10 +6292,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4981,10 +6455,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>More information on the subject can be found at %1.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5010,6 +6480,114 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AcceptPathInfo disabled or running in CGI mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enter the following into your httpd.conf file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to restart your web server afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Neste</translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work properly with this option on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5041,15 +6619,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="obsolete">Ordresummering:</translation>
+        <translation>Oppsummering av ordre:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">Subtotal av varer:</translation>
+        <translation>Subtotal av varer:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="obsolete">Ordretotal:</translation>
+        <translation>Ordretotal:</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -5132,20 +6710,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Ordre</translation>
     </message>
     <message>
-        <source>Customer:</source>
-        <translation type="obsolete">Kunde:</translation>
-    </message>
-    <message>
         <source>VAT Types</source>
         <translation>MVA-typer</translation>
     </message>
     <message>
         <source>Wish list</source>
         <translation>Ønskeliste</translation>
-    </message>
-    <message>
-        <source>Remove item(s)</source>
-        <translation>Fjern varer</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -5182,10 +6752,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Input did not validate, fill in all fields</source>
         <translation>Den innlagte informasjonen ble ikke godkjent, du må fylle inn alle feltene</translation>
-    </message>
-    <message>
-        <source>Order:</source>
-        <translation type="obsolete">Ordre:</translation>
     </message>
     <message>
         <source>The order list is empty</source>
@@ -5325,10 +6891,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Ordre sammendrag</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
-    </message>
-    <message>
         <source>Sort Result by</source>
         <translation>Sorter resultat etter</translation>
     </message>
@@ -5372,6 +6934,14 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
         <translation>Beklager, nøkkelen som ble brukt er ikke godkjent. Kontoen ble ikke aktivert.</translation>
     </message>
+    <message>
+        <source>ez.no: Orderconfirmation %1</source>
+        <translation>ez.no: Ordrebekreftelse %1</translation>
+    </message>
+    <message>
+        <source>Remove items</source>
+        <translation>Fjern varer</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
@@ -5409,19 +6979,18 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation>Logg ut</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Logg inn</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
-    <message>
-        <source>Module Name</source>
-        <translation type="obsolete">Modulnavn</translation>
-    </message>
-    <message>
-        <source>Function Name</source>
-        <translation type="obsolete">Funksjonsnavn</translation>
-    </message>
-    <message>
-        <source>Connect Type</source>
-        <translation type="obsolete">Tilkoblingstype</translation>
-    </message>
     <message>
         <source>No workflow</source>
         <translation>Ingen arbeidsflyt</translation>
@@ -5437,10 +7006,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>Workflow</source>
         <translation>Arbeidsflyt</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -5496,10 +7061,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>URL has not been checked</source>
         <translation>URL-en er ikke kontrollert</translation>
-    </message>
-    <message>
-        <source>Objects which use this link:</source>
-        <translation type="obsolete">Objekter som bruker denne linken:</translation>
     </message>
     <message>
         <source>Store</source>
@@ -5565,6 +7126,10 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <source>No object available</source>
         <translation>Ingen objekt tilgjengelig</translation>
     </message>
+    <message>
+        <source>version</source>
+        <translation>versjon</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
@@ -5582,14 +7147,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>Activate account</source>
         <translation>Aktiver konto</translation>
-    </message>
-    <message>
-        <source>Change Password</source>
-        <translation type="obsolete">Bytt passord</translation>
-    </message>
-    <message>
-        <source>Change Setting</source>
-        <translation type="obsolete">Endre innstillinger</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -5633,7 +7190,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>User setting</source>
-        <translation>Brukerinstillinger</translation>
+        <translation>Brukerinnstillinger</translation>
     </message>
     <message>
         <source>Maximum login</source>
@@ -5672,28 +7229,12 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <translation>E-post</translation>
     </message>
     <message>
-        <source>Old Password</source>
-        <translation type="obsolete">Gammelt passord</translation>
-    </message>
-    <message>
-        <source>New Password</source>
-        <translation type="obsolete">Nytt passord</translation>
-    </message>
-    <message>
-        <source>Retype Password</source>
-        <translation type="obsolete">Gjenta passord</translation>
-    </message>
-    <message>
         <source>User profile</source>
         <translation>Brukerprofil</translation>
     </message>
     <message>
         <source>Name</source>
         <translation>Navn</translation>
-    </message>
-    <message>
-        <source>Edit Profile</source>
-        <translation type="obsolete">Rediger profil</translation>
     </message>
     <message>
         <source>Please retype your old password.</source>
@@ -5727,7 +7268,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Change setting</source>
-        <translation>Endre instillinger</translation>
+        <translation>Endre innstillinger</translation>
     </message>
     <message>
         <source>Old password</source>
@@ -5749,20 +7290,16 @@ your account.</source>
 e-post adressen. Du må da følge instruksjonene i e-posten for
 å aktivere kontoen.</translation>
     </message>
+    <message>
+        <source>You need to log in to get access to the intranet.</source>
+        <translation>Du må logge inn for å få tilgang til intranettet.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
     <message>
-        <source>%1 new password</source>
-        <translation type="obsolete">%1 nytt passord</translation>
-    </message>
-    <message>
         <source>There is no registered user with that e-mail address.</source>
         <translation>Det er ingen registrert bruker med den epostadressen.</translation>
-    </message>
-    <message>
-        <source>Password was successfully generated and sent to:</source>
-        <translation type="obsolete">Passordet ble generert og sendt til:</translation>
     </message>
     <message>
         <source>Have you forgotten your password?</source>
@@ -5773,28 +7310,12 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Hvis du har glemt passordet ditt, kan vi generere et nytt til deg. Alt du må gjøre er å skrive inn e-postadressen din, så sender vi deg et nytt passord.</translation>
     </message>
     <message>
-        <source>E-mail:</source>
-        <translation type="obsolete">E-post:</translation>
-    </message>
-    <message>
         <source>Generate new password</source>
         <translation>Generer nytt passord</translation>
     </message>
     <message>
         <source>Your account information</source>
         <translation>Din kontoinformasjon</translation>
-    </message>
-    <message>
-        <source>Email:</source>
-        <translation type="obsolete">E-post:</translation>
-    </message>
-    <message>
-        <source>Click here to get new password:</source>
-        <translation type="obsolete">Klikk her for å få nytt passord:</translation>
-    </message>
-    <message>
-        <source>New password:</source>
-        <translation type="obsolete">Nytt passord:</translation>
     </message>
     <message>
         <source>A mail has been send to the following e-mail address: %1. This e-mail contains a link you need to click so that we can confirm that the correct user is getting the new password.</source>
@@ -5817,10 +7338,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>%siteurl nytt passord</translation>
     </message>
     <message>
-        <source>Email</source>
-        <translation type="obsolete">E-post</translation>
-    </message>
-    <message>
         <source>Click here to get new password</source>
         <translation>Klikk her for å få et nytt passord</translation>
     </message>
@@ -5834,14 +7351,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>%1 registration info</source>
         <translation>%1 registreringsinformasjon</translation>
-    </message>
-    <message>
-        <source>New user registered at %1</source>
-        <translation type="obsolete">Ny bruker registrert på %1</translation>
-    </message>
-    <message>
-        <source>Confirm user registration at %1</source>
-        <translation type="obsolete">Bekreft brukerregistrering %1</translation>
     </message>
     <message>
         <source>Confirm user registration at %siteurl</source>
@@ -5938,10 +7447,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Discard</source>
         <translation>Forkast</translation>
-    </message>
-    <message>
-        <source>Editing workflow group</source>
-        <translation type="obsolete">Redigerer arbeidsflytgruppe</translation>
     </message>
     <message>
         <source>on</source>
@@ -6105,14 +7610,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Redigert av %username den %time</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Hjelp</translation>
-    </message>
-    <message>
-        <source>Help on workflows</source>
-        <translation>Hjelp med arbeidsflyt</translation>
-    </message>
-    <message>
         <source>Edit workflow</source>
         <translation>Rediger arbeidsflyt</translation>
     </message>
@@ -6126,65 +7623,14 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
 </context>
 <context>
-    <name>design/standard/workflow/event</name>
-    <message>
-        <source>Checkout</source>
-        <translation>Betaling</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Neste</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation>Innpakking</translation>
-    </message>
-    <message>
-        <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Vil du ha innpakking i julepapir?</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>Nei</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Ja</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation>Hallo</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Any</source>
         <translation>Alle</translation>
     </message>
     <message>
-        <source>Unpublish object</source>
-        <translation>Depubliser objekt</translation>
-    </message>
-    <message>
-        <source>Publish object</source>
-        <translation>Publiser objekt</translation>
-    </message>
-    <message>
         <source>Class Attributes:</source>
         <translation>Klasseattributter:</translation>
-    </message>
-    <message>
-        <source>New Entry</source>
-        <translation type="obsolete">Ny</translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="obsolete">Fjern markerte</translation>
-    </message>
-    <message>
-        <source>Load Attributes</source>
-        <translation type="obsolete">Hent attributter</translation>
     </message>
     <message>
         <source>Editor</source>
@@ -6199,28 +7645,8 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Brukere uten tillatelse</translation>
     </message>
     <message>
-        <source>Checkout text</source>
-        <translation>Betalingstekst</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Melding</translation>
-    </message>
-    <message>
         <source>Users without workflow IDs</source>
         <translation>Brukere uten arbeidsflyt IDer</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation>Dager</translation>
-    </message>
-    <message>
-        <source>Hours</source>
-        <translation>Timer</translation>
-    </message>
-    <message>
-        <source>Minutes</source>
-        <translation>Minutter</translation>
     </message>
     <message>
         <source>Class</source>
@@ -6246,24 +7672,9 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>Load attributes</source>
         <translation>Hent attributter</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/workflow/eventtype/result</name>
     <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Betaling</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Neste</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete">Hallo</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Innpakking</translation>
+        <source>Modify publish date</source>
+        <translation>Endre publiseringsdato</translation>
     </message>
 </context>
 <context>
@@ -6405,153 +7816,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
 </context>
 <context>
-    <name>kernel/classes/datatype/ezbinaryfiletype</name>
-    <message>
-        <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="obsolete">Filopplasting er ikke satt opp. Kan ikke utføre filoperasjoner.</translation>
-    </message>
-</context>
-<context>
     <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Author name should be provided.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">Oppgi forfatternavn.</translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">E-postadressen er ikke gyldig.</translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZBinaryFileType</comment>
-        <translation type="obsolete">Oppgi en gyldig fil.</translation>
-    </message>
-    <message>
-        <source>A valid email account is required.</source>
-        <comment>eZEmailType</comment>
-        <translation type="obsolete">Oppgi en gyldig e-postadresse.</translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZEmailType</comment>
-        <translation type="obsolete">E-postadressen er ikke gyldig.</translation>
-    </message>
-    <message>
-        <source>At least one field should be chosen.</source>
-        <comment>eZEnumType</comment>
-        <translation type="obsolete">Velg minst ett felt.</translation>
-    </message>
-    <message>
-        <source>Input is not float.</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">Oppgitt verdi er ikke et flyttall.</translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">Oppgitt verdi må være større enn %1</translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">Oppgitt verdi må være mindre enn %1</translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">Oppgitt verdi må være innenfor området %1 - %2</translation>
-    </message>
-    <message>
-        <source>A valid image is required.</source>
-        <comment>eZImageType</comment>
-        <translation type="obsolete">Oppgi navn på et gyldig bilde.</translation>
-    </message>
-    <message>
-        <source>Input is not integer.</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">Oppgitt verdi er ikke et heltall.</translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">Oppgitt verdi må være større enn %1</translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">Oppgitt verdi må være mindre enn %1</translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">Oppgitt verdi må være innenfor området %1 - %2</translation>
-    </message>
-    <message>
-        <source>The ISBN number is not correct. Please recheck the input</source>
-        <comment>eZISBNType</comment>
-        <translation type="obsolete">ISBN-nummeret er ikke gyldig, kontroller oppgitt nummer</translation>
-    </message>
-    <message>
-        <source>The ISBN format is not valid.</source>
-        <comment>eZISBNType</comment>
-        <translation type="obsolete">ISBN-nummeret er ikke gyldig.</translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZMediaType</comment>
-        <translation type="obsolete">Oppgi en gyldig fil.</translation>
-    </message>
-    <message>
-        <source>Option value should be provided.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Oppgi verdi for valget.</translation>
-    </message>
-    <message>
-        <source>Text line is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">Tekstlinjen er tom, oppgi en verdi.</translation>
-    </message>
-    <message>
-        <source>Text line too long, maximum allowed is %1.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">Tekstlinjen er for lang, største tillatte lengde er %1.</translation>
-    </message>
-    <message>
-        <source>Text field is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">Tekstfeltet er tomt, oppgi en verdi.</translation>
-    </message>
-    <message>
-        <source>Additional price for option value is invalid.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Ekstra pris for valgverdien er ugyldig.</translation>
-    </message>
-    <message>
-        <source>The login must be specified</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Du må oppgi brukernavn</translation>
-    </message>
-    <message>
-        <source>Login name already exists, please choose another one.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
-    </message>
-    <message>
-        <source>The E-Mail address is not valid.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">E-postadressen er ikke gyldig.</translation>
-    </message>
     <message>
         <source>The confirmation password did not match.</source>
         <comment>eZUserType</comment>
         <translation>Passordet for bekreftelse er ikke det samme som det første passordet.</translation>
-    </message>
-    <message>
-        <source>The password must be at least 3 characters.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Passordet må være minst 3 tegn langt.</translation>
     </message>
     <message>
         <source>Missing date input.</source>
@@ -6566,33 +7835,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Klokkeslett er ikke oppgitt.</translation>
     </message>
     <message>
-        <source>Object </source>
-        <translation type="obsolete">Objekt</translation>
-    </message>
-    <message>
-        <source>Link </source>
-        <translation type="obsolete">Lenke</translation>
-    </message>
-    <message>
-        <source>At least one author is required.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">Oppgi minst en forfatter.</translation>
-    </message>
-    <message>
-        <source>At least one option is required.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Oppgi minst et valg.</translation>
-    </message>
-    <message>
-        <source>A user with this email already exists.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Det er allerede registrert en bruker med denne e-postadressen.</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="obsolete">Forfatter</translation>
-    </message>
-    <message>
         <source>At least one author is required.</source>
         <translation>Oppgi minst en forfatter.</translation>
     </message>
@@ -6605,10 +7847,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>E-postadressen er ikke gyldig.</translation>
     </message>
     <message>
-        <source>BinaryFile</source>
-        <translation type="obsolete">Binærfil</translation>
-    </message>
-    <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
         <translation>Filopplasting er ikke satt opp. Kan ikke utføre filoperasjoner.</translation>
     </message>
@@ -6617,36 +7855,12 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Oppgi en gyldig fil.</translation>
     </message>
     <message>
-        <source>Checkbox</source>
-        <translation type="obsolete">Avkryssing</translation>
-    </message>
-    <message>
-        <source>Date field</source>
-        <translation type="obsolete">Datofelt</translation>
-    </message>
-    <message>
-        <source>Datetime field</source>
-        <translation type="obsolete">Datotidsfelt</translation>
-    </message>
-    <message>
-        <source>Email</source>
-        <translation type="obsolete">E-post</translation>
-    </message>
-    <message>
         <source>A valid email account is required.</source>
         <translation>Oppgi en gyldig e-postadresse.</translation>
     </message>
     <message>
-        <source>Enum</source>
-        <translation type="obsolete">Enum</translation>
-    </message>
-    <message>
         <source>At least one field should be chosen.</source>
         <translation>Velg minst ett felt.</translation>
-    </message>
-    <message>
-        <source>Float</source>
-        <translation type="obsolete">Flyttall</translation>
     </message>
     <message>
         <source>Input is not float.</source>
@@ -6665,24 +7879,8 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Oppgitt verdi må være innenfor området %1 - %2</translation>
     </message>
     <message>
-        <source>Image</source>
-        <translation type="obsolete">Bilde</translation>
-    </message>
-    <message>
-        <source>A valid image is required.</source>
-        <translation>Oppgi navn på et gyldig bilde.</translation>
-    </message>
-    <message>
-        <source>Integer</source>
-        <translation type="obsolete">Heltall</translation>
-    </message>
-    <message>
         <source>Input is not integer.</source>
         <translation>Oppgitt verdi er ikke et heltall.</translation>
-    </message>
-    <message>
-        <source>ISBN</source>
-        <translation type="obsolete">ISBN</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
@@ -6691,26 +7889,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>The ISBN format is not valid.</source>
         <translation>ISBN-nummeret er ikke gyldig.</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation type="obsolete">Matrise</translation>
-    </message>
-    <message>
-        <source>Media</source>
-        <translation type="obsolete">Media</translation>
-    </message>
-    <message>
-        <source>Object relation</source>
-        <translation type="obsolete">Objektrelasjon</translation>
-    </message>
-    <message>
-        <source>Object relation list</source>
-        <translation type="obsolete">Liste med objektrelasjoner</translation>
-    </message>
-    <message>
-        <source>Option</source>
-        <translation type="obsolete">Valg</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
@@ -6725,20 +7903,12 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Ekstra pris for valgverdien er ugyldig.</translation>
     </message>
     <message>
-        <source>Price</source>
-        <translation type="obsolete">Pris</translation>
-    </message>
-    <message>
         <source>Add to basket</source>
         <translation>Legg til i handlekurv</translation>
     </message>
     <message>
         <source>Add to wish list</source>
         <translation>Legg til i ønskeliste</translation>
-    </message>
-    <message>
-        <source>Text line</source>
-        <translation type="obsolete">Tekstlinje</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
@@ -6749,32 +7919,8 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Tekstlinjen er for lang, største tillatte lengde er %1.</translation>
     </message>
     <message>
-        <source>Subtree subscription</source>
-        <translation type="obsolete">Subtre abonnement</translation>
-    </message>
-    <message>
-        <source>Text field</source>
-        <translation type="obsolete">Tekstfelt</translation>
-    </message>
-    <message>
         <source>Text field is empty, content required.</source>
         <translation>Tekstfeltet er tomt, oppgi en verdi.</translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation>Send</translation>
-    </message>
-    <message>
-        <source>Time field</source>
-        <translation type="obsolete">Tidsfelt</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation type="obsolete">URL</translation>
-    </message>
-    <message>
-        <source>User account</source>
-        <translation type="obsolete">Brukerkonto</translation>
     </message>
     <message>
         <source>The login must be specified</source>
@@ -6795,10 +7941,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>The password must be at least 3 characters.</source>
         <translation>Passordet må være minst 3 tegn langt.</translation>
-    </message>
-    <message>
-        <source>XML Text field</source>
-        <translation type="obsolete">XML tekstfelt</translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
@@ -6943,6 +8085,35 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <comment>Datatype name</comment>
         <translation>XML tekstfelt</translation>
     </message>
+    <message>
+        <source>Identifier</source>
+        <comment>Datatype name</comment>
+        <translation>Identifikator</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <comment>Default image name</comment>
+        <translation>bilde</translation>
+    </message>
+    <message>
+        <source>Ini Setting</source>
+        <comment>Datatype name</comment>
+        <translation>Ini-innstilling</translation>
+    </message>
+    <message>
+        <source>Could not locate ini file</source>
+        <translation>Kunne ikke finne ini-fil</translation>
+    </message>
+    <message>
+        <source>Package</source>
+        <comment>Datatype name</comment>
+        <translation>Pakke</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <comment>Datatype information collector action</comment>
+        <translation>Send</translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -6994,10 +8165,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Innhold</translation>
     </message>
     <message>
-        <source>Edit</source>
-        <translation>Rediger</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>Kopier</translation>
     </message>
@@ -7045,6 +8212,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>URL translator</source>
         <translation>URL oversetter</translation>
     </message>
+    <message>
+        <source>Keywords</source>
+        <translation>Nøkkelord</translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -7061,16 +8232,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
 </context>
 <context>
     <name>kernel/content/removeobject</name>
-    <message>
-        <source>child</source>
-        <comment>1 child</comment>
-        <translation>barn</translation>
-    </message>
-    <message>
-        <source>children</source>
-        <comment>several children</comment>
-        <translation>barn</translation>
-    </message>
     <message>
         <source>And also it will remove the nodes:</source>
         <translation>Følgende noder vil også bli fjernet:</translation>
@@ -7129,6 +8290,145 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>Upload</source>
         <translation>Last opp</translation>
     </message>
+    <message>
+        <source>Package information</source>
+        <translation>Pakkeinformasjon</translation>
+    </message>
+    <message>
+        <source>Package maintainer</source>
+        <translation>Vedlikeholder</translation>
+    </message>
+    <message>
+        <source>Package changelog</source>
+        <translation>Endringslogg</translation>
+    </message>
+    <message>
+        <source>Package thumbnail</source>
+        <translation>Miniatyrbilde</translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation>Pakkenavn</translation>
+    </message>
+    <message>
+        <source>Package name is missing</source>
+        <translation>Pakkenavnet mangler</translation>
+    </message>
+    <message>
+        <source>A package named %packagename already exists, please give another name</source>
+        <translation>Det finnes allerede en pakke med navnet %packagename, vennligst oppgi et annet navn</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Sammendrag</translation>
+    </message>
+    <message>
+        <source>Summary is missing</source>
+        <translation>Sammendraget mangler</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versjon</translation>
+    </message>
+    <message>
+        <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
+        <translation>Versjonen kan bare inneholde tall. Separering gjøres med punktum, f.eks. 1.0</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>You must enter a name for the changelog</source>
+        <translation>Du må oppgi et navn for endringsloggen</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>E-post</translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail for the changelog</source>
+        <translation>Du må oppgi en e-postadresse for endringsloggen</translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation>Endringslogg</translation>
+    </message>
+    <message>
+        <source>You must supply some text for the changelog entry</source>
+        <translation>Du må oppgi et navn for anførselen i endringsloggen</translation>
+    </message>
+    <message>
+        <source>You must enter a name of the maintainer</source>
+        <translation>Du må oppgi et navn for vedlikeholderen</translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail address of the maintainer</source>
+        <translation>Du må oppgi en e-postadresse for vedlikeholderen</translation>
+    </message>
+    <message>
+        <source>Content classes to include</source>
+        <translation>Innholdsklasser som skal inkluderes</translation>
+    </message>
+    <message>
+        <source>Content class export</source>
+        <translation>Eksport av innholdsklasser</translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation>Klasseliste</translation>
+    </message>
+    <message>
+        <source>You must select at least one class for inclusion</source>
+        <translation>Du må oppgi minst en innholdsklasse</translation>
+    </message>
+    <message>
+        <source>CSS file</source>
+        <translation>CSS fil</translation>
+    </message>
+    <message>
+        <source>Image files</source>
+        <translation>Bildefiler</translation>
+    </message>
+    <message>
+        <source>Site style</source>
+        <translation>Stil for nettstedet</translation>
+    </message>
+    <message>
+        <source>You must upload a CSS file</source>
+        <translation>Du må laste opp en CSS fil</translation>
+    </message>
+    <message>
+        <source>File did not have a .css suffix, this is most likely not a CSS file</source>
+        <translation>Filnavnet sluttet ikke med .css, dette er sannsynligvis ikke en CSS fil</translation>
+    </message>
+    <message>
+        <source>Content class %classname (%classidentifier)</source>
+        <translation>Innholdsklasse %classname (%classidentifier)</translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation>Lag pakke</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Installer</translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation>Avinstaller</translation>
+    </message>
+    <message>
+        <source>Package %packagename already exists, cannot import the package</source>
+        <translation>Pakken %packagename finnes allerede, kan ikke importere pakken</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
+        <translation>PDF-eksport</translation>
+    </message>
 </context>
 <context>
     <name>kernel/reference</name>
@@ -7158,6 +8458,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Editing policy</source>
         <translation>Redigerer rolleregel</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/rss</name>
+    <message>
+        <source>Really Simple Syndication</source>
+        <translation>Really Simple Syndication (veldig enkel syndikering)</translation>
     </message>
 </context>
 <context>
@@ -7214,11 +8521,15 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Extension configuration</source>
-        <translation>Utvidelsesinstillinger</translation>
+        <translation>Utvidelsesinnstillinger</translation>
     </message>
     <message>
         <source>Activate extensions</source>
         <translation>Aktiver utvidelser</translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation>Oppsettmeny</translation>
     </message>
 </context>
 <context>
@@ -7382,44 +8693,16 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Godkjenn</translation>
     </message>
     <message>
-        <source>Checkout</source>
-        <translation>Betaling</translation>
-    </message>
-    <message>
         <source>Multiplexer</source>
         <translation>Multiplekser</translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation>Publiser</translation>
-    </message>
-    <message>
-        <source>Publish on time</source>
-        <translation>Tidspublisering</translation>
     </message>
     <message>
         <source>Simple shipping</source>
         <translation>Enkel sending</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <translation>Tidskontroll</translation>
-    </message>
-    <message>
-        <source>Unpublish</source>
-        <translation>Avpubliser</translation>
-    </message>
-    <message>
         <source>Wait until date</source>
         <translation>Vent til dato</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation>Innpakking</translation>
-    </message>
-    <message>
-        <source>Hello User</source>
-        <translation>Hallo bruker</translation>
     </message>
 </context>
 <context>
@@ -7428,9 +8711,18 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>Group</source>
         <translation>Gruppe</translation>
     </message>
+</context>
+<context>
+    <name>lib/ezpdf/classes</name>
     <message>
-        <source>Serial</source>
-        <translation>Serielt</translation>
+        <source>Contents</source>
+        <comment>Table of contents</comment>
+        <translation>Innhold</translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <comment>Keyword index name</comment>
+        <translation>Indeks</translation>
     </message>
 </context>
 <context>
@@ -7438,6 +8730,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>Det har oppstått mal-feil, se debug for mer informasjon.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation>PDF-eksport</translation>
     </message>
 </context>
 <context>
