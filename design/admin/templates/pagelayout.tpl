@@ -232,7 +232,6 @@
 
     {include uri="design:page_toppath.tpl"}
 
-
 {* Main area START *}
 
 {include uri="design:page_mainarea.tpl"}
