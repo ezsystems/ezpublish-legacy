@@ -2,7 +2,7 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-DatabaseImplementation=mysql
+DatabaseImplementation=ezmysql
 Server=localhost
 User=publish
 Password=secret

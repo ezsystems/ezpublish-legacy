@@ -74,6 +74,8 @@ class eZXMLTextType extends eZDataType
             $data =& $this->convertInput( $data );
 
             $contentObjectAttribute->setAttribute( "data_text", $data );
+
+            eZDebug::writeNotice( $data, "XML text" );
         }
     }
 
@@ -84,16 +86,55 @@ class eZXMLTextType extends eZDataType
     {
         // get paragraphs
         $data =& preg_replace( "#\n[\n]+#", "\n\n", $text );
-        $paragraphArray = explode( "\n\n", $data );
 
-        $paragraphData = '';
-        foreach ( $paragraphArray as $paragraph )
+
+        // split on headers
+        $sectionData = "<section>";
+        $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+        $sectionLevel = 1;
+        foreach ( $sectionArray as $sectionPart )
         {
-            $paragraphData .= '<paragraph>' . trim( $paragraph ) . '</paragraph>';
-        }
+            // check for header
+            if ( preg_match( "#(<header\s+level=[\"|'](.*?)[\"|']\s*>.*?</header>)#", $sectionPart, $matchArray ) )
+            {
+                // get level for header
+                $newSectionLevel = $matchArray[2];
 
-        // convert to XML
-        $data  = '<?xml version="1.0" encoding="utf-8" ?><section>' . $paragraphData . '</section>';
+                if ( $newSectionLevel > $sectionLevel )
+                {
+                    $sectionData .= "<section>\n";
+                }
+
+                if ( $newSectionLevel < $sectionLevel )
+                {
+                    $sectionData .= "\n</section>\n";
+                }
+
+                $sectionLevel = $newSectionLevel;
+                $sectionData .= $sectionPart;
+            }
+            else
+            {
+                $paragraphArray = explode( "\n\n", $sectionPart );
+
+                foreach ( $paragraphArray as $paragraph )
+                {
+                    if ( trim( $paragraph ) != "" )
+                    {
+                        $sectionData .= "<paragraph>" . trim( $paragraph ) . "</paragraph>\n";
+                    }
+                }
+            }
+        }
+        if ( $sectionLevel > 1 )
+        {
+            $sectionData .= str_repeat( "\n</section>\n", $sectionLevel - 1 );
+        }
+        $sectionData .= "</section>";
+
+        print( nl2br( htmlspecialchars( $sectionData ) ). "<br>" );
+
+        $data  = '<?xml version="1.0" encoding="utf-8" ?>' . $sectionData;
 
         return $data;
     }
@@ -113,40 +154,16 @@ class eZXMLTextType extends eZDataType
         $tpl =& templateInit();
 
         $xml = new eZXML();
-        $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+        $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
         if ( $dom )
         {
-            $node = $dom->elementsByName( "section" );
+            $node =& $dom->elementsByName( "section" );
 
+            $sectionNode =& $node[0];
             $output = "";
-            if ( get_class( $node[0] ) == "ezdomnode" )
+            if ( get_class( $sectionNode ) == "ezdomnode" )
             {
-                $children =& $node[0]->children();
-                foreach ( $children as $child )
-                {
-                    if ( $child->name() == "paragraph" )
-                    {
-                        $childContent = '';
-                        $formattingTags =& $child->children();
-                        foreach ( $formattingTags as $tag )
-                        {
-                            // normal text tag
-                            if ( $tag->name() == "#text" )
-                            {
-                                $tpl->setVariable( "content", $tag->content(), "xmltagns" );
-                                $uri = "design:content/datatype/view/ezxmltags/text.tpl";
-                                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                                $childContent .= $text;
-                            }
-
-                            $childContent .= $this->renderTag( $tpl, $tag );
-                        }
-                        $tpl->setVariable( "content", &$childContent, "xmltagns" );
-                        $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
-                        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                        $output .= $text;
-                    }
-                }
+                $output =& $this->renderXHTMLSection( $tpl, $sectionNode );
             }
         }
         return $output;
@@ -176,22 +193,48 @@ class eZXMLTextType extends eZDataType
         {
             $output = "";
             $children =& $node[0]->children();
-            foreach ( $children as $child )
-            {
-                if ( $child->name() == "paragraph" )
-                {
-                    $formattingTags =& $child->children();
-                    foreach ( $formattingTags as $tag )
-                    {
-                        if ( $tag->name() == "#text" )
-                        {
-                            $output .= $tag->content();
-                        }
+            $output .= $this->inputSectionXML( $node[0] );
+        }
+        return $output;
+    }
 
-                        $output .= $this->inputTagXML( $tag );
-                    }
-                    $output .= "\n\n";
-                }
+    /*!
+     \private
+     \return the XHTML rendered version of the section
+    */
+    function &renderXHTMLSection( &$tpl, &$section )
+    {
+        $output = "";
+        foreach ( $section->children() as $sectionNode )
+        {
+            $tagName = $sectionNode->name();
+            switch ( $tagName )
+            {
+                // tags with parameters
+                case 'header' :
+                {
+                    $level = $sectionNode->attributeValue( 'level' );
+
+                    $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/header.tpl";
+                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
+                    $output .= $text;
+                }break;
+
+                case 'paragraph' :
+                {
+                    $output .= $this->renderXHTMLParagraph( $tpl, $sectionNode );
+                }break;
+
+                case 'section' :
+                {
+                    $output .= $this->renderXHTMLSection( $tpl, $sectionNode );
+                }break;
+
+                default :
+                {
+                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
+                }break;
             }
         }
         return $output;
@@ -199,9 +242,28 @@ class eZXMLTextType extends eZDataType
 
     /*!
      \private
+     \return XHTML rendered version of the paragrph
+    */
+    function &renderXHTMLParagraph( &$tpl, $paragraph )
+    {
+        $output = "";
+        foreach ( $paragraph->children() as $paragraphNode )
+        {
+            $output .= $this->renderXHTMLTag( $tpl, $paragraphNode );
+        }
+
+        $tpl->setVariable( 'content', $output, 'xmltagns' );
+        $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
+        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
+        $output =& $text;
+        return $output;
+    }
+
+    /*!
+     \private
      Will render a tag and return the rendered text.
     */
-    function &renderTag( &$tpl, &$tag )
+    function &renderXHTMLTag( &$tpl, &$tag )
     {
         $tagText = "";
         $childTagText = "";
@@ -210,7 +272,7 @@ class eZXMLTextType extends eZDataType
         $tagChildren = $tag->children();
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->renderTag( $tpl, $childTag );
+            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag );
         }
 
         switch ( $tagName )
@@ -249,15 +311,6 @@ class eZXMLTextType extends eZDataType
                 $tagText .= $text;
             }break;
 
-            // tags with parameters
-            case 'header' :
-            {
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= $text;
-            }break;
-
             default :
             {
                 // unsupported tag
@@ -268,46 +321,83 @@ class eZXMLTextType extends eZDataType
 
     /*!
      \private
-     \return the user input format for this tag
+     \return the user input format for the given section
     */
-    function &inputTagXML( &$tag )
+    function &inputSectionXML( &$section )
     {
-        $tagChildren = $tag->children();
-        foreach ( $tagChildren as $childTag )
-        {
-            $childTagText .= $this->inputTagXML( $childTag );
-        }
-
         $output = "";
-        $tagName = $tag->name();
-        switch ( $tagName )
+        foreach ( $section->children() as $sectionNode )
         {
-            // one liner tags
-            case 'br' :
+            $tagName = $sectionNode->name();
+            switch ( $tagName )
             {
-                $output .= "<br/>";
-            }break;
+                case 'header' :
+                {
+                    $level = $sectionNode->attributeValue( 'level' );
+                    if ( is_numeric( $level ) )
+                        $level = $sectionNode->attributeValue( 'level' );
+                    else
+                        $level = 1;
+                    $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
+                }break;
 
-            case 'object' :
-            {
-                $objectID = $tag->attributeValue( 'id' );
-                $output .= "<$tagName id='$objectID'/>" . $tag->textContent();
-            }break;
+                case 'paragraph' :
+                {
+                    $output .= trim( $this->inputParagraphXML( $sectionNode ) ) . "\n\n";
+                }break;
 
-            // normal content tags
-            case 'empahsize' :
-            case 'strong' :
-            case 'bold' :
-            case 'italic' :
-            case 'header' :
-            {
-                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
-            }break;
+                case 'section' :
+                {
+                    $output .= $this->inputSectionXML( $sectionNode );
+                }break;
 
-            default :
+                default :
+                {
+                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
+                }break;
+            }
+        }
+        return $output;
+    }
+
+    /*!
+     \return the input xml of the given paragraph
+    */
+    function &inputParagraphXML( &$paragraph )
+    {
+        $output = "";
+        foreach ( $paragraph->children() as $paragraphNode )
+        {
+            $tagName = $paragraphNode->name();
+
+            switch ( $tagName )
             {
-                // unsupported tag
-            }break;
+                case '#text' :
+                {
+                    $output .= $paragraphNode->content();
+                }break;
+
+                case 'object' :
+                {
+                    $objectID = $paragraphNode->attributeValue( 'id' );
+                    $output .= "<$tagName id='$objectID'/>" . $paragraphNode->textContent();
+                }break;
+
+
+                // normal content tags
+                case 'empahsize' :
+                case 'strong' :
+                case 'bold' :
+                case 'italic' :
+                {
+                    $output .= "<$tagName>" . $childTagText . $paragraphNode->textContent() . "</$tagName>";
+                }break;
+
+                default :
+                {
+                    eZDebug::writeError( "Unsupported tag: $tagName", "eZXMLTextType::inputParagraphXML()" );
+                }break;
+            }
         }
         return $output;
     }

@@ -1,1 +1,1 @@
-<textarea name="ContentObjectAttribute_data_text_{$attribute.id}" cols="70" rows="10">{$attribute.input_xml}</textarea>
+<textarea name="ContentObjectAttribute_data_text_{$attribute.id}" cols="70" rows="20">{$attribute.input_xml}</textarea>
