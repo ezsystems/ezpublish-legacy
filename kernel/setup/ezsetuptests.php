@@ -243,7 +243,9 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 */
 function eZSetupTestAcceptPathInfo( $type, &$arguments )
 {
-    $fp = fopen( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test' , 'r' );
+    $testPath = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test';
+    $testPath = 'http://' . str_replace( '//', '/', $testPath );
+    $fp = fopen( $testPath, 'r' );
 
     return array( 'result' => ( $fp !== false ),
                   'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );

@@ -6,6 +6,7 @@ Changes from 3.3-3 to 3.3-4
   tree and tree_count. The default is set to false to keep backwards compatibility.
 - Fixed missing include to ezinformationcollection in ezcontentfunctioncollection.php
 - Fixed wrong matchfile settings for shop templates.
+- Added CGI warning text to accept path info test, since the test will detect both.
 
 *Setup:
 
@@ -59,6 +60,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/error_in_link_tpl_and
 - Fixed bug, too much caching of roles
   http://ez.no/community/bug_reports/role_caching_works_for_current_user_only
+- Fixed bug, wrong css rule for setup and double / character in path for accept path info test.
+  http://ez.no/community/bug_reports/design_and_a_unknown_error_in_logfile
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
