@@ -86,14 +86,14 @@ eZINI:
   http://ez.no/community/bug_reports/forgotpassword_tpl_wrong_action
 - Fixed typo in user/activate.tpl
   http://ez.no/community/bug_reports/user_activate_template_typo
-
-
 - Fixed bug in kernel/sql/postgresql/sequence.sql
   http://ez.no/community/bug_reports/postgres_setval
 - Fixed bug in dbupdate-3.3-5-to-3.3-6.sql for postgresql.
   http://ez.no/community/bug_reports/problem_with_sql_update_file_dbupdate_3_3_5_to_3_3_6_sql
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
-  http://ez.no/community/bug_reports/workflow_approve_and_author
+- Fixed bug in cronjobs/workflow.php
+  http://ez.no/community/bug_reports/deleting_the_default_admin_user_disables_workflow
+
 *Library:
 
 eZ Locale:

@@ -58,7 +58,7 @@ include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
-$user =& eZUser::instance( 14 );
+//$user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking for workflow processes"  );
