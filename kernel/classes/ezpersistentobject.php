@@ -93,16 +93,15 @@ class eZPersistentObject
             return;
         $def =& $this->definition();
         $fields =& $def["fields"];
-        reset( $fields );
-        while ( ($key = key( $fields ) ) !== null )
+
+        foreach ( $fields as $key => $value )
         {
-            $item =& $fields[$key];
+            $item = $fields[$key];
             if ( is_array( $item ) )
             {
-                $item =& $item['name'];
+                $item = $item['name'];
             }
             $this->$item =& $row[$key];
-            next( $fields );
         }
     }
 
