@@ -156,7 +156,7 @@ class eZMatrix
             $newCells = array();
             $numColumns = $this->attribute( 'columnCount' );
             $numRows = $this->attribute( 'rowCount' );
-            for( $i = 0; $i < $numColumns; $i++ )
+            for ( $i = 0; $i < $numColumns; $i++ )
             {
                 $newCells[] = '';
             }
@@ -232,7 +232,6 @@ class eZMatrix
             $cellList = array();
             for ( $i = 0; $i < $cellCount; ++$i )
             {
-//                $cell =& $cellArray[$i];
                 $cellList[] =& $cellArray[$i]->textContent();
             }
 
