@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-{cache-block keys=$uri_string}
+{cache-block keys=array( $uri_string, $current_user.is_logged_in ) }
 {* fetch object by attribute_id, see definition in settings/fetchalias.ini *}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,blog_package))}
 <head>
@@ -139,10 +139,10 @@
 
 	</div>
 {/let}
-{/cache-block}
+
         <div class="design">
         <div id="innercontent">
-
+{/cache-block}
             {$module_result.content}
         </div>
         </div>
