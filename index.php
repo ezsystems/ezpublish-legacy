@@ -427,8 +427,8 @@ if ( $show_page_layout )
                         $enum = $map['type']->content();
                         $values = $enum->attribute( "enumobject_list" );
                         $value = $values[0];
-                        //if ( $value->attribute( 'enumvalue' ) <> 2 )
-                           //$addToMenu = false;
+//                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+                        //                         $addToMenu = false;
                     }
 
                     if ( $className == "Link" )
@@ -492,8 +492,8 @@ if ( $show_page_layout )
                         $enum = $map['type']->content();
                         $values = $enum->attribute( "enumobject_list" );
                         $value = $values[0];
-                        //if ( $value->attribute( 'enumvalue' ) <> 2 )
-                          //  $addToMenu = false;
+//                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+//                           $addToMenu = false;
                     }
 
                     if ( $className == "Link" )
