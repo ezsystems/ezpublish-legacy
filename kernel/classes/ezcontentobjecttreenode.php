@@ -528,12 +528,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
           $pathString = " path_string like '$childrensPath%' and ";
+
+        $notEqParentString = "node_id != $fromNode AND";
         $depthCond = '';
         if ( $depth )
         {
 
             $nodeDepth += $params[ 'Depth' ];
-            $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+            if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
+            {
+                $depthCond = ' depth = ' . $nodeDepth . ' and ';
+                $notEqParentString = '';
+            }
+            else
+                $depthCond = ' depth <= ' . $nodeDepth . ' and ';
         }
 
         $ini =& eZINI::instance();
@@ -610,7 +618,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $attributeWereSQL
                           $attributeFilterWhereSQL
                           ezcontentclass.version=0 AND
-                          node_id != $fromNode AND
+                          $notEqParentString
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id AND
                           $classCondition
@@ -636,7 +644,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $attributeWereSQL
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
-                            node_id != $fromNode AND
+                            $notEqParentString
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
                             $classCondition
@@ -692,12 +700,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         }
 
-
+        $notEqParentString = "node_id != $fromNode AND";
         if ( isset( $params[ 'Depth' ] ) && $params[ 'Depth' ] > 0 )
         {
 
             $nodeDepth += $params[ 'Depth' ];
-            $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+            if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
+            {
+                $depthCond = ' depth = ' . $nodeDepth . ' and ';
+                $notEqParentString = "";
+
+            }
+            else
+                $depthCond = ' depth <= ' . $nodeDepth . ' and ';
         }
 
         $ini =& eZINI::instance();
@@ -728,7 +743,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCondition .= ' ) AND ';
         }
 
-        $useVersionName = true;
+//        $useVersionName = true;
+        $versionNameTables = '';
+        $versionNameTargets = '';
+        $versionNameJoins = '';
+          $useVersionName = false;
         if ( $useVersionName )
         {
             $versionNameTables = ', ezcontentobject_name ';
@@ -795,7 +814,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $depthCond
                             $classCondition
                             ezcontentclass.version=0 AND
-                            node_id != $fromNode AND
+                            $notEqParentString
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id
                             $versionNameJoins
@@ -816,7 +835,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $depthCond
                            $classCondition
                            ezcontentclass.version=0 AND
-                           node_id != '$fromNode' AND
+                           $notEqParentString
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id
                            $versionNameJoins ";
@@ -880,6 +899,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &children( )
     {
         return $this->subTree( array( 'Depth' => 1,
+                                      'DepthOperator' => 'eq',
                                       'Limitation' => $limitationList
                                       ) );
     }
@@ -890,6 +910,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &childrenCount( )
     {
         return $this->subTreeCount( array( 'Depth' => 1,
+                                           'DepthOperator' => 'eq',
                                            'Limitation' => $limitationList
                                            ) );
     }
@@ -1593,12 +1614,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $childrensPath = $nodePath ; //. $nodeID . '/';
         $pathLength = strlen( $childrensPath ); //+ 1;
 
+        $pathString = " path_string like '$childrensPath%' ";
+
         $db =& eZDB::instance();
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
         $db->query( "DELETE FROM ezcontentobject_tree
-                            WHERE $subStringString = '$childrensPath' OR
+                            WHERE $pathString OR
                             path_string = '$nodePath'" );
 
         // Clean node assignment.

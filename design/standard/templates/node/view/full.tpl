@@ -37,7 +37,7 @@ function checkAll()
          is_editable=true()
 	 is_standalone=true()}
 {let page_limit=15
-     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
+     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id,depth_operator,eq)))}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
@@ -132,7 +132,7 @@ function checkAll()
 {section show=$with_children}
 
 {let name=Child
-     children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))
+     children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset,depth_operator,eq))
      can_remove=false() can_edit=false() can_create=false() can_copy=false()}
 
 {section show=$:children}
@@ -239,8 +239,10 @@ function checkAll()
     {section show=$:can_copy}
     {/section}
     {section show=$:can_remove}
-    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-                <input type="submit" name="RemoveButton" value="Remove" />
+{*    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+    list_count*}
+    {section show=$list_count}
+            <input type="submit" name="RemoveButton" value="Remove" />
 		<input name="selectall" onclick=checkAll() type="button" value="Select all">
     {/section}
     {/section}

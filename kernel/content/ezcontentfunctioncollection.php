@@ -160,7 +160,11 @@ class eZContentFunctionCollection
         return array( 'result' => &$attribute );
     }
 
+<<<<<<< .mine
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $class_filter_type, $class_filter_array )
+=======
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array )
+>>>>>>> .r2871
     {
         $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" );
 //         print( "fetch list $parentNodeID $hash<br>" );
@@ -175,8 +179,10 @@ class eZContentFunctionCollection
                                  'ClassFilterType' => $class_filter_type,
                                  'ClassFilterArray' => $class_filter_array );
         if ( $depth !== false )
+        {
             $treeParameters['Depth'] = $depth;
-
+            $treeParameters['DepthOperator'] = $depthOperator;
+        }
         $children =& eZContentObjectTreeNode::subTree( $treeParameters,
                                                        $parentNodeID );
         if ( $children === null )
@@ -189,13 +195,15 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth, $depthOperator )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        eZDebug::writeDebug( $depthOperator, "DepthOperator" );
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
                                                       'ClassFilterArray' => $class_filter_array,
+                                                      'DepthOperator' => $depthOperator,
                                                       'Depth' => $depth ) );
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
