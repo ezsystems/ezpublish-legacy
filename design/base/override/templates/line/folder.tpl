@@ -14,8 +14,5 @@
         <div class="content-link">
             <p><a href={$node.url_alias|ezurl}>Read more...</a></p>
         </div>
-
-    {/let}
-
     </div>
 </div>
