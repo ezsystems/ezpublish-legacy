@@ -325,7 +325,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             // Fetch identifier/id pair from db
-            $query = "SELECT id, identifier FROM ezcontentclass";
+            $query = "SELECT id, identifier FROM ezcontentclass where version=0";
             $identifierArray = $db->arrayQuery( $query );
 
             $identifierHash = array();
