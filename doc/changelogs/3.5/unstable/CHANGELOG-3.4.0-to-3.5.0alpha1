@@ -27,6 +27,10 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed problem with the eZNodeViewFunctions class making a copy of the
   $tpl input parameter.
   (Merged from stable/3.4 rev. 7195)
+- Added PHP script for clearing caches (bin/php/ezcache.php), this script
+  uses the internal code in eZ publish for clearing caches and should be
+  more reliable.
+  (Merged from stable/3.4 rev. 7200)
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
