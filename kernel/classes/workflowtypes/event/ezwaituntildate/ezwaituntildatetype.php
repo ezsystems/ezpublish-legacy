@@ -75,10 +75,24 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             {
                 include_once( "lib/ezlocale/classes/ezdatetime.php" );
                 $dateTime =& $objectAttribute->attribute( 'content' );
-                $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
-                $this->setActivationDate( $dateTime->timeStamp() );
-                eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
-                return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
+                if ( get_class( $dateTime ) == 'ezdatetime' )
+                {
+                    if ( eZDateTime::currentTimeStamp() < $dateTime->timeStamp() )
+                    {
+                        $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
+                        $this->setActivationDate( $dateTime->timeStamp() );
+                        eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
+                        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
+                    }
+                    else
+                    {
+                        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                    }
+                }
+                else
+                {
+                    return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                }
             }
         }
 //        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
