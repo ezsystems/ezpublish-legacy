@@ -48,7 +48,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -59,7 +59,7 @@
 {section show=$class_count}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
     <th>{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>
@@ -70,17 +70,17 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
-<tr class="{$Classes:sequence}">
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></td>
-    <td>{$Classes:item.identifier|class_icon( small, $Classes:item.name )}&nbsp;<a href={concat( "/class/view/", $Classes:item.id )|ezurl}>{$Classes:item.name|wash}</a></td>
-    <td>{$Classes:item.id}</td>
-    <td>{$Classes:item.identifier|wash}</td>
-    <td>{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
-    <td>{$Classes:item.modified|l10n(shortdatetime)}</td>
-    <td>{$Classes:item.object_count}</td>
-    <td><a href={concat("class/copy/",$Classes:item.id)|ezurl}><img class="button" src={"copy.gif"|ezimage} width="16" height="16" alt="edit" /></a></td>
-    <td><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></td>
+{section var=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
+<tr class="{$Classes.sequence}">
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes.item.id}"></td>
+    <td>{$Classes.item.identifier|class_icon( small, $Classes.item.name )}&nbsp;<a href={concat( "/class/view/", $Classes.item.id )|ezurl}>{$Classes.item.name|wash}</a></td>
+    <td>{$Classes.item.id}</td>
+    <td>{$Classes.item.identifier|wash}</td>
+    <td>{content_view_gui view=text_linked content_object=$Classes.item.modifier.contentobject}</td>
+    <td>{$Classes.item.modified|l10n( shortdatetime )}</td>
+    <td>{$Classes.item.object_count}</td>
+    <td><a href={concat( 'class/copy/', $Classes.item.id )|ezurl}><img class="button" src={'copy.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
 </tr>
 {/section}
 </table>

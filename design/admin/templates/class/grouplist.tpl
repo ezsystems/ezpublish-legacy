@@ -24,8 +24,8 @@
 
     <td>{$Groups.item.name|classgroup_icon( small, $Groups.item.name )}&nbsp;<a href={concat( $module.functions.classlist.uri, '/', $Groups.item.id)|ezurl}>{$Groups.item.name|wash}</a></td>
     <td>{content_view_gui view=text_linked content_object=$Groups.item.modifier.contentobject}</td>
-    <td>{$Groups.item.modified|l10n(shortdatetime)}</td>
-    <td><a href={concat($module.functions.groupedit.uri,"/",$Groups.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></td>
+    <td>{$Groups.item.modified|l10n( shortdatetime )}</td>
+    <td><a href={concat( $module.functions.groupedit.uri, '/', $Groups.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
 </tr>
 {/section}
 </table>
@@ -68,14 +68,14 @@
         <th class="tight">&nbsp;</th>
     </tr>
 
-    {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}
-        <tr class="{$class.sequence}">
-            <td>{$class.identifier|class_icon( small, $class.name )}&nbsp;<a href={concat( '/class/view/', $class.item.id )|ezurl}>{$class.item.name|wash}</a></td>
-            <td>{$class.item.id}</td>
-            <td>{$class.item.identifier|wash}</td>
-            <td>{content_view_gui view=text_linked content_object=$class.item.modifier.contentobject}</td>
-            <td>{$class.item.modified|l10n(shortdatetime)}</td>
-            <td><a href={concat( 'class/edit/', $class.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
+    {section var=LatestClasses loop=$latest_classes sequence=array( bglight, bgdark )}
+        <tr class="{$LatestClasses.sequence}">
+            <td>{$LatestClasses.identifier|class_icon( small, $LatestClasses.name )}&nbsp;<a href={concat( '/class/view/', $LatestClasses.item.id )|ezurl}>{$LatestClasses.item.name|wash}</a></td>
+            <td>{$LatestClasses.item.id}</td>
+            <td>{$LatestClasses.item.identifier|wash}</td>
+            <td>{content_view_gui view=text_linked content_object=$LatestClasses.item.modifier.contentobject}</td>
+            <td>{$LatestClasses.item.modified|l10n(shortdatetime)}</td>
+            <td><a href={concat( 'class/edit/', $LatestClasses.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
         </tr>
     {/section}
     </table>

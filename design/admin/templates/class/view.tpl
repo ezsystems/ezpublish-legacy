@@ -14,7 +14,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%1 [Class]'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h1>
+<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%class_name [Class]'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -29,22 +29,22 @@
 <div class="context-attributes">
 
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
+    <label>{'Name'|i18n( 'design/admin/class/view' )}</label>
     {$class.name|wash}
 </div>
 
 <div class="block">
-    <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
+    <label>{'Identifier'|i18n( 'design/admin/class/view' )}</label>
     {$class.identifier|wash}
 </div>
 
 <div class="block">
-    <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
+    <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}</label>
     {$class.contentobject_name|wash}
 </div>
 
 <div class="block">
-    <label>{'Container'|i18n( 'design/admin/class/view' )}:</label>
+    <label>{'Container'|i18n( 'design/admin/class/view' )}</label>
     {section show=$class.is_container|eq(1)}
         {'Yes'|i18n( 'design/admin/class/view' )}
     {section-else}
@@ -53,7 +53,7 @@
 </div>
 
 <div class="block">
-    <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
+    <label>{'Object count'|i18n( 'design/admin/class/view' )}</label>
     {$class.object_count}
 </div>
 
@@ -61,45 +61,45 @@
 <h2>{'Attributes'|i18n( 'design/admin/class/view' )}</h2>
 <table class="class_list" width="100%" cellpadding="0" cellspacing="0" border="0">
 
-{section name=Attributes loop=$attributes sequence=array( bglight, bgdark )}
+{section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 <tr>
-    <td colspan="3"><b>{$:number}. {$:item.name|wash} ({$:item.data_type.information.name|wash}) (id:{$:item.id})</b></td>
+    <td colspan="3"><b>{$Attributes.number}.&nbsp;{$Attributes.item.name|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</b></td>
 </tr>
 
 <tr>
 
-    <td class="{$Attributes:sequence}">
-        <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes:item.id}" />
-        <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes:item.placement}" />
+    <td class="{$Attributes.sequence}">
+        <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
+        <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
         <div class="block">
             <label>{'Name'|i18n( 'design/admin/class/view' )}</label>
-            <p>{$Attributes:item.name|wash}</p>
+            <p>{$Attributes.item.name|wash}</p>
         </div>
     </td>
 
-    <td class="{$Attributes:sequence}">
+    <td class="{$Attributes.sequence}">
         <div class="block">
             <label>{'Identifier'|i18n( 'design/admin/class/view' )}</label>
-            <p>{$Attributes:item.identifier|wash}</p>
+            <p>{$Attributes.item.identifier|wash}</p>
         </div>
     </td>
 
 
 
-<td class="{$Attributes:sequence}" rowspan="2" width="20%" valign="top">
+<td class="{$Attributes.sequence}" rowspan="2" width="20%" valign="top">
 <div class="block">
 <label>{'Flags'|i18n( 'design/admin/class/view' )}</label>
 </div>
 
         <div class="block">
-            <p>{section show=$Attributes:item.is_required}{'Is required'|i18n( 'design/admin/class/view' )}{section-else}{'Is not required'|i18n( 'design/admin/class/view' )}{/section}</p>
+            <p>{section show=$Attributes.item.is_required}{'Is required'|i18n( 'design/admin/class/view' )}{section-else}{'Is not required'|i18n( 'design/admin/class/view' )}{/section}</p>
         </div>
 
-        {section show=$Attributes:item.data_type.is_indexable}
+        {section show=$Attributes.item.data_type.is_indexable}
         <div class="block">
-            <p>{section show=$Attributes:item.is_searchable}{'Is searchable'|i18n( 'design/admin/class/view' )}{section-else}{'Is not searchable'|i18n( 'design/admin/class/view' )}{/section}</p>
+            <p>{section show=$Attributes.item.is_searchable}{'Is searchable'|i18n( 'design/admin/class/view' )}{section-else}{'Is not searchable'|i18n( 'design/admin/class/view' )}{/section}</p>
         </div>
         {section-else}
         <div class="block">
@@ -107,9 +107,9 @@
         </div>
         {/section}
 
-        {section show=$Attributes:item.data_type.is_information_collector}
+        {section show=$Attributes.item.data_type.is_information_collector}
         <div class="block">
-            <p>{section show=$Attributes:item.is_information_collector}{'Collects information'|i18n( 'design/admin/class/view' )}{section-else}{'Does not collect information'|i18n( 'design/admin/class/view' )}{/section}</p>
+            <p>{section show=$Attributes.item.is_information_collector}{'Collects information'|i18n( 'design/admin/class/view' )}{section-else}{'Does not collect information'|i18n( 'design/admin/class/view' )}{/section}</p>
         </div>
         {section-else}
         <div class="block">
@@ -118,14 +118,14 @@
         {/section}
 
         <div class="block">
-            <p>{section show=$Attributes:item.can_translate|eq(0)}{'Translation is disabled'|i18n( 'design/admin/class/view' )}{section-else}{'Translation is enabled'|i18n( 'design/admin/class/view' )}{/section}</p>
+            <p>{section show=$Attributes.item.can_translate|eq(0)}{'Translation is disabled'|i18n( 'design/admin/class/view' )}{section-else}{'Translation is enabled'|i18n( 'design/admin/class/view' )}{/section}</p>
         </div>
     </td>
 </tr>
 
 <tr>
-    <td class="{$Attributes:sequence}" colspan="2">
-        {class_attribute_view_gui class_attribute=$Attributes:item}
+    <td class="{$Attributes.sequence}" colspan="2">
+        {class_attribute_view_gui class_attribute=$Attributes.item}
     </td>
 </tr>
 {/section}
@@ -157,7 +157,7 @@
 <form action={concat( $module.functions.view.uri, '/', $class.id )|ezurl} method="post">
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
+<h2 class="context-title">{'Member of class groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -168,7 +168,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th class="wide">{'Group'|i18n( 'design/admin/class/view' )}</th>
+    <th class="wide">{'Class group'|i18n( 'design/admin/class/view' )}</th>
 </tr>
 {section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
@@ -193,7 +193,7 @@
             {/section}
         {/section}
         </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{'Add to group'|i18n( 'design/admin/class/view' )}" />
+        <input class="button" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" />
     {section-else}
         <select name="ContentClass_group" disabled="disabled">
         <option value="-1">{'No group'|i18n( 'design/admin/class/view' )}</option>

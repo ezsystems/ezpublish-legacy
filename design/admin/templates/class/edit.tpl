@@ -1,15 +1,15 @@
 {* Warnings *}
 {section show=$validation.processed}
-{section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
+{section var=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 <div class="message-warning">
-<h2>{"Input did not validate"|i18n( 'design/admin/class/edit' )}</h2>
+<h2>{'Input did not validate'|i18n( 'design/admin/class/edit' )}</h2>
 <ul>
-    <li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name|wash} ({$UnvalidatedAttributes:item.id})</li>
+    <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
 </ul>
 </div>
 {section-else}
 <div class="message-feedback">
-<h2>{"Input was stored successfully"|i18n( 'design/admin/class/edit' )}</h2>
+<h2>{'Input was stored successfully'|i18n( 'design/admin/class/edit' )}</h2>
 </div>
 {/section}
 
@@ -65,31 +65,31 @@
 <hr />
 
 <table class="list" cellspacing="0">
-{section name=Attributes loop=$attributes}
+{section var=Attributes loop=$attributes}
 
 <tr>
-    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes:item.id}" /></th>
-    <th class="wide">{$:number}. {$:item.name|wash} [{$:item.data_type.information.name|wash}] (id:{$:item.id})</th>
-    <th class="tight" cellspacing="2"><div class="listbutton"><input type="image" class="button" src={"button-move_down.gif"|ezimage} height="16" width="16" alt="{'Down'|i18n('design/standard/class/edit')}" name="MoveDown_{$Attributes:item.id}" />&nbsp;<input type="image" class="button" src={"button-move_up.gif"|ezimage} height="16" width="16" alt="{'Up'|i18n('design/standard/class/edit')}" name="MoveUp_{$Attributes:item.id}" /></div></th>
+    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" /></th>
+    <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
+    <th class="tight" cellspacing="2"><div class="listbutton"><input type="image" class="button" src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" />&nbsp;<input type="image" class="button" src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" /></div></th>
 </tr>
 
 <tr>
-<!-- Attribute input Start -->
 
+<!-- Attribute input Start -->
 <td colspan="4">
-<input type="hidden" name="ContentAttribute_id[]" value="{$Attributes:item.id}" />
-<input type="hidden" name="ContentAttribute_position[]" value="{$Attributes:item.placement}" />
+<input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
+<input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
 <div class="block">
 
 <div class="element">
-<label>{"Name"|i18n( 'design/admin/class/edit' )}</label>
-{include uri="design:gui/lineedit.tpl" class="halfbox" name=FieldName id_name="ContentAttribute_name[]" value=$Attributes:item.name}
+<label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
+<input class="halfbox" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" />
 </div>
 
 <div class="element">
-<label>{"Identifier"|i18n( 'design/admin/class/edit' )}</label>
-{include uri="design:gui/lineedit.tpl" class="halfbox" name=FieldID id_name="ContentAttribute_identifier[]" value=$Attributes:item.identifier}
+<label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
+<input class="halfbox" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" />
 </div>
 
 <div class="break"></div>
@@ -98,43 +98,35 @@
 <!-- Attribute input End -->
 
 <!-- Attribute flags Start -->
-
-{*
-<div class="block">
-<label>{"Type"|i18n( 'design/admin/class/edit' )}</label><div class="labelbreak"></div>
-<p class="box">{$Attributes:item.data_type.information.name|wash}</p>
-</div>
-*}
-
 <div class="block inline">
 <label>
-<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked="checked"{/section} />
-{"Required"|i18n( 'design/admin/class/edit' )}
+<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_required}checked="checked"{/section} />
+{'Required'|i18n( 'design/admin/class/edit' )}
 </label>
 
-{section show=$Attributes:item.data_type.is_indexable}
+{section show=$Attributes.item.data_type.is_indexable}
 <label>
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked="checked"{/section} />
-{"Searchable"|i18n( 'design/admin/class/edit' )}
-</label>
-{/section}
-
-{section show=$Attributes:item.data_type.is_information_collector}
-<label>
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked="checked"{/section} />
-{"Information collector"|i18n( 'design/admin/class/edit' )}
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_searchable}checked="checked"{/section} />
+{'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
 {/section}
 
+{section show=$Attributes.item.data_type.is_information_collector}
 <label>
-<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes:item.id}" {section show=$Attributes:item.can_translate|eq(0)}checked="checked"{/section} />
-{"Disable translation"|i18n( 'design/admin/class/edit' )}
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_information_collector}checked="checked"{/section} />
+{'Information collector'|i18n( 'design/admin/class/edit' )}
+</label>
+{/section}
+
+<label>
+<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=$Attributes.item.can_translate|eq(0)}checked="checked"{/section} />
+{'Disable translation'|i18n( 'design/admin/class/edit' )}
 </label>
 
 </div>
 
 <div class="block">
-  {class_attribute_edit_gui class_attribute=$Attributes:item}
+  {class_attribute_edit_gui class_attribute=$Attributes.item}
 </div>
 
 </td>
@@ -148,18 +140,17 @@
 
 <hr />
 <div class="controlbar">
-<div class="block">
 
 {* Remove selected attributes button *}
-{section show=$attributes}
-    {include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove selected"|i18n( 'design/admin/class/edit' )}
-{/section}
+<div class="block">
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/edit' )}" {section show=$attributes}disabled="disabled"{/section} />
 </div>
+
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"|i18n( 'design/admin/class/edit' )}
-
+<input class="button" type="submit" name="NewButton" value="{'New'|i18n( 'design/admin/class/edit' )}" />
 </div>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -168,9 +159,9 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-    {include uri="design:gui/button.tpl" name=Store id_name=StoreButton value="OK"|i18n( 'design/admin/class/edit' )}
-    {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value="Apply"|i18n( 'design/admin/class/edit' )}
-    {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Cancel"|i18n( 'design/admin/class/edit' )}
+    <input class="button" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" />
+    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" />
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
