@@ -1698,6 +1698,12 @@ function eZSetupCommonRoles( &$roles, $siteType, $parameters )
                                                   'function' => 'read' ) ),
                       'assignments' => array( array( 'user_id' => $guestAccountsID ),
                                               array( 'user_id' => $anonAccountsID ) ) );
+
+    // Make sure anonymous can only login to use side
+    $roles[] = array( 'name' => 'Anonymous',
+                      'policies' => array( array( 'module' => 'user',
+                                                  'function' => 'login',
+                                                  'limitation' => array( 'SiteAccess' => array( crc32( $parameters['user_siteaccess'] ) ) ) ) ) );
 }
 
 function eZSetupForumRoles( &$roles, $siteType, $parameters )

@@ -673,7 +673,9 @@ class eZStepCreateSites extends eZStepInstaller
                                  'class_remote_map' => $classRemoteMap,
                                  'extra_functionality' => $extraFunctionality,
                                  'preview_design' => $userDesignName,
-                                 'design_list' => array( $userDesignName, 'admin' ) );
+                                 'design_list' => array( $userDesignName, 'admin' ),
+                                 'user_siteaccess' => $userSiteaccessName,
+                                 'admin_siteaccess' => $adminSiteaccessName );
 
             $siteINIStored = false;
             $siteINIAdminStored = false;
@@ -764,8 +766,25 @@ class eZStepCreateSites extends eZStepInstaller
                 $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
             }
 
-            $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
             include_once( 'kernel/classes/ezrole.php' );
+
+            // Try and remove user/login without limitation from the anonymous user
+            $anonRole =& eZRole::fetchByName( 'Anonymous' );
+            if ( is_object( $anonRole ) )
+            {
+                $anonPolicies =& $anonRole->policyList();
+                foreach ( $anonPolicies as $anonPolicy )
+                {
+                    if ( $anonPolicy->attribute( 'module_name' ) == 'user' and
+                         $anonPolicy->attribute( 'function_name' ) == 'login' )
+                    {
+                        $anonPolicy->remove();
+                        break;
+                    }
+                }
+            }
+
+            $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
             foreach ( $extraRoles as $extraRole )
             {
                 if ( !$extraRole )
