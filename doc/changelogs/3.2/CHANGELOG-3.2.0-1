@@ -176,7 +176,7 @@ Changes from 3.1-1 to 3.2.0-1
 - Added wizard for creating new datatypes.
 
 *Library :
-eZ XML:
+*eZ XML:
 - Fixed regexp to match xml attribute to make it handle - (dash) as it should have been.
 - Added convenience functions for querying if node has attributes or children and getting the count.
 - Added functions to return one or multiple elements by name from the children.
@@ -189,16 +189,18 @@ eZ XML:
 - Added convenience function to fetch the text content of all child elements with a given name.
 - The appendChild and appendAttribute now returns the element and attribute that was added.
 
-eZ i18n:
+*eZ i18n:
 - Added support for Unicode encoding which is an array with Unicode values. Conversion from
   and to this encoding is supported seamlessly.
 - Cleaned up the code which decides how the conversion should be done from input charset to output charset.
 - Removed bad use of reference in eZUTF8Codec.
 
-eZ template:
+*eZ template:
 - Added basic string and array handling operators.
 - Added support for defining template function and operator names dynamically trought a php function
   in template autoloading.
+
+*eZ utils:
 
 eZ ini:
 - Added support for more characters in accociative arrays defined in .ini files
@@ -211,19 +213,20 @@ eZ extension:
 - Added the helper function expandedPathList to turn a list of extension with an optional
   subdirectory into real expanded paths.
 
-*eZ session:
+eZ session:
 - Added support for defining the name of the session variable.
 - Added support for having a unique session name per siteaccess, thus allowing
   unique login per siteaccess even with url based siteaccess.
 - Added two functions for stopping and removing the session.
 
-*eZ debug:
+eZ debug:
 - Added support for stylized output when using plain text.
 - Added support for suppressing the various debug levels, accumulators and timing points.
   Default is to show all of them, as before.
 
 eZ cli:
 - New class to handle terminal and CLI specific functionality.
+- Moved class in to the eZ file library.
 
 eZ file:
 - Added create() function which creates a file somewhere with some optional data.
@@ -231,6 +234,10 @@ eZ file:
 eZ dir:
 - Added function directoryPermission() which returns the permission mask
   which should be used to create directories.
+- Moved class in to the eZ file library.
+
+eZ log:
+- Moved class in to the eZ file library.
 
 *eZ file:
 - New library for dealing with files, directories, archives and compressed files.
