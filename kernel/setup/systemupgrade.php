@@ -43,6 +43,9 @@ define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
 
 $tpl =& templateInit();
 
+$tpl->setVariable( 'md5_result', false );
+$tpl->setVariable( 'upgrade_sql', false );
+
 if ( $Module->isCurrentAction( 'MD5Check' ) )
 {
     if ( !file_exists( MD5_SUM_LIST_FILE ) )
