@@ -213,7 +213,7 @@ $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_content', $templateContent );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/templateedit.tpl" );
+$Result['content'] =& $tpl->fetch( "design:visual/templateedit.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/design', 'Template edit' ) ) );
 ?>

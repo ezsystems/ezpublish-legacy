@@ -458,10 +458,10 @@ $tpl->setVariable( 'site_base', $siteBase );
 $tpl->setVariable( 'site_design', $siteDesign );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/templatecreate.tpl" );
-$Result['path'] = array( array( 'url' => "/design/templatelist/",
+$Result['content'] =& $tpl->fetch( "design:visual/templatecreate.tpl" );
+$Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
-                         array( 'url' => "/design/templateview". $template,
+                         array( 'url' => "/visual/templateview". $template,
                                 'text' => ezi18n( 'kernel/design', 'Template view' ) ),
                          array( 'url' => false,
                                 'text' => ezi18n( 'kernel/design', 'Create new template' ) ) );

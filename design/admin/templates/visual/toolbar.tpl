@@ -1,8 +1,8 @@
-<form method="post" action={concat("visual/toolbar/",$current_siteaccess,"/",$toolbar_position)|ezurl}>
+<form method="post" action={concat( 'visual/toolbar/', $current_siteaccess, '/', $toolbar_position )|ezurl}>
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{"Tool List for Toolbar_%toolbar_position"|i18n("design/admin/visual/toolbar",,hash( '%toolbar_position', $toolbar_position ))}
+<h1 class="context-title">{'Tool List for <Toolbar_%toolbar_position>'|i18n( 'design/admin/visual/toolbar',, hash( '%toolbar_position', $toolbar_position ) )|wash}
 </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -11,10 +11,6 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <div class="context-attributes">
-
-
-
-
 
 {section show=$tool_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -57,7 +53,7 @@
                     {$Parameter.value|wash}
                 {/section}
                 {/let}
-                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/admin/visual/toolbar")}" />
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{'Browse'|i18n( 'design/admin/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
             {/case}
             {case match=2}
@@ -86,7 +82,7 @@
                     {$Parameter.value|wash}
                 {/section}
                 {/let}
-                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/admin/visual/toolbar")}" />
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{'Browse'|i18n( 'design/admin/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
             {/case}
             {case match=5}
@@ -145,9 +141,12 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-       <input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/admin/visual/toolbar')}" />
+       <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n('design/admin/visual/toolbar')}" title="{'Click this button to store changes if you have modified the parameters above.'|i18n( 'design/admin/visual/toolbar' )}" />
+       <input class="button" type="submit" name="BackToToolbarsButton" value="{'Back to toolbars'|i18n('design/admin/visual/toolbar')}" title="{'Go back to the toolbar list.'|i18n( 'design/admin/visual/toolbar' )}" />
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
 
+</div>
 
 </form>

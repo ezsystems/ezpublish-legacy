@@ -11,6 +11,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
+
 <div class="block">
 <label>{'Default template resource'|i18n( 'design/admin/visual/templateview' )}:</label>
 {$template_settings.base_dir}
@@ -31,14 +32,9 @@
 </select>
 
 <input class="button" type="submit" name="SelectCurrentSiteAccessButton" value="{'Set'|i18n( 'design/admin/visual/templateview' )}" />
-
 </div>
 
-</div>
-
-
-
-{section show=$custom_match}
+{section show=$template_settings.custom_match}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -70,7 +66,12 @@
 {/section}
 </table>
 
+{section-else}
+<div class="block">
+<p>{'There are no overrides for the <%template_name> template.'i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template ) )|wash}</p>
+</div>
 {/section}
+
 
 {* DESIGN: Content END *}</div></div></div>
 

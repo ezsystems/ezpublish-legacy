@@ -70,6 +70,12 @@ else if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
 $storeList = false;
 $removeCache = false;
 
+if( $http->hasPostVariable( 'BackToToolbarsButton' ) )
+{
+    return $Module->redirectToView( 'toolbarlist', array() );
+}
+
+
 
 if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
 {
@@ -204,7 +210,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
                 eZContentBrowse::browse( array( 'action_name' => 'SelectToolbarNode',
                                                 'description_template' => false,
                                                 'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
-                                                'from_page' => "/design/toolbar/$currentSiteAccess/$toolbarPosition/" ),
+                                                'from_page' => "/visual/toolbar/$currentSiteAccess/$toolbarPosition/" ),
                                          $module );
                 removeRelatedCache( $currentSiteAccess );
                 return;
@@ -218,7 +224,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
                 eZContentBrowse::browse( array( 'action_name' => 'SelectToolbarNodePath',
                                                 'description_template' => false,
                                                 'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
-                                                'from_page' => "/design/toolbar/$currentSiteAccess/$toolbarPosition/" ),
+                                                'from_page' => "/visual/toolbar/$currentSiteAccess/$toolbarPosition/" ),
                                          $module );
                 removeRelatedCache( $currentSiteAccess );
                 return;
@@ -370,8 +376,8 @@ $tpl->setVariable( 'available_tool_list', $availableToolArray  );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/toolbar.tpl" );
-$Result['path'] = array( array( 'url' => 'design/toolbarlist',
+$Result['content'] =& $tpl->fetch( "design:visual/toolbar.tpl" );
+$Result['path'] = array( array( 'url' => 'visual/toolbarlist',
                                 'text' => ezi18n( 'kernel/design', 'Toolbar list' ) ) );
 
 function removeRelatedCache( $siteAccess )

@@ -139,7 +139,7 @@ $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/menuconfig.tpl" );
+$Result['content'] =& $tpl->fetch( "design:visual/menuconfig.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'design/standard/menuconfig', 'Menu management' ) ) );
 

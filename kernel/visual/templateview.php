@@ -169,16 +169,14 @@ if ( isset( $overrideArray[$template] ) )
 }
 
 if ( !isset( $templateSettings['custom_match'] ) )
-    $tpl->setVariable( 'custom_match', false );
-else
-    $tpl->setVariable( 'custom_match', true );
+    $templateSettings['custom_match'] = 0;
 
 $tpl->setVariable( 'template_settings', $templateSettings );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/templateview.tpl" );
-$Result['path'] = array( array( 'url' => "/design/templatelist/",
+$Result['content'] =& $tpl->fetch( "design:visual/templateview.tpl" );
+$Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => false,
                                 'text' => ezi18n( 'kernel/design', 'Template view' ) ) );

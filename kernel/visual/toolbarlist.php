@@ -80,7 +80,7 @@ $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:design/toolbarlist.tpl" );
+$Result['content'] =& $tpl->fetch( "design:visual/toolbarlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'design/standard/toolbar', 'Toolbar management' ) ) );
 
