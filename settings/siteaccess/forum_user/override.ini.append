@@ -1,5 +1,16 @@
 <?php /* #?ini charset="iso-8859-1"?
 
+[forum_folder]
+Source=node/view/full.tpl
+MatchFile=forum_folder.tpl
+Subdir=templates
+Match[node]=111
+
+[forum_folder_line]
+Source=node/view/forumline.tpl
+MatchFile=forum_folder_line.tpl
+Subdir=templates
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
