@@ -1,0 +1,93 @@
+TODO
+
+Importante security
+- Output washing with template operator
+- Fix permission checks on browse
+- Fix permission checks on search
+- Simplyfy task GUI
+ - Send task w/message
+ - Send task w/message and attachment
+
+Add "My" page
+
+- Rewrite SMTP class
+- Fix e-mail class
+- E-mails are hard coded. Must be moved to template.
+
+Notification:
+- Clean up database table and look over framework
+
+Classes:
+- Class edit automatically generate object name tag
+- Identifier must be unique and automatically generated
+- Fix redirection after edit
+- Add warning on class group delete
+
+Creator id's must be converted to real ID's. There should not be used -1 for user id's.
+
+- Check usage of new/create remove/delete on all pages
+
+- Section: hide locale from edit page
+
+- Content full view: add remove node when clicking on the [x] icon
+
+- Add edit button in upper right corner on intranet design
+
+- Find good placement for edit button in full view
+
+- Content edit:
+  - New icons for asc/desc
+  - New icons for move
+  - Show published/modified
+  - Fix wrapping of "related buttons"
+  - Move 
+  - Add warning på discard
+
+- Versions: publishing from versions ends up in input did not validate
+
+- Drafts: Show "no drafts" message when empty
+- Move drafts to content module
+
+
+Search stats:
+- Fix layout/language
+- Remove empty search from stats colletion
+- Add sorting/limit
+
+SItemap:
+- remove javascript warning on delete
+- Add remove function to [x] icon
+
+Notification rule:
+- Move to "My" box
+
+- Fix names on Discount rules
+- Fix URL in discout: 
+E.g.
+discountrulemembershipview
+is too long
+
+- Users:
+Default view should not be sitemap
+Fix section for users..
+
+- Add default section id, if no previous section is set
+
+Roles:
+- Add remove functionality to [x] icon or remove it.
+- Fix edit button on role view
+- Fix wording in new policy
+
+Images: Make english filenames
+
+Test and clean up setup script.
+
+Layout:
+
+Find suitable sizes for buttons
+
+- Add custom tag support
+
+- Path is not set in all views (check)
+
+
