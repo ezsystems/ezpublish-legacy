@@ -22,6 +22,7 @@ Changes from 3.2-1 to 3.3.0-1
 - Improved the text on the removeeditversion page.
 - Added support for class filter in treemenu operator.
 - Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
+- Fixed correct link in wordtoimage operator when running in nvh mode.
 
 *DataType:
 

@@ -69,9 +69,12 @@ Returns the template operators.
         $replaceText = $ini->variable( 'WordToImageSettings', 'ReplaceText' );
         $replaceIcon = $ini->variable( 'WordToImageSettings', 'ReplaceIcon' );
 
+        $wwwDirPrefix = "";
+        if ( strlen( eZSys::wwwDir() ) > 0 )
+            $wwwDirPrefix = eZSys::wwwDir() . "/";
         foreach( $replaceIcon as $icon )
         {
-            $icons[] = '<img src="' . $iconRoot .'/' . $icon . '"/>';
+            $icons[] = '<img src="' . $wwwDirPrefix . $iconRoot .'/' . $icon . '"/>';
         }
 
         $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
