@@ -169,27 +169,32 @@ td.bglight, td.bgdark
 	border-top: solid 1px #e0f4ff;
 }
 
+td.bglightextra, td.bgdarkextra
+{
+	border-top: none;
+}
+
 table.list, table.layoutlist
 {
 	border-bottom: solid 1px #e0f4ff;
 }
 
-td.bglight
+td.bglight, td.bglightextra
 {
 	background-color: #f8fdff;
 }
 
-td.bgdark
+td.bgdark, td.bgdarkextra
 {
 	background-color: #f0faff;
 }
 
-th.bglight
+th.bglight, td.bglightextra
 {
 	background-color: #f8fdff;
 }
 
-th.bgdark
+th.bgdark, td.bgdarkextra
 {
 	background-color: #f0faff;
 }

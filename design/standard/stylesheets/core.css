@@ -1,7 +1,8 @@
-/* eZ publish 3 core CSS - th[eZ] 20021113                              */
-/* Do _not_ remove or delete this stylesheet, because some basic        */
+/* eZ publish 3 core CSS - th[eZ] 20021129                              */
+/* Do not remove or delete this stylesheet, because some basic          */
 /* formatting methods in the system depends on it for proper display.   */
-/* Just modify and/or override styles where necessary.                  */
+/* Just modify and/or override styles where necessary, and remove all   */
+/* comments when they're not needed anymore (minimizes the file size).  */
 
 /* MAIN WINDOW */
 
@@ -36,7 +37,7 @@ h3
     font-size: 90%;
 }
 
-p, ul, ol, dl, label, input, .normal, table.list th, table.list td
+p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td
 {
     font-size: 80%;
 }
@@ -78,7 +79,7 @@ h3
     font-weight: bold;
 }
 
-/* REGULAR TEXT */
+/* REGULAR PARAGRAPHS */
 
 p
 {
@@ -86,6 +87,8 @@ p
     padding-bottom: 0.5ex;
     margin: 0px;
 }
+
+/* LINKS */
 
 a
 {
@@ -98,6 +101,17 @@ a:hover
     color: #0000c0;
     text-decoration: underline;
     cursor: pointer;
+}
+
+a img
+/* Some browsers may display a border around a linked image without this attribute set. */
+{
+    border: none;
+}
+
+th a
+{
+    color: #000000;
 }
 
 /* NOT USED
@@ -117,6 +131,7 @@ table
 }
 
 table.list
+/* Used on all "proper" data lists presented by tables; i.e. NOT on tables use for general layout. */
 {
     margin-top: 0.5ex;
     margin-bottom: 1ex;
@@ -141,12 +156,14 @@ td
     font-weight: normal;
 }
 
-td.bglight
+td.bglight, td.bglightextra
+/* Light background color used on alternating lines in a table list */
 {
     background-color: #f8f8f8;
 }
 
-td.bgdark
+td.bgdark, td.bgdarkextra
+/* Dark background color used on alternating lines in a table list */
 {
     background-color: #f0f0f0;
 }
@@ -156,7 +173,7 @@ td.tight
     font-size: 1px;
 }
 
-/* LISTS */
+/* ORDERED AND UNORDERED LISTS */
 
 ul, ol
 {
@@ -180,6 +197,8 @@ li
     padding: 0px;
     margin-bottom: 0.5ex;
 }
+
+/* DEFINITION LISTS */
 
 dl
 {
@@ -232,6 +251,8 @@ label
 }
 
 div.labelbreak
+/* Used on an empty tag set after the label tag, to make it possible to change the label positioning in a instant. */
+/* Standard display is _block_, but if set to _inline_ the labels will appear to the left of the input fields. */
 {
     display: block;
 }
@@ -239,6 +260,7 @@ div.labelbreak
 input.button
 {
     font-weight: bold;
+    margin-right: 8px;
 }
 
 input.button:hover
@@ -283,12 +305,6 @@ div.bodyblock
     padding-bottom: 0.5ex;
 }
 
-div.break
-{
-    display: block;
-    clear: both;
-}
-
 div.block, div.step
 {
     display: block;
@@ -312,12 +328,20 @@ div.buttonblock
 }
 
 div.element
+/* Used to position several elements next to each other horizontally. NOT on regular buttons. */
 {
     float: left;
     display: block;
     padding-right: 1ex;
     padding-left: 0px;
     clear: right;
+}
+
+div.break
+/* Used on an empty tag set after one or more div.element has been used, to ensure proper floating and breaking of the elements. */
+{
+    display: block;
+    clear: both;
 }
 
 /* ARTICLE FORMATTING */

@@ -1,15 +1,20 @@
 <form action={concat($module.functions.list.uri)|ezurl} method="post" name="WorkflowList">
 
+<p class="comment">Seems like this is an obsolete copy of another template; this is confirmed by JB. To be deleted. th[eZ]</p>
+
+<div class="maincontentheader">
 <h1>Defined workflows</h1>
-<table width="100%" cellspacing="0">
+</div>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-  <th align="left">ID</th>
-  <th align="left">Name</th>
-  <th align="left">Type</th>
-  <th align="left">Creator</th>
-  <th align="left">Modifier</th>
-  <th align="left">Created</th>
-  <th align="left">Modified</th>
+    <th>ID:</th>
+    <th>Name:</th>
+    <th>Type:</th>
+    <th>Creator:</th>
+    <th>Modifier:</th>
+    <th>Created:</th>
+    <th>Modified:</th>
 </tr>
 
 {sequence name=WorkflowSequence loop=array(bglight,bgdark)}
