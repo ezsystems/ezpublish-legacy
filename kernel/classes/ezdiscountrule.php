@@ -42,7 +42,9 @@
   \brief The class eZDiscountRule does
 
 */
+
 include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZDiscountRule extends eZPersistentObject
 {
     /*!
@@ -88,7 +90,7 @@ class eZDiscountRule extends eZPersistentObject
         return new eZDiscountRule( $row );
     }
 
-    function &remove ( $id )
+    function &remove( $id )
     {
         eZPersistentObject::removeObject( eZDiscountRule::definition(),
                                           array( "id" => $id ) );

@@ -42,8 +42,10 @@
   \brief The class eZUserDiscountRule does
 
 */
+
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
+
 class eZUserDiscountRule extends eZPersistentObject
 {
     /*!
@@ -162,12 +164,12 @@ class eZUserDiscountRule extends eZPersistentObject
         return new eZUserDiscountRule( $row );
     }
 
-    function &removeUser ( $userID )
+    function &removeUser( $userID )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "contentobject_id" => $userID ) );
     }
-    function &remove ( $id )
+    function &remove( $id )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "id" => $id ) );

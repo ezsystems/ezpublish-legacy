@@ -39,6 +39,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectParentNode' )  )
 {
     if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'SelectParentNode' ) )
