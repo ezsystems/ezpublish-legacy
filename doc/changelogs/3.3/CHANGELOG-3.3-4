@@ -21,6 +21,7 @@ Changes from 3.3-3 to 3.3-4
   variable is array.
 - Added remove empty ini block function for datatype inisetting.
 - eZBinaryFile now uses eZMimeType for mime type handling. Merged from trunk (Rev. 5194)
+- eZMedia now uses eZMimeType for mime type handling.
 
 *Bugs:
 - Fixed broken datatype range option.
