@@ -139,14 +139,6 @@ class eZBooleanType extends eZDataType
     }
 
     /*!
-     Returns the meta data used for storing search indeces.
-    */
-    function metaData( $contentObjectAttribute )
-    {
-        return $contentObjectAttribute->attribute( "data_int" );
-    }
-
-    /*!
      Returns the integer value.
     */
     function title( &$contentObjectAttribute )
