@@ -494,28 +494,6 @@ class eZStepCreateSites extends eZStepInstaller
             }
             // Database initialization done
 
-            $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
-
-            // Make sure we have all the translation available
-            // before we work with objects
-            include_once( 'kernel/classes/ezcontenttranslation.php' );
-            foreach ( array_keys( $languageObjects ) as $languageObjectKey )
-            {
-                $languageObject = $languageObjects[$languageObjectKey];
-                $languageLocale = $languageObject->localeCode();
-
-                if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
-                {
-                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
-                    $translation->store();
-                    if ( $languageLocale != $primaryLanguageLocaleCode )
-                    {
-                        $translation->updateObjectNames();
-                    }
-                }
-            }
-
-
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
@@ -570,40 +548,6 @@ class eZStepCreateSites extends eZStepInstaller
             $ini =& eZINI::instance();
             $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
-            // Change the current translation variables, before other parts start using them
-            $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
-            $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
-            $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
-
-            // Make sure the database has the correct locale on objects etc.
-            $saveResult = true;
-
-            if ( $saveResult )
-            {
-                // Make sure objects use the selected main language instead of eng-GB
-                if ( $primaryLanguageLocaleCode != 'eng-GB' )
-                {
-                    // Updates databases that have eng-GB data to the new locale.
-                    $updateSql = "UPDATE ezcontentobject_name
-SET
-  content_translation='$primaryLanguageLocaleCode',
-  real_translation='$primaryLanguageLocaleCode'
-WHERE
-  content_translation='eng-GB' OR
-  real_translation='eng-GB'";
-                    $db->query( $updateSql );
-
-                    $updateSql = "UPDATE ezcontentobject_attribute
-SET
-  language_code='$primaryLanguageLocaleCode'
-WHERE
-  language_code='eng-GB'";
-                    $db->query( $updateSql );
-//                 }
-                }
-            }
-
-
             $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
             $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
                                                $this->PersistenceList['additional_packages'] :
@@ -634,6 +578,55 @@ WHERE
                     return false;
                 }
                 unset( $package );
+            }
+
+            $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
+
+            // Change the current translation variables, before other parts start using them
+            $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
+            $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
+            $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
+
+            // Make sure objects use the selected main language instead of eng-GB
+            if ( $primaryLanguageLocaleCode != 'eng-GB' )
+            {
+                // Updates databases that have eng-GB data to the new locale.
+                $updateSql = "UPDATE ezcontentobject_name
+SET
+  content_translation='$primaryLanguageLocaleCode',
+  real_translation='$primaryLanguageLocaleCode'
+WHERE
+  content_translation='eng-GB' OR
+  real_translation='eng-GB'";
+                $db->query( $updateSql );
+
+                $updateSql = "UPDATE ezcontentobject_attribute
+SET
+  language_code='$primaryLanguageLocaleCode'
+WHERE
+  language_code='eng-GB'";
+                $db->query( $updateSql );
+//                 }
+            }
+            $GLOBALS['eZContentObjectDefaultLanguage'] = $primaryLanguageLocaleCode;
+
+            // Make sure we have all the translation available
+            // before we work with objects
+            include_once( 'kernel/classes/ezcontenttranslation.php' );
+            foreach ( array_keys( $languageObjects ) as $languageObjectKey )
+            {
+                $languageObject = $languageObjects[$languageObjectKey];
+                $languageLocale = $languageObject->localeCode();
+
+                if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
+                {
+                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                    $translation->store();
+                    if ( $languageLocale != $primaryLanguageLocaleCode )
+                    {
+                        $translation->updateObjectNames();
+                    }
+                }
             }
 
             $nodeRemoteMap = array();
@@ -902,13 +895,13 @@ WHERE
                 if ( !isset( $dataMap['first_name'] ) )
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-023',
-                                                      'text' => "Administrator content object does have a 'first_name' field" );
+                                                      'text' => "Administrator content object does not have a 'first_name' field" );
                     $error = true;
                 }
                 if ( !isset( $dataMap['last_name'] ) )
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-024',
-                                                      'text' => "Administrator content object does have a 'last_name' field" );
+                                                      'text' => "Administrator content object does not have a 'last_name' field" );
                     $error = true;
                 }
 
