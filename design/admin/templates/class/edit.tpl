@@ -52,30 +52,26 @@
     {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use the name field to set the informal name of the class. This field may contain whitespace an special characters.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Identifier. *}
     <div class="block">
     <label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use The identifier field to set the name of the class internally in eZ publish. This name is used within the templates and PHP code. The identifier may not contain whitespace or special characters.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Object name pattern. *}
     <div class="block">
     <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use the object name pattern field to control how the name of the object (used for nice urls and listings in the administration part) is created. To use the value inserted in any of an attributes insert the identifier of that attribute enclosed in angle brackets. Any other text inserted in this field will be included literally.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Container. *}
     <div class="block">
     <label>{'Container'|i18n( 'design/admin/class/edit' )}</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
-    {section show=$class.is_container|eq( 1 )}
-        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
-    {section-else}
-        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />
-    {/section}
+      <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked{/section} title="{'Use the container checkbox to control if instances of this class can have sub-items or not. If checked, it will not be possible to create new sub-items in instances of this class. Any existing sub-items will not be displayed.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
 {section show=$attributes}
@@ -85,9 +81,14 @@
 {section var=Attributes loop=$attributes}
 
 <tr>
-    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" /></th>
+    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Use these checkboxes to mark attributes for removal. Click the "Remove selected" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}"/></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
-    <th class="tight" cellspacing="2"><div class="listbutton"><input type="image" class="button" src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" />&nbsp;<input type="image" class="button" src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" /></div></th>
+    <th class="tight" cellspacing="2">
+      <div class="listbutton">
+          <input type="image" class="button" src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the attributes in the class. The up arrow moves the attribute one place up in the list of attributes. The down arrow moves the attribute one place down in the list of attributes.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
+          <input type="image" class="button" src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the attributes in the class. The up arrow moves the attribute one place up in the list of attributes. The down arrow moves the attribute one place down in the list of attributes.'|i18n( 'design/admin/class/edit' )}" />
+      </div>
+    </th>
 </tr>
 
 <tr>
@@ -178,15 +179,15 @@
 {* Remove selected attributes button *}
 <div class="block">
 {section show=$attributes}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes from the list above.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes from the list above.'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
 {/section}
 </div>
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" />
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Create a new attribute within this class. Use the menu on the left to select the type of the attribute.'|i18n( 'design/admin/class/edit' )}"/>
 </div>
 
 </div>
@@ -197,9 +198,9 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-    <input class="button" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" />
-    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" />
+    <input class="button" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" title="{'Store the changes to the class and exit to the class overview.'|i18n( 'design/admin/class/edit' )}" />
+    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" title="{'Store the changes to the class and continue editing.'|i18n( 'design/admin/class/edit' )}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes to the class and exit to the class overview.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
