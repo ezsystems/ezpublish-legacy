@@ -1,50 +1,50 @@
 <?php /* #?ini charset="utf8"?
 
-[section1]
+[section1Standard.tpl]
 Source=pagelayout.tpl
-Matchfile=section_1.tpl
+Matchfile=section_1_standard.tpl
 Subdir=templates
 Match[section]=1
 
-[section2]
+[section2Whitebox]
 Source=pagelayout.tpl
-Matchfile=section_2.tpl
+Matchfile=section_2_whitebox.tpl
 Subdir=templates
 Match[section]=2
 
-[section3]
+[section3News]
 Source=pagelayout.tpl
-Matchfile=section_3.tpl
+Matchfile=section_3_news.tpl
 Subdir=templates
 Match[section]=3
 
-[section4]
+[section4Forum]
 Source=pagelayout.tpl
-Matchfile=section_4.tpl
+Matchfile=section_4_forum.tpl
 Subdir=templates
 Match[section]=4
 
-[section5]
+[section5BookCorner]
 Source=pagelayout.tpl
-Matchfile=section_5.tpl
+Matchfile=section_5_book_corner.tpl
 Subdir=templates
 Match[section]=5
 
-[section6]
+[section6MyCompany]
 Source=pagelayout.tpl
-Matchfile=section_6.tpl
+Matchfile=section_6_my_company.tpl
 Subdir=templates
 Match[section]=6
 
-[section7]
+[section7Intranet]
 Source=pagelayout.tpl
-Matchfile=section_7.tpl
+Matchfile=section_7_intranet.tpl
 Subdir=templates
 Match[section]=7
 
-[section8]
+[section8MySite]
 Source=pagelayout.tpl
-Matchfile=section_8.tpl
+Matchfile=section_8_mysite.tpl
 Subdir=templates
 Match[section]=8
 
