@@ -146,7 +146,7 @@ class eZRSSExport extends eZPersistentObject
                       'creator_id' => $user_id,
                       'created' => $dateTime,
                       'status' => 0,
-                      'url' => 'http://'. eZSys::hostname() . (eZSys::serverPort() != 80 ? ':'. eZSys::serverPort(): '' ) . eZSys::indexDir( false ),
+                      'url' => 'http://'. $config->variable( 'SiteSettings', 'SiteURL' ),
                       'description' => '',
                       'image_id' => 0,
                       'active' => 0,
