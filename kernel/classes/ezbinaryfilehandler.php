@@ -234,11 +234,14 @@ class eZBinaryFileHandler
             }
         }
 
-	$db =& eZDB::instance();
-        $db->query( "UPDATE ezbinaryfile SET download_count=(download_count+1)
-                     WHERE
-                     contentobject_attribute_id=$contentObjectAttributeID AND version=$version" );
+	if ( is_file( $this->storedFilename( $fileObject ) ) )
+	{
+	    $db =& eZDB::instance();
+            $db->query( "UPDATE ezbinaryfile SET download_count=(download_count+1)
+                         WHERE
+                         contentobject_attribute_id=$contentObjectAttributeID AND version=$version" );
 
+	}
 	
         if ( $fileObject === null )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
