@@ -57,7 +57,7 @@
         <td>{$Nodes.item.object.current.creator.name|wash()}</td>
 
         {* Modified *}
-        <td>{$Node.item.object.modified|l10n( shortdatetime )}</td>
+        <td>{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
 
         {* Section *}
         <td>{$Nodes.item.object.section_id}</td>
