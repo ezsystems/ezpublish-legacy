@@ -131,14 +131,6 @@ MatchFile=admin_preview/windows_media.tpl
 Subdir=templates
 Match[class_identifier]=windows_media
 
-[generic_user]
-Source=node/view/admin_preview.tpl
-MatchFile=admin_preview/generic_user.tpl
-Subdir=templates
-Match[navigation_part_identifier]=ezusernavigationpart
-
-
-
 
 ###############################################################################
 #
