@@ -672,7 +672,6 @@ div#maincontent-design h2
     color: #099;
     margin-bottom: 0px;
     margin-top: 0.25em;
-    clear: both;
 }
 
 div#maincontent-design h3
@@ -775,7 +774,6 @@ div#maincontent-design div.content-view-full div.content-view-line div.attribute
     background-position: center left;
     background-repeat: no-repeat;
 }
-
 
 /* Content link for all main objects, e.g. " and "Thumbnail/slideshow view" */
 div#maincontent-design div.content-view-full div.attribute-link p, div#maincontent-design div.view-slideshow div.attribute-link p, div#maincontent-design div.content-view-full div.attribute-tipafriend p
@@ -1093,7 +1091,6 @@ div.content-view-listitem div.class-product div.attribute-link-disabled a
     vertical-align: center;
 }
 
-
 /* File styles */
 div#maincontent-design div.class-folder div.class-file div.attribute-short p
 { 
@@ -1289,18 +1286,21 @@ input.defaultbutton
     font-weight: bold;
     border: 1px solid #369;
     background-color: #9cf;
+    color: #039;
 }
 
 input.button
 {
     font: 9pt;
     border: 1px solid #369;
+    color: #039;
     background-color: #9cf;
 }
 
 input.searchbutton
 {
     font: 9pt;
+    color: #039;
     border: 1px solid #369;
     background-color: #9cf;
 }
