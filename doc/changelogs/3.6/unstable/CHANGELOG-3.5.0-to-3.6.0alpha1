@@ -188,6 +188,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11025)
 -Fixed bug #6280: Previous location not displayed when moving node
   (Manually merged from stable/3.5 (3.5.2) rev. 11042)
+- Fixed bug #6323: Wrong condition for http post to url conversion.
+  (Merged from stable/3.5 (3.5.2) rev. 11046)
 
 *Library:
 PDF:
