@@ -141,6 +141,15 @@ eZTemplate:
   a PHP variable and the expression resulted in an object proxy (e..g section
   iterator)
 
+eZFileHandler:
+- Made sure copy() and move() methods check if source and destination points
+  to the same file, if so it just returns true.
+
+eZTarArchiveHandler:
+- Made sure directories have the ending slash when storing in tar file.
+- Made sure tar files are padded to 20 blocks (of 512 bytes) containing
+  zero filled blocks.
+
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
   Merged from stable/3.3 rev. 10194

@@ -342,6 +342,14 @@ class eZFileHandler
             else
                 $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
         }
+
+
+        // If source and destination are the same files we just return true
+        if ( $sourceFilename == $destinationFilename )
+        {
+            return true;
+        }
+
         if ( file_exists( $destinationFilename ) and
              !is_dir( $destinationFilename ) )
         {
@@ -409,7 +417,15 @@ class eZFileHandler
             else
                 $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
         }
-        $destinationFD = @fopen( $destinationFilename, 'wb' );
+
+        // If source and destination are the same files we just return true
+        if ( $sourceFilename == $destinationFilename )
+        {
+            @fclose( $sourceFD );
+            return true;
+        }
+
+        $destinationFD = fopen( $destinationFilename, 'wb' );
         if ( !$destinationFD )
         {
             @fclose( $sourceFD );
@@ -420,10 +436,10 @@ class eZFileHandler
         $bytesCopied = 0;
         do
         {
-            $data = @fread( $sourceFD, 4096 );
+            $data = fread( $sourceFD, 4096 );
             if ( strlen( $data ) == 0 )
                 break;
-            @fwrite( $destinationFD, $data );
+            fwrite( $destinationFD, $data );
             $bytesCopied += strlen( $data );
         } while( true );
 
