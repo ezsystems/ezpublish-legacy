@@ -319,6 +319,9 @@ if ( $contentClassHasInput )
 
 $class->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
+include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+$trans = new eZCharTransform();
+
 // Fixed identifiers to only contain a-z0-9_
 foreach( array_keys( $attributes ) as $key )
 {
@@ -327,14 +330,9 @@ foreach( array_keys( $attributes ) as $key )
     $identifier = $attribute->attribute( 'identifier' );
     if ( $identifier == '' )
         $identifier = $attribute->attribute( 'name' );
-    $identifier = strtolower( $identifier );
-    $identifier = preg_replace( array( "/[^a-z0-9_ ]/" ,
-                                       "/ /",
-                                       "/__+/" ),
-                                array( "",
-                                       "_",
-                                       "_" ),
-                                $identifier );
+
+    $identifier = $trans->transformByGroup( $identifier, 'identifier' );
+
     $attribute->setAttribute( 'identifier', $identifier );
     $dataType =& $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
@@ -344,14 +342,7 @@ foreach( array_keys( $attributes ) as $key )
 $identifier = $class->attribute( 'identifier' );
 if ( $identifier == '' )
     $identifier = $class->attribute( 'name' );
-$identifier = strtolower( $identifier );
-$identifier = preg_replace( array( "/[^a-z0-9_ ]/" ,
-                                   "/ /",
-                                   "/__+/" ),
-                            array( "",
-                                   "_",
-                                   "_" ),
-                            $identifier );
+$identifier = $trans->transformByGroup( $identifier, 'identifier' );
 $class->setAttribute( 'identifier', $identifier );
 
 // Run custom actions if any

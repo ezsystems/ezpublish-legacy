@@ -650,21 +650,15 @@ WHERE
      'What is this?' => 'what_is_this'
      'This & that' => 'this_that'
      'myfile.tpl' => 'myfile_tpl',
-     'רזו' => '_1'
+     'רזו' => 'oeaeaa'
      \endexample
     */
     function convertToAlias( $urlElement, $defaultValue = false )
     {
-        $urlElement = strtolower( $urlElement );
-        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
-                                           "/ /",
-                                           "/__+/",
-                                           "/^_|_$/" ),
-                                    array( " ",
-                                           "_",
-                                           "_",
-                                           "" ),
-                                      $urlElement );
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = new eZCharTransform();
+
+        $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
         if ( strlen( $urlElement ) == 0 )
         {
             if ( $defaultValue === false )
@@ -672,16 +666,7 @@ WHERE
             else
             {
                 $urlElement = $defaultValue;
-                $urlElement = strtolower( $urlElement );
-                $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
-                                                   "/ /",
-                                                   "/__+/",
-                                                   "/^_|_$/" ),
-                                            array( "",
-                                                   "_",
-                                                   "_",
-                                                   "" ),
-                                            $urlElement );
+                $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
             }
         }
         return $urlElement;

@@ -1351,44 +1351,9 @@ class eZSearchEngine
         $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
         $text = $revCodec->convertString( $normalizedTextArray );
 
-        // fix removing of . if not inside a word.
-        $text =& preg_replace( "#(\.){2,}#", " ", $text );
-        $text =& preg_replace( "#^\.#", " ", $text );
-        $text =& preg_replace( "#\s\.#", " ", $text );
-        $text =& preg_replace( "#\.\s#", " ", $text );
-        $text =& preg_replace( "#\.$#", " ", $text );
-
-        $text =& str_replace(":", " ", $text );
-        $text =& str_replace(",", " ", $text );
-        $text =& str_replace(";", " ", $text );
-        $text =& str_replace("'", " ", $text );
-//        $text =& str_replace("\"", " ", $text );
-        $text =& str_replace("(", " ", $text );
-        $text =& str_replace(")", " ", $text );
-        $text =& str_replace("-", " ", $text );
-        $text =& str_replace("+", " ", $text );
-        $text =& str_replace("/", " ", $text );
-        $text =& str_replace("!", " ", $text );
-        $text =& str_replace("?", " ", $text );
-        $text =& str_replace("[", " ", $text );
-        $text =& str_replace("]", " ", $text );
-        $text =& str_replace("$", " ", $text );
-        $text =& str_replace("\\", " ", $text );
-        $text =& str_replace("<", " ", $text );
-        $text =& str_replace(">", " ", $text );
-
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
-        {
-            $text =& str_replace("*", " ", $text );
-        }
-
-        $text =& str_replace("\n", " ", $text );
-        $text =& str_replace("\t", " ", $text );
-        $text =& str_replace("\r", " ", $text );
-        $text =& preg_replace("(\s+)", " ", $text );
-
-        $text =& strtolower( $text );
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = new eZCharTransform();
+        $text = $trans->transformByGroup( $text, 'search' );
 
         return $text;
     }
