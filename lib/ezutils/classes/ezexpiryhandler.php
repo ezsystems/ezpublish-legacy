@@ -78,7 +78,7 @@ class eZExpiryHandler
     {
         $cacheDirectory = eZSys::cacheDirectory();
 
-        $fp = fopen( $cacheDirectory . "/" . 'expiry.php', 'w' );
+        $fp = @fopen( $cacheDirectory . "/" . 'expiry.php', 'w' );
         if ( $fp )
         {
             $storeString = "<?php\n\$Timestamps = array( ";
