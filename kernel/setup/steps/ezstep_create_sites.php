@@ -117,7 +117,6 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $primaryLanguage === null )
             $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
 
-        eZDebug::writeDebug( $this->PersistenceList, '$this->PersistenceList' );
         $canUseUnicode = $this->PersistenceList['database_info']['use_unicode'];
 
         $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
@@ -128,7 +127,6 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
             $accessType = $sitePackage['access_type'];
-            eZDebug::writeDebug( $sitePackage, "sitepackage_$counter" );
             $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
             $this->initializePackage( $package, $sitePackage, $accessMap, $charset,
                                       $allLanguageCodes, $allLanguages, $primaryLanguage );
@@ -259,7 +257,7 @@ class eZStepCreateSites extends eZStepInstaller
                                 &$accessMap, $charset,
                                 &$allLanguageCodes, &$allLanguages, &$primaryLanguage )
     {
-        eZDebug::writeDebug( $sitePackage, 'sitePackage' );
+//         eZDebug::writeDebug( $sitePackage, 'sitePackage' );
 //         $sitePackage['admin_access_type_value'] = $sitePackage['access_type_value'] . '_admin';
 
         switch ( $sitePackage['access_type'] )
@@ -314,8 +312,6 @@ class eZStepCreateSites extends eZStepInstaller
                                'socket' => $dbSocket,
                                'database' => $dbName,
                                'charset' => $dbCharset );
-        eZDebug::writeDebug( $dbDriver, 'dbDriver' );
-        eZDebug::writeDebug( $dbParameters, 'dbParameters' );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         eZDB::setInstance( $db );
         if ( $package )

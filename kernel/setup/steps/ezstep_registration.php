@@ -89,9 +89,26 @@ class eZStepRegistration extends eZStepInstaller
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
                 $url = 'http://' . $url;
-                $siteTemplates[$counter]['url'] = $url;
             }
-
+            $currentURL = $url;
+            $adminURL = $url;
+            if ( $siteTemplates[$counter]['access_type'] == 'url' )
+            {
+                $url .= '/' . $siteTemplates[$counter]['access_type_value'];
+                $adminURL .= '/' . $siteTemplates[$counter]['admin_access_type_value'];
+            }
+            else if ( $siteTemplates[$counter]['access_type'] == 'hostname' )
+            {
+                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['admin_access_type_value'] ) );
+            }
+            else if ( $siteTemplates[$counter]['access_type'] == 'port' )
+            {
+                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['admin_access_type_value'] ) );
+            }
+            $siteTemplates[$counter]['url'] = $url;
+            $siteTemplates[$counter]['admin_url'] = $adminURL;
         }
 
         $testsRun = $this->PersistenceList['tests_run'];

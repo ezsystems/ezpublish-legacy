@@ -1,15 +1,18 @@
 {set-block variable=subject}
 eZ publish {$version.text} site registration - {$site_templates.0.title}
 {/set-block}
-Site info:
-{section name=SiteTemplate loop=$site_templates }
+Comments:
+{$comments}
 
-  Template - {$:item.name}
-  Title - {$:item.title}
-  URL - {$:item.url}
-  Access type - {$:item.access_type}
+Site info:
+{section name=SiteTemplate loop=$site_templates}
+
+  Template     - {$:item.name}
+  Title        - {$:item.title}
+  URL          - {$:item.url}
+  Admin URL    - {$:item.admin_url}
+  Access type  - {$:item.access_type}
   Access value - {$:item.access_type_value}
-  E-mail - {$:item.email}
 
 {/section}
 
@@ -78,7 +81,3 @@ Other tests:
 {$:item[1]} - {section show=eq($:item[0],1)}Success{section-else}Failure{/section}
 
 {/section}
-
-
-Comments:
-{$comments}
