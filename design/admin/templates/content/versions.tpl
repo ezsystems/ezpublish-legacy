@@ -63,7 +63,7 @@
 {switch match=$edit_warning}
 {case match=1}
 <div class="message-warning">
-<h2>{"Version not a draft"|i18n( 'design/admin/content/versions' )}</h2>
+<h2>{'Version not a draft'|i18n( 'design/admin/content/versions' )}</h2>
 <ul>
     <li>{'Version %1 is not available for editing anymore, only drafts can be edited.'|i18n( 'design/admin/content/versions',, array( $edit_version ) )}</li>
     <li>{'To edit this version create a copy of it.'|i18n( 'design/admin/content/versions' )}</li>
@@ -159,14 +159,14 @@
         {section show=$can_edit}
         <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
-        <input class="button" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
+        <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
     </td>
     <td>
         {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
-        <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+        <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
 </tr>
@@ -197,7 +197,7 @@
 {section show=$can_remove}
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove selected versions from the object.'|i18n( 'design/admin/content/versions' )}"/>
 {section-else}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}"/>
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}"/>
 {/section}
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
