@@ -42,7 +42,7 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
+include_once( "kernel/classes/datatypes/ezimage/ezimagehandler.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
@@ -257,9 +257,6 @@ class eZImageType extends eZDataType
             $ini =& eZINI::instance();
             $width = $ini->variable( "ImageSettings", "ReferenceSizeWidth" );
             $height = $ini->variable( "ImageSettings", "ReferenceSizeHeight" );
-            /*$ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
-                                            $ref_dir, array( "width" => 400, "height" => 300 ),
-                                            false, $mime );*/
 
             $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
                                             $ref_dir, array( "width" => $width, "height" => $height ),
@@ -320,8 +317,13 @@ class eZImageType extends eZDataType
 
     /*!
     */
-    function &objectAttributeContent( $contentObjectAttribute )
+    function &objectAttributeContent( &$contentObjectAttribute )
     {
+        $imageHandler = new eZImageHandler( $contentObjectAttribute );
+
+        return $imageHandler;
+
+        /*
         // Cache the attribute
         $cacheString = "eZImageTypeCache-".$contentObjectAttribute->attribute( "id" ) . "-" . $contentObjectAttribute->attribute( "version" );
 
@@ -337,6 +339,7 @@ class eZImageType extends eZDataType
         }
         if ( !$image )
             return false;
+        */
         return $image;
     }
 
