@@ -196,6 +196,14 @@
         <source>Default name:</source>
         <translation>Standardnavn:</translation>
     </message>
+    <message>
+        <source>Current date</source>
+        <translation>Nåværende dato</translation>
+    </message>
+    <message>
+        <source>Current datetime</source>
+        <translation>Nåværende dato/klokkeslett</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -915,6 +923,22 @@
         <source>Confirm password:</source>
         <translation>Gjenta passord:</translation>
     </message>
+    <message>
+        <source>Alternative image text:</source>
+        <translation>Alternativ bildetekst:</translation>
+    </message>
+    <message>
+        <source>No relation</source>
+        <translation>Ingen forbindelse</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nei</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/edit</name>
@@ -1043,10 +1067,6 @@
         <translation>Flytt</translation>
     </message>
     <message>
-        <source>Add location(s)</source>
-        <translation>Legg til plasseringer</translation>
-    </message>
-    <message>
         <source>Object info</source>
         <translation>Objektinformasjon</translation>
     </message>
@@ -1071,8 +1091,16 @@
         <translation>Navn</translation>
     </message>
     <message>
-        <source>Placement did not validate</source>
-        <translation>Plasseringen er ikke gyldig</translation>
+        <source>Add locations</source>
+        <translation>Legg til plasseringer</translation>
+    </message>
+    <message>
+        <source>Validation failed</source>
+        <translation>Valideringen feilet</translation>
+    </message>
+    <message>
+        <source>Location did not validate</source>
+        <translation>Den plasseringen ble ikke validert</translation>
     </message>
 </context>
 <context>
@@ -1189,14 +1217,6 @@
         <translation>Oversetter</translation>
     </message>
     <message>
-        <source>Input did not validate</source>
-        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
-    </message>
-    <message>
-        <source>input was stored successfully</source>
-        <translation>Den innlagte informasjonen er lagret</translation>
-    </message>
-    <message>
         <source>Remove the following translations from</source>
         <translation>Fjern følgende oversettelser fra</translation>
     </message>
@@ -1247,6 +1267,10 @@
     <message>
         <source>Edit Object</source>
         <translation>Rediger objekt</translation>
+    </message>
+    <message>
+        <source>%1 input was stored successfully</source>
+        <translation>%1 ble lagret</translation>
     </message>
 </context>
 <context>
@@ -3504,221 +3528,6 @@
     </message>
 </context>
 <context>
-    <name>design/standard/task</name>
-    <message>
-        <source>Creating new task</source>
-        <translation>Oppretter ny oppgave</translation>
-    </message>
-    <message>
-        <source>Task</source>
-        <translation>Oppgave</translation>
-    </message>
-    <message>
-        <source>Assignment</source>
-        <translation>Tilordnet</translation>
-    </message>
-    <message>
-        <source>Date:</source>
-        <translation>Dato:</translation>
-    </message>
-    <message>
-        <source>From:</source>
-        <translation>Fra:</translation>
-    </message>
-    <message>
-        <source>To:</source>
-        <translation>Til:</translation>
-    </message>
-    <message>
-        <source>Please select receiver</source>
-        <translation>Velg mottaker</translation>
-    </message>
-    <message>
-        <source>Parent type:</source>
-        <translation>Foreldetype:</translation>
-    </message>
-    <message>
-        <source>Parent ID:</source>
-        <translation>Foreldre-ID:</translation>
-    </message>
-    <message>
-        <source>Access Type:</source>
-        <translation>Tilgangstype:</translation>
-    </message>
-    <message>
-        <source>Read</source>
-        <translation>Les</translation>
-    </message>
-    <message>
-        <source>Read/Write</source>
-        <translation>Les/Skriv</translation>
-    </message>
-    <message>
-        <source>Object Type:</source>
-        <translation>Objekttype:</translation>
-    </message>
-    <message>
-        <source>Content Object</source>
-        <translation>Innholdsobjekt</translation>
-    </message>
-    <message>
-        <source>Content Class</source>
-        <translation>Innholdsklasse</translation>
-    </message>
-    <message>
-        <source>Work Flow</source>
-        <translation>Arbeidsflyt</translation>
-    </message>
-    <message>
-        <source>Role</source>
-        <translation>Rolle</translation>
-    </message>
-    <message>
-        <source>Assignment for object:</source>
-        <translation>Tilordning for objekt:</translation>
-    </message>
-    <message>
-        <source>Choose Object</source>
-        <translation>Velg objekt</translation>
-    </message>
-    <message>
-        <source>Convert To Assignment</source>
-        <translation>Konverter til tilordning</translation>
-    </message>
-    <message>
-        <source>Convert To Task</source>
-        <translation>Konverter til oppgave</translation>
-    </message>
-    <message>
-        <source>Change Receiver</source>
-        <translation>Endre mottaker</translation>
-    </message>
-    <message>
-        <source>Activate</source>
-        <translation>Aktiver</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Forkast</translation>
-    </message>
-    <message>
-        <source>Edit task message</source>
-        <translation>Rediger oppgavens melding</translation>
-    </message>
-    <message>
-        <source>Input did not validate</source>
-        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
-    </message>
-    <message>
-        <source>Input was stored successfully</source>
-        <translation>Den innlagte informasjonen er lagret</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation>Forhåndsvis</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation>Aktiver</translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation>Send</translation>
-    </message>
-    <message>
-        <source>Find object</source>
-        <translation>Finn objekt</translation>
-    </message>
-    <message>
-        <source>Task message</source>
-        <translation>Oppgavemelding</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Rediger</translation>
-    </message>
-    <message>
-        <source>Task view</source>
-        <translation>Oppgavevisning</translation>
-    </message>
-    <message>
-        <source>Task list</source>
-        <translation>Oppgaveliste</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation>Status:</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Melding</translation>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation>Meldinger</translation>
-    </message>
-    <message>
-        <source>Incoming</source>
-        <translation>Inngående</translation>
-    </message>
-    <message>
-        <source>Title:</source>
-        <translation>Tittel:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Type:</translation>
-    </message>
-    <message>
-        <source>Creator:</source>
-        <translation>Opprettet av:</translation>
-    </message>
-    <message>
-        <source>Created:</source>
-        <translation>Opprettet tidspunkt:</translation>
-    </message>
-    <message>
-        <source>Modified:</source>
-        <translation>Endret tidspunkt:</translation>
-    </message>
-    <message>
-        <source>Outgoing</source>
-        <translation>Utgående</translation>
-    </message>
-    <message>
-        <source>Sub tasks</source>
-        <translation>Underoppgaver</translation>
-    </message>
-    <message>
-        <source>Receiver:</source>
-        <translation>Mottaker:</translation>
-    </message>
-    <message>
-        <source>New Task</source>
-        <translation>Ny oppgave</translation>
-    </message>
-    <message>
-        <source>New Assignment</source>
-        <translation>Ny tilordning</translation>
-    </message>
-    <message>
-        <source>New Message</source>
-        <translation>Ny melding</translation>
-    </message>
-    <message>
-        <source>Close Task</source>
-        <translation>Lukk oppgave</translation>
-    </message>
-    <message>
-        <source>Cancel Task</source>
-        <translation>Avbryt oppgave</translation>
-    </message>
-    <message>
-        <source>Object list</source>
-        <translation>Objektliste</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/trigger</name>
     <message>
         <source>Triggers list</source>
@@ -4477,14 +4286,6 @@
         <translation>Tekstfeltet er tomt, oppgi en verdi.</translation>
     </message>
     <message>
-        <source>Object </source>
-        <translation>Objekt</translation>
-    </message>
-    <message>
-        <source>Link </source>
-        <translation>Lenke</translation>
-    </message>
-    <message>
         <source>Additional price for option value is invalid.</source>
         <comment>eZOptionType</comment>
         <translation>Ekstra pris for opsjonsverdi er ugyldig.</translation>
@@ -4513,6 +4314,34 @@
         <source>The password must be at least 3 characters.</source>
         <comment>eZUserType</comment>
         <translation>Passordet må være minst 3 tegn langt.</translation>
+    </message>
+    <message>
+        <source>Missing date input.</source>
+        <translation>Dato er ikke oppgitt.</translation>
+    </message>
+    <message>
+        <source>Missing datetime input.</source>
+        <translation>Dato/klokkeslett er ikke oppgitt.</translation>
+    </message>
+    <message>
+        <source>Missing time input.</source>
+        <translation>Klokkeslett er ikke oppgitt.</translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation>Objektet %1 finnes ikke.</translation>
+    </message>
+    <message>
+        <source>Link %1 does not exist.</source>
+        <translation>Lenken %1 finnes ikke.</translation>
+    </message>
+    <message>
+        <source>Tag &apos;%1&apos; is not allowed to be the child of &apos;%2&apos; (removed).</source>
+        <translation>Tagen &apos;%1&apos; kan ikke være barn av &apos;%2&apos; (fjernet).</translation>
+    </message>
+    <message>
+        <source>Tag &apos;%1&apos; does not have an end tag &apos;%2&apos; (fixed).</source>
+        <translation>Tagen &apos;%1&apos; mangler slutt-tag &apos;%2&apos; (ordnet).</translation>
     </message>
 </context>
 <context>
@@ -4583,6 +4412,10 @@
     <message>
         <source>Versions</source>
         <translation>Versjoner</translation>
+    </message>
+    <message>
+        <source>No main node selected, please select one.</source>
+        <translation>Ingen hovednode er valgt, vennligst velg en hovednode.</translation>
     </message>
 </context>
 <context>
@@ -4729,17 +4562,6 @@
     </message>
 </context>
 <context>
-    <name>kernel/task</name>
-    <message>
-        <source>Task message</source>
-        <translation>Oppgavemelding</translation>
-    </message>
-    <message>
-        <source>Task list</source>
-        <translation>Oppgaveliste</translation>
-    </message>
-</context>
-<context>
     <name>kernel/trigger</name>
     <message>
         <source>Trigger</source>
@@ -4825,6 +4647,13 @@
     <message>
         <source>Workflow list</source>
         <translation>Arbeidsflytliste</translation>
+    </message>
+</context>
+<context>
+    <name>lib/eztemplate</name>
+    <message>
+        <source>Some template errors occured, see debug for more information.</source>
+        <translation>Det har oppstått mal-feil, se debug for mer informasjon.</translation>
     </message>
 </context>
 </TS>
