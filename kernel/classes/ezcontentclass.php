@@ -789,11 +789,20 @@ class eZContentClass extends eZPersistentObject
             $tagName = str_replace( "<", "", $tag );
             $tagName = str_replace( ">", "", $tagName );
 
-            // get the value of the attribute to use in name
-            if ( isset( $dataMap[$tagName] ) )
+            $tagParts = explode( '|', $tagName );
+
+            $namePart = "";
+            foreach ( $tagParts as $name )
             {
-                $namePart =& $dataMap[$tagName]->title();
+                // get the value of the attribute to use in name
+                if ( isset( $dataMap[$name] ) )
+                {
+                    $namePart =& $dataMap[$name]->title();
+                    if ( $namePart != "" )
+                        break;
+                }
             }
+
             // replace tag with object name part
             $contentObjectName =& str_replace( $tag, $namePart, $contentObjectName );
         }
