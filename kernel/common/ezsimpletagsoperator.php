@@ -115,6 +115,8 @@ class eZSimpleTagsOperator
         }
 
         $textPHPFunctions = array( 'htmlspecialchars' );
+        $textPre = $tagMap['pre'];
+        $textPost = $tagMap['post'];
         if ( isset( $tagMap['text'] ) )
             $textPHPFunctions = $tagMap['text']['phpfunctions'];
         $textElements = array();
@@ -128,7 +130,7 @@ class eZSimpleTagsOperator
                 {
                     $text = $textPHPFunction( $text );
                 }
-                $textElements[] = $text;
+                $textElements[] = $textPre . $text . $textPost;
             }
             else if ( is_array( $element ) )
             {
@@ -178,7 +180,7 @@ class eZSimpleTagsOperator
                     {
                         $text = $textPHPFunction( $text );
                     }
-                    $textElements[] = $text;
+                    $textElements[] = $textPre . $text . $textPost;
                 }
             }
         }
