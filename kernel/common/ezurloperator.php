@@ -182,48 +182,64 @@ class eZURLOperator
                     $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
                     if ( preg_match( "#^[a-zA-Z0-9]+:#", $url ) or
-                         substr( $url, 0, 2 ) == '//' or
-                         strlen( $url ) == 0 )
-                        $url = '/';
-                    else if ( $url[0] == '#' )
+                         substr( $url, 0, 2 ) == '//' )
                     {
+                        /* Do nothing */
+                    }
+                    else
+                    {
+                        if ( strlen( $url ) == 0 )
+                        {
+                            $url = '/';
+                        }
+                        else if ( $url[0] == '#' )
+                        {
+                            $url = htmlspecialchars( $url );
+                        }
+                        else if ( $url[0] != '/' )
+                        {
+                            $url = '/' . $url;
+                        }
+
+                        $url = $this->Sys->indexDir() . $url;
+                        $url = preg_replace( "#(//)#", "/", $url );
+                        $url = preg_replace( "#(^.*)(/+)$#", '$1', $url );
                         $url = htmlspecialchars( $url );
                     }
-                    else if ( $url[0] != '/' )
-                    {
-                        $url = '/' . $url;
-                    }
-
-                    $url = $this->Sys->indexDir() . $url;
-                    $url = preg_replace( "#(//)#", "/", $url );
-                    $url = preg_replace( "#(^.*)(/+)$#", '$1', $url );
-                    $url = htmlspecialchars( $url );
-
                     $url = $this->applyQuotes( $url, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $url ) );
                 }
                 $values[] = $parameters[0];
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->indexDir() ) );
-                $code = 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
-                     '    substr( %1%, 0, 2 ) == \'//\' or' . "\n" .
-                     '    strlen( %1% ) == 0 )' . "\n" .
-                     '  %1% = \'/\';' . "\n" .
-                     'else if ( %1%[0] == \'#\' )' . "\n" .
-                     '{' . "\n" .
-                     '  %1% = htmlspecialchars( %1% );' . "\n" .
-                     '}' . "\n" .
-                     'else if ( %1%[0] != \'/\' )' . "\n" .
-                     '{' . "\n" .
-                     '%1% = \'/\' . %1%;' . "\n" .
-                     '};' . "\n";
-
-                $code .= '%1% = %2% . %1%;' . "\n" .
-                     '%1% = preg_replace( "#(//)#", "/", %1% );' . "\n" .
-                     '%1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );' . "\n" .
-                     '%1% = htmlspecialchars( %1% );' . "\n" .
-                     'if ( %1% == "" )' . "\n" .
-                     '  %1% = "/";' . "\n";
+                $code = <<<CODEPIECE
+if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or
+    substr( %1%, 0, 2 ) == '//')
+{
+    /* Do nothing */
+}
+else 
+{
+    if ( strlen( %1% ) == 0 )
+    {
+      %1% = '/';
+    }
+    else if ( %1%[0] == '#' )
+    {
+        %1% = htmlspecialchars( %1% );
+    }
+    else if ( %1%[0] != '/' )
+    {
+        %1% = '/' . %1%;
+    };
+    %1% = %2% . %1%;
+    %1% = preg_replace( "#(//)#", "/", %1% );
+    %1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );
+    %1% = htmlspecialchars( %1% );
+}
+if ( %1% == "" )
+    %1% = "/";
+CODEPIECE;
 
                 $paramCount += 2;
             } break;
