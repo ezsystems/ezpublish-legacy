@@ -1,5 +1,4 @@
 {* Comment - Admin preview *}
-
 <div class="content-view-full">
     <div class="class-comment">
 
@@ -17,4 +16,3 @@
 
     </div>
 </div>
-
