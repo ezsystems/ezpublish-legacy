@@ -1825,7 +1825,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Add new alias
-        $alias = new eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
+        $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
         $alias->store();
 
         // Update old url alias, if exists
