@@ -1650,7 +1650,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+                          ezcontentclass.id = ezcontentobject.contentclass_id";
 
         $db =& eZDB::instance();
         $nodeListArray =& $db->arrayQuery( $query );
@@ -1671,6 +1671,41 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $retNodeArray[0]['node_id'];
             }
 
+        }
+        return null;
+    }
+
+    /*!
+      Fetches the main nodes for an array of object id's
+    */
+    function &findMainNodeArray( $objectIDArray, $asObject = true )
+    {
+        if ( count( $objectIDArray ) )
+        {
+            $objectIDString = implode( ',', $objectIDArray );
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE ezcontentobject_tree.contentobject_id in ( $objectIDString ) AND
+                          ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id";
+        }
+
+        $db =& eZDB::instance();
+        $nodeListArray =& $db->arrayQuery( $query );
+        if ( $asObject )
+        {
+            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            return $retNodeArray;
+        }
+        else
+        {
+            return $nodeListArray;
         }
         return null;
     }
