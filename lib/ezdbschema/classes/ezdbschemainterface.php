@@ -968,7 +968,6 @@ class eZDBSchemaInterface
 
         if ( $ini->hasVariable( $schemaType, 'IndexNameTranslation' ) )
         {
-            //$transformationRules['index-name'] =& $ini->variable( $schemaType, 'IndexNameTranslation' );
             $tmpIdxNameTranslations =& $ini->variable( $schemaType, 'IndexNameTranslation' );
 
             if ( is_array( $tmpIdxNameTranslations ) )
@@ -982,9 +981,6 @@ class eZDBSchemaInterface
                         eZDebug::writeWarning( "Malformed index name translation rule: $key => $val" );
                         continue;
                     }
-                    /*$transformationRules['index-name'][] = array( 'table-name' => $tableName,
-                                                                  'generic-idx-name' => $genericIdxName,
-                                                                  'local-idx-name' => $localIdxName );*/
                     $transformationRules['index-name'][] = array( $tableName, $genericIdxName, $localIdxName );
 
                 }
@@ -992,8 +988,24 @@ class eZDBSchemaInterface
             unset( $tmpIdxNameTranslations );
         }
 
+        if ( $ini->hasVariable( $schemaType, 'ColumnOptionTranslations' ) )
+        {
+            $transformationRules['column-option'] = array();
+            foreach( $ini->variable( $schemaType, 'ColumnOptionTranslations' ) as $key => $val )
+            {
+                list( $tableName, $colName ) = explode( '.', $key );
+                $colOptOverride = $val;
+                if ( !$tableName || !$colName || !$colOptOverride )
+                {
+                    eZDebug::writeWarning( "Malformed column option translation rule: $key => $val" );
+                    continue;
+                }
+                $transformationRules['column-option'][] = array( $tableName, $colName, $colOptOverride );
+            }
+        }
+
         // prevent PHP warnings when cycling through the rules
-        foreach ( array( 'column-name', 'column-type', 'index-name' ) as $rulesType )
+        foreach ( array( 'column-name', 'column-type', 'column-option', 'index-name' ) as $rulesType )
         {
             if( !isset( $transformationRules[$rulesType] ) )
                 $transformationRules[$rulesType] = array();
@@ -1072,7 +1084,7 @@ class eZDBSchemaInterface
             }
         }
 
-        // tranform columns types
+        // tranform column types
         foreach ( $schemaTransformationRules['column-type'] as $key => $val )
         {
             list( $tableName, $colName ) = explode( '.', $key );
@@ -1222,6 +1234,38 @@ class eZDBSchemaInterface
             }
 
         }
+
+        // Transform table column options
+        foreach ( $schemaTransformationRules['column-option'] as $colOptTransRule )
+        {
+            list( $tableName, $colName, $colOptOverride ) = $colOptTransRule;
+
+            if ( !isset( $schema[$tableName] ) || !isset( $schema[$tableName]['fields'][$colName] ) )
+                continue;
+
+            $fieldSchema =& $schema[$tableName]['fields'][$colName];
+
+            switch ( $colOptOverride )
+            {
+            case 'null':
+                {
+                    // remove "NOT NULL" requirement
+                    if ( isset( $fieldSchema['not_null'] ) )
+                    {
+                        unset( $fieldSchema['not_null'] );
+                        eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                                    "transformed table column option: $schemaType:$tableName.$colName set to NULL" );
+                    }
+                } break;
+            default:
+                {
+                    eZDebug::writeWarning( "Column option override '$colOptOverride' is not supported" );
+                } break;
+            }
+
+
+        }
+
 
         return true;
     }
