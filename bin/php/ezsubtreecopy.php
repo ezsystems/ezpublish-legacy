@@ -1,7 +1,5 @@
 <?php
 //
-// Definition of eZContentStructureTreeOperator class
-//
 // Created on: <20-Feb-2005 15:00:00 rl>
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
@@ -45,20 +43,28 @@ $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "\nSubtree Copy Script for eZPublish 3.6\n" ),
                                       'use-session' => false,
                                       'use-modules' => true,
-                                      'use-extensions' => false ) );
+                                      'use-extensions' => false,
+                                      'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][allversions]",
+$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][allversions][keepcreator]",
                                       "",
-                                      array( 'src-node-id' => "Source subtree parent node ID",
-                                             'dst-node-id' => "Destination node ID"
-                                             ) );
+                                      array( 'src-node-id' => "Source subtree parent node ID.",
+                                             'dst-node-id' => "Destination node ID.",
+                                             'allversions' => "Copy all versions for each contentobject being copied.",
+                                             'keepcreator' => "Keep creator of contentobjects being copied unchanged."
+                                             ),
+                                      false,
+                                      array( 'user' => true )
+                                     );
 $script->initialize();
 
-$srcNodeID = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;
-$dstNodeID = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;
-$siteAccess = $scriptOptions[ 'siteaccess' ] ? $scriptOptions[ 'siteaccess' ] : false;
+$srcNodeID   = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;
+$dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;
+$creatorID   = $scriptOptions[ 'creator-id' ]  ? $scriptOptions[ 'creator-id' ]  : false;
 $allVersions = $scriptOptions[ 'allversions' ];
+$keepCreator = $scriptOptions[ 'keepcreator' ];
+$siteAccess  = $scriptOptions[ 'siteaccess' ]  ? $scriptOptions[ 'siteaccess' ]  : false;
 
 if ( $siteAccess )
 {
@@ -89,11 +95,11 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 function &copyPublishContentObject( &$sourceObject,
                                     &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                     &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                    $allVersions )
+                                    $allVersions = false, $keepCreator = false )
 {
     global $cli;
 
-    $sourceObjectID    = $sourceObject->attribute( 'id' );
+    $sourceObjectID = $sourceObject->attribute( 'id' );
 
     $key = array_search( $sourceObjectID, $syncObjectIDListSrc );
     if ( $key !== false )
@@ -115,7 +121,7 @@ function &copyPublishContentObject( &$sourceObject,
         else
         {
             $newParentNodeID = $syncNodeIDListNew[ $key ];
-            if( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
+            if ( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
             {
                 return 3; // cannot fetch one of parent nodes - must be error somewhere above.
             }
@@ -123,13 +129,30 @@ function &copyPublishContentObject( &$sourceObject,
     }
 
     // make copy of source object
-    $newObject             =& $sourceObject->copy( $allVersions ); // insert source and new object's ids in $syncObjectIDList
+    $newObject             = $sourceObject->copy( $allVersions ); // insert source and new object's ids in $syncObjectIDList
+
     $syncObjectIDListSrc[] = $sourceObjectID;
     $syncObjectIDListNew[] = $newObject->attribute( 'id' );
 
-    $curVersion        =& $newObject->attribute( 'current_version' );
-    $curVersionObject  =& $newObject->attribute( 'current' );
-    $newObjAssignments =& $curVersionObject->attribute( 'node_assignments' );
+    $curVersion        = $newObject->attribute( 'current_version' );
+    $curVersionObject  = $newObject->attribute( 'current' );
+
+    // if $keepCreator == true then keep owner of contentobject being
+    // copied and creator of its published version Unchaged
+    if ( $keepCreator )
+    {
+        $srcOwnerID            = $sourceObject->attribute( 'owner_id' );
+        $srcCurVersionObject   = $sourceObject->attribute( 'current' );
+        $srcCurVersionCreatorID= $srcCurVersionObject->attribute( 'creator_id' );
+
+        $newObject->setAttribute( 'owner_id', $srcOwnerID );
+        $newObject->store();
+
+        $curVersionObject->setAttribute( 'creator_id', $srcCurVersionCreatorID );
+        $curVersionObject->store();
+    }
+
+    $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
     unset( $curVersionObject );
 
     // copy nodeassigments
@@ -259,9 +282,10 @@ while ( count( $sourceNodeList ) > 0 )
         else
         {
             $sourceObject =& $sourceNodeList[ $i ]->object();
-            $copyResult = copyPublishContentObject( $sourceObject, $syncNodeIDListSrc, $syncNodeIDListNew,
-                                                                   $syncObjectIDListSrc, $syncObjectIDListNew,
-                                                    $allVersions );
+            $copyResult = copyPublishContentObject( $sourceObject,
+                                                    $syncNodeIDListSrc, $syncNodeIDListNew,
+                                                    $syncObjectIDListSrc, $syncObjectIDListNew,
+                                                    $allVersions, $keepCreator );
             if ( $copyResult === 0 )
             {   // if copying successful then remove $sourceNode from $sourceNodeList
                 array_splice( $sourceNodeList, $i, 1 );

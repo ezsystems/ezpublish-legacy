@@ -6,15 +6,25 @@ Files:
   bin/php/ezsubtreecopy.php
 
 Input parameters:
-  --src-node-id   - (required) source node ID, parent node of subtree being copied.
-  --dst-node-id   - (required) destination node ID, node under which you are trying to copy subtree.
-  --allversions   - (optinal) if this option defined all versions of contentobjects will be copied.
-                    Otherwise only published versions of source contentobjects will be copied.
-  --siteaccess    - siteaccess for which you want to do copy operation.
+  --src-node-id=<node_id>   - (required) Source node ID, parent node of subtree being copied.
+  --dst-node-id=<node_id>   - (required) Destination node ID, node under which you are trying to copy subtree.
+  --allversions             - (optinal) If this option defined all versions of contentobjects will be copied.
+                              Otherwise only published versions of source contentobjects will be copied.
+  --keepcreator             - Keep creator of every contentobject being copied and creator of its
+                              published version unchaged.
+  --siteaccess=<siteaccess> - Siteaccess for which you want to do copy operation.
+  --login=<user_name>       - User login.
+  --password=<password>     - User password.
 
-Script must be run using admin privileges. You have to input your admin siteaccess for that (use
-"--siteaccess" input parameter). Run script from the root directory of your eZPublish.
+Run script from the root directory of your eZPublish. Use --siteaccess option to set
+appropriate database settings for the script. Otherwise, script use default siteaccess
+from ini-settings. To change creators of contentobjects and all object versions being
+copied use --login and --password options. Use --keepcreator option to leave creators
+of contentobjects unchanged. If no one --keepcreator or --login option are given then
+creator of new contentobjects will be default Anonymous User.
 
 Example:
 
   $php bin/php/ezsubtreecopy.php --siteaccess=gallery_admin --src-node-id=74 --dst-node-id=87
+  $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --allversions --keepcreator
+  $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --login=admin --password=publish
