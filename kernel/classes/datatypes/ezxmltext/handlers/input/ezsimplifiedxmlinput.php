@@ -205,34 +205,34 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
          eZDebug::writeDebug($lastInsertedNodeTag,  "lastInsertedNodeTag");
          eZDebug::writeDebug($currentNode,  "currentNode");
           eZDebug::writeDebug($domDocument,  "dom");
-	    $subTagArray['section'] = $this->sectionArray;
-	    $subTagArray['paragraph'] = array_merge( $this->blockTagArray, $this->inlineTagArray );
-	    $subTagArray['header'] = array( );
-	    $subTagArray['table'] = array( 'tr' );
-	    $subTagArray['tr'] = array( 'td', 'th' );
-	    $subTagArray['td'] = $subTagArray['section'];
-	    $subTagArray['th'] = $subTagArray['section'];
-	    $subTagArray['ol'] = array( 'li' );
-	    $subTagArray['ul'] = array( 'li' );
-	    $subTagArray['literal'] = array( );
-	    $subTagArray['custom'] = $this->sectionArray;
-	    $subTagArray['object'] = array( );
-	    $subTagArray['li'] = $this->inlineTagArray;
-	    $subTagArray['strong'] = $this->inlineTagArray;
-	    $subTagArray['emphasize'] = $this->inlineTagArray;
-	    $subTagArray['link'] = $this->inlineTagArray;
-	    $subTagArray['anchor'] = $this->inlineTagArray;
-	    $tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
-	    				     'border' => array( 'required' => false ) );
+        $subTagArray['section'] = $this->sectionArray;
+        $subTagArray['paragraph'] = array_merge( $this->blockTagArray, $this->inlineTagArray );
+        $subTagArray['header'] = array( );
+        $subTagArray['table'] = array( 'tr' );
+        $subTagArray['tr'] = array( 'td', 'th' );
+        $subTagArray['td'] = $subTagArray['section'];
+        $subTagArray['th'] = $subTagArray['section'];
+        $subTagArray['ol'] = array( 'li' );
+        $subTagArray['ul'] = array( 'li' );
+        $subTagArray['literal'] = array( );
+        $subTagArray['custom'] = $this->sectionArray;
+        $subTagArray['object'] = array( );
+        $subTagArray['li'] = $this->inlineTagArray;
+        $subTagArray['strong'] = $this->inlineTagArray;
+        $subTagArray['emphasize'] = $this->inlineTagArray;
+        $subTagArray['link'] = $this->inlineTagArray;
+        $subTagArray['anchor'] = $this->inlineTagArray;
+        $tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
+                             'border' => array( 'required' => false ) );
 
         $tagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
-	    				    'id' => array( 'required' => false , 'type' => 'string' ) );
+                            'id' => array( 'required' => false , 'type' => 'string' ) );
 
         $tagAttributeArray['anchor'] = array( 'name' => array( 'required' => true) );
 
         $tagAttributeArray['object'] = array( 'id' => array( 'required' => true),
-	    				      'size' => array( 'required' => false),
-	    				      'align' => array( 'required' => false) );
+                              'size' => array( 'required' => false),
+                              'align' => array( 'required' => false) );
 
         $tagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
@@ -322,8 +322,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
                 // Check if there should be any more attributes
-			    foreach ( $tagAttributeArray[$currentTag] as $attribute )
-			    {
+                foreach ( $tagAttributeArray[$currentTag] as $attribute )
+                {
                     if ( $attribute['required'] == true )
                     {
                         // Chekc if tag is already found
@@ -338,7 +338,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
                 $subNode->Attributes = $allowedAttr;
-	        }
+            }
 
             $domDocument->registerElement( $subNode );
             $currentNode->appendChild( $subNode );
@@ -367,7 +367,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
-		$message = null;
+        $message = null;
         // fix newlines
         // Convet windows newlines
         $text =& preg_replace( "#\r\n#", "\n", $text );
