@@ -101,7 +101,7 @@ class eZXML
         }
         if ( $charset !== false )
         {
-            include_once( 'lib/ezi18n/eztextcodec.php' );
+            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $codec =& eZTextCodec::instance( $charset );
             $xmlDoc =& $codec->convertString( $xmlDoc );
         }
