@@ -19,6 +19,7 @@
 div#maincontent div#maincontent-design { width: 99%; } /* Avoid width bug in IE 5.5 */
 div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
 div.menu-block li { width: 19%; } /* Avoid width bug in IE 5.5 */
+div.context-user div.menu-block li { width: 14%; }
 </style>
 <![endif]-->
 <!--

@@ -305,7 +305,7 @@ div#leftmenu div.box-br, div#rightmenu div.box-br, div#maincontent div.box-br
 
 div#leftmenu div#content-tree div.box-content
 {
-    padding: 0 1px 0.5em 0.5em;  
+    padding: 0 1px 0.5em 0.5em; 
 }
 
 div#leftmenu div.box-content
@@ -323,6 +323,11 @@ div.controlbar div.box-br
     padding: 0.2em 0.5em 0.4em 0.5em;
 }
 
+div.controlbar div.block
+{
+/*     border: 1px solid #000000; */
+}
+
 div#maincontent div.box-bc
 {
     background-image: url(../images/box-bc.gif);
@@ -337,6 +342,7 @@ div#maincontent div.controlbar div.box-bc
     background-position: bottom;
     background-repeat: repeat-x;
     background-color: #e7e8e0;
+    border-bottom: 1px solid #ecece4; /* Strange IE bug fix */
 }
 
 div#rightmenu div.box-content
@@ -540,7 +546,7 @@ div.mainobject-window
 
 div.menu-block
 {
-    padding: 0.5em 0.5em 0 0.5em;
+    padding: 0.5em 0 0 0;
     text-align: center;
 }
 
@@ -556,6 +562,11 @@ div.menu-block li
     float: left;
     width: 20%;
     background-color: #ffffff;
+}
+
+div.context-user div.menu-block li
+{
+    width: 14%;
 }
 
 div.menu-block li.enabled
@@ -576,7 +587,7 @@ div.menu-block a
 {
     font-size: 0.85em;
     display: block;
-    padding: 0 0.5em 0.1em 0.5em;
+    padding: 0 0.2em 0.1em 0.2em;
     text-decoration: none;
 }
 
@@ -690,7 +701,7 @@ div.context-block
 
 h1.context-title
 {
-    font-size: 1.4em;
+    font-size: 1em;
     font-weight: bold;
     color: #ffffff;
     padding: 0.2em 0.2em 0.2em 0.5em;
@@ -738,7 +749,7 @@ h2.context-content
     margin: 0;
 }
 
-div.context-block h2.context-title img
+div.context-block h1.context-title img, div.context-block h2.context-title img
 {
     vertical-align: middle;
 }

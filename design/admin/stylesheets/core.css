@@ -312,6 +312,8 @@ div.block div.right, div.viewbar div.right
 div.break /* Used this style to terminate floating elements, to clear all floating attributes */
 {
     clear: both;
+    font-size: 1px;
+    height: 1px;
 }
 
 div.button-left
