@@ -16,7 +16,7 @@
     <tr>
     {section name=SiteTemplate loop=$site_templates}
 
-      <td class="setup_site_templates">
+      <td class="setup_site_templates" valign="top">
         <div valign="top">
           {section show=$:item.image_file_name}
             <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
