@@ -22,6 +22,8 @@ eZ soap :
 - Added support for boolean response values.
 - Added support for boolean parameters.
 - Added support for base64 in response.
+- Fixed correct content length in the HTTP header
+- Fixed correct content type in HTTP header
 
 eZ xml : 
 - Added support for numeric characters in namespace prefix.
