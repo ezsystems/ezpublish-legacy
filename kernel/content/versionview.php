@@ -240,12 +240,16 @@ $res->setKeys( $designKeys );
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
 // Set variables to be compatible with normal design templates
+$contentObject->CurrentLanguage = $LanguageCode;
+$contentObject->setAttribute( 'current_version', $EditVersion );
+
 $class =& eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
 $objectName = $class->contentObjectName( $contentObject );
 $contentObject->setCachedName( $objectName );
 
 $node = new eZContentObjectTreeNode();
 $node->setAttribute( 'contentobject_version', $EditVersion );
+$node->setAttribute( 'contentobject_id', $ObjectID );
 $node->setAttribute( 'parent_node_id', $placementID );
 $node->setAttribute( 'main_node_id', $placementID );
 $node->setName( $objectName );
