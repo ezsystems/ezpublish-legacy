@@ -2688,6 +2688,9 @@ class Cpdf
  * if it does not fit then put in as much as possible, splitting at word boundaries
  * and return the remainder.
  * justification and angle can also be specified for the text
+ *
+ * return array ('text' => <text for new line>,
+                 'width' => <width of added text, 0 i more text> )
  */
     function addTextWrap($x,$y,$width,$size,$text,$justification='left',$angle=0,$test=0){
 	// this will display the text, and if it goes beyond the width $width, will backtrack to the
@@ -2698,11 +2701,13 @@ class Cpdf
 	// need to store the initial text state, as this will change during the width calculation
 	// but will need to be re-set before printing, so that the chars work out right
 	$store_currentTextState = $this->currentTextState;
+    $returnArray = array ( 'text' => '',
+                           'width' => 0 );
 
 	if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 	if ($width<=0){
 	    // error, pretend it printed ok, otherwise risking a loop
-	    return '';
+	    return $returnArray;
 	}
 	$w=0;
 	$break=0;
@@ -2749,7 +2754,8 @@ class Cpdf
 			if (!$test){
 			    $this->addText($x,$y,$size,$tmp,$angle,$adjust);
 			}
-			return substr($text,$break+1);
+			$returnArray['text'] =  substr($text,$break+1);
+            return $returnArray;
 		    } else {
 			// just split before the current character
 			$tmp = substr($text,0,$i);
@@ -2766,7 +2772,8 @@ class Cpdf
 			if (!$test){
 			    $this->addText($x,$y,$size,$tmp,$angle,$adjust);
 			}
-			return substr($text,$i);
+            $returnArray['text'] = substr($text,$i);
+			return $returnArray;
 		    }
 		}
 		if ($text[$i]=='-'){
@@ -2788,7 +2795,7 @@ class Cpdf
 	    $justification='left';
 	}
 	$adjust=0;
-	$tmpw=$w*$size/1000;
+	$tmpw=$w*$size/1000; //tmpw, text width
 	$this->PRVTadjustWrapText($text,$tmpw,$width,$x,$adjust,$justification);
 	// reset the text state
 	$this->currentTextState = $store_currentTextState;
@@ -2796,7 +2803,8 @@ class Cpdf
 	if (!$test){
 	    $this->addText($x,$y,$size,$text,$angle,$adjust,$angle);
 	}
-	return '';
+    $returnArray['width'] = $tmpw;
+	return $returnArray;
     }
 
 /**

@@ -7,10 +7,11 @@
 {pdf(header, hash( type, 2,
                    text, $node_name,
 		   size, 26,
-		   align, center ) )}
+		   align, left ) )}
 
 {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
   {attribute_pdf_gui attribute=$ContentObjectAttribute:item}
+  {pdf(newline)}
 {/section}
 
 {section show=$tree_traverse|eq(1)}
@@ -27,5 +28,6 @@
 {/section}
 
 {section show=$generate_file|eq(1)}
+  {include uri="design:content/pdf/toc.tpl"}
   {pdf(close)}
 {/section}

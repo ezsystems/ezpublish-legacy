@@ -88,6 +88,14 @@ class eZPDF
 
         switch ( $namedParameters['operation'] )
         {
+            case 'toc':
+            {
+                $specification = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $this->PDF->insertTOC();
+                eZDebug::writeNotice( 'PDF: Generating TOC', 'eZPDF::modify' );
+            } break;
+
             case 'table':
             {
                 $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
@@ -102,7 +110,7 @@ class eZPDF
                 if ( !isset( $header['align'] ) )
                     $header['align'] = 'left';
                 $prevSize = $this->PDF->fontSize();
-                $this->PDF->ezText( $header['text'] .'<C:rf:'. $header['type'] .rawurlencode( $header['text'] ) .'>',
+                $this->PDF->ezText( $header['text'] .'<C:rf:'. $header['type'] .rawurlencode( $header['text'] ) .'>'. "\n",
                                     $header['size'],
                                     array( 'justification' => $header['align'] ) );
                 $this->PDF->setFontSize( $prevSize );
@@ -191,17 +199,8 @@ class eZPDF
 
             default:
             {
-                var_dump( $namedParameters );
-                echo '<br>';
-                $text =& $operatorValue;
-                echo 'Text: '. $text;
-                echo '<br>';
-                echo 'Template:';
-                echo '<br>';
-                echo '<br>';
                 $this->PDF->ezText( $text );
                 eZDebug::writeNotice( 'No operation defined, adding to PDF: "'.$text.'"', 'eZPDF::modify' );
-//                $operatorValue = null;
             }
 
         }

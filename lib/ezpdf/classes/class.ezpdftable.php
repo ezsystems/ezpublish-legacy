@@ -576,7 +576,8 @@ class eZPDFTable extends Cezpdf
                                         } else {
                                             $just='left';
                                         }
-                                        $line=$this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just);
+                                        $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just);
+                                        $line=$textInfo['text'];
                                     }
                                 }
                             }
@@ -765,6 +766,68 @@ class eZPDFTable extends Cezpdf
         $lbl = rawurldecode(substr($tmp,1));
         $num=$this->ezWhatPageNumber($this->ezGetCurrentPageNumber());
         $this->TOC[] = array($lbl,$num,$lvl );
+    }
+
+    /*!
+     Create Table Of Contents (TOC)
+
+     \param size array, element 0 define size of header level 1, etc.
+     \param indent, element 0 define indent of header level 1, etc.
+     \param dots, if true, generate dots between name and pagenumber
+     \param level, how many header levels to generate toc form
+     */
+    function insertTOC( $sizeArray = array( 20, 18, 16, 14, 12 ),
+                        $indentArray = array( 0, 4, 6, 8, 10 ),
+                        $dots = true,
+                        $level = 2 )
+    {
+        $fontSize = $this->fontSize();
+        $this->ezStopPageNumbers(1,1);
+
+        $this->ezInsertMode(1,1,'before');
+        $this->ezNewPage();
+        $this->ezText("Contents\n", 26, array('justification'=>'centre'));
+
+//        echo $this->ez['leftMargin'].': '.$this->ez['rightMargin'].': '.$this->ez['pageWidth'];
+
+        foreach($this->TOC as $k=>$v){
+//            echo '<br>'.$v[1];
+            if ( $v[2] <= $level )
+            {
+                if ( $dots )
+                {
+                    $this->ezText('<c:ilink:toc'. $k .'>'. $v[0] .'</c:ilink><C:dots:'. $sizeArray[$v[2]-1].$v[1] .'>'. "\n",
+                                  $sizeArray[$v[2]-1],
+                                  array('left' => $indentArray[$v[2]-1] ) );
+                }
+                else
+                {
+                    $this->ezText( '<c:ilink:toc'. $k .'>'.$v[0].'</c:ilink>',
+                                   $sizeArray[$v[2]-1],
+                                   array( 'left' => $indentArray[$v[2]-1] ) );
+                    $this->ezText( '<c:ilink:toc'. $k .'>'. $v[1] .'</c:ilink>'. "\n",
+                                   $sizeArray[$v[2]-1],
+                                   array( 'justification' => 'right' ) );
+                }
+            }
+        }
+
+        $this->setFontSize( $fontSize );
+    }
+
+    function dots($info){
+        // draw a dotted line over to the right and put on a page number
+        $tmp = $info['p'];
+        $size = substr($tmp, 0, 2);
+        $thick=1;
+        $lbl = substr($tmp,2);
+        $xpos = $this->ez['pageWidth'] - $this->ez['rightMargin'];
+
+        $this->saveState();
+        $this->setLineStyle($thick,'round','',array(0,10));
+        $this->line($xpos,$info['y'],$info['x']+5,$info['y']);
+        $this->restoreState();
+        $this->addText($xpos+5,$info['y'],$size,$lbl);
     }
 
     /* --- Private --- */
