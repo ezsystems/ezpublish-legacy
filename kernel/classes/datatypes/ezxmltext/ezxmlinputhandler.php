@@ -271,11 +271,16 @@ class eZXMLInputHandler
             case 'object' :
             {
                 $view = $tag->attributeValue( 'view' );
+                $src = $tag->attributeValue( 'src' );
+                $alignment = $tag->attributeValue( 'align' );
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
+                if ( strlen( $alignment ) == 0 )
+                    $alignment = "center";
 
                 $objectID = $tag->attributeValue( 'id' );
-                $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
+                // $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
+                $output .= "<object id=\"$objectID\" src=\"$src\" align=\"$alignment\" />";
             }break;
 
             case 'ul' :
@@ -352,7 +357,7 @@ class eZXMLInputHandler
                 {
                     $href = $tag->attributeValue( 'href' );
                     $target = $tag->attributeValue( 'target' );
-                    if ( strlen( $target ) == 0 ) )
+                    if ( strlen( $target ) == 0 )
                         $target = "self_";
                 }
                 $output .= "<$tagName href='$href' target='$target'>" . $childTagText . "</$tagName>";
