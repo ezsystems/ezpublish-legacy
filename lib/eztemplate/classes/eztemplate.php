@@ -457,7 +457,7 @@ class eZTemplate
             $savedLocale = setlocale( LC_CTYPE, null );
             setlocale( LC_CTYPE, $resourceData['locales'] );
         }
-        
+
         $text = "";
 
         if ( $root !== null or
@@ -716,7 +716,7 @@ class eZTemplate
             $savedLocale = setlocale( LC_CTYPE, null );
             setlocale( LC_CTYPE, $resourceData['locales'] );
         }
-        
+
         if ( $resourceData['compiled-template'] )
         {
             if ( $this->executeCompiledTemplate( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )

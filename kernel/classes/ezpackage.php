@@ -2250,7 +2250,7 @@ class eZPackage
             {
                 $installDataNode =& $installDataList[$i];
                 if ( is_object( $installDataNode ) &&
-                     $installDataNode->attribute( 'name' ) == 'data' )
+                     $installDataNode->attributeValue( 'name' ) == 'data' )
                 {
                     $installDataType = $installDataNode->attributeValue( 'type' );
                     $installDataElements = $installDataNode->children();
