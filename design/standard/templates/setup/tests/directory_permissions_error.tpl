@@ -8,7 +8,7 @@
 
 <p><b>{"Shell commands"|i18n("design/standard/setup/tests")}</b></p>
 <pre class="example">cd {$file_results.current_path}<br/>
-{section name=File loop=$file_results.result_elements}{section-exclude match=$:item.result}chmod a+rwx -R {$:item.file}<br/>{/section}</pre>
+{section name=File loop=$file_results.result_elements}{section-exclude match=$:item.result}chmod -R a+rwx {$:item.file}<br/>{/section}</pre>
 
 <p>
  If you know the user and group of the webserver it's recommended to use a different set of permissions.
@@ -16,7 +16,7 @@
 </p>
 <h3>Example</h3>
 <pre class="example">chmod og+rwx -R var
-chown nouser.nouser -R var</pre>
+chown -R nouser.nouser var</pre>
 
 <blockquote class="note">
 <p>
