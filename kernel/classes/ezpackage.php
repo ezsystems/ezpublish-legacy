@@ -1818,7 +1818,6 @@ class eZPackage
                  $repositoryID == $packageRepository['id'] )
             {
                 $path = $packageRepository['path'];
-                print( $path );
                 if ( file_exists( $path ) )
                 {
                     $fileList = array();
