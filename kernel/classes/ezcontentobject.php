@@ -291,8 +291,11 @@ class eZContentObject extends eZPersistentObject
     */
     function setName( $objectName, $versionNum = false, $translation = false )
     {
+        $this->Name = $objectName;
+
         $db =& eZDB::instance();
         $objectName = $db->escapeString( $objectName );
+
         if ( !$versionNum )
         {
             $versionNum = $this->attribute( 'current_version' );

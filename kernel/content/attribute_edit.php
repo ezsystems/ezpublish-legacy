@@ -195,6 +195,7 @@ if ( $storingAllowed )
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
+    $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) )

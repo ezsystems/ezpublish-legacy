@@ -48,6 +48,8 @@ Changes from 3.2-2 to 3.2-3
   from Volker Lenz.
 - Made sure the form/process module is turned off by default, it is also controlled by
   a separate setting to avoid it being enabled by a mistake.
+- http://ez.no/developer/ez_publish_3/bug_reports/new_drafts_saved_with_title_new_classname
+  Fixed updating object name when storing draft, not only when publishing object.
 
 *Setup:
 
