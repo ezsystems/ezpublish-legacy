@@ -105,6 +105,7 @@ $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                                                'collaboration_simple_message_view',
                                                                'collaboration_participation_view',
                                                                'event_edit_gui',
+                                                               'class_attribute_view_gui',
                                                                'class_attribute_edit_gui' ) );
 
 if ( !function_exists( 'eZPHPOperatorInit' ) )
@@ -264,6 +265,15 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                            'namespace' => 'WorkflowEvent',
                                            'attribute_access' => array( array( 'workflow_type_string' ) ),
                                            'use_views' => false ),
+
+                'class_attribute_view_gui' => array( 'template_root' => 'class/datatype/view',
+                                                     'input_name' => 'class_attribute',
+                                                     'output_name' => 'class_attribute',
+                                                     'namespace' => 'ClassAttribute',
+                                                     'attribute_access' => array( array( 'data_type',
+                                                                                         'information',
+                                                                                         'string' ) ),
+                                                     'use_views' => false ),
 
                 'class_attribute_edit_gui' => array( 'template_root' => 'class/datatype/edit',
                                                      'input_name' => 'class_attribute',

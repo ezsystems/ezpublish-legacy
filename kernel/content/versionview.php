@@ -167,6 +167,17 @@ else if ( !$placementID && count( $nodeAssignments ) )
         }
     }
 }
+$parentNodeID = false;
+$mainAssignment = false;
+foreach ( array_keys( $nodeAssignments ) as $key )
+{
+    if ( $nodeAssignments[$key]->attribute( 'is_main' ) == 1 )
+    {
+        $mainAssignment =& $nodeAssignments[$key];
+        $parentNodeID = $mainAssignment->attribute( 'parent_node' );
+        break;
+    }
+}
 
 $contentINI =& eZINI::instance( 'content.ini' );
 if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
@@ -288,12 +299,77 @@ $contentObject->ContentObjectAttributeArray;
 $node = new eZContentObjectTreeNode();
 $node->setAttribute( 'contentobject_version', $EditVersion );
 $node->setAttribute( 'contentobject_id', $ObjectID );
-$node->setAttribute( 'parent_node_id', $placementID );
+$node->setAttribute( 'parent_node_id', $parentNodeID );
 $node->setAttribute( 'main_node_id', $virtualNodeID );
 $node->setAttribute( 'node_id', $virtualNodeID );
 $node->setName( $objectName );
 
 $node->setContentObject( $contentObject );
+
+$path = array();
+$titlePath = array();
+
+$hasPath = false;
+if ( $mainAssignment )
+{
+    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    if ( $parentNode )
+    {
+        $parents =& $parentNode->attribute( 'path' );
+
+        foreach ( $parents as $parent )
+        {
+            $path[] = array( 'text' => $parent->attribute( 'name' ),
+                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                             'url_alias' => $parent->attribute( 'url_alias' ),
+                             'node_id' => $parent->attribute( 'node_id' )
+                             );
+        }
+        $path[] = array( 'text' => $parentNode->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
+                         'url_alias' => $parentNode->attribute( 'url_alias' ),
+                         'node_id' => $parentNode->attribute( 'node_id' ) );
+        $objectPathElement = array( 'text' => $contentObject->attribute( 'name' ),
+                                    'url' => false,
+                                    'url_alias' => false );
+        $existingNode = $contentObject->attribute( 'main_node' );
+        if ( $existingNode )
+        {
+            $objectPathElement['url'] = '/content/view/full/' . $existingNode->attribute( 'node_id' );
+            $objectPathElement['url_alias'] = $existingNode->attribute( 'url_alias' );
+            $objectPathElement['node_id'] = $existingNode->attribute( 'node_id' );
+        }
+        $path[] = $objectPathElement;
+        $hasPath = true;
+    }
+}
+if ( !$hasPath )
+{
+    $existingNode = $contentObject->attribute( 'main_node' );
+    if ( $existingNode )
+    {
+        $parents =& $existingNode->attribute( 'path' );
+
+        foreach ( $parents as $parent )
+        {
+            $path[] = array( 'text' => $parent->attribute( 'name' ),
+                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                             'url_alias' => $parent->attribute( 'url_alias' ),
+                             'node_id' => $parent->attribute( 'node_id' )
+                             );
+        }
+        $path[] = array( 'text' => $existingNode->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $existingNode->attribute( 'node_id' ),
+                         'url_alias' => $existingNode->attribute( 'url_alias' ),
+                         'node_id' => $existingNode->attribute( 'node_id' ) );
+        $hasPath = true;
+    }
+}
+if ( !$hasPath )
+{
+    $path[] = array( 'text' => $contentObject->attribute( 'name' ),
+                     'url' => false );
+}
 
 $tpl->setVariable( 'node', $node );
 
@@ -316,5 +392,6 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['path'] = array( array( 'text' => $contentObject->attribute( 'name' ),
                                 'url' => false ) );
+$Result['path'] = $path;
 
 ?>

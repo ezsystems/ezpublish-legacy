@@ -301,11 +301,20 @@ if ( $OmitSectionSetting !== true )
     eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 }
 
+$contentObjectDataMap = array();
+foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
+{
+    $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
+    $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
+    $contentObjectDataMap[$contentObjectAttributeIdentifier] =& $contentObjectAttribute;
+}
+
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'content_version', $version );
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
+$tpl->setVariable( 'content_attributes_data_map', $contentObjectDataMap );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
