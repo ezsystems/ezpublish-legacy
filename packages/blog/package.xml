@@ -4,42 +4,26 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072188087">blog</name>
-  <summary modified="1072188107">Blog</summary>
+  <name modified="1074070918">blog</name>
+  <summary modified="1074070921">Blog</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3-1</version>
+    <version>3.3-2</version>
     <named-version>3.3</named-version>
   </ezpublish>
-  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072188087">
-      <name>Anonymous User</name>
-      <email>nospam@ez.no</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072188087</timestamp>
-    <host>bf.ez.no</host>
+    <timestamp>1074070918</timestamp>
+    <host>kk.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072188087" />
+              modified="1074070918" />
   </documents>
-  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072188087"
-           person="Anonymous User"
-           email="nospam@ez.no"
-           release="1"
-           modified="1072188087">
-      <change>Creation of package</change>
-    </entry>
-  </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="design"
                  design="blog"
-                 modified="1072188087" />
+                 modified="1074070918" />
       <file-list type="ini"
                  role="siteaccess"
                  role-value="blog_user"
@@ -47,23 +31,23 @@
         <file name="override.ini.append"
               path="settings/siteaccess/blog_user/override.ini.append"
               md5sum="5babfc23cba45f2042235fcae86e4ff6"
-              modified="1072188088" />
+              modified="1074070918" />
         <file name="site.ini.append"
               path="settings/siteaccess/blog_user/site.ini.append"
               md5sum="d9454e10a887f16a71b04ba4b56d9c02"
-              modified="1072188088" />
+              modified="1074070918" />
         <file name="collect.ini.append"
               path="settings/siteaccess/blog_user/collect.ini.append"
               md5sum="fa428bd6000f4d9086ee19ab60744f66"
-              modified="1072188088" />
+              modified="1074070918" />
         <file name="content.ini.append"
               path="settings/siteaccess/blog_user/content.ini.append"
               md5sum="7cf71af90253ffc7566da075aa38e0d7"
-              modified="1072188089" />
+              modified="1074070918" />
         <file name="image.ini.append"
               path="settings/siteaccess/blog_user/image.ini.append"
               md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
-              modified="1072188089" />
+              modified="1074070918" />
       </file-list>
       <file-list type="ini"
                  role="siteaccess"
@@ -72,179 +56,179 @@
         <file name="override.ini.append"
               path="settings/siteaccess/blog_admin/override.ini.append"
               md5sum="06978220002d6b35d726f178c76f71d3"
-              modified="1072188089" />
+              modified="1074070918" />
         <file name="site.ini.append"
               path="settings/siteaccess/blog_admin/site.ini.append"
               md5sum="27a5a0aeb839d42fabac846fb51ff8d5"
-              modified="1072188090" />
+              modified="1074070918" />
       </file-list>
       <file-list type="file">
         <file name="package.xml"
               sub-directory="var/blog/storage/packages/blog_blue"
               path="var/blog/storage/packages/blog_blue/package.xml"
-              md5sum="19627e0507cd2d7f35f173c0ec804414"
-              modified="1072188091" />
+              md5sum="d3f6a196f3bd5637c0f38313d236edfc"
+              modified="1074070918" />
         <file name="blog_blue.css"
               sub-directory="var/blog/storage/packages/blog_blue/files/default/file/design/blog/stylesheets"
               path="var/blog/storage/packages/blog_blue/files/default/file/design/blog/stylesheets/blog_blue.css"
               md5sum="e55c4ebb8bacb17e38f95ecc1a5c7f40"
-              modified="1072188091" />
+              modified="1074070918" />
         <file name="thumbnail.png"
               sub-directory="var/blog/storage/packages/blog_blue/files/default/thumbnail"
               path="var/blog/storage/packages/blog_blue/files/default/thumbnail/thumbnail.png"
               md5sum="fba6ca681e45a840f85a84a34c56dd0a"
-              modified="1072188092" />
+              modified="1074070918" />
         <file name="README"
               sub-directory="var/blog/storage/packages/blog_blue/documents"
               path="var/blog/storage/packages/blog_blue/documents/README"
               md5sum="247ce09301ff62337da86d15a8513c5e"
-              modified="1072188092" />
+              modified="1074070919" />
         <file name="package.xml"
               sub-directory="var/blog/storage/packages/blog_red"
               path="var/blog/storage/packages/blog_red/package.xml"
-              md5sum="1f73d9a5cd3bc76dcdd0ba6d8b3fde6c"
-              modified="1072188092" />
+              md5sum="507408f03d599078e3e5d363ef3cbff0"
+              modified="1074070919" />
         <file name="blog_red.css"
               sub-directory="var/blog/storage/packages/blog_red/files/default/file/design/blog/stylesheets"
               path="var/blog/storage/packages/blog_red/files/default/file/design/blog/stylesheets/blog_red.css"
               md5sum="6e43fae7fd4c8ea9a79616212e9b58d4"
-              modified="1072188093" />
+              modified="1074070919" />
         <file name="thumbnail.png"
               sub-directory="var/blog/storage/packages/blog_red/files/default/thumbnail"
               path="var/blog/storage/packages/blog_red/files/default/thumbnail/thumbnail.png"
               md5sum="521f74e07c6ce59769f019952e283363"
-              modified="1072188093" />
+              modified="1074070919" />
         <file name="README"
               sub-directory="var/blog/storage/packages/blog_red/documents"
               path="var/blog/storage/packages/blog_red/documents/README"
               md5sum="46e922509393308bd25eb76dad2d180e"
-              modified="1072188094" />
+              modified="1074070919" />
         <file name="classes.png"
               sub-directory="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB"
               path="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB/classes.png"
               md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
-              modified="1072188095" />
+              modified="1074070919" />
         <file name="classes_large.png"
               sub-directory="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB"
               path="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB/classes_large.png"
               md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
-              modified="1072188095" />
+              modified="1074070919" />
         <file name="classes_reference.png"
               sub-directory="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB"
               path="var/blog/storage/images/setup/setup_links/classes/103-9-eng-GB/classes_reference.png"
               md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
-              modified="1072188096" />
+              modified="1074070919" />
         <file name="cache.png"
               sub-directory="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB"
               path="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB/cache.png"
               md5sum="57f62f207f87dcfba03b5e5f15d7277c"
-              modified="1072188097" />
+              modified="1074070919" />
         <file name="cache_large.png"
               sub-directory="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB"
               path="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB/cache_large.png"
               md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
-              modified="1072188098" />
+              modified="1074070919" />
         <file name="cache_reference.png"
               sub-directory="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB"
               path="var/blog/storage/images/setup/setup_links/cache/324-4-eng-GB/cache_reference.png"
               md5sum="b50f25f8204789e505c23462353d21e7"
-              modified="1072188098" />
+              modified="1074070919" />
         <file name="look_and_feel.png"
               sub-directory="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
               path="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel.png"
               md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
-              modified="1072188099" />
+              modified="1074070919" />
         <file name="look_and_feel_large.png"
               sub-directory="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
               path="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_large.png"
               md5sum="4806200d6836ca805dc6369a63fc22bc"
-              modified="1072188100" />
+              modified="1074070920" />
         <file name="look_and_feel_reference.png"
               sub-directory="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
               path="var/blog/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_reference.png"
               md5sum="7db9d692bde53cb63369368ace09982d"
-              modified="1072188101" />
+              modified="1074070920" />
         <file name="url_translator.png"
               sub-directory="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
               path="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator.png"
               md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
-              modified="1072188101" />
+              modified="1074070920" />
         <file name="url_translator_large.png"
               sub-directory="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
               path="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator_large.png"
               md5sum="c94ef5183dae2a53a6efed8649c27a84"
-              modified="1072188102" />
+              modified="1074070920" />
         <file name="url_translator_reference.png"
               sub-directory="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
               path="var/blog/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator_reference.png"
               md5sum="c94ef5183dae2a53a6efed8649c27a84"
-              modified="1072188103" />
+              modified="1074070920" />
         <file name="blog.gif"
               sub-directory="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB"
               path="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB/blog.gif"
               md5sum="bedc6d251c9aa6f31546d76a1e3dc80a"
-              modified="1072188103" />
+              modified="1074070920" />
         <file name="blog_medium.gif"
               sub-directory="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB"
               path="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB/blog_medium.gif"
               md5sum="b06d599b30d0716a4a859bca9f21f81c"
-              modified="1072188104" />
+              modified="1074070920" />
         <file name="blog_logo.gif"
               sub-directory="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB"
               path="var/blog/storage/images/setup/look_and_feel/blog/152-70-eng-GB/blog_logo.gif"
               md5sum="b06d599b30d0716a4a859bca9f21f81c"
-              modified="1072188105" />
+              modified="1074070920" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
               path="design/blog/images/blog-blue.png"
               md5sum="fba6ca681e45a840f85a84a34c56dd0a"
-              modified="1072188106" />
+              modified="1074070921" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072188087">1.0</number>
-    <release modified="1072188087">1</release>
+    <number modified="1074070918">1.0</number>
+    <release modified="1074070918">1</release>
   </version>
-  <licence modified="1072188087">GPL</licence>
-  <state modified="1072188087">alpha</state>
+  <licence modified="1074070918">GPL</licence>
+  <state modified="1074070918">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072188087" />
+               modified="1074070918" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1072188090" />
+               modified="1074070918" />
       <require type="ezdb"
                name="postgresql"
-               modified="1072188090" />
+               modified="1074070918" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188087"
+          modified="1074070918"
           collection="default" />
     <item type="sql"
-          modified="1072188090"
+          modified="1074070918"
           filename="blog.sql"
           original-path="packages/blog.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1072188090"
+          modified="1074070918"
           filename="blog_postgresql.sql"
           original-path="packages/blog_postgresql.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188087"
+          modified="1074070918"
           collection="default" />
   </uninstall>
 </package>

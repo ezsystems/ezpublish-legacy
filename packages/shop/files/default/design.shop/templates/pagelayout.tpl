@@ -46,7 +46,7 @@ div#maincontent div.design { width: 100%; }
     <div id="mainmenu">
         <div class="design">
 
-            <h3 class="invisible">Main menu</h3>
+            <h3 class="invisible">{"Main menu"|i18n("design/shop/layout")}</h3>
             <ul>
             {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
             {section name=Folder loop=$folder_list}<li><span class="corner"><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></span></li>{/section}
@@ -63,7 +63,7 @@ div#maincontent div.design { width: 100%; }
             <div class="design">
                 <form action={"/content/search/"|ezurl} method="get">
                      <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-                     <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
+                     <input class="searchbutton" name="SearchButton" type="submit" value="{"Search"|i18n("design/shop/layout")}" />
                 </form>
             </div>
         </div>
@@ -75,13 +75,13 @@ div#maincontent div.design { width: 100%; }
 
              <ul>
                  {section show=$current_user.is_logged_in}
-        		 <li><a href={"/notification/settings"|ezurl}>Notifications</a></li>
-                         <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
-        		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
-        		 <li><a href={"/user/logout"|ezurl}>Logout</a></li>
+        		 <li><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/shop/layout")}</a></li>
+                         <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>{"Edit account"|i18n("design/shop/layout")}</a></li>
+        		 <li><a href={"/shop/basket/"|ezurl}>{"View basket"|i18n("design/shop/layout")}</a></li>
+        		 <li><a href={"/user/logout"|ezurl}>{"Logout"|i18n("design/shop/layout")}</a></li>
         		 {section-else}
-        		 <li><a href={"/user/register/"|ezurl}>Register new customer</a></li>
-        		 <li><a href={"/user/login"|ezurl}>Login</a></li>
+        		 <li><a href={"/user/register/"|ezurl}>{"Register new customer"|i18n("design/shop/layout")}</a></li>
+        		 <li><a href={"/user/login"|ezurl}>{"Login"|i18n("design/shop/layout")}</a></li>
                          {/section}
              </ul>
 
@@ -167,7 +167,7 @@ div#maincontent div.design { width: 100%; }
             {let basket=fetch( shop, basket )
                  use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
                  basket_items=$basket.items}
-            <h3>Shopping basket</h3>
+            <h3>{"Shopping basket"|i18n("design/shop/layout")}</h3>
             {section show=$basket_items}
             <ul>
                 {section var=product loop=$basket_items sequence=array( odd, even )}
@@ -178,7 +178,7 @@ div#maincontent div.design { width: 100%; }
                 {/section}
             </ul>
             <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
-            <p><a href={"/shop/basket"|ezurl}>View all details</a></p>
+            <p><a href={"/shop/basket"|ezurl}>{"View all details"|i18n("design/shop/layout")}</a></p>
             {section-else}
                 <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
             {/section}

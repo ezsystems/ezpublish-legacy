@@ -82,8 +82,6 @@
         </div>
     </div>
 
-    {cache-block keys=$uri_string}
-
     <div id="navigationcol">
         <div class="design">
             {include uri="design:navigationbar.tpl"}
@@ -162,7 +160,6 @@
             </address>
         </div>
     </div>
-    {/cache-block}
 </div>
 </body>
 </html>

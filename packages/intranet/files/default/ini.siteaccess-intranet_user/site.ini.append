@@ -3,6 +3,9 @@ LoginPage=custom
 
 [SiteAccessSettings]
 RequireUserLogin=true
+AnonymousAccessList[]
+AnonymousAccessList[]=user/success
+AnonymousAccessList[]=user/activate
 
 [DesignSettings]
 StandardDesign=standard
