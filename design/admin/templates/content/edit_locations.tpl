@@ -54,7 +54,13 @@
     <tr class="{$Node:sequence}">
 
 	{* Remove. *}
-	<td><input type="checkbox" name="AssignmentIDSelection[]" {section show=and( $Node:item.node, $Node:item.node.can_remove|not )}disabled="disabled"{/section} value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" /></td>
+    <td>
+    {section show=and( $Node:item.node, $Node:item.node.can_remove|not )}
+	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permissions to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    {section-else}
+	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
+    {/section}
+    </td>
 
     {* Location. *}
     <td>
@@ -82,12 +88,12 @@
 
     {* Sorting. *}
     <td>
-    <select name="SortFieldMap[{$Node:item.id}]" title="{'Sets the sorting method for the items below the respective location.'|i18n( 'design/admin/content/edit' )}">
+    <select name="SortFieldMap[{$Node:item.id}]" title="{'Use this menu to set the sorting method for the sub items of the respective location.'|i18n( 'design/admin/content/edit' )}">
     {section name=Sort loop=$Node:sort_fields}
     <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
     {/section}
     </select>
-	<select name="SortOrderMap[{$Node:item.id}]" title="{'Sets the sorting direction for the items below the respective location.'|i18n( 'design/admin/content/edit' )}">
+	<select name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items of the respective location.'|i18n( 'design/admin/content/edit' )}">
     <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Up'|i18n( 'design/admin/content/edit' )}</option>
     <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Down'|i18n( 'design/admin/content/edit' )}</option>
     </select>
@@ -159,9 +165,9 @@
 {section show=$:has_top_levels|not}
 
     {section show=$assigned_node_array|count|ge( 1 )}
-    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected locations.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove selected locations.'|i18n( 'design/admin/content/edit' )}" />
     {section-else}
-    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'There are no locations that can be removed.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {/section}
 
     <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
