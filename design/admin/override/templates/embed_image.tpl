@@ -24,7 +24,7 @@
 {case match="left"}
 <div class="imageleft">
 {section show=$href}<a href={$href|ezurl}>{/section}
-<img src={$image_variation.full_path|ezroot} />
+<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
 {section show=$href}</a>{/section}
 
 <div style="width: {$image_variation.width}px;">
@@ -35,7 +35,7 @@
 {case match="right"}
 <div class="imageright">
 {section show=$href}<a href={$href|ezurl}>{/section}
-<img src={$image_variation.full_path|ezroot} />
+<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
 {section show=$href}</a>{/section}
 
 <div style="width: {$image_variation.width}px;">
@@ -46,7 +46,7 @@
 {case}
 <div class="imagecenter">
 {section show=$href}<a href={$href|ezurl}>{/section}
-<img src={$image_variation.full_path|ezroot} />
+<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}"  />
 {section show=$href}</a>{/section}
 
 <div style="width: {$image_variation.width}px;">
