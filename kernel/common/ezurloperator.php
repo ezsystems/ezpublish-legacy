@@ -241,7 +241,7 @@ if ( %1% == "" )
     %1% = "/";
 CODEPIECE;
 
-                $paramCount += 2;
+                ++$paramCount;
             } break;
 
             case $this->URLRootName:
@@ -278,7 +278,7 @@ CODEPIECE;
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
                 $code .= '%1% = %2% . %1%;' . "\n" .
                      '%1% = htmlspecialchars( %1% );' . "\n";
-                $paramCount += 2;
+                ++$paramCount;
                 ++$tmpCount;
             } break;
 
