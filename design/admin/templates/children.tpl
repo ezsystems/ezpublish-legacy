@@ -125,11 +125,6 @@ function toggleCheckboxes( formname, checkboxname )
         {/section}
     {/section}
 
-<!--
-{section show=$node.parent}
-<a href={$node.parent.url_alias|ezurl}>[Up one level]</a>
-{/section}
--->
 
 {* Display the actual list of nodes. *}
 {switch match=ezpreference( 'viewmode' )}
@@ -182,7 +177,8 @@ function toggleCheckboxes( formname, checkboxname )
 </div>
 
 {* Else: there are no children, but we still need to start the controlbar div. *}
-<div class="controlbar">
+{section-else}
+    <div class="controlbar">
 {/section}
 
 {* The "Create new here" thing: *}
