@@ -27,6 +27,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made the default object.tpl add div for object alignment
 - Fixed support for attribute_keys for object forwarding.
 - Added support for setting global overrides in eZTemplateDesignResource.
+- Added support for inherited roles from top to bottom.
 - Added operator mimetype_icon() which will take a mimetype string as an argument and return an icon for that mimetype.
 
 eZPersistentObject:
