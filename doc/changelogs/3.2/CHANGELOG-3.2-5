@@ -2,6 +2,18 @@ Changes from 3.2-4 to 3.2-5
 
 *Kernel:
 - Specifying language in url ( laguage/eng-GB ) will det default language to specified language for all objects fetched.
+- New function in eZDataType called repairContentObjectAttribute() which is
+  called from the updatetranslations.php script. It allows datatypes
+  do repair external tables which have missing attribute data as a result of
+  a previous bug in 3.2 and lower.
+- New function in eZContentObject called fetchListCount() which can be used
+  to fetch the number of objects, conditions are also supported.
+- Added conditions and offset/limit support to eZContentObject::fetchList.
+- Added repairContentObjectAttribute support to eZImage datatype, this should
+  fix the problem with empty images on a 3.3 upgrade.
+- Added support for sending version number to
+  eZContentObjectAttribute::fetchSameClassAttributeIDList
+
 
 *Bugfixes:
 - Fixed bug with publish date when the first published version of an object were not 1,

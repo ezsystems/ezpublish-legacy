@@ -69,6 +69,45 @@ class eZImageType extends eZDataType
         return eZDataType::attribute( $name );
     }
 
+    function repairContentObjectAttribute( &$contentObjectAttribute )
+    {
+        $image =& eZImage::fetch( $contentObjectAttribute->attribute( 'id' ),
+                                  $contentObjectAttribute->attribute( 'version' ) );
+        if ( !is_object( $image ) )
+        {
+            $list =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $contentObjectAttribute->attribute( 'contentclassattribute_id' ),
+                                                                              true,
+                                                                              $contentObjectAttribute->attribute( 'version' ) );
+            $language = eZContentObject::defaultLanguage();
+            $attribute = false;
+            foreach ( array_keys( $list ) as $listKey )
+            {
+                $listItem =& $list[$listKey];
+                if ( $listItem->attribute( 'language_code' ) == $language )
+                {
+                    $attribute =& $listItem;
+                    break;
+                }
+            }
+            if ( $attribute === false )
+            {
+                $attribute =& $list[0];
+            }
+            if ( $attribute )
+            {
+                $originalImage =& eZImage::fetch( $attribute->attribute( 'id' ),
+                                                  $attribute->attribute( 'version' ) );
+                if ( is_object( $originalImage ) )
+                {
+                    $originalImage->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
+                    $originalImage->store();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /*!
      Sets value according to current version
     */
