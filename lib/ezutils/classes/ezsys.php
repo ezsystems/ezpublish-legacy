@@ -402,7 +402,8 @@ class eZSys
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        return $ini->variable( 'FileSettings', 'VarDir' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+        return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
 
     /*!
