@@ -127,6 +127,14 @@ class eZDBInterface
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
             $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
+	    
+            if ( !$this->OutputTextCodec->conversionRequired() || !$this->InputTextCodec->conversionRequired() )
+           {
+	       unset( $this->OutputTextCodec );
+               unset( $this->InputTextCodec );
+               $this->OutputTextCodec = null;
+               $this->InputTextCodec = null;
+           }
         }
 
         $ini =& eZINI::instance();
