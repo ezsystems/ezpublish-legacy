@@ -26,7 +26,7 @@
 <div style="width: 100%; padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
 {section show=eq(ezpreference('advanced_menu'),'on')}
  <a class="leftmenuitem" href={"/user/preferences/set/advanced_menu/off"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
- <a href={"/user/preferences/set/advanced_menu/off"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a>
+ <a href={"/user/preferences/set/advanced_menu/off"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
 </div>
 <ul class="leftmenu">
 <li>&#187; <a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></li>
@@ -44,7 +44,7 @@
 </ul>
 {section-else}
  <a class="leftmenuitem" href={"/user/preferences/set/advanced_menu/on"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
- <a href={"/user/preferences/set/advanced_menu/on"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
+ <a href={"/user/preferences/set/advanced_menu/on"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a>
 </div>
 {/section}
 
