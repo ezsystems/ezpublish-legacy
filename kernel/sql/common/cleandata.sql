@@ -434,22 +434,22 @@ INSERT INTO ezimagefile (id, contentobject_attribute_id, filepath) VALUES (1,172
 
 
 
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (2,1,1,1,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (4,8,2,5,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (5,42,1,5,9,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (6,10,2,44,9,1,1,-1,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (7,4,1,1,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (8,12,1,5,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (9,13,1,5,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (10,14,1,13,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (11,41,1,1,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (12,11,1,5,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (16,45,1,1,9,1,1,-1,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (27,49,1,43,9,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (28,50,1,43,9,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (29,51,1,43,9,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (30,52,1,48,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, node_remote_id) VALUES (31,54,1,48,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (2,1,1,1,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (4,8,2,5,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (5,42,1,5,9,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (6,10,2,44,9,1,1,-1,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (7,4,1,1,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (8,12,1,5,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (9,13,1,5,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (10,14,1,13,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (11,41,1,1,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (12,11,1,5,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (16,45,1,1,9,1,1,-1,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (27,49,1,43,9,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (28,50,1,43,9,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (29,51,1,43,9,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (30,52,1,48,1,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (31,54,1,48,1,1,1,0,0,'');
 
 
 
