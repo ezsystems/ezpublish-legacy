@@ -111,6 +111,9 @@ eZTime:
 - Fixed ezurl operator when accessing url without siteaccess specified, and uri mathing on.
 - Fixed related article link in news package.
   http://ez.no/community/bug_reports/related_objects_stories_in_news_shows_folder_instead_of_the_articles
+- Merged typo fix in kernel/content/node_edit.php from stable/3.2 rev. 4954.
+  http://ez.no/community/bug_reports/typo_in_kernel_content_node_edit_php
+
 
 *Library:
 
