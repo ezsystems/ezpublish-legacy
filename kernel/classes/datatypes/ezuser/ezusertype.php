@@ -76,6 +76,8 @@ class eZUserType extends eZDataType
         if ( $version == null )
         {
             eZUser::removeUser( $userID );
+            $db =& eZDB::instance();
+            $db->query( "DELETE FROM ezuser_role WHERE contentobject_id = '$userID'" );
         }
     }
 

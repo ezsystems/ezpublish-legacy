@@ -36,7 +36,7 @@ Changes from 3.0-? to 3.1
 - Added fetch function for section objects.
 - Added upgrade script from old to new override system
 - Fixed database update files, to a new naming structure.
-
+- Fixed bug with role assignment cleanup after user is deleted.
 Binary file:
 - Added support for resuming downloads.
 
