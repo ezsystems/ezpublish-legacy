@@ -1,6 +1,6 @@
 {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
 {case match=flash}
-{$attribute.content.width}fgdgd
+{$attribute.content.width}
 <div class="block">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 <label>{"Filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
