@@ -187,7 +187,7 @@
     </message>
     <message>
         <source>Default object view</source>
-        <translation type="obsolete">Visualizza oggetto di defautl</translation>
+        <translation>Visualizza oggetto di defautl</translation>
     </message>
     <message>
         <source>Product</source>
@@ -211,7 +211,7 @@
     </message>
     <message>
         <source>Users</source>
-        <translation type="obsolete">Utenti</translation>
+        <translation>Utenti</translation>
     </message>
     <message>
         <source>Link</source>
@@ -222,170 +222,7 @@
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
-        <translation type="obsolete">Il pagamento non è andato a buon fine. Ripetere l&apos;acquisto.</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class/datatype</name>
-    <message>
-        <source>Max file size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current datetime</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Multiple choice</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Option style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checkbox style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enum Element</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enum Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Enum Element</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="unfinished">Elimina selezionati</translation>
-    </message>
-    <message>
-        <source>Min float value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max float value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Min integer value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max integer value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default number of rows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Matrix Column</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Identifier</source>
-        <translation type="unfinished">Identificatore</translation>
-    </message>
-    <message>
-        <source>New Column</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Media player type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>QuickTime</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Real player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Windows media player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allowed classes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Any</source>
-        <translation type="unfinished">Qualunque</translation>
-    </message>
-    <message>
-        <source>Default placement for objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New objects will not be placed in the content tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select placement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disable placement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VAT type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Price inc. VAT</source>
-        <translation type="unfinished">Prezzo con IVA</translation>
-    </message>
-    <message>
-        <source>Price ex. VAT</source>
-        <translation type="unfinished">Prezzo senz&apos; IVA</translation>
-    </message>
-    <message>
-        <source>New option</source>
-        <translation type="unfinished">Nuova opzione</translation>
-    </message>
-    <message>
-        <source>Max string length</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preferred number of rows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current time</source>
-        <translation type="unfinished"></translation>
+        <translation>Il pagamento non è andato a buon fine. Ripetere l&apos;acquisto.</translation>
     </message>
 </context>
 <context>
@@ -531,7 +368,7 @@
     <name>design/standard/class/list</name>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Class groups</source>
@@ -2785,11 +2622,11 @@ dal menu in alto.</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Help on roles</source>
-        <translation type="obsolete">Aiuto sui ruoli</translation>
+        <translation>Aiuto sui ruoli</translation>
     </message>
     <message>
         <source>Edit role</source>
@@ -2960,11 +2797,11 @@ dal menu in alto.</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Help on sections</source>
-        <translation type="obsolete">Aiuto sulle sezioni</translation>
+        <translation>Aiuto sulle sezioni</translation>
     </message>
     <message>
         <source>Remove selected sections</source>
@@ -2975,7 +2812,7 @@ dal menu in alto.</translation>
     <name>design/standard/setup</name>
     <message>
         <source>setup</source>
-        <translation type="obsolete">configurazione</translation>
+        <translation>configurazione</translation>
     </message>
     <message>
         <source>Cache admin</source>
@@ -3460,7 +3297,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>System check</source>
-        <translation type="obsolete">Controllo sistema</translation>
+        <translation>Controllo sistema</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -3468,15 +3305,15 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Languages</source>
-        <translation type="obsolete">Lingue</translation>
+        <translation>Lingue</translation>
     </message>
     <message>
         <source>Mail server</source>
-        <translation type="obsolete">Mail server</translation>
+        <translation>Mail server</translation>
     </message>
     <message>
         <source>Sitedesign</source>
-        <translation type="obsolete">Design Sito</translation>
+        <translation>Design Sito</translation>
     </message>
     <message>
         <source>Help</source>
@@ -3488,133 +3325,109 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Image processing</source>
-        <translation type="obsolete">Processamento immagini</translation>
-    </message>
-    <message>
-        <source>System check:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image settings:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Outgoing mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site(s):</source>
-        <translation type="unfinished"></translation>
+        <translation>Processamento immagini</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation type="unfinished"></translation>
+        <translation>Costruttore</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/db</name>
     <message>
         <source>If you are having problems connecting to your database you should take a look at</source>
-        <translation type="unfinished"></translation>
+        <translation>Se hai problemi nel connetterti al tuo database dovresti dare un&apos;occhiata a</translation>
     </message>
     <message>
         <source>at</source>
-        <translation type="unfinished"></translation>
+        <translation>a</translation>
     </message>
     <message>
         <source>MySQL</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL</translation>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished">Introduzione</translation>
+        <translation>Introduzione</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL è un sistema di database management creato da MySQL AB.</translation>
     </message>
     <message>
         <source>It&apos;s currently one of the most popular databases in the Open Source community and most often on by default in PHP.</source>
-        <translation type="unfinished"></translation>
+        <translation>E&apos; attualmente uno dei database più popolari nella comunità  Open Source e spessissmo montato di default con PHP.</translation>
     </message>
     <message>
         <source>From their homepage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dalla loro homepage:</translation>
     </message>
     <message>
         <source>MySQL is the world&apos;s most popular Open Source Database, designed for speed, power and precision in mission critical, heavy load use.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL è il database Open Source più popolare al mondo, progettato per essere veloce, potente e preciso in situazioni critiche, e per carichi pesanti.</translation>
     </message>
     <message>
         <source>More information can be found on</source>
-        <translation type="unfinished"></translation>
+        <translation>Trovate maggiori informazioni presso</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Dettagli</translation>
     </message>
     <message>
         <source>MySQL is a good choice for handling most western languages, however it&apos;s currently not the best choice for Unicode or non-western languages.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL è un&apos; ottima scelta per gestire le lingue occidentali, ma non è attualmente la scelta migliore per Unicode e lingue non occidentali.</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installazione</translation>
     </message>
     <message>
         <source>By using the</source>
-        <translation type="unfinished"></translation>
+        <translation>Usando</translation>
     </message>
     <message>
         <source>configuration option you enable PHP to access MySQL databases. If you use this option without specifying the path to MySQL, PHP will use the built-in MySQL client libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>opzione di configurazione abiliterai PHP ad accedere al database MySQL. Se usi questa opzione senza specificare la path a MySQL, PHP userà  le librerie client di sistema di MySQL.</translation>
     </message>
     <message>
         <source>More information on the MySQL extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni sull&apos; estensione di MySQL possono essere trovate presso</translation>
     </message>
     <message>
         <source>PostgreSQL</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL</translation>
     </message>
     <message>
         <source>PostgreSQL is a database management system developed at the University of California at Berkeley Computer Science Department.</source>
-        <translation type="unfinished"></translation>
+        <translation>PosgreSQL è un sistema di database management sviluppato dal Dipartimento di Informatica dell&apos; Università  della California.</translation>
     </message>
     <message>
         <source>It&apos;s a very popular database in the Open Source community and provides highly advanced database functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>E&apos; un database molto popolare nella comunità  Open Source e offre funzionalità  altamente avanzate.</translation>
     </message>
     <message>
         <source>PostgreSQL is a sophisticated Object-Relational DBMS, supporting almost all SQL constructs, including subselects, transactions, and user-defined types and functions. It is the most advanced open-source database available anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgerSQL è un sofisticato DBMS relazionale a oggetti, che supporta la maggioranza di tutti i costrutti SQL, incluse le sottoselezioni, transazioni e tipi e funzioni user-defined. E&apos; il database open-source più avanzato disponibile ovunque.</translation>
     </message>
     <message>
         <source>PostgreSQL is a good choice for handling most languages, including Unicode, but may require some configuration to get good speed.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL è una buona scelta per gestire la maggior parte delle lingue, incluso Unicode, ma ha bisogno di alcune configurazioni per migliorare la velocità .</translation>
     </message>
     <message>
         <source>In order to enable PostgreSQL support,</source>
-        <translation type="unfinished"></translation>
+        <translation>Al fine di abilitare il supporto di PostgreSQL,</translation>
     </message>
     <message>
         <source>is required when you compile PHP.</source>
-        <translation type="unfinished"></translation>
+        <translation>è richiesto quando compili PHP.</translation>
     </message>
     <message>
         <source>More information on the PostgreSQL extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni sull&apos; estensione di PostgreSQL possono essere trovate presso</translation>
     </message>
 </context>
 <context>
@@ -3685,7 +3498,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished">Nota:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Language Options</source>
@@ -3713,7 +3526,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Successivo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The system check found some issues that, when resolved, may give improved performance or more features. Please have a look through the results below for more information on what might be done. Each issue will give you instructions on how to do the finetuning.</source>
@@ -3809,7 +3622,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Password</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Email sending failed</source>
@@ -3845,7 +3658,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Riepilogo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>button, or the</source>
@@ -3877,7 +3690,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selezione</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>It&apos;s now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your&apos;re done click the</source>
@@ -3977,7 +3790,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Database</source>
-        <translation type="unfinished">Database</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Driver</source>
@@ -4005,7 +3818,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished">Lingue</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No problems was found with your system, you can continue by clicking the</source>
@@ -4053,7 +3866,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The database was succesfully initialized. You are now ready for some post configuration of the site.</source>
@@ -4163,7 +3976,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>System check</source>
-        <translation type="unfinished">Controllo sistema</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Welcome to eZ publish</source>
@@ -4180,7 +3993,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished">Successivo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>eZ publish support both MySQL and PostgreSQL.</source>
@@ -4233,7 +4046,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mail system</source>
@@ -4241,7 +4054,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Finished!</source>
@@ -4257,7 +4070,7 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User site</source>
@@ -4525,7 +4338,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Choose one or more site templates for your site</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
@@ -4569,7 +4382,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back</source>
@@ -4595,23 +4408,23 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Requirements</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>recommended</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
@@ -4630,331 +4443,303 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <comment>manual installation link</comment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use Plain if you would like to start from scratch.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next &amp;gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press &lt;i&gt;Next&lt;/i&gt; to continue.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
     <message>
         <source>Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Esempio</translation>
     </message>
     <message>
         <source>Constructor, does nothing by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Costruttore, non fa nulla di default.</translation>
     </message>
     <message>
         <source>\return an array with the template operator name.</source>
-        <translation type="unfinished"></translation>
+        <translation>\return un array con il nome dell&apos;operatore del template.</translation>
     </message>
     <message>
         <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegue la funzione PHP per la pulizia dell&apos;operatore e modifica \a $operatorValue.</translation>
     </message>
     <message>
         <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Codice di esempio, questo codice deve essere modificato per fare ciò che l&apos;operatore deve fare, al momento incornicia solo il testo.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/tests</name>
     <message>
         <source>Missing database handlers</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestori database mancanti</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ publish support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il PHP da te installato non ha il supporto per tutti i databases supportati da eZpublish.</translation>
     </message>
     <message>
         <source>Allthough eZ publish will work without it, it might be that you want to have support for this database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sebbene eZpublish può lavorare senza di esso, sarebbe consigliabile per te avere il supporto per questo database.</translation>
     </message>
     <message>
         <source>Also some databases has more advanced features, such as charset, than others.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inoltre alcuni database hanno caratteristiche più avanzate, come il charset, ed altre.</translation>
     </message>
     <message>
         <source>To obtain more database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per supportare più database devi ricompilare PHP, le opzioni precise da ricompilare sono specificate di seguito.</translation>
     </message>
     <message>
         <source>Missing database handler</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestore database mancante</translation>
     </message>
     <message>
         <source>No supported database handlers were found. eZ publish requires a database to store it&apos;s data, without one the system will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non sono stati trovati gestori per il database supportato. eZ publish richiede un database per immagazzinare i dati, senza di esso il sistema non può funzionare.</translation>
     </message>
     <message>
         <source>To obtain database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per supportare il database devi ricompilare PHP, le opzioni precise da ricompilare sono specificate di seguito.</translation>
     </message>
     <message>
         <source>Insufficient directory permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Permessi di directory insufficienti</translation>
     </message>
     <message>
         <source>eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish non può scrivere alcune importanti directories, senza di questo il setup non può esser completato ed alcune parti di eZ publish falliranno.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that you fix this by running the commands below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Correggi l&apos;errore eseguendo i comandi di seguito elencati.</translation>
     </message>
     <message>
         <source>Shell commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandi di shell</translation>
     </message>
     <message>
         <source>File uploading is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento files disabilitato</translation>
     </message>
     <message>
         <source>File uploading is not enabled which means that it&apos;s impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it&apos;s recommended to enable file uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il caricamento files è disabilitato, il che significa che è impossibile per eZ publish gestire il caricamento di files. Tutte le altre parti di eZ publish lavoreranno bene ma si raccomanda di abilitare il caricamento di files.</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione</translation>
     </message>
     <message>
         <source>Enabling file uploads is done by setting %1 in php.ini. Refer to the PHP manual for how to set configuration switches</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;abilitazione del caricamento files si ottiene settando %1 in php.ini. Fai riferimento al manuale PHP su come settare gli attivatori di configurazione</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found by reading %1 and %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni su come abilitare le estensioni possono essere trovate leggendo %1 e %2</translation>
     </message>
     <message>
         <source>Missing image conversion support</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto conversione immagine mancante</translation>
     </message>
     <message>
         <source>No image conversion capabilities was detected, this means that eZ publish cannot scale any images or detect their type. This is vital functionality in eZ publish and must be supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stata trovata alcuna funzionalità per la conversione delle immagini, ciò significa che eZ publish non può scalare alcuna immagine o rilevare il loro tipo. Questa è una funzionalità vitale per eZ publish e deve essere supportata.</translation>
     </message>
     <message>
         <source>Missing imagegd extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Estensione imagegd mancante</translation>
     </message>
     <message>
         <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;estensione imagegd non è disponibile per eZ publish. Senza di essa eZ publish sarà solo in grado di convertire le immagini con ImageMagik e</translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
-        <translation type="unfinished"></translation>
+        <translation>l&apos;operatore di template non sarà disponibile.</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished">Nota:</translation>
+        <translation>Nota:</translation>
     </message>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le future release di eZ publish avranno un supporto immagini più avanzato usando l&apos;estensione imagegd.</translation>
     </message>
     <message>
         <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished"></translation>
+        <translation>Per abilitare imagegd hai bisogno di ricompilare PHP comprendendo il supporto ad esso, maggiori informazioni sull&apos;argomento sono disponibili su</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma ImageMagik mancante</translation>
     </message>
     <message>
         <source>The ImageMagick program is not available to eZ publish. Without it eZ publish will not be able to do image conversion unless the imagegd extension is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il programma ImageMagik non è disponibile per eZ publish. Senza di esso eZ publish non sarà in grado di convertire le immagini a meno che non sia disponibile l&apos;estensione imagegd.</translation>
     </message>
     <message>
         <source>If you known where the program is installed (the executable is called</source>
-        <translation type="unfinished"></translation>
+        <translation>Se sai dove il programma è installato (l&apos;eseguibile si chiama</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>o</translation>
     </message>
     <message>
         <source>)then enter the directory in the input field below and do a recheck (Separate multiple directories with a</source>
-        <translation type="unfinished"></translation>
+        <translation>)allora inserisci la directory nel campo di inserimento sottostante e ripeti il controllo  (Separa le directories multiple con una</translation>
     </message>
     <message>
         <source>colon</source>
-        <translation type="unfinished"></translation>
+        <translation>virgola</translation>
     </message>
     <message>
         <source>semicolon</source>
-        <translation type="unfinished"></translation>
+        <translation>punto e virgola</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installazione</translation>
     </message>
     <message>
         <source>ImageMagick may be downloaded from</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick può essere scaricato da</translation>
     </message>
     <message>
         <source>Missing MBString extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Estensione MBString mancanti</translation>
     </message>
     <message>
         <source>eZ publish comes with a good list of supported charsets by default, however they can be a bit slow due to being made in pure PHP code. Luckily eZ publish supports the mbstring extension for handling some of the charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish contiene una buona lista di charsets di default, che però possono essere un pò lenti perchè realizzati in puro codice PHP. Fortunatamente eZ publish supporta l&apos;estensione mbstring per gestire alcuni charsets.</translation>
     </message>
     <message>
         <source>By enabling the mbstring extension eZ publish will have access to more charsets and also be able to process some of them faster, such as Unicode and iso-8859-*. This is recommended for multilingual sites and sites with more exotic charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilitando l&apos;estensione mbstring eZ publish avrà accesso ad un maggior numero di charsets e potrà inoltre processare più velocemente alcuni di essi, come Unicode e iso-8859-*. Se ne raccomanda l&apos;uso per siti multilingua e per charsets più esotici.</translation>
     </message>
     <message>
         <source>The complete list of charsets mbstring supports are:</source>
-        <translation type="unfinished"></translation>
+        <translation>La lista completa dei charsets supportati da mbstring è:</translation>
     </message>
     <message>
         <source>Installation of the mbstring extension is done by compiling PHP with the</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;installazione dell&apos;estensione mbstring viene fatta compilando PHP con</translation>
     </message>
     <message>
         <source>option.</source>
-        <translation type="unfinished"></translation>
+        <translation>l&apos;opzione.</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni su come abilitare le estensioni possono essere trovate su</translation>
     </message>
     <message>
         <source>Do not enable mbstring function overloading, eZ publish will only use the extension whenever it&apos;s needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non abilitare mbstring function overloading, eZ publish userà l&apos;estensione solo dove necessario.</translation>
     </message>
     <message>
         <source>PHP option</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzione PHP</translation>
     </message>
     <message>
         <source>is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>è abilitata</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables need to be be converted back to</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish lavorerà con questa opzione attiva sebbene diminuirà alcune performances minori poichè tutte le variabili di inserimento devono essere convertite di nuovo al</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation type="unfinished"></translation>
+        <translation>normale</translation>
     </message>
     <message>
         <source>Insufficient PHP version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione PHP insufficiente</translation>
     </message>
     <message>
         <source>Your PHP version, which is </source>
-        <translation type="unfinished"></translation>
+        <translation>La tua versione di PHP, che è</translation>
     </message>
     <message>
         <source>, does not meet the minimum requirements of</source>
-        <translation type="unfinished"></translation>
+        <translation>, non soddisfa i requisiti minimi di</translation>
     </message>
     <message>
         <source>A newer version of PHP can be download at</source>
-        <translation type="unfinished"></translation>
+        <translation>Una versione più aggiornata può essere scaricata da</translation>
     </message>
     <message>
         <source>You must upgrade to at least version </source>
-        <translation type="unfinished"></translation>
+        <translation>Devi fare l&apos;upgrade almeno alla versione</translation>
     </message>
     <message>
         <source>, but an even newer version, such as 4.2.3, is highly recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>, ma una versione più recente, come la 4.2.3, è fortemente raccomandata.</translation>
     </message>
     <message>
         <source>eZ publish cannot write to the</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish non può scrivere sulla</translation>
     </message>
     <message>
         <source>directory, without this the setup cannot disable itself.</source>
-        <translation type="unfinished"></translation>
+        <translation>directory, senza di essa il setup non può disabilitarsi.</translation>
     </message>
     <message>
         <source>Missing zlib extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Estensione zlib mancante</translation>
     </message>
     <message>
         <source>The zlib extension is not available to eZ publish. Without it eZ publish will not be able to install the demo data, however if you do not wish the demo data you can safely ignore this.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;estensione zlib extension non è disponibile per eZ publish. Senza di essa eZ publish non può installare i dati demo, se comunque non vuoi i dati demo puoi ignorarla tranquillamente.</translation>
     </message>
     <message>
         <source>To enable zlib you need to recompile PHP with support for it. You will need to configure PHP with</source>
-        <translation type="unfinished"></translation>
+        <translation>Per abilitare zlib hai bisogno di ricompilare PHP comprendendo il supporto ad essa. Avrai bisogno di configurare PHP con</translation>
     </message>
     <message>
         <source>More information on that subject is available at</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni sull&apos;argomento sono disponibili su</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si raccomanda che l&apos;opzione sia disattivata. Per disattivarla edita la tua configurazione di %1 e setta %2 e %3 su %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maggiori informazioni sull&apos; argomento possono essere trovate %1.</translation>
     </message>
     <message>
         <source>php.ini example:</source>
-        <translation type="unfinished"></translation>
+        <translation>esempio di php.ini:</translation>
     </message>
     <message>
         <source>Alternatively you may create a file called %1 in your eZ publish root folder and add the following:</source>
-        <translation type="unfinished"></translation>
+        <translation>In aleternativa puoi creare un file di nome %1 nella tua root folder di eZ publish ed aggiungere:</translation>
     </message>
     <message>
         <source>.htaccess example:</source>
-        <translation type="unfinished"></translation>
+        <translation>esempio di .htaccess:</translation>
     </message>
     <message>
         <source>PHP option %1 is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;opzione %1 di PHP è abilitata</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish lavorerà con questa opzione attiva sebbene diminuirà alcune performances minori poichè tutte le variabili di inserimento devono essere rese globali per l&apos;esecuzione di ogni script.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si raccomanda che l&apos;opzione sia disattivata. Per disattivarla edita la tua configurazione di %1 e setta %2 su %3.</translation>
     </message>
     <message>
         <source>PHP safe mode is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La modalità protetta di PHP è abilitata</translation>
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish lavorerà con la modalità protetta attiva, sebbene vi potrebbero essere diverse caratteristiche non disponibili. Alcune delle cose che potrebbero avvenire sono:</translation>
     </message>
 </context>
 <context>
@@ -5250,7 +5035,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Sort Result by</source>
@@ -5352,7 +5137,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -5948,11 +5733,11 @@ your account.</source>
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Help on workflows</source>
-        <translation type="obsolete">Aiuto su workflow</translation>
+        <translation>Aiuto su workflow</translation>
     </message>
     <message>
         <source>Edit workflow</source>
@@ -5964,11 +5749,7 @@ your account.</source>
     </message>
     <message>
         <source>Workflow process was created il %creation and modified at %modification.</source>
-        <translation type="obsolete">Il processo di workflow  stato creato il %creation e modificato il %modification.</translation>
-    </message>
-    <message>
-        <source>Workflow process was created at %creation and modified at %modification.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il processo di workflow  stato creato il %creation e modificato il %modification.</translation>
     </message>
 </context>
 <context>
@@ -6006,11 +5787,11 @@ your account.</source>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Editor:</source>
-        <translation type="obsolete">Editore:</translation>
+        <translation>Editore:</translation>
     </message>
     <message>
         <source>Sections:</source>
-        <translation type="obsolete">Sezioni:</translation>
+        <translation>Sezioni:</translation>
     </message>
     <message>
         <source>Any</source>
@@ -6018,23 +5799,23 @@ your account.</source>
     </message>
     <message>
         <source>Users without approval:</source>
-        <translation type="obsolete">Utenti non approvati</translation>
+        <translation>Utenti non approvati</translation>
     </message>
     <message>
         <source>Checkout text:</source>
-        <translation type="obsolete">Testo uscita:</translation>
+        <translation>Testo uscita:</translation>
     </message>
     <message>
         <source>Message:</source>
-        <translation type="obsolete">Messaggio:</translation>
+        <translation>Messaggio:</translation>
     </message>
     <message>
         <source>Section IDs:</source>
-        <translation type="obsolete">ID sezioni:</translation>
+        <translation>ID sezioni:</translation>
     </message>
     <message>
         <source>Users without workflow IDs:</source>
-        <translation type="obsolete">Utenti senza ID workflow:</translation>
+        <translation>Utenti senza ID workflow:</translation>
     </message>
     <message>
         <source>Unpublish object</source>
@@ -6046,15 +5827,15 @@ your account.</source>
     </message>
     <message>
         <source>Days:</source>
-        <translation type="obsolete">Giorni:</translation>
+        <translation>Giorni:</translation>
     </message>
     <message>
         <source>Hours:</source>
-        <translation type="obsolete">Ore:</translation>
+        <translation>Ore:</translation>
     </message>
     <message>
         <source>Minutes:</source>
-        <translation type="obsolete">Minuti:</translation>
+        <translation>Minuti:</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -6249,14 +6030,6 @@ your account.</source>
     <message>
         <source>Cancelled whole workflow</source>
         <translation>Workflow eliminato del tutto</translation>
-    </message>
-    <message>
-        <source>Workflow fetches template</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Workflow redirects user view</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

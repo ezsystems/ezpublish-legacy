@@ -1,5 +1,5 @@
 {*?template charset=latin1?*}
-{default enable_glossary=true() enable_help=true()}
+{default enable_glossary=true() enable_help=true() enable_link=true()}
 
 {let name=Path
      path=$module_result.path
@@ -44,5 +44,8 @@
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
     <meta name="generator" content="eZ publish" />
 
-{include uri="design:link.tpl" enable_glossary=$enable_glossary enable_help=$enable_help}
+{section show=$enable_link}
+    {include uri="design:link.tpl" enable_glossary=$enable_glossary enable_help=$enable_help enable_link=$enable_link}
+{/section}
+
 {/default}

@@ -1083,7 +1083,8 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            sort( array_unique( $locales ) );
+            $locales = array_unique( $locales );
+            sort( $locales );
             if ( $asObject )
             {
                 $localeObjects = array();

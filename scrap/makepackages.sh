@@ -19,7 +19,7 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql
 ./ezpm.php -r packages add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql
 ./ezpm.php -r packages add plain thumbnail plainthumbnail.png
-./ezpm.php -r packages set plain summary "Plain site"
+./ezpm.php -r packages set plain summary "Plain"
 ./ezpm.php -r packages export plain -d kernel/setup/packages
 
 
@@ -33,7 +33,7 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add intranet sql -d mysql packages/intranet.sql
 ./ezpm.php -r packages add intranet sql -d postgresql packages/intranet_postgresql.sql
 ./ezpm.php -r packages add intranet thumbnail intranetthumbnail.png
-./ezpm.php -r packages set intranet summary "Intranet site"
+./ezpm.php -r packages set intranet summary "Intranet"
 ./ezpm.php -r packages export intranet -d kernel/setup/packages
 
 ## Forum package
@@ -46,7 +46,7 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add forum sql -d mysql packages/forum.sql
 ./ezpm.php -r packages add forum sql -d postgresql packages/forum_postgresql.sql
 ./ezpm.php -r packages add forum thumbnail forumthumbnail.png
-./ezpm.php -r packages set forum summary "Forum site"
+./ezpm.php -r packages set forum summary "Forum"
 ./ezpm.php -r packages export forum -d kernel/setup/packages
 
 
@@ -60,7 +60,7 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add bookshop sql -d mysql packages/bookshop.sql
 ./ezpm.php -r packages add bookshop sql -d postgresql packages/bookshop_postgresql.sql
 ./ezpm.php -r packages add bookshop thumbnail bookshopthumbnail.png
-./ezpm.php -r packages set bookshop summary "Bookshop site"
+./ezpm.php -r packages set bookshop summary "Bookshop"
 ./ezpm.php -r packages export bookshop -d kernel/setup/packages
 
 ## Gallery package
@@ -81,7 +81,7 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add gallery file var/storage/reference/image/phph8inGr.jpg
 ./ezpm.php -r packages add gallery file var/storage/reference/image/phpUQzr4Z.jpg
 ./ezpm.php -r packages add gallery thumbnail gallerythumbnail.png
-./ezpm.php -r packages set gallery summary "Gallery site"
+./ezpm.php -r packages set gallery summary "Gallery"
 ./ezpm.php -r packages export gallery -d kernel/setup/packages
  
 
@@ -96,35 +96,35 @@ mkdir kernel/setup/packages
 ./ezpm.php -r packages add mysite sql -d mysql packages/mysite.sql
 ./ezpm.php -r packages add mysite sql -d postgresql packages/mysite_postgresql.sql
 ./ezpm.php -r packages add mysite thumbnail mysitethumbnail.png
-./ezpm.php -r packages set mysite summary "Personal homepage"
+./ezpm.php -r packages set mysite summary "Personal"
 ./ezpm.php -r packages export mysite -d kernel/setup/packages
 
 
 ## News package
-./ezpm.php -r packages create news_site
-./ezpm.php -r packages add news_site design -n design news
-./ezpm.php -r packages add news_site ini -r siteaccess -v news -n user_siteaccess settings/siteaccess/news/override.ini.append
-./ezpm.php -r packages add news_site ini -r siteaccess -v news -n user_siteaccess settings/siteaccess/news/site.ini.append
-./ezpm.php -r packages add news_site ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append
-./ezpm.php -r packages add news_site ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append
-./ezpm.php -r packages add news_site sql -d mysql packages/news.sql
-./ezpm.php -r packages add news_site sql -d postgresql packages/news_postgresql.sql
-./ezpm.php -r packages add news_site thumbnail newsthumbnail.png
-./ezpm.php -r packages set news_site summary "News site"
-./ezpm.php -r packages export news_site -d kernel/setup/packages
+./ezpm.php -r packages create news
+./ezpm.php -r packages add news design -n design news
+./ezpm.php -r packages add news ini -r siteaccess -v news -n user_siteaccess settings/siteaccess/news/override.ini.append
+./ezpm.php -r packages add news ini -r siteaccess -v news -n user_siteaccess settings/siteaccess/news/site.ini.append
+./ezpm.php -r packages add news ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append
+./ezpm.php -r packages add news ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append
+./ezpm.php -r packages add news sql -d mysql packages/news.sql
+./ezpm.php -r packages add news sql -d postgresql packages/news_postgresql.sql
+./ezpm.php -r packages add news thumbnail newsthumbnail.png
+./ezpm.php -r packages set news summary "News"
+./ezpm.php -r packages export news -d kernel/setup/packages
 
 ## Corprate
-./ezpm.php -r packages create corporate_site
-./ezpm.php -r packages add corporate_site design -n design corporate
-./ezpm.php -r packages add corporate_site ini -r siteaccess -v corporate -n user_siteaccess settings/siteaccess/corporate/override.ini.append
-./ezpm.php -r packages add corporate_site ini -r siteaccess -v corporate -n user_siteaccess settings/siteaccess/corporate/site.ini.append
-./ezpm.php -r packages add corporate_site ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append
-./ezpm.php -r packages add corporate_site ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append
-./ezpm.php -r packages add corporate_site sql -d mysql packages/corporate.sql
-./ezpm.php -r packages add corporate_site sql -d postgresql packages/corporate_postgresql.sql
-./ezpm.php -r packages add corporate_site thumbnail corporatethumbnail.png
-./ezpm.php -r packages set corporate_site summary "Corporate website"
-./ezpm.php -r packages export corporate_site -d kernel/setup/packages
+./ezpm.php -r packages create corporate
+./ezpm.php -r packages add corporate design -n design corporate
+./ezpm.php -r packages add corporate ini -r siteaccess -v corporate -n user_siteaccess settings/siteaccess/corporate/override.ini.append
+./ezpm.php -r packages add corporate ini -r siteaccess -v corporate -n user_siteaccess settings/siteaccess/corporate/site.ini.append
+./ezpm.php -r packages add corporate ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append
+./ezpm.php -r packages add corporate ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append
+./ezpm.php -r packages add corporate sql -d mysql packages/corporate.sql
+./ezpm.php -r packages add corporate sql -d postgresql packages/corporate_postgresql.sql
+./ezpm.php -r packages add corporate thumbnail corporatethumbnail.png
+./ezpm.php -r packages set corporate summary "Corporate"
+./ezpm.php -r packages export corporate -d kernel/setup/packages
 
 
 

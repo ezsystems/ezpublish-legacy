@@ -6,7 +6,7 @@
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name modified="1061309323">plain</name>
-  <summary modified="1061309331">Plain site</summary>
+  <summary modified="1061309331">Plain</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 beta1</named-version>
