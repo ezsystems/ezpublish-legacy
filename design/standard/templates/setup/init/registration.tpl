@@ -36,7 +36,7 @@
 <br/>
 
 <div align="right">
-<input type="checkbox" name="eZSetupSendRegistration" checked="checked" value="checked" />{"Send registration"|i18n("design/standard/setup/init")}
+<input type="checkbox" name="eZSetupSendRegistration" checked="checked" value="checked" id="ez_reg_me" /><label for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
 </div>
 
   <div class="buttonblock" align="right">
