@@ -292,7 +292,7 @@ class eZCharTransform
             include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $path, false, true );
         }
-        $filepath = $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt'; // ctt=charset transform table
+        $filepath = $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
