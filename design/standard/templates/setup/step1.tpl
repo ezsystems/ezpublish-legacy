@@ -24,7 +24,7 @@
     <tr>
         <td>{$items:item.desc}</td>
         <td align="center">{$items:item.req}</td>
-        <td align="center">{$items:item.exist}</td>
+        <td align="center">{$items:item.status}</td>
         <td align="center" class="{$items:item.class}">{$items:item.pass}</td>                
     </tr>
 {/section}
