@@ -6,7 +6,7 @@ body
 
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
-    background-color: #eeeeee;
+    background-color: #ffffff;
     height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
@@ -219,7 +219,8 @@ div#footer
 
 div#footer div.design
 {
-    background-color: #e4eaf3;
+    background-color: #333333;
+    color: #ffffff;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     padding-left: 1em;
@@ -228,7 +229,7 @@ div#footer div.design
 
 div#footer a
 {
-    color: #000000;
+    color: #ffffff;
 }
 
 /* General child "line view" object settings */

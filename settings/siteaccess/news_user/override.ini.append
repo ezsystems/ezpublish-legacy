@@ -27,3 +27,9 @@ Match[class]=26
 Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
+
+[info_page]
+Source=node/view/full.tpl
+MatchFile=infopage.tpl
+Subdir=templates
+Match[class]=10
