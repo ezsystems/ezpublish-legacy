@@ -17,7 +17,9 @@ ALTER TABLE tmp_notification_rule rename ezsubtree_notification_rule;
 CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule(id);
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule(user_id);
 
+ALTER TABLE ezrss_export ADD rss_version VARCHAR(255) DEFAULT NULL;
+
 -- If you're upgrading the packages from 3.3.0-1 you must the following line also,
 -- it was missing from the previous release in the packages.
 --
--- ALTER TABLE ezrss_export ADD rss_version VARCHAR(255) DEFAULT NULL;
+
