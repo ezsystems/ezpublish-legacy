@@ -159,6 +159,9 @@ class eZPHPCreator
         return $returnVariables;
     }
 
+    /*!
+     Stores the PHP cache, returns false if the cache file could not be created.
+    */
     function store()
     {
         if ( $this->open() )
@@ -212,10 +215,14 @@ class eZPHPCreator
             // Write log message to storage.log
             include_once( 'lib/ezutils/classes/ezlog.php' );
             eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir . '/' );
+            return true;
         }
         else
+        {
             eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
                                  'eZPHPCreator::store' );
+            return false;
+        }
     }
 
     function writeChunks()

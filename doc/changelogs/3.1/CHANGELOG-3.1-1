@@ -74,6 +74,7 @@ eZ PHP Creator:
 - Made sure $ was escaped in strings.
 - Added support for creating include statements.
 - Added support for adding variable unset statements.
+- Added return value to store()
 
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
