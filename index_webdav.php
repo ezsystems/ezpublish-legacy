@@ -34,13 +34,27 @@
 // you.
 //
 
+// __FIX_ME__ Hack? ->
+/*!
+ Reads settings from site.ini and passes them to eZDebug.
+*/
+function eZUpdateDebugSettings()
+{
+    $ini =& eZINI::instance();
+    $debugSettings = array();
+    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
+    eZDebug::updateSettings( $debugSettings );
+}
+
 include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
 
-
+/*
 // Check if the username & password actually contain someting, proceed
 // only if empty values or if they are invalid (can't login):
-if ( ( !isset( $PHP_AUTH_USER ) ) || ( !isset($PHP_AUTH_PW ) ) ||
-     ( !ezuser::loginUser( $PHP_AUTH_USER, $PHP_AUTH_PW ) ) )
+if ( ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) || ( !isset($_SERVER['PHP_AUTH_PW'] ) ) ||
+     ( !ezuser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) )
 
 {
     header('HTTP/1.0 401 Unauthorized');
@@ -53,12 +67,12 @@ else
     $testServer = new eZWebDAVContentServer ();
     $testServer->processClientRequest ();
 }
-
+*/
 
 
 // Without auth:
-// $testServer = new eZWebDAVContentServer ();
-// $testServer->processClientRequest ();
+ $testServer = new eZWebDAVContentServer ();
+ $testServer->processClientRequest ();
 
 
 ?>
