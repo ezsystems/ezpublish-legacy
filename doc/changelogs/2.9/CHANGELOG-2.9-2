@@ -143,6 +143,9 @@ eZ template :
   or instantiated before they are needed by a template.
 - Added autoload files which defines functions and operators, since the search path list is controlled
   by site.ini it's possible for plugins for template functions and operators.
+- Improved parsing with regards to negative numbers.
+- New arithmetic template operators, /sum/, /sub/, /inc/, /dec/, /div/, /mod/, /mul/, /max/, /min/, /abs/, /ceil/, /floor/, /round/
+- New operator /fetch/ which can call a module function and get the result data.
 
 eZ httpfile :
 - Added two more attributes for fetching the category and part of the mimetype

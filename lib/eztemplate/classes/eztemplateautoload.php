@@ -62,6 +62,12 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'ge', 'eq', 'null',
                                                                'not', 'true', 'false',
                                                                'or', 'and', 'choose' ) );
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearithmeticoperator.php',
+                                    'class' => 'eZTemplateArithmeticOperator',
+                                    'operator_names' => array( 'sum', 'sub', 'inc', 'dec',
+                                                               'div', 'mod', 'mul',
+                                                               'max', 'min',
+                                                               'abs', 'ceil', 'floor', 'round' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
                                     'operator_names' => array( 'texttoimage', 'image', 'imagefile' ) );

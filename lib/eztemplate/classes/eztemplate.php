@@ -570,6 +570,9 @@ class eZTemplate
                              $tag[0] == "\"" or
                              $tag[0] == "'" or
                              is_numeric( $tag[0] ) or
+                             ( $tag[0] == '-' and
+                               isset( $tag[1] ) and
+                               is_numeric( $tag[1] ) ) or
                              preg_match( "/^[a-z0-9]+\(/", $tag ) )
                         {
                             $elements[] = array( "Text" => $tag,
@@ -944,10 +947,18 @@ class eZTemplate
     function numericEndPos( &$text, $start_pos, $len,
                             $allow_float = true )
     {
+//         eZDebug::writeNotice( substr( $text, $start_pos ) );
+//         eZDebug::writeNotice( $allow_float ? 'true' : 'false' );
         $pos = $start_pos;
         $has_comma = false;
+        if ( $pos < $len )
+        {
+            if ( $text[$pos] == '-' )
+                ++$pos;
+        }
         while ( $pos < $len )
         {
+//             eZDebug::writeNotice( substr( $text, $pos ) );
             if ( $text[$pos] == "." and $allow_float )
             {
                 if ( $has_comma )

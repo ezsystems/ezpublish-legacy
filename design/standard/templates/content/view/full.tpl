@@ -52,8 +52,8 @@
     <table width="100%" cellspacing="0">
     {section name=Object loop=$node.object.related_contentobject_array show=$node.object.related_contentobject_array sequence=array(bglight,bgdark)}
     <tr>
-	<td class="{$node.object:sequence}">
-	{content_view_gui view=line content_object=$node.object:item}
+	<td class="{$Object:sequence}">
+	{content_view_gui view=line content_object=$Object:item}
 	</td>
     </tr>
     {section-else}
