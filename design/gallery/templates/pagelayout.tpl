@@ -59,17 +59,6 @@
         </div>
     </div>
 
-    <div id="submenu">
-        <div class="design">
-        
-            <h3 class="invisible">Sub menu</h3>
-            <ul>
-                <li>Sub menu</li>
-            </ul>
-        
-        </div>
-    </div>
-
     <div id="infobox">
         <div class="design">
         
