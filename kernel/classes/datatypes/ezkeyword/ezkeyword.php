@@ -283,7 +283,6 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                var_dump( $objectIDArray );
                 $return =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
             }
         }
