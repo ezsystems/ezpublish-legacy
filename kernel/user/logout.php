@@ -38,7 +38,9 @@ $http =& eZHTTPTool::instance();
 
 $http->removeSessionVariable( "eZUserLoggedInID" );
 
-$Module->redirectTo( "/user/login/" );
-return;
+$ini =& eZINI::instance();
+$redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );
+
+return $Module->redirectTo( $redirectURL );
 
 ?>
