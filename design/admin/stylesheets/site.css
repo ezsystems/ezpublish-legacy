@@ -30,7 +30,6 @@ div#logo
 {
     position: relative;
     float: left;
-/*    margin: 10px 0 0 10px; */
     margin: 16px 0 0 10px;
 }
 
@@ -38,8 +37,6 @@ div#logo p
 {
     color: #ffffff;
     position: absolute;
-/*    right: 5px;
-    top: 30px; */
     left: 210px;
     top: 8px;
     white-space: nowrap;
@@ -129,7 +126,7 @@ div#topmenu li
 
 div#topmenu li.selected
 {
-    background-image: url(../images/topmenu-selected-background.gif);
+    background-image: url(../images/topmenu-background-sel.gif);
     background-position: top left;
     background-repeat: repeat-x;
 }
@@ -141,21 +138,28 @@ div#topmenu li div
     background-repeat: no-repeat;
 }
 
-div#topmenu li.selected div
+div#topmenu li.first div
 {
-    background-image: url(../images/topmenu-selected-leftedge.gif);
+    background-image: url(../images/topmenu-leftedge-f.gif);
     background-position: top left;
     background-repeat: no-repeat;
 }
 
-div#topmenu li.last div
+div#topmenu li.selected div
 {
-    background-image: url(../images/topmenu-rightedge-last.gif);
-    background-position: top right;
+    background-image: url(../images/topmenu-leftedge-sel.gif);
+    background-position: top left;
     background-repeat: no-repeat;
 }
 
-div#topmenu li a, div#topmenu span.disabled
+div#topmenu li.selected-first div
+{
+    background-image: url(../images/topmenu-leftedge-sel-f.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li div a, div#topmenu span.disabled
 {
     background-image: url(../images/topmenu-rightedge.gif);
     background-position: top right;
@@ -165,6 +169,20 @@ div#topmenu li a, div#topmenu span.disabled
     font-weight: normal;
     padding: 0.4em 16px 0.2em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
+}
+
+div#topmenu li.last div a, div#topmenu li.last span.disabled
+{
+    background-image: url(../images/topmenu-rightedge-l.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li.selected-last div a
+{
+    background-image: url(../images/topmenu-rightedge-sel-l.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
 }
 
 div#topmenu li a
@@ -180,7 +198,7 @@ div#topmenu li a:hover
 div#topmenu li.selected a
 {
     color: #ffffff;
-    background-image: url(../images/topmenu-selected-rightedge.gif);
+    background-image: url(../images/topmenu-rightedge-sel.gif);
     background-position: top right;
     background-repeat: no-repeat;
     display: block;
@@ -361,6 +379,11 @@ div.box-content div.block
     margin-top: 0;
     margin-bottom: 0;
     padding: 0.5em;
+}
+
+div.box-content div.context-toolbar div.block
+{
+    padding: 0;
 }
 
 div.box-content div p
@@ -917,8 +940,8 @@ div.content-control
 {
     margin-top: 1em;
     padding: 0.5em;
-    border: 1px solid #000000;
-    background-color: #f0f0f0;
+    border: 1px solid #bfbfb7;
+    background-color: #e7e8e0;
 }
 
 div.content-view-children div.viewbar
