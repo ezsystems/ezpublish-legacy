@@ -33,7 +33,7 @@ This is the first step of adding discount groups.</p>
 <p>Click on the "Partner" link that will take you into another page: "Group view". This is where we 
 assign the actual discount to the Partner group. The next few steps really explain itselves. </p>
 
-<p><img src="/kernel/manual/user/images/discoun1.gif"></p>
+<p><img src="/kernel/manual/user/images/discount1.jpg" border="1"></p>
 
 <p>Click the "Add rule" button to assign the discount. In the "Editing rule" window you write in "Computer store"
 in the "Name" field and type in how much they shall get in discount. next you decide if they are to get the same 
@@ -55,7 +55,7 @@ Very often you are in need of having different VAT types on different products o
 shop.
 To save time and make the whole thing as easy as possible this is all done within "VAT types" in the 
 "Shop box.  
-</p><p><img src="/kernel/manual/user/images/vattypes.gif"></p>
+</p><p><img src="/kernel/manual/user/images/vattypes.gif" border="1"></p>
 
 <p>When you want to add a VAT type to a product or edit the VAT you go into this window. Let's say that you 
 run a grocery store and you have several products with different VAT types. You have vegetables (20% VAT), 
@@ -64,7 +64,7 @@ you now see an "Add VAT type" button. When clicking this button you will see a "
 window. Simply add the name of the product and what percentage of VAT this product should have. In our example 
 we write in.:</p>
 
-<p><img src="/kernel/manual/user/images/vattypes2.gif"></p> 
+<p><img src="/kernel/manual/user/images/vattypes2.gif" border="1"></p> 
 
 <p>Then click the "Store" button. if you want to add more VAT types simply click the "Add VAT types" button 
 and go through the process again.	
@@ -112,7 +112,7 @@ works before you release products.
 <h2 id ="Shopping">Shopping basket</h2>
 <p>
 This shopping basket we have put here to test out . In this window you can test out how your shop works before you release products. You will be able to 
-Test ut på http://admin.bf.dvh1.ez.no/content/view/full/200
+
 
 </p>
 
@@ -123,7 +123,7 @@ a plugin system so you can add any shipping calculation to this checkout process
 To get more information about how you can set up a custom shipping calculation.
 </p>
 
-<h3 id ="Currency">Currency</h3>
+<h2 id ="Currency">Currency</h2>
 <p>
 Currencies are handles by the locale system in eZ publish. All you need to do is to tell eZ publish
 to use the correct locale. This is set in RegionalSettings in the configuration files site.ini.
@@ -133,7 +133,7 @@ to use the correct locale. This is set in RegionalSettings in the configuration 
 Locale=eng-GB
 </pre>
 
-<h3 id ="Wishlist">Wishlist</h3>
+<h2 id ="Wishlist">Wishlist</h2>
 <p>
 Wish lists in eZ publish is a function which the user of the site can use to save a
 product for later shopping.
