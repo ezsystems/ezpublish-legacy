@@ -130,6 +130,9 @@ links to clickable links.
 - Cronjob system now supports running different parts, each part has a set of scripts to run.
   This is useful for running different kinds of scripts at different intervals.
 - Made sure options in basket shows currency in prices.
+- Made sure modfix.sh sets all required directories.
+- Setup modifies the database to accomodate the language selected if different
+  than eng-GB.
 
 *SDK :
 

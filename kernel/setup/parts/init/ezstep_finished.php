@@ -136,6 +136,43 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         if ( $persistenceList['regional_info']['language_type'] == 3 )
             $charset = 'utf-8';
 
+        $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
+
+        if ( $primaryLanguageLocaleCode != 'eng-GB' )
+        {
+            $dbServer = $databaseInfo['server'];
+            $dbName = $databaseInfo['name'];
+            $dbSocket = $databaseInfo['socket'];
+            $dbUser = $databaseInfo['user'];
+            $dbPwd = $databaseInfo['password'];
+            $dbCharset = $charset;
+            $dbDriver = $databaseInfo['info']['driver'];
+            $dbParameters = array( 'server' => $dbServer,
+                                   'user' => $dbUser,
+                                   'password' => $dbPwd,
+                                   'socket' => $dbSocket,
+                                   'database' => $dbName,
+                                   'charset' => $dbCharset );
+            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+
+            // Updates databases that have eng-GB data to the new locale.
+            $updateSql = "UPDATE ezcontentobject_name
+SET
+  content_translation='$primaryLanguageLocaleCode',
+  real_translation='$primaryLanguageLocaleCode'
+WHERE
+  content_translation='eng-GB' OR
+  real_translation='eng-GB'";
+            $db->query( $updateSql );
+
+            $updateSql = "UPDATE ezcontentobject_attribute
+SET
+  language_code='$primaryLanguageLocaleCode'
+WHERE
+  language_code='eng-GB'";
+            $db->query( $updateSql );
+        }
+
         $ini->setVariable( 'DatabaseSettings', 'Charset', $charset );
 
         $languages = array( $primaryLanguage->localeFullCode() );
