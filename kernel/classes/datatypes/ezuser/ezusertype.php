@@ -270,9 +270,12 @@ class eZUserType extends eZDataType
     }
 
     /*!
-     \reimp Only allowed to remove it if this datatype is not used by login users.
+     \reimp
+     We can only remove the user attribute if:
+     - The current user, anonymous user and administrator use is not using this class
+     - There are more classes with the ezuser datatype
     */
-    function canRemovable( $contentClassAttribute )
+    function isClassAttributeRemovable( &$contentClassAttribute )
     {
         $currentUser =& eZUser::currentUser();
         $userObject =&  $currentUser->attribute( 'contentobject' );
@@ -309,9 +312,9 @@ WHERE ezcc.id != $classID AND
     }
 
     /*!
-     \reimp Only allowed to remove it if this datatype is not used by login users.
+     \reimp
     */
-    function canRemovableInformation( $contentClassAttribute )
+    function classAttributeRemovableInformation( &$contentClassAttribute )
     {
         $currentUser =& eZUser::currentUser();
         $userObject =&  $currentUser->attribute( 'contentobject' );

@@ -762,17 +762,32 @@ class eZDataType
     }
 
     /*!
-     \return true if the datatype can be removed
+     Queries the datatype if the attribute containing this datatype can be
+     removed from the class. This can be used by datatypes to ensure
+     that very important datatypes that could cause system malfunction is
+     not removed.
+     The datatype will only need to reimplemented this if it wants to
+     do some checking, the default returns \c true.
+
+     \return \c true if the class attribute can be removed or \c false.
+     \sa classAttributeRemovableInformation()
     */
-    function canRemovable( &$classAttribute )
+    function isClassAttributeRemovable( &$classAttribute )
     {
         return true;
     }
 
     /*!
-     \return true if the datatype can be removed
+     If the call to isClassAttributeRemovable() returns \c false then this
+     can be called to figure out why it cannot be removed, e.g to give
+     information to the user.
+     \return An array structure with information, or \c false if no info is available
+             - text - Plain text explaining why it can't be removed
+             - list - A list of reasons with details on why it can be removed
+                      - identifier - The identifier of the reason (optional)
+                      - text - Plain text explaning the reason
     */
-    function canRemovableInformation( &$classAttribute )
+    function classAttributeRemovableInformation( &$classAttribute )
     {
         return false;
     }

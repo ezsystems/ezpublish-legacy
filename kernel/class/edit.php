@@ -371,13 +371,13 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         foreach ( $rejects as $reject )
         {
             $dataType =& $reject->dataType();
-            if ( $dataType->canRemovable( $reject ) )
+            if ( $dataType->isClassAttributeRemovable( $reject ) )
             {
                 $reject->remove();
             }
             else
             {
-                $removeInfo = $dataType->canRemovableInformation( $reject );
+                $removeInfo = $dataType->classAttributeRemovableInformation( $reject );
                 if ( $removeInfo !== false )
                 {
                     $validation['processed'] = true;

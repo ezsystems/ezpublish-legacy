@@ -258,7 +258,7 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         $dataType =& $this->dataType();
         $version = $this->Version;
-        if ( $dataType->canRemovable( $this ) )
+        if ( $dataType->isClassAttributeRemovable( $this ) )
         {
             $dataType->deleteStoredClassAttribute( $this, $version );
             eZPersistentObject::remove();
