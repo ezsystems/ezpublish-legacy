@@ -1013,13 +1013,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
             $parentNode = getParentNodeByTranslation( $target );
 
             // If no node: use the root node.
-            if ( !$node )
+            if ( !$parentNode )
             {
-                $node =& eZContentObjectTreeNode::fetch( 2 );
+                $parentNode =& eZContentObjectTreeNode::fetch( 2 );
             }
 
             // Attempt to create the folder.
-            return( createFolder( $node, $target ) );
+            return( createFolder( $parentNode, $target ) );
         }
         // Else: somebody is trying to make a folder in the virtual dir: no deal!
         else
