@@ -84,7 +84,14 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     else
     {
         // Remove oldest archived version first
-        $params = array( 'conditions'=>array( 'status'=>3 ) );
+        if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
+        {
+            $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
+        }
+        else
+        {
+            $params = array( 'conditions'=> array( 'status' => 3 ) );
+        }
         $versions =& $obj->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
@@ -241,7 +248,14 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             else
             {
                 // Remove oldest archived version first
-                $params = array( 'conditions'=>array( 'status'=>3 ) );
+                if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
+                {
+                    $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
+                }
+                else
+                {
+                    $params = array( 'conditions'=> array( 'status' => 3 ) );
+                }
                 $versions =& $object->versions( true, $params );
                 if ( count( $versions ) > 0 )
                 {
