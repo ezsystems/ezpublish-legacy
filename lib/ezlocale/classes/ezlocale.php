@@ -1035,7 +1035,7 @@ class eZLocale
         if ( !is_array( $locales ) )
         {
             $locales = array();
-            $dir = opendir( 'share/locale' );
+            $dir = opendir( 'share/locale/language' );
             while( ( $file = readdir( $dir ) ) !== false )
             {
                 if ( preg_match( "/^(.+)\.ini$/", $file, $regs ) )
@@ -1098,18 +1098,6 @@ class eZLocale
         return $languages;
     }
 
-    function localeList()
-    {
-        $localeList = array();
-        $languageList = eZLocale::languageList();
-        foreach ( $languageList as $language )
-        {
-            $localeObject =& eZLocale::instance( $language );
-            if ( $localeObject !== null )
-                $localeList[] =& $localeObject;
-        }
-        return $localeList;
-    }
 
     /*!
      Returns the eZINI object for the locale ini file.
