@@ -193,7 +193,7 @@ function accessType( &$uri, $host, $port, $file )
 
         if ( ( isset( $name ) && $name != '' ) || $type == EZ_ACCESS_TYPE_URI )
         {
-            $name = preg_replace( array( '/[^a-z0-9]+/',
+            $name = preg_replace( array( '/[^a-zA-Z0-9]+/',
                                          '/_+/',
                                          '/^_/',
                                          '/_$/' ),
@@ -201,7 +201,7 @@ function accessType( &$uri, $host, $port, $file )
                                          '_',
                                          '',
                                          '' ),
-                                  strtolower( $name ) );
+                                  $name );
 
             if ( in_array( $name, $siteAccessList ) )
             {
