@@ -41,7 +41,7 @@
 </tr>
 <tr>
   <td>
-  <img src="/var/storage/variations/{$attribute.content.mime_type_category}/{$attribute.content.small.additional_path}{$attribute.content.small.filename}" />
+  <img src={concat("/var/storage/variations/",$attribute.content.mime_type_category,"/",$attribute.content.small.additional_path,$attribute.content.small.filename)|ezroot} />
  </td>
 </tr>
 {/section}
