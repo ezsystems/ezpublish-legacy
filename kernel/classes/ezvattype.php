@@ -85,7 +85,7 @@ class eZVatType extends eZPersistentObject
     function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZVatType::definition(),
-                                                    null, null, null, null,
+                                                    null, null, array( 'id' => false ), null,
                                                     $asObject );
     }
 
@@ -93,7 +93,7 @@ class eZVatType extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => "",
+            "name" => ezi18n( 'kernel/shop', 'VAT type' ),
             "percentage" => null );
         return new eZVatType( $row );
     }
