@@ -1,7 +1,8 @@
 {section show=or( $module_result.content_info.url_alias|begins_with( $show_subtree ),
-                  eq( $module_result.content_info.class_identifier, $class_identifier ) )}
+                  $class_identifier|explode( ',' )|contains( $module_result.content_info.class_identifier ) )}
 
 {let today_info=$view_parameters
+     class_identifier_list=$class_identifier|explode( ',' )
      cache_keys=array( $today_info.year, $today_info.month, $today_info.day )
      time_start=false()
      time_end=false()
@@ -24,14 +25,17 @@
          time_published=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year )}
 {/case}
 {case}
-    {set today_info=cond( $module_result.content_info.node_id,
-                              fetch( content, node, hash( node_id, $module_result.content_info.node_id ) ).object.published,
+    {let current_node=cond( $module_result.content_info.node_id, fetch( content, node, hash( node_id, $module_result.content_info.node_id ) ),
+                            false() )}
+    {set today_info=cond( and( $current_node, $class_identifier_list|contains( $current_node.object.class_identifier ) ),
+                              $current_node.object.published,
                           currentdate() )|gettime
-         time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year)
+         time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year )
          time_end=maketime( 23, 59, 59, $today_info.month | inc, 0, $today_info.year )
          time_published=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
          time_current=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
          cache_keys=false()}
+    {/let}
 {/case}
 {/switch}
 
