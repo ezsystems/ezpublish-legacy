@@ -737,6 +737,7 @@ if ( $show_page_layout )
         $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
 
         $tpl->setVariable( 'navigation_part', $navigationPart );
+        $tpl->setVariable( 'uri_string', $uri->uriString() );
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }
