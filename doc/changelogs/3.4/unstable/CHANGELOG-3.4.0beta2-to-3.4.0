@@ -38,6 +38,8 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug with the default template function where it would unset variables
   getting out of scope.
   http://ez.no/community/bug_reports/template_caching_problem_with_included_templates
+- Fixed bug of offset is not used by function fetchFilteredList() in ezcontentobject.php
+  http://ez.no/community/bug_reports/ezcontentobject_attribute_plz_undo_the_changes
 
 *Library:
 

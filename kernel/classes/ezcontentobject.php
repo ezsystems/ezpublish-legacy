@@ -626,7 +626,7 @@ class eZContentObject extends eZPersistentObject
     {
         $limits = null;
         if ( $offset or $limit )
-            $limits = array( 'offset' => $limits,
+            $limits = array( 'offset' => $offset,
                              'length' => $limit );
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                     null,
