@@ -2023,40 +2023,40 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    function classListFromLimitation( $limitationList )
+    function classListFromPolicy( $policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
-        foreach ( $limitationList as $limitation )
+        if ( isset( $policy['Class'] ) )
         {
-            if ( $limitation->attribute( 'identifier' ) == 'Class' )
-            {
-                $canCreateClassIDListPart =& $limitation->attribute( 'values_as_array' );
-                $hasClassIDLimitation = true;
-            }
-            elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
-            {
-                if ( !in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
-                {
-                    return array();
-                }
-            }
-            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
-            {
-                if ( !in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
-                {
-                    return array();
-                }
-            }
+            $canCreateClassIDListPart =& $policy['Class'];
+            $hasClassIDLimitation = true;
+        }
 
-            elseif ( $limitation->attribute( 'name' ) == 'Assigned' )
+        if ( isset( $policy['Section'] ) )
+        {
+            if ( !in_array( $this->attribute( 'section_id' ),  $policy['Section']  ) )
             {
-                if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
-                {
-                    return array();
-                }
+                return array();
             }
         }
+
+        if ( isset( $policy['ParentClass'] ) )
+        {
+            if ( !in_array( $this->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Assigned'] ) )
+        {
+            if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            {
+                return array();
+            }
+        }
+
         if ( $hasClassIDLimitation )
         {
             return $canCreateClassIDListPart;
@@ -2066,21 +2066,16 @@ class eZContentObject extends eZPersistentObject
 
     function &canCreateClassList()
     {
-
-//        eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         if ( $accessWord == 'yes' )
         {
-            $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everithing' );
-            return $classList;
+            return eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
         }
         elseif ( $accessWord == 'no' )
         {
-//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         else
@@ -2089,13 +2084,10 @@ class eZContentObject extends eZPersistentObject
             $classIDArray = array();
             foreach ( $policies as $policy )
             {
-//                $classIDArrayPart = array();
-                $limitationArray =& $policy->attribute( 'limitations' );
-                $classIDArrayPart = $this->classListFromLimitation( $limitationArray );
+                $classIDArrayPart = $this->classListFromPolicy( $policy );
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-//                    eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everything' );
                     return $classList;
                 }else
                 {
@@ -2106,7 +2098,6 @@ class eZContentObject extends eZPersistentObject
         }
         if( count( $classIDArray ) == 0  )
         {
-//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         $classList = array();

@@ -294,30 +294,25 @@ class eZContentClass extends eZPersistentObject
             foreach ( array_keys( $policies ) as $policyKey )
             {
                 $policy =& $policies[$policyKey];
-                $limitationArray =& $policy->attribute( 'limitations' );
 
-                $hasClassIDLimitation = false;
                 $classIDArrayPart = '*';
-                foreach ( array_keys( $limitationArray ) as $limitationKey )
+                if ( isset( $policy['Class'] ) )
                 {
-                    $limitation =& $limitationArray[$limitationKey];
-                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
-                    {
-                        $classIDArrayPart =& $limitation->attribute( 'values_as_array' );
-                    }
+                    $classIDArrayPart =& $policy['Class'];
                 }
 
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
                     break;
-//                    return $classList;
-                }else
+                }
+                else
                 {
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
                     unset( $classIDArrayPart );
                 }
             }
+
             if( count( $classIDArray ) == 0 && count( $classList ) == 0 )
             {
                 $classList = array();

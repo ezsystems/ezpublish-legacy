@@ -960,6 +960,7 @@ class eZImageAliasHandler
         */
         }
         include_once( 'kernel/common/image.php' );
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $imageManager =& imageInit();
 
         $mimeData = eZMimeType::findByFileContents( $fileName );
