@@ -32,6 +32,38 @@
 // you.
 //
 
+function eZSetupRemoteClassID( $parameters, $remoteID )
+{
+    $remoteMap = $parameters['class_remote_map'];
+    if ( isset( $remoteMap[$remoteID] ) )
+        return $remoteMap[$remoteID]['id'];
+    return false;
+}
+
+function eZSetupRemoteClassIdentifier( $parameters, $remoteID )
+{
+    $remoteMap = $parameters['class_remote_map'];
+    if ( isset( $remoteMap[$remoteID] ) )
+        return $remoteMap[$remoteID]['identifier'];
+    return false;
+}
+
+function eZSetupRemoteNodeID( $parameters, $remoteID )
+{
+    $remoteMap = $parameters['node_remote_map'];
+    if ( isset( $remoteMap[$remoteID] ) )
+        return $remoteMap[$remoteID];
+    return false;
+}
+
+function eZSetupRemoteObjectID( $parameters, $remoteID )
+{
+    $remoteMap = $parameters['object_remote_map'];
+    if ( isset( $remoteMap[$remoteID] ) )
+        return $remoteMap[$remoteID];
+    return false;
+}
+
 function eZSetupTypes()
 {
     return array( 'news' => array( 'name' => 'News',
@@ -1613,10 +1645,103 @@ function eZSetupContentINISettings( $siteType, $parameters )
     return $image;
 }
 
-function eZSetupForumRoles( $siteType, $parameters )
+function eZSetupForumRoles( &$roles, $siteType, $parameters )
 {
-    return array( 'name' => 'Forum usage',
-                  'policies' => array() );
+    if ( !in_array( 'forum', $parameters['extra_functionality'] ) )
+        return false;
+    $forumClassID = eZSetupRemoteClassID( $parameters, 'b241f924b96b267153f5f55904e0675a' );
+    $forumReplyClassID = eZSetupRemoteClassID( $parameters, '80ee42a66b2b8b6ee15f5c5f4b361562' );
+    $forumTopicClassID = eZSetupRemoteClassID( $parameters, '71f99c516743a33562c3893ef98c9b60' );
+    $folderClassID = eZSetupRemoteClassID( $parameters, 'a3d405b81be900468eb153d774f4f0d2' );
+
+    $guestAccountsID = eZSetupRemoteObjectID( $parameters, '5f7f0bdb3381d6a461d8c29ff53d908f' );
+
+    $sectionID = 1;
+    $selfID = 1;
+    // Status values taken from ezcontentobjectversion.php
+    $statusDraft = 0; // EZ_VERSION_STATUS_DRAFT
+    $statusPending = 2; // EZ_VERSION_STATUS_PENDING
+
+    $roles[] = array( 'name' => 'Forum user',
+                      'policies' => array( array( 'module' => 'content',
+                                                  'function' => 'create',
+                                                  'limitation' => array( 'Class' => array( $forumTopicClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'ParentClass' => array( $forumClassID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'edit',
+                                                  'limitation' => array( 'Class' => array( $forumTopicClassID ),
+                                                                         'Section' => array( $sectionID ) ) ),
+                                           array( 'module' => 'content',
+                                                  'function' => 'create',
+                                                  'limitation' => array( 'Class' => array( $forumReplyClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'ParentClass' => array( $forumTopicClassID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'edit',
+                                                  'limitation' => array( 'Class' => array( $forumReplyClassID ),
+                                                                         'Section' => array( $sectionID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'versionread',
+                                                  'limitation' => array( 'Class' => array( $forumTopicClassID, $forumReplyClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'Owner' => array( $selfID ),
+                                                                         'Status' => array( $statusDraft, $statusPending ) ) ),
+                                           array( 'module'=> 'notification',
+                                                  'function' => 'use' ) ),
+                      'assignments' => array( array( 'user_id' => $guestAccountsID ) ) );
+    $roles[] = array( 'name' => 'Forum administrator',
+                      'policies' => array( array( 'module' => 'content',
+                                                  'function' => 'create',
+                                                  'limitation' => array( 'Class' => array( $forumClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'ParentClass' => array( $folderClassID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'edit',
+                                                  'limitation' => array( 'Class' => array( $forumClassID ),
+                                                                         'Section' => array( $sectionID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'remove',
+                                                  'limitation' => array( 'Class' => array( $forumClassID, $forumTopicClassID, $forumReplyClassID ),
+                                                                         'Section' => array( $sectionID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'versionread',
+                                                  'limitation' => array( 'Class' => array( $forumClassID ),
+                                                                         'Section' => array( $sectionID ) ) ) ) );
+}
+
+function eZSetupWeblogRoles( &$roles, $siteType, $parameters )
+{
+    if ( !in_array( 'weblog', $parameters['extra_functionality'] ) )
+        return false;
+    $weblogClassID = eZSetupRemoteClassID( $parameters, 'b3492bd3cb20be996408f5c16aa68c12' );
+    $commentClassID = eZSetupRemoteClassID( $parameters, '000c14f4f475e9f2955dedab72799941' );
+
+    $guestAccountsID = eZSetupRemoteObjectID( $parameters, '5f7f0bdb3381d6a461d8c29ff53d908f' );
+
+    $sectionID = 1;
+    $selfID = 1;
+    // Status values taken from ezcontentobjectversion.php
+    $statusDraft = 0; // EZ_VERSION_STATUS_DRAFT
+    $statusPending = 2; // EZ_VERSION_STATUS_PENDING
+
+    $roles[] = array( 'name' => 'Weblog user',
+                      'policies' => array( array( 'module' => 'content',
+                                                  'function' => 'create',
+                                                  'limitation' => array( 'Class' => array( $commentClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'ParentClass' => array( $weblogClassID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'edit',
+                                                  'limitation' => array( 'Class' => array( $commentClassID ),
+                                                                         'Section' => array( $sectionID ) ) ),
+                                           array( 'module'=> 'content',
+                                                  'function' => 'versionread',
+                                                  'limitation' => array( 'Class' => array( $commentClassID ),
+                                                                         'Section' => array( $sectionID ),
+                                                                         'Owner' => array( $selfID ),
+                                                                         'Status' => array( $statusDraft, $statusPending ) ) ) ),
+                      'assignments' => array( array( 'user_id' => $guestAccountsID ) ) );
 }
 
 
@@ -1647,7 +1772,8 @@ function eZSetupAdminINISettings( $siteType, $parameters )
 function eZSetupRoles( $siteType, $parameters )
 {
     $roles = array();
-//     $roles[] = eZSetupForumRoles( $siteType, $parameters );
+    eZSetupForumRoles( $roles, $siteType, $parameters );
+    eZSetupWeblogRoles( $roles, $siteType, $parameters );
     return $roles;
 }
 

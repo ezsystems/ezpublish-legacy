@@ -409,6 +409,15 @@ class eZStepCreateSites extends eZStepInstaller
                     $nodeRemoteMap[$remoteID] = $row['node_id'];
             }
 
+            $objectRemoteMap = array();
+            $rows = $db->arrayQuery( "SELECT id, remote_id FROM ezcontentobject" );
+            foreach ( $rows as $row )
+            {
+                $remoteID = $row['remote_id'];
+                if ( strlen( trim( $remoteID ) ) > 0 )
+                    $objectRemoteMap[$remoteID] = $row['id'];
+            }
+
             $classRemoteMap = array();
             $rows = $db->arrayQuery( "SELECT id, identifier, remote_id FROM ezcontentclass" );
             foreach ( $rows as $row )
@@ -447,6 +456,7 @@ class eZStepCreateSites extends eZStepInstaller
             }
 
             $parameters = array( 'node_remote_map' => $nodeRemoteMap,
+                                 'object_remote_map' => $objectRemoteMap,
                                  'class_remote_map' => $classRemoteMap,
                                  'extra_functionality' => $extraFunctionality,
                                  'design_list' => array( $userDesignName, 'admin' ) );
@@ -534,6 +544,8 @@ class eZStepCreateSites extends eZStepInstaller
             include_once( 'kernel/classes/ezrole.php' );
             foreach ( $extraRoles as $extraRole )
             {
+                if ( !$extraRole )
+                    continue;
                 $extraRoleName = $extraRole['name'];
                 $role =& eZRole::fetchByName( $extraRoleName );
                 if ( !is_object( $role ) )
@@ -542,13 +554,35 @@ class eZStepCreateSites extends eZStepInstaller
                     $role->store();
                 }
                 $roleID = $role->attribute( 'id' );
-                $extraPolicies = $extraRole['policies'];
-                foreach ( $extraPolicies as $extraPolicy )
+                if ( isset( $extraRole['policies'] ) )
                 {
-                    if ( isset( $extraPolicy['limitation'] ) )
-                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy, $extraPolicy['limitation'] );
-                    else
-                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy );
+                    $extraPolicies = $extraRole['policies'];
+                    foreach ( $extraPolicies as $extraPolicy )
+                    {
+                        if ( isset( $extraPolicy['limitation'] ) )
+                        {
+                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
+                        }
+                        else
+                        {
+                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
+                        }
+                    }
+                }
+                if ( isset( $extraRole['assignments'] ) )
+                {
+                    $roleAssignments = $extraRole['assignments'];
+                    foreach ( $roleAssignments as $roleAssignment )
+                    {
+                        $assignmentIdentifier = false;
+                        $assignmentValue = false;
+                        if ( isset( $roleAssignment['limitation'] ) )
+                        {
+                            $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
+                            $assignmentValue = $roleAssignment['limitation']['value'];
+                        }
+                        $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
+                    }
                 }
             }
 
