@@ -43,6 +43,7 @@
   \brief The class eZRole does
 
 */
+include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
