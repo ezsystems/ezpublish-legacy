@@ -130,6 +130,8 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         return;
     }
 }
+
+
 $translations = eZContentTranslation::fetchList();
 foreach ( array_keys( $translations ) as $translationKey )
 {
@@ -138,7 +140,18 @@ foreach ( array_keys( $translations ) as $translationKey )
         $translation->store();
 }
 
+$availableTranslations = array();
+
+foreach( $translations as $currentTranslation )
+{
+    $translation =& eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
+    $translatedObjectsCount = $translation->translatedObjectsCount();
+
+    $availableTranslations[] = array( 'translation' => $translation, 'object_count' => $translatedObjectsCount );
+}
+
 $tpl->setVariable( 'existing_translations', $translations );
+$tpl->setVariable( 'available_translations', $availableTranslations );
 $tpl->setVariable( 'module', $Module );
 
 //$tpl->setVariable( 'workflow_list', $workflowList );
