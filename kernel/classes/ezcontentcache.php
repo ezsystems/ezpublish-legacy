@@ -113,7 +113,8 @@ class eZContentCache
                               'language' => $language,
                               'offset' => $offset,
                               'role_list' => $roleList,
-                              'discount_list' => $discountList );
+                              'discount_list' => $discountList,
+                              'section_id' => $result['section_id'] );
         $php->addVariable( 'contentInfo', $contentInfo );
         if ( isset( $result['path'] ) )
         {
@@ -124,6 +125,9 @@ class eZContentCache
         $php->addText( $result['content'] );
         $php->addCodePiece( "\$contentData = ob_get_contents();\n" );
         $php->addCodePiece( "ob_end_clean();\n" );
+        $php->addSpace();
+        $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
+                            "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
         return $php->store();
     }
 

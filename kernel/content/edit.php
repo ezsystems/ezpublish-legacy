@@ -256,6 +256,18 @@ if ( !function_exists( 'checkContentActions' ) )
                         $nodeList[] = $child->attribute( 'node_id' );
                     }
                 }
+                
+/*                $relatedObjects =& $object->relatedContentObjectArray();
+                foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
+                {
+                    $relatedObject =& $relatedObjects[$relatedObjectKey];
+                    $assignedNodes =& $relatedObject->assignedNodes();
+                    foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
+                    {
+                        $assignedNode =& $assignedNodes[$assignedNodeKey];
+                        $nodeList[] = $assignedNode->attribute( 'node_id' );
+                    }
+                }*/
 
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
                 if ( eZContentCache::cleanup( $designSetting, $nodeList ) )
