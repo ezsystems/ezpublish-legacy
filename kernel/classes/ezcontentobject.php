@@ -2470,7 +2470,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( $options['node_assignment'] == 'main' )
         {
-            if ( !in_array( $this->attribute( 'main_node_id' ), $contentNodeIDArray ) )
+            if ( !isset( $contentNodeIDArray[$this->attribute( 'main_node_id' )] ) )
             {
                 return false;
             }
