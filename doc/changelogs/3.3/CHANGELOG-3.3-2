@@ -49,6 +49,8 @@ Changes from 3.3-1 to 3.3-2
 - Fixed duplicate </div> in product template in shop package. http://ez.no/developer/ez_publish_3/bug_reports/double_closed_div_in_product_tpl_shop_package
 - Added check to see if calling method on object in eZDataType::contentActionList(). http://ez.no/developer/ez_publish_3/bug_reports/attribute_show_warnings_and_fatal_errors
 - Moved AnonymousAccessList from pre_check.php to site.ini.
+- Fixed undefined property bug.  ( merged from rev. 4766 )
+  http://ez.no/developer/ez_publish_3/bug_reports/undefined_property_contentobject_in_ezcontentobjecttreenode_php
 
 *Setup:
 - Added check for imagegd2. http://ez.no/developer/ez_publish_3/bug_reports/gd_version_requirements
