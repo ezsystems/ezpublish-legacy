@@ -37,7 +37,7 @@
 <h1>Datatypes in eZ publish 3</h1>
 
 <p>
-Datatypes are most useful building bricks in eZ publish 3. To create any attribute in any class, you
+Datatypes are the most useful building bricks in eZ publish 3. To create any attribute in any class, you
 need to choose a suitable datatype to represent your attribute. The concept of eZ publish datatype is
 not exactly as data type as defined in every programming language although it does contain some basic
 datatypes such as integer, float and textline which is actually string type. Datatypes in eZ publish are
@@ -85,6 +85,8 @@ your attributes. Although datatypes comes with eZ publish are powerful enough fo
 classes, you probably still need to create your own datatypes for specific cases. Creating new datatypes required
 having some basic knowledge of how eZ publish datatype works and which classes are necessary to be changed or added.
 In the following tutorial, how to create a new datatype is showed step by step using datatype Email as an example.
+The Email datatype is used to save email address and will implement some check rules to verity that input email
+with correct format.
 </p>
 
 <h3>Step 1: Build the file structure for your new datatype.</h3>
@@ -168,6 +170,9 @@ class eZEmailType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
      An email could be easily stored as variable characters, we use data_text filed in database to save it.
+     In the template, the textfiled name of email input is something like 'ContentObjectAttribute_data_text_idOfTheAttribute',
+     therefore we fetch the http variable '$base . "_data_text_" . $contentObjectAttribute->attribute( "id" )'.
+     Again, parameters $base holds the base name of http variable and is 'ContentObjectAttribute' in this example.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
