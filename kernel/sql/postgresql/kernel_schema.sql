@@ -1896,7 +1896,8 @@ CREATE TABLE ezrss_export (
     site_access character varying(255),
     status integer DEFAULT 0 NOT NULL,
     title character varying(255),
-    url character varying(255)
+    url character varying(255),
+    number_of_objects integer DEFAULT 0 NOT NULL
 );
 
 

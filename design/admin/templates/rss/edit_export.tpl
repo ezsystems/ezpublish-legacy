@@ -65,6 +65,25 @@
     </select>
     </div>
 
+    <div class="block">
+    <label>{'Number of Objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
+    <select name="NumberOfObjects" title="{'Use this drop-down menu to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
+    {section name=Number loop=$number_of_objects_array}
+    <option
+    {section name=DefaultSet show=eq( $rss_export.number_of_objects, 0 )}
+      {section name=Default show=eq( $Number:item, $number_of_objects_default )}
+        selected="selected"
+      {/section}
+    {section-else}
+      {section name=Default2 show=eq( $Number:item, $rss_export.number_of_objects )}
+        selected="selected"
+      {/section}
+    {/section}
+      value="{$:item}">{$:item|wash}
+    </option>
+    {/section}
+    </select>
+    </div>
 
     <div class="block">
     <label>{'Active'|i18n( 'design/admin/rss/edit_export' )}:</label>
@@ -79,9 +98,6 @@
 
     <input type="hidden" name="RSSExport_ID" value={$rss_export.id} />
     <input type="hidden" name="Item_Count" value={count($rss_export.item_list)} />
-
-
-    {'Note: Each source fetches 5 objects from the first level.'|i18n( 'design/admin/rss/edit_export' )}
 
 <hr />
 

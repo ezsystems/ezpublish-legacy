@@ -121,7 +121,11 @@ class eZRSSExport extends eZPersistentObject
                                          'access_url' => array( 'name' => 'AccessURL',
                                                                 'datatype' => 'string',
                                                                 'default' => 'rss_feed',
-                                                                'required' => false ) ),
+                                                                'required' => false ),
+                                         'number_of_objects' => array( 'name' => 'NumberOfObjects',
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
+                                                            'required' => true ) ),
                       "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
                       "sort" => array( "title" => "asc" ),
@@ -416,6 +420,7 @@ class eZRSSExport extends eZPersistentObject
         $rssItemArray =& $this->fetchItems();
         foreach ( $rssItemArray as $rssItem )
         {
+            $rssItem->setNumberOfObjects( $this->NumberOfObjects );
             $nodeArray =& $rssItem->attribute( 'object_list' );
             foreach ( $nodeArray as $node )
             {
@@ -538,6 +543,7 @@ class eZRSSExport extends eZPersistentObject
         $rssItemArray =& $this->fetchItems();
         foreach ( $rssItemArray as $rssItem )
         {
+            $rssItem->setNumberOfObjects( $this->NumberOfObjects );
             $nodeArray =& $rssItem->attribute( 'object_list' );
             foreach ( $nodeArray as $node )
             {

@@ -70,6 +70,7 @@ Changes from 3.5.0 to 3.6.0alpha1
   Duplicate of #5834: MondayFirst and wrong DayName.
 - Fixed bug: Classification for paragraph is not rendered.
   ( Merged from stable/3.5 rev. 10657 )
+- Fixed bug #4719: Enhancement RSS Feed Configuration
 
 *Library:
 PDF:

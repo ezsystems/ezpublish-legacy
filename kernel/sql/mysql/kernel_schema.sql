@@ -933,6 +933,7 @@ CREATE TABLE ezrss_export (
   status int(11) NOT NULL default '0',
   title varchar(255) default NULL,
   url varchar(255) default NULL,
+  number_of_objects int(11) NOT NULL default '0',
   PRIMARY KEY  (id,status)
 ) TYPE=MyISAM;
 

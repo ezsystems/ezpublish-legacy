@@ -9,3 +9,7 @@ CREATE TABLE eztipafriend_request (
 ) TYPE=MyISAM;
 
 ALTER TABLE ezrss_export_item ADD subnodes INT UNSIGNED DEFAULT '0' NOT NULL;
+
+ALTER TABLE ezrss_export ADD number_of_objects INT UNSIGNED DEFAULT '0' NOT NULL;
+# Old behaviour of RSS was that it fed 5 items
+UPDATE ezrss_export SET number_of_objects='5';

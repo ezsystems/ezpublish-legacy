@@ -51,6 +51,12 @@ include_once( 'kernel/classes/ezrssexport.php' );
 class eZRSSExportItem extends eZPersistentObject
 {
     /*!
+      Number of objects being included in the feed.
+      \see eZRSSExport::fetchItems()
+    */
+    var $NumberOfObjects = 5;
+    
+    /*!
      Initializes a new RSSExportItem.
     */
     function eZRSSExportItem( $row )
@@ -139,7 +145,18 @@ class eZRSSExportItem extends eZPersistentObject
         return ( $attr == 'class_attributes' or $attr == 'source_node' or $attr == 'source_path' or $attr == 'object_list' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
-
+    
+    /*!
+      Number of objects being included in the feed.
+      \param number of objects
+      \see eZRSSExport::fetchRSS1_0()
+      \see eZRSSExport::fetchRSS2_0()
+    */
+    function setNumberOfObjects($num)
+    {
+        $this->NumberOfObjects = $num;
+    }
+    
     /*!
      \reimp
     */
@@ -149,7 +166,7 @@ class eZRSSExportItem extends eZPersistentObject
         {
             case 'object_list':
             {
-                return $this->fetchObjectList();
+                return $this->fetchObjectList($this->NumberOfObjects);
             } break;
             case 'class_attributes':
             {
