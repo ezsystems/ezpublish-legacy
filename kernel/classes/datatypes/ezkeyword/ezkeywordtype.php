@@ -185,6 +185,12 @@ class eZKeywordType extends eZDataType
         $res = $db->arrayQuery( "SELECT keyword_id 
                                  FROM ezkeyword_attribute_link
                                  WHERE objectattribute_id='$contentObjectAttributeID'" );
+        if ( !count ( $res ) )
+        {
+            /* If there are no keywords at all, we abort the function as there
+             * is nothing more to do */
+            return;
+        }
         $keywordIDs = array();
         foreach ( $res as $record )
             $keywordIDs[] = $record['keyword_id'];

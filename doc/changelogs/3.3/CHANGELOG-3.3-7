@@ -30,6 +30,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug: Call to undefined function: missingvariable()
   http://ez.no/community/bug_reports/call_to_undefined_function_missingvariable
 - Fixed some PHP warnings in the template system's sequence function
+- Added extra check to see if there are any keywords at all when cleaning them up
+  http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
 
 *Library:
 
