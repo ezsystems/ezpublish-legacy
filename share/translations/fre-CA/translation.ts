@@ -195,7 +195,7 @@ modifiez vos paramètres à :</translation>
     <message>
         <source>RAD</source>
         <comment>Rapid Application Development</comment>
-        <translation type="unfinished">&quot;R.A.D.&quot;</translation>
+        <translation>&quot;R.A.D.&quot;</translation>
     </message>
 </context>
 <context>
@@ -421,14 +421,14 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
+        <translation>Les nouveaux objets seront placés dans %nodename</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
     <message>
         <source>Editing class - %1</source>
-        <translation>Édition de la classe - %1</translation>
+        <translation>Modification de la classe - %1</translation>
     </message>
     <message>
         <source>Name</source>
@@ -516,7 +516,7 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>Editing class group - %1</source>
-        <translation>Édition du groupe de classe - %1</translation>
+        <translation>Modification du groupe de classe - %1</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -583,7 +583,7 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -626,7 +626,7 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -736,7 +736,7 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>Edit the object</source>
-        <translation>Éditer l&apos;objet</translation>
+        <translation>Modifier l&apos;objet</translation>
     </message>
     <message>
         <source>The content object %1 was not accepted but is available as a draft again.</source>
@@ -772,30 +772,33 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
-        <translation>Vous pouvez rééditer le brouillon et le republier, dans ce cas, une approbation sera de nouveau nécessaire.</translation>
+        <translation>Vous pouvez remodifier le brouillon et le republier, dans ce cas, une approbation sera de nouveau nécessaire.</translation>
     </message>
     <message>
         <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
-        <translation>L&apos;auteur peu rééditer le brouillon et le republier, dans ce cas, un nouvel élément d&apos;approbation sera créé.</translation>
+        <translation>L&apos;auteur peu remodifier le brouillon et le republier, dans ce cas, un nouvel élément d&apos;approbation sera créé.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] L&apos;approbation de &quot;%objectname&quot; est portée à votre attention</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriel est pour vous informer que &quot;%objectname&quot; est porté à votre attention.
+Le processus de publication est en attente et c&apos;est à vous de décider si il doit continuer ou arrêter.
+L&apos;approbation peut être vu en utilisant l&apos;URL suivant.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] &quot;%objectname&quot; attend votre approbation</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriel est pour vous informer que &quot;%objectname&quot; est en attente d&apos;approbation %sitename avant d&apos;être publié.
+Si vous désirez envoyer des commentaires à l&apos;approbateur ou voir le statut utilisez l&apos;URL suivant.</translation>
     </message>
 </context>
 <context>
@@ -870,7 +873,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -894,7 +897,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer &apos;%1&apos; supprimera la traduction elle-même et %2 versions traduites!</translation>
     </message>
 </context>
 <context>
@@ -1135,7 +1138,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Login</source>
-        <translation>Nom d&apos;usager</translation>
+        <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
         <source>Password</source>
@@ -1195,7 +1198,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>Éditer les object</translation>
+        <translation>Modifier les objects</translation>
     </message>
     <message>
         <source>Remove objects</source>
@@ -1214,7 +1217,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit %1 - %2</source>
-        <translation>Éditer %1 - %2</translation>
+        <translation>Modifier %1 - %2</translation>
     </message>
     <message>
         <source>Send for publishing</source>
@@ -1230,7 +1233,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>New draft</source>
@@ -1314,7 +1317,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Editing</source>
-        <translation>Édition</translation>
+        <translation>Modification</translation>
     </message>
     <message>
         <source>Current</source>
@@ -1518,7 +1521,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation type="unfinished">Pour plus d&apos;options, essayez la %1Recherche avancée%2</translation>
+        <translation>Pour plus d&apos;options, essayez la %1Recherche avancée%2</translation>
     </message>
 </context>
 <context>
@@ -1644,7 +1647,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Translate into</source>
@@ -1710,11 +1713,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
-        <translation>La version %1 ne peut plus être édité, seuls les brouillons peuvent être édités.</translation>
+        <translation>La version %1 ne peut plus être modifiée, seuls les brouillons peuvent être modifiés.</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
-        <translation>Pour éditer cette version, créez-en une copie.</translation>
+        <translation>Pour modifier cette version, créez-en une copie.</translation>
     </message>
     <message>
         <source>Version not yours</source>
@@ -1722,7 +1725,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version %1 was not created by you, only your own drafts can be edited.</source>
-        <translation>La version %1 ne vous appartient pas, vous ne pouvez éditer que vos propres brouillons.</translation>
+        <translation>La version %1 ne vous appartient pas, vous ne pouvez modifier que vos propres brouillons.</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -1746,11 +1749,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>Copier et éditer</translation>
+        <translation>Copier et modifier</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
@@ -1789,7 +1792,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1847,7 +1850,7 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
         <translation>Voici les objets sur lesquels vous travaillez actuellement. Les brouillons vous appartiennent et ne peuvent être vus que par vous.
-      vous pouvez les éditer ou les supprimer si vous n&apos;en avez plus besoin.</translation>
+      vous pouvez les modifier ou les supprimer si vous n&apos;en avez plus besoin.</translation>
     </message>
     <message>
         <source>Version</source>
@@ -1919,7 +1922,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez l&apos;emplacement initial</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -1927,22 +1930,29 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez l&apos;emplacement du nouveau (de la nouvelle) %classname.
+
+Sélectionner l&apos;emplacement et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce sont les objets que vous avez mis en signet. Cliquez sur un objet pour le visualiser ou, si vous avez les permissions nécessaires, vous pouvez modifier l&apos;objet et cliquant sur le bouton Modifier.
+Si vous voulez ajouter plus d&apos;objets à cette liste cliquez sur le bouton %addbouton.
+
+Supprimer des objets les supprimera seulement de cette liste.</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les signets sont administrés en utilisant %bookmarkname dans la partie %personalname.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez les items à signer</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -1950,11 +1960,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez les items que vous voulez ajouter à votre liste de signets.
+
+Sélectionner vos items et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez le nouvel emplacement</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -1963,11 +1977,15 @@ If you wish to send comments to the approver or view the status use the URL belo
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez le nouvel emplacement pour %name.
+
+Sélectionner l&apos;emplacement et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
     <message>
         <source>Choose placements</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez les emplacements</translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -1975,11 +1993,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez l&apos;emplacement %name.
+
+Sélectionner l&apos;emplacement et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez les objets en relation</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -1987,7 +2009,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez les objets que vous voulez mettre en relation avec %name.
+
+Sélectionner vos objets et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
 </context>
 <context>
@@ -2147,7 +2173,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
-        <translation>Pour ouvrir une session entrez un nom d&apos;usager et un mot de passe valides.</translation>
+        <translation>Pour ouvrir une session entrez un nom d&apos;utilisateur et un mot de passe valides.</translation>
     </message>
     <message>
         <source>Login</source>
@@ -2215,11 +2241,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Site:</source>
-        <translation type="unfinished">Site :</translation>
+        <translation>Site :</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished">Versions :</translation>
+        <translation>Versions :</translation>
     </message>
 </context>
 <context>
@@ -2304,7 +2330,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -2463,37 +2489,39 @@ modifiez vos paramètres à :</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation type="unfinished"></translation>
+        <translation>Système de notification de %sitename</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Nouvel item de collaboration</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriel est pour vous informer qu&apos;un nouvel item de collaboration est porté à votre attention à %sitename.
+L&apos;item peut être visualisé via l&apos;URL suivant.</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Résumé pour %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriel de résumé est pour vous informer des nouveaux items à %sitename.</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriel est pour vous informer des nouvelles à %sitename.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] %classname &quot;%itemname&quot; a été publié</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce courriewl est pour vous informer qu&apos;un nouvel item a été publié à %sitename.
+L&apos;item peut être visualiser via l&apos;URL suivant.</translation>
     </message>
 </context>
 <context>
@@ -2709,7 +2737,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation>Éditer le rôle : %1</translation>
+        <translation>Modifier le rôle : %1</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2721,7 +2749,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2749,7 +2777,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Edit policy</source>
-        <translation>Éditer la règle</translation>
+        <translation>Modifier la règle</translation>
     </message>
     <message>
         <source>Policy</source>
@@ -2805,11 +2833,11 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Edit role</source>
-        <translation>Éditer rôle</translation>
+        <translation>Modifier rôle</translation>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation>Assigner le role à un usager ou un groupe</translation>
+        <translation>Assigner le role à un utilisateur ou un groupe</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
@@ -2817,7 +2845,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Edit current role</source>
-        <translation>Éditer le rôle courant</translation>
+        <translation>Modifier le rôle courant</translation>
     </message>
     <message>
         <source>Remove selected assignments</source>
@@ -2825,7 +2853,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Spécifiez les limites pour la fonction %functionname dans le module %modulename. &apos;N&apos;importe quel&apos; signifie aucune limite pour ce paramètre</translation>
     </message>
 </context>
 <context>
@@ -2883,7 +2911,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Section edit</source>
-        <translation>Éditer la section</translation>
+        <translation>Modifier la section</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2935,7 +2963,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Assign</source>
@@ -2963,7 +2991,7 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez l&apos;assignation de section</translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -2971,7 +2999,11 @@ sont accessibles par le menu en haut.</translation>
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez l&apos;endroit de départ de l&apos;assignation pour la section %sectionname.
+
+Sélectionner l&apos;emplacement et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
 </context>
 <context>
@@ -3294,7 +3326,7 @@ The code par défaut a été fait à partir des paramètres de base que vous ave
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -3409,218 +3441,218 @@ En utilisant %datatypename vous pouvez ...</translation>
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation type="unfinished">Commencer</translation>
+        <translation>Commencer</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nom du DataType</translation>
+        <translation>Nom du DataType</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nom descriptif de votre DataType</translation>
+        <translation>Nom descriptif de votre DataType</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Paramètres</translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Manipule les entrés sur les classes</translation>
+        <translation>Manipule les entrés sur les classes</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation type="unfinished">Suivant</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation type="unfinished">Recommencer</translation>
+        <translation>Recommencer</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nom de classe</translation>
+        <translation>Nom de classe</translation>
     </message>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nom constant</translation>
+        <translation>Nom constant</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Créateur du Datatype</translation>
+        <translation>Créateur du Datatype</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Description de votre DataType</translation>
+        <translation>Description de votre DataType</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">La première ligne est utilisée pour une brève description et le reste pour la documentation de l&apos;opérateur</translation>
+        <translation>La première ligne est utilisée pour une brève description et le reste pour la documentation de l&apos;opérateur.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation type="unfinished">Manipule le DataType %datatypename
+        <translation>Manipule le DataType %datatypename
 En utilisant %datatypename vous pouvez ...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Quand vous cliquerez sur le bouton &quot;Télécharger&quot;, le code sera généré et votre navigateur vous demandera de sauvegarder le fichier généré.</translation>
+        <translation>Quand vous cliquerez sur le bouton &quot;Télécharger&quot;, le code sera généré et votre navigateur vous demandera de sauvegarder le fichier généré.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation type="unfinished">Télécharger</translation>
+        <translation>Télécharger</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Révision SVN</translation>
+        <translation>Révision SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation type="unfinished">Extentions</translation>
+        <translation>Extentions</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation type="unfinished">Extentions</translation>
+        <translation>Extentions</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation type="unfinished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation type="unfinished">Jeu de caractères</translation>
+        <translation>Jeu de caractères</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation type="unfinished">Outils</translation>
+        <translation>Outils</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation type="unfinished">Commencer</translation>
+        <translation>Commencer</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nom de l&apos;opérateur</translation>
+        <translation>Nom de l&apos;opérateur</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Paramètres</translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Un opérateur dans la classe</translation>
+        <translation>Un opérateur dans la classe</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Manipule les opérateurs d&apos;entrée</translation>
+        <translation>Manipule les opérateurs d&apos;entrée</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Génère les opérateurs de sortie</translation>
+        <translation>Génère les opérateurs de sortie</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Manipulation des Paramètres</translation>
+        <translation>Manipulation des Paramètres</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation type="unfinished">Suivant</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation type="unfinished">Recommencer</translation>
+        <translation>Recommencer</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nom de classe</translation>
+        <translation>Nom de classe</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Le créateur de l&apos;opérateur</translation>
+        <translation>Le créateur de l&apos;opérateur</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Description de votre opérateur</translation>
+        <translation>Description de votre opérateur</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">La première ligne est utilisée pour une brève description et le reste pour la documentation de l&apos;opérateur</translation>
+        <translation>La première ligne est utilisée pour une brève description et le reste pour la documentation de l&apos;opérateur.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation type="unfinished">Manipulation de l&apos;opérateur de modèle %operatorname
+        <translation>Manipulation de l&apos;opérateur de modèle %operatorname
 en utilisant %operatorname vous pouvez...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Code d&apos;exemple</translation>
+        <translation>Code d&apos;exemple</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">vous pouvez ajouter du code d&apos;exemple pour expliquer comment votre opérateur fonctionne.
+        <translation>vous pouvez ajouter du code d&apos;exemple pour expliquer comment votre opérateur fonctionne.
 The code par défaut a été fait à partir des paramètres de base que vous avez choisis.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Quand vous cliquerez sur le bouton &quot;Télécharger&quot;, le code sera généré et votre navigateur vous demandera de sauvegarder le fichier généré.</translation>
+        <translation>Quand vous cliquerez sur le bouton &quot;Télécharger&quot;, le code sera généré et votre navigateur vous demandera de sauvegarder le fichier généré.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation type="unfinished">Télécharger</translation>
+        <translation>Télécharger</translation>
     </message>
 </context>
 <context>
@@ -3861,7 +3893,7 @@ The code par défaut a été fait à partir des paramètres de base que vous ave
     </message>
     <message>
         <source>Username</source>
-        <translation>Nom d&apos;usager</translation>
+        <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
         <source>Password</source>
@@ -3929,7 +3961,7 @@ The code par défaut a été fait à partir des paramètres de base que vous ave
     </message>
     <message>
         <source>Optionally you may disable this manually, edit the &lt;i&gt;settings/site.ini&lt;/i&gt; file and look for a line that says:</source>
-        <translation>En option, pour désactiver cela manuellement, éditez le fichier &lt;i&gt;settings/site.ini/&lt;/i&gt; et recherchez cette ligne:</translation>
+        <translation>En option, pour désactiver cela manuellement, modifiez le fichier &lt;i&gt;settings/site.ini/&lt;/i&gt; et recherchez cette ligne:</translation>
     </message>
     <message>
         <source>Change the second line from</source>
@@ -4005,7 +4037,7 @@ The code par défaut a été fait à partir des paramètres de base que vous ave
     </message>
     <message>
         <source>The default username for the administrator is %1 and the default password is %2.</source>
-        <translation>Le nom d&apos;usager par défaut pour l&apos;administration est %1 et le mot de passe  par défaut est %2</translation>
+        <translation>Le nom d&apos;utilisateur par défaut pour l&apos;administration est %1 et le mot de passe  par défaut est %2.</translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
@@ -4609,15 +4641,15 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>User path</source>
-        <translation>Chemin d&apos;accès Usager</translation>
+        <translation>Chemin d&apos;accès Utilisateur</translation>
     </message>
     <message>
         <source>User port</source>
-        <translation>Port Usager</translation>
+        <translation>Port Utilisateur</translation>
     </message>
     <message>
         <source>User hostname</source>
-        <translation>Nom de l&apos;hôte Usager</translation>
+        <translation>Nom de l&apos;hôte Utilisateur</translation>
     </message>
     <message>
         <source>Admin path</source>
@@ -4749,187 +4781,189 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les supports MySQL et PostgreSQL ont été détectés sur votre système. S.V.P. Choisissez le système de base de données que vous préférez utiliser.</translation>
     </message>
     <message>
         <source>eZ publish supports both MySQL and PostgreSQL.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish supporte MySQL et PostgreSQL.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished">ici</translation>
+        <translation>ici</translation>
     </message>
     <message>
         <source>Please input database access information in the form below.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P., entrez les informations d&apos;accès à la base de données dans le formulaire ci-bas.</translation>
     </message>
     <message>
         <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous n&apos;avez pas accès à une base de donnée, vous devriez en obtenir l&apos;accès maintenant. eZPublish est capable d&apos;exécuter des Sites multiples, chaque Site a besoin de sa propre base de donnée. Ce qui signifie que vous devez créer plusieurs bases de données si vous planifiez exécuter plusieurs Sites. S.V.P. référez-vous au manuel de l&apos;utilisateur de votre système de base de données si vous n&apos;êtes pas certains de la procédure pour créer des bases de données.</translation>
     </message>
     <message>
         <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il y a deux options: &lt;br/&gt;- Livraison directe via sendmail (doit être disponible sur le serveur).&lt;br/&gt;- Livraison indirecte en utilisant un serveur de relais SMTP.</translation>
     </message>
     <message>
         <source>forums</source>
         <comment>forum link</comment>
-        <translation type="unfinished">forums</translation>
+        <translation>forums</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished">eZ Publish</translation>
+        <translation>eZ publish</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous avez besoin d&apos;aides avec eZ publish, vous pouvez aller à %ezlink et recevoir de l&apos;aide dans les forums.
+Si vous avez trouvé une erreur (bug), S.V.P. allez à %buglink et rapportez le.
+Avec votre aide, nous pouvons réglés les problèmes et eZ publish pourrais avoir et implémenter de nouvelles fonctionalités.</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur l&apos;URL pour accéder à votre nouveau %ezlink ou cliquez sur le bouton %donebutton. Appréciez un des CMS les plus prométeuses!</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous voulez recommencer cette configuration, éditez le fichier %filename et trouvez la ligne :</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished"></translation>
+        <translation>Changez la seconde ligne de %false à %true.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez les boutons radio et choisissez le langage primaire. Avec les cases à cocher, vous pouvez choisir des langages supplémentaires. Vous pouvez choisir plus d&apos;un langage supplémentaire.</translation>
     </message>
     <message>
         <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les langages sélectionnés sont utilisés pour déterminer les jeux de caractères, dates / formats de nombres, etc.</translation>
     </message>
     <message>
         <source>For more information about language customization, please refer to the %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour plus d&apos;informations à propos de la personnalisation des langages, référez vous à %1.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished">documentation</translation>
+        <translation>documentation</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished">Retour</translation>
+        <translation>Retour</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished">Actualiser</translation>
+        <translation>Actualiser</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished">Suivant</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous le désirez, vous pouvez enregistrer votre installation en envoyant de l&apos;information à eZ systems. Aucune information confidentielle ne sera transmise et eZ systems n&apos;utilisera pas ni ne vendra vos détails pour des courriels non sollicités.</translation>
     </message>
     <message>
         <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous le désirez, vous pouvez aussi ajouter des commentaires. Ceux-ci seront inclus dans votre courriel d&apos;enregistrement.</translation>
     </message>
     <message>
         <source>Comments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Commentaires :</translation>
     </message>
     <message>
         <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer le courriel et générer le Site peut prendre quelques secondes. S.V.P. attendez que la page suivante s&apos;affiche. Cliquez un seconde fois sur le bouton ne fera que retourner un duplicata du courriel et peut corrompre l&apos;installation.</translation>
     </message>
     <message>
         <source>Send registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer l&apos;enregistrement</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails du système (Type d&apos;OS, etc.)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation type="unfinished"></translation>
+        <translation>Les résultats du test</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation type="unfinished"></translation>
+        <translation>Le type de base de données</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom du Site</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de votre Site</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation type="unfinished"></translation>
+        <translation>Langage choisi</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ces données aideront à améliorer les version futures de eZ publish.</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre Site n&apos;est pas configuré en mode d&apos;hôte virtuel, ce n&apos;est pas sécure. Il est recommandé d&apos;esécuter eZ publish en mode d&apos;hôte virtuel. Si vous n&apos;avez pas la possibilité d&apos;utiliser ce mode, vous devez suivre les instructions ci-bas concernant l&apos;installation du fichier .htaccess. Le fichier dit au serveur WEB de restreindre l&apos;accès à certains fichiers.</translation>
     </message>
     <message>
         <source>If you have shell access, you can run the following commmands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous avez accès au Shell, vous pouvez exécuter les commandes suivantes.</translation>
     </message>
     <message>
         <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous n&apos;avez pas accès au Shell, vous devez copier le fichier en utilisant un client FTP ou demander à votre fourisseur d&apos;hébergement de le faire pour vous.</translation>
     </message>
     <message>
         <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P., choisissez la méthode d&apos;accès que vous voulez utiliser. La méthode d&apos;accès détermine comment le Site sera accédé avec un navigateur WEB. Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>For more detailed information on site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour des informations détaillés sur les méthodes d&apos;accès, référez-vous à %1</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">documentation en ligne</translation>
+        <translation>documentation en ligne</translation>
     </message>
     <message>
         <source>Database not empty: </source>
-        <translation type="unfinished"></translation>
+        <translation>La base de données n&apos;est pas vide :</translation>
     </message>
     <message>
         <source>You may modify the details for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez modifier les détails de chaque Site.</translation>
     </message>
     <message>
         <source>For more information about how to configure site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour de plus amples informations concernant la configuration des méthodes d&apos;accès, référez-vous à %1</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">documentation</translation>
+        <translation>documentation</translation>
     </message>
     <message>
         <source>Use the refresh button to update the database listing(s).</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez le bouton actualiser pour faire la mis à jour de la liste des bases de données.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished">ici</translation>
+        <translation>ici</translation>
     </message>
 </context>
 <context>
@@ -5143,7 +5177,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation>La désactivation de cette option est recommandée. Pour la désactiver, éditez votre configuration %1 et positionnez %2 et %3 à%4</translation>
+        <translation>La désactivation de cette option est recommandée. Pour la désactiver, modifiez votre configuration %1 et positionnez %2 et %3 à %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
@@ -5171,7 +5205,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
-        <translation>La désactivation de cette option est recommandée. Pour la désactiver, éditez la configuration de %1 et positionnez %2 et %3 à %4</translation>
+        <translation>La désactivation de cette option est recommandée. Pour la désactiver, modifiez la configuration de %1 et positionnez %2 à %3.</translation>
     </message>
     <message>
         <source>Insufficient PHP version</source>
@@ -5326,7 +5360,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>New</source>
@@ -5334,7 +5368,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Edit discount group - %1</source>
-        <translation>Éditer groupe de rabais - %1</translation>
+        <translation>Modifier groupe de rabais - %1</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -5382,7 +5416,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation>Éditer la règle</translation>
+        <translation>Modifier la règle</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -5563,14 +5597,14 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     <message>
         <source>Name</source>
         <comment>Customer name</comment>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez clients</translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -5578,11 +5612,15 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez le(s) client(s) que vous voulez ajouter au groupe %groupname.
+
+Sélectionner vos clients et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez le produit pour le rabais</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -5590,7 +5628,11 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>S.V.P. Choisissez le(s) produit(s) que vous voulez ajouter à la règle de rabais %discountname dans le groupe %groupname.
+
+Sélectionner vos produits et cliquez sur le bouton %buttonname.
+Vous pouvez utiliser les items récents et les signets pour une action plus rapide.
+Cliquez sur le nom de l&apos;emplacement pour changer la liste de navigation.</translation>
     </message>
 </context>
 <context>
@@ -5680,7 +5722,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>URL</source>
@@ -5886,12 +5928,12 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <message>
         <source>Login</source>
         <comment>Button</comment>
-        <translation type="unfinished"></translation>
+        <translation>Entrez</translation>
     </message>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation type="unfinished">S&apos;inscrire</translation>
+        <translation>S&apos;inscrire</translation>
     </message>
 </context>
 <context>
@@ -5965,7 +6007,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Login</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Identification</translation>
     </message>
     <message>
         <source>Email</source>
@@ -6006,7 +6048,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;utilisateur</translation>
     </message>
 </context>
 <context>
@@ -6017,7 +6059,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Editing workflow</source>
-        <translation>Éditer le processus de workflow</translation>
+        <translation>Modifier le processus de workflow</translation>
     </message>
     <message>
         <source>Workflow stored</source>
@@ -6077,7 +6119,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>New group</source>
@@ -6201,7 +6243,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Editing workflow group - %1</source>
-        <translation>Éditer groupe de processus de workflow - %1</translation>
+        <translation>Modifier groupe de processus de workflow - %1</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
@@ -6209,7 +6251,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Edit workflow</source>
-        <translation>Éditer le processus de workflow</translation>
+        <translation>Modifier le processus de workflow</translation>
     </message>
     <message>
         <source>Remove selected workflows</source>
@@ -6222,7 +6264,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <message>
         <source>Workflows in %1</source>
         <comment>%1 is workflow group</comment>
-        <translation type="unfinished">processus de workflow dans %1</translation>
+        <translation>Processus de workflow dans %1</translation>
     </message>
 </context>
 <context>
@@ -6351,7 +6393,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Class edit</source>
-        <translation>Éditer la classe</translation>
+        <translation>Modifier la classe</translation>
     </message>
     <message>
         <source>Classes</source>
@@ -6783,7 +6825,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -6799,7 +6841,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Remove editing version</source>
-        <translation>Supprimer la version éditée</translation>
+        <translation>Supprimer la version modifiée</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -6979,7 +7021,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <name>kernel/section</name>
     <message>
         <source>Edit Section</source>
-        <translation>Éditer la section</translation>
+        <translation>Modifier la section</translation>
     </message>
     <message>
         <source>Sections</source>
@@ -7014,7 +7056,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Template edit</source>
-        <translation>Édition du modèle</translation>
+        <translation>Modification du modèle</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
@@ -7053,7 +7095,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Editing rule</source>
-        <translation>Éditer la règle</translation>
+        <translation>Modifier la règle</translation>
     </message>
     <message>
         <source>Order list</source>
@@ -7099,14 +7141,14 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>URL edit</source>
-        <translation>Éditer l&apos;URL</translation>
+        <translation>Modifier l&apos;URL</translation>
     </message>
 </context>
 <context>
     <name>kernel/user</name>
     <message>
         <source>User</source>
-        <translation>Nom d&apos;usager</translation>
+        <translation>Utilisateur</translation>
     </message>
     <message>
         <source>Forgot password</source>
@@ -7140,7 +7182,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <name>kernel/workflow</name>
     <message>
         <source>Edit workflow</source>
-        <translation>Éditer le processus de workflow</translation>
+        <translation>Modifier le processus de workflow</translation>
     </message>
     <message>
         <source>Workflow</source>
@@ -7148,15 +7190,15 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Edit workflow group</source>
-        <translation>Éditer le groupe de processus de workflow</translation>
+        <translation>Modifier le groupe de processus de workflow</translation>
     </message>
     <message>
         <source>Group edit</source>
-        <translation>Éditer le groupe</translation>
+        <translation>Modifier le groupe</translation>
     </message>
     <message>
         <source>Workflow group list</source>
@@ -7252,7 +7294,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     <name>setup/templateadmin</name>
     <message>
         <source>Template edit</source>
-        <translation>Édition du modèle</translation>
+        <translation>Modification du modèle</translation>
     </message>
     <message>
         <source>Save</source>
