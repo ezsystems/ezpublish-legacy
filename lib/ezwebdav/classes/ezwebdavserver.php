@@ -316,8 +316,11 @@ class eZWebDAVServer
         $this->handle( $status );
     }
 
-    /*! OPTIONS
-     */
+    /*!
+      \protected
+      Generates HTTP headers with information on what the server supports.
+      \return The WebDAV status code
+    */
     function outputOptions( $options )
     {
         header( "Content-Length: 0" );
@@ -330,7 +333,18 @@ class eZWebDAVServer
     }
 
     /*!
-     */
+      \protected
+      Generates the WebDAV XML from \a $collection and outputs using print().
+      \param $collection An array with elements (e.g dirs/files).
+                         Each element consists of:
+                         - ctime - The timestamp when the element was created
+                         - mtime - The timestamp when the element was last modified
+                         - mimetype - The type of element, use httpd/unix-directory for folder like entries
+                         - href - URL which points to the element
+                         - name - The name of the element
+                         - size - The size of the element in bytes, not needed for folders
+      \return The WebDAV status code
+    */
     function outputCollectionContent( $collection, $xmlBody )
     {
         $xmlText = "<?xml version='1.0' encoding='utf-8'?>\n" .
@@ -417,7 +431,13 @@ class eZWebDAVServer
     }
 
     /*!
-     */
+      \protected
+      Outputs the data \a $output using print().
+      \param $output Is an array which can contain:
+                     - data - String or byte data
+                     - file - The path to the file, the contents of the file will be output
+      \return The WebDAV status code
+    */
     function outputSendDataToClient( $output, $headers_only = false )
     {
         // Check if we are dealing with custom data.
@@ -434,7 +454,7 @@ class eZWebDAVServer
             // Check if the file/dir actually exists and is readable (permission):
             if ( ( file_exists( $realPath ) ) && ( is_readable( $realPath ) ) )
             {
-                append_to_log( "outputData: file exists on server...");
+                append_to_log( "outputData: file exists on server..." );
 
                 // Get misc. file info.
                 $eTag = md5_file( $realPath );
@@ -496,6 +516,7 @@ class eZWebDAVServer
     }
 
     /*!
+      \protected
       Will create a temporary file containing the body of the PUT request.
       If permission is denied false will be returned.
     */
@@ -520,62 +541,88 @@ class eZWebDAVServer
         }
     }
 
-    /*! Virtual options function.
-     */
+    /*!
+      \virtual
+      Returns WebDAV options which information on what the server supports.
+    */
     function options( $target )
     {
     }
 
-    /*! Virtual getCollectionContent function.
+    /*!
+      \virtual
+      \return An array with elements that belongs to the collection \a $collection
      */
     function getCollectionContent( $collection, $depth )
     {
     }
 
-    /*! Virtual HEAD function.
-     */
+    /*!
+      \virtual
+      \return Information on a given element
+    */
     function head( $target )
     {
     }
 
-    /*! Virtual GET function.
-     */
+    /*!
+      \virtual
+      Fetches the data for the element \a $target
+      \return The contents of a given element, e.g. contents of a file.
+    */
     function get( $target )
     {
     }
 
-    /*! Virtual PUT function.
-     */
+    /*!
+      \virtual
+      Tries to create/overwrite an element named \a $target with contents taken from \a $tempFile.
+      \return The WebDAV status code
+    */
     function put( $target, $tempFile )
     {
     }
 
-    /*! Virtual MKCOL function.
-     */
+    /*!
+      \virtual
+      Create a new collection (folder) named \a $target.
+      \return The WebDAV status code
+    */
     function mkcol( $target )
     {
     }
 
-    /*! Virtual COPY function.
-     */
+    /*!
+      \virtual
+      Copies the element \a $source to destination \a $destination
+      \return The WebDAV status code
+    */
     function copy( $source, $destination )
     {
     }
 
-    /*! Virtual MOVE function.
-     */
+    /*!
+      \virtual
+      Moves the element \a $source to destination \a $destination
+      \return The WebDAV status code
+    */
     function move( $source, $destination )
     {
     }
 
-    /*! Virtual DELETE function.
-     */
+    /*!
+      \virtual
+      Removes the element \a $target.
+      \return The WebDAV status code
+    */
     function delete( $target )
     {
     }
 
-    /*! Handles return values and sends necessary/corresponding headers.
-     */
+    /*!
+      \protected
+      Handles return values and sends necessary/corresponding headers.
+    */
     function handle( $status )
     {
         append_to_log( "handle function was called with status: $status" );

@@ -40,6 +40,8 @@
   \ingroup eZWebDAV
   \brief A simple file based WebDAV server
 
+  Enables local file administration/management through the WebDAV interface.
+
   Usage:
   \code
   $myserver = new eZWebDAVFileServer();
@@ -194,7 +196,7 @@ function delDir( $dir )
 /* getFileInfo
    Gathers information about a specific file,
    stores it in an associative array and returns it.
- */
+*/
 function getFileInfo( $dir, $file )
 {
     append_to_log( "inside getFileInfo, dir: $dir, file: $file");
@@ -228,8 +230,8 @@ function getFileInfo( $dir, $file )
         if ( is_readable( $realPath ) )
         {
             // Attempt to get & set the MIME type.
-            $mime                 = new eZMimeType ();
-            $fileInfo["mimetype"] = $mime->mimeTypeFor( $dir, $file );
+            $mimeInfo = eZMimeType::findByURL( $dir, $file );
+            $fileInfo['mimetype'] = $mimeInfo['name'];
         }
         // Non-readable? -> MIME type fallback to 'application/x-non-readable'
         else
@@ -243,12 +245,17 @@ function getFileInfo( $dir, $file )
 }
 
 
-/* The eZWebDAVFileServer class
-   Enables local file administration/management through the WebDAV interface.
-*/
 class eZWebDAVFileServer extends eZWebDAVServer
 {
-    // Override head function.
+    function eZWebDAVFileServer()
+    {
+        $this->eZWebDAVServer();
+    }
+
+    /*!
+     \reimp
+     Returns if the file \a $target exists or not
+    */
     function head( $target )
     {
         // Make real path.
@@ -267,7 +274,10 @@ class eZWebDAVFileServer extends eZWebDAVServer
         }
     }
 
-    // Override put function.
+    /*!
+     \reimp
+     Renames the temp file \a $tempFile to \a $target.
+    */
     function put( $target, $tempFile )
     {
         // Make real path.
@@ -283,19 +293,19 @@ class eZWebDAVFileServer extends eZWebDAVServer
         if ( $status )
         {
             append_to_log( "move of tempfile was OK" );
-            // OK!
             return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "move of tempfile FAILED" );
-
-            // No deal!
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
     }
 
-    // Override get function.
+    /*!
+     \reimp
+     \return An information structure with the filename.
+    */
     function get( $target )
     {
         $result         = array();
@@ -303,14 +313,17 @@ class eZWebDAVFileServer extends eZWebDAVServer
         $result["file"] = false;
 
         // Set the file.
-        $result["file"] = $_SERVER["DOCUMENT_ROOT"].$target;
+        $result["file"] = $_SERVER["DOCUMENT_ROOT"] . $target;
 
         append_to_log( "GET: file is ".$result["file"]);
 
         return $result;
     }
 
-    // Override mkdir function.
+    /*!
+     \reimp
+     Creates the directory \a $target
+    */
     function mkcol( $target )
     {
         // Make real path.
@@ -343,11 +356,14 @@ class eZWebDAVFileServer extends eZWebDAVServer
         }
     }
 
-    // Override delete function
+    /*!
+     \reimp
+     Removes the directory or file \a $target
+    */
     function delete( $target )
     {
         // Make real path.
-        $realPath = $_SERVER["DOCUMENT_ROOT"].$target;
+        $realPath = $_SERVER["DOCUMENT_ROOT"] . $target;
 
         append_to_log( "attempting to DELETE: $realPath" );
 
@@ -356,13 +372,11 @@ class eZWebDAVFileServer extends eZWebDAVServer
         {
             append_to_log( "File/dir exists..." );
 
-            // Check if target is a directory.
             if ( is_dir( $realPath ) )
             {
                 // Attempt to remove the target directory.
                 $status = delDir( $realPath );
             }
-            // Else: the target is a file.
             else
             {
                 append_to_log( "File is a file..." );
@@ -375,32 +389,31 @@ class eZWebDAVFileServer extends eZWebDAVServer
             if ( $status )
             {
                 append_to_log( "delete was OK" );
-                // OK!
                 return EZ_WEBDAV_OK;
             }
             else
             {
                 append_to_log( "delete FAILED" );
-
-                // No deal!
                 return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
         else
         {
-            // Non-existent file/dir:
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
     }
 
-    // Override move function.
+    /*!
+     \reimp
+     Moves the file or directory \a $source to \a $destination by trying to rename it.
+    */
     function move( $source, $destination )
     {
         append_to_log( "Source: $source   Destination: $destination" );
 
         // Make real path to source and destination.
-        $realSource      = $_SERVER["DOCUMENT_ROOT"].$source;
-        $realDestination = $_SERVER["DOCUMENT_ROOT"].$destination;
+        $realSource      = $_SERVER["DOCUMENT_ROOT"] . $source;
+        $realDestination = $_SERVER["DOCUMENT_ROOT"] . $destination;
 
         append_to_log( "RealSource: $realSource   RealDestination: $realDestination" );
         $status = rename( $realSource, $realDestination );
@@ -408,27 +421,27 @@ class eZWebDAVFileServer extends eZWebDAVServer
         if ( $status )
         {
             append_to_log( "move was OK" );
-            // OK!
             return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "move FAILED" );
-
-            // No deal!
             return EZ_WEBDAV_FAILED_CONFLICT;
         }
     }
 
-    // Override copy function.
+    /*!
+     \reimp
+     Copies the file or directory \a $source to \a $destination.
+    */
     function copy( $source, $destination )
     {
         append_to_log( "Source: $source   Destination: $destination" );
         ob_start(); var_dump( $_SERVER ); $m = ob_get_contents(); ob_end_clean(); append_to_log( $m );
 
         // Make real path to source and destination.
-        $realSource      = $_SERVER["DOCUMENT_ROOT"].$source;
-        $realDestination = $_SERVER["DOCUMENT_ROOT"].$destination;
+        $realSource      = $_SERVER["DOCUMENT_ROOT"] . $source;
+        $realDestination = $_SERVER["DOCUMENT_ROOT"] . $destination;
 
         append_to_log( "RealSource: $realSource   RealDestination: $realDestination" );
         $status = copyDir( $realSource, $realDestination );
@@ -436,22 +449,22 @@ class eZWebDAVFileServer extends eZWebDAVServer
         if ( $status )
         {
             append_to_log( "copy was OK" );
-            // OK!
             return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "copy FAILED" );
-
-            // No deal!
             return EZ_WEBDAV_FAILED_CONFLICT;
         }
     }
 
-    // Override getCollectionContent function (dir list).
+    /*!
+     \reimp
+     Finds all files and directories in the directory \a $dir and return an element list of it.
+    */
     function getCollectionContent( $dir )
     {
-        $directory = dirname( $_SERVER["PATH_TRANSLATED"] ).$dir;
+        $directory = dirname( $_SERVER["PATH_TRANSLATED"] ) . $dir;
 
         $files  = array();
 
@@ -462,16 +475,11 @@ class eZWebDAVFileServer extends eZWebDAVServer
         while ( $filename = readdir( $handle ) )
         {
             // Skip current and parent dirs ('.' and '..').
-            if ( $filename != '.' && $filename != '..' )
-            {
-                // Get the file/dir info.
-                $files[] = getFileInfo( $directory, $filename );
-                append_to_log( "inside getDirectoryContent, dir: $directory, fil: $filename" );
-
-            }
+            if ( $filename == '.' or $filename == '..' )
+                continue;
+            $files[] = getFileInfo( $directory, $filename );
+            append_to_log( "inside getDirectoryContent, dir: $directory, fil: $filename" );
         }
-
-        // Return array with file information.
         return $files;
     }
 }
