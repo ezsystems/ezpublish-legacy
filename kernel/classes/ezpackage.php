@@ -161,7 +161,7 @@ class eZPackage
      \static
      \return An associative array with the possible types for a package.
              Each entry contains an \c id and a \c name key.
-    */    
+    */
     function typeList()
     {
         $typeList =& $GLOBALS['eZPackageTypeList'];
@@ -178,7 +178,7 @@ class eZPackage
         }
         return $typeList;
     }
-    
+
     /*!
      \static
      \return An associative array with the possible states for a package.
@@ -399,7 +399,7 @@ class eZPackage
 //         }
 //         return $attributeValue;
     }
-    
+
     function canUsePolicyFunction( $functionName )
     {
 		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
@@ -444,7 +444,7 @@ class eZPackage
 		    $canUse = false;
 			if ( $accessResult['accessWord'] == 'yes' )
 			{
-    		    $canUse = true;
+		    $canUse = true;
 			}
 			else if ( $accessResult['accessWord'] == 'limited' )
 			{
@@ -549,7 +549,7 @@ class eZPackage
 		}
 		return $roleNameList;
 	}
-	
+
 	function maintainerRoleListForRoles()
 	{
 		$ini =& eZINI::instance( 'package.ini' );
@@ -563,7 +563,7 @@ class eZPackage
 		}
 		return $roleNameList;
 	}
-	
+
 	function maintainerRoleName( $roleID )
 	{
 		$nameMap = array( 'lead' => 'Lead',
@@ -794,7 +794,7 @@ class eZPackage
         }
         return $thumbnails;
     }
-    
+
     function fileCount()
     {
         $count = 0;
@@ -1234,7 +1234,7 @@ class eZPackage
             if ( $package )
             {
                 $packageName = $package->attribute( 'name' );
-                
+
                 $existingPackage =& eZPackage::fetch( $packageName );
                 if ( $existingPackage )
                 {
@@ -1646,7 +1646,7 @@ class eZPackage
                 }
                 $package =& $this->fetch( $packageName );
                 if ( !$package )
-                        continue;
+                    continue;
                 $packages[] =& $package;
             }
         }
@@ -2482,7 +2482,7 @@ class eZPackage
                     if ( $fileItem['md5'] )
                         $fileAttributes['md5sum'] = $fileItem['md5'];
                     if ( $fileItem['modified'] and !$exportFormat )
-                         $fileAttributes['modified'] = $fileItem['modified'];
+                        $fileAttributes['modified'] = $fileItem['modified'];
                     if ( $fileItem['name'] )
                     {
                         $fileListNode->appendChild( $dom->createElementNode( 'file', $fileAttributes ) );

@@ -1835,7 +1835,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
 
-        if ( $nodeID != '' )
+        if ( $nodeID != '' && is_numeric( $nodeID ) )
         {
             if ( $nodeID != 1 )
             {

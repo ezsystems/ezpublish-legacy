@@ -9,5 +9,7 @@
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/bookmarks_template_typos ( merged from stable 4305 )
 
 *Kernel:
-- Fixed editing PDF exports
+- Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
+- Improved RSS 0.91, 0.92 and 2.0 import: http://ez.no/developer/ez_publish_3/bug_reports/rss_import_does_not_import_ez2_rss_092_feed
 - Added function setGroups to eZINI
+

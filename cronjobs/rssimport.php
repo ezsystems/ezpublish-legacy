@@ -101,137 +101,44 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 
     $root =& $domDocument->root();
 
+    switch( $root->attributeValue( 'version' ) )
+    {
+        default:
+        case '1.0':
+        {
+            rssImport1( $root, $rssImport, $cli );
+        } break;
+
+        case '0.91':
+        case '0.92':
+        case '2.0':
+        {
+            rssImport2( $root, $rssImport, $cli );
+        } break;
+    }
+
+}
+
+/*!
+  Parse RSS 1.0 feed
+
+  \param DOM root node
+  \param RSS Import item
+  \param cli
+*/
+function rssImport1( &$root, &$rssImport, &$cli )
+{
+    $addCount = 0;
+
     // Get all items in rss feed
     $itemArray =& $root->elementsByName( 'item' );
-
-    $rssImportID =& $rssImport->attribute( 'id' );
-    $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
-    $parentContentObjectTreeNode =& eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
-    $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
 
     // Loop through all items in RSS feed
     foreach ( array_keys ( $itemArray ) as $itemKey )
     {
         $item =& $itemArray[$itemKey];
 
-        $title =& $item->elementByName( 'title' );
-        $link =& $item->elementByName( 'link' );
-        $description =& $item->elementByName( 'description' );
-
-        $md5Sum = md5( $link->textContent() );
-
-        // Try to fetch RSSImport object with md5 sum matching link.
-        $existingObject =& eZPersistentObject::fetchObject( eZContentObject::definition(), null,
-                                                            array( 'remote_id' => 'RSSImport_'.$rssImportID.'_'.$md5Sum ) );
-
-        // if object exists, continue to next import item
-        if ( $existingObject != null )
-        {
-            unset( $existingObject ); // delete object to preserve memory
-            if ( !$isQuiet )
-            {
-                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
-                continue;
-            }
-        }
-
-/*        if ( !$isQuiet )
-        {
-            if ( $title != null )
-                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Title: '. $title->textContent() );
-            if ( $link != null )
-                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Link: '. $link->textContent() );
-            if ( $description != null )
-                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Description: '. $description->textContent() );
-        } */
-
-        // Fetch class, and create ezcontentobject from it.
-        $contentClass =& eZContentClass::fetch( $rssImport->attribute( 'class_id' )  );
-
-        // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
-        $contentObject =& $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
-        $contentObject->store();
-
-        // Create node assignment
-        $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                            'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                            'is_main' => 1,
-                                                            'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
-        $nodeAssignment->store();
-
-        $version =& $contentObject->version( 1 );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-        $version->store();
-
-        // Get object attributes, and set their values and store them.
-        $dataMap =& $contentObject->dataMap();
-
-        $attributeTitle =& $dataMap[$rssImport->attribute( 'class_title' )];
-        if ( $attributeTitle != null && $title != null )
-        {
-            if ( get_class( $attributeTitle->attribute( 'content' ) ) == 'ezxmltext' )
-            {
-                setEZXMLAttribute( $attributeTitle, $title->textContent() );
-            }
-            else
-            {
-                $attributeTitle->setAttribute( 'data_text', $title->textContent() );
-            }
-            $attributeTitle->store();
-        }
-        else if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find title map for : '.$rssImport->attribute( 'class_title' ) );
-        }
-
-        $attributeLink =& $dataMap[$rssImport->attribute( 'class_url' )];
-        if ( $attributeLink != null && $link != null )
-        {
-            if ( get_class( $attributeLink->attribute( 'content' ) ) == 'ezxmltext' )
-            {
-                setEZXMLAttribute( $attributeLink, $link->textContent() );
-            }
-            else
-            {
-                $attributeLink->setContent( $link->textContent() );
-            }
-            $attributeLink->store();
-        }
-        else if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find link map for : '.$rssImport->attribute( 'class_link' ) );
-        }
-
-        $attributeDescription =& $dataMap[$rssImport->attribute( 'class_description' )];
-        if ( $attributeDescription != null && $description != null )
-        {
-            if ( get_class( $attributeDescription->attribute( 'content' ) ) == 'ezxmltext' )
-            {
-                setEZXMLAttribute( $attributeDescription, $description->textContent() );
-            }
-            else
-            {
-                $attributeDescription->setAttribute( 'data_text', $description->textContent() );
-            }
-            $attributeDescription->store();
-        }
-        else if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find description map for : '.$rssImport->attribute( 'class_descriptione' ) );
-        }
-
-        $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'.md5( $link->textContent() ) );
-        $contentObject->store();
-
-        //publish new object
-        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
-                                                                                     'version' => 1 ) );
-
-        if ( !$isQuiet )
-        {
-            $addCount++;
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; '.$title->textContent() );
-        }
+        $addCount += importRSSItem( $item, $rssImport, $cli );
     }
 
     if ( !$isQuiet )
@@ -239,6 +146,160 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
     }
 
+}
+
+/*!
+  Parse RSS 2.0 feed
+
+  \param DOM root node
+  \param RSS Import item
+  \param cli
+*/
+function rssImport2( &$root, &$rssImport, &$cli )
+{
+    $addCount = 0;
+
+    // Get all items in rss feed
+    $channel =& $root->elementByName( 'channel' );
+
+    // Loop through all items in RSS feed
+    foreach ( $channel->elementsByName( 'item' ) as $item )
+    {
+        $addCount += importRSSItem( $item, $rssImport, $cli );
+    }
+
+    if ( !$isQuiet )
+    {
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
+    }
+
+}
+
+/*!
+ Import specifiec rss item into content tree
+
+ \param RSS item xml element
+ \param $rssImport Object
+ \param cli
+
+ \return 1 if object added, 0 if not
+*/
+function importRSSItem( &$item, &$rssImport, &$cli )
+{
+    $rssImportID =& $rssImport->attribute( 'id' );
+    $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
+    $parentContentObjectTreeNode =& eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
+    $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
+
+    $title =& $item->elementByName( 'title' );
+    $link =& $item->elementByName( 'link' );
+    $description =& $item->elementByName( 'description' );
+
+    $md5Sum = md5( $link->textContent() );
+
+    // Try to fetch RSSImport object with md5 sum matching link.
+    $existingObject =& eZPersistentObject::fetchObject( eZContentObject::definition(), null,
+                                                        array( 'remote_id' => 'RSSImport_'.$rssImportID.'_'.$md5Sum ) );
+
+    // if object exists, continue to next import item
+    if ( $existingObject != null )
+    {
+        unset( $existingObject ); // delete object to preserve memory
+        if ( !$isQuiet )
+        {
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
+            return 0;
+        }
+    }
+
+    // Fetch class, and create ezcontentobject from it.
+    $contentClass =& eZContentClass::fetch( $rssImport->attribute( 'class_id' )  );
+
+    // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
+    $contentObject =& $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
+    $contentObject->store();
+
+    // Create node assignment
+    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                        'is_main' => 1,
+                                                        'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
+    $nodeAssignment->store();
+
+    $version =& $contentObject->version( 1 );
+    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->store();
+
+    // Get object attributes, and set their values and store them.
+    $dataMap =& $contentObject->dataMap();
+
+    $attributeTitle =& $dataMap[$rssImport->attribute( 'class_title' )];
+    if ( $attributeTitle != null && $title != null )
+    {
+        if ( get_class( $attributeTitle->attribute( 'content' ) ) == 'ezxmltext' )
+        {
+            setEZXMLAttribute( $attributeTitle, $title->textContent() );
+        }
+        else
+        {
+            $attributeTitle->setAttribute( 'data_text', $title->textContent() );
+        }
+        $attributeTitle->store();
+    }
+    else if ( !$isQuiet )
+    {
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find title map for : '.$rssImport->attribute( 'class_title' ) );
+    }
+
+    $attributeLink =& $dataMap[$rssImport->attribute( 'class_url' )];
+    if ( $attributeLink != null && $link != null )
+    {
+        if ( get_class( $attributeLink->attribute( 'content' ) ) == 'ezxmltext' )
+        {
+            setEZXMLAttribute( $attributeLink, $link->textContent() );
+        }
+        else
+        {
+            $attributeLink->setContent( $link->textContent() );
+        }
+        $attributeLink->store();
+    }
+    else if ( !$isQuiet )
+    {
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find link map for : '.$rssImport->attribute( 'class_link' ) );
+    }
+
+    $attributeDescription =& $dataMap[$rssImport->attribute( 'class_description' )];
+    if ( $attributeDescription != null && $description != null )
+    {
+        if ( get_class( $attributeDescription->attribute( 'content' ) ) == 'ezxmltext' )
+        {
+            setEZXMLAttribute( $attributeDescription, $description->textContent() );
+        }
+        else
+        {
+            $attributeDescription->setAttribute( 'data_text', $description->textContent() );
+        }
+        $attributeDescription->store();
+    }
+    else if ( !$isQuiet )
+    {
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find description map for : '.$rssImport->attribute( 'class_descriptione' ) );
+    }
+
+    $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'.md5( $link->textContent() ) );
+    $contentObject->store();
+
+    //publish new object
+    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
+                                                                                 'version' => 1 ) );
+
+    if ( !$isQuiet )
+    {
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; '.$title->textContent() );
+    }
+
+    return 1;
 }
 
 function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
