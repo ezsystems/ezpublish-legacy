@@ -628,8 +628,12 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
 
     */
 
-    if( eZPreferences::value( 'admin_edit_show_locations' ) == '0') 
-        return;
+    $siteINI =& eZINI::instance( 'site.ini' );
+    if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) != 'enabled' )
+    {
+        if( eZPreferences::value( 'admin_edit_show_locations' ) == '0')
+            return;
+    }
 
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
