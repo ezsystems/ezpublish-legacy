@@ -54,7 +54,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="RetryButton" value="{'Retry'|i18n( 'design/admin/class/edit_denied' )}" />
-<input class="button" type="submit" name="CancelEditButton" value="{'Cancel'|i18n( 'design/admin/class/edit_denied' )}" />
+<input class="button" type="submit" name="CancelConflictButton" value="{'Cancel'|i18n( 'design/admin/class/edit_denied' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

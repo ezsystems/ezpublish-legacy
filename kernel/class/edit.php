@@ -64,6 +64,13 @@ switch ( $Params['FunctionName'] )
         return;
     };
 }
+
+$http =& eZHttpTool::instance();
+if ( $http->hasPostVariable( 'CancelConflictButton' ) )
+{
+    $Module->redirectToView( 'grouplist' );
+}
+
 if ( is_numeric( $ClassID ) )
 {
     $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
@@ -123,7 +130,7 @@ else
     return;
 }
 
-$http =& eZHttpTool::instance();
+
 $contentClassHasInput = true;
 if ( $http->hasPostVariable( 'ContentClassHasInput' ) )
     $contentClassHasInput = $http->postVariable( 'ContentClassHasInput' );
