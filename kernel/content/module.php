@@ -77,6 +77,14 @@ $ViewList["view"] = array(
                                  "offset" => "Offset" )
     );
 
+$ViewList["copy"] = array(
+    "functions" => array( 'edit' ),
+    "script" => "copy.php",
+    'single_post_actions' => array( 'CopyButton' => 'Copy',
+                                    'CancelButton' => 'Cancel' ),
+    'post_action_parameters' => array( 'Copy' => array( 'VersionChoice' => 'VersionChoice' ) ),
+    "params" => array( "ObjectID" ) );
+
 
 $ViewList["versionview"] = array(
     "functions" => array( 'versionread' ),

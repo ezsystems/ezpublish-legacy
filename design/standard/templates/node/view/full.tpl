@@ -119,6 +119,9 @@
     <th>
     {"Edit:"|i18n("design/standard/node/view")}
     </th>
+    <th>
+    {"Copy:"|i18n("design/standard/node/view")}
+    </th>
     <th colspan="2" align="right">
     {"Remove:"|i18n("design/standard/node/view")}
     </th>
@@ -136,6 +139,7 @@
           <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
 	</td>
 	{/section}
+
 	{switch name=sw match=$Child:item.object.can_edit}
         {case match=1}
 	<td width="1%" class="{$Child:sequence}">
@@ -147,6 +151,10 @@
 	</td>
         {/case}
         {/switch}
+        <td class="{$Child:sequence}">
+          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
+        </td>
+
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
 	<td class="{$Child:sequence}" align="right" width="1%">
@@ -179,6 +187,8 @@
     {/switch}
     </td>
     {/section}
+    <td>
+    </td>
     <td>
     </td>
     <td>

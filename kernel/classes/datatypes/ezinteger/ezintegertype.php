@@ -151,14 +151,14 @@ class eZIntegerType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion )
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-            $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
-                                                                        $currentVersion );
-            $dataInt = $currentObjectAttribute ->attribute( "data_int" );
+//             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//                                                                         $currentVersion );
+            $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
             $contentObjectAttribute->setAttribute( "data_int", $dataInt );
         }
         else

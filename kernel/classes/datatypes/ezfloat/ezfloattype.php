@@ -67,14 +67,14 @@ class eZFloatType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion  )
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-            $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
-                                                                        $currentVersion );
-            $dataFloat = $currentObjectAttribute ->attribute( "data_float" );
+//             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//                                                                         $currentVersion );
+            $dataFloat = $originalContentObjectAttribute->attribute( "data_float" );
             $contentObjectAttribute->setAttribute( "data_float", $dataFloat );
         }
         else

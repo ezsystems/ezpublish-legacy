@@ -323,7 +323,7 @@ class eZDataType
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentVersion )
+    function initializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
     }
 

@@ -103,7 +103,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion )
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
          $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
          if ( $contentClassAttribute->attribute( "data_int1" ) == 0 )

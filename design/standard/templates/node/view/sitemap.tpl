@@ -33,8 +33,9 @@
 	<th>{"Section ID:"|i18n("design/standard/node/view")}</th>
 	<th>{"Class:"|i18n("design/standard/node/view")}</th>
 	<th>{"Edit:"|i18n("design/standard/node/view")}</th>
-	<th align="right">
-	{"Remove:"|i18n("design/standard/node/view")}
+	<th>{"Copy:"|i18n("design/standard/node/view")}</th>
+	<th>
+	<nobr>{"Remove:"|i18n("design/standard/node/view")}</nobr>
 	</th>
 </tr>
 
@@ -63,6 +64,9 @@
         {/switch} 
         </td>
         <td class="{$Tree:sequence}">
+          <a href={concat("content/copy/",$Tree:item.object.id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
+        </td>
+        <td class="{$Tree:sequence}">
 	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
              <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.node_id}" align="top" />
@@ -78,8 +82,9 @@
 	<td></td>
 	<td></td>
 	<td></td>
-	<td align="right">
-	<input class="button" type="submit" name="RemoveButton" value="Remove" />
+	<td></td>
+	<td width="1%">
+	<input class="button" type="image" src={"remove.png"|ezimage} name="RemoveButton" value="Remove" />
 	</td>
 </tr>
 </table>

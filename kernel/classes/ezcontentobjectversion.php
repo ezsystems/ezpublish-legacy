@@ -562,16 +562,19 @@ class eZContentObjectVersion extends eZPersistentObject
      Clones the version with new version \a $newVersionNumber and creator \a $userID
      \note The cloned version is not stored.
     */
-    function &clone( $newVersionNumber, $userID )
+    function &clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
+        if ( $contentObjectID !== false )
+            $clonedVersion->setAttribute( 'contentobject_id', $contentObjectID );
         $clonedVersion->setAttribute( 'version', $newVersionNumber );
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'creator_id', $userID );
-        $clonedVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        if ( $status !== false )
+            $clonedVersion->setAttribute( 'status', $status );
         return $clonedVersion;
     }
 

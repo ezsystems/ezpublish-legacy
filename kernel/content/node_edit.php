@@ -395,10 +395,28 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
         $assignedNode =& $assignedNodeArray[$assignedNodeKey];
         $remoteID = $assignedNode->attribute( 'remote_id' );
         if ( $remoteID > 0 )
-            $remoteMap[$remoteID] =& $assignedNode;
+        {
+            if ( isset( $remoteMap[$remoteID] ) )
+            {
+                if ( is_array( $remoteMap[$remoteID] ) )
+                    $remoteMap[$remoteID][] =& $assignedNode;
+                else
+                {
+                    $currentRemote =& $remoteMap[$remoteID];
+                    unset( $remoteMap[$remoteID] );
+                    $remoteMap[$remoteID] = array();
+                    $remoteMap[$remoteID][] =& $currentRemote;
+                    $remoteMap[$remoteID][] =& $assignedNode;
+                }
+            }
+            else
+                $remoteMap[$remoteID] =& $assignedNode;
+        }
     }
-    $currentVersion =& $object->currentVersion();
-    $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
+    $currentVersion =& $object->version( $editVersion );
+    $publishedNodeArray = array();
+    if ( $currentVersion !== null )
+        $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'assigned_remote_map', $remoteMap );

@@ -120,6 +120,8 @@ class eZContentOperationCollection
             $versionNum = $object->attribute( 'current_version' );
         }
         $version =& $object->version( $versionNum );
+        if ( $version === null )
+            return;
         switch ( $status )
         {
             case 1:

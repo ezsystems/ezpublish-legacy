@@ -124,11 +124,15 @@ class eZURLOperator
                 $std_file = "design/$std_base/images/$value";
                 $site_file = "design/$site_base/images/$value";
                 if ( file_exists( $site_file ) )
+                {
                     $value = $this->Sys->wwwDir() . "/$site_file";
+                }
                 else if ( file_exists( $std_file ) )
+                {
                     $value = $this->Sys->wwwDir() . "/$std_file";
+                }
                 else
-                    $tpl->warning( 'eZURLOperator', "Image $value does not exist in any design" );
+                    $tpl->warning( $operatorName, "Image '$value' does not exist in any design" );
             } break;
 
             case $this->ExtName:

@@ -289,11 +289,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Initialized the attribute by using the datatype.
     */
-    function initialize( $currentVersion = null )
+    function initialize( $currentVersion = null, &$originalContentObjectAttribute )
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $dataType->initializeObjectAttribute( $this, $currentVersion );
+        $dataType->initializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
     /*!
@@ -323,11 +323,18 @@ class eZContentObjectAttribute extends eZPersistentObject
      Clones the attribute with new version \a $newVersionNumber and old version \a $currentVersionNumber.
      \note The cloned attribute is not stored.
     */
-    function &clone( $newVersionNumber, $currentVersionNumber )
+    function &clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false )
     {
         $tmp = $this;
         $tmp->setAttribute( "version", $newVersionNumber );
-        $tmp->initialize( $currentVersionNumber );
+        if ( $contentObjectID !== false )
+        {
+            if ( $contentObjectID != $tmp->attribute( 'contentobject_id' ) )
+                $tmp->setAttribute( 'id', null );
+            $tmp->setAttribute( 'contentobject_id', $contentObjectID );
+        }
+        $tmp->sync();
+        $tmp->initialize( $currentVersionNumber, $this );
         return $tmp;
     }
 

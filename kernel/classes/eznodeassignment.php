@@ -174,17 +174,18 @@ class eZNodeAssignment extends eZPersistentObject
 
     }
 
-    function &clone( $nextVersionNumber = 1 )
+    function &clone( $nextVersionNumber = 1, $contentObjectID = false )
     {
-        return eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
-                                                'contentobject_version' => $nextVersionNumber,
-                                                'remote_id' => $this->attribute( 'remote_id' ),
-                                                'parent_node' => $this->attribute( 'parent_node' ),
-                                                'sort_field' => $this->attribute( 'sort_field' ),
-                                                'sort_order' => $this->attribute( 'sort_order' ),
-                                                'is_main' => $this->attribute( 'is_main' )
-                                                )
-                                         );
+        $assignmentRow = array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
+                                'contentobject_version' => $nextVersionNumber,
+                                'remote_id' => $this->attribute( 'remote_id' ),
+                                'parent_node' => $this->attribute( 'parent_node' ),
+                                'sort_field' => $this->attribute( 'sort_field' ),
+                                'sort_order' => $this->attribute( 'sort_order' ),
+                                'is_main' => $this->attribute( 'is_main' ) );
+        if ( $contentObjectID !== false )
+            $assignmentRow['contentobject_id'] = $contentObjectID;
+        return eZNodeAssignment::create( $assignmentRow );
     }
 
     function &getParentNode ( )

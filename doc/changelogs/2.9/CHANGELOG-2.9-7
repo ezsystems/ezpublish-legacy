@@ -78,6 +78,8 @@ content:
   check in the standard design directory.
 - content/edit_placement.tpl now has support for limitation placement, the template
   must be overriden to achieve this.
+- Objects can now be copied, either the current version or all versions are copied.
+  The copied object will not be published but will be available for editing.
 
 eZ extension:
 - Added some helper functions for extension include.
@@ -96,6 +98,7 @@ eZTemplate:
 - New type operators, is_array, is_boolean, is_integer, is_float, is_numeric, is_string,
                       is_object, is_class, is_null, is_set, is_unset, get_type and get_class.
 - New control operators, cond and first_set.
+- New arithmetic operator count to get the count of a type, supports arrays and objects.
 
 eZINI:
 - Added support for override directories which are not a subdir
@@ -103,6 +106,7 @@ eZINI:
 - Sitebasics are now only used if available.
 - The main settings/*.ini dir is now used only if it exists, this means
   that ini files can exists in extensions.
+- Variable names can now have _ and - in them.
 
 eZModuleFunctionInfo:
 - Added support for extension definitions.

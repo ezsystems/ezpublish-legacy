@@ -79,7 +79,8 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'operator_names' => array( 'sum', 'sub', 'inc', 'dec',
                                                                'div', 'mod', 'mul',
                                                                'max', 'min',
-                                                               'abs', 'ceil', 'floor', 'round' ) );
+                                                               'abs', 'ceil', 'floor', 'round',
+                                                               'count' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
                                     'operator_names' => array( 'texttoimage', 'image', 'imagefile',

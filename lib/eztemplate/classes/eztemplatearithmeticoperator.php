@@ -61,6 +61,8 @@
   int
   float
 
+  count
+
 */
 
 class eZTemplateArithmeticOperator
@@ -72,7 +74,8 @@ class eZTemplateArithmeticOperator
                                            $divName = 'div', $modName = 'mod', $mulName = 'mul',
                                            $maxName = 'max', $minName = 'min',
                                            $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round',
-                                           $intName = 'int', $floatName = 'float' )
+                                           $intName = 'int', $floatName = 'float',
+                                           $countName = 'count' )
     {
         $this->SumName = $sumName;
         $this->SubName = $subName;
@@ -94,11 +97,14 @@ class eZTemplateArithmeticOperator
         $this->IntName = $intName;
         $this->FloatName = $floatName;
 
+        $this->CountName = $countName;
+
         $this->Operators = array( $sumName, $subName, $incName, $decName,
                                   $divName, $modName, $mulName,
                                   $maxName, $minName,
                                   $absName, $ceilName, $floorName, $roundName,
-                                  $intName, $floatName );
+                                  $intName, $floatName,
+                                  $countName );
     }
 
     /*!
@@ -156,6 +162,22 @@ class eZTemplateArithmeticOperator
     {
         switch ( $operatorName )
         {
+            case $this->CountName;
+            {
+                if ( count( $operatorParameters ) == 0 )
+                    $mixedValue =& $operatorValue;
+                else
+                    $mixedValue =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                if ( count( $operatorParameters ) > 1 )
+                    $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
+                if ( is_array( $mixedValue ) )
+                    $operatorValue = count( $mixedValue );
+                else if ( is_object( $mixedValue ) and
+                          method_exists( $mixedValue, 'attributes' ) )
+                    $operatorValue = count( $mixedValue->attributes() );
+                else
+                    $operatorValue = 0;
+            } break;
             case $this->SumName:
             {
                 if ( count( $operatorParameters ) < 1 )
@@ -358,6 +380,8 @@ class eZTemplateArithmeticOperator
 
     var $IntName;
     var $FloatName;
+
+    var $CountName;
 }
 
 ?>

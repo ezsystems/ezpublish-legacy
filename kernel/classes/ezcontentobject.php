@@ -79,6 +79,7 @@ class eZContentObject extends eZPersistentObject
                                          ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
+                                                      'versions' => 'versions',
                                                       "class_name" => "className",
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "owner" => "owner",
@@ -106,6 +107,7 @@ class eZContentObject extends eZPersistentObject
     function &attribute( $attr )
     {
         if ( $attr == "current" or
+             $attr == 'versions' or
              $attr == "class_name" or
              $attr == "owner" or
              $attr == "contentobject_attributes" or
@@ -122,9 +124,11 @@ class eZContentObject extends eZPersistentObject
         {
             if ( $attr == "current" )
                 return $this->currentVersion();
-            if ( $attr == "class_name" )
+            else if ( $attr == 'versions' )
+                return $this->versions();
+            else if ( $attr == "class_name" )
                 return $this->className();
-            if ( $attr == "owner" )
+            else if ( $attr == "owner" )
                 return $this->owner();
             else if ( $attr == "can_read" )
                 return $this->canRead();
@@ -469,34 +473,42 @@ class eZContentObject extends eZPersistentObject
         // get the next available version number
         $nextVersionNumber = $this->nextVersion();
 
+        if ( $copyFromVersion == false )
+            $version =& $this->currentVersion();
+        else
+            $version =& $this->version( $copyFromVersion );
+
+        $this->copyVersion( $this, $version, $nextVersionNumber );
+    }
+
+    /*!
+     Creates a new version and returns it as an eZContentObjectVersion object.
+     If version number is given as argument that version is used to create a copy.
+    */
+    function &copyVersion( &$object, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
+    {
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
-        if ( $copyFromVersion == false )
-        {
-            $version =& $this->currentVersion();
-        }
-        else
-        {
-            $version =& $this->version( $copyFromVersion );
-        }
-//        eZDebug::writeNotice( $version , 'version' );
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
-
-        //       eZDebug::writeNotice( $nodeAssignmentList , 'nodeAssignmentList' );
-
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
-            $clonedAssignment =& $nodeAssignment->clone( $nextVersionNumber );
+            $clonedAssignment =& $nodeAssignment->clone( $newVersionNumber, $contentObjectID );
             $clonedAssignment->store();
+            eZDebugSetting::writeDebug( 'content-object-copy', $clonedAssignment, 'copyVersion:Copied assignment' );
         }
-
 
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
 
-        $clonedVersion = $version->clone( $nextVersionNumber, $userID );
+        $clonedVersion = $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
+        if ( $contentObjectID !== false )
+        {
+            if ( $clonedVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
+                $clonedVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        }
+        eZDebugSetting::writeDebug( 'content-object-copy', $clonedVersion, 'copyVersion:cloned version' );
 
         $clonedVersion->store();
 
@@ -507,22 +519,94 @@ class eZContentObject extends eZPersistentObject
             foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
             {
                 $attribute =& $contentObjectAttributes[$attributeKey];
-                $clonedAttribute =& $attribute->clone( $nextVersionNumber, $currentVersionNumber );
-                $clonedAttribute->store();
+                $clonedAttribute =& $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID );
+                $clonedAttribute->sync();
+                eZDebugSetting::writeDebug( 'content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
             }
         }
 
-        $relatedObjects =& $this->relatedContentObjectArray( $currentVersionNumber );
-        foreach ( array_keys( $relatedObjects ) as $key  )
+        $relatedObjects =& $object->relatedContentObjectArray( $currentVersionNumber );
+        foreach ( array_keys( $relatedObjects ) as $key )
         {
             $relatedObject =& $relatedObjects[$key];
             $objectID = $relatedObject->attribute( 'id' );
-            $this->addContentObjectRelation( $objectID, $nextVersionNumber );
+            $object->addContentObjectRelation( $objectID, $newVersionNumber );
+            eZDebugSetting::writeDebug( 'content-object-copy', 'Add object relation', 'copyVersion' );
         }
 
         return $version;
 //        return $clonedVersion;
 
+    }
+
+    /*!
+     Creates a new content object instance and stores it.
+    */
+    function &create( $name, $contentclassID, $userID, $sectionID = 0, $version = 1 )
+    {
+        $row = array(
+            "name" => $name,
+            "current_version" => $version,
+            "contentclass_id" => $contentclassID,
+            "permission_id" => 1,
+            "parent_id" => 0,
+            "main_node_id" => 0,
+            "owner_id" => $userID,
+            "section_id" => $sectionID );
+        return new eZContentObject( $row );
+    }
+
+    /*!
+     \return a new clone of the current object which has is
+             ready to be stored with a new ID.
+    */
+    function &clone()
+    {
+        $contentObject = $this;
+        $contentObject->setAttribute( 'id', null );
+        return $contentObject;
+    }
+
+    /*!
+     Makes a copy of the object which is stored and then returns it.
+    */
+    function &copy( $allVersions = true )
+    {
+        eZDebugSetting::writeDebug( 'content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
+        $contentObject =& $this->clone();
+        $contentObject->setAttribute( 'current_version', 0 );
+        $contentObject->store();
+        eZDebugSetting::writeDebug( 'content-object-copy', $contentObject, 'contentObject' );
+
+        $user =& eZUser::currentUser();
+        $userID =& $user->attribute( 'contentobject_id' );
+
+        $versionList = array();
+        if ( $allVersions )
+        {
+            $versions =& $this->versions();
+            for ( $i = 0; $i < count( $versions ); ++$i )
+            {
+                $versionID = $versions[$i]->attribute( 'version' );
+                $versionList[$versionID] =& $versions[$i];
+            }
+        }
+        else
+        {
+            $versionList[1] =& $this->currentVersion();
+        }
+
+        $versionKeys = array_keys( $versionList );
+        foreach ( $versionKeys as $versionNumber )
+        {
+            $currentContentObjectVersion =& $versionList[$versionNumber];
+            $contentObjectVersion =& $contentObject->copyVersion( $contentObject, $currentContentObjectVersion,
+                                                                  $versionNumber, $contentObject->attribute( 'id' ),
+                                                                  false );
+            eZDebugSetting::writeDebug( 'content-object-copy', $contentObjectVersion, 'Copied version' );
+        }
+        eZDebugSetting::writeDebug( 'content-object-copy', 'Copy done', 'copy' );
+        return $contentObject;
     }
 
     /*!
@@ -919,7 +1003,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the related objects.
-    */ 
+    */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
         eZDebug::writeDebug( $objectID, "objectID1111" );
@@ -944,23 +1028,6 @@ class eZContentObject extends eZPersistentObject
             $return[] = new eZContentObject( $object );
         }
         return $return;
-    }
-
-    /*!
-     Creates a new content object instance and stores it.
-    */
-    function &create( $name, $contentclassID, $userID, $sectionID = 0, $version = 1 )
-    {
-        $row = array(
-            "name" => $name,
-            "current_version" => $version,
-            "contentclass_id" => $contentclassID,
-            "permission_id" => 1,
-            "parent_id" => 0,
-            "main_node_id" => 0,
-            "owner_id" => $userID,
-            "section_id" => $sectionID );
-        return new eZContentObject( $row );
     }
 
     /*!
