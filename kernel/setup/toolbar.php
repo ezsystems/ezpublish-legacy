@@ -205,6 +205,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
                                                 'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
                                                 'from_page' => "/setup/toolbar/$currentSiteAccess/$toolbarPosition/" ),
                                          $module );
+                removeRelatedCache( $currentSiteAccess );
                 return;
             }
 
@@ -218,9 +219,9 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
                                                 'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
                                                 'from_page' => "/setup/toolbar/$currentSiteAccess/$toolbarPosition/" ),
                                          $module );
+                removeRelatedCache( $currentSiteAccess );
                 return;
             }
-
         }
     }
     $toolArray = $updatedToolArray;

@@ -13,6 +13,9 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/cache_block_subtree_expiry_table_won_t_be_cleaned_if_an_object_is_deleted
 - Fixed bug of missing function canEdit(), canCreate(), canRemove() in eZContentObjectTreeNode.
   http://ez.no/community/bug_reports/missing_permission_functoins_in_ezcontentobjecttreenode
+- Fixed bug of tool create_object will not show if the root node is selected as 'show in subtree'.
+- Fixed bug of not updating pagelayout cache when using browse button to edit tool parameters.
+
 
 *Library:
 
