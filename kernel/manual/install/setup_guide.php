@@ -48,8 +48,6 @@
 	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
 	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
 	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
-	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt;
-	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
 </ol>
 
 <ol>
