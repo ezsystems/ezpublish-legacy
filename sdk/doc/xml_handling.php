@@ -95,7 +95,8 @@ eZ publish currently support following tags:
 <li> &lt;li&gt;list element inside  &lt;ul&gt or  &lt;ol&gt tag &lt;/li&gt;</li>
 <li> &lt;header&gt;heading text&lt;/header&gt; or &lt;header level="1-6"&gt;heading text
 with defined size&lt;/header&gt; </li>
-<li> &lt;link href="link url"&gt;link text&lt;/link&gt; </li>
+<li> &lt;link href="link url"&gt;link text&lt;/link&gt; or &lt;link id="id"&gt;link
+text&lt;/link&gt; </li>where id is an existing eZ url id.
 <li> &lt;object id="id" view="view type" /&gt;</li> where 'id' should be an existing eZ
 object id and 'view type' could be 'embed', 'text_linked' or not specified.
 <li> &lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt;</li> where

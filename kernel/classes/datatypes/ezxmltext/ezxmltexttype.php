@@ -414,7 +414,11 @@ class eZXMLTextType extends eZDataType
             case 'link' :
             {
                 include_once( 'lib/ezutils/classes/ezmail.php' );
-                $href = $tag->attributeValue( 'href' );
+                $linkID = $tag->attributeValue( 'id' );
+                if ( $linkID != null )
+                    $href =& eZURL::url( $linkID );
+                else
+                    $href = $tag->attributeValue( 'href' );
 
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
 
