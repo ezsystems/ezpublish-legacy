@@ -144,55 +144,7 @@ Database=&lt;name_of_database&gt;
 
 <h3 id="Linux_FreeBSD_Macos_SiteAccess">Siteaccess settings</h3>
 <p>
-	The site access defines how eZ publish will recognize which site you're accessing.
-	eZ publish will then know which database to use, which design to show etc.
-	There are four ways of letting eZ publish recognize a site access, by URI, host name, port or file name.
-	The most common way is to use the host name.
-
-<h4>Host name</h4>
-<p>
-	In this example we will setup a site called mysite.com. And we want to access the admin interface
-	with this url: admin.mysite.com. Open settings/site.ini and set these settings:
-</p>
-
-<pre class="example">[SiteAccessSettings]
-MatchOrder=host
-HostMatchRegexp=^(.+)\.mysite\.com$
-HostMatchSubtextPost=\.mysite\.com
-</pre>
-
-<p>
-	Here we told eZ publish to take the part before .mysite.com of the url and map it to a directory in settings/siteaccess.
-	If we enter 'www.mysite.com' in our browser eZ publish will look for the directory 'www' in settings/siteacces.
-	The next step is then to create a directory in settings/siteaccess called 'www'
-</p>
-
-<pre class="example">$ mkdir settings/siteaccess/www</pre>
-
-<p>
-	Now in settings/siteaccess/www/site.ini.append you can set your own settings that will override the site.ini.
-</p>
-
-<h4>URI</h4>
-<p>
-	We will stick with the mysite.com example, but now we will use URI to recognize different sites.
-	http://localhost/index.php/admin will be our URL to the admin site and http://localhost/index.php the URL to our user site.
-	In settings/site.ini set these settings:
-</p>
-
-<pre class="example">[SiteSettings]
-DefaultAccess=user
-[SiteAccessSettings]
-MatchOrder=uri
-</pre>
-
-<p>
-	With the DefaultAccess variable we told eZ publish to use the 'user' site if it is unable to match a site.
-	This is the same way the eZ publish Windows installer is configured.
-</p>
-
-<p>
-	For more indepth information on site access go to the <a href="siteaccess">site access section</a>
+	For help on how to configure site access, head over to the <a href="siteaccess">site access section</a>
 </p>
 
 <h2 id="Windows_Installation">Installation on Windows</h2>
@@ -287,56 +239,5 @@ AddModule mod_rewrite.c</pre>
 
 <h3 id="Windows_SiteAccess">Siteaccess settings</h3>
 <p>
-	The site access defines how eZ publish will recognize which site you're accessing.
-	eZ publish will then know which database to use, which design to show etc.
-	There are four ways of letting eZ publish recognize a site access, by URI, host name, port or file name.
-	The most common way is to use the host name.
-
-<h4>Host name</h4>
-<p>
-	In this example we will setup a site called mysite.com. And we want to access the admin interface
-	with this url: admin.mysite.com. Open settings/site.ini and set these settings:
+	For help on how to configure site access, head over to the <a href="siteaccess">site access section</a>
 </p>
-
-<pre class="example">[SiteAccessSettings]
-MatchOrder=host
-HostMatchRegexp=^(.+)\.mysite\.com$
-HostMatchSubtextPost=\.mybookstore\.com
-</pre>
-
-<p>
-	Here we told eZ publish to take the part before .mysite.com of the url and map it to a directory in settings/siteaccess.
-	If we enter 'www.mysite.com' in our browser eZ publish will look for the directory 'www' in settings/siteacces.
-	The next step is then to create a directory in settings/siteaccess called 'www'
-</p>
-
-<pre class="example">$ mkdir settings/siteaccess/www</pre>
-
-<p>
-	Now in settings/siteaccess/www/site.ini.append you can set your own settings that will override the site.ini.
-</p>
-
-<h4>URI</h4>
-<p>
-	We will stick with the mysite.com example, but now we will use URI to recognize different sites.
-	http://localhost/index.php/admin will be our URL to the admin site and http://localhost/index.php the URL to our user site.
-	In settings/site.ini set these settings:
-</p>
-
-<pre class="example">[SiteSettings]
-DefaultAccess=user
-[SiteAccessSettings]
-MatchOrder=uri
-</pre>
-
-<p>
-	With the DefaultAccess variable we told eZ publish to use the 'user' site if it is unable to match a site.
-	This is the same way the eZ publish Windows installer is configured.
-</p>
-
-<p>
-	For more indepth information on site access goto the <a href="siteaccess">site access section</a>
-</p>
-
-
-

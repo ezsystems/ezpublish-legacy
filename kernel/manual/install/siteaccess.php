@@ -5,6 +5,9 @@
 	<li><a href="#Siteaccess_configuration">Site access configuration</a></li>
 	<ul>
 		<li><a href="#Host">Host</a></li>
+		<ul>
+			<li><a href="#HostMatchMap">Host Match Map</a></li>
+		</ul>
 		<li><a href="#URI">URI</a></li>
 		<li><a href="#Port">Port</a></li>
 	</ul>
@@ -16,8 +19,7 @@
 	You can have several different sites running on the same eZ publish installation to distinguish
 	between these sites you need to set up something called site access. The site access defines
 	how eZ publish will recognize which site you're accessing. eZ publish will then know which database
-	to use, which design to show etc. There are four ways of letting eZ publish recognize a site access,
-	by URI, host name, port or file name. The most common way is to use the host name.
+	to use, which design to show etc.
 </p>
 
 <h2 id="Siteaccess configuration">Site access configuration</h2>
@@ -25,12 +27,12 @@
 <h3 id="Host">Host</h3>
 
 <p>
-	In this example we will name our site www.mybookstore.com and we will use the admin.mybookstore.com
+	In this example we will name our site 'www.mybookstore.com' and we will use the 'admin.mybookstore.com'
 	as the administration interface. To make eZ publish fetch site access from host names you need to
 	configure a DNS server and point the domains to your web server. When your DNS is up and running
 	and the names resolve to your web server and your eZ publish installation you need to make eZ publish
 	recognize the names and use the correct configuration. To do this you open the configuration file
-	found in settings/site.ini in the root of your eZ publish installation. In site.ini browse down to
+	found in 'settings/site.ini' in the root of your eZ publish installation. In site.ini browse down to
 	the section [SiteAccessSettings] and alter the configuration like shown below. Only the settings
 	you need to change is shown below.
 </p>
@@ -49,7 +51,7 @@ HostMatchSubtextPost=\.mybookstore\.com
 	If we enter 'www.mybookstore.com' in our browser eZ publish will look a directory called 'www' in settings/siteacces.
 
 	Now that eZ publish knows how to distinguish between the two domains we need to create a configuration
-	file for each site. This is done by creating two folders under settings/siteaccess/ which
+	file for each site. This is done by creating two folders under 'settings/siteaccess/' which
 	corresponds to our matches ( 'www' and 'admin' ). In both these folder you need to create a file
 	called site.ini.append. This is the configuration file which will be used to override any of
 	the standard settings in eZ publish. We will keep our example simple and have just made a few
@@ -57,7 +59,7 @@ HostMatchSubtextPost=\.mybookstore\.com
 </p>
 
 <pre class="example">
-file: settings/siteaccess/admin/site.ini.append    
+file: settings/siteaccess/admin/site.ini.append
 
 [SiteSettings]
 LoginPage=custom
@@ -88,11 +90,36 @@ will prefer to use the design for the site found in design/mybookstore, RequireU
 is set so that users do not have to log into eZ publish to browse the website.
 </p>
 
+<h4 id="HostMatch">Host Match Map</h3>
+<p>
+In the previous example we used a regexp to map part of the url to different sites. This is a very
+powerful way of matching, but if you do not have experience or do not understand regexp,
+this approach might be a very difficult. Instead of regexp we can make a list of URL's and tell eZ publish 3
+to match them to a site. See configuration example below.
+</p>
+<pre class="example">file: settings/site.ini
+
+[SiteAccessSettings]
+MatchOrder=host
+HostMatchType=map
+HostMatchMapItems[]=mybookstore.com;user
+HostMatchMapItems[]=www.mybookstore.com;user
+HostMatchMapItems[]=admin.mybookstore.com;admin
+</pre>
+
+<p>
+As you might see from the example we mapped 'mybootkstore.com', 'www.mybookstore.com' to the user site
+and 'admin.mybookstore.com' to the admin site. To make individual settings for the
+two sites edit 'settings/siteaccess/user/site.ini.append' and 'settings/siteaccess/admin/site.ini.append'.
+The site.ini.append will override settings from 'settings/site.ini'
+</p>
+
+
 <h3 id="URI">URI</h3>
 <p>
 	We will stick with the www.mybookstore.com example, but now we will use URI to recognize the different sites.
 	http://www.mybookstore.com/index.php/admin will be our URL to the admin site and http://www.mybookstore/index.php
-	the URL to our user site. Here we only need www.mybookstore.com to point to our web server.
+	the URL to our user site. Here we only need the 'www.mybookstore.com' domain to point to our web server.
 	In settings/site.ini set these settings:
 </p>
 
@@ -132,4 +159,3 @@ MatchOrder=port
 80=user
 81=admin
 </pre>
-
