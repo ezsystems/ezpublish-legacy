@@ -368,6 +368,12 @@ class eZDBSchemaInterface
             if ( $includeData )
             {
                 fputs( $fp, "// This array contains the database data\n" );
+                if ( isset( $data['_info'] ) )
+                {
+                    $info = $data['_info'];
+                    unset( $data['_info'] );
+                    $data['_info'] = $info;
+                }
                 fputs( $fp, '$data = ' . var_export( $this->data( $schema ), true ) . ";\n" );
             }
             fputs( $fp, "\n" . '?>' );
