@@ -284,21 +284,19 @@ CREATE TABLE ezcontentclass (
 -- Dumping data for table 'ezcontentclass'
 --
 
-INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',-1,14,1024392098,1033922265);
-INSERT INTO ezcontentclass VALUES (2,0,'Article','article','<title>',-1,14,1024392098,1036057009);
-INSERT INTO ezcontentclass VALUES (3,0,'User group','user_group','<name>',-1,14,1024392098,1033922064);
-INSERT INTO ezcontentclass VALUES (4,0,'User','user','<first_name> <last_name>',-1,14,1024392098,1033922083);
-INSERT INTO ezcontentclass VALUES (5,0,'Image','','<name>',8,14,1031484992,1035892890);
-INSERT INTO ezcontentclass VALUES (6,0,'Forum','','<name>',14,14,1034181899,1034182029);
-INSERT INTO ezcontentclass VALUES (8,0,'Forum message','','<topic>',14,14,1034185241,1034185314);
-INSERT INTO ezcontentclass VALUES (22,0,'Product','product','<title>',14,14,1034251361,1039700259);
-INSERT INTO ezcontentclass VALUES (23,0,'Product review','product_review','<title>',14,14,1034258928,1035971181);
-INSERT INTO ezcontentclass VALUES (24,0,'Info page','','<name>',14,14,1035882216,1035882267);
-INSERT INTO ezcontentclass VALUES (8,1,'Forum message','','<topic>',14,14,1034185241,1035975697);
-INSERT INTO ezcontentclass VALUES (3,1,'User group','user_group','<name>',-1,14,1024392098,1035975737);
-INSERT INTO ezcontentclass VALUES (25,0,'Link','','<title>',14,14,1037280490,1037280671);
-INSERT INTO ezcontentclass VALUES (26,0,'File','','<name>',14,14,1038917558,1038917625);
-INSERT INTO ezcontentclass VALUES (27,0,'Comment','comment','<subject>',14,14,1045816920,1045819086);
+INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',-1,14,1024392098,1048495167);
+INSERT INTO ezcontentclass VALUES (2,0,'Article','article','<title>',-1,14,1024392098,1048495185);
+INSERT INTO ezcontentclass VALUES (3,0,'User group','user_group','<name>',-1,14,1024392098,1048495321);
+INSERT INTO ezcontentclass VALUES (4,0,'User','user','<first_name> <last_name>',-1,14,1024392098,1048495334);
+INSERT INTO ezcontentclass VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048495356);
+INSERT INTO ezcontentclass VALUES (6,0,'Forum','forum','<name>',14,14,1034181899,1048495203);
+INSERT INTO ezcontentclass VALUES (8,0,'Forum message','forum_message','<topic>',14,14,1034185241,1048495217);
+INSERT INTO ezcontentclass VALUES (22,0,'Product','product','<title>',14,14,1034251361,1048495394);
+INSERT INTO ezcontentclass VALUES (23,0,'Product review','product_review','<title>',14,14,1034258928,1048495257);
+INSERT INTO ezcontentclass VALUES (24,0,'Info page','info_page','<name>',14,14,1035882216,1048495274);
+INSERT INTO ezcontentclass VALUES (25,0,'Link','link','<title>',14,14,1037280490,1048495289);
+INSERT INTO ezcontentclass VALUES (26,0,'File','file','<name>',14,14,1038917558,1048495369);
+INSERT INTO ezcontentclass VALUES (27,0,'Comment','comment','<subject>',14,14,1045816920,1048495302);
 
 --
 -- Table structure for table 'ezcontentclass_attribute'
@@ -334,53 +332,49 @@ CREATE TABLE ezcontentclass_attribute (
 -- Dumping data for table 'ezcontentclass_attribute'
 --
 
-INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (126,0,6,'description','Description','ezxmltext',1,0,3,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (125,0,6,'icon','Icon','ezimage',1,0,2,1,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (124,0,6,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',0,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',0,0,4,2,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (128,0,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (129,0,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (7,1,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (6,1,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (128,1,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (129,1,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (153,0,23,'review','Review','ezxmltext',1,0,5,5,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (152,0,23,'geography','Town, Country','ezstring',1,1,4,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (150,0,23,'rating','Rating','ezenum',1,0,2,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (151,0,23,'reviewer_name','Reviewer Name','ezstring',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (156,0,24,'image','Image','ezimage',1,0,3,1,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (155,0,24,'body','Body','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (128,0,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (160,0,25,'link','Link','ezurl',0,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (156,0,24,'image','Image','ezimage',0,0,3,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (158,0,25,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (159,0,25,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (162,0,26,'description','Description','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (154,0,24,'name','Name','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (145,0,22,'description','Description','ezxmltext',1,0,4,5,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (147,0,22,'price','Price','ezprice',0,1,5,1,0,0,0,1,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (152,0,23,'geography','Town, Country','ezstring',1,1,4,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (153,0,23,'review','Review','ezxmltext',1,0,5,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (126,0,6,'description','Description','ezxmltext',1,0,3,15,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (124,0,6,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (125,0,6,'icon','Icon','ezimage',0,0,2,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (151,0,23,'reviewer_name','Reviewer Name','ezstring',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (149,0,23,'title','Title','ezstring',1,1,1,50,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',0,0,4,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (165,0,27,'message','Message','eztext',1,1,3,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (164,0,27,'subject','Subject','ezstring',1,1,1,40,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (166,0,27,'author','Author','ezstring',1,1,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (147,0,22,'price','Price','ezprice',0,1,5,1,0,0,0,1,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (145,0,22,'description','Description','ezxmltext',1,0,4,20,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,15,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,20,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',1,0,1,255,0,0,0,0,0,0,0,'New article','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',1,1,1,255,0,0,0,0,0,0,0,'New article','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (150,0,23,'rating','Rating','ezenum',1,0,2,0,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (148,0,22,'photo','Photo','ezimage',0,0,6,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (155,0,24,'body','Body','ezxmltext',1,0,2,20,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (163,0,26,'file','File','ezbinaryfile',0,1,3,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (161,0,26,'name','Name','ezstring',1,1,1,0,0,0,0,0,0,0,0,'New file','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (157,0,22,'intro','Intro','ezxmltext',1,0,3,5,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (144,0,22,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','',0);
 INSERT INTO ezcontentclass_attribute VALUES (142,0,22,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (160,0,25,'link','Link','ezurl',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (159,0,25,'description','Description','ezxmltext',1,0,2,2,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (158,0,25,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (163,0,26,'file','File','ezbinaryfile',0,1,3,5,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (162,0,26,'description','Description','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (161,0,26,'name','Name','ezstring',1,1,1,0,0,0,0,0,0,0,0,'New file','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (165,0,27,'message','Message','eztext',1,1,3,10,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (166,0,27,'author','Author','ezstring',1,1,2,0,0,0,0,0,0,0,0,'','','','',0);
-INSERT INTO ezcontentclass_attribute VALUES (164,0,27,'subject','Subject','ezstring',1,1,1,40,0,0,0,0,0,0,0,'','','','',0);
 
 --
 -- Table structure for table 'ezcontentclass_classgroup'
@@ -405,16 +399,14 @@ INSERT INTO ezcontentclass_classgroup VALUES (5,0,3,'Media');
 INSERT INTO ezcontentclass_classgroup VALUES (3,0,2,'');
 INSERT INTO ezcontentclass_classgroup VALUES (6,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (8,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup VALUES (22,0,5,'Book Corner');
-INSERT INTO ezcontentclass_classgroup VALUES (23,0,5,'Book Corner');
 INSERT INTO ezcontentclass_classgroup VALUES (23,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (24,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup VALUES (3,1,2,'');
-INSERT INTO ezcontentclass_classgroup VALUES (8,1,1,'Content');
-INSERT INTO ezcontentclass_classgroup VALUES (22,0,1,'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (22,0,5,'Book Corner');
 INSERT INTO ezcontentclass_classgroup VALUES (25,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (26,0,3,'Media');
 INSERT INTO ezcontentclass_classgroup VALUES (27,0,1,'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (22,0,1,'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (23,0,5,'Book Corner');
 
 --
 -- Table structure for table 'ezcontentclassgroup'
