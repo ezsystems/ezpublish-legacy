@@ -18,3 +18,8 @@ NoQuote:
 /ezpublish-3.4/var/cache/images/root.png
 /ezpublish-3.4/design/standard/stylesheets/core.css
 /ezpublish-3.4/design/standard/images/uml.png
+Variable input:
+"/ezpublish-3.4/index.php/blog/content/view/full/4"
+"/ezpublish-3.4/var/cache/images/root.png"
+"/ezpublish-3.4/design/standard/stylesheets/core.css"
+"/ezpublish-3.4/design/standard/images/uml.png"

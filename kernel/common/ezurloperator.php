@@ -376,16 +376,16 @@ class eZURLOperator
                     $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
                     $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
                     $code = 'foreach ( %3% as %tmp1% )'."\n{\n";
-                    $code = 'if ( file_exists( %tmp1% . \'/images/\' . %1% ) )' . "\n" .'{' . "\n";
+                    $code .= '    if ( file_exists( %tmp1% . \'/images/\' . %1% ) )' . "\n" . '    {' . "\n";
                     if ( $no_slash_prefix == true )
                     {
-                        $code .= '%output% = %3% . \'/images/\' . %1%;' . "\n";
+                        $code .= '        %output% = %tmp1% . \'/images/\' . %1%;' . "\n";
                     }
                     else
                     {
-                        $code .= '%output% = %2% . \'/\' . %3% . \'/images/\' . %1%;' . "\n";
+                        $code .= '        %output% = %2% . \'/\' . %tmp1% . \'/images/\' . %1%;' . "\n";
                     }
-                    $code .= '  }' . "\n" . '}' . "\n" . '%output% = htmlspecialchars( %output% );' . "\n";
+                    $code .= "    }\n}\n" . '%output% = htmlspecialchars( %output% );' . "\n";
 
                     $quote = $this->applyQuotes( '', $parameters[1], true );
 

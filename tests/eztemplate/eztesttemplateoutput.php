@@ -61,6 +61,7 @@ class eZTestTemplateOutput extends eZTestCase
         $tpl =& templateInit();
 
         $tpl->setIsCachingAllowed( false );
+        $tpl->setIsDebugEnabled( false );
         $expected = $tpl->fetch( 'tests/eztemplate/output.tpl' );
         $fp = fopen( 'tests/eztemplate/output.exp', 'w' );
         fwrite( $fp, $expected );
@@ -68,6 +69,8 @@ class eZTestTemplateOutput extends eZTestCase
 
         $tpl->setIsCachingAllowed( true );
         $tpl->reset();
+
+        $tpl->setIsDebugEnabled( false );
         eZTemplateCompiler::setSettings( array( 'compile' => true,
                                                 'comments' => false,
                                                 'accumulators' => false,
