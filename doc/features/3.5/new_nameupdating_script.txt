@@ -1,0 +1,14 @@
+*Title: New script to update name of content objects
+
+*Documentation:
+The new update/common/scripts/updatecontentobjectname.php script is based on the updatesearchindex.php script.
+When running it, it updates the name (from the content class' "object name pattern") of each content object and stores them.
+
+*Testing:
+1. Look at a directory listing objects of a certain type (content class) using the node.name attribute to list objects.
+2. Edit object name pattern of the content class
+3. Look at the directory again - the names have not changed.
+4. Run the updatecontentobjectname.php script
+5. Verify that the name has changed.
+
+*SVN Revisions:
