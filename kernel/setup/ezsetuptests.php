@@ -170,11 +170,32 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 
     // compare the versions
     $currentVersion = phpversion();
-    $compCurrentVersion = str_replace( ".", "", $currentVersion );
-    $compNeededVersion = str_replace( ".", "", $neededVersion );
+    $currentVersionArray = explode( '.', $currentVersion );
+    $neededVersionArray = explode( '.', $neededVersion );
+//    $compCurrentVersion = str_replace( ".", "", $currentVersion );
+//    $compNeededVersion = str_replace( ".", "", $neededVersion );
     $result = false;
-    if ( $compCurrentVersion >= $compNeededVersion )
+    $count = min( count( $currentVersionArray ), count( $neededVersionArray ) );
+    $equal = false;
+    for ( $i = 0; $i < $count; ++$i )
+    {
+        $equal = false;
+        if ( $currentVersionArray[$i] > $neededVersionArray[$i] )
+        {
+            $result = true;
+            break;
+        }
+        else if ( $currentVersionArray[$i] < $neededVersionArray[$i] )
+        {
+            $result = false;
+            break;
+        }
+        $equal = true;
+    }
+    if ( $equal )
         $result = true;
+//    if ( $compCurrentVersion >= $compNeededVersion )
+//        $result = true;
 
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ),
