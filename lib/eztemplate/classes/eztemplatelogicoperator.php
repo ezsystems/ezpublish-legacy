@@ -302,7 +302,41 @@ class eZTemplateLogicOperator
         }
         $newElements = array();
 
-        /* Check if all variables are integers. This is for optimization */
+        if ( $operatorName == 'or' )
+        {
+            $code = '';
+            $counter = 0;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $counter++ )
+                {
+                    $code .= "else ";
+                }
+                $code .= ( "if ( %$counter% )\n" .
+                           "    %output% = %$counter%;\n" );
+                $values[] = $parameter;
+            }
+            $code .= ( "else\n" .
+                       "    %output% = false;\n" );
+        }
+        else if ( $operatorName == 'and' )
+        {
+            $code = '';
+            $counter = 0;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $counter++ )
+                {
+                    $code .= "else ";
+                }
+                $code .= ( "if ( !%$counter% )\n" .
+                           "    %output% = false;\n" );
+                $values[] = $parameter;
+            }
+            $code .= ( "else\n" .
+                       "    %output% = %$counter%;\n" );
+        }
+        else
         {
             $code = '%output% = (';
             $counter = 0;
