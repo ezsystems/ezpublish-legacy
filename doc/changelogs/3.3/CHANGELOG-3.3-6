@@ -7,6 +7,7 @@ Changes from 3.3-5 to 3.3-6
   the eZContentObject::reverseRelatedObjectList function.
 - eZContentObject::reverseRelatedObjectList now only lists relations from published
   versions and not drafts.
+- Added detection of APC in the system information page.
 
 *Setup:
 
