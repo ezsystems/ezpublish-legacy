@@ -158,7 +158,7 @@ Database=&lt;name_of_database&gt;
 <pre class="example">[SiteAccessSettings]
 MatchOrder=host
 HostMatchRegexp=^(.+)\.mysite\.com$
-HostMatchSubtextPost=\.mybookstore\.com
+HostMatchSubtextPost=\.mysite\.com
 </pre>
 
 <p>
