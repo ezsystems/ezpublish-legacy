@@ -1,0 +1,7 @@
+[InfoSettings]
+# The default information collection type
+Type=form
+# Matches class id or identifier to information collection type
+TypeList[]
+TypeList[poll]=poll
+TypeAttribute=collection_type
