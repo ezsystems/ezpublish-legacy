@@ -1097,7 +1097,7 @@ WHERE user_id = '" . $userID . "' AND
         return $str;
     }
 
-    function &hasAccessTo( $module, $function, $accessList = array() )
+    function &hasAccessTo( $module, $function, &$accessList )
     {
         $accessArray = null;
         $ini =& eZINI::instance();

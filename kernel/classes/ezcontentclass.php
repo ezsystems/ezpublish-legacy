@@ -233,7 +233,7 @@ class eZContentClass extends eZPersistentObject
             }
         }
         $user =& eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create', $accessList );
         $accessWord = $accessResult['accessWord'];
         $canInstantiateClasses = 1;
         if ( $accessWord == 'no' )
@@ -285,7 +285,7 @@ class eZContentClass extends eZPersistentObject
 
         //
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessResult =  $user->hasAccessTo( 'content' , 'create', $accessList );
         $accessWord = $accessResult['accessWord'];
 
         $classIDArray = array();

@@ -553,7 +553,7 @@ while ( $moduleRunRequired )
 
             if ( $hasAccessToSite )
             {
-                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0], &$accessList );
+                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0], $accessList );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $moduleName = $module->attribute( 'name' );

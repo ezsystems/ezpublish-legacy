@@ -1833,12 +1833,12 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, $accessList = array() )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, &$accessList )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult =  $user->hasAccessTo( 'content' , $functionName );
+        $accessResult =  $user->hasAccessTo( 'content' , $functionName, $accessList );
         $accessWord = $accessResult['accessWord'];
         if ( $classID === false )
         {
@@ -2097,7 +2097,7 @@ class eZContentObject extends eZPersistentObject
     function &canCreateClassList()
     {
         $user =& eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create', $accessList );
         $accessWord = $accessResult['accessWord'];
 
         if ( $accessWord == 'yes' )
@@ -2146,7 +2146,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
-            $this->Permissions["can_read"] = $this->checkAccess( 'read', false, false, &$accessList );
+            $this->Permissions["can_read"] = $this->checkAccess( 'read', false, false, $accessList );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
@@ -2156,7 +2156,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
-            $this->Permissions["can_create"] = $this->checkAccess( 'create' );
+            $this->Permissions["can_create"] = $this->checkAccess( 'create', false, false, $accessList );
         }
         $p = ( $this->Permissions["can_create"] == 1 );
         return $p;
@@ -2167,13 +2167,13 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', false, false, &$accessList );
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', false, false, $accessList );
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_edit"] = 1;
@@ -2189,13 +2189,13 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
-            $this->Permissions["can_translate"] = $this->checkAccess( 'translate' );
+            $this->Permissions["can_translate"] = $this->checkAccess( 'translate', false, false, $accessList );
             if ( $this->Permissions["can_translate"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_translate"] = 1;
@@ -2212,7 +2212,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
-            $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
+            $this->Permissions["can_remove"] = $this->checkAccess( 'remove', false, false, $accessList );
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;

@@ -80,7 +80,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         }
         $parentContentObject =& $node->attribute( 'object' );
 
-        if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+        if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), $accessList ) == '1' )
         {
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
