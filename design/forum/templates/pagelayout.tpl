@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{cache-block keys=$uri_string}
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,forum_package))}
 <head>
@@ -8,7 +9,8 @@
 
 <style>
     @import url("/design/forum/stylesheets/core.css");
-    @import url("/design/forum/stylesheets/forum.css");
+    @import url("/design/forum/stylesheets/forum_blue.css");
+{*    @import url("/design/forum/stylesheets/forum.css"); *}
 </style>
 </head>
 
@@ -59,7 +61,9 @@
         </div>
     </div>
 
+{/let}
 
+{/cache-block}
     <div id="usermenu">
         <div class="design">
 
@@ -79,6 +83,7 @@
 
         </div>
     </div>
+{cache-block keys=$uri_string}
 
     <div id="maincontent">
         <div class="design">
@@ -90,11 +95,9 @@
            &gt;
            {section name=Path loop=$module_result.path }
                {section show=$Path:item.url}
-                        {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
-                            {section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
-                                <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
-                            {/section}
-                        {/let}
+                   {section show=$:item.node_id|eq(152)|not()}
+                      <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+                   {/section}
                {section-else}
     	      {$Path:item.text|wash}
                {/section}
@@ -104,6 +107,8 @@
 
         </div>
     </div>
+{/cache-block}
+
             {$module_result.content}
         
         </div>
@@ -123,6 +128,5 @@
 </div>
 
 </body>
-{/let}
 </html>
 
