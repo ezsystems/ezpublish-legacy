@@ -12,6 +12,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$most_frequent_phrase_array}
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="block">
@@ -46,7 +47,7 @@
 <div class="break"></div>
 </div>
 </div>
-{section show=$most_frequent_phrase_array}
+
 <table class="list" cellspacing="0">
 <tr>
     <th>
