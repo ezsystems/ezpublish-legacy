@@ -9,16 +9,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 CREATE SEQUENCE ezapprove_items_s
     START 1
     INCREMENT 1
@@ -3457,13 +3447,5 @@ ALTER TABLE ONLY ezview_counter
 
 ALTER TABLE ONLY ezsubtree_notification_rule
     ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-COMMENT ON SCHEMA public IS 'Standard public namespace';
 
 
