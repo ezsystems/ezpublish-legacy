@@ -31,6 +31,8 @@ update ezpolicy_limitation set function_name='read', module_name='content', iden
 # alter command: alter table ezworkflow_process alter  column session_key SET DEFAULT '0';
 alter table ezworkflow_process add column session_key varchar(32) NOT NULL DEFAULT '0';
 alter table ezworkflow_process add column process_key char(32) NOT NULL ;
+alter table  ezworkflow_process add column parameters text;
+alter table  ezworkflow_process add column memento_key char(32);
 
 # Change data type for messages
 alter table ezmessage change title title varchar(255);
@@ -50,11 +52,15 @@ id int NOT NULL auto_increment,
 main_key int NOT NULL default 0,
 memento_key varchar(32) NOT NULL,
 memento_data text NOT NULL,
+main int NOT NULL default 0,
 PRIMARY KEY(id, memento_key) );
-
 
 # After beta 3
 alter table ezcontentclass_attribute add is_information_collector int not null default 0;
+
+alter table ezworkflow_group_link drop PRIMARY KEY;
+alter table ezworkflow_group_link modify COLUMN workflow_version int not null default 0;
+alter table ezworkflow_group_link add PRIMARY KEY ( workflow_id,group_id,workflow_version);
 
 
 CREATE TABLE ezvattype (
