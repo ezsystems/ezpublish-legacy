@@ -87,6 +87,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added missing template node/view/listitem.tpl
   http://ez.no/community/bug_reports/missing_template_file
   (Merged from stable/3.4 rev. 7935)
+- Fixed bug in eZMatrix datatype when adding/removing/changing columns.
+  http://ez.no/community/bug_reports/new_matrix_columns_dont_show_in_existing_objects
+  (Merged from stable/3.4 rev.7946)
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
