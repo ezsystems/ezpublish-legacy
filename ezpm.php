@@ -74,7 +74,7 @@ function help()
 function helpCreate()
 {
     print( "create: Create a new package.\n" .
-           "usage: create NAME [SUMMARY [LICENCE [VERSION]]] [PARAMETERS]\n" .
+           "usage: create NAME [SUMMARY [VERSION [LICENCE]]] [PARAMETERS]\n" .
            "\n" .
            "Parameters:\n"
            );
@@ -418,10 +418,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     $commandItem['name'] = $arg;
                 else if ( $commandItem['summary'] === false )
                     $commandItem['summary'] = $arg;
-                else if ( $commandItem['licence'] === false )
-                    $commandItem['licence'] = $arg;
                 else if ( $commandItem['version'] === false )
                     $commandItem['version'] = $arg;
+                else if ( $commandItem['licence'] === false )
+                    $commandItem['licence'] = $arg;
             }
             else if ( $commandItem['command'] == 'set' )
             {
@@ -507,6 +507,10 @@ foreach ( $commandList as $commandItem )
             exit();
         }
     }
+    else if ( in_array( $commandItem['command'],
+                        array( 'list' ) ) )
+    {
+    }
     else if ( $commandItem['command'] == 'help' )
     {
         helpHelp();
@@ -520,7 +524,7 @@ foreach ( $commandList as $commandItem )
 }
 
 if ( $webOutput )
-    $useColors = false;
+    $useColors = true;
 
 $cli->setUseStyles( $useColors );
 $script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
@@ -544,7 +548,7 @@ foreach ( $commandList as $commandItem )
             $cli->output( "The following packages are installed:" );
             foreach ( $packages as $package )
             {
-                $cli->output( $package->attribute( 'name' ) . ' (' . $package->attribute( 'summary' ) . ')' );
+                $cli->output( $package->attribute( 'name' ) . '-' . $package->attribute( 'version-number' ) . '-' . $package->attribute( 'release-number' ) . ' (' . $package->attribute( 'summary' ) . ')' );
             }
         }
         else
@@ -555,15 +559,13 @@ foreach ( $commandList as $commandItem )
         $package =& eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
-            $release = $package->attribute( 'release' );
             $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
-            $cli->output( "Version     : " . $release['version']['number'] . str_repeat( ' ', 30 - strlen( $release['version']['number'] ) ) . "Source  : " . $package->attribute( 'source' ) );
-            $cli->output( "Release     : " . $release['version']['release'] . str_repeat( ' ', 30 - strlen( $release['version']['release'] ) ) . "Licence : " . $package->attribute( 'release', array( 'licence' ) ) );
-            $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'release', array( 'state' ) ) );
-            $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish', array( 'named-version' ) ) .
-                          " (" . $package->attribute( 'ezpublish', array( 'version' ) ) . ")" );
-            $cli->output( "Description : "  );
-            $cli->output( $package->attribute( 'description' ) );
+            $cli->output( "Version     : " . $package->attribute( 'version-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'version-number' ) ) ) . "Source  : " . $package->attribute( 'source' ) );
+            $cli->output( "Release     : " . $package->attribute( 'release-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'release-number' ) ) ) . "Licence : " . $package->attribute( 'licence' ) );
+            $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'state' ) );
+            $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
+                          " (" . $package->attribute( 'ezpublish-version' ) . ")" );
+            $cli->output( "Description : " . $package->attribute( 'description' ) );
         }
         else
             $cli->output( "package " . $commandItem['name'] . " is not installed" );
@@ -643,6 +645,8 @@ foreach ( $commandList as $commandItem )
                     case 'state':
                     {
                         $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
+                        $cli->notice( "Attribute " . $cli->style( 'emphasize' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
+                                      " was set to " . $cli->style( 'emphasize' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
                     } break;
                 }
                 $package->store();
