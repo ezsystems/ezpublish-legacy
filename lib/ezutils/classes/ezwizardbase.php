@@ -76,17 +76,15 @@ class eZWizardBase
     */
     function initialize()
     {
-        if ( !isset( $this->MetaData['current_step'] ) )
+        if ( !$this->hasMetaData( 'current_step' ) )
         {
-            $this->MetaData['current_step'] = 0;
+            $this->setMetaData( 'current_step', 0 );
         }
-        $this->CurrentStep = $this->MetaData['current_step'];
 
-        if ( !isset( $this->MetaData['current_stage'] ) )
+        if ( !$this->hasMetaData( 'current_stage' ) )
         {
-            $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_PRE;
+            $this->setMetaData( 'current_stage', EZ_WIZARD_STAGE_PRE );
         }
-        $this->CurrentStage = $this->MetaData['current_stage'];
     }
 
     /*!
@@ -170,7 +168,7 @@ class eZWizardBase
             return $this->previousStep();
         }
 
-        switch( $this->CurrentStage )
+        switch( $this->metaData( 'current_stage' ) )
         {
             case EZ_WIZARD_STAGE_PRE:
             {
@@ -222,7 +220,7 @@ class eZWizardBase
     */
     function postCheck()
     {
-        if ( $this->HTTP->hasPostVariable( 'NextStepButton' ) )
+        if ( $this->HTTP->hasPostVariable( 'NextButton' ) )
         {
             return true;
         }
@@ -252,6 +250,37 @@ class eZWizardBase
     */
     function process()
     {
+    }
+
+    /*!
+     Store meta data.
+
+     \param key
+     \param value
+    */
+    function setMetaData( $key, $value )
+    {
+        $this->MetaData[$key] = $value;
+        eZDebug::writeNotice( 'Set MetaData : [' . $key . '] = ' . $value,
+                              'eZWizardBase::setMetaData()' );
+        $this->savePersistentData();
+    }
+
+    /*!
+     Get metadata
+
+    */
+    function metaData( $key )
+    {
+        return $this->MetaData[$key];
+    }
+
+    /*!
+     Check if has metadata value
+    */
+    function hasMetaData( $key )
+    {
+        return isset( $this->MetaData[$key] );
     }
 
     /*!
@@ -308,7 +337,7 @@ class eZWizardBase
     */
     function stepTemplate()
     {
-        return $this->StepTemplateBase . '_' . ( $this->CurrentStep + 1 ) . '.tpl';
+        return $this->StepTemplateBase . '_' . ( $this->metaData( 'current_step' ) + 1 ) . '.tpl';
     }
 
     /*!
@@ -318,6 +347,8 @@ class eZWizardBase
     {
         $this->HTTP->removeSessionVariable( $this->StorageName . $this->MetaDataName );
         $this->HTTP->removeSessionVariable( $this->StorageName . $this->VariableListName );
+        $this->MetaData = array();
+        $this->VariableList = array();
     }
 
     /*!
@@ -325,8 +356,8 @@ class eZWizardBase
     */
     function previousStep()
     {
-        $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_PRE;
-        $this->MetaData['current_step'] = $this->CurrentStep - 1;
+        $this->setMetaData( 'current_stage', EZ_WIZARD_STAGE_PRE );
+        $this->setMetaData( 'current_step', $this->metaData( 'current_step' ) - 1 );
         $this->savePersistentData();
 
         return $this->Module->redirectTo( $this->WizardURL );
@@ -337,15 +368,14 @@ class eZWizardBase
     */
     function nextStep()
     {
-        if ( $this->CurrentStage == EZ_WIZARD_STAGE_PRE )
+        if ( $this->metaData( 'current_stage' ) == EZ_WIZARD_STAGE_PRE )
         {
-            $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_POST;
+            $this->setMetaData( 'current_stage', EZ_WIZARD_STAGE_POST );
         }
         else
         {
-            $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_PRE;
-            $this->MetaData['current_step'] = $this->CurrentStep + 1;
-            $this->savePersistentData();
+            $this->setMetaData( 'current_stage', EZ_WIZARD_STAGE_PRE );
+            $this->setMetaData( 'current_step', $this->metaData( 'current_step' ) + 1 );
 
             return $this->Module->redirectTo( $this->WizardURL );
         }
@@ -368,11 +398,10 @@ class eZWizardBase
 
     /* Step list, used to determine wizard steps */
     var $StepList = array();
-    var $CurrentStep = 0; // Current step counter
-    var $CurrentStage = 0; // Current stage ( pre, post, etc ).
 
     var $HTTP;
     var $Tpl;
+    var $Module;
     var $WizardURL = ''; /* url to wizard */
 
     /* Array used to store wizzard values */
@@ -395,7 +424,12 @@ class eZWizardBaseClassLoader
      \static
      Create new specified class
     */
-    function createClass( &$tpl, &$module, $stepArray, $basePath, $storageName = false, $metaData = false )
+    function createClass( &$tpl,
+                          &$module,
+                          $stepArray,
+                          $basePath,
+                          $storageName = false,
+                          $metaData = false )
     {
         if ( !$storageName )
         {
@@ -408,13 +442,16 @@ class eZWizardBaseClassLoader
             $metaData = $http->sessionVariable( $storageName . '_meta' );
         }
 
-        if ( !isset( $metaData['current_step'] ) )
+        if ( !isset( $metaData['current_step'] ) ||
+             $metaData['current_step'] < 0 )
         {
             $metaData['current_step'] = 0;
+            eZDebug::writeNotice( 'Setting wizard step to : ' . $metaData['current_step'],
+                                  'eZWizardBaseClassLoader::createClass()' );
         }
         $currentStep = $metaData['current_step'];
 
-        if ( count( $stepArray ) == $currentStep )
+        if ( count( $stepArray ) <= $currentStep )
         {
             eZDebug::writeError( 'Invalid wizard step count: ' . $currentStep,
                                  'eZWizardBaseClassLoader::createClass()'  );
@@ -432,13 +469,22 @@ class eZWizardBaseClassLoader
         include_once( $filePath );
 
         $className = $stepArray[$currentStep]['class'];
+        eZDebug::writeNotice( 'Creating class : ' . $className,
+                              'eZWizardBaseClassLoader::createClass()' );
         $returnClass =  new $className( $tpl, $module, $storageName );
 
         if ( isset( $stepArray['operation'] ) )
         {
             $operation = $stepArray['operation'];
-            $returnClass->$operation();
+            return $returnClass->$operation();
             eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray',
+                                  'eZWizardBaseClassLoader::createClass()' );
+        }
+
+        if ( isset( $metaData['current_stage'] ) )
+        {
+            $returnClass->setMetaData( 'current_stage', $metaData['current_stage'] );
+            eZDebug::writeNotice( 'Setting wizard stage to : ' . $metaData['current_stage'],
                                   'eZWizardBaseClassLoader::createClass()' );
         }
 
