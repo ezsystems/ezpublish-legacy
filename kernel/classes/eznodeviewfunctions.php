@@ -225,17 +225,29 @@ class eZNodeviewfunctions
         }
 
         // Make the cache unique for every case of the preferences
-        $pString = "";
-        $preferences =& eZPreferences::values();
-        if ( $preferences )
+        $siteIni =& eZINI::instance( );
+        $depPreferences = $siteIni->variable( 'ContentSettings', 'ViewPreferences' );
+        if ( $depPreferences[$viewMode] )
         {
-            ksort( $preferences );
-            foreach( $preferences as $key => $value )
+            $depPreferences = explode( ';', $depPreferences[$viewMode] );
+            $pString = "";
+            $preferences =& eZPreferences::values();
+            if ( $preferences )
             {
-                $pString .= 'p:' . $key . '='. $value;                
+                foreach( $depPreferences as $pref )
+                {
+                    $pref = explode( '=', $pref );
+                    if ( $pref[0] )
+                    {
+                        if ( isset( $preferences[$pref[0]] ) )
+                            $pString .= 'p:' . $pref[0] . '='. $preferences[$pref[0]]. ';';
+                        else if ( $pref[1] )
+                            $pString .= 'p:' . $pref[0] . '='. $pref[1]. ';';
+                    }
+                }
             }
+            $cacheHashArray[] = $pString;
         }
-        $cacheHashArray[] = $pString;
 
         $ini =& eZINI::instance();
 
