@@ -170,6 +170,26 @@ class eZPersistentObject
                 $conditions[$key] = $cond;
             }
         }
+
+        /* substitute fields mentioned the conditions whith their
+           short names (if any)
+         */
+        if ( $db->useShortNames() )
+        {
+            $fields =& $def['fields'];
+            $short_conditions = array();
+            foreach ( $conditions as $key => $val )
+            {
+                if ( array_key_exists( 'short_name', $fields[$key] ) )
+                    $newkey = $fields[$key]['short_name'];
+                else
+                    $newkey = $key;
+                $short_conditions[$newkey] = $val;
+
+            }
+            $conditions =& $short_conditions;
+        }
+
         $cond_text = eZPersistentObject::conditionText( $conditions );
 
         $db->query( "DELETE FROM $table $cond_text" );
@@ -270,7 +290,7 @@ class eZPersistentObject
             if ( $db->bindingType() != EZ_DB_BINDING_NO &&
                  strlen( $value ) > 2000 &&
                  is_array( $field_def ) &&
-                 in_array( $field_def['datatype'], $bindDataTypes  ) 
+                 in_array( $field_def['datatype'], $bindDataTypes  )
                  )
             {
                 $bindedValue = $db->bindVariable( $value, $field_def );

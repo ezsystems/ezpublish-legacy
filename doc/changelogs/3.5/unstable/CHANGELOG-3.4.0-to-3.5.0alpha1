@@ -44,6 +44,7 @@ Changes from 3.4.0 to 3.5.0alpha1
   between DBMSes.
 - Added daily and monthly digest options in the notification system.
 - Added information on webserver (currently only Apache) to the system information page.
+- Support for using short attribute names when deleting persistent objects.
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
