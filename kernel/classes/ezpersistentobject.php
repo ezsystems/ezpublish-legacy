@@ -290,7 +290,7 @@ class eZPersistentObject
         if ( is_array( $conditions ) and
              count( $conditions ) > 0 )
         {
-            $where_text = " WHERE ";
+            $where_text = "\nWHERE  ";
             $i = 0;
             foreach ( $conditions as $id => $cond )
             {
@@ -367,7 +367,7 @@ class eZPersistentObject
                 $sort_list =& $sorts;
             if ( count( $sort_list ) > 0 )
             {
-                $sort_text = " ORDER BY ";
+                $sort_text = "\nORDER BY ";
                 $i = 0;
                 foreach ( $sort_list as $sort_id => $sort_type )
                 {
@@ -390,7 +390,7 @@ class eZPersistentObject
                 $grouping_list =& $grouping;
             if ( count( $grouping_list ) > 0 )
             {
-                $grouping_text = " GROUP BY ";
+                $grouping_text = "\nGROUP BY ";
                 $i = 0;
                 foreach ( $grouping_list as $grouping_id )
                 {
@@ -417,7 +417,7 @@ class eZPersistentObject
             }
         }
 
-        $sqlText = "SELECT $field_text FROM $table" . $where_text . $grouping_text . $sort_text;
+        $sqlText = "SELECT $field_text\nFROM   $table" . $where_text . $grouping_text . $sort_text;
 
         $rows =& $db->arrayQuery( $sqlText,
                                   $db_params );
@@ -662,7 +662,7 @@ function definition()
             $query .= $field . "='" . $db->escapeString( $value ) . "'";
             ++$i;
         }
-        $query .= ' WHERE ';
+        $query .= "\n" . 'WHERE ';
         $i = 0;
         foreach( $conditions as $conditionKey => $condition )
         {
