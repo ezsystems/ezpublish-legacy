@@ -121,8 +121,11 @@ class eZNodeviewfunctions
                                          'navigation_part_identifier' => $navigationPartIdentifier,
                                          'node_depth' => $node->attribute( 'depth' ),
                                          'url_alias' => $node->attribute( 'url_alias' ),
-                                         'persistent_variable' => $tpl->variable( 'persistent_variable' ) );
-
+                                         'persistent_variable' => false );
+        if ( $tpl->hasVariable( 'persistent_variable' ) )
+        {
+            $Result['content_info']['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+        }
 
         // Check if time to live is set in template
         if ( $tpl->hasVariable( 'cache_ttl' ) )
