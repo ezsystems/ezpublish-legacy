@@ -76,6 +76,7 @@ links to clickable links.
   expiry is used.
 - The bug with the original size not working on images has been fixed.
 - Fixed a problem with the eZXMLText datatype not initializing correctly from older versions.
+- Added function for disabling VAT for the whole order
 - Moved eZExtension class into eZUtils library.
 - Added support for storing XML format in native charset, this makes it a lot faster.
 
