@@ -269,7 +269,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
 
     $Result['path'] = array( array( 'url' => false ,
                                     'text' => ezi18n( 'kernel/role',
-                                                      'Create policy - step 2 - Specify function' ) ) );
+                                                      'Create new policy, step 2: select function' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
@@ -632,7 +632,7 @@ if ( $http->hasPostVariable( 'Limitation' ) or
         $Result = array();
         $Result['path'] = array( array( 'url' => false ,
                                         'text' => ezi18n( 'kernel/role',
-                                                          'Create policy - step 3 - Specify limitations' ) ) );
+                                                          'Create new policy, step three: set function limitations' ) ) );
 
         $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
         return;
@@ -656,7 +656,7 @@ if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( '
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
                                     'text' => ezi18n( 'kernel/role',
-                                                      'Create policy - step 2 - Specify function' ) ) );
+                                                      'Create new policy, step two: select function' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
@@ -673,7 +673,7 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
                                     'text' => ezi18n( 'kernel/role',
-                                                      'Create policy - step 1 - Specify module' ) ) );
+                                                      'Create new policy, step one: select module' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
     return;
