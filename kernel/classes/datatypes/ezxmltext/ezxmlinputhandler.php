@@ -480,7 +480,7 @@ class eZXMLInputHandler
             {
                 $view = $tag->attributeValue( 'view' );
                 if ( strlen( $view ) == 0 )
-                    $view = "text_linked";
+                    $view = "embed";
 
                 $objectID = $tag->attributeValue( 'id' );
                 $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();

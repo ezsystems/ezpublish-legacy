@@ -166,7 +166,7 @@ class eZSearchEngine
             else
                 $nextWordID = 0;
 
-            print( "indexing word : $indexWord <br> " );
+//            print( "indexing word : $indexWord <br> " );
 
             // Calculate the relevans ranking for this word
 //            $frequency = ( $wordCountArray[$indexWord] / $totalWordCount );
