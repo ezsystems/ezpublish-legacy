@@ -54,7 +54,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
 {
     $location = $module->actionParameter( 'UploadLocation' );
 
-    if ( $upload->handleUpload( $result, 'UploadFile', $location ) )
+    if ( $upload->handleUpload( $result, 'UploadFile', $location, false ) )
     {
         $object =& $result['contentobject'];
         $mainNode =& $result['contentobject_main_node'];
@@ -91,7 +91,8 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
             $data = $upload->attribute( 'result_module' );
             $moduleName = $data[0];
             $view = $data[1];
-            $parameters = $data[2];
+            $parameters = isset( $data[2] ) ? $data[2] : array();
+            $userParameters = isset( $data[3] ) ? $data[3] : array();
             $resultModule =& eZModule::findModule( $moduleName, $module );
             $resultModule->setCurrentAction( $upload->attribute( 'result_action_name' ), $view );
             $actionParameters = $upload->attribute( 'result_action_parameters' );
@@ -102,7 +103,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
                     $resultModule->setActionParameter( $actionParameterName, $actionParameter, $view );
                 }
             }
-            return $resultModule->run( $view, $parameters );
+            return $resultModule->run( $view, $parameters, false, $userParameters );
         }
         else
         {

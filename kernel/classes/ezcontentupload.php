@@ -69,7 +69,7 @@ eZContentUpload::result( 'MyActionName' );
 
 \code
 $upload = new eZContentUpload( array() );
-$upload->handleUpload( $result, 'UploadFile', 'auto' );
+$upload->handleUpload( $result, 'UploadFile', 'auto', false );
 
 $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 */
@@ -198,11 +198,14 @@ class eZContentUpload
         if ( !isset( $parameters['persistent_data'] ) )
             $parameters['persistent_data'] = false;
 
-        foreach ( $parameters['parent_nodes'] as $key => $parentNode )
+        if ( isset( $parameters['parent_nodes'] ) )
         {
-            if ( !is_numeric( $parentNode ) )
+            foreach ( $parameters['parent_nodes'] as $key => $parentNode )
             {
-                $parameters['parent_nodes'][$key] = eZContentUpload::nodeAliasID( $parentNode );
+                if ( !is_numeric( $parentNode ) )
+                {
+                    $parameters['parent_nodes'][$key] = eZContentUpload::nodeAliasID( $parentNode );
+                }
             }
         }
 
@@ -421,6 +424,12 @@ class eZContentUpload
         $notices =& $result['notices'];
 
         $this->fetchHTTPFile( $httpFileIdentifier, $errors, $file, $mimeData );
+        if ( !$file )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No HTTP file found, cannot fetch uploaded file.' ) );
+            return false;
+        }
         $mime = $mimeData['name'];
         if ( $mime == '' )
             $mime = $file->attribute( "mime_type" );

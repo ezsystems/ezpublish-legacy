@@ -1,7 +1,5 @@
 Changes from 3.5.0alpha1 to 3.5.0alpha2
 
-
-
 *Kernel:
 - Added permission check for updating priority of sorting.
 - Disabled removing class which has content object used as system/top node.
@@ -15,6 +13,9 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Added third optional boolean parameter to template operators
   'mimetype_icon', 'class_icon', 'classgroup_icon' and 'icon'.
   If it's specified and set to true(), the operators return only the icon URI instead of the whole HTML code.
+- Related object file upload in content/edit will now work even if there is
+  no HTTP file available, in which it will go to content/upload to get the file.
+  
 
 *Datatype:
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 
