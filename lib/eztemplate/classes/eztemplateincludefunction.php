@@ -93,11 +93,24 @@ class eZTemplateIncludeFunction
         $uriDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                       $uriData, false,
                                                                       $resourceData );
-//         print_r( $uriDataInspection );
         if ( !$uriDataInspection['is-constant'] or
              $uriDataInspection['has-operators'] or
              $uriDataInspection['has-attributes'] )
             return false;
+
+        $namespaceValue = false;
+        if ( isset( $parameters['name'] ) )
+        {
+            $nameData = $parameters['name'];
+            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
+                                                                           $nameData, false,
+                                                                           $resourceData );
+            if ( !$uriDataInspection['is-constant'] or
+                 $uriDataInspection['has-operators'] or
+                 $uriDataInspection['has-attributes'] )
+                return false;
+            $namespaceValue = $nameDataInspection['new-data'][0][1];
+        }
 
         $uriString = $uriDataInspection['new-data'][0][1];
 
@@ -106,19 +119,36 @@ class eZTemplateIncludeFunction
         $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
         $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
 
-        $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters );
+        $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters, $namespaceValue );
         if ( $includeNodes === false )
             return false;
 
         $newNodes = array();
 
-        if ( isset( $parameters['name'] ) )
-            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        $variableList = array();
+        foreach ( array_keys( $parameters ) as $parameterName )
+        {
+            if ( $parameterName == 'uri' or
+                 $parameterName == 'name' )
+                continue;
+            $parameterData =& $parameters[$parameterName];
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
+                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+            $variableList[] = $parameterName;
+        }
+
+//         if ( isset( $parameters['name'] ) )
+//             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
 
         $newNodes = array_merge( $newNodes, $includeNodes );
 
-        if ( isset( $parameters['name'] ) )
-            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        foreach ( $variableList as $variableName )
+        {
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+        }
+
+//         if ( isset( $parameters['name'] ) )
+//             $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
 
         return $newNodes;
     }

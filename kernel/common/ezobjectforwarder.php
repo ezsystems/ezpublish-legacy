@@ -104,6 +104,8 @@ class eZObjectForwarder
         if ( $renderMode )
             $view_dir .= "/render-$renderMode";
 
+        $viewValue = false;
+        $viewName = false;
         if ( $rule['use_views'] )
         {
             $viewName = $rule['use_views'];
@@ -122,15 +124,33 @@ class eZObjectForwarder
             $viewDir .= '/' . $viewValue;
         }
 
+        $namespaceValue = false;
         if ( isset( $rule['namespace'] ) )
         {
-            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+            $namespaceValue = $rule['namespace'];
+//             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $rule['namespace'] );
+        }
+
+        $variableList = array();
+
+        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $inputData, false, array(),
+                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $outputName ) );
+        $variableList[] = $outputName;
+
+        foreach ( array_keys( $parameters ) as $parameterName )
+        {
+            if ( $parameterName == $inputName or
+                 $parameterName == $outputName or
+                 $parameterName == $viewName )
+                continue;
+            $parameterData =& $parameters[$parameterName];
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
+                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+            $variableList[] = $parameterName;
         }
 
         $templateRoot = $rule["template_root"];
         $matchFileArray =& eZTemplateDesignResource::overrideArray();
-
-
 
         if ( is_string( $templateRoot ) )
         {
@@ -177,6 +197,16 @@ class eZObjectForwarder
                 $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'templateRootMatch' );
             }
         }
+
+        foreach ( $variableList as $variableName )
+        {
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+        }
+
+//         if ( isset( $rule['namespace'] ) )
+//         {
+//             $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+//         }
 
         return $newNodes;
 
@@ -356,7 +386,8 @@ class eZObjectForwarder
                             $acquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                      $matchFile, $matchFile,
                                                                                                      EZ_RESOURCE_FETCH, false,
-                                                                                                     $node[4], array( 'spacing' => $customSpacing + 4 ) );
+                                                                                                     $node[4], array( 'spacing' => $customSpacing + 4 ),
+                                                                                                     $rule['namespace'] );
                             $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
                             ++$matchCount;
                         }
@@ -367,7 +398,8 @@ class eZObjectForwarder
                     $acquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                              $matchFile, $matchFile,
                                                                                              EZ_RESOURCE_FETCH, false,
-                                                                                             $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ) );
+                                                                                             $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ),
+                                                                                             $rule['namespace'] );
                     $hasAcquisitionNodes = true;
                     if ( isset( $matchItem['custom_match'] ) )
                         $acquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
@@ -458,7 +490,8 @@ class eZObjectForwarder
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchFile, $matchFile,
                                                                                      EZ_RESOURCE_FETCH, false,
-                                                                                     $node[4], array( 'spacing' => $spacing ) );
+                                                                                     $node[4], array( 'spacing' => $spacing ),
+                                                                                     $rule['namespace'] );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $acquisitionSpacing ) );
                     ++$matchCount;
                 }
@@ -467,7 +500,8 @@ class eZObjectForwarder
             $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                              $file, $file,
                                                                              EZ_RESOURCE_FETCH, false,
-                                                                             $node[4], array( 'spacing' => $mainSpacing ) );
+                                                                             $node[4], array( 'spacing' => $mainSpacing ),
+                                                                             $rule['namespace'] );
             if ( isset( $viewFileMatch['custom_match'] ) )
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $acquisitionSpacing ) );
 

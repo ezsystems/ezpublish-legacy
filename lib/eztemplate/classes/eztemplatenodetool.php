@@ -409,6 +409,10 @@ class eZTemplateNodeTool
 
     function createNamespaceChangeNode( $variableData, $parameters = array() )
     {
+        if ( is_string( $variableData ) )
+            $variableData = array( eZTemplateNodeTool::createStringElement( $variableData ) );
+        else if ( is_numeric( $variableData ) )
+            $variableData = array( eZTemplateNodeTool::createNumericElement( $variableData ) );
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE,
                        $variableData,
                        $parameters );
@@ -424,13 +428,16 @@ class eZTemplateNodeTool
 
     function createResourceAcquisitionNode( $resourceName, $templateName, $fileName,
                                             $method, $extraParameters, $placement = false,
-                                            $parameters = array() )
+                                            $parameters = array(), $newRootNamespace = false )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION,
                        $resourceName, $templateName, $fileName,
                        $method, $extraParameters, $placement );
         if ( count( $parameters ) > 0 )
             $node[] = $parameters;
+        else
+            $node[] = false;
+        $node[] = $newRootNamespace;
         return $node;
     }
 

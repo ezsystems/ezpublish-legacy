@@ -80,7 +80,7 @@ class eZTemplateFileResource
     /*!
     */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData )
+                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
     {
         if ( $this->Name != 'file' )
             return false;
@@ -91,7 +91,9 @@ class eZTemplateFileResource
         $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( $resourceData['resource'],
                                                                          $file, $file,
                                                                          EZ_RESOURCE_FETCH, false,
-                                                                         $node[4] );
+                                                                         $node[4],
+                                                                         array(),
+                                                                         $namespaceValue );
         return $newNodes;
     }
 

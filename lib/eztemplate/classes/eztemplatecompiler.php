@@ -353,7 +353,7 @@ class eZTemplateCompiler
     */
     function executeCompilation( &$tpl, &$textElements, $key, &$resourceData,
                                  $rootNamespace, $currentNamespace )
-    {
+     {
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
         if ( !eZTemplateCompiler::isExecutionEnabled() )
@@ -395,6 +395,7 @@ class eZTemplateCompiler
         $vars =& $tpl->Variables;
 
         $text = null;
+        $namespaceStack = array();
         include( $phpScript );
         if ( $text !== null )
         {
@@ -428,6 +429,7 @@ class eZTemplateCompiler
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
+        $php->addCodePiece( "print( \"" . $resourceData['template-filename'] . " ($cacheFileName)<br/>\n\" );" );
         if ( $useComments )
         {
             $templateFilename = $resourceData['template-filename'];
@@ -886,10 +888,12 @@ class eZTemplateCompiler
         if ( !in_array( $lastNodeType, array( EZ_TEMPLATE_NODE_TEXT,
                                               EZ_TEMPLATE_NODE_VARIABLE ) ) or
              !in_array( $newNodeType, array( EZ_TEMPLATE_NODE_TEXT,
-                                              EZ_TEMPLATE_NODE_VARIABLE ) ) )
+                                             EZ_TEMPLATE_NODE_VARIABLE ) ) )
             return false;
         if ( $lastNodeType == EZ_TEMPLATE_NODE_VARIABLE )
         {
+            if ( is_array( $lastNode[1] ) )
+                return false;
             $lastDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                            $lastNode[2], $lastNode[3],
                                                                            $resourceData );
@@ -905,6 +909,8 @@ class eZTemplateCompiler
         }
         if ( $newNodeType == EZ_TEMPLATE_NODE_VARIABLE )
         {
+            if ( is_array( $newNode[1] ) )
+                return false;
             $newDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                           $newNode[2], $newNode[3],
                                                                           $resourceData );
@@ -1877,7 +1883,20 @@ $rbracket
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
-                    $php->addVariableUnset( $variableName, array( 'spacing' => $spacing ) );
+                    if ( is_array( $variableName ) )
+                    {
+                        $namespace = $variableName[0];
+                        $namespaceScope = $variableName[1];
+                        $variableName = $variableName[2];
+                        eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
+                        $variableNameText = $php->variableText( $variableName, 0 );
+                        $php->addCodePiece( "unset( \$vars[\$namespace][$variableNameText] );",
+                                            array( 'spacing' => $spacing ) );
+                    }
+                    else
+                    {
+                        $php->addVariableUnset( $variableName, array( 'spacing' => $spacing ) );
+                    }
                 }
 //                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_BIND_VARIABLE )
 //                 {
@@ -1907,12 +1926,13 @@ $rbracket
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[7]['spacing'] ) )
                         $spacing += $node[7]['spacing'];
+                    $newRootNamespace = $node[8];
 
                     $templateNameText = $php->variableText( $node[2], 0 );
                     $uri = $node[2];
                     if ( $resource )
                         $uri = $resource . ':' . $uri;
-                    $resourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $node[2] );
+                    $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $node[2] );
                     $uriText = $php->variableText( $uri, 0 );
 
                     $resourceCanCache = true;
@@ -1932,48 +1952,48 @@ $rbracket
                         }
                     }
 
-                    $resourceData['text'] = null;
-                    $resourceData['root-node'] = null;
-                    $resourceData['compiled-template'] = false;
-                    $resourceData['time-stamp'] = null;
-                    $resourceData['key-data'] = null;
-                    $tmpResourceData = $resourceData;
-                    unset( $tmpResourceData['handler'] );
+                    $tmpResourceData['text'] = null;
+                    $tmpResourceData['root-node'] = null;
+                    $tmpResourceData['compiled-template'] = false;
+                    $tmpResourceData['time-stamp'] = null;
+                    $tmpResourceData['key-data'] = null;
+//                     $tmpResourceData = $resourceData;
+//                    unset( $tmpResourceData['handler'] );
                     $subSpacing = 0;
-                    if ( $resourceObject->handleResource( $tpl, $resourceData, $node[4], $node[5] ) )
+                    if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
                     {
-                        if ( !$resourceData['compiled-template'] and
-                             $resourceData['root-node'] === null )
+                        if ( !$tmpResourceData['compiled-template'] and
+                             $tmpResourceData['root-node'] === null )
                         {
-                            $root =& $resourceData['root-node'];
+                            $root =& $tmpResourceData['root-node'];
                             $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-                            $templateText =& $resourceData["text"];
-                            $keyData = $resourceData['key-data'];
+                            $templateText =& $tmpResourceData["text"];
+                            $keyData = $tmpResourceData['key-data'];
 //                            $tpl->setIncludeText( $uri, $templateText );
                             $rootNamespace = '';
-                            $tpl->parse( $templateText, $root, $rootNamespace, $resourceData );
+                            $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
 //                            if ( $resourceCanCache )
 //                                $resourceObject->setCachedTemplateTree( $keyData, $uri, $node[1], $node[2], $node[5], $root );
                         }
-                        if ( !$resourceData['compiled-template'] and
+                        if ( !$tmpResourceData['compiled-template'] and
                              $resourceCanCache and
-                             $tpl->canCompileTemplate( $resourceData, $node[5] ) )
+                             $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
                         {
-                            $generateStatus = $tpl->compileTemplate( $resourceData, $node[5] );
+                            $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
                             if ( $generateStatus )
-                                $resourceData['compiled-template'] = true;
+                                $tmpResourceData['compiled-template'] = true;
                         }
                     }
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     $useFallbackCode = true;
-                    if ( $resourceData['compiled-template'] )
+                    if ( $tmpResourceData['compiled-template'] )
                     {
                         if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
                             $useFallbackCode = false;
-                        $keyData = $resourceData['key-data'];
-                        $templatePath = $resourceData['template-name'];
-                        $key = $resourceObject->cacheKey( $keyData, $resourceData, $templatePath, $node[5] );
-                        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
+                        $keyData = $tmpResourceData['key-data'];
+                        $templatePath = $tmpResourceData['template-name'];
+                        $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
+                        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $tmpResourceData );
 
                         $directory = eZTemplateCompiler::compilationDirectory();
                         $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
@@ -1983,10 +2003,16 @@ $rbracket
 
 //                         $php->addCodePiece( "compiledAcquireResource( $phpScriptText, $keyText,
 //                          \$$textName, \$tpl, \$rootNamespace, \$currentNamespace );\n", array( 'spacing' => $spacing + 4 ) );
-                        $php->addCodePiece( "\$resourceFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );
-\$currentNamespace = \$rootNamespace;
+                        $code = "\$resourceFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );\n";
+                        if ( $newRootNamespace )
+                        {
+                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                            $code .= "if ( !\$rootNamespace )\n    \$rootNamespace = $newRootNamespaceText;\nelse\n    \$rootNamespace .= ':' . $newRootNamespaceText;\n";
+                        }
+                        $code .= "\$currentNamespace = \$rootNamespace;
 include( $phpScriptText );
-list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n", array( 'spacing' => $spacing + 4 ) );
+list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
+                        $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
                         if ( $useFallbackCode )
                             $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
                         else
@@ -1996,10 +2022,10 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n",
 
                     if ( $useFallbackCode )
                     {
-                        $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n$spacer\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n$spacer\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
+                        $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
                     }
 
-                    if ( $resourceData['compiled-template'] and $useFallbackCode )
+                    if ( $tmpResourceData['compiled-template'] and $useFallbackCode )
                     {
                         $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                     }
@@ -2109,10 +2135,19 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n",
                     $php->addComment( '{' . $originalText . '}', true, true, array( 'spacing' => $spacing ) );
                 }
                 $generatedVariableName = $variableParameters['variable-name'];
+                $assignVariable = false;
                 if ( $variableAssignmentName !== false )
                 {
-                    $generatedVariableName = $variableAssignmentName;
-                    $variableParameters['text-result'] = false;
+                    if ( is_array( $variableAssignmentName ) )
+                    {
+                        $variableParameters['text-result'] = false;
+                        $assignVariable = true;
+                    }
+                    else
+                    {
+                        $generatedVariableName = $variableAssignmentName;
+                        $variableParameters['text-result'] = false;
+                    }
                 }
                 eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
                                                           array( 'spacing' => $spacing,
@@ -2131,6 +2166,16 @@ if ( is_object( \$$generatedVariableName ) )
 else
     \$$textName .= \$$generatedVariableName;
 unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
+                }
+                else if ( $assignVariable )
+                {
+                    $namespace = $variableAssignmentName[0];
+                    $namespaceScope = $variableAssignmentName[1];
+                    $variableName = $variableAssignmentName[2];
+                    eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
+                    $variableNameText = $php->variableText( $variableName, 0 );
+                    $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );",
+                                        array( 'spacing' => $spacing ) );
                 }
                 unset( $dataInspection );
             }

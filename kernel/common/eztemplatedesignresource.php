@@ -61,10 +61,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
     */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData )
+                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
     {
         if ( $this->Name != 'design' and $this->Name != 'standard' )
             return false;
+
         $file = $resourceData['template-name'];
         $overrideKeys =& eZTemplateDesignResource::overrideKeys();
 //         print( "keys\n" );
@@ -74,11 +75,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
         {
+            if ( !isset( $matchFile['template'] ) )
+                continue;
             if ( $matchFile['template'] == ('/' . $file) )
             {
                 $matchList[] = $matchFile;
             }
         }
+
 //         print_r( $matchList );
 //         if ( !file_exists( $file ) )
 //             return false;
@@ -132,7 +136,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchFile, $matchFile,
                                                                                      EZ_RESOURCE_FETCH, false,
-                                                                                     $node[4], array( 'spacing' => $spacing ) );
+                                                                                     $node[4], array( 'spacing' => $spacing ),
+                                                                                     $namespaceValue );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
                     ++$matchCount;
                 }
@@ -141,10 +146,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                              $file, $file,
                                                                              EZ_RESOURCE_FETCH, false,
-                                                                             $node[4], array( 'spacing' => $spacing ) );
+                                                                             $node[4], array( 'spacing' => $spacing ),
+                                                                             $namespaceValue );
             if ( isset( $match['custom_match'] ) )
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
         }
+
         return $newNodes;
     }
 
