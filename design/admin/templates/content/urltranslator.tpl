@@ -128,8 +128,8 @@
     <th>{'System URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urltranslator' )}</th>
 </tr>
-{section name=Alias loop=$alias_list show=$alias_list}
-<tr>
+{section name=Alias loop=$alias_list show=$alias_list sequence=array( bglight, bgdark )}
+<tr class="{$Alias:sequence}">
     <td><input type="checkbox" name="URLAliasSelection[{$Alias:item.id}]" value="{$Alias:item.id}" /></td>
     <td>
         <input type="text" name="URLAliasSourceValue[{$Alias:item.id}]" value="{$Alias:item.source_url|wash}" />
