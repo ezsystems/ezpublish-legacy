@@ -206,9 +206,9 @@ class eZContentClassAttribute extends eZPersistentObject
             'is_information_collector' => 0,
             'data_type_string' => $data_type_string,
             'placement' => eZPersistentObject::newObjectOrder( eZContentClassAttribute::definition(),
-                                                              'placement',
-                                                              array( 'version' => 1,
-                                                                     'contentclass_id' => $class_id ) ) );
+                                                               'placement',
+                                                               array( 'version' => 1,
+                                                                      'contentclass_id' => $class_id ) ) );
         $row = array_merge( $row, $optionalValues );
         return new eZContentClassAttribute( $row );
     }

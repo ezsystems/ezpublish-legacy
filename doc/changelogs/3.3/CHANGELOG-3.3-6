@@ -54,6 +54,8 @@ eZINI:
   http://ez.no/community/bug_reports/rss_export_source_1_selection_fails
 - Fixed bug of matching by 'parent_node' problem using in view_node_gui call
   http://ez.no/community/bug_reports/matching_by_parent_node_problem
+- Fixed Checkbox datatype bugs.
+  http://ez.no/community/bug_reports/checkbox_doesn_t_remember_default_value
 
 *Library:
 

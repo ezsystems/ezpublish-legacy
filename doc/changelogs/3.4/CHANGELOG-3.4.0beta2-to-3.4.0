@@ -30,6 +30,9 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug related to inability of removing an RSS export source
   (merged from 3.3, rev. 6614).
   http://ez.no/community/bug_reports/rss_export_delete_source_missing
+- Fixed Checkbox datatype bugs, merged from stable 3.3 rev. 6616.
+  http://ez.no/community/bug_reports/checkbox_doesn_t_remember_default_value
+
 
 *Library:
 
