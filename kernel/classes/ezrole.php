@@ -492,7 +492,7 @@ class eZRole extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                     null,
                                                     $igTemp,
-                                                    null,
+                                                    array( 'name' => 'ASC' ),
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     $asObject );
     }

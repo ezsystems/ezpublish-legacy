@@ -2,6 +2,7 @@ Changes from 3.2.0-2 to 3.2-1
 
 *Kernel:
 - Added mapping from class/attribute string to attribute id in attribute filtering and sorting.
+- Added alphabetic sorting of role list.
 
 *Bugfixes:
 - Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
