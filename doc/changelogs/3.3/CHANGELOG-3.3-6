@@ -274,7 +274,6 @@ edit_placement.tpl:
 - Fixed template warning with ISBN datatype when no number is entered.
 - Fixed problem with versionview not displaying objects in trash.
   http://ez.no/community/bug_reports/view_in_trash
-  (Merged from stable/3.3 (3.3-6) rev. 9266)
 
 *Library:
 
