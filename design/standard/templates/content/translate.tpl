@@ -10,7 +10,6 @@
 <br />
 <br />
 
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 	{section name=ContentAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
 <tr>
@@ -21,6 +20,7 @@
 	{attribute_view_gui attribute=$ContentAttribute:item}<br />
 	<b>Translation:</b><br />
 	{attribute_edit_gui attribute=$ContentAttribute:item.language}<br />
+
 	</td>
 </tr>
 	{/section}
