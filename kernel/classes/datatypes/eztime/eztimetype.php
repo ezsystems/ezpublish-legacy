@@ -128,7 +128,10 @@ class eZTimeType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        return (int)$contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
+        $gmtSeconds   = (int) $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
+        $localSeconds = ( $gmtSeconds + date( 'Z' ) ) % eZTime::secondsPerDay();
+
+        return $localSeconds;
     }
 
     /*!
