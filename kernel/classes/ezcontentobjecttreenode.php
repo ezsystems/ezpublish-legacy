@@ -1483,7 +1483,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 else
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
-            eZDebug::writeDebug($sqlParts,"here 1");
+
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
 
             $query = "SELECT count(*) as count

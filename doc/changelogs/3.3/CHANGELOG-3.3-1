@@ -87,6 +87,7 @@ Changes from 3.3.0-2 to 3.3-1
   http://ez.no/developer/ez_publish_3/bug_reports/missing_error_handling_in_workflow_cronjob
 - Fixed some potential bugs which might have caused editing root nodes to crash. http://ez.no/developer/ez_publish_3/bug_reports/edit_users_or_frontpage_object
 - Fixed cache bug in setup menu so the advanced menu was not shown.
+- Removed debug output http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobjecttreenode_php_debug_statement
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
