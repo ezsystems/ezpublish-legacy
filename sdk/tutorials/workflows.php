@@ -37,16 +37,20 @@
 <h1>Custom workflows</h1>
 
 <p>
-One of the most powerful features of eZ publish 3 is that you can create custom workflow.
+One of the most powerful features of eZ publish 3 is that you can create custom workflows.
 Workflow is a mechanism that makes it possible to customize or add new features to operations in eZ Publish.
 For example: add some additional actions to publish routing or some additional steps to view objects.
 </p>
 
 <p>
-Workflows should be connected to defined eZ Publish operations (there are only two defined operations in content module currently: "Read"  and "Publish") with triggers.
-For each defined operation, eZ Publish kernel tries to execute two triggers. One is activated before the actual operation body is executed and another is activated after that.
-Trigger is just a row stored in database table eztrigger.<br />
-Table definition:
+Workflows should be connected to defined eZ Publish operations with triggers (there are only two defined operations
+in the content module currently: "Read" and "Publish").
+For each defined operation, the eZ Publish kernel tries to execute two triggers. One is activated before the actual
+operation body is executed and another is activated after that. A trigger is just a row stored in the database table
+eztrigger.
+</p>
+
+Table definition:<br/>
 <pre class="example">
 
 CREATE TABLE eztrigger (
@@ -60,16 +64,20 @@ CREATE TABLE eztrigger (
 ) TYPE=MyISAM;
 
 </pre>
-Field "name" is the name of trigger, for example, "pre_publish" or "pre_read". Fields module_name and function_name are the names of module and function that system will start executing workflow.
+
+<p>
+Field "name" is the name of the trigger, for example, "pre_publish" or "pre_read". The fields module_name and
+function_name are the names of module and function that the system will start executing the workflow for.
 </p>
 
-<h2>Understanding "Operations"</h2>
+<h2>Understanding Operations</h2>
+
 <p>
-Operation is a sequence of functions and triggers which should be executed to make full action like read or publish. For example, simple "read" operation (bellow) is just a sequence of "pre_read" trigger
-and "fetch-object" method.
+An operation is a sequence of functions and triggers which should be executed to make a full action like read or publish.
+For example, simple "read" operation (below) is just a sequence of "pre_read" trigger and "fetch-object" method.
+</p>
 
 <pre class="example">
-
 $OperationList['read'] = array( 'name' => 'read',
                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
                                                                 'class' => 'eZContentOperationCollection' ),
@@ -96,53 +104,74 @@ $OperationList['read'] = array( 'name' => 'read',
                                                         'frequency' => 'once',
                                                         'method' => 'readObject',
                                                         ) ) );
-
 </pre>
-</p>
 
+<p>
 <ul>
-<li>name - the name of operation.</li>
-<li>default_call_method - array which shows in which file and class methods used in operation are defined </li>
-<li>parameters - parameters that are passed to each method and trigger in operation when they are executed</li>
-<li>keys - part of parameters that are used to edentify stored interupted operation (operation memento)</li>
+<li>name - the name of the operation.</li>
+<li>default_call_method - an array which shows in which file and class methods used in the operation are defined</li>
+<li>parameters - parameters that are passed to each method and trigger in the operation when they are executed</li>
+<li>keys - part of parameters that are used to identify stored interrupted operation (operation memento)</li>
 <li>body - array of arrays that describe methods and triggers of the operation</li>
 </ul>
-<br>
-Types of body elements:
-<br>
-Trigger:
-<br>
-<ul>
-<li>type - trigger, shows that current body element is trigger </li>
-<li>name - name of trigger used to fetch trigger from database. To fetch trigger system will use next conditions - (module name, operation name, trigger name) </li>
-<li>key - part of the parameters used to identify running workflow process  </li>
-</ul>
-Method:
-<ul>
-<li>type - method </li>
-<li>name - fetch-object, name of method used in internals of operation </li>
-<li>frequency - once, it means that method will be run only once</li>
-<li>method - method of class described with "default_call_method" "class" parameter of operation. That function is the code which will be executed </li>
-</ul>
+</p>
 
+<p>
+Types of body elements:
+</p>
+
+<p>
+Trigger:
+</p>
+
+<p>
+<ul>
+<li>type - trigger, shows that current body element is trigger</li>
+<li>name - name of the trigger used to fetch trigger from database. To fetch the trigger, the system will use next
+conditions - (module name, operation name, trigger name)</li>
+<li>key - part of the parameters used to identify running workflow process</li>
+</ul>
+</p>
+
+<p>
+Method:
+</p>
+
+<p>
+<ul>
+<li>type - method</li>
+<li>name - fetch-object, name of method used in internals of operation</li>
+<li>frequency - once, it means that method will be run only once</li>
+<li>method - method of class described with "default_call_method" "class" parameter of operation. That function is
+the code which will be executed</li>
+</ul>
+</p>
 
 <h2>Creating workflows</h2>
 
 <p>
-Workflow consists of a sequence of workflow events which will be executed one by one. Therefore, the first step is to create workflow event types. Alternatively, you can use
-events that already exist.
+Workflows consist of a sequence of workflow events which will be executed one by one. Therefore, the first step is to
+create workflow event types. Alternatively, you can use events that already exist.
 </p>
+
 <h3>Creating new workflow event</h3>
+
 <p>
-Suppose that you want to create a workflow event which will show "hello user" message to users after the workflow has run. We use <i>hellouser</i> as the name of the event.
-To create this new workflow event, you need to complete following steps:
+Suppose that you want to create a workflow event which will show a "hello user" message to users after the workflow has
+run. We use <i>hellouser</i> as the name of the event. To create this new workflow event, you need to complete the
+following steps:
+</p>
+
+<p>
 <ol>
-<li>modify site.ini settings to add the new worklow event type. You should add "event_hellouser" to the AvailableEventTypes parameter</li>
+<li>modify site.ini settings to add the new workflow event type. You should add "event_hellouser" to the
+AvailableEventTypes parameter</li>
 <li>create directory kernel/classes/workflowtypes/event/hellouser/</li>
 <li>create file in that directory called hellousertype.php</li>
 </ol>
 </p>
-File <i>hellousertype.php</i>
+
+File <i>hellousertype.php</i><br/>
 <pre class="example">
 define( "EZ_WORKFLOW_TYPE_HELLO_USER_ID", "hellouser" );
 
@@ -163,19 +192,19 @@ class helloUserType extends eZWorkflowEventType
 }
 
 eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_HELLO_USER_ID, "hellousertype" );
-
 </pre>
 
 <p>
-This is a very simple workflow event type. To create workflow event type we need to create a class inherited from eZWorkflowEventType
-and then register it into the system using method eZWorkflowEventType::registerType().
-This classs should have at least one method as well as the class constructor. Method <i>execute</i> is called when workflow event is
-executed. The behaviour of running workflow depends on the return value of this function.
-<br/>
+This is a very simple workflow event type. To create a workflow event type we need to create a class inherited from
+eZWorkflowEventType and then register it into the system using the method eZWorkflowEventType::registerType().
+This class should have at least one method in addition to the class constructor. The method <i>execute</i> is called
+when the workflow event is executed. The behaviour of running the workflow depends on the return value of this function.
+</p>
 
 <table border="1">
-<CAPTION align=left> Possible values</CAPTION>
-<th>Value</th><th>Description</th>
+<caption align=left>Possible values</caption>
+<tr><th>Value</th><th>Description</th></tr>
+
 <tr>
 <td>
 EZ_WORKFLOW_TYPE_STATUS_ACCEPTED
@@ -195,15 +224,15 @@ They have the same meaning currently. The workflow will be canceled.
 </td>
 </tr>
 
-
 <tr>
 <td>
 EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON<br/>
 EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT
 </td>
 <td>
-That status means that executing of workflow is deferred to cron daemon. The difference between the first one and the second one is that the workflow will be
-executed from next event in the first case and from the same event in the second case after finishing current running process.
+This status means that execution of the workflow is deferred to the cron daemon. The difference between the first one
+and the second one is that the workflow will be executed from the next event in the first case and from the same event
+in the second case after finishing current running process.
 </td>
 </tr>
 
@@ -213,9 +242,9 @@ EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE<br/>
 EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT
 </td>
 <td>
-Workflow engine should interupt executing workflow and show page to the user. In case of that status workflow event should set up some internal variables. (Will be explaned bellow). Defferences between
-them is the same as in the previous case
-
+The workflow engine should interrupt executing workflow and show page to the user. In case of this status, the workflow
+event should set up some internal variables. (Will be explaned below). Differences between them is the same as in the
+previous case.
 </td>
 </tr>
 
@@ -223,11 +252,11 @@ them is the same as in the previous case
 <td>
 EZ_WORKFLOW_TYPE_STATUS_REDIRECT<br/>
 EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT
-
 </td>
 <td>
-Workflow engine should interupt executing workflow and redirect user to a specified page. In case of that status workflow event should set up some internal variables. (Will be explaned bellow).
-Defferences between them is the same as in the previous cases
+Workflow engine should interrupt executing the workflow and redirect the user to a specified page. In case of this
+status the workflow event should set up some internal variables. (Will be explaned below).
+Differences between them is the same as in the previous cases.
 </td>
 </tr>
 
@@ -240,12 +269,13 @@ Undefined status. The same as EZ_WORKFLOW_TYPE_STATUS_REJECTED temporally.
 </td>
 </tr>
 </table>
-</p>
 
 <p>
-To show a page to the user, you need to use status EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE and set up some internal variables.
-<pre class="example">
+To show a page to the user, you need to use the status EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE and set up some internal
+variables.
+</p>
 
+<pre class="example">
     function execute( &$process, &$event )
     {
 
@@ -260,13 +290,13 @@ To show a page to the user, you need to use status EZ_WORKFLOW_TYPE_STATUS_FETCH
                                                               'user_name' => $userName ) );
         return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE;
     }
-
 </pre>
 
-In addition, you need to create result template.
+<p>
+In addition, you need to create the result template.
+</p>
 
 <pre class="example">
-
 <?php  print( htmlspecialchars ( '<form action={$return_uri|ezurl} method="post" >
 
 <div class="maincontentheader">
@@ -278,43 +308,51 @@ In addition, you need to create result template.
 
 </form>
 ' ) ); ?>
-
 </pre>
+
+<p>
+The workflow event is ready now and it is time to create the workflow. Click on 'Workflows' in the left menu and choose
+a defined group or just create a new one.
 </p>
 
 <p>
-The workflow event is ready now and it is time to create workflow. Click on 'Workflows' in the left menu and choose an defined group or
-just create a new one.<br/>
-
 <img src="/doc/images/workflow_grouplist.png" alt="Class edit" />
-<br/>
-<br/>
+</p>
+
+<p>
 then click "New workflow" button.
-<br/>
+</p>
+
+<p>
 <img src="/doc/images/workflowlist.png" alt="Class edit" />
-<br/>
-<br/>
-Specify the workflow name first, and then you can add "Event/Hello User" event to the workflow by selecting it from dropdown list and clicking "New Event" button.
-<br/>
+</p>
+
+<p>
+Specify the workflow name first, and then you can add the "Event/Hello User" event to the workflow by selecting it from
+the dropdown list and clicking the "New Event" button.
+</p>
+
+<p>
 <img src="/doc/images/workflowedit.png" alt="Class edit" />
-<br/>
-<br/>
-
-Simply click on store button after you have added the event.
-
-</p>
-<p>
-Now workflow is ready and you need to create a trigger.
 </p>
 
 <p>
-Go to the "Triggers" ( under "Set up" box ) and select newlly created workflow from dropdown in front of the place you need to run it. (content-read-before)
+Simply click the store button after you have added the event.
 </p>
+
+<p>
+Now the workflow is ready and you need to create a trigger. Go to the "Triggers" list (in the "Set up" menu box) and
+select the newly created workflow from the dropdown list on the content - read - before line.
+</p>
+
+<p>
 <img src="/doc/images/triggers.png" alt="Triggers" />
-<p>
-Click "Store" button. Workflow is connected to the operation now.
 </p>
 
-<br/>
+<p>
+Click the "Store" button. The workflow is connected to the operation now.
+</p>
 
-Finally the workflow is ready and has beenconnected to the operation.
+<p>
+Finally the workflow is ready and has been connected to the operation.
+</p>

@@ -40,7 +40,7 @@ $indexes[] = array( "identifier" => "view/content_classes",
 $indexes[] = array( "identifier" => "view/templateissues",
                     "name" => "Common template issues" );
 $indexes[] = array( "identifier" => "view/workflows",
-                    "name" => "Custom workflow" );
+                    "name" => "Custom workflows" );
 $indexes[] = array( "identifier" => "view/wrappingworkflow",
                     "name" => "Example of wrapping workflow" );
 $indexes[] = array( "identifier" => "view/publishworkflow",

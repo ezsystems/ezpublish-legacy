@@ -37,22 +37,20 @@
 <h1>Datatypes in eZ publish 3</h1>
 
 <p>
-Datatypes are the most useful building bricks in eZ publish 3. To create any attribute in any class, you
-need to choose a suitable datatype to represent your attribute. The concept of eZ publish datatype is
-not exactly as data type as defined in every programming language although it does contain some basic
-datatypes such as integer, float and textline which is actually string type. Datatypes in eZ publish are
-defined as fundamental and common elements which could build complex publishing products in internet.
+Datatypes are the most useful building blocks in eZ publish 3. To create any attribute in any class, you
+need to choose a suitable datatype to represent your attribute. The concept of eZ publish datatypes is
+not exactly the same as datatypes in common programming languages although eZ publish has some basic
+datatypes such as integer, float and textline which is actually a string type. Datatypes in eZ publish are
+defined as fundamental and common elements which can build complex products on the Internet.
 </p>
 
-<p>
-<u><font size=2' color="gray">Overview of available datatypes</font></u>
-</p>
+<h2>Overview of available datatypes</h2>
 
 <p>
-eZ publish 3 comes with following fundamental datatypes.
+eZ publish 3 comes with the following fundamental datatypes.
 <ul>
 <li>Text line</li>
-<li>Interger</li>
+<li>Integer</li>
 <li>Float</li>
 <li>Text field</li>
 <li>XML Text field</li>
@@ -75,38 +73,35 @@ eZ publish 3 comes with following fundamental datatypes.
 </ul>
 </p>
 
-<p>
-<u><font size=2' color="gray">Creating new datatype</font></u>
-</p>
+<h2>Creating a new datatype</h2>
 
 <p>
 When you are creating or editing a class object, you should decide which datatypes are going to be used by
-your attributes. Although datatypes comes with eZ publish are powerful enough for creating complex content
-classes, you probably still need to create your own datatypes for specific cases. Creating new datatypes required
-having some basic knowledge of how eZ publish datatype works and which classes are necessary to be changed or added.
-In the following tutorial, how to create a new datatype is showed step by step using datatype Email as an example.
-The Email datatype is used to save email address and will implement some check rules to verity that input email
-with correct format.
+your attributes. Although the datatypes that come with eZ publish are powerful enough for creating complex content
+classes, you might still need to create your own datatypes for specific cases. Creating new datatypes requires
+having some basic knowledge of how eZ publish datatypes work and which classes are necessary to be changed or added.
+In the following tutorial, how to create a new datatype is shown step by step using the datatype Email as an example.
+The Email datatype is used to save email address and implements some check rules to verify that input email
+is of correct format.
 </p>
 
 <h3>Step 1: Build the file structure for your new datatype.</h3>
 
 <p>
 To make the datatype Email, you should first create the folder ezemail under ./kernel/classes/datatypes/, then create
-the file called ezemailtype.php under the new created folder ezemail. Note that the name of folder and php file is important
+the file called ezemailtype.php under the newly created folder. Note that the name of the folder and PHP file is important
 since it will be used to locate the file. The basic structure is that if you added a datatype x, it should be stored like
 this: ./kernel/classes/datatypes/ezx/ezxtype.php.
 </p>
 
 <h3>Step 2: Write the datatype file inherited from file ./kernel/classes/ezdatatype.php.</h3>
 <p>
-All datatype files should inherit from file ./kernel/classes/ezdatatype.php and implemented some functions which the super
-class has defined but not implemented. Let's workthrough the code of ezemailtype.php to see how this class was
+All datatype files should inherit from the file ./kernel/classes/ezdatatype.php and implement some functions which the
+super class has defined but not implemented. Let's work through the code of ezemailtype.php to see how this class was
 implemented.
 </p>
 
 <pre class="example">
-
 &lt;?php
 
 // Include the super class file
@@ -170,7 +165,7 @@ class eZEmailType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
      An email could be easily stored as variable characters, we use data_text filed in database to save it.
-     In the template, the textfiled name of email input is something like 'ContentObjectAttribute_data_text_idOfTheAttribute',
+     In the template, the textfile name of email input is something like 'ContentObjectAttribute_data_text_idOfTheAttribute',
      therefore we fetch the http variable '$base . "_data_text_" . $contentObjectAttribute->attribute( "id" )'.
      Again, parameters $base holds the base name of http variable and is 'ContentObjectAttribute' in this example.
     */
@@ -201,7 +196,7 @@ class eZEmailType extends eZDataType
     }
 
     /*!
-     Returns the meta data used for storing search indeces.
+     Returns the meta data used for storing search indices.
     */
     function metaData( $contentObjectAttribute )
     {
@@ -220,69 +215,86 @@ eZDataType::register( EZ_DATATYPESTRING_EMAIL, "ezemailtype" );
 ?&gt;
 }
 </pre>
+
 <p>
-As the code illustrates, it must include the php file ezdatatype.php and inherits from eZDataType. The class should implement functions
-validateObjectAttributeHTTPInput, fixupObjectAttributeHTTPInput, fetchObjectAttributeHTTPInput, storeObjectAttribute. Function
-validateObjectAttributeHTTPInput which validates the datatype input and function fetchObjectAttributeHTTPInput which gets the datatype
-input and stores are the most important function which need to be rewritten for every new datatype while other functions may have the
-same content. At the end of the file, the new datatype should be registered in the system by calling register method in class eZDataType.
+As the code illustrates, it must include the PHP file ezdatatype.php and inherit from eZDataType. The class should
+implement the functions validateObjectAttributeHTTPInput, fixupObjectAttributeHTTPInput, fetchObjectAttributeHTTPInput,
+and storeObjectAttribute. The function validateObjectAttributeHTTPInput, which validates the datatype input, and the
+function fetchObjectAttributeHTTPInput, which gets the datatype input and stores it, are the most important functions
+that need to be rewritten for every new datatype. Other functions may have the same content. At the end of the file,
+the new datatype should be registered in the system by calling the register method in the class eZDataType.
+</p>
+
+<p>
 In this example, the following line
 <pre class="example">
 eZDataType::register( EZ_DATATYPESTRING_EMAIL, "ezemailtype" );
 </pre>
 was added.
 </p>
-<h3>Step 3: Add associated template files for content class.</h3>
+<h3>Step 3: Add associated template files for the content class.</h3>
 
 <p>
-Not every datatypes need to have template file in class level since most datatypes could use standard UI
-supplied with eZ publish. It is only necessary when the datatype has specific constraints needs to be defined
-during class editing. Examples are setting default value for this datatype, adding customer action buttons, etc.
-If so, the datatype file should implement function storeClassAttribute, validateClassAttributeHTTPInput,
-fixupClassAttributeHTTPInput, fetchClassAttributeHTTPInput which defined in the super class ezdatatype.php. These
-functions deals with how to fetch, validate input and then store them in database.
-Note that template file should be located at ./design/standard/templates/class/datatype/edit/ezx.tpl.
-Since datatype Email does not have specification in class level and therefore nothing need to be done.
+Not every datatype needs to have a template file in class level since most datatypes can use standard UI
+supplied with eZ publish. It is only necessary when the datatype has specific constraints that need to be defined
+during class editing. Examples are setting a default value for the datatype, adding customer action buttons, etc.
+If so, the datatype file should implement the functions storeClassAttribute, validateClassAttributeHTTPInput,
+fixupClassAttributeHTTPInput, and fetchClassAttributeHTTPInput which are defined in the super class ezdatatype.php.
+These functions deal with how to fetch and validate input and then store it in the database.
+Note that the template file should be located at ./design/standard/templates/class/datatype/edit/ezx.tpl.
+The datatype Email does not have a specification in class level and therefore nothing needs to be done in this case.
 </p>
 
 <h3>Step 4: Add associated template files for content object.</h3>
 <p>
-For every datatype, two template files required to be added. One templeate file for content object editing and
-one template file for content object viewing. In this example, we add one ezemail.tpl shows below under
-./design/standard/templates/content/datatype/edit/. This is just a normal textfield with corresponding name we defined
-in eZEmailtype.php. Users will use this textfield to edit or input email address.
+For every datatype, two template files must to be added. One template file for content object editing and
+one for content object viewing. In this example, we add one ezemail.tpl (shown below) under
+./design/standard/templates/content/datatype/edit/. This is just a normal text field with corresponding name we defined
+in eZEmailtype.php. Users will use this text field to edit or input email address.
+</p>
+
+<p>
 <pre class="example">
 &lt;input type="text" size="10" name="ContentObjectAttribute_data_text_{$attribute.id}" value="{$attribute.data_text}" /&gt;
-</div>
 </pre>
-and another ezemail.tpl under ./design/standard/templates/content/datatype/view/, this template file will show the
+</p>
+
+<p>
+The second ezemail.tpl is added under ./design/standard/templates/content/datatype/view/, this template file will show the
 result of the saved email address.
+</p>
+
+<p>
 <pre class="example">
 {$attribute.data_text}
 </pre>
 </p>
 
-<h3>Step 5: Add the new datatype to the siti.ini file.</h3>
+<h3>Step 5: Add the new datatype to the site.ini file.</h3>
 
 <p>
-The last step is to add the new created datatype to siti.ini file such as it could be found in the datatype
-dropdown list and ready to be used. Open the siti.ini file under ./settings/ with a text editor and find the line with
+The last step is to add the newly created datatype to the site.ini file so it will be displayed in the datatype
+dropdown list. Open the site.ini file under ./settings/ with a text editor and find the line with
+</p>
+
+<p>
 <pre class='example'>
 [DataTypeSettings]
 AvailableDataTypes=ezstring;ezinteger;eztext;ezdate;ezfloat;ezuser;ezimage;ezboolean;
 ezoption;ezprice;ezxmltext;ezobjectrelation;ezenum;ezauthor;ezmedia;ezbinaryfile;ezurl;
 ezemail;ezdatetime;eztime;ezisbn
 </pre>
-Add the name of the new datatype to somewhere in the list above and remember to separate them with ';'. In this example,
-we should add ezemail. You can check the result by refresh your browser and then go to the class editing page.. If everything
-goes fine, you should find Email on the dropdown list.
 </p>
 
 <p>
-<u><font size=2' color="gray">Create more complex datatypes</font></u>
+Add the name of the new datatype to somewhere in the list above and remember to separate them with ';'. In this example,
+we should add ezemail. You can check the result by refreshing your browser and then go to the class editing page.
+If everything goes fine, you should find Email on the dropdown list.
 </p>
+
+<h2>Create more complex datatypes</h2>
 <p>
-In this tutorial, a simple datatype Email which uses only one field in database to store its content was created. To create
-more complex datatypes, extra tables may need to be added and extra classes may need to be written. Please refer to eZEnum
-type for more detail about how complex datatypes were created.
+In this tutorial, a simple datatype Email, which uses only one field in the database to store its content, was created.
+To create more complex datatypes, extra tables may need to be added and extra classes may need to be written. Please refer
+to the eZEnum type for more detail about how complex datatypes can be created.
 </p>

@@ -34,48 +34,57 @@
 
 ?>
 
-<h1>Publish workflow</h1>
+<h1>Approval workflow</h1>
 
 <p>
-One of the most powerful features of eZ publish 3 is that you can create custom workflow.
-Worflow is a mechanism implemented to give a possibility to customize or add new fitures to operations in eZ Publish.
+One of the most powerful features of eZ publish 3 is that you can create custom workflows.
+Workflow is a mechanism implemented to give you the possibility to customize or add new features
+to operations in eZ Publish. eZ Publish 3 already has the workflow events needed to create a
+publishing approval workflow.
 </p>
 
 <p>
-eZ Publish 3 already has workflow events needed to create approval publishing workflow.
+The workflow we will create will allow you to set up approval of object publishing in some places of your site,
+for certain user groups. It consists of "Approve" and "Message" events. The "Approve" event creates a task
+when it runs and "Message" creates a message and sends it back to the user when the task is closed.
 </p>
 
-<h5> Approval workflow</h5>
 <p>
-Approval is a worklflow which allows you to set up approval of publishing objects in some plases of your site. Which runs for some user groups. It consists of "Approve" and "Message" event. "Approve" event creates a task when it runs and "Message" creates a mesage and sends it bak to the user when task is closed.
-</p>
-<p>
-To set up approval workflow you need to do next tree steps:
+To set up an approval workflow you need to do next tree steps:
 <ul>
-<li> Create workflow</li>
-<li> Setup workflow parameters</li>
-<li> Connect workflow to the operation</li>
+<li>Create the workflow</li>
+<li>Setup workflow parameters</li>
+<li>Connect the workflow to the operation</li>
 </ul>
 </p>
-<h5>Create workflow </h5>
-<p>
-To create new workflow you need to get into one of worklowgroups and click "New" there. I will create new workflow and redirect you to an edit page. There  you should fillup "name" text entry  with the name of your workflow, smth. like "Approval by editor" it is up to you. After that select Event/Publish from drop down and click "New". Ater that select Event/Message from dropdown and click "New". Now you have added two events to the workflow.
-</p>
-<img src="/doc/images/workflow_approve1.png" alt="Publish workflow" />
-<h5>Workflow customizing </h5>
-<p>
-To customize approval workflow you need to select from  lists values  for editor , sections, and groups.  Where editor -  person to whom system sends approval tasks, sections - set of sections in which approval workflow takes effect ( tasks will be created only if object is published in one of selected sections ), Users without approval is  set of user groups  users of which do not require approval when publish objects.
-</p>
-<p>
-After seting up that parameters click "Store" button. Workflow is created.
-</p>
-<h5> Connect workflow to the operation</h5>
+
+<h2>Create the workflow</h2>
 
 <p>
-Go to the "Triggers" ( under "Set up" box ) and select newlly created workflow from dropdown in front of content-publish-before.
+To create the new workflow you need to get into one of the workflow groups and click "New" there. It will create a new workflow and redirect you to an edit page. There you should fill in the "name" text entry with the name of your workflow, something like "Approval by editor", it is up to you. After that select Event/Publish from the drop down and click "New". Then select Event/Message from the dropdown and click "New". Now you have added two events to the workflow.
 </p>
+
+<p>
+<img src="/doc/images/workflow_approve1.png" alt="Approval workflow" />
+</p>
+
+<h2>Setup workflow parameters</h2>
+
+<p>
+To customize the approval workflow you need to choose the values for editor, sections, and user groups. Editor is the person to whom the system sends approval tasks. Sections are the sections in which the approval workflow takes effect (tasks will be created only if the object is published in one of the selected sections). Users without approval are the user groups whose users do not require approval when publishing objects. After setting up these parameters click the "Store" button.
+</p>
+
+<h2>Connect the workflow to the operation</h2>
+
+<p>
+Go to the "Triggers" list and select the newly created workflow from the dropdown list on the content - publish - before
+line.
+</p>
+
+<p>
 <img src="/doc/images/triggers.png" alt="Triggers" />
-<p>
-Click "Store" button. Workflow is connected to the operation now.
 </p>
 
+<p>
+Click the "Store" button. Now the workflow is connected to the operation.
+</p>

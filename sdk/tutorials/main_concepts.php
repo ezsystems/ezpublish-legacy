@@ -36,6 +36,8 @@ $DocResult = array();
 $DocResult["title"] = "Main concepts";
 
 ?>
+<h1>Main concepts</h1>
+
 <p>
 eZ publish 3 is the next generation of the popular open source content management system eZ publish.
 This version of eZ publish, though, is not only a totally re-engineered version with a lot of new,

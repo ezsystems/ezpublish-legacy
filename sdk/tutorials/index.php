@@ -62,7 +62,7 @@ $featureArray[] = array( "uri" => "templateissues",
 
 $featureArray[] = array( "uri" => "workflows",
                          "level" => 0,
-                         "name" => "Custom workflow" );
+                         "name" => "Custom workflows" );
 
 $featureArray[] = array( "uri" => "wrappingworkflow",
                          "level" => 0,

@@ -54,7 +54,7 @@ for eZ publish.
 <h2>Execute</h2>
 <dl>
 <dt>fetch</dt>
-<dd>Executes a given fetch operation.</dd>
+<dd>Executes a given fetch operation, and returns the result. It accepts three parameters: module_name, function_name and function_parameters. The last parameter should be a hash corresponding to the given function_name in kernel/[module_name]/function_definition.php. E.g. {fetch('content','list_count',hash(parent_node_id,$node.node_id,sort_by,array(published,true()),class_filter_type,exclude,class_filter_array,array(1,24)))}</dd>
 </dl>
 
 <h2>Locale</h2>

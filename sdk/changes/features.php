@@ -37,6 +37,8 @@ $DocResult["title"] = "Key Features in eZ publish 3.0";
 
 ?>
 
+<h1>Key Features in eZ publish 3.0</h1>
+
 <h2>Installation improvements</h2>
 <p>
 eZ publish 3.0 runs with standard Apache 1.3 or 2.0, PHP 4.1 or newer, and MySQL or
