@@ -147,16 +147,6 @@ class eZRole extends eZPersistentObject
     /*!
      Copies this role, stores it and returns it.
     */
-    function copy()
-    {
-        $newRole =& eZRole::createNew();
-        $this->copyPolicies( $newRole->attribute( 'id' ) );
-        $newRole->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'Copy of %rolename', null,
-                                                array( '%rolename' => $this->attribute( 'name' ) ) ) );
-        $newRole->store();
-        return $newRole;
-    }
-
     function createTemporaryVersion()
     {
         $newRole =& eZRole::createNew();
