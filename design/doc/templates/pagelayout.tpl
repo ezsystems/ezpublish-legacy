@@ -30,7 +30,6 @@
     <td class="headlogo" width="100%" colspan="4">
     {* Admin logo area *}
     <img src={"logo.gif"|ezimage} alt="" />&nbsp;&nbsp;<img src={"admin.gif"|ezimage} alt="" /></td>
-
 </tr>
 <tr>
     <td colspan="4" class="menuheadtoolbar">
@@ -53,11 +52,7 @@
 	</td>
 	<td align="right" valign="middle">
 	<p class="menuitem">
-	{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-	<a class="menuheadlink" href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
-	{section-else}
-	<a class="menuheadlink" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name|wash})
-	{/section}
+	<a class="menuheadlink" href={"/content/view/sitemap/2/"|ezurl}>sitemap</a>
 	</p>
 	</td>
     </tr>
