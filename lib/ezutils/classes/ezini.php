@@ -944,7 +944,7 @@ class eZINI
     /*!
       Removes the group and all it's settings from the .ini file
     */
-    function hasGroup( $blockName )
+    function removeGroup( $blockName )
     {
         unset( $this->BlockValues[$blockName] );
     }
