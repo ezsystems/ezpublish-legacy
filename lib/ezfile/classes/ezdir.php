@@ -263,7 +263,7 @@ class eZDir
     function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $toType );
-        return preg_replace( "#[/\\\\]#", $separator, $path );
+        return str_replace( array( '/', '\\' ), $separator, $path );
     }
 
     /*!
@@ -278,7 +278,7 @@ class eZDir
     {
         $path = eZDir::convertSeparators( $path, $toType );
         $separator = eZDir::separator( $toType );
-        $path = preg_replace( "#$separator$separator+#", $separator, $path );
+        $path = preg_replace( "#$separator{2,}#", $separator, $path );
         $pathElements = explode( $separator, $path );
         $newPathElements = array();
         foreach ( $pathElements as $pathElement )
@@ -311,14 +311,15 @@ class eZDir
         $separator = eZDir::separator( $type );
         $path = implode( $separator, $names );
         $path = eZDir::cleanPath( $path, $type );
-        $hasEndSeparator = ( strlen( $path ) > 0 and
-                         $path[strlen( $path ) - 1] == $separator );
+        $pathLen = strlen( $path );
+        $hasEndSeparator = ( $pathLen > 0 and
+                         $path[$pathLen - 1] == $separator );
         if ( $includeEndSeparator and
              !$hasEndSeparator )
             $path .= $separator;
         else if ( !$includeEndSeparator and
                   $hasEndSeparator )
-            $path = substr( $path, 0, strlen( $path ) - 1 );
+            $path = substr( $path, 0, $pathLen - 1 );
         return $path;
     }
 
