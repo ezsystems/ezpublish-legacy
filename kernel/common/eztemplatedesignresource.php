@@ -905,7 +905,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
                                      "eZTemplateDesignResource::overrideArray" );
-                eZDebug::writeError( $triedFiles,
+                eZDebug::writeError( implode( ',', $triedFiles ),
                                      "eZTemplateDesignResource::overrideArray, tried files" );
             }
 

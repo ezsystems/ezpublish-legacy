@@ -67,6 +67,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added new 'move' permission to content module, this will be used to do checking
   when trying to move nodes. By default this permission will deny all attempts
   to move top-level nodes.
+- Added new post variable 'RedirectOnCancel' for /user/password that can be
+  used to configure the page where is redirected to. Before this was hardcoded to
+  /content/view/sitemap/2.
   
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces

@@ -106,7 +106,14 @@ if ( $http->hasPostVariable( "OKButton" ) )
 
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
-    $Module->redirectTo( '/content/view/sitemap/2/' );
+    if ( $http->hasPostVariable( "RedirectOnCancel" ) )
+    {
+        $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
+    }
+    else
+    {
+        $Module->redirectTo( '/content/view/sitemap/2/' );
+    }
     return;
 }
 
