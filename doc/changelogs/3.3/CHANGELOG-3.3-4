@@ -30,6 +30,8 @@ Changes from 3.3-3 to 3.3-4
 - Fixed bug, typo with section_id http://ez.no/community/bug_reports/typos_ezcontentobject_section_instead_of_ezcontentobject_section_id ( merged from stable/3.2 r5102 )
 - Fixed bug with broken setHour(), setMinute(), setSecond() and setHMS() in eZDateTime class
   http://ez.no/community/bug_reports/bug_in_ezdatetime_class
+- Fixed bug with selection index id 
+  http://ez.no/community/bug_reports/ezselection_options_id_jumping_0_to_2_skipping_1
 
 *Library:
 

@@ -90,22 +90,28 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . "_ezselection_option_name_array_" . $classAttributeID ) )
         {
             $nameArray = $http->postVariable( $base . "_ezselection_option_name_array_" . $classAttributeID );
+
             // Fill in new names for options
             foreach ( array_keys( $currentOptions ) as $key )
             {
                 $currentOptions[$key]['name'] = $nameArray[$currentOptions[$key]['id']];
             }
-                    $hasPostData = true;
+            $hasPostData = true;
 
         }
 
         if ( $http->hasPostVariable( $base . "_ezselection_newoption_button_" . $classAttributeID ) )
         {
-            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
-            $currentOptions[] = array( 'id' => count( $currentOptions ) + 1,
+            $currentCount = 0;
+            foreach ( $currentOptions as $option )
+            {
+                $currentCount = max( $currentCount, $option['id'] );
+            }
+            $currentCount += 1;
+
+            $currentOptions[] = array( 'id' => $currentCount,
                                        'name' => '' );
-            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
-                    $hasPostData = true;
+            $hasPostData = true;
 
         }
 
