@@ -331,16 +331,51 @@ class eZStepCreateSites extends eZStepInstaller
             }
             if ( $siteType['existing_database'] != 3 )
             {
-                $setupINI =& eZINI::instance( 'setup.ini' );
-                $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
-                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
-//                 print( "inserting SQL $sqlSchemaFile!<br/>\n" );
-                $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-//                 print( "inserting SQL $sqlFile!<br/>\n" );
-                $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
-                if ( $db->databaseName() == 'postgresql' )
+                include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+                $result = true;
+                $schemaArray = eZDBSchema::read( 'share/db_schema.dba', true );
+                if ( !$schemaArray )
                 {
-                    $db->correctSequenceValues();
+                    eZDebug::writeError( "Failed loading database schema file shaer/db_schema.dba" );
+                    $result = false;
+                }
+
+                if ( $result )
+                {
+                    $result = true;
+                    $dataArray = eZDBSchema::read( 'share/db_data.dba', true );
+                    if ( !$dataArray )
+                    {
+                        eZDebug::writeError( "Failed loading database data file share/db_data.dba" );
+                        $result = false;
+                    }
+
+                    if ( $result )
+                    {
+                        $schemaArray = array_merge( $schemaArray, $dataArray );
+                        $schemaArray['type'] = 'oracle';
+                        $schemaArray['instance'] =& $db;
+                        $result = true;
+                        $dbSchema = eZDBSchema::instance( $schemaArray );
+                        if ( !$dbSchema )
+                        {
+                            eZDebug::writeError( "Failed loading Oracle schema handler" );
+                            $result = false;
+                        }
+
+                        if ( $result )
+                        {
+                            $result = true;
+                            // This will insert the schema, then the data and
+                            // run any sequence value correction SQL if required
+                            if ( !$dbSchema->insertSchema( array( 'schema' => false,
+                                                                  'data' => true ) ) )
+                            {
+                                eZDebug::writeError( "Failed inserting data to Oracle" );
+                                $result = false;
+                            }
+                        }
+                    }
                 }
             }
             $installParameters = array( 'path' => '.' );
