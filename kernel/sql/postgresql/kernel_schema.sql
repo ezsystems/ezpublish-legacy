@@ -2584,14 +2584,6 @@ CREATE INDEX ezsearch_object_word_link_integer_value923 ON ezsearch_object_word_
 
 
 
-CREATE INDEX ezsearch_word960 ON ezsearch_word USING btree (word);
-
-
-
-
-
-
-
 CREATE INDEX expiration_time986 ON ezsession USING btree (expiration_time);
 
 
@@ -2809,6 +2801,14 @@ CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree
 
 
 CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
+
+
+
+
+
+
+
+CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
 
 
 

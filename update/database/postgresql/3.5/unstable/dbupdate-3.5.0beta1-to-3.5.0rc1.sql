@@ -6,3 +6,7 @@ UPDATE ezrole SET is_new=0;
 ALTER TABLE ezrole ALTER is_new SET NOT NULL;
 ALTER TABLE ezrole ALTER is_new SET DEFAULT 0;
 
+-- New name for ezsearch index, the old one crashed with the table name ezsearch_word
+DROP INDEX ezsearch_word960;
+CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
+

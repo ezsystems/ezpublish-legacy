@@ -1039,7 +1039,7 @@ CREATE TABLE ezsearch_word (
   word varchar(150) default NULL,
   object_count int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezsearch_word (word)
+  KEY ezsearch_word_word_i (word)
 ) TYPE=MyISAM;
 
 
