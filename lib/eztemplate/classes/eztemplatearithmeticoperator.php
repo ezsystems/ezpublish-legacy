@@ -70,45 +70,21 @@ class eZTemplateArithmeticOperator
     /*!
      Constructor
     */
-    function eZTemplateArithmeticOperator( $sumName = 'sum', $subName = 'sub', $incName = 'inc', $decName = 'dec',
-                                           $divName = 'div', $modName = 'mod', $mulName = 'mul',
-                                           $maxName = 'max', $minName = 'min',
-                                           $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round',
-                                           $intName = 'int', $floatName = 'float',
-                                           $countName = 'count',
-                                           $romanName = 'roman' )
+    function eZTemplateArithmeticOperator()
     {
-        $this->SumName = $sumName;
-        $this->SubName = $subName;
-        $this->IncName = $incName;
-        $this->DecName = $decName;
-
-        $this->DivName = $divName;
-        $this->ModName = $modName;
-        $this->MulName = $mulName;
-
-        $this->MaxName = $maxName;
-        $this->MinName = $minName;
-
-        $this->AbsName = $absName;
-        $this->CeilName = $ceilName;
-        $this->FloorName = $floorName;
-        $this->RoundName = $roundName;
-
-        $this->IntName = $intName;
-        $this->FloatName = $floatName;
-
-        $this->CountName = $countName;
-
-        $this->RomanName = $romanName;
-
-        $this->Operators = array( $sumName, $subName, $incName, $decName,
-                                  $divName, $modName, $mulName,
-                                  $maxName, $minName,
-                                  $absName, $ceilName, $floorName, $roundName,
-                                  $intName, $floatName,
-                                  $countName,
-                                  $romanName );
+        $this->Operators = array( 'sum', 'sub', 'inc', 'dec',
+                                  'div', 'mod', 'mul',
+                                  'max', 'min',
+                                  'abs', 'ceil', 'floor', 'round',
+                                  'int', 'float',
+                                  'count',
+                                  'roman' );
+        foreach ( $this->Operators as $operator )
+        {
+            $name = $operator . 'Name';
+            $name[0] = $name[0] & "\xdf";
+            $this->$name = $operator;
+        }
     }
 
     /*!
@@ -125,101 +101,362 @@ class eZTemplateArithmeticOperator
                                                'output' => true,
                                                'parameters' => true,
                                                'element-transformation' => true,
-                                               'transform-parameters' => true ),
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'basicTransformation'),
                       $this->SubName => array( 'input' => true,
                                                'output' => true,
                                                'parameters' => true,
                                                'element-transformation' => true,
-                                               'transform-parameters' => true ),
-                      $this->IncName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1 ),
-                      $this->DecName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1 ),
-                      $this->DivName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true ),
-                      $this->ModName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true ),
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'basicTransformation'),
                       $this->MulName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'basicTransformation'),
+                      $this->DivName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'basicTransformation'),
+
+                      $this->IncName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => 1,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'decIncTransformation'),
+                      $this->DecName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => 1,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'decIncTransformation'),
+
+                      $this->ModName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'modTransformation'),
+
                       $this->MaxName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'minMaxTransformation'),
                       $this->MinName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'minMaxTransformation'),
+
                       $this->AbsName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => 1 ),
+                                               'parameters' => 1,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'roundTransformation'),
                       $this->CeilName => array( 'input' => true,
                                                 'output' => true,
-                                                'parameters' => 1 ),
+                                                'parameters' => 1,
+                                                'element-transformation' => true,
+                                                'transform-parameters' => true,
+                                                'element-transformation-func' => 'roundTransformation'),
                       $this->FloorName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => 1 ),
+                                                 'parameters' => 1,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'element-transformation-func' => 'roundTransformation'),
                       $this->RoundName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => 1 ),
+                                                 'parameters' => 1,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'element-transformation-func' => 'roundTransformation'),
+
                       $this->IntName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => 1 ),
+                                               'parameters' => 1,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'element-transformation-func' => 'castTransformation'),
                       $this->FloatName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => 1 ),
-                      $this->CountName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1 ),
+                                                 'parameters' => 1,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'element-transformation-func' => 'castTransformation'),
+
                       $this->RomanName => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => 1,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'element-transformation-func' => 'romanTransformation'),
+
+                      $this->CountName => array( 'input' => true,
                                                  'output' => true,
                                                  'parameters' => 1 ) );
     }
 
-    function templateElementTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function basicTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
-        if ( $operatorName == $this->SumName )
+        $values = array();
+        $function = $operatorName;
+        if ( $function == $this->SumName )
         {
-            if ( count( $parameters ) == 0 )
-                return false;
-            $newElements = array();
-            $code = "%output% =";
+            $operator = '+';
+        }
+        else if ( $function == $this->SubName )
+        {
+            $operator = '-';
+        }
+        else if ( $function == $this->MulName )
+        {
+            $operator = '*';
+        }
+        else
+        {
+            $operator = '/';
+        }
+
+        if ( count( $parameters ) == 0 )
+            return false;
+        $newElements = array();
+
+        /* Check if all variables are integers. This is for optimization */
+        $staticResult = 0;
+        $allNumeric = true;
+        $notInitialised = true;
+        foreach ( $parameters as $parameter )
+        {
+            if ( $parameter[0][0] != EZ_TEMPLATE_TYPE_NUMERIC )
+            {
+                $allNumeric = false;
+            }
+            else
+            {
+                if ( $notInitialised )
+                {
+                    $staticResult = $parameter[0][1];
+                    $notInitialised = false;
+                }
+                else
+                {
+                    if ( $function == 'sum' )
+                    {
+                        $staticResult += $parameter[0][1];
+                    }
+                    else if ( $function == 'sub' )
+                    {
+                        $staticResult -= $parameter[0][1];
+                    }
+                    else if ( $function == 'mul' )
+                    {
+                        $staticResult *= $parameter[0][1];
+                    }
+                    else
+                    {
+                        $staticResult /= $parameter[0][1];
+                    }
+                }
+            }
+        }
+ 
+        if ( $allNumeric )
+        {
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = '%output% =';
             $counter = 1;
             foreach ( $parameters as $parameter )
             {
                 if ( $counter > 1 )
-                    $code .= " +";
-                $code .= ' %' . $counter . '%';
+                {
+                    $code .= " $operator";
+                }
+                $code .= " %$counter%";
                 $values[] = $parameter;
                 ++$counter;
             }
             $code .= ";\n";
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-            return $newElements;
         }
-        else if ( $operatorName == $this->SubName )
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function minMaxTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( count( $parameters ) == 0 )
+            return false;
+        $newElements = array();
+
+        /* Check if all variables are integers. This is for optimization */
+        $staticResult = array();
+        $allNumeric = true;
+        foreach ( $parameters as $parameter )
         {
-            if ( count( $parameters ) == 0 )
-                return false;
-            $newElements = array();
-            $code = "%output% =";
+            if ( $parameter[0][0] != EZ_TEMPLATE_TYPE_NUMERIC )
+            {
+                $allNumeric = false;
+            }
+            else
+            {
+                $staticResult[] = $parameter[0][1];
+            }
+        }
+ 
+        if ( $allNumeric )
+        {
+            $staticResult = $function( $staticResult );
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = "%output% = $function(";
             $counter = 1;
             foreach ( $parameters as $parameter )
             {
                 if ( $counter > 1 )
-                    $code .= " -";
-                $code .= ' %' . $counter . '%';
+                {
+                    $code .= ', ';
+                }
+                $code .= " %$counter%";
                 $values[] = $parameter;
                 ++$counter;
             }
-            $code .= ";\n";
+            $code .= ");\n";
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function modTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        if ( count( $parameters ) != 2 )
+            return false;
+        $newElements = array();
+
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC && $parameters[1][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $staticResult = $parameters[0][0][1] & $parameters[1][0][1];
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = "%output% = %1% % %2%;\n";
+            $values[] = $parameters[0];
+            $values[] = $parameters[1];
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function roundTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( count( $parameters ) != 1 )
+            return false;
+        $newElements = array();
+
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $staticResult = $function( $parameters[0][0][1] );
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = "%output% = $function( %1% );\n";
+            $values[] = $parameters[0];
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function decIncTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+        $direction = $this->DecName == $function ? -1 : 1;
+
+        if ( count( $parameters ) != 1 )
+            return false;
+        $newElements = array();
+
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $staticResult = $parameters[0][0][1] + $direction;
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = "%output% = %1% + $direction;\n";
+            $values[] = $parameters[0];
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function castTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        if ( count( $parameters ) != 1 )
+            return false;
+        $newElements = array();
+
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $staticResult = ( $operatorName == $this->IntName ) ? (int) $parameters[0][0][1] : (float) $parameters[0][0][1];
+            $code = "%output% = $staticResult;\n";
+        }
+        else
+        {
+            $code = "%output% = ($operatorName)%1%;\n";
+            $values[] = $parameters[0];
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function romanTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        if ( count( $parameters ) != 1 )
+            return false;
+        $newElements = array();
+
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $staticResult = $this->buildRoman( $parameters[0][0][1] );
+            $code = "%output% = '$staticResult';\n";
             $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
             return $newElements;
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     /*!

@@ -1150,12 +1150,21 @@ class eZTemplateCompiler
                              isset( $hints[$operatorName]['element-transformation'] ) and
                              $hints[$operatorName]['element-transformation'] )
                             $hasTransformationSupport = true;
+                        if ( $hasTransformationSupport  and
+                             isset( $hints[$operatorName]['element-transformation-func'] ) )
+                        {
+                            $transformationMethod = $hints[$operatorName]['element-transformation-func'];
+                        }
+                        else
+                        {
+                            $transformationMethod = 'templateElementTransformation';
+                        }
                         if ( isset( $hints[$operatorName] ) and
                              isset( $hints[$operatorName]['transform-parameters'] ) )
                             $transformParameters = $hints[$operatorName]['transform-parameters'];
                     }
                     if ( $hasTransformationSupport and
-                         method_exists( $operatorObject, 'templateElementTransformation' ) )
+                         method_exists( $operatorObject, $transformationMethod ) )
                     {
                         if ( $transformParameters and
                              count( $operatorParameters ) > 0 )
@@ -1173,9 +1182,9 @@ class eZTemplateCompiler
                             $operatorParameters = $newParameters;
                         }
 
-                        $newElements = $operatorObject->templateElementTransformation( $operatorName, $node, $tpl, $resourceData,
-                                                                                       $element, $lastElement, $elementList, $elementTree,
-                                                                                       $operatorParameters );
+                        $newElements = $operatorObject->$transformationMethod( $operatorName, $node, $tpl, $resourceData,
+                                                                               $element, $lastElement, $elementList, $elementTree,
+                                                                               $operatorParameters );
                         if ( is_array( $newElements ) )
                         {
                             $newElementList = array_merge( $newElementList, $newElements );
