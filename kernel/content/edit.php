@@ -174,40 +174,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Discard' ) )
         {
-            /*  $http =& eZHttpTool::instance();
-            $module->redirectTo( '/content/view/full/2/' );
-
-            $objectID = $object->attribute( 'id' );
-            $versionCount= $object->getVersionCount();
-            $db =& eZDB::instance();
-            $db->query( "DELETE FROM ezcontentobject_link
-		                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
-            $db->query( "DELETE FROM eznode_assignment
-		                 WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
-            $version->remove();
-            foreach ( $contentObjectAttributes as $contentObjectAttribute )
-            {
-                $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-                $version = $contentObjectAttribute->attribute( 'version' );
-                if ( $version == $EditVersion )
-                {
-                    $contentObjectAttribute->remove( $objectAttributeID, $version );
-                }
-            }
-            if ( $versionCount == 1 )
-            {
-                $object->remove();
-            }
-            if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
-            {
-                $parentArray = $http->sessionVariable( 'ParentObject' );
-                $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
-                $http->removeSessionVariable( 'ParentObject' );
-                $http->removeSessionVariable( 'NewObjectID' );
-                $module->redirectTo( $parentURL );
-            }
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;*/
-
             $http =& eZHTTPTool::instance();
             $objectID = $object->attribute( 'id' );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );

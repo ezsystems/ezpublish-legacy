@@ -211,6 +211,11 @@ if ( $storingAllowed )
 
     }
 
+    if ( $Module->isCurrentAction( 'Discard' ) )
+    {
+        $inputValidated = true;
+    }
+
     if ( $inputValidated and $requireStoreAction )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
