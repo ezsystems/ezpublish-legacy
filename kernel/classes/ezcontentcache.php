@@ -81,8 +81,25 @@ class eZContentCache
     function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
-//         eZDebug::writeDebug( $cachePathInfo );
-        return file_exists( $cachePathInfo['path'] );
+        $cacheExists = file_exists( $cachePathInfo['path'] );
+        if ( $cacheExists )
+        {
+            $timestamp = filemtime( $cachePathInfo['path'] );
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            if ( eZContentObject::isCacheExpired( $timestamp ) )
+            {
+                eZDebug::writeDebug( 'cache expired #1' );
+                return false;
+            }
+            eZDebug::writeDebug( "checking viewmode '$viewMode' #1" );
+            if ( eZContentObject::isComplexViewModeCacheExpired( $viewMode, $timestamp ) )
+            {
+                eZDebug::writeDebug( "viewmode '$viewMode' cache expired #1" );
+                return false;
+            }
+        }
+        eZDebug::writeDebug( 'cache used #1' );
+        return $cacheExists;
     }
 
     function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList )
@@ -91,6 +108,25 @@ class eZContentCache
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
+        $timestamp = false;
+        $cachePath = $cachePathInfo['path'];
+        if ( file_exists( $cachePath ) )
+        {
+            $timestamp = filemtime( $cachePath );
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            if ( eZContentObject::isCacheExpired( $timestamp ) )
+            {
+                eZDebug::writeDebug( 'cache expired #2' );
+                return false;
+            }
+            eZDebug::writeDebug( "checking viewmode '$viewMode' #1" );
+            if ( eZContentObject::isComplexViewModeCacheExpired( $viewMode, $timestamp ) )
+            {
+                eZDebug::writeDebug( "viewmode '$viewMode' cache expired #2" );
+                return false;
+            }
+        }
+        eZDebug::writeDebug( 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
         $values =& $php->restore( array( 'content_info' => 'contentInfo',
@@ -194,9 +230,27 @@ class eZContentCache
         return $php->store();
     }
 
+    function calculateCleanupValue( $nodeCount )
+    {
+        $ini =& eZINI::instance();
+        $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
+        $languages =& eZContentTranslation::fetchLocaleList();
+        $contentINI =& eZINI::instance( "content.ini" );
+        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        $value = $nodeCount * count( $viewModes ) * count( $languages ) * count( $siteDesigns );
+        return $value;
+    }
+
+    function inCleanupThresholdRange( $value )
+    {
+        $ini =& eZINI::instance();
+        $threshold = $ini->variable( 'ContentSettings', 'CacheThreshold' );
+        return ( $value < $threshold );
+    }
+
     function cleanup( $nodeList )
     {
-        print( "cleanup" );
+//         print( "cleanup" );
         $ini =& eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
@@ -207,6 +261,7 @@ class eZContentCache
         $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
 
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
+//         eZDebug::writeDebug( $siteDesigns, 'siteDesigns' );
 //         eZDebug::writeDebug( $languages, 'languages' );
 //         eZDebug::writeDebug( $nodeList, 'nodeList' );
         foreach ( $siteDesigns as $siteDesign )
@@ -234,7 +289,7 @@ class eZContentCache
                             if ( preg_match( "/^$nodeID" . "-.*\\.php$/", $file ) )
                             {
                                 $cacheFile = eZDir::path( array( $cacheDir, $file ) );
-                                eZDebug::writeNotice( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
+                                eZDebug::writeDebug( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
                                 unlink( $cacheFile );
                             }
                         }

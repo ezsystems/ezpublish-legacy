@@ -68,6 +68,12 @@ links to clickable links.
 - Content cache now restores template design keys.
 - Full and sitemap now only shows edit/copy/remove columns when you actually can do it.
 - Fixed problem with ezsys returning values with quotes ".
+- Made sure section information is correct when publishing object.
+- Content cache is expired when role editing, role assignment or section assignment is used.
+- Complex viewmodes like sitemap are now expired whenever an object is published, controlled by site.ini setting.
+- Content cache cleanup is now controlled by a threshold value, if the published object's
+  cache value is less than the threshold the files are removed if not a global
+  expiry is used.
 
 *SDK :
 
@@ -91,6 +97,8 @@ eZ utils:
 - Removed unneeded global definition of $_ENV and $_SERVER
 - eZHTTPTool now has a redirect function which takes care of constructing
   a HTTP/1.1 compatible redirect string, is to be used instead of pure header().
+- New class eZExpiryHandler which keeps track of expiry timestamps which can be
+  used for cache handlers.
 
 eZ PHP creator:
 - Added support for end-of-line comments.

@@ -272,9 +272,20 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
                 eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
-                if ( eZContentCache::cleanup( $nodeList ) )
+                eZContentObject::expireComplexViewModeCache();
+                $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
+                if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
                 {
+//                     eZDebug::writeDebug( 'cache file cleanup' );
+                    if ( eZContentCache::cleanup( $nodeList ) )
+                    {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
+                    }
+                }
+                else
+                {
+//                     eZDebug::writeDebug( 'expire all cache files' );
+                    eZContentObject::expireAllCache();
                 }
                 eZDebug::accumulatorStop( 'node_cleanup' );
 

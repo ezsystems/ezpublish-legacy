@@ -44,8 +44,7 @@ $Module =& $Params['Module'];
 $roleID =& $Params['RoleID'];
 
 if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignRole"
-     )
+     $http->postVariable( "BrowseActionName" ) == "AssignRole" )
 {
     $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
     $role =& eZRole::fetch( $roleID );
@@ -54,8 +53,14 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
     {
         $role->assignToUser( $objectID );
     }
+    if ( count( $selectedObjectIDArray ) > 0 )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        eZContentObject::expireAllCache();
+    }
     $Module->redirectTo( "/role/view/$roleID/" );
-}else if ( is_numeric( $roleID ) )
+}
+else if ( is_numeric( $roleID ) )
 {
     $http->setSessionVariable( "BrowseFromPage", "/role/assign/" . $roleID . "/" );
 

@@ -1654,6 +1654,70 @@ class eZContentObject extends eZPersistentObject
         return $contentCacheInfo;
     }
 
+    /*!
+     Sets all content cache files to be expired.
+    */
+    function expireAllCache()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->store();
+    }
+
+    /*!
+     Sets all complex viewmode content cache files to be expired.
+    */
+    function expireComplexViewModeCache()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-complex-viewmode-cache', mktime() );
+        $handler->store();
+    }
+
+    /*!
+     \return if the content cache timestamp \a $timestamp is expired.
+    */
+    function isCacheExpired( $timestamp )
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        if ( !$handler->hasTimestamp( 'content-cache' ) )
+            return false;
+        $expiryTime = $handler->timestamp( 'content-cache' );
+        if ( $expiryTime > $timestamp )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return true if the viewmode is a complex viewmode.
+    */
+    function isComplexViewMode( $viewMode )
+    {
+        $ini =& eZINI::instance();
+        $viewModes = $ini->variableArray( 'ContentSettings', 'ComplexDisplayViewModes' );
+        return in_array( $viewMode, $viewModes );
+    }
+
+    /*!
+     \return true if the viewmode is a complex viewmode and the viewmode timestamp is expired.
+    */
+    function isComplexViewModeCacheExpired( $viewMode, $timestamp )
+    {
+        if ( !eZContentObject::isComplexViewMode( $viewMode ) )
+            return false;
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        if ( !$handler->hasTimestamp( 'content-complex-viewmode-cache' ) )
+            return false;
+        $expiryTime = $handler->timestamp( 'content-complex-viewmode-cache' );
+        if ( $expiryTime > $timestamp )
+            return true;
+        return false;
+    }
+
     var $ID;
     var $Name;
 

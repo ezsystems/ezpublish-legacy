@@ -230,6 +230,34 @@ class eZContentOperationCollection
 
     }
 
+    function updateSectionID( $objectID, $versionNum )
+    {
+        $object =& eZContentObject::fetch( $objectID );
+        $version =& $object->version( $versionNum );
+
+        $assignments =& $version->attribute( 'parent_nodes' );
+        foreach ( array_keys( $assignments ) as $key )
+        {
+            if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+            {
+                $parentNode =& $assignments[$key]->attribute( 'parent_node_obj' );
+                if ( $parentNode )
+                {
+                    $parentObject =& $parentNode->attribute( 'object' );
+                    if ( $parentObject )
+                    {
+                        $sectionID = $parentObject->attribute( 'section_id' );
+                        if ( $sectionID != $object->attribute( 'section_id' ) )
+                        {
+                            $object->setAttribute( 'section_id', $sectionID );
+                            $object->store();
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
 
     function removeOldNodes( $objectID, $versionNum )
     {

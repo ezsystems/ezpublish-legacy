@@ -93,6 +93,8 @@ if ( $http->hasPostVariable( 'Apply' )  )
 {
     $originalRole = eZRole::fetch( $role->attribute( 'version' ) );
     $originalRole->revertFromTemporaryVersion();
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();
     $Module->redirectTo( $Module->functionURI( "view" ) . "/" . $originalRole->attribute( 'id' ) . '/');
 }
 

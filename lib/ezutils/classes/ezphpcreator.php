@@ -188,7 +188,11 @@ class eZPHPCreator
 
             $this->writeChunks();
             $this->flushChunks();
+            $this->close();
         }
+        else
+            eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
+                                 'eZPHPCreator::store' );
     }
 
     function writeChunks()

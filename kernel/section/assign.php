@@ -47,8 +47,7 @@ $section =& eZSection::fetch( $SectionID );
 
 // Assign section to subtree of node
 if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignSection"
-     )
+     $http->postVariable( "BrowseActionName" ) == "AssignSection" )
 {
     $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
 
@@ -56,8 +55,14 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $section->attribute( 'id' ) );
     }
+    if ( count( $selectedNodeIDArray ) > 0 )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        eZContentObject::expireAllCache();
+    }
     $Module->redirectTo( "/section/list/" );
-}else
+}
+else
 {
     $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
     $http->removeSessionVariable( "CustomBrowseActionAttributeID" );

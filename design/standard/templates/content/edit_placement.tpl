@@ -95,7 +95,7 @@
         </td>
         <td class="{$Node:sequence}" align="right">
 {*     {section show=eq($Node:item.parent_node,$main_node_id)|not}*}
-        <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"remove.png"|ezimage} value="{$Node:item.parent_node}"  />
+        <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"trash.png"|ezimage} value="{$Node:item.parent_node}"  />
 {*     {/section}*}
         </td>
     </tr>
