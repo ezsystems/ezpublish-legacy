@@ -1,0 +1,152 @@
+*Title: Hide (unpublish) feature
+
+Incentive:
+
+Unpublish is standard functionality and is very much requested by the
+community.
+
+Since publishing means adding something to the content tree unpublish
+implies removal of something from the content tree. This is not the case
+with the solution being described and therefore the feature is called
+"Hiding" instead.
+
+*Documentation:
+
+The feature lets user temporary hide a node or subtree from the conten tree,
+with the ability to show it again later at the previous location.
+
+Eeach node now has two extra boolean attributes:
+H - hidden;
+X - invisible.
+
+The Hidden (H) attribute is set by user when he wants to hide a
+particular node. A node that is hidden will immediately be marked "X"
+for invisible, and all the node's descendants are recursively marked
+with "X" as well.
+
+So, the new attributes mean the following:
+- HX: node has been hidden by a user and it is invisible;
+- X : node is invisible because its ancestor is hidden.
+
+General notes:
+
+- A node cannot be(come) visible if its parent is not visible.
+- If a user tries to hide an already invisible node then the node is just
+  marked as also hidden (in addition to invisibility).
+- If a node is hidden and its parent becomes visible, the node remains
+  hidden, and its descendants remain invisible.
+- NB: In order to disallow user from seeing invisible nodes in a given
+  siteaccess you should explicitly set the appropriate INI setting (see
+  below).
+
+Look at the following figures to understand the hiding algorithm better.
+On these figures:
+N - visible node
+H - hidden node (which is also invisible, of course);
+X - invisible node (because of a hidden ancestor).
+Node being processed is marked with an arrow.
+
+So, there are four possible cases:
+
+1. hiding a visible node:
+content tree before:
+                 N
+                / \
+            -->N   N
+              / \
+             N   N
+            / \
+           H   N
+           |
+           X
+
+content tree after:
+                 N
+                / \
+            -->H   N
+              / \
+             X   X
+            / \
+           H   X
+           |
+           X
+
+2. hiding an invisible node
+content tree before:
+                 N
+                / \
+               H   N
+             /  \
+        --> X    X
+           / \
+          H   X
+          | 
+          X
+
+content tree after:
+                 N
+                / \
+               H   N
+             /  \
+        --> H    X
+           / \
+          H   X
+          | 
+          X
+3. unhiding a node having visible ancestor:
+content tree before:
+                 N
+                / \
+         -->   H   N
+              /     \
+             X       X
+            / \
+           H   X
+           | 
+           X
+
+content tree after:
+                 N
+                / \
+         -->   N   N
+              /     \
+             N       X
+            / \
+           H   N
+           | 
+           X
+
+4. unhiding a node having invisible ancestor:
+content tree before:
+                 N
+                / \
+               H   N
+              / \
+             X   X
+            / \
+       --> H   X
+           | 
+           X
+
+content tree after:
+                 N
+                / \
+               H   N
+              / \
+             X   X
+            / \
+       --> X   X
+           | 
+           X
+
+Required privileges:
+To (un)hide a node the 'content/edit' permission is required.
+
+New INI settings:
+site.ini:
+ - SiteAccessSettings/ShowHiddenNodes (true/false):
+   Determines whether to show hidden nodes in this siteaccess.
+
+New DB fields:
+ - ezcontentobject_tree.hidden
+ - ezcontentobject_tree.invisible
