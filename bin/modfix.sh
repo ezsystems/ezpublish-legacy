@@ -21,6 +21,9 @@ chmod -R $DIR_MODE ../var/storage
 if [ ! -d ../var/cache/template/tree ]; then
     mkdir -p ../var/cache/template/tree
 fi
+if [ ! -d ../var/cache/template/process ]; then
+    mkdir -p ../var/cache/template/process
+fi
 chmod -R $DIR_MODE ../var/cache/template
 
 if [ ! -d ../var/log ]; then

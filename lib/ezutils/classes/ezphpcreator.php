@@ -45,6 +45,16 @@
 
 define( 'EZ_PHPCREATOR_VARIABLE', 1 );
 define( 'EZ_PHPCREATOR_SPACE', 2 );
+define( 'EZ_PHPCREATOR_TEXT', 3 );
+define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
+define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
+
+define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
+define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
+define( 'EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT', 3 );
+
+define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
+define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
 
 class eZPHPCreator
 {
@@ -137,11 +147,23 @@ class eZPHPCreator
                 $element =& $this->Elements[$i];
                 if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
                 {
-                    $this->writeVariable( $element[1], $element[2] );
+                    $this->writeVariable( $element[1], $element[2], $element[3] );
                 }
                 else if ( $element[0] == EZ_PHPCREATOR_SPACE )
                 {
                     $this->writeSpace( $element );
+                }
+                else if ( $element[0] == EZ_PHPCREATOR_TEXT )
+                {
+                    $this->writeText( $element );
+                }
+                else if ( $element[0] == EZ_PHPCREATOR_METHOD_CALL )
+                {
+                    $this->writeMethodCall( $element );
+                }
+                else if ( $element[0] == EZ_PHPCREATOR_CODE_PIECE )
+                {
+                    $this->writeCodePiece( $element );
                 }
             }
 
@@ -179,15 +201,79 @@ class eZPHPCreator
         $this->write( $text );
     }
 
-    function writeVariable( $variableName, $variableValue )
+    function writeCodePiece( $element )
     {
-        $text = '$' . $variableName . ' = ';
+        $code = $element[1];
+        $this->write( $code );
+    }
+
+    function writeText( $element )
+    {
+        $text = $element[1];
+        $this->write( "\n?>" );
+        $this->write( $text );
+        $this->write( "<?php\n" );
+    }
+
+    function writeMethodCall( $element )
+    {
+        $objectName = $element[1];
+        $methodName = $element[2];
+        $parameters = $element[3];
+        $returnValue = $element[4];
+        $text = '';
+        if ( is_array( $returnValue ) )
+        {
+            $variableName = $returnValue[0];
+            $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT;
+            if ( isset( $variableValue[1] ) )
+                $assignmentType = $variableValue[1];
+            $text = $this->variableNameText( $variableName, $assignmentType );
+        }
+        $text .= '$' . $objectName . '->' . $methodName . '(';
+        $column = strlen( $text );
+        $i = 0;
+        foreach ( $parameters as $parameterData )
+        {
+            if ( $i > 0 )
+                $text .= ",\n" . str_repeat( ' ', $column );
+            $parameterType = EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE;
+            $parameterValue = $parameterData[0];
+            if ( isset( $parameterData[1] ) )
+                $parameterType = $parameterData[1];
+            if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE )
+                 $text .= ' ' . $this->variableText( $parameterValue, $column + 1 );
+            else if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE )
+                $text .= ' $' . $parameterValue;
+            ++$i;
+        }
+        if ( $i > 0 )
+            $text .= ' ';
+        $text .= ");\n";
+        $this->write( $text );
+    }
+
+    function writeVariable( $variableName, $variableValue, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+    {
+        $text = $this->variableNameText( $variableName, $assignmentType );
         $text .= $this->variableText( $variableValue, strlen( $text ) );
         $text .= ";\n";
         $this->write( $text );
     }
 
-    function variableText( $value, $column, $iteration = 0 )
+    function variableNameText( $variableName, $assignmentType )
+    {
+        $text = '$' . $variableName;
+        if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+            $text .= ' = ';
+        else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
+            $text .= ' .= ';
+        else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT )
+            $text .= '[] = ';
+        return $text;
+    }
+
+    function variableText( $value, $column, $iteration = 0, $maxIterations = 2 )
     {
         if ( is_bool( $value ) )
             $text = ( $value ? 'true' : 'false' );
@@ -208,7 +294,8 @@ class eZPHPCreator
             $text = $value;
         else if ( is_object( $value ) )
         {
-            if ( $iteration > 2 )
+            if ( $maxIterations !== false and
+                 $iteration > $maxIterations )
             {
                 $temporaryVariableName = $this->temporaryVariableName( 'obj' );
                 $this->writeVariable( $temporaryVariableName, $value );
@@ -249,7 +336,8 @@ class eZPHPCreator
         }
         else if ( is_array( $value ) )
         {
-            if ( $iteration > 2 )
+            if ( $maxIterations !== false and
+                 $iteration > $maxIterations )
             {
                 $temporaryVariableName = $this->temporaryVariableName( 'arr' );
                 $this->writeVariable( $temporaryVariableName, $value );
@@ -313,11 +401,12 @@ class eZPHPCreator
         return $variableName;
     }
 
-    function addVariable( $name, $value )
+    function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
     {
         $element = array( EZ_PHPCREATOR_VARIABLE,
                           $name,
-                          $value );
+                          $value,
+                          $assignmentType );
         $this->Elements[] = $element;
     }
 
@@ -325,6 +414,30 @@ class eZPHPCreator
     {
         $element = array( EZ_PHPCREATOR_SPACE,
                           $lines );
+        $this->Elements[] = $element;
+    }
+
+    function addText( $text )
+    {
+        $element = array( EZ_PHPCREATOR_TEXT,
+                          $text );
+        $this->Elements[] = $element;
+    }
+
+    function addMethodCall( $objectName, $methodName, $parameters, $returnValue = false )
+    {
+        $element = array( EZ_PHPCREATOR_METHOD_CALL,
+                          $objectName,
+                          $methodName,
+                          $parameters,
+                          $returnValue );
+        $this->Elements[] = $element;
+    }
+
+    function addCodePiece( $code )
+    {
+        $element = array( EZ_PHPCREATOR_CODE_PIECE,
+                          $code );
         $this->Elements[] = $element;
     }
 

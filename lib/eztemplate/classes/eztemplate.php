@@ -484,6 +484,8 @@ class eZTemplate
 
     function processFunction( $functionName, &$textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+        // Note: This code piece is replicated in the eZTemplateProcessCache,
+        //       if this code is changed the replicated code must be updated as well.
         $func =& $this->Functions[$functionName];
         if ( is_array( $func ) )
         {
@@ -522,25 +524,30 @@ class eZTemplate
 
     function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
     {
-        $text = "";
-        $tstamp = null;
-        $result = false;
-        $templateRoot = null;
-        $keyData = null;
-        if ( $resourceObject->handleResource( $this, $templateRoot, $text, $tstamp, $uri, $resourceName, $template, $keyData, EZ_RESOURCE_FETCH, $extraParameters ) )
+//         $text = "";
+//         $tstamp = null;
+//         $resourceData = false;
+//         $templateRoot = null;
+//         $keyData = null;
+        $resourceData = array();
+        $resourceData['text'] = null;
+        $resourceData['root-node'] = null;
+        $resourceData['process-cache'] = false;
+        $resourceData['time-stamp'] = null;
+        $resourceData['key-data'] = null;
+        $resourceData['uri'] = $uri;
+        $resourceData['resource'] = $resourceName;
+        $resourceData['template-name'] = $template;
+        $resourceData['template-filename'] = $template;
+        $resourceData['handler'] =& $resourceObject;
+        // $templateRoot, $text, $tstamp, $uri, $resourceName, $template, $keyData
+        if ( !$resourceObject->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters ) )
         {
-            $result = array();
-            $result['text'] =& $text;
-            $result['root-node'] =& $templateRoot;
-            $result['time-stamp'] =& $tstamp;
-            $result['key-data'] =& $keyData;
-            $result['resource'] =& $resourceName;
-            $result['template_name'] =& $template;
-            $result['handler'] =& $resourceObject;
+            $resourceData = null;
+            if ( $displayErrors )
+                $this->warning( "", "No template could be loaded for \"$template\" using resource \"$resourceName\"" );
         }
-        else if ( $displayErrors )
-            $this->warning( "", "No template could be loaded for \"$template\" using resource \"$resourceName\"" );
-        return $result;
+        return $resourceData;
     }
 
     /*!
@@ -568,14 +575,12 @@ class eZTemplate
         $resourceData = null;
         $root = null;
 
-        if ( $resourceData === null )
-        {
-            $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
-        }
+        $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
 
         if ( !$resourceData )
             return null;
-        if ( $resourceData['root-node'] === null )
+        if ( !$resourceData['process-cache'] and
+             $resourceData['root-node'] === null )
         {
             $root =& $resourceData['root-node'];
             $root = array( EZ_TEMPLATE_NODE_ROOT, false );
@@ -587,6 +592,13 @@ class eZTemplate
             if ( $canCache )
                 $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
         }
+        if ( !$resourceData['process-cache'] and
+             $canCache and
+             $this->canGenerateProcessCache( $resourceData ) )
+        {
+            if ( $this->generateProcessCache( $resourceData, $extraParameters ) )
+                $resourceData['process-cache'] = true;
+        }
         return $resourceData;
     }
 
@@ -595,13 +607,47 @@ class eZTemplate
     {
         $resourceData =& $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
         if ( !$resourceData or
-             $resourceData['root-node'] === null )
+             ( !$resourceData['process-cache'] and
+               $resourceData['root-node'] === null ) )
             return;
-        $root =& $resourceData['root-node'];
-        $text = null;
-        $this->process( $root, $text, $rootNamespace, $currentNamespace );
-        $this->setIncludeOutput( $uri, $text );
-        $textElements[] = $text;
+        if ( $resourceData['process-cache'] )
+        {
+            $this->handleProcessCache( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters );
+        }
+        else
+        {
+            $root =& $resourceData['root-node'];
+            $text = null;
+            $this->process( $root, $text, $rootNamespace, $currentNamespace );
+            $this->setIncludeOutput( $uri, $text );
+            $textElements[] = $text;
+        }
+    }
+
+    function canGenerateProcessCache( &$resourceData )
+    {
+        $resourceObject =& $resourceData['handler'];
+        if ( !$resourceObject )
+            return false;
+        $canGenerate = $resourceObject->canGenerateProcessCache();
+        return $canGenerate;
+    }
+
+    function generateProcessCache( &$resourceData, &$extraParameters )
+    {
+        $resourceObject =& $resourceData['handler'];
+        if ( !$resourceObject )
+            return false;
+        $keyData = $resourceData['key-data'];
+        $uri = $resourceData['uri'];
+        $resourceName = $resourceData['resource'];
+        $templatePath = $resourceData['template-name'];
+        eZDebug::writeDebug( 'Generating process cache', 'eztemplate' );
+        $resourceObject->generateProcessCache( $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
+    }
+
+    function handleProcessCache( &$resourceData, &$textElements, $rootNamespace, $currentNamespace, &$extraParameters )
+    {
     }
 
     /*!
@@ -648,6 +694,9 @@ class eZTemplate
         return array( "type" => "null" );
     }
 
+    /*!
+     \static
+    */
     function mergeNamespace( $rootNamespace, $additionalNamespace )
     {
         $namespace = $rootNamespace;
@@ -1590,6 +1639,10 @@ class eZTemplate
     */
     function warning( $name, $txt, $placement = false )
     {
+        if ( !is_string( $placement ) )
+            $placementText = $this->placementText( $placement );
+        else
+            $placementText = $placement;
         $placementText = $this->placementText( $placement );
         if ( $name != "" )
             eZDebug::writeWarning( $txt, "eZTemplate:$name" . $placementText );
@@ -1602,7 +1655,10 @@ class eZTemplate
     */
     function error( $name, $txt, $placement = false )
     {
-        $placementText = $this->placementText( $placement );
+        if ( !is_string( $placement ) )
+            $placementText = $this->placementText( $placement );
+        else
+            $placementText = $placement;
         if ( $name != "" )
             eZDebug::writeError( $txt, "eZTemplate:$name" . $placementText );
         else

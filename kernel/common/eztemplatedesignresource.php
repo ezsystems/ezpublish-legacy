@@ -125,9 +125,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-    function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+//     function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+    function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
     {
-//         eZDebug::writeDebug( "design:handleResource( tpl=$tpl, templateRoot=$templateRoot, text=$text, tstamp=$tstamp, uri=$uri, resourceName=$resourceName, path=$path, keyData=$keyData, method=$method, extraParameters=$extraParameters )" );
+        $templateRoot =& $resourceData['template-root'];
+        $text =& $resourceData['text'];
+        $tstamp =& $resourceData['time-stamp'];
+        $uri =& $resourceData['uri'];
+        $resourceName =& $resourceData['resource'];
+        $path =& $resourceData['template-name'];
+        $keyData =& $resourceData['key-data'];
+
         $matches = $this->fileMatchingRules( 'templates', $path );
 
         $matchKeys = $this->Keys;
@@ -155,8 +163,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
         $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
         $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
-        $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $templateRoot, $text, $tstamp, $uri, $resourceName, $file, $keyData, $method, $extraParameters );
-//         eZDebug::writeDebug( "done with design:handleResource( tpl=$tpl, templateRoot=$templateRoot, text=$text, tstamp=$tstamp, uri=$uri, resourceName=$resourceName, path=$path, keyData=$keyData, method=$method, extraParameters=$extraParameters )=$result" );
+        $resourceData['template-filename'] = $file;
+        $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
         return $result;
     }
 

@@ -44,6 +44,7 @@
 
 include_once( "lib/ezi18n/classes/eztextcodec.php" );
 include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
+include_once( "lib/eztemplate/classes/eztemplateprocesscache.php" );
 
 class eZTemplateFileResource
 {
@@ -94,6 +95,33 @@ class eZTemplateFileResource
     /*!
      \return the cached node tree for the selected template.
     */
+    function hasCachedProcessTree( $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp )
+    {
+        return false;
+        $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
+        if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp ) )
+            eZTemplateTreeCache::restoreCache( $key );
+        return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
+    }
+
+    /*!
+     Sets the cached node tree for the selected template to \a $root.
+    */
+    function generateProcessCache( $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
+    {
+        eZDebug::writeDebug( 'generateProcessCache( $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )', 'eztemplatefileresource' );
+        $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
+        return eZTemplateProcessCache::generateCache( $key, $resourceData );
+    }
+
+    function canGenerateProcessCache()
+    {
+        return eZTemplateProcessCache::isCacheEnabled();
+    }
+
+    /*!
+     \return the cached node tree for the selected template.
+    */
     function &cachedTemplateTree( $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp )
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
@@ -116,9 +144,10 @@ class eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-    function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+//     function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+    function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
     {
-        return $this->handleResourceData( $tpl, $this, $templateRoot, $text, $tstamp, $uri, $resourceName, $path, $keyData, $method, $extraParameters );
+        return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
 
     /*!
@@ -128,8 +157,18 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-    function handleResourceData( &$tpl, &$handler, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+//     function handleResourceData( &$tpl, &$handler, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
+    function handleResourceData( &$tpl, &$handler, &$resourceData, $method, &$extraParameters )
     {
+        // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
+        $templateRoot =& $resourceData['root-node'];
+        $text =& $resourceData['text'];
+        $tstamp =& $resourceData['time-stamp'];
+        $uri =& $resourceData['uri'];
+        $resourceName =& $resourceData['resource'];
+        $path =& $resourceData['template-filename'];
+        $keyData =& $resourceData['key-data'];
+
         if ( !file_exists( $path ) )
             return false;
         $tstamp = filemtime( $path );
@@ -141,6 +180,11 @@ class eZTemplateFileResource
         $keyData = 'file:' . $path;
         if ( $method == EZ_RESOURCE_FETCH )
         {
+            if ( $canCache )
+            {
+                if ( $handler->hasCachedProcessTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
+                     $resourceData['process-cache'] = true;
+            }
             if ( $canCache )
                 $templateRoot = $handler->cachedTemplateTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp );
 

@@ -224,9 +224,13 @@ class eZObjectForwarder
                 }
             }
 
-            $root =& $resourceData['root-node'];
-            if ( $root )
+            if ( $resourceData['process-cache'] )
             {
+                $tpl->handleProcessCache( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters );
+            }
+            else if ( $resourceData['root-node'] )
+            {
+                $root =& $resourceData['root-node'];
                 $tpl->process( $root, $sub_text, $currentNamespace, $currentNamespace );
                 $tpl->setIncludeOutput( $uri, $sub_text );
 
