@@ -538,52 +538,48 @@ class eZContentFunctionCollection
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
-        if ( $accessResult['accessWord'] == 'limited' )
+        if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
         {
             foreach ( array_keys( $accessResult['policies'] ) as $key )
-            {
-                $policy =& $accessResult['policies'][$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-            }
-        }
+                $limitationList[] =& $accessResult['policies'][$key];
 
-        if ( count( $limitationList ) > 0 )
-        {
             $sqlParts = array();
+
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
                 $hasNodeLimitation = false;
-                foreach ( $limitationArray as $limitation )
+
+                foreach ( $limitationArray as $key => $val )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    switch ( $key )
                     {
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
-                    {
+                    case 'Class':
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ',', $val ) . ')';
+                        break;
+                    case 'Section':
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $val ) . ')';
+                        break;
+                    case 'Owner':
                         eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        break;
+                    case 'Node':
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $val ) . ')';
                         $hasNodeLimitation = true;
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
-                    {
-                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        break;
+                    case 'Subtree':
+                        $pathArray =& $val;
                         $sqlPartPartPart = array();
                         foreach ( $pathArray as $limitationPathString )
                         {
                             $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                         }
                         $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+
+                        break;
                     }
                 }
+
                 if ( $hasNodeLimitation )
                     $sqlParts[] = implode( ' OR ', $sqlPartPart );
                 else
@@ -633,57 +629,55 @@ class eZContentFunctionCollection
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
-        if ( $accessResult['accessWord'] == 'limited' )
-        {
-            foreach ( array_keys( $accessResult['policies'] ) as $key )
-            {
-                $policy =& $accessResult['policies'][$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-            }
-        }
 
-        if ( count( $limitationList ) > 0 )
+        if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
         {
+            // make an array of references to policies
+            foreach ( array_keys( $accessResult['policies'] ) as $key )
+                $limitationList[] =& $accessResult['policies'][$key];
+
             $sqlParts = array();
+
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
                 $hasNodeLimitation = false;
-                foreach ( $limitationArray as $limitation )
+
+                foreach ( array_keys( $limitationArray ) as $key )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    switch ( $key )
                     {
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
-                    {
-                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    case 'Class':
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ',', $limitationArray['Class'] ) . ')';
+                        break;
+                    case 'Section':
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $limitationArray['Section'] ) . ')';
+                        break;
+                    case 'Owner':
+                        eZDebug::writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
+                        break;
+                    case 'Node':
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $limitationArray['Node'] ) . ')';
                         $hasNodeLimitation = true;
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
-                    {
-                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        break;
+                    case 'Subtree':
+                        $pathArray =& $limitationArray['Subtree'];
                         $sqlPartPartPart = array();
                         foreach ( $pathArray as $limitationPathString )
                         {
                             $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                         }
                         $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                        break;
                     }
                 }
+
                 if ( $hasNodeLimitation )
                     $sqlParts[] = implode( ' OR ', $sqlPartPart );
                 else
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
+
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
         }
 
