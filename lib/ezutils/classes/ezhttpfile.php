@@ -48,6 +48,11 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
+define( 'EZ_UPLOADEDFILE_OK', 0 );
+define( 'EZ_UPLOADEDFILE_DOES_NOT_EXIST', -1 );
+define( 'EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT', -2 );
+define( 'EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE', -3 );
+
 class eZHTTPFile
 {
     /*!
@@ -212,18 +217,60 @@ class eZHTTPFile
     }
 
     /*!
-     \return true if the HTTP file $http_name can be fetched.
+     \return true if the HTTP file $http_name can be fetched. If $maxSize is given,
+     the function returns 
+        0 (EZ_UPLOADEDFILE_OK) if the file can be fetched,
+       -1 (EZ_UPLOADEDFILE_DOES_NOT_EXIST) if there has been no file uploaded,
+       -2 (EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT) if the file was uploaded but size
+          exceeds the upload_max_size limit (set in the PHP configuration), 
+       -3 (EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
+          exceeds $maxSize or MAX_FILE_SIZE variable in the form.
     */
-    function canFetch( $http_name )
+    function canFetch( $http_name, $maxSize = false )
     {
         $file =& $GLOBALS["eZHTTPFile-$http_name"];
         if ( get_class( $file ) != "ezhttpfile" )
         {
-            global $_FILES;
+            if ( $maxSize === false )
+            {
+                return isset( $_FILES[$http_name] ) and $_FILES[$http_name]['name'] != "" and $_FILES[$http_name]['error'] == 0;
+            }
 
-            return isset( $_FILES[$http_name] ) and $_FILES[$http_name]["name"] != "";
+            if ( isset( $_FILES[$http_name] ) and $_FILES[$http_name]['name'] != "" )
+            {
+                switch ( $_FILES[$http_name]['error'] )
+                {
+                    case ( UPLOAD_ERR_NO_FILE ):
+                    {
+                        return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
+                    }break;
+
+                    case ( UPLOAD_ERR_INI_SIZE ):
+                    {
+                        return EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT;
+                    }break;
+
+                    case ( UPLOAD_ERR_FORM_SIZE ):
+                    {
+                        return EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
+                    }break;
+
+                    default:
+                    {
+                        return ( $maxSize == 0 || $_FILES[$http_name]['size'] <= $maxSize )? EZ_UPLOADEDFILE_OK:
+                                                                                             EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
+                    }
+                }
+            }
+            else
+            {
+                return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
+            }
         }
-        return true;
+        if ( $maxSize === false )
+            return EZ_UPLOADEDFILE_OK;
+        else
+            return true;
     }
 
     /*!
@@ -236,8 +283,6 @@ class eZHTTPFile
         if ( get_class( $file ) != "ezhttpfile" )
         {
             $file = null;
-
-            global $_FILES;
 
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )

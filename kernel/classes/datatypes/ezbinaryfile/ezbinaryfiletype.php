@@ -231,6 +231,10 @@ class eZBinaryFileType extends eZDataType
     {
         eZBinaryFileType::checkFileUploads();
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $mustUpload = false;
+        $httpFileName = $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
+
         if ( $classAttribute->attribute( "is_required" ) == true )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -238,14 +242,28 @@ class eZBinaryFileType extends eZDataType
             $binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
             if ( $binary === null )
             {
-                $file =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
-                if ( $file === null )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid file is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
+                $mustUpload = true;
             }
+        }
+
+        $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
+        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'A valid file is required.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Size of uploaded file exceeds %1 bytes.' ), $maxSize );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
