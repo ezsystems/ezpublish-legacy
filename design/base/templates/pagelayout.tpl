@@ -159,5 +159,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 <div class="break"></div>
 </div>
 
+<!--DEBUG_REPORT-->
+
 </body>
 </html>
