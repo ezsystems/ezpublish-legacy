@@ -9,7 +9,7 @@
 <div class="block">
 {section show=$version.language_list|gt(1)}
 <div class="element">
-<label>{"Translation:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
+<label>{"Translation"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
   
 <select name="SelectedLanguage" >
 {section name=Translation loop=$version.language_list}
@@ -23,7 +23,7 @@
 {section show=$Placement:node_assignment_list|gt(1)}
 
 <div class="element">
-<label>{"Placement:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
+<label>{"Placement"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 
 <select name="SelectedPlacement" >
 {section loop=$Placement:node_assignment_list}
@@ -40,7 +40,7 @@
 {section show=$Sitedesign:sitedesign_list|gt(1)}
 
 <div class="element">
-<label>{"Site Design:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
+<label>{"Site Design"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 
 <select name="SelectedSitedesign" >
 {section loop=$Sitedesign:sitedesign_list}

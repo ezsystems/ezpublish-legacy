@@ -1,4 +1,4 @@
-{set-block scope=root variable=subject}{"Collected information from:"|i18n("design/standard/content/edit")} {$collection.object.name} {/set-block}
+{set-block scope=root variable=subject}{"Collected information from %1"|i18n("design/standard/content/edit",,array($collection.object.name))}{/set-block}
 
 {* Use this line to specify the e-mail in the template, can read this from the object to
    make it dynamic pr form

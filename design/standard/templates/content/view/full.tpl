@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-<label>{"Current version:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
+<label>{"Current version"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 <p class="box">{$object.current_version}</p>
 </div>
 

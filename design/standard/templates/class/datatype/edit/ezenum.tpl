@@ -17,11 +17,11 @@
 <div class="block">
 <input type="hidden" name="ContentClass_data_enumid_{$class_attribute.id}[]" value="{$EnumList:item.id}" />
 <div class="element">
-<label>{"Enum Element:"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+<label>{"Enum Element"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" name="ContentClass_data_enumelement_{$class_attribute.id}[]" value="{$EnumList:item.enumelement}" size="10" maxlength="255" />
 </div>
 <div class="element">
-<label>{"Enum Value:"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+<label>{"Enum Value"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input type="text" name="ContentClass_data_enumvalue_{$class_attribute.id}[]" value="{$EnumList:item.enumvalue}" size="10" maxlength="255" />
 </div>
 <div class="element">

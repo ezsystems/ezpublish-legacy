@@ -7,7 +7,7 @@
     </tr>
     <tr>
         <td class="menu" colspan="2">
-	    <p class="menufieldlabel">{"Created:"|i18n("design/standard/content/edit")}</p>
+	    <p class="menufieldlabel">{"Created"|i18n("design/standard/content/edit")}</p>
 	    {section show=$object.published}
 	    <p class="menufield">{$object.published|l10n(date)}</p>
 	    {section-else}
@@ -24,7 +24,7 @@
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Editing:"|i18n("design/standard/content/edit")}</p>
+	    <p class="menufieldlabel">{"Editing"|i18n("design/standard/content/edit")}</p>
         </td>
         <td class="menu" width="1">
 	    <p class="menufield">{$edit_version}</p>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Current"|i18n("design/standard/content/edit")}:</p>
+	    <p class="menufieldlabel">{"Current"|i18n("design/standard/content/edit")}</p>
         </td>
         <td class="menu" width="1">
 	    <p class="menufield">{$object.current_version}</p>
@@ -70,7 +70,7 @@
           {section show=$Translation:item.locale.is_valid}
             <p class="menufieldlabel">{$Translation:item.locale.intl_language_name}</p>
           {section-else}
-            <p class="menufieldlabel">{$Translation:item.language_code} (No locale information available)</p>
+            <p class="menufieldlabel">{"%1 (No locale information available)"|i18n("design/standard/content/edit",,array($Translation:item.language_code))}</p>
           {/section}
         </td>
 {section show=$Translation:other_translation_list|gt(0)}

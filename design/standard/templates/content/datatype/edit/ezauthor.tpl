@@ -2,10 +2,10 @@
 <tr>
 	<th>&nbsp;</th>
 	<th>
-	{"Name:"|i18n("design/standard/content/datatype")}
+	{"Name"|i18n("design/standard/content/datatype")}
 	</th>
 	<th>
-	{"E-mail:"|i18n("design/standard/content/datatype")}
+	{"E-Mail"|i18n("design/standard/content/datatype")}
 	</th>
 </tr>
 {section name=Author loop=$attribute.content.author_list sequence=array(bglight,bgdark) }
@@ -15,10 +15,10 @@
 	</td>
 	<td class="{$Author:sequence}">
 	<input type="hidden" name="ContentObjectAttribute_data_author_id_{$attribute.id}[]" value="{$Author:item.id}">
-	<input type="text" name="ContentObjectAttribute_data_author_name_{$attribute.id}[]" value="{$Author:item.name}">
+	<input type="text" name="ContentObjectAttribute_data_author_name_{$attribute.id}[]" value="{$Author:item.name|wash}">
 	</td>
 	<td class="{$Author:sequence}">
-	<input type="text" name="ContentObjectAttribute_data_author_email_{$attribute.id}[]" value="{$Author:item.email}">
+	<input type="text" name="ContentObjectAttribute_data_author_email_{$attribute.id}[]" value="{$Author:item.email|wash}">
 	</td>
 </tr>
 {/section}

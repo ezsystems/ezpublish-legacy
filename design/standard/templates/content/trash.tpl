@@ -11,12 +11,12 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Name:"|i18n("design/standard/content/trash")}</th>
-    <th>{"Class:"|i18n("design/standard/content/trash")}</th>
-    <th>{"Section:"|i18n("design/standard/content/trash")}</th>
-    <th>{"Current version:"|i18n("design/standard/content/trash")}</th>
-    <th>{"Restore:"|i18n("design/standard/content/trash")}</th>
-    <th width="1">{"Remove:"|i18n("design/standard/content/trash")}</th>
+    <th>{"Name"|i18n("design/standard/content/trash")}</th>
+    <th>{"Class"|i18n("design/standard/content/trash")}</th>
+    <th>{"Section"|i18n("design/standard/content/trash")}</th>
+    <th>{"Current version"|i18n("design/standard/content/trash")}</th>
+    <th>{"Restore"|i18n("design/standard/content/trash")}</th>
+    <th width="1">{"Remove"|i18n("design/standard/content/trash")}</th>
 {*    <th>
     <div class="buttonblock">
     <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/trash')}" />

@@ -36,12 +36,12 @@
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <th width="60%">{"Location"|i18n("design/standard/content/edit")}:</th>
-        <th colspan="1">{"Sort by"|i18n("design/standard/content/edit")}:</th>
-        <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}:</th>
-        <th colspan="1">{"Main"|i18n("design/standard/content/edit")}:</th>
-        <th colspan="1">{"Move"|i18n("design/standard/content/edit")}:</th>
-        <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}:</th>
+        <th width="60%">{"Location"|i18n("design/standard/content/edit")}</th>
+        <th colspan="1">{"Sort by"|i18n("design/standard/content/edit")}</th>
+        <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}</th>
+        <th colspan="1">{"Main"|i18n("design/standard/content/edit")}</th>
+        <th colspan="1">{"Move"|i18n("design/standard/content/edit")}</th>
+        <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
     </tr>
     {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
                    sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}

@@ -13,17 +13,17 @@
 <tr>
   <td valign="top">
     <div class="block">
-    <label>{"Name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Name"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:gui/lineedit.tpl" name=Name id_name=ContentClass_name value=$class.name}
     </div>
 
     <div class="block">
-    <label>{"Identifier:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Identifier"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:gui/lineedit.tpl" name=Identifier id_name=ContentClass_identifier value=$class.identifier}
     </div>
 
     <div class="block">
-    <label>{"Object name pattern:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Object name pattern"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:gui/lineedit.tpl" name=ObjectName id_name=ContentClass_contentobject_name value=$class.contentobject_name}
     </div>
   </td>
@@ -33,8 +33,8 @@
 <!-- Class group Start -->
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th colspan="1">{"Member of groups:"|i18n("design/standard/class/edit")}</th>
-    <th colspan="1">{"Remove:"|i18n("design/standard/class/edit")}</th>
+    <th colspan="1">{"Member of groups"|i18n("design/standard/class/edit")}</th>
+    <th colspan="1">{"Remove"|i18n("design/standard/class/edit")}</th>
 </tr>
 {section name=InGroups loop=$class.ingroup_list sequence=array(bglight,bgdark)}
 <tr>
@@ -100,14 +100,14 @@
 <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes:item.placement}" />
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" class="halfbox" name=FieldName id_name="ContentAttribute_name[]" value=$Attributes:item.name}
 </div>
 </td>
 
 <td class="{$Attributes:sequence}">
 <div class="block">
-<label>{"Identifier:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+<label>{"Identifier"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" class="halfbox" name=FieldID id_name="ContentAttribute_identifier[]" value=$Attributes:item.identifier}
 </div>
 </td>
@@ -119,7 +119,7 @@
 
 {*
 <div class="block">
-<label>{"Type:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+<label>{"Type"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
 <p class="box">{$Attributes:item.data_type.information.name}</p>
 </div>
 *}
@@ -169,7 +169,7 @@
 <tr>
   <td colspan="3">
     <div class="buttonblock">
-    <label>{"Datatypes:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Datatypes"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
     {include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"|i18n("design/standard/class/edit")}
     </div>

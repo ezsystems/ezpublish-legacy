@@ -2,15 +2,15 @@
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 
 {section show=or($attribute.content)}
-<label>{"Image filename:"|i18n("design/standard/content/datatype")}</label><p class="box">{$attribute.content.filename|wash(xhtml)}</p><div class="labelbreak"></div>
+<label>{"Image filename"|i18n("design/standard/content/datatype")}</label><p class="box">{$attribute.content.filename|wash(xhtml)}</p><div class="labelbreak"></div>
 
 <input class="box" name="ContentObjectAttribute_data_imagename_{$attribute.id}" type="file" />
 
-<label>{"Alternative image text:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Alternative image text"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input class="box" name="ContentObjectAttribute_data_imagealttext_{$attribute.id}" type="text" value="{$attribute.content.alternative_text|wash(xhtml)}" />
 
 {section-else}
-<label>{"Image filename:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Image filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 
 <input class="box" name="ContentObjectAttribute_data_imagename_{$attribute.id}" type="file" />
 

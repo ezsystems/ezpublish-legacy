@@ -10,7 +10,7 @@
 </div>
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=Name id_name=Group_name value=$classgroup.name}
 </div>
 

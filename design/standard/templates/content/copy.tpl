@@ -3,7 +3,7 @@
 {let object_versions=$object.versions}
 
 <div class="maincontentheader">
-<h1>{"Copying:"|i18n("design/standard/content/copy")} {$object.name} </h1>
+<h1>{"Copying %1"|i18n("design/standard/content/copy",,array($object.name))}</h1>
 </div>
 
 <div class="block">

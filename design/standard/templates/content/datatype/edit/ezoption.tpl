@@ -1,7 +1,7 @@
 <input type="text" name = "ContentObjectAttribute_data_option_name_{$attribute.id}" value="{$attribute.content.name}" />
 
 <div class="block">
-<label>{"Options:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Options"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
 <input type="hidden" name="ContentObjectAttribute_data_option_id_{$attribute.id}[]" value="{$OptionList:item.id}" />
 <input type="text" name="ContentObjectAttribute_data_option_value_{$attribute.id}[]" value="{$OptionList:item.value}" />

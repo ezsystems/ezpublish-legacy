@@ -6,12 +6,12 @@
 {switch name=Sw match=$search_count}
   {case match=0}
 <div class="warning">
-<h2>{"No results were found when searching for:"|i18n("design/standard/content/search")} "{$search_text}"</h2>
+<h2>{"No results were found when searching for \"%1\""|i18n("design/standard/content/search",,array($search_text))}</h2>
 </div>
   {/case}
   {case}
 <div class="feedback">
-<h2>{"Search for:"|i18n("design/standard/content/search")} "{$search_text}" {"returned"|i18n("design/standard/content/search")} {$search_count} {"matches"|i18n("design/standard/content/search")}</h2>
+<h2>{"Search for \"%1\" returned %2 matches"|i18n("design/standard/content/search",,array($search_text,$search_count))}</h2>
 </div>
   {/case}
 {/switch}
@@ -28,21 +28,21 @@
 
 
 <div class="block">
-<label>{"Search all the words:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="SearchText" value="{$full_search_text}" />
 </div>
 <div class="block">
-<label>{"Search the exact phrase:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Search the exact phrase"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text}" />
 </div>
 {*<div class="block">
-<label>{"Search with at least one of the words:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Search with at least one of the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="AnyWordSearchText" value="" />
 </div>*}
 <div class="block">
 
 <div class="element">
-<label>{"Class:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Class"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchContentClassID">
 <option value="-1">{"Any class"|i18n("design/standard/content/search")}</option>
 {section name=ContentClass loop=$content_class_array }
@@ -61,7 +61,7 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>{"Class attribute:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Class attribute"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 
 {section name=Attribute show=$search_contentclass_id|gt(0)}
 
@@ -81,7 +81,7 @@ selected="selected"
 <div class="block">
 <div class="element">
 
-<label>{"In:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"In"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchSectionID">
 <option value="-1">{"Any section"|i18n("design/standard/content/search")}</option>
 {section name=Section loop=$section_array }
@@ -98,7 +98,7 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>{"Published:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
+<label>{"Published"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchDate">
 <option value="-1" {section show=eq($search_date,-1)}selected{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
 <option value="1" {section show=eq($search_date,1)}selected{/section}>{"Last day"|i18n("design/standard/content/search")}</option>

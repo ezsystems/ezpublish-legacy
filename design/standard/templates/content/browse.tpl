@@ -5,10 +5,10 @@
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th width="98%">
-	{"Name:"|i18n("design/standard/content/view")}
+	{"Name"|i18n("design/standard/content/view")}
 	</th>
 	<th width="1%">
-	{"Select:"|i18n("design/standard/content/view")}
+	{"Select"|i18n("design/standard/content/view")}
 	</th>
 </tr>
 <tr>

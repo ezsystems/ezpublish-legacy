@@ -32,8 +32,8 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="10%">{"Locale:"|i18n("design/standard/content/translate")}</th>
-    <th width="90%" colspan="2">{"Language:"|i18n("design/standard/content/translate")}</th>
+    <th width="10%">{"Locale"|i18n("design/standard/content/translate")}</th>
+    <th width="90%" colspan="2">{"Language"|i18n("design/standard/content/translate")}</th>
 </tr>
 
 {section name=Language loop=$remove_language_list sequence=array("bglight","bgdark")}
@@ -72,7 +72,7 @@
 {section show=$Translation:translation_list}
 
 <div class="block">
-<label>{"Translate into:"|i18n("design/standard/content/translate")}</label><div class="labelbreak"></div>
+<label>{"Translate into"|i18n("design/standard/content/translate")}</label><div class="labelbreak"></div>
 <select name="SelectedLanguage" >
   {section loop=$Translation:translation_list}
 <option value="{$Translation:item.locale_code}">{$Translation:item.intl_language_name}</option>
@@ -92,8 +92,8 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th width="2%"><input type="submit" name="EditLanguageButton" value="{'Translate'|i18n('design/standard/content/translate')}" /></th>
-    <th width="10%">{"Locale:"|i18n("design/standard/content/translate")}</th>
-    <th width="86%">{"Language:"|i18n("design/standard/content/translate")}</th>
+    <th width="10%">{"Locale"|i18n("design/standard/content/translate")}</th>
+    <th width="86%">{"Language"|i18n("design/standard/content/translate")}</th>
     <th width="2%"><input type="submit" name="RemoveLanguageButton" value="{'Remove'|i18n('design/standard/content/translate')}" /></th>
 </tr>
 
