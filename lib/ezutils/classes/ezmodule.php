@@ -404,7 +404,11 @@ class eZModule
     */
     function redirectTo( $uri )
     {
+        $originalURI = $uri;
         $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
+        if ( strlen( $originalURI ) != 0 and
+             strlen( $uri ) == 0 )
+            $uri = '/';
         $this->RedirectURI = $uri;
         $this->setExitStatus( EZ_MODULE_STATUS_REDIRECT );
     }
