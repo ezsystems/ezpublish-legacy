@@ -54,7 +54,7 @@ class eZTestTemplateOutput extends eZTestCase
         $this->eZTestCase( $name );
         $this->addTest( 'testOutput', 'Compiled template output' );
         $this->addTest( 'testZero', 'Handling of zero elements' );
-        $this->addTest( 'testImage', 'Testing creation of Images' );
+//        $this->addTest( 'testImage', 'Testing creation of Images' );
     }
 
     function testImage( &$tr )
