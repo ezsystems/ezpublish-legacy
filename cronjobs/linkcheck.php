@@ -61,6 +61,7 @@ foreach ( array_keys( $linkList ) as $key )
         {
             $url = trim( preg_replace("/^mailto:(.+)/i", "\\1", $url));
             list($userName, $host) = split("@", $url);
+            list($host, $junk)= split("\?", $host);
             $dnsCheck = checkdnsrr( $host,"MX" );
             if ( !$dnsCheck )
             {
