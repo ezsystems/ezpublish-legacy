@@ -117,22 +117,37 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $navigationPart = $section->attribute( 'navigation_part_identifier' );
 
         include_once( 'kernel/classes/ezcontentupload.php' );
-        eZContentUpload::upload( array( 'action_name' => 'RelatedObjectUpload',
-                                        'description_template' => 'design:content/upload_related.tpl',
-                                        'navigation_part_identifier' => $navigationPart,
-                                        'content' => array( 'object_id' => $objectID,
-                                                            'object_version' => $editVersion,
-                                                            'object_language' => $editLanguage ),
-                                        'keys' => array( 'class' => $class->attribute( 'id' ),
-                                                         'class_id' => $class->attribute( 'identifier' ),
-                                                         'classgroup' => $class->attribute( 'ingroup_id_list' ),
-                                                         'section' => $object->attribute( 'section_id' ) ),
-                                        'result_action_name' => 'UploadedFileRelation',
-                                        'result_module' => array( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
-                                 $module );
+        $upload = new eZContentUpload();
+        $location = $module->actionParameter( 'UploadRelationLocation' );
+
+        if ( $upload->handleUpload( $result, 'UploadRelationFile', $location ) )
+        {
+            $relatedObjectID = $result['contentobject_id'];
+            if ( $relatedObjectID )
+            {
+                $object->addContentObjectRelation( $relatedObjectID, $editVersion );
+            }
+        }
+        else
+        {
+        }
+//         eZContentUpload::upload( array( 'action_name' => 'RelatedObjectUpload',
+//                                         'description_template' => 'design:content/upload_related.tpl',
+//                                         'navigation_part_identifier' => $navigationPart,
+//                                         'content' => array( 'object_id' => $objectID,
+//                                                             'object_version' => $editVersion,
+//                                                             'object_language' => $editLanguage ),
+//                                         'keys' => array( 'class' => $class->attribute( 'id' ),
+//                                                          'class_id' => $class->attribute( 'identifier' ),
+//                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ),
+//                                                          'section' => $object->attribute( 'section_id' ) ),
+//                                         'result_action_name' => 'UploadedFileRelation',
+//                                         'result_module' => array( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
+//                                  $module );
 //                                        'result_uri' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
 
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+//        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return;
     }
     if ( $module->isCurrentAction( 'DeleteRelation' ) )
     {

@@ -2,9 +2,9 @@
 
 <div class="image-thumbnail-item">
 
-    {attribute_view_gui attribute=$related_object.data_map.image image_class=small}
+    <label for="related-object-id-{$related_object.id}">{attribute_view_gui attribute=$related_object.data_map.image image_class=small}</label>
 
-    <p><input type="checkbox" name="DeleteRelationIDArray[]" value="{$related_object.id}" />&nbsp;{$related_object.name|wash}</p>
+    <p class="checkbox"><input type="checkbox" id="related-object-id-{$related_object.id}" name="DeleteRelationIDArray[]" value="{$related_object.id}" /><label for="related-object-id-{$related_object.id}">{$related_object.name|wash}</label></p>
 
     <input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;">
 

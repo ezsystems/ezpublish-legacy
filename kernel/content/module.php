@@ -60,7 +60,8 @@ $ViewList['edit'] = array(
                                     'RemoveNodeID' => 'DeleteNode',
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'
                                     ),
-    'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
+    'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
+                                       'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     'script' => 'edit.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage' ) );
@@ -164,8 +165,8 @@ $ViewList['upload'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'edit',
     'script' => 'upload.php',
-    'single_post_actions' => array( 'UploadFileButton' => 'UploadFile',
-                                    ),
+    'single_post_actions' => array( 'UploadFileButton' => 'UploadFile' ),
+    'post_action_parameters' => array( 'UploadFile' => array( 'UploadLocation' => 'UploadLocationChoice' ) ),
     'params' => array() );
 
 $ViewList['removeobject'] = array(
