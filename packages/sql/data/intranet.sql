@@ -964,29 +964,29 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 
 
 
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (370,24,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (371,24,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (372,24,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (341,8,'read','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (369,24,'read','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (339,1,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (373,24,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (374,24,'edit','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (308,2,'*','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (370,24,'create','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (371,24,'create','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (372,24,'create','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (341,8,'read','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (369,24,'read','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (339,1,'login','user');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (373,24,'create','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (374,24,'edit','content');
 
 
 
 
 
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (289,371,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (290,371,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (288,370,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (287,370,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (291,372,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (292,372,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (293,373,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (294,373,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (295,374,'Class',0,'edit','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (289,371,'Class');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (290,371,'Section');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (288,370,'Section');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (287,370,'Class');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (291,372,'Class');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (292,372,'Section');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (293,373,'Class');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (294,373,'Section');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (295,374,'Class');
 
 
 
@@ -3378,11 +3378,11 @@ INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password
 
 
 
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (29,1,10);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (25,2,12);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (32,24,13);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (28,1,11);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (34,1,13);
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (29,1,10,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (25,2,12,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (32,24,13,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (28,1,11,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (34,1,13,'','');
 
 
 

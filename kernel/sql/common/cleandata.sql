@@ -408,17 +408,17 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 
 
 
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,1,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,1,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (317,3,'*','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (308,2,'*','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (326,1,'read','content');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (325,1,'login','user');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (319,3,'login','user');
 
 
 
 
 
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (249,326,'Class');
 
 
 
@@ -655,10 +655,10 @@ INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password
 
 
 
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (29,1,10);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (25,2,12);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (30,3,13);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (28,1,11);
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (29,1,10,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (25,2,12,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (30,3,13,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (28,1,11,'','');
 
 
 
