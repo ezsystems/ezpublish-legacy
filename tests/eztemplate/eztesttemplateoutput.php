@@ -52,6 +52,7 @@ class eZTestTemplateOutput extends eZTestCase
     {
         $this->eZTestCase( $name );
         $this->addTest( 'testOutput', 'Compiled template output' );
+        $this->addTest( 'testZero', 'Handling of zero elements' );
     }
 
     function testOutput( &$tr )
@@ -67,6 +68,19 @@ class eZTestTemplateOutput extends eZTestCase
         $actual = $tpl->fetch( 'tests/eztemplate/output.tpl' );
 
         $tr->assert( $actual == $expected );
+    }
+
+    function testZero( &$tr )
+    {
+        include_once( 'kernel/common/template.php' );
+        $tpl =& templateInit();
+
+        $tpl->setIsCachingAllowed( false );
+        $expected = $tpl->fetch( 'tests/eztemplate/empty.tpl' );
+
+        $actual = '0';
+
+        $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of results' );
     }
 }
 

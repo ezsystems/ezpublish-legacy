@@ -138,8 +138,8 @@ class eZTestRunner
                     $this->finalizeTestEntry( $unit, $test, $display );
                 }
                 else
-                    $this->addFailure( $test['name'],
-                                       "Unknown test type for test " . $unit->name() . '::' . $test['name'] );
+                    $this->addToCurrentResult( false, false, $test['name'],
+                                               "Unknown test type for test " . $unit->name() . '::' . $test['name'] );
             }
         }
         else
@@ -226,8 +226,8 @@ class eZTestRunner
                 }
                 else
                 {
-                    $this->addFailure( $entry['name'],
-                                       "Method $method does not exist for test object(" . get_class( $object ) . ")" );
+                    $this->addToCurrentResult( false, false, $entry['name'],
+                                               "Method $method does not exist for test object(" . get_class( $object ) . ")" );
                 }
             } break;
 
@@ -240,8 +240,8 @@ class eZTestRunner
                 }
                 else
                 {
-                    $this->addFailure( $entry['name'],
-                                       "Function $function does not exist" );
+                    $this->addToCurrentResult( false, false, $entry['name'],
+                                               "Function $function does not exist" );
                 }
             } break;
         }
