@@ -361,6 +361,13 @@ password_hash varchar( 50 )
 
 insert into ezuser ( contentobject_id, login, email, password_hash_type, password_hash ) VALUES ( '1', 'anonymous', 'anon@anon.com', 1, '' ); 
 
+CREATE TABLE ezuser_setting (
+  user_id int(11) NOT NULL default '0',
+  is_enabled int(1) NOT NULL default '0',
+  max_login int(11) default NULL,
+  PRIMARY KEY  (user_id)
+) TYPE=MyISAM;
+
 
 # Search
 

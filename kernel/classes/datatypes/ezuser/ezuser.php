@@ -232,8 +232,10 @@ class eZUser extends eZPersistentObject
             $exists = eZUser::authenticateHash( $login, $password, eZUser::site(),
                                                 $hashType,
                                                 $hash );
+            /*
             $userSetting = eZUserSetting::fetch( $userID );
             $isEnabled = $userSetting->attribute( "is_enabled" );
+            */
             if ( $hashType != eZUser::hashType() and
                  strtolower( $ini->variable( 'UserSettings', 'UpdateHash' ) ) == 'true' )
             {
@@ -243,7 +245,8 @@ class eZUser extends eZPersistentObject
                 $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE login='$login'" );
             }
         }
-        if ( $exists and $isEnabled )
+//               if ( $exists and $isEnabled )
+        if ( $exists  )
         {
             $user =& new eZUser( $users[0] );
             $GLOBALS["eZUserGlobalInstance"] =& $user;
