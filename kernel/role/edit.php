@@ -338,8 +338,10 @@ $tpl->setVariable( "step", 0 );
 $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
 $Result = array();
-$Result['path'] = array( array( 'url' => '/role/edit/' . $roleID . '/' ,
-                                'text' => ezi18n( 'kernel/role', 'Role edit' ) ) );
+$Result['path'] = array( array( 'text' => 'Role',
+                                'url' => 'role/list' ),
+                         array( 'text' => $role->attribute( 'name' ),
+                                'url' => false ) );
 
 $Result['content'] =& $tpl->fetch( 'design:role/edit.tpl' );
 

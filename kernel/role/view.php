@@ -105,5 +105,9 @@ $Module->setTitle( "View role - " . $role->attribute( "name" ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:role/view.tpl' );
+$Result['path'] = array( array( 'text' => 'Role',
+                                'url' => 'role/list' ),
+                         array( 'text' => $role->attribute( 'name' ),
+                                'url' => false ) );
 
 ?>
