@@ -159,6 +159,9 @@ if ( $enable == true )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
                 header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );
+
+                // Read XML body and discard it
+                file_get_contents( "php://input" );
             }
             // Else: non-empty & valid values were supplied: login successful!
             else
