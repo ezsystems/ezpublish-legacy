@@ -11,10 +11,10 @@
 
     {include uri="design:content/edit_validation.tpl"}
 
-{*
+    <div class="remove">
     {include uri="design:content/edit_placement.tpl"}
-    <br/>
-*}
+    </div>
+    
     {include uri="design:content/edit_attribute.tpl"}
 
     <div class="controlbar">
@@ -26,6 +26,24 @@
 <!-- Dummy list START -->
 
 <h2>Related objects</h2>
+
+{section show=$related_contentobjects}
+<table class="list" cellspacing="0">
+<tr>
+    <th class="checkbox"></th>
+    <th class="name">Name:</th>
+    <th class="code">Code:</th>
+</tr>
+
+{section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
+<tr class="{$Object:sequence}">
+    <td class="checkbox"><input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" /></td>
+    <td class="name">{node_view_gui view=thumb content_node=$Object:item.main_node}</td>
+    <td class="code"><input class="linkbox" type="text" value="&lt;object id='{$Object:item.id}' /&gt;"></td>
+</tr>     
+{/section}
+</table>
+{/section}
 
 <div class="image-thumbnail-list">
 
@@ -115,14 +133,16 @@
 
 <div class="controlbar">
 <div class="editblock">
-<input class="button" type="submit" value="Delete" />
-<input class="button" type="submit" value="Add existing" />
+<input class="button" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
+<input class="button" type="Submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
 </div>
 <div class="createblock">
-<select>
-    <option>Media</option>
-</select>
-<input class="button" type="submit" value="Add new" />
+	<select	name="ClassID" class="classcreate">
+	    {section name=Classes loop=$object.can_create_class_list}
+	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	    {/section}
+	</select>
+	<input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
 </div>
 </div>
 

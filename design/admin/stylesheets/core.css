@@ -339,3 +339,8 @@ div.message-error
 {
     display: none;
 }
+
+div.remove
+{
+    border: 2px solid #a00000;
+}
