@@ -417,7 +417,7 @@ Match[class_identifier]=poll
 
 [poll_result]
 Source=content/collectedinfo/poll.tpl
-MatchFile=poll_result.tpl
+MatchFile=collectedinfo/poll_result.tpl
 Subdir=templates
 
 # General templates

@@ -411,7 +411,7 @@ div#rightmenu
 
 div#rightmenu-design
 {
-    margin-right: 6px;
+    padding-right: 6px;
     width: 178px;
 }
 
@@ -1268,6 +1268,33 @@ div.calendar td a, div.calendar td a:visited, div.calendar td a:hover
     text-decoration: underline;
     border-bottom-width: 0;
 }
+
+/*! Poll result style */
+
+div#poll-result
+{  
+}
+
+div#poll-result td.empty-area
+{  
+    background-color: #eeeeee;
+}
+
+div#poll-result td.voted-area
+{  
+    background-color: #003366;
+}
+
+div#poll-result td.small
+{  
+    font-style: italic;
+}
+
+div#poll-result div.attribute-byline
+{  
+    font-weight: bold;
+}
+
 
 /* Submit buttons */
 input.defaultbutton
