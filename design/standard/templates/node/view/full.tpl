@@ -45,7 +45,14 @@
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label>
+	{switch match=$ContentObjectAttribute:item.is_a}
+	{case match=ezstring}
     	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
+	{/case}
+	{case}
+    	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
+	{/case}
+	{/switch}
     </div>
     {/section}
 
