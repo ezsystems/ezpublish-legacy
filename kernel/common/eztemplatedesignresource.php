@@ -375,6 +375,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
             if ( isset( $matchFile['custom_match'] ) )
             {
+                $matchFound = false;
                 foreach ( $matchFile['custom_match'] as $customMatch )
                 {
                     $matchOverride = true;
@@ -428,6 +429,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         $match['file'] = $customMatch['match_file'];
                     }
                 }
+                if ( !$matchFound )
+                    $match['file'] = $matchFile['base_dir'] . $matchFile['template'];
             }
             else
             {
