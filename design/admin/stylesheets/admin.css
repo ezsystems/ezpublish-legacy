@@ -311,6 +311,17 @@ table.list, table.layoutlist
 	border-bottom: solid 1px #e0f4ff;
 }
 
+table.class_list
+{
+    margin-top: 0.5ex;
+    margin-bottom: 1ex;
+}
+
+table.class_list th, table.class_list td
+{
+    padding: 2px;
+}
+
 td.bglight, td.bglightextra
 {
 	background-color: #dce5f1;

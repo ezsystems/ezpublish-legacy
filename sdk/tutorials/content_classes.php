@@ -61,7 +61,7 @@ interface. Then click on the apropriate group, e.g. content, where you want to p
 is just a method of categorizing your content classes for simpler administration of larger sites. Then you
 click on the "New class" button. You will then be presented to the class edit window as shown below:
 </p>
-<img src="/doc/images/class_edit.jpg" alt="Class edit" border="1" />
+<img src="/doc/images/class_edit.png" alt="Class edit" border="1" />
 
 <p>
 Every class has 3 attributes; object name, identifier and name. The name is the alias for the class. The
@@ -112,7 +112,7 @@ browse to a suitable placement and select "New car". This will bring us to the o
 you fill in all the values you want for you car and click "Send for publishing".
 </p>
 
-<img src="/doc/images/object_edit.jpg" alt="Object edit" border="1" />
+<img src="/doc/images/object_edit.png" alt="Object edit" border="1" />
 
 <p>
 Now we've already published our own custom content without changing any code just clicking in the web interface.

@@ -1,4 +1,4 @@
-<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"></a>
+<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="help" /></a>
 
 <form action={concat($module.functions.edit.uri,"/",$class.id)|ezurl} method="post" name="ClassEdit">
 
@@ -11,22 +11,22 @@
 <p class="date">{"Last modified by"|i18n("design/standard/class/edit")} {content_view_gui view=text_linked content_object=$class.modifier.contentobject} {"on"|i18n("design/standard/class/edit")} {$class.modified|l10n(shortdatetime)}</p>
 </div>
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td valign="top">
     <div class="block">
     <label>{"Name"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-    {include uri="design:gui/lineedit.tpl" name=Name id_name=ContentClass_name value=$class.name}
+    <input type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" />
     </div>
 
     <div class="block">
     <label>{"Identifier"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-    {include uri="design:gui/lineedit.tpl" name=Identifier id_name=ContentClass_identifier value=$class.identifier}
+    <input type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" />
     </div>
 
     <div class="block">
     <label>{"Object name pattern"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-    {include uri="design:gui/lineedit.tpl" name=ObjectName id_name=ContentClass_contentobject_name value=$class.contentobject_name}
+    <input type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
     </div>
   </td>
 
@@ -49,7 +49,7 @@
     <div class="buttonblock">
     <select name="ContentClass_group">
     {section name=AllGroup loop=$class.group_list}
-    <option name="ContentClass_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
+    <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
     {/section}
     </select>
     {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add to group"|i18n("design/standard/class/edit")}
@@ -86,11 +86,11 @@
 {/section}
 
 <h2>{"Attributes"|i18n("design/standard/class/edit")}</h2>
-<table class="layoutlist" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="class_list" width="100%" cellpadding="0" cellspacing="0" border="0">
 {section name=Attributes loop=$attributes sequence=array("bglight","bgdark")}
 
 <tr>
-  <th>{$:number}. {$:item.name} ({$:item.data_type.information.name})</th>
+  <td colspan="7"><b>{$:number}. {$:item.name} ({$:item.data_type.information.name})</b></td>
 </tr>
 
 <tr>
@@ -127,18 +127,18 @@
 *}
 
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked{/section} /><label>{"Required"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked="checked"{/section} /><label>{"Required"|i18n("design/standard/class/edit")}</label>
 </div>
 
 {section show=$Attributes:item.data_type.is_indexable}
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked{/section} /><label>{"Searchable"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked="checked"{/section} /><label>{"Searchable"|i18n("design/standard/class/edit")}</label>
 </div>
 {/section}
 
 {section show=$Attributes:item.data_type.is_information_collector}
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked{/section} /><label>{"Information collector"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked="checked"{/section} /><label>{"Information collector"|i18n("design/standard/class/edit")}</label>
 </div>
 {/section}
 {* {include uri="design:class/datatypes.tpl" name=DataTypes id_name="ContentAttribute_data_type_string[]" datatypes=$datatypes current=$Attributes:item.data_type.information.string} *}
@@ -159,12 +159,12 @@
   {class_attribute_edit_gui class_attribute=$Attributes:item}
   </td>
 </tr>
+{/section}
 
 <tr>
   <td colspan="7">&nbsp;</td>
 </tr>
 
-{/section}
 <tr>
   <td colspan="7"><hr/></td>
 </tr>

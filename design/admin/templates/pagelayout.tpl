@@ -90,14 +90,14 @@
 
 <table width="750" cellpadding="0" cellspacing="2" border="0">
 <tr>
-    <td align="left" valign="center" width="50">
+    <td align="left" valign="middle" width="50">
 	<input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
-    <td align="left" valign="center">
+    <td align="left" valign="middle">
 	<input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 
     </td>
-    <td valign="center">
+    <td valign="middle">
       <p class="menuitem">
       {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
         {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
@@ -105,7 +105,7 @@
       {/section}
       </p>
     </td>
-    <td align="right" valign="center">
+    <td align="right" valign="middle">
       <p class="menuitem">
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
       <a class="menuheadlink" href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
