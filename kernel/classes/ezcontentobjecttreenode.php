@@ -701,7 +701,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         $nodePath =  $node->attribute( 'path_string' );
 
-        $subStringString = $db->subString( 'path_string', 1, strlen( $nodePath ) );
+//        $subStringString = $db->subString( 'path_string', 1, strlen( $nodePath ) );
+
+        $pathString = " path_string like '$nodePath%' AND ";
 
         // fetch the object id's which needs to be updated
         $objectIDArray =& $db->arrayQuery( "SELECT
@@ -709,7 +711,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                             FROM
                                                    ezcontentobject_tree, ezcontentobject
                                             WHERE
-                                                  $subStringString = '$nodePath' AND
+                                                  $pathString
                                                   ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                                                   ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
         $inSQL = "";
