@@ -1,17 +1,17 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     browse_list_count=fetch(content,list_count,hash(parent_node_id,$node_id,depth,1))
-     object_array=fetch(content,list,hash(parent_node_id,$node_id,depth,1,offset,$view_parameters.offset,limit,$number_of_items,sort_by,$main_node.sort_array))
+     browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1))
+     object_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array ) )
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
      select_attribute='contentobject_id'}
 
-{section show=eq($browse.return_type,'NodeID')}
+{section show=eq( $browse.return_type, 'NodeID' )}
     {set select_name='SelectedNodeIDArray'}
     {set select_attribute='node_id'}
 {/section}
 
-{section show=eq($browse.selection,'single')}
+{section show=eq( $browse.selection, 'single' )}
     {set select_type='radio'}
 {/section}
 
@@ -23,7 +23,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Browse'|i18n('design/admin/content/browse')}</h1>
+<h1 class="context-title">{'Browse'|i18n( 'design/admin/content/browse' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -33,8 +33,8 @@
 
 <div class="block">
 
-<p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/admin/content/browse')}</p>
-<p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/admin/content/browse')}</p>
+<p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n( 'design/admin/content/browse' )}</p>
+<p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n( 'design/admin/content/browse' )}</p>
 
 </div>
 
@@ -52,9 +52,9 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
-{section show=$browse.start_node|gt(1)}
+{section show=$browse.start_node|gt( 1 )}
     <h2 class="context-title">
-    <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
+    <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
     {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
 {section-else}
     <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
@@ -74,22 +74,22 @@
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/1/content/browse/', $node_id ) |ezurl}>10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl}>50</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/3/content/browse/', $node_id )|ezurl}>50</a>
 
         {/case}
 
         {case match=50}
-        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
-        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl}>25</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/1/content/browse/', $node_id )|ezurl}>10</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/2/content/browse/', $node_id )|ezurl}>25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl}>25</a>
-        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl}>50</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/2/content/browse/', $node_id )|ezurl}>25</a>
+        <a href={concat( '/user/preferences/set/admin_list_limit/3/content/browse/', $node_id )|ezurl}>50</a>
         {/case}
 
         {/switch}
@@ -106,10 +106,10 @@
     &nbsp;
     </th>
     <th class="wide">
-    {'Name'|i18n('design/admin/content/browse')}
+    {'Name'|i18n( 'design/admin/content/browse' )}
     </th>
     <th class="tight">
-    {'Type'|i18n('design/admin/content/browse')}
+    {'Type'|i18n( 'design/admin/content/browse' )}
     </th>
 </tr>
 
@@ -146,9 +146,6 @@
         {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;{$Object:item.name|wash}
     {/section}
 
-    {* node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )*}
-
-
     </td>
     <td class="class">
     {$Object:item.object.content_class.name|wash}
@@ -160,7 +157,7 @@
 <div class="context-toolbar">
 {include name=Navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/content/browse/',$main_node.node_id)
+         page_uri=concat( '/content/browse/', $main_node.node_id )
          item_count=$browse_list_count
          view_parameters=$view_parameters
          item_limit=$number_of_items}
@@ -184,8 +181,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/admin/content/browse')}" />
-<input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/admin/content/browse' )}" />
+    <input class="button" type="submit" name="SelectButton" value="{'OK'|i18n( 'design/admin/content/browse' )}" />
+    <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/admin/content/browse' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
