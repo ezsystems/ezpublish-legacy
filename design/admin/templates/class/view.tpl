@@ -236,7 +236,11 @@
 {/section}
 </table>
 {section-else}
-{'This class does not have any override templates.'|i18n( 'design/admin/class/view' )}
+<div class="block">
+<p>
+{'This class does not have any class-level override templates.'|i18n( 'design/admin/class/view' )}
+</p>
+</div>
 {/section}
 {*DESIGN: Content END *}</div></div></div></div></div></div>
 
