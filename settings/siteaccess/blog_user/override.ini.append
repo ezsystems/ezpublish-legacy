@@ -1,0 +1,13 @@
+
+[frontpage]
+Source=node/view/full.tpl
+MatchFile=frontpagefolder.tpl
+Subdir=templates
+Match[node]=2
+
+
+[log_line]
+Source=node/view/line.tpl
+MatchFile=logline.tpl
+Subdir=templates
+Match[class]=23
