@@ -113,6 +113,8 @@ Datatype:
   (Merged from stable/3.4 rev. 9633)
 - Fixed typo in kernel/classes/ezcontentobjectattribute.php
   http://ez.no/community/bug_reports/3_5_typo_in_ezcontentobjectattribute_serialize
+- Fixed bug with adjustment of datetime:
+  http://ez.no/community/bug_reports/ez_datetime_datatype_malfunction
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 

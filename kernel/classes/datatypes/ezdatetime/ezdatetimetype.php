@@ -232,7 +232,7 @@ class eZDateTimeType extends eZDataType
             {
                 $adjustments = eZDateTimeType::classAttributeContent( $contentClassAttribute );
                 $value = new eZDateTime();
-                $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], $adjustments['month'], $adjustments['year'], $adjustments['day'] );
+                $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], 0, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
                 $contentObjectAttribute->setAttribute( "data_int", $value->timeStamp() );
             }
         }

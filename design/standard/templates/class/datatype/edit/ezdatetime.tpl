@@ -6,14 +6,14 @@
     <select name="ContentClass_ezdatetime_default_{$class_attribute.id}">
     <option value="0" {section show=eq( $class_attribute.data_int1, 0 )}selected="selected"{/section}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {section show=eq( $class_attribute.data_int1, 1 )}selected="selected"{/section}>{'Current datetime'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="2" {section show=eq( $class_attribute.data_int1, 2 )}selected="selected"{/section}>{'Custom value'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="2" {section show=eq( $class_attribute.data_int1, 2 )}selected="selected"{/section}>{'Adjusted current datetime'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
 </div>
 
 {* Custom default value. *}
 <div class="block">
 <fieldset>
-    <legend>{'Custom default value'|i18n( 'design/standard/class/datatype' )}</legend>
+    <legend>{'Current date and time adjusted by'|i18n( 'design/standard/class/datatype' )}</legend>
 
     <div class="block">
     {* Year. *}
