@@ -4,6 +4,13 @@ body
     margin: 0;
 }
 
+div#infobox img
+{ 
+    background-color: #ff6600;
+    padding: 6px;
+}
+
+
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
     background-color: #eeeeee;
@@ -278,7 +285,7 @@ div#footer a
 
 #image img
 { 
-    background-color: #000;
+    background-color: #ff6600;
     padding: 20px;
 }
 
@@ -286,7 +293,153 @@ div.image_line img
 { 
     background-color: #ff6600;
     border: 2px solid #a17000;
-    padding: 7px;
+    padding: 6px;
+}
+
+#image .navigation
+{
+}
+
+#image .navigation .album, #image .navigation .gallery
+{
+    display: inline;
+}
+
+#image .navigation ul, #image .navigation li
+{
+    display: inline;
+}
+
+#image .navigation ul
+{
+    list-style-type: none;
+}
+
+#image .navigation li
+{
+    padding: 4px;
+    min-width: 132px;
+    min-height: 132px;
+}
+
+#image .navigation li h3
+{
+    clear: right;
+    display: inline;
+}
+
+#image .navigation li img
+{
+    display: inline;
+    padding: 6px;
+}
+
+#image .navigation h2
+{
+    font-size: 85%;
+    background-color: #cccccc;
+}
+
+/* Album styles */
+
+#album .info
+{
+}
+
+#album .info h2
+{
+    text-align: center;
+    font-size: 85%;
+    background-color: #cccccc;
+}
+
+#album img
+{ 
+    background-color: #ff6600;
+    padding: 20px;
+}
+
+#album .navigation
+{
+}
+
+#album .navigation .gallery
+{
+    display: inline;
+}
+
+#album .navigation ul, #album .navigation li
+{
+    display: inline;
+}
+
+#album .navigation ul
+{
+    list-style-type: none;
+}
+
+#album .navigation li
+{
+    padding: 4px;
+    min-width: 132px;
+    min-height: 132px;
+}
+
+#album .navigation li h3
+{
+    clear: right;
+    display: inline;
+}
+
+#album .navigation li img
+{
+    display: inline;
+    padding: 6px;
+}
+
+#album .navigation h2
+{
+    font-size: 85%;
+    background-color: #cccccc;
+}
+
+/* Gallery */
+
+#gallery img
+{ 
+    background-color: #ff6600;
+    padding: 6px;
+}
+
+#gallery .list
+{
+}
+
+#gallery .list tr
+{
+    padding: 4px;
+}
+
+#gallery .list .image
+{
+    text-align: center;
+    vertical-align: top;
+}
+
+#gallery .list .info
+{
+    vertical-align: top;
+}
+
+#gallery .list .info p.footer
+{
+    vertical-align: bottom;
+}
+
+#gallery .list .info h2
+{
+    background-color: #cccccc;
+    color: #000000;
 }
 
 /* image comments */

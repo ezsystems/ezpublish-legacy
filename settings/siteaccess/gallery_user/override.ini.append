@@ -10,6 +10,12 @@ MatchFile=image_line.tpl
 Subdir=templates
 Match[class]=5
 
+[image_navigator]
+Source=node/view/navigator.tpl
+MatchFile=image_navigator.tpl
+Subdir=templates
+Match[class]=5
+
 [comment_line]
 Source=node/view/line.tpl
 MatchFile=comment_line.tpl

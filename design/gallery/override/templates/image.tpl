@@ -1,13 +1,58 @@
-{* Image template *}
-{let comments=fetch('content','list',hash( parent_node_id, $node.node_id,
-                                          sort_by ,array( array( 'published', false() ) ),
-                                          limit, $log_limit,
-                                          offset, $view_parameters.offset,
-                                          class_filter_type, 'include',
-                                          class_filter_array, array( 'comment' ) ))
-     comment_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
+{* Image template
+
+   Displays the image in full view with download link and navigation.
+*}
+{let comment_limit=5
+     comments=fetch( 'content', 'list', hash( parent_node_id, $node.node_id,
+                                              sort_by ,array( array( 'published', false() ) ),
+                                              limit, $comment_limit,
+                                              offset, $view_parameters.offset,
+                                              class_filter_type, 'include',
+                                              class_filter_array, array( "comment" ) ) )
+     comment_count=fetch( 'content', 'list_count', hash( parent_node_id, $node.node_id ) )
      image_attribute=$node.data_map.image
-     image_content=$image_attribute.content}
+     image_content=$image_attribute.content
+     previous_image=fetch( content, list, hash( parent_node_id, $node.parent.node_id,
+                                                class_filter_type, include,
+                                                class_filter_array, array( "image" ),
+                                                limit, 1,
+                                                attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
+                                                sort_by, array( 'published', true() ) ) )
+     next_image=fetch( content, list, hash( parent_node_id, $node.parent.node_id,
+                                            class_filter_type, include,
+                                            class_filter_array, array( "image" ),
+                                            limit, 1,
+                                            attribute_filter, array( and, array( 'published', '<', $node.object.published ) ),
+                                            sort_by, array( 'published', false() ) ) )
+     previous_album=fetch( content, list, hash( parent_node_id, $node.parent.parent.node_id,
+                                                class_filter_type, include,
+                                                class_filter_array, array( "album" ),
+                                                limit, 1,
+                                                attribute_filter, array( and, array( 'name', '<', $node.parent.object.name ) ),
+                                                sort_by, array( 'name', false() ) ) )
+     next_album=fetch( content, list, hash( parent_node_id, $node.parent.parent.node_id,
+                                            class_filter_type, include,
+                                            class_filter_array, array( "album" ),
+                                            limit, 1,
+                                            attribute_filter, array( and, array( 'name', '>', $node.parent.object.name ) ),
+                                            sort_by, array( 'name', true() ) ) )
+     previous_album_image=false()
+     next_album_image=false()}
+
+{section show=$previous_album|gt( 0 )}
+    {set previous_album_image=fetch( content, list, hash( parent_node_id, $previous_album[0].node_id,
+                                                          class_filter_type, include,
+                                                          class_filter_array, array( "image" ),
+                                                          limit, 1,
+                                                          sort_by, array( 'published', false() ) ) )}
+{/section}
+{section show=$next_album|gt( 0 )}
+    {set next_album_image=fetch( content, list, hash( parent_node_id, $next_album[0].node_id,
+                                                      class_filter_type, include,
+                                                      class_filter_array, array( "image" ),
+                                                      limit, 1,
+                                                      sort_by, array( 'published', false() ) ) )}
+{/section}
 
 <div id="image">
 
@@ -15,13 +60,57 @@
 
 <h1>{$node.name}</h1>
 
-{attribute_view_gui attribute=$image_attribute image_class=large}
+{attribute_view_gui attribute=$image_attribute image_class=large link_to_image}
 <p>
   {attribute_view_gui attribute=$node.object.data_map.caption}
 </p>
 
 <div class="download">
-    <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>[download]</a>
+    <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>[download-icon-todo]</a>
+</div>
+
+<div class="navigation">
+
+    {section show=or( $previous_image|gt( 0 ), $next_image|gt( 0 ) )}
+    <div class="album">
+        <h2>In album <em>{$node.parent.name|wash}</em></h2>
+        <ul>
+            {section show=$previous_image|gt( 0 )}
+            <li>
+                <h3><a href={$previous_image[0].url_alias|ezurl}><strong class="arrow">&laquo;</strong> {$previous_image[0].name|wash}</a></h3>
+                {node_view_gui view=navigator href=$previous_image[0].url_alias|ezurl content_node=$previous_image[0]}
+            </li>
+            {/section}
+            {section show=$next_image|gt( 0 )}
+            <li>
+                <h3><a href={$next_image[0].url_alias|ezurl}>{$next_image[0].name|wash} <strong class="arrow">&raquo;</strong></a></h3>
+                {node_view_gui view=navigator href=$next_image[0].url_alias|ezurl content_node=$next_image[0]}
+            </li>
+            {/section}
+        </ul>
+    </div>
+    {/section}
+
+    {section show=or( $previous_album_image|gt( 0 ), $next_album_image|gt( 0 ) )}
+    <div class="gallery">
+        <h2>In gallery <em>{$node.parent.parent.name|wash}</em></h2>
+        <ul>
+            {section show=$previous_album_image|gt( 0 )}
+            <li>
+                <h3><a href={$previous_album[0].url_alias|ezurl}><strong class="arrow">&laquo;</strong> {$previous_album[0].name}</a></h3>
+                {node_view_gui view=navigator href=$previous_album_image[0].url_alias|ezurl content_node=$previous_album_image[0]}
+            </li>
+            {/section}
+            {section show=$next_album_image|gt( 0 )}
+            <li>
+                <h3><a href={$next_album[0].url_alias|ezurl}>{$next_album[0].name} <strong class="arrow">&raquo;</strong><a/></h3>
+                {node_view_gui view=navigator href=$next_album_image[0].url_alias|ezurl content_node=$next_album_image[0]}
+            </li>
+            {/section}
+        </ul>
+    </div>
+    {/section}
+
 </div>
 
 <div class="commentbutton">
