@@ -360,6 +360,7 @@ class eZContentStructureTreeOperator
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
+                                          'class_name' => $treeNode['class_name'],
                                           'published' => $treeNode['published'],
                                           'is_container' => ( $treeNode['is_container'] == '1' ) ) );
         return $node;
@@ -375,30 +376,38 @@ class eZContentStructureTreeOperator
     {
         // create initial subtree with root node and empty children.
         $rootTreeNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
-        $contentObject =& $rootTreeNode->attribute( 'object' );
-
-        if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
+        if( $rootTreeNode )
         {
-            $nodes = false;
+            $contentObject =& $rootTreeNode->attribute( 'object' );
+
+            if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
+            {
+                $nodes = false;
+            }
+            else
+            {
+                $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
+                                                    'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
+                                                    'children_count' => $rootTreeNode->attribute( 'children_count' ),
+                                                    'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
+                                                    'path_string' => $rootTreeNode->attribute( 'path_string' ),
+                                                    'depth' => $rootTreeNode->attribute( 'depth' ),
+                                                    'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
+                                                    'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
+                                   'object' => array( 'id' => $contentObject->attribute( 'id' ),
+                                                      'name' => $contentObject->attribute( 'name' ),
+                                                      'class_identifier' => $contentObject->attribute( 'class_identifier' ),
+                                                      'class_name' => $contentObject->attribute('class_name'),
+                                                      'published' => $contentObject->attribute( 'published' ),
+                                                      'is_container' => true ) );
+
+                $nodes = array( 'parent_node' => &$rootNode,
+                                'children' => array() );
+            }
         }
         else
         {
-            $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
-                                                'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
-                                                'children_count' => $rootTreeNode->attribute( 'children_count' ),
-                                                'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
-                                                'path_string' => $rootTreeNode->attribute( 'path_string' ),
-                                                'depth' => $rootTreeNode->attribute( 'depth' ),
-                                                'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
-                                                'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
-                               'object' => array( 'id' => $contentObject->attribute( 'id' ),
-                                                  'name' => $contentObject->attribute( 'name' ),
-                                                  'class_identifier' => $contentObject->attribute( 'class_identifier' ),
-                                                  'published' => $contentObject->attribute( 'published' ),
-                                                  'is_container' => true ) );
-
-            $nodes = array( 'parent_node' => &$rootNode,
-                            'children' => array() );
+            $nodes = false;
         }
 
         return $nodes;
