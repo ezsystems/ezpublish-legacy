@@ -278,6 +278,16 @@ class eZObjectRelationListType extends eZDataType
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                                  'version' => $object->attribute( 'current_version' ) ) );
                 }
+                else
+                {
+                    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                        'contentobject_version' => $object->attribute( 'current_version' ),
+                                                                        'parent_node' => $contentObject->attribute( 'id' ),
+                                                                        'sort_field' => 2,
+                                                                        'sort_order' => 0,
+                                                                        'is_main' => 1 ) );
+                    $nodeAssignment->store();
+                }
 
                 $content['relation_list'][$i]['is_modified'] = false;
             }
@@ -285,6 +295,30 @@ class eZObjectRelationListType extends eZDataType
         eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
         $contentObjectAttribute->setContent( $content );
         $contentObjectAttribute->store();
+    }
+
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            if ( $contentObjectAttribute->attribute( 'contentobject_id' ) != $originalContentObjectAttribute->attribute( 'contentobject_id' ) )
+            {
+                $classContent =& eZObjectRelationListType::defaultClassAttributeContent();
+                if ( !$classContent['default_placement'] )
+                {
+                    $content = $originalContentObjectAttribute->content();
+                    for ( $i = 0; $i < count( $content['relation_list'] ); $i++ )
+                    {
+                        $relationItem =& $content['relation_list'][$i];
+                        $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
+                        $newObject =& $object->copy( true );
+                        $relationItem['contentobject_id'] = $newObject->attribute( 'id' );
+                    }
+                    $contentObjectAttribute->setContent( $content );
+                    $contentObjectAttribute->store();
+                }
+            }
+        }
     }
 
     /*!
@@ -327,6 +361,7 @@ class eZObjectRelationListType extends eZDataType
             $content['attribute_type'] = $type;
         }
         $classAttribute->setContent( $content );
+        $classAttribute->store();
         return true;
     }
 
