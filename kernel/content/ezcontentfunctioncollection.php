@@ -172,6 +172,53 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
+    function fetchArchiveObjectCount()
+    {
+        $archivedObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                                     array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                     array(), null,
+                                                                     false,false,
+                                                                     array( array( 'operation' => 'count( * )',
+                                                                                   'name' => 'count' ) ) );
+
+        return array( 'result' => $archivedObjectList[0]['count'] );
+
+    }
+
+    function fetchArchiveObjectList( $offset, $limit )
+    {
+        $archivedObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                                     null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                     null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                     true );
+        return array( 'result' => &$archivedObjectList );
+    }
+
+    function fetchDraftVersionList( $offset, $limit )
+    {
+        $userID = eZUser::currentUserID();
+        $draftVersionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                   null, array(  'creator_id' => $userID,
+                                                                                 'status' => EZ_VERSION_STATUS_DRAFT ),
+                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                   true );
+        return array( 'result' => &$draftVersionList );
+
+    }
+
+    function fetchDraftVersionCount()
+    {
+        $userID = eZUser::currentUserID();
+        $draftVersionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                   array(), array( 'creator_id' => $userID,
+                                                                                'status' => EZ_VERSION_STATUS_DRAFT ),
+                                                                   array(), null,
+                                                                   false,false,
+                                                                   array( array( 'operation' => 'count( * )',
+                                                                                 'name' => 'count' ) ) );
+        return array( 'result' => $draftVersionList[0]['count'] );
+    }
+
     function canInstantiateClassList()
     {
         include_once( 'kernel/classes/ezcontentclass.php' );

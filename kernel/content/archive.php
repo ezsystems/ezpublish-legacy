@@ -41,20 +41,30 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 
 $Module =& $Params['Module'];
+$Offset = $Params['Offset'];
+$viewParameters = array( 'offset' => $Offset );
+
 $http =& eZHTTPTool::instance();
 
 $user =& eZUser::currentUser();
 $userID = $user->id();
 
-$archivedObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                             null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED
-                                                                         ),
-                                                             null, null,
-                                                             true );
+if ( $http->hasPostVariable( 'RemoveButton' )  )
+{
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    {
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            eZDebug::writeNotice( $deleteID, "deleteID" );
+            $object =& eZContentObject::fetch( $deleteID );
+            $object->purge();
+        }
+    }
+}
 
 $tpl =& templateInit();
-
-$tpl->setVariable( 'object_list', $archivedObjectList );
+$tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/archive.tpl' );

@@ -220,6 +220,55 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                                    'required' => false,
                                                                    'default' => 0 ) ) );
 
+
+$FunctionList['archive_count'] = array( 'name' => 'archive_count',
+                                        'operation_types' => array( 'read' ),
+                                        'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                'class' => 'eZContentFunctionCollection',
+                                                                'method' => 'fetchArchiveObjectCount' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array(  ) );
+
+$FunctionList['archive_object_list'] = array( 'name' => 'archive_object_list',
+                                              'operation_types' => array( 'read' ),
+                                              'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                      'class' => 'eZContentFunctionCollection',
+                                                                      'method' => 'fetchArchiveObjectList' ),
+                                              'parameter_type' => 'standard',
+                                              'parameters' => array( array( 'name' => 'offset',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'limit',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ) ) );
+
+$FunctionList['draft_count'] = array( 'name' => 'draft_count',
+                                      'operation_types' => array( 'read' ),
+                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                              'class' => 'eZContentFunctionCollection',
+                                                              'method' => 'fetchDraftVersionCount' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array(  ) );
+
+$FunctionList['draft_version_list'] = array( 'name' => 'draft_version_list',
+                                             'operation_types' => array( 'read' ),
+                                             'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                     'class' => 'eZContentFunctionCollection',
+                                                                     'method' => 'fetchDraftVersionList' ),
+                                             'parameter_type' => 'standard',
+                                             'parameters' => array( array( 'name' => 'offset',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ),
+                                                                    array( 'name' => 'limit',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ) ) );
+
+
+
 $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_class_list',
                                                      'operation_types' => array( 'read' ),
                                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

@@ -155,22 +155,6 @@ $ViewList["versions"] = array(
                                                         'EditLanguage' => 'EditLanguage' ) ),
     "params" => array( "ObjectID" ,'EditVersion', 'EditLanguage' ) );
 
-$ViewList["sitemap"] = array(
-    "functions" => array( 'read' ),
-    "script" => "sitemap.php",
-    "params" => array( "TopObjectID" ) ,
-    "unordered_params" => array( "language" => "Language",
-                                 "offset" => "Offset" )
-    );
-$ViewList["error"] = array(
-    "functions" => array( 'read' ),
-    "script" => "error.php",
-    "params" => array( "ObjectID" ) ,
-    );
-$ViewList["permission"] = array(
-    "functions" => array( 'edit' ),
-    "script" => "permission.php",
-    "params" => array( "ObjectID" ) );
 $ViewList["translate"] = array(
     "functions" => array( 'edit' ),
     "script" => "translate.php",
@@ -191,11 +175,14 @@ $ViewList["translate"] = array(
 
 $ViewList["draft"] = array(
     "script" => "draft.php",
-    "params" => array( ) );
+    "params" => array( ),
+    "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["archive"] = array(
     "script" => "archive.php",
-    "params" => array( ) );
+    "params" => array( ),
+    "unordered_params" => array( "offset" => "Offset" ) );
+
 
 
 $ViewList["translations"] = array(

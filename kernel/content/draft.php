@@ -42,6 +42,9 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
 
+$Offset = $Params['Offset'];
+$viewParameters = array( 'offset' => $Offset );
+
 $user =& eZUser::currentUser();
 $userID = $user->id();
 
@@ -59,11 +62,13 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
-$versions =& eZContentObjectVersion::fetchForUser( $userID );
+
+//$versions =& eZContentObjectVersion::fetchForUser( $userID );
 
 $tpl =& templateInit();
 
-$tpl->setVariable( 'draft_list', $versions );
+//$tpl->setVariable( 'draft_list', $versions );
+$tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/draft.tpl' );

@@ -1,8 +1,13 @@
+{let page_limit=30
+     list_count=fetch('content','draft_count')}
+
 <form action={concat("content/draft/")|ezurl} method="post" >
 
 <div class="maincontentheader">
 <h1>{"My drafts"|i18n("design/standard/content/view")}</h1>
 </div>
+
+{let draft_list=fetch('content','draft_version_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
 
 {section show=$draft_list}
 
@@ -37,7 +42,12 @@
 {/section}
 <tr>
 </table>
-
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/draft/')
+         item_count=$list_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 {section-else}
 
