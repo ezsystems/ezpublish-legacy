@@ -181,7 +181,7 @@ class eZLDAPUser extends eZUser
             if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
             {
                 $Utf8Encoding = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
-                if ( $isUtf8Encoding == "true" )
+                if ( $Utf8Encoding == "true" )
                     $isUtf8Encoding = true;
                 else
                     $isUtf8Encoding = false;
