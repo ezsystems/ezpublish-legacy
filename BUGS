@@ -19,3 +19,11 @@ Translate
 Complex data types, e.g. image, does not work when translating.
 
 Translated objects are not indexed in search.
+
+
+Validate
+-------
+Images are not uploaded if some attributes does not validate
+
+View object with temporary class will show double of all attributes in list.
+Due to temporary version of class which is joined in SQL.
