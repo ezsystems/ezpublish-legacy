@@ -216,12 +216,14 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator,
+    function &fetchObjectTree( $parentNodeID, $sortBy, $onlyTranslated, $language, $offset, $limit, $depth, $depthOperator,
                                $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
                                $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
+                                 'OnlyTranslated' => $onlyTranslated,
+                                 'Language' => $language,
                                  'Limit' => $limit,
                                  'Limitation' => $limitation,
                                  'SortBy' => $sortBy,
