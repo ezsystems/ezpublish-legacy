@@ -180,6 +180,13 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $objectList;
     }
 
+    /*!
+     Fetches all contentobject attributes which relates to the contentclass attribute \a $contentClassAttributeID.
+     \return An array with contentobject attributes.
+     \param $contentClassAttributeID The ID of the contentclass attribute
+     \param $asObject If \c true objects will be returned, otherwise associative arrays are returned.
+     \param $version The version the of contentobject attributes to fetch or all version if \c false.
+    */
     function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false )
     {
         $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
