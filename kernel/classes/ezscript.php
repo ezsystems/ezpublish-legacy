@@ -322,7 +322,12 @@ class eZScript
             $moduleINI =& eZINI::instance( 'module.ini' );
             $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
             $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-            $extensionDirectory = eZExtension::baseDirectory();
+
+            if ( $this->UseExtensions )
+                $extensionDirectory = eZExtension::baseDirectory();
+            else
+                $extensionDirectory = array();
+
             $globalExtensionRepositories = array();
             foreach ( $extensionRepositories as $extensionRepository )
             {
