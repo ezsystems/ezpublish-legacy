@@ -41,10 +41,13 @@
 
 <h3 id="Linux_FreeBSD_Macos_Database">Database setup</h3>
 
-<h4>MySQL</h4>
 <p>
-	We need to login, create a new database, grant permissions to a user and insert a database.
+    We need to login, create a new database, grant permissions to a user and insert a database. If you
+    already have a database with correct permissions, then the setup guide can use that database. If not,
+    you must create it yourself:
 </p>
+
+<h4>MySQL</h4>
 
 <ol>
 	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
@@ -55,9 +58,6 @@
 
 
 <h4 id="">PostgreSQL</h4>
-<p>
-	We need to login, create a new database, grant permissions to a user and insert a database.
-</p>
 
 <ol>
 	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>

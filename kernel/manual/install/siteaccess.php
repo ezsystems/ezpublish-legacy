@@ -10,6 +10,7 @@
 		</ul>
 		<li><a href="#URI">URI</a></li>
 		<li><a href="#Port">Port</a></li>
+		<li><a href="#Debug">Debug</a></li>
 	</ul>
 </ul>
 
@@ -158,4 +159,21 @@ MatchOrder=port
 [PortAccessSettings]
 80=user
 81=admin
+</pre>
+
+
+<h3 id="Debug">Debug</h3>
+<p>
+If you have problems getting your site access configuration right, you can turn on site access debugging.
+There are two settings for this. DebugAccess prints out the site access that was chosen, and
+DebugExtraAccess prints some extra information on access matching.
+</p>
+<pre class="example">
+file: settings/site.ini
+
+[SiteAccessSettings]
+
+DebugAccess=enabled
+DebugExtraAccess=enabled
+
 </pre>

@@ -55,3 +55,10 @@ var/mysecond/storage. The same goes for the mysecond site.
 storage directory. Otherwise if you e.g. upload a new file using the admin site, the user site will not be
 able to locate the file because it is looking for it in the wrong directory.
 </p>
+
+<p class="important"><b>Important:</b> Make sure that Apache has sufficient rights for the folders you
+create.
+</p>
+
+<p><b>Note: </b> The cache for ini-files and translations can not be separated as described in this document.
+</p>

@@ -129,7 +129,7 @@ Database=&lt;name_of_database&gt;
   &lt;/Directory&gt;
 
   RewriteEngine On
-  RewriteRule !\.(gif|css|jpg|png)$ &lt;httproot&gt;/ezpublish-xxx/index.php
+  RewriteRule !\.(gif|css|jpg|png|js)$ &lt;httproot&gt;/ezpublish-xxx/index.php
 
   ServerAdmin root@localhost
   DocumentRoot &lt;httproot&gt;/ezpublish-xxx/
@@ -228,7 +228,7 @@ AddModule mod_rewrite.c</pre>
   &lt;/Directory&gt;
 
   RewriteEngine On
-  RewriteRule !\.(gif|css|jpg|png|jar)$ /index.php
+  RewriteRule !\.(gif|css|jpg|png|jar|js)$ /index.php
 
   ServerAdmin root@localhost
   DocumentRoot &lt;httproot&gt;/ezpublish-xxx
