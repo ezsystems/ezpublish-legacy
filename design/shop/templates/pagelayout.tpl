@@ -19,6 +19,8 @@
 
 <div id="background">
 
+{include uri="design:navigator/calendar.tpl" }
+
     <div id="header">
         <div class="design">
         

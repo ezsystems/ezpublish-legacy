@@ -1,3 +1,8 @@
+{* Configuration of product view
+  review_limit: The number of reviews to display under the product
+*}
+{let review_limit=4}
+
 <div class="product">
 <form method="post" action={"content/action"|ezurl}> 
 
@@ -49,7 +54,7 @@
 {let review_list=fetch( content, list, hash( parent_node_id, $node.node_id,
                                              class_filter_type, include, class_filter_array, array( 25 ),
                                              sort_by, array( published, false() ),
-                                             limit, 10 ) )}
+                                             limit, $review_limit ) )}
 
 <div id="reviews">
     <h3>Reviews</h3>
@@ -70,3 +75,4 @@
 {/let}
 
 </div>
+{/let}
