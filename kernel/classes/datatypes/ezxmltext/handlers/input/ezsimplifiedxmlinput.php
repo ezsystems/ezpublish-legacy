@@ -1376,7 +1376,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $customTagContent .= $this->inputTdXML( $tagChild );
                 }
-                $output .= "<$tagName name='$name'>" .  $customTagContent . "</$tagName>";
+                $output .= "<$tagName name='$name'>" .   trim( $customTagContent ) . "</$tagName>";
             }break;
 
             case 'link' :
