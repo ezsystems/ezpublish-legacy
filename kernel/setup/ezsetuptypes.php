@@ -85,7 +85,7 @@ function eZSetupFunctionality( $siteType )
     }
 }
 
-function eZSetupForumINISettings()
+function eZSetupForumINISettings( $siteType )
 {
     return array( 'name' => 'forum.ini',
                   'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
@@ -989,7 +989,7 @@ function eZSetupOverrideINISettings( $siteType )
 function eZSetupINISettings( $siteType )
 {
     $settings = array();
-    $settings[] = eZSetupForumINISettings();
+    $settings[] = eZSetupForumINISettings( $siteType );
     $settings[] = eZSetupMenuINISettings( $siteType );
     $settings[] = eZSetupOverrideINISettings( $siteType );
     $settings[] = eZSetupToolbarINISettings( $siteType );

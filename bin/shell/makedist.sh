@@ -125,7 +125,7 @@ for arg in $*; do
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
-	    echo "         --skip-site-creation       Do not build sites*"
+#	    echo "         --skip-site-creation       Do not build sites*"
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
@@ -156,9 +156,9 @@ for arg in $*; do
 		REPOS_RELEASE="trunk"
 	    fi
 	    ;;
-	--skip-site-creation)
-	    SKIPSITECREATION="1"
-	    ;;
+#	--skip-site-creation)
+#	    SKIPSITECREATION="1"
+#	    ;;
 	--skip-version-check)
 	    SKIPCHECKVERSION="1"
 	    ;;
@@ -458,27 +458,27 @@ for file in $EXTRA_DIRS; do
     mkdir -p $DEST/$file
 done
 
-if [ -z $SKIPSITECREATION ]; then
-    echo
-    echo "Creating and exporting sites"
-    rm -rf "$DEST/kernel/setup/packages"
-    mkdir -p "$DEST/kernel/setup/packages" || exit 1
-    echo -n "Site:"
-    for site in $ALL_PACKAGES; do
-	echo -n " `$POSITION_STORE`$site"
-	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
-	if [ $? -ne 0 ]; then
-	    echo
-	    echo "The package creation of $site failed"
-	    echo "Run the following command to see what went wrong"
-	    echo "./bin/shell/makesitepackages.sh --site=$site"
-	    exit 1
-	else
-	    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
-	fi
-    done
-fi
-echo
+#if [ -z $SKIPSITECREATION ]; then
+#    echo
+#    echo "Creating and exporting sites"
+#    rm -rf "$DEST/kernel/setup/packages"
+#    mkdir -p "$DEST/kernel/setup/packages" || exit 1
+#    echo -n "Site:"
+#    for site in $ALL_PACKAGES; do
+#	echo -n " `$POSITION_STORE`$site"
+#	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
+#	if [ $? -ne 0 ]; then
+#	    echo
+#	    echo "The package creation of $site failed"
+#	    echo "Run the following command to see what went wrong"
+#	    echo "./bin/shell/makesitepackages.sh --site=$site"
+#	    exit 1
+#	else
+#	    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
+#	fi
+#    done
+#fi
+#echo
 
 echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
 for filter in $FILTER_FILES; do

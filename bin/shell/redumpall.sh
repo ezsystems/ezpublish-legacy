@@ -158,12 +158,12 @@ if [ "$DUMP_DATA" != "" ]; then
 	exit 1
     fi
 
-    for sql in $PACKAGE_DATA_FILES; do
-	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
-	if [ $? -ne 0 ]; then
-	    "Failed re-dumping SQL file $sql"
-	    exit 1
-	fi
-    done
+#    for sql in $PACKAGE_DATA_FILES; do
+#	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
+#	if [ $? -ne 0 ]; then
+#	    "Failed re-dumping SQL file $sql"
+#	    exit 1
+#	fi
+#    done
 
 fi
