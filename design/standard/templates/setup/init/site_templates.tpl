@@ -8,8 +8,6 @@
 
   <p>
     {"Please choose one or more of the demo sites you would like to test or base your site(s) on. Use Plain if you wish to start from scratch."i18n("design/standard/setup/init")}
-    <br />
-    {"Use Plain if you would like to start from scratch."|i18n("design/standard/setup/init")}
   </p>
 
   <table border="0" cellspacing="2" cellpadding="0">
@@ -34,7 +32,7 @@
 	<tr>
 
 	{section name=SiteTemplateInner loop=$site_templates offset=sub($SiteTemplate:index,3) max=4}
-	  <td align="bottom">
+	  <td align="bottom" class="normal">
 	    <input type="checkbox" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
             <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][identifier]" value="{$:item.identifier}" />
             <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][name]" value="{$:item.name}" />

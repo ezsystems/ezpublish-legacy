@@ -4,7 +4,7 @@
   <h1>{"Language support"|i18n("design/standard/setup/init")}</h1>
 </div>
 <p>
-{"Use the radio buttons to choose the primary language, and checkboxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
+{"Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
 </p>
 <p>
 {section show=$show_unicode_error}

@@ -1,4 +1,4 @@
-{"eZ publish support both MySQL and PostgreSQL."|i18n("design/standard/setup/init")}
+{"eZ publish supports both MySQL and PostgreSQL."|i18n("design/standard/setup/init")}
 <p></p>
 {"PostgreSQL or MySQL >= 4.1 are required for unicode support in eZ publish."|i18n("design/standard/setup/init")|wash}
 <p></p>
