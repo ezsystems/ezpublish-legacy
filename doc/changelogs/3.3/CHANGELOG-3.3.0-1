@@ -65,6 +65,7 @@ Changes from 3.2-3 to 3.3.0-1
 - Updated setup/info page with detection of Turck MMCache. Added name and url for current PHP accelerator.
 - Updated setup/info page with more database information, it will list server, database name, retry count
   and the current slave server and database name (if any).
+- Made content link in admin use settings for RootNode for top level node link.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.
