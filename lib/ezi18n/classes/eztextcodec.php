@@ -195,8 +195,11 @@ class eZTextCodec
 
     function &convertString( &$str )
     {
+        eZDebug::accumulatorStart( 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
-        return $this->$conversionFunction( $str );
+        $tmp =& $this->$conversionFunction( $str );
+        eZDebug::accumulatorStop( 'String conversion' );
+        return $tmp;
     }
 
     function strlen( &$str )
@@ -213,22 +216,34 @@ class eZTextCodec
 
     function &convertCodepage( &$str )
     {
-        return $this->Codepage->convertString( $str );
+        eZDebug::accumulatorStart( 'String conversion w/ codepage' );
+        $tmp =& $this->Codepage->convertString( $str );
+        eZDebug::accumulatorStop( 'String conversion w/ codepage' );
+        return $tmp;
     }
 
     function &convertCodepageRev( &$str )
     {
-        return $this->Codepage->convertStringFromUTF8( $str );
+        eZDebug::accumulatorStart( 'String conversion w/ codepage reverse' );
+        $tmp =& $this->Codepage->convertStringFromUTF8( $str );
+        eZDebug::accumulatorStop( 'String conversion w/ codepage reverse' );
+        return $tmp;
     }
 
     function &convertCodepageMapper( &$str )
     {
-        return $this->CodepageMapper->convertString( $str );
+        eZDebug::accumulatorStart( 'String conversion w/ codepage mapper' );
+        $tmp =& $this->CodepageMapper->convertString( $str );
+        eZDebug::accumulatorStop( 'String conversion w/ codepage mapper' );
+        return $tmp;
     }
 
     function &convertMBString( &$str )
     {
-        return $this->MBStringMapper->convertString( $str );
+        eZDebug::accumulatorStart( 'String conversion w/ mbstring' );
+        $tmp =& $this->MBStringMapper->convertString( $str );
+        eZDebug::accumulatorStop( 'String conversion w/ mbstring' );
+        return $tmp;
     }
 
     function strlenNone( &$str )

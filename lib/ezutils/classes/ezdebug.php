@@ -134,6 +134,16 @@ class eZDebug
         $this->MessageOutput = EZ_OUTPUT_MESSAGE_STORE;
     }
 
+    function reset()
+    {
+        $this->DebugStrings = array();
+        $this->TmpTimePoints = array( EZ_LEVEL_NOTICE => array(),
+                                      EZ_LEVEL_WARNING => array(),
+                                      EZ_LEVEL_ERROR => array(),
+                                      EZ_LEVEL_DEBUG => array() );
+        $debug->TimeAccumulatorList = array();
+    }
+
     /*!
       Will return the current eZDebug object. If no object exists one will
       be created.
@@ -501,6 +511,8 @@ class eZDebug
         $debugEnabled =& $GLOBALS['eZDebugEnabled'];
         if ( isset( $debugEnabled ) )
             return $debugEnabled;
+        if ( !eZINI::isLoaded() )
+            return true;
         $ini =& eZINI::instance();
 
         $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIP" );
@@ -515,6 +527,8 @@ class eZDebug
             else if ( in_array( "disabled", $debugIPArray ) )
             {
                 $debugEnabled = false;
+                $debug =& eZDebug::instance();
+                $debug->reset();
             }
         }
         return $debugEnabled;
@@ -618,13 +632,18 @@ ezdebug.reload();
 
     function createAccumulator( $key, $name = '' )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         if ( $name == '' )
             $name = $key;
         $debug =& eZDebug::instance();
         $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0 );
     }
+
     function accumulatorStart( $key )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         $debug =& eZDebug::instance();
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
@@ -634,8 +653,11 @@ ezdebug.reload();
         $accumulator =& $debug->TimeAccumulatorList[$key];
         $accumulator['temp_time'] = $debug->timeToFloat(  microtime() );
     }
+
     function accumulatorStop( $key )
     {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
         $debug =& eZDebug::instance();
         $stopTime = $debug->timeToFloat( microtime() );
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
@@ -668,34 +690,34 @@ ezdebug.reload();
                 $returnText .= "<STYLE TYPE='text/css'>
                 <!--
 td.debugheader
-{
+\{
     background-color : #eeeeee;
     border-top : 1px solid #444488;
     border-bottom : 1px solid #444488;
     font-size : 65%;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
+\}
 
 td.timingpoint1
-{
+\{
 	background-color : #ffffff;
 	border-top : 1px solid #444488;
 	font-size : 65%;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
+\}
 
 td.timingpoint2
-{
+\{
 	background-color : #eeeeee;
 	border-top : 1px solid #444488;
 	font-size : 65%;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
+\}
 
 -->
 </STYLE>";
             }
-         $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
+            $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
         }
 
         foreach ( $this->DebugStrings as $debug )
@@ -801,10 +823,15 @@ td.timingpoint2
         if ( $as_html )
         {
             $returnText .= "<h2>Time accumulators:</h2>";
-            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>Elapsed</th><th>&nbsp;Increment Count</th><th>&nbsp;Avarage per increment </tr>";
+            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</tr>";
             $i = 0;
         }
 
+        $totalElapsed = 0.0;
+        foreach ( $this->TimeAccumulatorList as $accumulator )
+        {
+            $totalElapsed += $accumulator['time'];
+        }
         foreach ( $this->TimeAccumulatorList as $accumulator )
         {
             if ( $as_html )
@@ -817,7 +844,8 @@ td.timingpoint2
 
                 $returnText .= "<tr><td class='$class'>" . $accumulator['name'] . "</td><td class='$class'>" .
                                number_format( ( $accumulator['time'] ), $this->TimingAccuracy ) . " sec</td> <td class='$class' align='right'> " .
-                               $accumulator['count'] . "</td> <td class='$class' align='right'> " . number_format( ( $accumulator['time'] / $accumulator['count'] ), $this->TimingAccuracy ) . " </td> "
+                               number_format( ( $accumulator['time'] * 100.0 ) / $totalElapsed, 1 ) . "%</td> <td class='$class' align='right'>" .
+                               $accumulator['count'] . "</td> <td class='$class' align='right'> " . number_format( ( $accumulator['time'] / $accumulator['count'] ), $this->TimingAccuracy ) . " sec</td> "
                                . "</tr>";
             }
             else

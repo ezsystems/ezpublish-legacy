@@ -1572,14 +1572,20 @@ class eZTemplate
     */
     function &fetch( $template = false, $extraParameters = false )
     {
+        eZDebug::accumulatorStart( 'Template' );
+        eZDebug::accumulatorStart( 'Template load' );
         if ( is_string( $template ) )
             $this->load( $template, $extraParameters );
+        eZDebug::accumulatorStop( 'Template load' );
         $text = "";
         if ( $this->ShowDetails )
             eZDebug::addTimingPoint( "Process" );
+        eZDebug::accumulatorStart( 'Template processing' );
         $this->Tree->process( $this, $text, "", "" );
+        eZDebug::accumulatorStop( 'Template processing' );
         if ( $this->ShowDetails )
             eZDebug::addTimingPoint( "Process done" );
+        eZDebug::accumulatorStop( 'Template' );
         return $text;
     }
 
@@ -1819,6 +1825,7 @@ class eZTemplate
 
     function loadAndRegisterFunctions( $functionDefinition )
     {
+        eZDebug::accumulatorStart( 'Template load and register function' );
 //         if ( is_object( $this->Functions[$functionName] ) )
 //             return true;
 //         $functionDefinition =& $this->Functions[$functionName];
@@ -1839,6 +1846,7 @@ class eZTemplate
             if ( class_exists( $class ) )
                 $functionObject = new $class();
         }
+        eZDebug::accumulatorStop( 'Template load and register function' );
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );

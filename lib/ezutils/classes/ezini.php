@@ -184,6 +184,14 @@ class eZINI
         return file_exists( $rootDir . '/' . $fileName );
     }
 
+    function isLoaded( $fileName = "site.ini", $rootDir = "settings" )
+    {
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
+        if ( !isset( $isLoaded ) )
+            return false;
+        return $isLoaded;
+    }
+
     /*!
       \static
       Returns the current instance of the given .ini file
@@ -191,11 +199,14 @@ class eZINI
     function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null )
     {
         $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName"];
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
 
         $class =& get_class( $impl );
         if ( $class != "ezini" )
         {
+            $isLoaded = false;
             $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache );
+            $isLoaded = true;
         }
         return $impl;
     }
@@ -210,9 +221,13 @@ class eZINI
         if ( $reset )
             $this->reset();
         if ( $this->UseCache )
+        {
             $this->loadCache();
+        }
         else
+        {
             $this->parse();
+        }
     }
 
     /*!
@@ -456,7 +471,9 @@ class eZINI
                  $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
+//                     eZDebug::accumulatorStart( 'INI string conversion' );
                     $varValue = $codec->convertString( $valueArray[2] );
+//                     eZDebug::accumulatorStop( 'INI string conversion' );
                 }
                 else
                 {
