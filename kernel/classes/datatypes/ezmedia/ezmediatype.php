@@ -306,6 +306,94 @@ class eZMediaType extends eZDataType
         }
     }
 
+    /*!
+     \reimp
+     HTTP file insertion is supported.
+    */
+    function isHTTPFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the eZMedia class.
+    */
+    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute, &$httpFile, $mimeData,
+                             &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+        $errors =& $result['errors'];
+        $attributeID = $objectAttribute->attribute( 'id' );
+
+        $media =& eZMedia::fetch( $attributeID, $objectVersion );
+        if ( $media === null )
+            $media =& eZMedia::create( $attributeID, $objectVersion );
+
+        if ( !$httpFile->store( "original", false, false ) )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezmedia',
+                                                        'Failed to store HTTP file %filename.', null,
+                                                        array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
+            return false;
+        }
+
+        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $player = $classAttribute->attribute( "data_text1" );
+        switch( $player )
+        {
+            case 'flash':
+                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
+            break;
+            case 'quick_time':
+                $plugin = "http://quicktime.apple.com";
+            break;
+            case 'real_player' :
+                $plugin = "http://www.real.com/";
+            break;
+            case 'windows_media_player' :
+                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
+            break;
+            default:
+                $plugin = "";
+            break;
+        }
+
+        $media->setAttribute( "contentobject_attribute_id", $attributeID );
+        $media->setAttribute( "version", $objectVersion );
+        $media->setAttribute( "filename", basename( $httpFile->attribute( "filename" ) ) );
+        $media->setAttribute( "original_filename", $httpFile->attribute( "original_filename" ) );
+        $media->setAttribute( "mime_type", $mimeData['name'] );
+
+        // Setting width and height to zero means that the browser/player must find the size itself.
+        // In the future we will probably analyze the media file and find this information
+        $width = $height = 0;
+        // Quality is not known, so we don't set any
+        $quality = false;
+        // Not sure what this is for, set to false
+        $controls = false;
+        // We want to show controllers by default
+        $hasController = true;
+        // Don't play automatically
+        $isAutoplay = false;
+
+        $media->setAttribute( "width", $width );
+        $media->setAttribute( "height", $height );
+        $media->setAttribute( "quality", $quality );
+        $media->setAttribute( "controls", $controls );
+        $media->setAttribute( "pluginspage", $plugin );
+        $media->setAttribute( "is_autoplay", $isAutoplay );
+        $media->setAttribute( "has_controller", $hasController );
+        $media->setAttribute( "is_loop", $isLoop );
+
+        $media->store();
+
+        $objectAttribute->setContent( $media );
+        return true;
+    }
+
     function storeClassAttribute( &$attribute, $version )
     {
     }

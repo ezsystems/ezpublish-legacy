@@ -642,7 +642,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      current attribute, if these are available it is adviced to pass them since it will save time.
     */
     function insertSimpleString( &$object, $objectVersion, $objectLanguage,
-                                 $string, $mimeData,
+                                 $string,
                                  &$result )
     {
         if ( !$object )
@@ -653,7 +653,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectLanguage = $object->attribute( 'default_language' );
         $dataType =& $this->dataType();
         return $dataType->insertSimpleString( $object, $objectVersion, $objectLanguage,
-                                              $this, $string, $mimeData );
+                                              $this, $string, $result );
     }
 
     /*!
