@@ -81,10 +81,6 @@ class eZTimeType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
 
-        //$datetime = mktime( $hour, $minute );
-        //if ( $datetime !== false )
-        //    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-
         if( preg_match( '/\d+/', trim( $hour )   ) &&
             preg_match( '/\d+/', trim( $minute ) ) &&
             $hour >= 0 && $minute >= 0 &&
@@ -93,6 +89,8 @@ class eZTimeType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
 
+        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                     'Invalid time.' ) );
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -155,7 +153,11 @@ class eZTimeType extends eZDataType
             $localSeconds = ( $gmtSeconds + date( 'Z' ) ) % eZTime::secondsPerDay();
             return $localSeconds;
         }
-        return null;
+        else
+        {
+            $gmtSeconds = 0;
+            return $gmtSeconds;
+        }
     }
 
     /*!
@@ -228,7 +230,7 @@ class eZTimeType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        return ( !is_null( $contentObjectAttribute->attribute( 'data_int' ) ) );
+        return !is_null( $contentObjectAttribute->attribute( 'data_int' ) );
     }
 
     /*!

@@ -112,9 +112,7 @@ class eZTime
         {
             $time = mktime();
         }
-
         $this->setTimeStamp( $time );
-
         $this->Locale =& eZLocale::instance();
         $this->IsValid = $time >= 0;
     }
@@ -250,8 +248,8 @@ class eZTime
     */
     function &hour()
     {
-        $from_cur_midnigth = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
-        $time = $from_cur_midnigth + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
         return date( 'G', $time );
     }
 
@@ -260,8 +258,8 @@ class eZTime
     */
     function &minute()
     {
-        $from_cur_midnigth = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
-        $time = $from_cur_midnigth + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
         return date( 'i', $time );
     }
 
@@ -270,8 +268,8 @@ class eZTime
     */
     function &second()
     {
-        $from_cur_midnigth = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
-        $time = $from_cur_midnigth + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
         return date( 's', $time );
     }
 
@@ -299,7 +297,8 @@ class eZTime
     {
         $this->setTimeStamp( $hour * EZTIME_SECONDS_AN_HOUR +
                              $min * EZTIME_SECONDS_A_MINUTE +
-                             $sec );
+                             $sec +
+                             $this->Time );
     }
 
     /*!
@@ -316,7 +315,6 @@ class eZTime
             $time =& mktime( $hour );
         else
             return new eZTime();
-
         return new eZTime( $time );
     }
 
