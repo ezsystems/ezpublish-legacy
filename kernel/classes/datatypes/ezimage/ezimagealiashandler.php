@@ -39,20 +39,36 @@
 /*!
   \class eZImageAliasHandler ezimagealiashandler.php
   \ingroup eZKernel
-  \brief The class eZImage handles images
+  \brief Internal manager for the eZImage datatype
+
+  Takes care of image conversion and serialization from and to
+  the internal XML format.
+
+  \note This handler was introduced in eZ publish 3.3 and will detect older
+        eZImage structures and convert them on the fly.
 
 */
+
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
 class eZImageAliasHandler
 {
+    /*!
+     Creates the handler and creates a reference to the contentobject attribute that created it.
+    */
     function eZImageAliasHandler( &$contentObjectAttribute )
     {
         $this->ContentObjectAttribute =& $contentObjectAttribute;
     }
 
+    /*!
+     Lists all available image aliases as attributes as well as:
+     - alternative_text - The alternative text input by the user, can be empty
+     - original_filename - The name of image which it had on the users disk before it was uploaded
+     - is_valid - A boolean which says if there is an image here or not.
+    */
     function attributes()
     {
         include_once( 'kernel/common/image.php' );
@@ -64,6 +80,10 @@ class eZImageAliasHandler
                             array_keys( $aliasList ) );
     }
 
+    /*!
+     \return true if the attribute named \a $attributeName exists.
+     See eZImageAliasHandler::attributes() for which attributes are available.
+    */
     function hasAttribute( $attributeName )
     {
         if ( in_array( $attributeName,
@@ -78,6 +98,10 @@ class eZImageAliasHandler
         return false;
     }
 
+    /*!
+     \return the value of the attribute named \a $attributeName.
+     See eZImageAliasHandler::attributes() for which attributes are available.
+    */
     function &attribute( $attributeName )
     {
         if ( in_array( $attributeName,
@@ -92,140 +116,11 @@ class eZImageAliasHandler
         return $this->imageAlias( $aliasName );
     }
 
-//     function &copyOfFilename()
-//     {
-//         $contentObjectAttribute =& $this->ContentObjectAttribute;
-//         $copyOf = false;
-//         if ( is_array( $contentObjectAttribute->DataTypeCustom ) and
-//              isset( $contentObjectAttribute->DataTypeCustom['copy_of'] ) )
-//             $copyOf = $contentObjectAttribute->DataTypeCustom['copy_of'];
-//         return $copyOf;
-//     }
+    /*!
+     \return The value of the attribute named \a $attributeName from the 'original' image alias.
 
-    function &originalAttributeData()
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( isset( $contentObjectAttribute->DataTypeCustom['original_data'] ) )
-            return $contentObjectAttribute->DataTypeCustom['original_data'];
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        $originalData = array( 'attribute_id' => false,
-                               'attribute_version' => false,
-                               'attribute_language' => false );
-        $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
-        return $originalData;
-    }
-
-    function setOriginalAttributeData( $originalData )
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
-
-        $domTree =& $this->domTree();
-        $imageOriginalArray =& $domTree->elementsByName( "original" );
-        if ( isset( $imageOriginalArray[0] ) )
-            $this->createOriginalAttributeXMLData( $imageOriginalArray[0], $originalData );
-    }
-
-    function setOriginalAttributeDataFromAttribute( &$contentObjectAttribute )
-    {
-        $originalImageHandler =& $contentObjectAttribute->attribute( 'content' );
-        $originalAttributeData =& $originalImageHandler->originalAttributeData();
-        $domTree =& $originalImageHandler->domTree();
-        $this->setDOMTree( $domTree );
-        if ( $originalAttributeData['attribute_id'] )
-        {
-            $this->setOriginalAttributeData( $originalAttributeData );
-        }
-        else
-        {
-            $this->setOriginalAttributeDataValues( $contentObjectAttribute->attribute( 'id' ),
-                                                   $contentObjectAttribute->attribute( 'version' ),
-                                                   $contentObjectAttribute->attribute( 'language_code' ),
-                                                   false );
-        }
-    }
-
-    function setOriginalAttributeDataValues( $attributeID, $attributeVersion, $attributeLanguage )
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        $originalData = array( 'attribute_id' => $attributeID,
-                               'attribute_version' => $attributeVersion,
-                               'attribute_language' => $attributeLanguage );
-        $this->setOriginalAttributeData( $originalData );
-    }
-
-    function isImageOwner()
-    {
-        $originalData = $this->originalAttributeData();
-        return ( $originalData['attribute_id'] === false );
-    }
-
-//     function hasFileCopy()
-//     {
-//         $originalData = $this->originalAttributeData();
-//         return $originalData['has_file_copy'];
-//     }
-
-//     function setHasFileCopy( $hasFileCopy )
-//     {
-//         $originalData =& $this->originalAttributeData();
-//         $originalData['has_file_copy'] = $hasFileCopy;
-//     }
-
-//     function setCopyOfFilename( $copyOf )
-//     {
-//         $contentObjectAttribute =& $this->ContentObjectAttribute;
-//         if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-//             $contentObjectAttribute->DataTypeCustom = array();
-//         $aliasList =& $this->aliasList();
-//         $contentObjectAttribute->DataTypeCustom['copy_of'] = $copyOf;
-//         $this->recreateDOMTree();
-//         $this->setStorageRequired();
-//     }
-
-    function imageSerialNumber()
-    {
-        $serialNumber = $this->imageSerialNumberRaw();
-        if ( $serialNumber < 1 )
-            $serialNumber = 1;
-        return $serialNumber;
-    }
-
-    function &imageSerialNumberRaw()
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( isset( $contentObjectAttribute->DataTypeCustom['serial_number'] ) and
-             $contentObjectAttribute->DataTypeCustom['serial_number'] >= 0 )
-            return $contentObjectAttribute->DataTypeCustom['serial_number'];
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        $contentObjectAttribute->DataTypeCustom['serial_number'] = 0;
-        return $contentObjectAttribute->DataTypeCustom['serial_number'];
-    }
-
-    function increaseImageSerialNumber()
-    {
-        $serialNumber =& $this->imageSerialNumberRaw();
-        ++$serialNumber;
-    }
-
-    function resetImageSerialNumber()
-    {
-        $serialNumber =& $this->imageSerialNumberRaw();
-        $serialNumber = 0;
-    }
-
-    function setImageSerialNumber( $number )
-    {
-        $serialNumber =& $this->imageSerialNumberRaw();
-        $serialNumber = $number;
-    }
-
+     This is a quick way for extracting information from the 'original' image alias.
+    */
     function &attributeFromOriginal( $attributeName )
     {
         $originalAlias =& $this->attribute( 'original' );
@@ -234,6 +129,13 @@ class eZImageAliasHandler
         return null;
     }
 
+    /*!
+     Sets the attribute named \a $attributeName to have the value \a $attributeValue.
+
+     The following attributes can be set:
+     - alternative text
+     - original_filename
+    */
     function setAttribute( $attributeName, $attributeValue )
     {
         if ( in_array( $attributeName,
@@ -262,6 +164,71 @@ class eZImageAliasHandler
         return false;
     }
 
+    /*!
+     \return \c true if this is considered to be owner of the image.
+
+     It will be considered an owner if attribute data is not a copy
+     of another attribute. For instance each time a new image is uploaded
+     this will return \c true.
+    */
+    function isImageOwner()
+    {
+        $originalData = $this->originalAttributeData();
+        return ( $originalData['attribute_id'] === false );
+    }
+
+    /*!
+     \return The current serial number, the value will be 1 or higher.
+
+     The serial number is used to create unique filenames for uploaded images,
+     it will be increased each time an image is uploaded.
+
+
+     \note This was required to get around the problem where browsers
+           caches image information, if two images were uploaded in one version (e.g. a draft)
+           the browser would not load the new image since it thought it had not changed.
+    */
+    function imageSerialNumber()
+    {
+        $serialNumber = $this->imageSerialNumberRaw();
+        if ( $serialNumber < 1 )
+            $serialNumber = 1;
+        return $serialNumber;
+    }
+
+    /*!
+     Increases the serial by one.
+    */
+    function increaseImageSerialNumber()
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        ++$serialNumber;
+    }
+
+    /*!
+     Resets the serial number to zero.
+    */
+    function resetImageSerialNumber()
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        $serialNumber = 0;
+    }
+
+    /*!
+     Sets the serial number to \a $number.
+    */
+    function setImageSerialNumber( $number )
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        $serialNumber = $number;
+    }
+
+    /*!
+     \return A text string which can be used as display for the image.
+
+     The text string will either contain the alternative text from the attribute
+     or the parameter \a $alternativeText if it is set.
+    */
     function displayText( $alternativeText = null )
     {
         $contentObjectAttribute =& $this->ContentObjectAttribute;
@@ -284,132 +251,9 @@ class eZImageAliasHandler
         return $text;
     }
 
-    function removeAllAliases( &$contentObjectAttribute )
-    {
-        $files = eZImageFile::fetchForContentObjectAttribute( $contentObjectAttribute->attribute( 'id' ) );
-        $dirs = array();
-        foreach ( $files as $filepath )
-        {
-            if ( unlink( $filepath ) )
-            {
-                $dirs[] = eZDir::dirpath( $filepath );
-            }
-            else
-            {
-                eZDebug::writeError( "Image file $filepath does not exist, could not remove from disk",
-                                     'eZImageAliasHandler::removeAllAliases' );
-            }
-        }
-        $dirs = array_unique( $dirs );
-        foreach ( $dirs as $dirpath )
-        {
-            eZDir::cleanupEmptyDirectories( $dirpath );
-        }
-        eZImageFile::removeForContentObjectAttribute( $contentObjectAttribute->attribute( 'id' ) );
-    }
-
-    function removeAliases()
-    {
-        $aliasList =& $this->aliasList();
-        $alternativeText = false;
-//         $copyOfFilename = $this->copyOfFilename();
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( $this->isImageOwner() )
-        {
-            foreach ( array_keys( $aliasList ) as $aliasName )
-            {
-                $alias =& $aliasList[$aliasName];
-                if ( $aliasName == 'original' )
-                    $alternativeText = $alias['alternative_text'];
-                if ( $alias['is_valid'] )
-                {
-                    $filepath = $alias['url'];
-                    if ( unlink( $filepath ) )
-                    {
-                        eZImageFile::removeFilepath( $contentObjectAttribute->attribute( 'id' ), $filepath );
-                        eZDir::cleanupEmptyDirectories( $filepath );
-                    }
-                    else
-                    {
-                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
-                                             'eZImageAliasHandler::removeAliases' );
-                    }
-                }
-            }
-        }
-        unset( $aliasList );
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-
-        $doc = new eZDOMDocument();
-        $imageNode =& $doc->createElementNode( "ezimage" );
-        $doc->setRoot( $imageNode );
-
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $alternativeText ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', false ) );
-
-        $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $doc;
-        unset( $contentObjectAttribute->DataTypeCustom['alias_list'] );
-        $this->storeDOMTree( $doc );
-    }
-
-    function updateAliasPath( $dirpath, $name )
-    {
-        if ( !file_exists( $dirpath ) )
-        {
-            eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
-        }
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        $aliasList =& $this->aliasList();
-//         $hasFileCopy = $this->hasFileCopy();
-        $this->resetImageSerialNumber();
-        foreach ( array_keys( $aliasList ) as $aliasName )
-        {
-            $alias =& $aliasList[$aliasName];
-            if ( $alias['dirpath'] != $dirpath )
-            {
-                $oldDirpath = $alias['url'];
-                $oldURL = $alias['url'];
-                $basename = $name;
-                if ( $aliasName != 'original' )
-                    $basename .= '_' . $aliasName;
-                eZMimeType::changeFileData( $alias, $dirpath, $basename );
-                $url = $alias['url'];
-                if ( $this->isImageOwner() )
-                {
-                    if ( $oldURL == '' )
-                    {
-                        continue;
-                    }
-                    eZFileHandler::move( $oldURL, $alias['url'] );
-                    eZDir::cleanupEmptyDirectories( $oldDirpath );
-                    eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
-                }
-                else
-                {
-//                     $hasFileCopy = true;
-                    eZFileHandler::linkCopy( $oldURL, $alias['url'], false );
-                    eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $alias['url'] );
-                }
-            }
-        }
-//         $this->setHasFileCopy( $hasFileCopy );
-        $this->recreateDOMTree();
-        $this->setStorageRequired();
-    }
-
+    /*!
+     \return The full directory path to the image, this includes the var and storage directory.
+    */
     function directoryPath()
     {
         $aliasList =& $this->aliasList();
@@ -421,6 +265,123 @@ class eZImageAliasHandler
     }
 
     /*!
+     \return A normalized name for the image.
+
+     The image name will generated from the name of the current version.
+     If this is empty it will use the object name or the alternative text.
+
+     This ensures that the image has a name which corresponds to the object it belongs to.
+
+     The normalization ensures that the name only contains filename and URL friendly characters.
+    */
+    function imageName( &$contentObjectAttribute, &$contentVersion )
+    {
+        $objectName = $contentVersion->attribute( 'version_name' );
+        if ( !$objectName )
+        {
+            $objectName = $contentVersion->attribute( 'name' );
+            if ( !$objectName )
+            {
+                $objectName = $this->attribute( 'alternative_text' );
+                if ( !$objectName )
+                {
+                    $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
+                }
+            }
+        }
+        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
+        $objectName .= $this->imageSerialNumber();
+        return $objectName;
+    }
+
+    /*!
+     \return A normalized name for the image based on a node.
+
+     Similar to \a imageName() but fetches name information from the node \a $mainNode.
+
+     The normalization ensures that the name only contains filename and URL friendly characters.
+    */
+    function imageNameByNode( &$contentObjectAttribute, &$mainNode )
+    {
+        $objectName = $mainNode->attribute( 'name' );
+        if ( !$objectName )
+        {
+            $objectName = $this->attribute( 'alternative_text' );
+            if ( !$objectName )
+            {
+                $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
+            }
+        }
+        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
+//         $objectName .= $this->imageSerialNumber();
+        return $objectName;
+    }
+
+    /*!
+     \return The storage path for the image.
+
+     The path is calculated by using information from the current object and version.
+     If the object is in the node tree it will contain a path that matches the node path,
+     if not it will be placed in the versioned storage repository.
+    */
+    function imagePath( &$contentObjectAttribute, &$contentVersion, $isImageOwner = null )
+    {
+        $useVersion = false;
+        if ( $isImageOwner === null )
+            $isImageOwner = $this->isImageOwner();
+        if ( $contentVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED or
+             !$isImageOwner )
+        {
+            $contentObject =& $contentVersion->attribute( 'contentobject' );
+            $mainNode =& $contentObject->attribute( 'main_node' );
+            if ( !$mainNode )
+            {
+                $ini =& eZINI::instance( 'image.ini' );
+                $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
+                $pathString = $contentImageSubtree;
+                $useVersion = true;
+            }
+            else
+            {
+                $ini =& eZINI::instance( 'image.ini' );
+                $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
+                $pathString = $contentImageSubtree . '/' . $mainNode->attribute( 'path_identification_string' );
+            }
+        }
+        else
+        {
+            $ini =& eZINI::instance( 'image.ini' );
+            $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
+            $pathString = $contentImageSubtree;
+            $useVersion = true;
+        }
+        if ( $useVersion )
+            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '/' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
+        else
+            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
+        $imagePath = eZSys::storageDirectory() . '/' . $pathString . '/' . $identifierString;
+        return $imagePath;
+    }
+
+    /*!
+     \return The storage path for the image based on a node.
+
+     Similar to \a imagePath() but fetches name information from the node \a $mainNode.
+    */
+    function imagePathByNode( &$contentObjectAttribute, &$mainNode )
+    {
+        $pathString = $mainNode->attribute( 'path_identification_string' );
+        $ini =& eZINI::instance( 'image.ini' );
+        $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
+        $imagePath = eZSys::storageDirectory() . '/' . $contentImageSubtree . '/' . $pathString . '/' . $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
+        return $imagePath;
+    }
+
+    /*!
+     \return The image alias structure for the alias named \a $aliasName.
+
+     This will create the image alias if it does not exist yet, this can involve
+     running image operations to for instance scale the image.
     */
     function &imageAlias( $aliasName )
     {
@@ -462,132 +423,13 @@ class eZImageAliasHandler
         return null;
     }
 
-    function createOriginalAttributeXMLData( &$originalNode, $originalData )
-    {
-        $originalNode->removeAttributes();
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_id', $originalData['attribute_id'] ) );
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_version', $originalData['attribute_version'] ) );
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_language', $originalData['attribute_language'] ) );
-//         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has_file_copy', $originalData['has_file_copy'] ) );
-    }
-
-    function recreateDOMTree()
-    {
-        $aliasList =& $this->aliasList();
-
-        $doc = new eZDOMDocument();
-        $imageNode =& $doc->createElementNode( "ezimage" );
-        $doc->setRoot( $imageNode );
-
-        $originalNode =& $doc->createElementNode( "original" );
-        $imageNode->appendChild( $originalNode );
-
-        include_once( 'kernel/common/image.php' );
-        $imageManager =& imageInit();
-
-        $aliasName = 'original';
-
-        $originalData = $this->originalAttributeData();
-        $this->createOriginalAttributeXMLData( $originalNode, $originalData );
-
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', $this->imageSerialNumber() ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $aliasList[$aliasName]['is_valid'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $aliasList[$aliasName]['filename'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $aliasList[$aliasName]['suffix'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', $aliasList[$aliasName]['basename'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', $aliasList[$aliasName]['dirpath'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', $aliasList[$aliasName]['url'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $aliasList[$aliasName]['original_filename'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', $aliasList[$aliasName]['mime_type'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', $aliasList[$aliasName]['width'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $aliasList[$aliasName]['height'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $aliasList[$aliasName]['alternative_text'] ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( $aliasName ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', $aliasList[$aliasName]['timestamp'] ) );
-
-        $filename = $aliasList[$aliasName]['filename'];
-        if ( $filename )
-        {
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
-            $mimeData =& eZMimeType::findByFileContents( $filename );
-
-            $imageManager->analyzeImage( $mimeData );
-
-            $this->createImageInformationNode( $imageNode, $mimeData );
-        }
-
-        foreach ( array_keys( $aliasList ) as $aliasName )
-        {
-            if ( $aliasName == 'original' )
-                continue;
-            $imageAlias =& $aliasList[$aliasName];
-            $this->addImageAliasToXML( $doc, $imageAlias );
-        }
-
-        $this->setDOMTree( $doc );
-    }
-
     /*!
-     Sets the uploaded HTTP file object to \a $httpFile.
-     This object is used to store information about the image file until the content object attribute is to be stored.
-     \sa httpFile
+     \private
+     \return A list of aliases structures for the current attribute.
+
+     The first this is called the XML data will be parsed into the internal
+     structures. Subsequent calls will simply return the internal structure.
     */
-    function setHTTPFile( &$httpFile )
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        $contentObjectAttribute->DataTypeCustom['http_file'] =& $httpFile;
-    }
-
-    /*!
-     \return the stored HTTP file object or \c false if no object is previously stored.
-     \sa setHTTPFile
-    */
-    function &httpFile( $release = false )
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( is_array( $contentObjectAttribute->DataTypeCustom ) and
-             isset( $contentObjectAttribute->DataTypeCustom['http_file'] ) )
-        {
-            $httpFile =& $contentObjectAttribute->DataTypeCustom['http_file'];
-            if ( $release )
-                unset( $contentObjectAttribute->DataTypeCustom['http_file'] );
-            return $httpFile;
-        }
-        return false;
-    }
-
-    /*!
-     \return the DOM tree for the current content object attribute.
-     \note It will cache the result in the DataTypeCustom member variable of the
-           content object attribute in the 'dom_tree' key.
-    */
-    function &domTree()
-    {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
-            $contentObjectAttribute->DataTypeCustom = array();
-        if ( isset( $contentObjectAttribute->DataTypeCustom['dom_tree'] ) )
-            return $contentObjectAttribute->DataTypeCustom['dom_tree'];
-
-        $xml = new eZXML();
-        $xmlString =& $contentObjectAttribute->attribute( 'data_text' );
-        $domTree =& $xml->domTree( $xmlString );
-        if ( $domTree == false )
-        {
-            $this->generateXMLData();
-            $domTree =& $xml->domTree( $xmlString );
-        }
-//         if ( $domTree == false )
-//         {
-//             $domTree = new eZDOMNode();
-//         }
-        $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
-
-        return $domTree;
-    }
-
     function &aliasList()
     {
         $contentObjectAttribute =& $this->ContentObjectAttribute;
@@ -702,6 +544,263 @@ class eZImageAliasHandler
         return $aliasList;
     }
 
+   /*!
+     Removes all image alias files which the attribute refers to.
+
+     If you want to remove the alias information use removeAliases().
+    */
+    function removeAllAliases( &$contentObjectAttribute )
+    {
+        $files = eZImageFile::fetchForContentObjectAttribute( $contentObjectAttribute->attribute( 'id' ) );
+        $dirs = array();
+        foreach ( $files as $filepath )
+        {
+            if ( unlink( $filepath ) )
+            {
+                $dirs[] = eZDir::dirpath( $filepath );
+            }
+            else
+            {
+                eZDebug::writeError( "Image file $filepath does not exist, could not remove from disk",
+                                     'eZImageAliasHandler::removeAllAliases' );
+            }
+        }
+        $dirs = array_unique( $dirs );
+        foreach ( $dirs as $dirpath )
+        {
+            eZDir::cleanupEmptyDirectories( $dirpath );
+        }
+        eZImageFile::removeForContentObjectAttribute( $contentObjectAttribute->attribute( 'id' ) );
+    }
+
+    /*!
+     Removes all the image aliases and their information.
+
+     The stored images will also be removed if the attribute is the owner
+     of the images.
+
+     After the images are removed the attribute will contained an internal structures with empty data.
+    */
+    function removeAliases()
+    {
+        $aliasList =& $this->aliasList();
+        $alternativeText = false;
+//         $copyOfFilename = $this->copyOfFilename();
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( $this->isImageOwner() )
+        {
+            foreach ( array_keys( $aliasList ) as $aliasName )
+            {
+                $alias =& $aliasList[$aliasName];
+                if ( $aliasName == 'original' )
+                    $alternativeText = $alias['alternative_text'];
+                if ( $alias['is_valid'] )
+                {
+                    $filepath = $alias['url'];
+                    if ( unlink( $filepath ) )
+                    {
+                        eZImageFile::removeFilepath( $contentObjectAttribute->attribute( 'id' ), $filepath );
+                        eZDir::cleanupEmptyDirectories( $filepath );
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
+                                             'eZImageAliasHandler::removeAliases' );
+                    }
+                }
+            }
+        }
+        unset( $aliasList );
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+
+        $doc = new eZDOMDocument();
+        $imageNode =& $doc->createElementNode( "ezimage" );
+        $doc->setRoot( $imageNode );
+
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $alternativeText ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', false ) );
+
+        $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $doc;
+        unset( $contentObjectAttribute->DataTypeCustom['alias_list'] );
+        $this->storeDOMTree( $doc );
+    }
+
+    /*!
+     Will update the path for images to point to the new path \a $dirpath and filename \a $name.
+
+     This is usually called when the object contain the image attribute is moved in the tree.
+    */
+    function updateAliasPath( $dirpath, $name )
+    {
+        if ( !file_exists( $dirpath ) )
+        {
+            eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
+        }
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        $aliasList =& $this->aliasList();
+//         $hasFileCopy = $this->hasFileCopy();
+        $this->resetImageSerialNumber();
+        foreach ( array_keys( $aliasList ) as $aliasName )
+        {
+            $alias =& $aliasList[$aliasName];
+            if ( $alias['dirpath'] != $dirpath )
+            {
+                $oldDirpath = $alias['url'];
+                $oldURL = $alias['url'];
+                $basename = $name;
+                if ( $aliasName != 'original' )
+                    $basename .= '_' . $aliasName;
+                eZMimeType::changeFileData( $alias, $dirpath, $basename );
+                $url = $alias['url'];
+                if ( $this->isImageOwner() )
+                {
+                    if ( $oldURL == '' )
+                    {
+                        continue;
+                    }
+                    eZFileHandler::move( $oldURL, $alias['url'] );
+                    eZDir::cleanupEmptyDirectories( $oldDirpath );
+                    eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
+                }
+                else
+                {
+//                     $hasFileCopy = true;
+                    eZFileHandler::linkCopy( $oldURL, $alias['url'], false );
+                    eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $alias['url'] );
+                }
+            }
+        }
+//         $this->setHasFileCopy( $hasFileCopy );
+        $this->recreateDOMTree();
+        $this->setStorageRequired();
+    }
+
+    /*!
+     \private
+     Creates XML attributes containing information on the original image attribute.
+
+     The new attributes will be appended to \a $originalNode.
+    */
+    function createOriginalAttributeXMLData( &$originalNode, $originalData )
+    {
+        $originalNode->removeAttributes();
+        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_id', $originalData['attribute_id'] ) );
+        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_version', $originalData['attribute_version'] ) );
+        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_language', $originalData['attribute_language'] ) );
+//         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has_file_copy', $originalData['has_file_copy'] ) );
+    }
+
+    /*!
+     \private
+     Recreates the DOM tree from the internal array structures and stores the DOM tree
+     in the 'data_text' field of the attribute.
+    */
+    function recreateDOMTree()
+    {
+        $aliasList =& $this->aliasList();
+
+        $doc = new eZDOMDocument();
+        $imageNode =& $doc->createElementNode( "ezimage" );
+        $doc->setRoot( $imageNode );
+
+        $originalNode =& $doc->createElementNode( "original" );
+        $imageNode->appendChild( $originalNode );
+
+        include_once( 'kernel/common/image.php' );
+        $imageManager =& imageInit();
+
+        $aliasName = 'original';
+
+        $originalData = $this->originalAttributeData();
+        $this->createOriginalAttributeXMLData( $originalNode, $originalData );
+
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', $this->imageSerialNumber() ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $aliasList[$aliasName]['is_valid'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $aliasList[$aliasName]['filename'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $aliasList[$aliasName]['suffix'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', $aliasList[$aliasName]['basename'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', $aliasList[$aliasName]['dirpath'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', $aliasList[$aliasName]['url'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $aliasList[$aliasName]['original_filename'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', $aliasList[$aliasName]['mime_type'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', $aliasList[$aliasName]['width'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $aliasList[$aliasName]['height'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $aliasList[$aliasName]['alternative_text'] ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( $aliasName ) ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', $aliasList[$aliasName]['timestamp'] ) );
+
+        $filename = $aliasList[$aliasName]['filename'];
+        if ( $filename )
+        {
+            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            $mimeData =& eZMimeType::findByFileContents( $filename );
+
+            $imageManager->analyzeImage( $mimeData );
+
+            $this->createImageInformationNode( $imageNode, $mimeData );
+        }
+
+        foreach ( array_keys( $aliasList ) as $aliasName )
+        {
+            if ( $aliasName == 'original' )
+                continue;
+            $imageAlias =& $aliasList[$aliasName];
+            $this->addImageAliasToXML( $doc, $imageAlias );
+        }
+
+        $this->setDOMTree( $doc );
+    }
+
+    /*!
+     \return the DOM tree for the current content object attribute.
+     \note It will cache the result in the DataTypeCustom member variable of the
+           content object attribute in the 'dom_tree' key.
+    */
+    function &domTree()
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        if ( isset( $contentObjectAttribute->DataTypeCustom['dom_tree'] ) )
+            return $contentObjectAttribute->DataTypeCustom['dom_tree'];
+
+        $xml = new eZXML();
+        $xmlString =& $contentObjectAttribute->attribute( 'data_text' );
+        $domTree =& $xml->domTree( $xmlString );
+        if ( $domTree == false )
+        {
+            $this->generateXMLData();
+            $domTree =& $xml->domTree( $xmlString );
+        }
+//         if ( $domTree == false )
+//         {
+//             $domTree = new eZDOMNode();
+//         }
+        $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
+
+        return $domTree;
+    }
+
+    /*!
+     \private
+     Parses the information node and generates the internal information structures.
+
+     The information node contains information from the image itself, for instance
+     EXIF data from a JPEG or TIFF image.
+    */
     function parseInformationNode( &$imageInfoNode, &$imageInformation )
     {
         $imageInformation = array();
@@ -734,42 +833,12 @@ class eZImageAliasHandler
         }
     }
 
-    function imageName( &$contentObjectAttribute, &$contentVersion )
-    {
-        $objectName = $contentVersion->attribute( 'version_name' );
-        if ( !$objectName )
-        {
-            $objectName = $contentVersion->attribute( 'name' );
-            if ( !$objectName )
-            {
-                $objectName = $this->attribute( 'alternative_text' );
-                if ( !$objectName )
-                {
-                    $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
-                }
-            }
-        }
-        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
-        $objectName .= $this->imageSerialNumber();
-        return $objectName;
-    }
-
-    function imageNameByNode( &$contentObjectAttribute, &$mainNode )
-    {
-        $objectName = $mainNode->attribute( 'name' );
-        if ( !$objectName )
-        {
-            $objectName = $this->attribute( 'alternative_text' );
-            if ( !$objectName )
-            {
-                $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
-            }
-        }
-        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
-//         $objectName .= $this->imageSerialNumber();
-        return $objectName;
-    }
-
+    /*!
+     \static
+     Normalized the image name \a $imageName by removing all characters that are not considered
+     filename or URL friendly.
+     The filename will also be in non-capital letters.
+    */
     function normalizeImageName( $imageName )
     {
         $imageName = strtolower( $imageName );
@@ -785,219 +854,35 @@ class eZImageAliasHandler
         return $imageName;
     }
 
-    function imagePath( &$contentObjectAttribute, &$contentVersion, $isImageOwner = null )
+    /*!
+     Sets the uploaded HTTP file object to \a $httpFile.
+     This object is used to store information about the image file until the content object attribute is to be stored.
+     \sa httpFile
+    */
+    function setHTTPFile( &$httpFile )
     {
-        $useVersion = false;
-        if ( $isImageOwner === null )
-            $isImageOwner = $this->isImageOwner();
-        if ( $contentVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED or
-             !$isImageOwner )
-        {
-            $contentObject =& $contentVersion->attribute( 'contentobject' );
-            $mainNode =& $contentObject->attribute( 'main_node' );
-            if ( !$mainNode )
-            {
-                $ini =& eZINI::instance( 'image.ini' );
-                $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
-                $pathString = $contentImageSubtree;
-                $useVersion = true;
-            }
-            else
-            {
-                $ini =& eZINI::instance( 'image.ini' );
-                $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-                $pathString = $contentImageSubtree . '/' . $mainNode->attribute( 'path_identification_string' );
-            }
-        }
-        else
-        {
-            $ini =& eZINI::instance( 'image.ini' );
-            $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
-            $pathString = $contentImageSubtree;
-            $useVersion = true;
-        }
-        if ( $useVersion )
-            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '/' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
-        else
-            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
-        $imagePath = eZSys::storageDirectory() . '/' . $pathString . '/' . $identifierString;
-        return $imagePath;
-    }
-
-    function imagePathByNode( &$contentObjectAttribute, &$mainNode )
-    {
-        $pathString = $mainNode->attribute( 'path_identification_string' );
-        $ini =& eZINI::instance( 'image.ini' );
-        $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-        $imagePath = eZSys::storageDirectory() . '/' . $contentImageSubtree . '/' . $pathString . '/' . $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
-        return $imagePath;
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $contentObjectAttribute->DataTypeCustom['http_file'] =& $httpFile;
     }
 
     /*!
-     Fetches image information from the old 3.2 image system and creates new information.
+     \return the stored HTTP file object or \c false if no object is previously stored.
+     \sa setHTTPFile
     */
-    function generateXMLData()
+    function &httpFile( $release = false )
     {
-        include_once( "lib/ezdb/classes/ezdb.php" );
-
-        $db =& eZDB::instance();
-
         $contentObjectAttribute =& $this->ContentObjectAttribute;
-        $attributeID = $contentObjectAttribute->attribute( 'id' );
-        $attributeVersion = $contentObjectAttribute->attribute( 'version' );
-
-        if ( is_numeric( $attributeID ) )
+        if ( is_array( $contentObjectAttribute->DataTypeCustom ) and
+             isset( $contentObjectAttribute->DataTypeCustom['http_file'] ) )
         {
-            $imageRow =& $db->arrayQuery( "SELECT * FROM ezimage
-                                           WHERE contentobject_attribute_id=$attributeID AND
-                                                 version=$attributeVersion" );
+            $httpFile =& $contentObjectAttribute->DataTypeCustom['http_file'];
+            if ( $release )
+                unset( $contentObjectAttribute->DataTypeCustom['http_file'] );
+            return $httpFile;
         }
-
-        $doc = new eZDOMDocument();
-        $imageNode =& $doc->createElementNode( "ezimage" );
-        $doc->setRoot( $imageNode );
-
-        $isValid = false;
-        $fileName = false;
-        $suffix = false;
-        $baseName = false;
-        $dirPath = false;
-        $filePath = false;
-        $originalFileName = false;
-        $mimeType = false;
-        $width = false;
-        $height = false;
-        $altText = false;
-
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        if ( count( $imageRow ) == 1 )
-        {
-            $fileName = $imageRow[0]['filename'];
-            $originalFileName = $imageRow[0]['original_filename'];
-            $mimeType = $imageRow[0]['mime_type'];
-            $altText = $imageRow[0]['alternative_text'];
-
-            $dirPath = eZSys::storageDirectory() . '/original/image';
-            $filePath = $dirPath . '/' . $fileName;
-            $baseName = $fileName;
-            $dotPosition = strrpos( $fileName, '.' );
-            if ( $dotPosition !== false )
-            {
-                $baseName = substr( $fileName, 0, $dotPosition );
-                $suffix = substr( $fileName, $dotPosition + 1 );
-            }
-
-            $width = false;
-            $height = false;
-            if ( !file_exists( $filePath ) )
-            {
-                $referenceDirPath = eZSys::storageDirectory() . '/reference/image';
-                $suffixList = array( 'jpg', 'png', 'gif' );
-                foreach ( $suffixList as $suffix )
-                {
-                    $referenceFilePath = $referenceDirPath . '/' . $baseName . '.' . $suffix;
-                    if ( file_exists( $referenceFilePath ) )
-                    {
-                        $filePath = $referenceFilePath;
-                        $dirPath = $referenceDirPath;
-                        break;
-                    }
-                }
-            }
-
-            if ( file_exists( $filePath ) )
-            {
-                $isValid = true;
-                $info = getimagesize( $filePath );
-                if ( $info )
-                {
-                    $width = $info[0];
-                    $height = $info[1];
-                }
-                $mimeInfo = eZMimeType::findByFileContents( $filePath );
-                $mimeType = $mimeInfo['name'];
-
-                $newFilePath = $filePath;
-                $newSuffix = $suffix;
-                $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
-                                                                         $contentObjectAttribute->attribute( 'contentobject_id' ) );
-                if ( $contentVersion )
-                {
-                    $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
-                    $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion );
-
-                    $newDirPath =  $objectPathString;
-                    $newFileName = $objectName . '.' . $mimeInfo['suffix'];
-                    $newSuffix = $mimeInfo['suffix'];
-                    $newFilePath = $newDirPath . '/' . $newFileName;
-                    $newBaseName = $objectName;
-                }
-
-                if ( $newFilePath != $filePath )
-                {
-                    if ( !file_exists( $newDirPath ) )
-                    {
-                        include_once( 'lib/ezfile/classes/ezdir.php' );
-                        eZDir::mkdir( $newDirPath, eZDir::directoryPermission(), true );
-                    }
-                    eZFileHandler::copy( $filePath, $newFilePath );
-                    $filePath = $newFilePath;
-                    $fileName = $newFileName;
-                    $suffix = $newSuffix;
-                    $dirPath = $newDirPath;
-                    $baseName = $newBaseName;
-                }
-            }
-
-        /*
-        // Fetch variations
-        $imageVariationRowArray =& $db->arrayQuery( "SELECT * FROM ezimagevariation
-                                           WHERE contentobject_attribute_id=$attributeID AND
-                                                 version=$attributeVersion" );
-
-        foreach ( $imageVariationRowArray as $variationRow )
-        {
-            unset( $imageVariationNode );
-            $imageVariationNode =& $doc->createElementNode( "variation" );
-            $imageNode->appendChild( $imageVariationNode );
-
-            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'name', 'medium' ) );
-
-            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'filename', $variationRow['filename'] ) );
-            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'additional_path', $variationRow['additional_path'] ) );
-            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'width', $variationRow['width'] ) );
-            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'height', $variationRow['height'] ) );
-
-        }
-        */
-        }
-        include_once( 'kernel/common/image.php' );
-        $imageManager =& imageInit();
-
-        $mimeData = eZMimeType::findByFileContents( $fileName );
-
-        $imageManager->analyzeImage( $mimeData );
-
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $isValid ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $fileName ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $suffix ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', $baseName ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', $dirPath ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', $filePath ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $originalFileName ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', $mimeType ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', $width ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
-
-        $this->createImageInformationNode( $imageNode, $mimeData );
-
-        $this->storeDOMTree( $doc );
-
-        eZImageFile::appendFilepath( $contentObjectAttribute->attribute( 'id' ), $filePath );
+        return false;
     }
 
     /*!
@@ -1340,6 +1225,303 @@ class eZImageAliasHandler
         if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
             $contentObjectAttribute->DataTypeCustom = array();
         $contentObjectAttribute->DataTypeCustom['is_storage_required'] = $require;
+    }
+
+//     function &copyOfFilename()
+//     {
+//         $contentObjectAttribute =& $this->ContentObjectAttribute;
+//         $copyOf = false;
+//         if ( is_array( $contentObjectAttribute->DataTypeCustom ) and
+//              isset( $contentObjectAttribute->DataTypeCustom['copy_of'] ) )
+//             $copyOf = $contentObjectAttribute->DataTypeCustom['copy_of'];
+//         return $copyOf;
+//     }
+
+    /*!
+     \return An array structure with information on which attribute
+             originally created the current data.
+
+     This will only contain data if the attribute is a copy of
+     another attribute, e.g in the case of a new version without an new image upload.
+    */
+    function &originalAttributeData()
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( isset( $contentObjectAttribute->DataTypeCustom['original_data'] ) )
+            return $contentObjectAttribute->DataTypeCustom['original_data'];
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $originalData = array( 'attribute_id' => false,
+                               'attribute_version' => false,
+                               'attribute_language' => false );
+        $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
+        return $originalData;
+    }
+
+    /*!
+     Sets the information on which attribute the data was fetched from.
+     See eZImageAliasHandler::originalAttributeData() for more information.
+    */
+    function setOriginalAttributeData( $originalData )
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
+
+        $domTree =& $this->domTree();
+        $imageOriginalArray =& $domTree->elementsByName( "original" );
+        if ( isset( $imageOriginalArray[0] ) )
+            $this->createOriginalAttributeXMLData( $imageOriginalArray[0], $originalData );
+    }
+
+    /*!
+     Sets the information on which attribute the data was fetched from.
+
+     Fetches data from the contentobject attribute \a $contentObjectAttribute and
+     sets it using setOriginalAttributeData().
+    */
+    function setOriginalAttributeDataFromAttribute( &$contentObjectAttribute )
+    {
+        $originalImageHandler =& $contentObjectAttribute->attribute( 'content' );
+        $originalAttributeData =& $originalImageHandler->originalAttributeData();
+        $domTree =& $originalImageHandler->domTree();
+        $this->setDOMTree( $domTree );
+        if ( $originalAttributeData['attribute_id'] )
+        {
+            $this->setOriginalAttributeData( $originalAttributeData );
+        }
+        else
+        {
+            $this->setOriginalAttributeDataValues( $contentObjectAttribute->attribute( 'id' ),
+                                                   $contentObjectAttribute->attribute( 'version' ),
+                                                   $contentObjectAttribute->attribute( 'language_code' ),
+                                                   false );
+        }
+    }
+
+    /*!
+     Sets the information on which attribute the data was fetched from.
+
+     Fetches data from the parameters and sets it using setOriginalAttributeData().
+    */
+    function setOriginalAttributeDataValues( $attributeID, $attributeVersion, $attributeLanguage )
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $originalData = array( 'attribute_id' => $attributeID,
+                               'attribute_version' => $attributeVersion,
+                               'attribute_language' => $attributeLanguage );
+        $this->setOriginalAttributeData( $originalData );
+    }
+
+//     function hasFileCopy()
+//     {
+//         $originalData = $this->originalAttributeData();
+//         return $originalData['has_file_copy'];
+//     }
+
+//     function setHasFileCopy( $hasFileCopy )
+//     {
+//         $originalData =& $this->originalAttributeData();
+//         $originalData['has_file_copy'] = $hasFileCopy;
+//     }
+
+//     function setCopyOfFilename( $copyOf )
+//     {
+//         $contentObjectAttribute =& $this->ContentObjectAttribute;
+//         if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+//             $contentObjectAttribute->DataTypeCustom = array();
+//         $aliasList =& $this->aliasList();
+//         $contentObjectAttribute->DataTypeCustom['copy_of'] = $copyOf;
+//         $this->recreateDOMTree();
+//         $this->setStorageRequired();
+//     }
+
+    /*!
+     \private
+     \return The internal serial number.
+
+     It will check if a serial number exists and return that, if not a new one will be created and returned.
+    */
+    function &imageSerialNumberRaw()
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( isset( $contentObjectAttribute->DataTypeCustom['serial_number'] ) and
+             $contentObjectAttribute->DataTypeCustom['serial_number'] >= 0 )
+            return $contentObjectAttribute->DataTypeCustom['serial_number'];
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $contentObjectAttribute->DataTypeCustom['serial_number'] = 0;
+        return $contentObjectAttribute->DataTypeCustom['serial_number'];
+    }
+
+    /*!
+     Fetches image information from the old 3.2 image system and creates new information.
+    */
+    function generateXMLData()
+    {
+        include_once( "lib/ezdb/classes/ezdb.php" );
+
+        $db =& eZDB::instance();
+
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        $attributeID = $contentObjectAttribute->attribute( 'id' );
+        $attributeVersion = $contentObjectAttribute->attribute( 'version' );
+
+        if ( is_numeric( $attributeID ) )
+        {
+            $imageRow =& $db->arrayQuery( "SELECT * FROM ezimage
+                                           WHERE contentobject_attribute_id=$attributeID AND
+                                                 version=$attributeVersion" );
+        }
+
+        $doc = new eZDOMDocument();
+        $imageNode =& $doc->createElementNode( "ezimage" );
+        $doc->setRoot( $imageNode );
+
+        $isValid = false;
+        $fileName = false;
+        $suffix = false;
+        $baseName = false;
+        $dirPath = false;
+        $filePath = false;
+        $originalFileName = false;
+        $mimeType = false;
+        $width = false;
+        $height = false;
+        $altText = false;
+
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        if ( count( $imageRow ) == 1 )
+        {
+            $fileName = $imageRow[0]['filename'];
+            $originalFileName = $imageRow[0]['original_filename'];
+            $mimeType = $imageRow[0]['mime_type'];
+            $altText = $imageRow[0]['alternative_text'];
+
+            $dirPath = eZSys::storageDirectory() . '/original/image';
+            $filePath = $dirPath . '/' . $fileName;
+            $baseName = $fileName;
+            $dotPosition = strrpos( $fileName, '.' );
+            if ( $dotPosition !== false )
+            {
+                $baseName = substr( $fileName, 0, $dotPosition );
+                $suffix = substr( $fileName, $dotPosition + 1 );
+            }
+
+            $width = false;
+            $height = false;
+            if ( !file_exists( $filePath ) )
+            {
+                $referenceDirPath = eZSys::storageDirectory() . '/reference/image';
+                $suffixList = array( 'jpg', 'png', 'gif' );
+                foreach ( $suffixList as $suffix )
+                {
+                    $referenceFilePath = $referenceDirPath . '/' . $baseName . '.' . $suffix;
+                    if ( file_exists( $referenceFilePath ) )
+                    {
+                        $filePath = $referenceFilePath;
+                        $dirPath = $referenceDirPath;
+                        break;
+                    }
+                }
+            }
+
+            if ( file_exists( $filePath ) )
+            {
+                $isValid = true;
+                $info = getimagesize( $filePath );
+                if ( $info )
+                {
+                    $width = $info[0];
+                    $height = $info[1];
+                }
+                $mimeInfo = eZMimeType::findByFileContents( $filePath );
+                $mimeType = $mimeInfo['name'];
+
+                $newFilePath = $filePath;
+                $newSuffix = $suffix;
+                $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+                                                                         $contentObjectAttribute->attribute( 'contentobject_id' ) );
+                if ( $contentVersion )
+                {
+                    $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
+                    $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion );
+
+                    $newDirPath =  $objectPathString;
+                    $newFileName = $objectName . '.' . $mimeInfo['suffix'];
+                    $newSuffix = $mimeInfo['suffix'];
+                    $newFilePath = $newDirPath . '/' . $newFileName;
+                    $newBaseName = $objectName;
+                }
+
+                if ( $newFilePath != $filePath )
+                {
+                    if ( !file_exists( $newDirPath ) )
+                    {
+                        include_once( 'lib/ezfile/classes/ezdir.php' );
+                        eZDir::mkdir( $newDirPath, eZDir::directoryPermission(), true );
+                    }
+                    eZFileHandler::copy( $filePath, $newFilePath );
+                    $filePath = $newFilePath;
+                    $fileName = $newFileName;
+                    $suffix = $newSuffix;
+                    $dirPath = $newDirPath;
+                    $baseName = $newBaseName;
+                }
+            }
+
+        /*
+        // Fetch variations
+        $imageVariationRowArray =& $db->arrayQuery( "SELECT * FROM ezimagevariation
+                                           WHERE contentobject_attribute_id=$attributeID AND
+                                                 version=$attributeVersion" );
+
+        foreach ( $imageVariationRowArray as $variationRow )
+        {
+            unset( $imageVariationNode );
+            $imageVariationNode =& $doc->createElementNode( "variation" );
+            $imageNode->appendChild( $imageVariationNode );
+
+            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'name', 'medium' ) );
+
+            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'filename', $variationRow['filename'] ) );
+            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'additional_path', $variationRow['additional_path'] ) );
+            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'width', $variationRow['width'] ) );
+            $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'height', $variationRow['height'] ) );
+
+        }
+        */
+        }
+        include_once( 'kernel/common/image.php' );
+        $imageManager =& imageInit();
+
+        $mimeData = eZMimeType::findByFileContents( $fileName );
+
+        $imageManager->analyzeImage( $mimeData );
+
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $isValid ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $fileName ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $suffix ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'basename', $baseName ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'dirpath', $dirPath ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'url', $filePath ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'original_filename', $originalFileName ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'mime_type', $mimeType ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'width', $width ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
+
+        $this->createImageInformationNode( $imageNode, $mimeData );
+
+        $this->storeDOMTree( $doc );
+
+        eZImageFile::appendFilepath( $contentObjectAttribute->attribute( 'id' ), $filePath );
     }
 
     /// \privatesection
