@@ -138,6 +138,9 @@ Payment:
   http://ez.no/community/bug_reports/cancel_in_new_discount_rule_does_not_work
 - Fixed bug: unable to remove nodeassignment of a node with children.
   (Merged from stable/3.4 rev. 8876)
+- Fixed bug: Missing serialization implementation for datatype ezkeyword.
+  (Merged from stable/3.4 rev. 8939)
+  http://ez.no/community/bug_reports/datatype_ezkeyword_no_serialization_supported.
 
 *Library:
 
