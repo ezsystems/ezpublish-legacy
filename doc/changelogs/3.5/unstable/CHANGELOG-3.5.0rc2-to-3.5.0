@@ -17,6 +17,7 @@ Changes from 3.5.0rc2 to 3.5.0
 - Fixed bugs happening when exporting object along with all its versions and then importing that object:
   * Version status was set only for current version when importing.
   * Lots of fatal errors were shown when importing because of missing object name in all the exported translations.
+- Fixed inproper work of item_count function with active collaboration items.
 
 *Library:
 
