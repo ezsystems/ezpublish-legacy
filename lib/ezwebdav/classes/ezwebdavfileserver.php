@@ -230,7 +230,7 @@ function getFileInfo( $dir, $file )
         if ( is_readable( $realPath ) )
         {
             // Attempt to get & set the MIME type.
-            $mimeInfo = eZMimeType::findByURL( $dir, $file );
+            $mimeInfo = eZMimeType::findByURL( $dir . '/' . $file );
             $fileInfo['mimetype'] = $mimeInfo['name'];
         }
         // Non-readable? -> MIME type fallback to 'application/x-non-readable'
