@@ -242,9 +242,6 @@ class eZStringType extends eZDataType
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
 
-            if ($defaultValueValue == ""){
-                $defaultValueValue = "";
-            }
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultValueValue );
         }
         return true;
