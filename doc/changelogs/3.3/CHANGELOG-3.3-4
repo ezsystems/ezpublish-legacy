@@ -104,6 +104,10 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/comparation_in_design_node_removeobject_tpl_always_return_true
 - Made sure codepages are cleared by the clearcache.sh script. (Rev. 5371)
   http://ez.no/community/bug_reports/cache_translate_and_texttoimage_etc
+- Made sure shop/confirmorder does not crash when order ID is missing or wrong.
+  http://ez.no/community/bug_reports/error_in_confirmorder_php
+- Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
+  http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.

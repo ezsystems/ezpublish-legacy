@@ -5,6 +5,8 @@ Changes from 3.2-5 to 3.2-6
 *Bugfixes:
 - Made sure shop/confirmorder does not crash when order ID is missing or wrong.
   http://ez.no/community/bug_reports/error_in_confirmorder_php
+- Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
+  http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 
 *Setup:
 
