@@ -69,6 +69,12 @@ class eZImageShellHandler extends eZImageHandler
     {
         $argumentList = array();
         $executable = $this->Executable;
+        if ( eZSys::osType() == 'win32' and $this->ExecutableWin32 )
+            $executable = $this->ExecutableWin32;
+        else if ( eZSys::osType() == 'mac' and $this->ExecutableMac )
+            $executable = $this->ExecutableMac;
+        else if ( eZSys::osType() == 'unix' and $this->ExecutableUnix )
+            $executable = $this->ExecutableUnix;
         if ( $this->Path )
             $executable = $this->Path . '/' . $executable;
         $argumentList[] = $executable;
@@ -84,18 +90,18 @@ class eZImageShellHandler extends eZImageHandler
             }
         }
 
-        $argumentList[] = $this->escapeShellArgument( $sourceMimeData['url'] );
+        $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
 
         $destinationURL = $destinationMimeData['url'];
         if ( $this->UseTypeTag )
             $destinationURL = $this->tagForMIMEType( $destinationMimeData ) . $this->UseTypeTag . $destinationURL;
-        $argumentList[] = $this->escapeShellArgument( $destinationURL );
+        $argumentList[] = eZSys::escapeShellArgument( $destinationURL );
 
         if ( $this->PostParameters )
             $argumentList[] = $this->PostParameters;
 
         $systemString = implode( ' ', $argumentList );
-        print( $systemString . "<br/>" );
+//         print( $systemString . "<br/>" );
         $error = system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
@@ -170,6 +176,13 @@ class eZImageShellHandler extends eZImageHandler
                 return false;
             }
             $executable = $ini->variable( $iniGroup, 'Executable' );
+            $executableWin32 = false;
+            $executableMac = false;
+            $executableUnix = false;
+            $ini->assign( $iniGroup, 'ExecutableWin32', $executableWin32 );
+            $ini->assign( $iniGroup, 'ExecutableMac', $executableMac );
+            $ini->assign( $iniGroup, 'ExecutableUnix', $executableUnix );
+
             if ( $ini->hasVariable( $iniGroup, 'ExecutablePath' ) )
                 $path = $ini->variable( $iniGroup, 'ExecutablePath' );
             if ( $ini->hasVariable( $iniGroup, 'ExecutablePath' ) )
@@ -211,6 +224,9 @@ class eZImageShellHandler extends eZImageHandler
                                                 $mimeList, $conversionRules, $filters, $mimeTagMap );
             $handler->Path = $path;
             $handler->Executable = $executable;
+            $handler->ExecutableWin32 = $executableWin32;
+            $handler->ExecutableMac = $executableMac;
+            $handler->ExecutableUnix = $executableUnix;
             $handler->PreParameters = $preParameters;
             $handler->PostParameters = $postParameters;
             $handler->UseTypeTag = $useTypeTag;

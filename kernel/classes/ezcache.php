@@ -202,7 +202,7 @@ class eZCache
             }
         }
     }
-    
+
     /*!
      Sets the image alias timestamp to the current timestamp,
      this causes all image aliases to be recreated on viewing.
@@ -215,6 +215,9 @@ class eZCache
     }
 }
 
+/*!
+ Helper function for eZCache::clearImageAlias
+*/
 function eZCacheClearImageAlias( $cacheItem )
 {
     eZCache::clearImageAlias( $cacheItem );

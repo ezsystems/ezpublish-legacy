@@ -76,6 +76,7 @@ class eZSys
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
             $this->EnvSeparator = ";";
+            $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
         else if ( substr( php_uname(), 0, 3 ) == "Mac" )
@@ -85,6 +86,7 @@ class eZSys
             $this->FileSeparator = "/";
             $this->LineSeparator= "\r";
             $this->EnvSeparator = ":";
+            $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
         else
@@ -94,6 +96,7 @@ class eZSys
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
             $this->EnvSeparator = ":";
+            $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
 
@@ -151,6 +154,157 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         return $this->FileSeparator;
+    }
+
+    /*!
+     Escape a string to be used as a shell argument and return it.
+    */
+    function escapeShellArgument( $argument )
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        $escapeChar = $this->ShellEscapeCharacter;
+        $argument = str_replace( "\\", "\\\\", $argument );
+        $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
+        $argument = $escapeChar . $argument . $escapeChar;
+        return $argument;
+    }
+
+    /*!
+     Replaces % elements in the argument text \a $argumentText using the replace list \a $replaceList.
+     It will also properly escape the argument.
+     \sa splitArgumentIntoElements, mergeArgumentElements
+    */
+    function createShellArgument( $argumentText, $replaceList )
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        $elements = $this->splitArgumentIntoElements( $argumentText );
+        $replacedElements = array();
+        foreach ( $elements as $element )
+        {
+            if ( is_string( $element ) )
+            {
+                $replacedElements[] = strtr( $element, $replaceList );
+                continue;
+            }
+            $replacedElements[] = $element;
+        }
+        $text = $this->mergeArgumentElements( $replacedElements );
+        return $text;
+    }
+
+    /*!
+     Splits the argument text into argument array elements.
+     It will split text on spaces and set them as strings in the array,
+     spaces will be counted and inserted as integers with the space count.
+     Text placed in quotes will also be parsed, this allows for spaces in the text.
+     \code
+     $list = splitArgumentIntoElements( "-geometry 100x100" );
+
+     var_dump( $list ); // will give: array( "-geometry", 1, "100x100" );
+     \endcode
+
+     You can then easily modify the elements separately and create the argument text with mergeArgumentElements().
+    */
+    function splitArgumentIntoElements( $argumentText )
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        $argumentElements = array();
+        $pos = 0;
+
+        while ( $pos < strlen( $argumentText ) )
+        {
+            if ( $argumentText[$pos] == '"' )
+            {
+                $quoteStartPos = $pos + 1;
+                $quoteEndPos = $pos + 1;
+                while ( $quoteEndPos < strlen( $argumentText ) )
+                {
+                    $tmpPos = strpos( $argumentText, '"', $quoteEndPos );
+                    if ( $tmpPos !== false and
+                         $argumentText[$tmpPos - 1] != "\\" );
+                    {
+                        $quoteEndPos = $tmpPos;
+                        break;
+                    }
+                    if ( $tmpPos === false )
+                    {
+                        $quoteEndPos = strlen( $argumentText );
+                        break;
+                    }
+                    $quoteEndPos = $tmpPos + 1;
+                }
+                $argumentElements[] = substr( $argumentText, $quoteStartPos, $quoteEndPos - $quoteStartPos );
+                $pos = $quoteEndPos + 1;
+            }
+            else if ( $argumentText[$pos] == ' ' )
+            {
+                $spacePos = $pos;
+                $spaceEndPos = $pos;
+                while ( $spaceEndPos < strlen( $argumentText ) )
+                {
+                    if ( $argumentText[$spaceEndPos] != ' ' )
+                        break;
+                    ++$spaceEndPos;
+                }
+                $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
+                $spaceCount = strlen( $spaceText );
+                if ( $spaceCount > 0 )
+                    $argumentElements[] = $spaceCount;
+                $pos = $spaceEndPos;
+            }
+            else
+            {
+                $spacePos = strpos( $argumentText, ' ', $pos );
+                if ( $spacePos !== false )
+                {
+                    $argumentElements[] = substr( $argumentText, $pos, $spacePos - $pos );
+                    $spaceEndPos = $spacePos + 1;
+                    while ( $spaceEndPos < strlen( $argumentText ) )
+                    {
+                        if ( $argumentText[$spaceEndPos] != ' ' )
+                            break;
+                        ++$spaceEndPos;
+                    }
+                    $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
+                    $spaceCount = strlen( $spaceText );
+                    if ( $spaceCount > 0 )
+                        $argumentElements[] = $spaceCount;
+                    $pos = $spaceEndPos;
+                }
+                else
+                {
+                    $argumentElements[] = substr( $argumentText, $pos );
+                    $pos = strlen( $argumentText );
+                }
+            }
+        }
+        return $argumentElements;
+    }
+
+    /*!
+     Merges an argument list created by splitArgumentIntoElements() back into a text string.
+     The argument text will be properly quoted.
+    */
+    function mergeArgumentElements( $argumentElements )
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        $argumentText = '';
+        foreach ( $argumentElements as $element )
+        {
+            if ( is_int( $element ) )
+            {
+                $argumentText .= str_repeat( ' ', $element );
+            }
+            else if ( is_string( $element ) )
+            {
+                $argumentText .= $this->escapeShellArgument( $element );
+            }
+        }
+        return $argumentText;
     }
 
     /*!
@@ -635,6 +789,8 @@ class eZSys
     var $RequestURI;
     /// The type of filesystem, is either win32 or unix. This often used to determine os specific paths.
     var $FileSystemType;
+    /// The character to be used in shell escaping, this character is OS specific
+    var $ShellEscapeCharacter;
     var $OSType;
 }
 
