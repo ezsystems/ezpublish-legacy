@@ -463,11 +463,12 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </div>
 
 {* __FIX_ME__ Temporary debug stuff - to be removed later. *}
+{*
 <h2>Temporary debug stuff (from pagelayout.tpl):</h2>
 $navigation_part.identifier: {$navigation_part.identifier}<br />
 $ui_context:   {$ui_context}<br />
 $ui_component: {$ui_component}<br />
-
+*}
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri='design:popupmenu/popup_menu.tpl'}
 
