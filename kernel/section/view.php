@@ -43,6 +43,11 @@ $Module =& $Params["Module"];
 
 $section =& eZSection::fetch( $SectionID );
 
+if ( !$section )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
 $tpl =& templateInit();
 
 $tpl->setVariable( "section", $section );
