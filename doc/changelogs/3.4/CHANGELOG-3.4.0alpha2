@@ -14,6 +14,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made eZExpiryHandler not use eZPHPCreator a bit faster and we may be able to remove the eZPHPCreator include.
 - Optimized eZContentCache to save a bit more efficient cache files and removing the need to eZPHPCreator, using PHP serialize function instead.
 - Made eZRole::fetchIDListByUser() sort the roles by id thus preventing the need for doing this sorting in PHP when doing view caching.
+- Changed extension of cache files to .cache for template-block and view cache. This prevents PHP Accelerator and friends to cache these files, which causes problems on large sites.
 - Added the possibility to set attributes in eZWorkflowType. (Merged from stable/3.3 rev. 5534)
 
 *Setup
