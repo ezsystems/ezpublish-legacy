@@ -163,7 +163,15 @@ class eZImageType extends eZDataType
 
                 $imageHandler->increaseImageSerialNumber();
 
-                $mimeData = eZMimeType::findByName( $httpFile->attribute( 'mime_type' ) );
+                $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
+                if ( !$mimeData['is_valid'] )
+                {
+                    $mimeData = eZMimeType::findByName( $httpFile->attribute( 'mime_type' ) );
+                    if ( !$mimeData['is_valid'] )
+                    {
+                        $mimeData = eZMimeType::findByURL( $httpFile->attribute( 'original_filename' ) );
+                    }
+                }
                 $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                          $contentObjectAttribute->attribute( 'contentobject_id' ) );
                 $objectName = $imageHandler->imageName( $contentObjectAttribute, $contentVersion );
