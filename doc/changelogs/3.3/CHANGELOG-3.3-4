@@ -20,6 +20,10 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/duplicates_when_fetching_trees_and_lists_with_objects_assigned_to_multiple_locations
 - Fixed checking of input ID to content/download, previously it was
   used unchecked causing a crash on the page.
+- Fixed bug when running eZ publish in VirtualHost mode and applying ".php" in the URL. This could cause wwwDir
+  to be set incorrectly. Since there is no clean way to detect this, a new setting (ForceVirtualHost) has
+  been added to site.ini which enable/dissable this workaround
+  http://ez.no/community/bug_reports/ez_no_error_page_not_using_site_design
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
