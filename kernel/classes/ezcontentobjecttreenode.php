@@ -608,7 +608,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $params['ClassFilterArray'] as $classID )
             {
                 // Check if classes are recerenced by identifier
-                if ( is_string( $classID ) )
+                if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
                 }
@@ -2234,7 +2234,7 @@ WHERE
                 {
                     $contentObject =& new eZContentObject( array());
                 }
-                if ( $node['real_translation'] != '' )
+                if ( isset( $node['real_translation'] ) && $node['real_translation'] != '' )
                 {
                     $object->CurrentLanguage = $node['real_translation'];
                     $contentObject->CurrentLanguage = $node['real_translation'];
