@@ -1088,6 +1088,19 @@ function definition()
         $this->PersistentDataDirty = $hasDirtyData;
     }
 
+    /*!
+     \return short attribute name (alias) if it's defined, given attribute name otherwise
+    */
+    function getShortAttributeName( &$db, &$def, $attrName )
+    {
+        $fields =& $def['fields'];
+
+        if ( $db->useShortNames() && isset( $fields[$attrName] ) && array_key_exists( 'short_name', $fields[$attrName] ) && $fields[$attrName]['short_name'] )
+            return $fields[$attrName]['short_name'];
+
+        return $attrName;
+    }
+
     /// \privatesection
     /// Whether the data is dirty, ie needs to be stored, or not.
     var $PersistentDataDirty;
