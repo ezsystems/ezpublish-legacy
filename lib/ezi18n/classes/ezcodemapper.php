@@ -123,6 +123,74 @@ class eZCodeMapper
     }
 
     /*!
+     Loads all transformation files defined in \c transform.ini to the current
+     mapper. It will also load any transformations found in extensions.
+
+     \param $currentCharset The name of the current charset in use. The caller must
+                            make sure this is not an alias by using eZCharsetInfo::realCharsetCode()
+     \param $transformationGroup The transformation group which is currently used or \c false for none.
+    */
+    function loadTransformationFiles( $currentCharset, $transformationGroup )
+    {
+        $ini =& eZINI::instance( 'transform.ini' );
+        $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
+        $files = $ini->variable( 'Transformation', 'Files' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $extensions = $ini->variable( 'Transformation', 'Extensions' );
+        $repositoryList = array_merge( $repositoryList,
+                                       eZExtension::expandedPathList( $extensions, 'transformations' ) );
+
+        // Check if the current charset maps to a unicode group
+        // If it does it can trigger loading of additional files
+        $unicodeGroups = array();
+        $charsets = $ini->variable( 'Transformation', 'Charsets' );
+        foreach ( $charsets as $entry )
+        {
+            list ( $charset, $group ) = explode( ';', $entry, 2 );
+            $charset = eZCharsetInfo::realCharsetCode( $charset );
+            if ( $charset == $currentCharset )
+            {
+                if ( !in_array( $group, $unicodeGroups ) )
+                    $unicodeGroups[] = $group;
+            }
+        }
+
+        // If we are using transformation groups then add that as
+        // a unicode group. This causes it load transformation files
+        // specific to that group.
+        if ( $transformationGroup !== false )
+            $unicodeGroups[] = $transformationGroup;
+
+        // Add any extra files from the unicode groups
+        foreach ( $unicodeGroups as $unicodeGroup )
+        {
+            if ( $ini->hasGroup( $unicodeGroup ) )
+            {
+                $files = array_merge( $files, $ini->variable( $unicodeGroup, 'Files' ) );
+                $extensions = $ini->variable( $unicodeGroup, 'Extensions' );
+                $repositoryList = array_merge( $repositoryList,
+                                               eZExtension::expandedPathList( $extensions, 'transformations' ) );
+            }
+        }
+
+        foreach ( $files as $file )
+        {
+            // Only load files that are not currently loaded
+            if ( $this->isTranformationLoaded( $file ) )
+                continue;
+
+            foreach ( $repositoryList as $repository )
+            {
+                $trFile = $repository . '/' . $file;
+                if ( file_exists( $trFile ) )
+                {
+                    $this->parseTransformationFile( $trFile, $file );
+                }
+            }
+        }
+    }
+
+    /*!
      Parses the transformation file \a $filename and appends any rules it finds
      to the current rule list.
      \param $name The name of transformation file as it was requested, ie. without a path

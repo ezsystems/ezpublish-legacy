@@ -97,7 +97,7 @@ class eZCharTransform
             $this->Mapper = new eZCodeMapper();
         }
 
-        $this->loadTransformationFiles();
+        $this->Mapper->loadTransformationFiles( $charsetName, false );
 
         // First generate a unicode based mapping table from the rules
         $unicodeTable = $this->Mapper->generateMappingCode( $rule );
@@ -159,7 +159,7 @@ class eZCharTransform
             $this->Mapper = new eZCodeMapper();
         }
 
-        $this->loadTransformationFiles();
+        $this->Mapper->loadTransformationFiles( $charsetName, $group );
 
         $rules = array();
         foreach ( $commands as $command )
@@ -254,7 +254,7 @@ class eZCharTransform
         }
 
         $rules = array();
-        $ruleTexts = $ini->variable( $group, 'Rules' );
+        $ruleTexts = $ini->variable( $group, 'Commands' );
         foreach ( $ruleTexts as $ruleText )
         {
             if ( preg_match( "#^([a-zA-Z][a-zA-Z0-9_-]+)(\((.+)\))?$#", $ruleText, $matches ) )
@@ -339,39 +339,6 @@ class eZCharTransform
             eZDebug::writeError( "Failed to store transformation table $filepath" );
         }
     }
-
-    /*!
-     \private
-     Loads all transformation files defined in \c transform.ini to the current
-     mapper. It will also load any transformations found in extensions.
-    */
-    function loadTransformationFiles()
-    {
-        $ini =& eZINI::instance( 'transform.ini' );
-        $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
-        $files = $ini->variable( 'Transformation', 'Files' );
-        include_once( 'lib/ezutils/classes/ezextension.php' );
-        $extensions = $ini->variable( 'Transformation', 'Extensions' );
-        $repositoryList = array_merge( $repositoryList,
-                                       eZExtension::expandedPathList( $extensions, 'transformations' ) );
-
-        foreach ( $files as $file )
-        {
-            // Only load files that are not currently loaded
-            if ( $this->Mapper->isTranformationLoaded( $file ) )
-                continue;
-
-            foreach ( $repositoryList as $repository )
-            {
-                $trFile = $repository . '/' . $file;
-                if ( file_exists( $trFile ) )
-                {
-                    $this->Mapper->parseTransformationFile( $trFile, $file );
-                }
-            }
-        }
-    }
-
 }
 
 ?>

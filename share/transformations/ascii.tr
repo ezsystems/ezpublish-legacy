@@ -1,5 +1,7 @@
 # Rules for ASCII handling
 #
+# ASCII is the basis for all charsets and will always be used
+#
 # See basic.tr for formatting options
 
 # Upper and lowercase handling
