@@ -56,6 +56,7 @@ class eZTSTranslator extends eZTranslatorHandler
     function eZTSTranslator( $file = null, $root = false, $useCache = true )
     {
         $this->UseCache = $useCache;
+        $this->BuildCache = false;
         $this->eZTranslatorHandler( true );
 
         if ( $root === false )
@@ -139,6 +140,7 @@ class eZTSTranslator extends eZTranslatorHandler
             }
             eZDebug::writeNotice( "Translation cache has expired. Will rebuild it from source.",
                                   "eZTSTranslator::load" );
+            $this->BuildCache = true;
         }
 
         $fd = fopen( $path, "r" );
@@ -219,7 +221,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         }
 
         // Save translation cache
-        if ( $this->UseCache == true )
+        if ( $this->UseCache == true && $this->BuildCache == true )
         {
             if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
             {
@@ -234,6 +236,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     eZTranslationCache::setContextCache( $context_name, $context );
                 eZTranslationCache::storeCache( $context_name );
             }
+            $this->BuildCache = false;
         }
 
         return true;
@@ -445,7 +448,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $msg["key"] = $key;
         $this->Messages[$key] =& $msg;
         // Set array of messages to be cached
-        if ( $this->UseCache == true )
+        if ( $this->UseCache == true && $this->BuildCache == true )
         {
             if ( !isset( $this->CachedMessages[$context] ) )
                 $this->CachedMessages[$context] = array();
@@ -487,6 +490,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     var $RootDir;
     var $RootDir;
     var $UseCache;
+    var $BuildCache;
     var $CachedMessages;
 }
 
