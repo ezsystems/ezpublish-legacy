@@ -303,10 +303,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     }
                     $registeredAliases[$fetchAlias] = true;
 
-                    $fetchAliasDOMNode = eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
-                                                                                                 'site-access' => $siteAccess ) );
+                    unset( $fetchAliasDOMNode );
+                    $fetchAliasDOMNode =& eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
+                                                                                                  'site-access' => $siteAccess ) );
 
-                    $fetchBlock =& $aliasINI->group( $fetchAlias );
+                    $fetchBlock = $aliasINI->group( $fetchAlias );
                     foreach ( $fetchBlock['Constant'] as $matchKey => $value )
                     {
                         if ( strpos( $matchKey, 'class_' ) === 0 )
