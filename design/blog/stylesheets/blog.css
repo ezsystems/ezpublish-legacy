@@ -44,13 +44,6 @@ div#mainmenu
     padding-bottom: 0.2em;
 }
 
-div#navigationbar
-{
-    max-width: 200px;
-    width: 200px;
-    float: right;
-}
-
 div#mainmenu ul, div#mainmenu li, div#usermenu ul, div#usermenu li
 {
     display: inline; /* This makes the vertical display of this menu */
@@ -103,6 +96,7 @@ div#searchbox input.searchbutton
 
 div#path
 {
+    background-color: #aaaaaa;
     margin-top: 1em;
     margin-bottom: 0.5em;
 }
@@ -120,15 +114,30 @@ div#path a
 
 div#maincontent
 {
-    border-left: 1px solid #ccc;
     background-color: #ffffff;
-    max-width: 200px:
-    width: 200px:
-    margin-bottom: 2em;
-    margin-left: 2em;
-    margin-right: 2em;
+    margin-bottom: 0em;
+    margin-top: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
     clear: none;
-   
+}
+
+div#maincol
+{
+    margin-top: 0px;
+    margin-left: 25px;
+    border-left: 1px solid #ccc;
+    max-width: 400px;
+    width: 400px;
+    float: left;
+}
+
+div#navigationcol
+{
+    background-color: #666666;
+    max-width: 200px;
+    width: 200px;
+    float: right;
 }
 
 div#path
