@@ -67,7 +67,6 @@
 </table>
 
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
-<input type="hidden" name="FromNodeID" value="{$from_node_id}" />
 {*<input type="hidden" name="CustomActionButton[{$custom_action_button}]" value="{$custom_action_button}" />*}
 
 <input type="submit" name="SelectButton" value="Select" />

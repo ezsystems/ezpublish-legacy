@@ -794,6 +794,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
+    function &fetchNode( $contentObjectID, $partentNodeID )
+    {
+        $returnValue = null;
+        $ini =& eZINI::instance();
+        $db =& eZDB::instance();
+        $query="SELECT *
+                FROM ezcontentobject_tree
+                WHERE contentobject_id = $contentObjectID AND
+                      parent_node_id = $partentNodeID";
+        $nodeListArray =& $db->arrayQuery( $query );
+        if ( count( $nodeListArray ) == 1 )
+        {
+            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $returnValue = $retNodeArray[0];
+        }
+        return $returnValue;
+    }
+
     function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
@@ -1006,7 +1024,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
-    function move( $newParentID, $nodeID = 0 )
+    function move( $newParentNodeID, $nodeID = 0 )
     {
         if ( $nodeID == 0 )
         {
@@ -1021,20 +1039,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
         $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];
 
-        if ( $oldParentNodeID != $newParentID )
+        if ( $oldParentNodeID != $newParentNodeID )
         {
             $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
             $newParentPath = $newParentNode->attribute( 'path_string' );
             $newParentDepth = $newParentNode->attribute( 'depth' );
-            $newPath =  $newParentPath . $newParentNodeID . '/' ;
+            $newPath =  $newParentPath;// . $newParentNodeID . '/' ;
             $oldDepth = $node->attribute( 'depth' );
-            $childrensPath = $oldPath . $nodeID . '/';
+            $childrensPath = $oldPath;// . $nodeID . '/';
 
-            $oldPathLength = strlen( $oldPath ) + 1;
+            $oldPathLength = strlen( $oldPath );// + 1;
             $moveQuery = "UPDATE
                                  ezcontentobject_tree
                           SET
-                                 parent_node_id = $newParentID
+                                 parent_node_id = $newParentNodeID
                           WHERE
                                  node_id = $nodeID";
             $db =& eZDB::instance();
@@ -1043,7 +1061,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
-                                 path_string = '$newPath' || $subStringString2 ,
+                                 path_string = " . $db->cancatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . " ,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
                                  $subStringString = '$childrensPath' OR

@@ -213,11 +213,22 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \private
     */
-    function subString( $string, $from, $len )
+    function subString( $string, $from, $len = null )
     {
-        return " substring( $string from $from for $len ) ";
+        if ( $len == null )
+        {
+            return " substring( $string from $from ) ";
+        }else
+        {
+            return " substring( $string from $from for $len ) ";
+        }
     }
 
+    function cancatString( $strings = array() )
+    {
+        $str = implode( "," , $strings );
+        return " concat( $str  ) ";
+    }
     /*!
      \reimp
     */

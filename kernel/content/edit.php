@@ -177,13 +177,24 @@ if ( !function_exists( 'checkContentActions' ) )
                     $object->setAttribute( 'published', mktime() );
                     $object->store();
 
+                    $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
+                    $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
+
                     $nodeID = $nodeAssignment->attribute( 'parent_node' );
                     $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-
+                    $parentNodeId = $parentNode->attribute( 'node_id' );
                     if ( $existingNode  == null )
                     {
-                        $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-                        $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                        if ( $fromNodeID == 0 )
+                        {
+                            $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                            $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                        }else
+                        {
+                            $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+                            $originalNode->move( $parentNodeId );
+                            $existingNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeId );
+                        }
                     }
 
                     $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
@@ -192,7 +203,6 @@ if ( !function_exists( 'checkContentActions' ) )
                     $existingNode->setAttribute( 'contentobject_is_published', 1 );
                     if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
                     {
-//                    print( $version->attribute( 'main_parent_node_id' ) . "\n inside if" );
                         $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
                     }
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
@@ -200,11 +210,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
                     $object->store();
                     $existingNode->store();
-
-//                if ( $status )
-//                    return $status;
                     $count++;
-
                 }
             }
 

@@ -82,7 +82,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $fromNodeID )
+function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes )
 {
     $http =& eZHTTPTool::instance();
     $ObjectID = $object->attribute( 'id' );
@@ -90,12 +90,9 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
     if ( $module->isCurrentAction( 'MoveNodeAssignment' ) )
     {
         $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+        $fromNodeID = $http->sessionVariable( "FromNodeID" );
         if ( $selectedNodeIDArray != null )
         {
-            $version->removeAssignment( $fromNodeID );
-            $fromNodeID = $http->postVariable( 'FromNodeID' );
-            $children =& eZContentObjectTreeNode::subTree( null, $fromNodeID );
-            eZDebug::writeDebug( $children,"WWWWWWWWWWWW");
             $assignedNodes =& $version->nodeAssignments();
             $assignedIDArray =array();
             foreach ( $assignedNodes as  $assignedNode )
@@ -107,9 +104,25 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
             {
                 if ( !in_array( $nodeID, $assignedIDArray ) )
                 {
-                    $version->assignToNode( $nodeID );
+                    $version->assignToNode( $nodeID, 0, $fromNodeID );
                 }
             }
+            $version->removeAssignment( $fromNodeID );
+            // $version->removeAssignment( $fromNodeID );
+            /* $childrens =& eZContentObjectTreeNode::subTree( null, $fromNodeID );
+            foreach ( $childrens as $children )
+            {
+                $contentObjectID = $children->attribute('contentobject_id');
+                if ( $contentObjectID != $ObjectID )
+                {
+                    $childObject =& eZContentObject::fetch( $contentObjectID );
+                    $childVersion =& $childObject->currentVersion();
+                    foreach ( $selectedNodeIDArray as $nodeID )
+                    {
+                        $childVersion->assignToNode( $nodeID );
+                    }
+                }
+            }*/
         }
     }
 }

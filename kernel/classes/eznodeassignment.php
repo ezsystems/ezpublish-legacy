@@ -63,7 +63,8 @@ class eZNodeAssignment extends eZPersistentObject
                                          'parent_node' => 'ParentNode',
                                          'sort_field' => 'SortField',
                                          'sort_order' => 'SortOrder',
-                                         'main' => 'Main'
+                                         'main' => 'Main',
+                                         'from_node_id' => 'FromNodeID'
                                          ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode" ),
@@ -109,6 +110,10 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['sort_order'] = 1;
         }
+        if ( !isset( $parameters['from_node_id'] ) )
+        {
+            $parameters['from_node_id'] = 0;
+        }
         return new eZNodeAssignment( $parameters );
     }
 
@@ -152,6 +157,7 @@ class eZNodeAssignment extends eZPersistentObject
     var $SortField;
     var $SortOrder;
     var $Main;
+    var $FromNodeID;
 }
 
 ?>

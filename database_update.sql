@@ -31,3 +31,9 @@ update ezpolicy_limitation set function_name='read', module_name='content', iden
 # alter command: alter table ezworkflow_process alter  column session_key SET DEFAULT '0';
 alter table ezworkflow_process add column session_key varchar(32) NOT NULL DEFAULT '0';
 alter table ezworkflow_process add column process_key char(32) NOT NULL ;
+
+
+#After beta 2:
+alter table eznode_assignment add from_node_id int default 0;
+
+
