@@ -169,7 +169,15 @@ else if ( !$placementID && count( $nodeAssignments ) )
 }
 
 $contentINI =& eZINI::instance( 'content.ini' );
-$sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
+{
+    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesignList' );
+}
+else
+{
+    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+}
+
 if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
 {
     $defaultPreviewDesign = $contentINI->variable( 'VersionView', 'DefaultPreviewDesign' );
@@ -223,7 +231,7 @@ if ( $versionAttributes === null or
     $LanguageCode = eZContentObject::defaultLanguage();
 }
 
-if ( $hasCustomSitedesign )
+if ( $sitedesign )
 {
     eZTemplateDesignResource::setDesignSetting( $sitedesign, 'site' );
 }

@@ -73,6 +73,8 @@ eZXML:
   http://ez.no/developer/ez_publish_3/bug_reports/cant_remove_objects_undefined_class_name_ezurlalias
 - Fixed problem with assignment and custom actions
   http://ez.no/developer/ez_publish_3/bug_reports/moving_and_removing_assignments_fails
+- Fixed problems with preview and default design
+  http://ez.no/developer/ez_publish_3/bug_reports/preview_doesnt_respect_defaultpreviewdesign_setting
 
 *Files:
 - Made sure ezpublish.cron is included in the release (Was missing in 3.2-1).
