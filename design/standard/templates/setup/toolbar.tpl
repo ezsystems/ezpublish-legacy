@@ -39,18 +39,20 @@
             {switch match=cond( $Parameter.name|ends_with( '_node' ), 1,
                                 $Parameter.name|ends_with( '_classidentifier' ), 2,
                                 $Parameter.name|ends_with( '_classidentifiers' ), 3,
+                                $Parameter.name|ends_with( '_subtree' ), 4,
+                                $Parameter.name|ends_with( '_check' ), 5,
                                 0 )}
             {case match=1}
                 {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
                 {section show=$used_node}
                     {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name )}&nbsp;{$used_node.name|wash} ({$Parameter.value})
                 {section-else}
-                    {$Parameter.value}
+                    {$Parameter.value|wash}
                 {/section}
                 {/let}
                 <br/>
                 <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/standard/setup/toolbar")}" />
-                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
+                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
             {/case}
             {case match=2}
                 {let class_list=fetch( class, list )}
@@ -69,6 +71,32 @@
                 {/section}
                 </select>
                 {/let}
+            {/case}
+            {case match=4}
+                {let used_node=fetch( content, node, hash( node_path, $Parameter.value ) )}
+                {section show=$used_node}
+                    {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name )}&nbsp;{$used_node.object.name|wash} ({$Parameter.value})
+                {section-else}
+                    {$Parameter.value|wash}
+                {/section}
+                {/let}
+                <br/>
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/standard/setup/toolbar")}" />
+                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
+            {/case}
+            {case match=5}
+                <br/>
+                {section show=array( 'true', 'false' )|contains( $Parameter.value )}
+                    <input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_true" value="true" {section show=$Parameter.value|ne( 'false' )}checked="checked"{/section} /><label for="{$Tool.index}_parameter_{$Parameter.name}_true">{'True'|i18n( 'design/standard/setup/toolbar' )}</label>
+                    <input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_false" value="false" {section show=$Parameter.value|eq( 'false' )}checked="checked"{/section} /><label for="{$Tool.index}_parameter_{$Parameter.name}_false">{'False'|i18n( 'design/standard/setup/toolbar' )}</label>
+                {section-else}
+                  {section show=array( 'yes', 'no' )|contains( $Parameter.value )}
+                      <input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_true" value="yes" {section show=$Parameter.value|ne( 'no' )}checked="checked"{/section} /><label for="{$Tool.index}_parameter_{$Parameter.name}_true">{'Yes'|i18n( 'design/standard/setup/toolbar' )}</label>
+                      <input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_false" value="no" {section show=$Parameter.value|eq( 'no' )}checked="checked"{/section} /><label for="{$Tool.index}_parameter_{$Parameter.name}_false">{'No'|i18n( 'design/standard/setup/toolbar' )}</label>
+                  {section-else}
+                      <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
+                  {/section}
+                {/section}
             {/case}
             {case}
                 <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">

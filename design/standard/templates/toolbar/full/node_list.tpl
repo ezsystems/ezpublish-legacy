@@ -3,15 +3,23 @@
 {default limit=5}
 {section show=or($show_subtree|count_chars()|eq(0), $requested_uri_string|begins_with( $show_subtree ))}
 {section show=$sort_by|count|eq( 0 )}{set sort_by='published'}{/section}
-{let node_list=fetch( content, list, hash( parent_node_id, $parent_node,
-                      limit, $limit,
-					  sort_by, array( $sort_by, false() ) ) )}
+{let node_list=cond( $treelist_check|eq( 'yes' ),
+                         fetch( content, tree, hash( parent_node_id, $parent_node,
+                                limit, $limit,
+                                class_filter_type, exclude,
+                                class_filter_array, array( 'folder' ),
+					            sort_by, array( $sort_by, false() ) ) ),
+                     fetch( content, list, hash( parent_node_id, $parent_node,
+                            limit, $limit,
+                            class_filter_type, exclude,
+                            class_filter_array, array( 'folder' ),
+				            sort_by, array( $sort_by, false() ) ) ) )}
 <div class="toollist">
     <div class="toollist-design">
     <h2>{$title}</h2>
     <div class="content-view-children">
-    {section var=node loop=$node_list sequence=array(bglight,bgdark)}
-        {node_view_gui view=listitem content_node=$node}
+    {section name=Node loop=$node_list sequence=array(bglight,bgdark)}
+        {node_view_gui view=listitem content_node=$Node:item}
     {/section}
     </div>
     </div>

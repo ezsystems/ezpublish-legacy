@@ -1,5 +1,3 @@
-{cache-block keys=$uri_string}
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -33,6 +31,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 <div id="allcontent">
 
+{cache-block keys=$uri_string}
     <div id="topcontent">
 
         {let pagedesign=fetch_alias(by_identifier,hash(attr_id,sitestyle_identifier))}
@@ -68,6 +67,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
     {menu name=TopMenu}
 
     <hr class="hide" />
+    {/cache-block}
 
 
     <div id="path">
@@ -76,6 +76,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         </div>{* id="path-design" *}
     </div>{* id="path" *}
 
+    {cache-block keys=$uri_string}
     <hr class="hide" />
 
     <div id="columns">
@@ -83,7 +84,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         {menu name=LeftMenu}
 
         <hr class="hide" />
-        {/cache-block}
+    {/cache-block}
 
         {section show=ezini( 'Toolbar_right', 'Tool', 'toolbar.ini' )|count}
             <div id="rightmenu">

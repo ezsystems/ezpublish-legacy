@@ -84,6 +84,21 @@ if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
         $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
 }
+else if ( $module->isCurrentAction( 'SelectToolbarNodePath' ) )
+{
+    $selectedNodeIDArray = eZContentBrowse::result( 'SelectToolbarNode' );
+
+    $nodeID = $selectedNodeIDArray[0];
+    if ( is_numeric( $nodeID ) )
+    {
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        $toolIndex = $http->variable( 'tool_index' );
+        $parameterName = $http->variable( 'parameter_name' );
+
+        $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $node->attribute( 'path_identification_string' ) );
+        $succeed = $iniAppend->save(  false, false, false, false, true, true );
+    }
+}
 
 if ( $http->hasPostVariable( 'NewToolButton' ) or
      $http->hasPostVariable( 'UpdatePlacementButton' ) or
@@ -186,6 +201,19 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
             if ( preg_match( "/(.+)_parameter_(.+)/", key( $browseArray ), $res ) )
             {
                 eZContentBrowse::browse( array( 'action_name' => 'SelectToolbarNode',
+                                                'description_template' => false,
+                                                'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
+                                                'from_page' => "/setup/toolbar/$currentSiteAccess/$toolbarPosition/" ),
+                                         $module );
+                return;
+            }
+
+        }
+        else if ( preg_match( "/_subtree$/", key( $browseArray ) ) )
+        {
+            if ( preg_match( "/(.+)_parameter_(.+)/", key( $browseArray ), $res ) )
+            {
+                eZContentBrowse::browse( array( 'action_name' => 'SelectToolbarNodePath',
                                                 'description_template' => false,
                                                 'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
                                                 'from_page' => "/setup/toolbar/$currentSiteAccess/$toolbarPosition/" ),
@@ -377,6 +405,8 @@ function removeRelatedCache( $siteAccess )
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
+    include_once( 'kernel/classes/ezcache.php' );
+    eZCache::clearByTag( 'template-block' );
 
     // Delete template cache.
     include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
