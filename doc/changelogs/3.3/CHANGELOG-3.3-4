@@ -18,6 +18,7 @@ Changes from 3.3-3 to 3.3-4
 - Added back the finetuning page, it will display hints for extending eZ publish.
 - Added finetuning check for the ImageTTFText and ImageTTFBBox functions which are
   need for texttoimage to work properly.
+- Added manual input box for mysql when no databases found.
 
 *DataTypes:
 - Fixed datatype inisetting which can't save parameter value like "x=y";
