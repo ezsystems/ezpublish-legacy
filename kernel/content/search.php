@@ -60,6 +60,8 @@ $Module->setTitle( "Search for: $searchText" );
 
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType ) );
 
+eZDebug::writeNotice( $searchResult["SearchResult"], "result" );
+
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );

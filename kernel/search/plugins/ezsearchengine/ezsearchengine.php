@@ -367,7 +367,7 @@ class eZSearchEngine
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
         }
 
-        $searchQuery = "SELECT ezcontentobject.id, ezcontentobject.main_node_id, ezcontentobject.name
+        $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -377,11 +377,6 @@ class eZSearchEngine
                     $phraseSQL
                     $fullTextSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
-                    GROUP BY
-                             ezcontentobject.id,
-                             ezcontentobject.name,
-                             ezsearch_object_word_link.frequency,
-                             ezcontentobject.main_node_id
                     ORDER BY ezsearch_object_word_link.frequency";
 
         $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
@@ -395,15 +390,37 @@ class eZSearchEngine
                     $fullTextSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id";
 
+/*
+                $relatedObjects =& $db->arrayQuery( "SELECT
+					       ezcontentobject.*
+					     FROM
+					       ezcontentobject, ezcontentobject_link
+					     WHERE
+					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+					       ezcontentobject_link.from_contentobject_id='$this->ID' AND
+					       ezcontentobject_link.from_contentobject_version='$version'" );
+
+        $return = array();
+        foreach ( $relatedObjects as $object )
+        {
+            $return[] = new eZContentObject( $object );
+        }
+*/
+
         $objectRes = array();
 
         $searchCount = 0;
         if ( count( $nonExistingWordArray ) == 0 )
         {
             // execute search query
-            $objectRes =& $db->arrayQuery( $searchQuery );
+            $objectResArray =& $db->arrayQuery( $searchQuery );
             // execute search count query
             $objectCountRes =& $db->arrayQuery( $searchCountQuery );
+
+            foreach ( $objectResArray as $objectRow )
+            {
+                $objectRes[] = new eZContentObject( $objectRow );
+            }
             $searchCount = $objectCountRes[0]['count'];
         }
         else

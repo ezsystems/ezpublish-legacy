@@ -52,8 +52,7 @@
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$SearchResult:sequence}">
-	<a href="/content/view/full/{$SearchResult:item.main_node_id}"><img src={"class_2.png"|ezimage} border="0"> {$SearchResult:item.name}</a>
-
+	{content_view_gui view=line content_object=$SearchResult:item} 
 	</td>
 </tr>
   {section-else}

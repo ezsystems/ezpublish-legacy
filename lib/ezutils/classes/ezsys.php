@@ -329,8 +329,8 @@ class eZSys
             // Get the right $REQUEST_URI, when using nVH setup.
             if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
                 $REQUEST_URI = $req[1];
-            else
-                $REQUEST_URI = "/";
+//            else
+//                $REQUEST_URI = "/";
         }
 
         $this->AccessPath = "";
