@@ -89,6 +89,7 @@ define( 'EZ_PHPCREATOR_INCLUDE', 7 );
 define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
 define( 'EZ_PHPCREATOR_DEFINE', 9 );
 define( 'EZ_PHPCREATOR_VARIABLE_UNSET_LIST', 10 );
+define( 'EZ_PHPCREATOR_RAW_VARIABLE', 11 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
@@ -147,6 +148,23 @@ define( 'MY_CONSTANT', 5 );
                           $value,
                           $caseSensitive,
                           $parameters );
+        $this->Elements[] = $element;
+    }
+
+    /*!
+     Adds a new raw variable tothe code with the name \a $name and value \a $value.
+
+     Example:
+     \code
+$php->addVariable( 'TransLationRoot', $cache['root'] );
+     \endcode
+
+     This function makes use of PHP's var_export() function which is optimized
+     for this task.
+    */
+    function addRawVariable( $name, $value )
+    {
+        $element = array( EZ_PHPCREATOR_RAW_VARIABLE, $name, $value );
         $this->Elements[] = $element;
     }
 
@@ -843,6 +861,10 @@ print( $values['MyValue'] );
             {
                 $this->writeDefine( $element );
             }
+            else if ( $element[0] == EZ_PHPCREATOR_RAW_VARIABLE )
+            {
+                $this->writeRawVariable( $element[1], $element[2] );
+            }
             else if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
             {
                 $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
@@ -1072,6 +1094,14 @@ print( $values['MyValue'] );
             $text = eZPHPCreator::prependSpacing( $text, $spacing );
             $this->write( $text );
         }
+    }
+
+    /*!
+     \private
+    */
+    function writeRawVariable( $variableName, $variableValue )
+    {
+        $this->write( "\${$variableName} = ". var_export( $variableValue, true). ";\n" );
     }
 
     /*!

@@ -212,12 +212,12 @@ class eZTranslationCache
             eZDir::mkdir( eZTranslationCache::cacheDirectory(), eZDir::directoryPermission(), true );
         }
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
-        $php->addVariable( 'eZTranslationCacheCodeDate', EZ_TRANSLATION_CACHE_CODE_DATE );
+        $php->addRawVariable( 'eZTranslationCacheCodeDate', EZ_TRANSLATION_CACHE_CODE_DATE );
         $php->addSpace();
-        $php->addVariable( 'CacheInfo', array( 'charset' => $internalCharset ) );
-        $php->addVariable( 'TranslationInfo', $cache['info'] );
+        $php->addRawVariable( 'CacheInfo', array( 'charset' => $internalCharset ) );
+        $php->addRawVariable( 'TranslationInfo', $cache['info'] );
         $php->addSpace();
-        $php->addVariable( 'TranslationRoot', $cache['root'] );
+        $php->addRawVariable( 'TranslationRoot', $cache['root'] );
         $php->store();
     }
 }

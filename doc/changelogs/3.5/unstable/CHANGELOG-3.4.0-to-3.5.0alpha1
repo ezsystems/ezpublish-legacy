@@ -101,6 +101,13 @@ Workflow:
 - Added a new datatype called eZMultiOption which works like
   eZOption but handles multiple options in one attribute.
 
+*eZPHPCreator
+- Added addRawVariable for much improved performance for generating PHP code for
+  a PHP variable.
+
+*eZTranslationCache
+- Implemented usage of the new addRawVariable method.
+
 *Bugs
 - Fixed using the loginpagelayout for forgotpassword
   http://ez.no/community/bug_reports/forgot_password_pagelayout_template_not_consistent
