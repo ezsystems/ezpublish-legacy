@@ -81,13 +81,13 @@ TO_DIR="$DIST_ARCHIVE/$TO_MAJOR/$TO"
 FROM_FILE="$FROM_DIR/ezpublish-$FROM.tar.gz"
 TO_FILE="$TO_DIR/ezpublish-$TO.tar.gz"
 
-TO_DIFF="$TO_DIR/ezpublish-$TO.diff.gz"
-TO_DIFF2="$TO_DIR/ezpublish-$TO.diff.bz2"
+TO_DIFF="$TO_DIR/ezpublish-$FROM-to-$TO.diff.gz"
+TO_DIFF2="$TO_DIR/ezpublish-$FROM-to-$TO.diff.bz2"
 TMP_DIFF="$DEST_ROOT/ezpublish-$TO.diff"
 
-TO_UPDATE_TGZ="$TO_DIR/ezpublish-update-$TO.tar.gz"
-TO_UPDATE_TBZ2="$TO_DIR/ezpublish-update-$TO.tar.bz2"
-TO_UPDATE_ZIP="$TO_DIR/ezpublish-update-$TO.zip"
+TO_UPDATE_TGZ="$TO_DIR/ezpublish-update-$FROM-to-$TO.tar.gz"
+TO_UPDATE_TBZ2="$TO_DIR/ezpublish-update-$FROM-to-$TO.tar.bz2"
+TO_UPDATE_ZIP="$TO_DIR/ezpublish-update-$FROM-to-$TO.zip"
 
 CREATED_FILES=""
 
@@ -139,7 +139,7 @@ CREATED_FILES="$CREATED_FILES $TO_DIFF2"
 PATCHED_FILES=`patch -d $DEST_ROOT/$FROM_DIRNAME --dry-run -p1 < $TMP_DIFF  | sed 's#^patching file ##'`
 rm $TMP_DIFF || exit 1
 
-UPDATE_DIRNAME="ezpublish-update-$TO"
+UPDATE_DIRNAME="ezpublish-update-$FROM-to-$TO"
 UPDATE_DIR="$DEST_ROOT/$UPDATE_DIRNAME"
 
 if [ -d $UPDATE_DIR ]; then
