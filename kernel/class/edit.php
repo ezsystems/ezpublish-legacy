@@ -139,7 +139,14 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
     $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
-    $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+    if ( $fromGroupID === false )
+    {
+        $Module->redirectToView( 'grouplist' );
+    }
+    else
+    {
+        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+    }
     return;
 }
 
@@ -375,7 +382,14 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     $firstStoreAttemt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
     if ( !$firstStoreAttemt )
     {
-        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+        if ( $fromGroupID === false )
+        {
+            $Module->redirectToView( 'grouplist' );
+        }
+        else
+        {
+            $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+        }
         return;
     }
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
@@ -495,7 +509,14 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
     $http->removeSessionVariable( 'CanStoreTicket' );
 
-    $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+    if ( $fromGroupID === false )
+    {
+        $Module->redirectToView( 'grouplist' );
+    }
+    else
+    {
+        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+    }
     return;
 }
 // Store changes

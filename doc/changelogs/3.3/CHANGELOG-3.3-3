@@ -113,6 +113,8 @@ eZTime:
   http://ez.no/community/bug_reports/related_objects_stories_in_news_shows_folder_instead_of_the_articles
 - Merged typo fix in kernel/content/node_edit.php from stable/3.2 rev. 4954.
   http://ez.no/community/bug_reports/typo_in_kernel_content_node_edit_php
+- Fixed redirecting bug after editing classes.
+  http://ez.no/community/bug_reports/no_classes_in
 
 
 *Library:
