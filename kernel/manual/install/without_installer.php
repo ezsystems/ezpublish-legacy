@@ -188,7 +188,7 @@ DatabaseImplementation=ezpostgresql
 # Name of server to connect to
 Server=localhost
 # DB user name
-User=&lgt;user&gt;
+User=&lt;user&gt;
 # DB Password
 Password=&lt;password&gt;
 # database name you have created on previous step
@@ -206,7 +206,7 @@ Database=&lt;name_of_database&gt;
     Options FollowSymLinks Indexes ExecCGI
     AllowOverride None
   &lt;/Directory&gt;
-  
+
   RewriteEngine On
   RewriteRule !\.(gif|css|jpg|png|jar)$ /index.php
 
