@@ -105,11 +105,14 @@ $complexTypes = array();
 
 $objectCount = eZContentObject::fetchListCount();
 
-$cli->output( "Going to update " . $objectCount . " objects" );
+$cli->output( "Going to update " . $cli->stylize( 'emphasize', $objectCount ) . " objects" );
 
 $maxFetch = 30;
 $index = 0;
 $column = 0;
+
+$script->setIterationData( '.', '~', array( '.', '~', '*', '#' ), false );
+$script->resetIteration( $objectCount );
 
 while ( $index < $objectCount )
 {
@@ -117,7 +120,19 @@ while ( $index < $objectCount )
     foreach ( array_keys( $objectList ) as $objectKey )
     {
         $object =& $objectList[$objectKey];
+
+        $currentVersion = $object->currentVersion();
+
+        if ( !is_object( $currentVersion ) )
+        {
+            $script->iterate( $cli, 0, "Object " . $object->attribute( 'id' ) . " does not have a current version, skipping" );
+            ++$index;
+            continue;
+        }
+
         $versions =& $object->versions();
+        $classAttributes = & eZContentClassAttribute::fetchListByClassID( $object->attribute( 'contentclass_id' ) );
+
         $updated = false;
         $allFixed = true;
         foreach ( array_keys( $versions ) as $versionKey )
@@ -127,6 +142,48 @@ while ( $index < $objectCount )
             foreach ( $translations as $languageCode )
             {
                 $attributes =& $version->contentObjectAttributes( $languageCode );
+
+                foreach ( $classAttributes as $classAttribute )
+                {
+                    $attributeExist = false;
+                    $classAttributeID = $classAttribute->attribute( 'id' );
+
+                    //check to see if this attribute is among the attributes for the translation
+                    foreach ( $attributes as $attribute )
+                    {
+                        $attributeID = $attribute->attribute( "contentclassattribute_id" );
+                        if ( $attributeID == $classAttributeID )
+                        {
+                            $attributeExist = true;
+                        }
+                    }
+
+                    //if not, we create the missing attributes
+                    if ( !$attributeExist )
+                    {
+                        $versionNumber = $version->attribute( 'version' );
+
+                        //this initilizes the new translated attribute with values from the original attribute
+                        //uncomment to create 'empty' attributes instead (also change the initialize command below)
+
+                        $orgAttributes =& $version->contentObjectAttributes();
+                        foreach ( $orgAttributes as $orgAttribute )
+                        {
+                            if ( $classAttributeID == $orgAttribute->attribute( 'contentclassattribute_id' ) )
+                                break;
+                            $orgAttribute = null;
+                        }
+
+                        if ( !$classAttribute->attribute( 'can_translate' ) )
+                            $orgAttribute = null;
+
+                        $objectAttribute =& eZContentObjectAttribute::create( $classAttributeID, $object->attribute( 'id' ), $versionNumber );
+                        $objectAttribute->setAttribute( 'language_code', $languageCode );
+                        $objectAttribute->initialize( $versionNumber, $orgAttribute );
+                        $objectAttribute->store();
+                    }
+                }
+
                 foreach ( array_keys( $attributes ) as $attributeKey )
                 {
                     $attribute =& $attributes[$attributeKey];
@@ -147,25 +204,13 @@ while ( $index < $objectCount )
         }
         if ( $updated )
         {
-            if ( $allFixed )
-                $cli->output( '*', false );
-            else
-                $cli->output( '#', false );
+            $script->iterate( $cli, $allFixed ? 2 : 3, "Object " . $object->attribute( 'id' ) . " was updated" );
         }
         else
         {
-            $cli->output( '.', false );
+            $script->iterate( $cli, 1, "Object " . $object->attribute( 'id' ) . " did not require an update" );
         }
-        flush();
         ++$index;
-        ++$column;
-        if ( $column > 70 or $index == $objectCount )
-        {
-            $percent = ( $index * 100 ) / ( $objectCount );
-            $percentText = number_format( $percent, 2 );
-            $cli->output( " $percentText%" );
-            $column = 0;
-        }
     }
 }
 
