@@ -46,6 +46,7 @@ include_once( "lib/ezsoap/classes/ezsoapserver.php" );
 
 $server = new eZSOAPServer( );
 $server->registerFunction( "addNumbers", array( "valueA" => "integer", "valueB" => "integer" ) );
+$server->registerObject( "Collection" );
 $server->processRequest();
 
 function addNumbers( $valueA, $valueB )
@@ -53,6 +54,20 @@ function addNumbers( $valueA, $valueB )
     $return = $valueA + $valueB;
     settype( $return, "integer" );
     return $return;
+}
+
+class Collection
+{
+    function Collection ()
+    {
+
+    }
+    function subNumbers( $valueA, $valueB )
+    {
+        $return = $valueA - $valueB;
+        settype( $return, "integer" );
+        return $return;
+    }
 }
   \endcode
   \sa eZSOAPClient eZSOAPRequest eZSOAPResponse
@@ -94,6 +109,32 @@ class eZSOAPServer
     }
 
     /*!
+      Registers all functions of an object on the server.
+
+      Returns false if the object could not be registered.
+    */
+    function registerObject( $objectName, $includeFile = null )
+    {
+        if ( file_exists( $includeFile ) )
+            include_once( $includeFile );
+        
+        if ( class_exists( $objectName ) )
+        {
+            $methods = get_class_methods( $objectName );
+            foreach ( $methods as $method)
+            {
+                if ( strcasecmp ( $objectName, $method ) )
+                    $this->registerFunction( $objectName."::".$method );
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
       Processes the SOAP request and prints out the
       propper response.
     */
@@ -132,12 +173,38 @@ class eZSOAPServer
             {
                 $params[] = $parameterNode->textContent();
             }
-
-            if ( in_array( $functionName, $this->FunctionList ) &&
+            
+            list( $objectName, $objectFunctionName ) = preg_split('/::/', $functionName, 2, PREG_SPLIT_NO_EMPTY);
+        
+            if ( !$objectFunctionName and in_array( $functionName, $this->FunctionList ) &&
                  function_exists( $functionName ) )
             {
                 $this->showResponse( $functionName, $namespaceURI,
                                      call_user_func_array( $functionName, $params ) );
+            }
+            elseif ( $objectName and $objectFunctionName )
+            {    
+                if ( !class_exists( $objectName ) )
+                {
+                    $this->showResponse( $functionName, $namespaceURI,
+                                     new eZSOAPFault( 'Server Error',
+                                                      'Object not found' ) );
+                }
+                else
+                {
+                    $object = new $objectName();
+                    if ( !method_exists( $object, $objectFunctionName ) )
+                    {
+                        $this->showResponse( $functionName, $namespaceURI,
+                                     new eZSOAPFault( 'Server Error',
+                                                      'Objectmethod not found' ) );
+                    }
+                    else
+                    {
+                        $this->showResponse( $functionName, $namespaceURI,
+                                     call_user_method_array( $objectFunctionName, $object, $params ) );
+                    }
+                }
             }
             else
             {

@@ -413,6 +413,7 @@ Workflow:
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
+- Added eZSOAPServer::registerObject() method.
 - Improved Image interface methods and GD resource handling.
 - Added adjustment of placement when using centered alignment in eZImageObject.
 - Fixed logical problem in eZLocale attributes:
