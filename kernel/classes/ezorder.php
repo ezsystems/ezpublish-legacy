@@ -137,14 +137,47 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the active orders
     */
-    function &active( $asObject = true, $offset, $limit )
+    function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc" )
     {
-        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                    null, array( 'is_temporary' => 0 ),
-                                                    array( "created" => "desc" ),
-                                                    array( 'offset' => $offset,
-                                                           'length' => $limit ),
-                                                    $asObject );
+        if ( $sortField == "user_name" )
+        {
+            $db =& eZDB::instance();
+
+            $db_params = array();
+            $db_params["offset"] = $offset;
+            $db_params["limit"] = $limit;
+
+            $query = "SELECT ezorder.*
+                      FROM
+                            ezorder,
+                            ezcontentobject
+                      WHERE
+                            ezorder.is_temporary = 0 AND
+                            ezcontentobject.id = ezorder.user_id
+                      ORDER BY ezcontentobject.name $sortOrder";
+            $orderArray =& $db->arrayQuery( $query, $db_params );
+            if ( $asObject )
+            {
+                $retOrders = array();
+                foreach ( $orderArray as $order )
+                {
+                    $order =& new eZOrder( $order );
+                    $retOrders[] = $order;
+                }
+                return $retOrders;
+            }
+            else
+                return $orderArray;
+        }
+        else
+        {
+            return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                        null, array( 'is_temporary' => 0 ),
+                                                        array( $sortField => $sortOrder ),
+                                                        array( 'offset' => $offset,
+                                                               'length' => $limit ),
+                                                        $asObject );
+        }
     }
 
     /*!
