@@ -664,11 +664,13 @@ class eZContentObject extends eZPersistentObject
 
         $objectInSQL = implode( ', ', $uniqueIDArray );
 
-        $query = "SELECT ezcontentobject.* $versionNameTargets
+        $query = "SELECT ezcontentclass.name as class_name, ezcontentobject.* $versionNameTargets
                       FROM
+                         ezcontentclass,
                          ezcontentobject
                          $versionNameTables
                       WHERE
+                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                          ezcontentobject.id IN ( $objectInSQL )
                          $versionNameJoins";
 
@@ -682,6 +684,7 @@ class eZContentObject extends eZPersistentObject
             {
                 $obj = new eZContentObject( $resRow );
                 $obj->CurrentLanguage = $resRow['real_translation'];
+                $obj->ClassName       = $resRow['class_name'];
                 $eZContentObjectContentObjectCache[$objectID] = $obj;
                 $objectRetArray[$objectID] = $obj;
             }
@@ -1754,23 +1757,27 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relatedObjects =& $db->arrayQuery( "SELECT
-					       ezcontentobject.* $versionNameTargets
-					     FROM
-					       ezcontentobject,
-                           ezcontentobject_link
-                           $versionNameTables
-					     WHERE
-					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.from_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version='$version'
-                           $versionNameJoins" );
+            ezcontentclass.name AS class_name,
+            ezcontentobject.* $versionNameTargets
+         FROM
+            ezcontentclass,
+            ezcontentobject,
+            ezcontentobject_link
+            $versionNameTables
+         WHERE
+            ezcontentclass.id=ezcontentobject.contentclass_id AND
+            ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+            ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+            ezcontentobject_link.from_contentobject_id='$objectID' AND
+            ezcontentobject_link.from_contentobject_version='$version'
+            $versionNameJoins" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
         {
             $obj = new eZContentObject( $object );
             $obj->CurrentLanguage = $object['real_translation'];
+            $obj->ClassName       = $object['class_name'];
 
             $return[] = $obj;
         }
