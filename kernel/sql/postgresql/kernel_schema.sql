@@ -3043,3 +3043,15 @@ ALTER TABLE ONLY ezworkflow_process
     ADD CONSTRAINT ezworkflow_process1254_key PRIMARY KEY (id);
 
 
+
+
+CREATE TABLE ezsite_data (
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL default '',
+  PRIMARY KEY (name)
+);
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
+CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);

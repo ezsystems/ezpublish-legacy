@@ -3524,8 +3524,6 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,1,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,1,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,5,'login','user','*');
 
 --
 -- Dumping data for table 'ezpolicy_limitation'
@@ -3593,7 +3591,6 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
-INSERT INTO ezrole (id, version, name, value) VALUES (5,3,'Editor',NULL);
 
 --
 -- Dumping data for table 'ezsearch_object_word_link'
@@ -4318,3 +4315,12 @@ CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
 CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
 CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
 CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
+
+CREATE TABLE ezsite_data (
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL default '',
+  PRIMARY KEY (name)
+);
+
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
