@@ -133,8 +133,8 @@ class eZPolicy extends eZPersistentObject
                 $limitation->copy( $newPolicy->attribute( 'id' ) );
             }
         }
-
     }
+
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )
@@ -174,6 +174,7 @@ class eZPolicy extends eZPersistentObject
             {
                 $enableCaching = false;
             }
+            $enableCaching = false;
 
             $loadFromDb = true;
             $policyID = $this->attribute( 'id' );
@@ -181,10 +182,10 @@ class eZPolicy extends eZPersistentObject
             {
                 //  $http =& eZHTTPTool::instance();
 
-                $hasLimitationsInCache = $http->hasSessionVariable( 'userLimitations' );
+                $hasLimitationsInCache = $http->hasSessionVariable( 'UserLimitations' );
                 if ( $hasLimitationsInCache )
                 {
-                    $limitationsForAllUserPolicies =& $http->sessionVariable( 'userLimitations' );
+                    $limitationsForAllUserPolicies =& $http->sessionVariable( 'UserLimitations' );
                     $limitationsForCurrentPolicy =& $limitationsForAllUserPolicies["$policyID"];
                     if ( count( $limitationsForCurrentPolicy ) > 0 )
                     {
@@ -199,7 +200,6 @@ class eZPolicy extends eZPersistentObject
                         $loadFromDb = false;
                     }
                 }
-
             }
             if ( $loadFromDb )
             {
@@ -208,6 +208,7 @@ class eZPolicy extends eZPersistentObject
                                                                      true );
                 if ( $enableCaching )
                 {
+                    print( "caching is enabled" );
                     $limitationsForCurrentPolicy = array();
                     foreach ( array_keys( $limitations ) as $key )
                     {
@@ -222,9 +223,9 @@ class eZPolicy extends eZPersistentObject
                         $limitationsForCurrentPolicy[] = $limitationAttributes;
                     }
                     $http =& eZHTTPTool::instance();
-                    if ( !$http->hasSessionVariable( 'userLimitations' ) )
+                    if ( !$http->hasSessionVariable( 'UserLimitations' ) )
                     {
-                        $limitationArray =& $http->sessionVariable( 'userLimitations' );
+                        $limitationArray =& $http->sessionVariable( 'UserLimitations' );
                     }
                     else
                     {

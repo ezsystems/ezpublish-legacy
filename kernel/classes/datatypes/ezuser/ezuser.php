@@ -486,6 +486,14 @@ class eZUser extends eZPersistentObject
         if ( !$contentObjectID )
             $contentObjectID = $this->attribute( 'contentobject_id' );
         $http->setSessionVariable( 'eZUserGroupsCache_' . $contentObjectID, false );
+
+        $http->removeSessionVariable( 'UserPolicies' );
+        $http->removeSessionVariable( 'UserLimitations' );
+        $http->removeSessionVariable( 'UserLimitationValues' );
+        $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
+        $http->removeSessionVariable( 'CanInstantiateClassList' );
+        $http->removeSessionVariable( 'ClassesCachedForUser' );
+
     }
 
     /*!

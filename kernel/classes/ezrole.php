@@ -100,6 +100,8 @@ class eZRole extends eZPersistentObject
             $ini =& eZINI::instance();
             $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
+            $enableCaching = false;
+
             $loadFromDB = true;
             $roleID = $this->attribute( 'id' );
             if ( $enableCaching == 'true' && $this->CachePolicies )
@@ -145,6 +147,7 @@ class eZRole extends eZPersistentObject
                         $policiesForCurrentRole[] = $policyAttributes;
                     }
                     $http =& eZHTTPTool::instance();
+
                     if ( !$http->hasSessionVariable( 'UserPolicies' ) )
                     {
                         $policyArray =& $http->sessionVariable( 'UserPolicies' );
@@ -154,10 +157,12 @@ class eZRole extends eZPersistentObject
                         $policyArray = array();
                     }
                     $policyArray["$roleID"] = $policiesForCurrentRole;
+
                 }
                 $this->Policies =& $policies;
             }
         }
+
         return $this->Policies;
     }
 
@@ -287,6 +292,9 @@ class eZRole extends eZPersistentObject
                 $http->removeSessionVariable( 'UserPolicies' );
                 $http->removeSessionVariable( 'UserLimitations' );
                 $http->removeSessionVariable( 'UserLimitationValues' );
+                $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
+                $http->removeSessionVariable( 'CanInstantiateClassList' );
+                $http->removeSessionVariable( 'ClassesCachedForUser' );
 
                 // Expire role cache
                 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );

@@ -96,6 +96,8 @@ Changes from 3.2-3 to 3.2-4
   workflow event types. The event has also gotten more sanity checking of objects and classes.
   http://ez.no/developer/ez_publish_3/bug_reports/multiplexer_and_approval_workflow_long_bug_report_to_illustrate_the_steps_and_errors
 - Fixed collaboration bug when trying to access deleted objects. http://ez.no/developer/ez_publish_3/bug_reports/collaboration_approved_items_cause_crash_when_viewing
+- Fixed bug with caching of role information in session. Session cache is now properly cleaned up.
+
 
 *Library :
 

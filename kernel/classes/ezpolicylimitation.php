@@ -278,6 +278,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 }
             }
         }
+
         return $limitationValuesWithNames;
     }
 
@@ -289,12 +290,13 @@ class eZPolicyLimitation extends eZPersistentObject
                 $values[] =  $value->attribute( 'value' );
 
         }
+
+
         return $values;
     }
 
     function & valueList()
     {
-        eZDebugSetting::writeDebug( 'kernel-policy-limitation', "valueList call" );
         if ( !isset( $this->Values ) )
         {
 
@@ -307,6 +309,7 @@ class eZPolicyLimitation extends eZPersistentObject
             {
                 $enableCaching = false;
             }
+            $enableCaching = false;
 
             $loadFromDb = true;
             $limitationID = $this->attribute( 'id' );
@@ -314,10 +317,10 @@ class eZPolicyLimitation extends eZPersistentObject
             {
 //              $http =& eZHTTPTool::instance();
 
-                $hasLimitationValuesInCache = $http->hasSessionVariable( 'userLimitationValues' );
+                $hasLimitationValuesInCache = $http->hasSessionVariable( 'UserLimitationValues' );
                 if ( $hasLimitationValuesInCache )
                 {
-                    $limitationValuesForAllUserLimitations =& $http->sessionVariable( 'userLimitationValues' );
+                    $limitationValuesForAllUserLimitations =& $http->sessionVariable( 'UserLimitationValues' );
                     $limitationValuesForCurrentLimitation =& $limitationValuesForAllUserLimitations["$limitationID"];
                     if ( count( $limitationValuesForCurrentLimitation ) > 0 )
                     {
@@ -339,6 +342,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 $values =& eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
                                                                 null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
                                                                 true);
+
                 if ( $enableCaching )
                 {
                     $limitationValues =& $values;
@@ -353,9 +357,9 @@ class eZPolicyLimitation extends eZPersistentObject
                         $limitationValuesForCurrentLimitation[] = $limitationValueAttributes;
                     }
                     $http =& eZHTTPTool::instance();
-                    if ( !$http->hasSessionVariable( 'userLimitationValues' ) )
+                    if ( !$http->hasSessionVariable( 'UserLimitationValues' ) )
                     {
-                        $limitationValueArray =& $http->sessionVariable( 'userLimitationValues' );
+                        $limitationValueArray =& $http->sessionVariable( 'UserLimitationValues' );
                     }
                     else
                     {
@@ -369,6 +373,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 $this->Values =& $values;
             }
         }
+
         return $this->Values;
     }
 }
