@@ -221,7 +221,7 @@
     title='You can not set the sorting method for the current location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )
     disabled=' disabled="disabled"' }
 
-{section show=and( $node.can_edit, $children_count )}
+{section show=$node.can_edit}
     {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
     {set disabled=''}
 {/section}
