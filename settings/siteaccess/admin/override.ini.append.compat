@@ -11,4 +11,14 @@ Source=visual/menuconfig.tpl
 MatchFile=setup/menuconfig.tpl
 Subdir=templates
 
+[visual_toolbarlist]
+Source=visual/toolbarlist.tpl
+MatchFile=setup/toolbarlist.tpl
+Subdir=templates
+
+[visual_toolbar]
+Source=visual/toolbar.tpl
+MatchFile=setup/toolbar.tpl
+Subdir=templates
+
 */ ?>

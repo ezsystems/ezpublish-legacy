@@ -35,7 +35,10 @@
 
 // Redirect to visual module which is the correct place for this functionality
 $module =& $Params['Module'];
-$module->setCurrentName( 'visual' );
-return $module->redirectCurrent();
 
+$visualModule =& eZModule::exists( 'visual' );
+if( $visualModule )
+{
+    return $module->forward( $visualModule, 'toolbarlist' );
+}
 ?>

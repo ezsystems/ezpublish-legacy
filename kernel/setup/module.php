@@ -126,13 +126,13 @@ $ViewList['systemupgrade'] = array(
 /*! Provided for backwards compatability */
 $ViewList["toolbarlist"] = array(
     "script" => "toolbarlist.php",
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( 'SiteAccess' ) );
 
 $ViewList["toolbar"] = array(
     "script" => "toolbar.php",
     'ui_context' => 'edit',
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'SiteAccess', 'Position' ) );
 
