@@ -276,6 +276,9 @@ class eZPersistentObject
         {
             $field_def = $fields[$field_name];
             $value =& $obj->attribute( $field_name );
+
+            $numericDataTypes = array( 'integer', 'float', 'double' );
+
             if ( is_null( $value ) )
             {
                 if ( ! is_array( $field_def ) )
@@ -284,19 +287,22 @@ class eZPersistentObject
                 }
                 else
                 {
-                    if ( array_key_exists( 'default', $field_def ) && ! is_null( $field_def[ 'default' ] ) )
+                    if ( array_key_exists( 'default', $field_def ) &&
+                         (! is_null( $field_def['default'] ) ||
+                          ( $field_name == "data_int" &&
+                            array_key_exists( 'required', $field_def ) &&
+                            $field_def[ 'required' ] == false ) ) )
                     {
                         $obj->setAttribute( $field_name, $field_def[ 'default' ] );
                     }
                     else
                     {
-                        $numericDataTypes = array( 'integer', 'float', 'double' );
-//                        if ( in_array( $field_def['datatype'], $numericDataTypes )
+                        //if ( in_array( $field_def['datatype'], $numericDataTypes )
                         $exclude_fields[] = $field_name;
                     }
                 }
             }
-            $numericDataTypes = array( 'integer', 'float', 'double' );
+
             if ( strlen( $value ) == 0 &&
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $numericDataTypes  ) &&
@@ -373,10 +379,22 @@ class eZPersistentObject
 
             $use_values_hash = array();
             $escapeFields = array_diff( $use_fields, $doNotEscapeFields );
+
             foreach ( $escapeFields as $key )
             {
                 $value =& $obj->attribute( $key );
-                $use_values_hash[$key] = "'" . $db->escapeString( $value ) . "'";
+
+                $field_def = $fields[$key];
+
+                if ($value == null &&
+                    $key == "data_int" )
+                {
+                    $use_values_hash[$key] = "NULL";
+                }
+                else
+                {
+                    $use_values_hash[$key] = "'" . $db->escapeString( $value ) . "'";
+                }
             }
             foreach ( $doNotEscapeFields as $key )
             {
@@ -415,6 +433,8 @@ class eZPersistentObject
             $field_text = "";
             $field_text_len = 0;
             $i = 0;
+
+
             foreach ( $use_fields as $key )
             {
                 $value =& $obj->attribute( $key );
@@ -424,7 +444,16 @@ class eZPersistentObject
                 }
                 else
                 {
-                    $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
+                    $field_def = $fields[$key];
+                    if ($value == null &&
+                        $key == "data_int" )
+                    {
+                        $field_text_entry = $use_field_names[$key] . "=NULL";
+                    }
+                    else
+                    {
+                        $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
+                    }
                 }
                 $field_text_len += strlen( $field_text_entry );
                 $needNewline = false;

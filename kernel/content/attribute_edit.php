@@ -272,7 +272,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
         }
         */
 
-        if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' ) 
+        if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' )
         {
             $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
             $validation[ 'processed' ] = true;
@@ -375,6 +375,7 @@ $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
 
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
     return;
+
 $templateName = 'design:content/edit.tpl';
 
 if ( isset( $Params['TemplateName'] ) )

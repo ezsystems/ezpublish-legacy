@@ -120,10 +120,21 @@ class eZTimeType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $seconds = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
-        $hour    = (int) ( $seconds / 3600 );
-        $minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
-        return array( 'is_valid' => true, 'hour' => $hour, 'minute' => $minute );
+        $content = array();
+        if ( $contentObjectAttribute->attribute( 'data_int' ) != null )
+        {
+
+            $seconds = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
+            $hour    = (int) ( $seconds / 3600 );
+            $minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
+
+            $content = array( 'is_valid' => true, 'hour' => $hour, 'minute' => $minute );
+        }
+        else
+        {
+            $content = array( 'is_valid' => true, 'hour' => '', 'minute' => '' );
+        }
+        return $content;
     }
 
     /*!
@@ -166,6 +177,7 @@ class eZTimeType extends eZDataType
         {
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
+
             if ( $defaultType == 1 )
             {
                 $curTime = time();

@@ -24,5 +24,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/move_in_detailed_children_list_doesn_t_work
 - Fixed bug: Wrong redirection after content/draft.
   http://ez.no/community/bug_reports/wrong_redirecting_in_admin_area
+- Fixed bug: Time attribute can't be left empty.
+  http://ez.no/community/bug_reports/time_attribute_can_t_be_left_empty
 
 *Library:
