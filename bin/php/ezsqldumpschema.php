@@ -39,8 +39,8 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema dump\n\n" .
-                                                         "Dump sql schema to soecified file\n".
-                                                         "ezsqldumpschema.php --type=mysql --user=root stable33 schema.txt" ),
+                                                         "Dump sql schema to specified file or standard output\n".
+                                                         "ezsqldumpschema.php --type=mysql --user=root stable33 schema.sql" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
@@ -50,7 +50,7 @@ $script->startup();
 $options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql]" .
                                 "[format:]" .
-                                "[output-types:][allow-multi-insert]",
+                                "[output-types:][allow-multi-insert][schema-file:]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
                                                           "mysql, postgresql" ),
@@ -66,6 +66,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                                          "PostgreSQL: \n" .
                                                          "Oracle: " ),
                                        'table-charset' => 'Defines the charset to use on tables, the names of the charset depends on database type',
+                                       'schema-file' => 'The schema file to use when dumping data structures, is only required when dumping from files',
                                        'format' => ( "The output format (default is generic)\n" .
                                                      "generic - Format which suits all databases\n" .
                                                      "local - Format which suits only the database it was dumped from." ),
@@ -167,15 +168,26 @@ if ( strlen( trim( $type ) ) == 0)
 if ( file_exists( $database ) and is_file( $database ) )
 {
     include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-    $schema =& eZDBSchema::read( $database );
-    if ( $schema === false )
+    $schemaArray =& eZDBSchema::read( $database, true );
+    if ( $includeData and !$options['schema-file'] )
     {
-            eZDebug::writeError( "Error reading schema from file $database" );
-            $script->shutdown( 1 );
-            exit( 1 );
+        $cli->error( "Cannot dump data with a schema file, please specify with --schema-file" );
+        $script->shutdown( 1 );
     }
-    $type = ereg_replace( '^ez', '', $type );
-    $dbSchema = eZDBSchema::instance( array( 'type' => $type, 'schema' => $schema ) );
+
+    if ( $options['schema-file'] )
+    {
+        $schema =& eZDBSchema::read( $options['schema-file'], false );
+        $schemaArray['schema'] = $schema;
+    }
+    if ( $schemaArray === false )
+    {
+        eZDebug::writeError( "Error reading schema from file $database" );
+        $script->shutdown( 1 );
+        exit( 1 );
+    }
+    $schemaArray['type'] = $type;
+    $dbSchema = eZDBSchema::instance( $schemaArray );
 }
 else
 {
