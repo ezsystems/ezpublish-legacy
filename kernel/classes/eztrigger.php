@@ -240,7 +240,7 @@ class eZTrigger extends eZPersistentObject
             } break;
             case EZ_WORKFLOW_STATUS_REDIRECT:
             {
-                var_dump( $workflowProcess->RedirectUrl  );
+//                var_dump( $workflowProcess->RedirectUrl  );
                 return array( 'Status' => EZ_TRIGGER_REDIRECT,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $workflowProcess->RedirectUrl );

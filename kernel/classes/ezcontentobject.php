@@ -679,7 +679,7 @@ class eZContentObject extends eZPersistentObject
                 $retNodes[] = $node->attribute( 'parent_node_id' );
             }
         }
-        var_dump($retNodes);
+//        var_dump($retNodes);
         return $retNodes;
     }
 

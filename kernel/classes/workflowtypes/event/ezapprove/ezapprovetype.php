@@ -58,7 +58,7 @@ class eZApproveType extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $parameters = $process->attribute( 'parameter_list' );
-        var_dump( $parameters );
+//        var_dump( $parameters );
         $object =& eZContentObject::fetch( $parameters['object_id'] );
         $user =& eZUser::currentUser(); //fetch( $parameters['user_id'] );
         $userGroups = $user->attribute( 'groups' );

@@ -162,7 +162,7 @@ reset( $event_list );
 while( ( $key = key( $event_list ) ) !== null )
 {
     $event =& $event_list[$key];
-    var_dump( $event  );
+//    var_dump( $event  );
     $eventType =& $event->eventType();
     $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event );
     if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )

@@ -1,4 +1,4 @@
-s<?php
+<?php
 //
 // Definition of eZContentObjectTreeNode class
 //
