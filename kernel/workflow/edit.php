@@ -65,7 +65,7 @@ switch ( $Params["FunctionName"] )
     {
         $event =& eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
                                           array( "workflow_id", "version", "placement" ) );
-        $event->mCurrentGroupNameCurrentGroupNameove( $Params["FunctionName"] == "up" ? false : true );
+        $event->move( $Params["FunctionName"] == "up" ? false : true );
         $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
         return;
     } break;
