@@ -49,6 +49,12 @@
         {attribute_edit_gui attribute=$object.data_map.email}
     </div>
 
+    <div class="block">
+    <label>Site Footer:</label><div class="labelbreak"></div>
+        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[7].id}" />
+        {attribute_edit_gui attribute=$object.data_map.footer}
+    </div>
+
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[4].id}" />
     <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$content_attributes[4].id}" value="corporate_package"  />
     

@@ -8,7 +8,7 @@
     <h1>Edit Look and Feel</h1>
     </div>
 
-    {include uri="design:content/edit_validation.tpl"}
+   
 
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" /> 
     <br/>
@@ -47,6 +47,12 @@
     <label>Admin Email:</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[5].id}" />
         {attribute_edit_gui attribute=$object.data_map.email}
+    </div>
+
+    <div class="block">
+    <label>Site Footer:</label><div class="labelbreak"></div>
+        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[7].id}" />
+        {attribute_edit_gui attribute=$object.data_map.footer}
     </div>
 
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[4].id}" />

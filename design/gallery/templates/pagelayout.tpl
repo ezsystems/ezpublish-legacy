@@ -1,17 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-{cache-block keys=array($uri_string,$current_user.is_logged_in)}
 
+{cache-block keys=array($uri_string,$current_user.is_logged_in)}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-   {*  @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
 {*    @import url("/design/gallery/stylesheets/gallery_gray.css"); *}
-    @import url("/design/gallery/stylesheets/gallery_blue.css");
 </style>
 
 </head>
@@ -102,7 +101,6 @@
     </div>
     {/section}
 {/let}
-
 {/cache-block}
 
     <div class="content">
@@ -111,18 +109,18 @@
         
         </div>
     </div>
-
+{cache-block}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
     <div id="footer">
         <div class="design">
-        
             <address>
-            Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003
-            <a href="http://ez.no/">Powered by eZ publish Content Management System</a>
-            </address>
-        
+		 {$pagedesign.data_map.footer.content|wash(html)}
+		 <br /><a href="http://ez.no/">Powered by eZ puplish E-Commerce Engine </a>
+            </address>   
         </div>
     </div>
-
+{/let}
+{/cache-block}
 </div>
 
 </body>

@@ -8,10 +8,10 @@
 {*<link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />*}
 
 <style>
-    @import url({"stylesheets/DONcore.css"|ezdesign});
-{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-*}
-     @import url("/design/corporate/stylesheets/corporate.css");
+    @import url({"stylesheets/core.css"|ezdesign});
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+
+    {*  @import url("/design/corporate/stylesheets/corporate.css");*}
 </style>
 
 </head>
@@ -142,12 +142,10 @@
 
     <div id="footer">
         <div class="design">
-        
             <address>
-            Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003
-            <a href="http://ez.no/">Powered by eZ publish Content Management System</a>
-            </address>
-        
+		{$pagedesign.data_map.footer.content|wash(html)}
+		 <br /><a href="http://ez.no/">Powered by eZ puplish E-Commerce Engine </a>
+            </address>   
         </div>
     </div>
 
