@@ -740,6 +740,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classIDString =  implode( ', ', $classIDArray );
                 $classCondition .= ' ( ' . $classIDString . ' ) AND';
             }
+            else
+            {
+                if ( count( $classIDArray ) == 0 and count( $classFilterArray ) > 0 and $classFilterType == 'include' )
+                {
+                    $classCondition = false;
+                }
+            }
         }
 
         return $classCondition;
@@ -901,6 +908,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         if ( !is_numeric( $filterAttributeID ) )
                             $filterAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $filterAttributeID );
 
+                        if ( $filterAttributeID === false )
+                        {
+                            return false;
+                        }
                         // Use the same joins as we do when sorting,
                         // if more attributes are filtered by we will append them
                         if ( $filterCount >= $sortingInfo['attributeJoinCount'] )
@@ -1401,7 +1412,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
         $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        if ( $classCondition === false )
+        {
+            $retNodeList = array();
+            eZDebug::writeNotice( "Class filter returned false" );
+            return $retNodeList;
+        }
+
         $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        if ( $attributeFilter === false )
+        {
+            $retNodeList = array();
+            eZDebug::writeNotice( "Attribute filter returned false" );
+            return $retNodeList;
+        }
         $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
         $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
 
