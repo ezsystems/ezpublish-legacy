@@ -43,9 +43,11 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 eZPreferences::setValue( $key, $value );
 
-if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
+if ( isset( $_SERVER['HTTP_REFERER'] ) )
+    return $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+else if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
     return $module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
 else
-    return $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+    eZDebug::writeError( "/user/preferences: no URI found to redirect to (both HTTP_REFERER and LastAccessesURI are unset)" );
 
 ?>
