@@ -206,7 +206,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     {
         $elementNumber = $http->postVariable( 'MainAssignmentElementNumber' );
 
-        $mainNodeID = $setPlacementNodeIDArray[1];
+        $mainNodeID = $setPlacementNodeIDArray[$elementNumber];
     }
 
     $nodesID = array();
