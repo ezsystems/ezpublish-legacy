@@ -143,17 +143,17 @@ div#leftmenu-design li.menu-level-0 a.selected
 
 div#leftmenu-design li.menu-level-1 a
 { 
-    color: #fefefe;
+    color: #0f71a6;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover
 {
-    color: #fefefe;
+    color: #0f91a6;
 }
 
 div#leftmenu-design li.menu-level-1 a.selected
 {
-    color: #fefefe;
+    color: #0f91a6;
 }
 
 
