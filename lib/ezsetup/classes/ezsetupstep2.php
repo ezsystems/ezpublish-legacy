@@ -57,6 +57,14 @@ function stepTwo( &$tpl, &$http )
         $dbMainUser    = $http->postVariable( "dbMainUser" );
     else
         $dbMainUser    = "root";
+    if ( $http->hasVariable( "charset" ) )
+        $dbCharset     = $http->postVariable( "charset" );
+    else
+        $dbCharset     = "iso-8859-1";
+    if ( $http->hasVariable( "builtin_encoding" ) )
+        $dbEncoding    = $http->postVariable( "builtin_encoding" );
+    else
+        $dbEncoding    = "true";
     /* if ( $http->hasVariable( "dbCreateUser" ) )
         $dbCreateUser  = $http->postVariable( "dbCreateUser" );
     else
@@ -67,17 +75,37 @@ function stepTwo( &$tpl, &$http )
     $tpl->setVariable( "dbName", $dbName );
     $tpl->setVariable( "dbServer", $dbServer );
     $tpl->setVariable( "dbMainUser", $dbMainUser );        
+    $tpl->setVariable( "dbCharset", $dbCharset );        
+    $tpl->setVariable( "dbEncoding", $dbEncoding );        
     // $tpl->setVariable( "dbCreateUser", $dbCreateUser );
-    
 
-      // Databases
-      $databasesArray = array();
-      foreach( $testItems["database"] as $item )
-      {
-        // Only list the ones that are actually available on the server
-           if ( $http->postVariable( $item["modulename"] ) == "true" )
-           {
-               $databasesArray[] = array( "name" => $item["modulename"], "desc" => $item["selectname"] );
+
+	// Get our values from the step before and set the in testItems
+	// also set our available Databases
+	$databasesArray = array();
+	foreach( array_keys( $testItems ) as $key )
+	{
+		if ( $http->hasVariable( $key ) )
+		{
+			switch( $http->postVariable( $key ) )
+			{
+				case "true":
+				{
+					$testItems[$key]["pass"] = true;
+					if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" )
+						$databasesArray[] = array( "name" => $testItems[$key]["modulename"], "desc" => $testItems[$key]["selectname"] );
+				}break;
+
+				case "false":
+				{
+					$testItems[$key]["pass"] = false;
+				}break;
+			}
+		}
+	}
+
+/* // This is a nice help for a user, but we should use eZDB for this. so commented out at the moment
+
             switch ( $item["modulename"] )
             {
                 case "mysql":
@@ -101,10 +129,9 @@ function stepTwo( &$tpl, &$http )
                     $tpl->setVariable( "dbServerExpl", "no server detected" );
                 }break;
             }
- 
-           }
-      }
-      $tpl->setVariable( "databasesArray", $databasesArray );
+*/
+	
+	$tpl->setVariable( "databasesArray", $databasesArray );
     
     if ( $http->hasVariable( "dbServer" ) )
         $tpl->setVariable( "dbServer", $http->postVariable( "dbServer" ) );
@@ -114,16 +141,19 @@ function stepTwo( &$tpl, &$http )
         $tpl->setVariable( "dbMainUser", $http->postVariable( "dbMainUser" ) );            
     if ( $http->hasVariable( "dbCreateUser" ) )
         $tpl->setVariable( "dbCreateUser", $http->postVariable( "dbCreateUser" ) );
+    if ( $http->hasVariable( "dbCharset" ) )
+        $tpl->setVariable( "dbCharset", $http->postVariable( "dbCharset" ) );
+    if ( $http->hasVariable( "dbEncoding" ) )
+        $tpl->setVariable( "dbEncoding", $http->postVariable( "dbEncoding" ) );
 
-    // Set available db types in case we have to go back to step two
-    $availableDatabasesArray2 = array();
-      foreach( $testItems["database"] as $item )
-      {
-        $availableDatabasesArray2[] = array( "name" => $item["modulename"], 
-                                            "pass" => $http->postVariable( $item["modulename"] ) );
-    }
-    $tpl->setVariable( "databasesArray2", $availableDatabasesArray2 );
-        
+	// Set variables to handover to next step
+	$handoverResult = array();
+	foreach( array_keys( $testItems ) as $key )
+	{
+		$handoverResult[] = array( "name" => $key, "pass" => $testItems[$key]["pass"] ? "true" : "false" );
+	}
+	$tpl->setVariable( "handover", $handoverResult );
+
 
     $tpl->display( "design/standard/templates/setup/step2.tpl" );        
 }

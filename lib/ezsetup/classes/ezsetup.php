@@ -129,76 +129,9 @@ switch( $step )
 */
 function configuration()
 {
-    $testItems = array();
-    
-    // What PHP version do we need. If a special version for an OS is needed, put it
-    // in "req". See the example for "windows".    
-	$testItems["general"]["phpversion"]["desc"] = "PHP Version";
-	$testItems["general"]["phpversion"]["minversion"] = "4.0.0";
-	$testItems["general"]["phpversion"]["req"] = true;
-	$testItems["general"]["phpversion"]["req_desc"] = $testItems["general"]["phpversion"]["minversion"];
-	$testItems["general"]["phpversion"]["error"]["message"] = "Your version of PHP is too old.";
-	$testItems["general"]["phpversion"]["error"]["suggestion"] = "<p>If you are using a webhoster, please ask them if they could update PHP to the newest version.</p>
-<p>If you are setting up your own server, please update to the newest version of <a href=\"http://www.php.net\">PHP</a>.</p>";
-
-    
-
-	//
-    // Databases that eZ publish supports and their error messages.
-	// Make them all required, ezsetupstep1 will then change some to not required if one is available.
-	$testItems["database"]["mysql"]["desc"]       = "PHP module: MySQL";
-	$testItems["database"]["mysql"]["req"]        = true;
-	$testItems["database"]["mysql"]["modulename"] = "mysql";
-	$testItems["database"]["mysql"]["selectname"] = "MySQL";
-	$testItems["database"]["mysql"]["error"]["1044"]["message"]    = "Access denied for this user and database combination!";
-	$testItems["database"]["mysql"]["error"]["1044"]["suggestion"] = "You probably have access to only one database and are not allowed to create new ones. Please go back and enter the name of that database.";	
-	$testItems["database"]["mysql"]["error"]["1045"]["message"]    = "Wrong username and/ or password!";
-	$testItems["database"]["mysql"]["error"]["1045"]["suggestion"] = "Please go back and reenter the username and password.";
-	$testItems["database"]["mysql"]["error"]["1049"]["message"]    = "Unknown database!";
-	$testItems["database"]["mysql"]["error"]["1049"]["suggestion"] = "The provided database doesn't exist!";
-	$testItems["database"]["mysql"]["error"]["2005"]["message"]    = "No running MySQL server found on provided hostname!";
-	$testItems["database"]["mysql"]["error"]["2005"]["suggestion"] = "Please go back and enter the correct database hostname.";
-	$testItems["database"]["mysql"]["error"]["1007"]["message"]    = "Database exists.";
-	$testItems["database"]["mysql"]["error"]["1007"]["suggestion"] = "Please go back and choose a different database name.";					
-	
-	$testItems["database"]["postgresql"]["desc"]       = "PHP module: PostgreSQL";
-	$testItems["database"]["postgresql"]["req"]        = true;
-	$testItems["database"]["postgresql"]["modulename"] = "postgresql";
-	$testItems["database"]["postgresql"]["selectname"] = "PostgreSQL";
-	
-	$testItems["database"]["oracle"]["desc"]       = "PHP module: Oracle";
-	$testItems["database"]["oracle"]["req"]        = true;
-	$testItems["database"]["oracle"]["modulename"] = "oracle";
-	$testItems["database"]["oracle"]["selectname"] = "Oracle";
-
-	
-    // 
-    // Modules that are required or useful for eZ publish
-	$testItems["modules"]["libgd"]["desc"]       = "PHP module: libGD";
-	$testItems["modules"]["libgd"]["req"]        = false;
-	$testItems["modules"]["libgd"]["modulename"] = "gd";
-	$testItems["modules"]["libgd"]["error"]["general"]["message"]    = "The required PHP module \"libGD\" is not installed.";
-	$testItems["modules"]["libgd"]["error"]["general"]["suggestion"] = "Please ask your webhoster to install this module or, if you have your own webserver, install it yourself.";		
-    
-	
-	//
-	// Test for filepermissions
-    $testItems["files"]["cachedirs"]["desc"] = "Cache directories";
-    $testItems["files"]["cachedirs"]["file"] = "var/cache";
-	$testItems["files"]["cachedirs"]["req"]  = true;
-	$testItems["files"]["cachedirs"]["error"]["message"]    = "The webserver can't write in cache directories.";
-	$testItems["files"]["cachedirs"]["error"]["suggestion"] = "Change the permissions of the directory \"" . eZSys::siteDir() . $testItems["files"]["cachedirs"]["file"] . "\" to 775 or 777.";
-
-	$testItems["files"]["ini"]["desc"] = "Site configuration file";
-	$testItems["files"]["ini"]["file"] = "settings/site.ini";
-	$testItems["files"]["ini"]["req"] = true;
-	$testItems["files"]["ini"]["error"]["message"] = "The webserver can't write the site configuration file \"site.ini\"!";
-	$testItems["files"]["ini"]["error"]["suggestion"] = "Change the permissions of the file \"settings/site.ini\" to 664 or 666.";
-	
-
-    return $testItems;
+	$config = eZINI::instance( "setup.ini" );
+	return $config->getNamedArray();
 }
-
 
 // Print debug information and exit.
 eZDebug::addTimingPoint( "End" );

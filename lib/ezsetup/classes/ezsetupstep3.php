@@ -56,31 +56,44 @@ function stepThree( &$tpl, &$http )
     $dbParams["database"] = trim( $http->postVariable( "dbName" ) );
     $dbParams["user"]     = trim( $http->postVariable( "dbMainUser" ) );
     $dbParams["password"] = $http->postVariable( "dbMainPass" );
+    $dbParams["charset"]  = $http->postVariable( "dbCharset" );
+    $dbParams["builtin_encoding"]  = $http->postVariable( "dbEncoding" );
     /* $dbCreateUser  = $http->postVariable( "dbCreateUser" );
     $dbCreatePass  = $http->postVariable( "dbCreatePass" );
     $dbCreatePass2 = $http->postVariable( "dbCreatePass2" ); */
     
+
+	// Complete testItems with the test results
+	foreach( array_keys( $testItems ) as $key )
+	{
+		if ( $http->hasVariable( $key ) )
+		{
+			switch( $http->postVariable( $key ) )
+			{
+				case "true":
+				{
+					$testItems[$key]["pass"] = true;
+				}break;
+
+				case "false":
+				{
+					$testItems[$key]["pass"] = false;
+				}break;
+			}
+		}
+	}
+
+	
     // Set template variables
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
     $tpl->setVariable( "dbName", $dbParams["database"] );
     $tpl->setVariable( "dbMainUser", $dbParams["user"] );
+    $tpl->setVariable( "charset", $dbParams["charset"] );
+    $tpl->setVariable( "builtin_encoding", $dbParams["builtin_encoding"] );
     $tpl->setVariable( "dbMainPass", $dbParams["password"] );
     /*$tpl->setVariable( "dbCreateUser", $dbCreateUser );
     $tpl->setVariable( "dbCreatePass", $dbCreatePass );*/
-    
-	// TODO: Choose charset!
-	$dbParams["charset"] = "iso-8859-1";
-	$dbParams["builtin_encoding"] = "true";
-	
-    // Set available db types in case we have to go back to step two
-    $availableDatabasesArray = array();
-    foreach( $testItems["database"] as $item )
-    {
-		$availableDatabasesArray[] = array( "name" => $item["modulename"], 
-                                            "pass" => $http->postVariable( $item["modulename"] ) );
-    }
-    $tpl->setVariable( "databasesArray", $availableDatabasesArray );
     
 
     $tpl->setVariable( "createDb", false );
@@ -94,11 +107,10 @@ function stepThree( &$tpl, &$http )
 	$dbModuleFile = "lib/ezdb/classes/" . $dbModule . ".php";
 	if ( file_exists( $dbModuleFile ) )
 		include_once( $dbModuleFile );
-	else
-		$tpl->setVariable( "dbConnect", "don't know database type, sorry." );	
 	
 	
 	// Try to get a connection to the database
+	eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
 	$dbObject = new $dbModule( $dbParams );
 	
 	if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
@@ -144,7 +156,7 @@ function stepThree( &$tpl, &$http )
     {
         $continue = false;
         $tpl->setVariable( "createSql", true );
-	    $sqlFile = "kernel/sql/mysql/kernel_clean.sql";
+	    $sqlFile = "kernel/sql/" . $dbParams["type"] . "/kernel_clean.sql";
 		$sqlArray = prepareSqlQuery( $sqlFile );
 
 		if ( $sqlArray && is_array( $sqlArray ) )
@@ -153,7 +165,6 @@ function stepThree( &$tpl, &$http )
 			{
 				if ( trim( $singleQuery ) != "" )
 				{
-//				print "Query: $singleQuery<br />";
 					$dbObject->query( $singleQuery );
 					if ( $dbObject->errorNumber() != 0 )
 						break;
@@ -193,6 +204,15 @@ function stepThree( &$tpl, &$http )
         $tpl->setVariable( "errorSuggestion", $error["suggest"] );
     }
     
+	// Set variables to handover to next step
+	$handoverResult = array();
+	foreach( array_keys( $testItems ) as $key )
+	{
+		$handoverResult[] = array( "name" => $key, "pass" => $testItems[$key]["pass"] ? "true" : "false" );
+	}
+	$tpl->setVariable( "handover", $handoverResult );
+
+
     // Display template
     $tpl->display( "design/standard/templates/setup/step3.tpl" );    
 }
@@ -201,17 +221,15 @@ function stepThree( &$tpl, &$http )
 
 
 /*!
-
 	Try to get some error explanations from config or show database error
-
 */
 function errorHandling( $testItems, $dbParams, $dbObject )
 {
 	$error = array();
-	if ( isset( $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()] ) )
+	if ( isset( $testItems[$dbParams["type"]]["error_msg_" . $dbObject->errorNumber()] ) )
 	{
-		$error["desc"] = $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()]["message"];
-		$error["suggest"] = $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()]["suggestion"];
+		$error["desc"] = $testItems[$dbParams["type"]]["error_msg_" . $dbObject->errorNumber()];
+		$error["suggest"] = $testItems[$dbParams["type"]]["error_sol_" . $dbObject->errorNumber()];
 	}
 	else
 	{
