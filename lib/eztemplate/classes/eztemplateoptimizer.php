@@ -86,13 +86,18 @@ class eZTemplateOptimizer
                 $node[10] = $resourceData['class-info'][$attribute];
                 $node[2] = array( $node[10] => $file );
 
+                return true;
             }
             else /* If we can't find it in the lookup table then it's simply
                   * not there, so we can just kill the array. */
             {
                 $node[2] = array( 'dummy' => 'foo' );
+                return false;
             }
-            return true;
+            /* Added as an extra fall back, this point should never be reached,
+             * but if it does then we make sure not to mess up the original
+             * array in the calling function. */
+            return false;
         }
         else
         {
@@ -188,6 +193,9 @@ class eZTemplateOptimizer
                         $ret = eZTemplateOptimizer::optimizeResourceAcquisition(
                             $useComments, $php, $tpl,
                             $tree[1][$key], $tree[1][$key + 1], $resourceData );
+                        /* We only unset the tree node when the optimization
+                         * function returns false, as that means that the
+                         * optimization could not be made. */
                         if ($ret)
                         {
                             unset( $tree[1][$key] );
