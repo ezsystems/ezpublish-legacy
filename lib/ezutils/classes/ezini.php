@@ -293,7 +293,8 @@ class eZINI
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $md5_input .= '-' . eZTextCodec::internalCharset();
         }
-        $cachedFile = $cachedDir . md5( $md5_input ) . ".php";
+        $fileName = md5( $md5_input ) . ".php";
+        $cachedFile = $cachedDir . $fileName;
         $this->CacheFile = $cachedFile;
 
         $inputTime = false;
@@ -346,6 +347,10 @@ class eZINI
         {
             $this->parse( $inputFiles, $iniFile, false );
             $this->saveCache( $cachedFile );
+
+            // Write log message to storage.log
+            include_once( 'lib/ezutils/classes/ezlog.php' );
+            eZLog::writeStorageLog( $fileName, $cachedDir );
         }
     }
 
