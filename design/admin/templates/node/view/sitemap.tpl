@@ -9,7 +9,7 @@
                                             hash( parent_node_id, $node.node_id ) ) )}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
-         node_name=$node.name}
+         node_name=$node.name|wash}
 
 <div class="context-block">
 
