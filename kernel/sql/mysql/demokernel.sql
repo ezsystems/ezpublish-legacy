@@ -8611,27 +8611,30 @@ INSERT INTO ezsession VALUES ('cdd7e91fb890f84533998dec0eb6569d',1034523708,'eZE
 INSERT INTO ezsession VALUES ('cdb8566a979b98a649140e298541c6fd',1034525939,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 INSERT INTO ezsession VALUES ('592c294778368d74296d4361d91eae0f',1034528766,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 INSERT INTO ezsession VALUES ('d3802b39b6395a29bbf6ce103955a896',1034581976,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('513f511897b3a7bf58533f8a8d0996fd',1036245830,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
+INSERT INTO ezsession VALUES ('513f511897b3a7bf58533f8a8d0996fd',1036250554,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 INSERT INTO ezsession VALUES ('9f69cb65ba8a7394527b9fe4bc9d0d6e',1036142663,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 INSERT INTO ezsession VALUES ('88f41e27ed36a4c60b4f711480eadffb',1036166245,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 INSERT INTO ezsession VALUES ('b8fe62ad6be08482cd8381ee02d1a698',1036163567,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('13a1fbce0b1bba491c2ac80fe3a8395b',1036248851,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
+INSERT INTO ezsession VALUES ('13a1fbce0b1bba491c2ac80fe3a8395b',1036309535,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 INSERT INTO ezsession VALUES ('b8003761a93c3d8874e703187fd9f3b0',1036162506,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 INSERT INTO ezsession VALUES ('e49707a2980e212dfd7d449b836f34eb',1036223372,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 INSERT INTO ezsession VALUES ('090269585ff6a391178434dfeec72302',1036153733,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 INSERT INTO ezsession VALUES ('ce761a9cd05e4f7e912e558a275ca57d',1036247720,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}BrowseFromPage|s:19:\"/content/edit/148/5\";BrowseActionName|s:17:\"AddNodeAssignment\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;');
 INSERT INTO ezsession VALUES ('2d1299c3dbbb0d4d21c3de6862dfadc5',1036245928,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}');
 INSERT INTO ezsession VALUES ('2e85864e35f8b48c45b5d31c94c25bb9',1036234938,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('799edd0e653d2111111332a04d0c8d27',1036241644,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|N;');
+INSERT INTO ezsession VALUES ('799edd0e653d2111111332a04d0c8d27',1036255264,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZUserLoggedInID|s:2:\"14\";');
 INSERT INTO ezsession VALUES ('686d88c676bf34e1f12bba67871d90a4',1036229212,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
 INSERT INTO ezsession VALUES ('bc7f8b097cb625508475be441d44c687',1036243100,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
 INSERT INTO ezsession VALUES ('88a01ba6527b3cab7a3e9157ec6609dc',1036240256,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}');
 INSERT INTO ezsession VALUES ('6585a4db2725203b0c207f4123d91ac3',1036239856,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('1b525e9e45df13bac7a341c509678562',1036245791,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
+INSERT INTO ezsession VALUES ('1b525e9e45df13bac7a341c509678562',1036309553,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
 INSERT INTO ezsession VALUES ('461887c6260b5fa2dedd6ad6c4432a1f',1036248753,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
 INSERT INTO ezsession VALUES ('1d2eb0341be812129c031c16ecd37f6d',1036247875,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('86c8e6f7a340a48d287e70aa4fbbf98c',1036248581,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('9e0b4e758b70a6bad383b9ee8180e576',1036249250,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}');
+INSERT INTO ezsession VALUES ('86c8e6f7a340a48d287e70aa4fbbf98c',1036251205,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|s:2:\"14\";');
+INSERT INTO ezsession VALUES ('9e0b4e758b70a6bad383b9ee8180e576',1036251223,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
+INSERT INTO ezsession VALUES ('543f27feb1f23dc0bb4a1f9553edbd1c',1036303473,'!eZExecutionStack|');
+INSERT INTO ezsession VALUES ('8e111e92d4d8fa481d4ae91d712d4def',1036309033,'!eZExecutionStack|');
+INSERT INTO ezsession VALUES ('f395fa825f6e3731174180d832e6c53b',1036309033,'!eZExecutionStack|');
 
 #
 # Table structure for table 'eztask'

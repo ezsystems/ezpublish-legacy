@@ -171,6 +171,13 @@ class eZImage extends eZPersistentObject
         }
     }
 
+    function &fetchList( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZImage::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
+    }
+
     function &remove( $id, $version )
     {
         if( $version == null )
