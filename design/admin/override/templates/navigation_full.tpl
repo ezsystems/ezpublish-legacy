@@ -1,15 +1,18 @@
 {* Show the contents of the current node (will probably use an override)*}
 
 <div class="viewbar">
-{$node.name}, [{$node.object.class_name}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id} <br />
-{*
-Created: {$node.object.owner.name} ({$node.object.published|l10n(shortdatetime)})<br />
-Last modified: {$node.object.current.creator.name} ({$node.object.modified|l10n(shortdatetime)})<br />
-Number of versions: {$node.object.versions|count()}<br />
-Number of children: {$node.children_count}<br />
-Number of releated objects: {$node.object.related_contentobject_count}<br />
-Number objects using this one: {$node.object.reverse_related_contentobject_count}<br />
-*}
+<table>
+<tr>
+<td>
+{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )}
+</td>
+<td>
+Name: {$node.name}
+<br />
+Type: {$node.object.class_name}<br />
+</td>
+</tr>
+</table>
 <table>
 <tr>
 <th>Created</th>
