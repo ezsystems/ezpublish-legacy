@@ -65,7 +65,9 @@ class eZStepLanguageOptions extends eZStepInstaller
         $regionalInfo = array();
         $regionalInfo['language_type'] = 1 ;
         $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
-        $languages = $this->Http->postVariable( 'eZSetupLanguages' );
+        $languages = array();
+        if ( $this->Http->hasPostVariable( 'eZSetupLanguages' ) )
+            $languages = $this->Http->postVariable( 'eZSetupLanguages' );
         if ( !in_array( $primaryLanguage, $languages ) )
             $languages[] = $primaryLanguage;
         $regionalInfo['primary_language'] = $primaryLanguage;

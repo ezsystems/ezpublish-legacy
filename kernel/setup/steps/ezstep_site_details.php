@@ -278,6 +278,10 @@ class eZStepSiteDetails extends eZStepInstaller
             }
         }
 
+        $this->Tpl->setVariable( 'db_not_empty', 0 );
+        $this->Tpl->setVariable( 'db_already_chosen', 0 );
+        $this->Tpl->setVariable( 'site_access_illegal', 0 );
+        $this->Tpl->setVariable( 'site_access_illegal_name', 0 );
         foreach ( $this->Error as $key => $error )
         {
             switch ( $error )

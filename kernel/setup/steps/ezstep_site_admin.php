@@ -101,6 +101,8 @@ class eZStepSiteAdmin extends eZStepInstaller
         {
             $user['password'] = $this->Http->postVariable( 'eZSetup_site_templates_password1' );
         }
+        if ( !isset( $user['password'] ) )
+            $user['password'] = '';
         $this->PersistenceList['admin'] = $user;
 
         return ( count( $this->Error ) == 0 );
@@ -119,6 +121,12 @@ class eZStepSiteAdmin extends eZStepInstaller
     */
     function &display()
     {
+        $this->Tpl->setVariable( 'first_name_missing', 0 );
+        $this->Tpl->setVariable( 'last_name_missing', 0 );
+        $this->Tpl->setVariable( 'email_missing', 0 );
+        $this->Tpl->setVariable( 'email_invalid', 0 );
+        $this->Tpl->setVariable( 'password_missmatch', 0 );
+        $this->Tpl->setVariable( 'password_missing', 0 );
         foreach ( $this->Error as $key => $error )
         {
             switch ( $error )

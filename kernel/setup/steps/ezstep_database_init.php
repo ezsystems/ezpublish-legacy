@@ -190,6 +190,8 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( !isset( $this->PersistenceList['database_info']['password'] ) or
              !$this->PersistenceList['database_info']['password'] )
             $this->PersistenceList['database_info']['password'] = $config->variable( 'DatabaseSettings', 'DefaultPassword' );
+        if ( !isset( $this->PersistenceList['database_info']['socket'] ) )
+            $this->PersistenceList['database_info']['socket'] = '';
 
         if ( $this->Http->postVariable( 'eZSetup_current_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
         {
@@ -207,6 +209,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $databaseMap = eZSetupDatabaseMap();
 
         $dbError = 0;
+        $dbNotEmpty = 0;
         switch ( $this->Error )
         {
             case EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
@@ -242,7 +245,7 @@ class eZStepDatabaseInit extends eZStepInstaller
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'The selected database was not empty, please choose from the alternatives below.' ),
                                   'number' => EZ_SETUP_DB_ERROR_NOT_EMPTY );
-                $this->Tpl->setVariable( 'db_not_empty', 1 );
+                $dbNotEmpty = 1;
                 break;
             }
             case EZ_SETUP_DB_ERROR_NO_DATABASES:
@@ -269,6 +272,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $this->Tpl->setVariable( 'db_error', $dbError );
         $this->Tpl->setVariable( 'database_info', $databaseInfo );
         $this->Tpl->setVariable( 'regional_info', $regionalInfo );
+        $this->Tpl->setVariable( 'db_not_empty', $dbNotEmpty );
 
         $result = array();
         // Display template
