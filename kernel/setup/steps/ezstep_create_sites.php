@@ -211,6 +211,7 @@ class eZStepCreateSites extends eZStepInstaller
         $ini->setVariable( 'SiteAccessSettings', 'SiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+        $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
         $defaultAccess = 'admin';
         if ( isset( $accessMap['accesses'][0] ) )
             $defaultAccess = $accessMap['accesses'][0];
@@ -344,6 +345,7 @@ class eZStepCreateSites extends eZStepInstaller
                                                          'User' => $dbUser,
                                                          'Password' => $dbPwd,
                                                          'Charset' => $charset );
+            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $sitePackage['identifier'] );
             if ( trim( $dbSocket ) != '' )
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else

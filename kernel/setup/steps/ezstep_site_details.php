@@ -210,6 +210,9 @@ class eZStepSiteDetails extends eZStepInstaller
     {
         $config =& eZINI::instance( 'setup.ini' );
 
+        $availableDatabaseList = $this->PersistenceList['database_info_available'];
+        $databaseList = $availableDatabaseList;
+        $databaseCounter = 0;
         $templates = array();
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
@@ -218,6 +221,25 @@ class eZStepSiteDetails extends eZStepInstaller
                 $templates[$counter]['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
             if ( !isset( $templates[$counter]['email'] ) )
                 $templates[$counter]['email'] = 'admin@localhost';
+            if ( !isset( $templates[$counter]['database'] ) )
+            {
+                $matchedDBName = false;
+                // First try database name match
+                foreach ( $databaseList as $databaseName )
+                {
+                    $dbName = trim( strtolower( $databaseName ) );
+                    $identifier = trim( strtolower( $templates[$counter]['identifier'] ) );
+                    if ( $dbName == $identifier )
+                    {
+                        $matchedDBName = $databaseName;
+                        break;
+                    }
+                }
+                if ( !$matchedDBName )
+                    $matchedDBName = $databaseList[$databaseCounter++];
+                $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
+                $templates[$counter]['database'] = $matchedDBName;
+            }
         }
 
         foreach ( $this->Error as $key => $error )
@@ -248,7 +270,7 @@ class eZStepSiteDetails extends eZStepInstaller
         }
 
         $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
-        $this->Tpl->setVariable( 'database_available', $this->PersistenceList['database_info_available'] );
+        $this->Tpl->setVariable( 'database_available', $availableDatabaseList );
         $this->Tpl->setVariable( 'site_templates', $templates );
 
         // Return template and data to be shown
