@@ -22,6 +22,8 @@ links to clickable links.
 - Some fixes to session cleanup.
 - Added navigation parts to provide tabbed interface.
 - User logins are now only possible when the object is published.
+- Fixed problem with indexing objects in search engine
+- Fixed advanced search attribute list, it now only shows searchable attributes.
 
 *SDK :
 
