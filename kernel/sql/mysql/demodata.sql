@@ -16,6 +16,7 @@
 
 
 INSERT INTO ezbasket (id, session_id, productcollection_id) VALUES (1,'1edf19f86d12d9d03dc7af4b61e36ee3',1);
+INSERT INTO ezbasket (id, session_id, productcollection_id) VALUES (2,'babf568af02debb9bec06e284b337d97',1);
 
 --
 -- Dumping data for table 'ezbinaryfile'
@@ -308,6 +309,13 @@ INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, cu
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (113,14,4,7,'New Forum message',1,0,0,0,0,'');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (114,14,5,0,'New',1,0,0,0,0,'');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (115,14,5,0,'New',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (116,10,3,13,'New Comment',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (117,10,3,13,'New Comment',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (118,10,3,13,'New Comment',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (119,10,4,7,'New Forum message',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (120,10,5,9,'New Product review',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (121,10,3,13,'New Comment',1,0,0,0,0,'');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (122,10,3,13,'New Comment',1,0,0,0,0,'');
 
 --
 -- Dumping data for table 'ezcontentobject_attribute'
@@ -601,6 +609,31 @@ INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (162,'eng-GB',2,60,142,'',0,0);
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (161,'eng-GB',2,60,141,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\">\n  <paragraph>Having difficulties getting away from it all? Have you forgotten the small thing is life? Remember the humming of a bee? The smell of pine? The beauty of a snowy mountain a cold clear winter day?</paragraph>\n  <paragraph>Here is a chance to escape from the stressful, noisy and hectic day you encounter every day. Get your well-deserved breathing space in this gallery where we salute the beauty of Mother Nature, and get away from it all. Through White box you can dream away for a few minutes.  With some much beauty surrounding us many people still forget the beauty right outside our window. Remember the sounds, the smells, the feelings and not to forget the sights?</paragraph>\n  <paragraph>Let your mind drift away!</paragraph>\n  <paragraph>White box presents the following galleries:    \n    <ul>\n      <li>Water</li>\n      <li>Forest</li>\n      <li>Flowers</li>\n      <li>Landscape</li>\n      <li>Animals</li>\n    </ul>\n  </paragraph>\n  <paragraph>\n    <emphasize>All that is gold does not glitter,Not all those who wander are lostThe old that is strong does not wither,Deep roots are not reached by frost?.(J. R. R. Tolkien &quot;Lord of the Rings&quot; )</emphasize>\n  </paragraph>\n</section>',1045487555,0);
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (160,'eng-GB',2,60,140,'About',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (308,'eng-GB',1,116,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (309,'eng-GB',1,116,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (310,'eng-GB',1,116,151,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (311,'eng-GB',1,117,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (312,'eng-GB',1,117,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (313,'eng-GB',1,117,151,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (314,'eng-GB',1,118,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (315,'eng-GB',1,118,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (316,'eng-GB',1,118,151,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (317,'eng-GB',1,119,127,'New topic',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (318,'eng-GB',1,119,128,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (319,'eng-GB',1,120,135,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (320,'eng-GB',1,120,136,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (321,'eng-GB',1,120,137,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (322,'eng-GB',1,120,138,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (323,'eng-GB',1,120,139,'',1045487555,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (324,'eng-GB',1,121,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (325,'eng-GB',1,121,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (326,'eng-GB',1,121,151,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (327,'eng-GB',1,122,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (328,'eng-GB',1,122,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (329,'eng-GB',1,122,151,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (327,'eng-GB',2,122,149,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (328,'eng-GB',2,122,150,'',0,0);
+INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float) VALUES (329,'eng-GB',2,122,151,'',0,0);
 
 --
 -- Dumping data for table 'ezcontentobject_link'
@@ -722,6 +755,13 @@ INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, conte
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (114,'New',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (115,'New',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (60,'About',2,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (116,'New Comment',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (117,'New Comment',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (118,'New Comment',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (119,'New Forum message',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (120,'New Product review',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (121,'New Comment',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (122,'New Comment',1,'eng-GB','eng-GB');
 
 --
 -- Dumping data for table 'ezcontentobject_tree'
@@ -902,6 +942,14 @@ INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, 
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (552,81,14,2,1054024397,1054024457,1,0,0);
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (553,80,14,2,1054024467,1054024488,1,0,0);
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (576,60,14,2,1054027273,1054027305,1,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (577,116,10,1,1054035810,1054035810,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (578,117,10,1,1054035876,1054035876,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (579,118,10,1,1054035876,1054035876,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (580,119,10,1,1054035900,1054035900,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (581,120,10,1,1054035918,1054035918,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (582,121,10,1,1054035964,1054035964,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (583,122,10,1,1054036008,1054036008,0,0,0);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (584,122,10,2,1054036056,1054036056,0,0,0);
 
 --
 -- Dumping data for table 'ezdiscountrule'
@@ -1112,6 +1160,14 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (263,81,2,43,9,1,1,0,0);
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (264,80,2,43,9,1,1,0,0);
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (287,60,2,16,9,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (288,116,1,29,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (289,117,1,29,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (290,118,1,29,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (291,119,1,50,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (292,120,1,74,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (293,121,1,29,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (294,122,1,29,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (295,122,2,29,1,1,1,0,0);
 
 --
 -- Dumping data for table 'eznotificationcollection'
@@ -1260,12 +1316,13 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,3,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,9,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (340,17,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (341,17,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (342,17,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (343,17,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (344,17,'create','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (345,17,'*','shop','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (356,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (355,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (354,17,'login','user','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (353,17,'read','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (357,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (358,17,'*','shop','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (360,17,'edit','content','');
 
 --
 -- Dumping data for table 'ezpolicy_limitation'
@@ -1275,13 +1332,14 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (257,333,'Subtree',0,'read','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (259,333,'Class',0,'read','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (248,326,'Subtree',0,'read','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (262,340,'Class',0,'read','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (263,342,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (264,342,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (265,343,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (266,343,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (267,344,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (268,344,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (282,357,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (281,357,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (280,356,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (279,356,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (278,355,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (277,355,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (276,353,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (283,360,'Owner',0,'edit','content');
 
 --
 -- Dumping data for table 'ezpolicy_limitation_value'
@@ -1303,36 +1361,38 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (542,259
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (541,259,4);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (540,259,3);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (539,259,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (572,262,1);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (573,262,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (574,262,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (575,262,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (576,262,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (577,262,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (578,262,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (579,262,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (580,262,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (581,262,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (582,262,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (583,262,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (584,262,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (585,262,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (586,262,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (587,262,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (588,262,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (589,262,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (590,262,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (591,262,13);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (592,262,13);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (593,263,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (594,264,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (595,264,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (596,265,13);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (597,266,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (598,266,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (599,267,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (600,268,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (601,268,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (661,282,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (660,282,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (659,281,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (658,280,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (657,280,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (656,279,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (655,278,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (654,278,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (653,277,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (652,276,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (651,276,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (650,276,12);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (649,276,12);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (648,276,11);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (647,276,11);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (646,276,10);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (645,276,10);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (644,276,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (643,276,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (642,276,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (641,276,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (640,276,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (639,276,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (638,276,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (637,276,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (636,276,5);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (635,276,5);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (634,276,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (633,276,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (632,276,1);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (662,283,1);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (663,283,1);
 
 --
 -- Dumping data for table 'ezproductcollection'
@@ -1346,6 +1406,7 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (601,268
 
 
 INSERT INTO ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) VALUES (1,1,76,1,0,1,0,0);
+INSERT INTO ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) VALUES (2,1,76,1,0,1,0,0);
 
 --
 -- Dumping data for table 'ezproductcollection_item_opt'
