@@ -190,8 +190,60 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // Create the override cache
         $overrideCacheFile = $this->createOverrideCache();
 
-        include_once( $overrideCacheFile );
-        $match['file'] = overrideFile( "/" . $path, $matchKeys );
+        if ( $overrideCacheFile )
+        {
+            include_once( $overrideCacheFile );
+            $match['file'] = overrideFile( "/" . $path, $matchKeys );
+        }
+        else
+        {
+            $template = "/" . $path;
+            $matchFileArray =& $GLOBALS['eZTemplateOverrideArray'];
+            if ( !is_array( $matchFileArray ) )
+            {
+                $matchFileArray =& eZTemplateDesignResource::overrideArray();
+            }
+
+            $matchFile = $matchFileArray[$template];
+
+            if ( isset( $matchFile['custom_match'] ) )
+            {
+                foreach ( $matchFile['custom_match'] as $customMatch )
+                {
+                    $matchOverride = true;
+                    if ( count( $customMatch['conditions'] ) > 0 )
+                    {
+                        foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
+                        {
+                            if ( $matchKeys[$conditionKey] == $customMatch['conditions'][$conditionKey] )
+                            {
+                            }
+                            else
+                            {
+                                $matchOverride = false;
+                            }
+                        }
+                        if ( $matchOverride == true )
+                        {
+                            $match['file'] = $customMatch['match_file'];
+                            break;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    else
+                    {
+                        // Default match without conditions
+                        $match['file'] = $customMatch['match_file'];
+                    }
+                }
+            }
+            else
+            {
+                $match['file'] = $matchFile['base_dir'] . $matchFile['template'];
+            }
+        }
 
         /// OLD system
 
@@ -241,7 +293,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function createOverrideCache()
     {
-        $overrideCacheFile = false;
+        global $eZTemplateOverrideCacheNoPermission;
+        if ( $eZTemplateOverrideCacheNoPermission == "nocache" )
+        {
+            return false;
+        }
 
         $onlyStandard = $this->OnlyStandard;
 
@@ -259,7 +315,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
             // Generate PHP compiled cache file.
             include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-            $phpCache = new eZPHPCreator( "var/cache/override/", "override_$overrideKey.php" );
+            $phpCache = new eZPHPCreator( "var/cache/override", "override_$overrideKey.php" );
 
             $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
             $i = 0;
@@ -315,7 +371,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $phpCode .= "}\n";
 
             $phpCache->addCodePiece( $phpCode );
-            $phpCache->store();
+            if ( $phpCache->store() == true )
+            {
+
+            }
+            else
+            {
+                // Cache could not be created
+                eZDebug::writeError( "Could not write template override cache file, check permissions in var/cache/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                $GLOBALS['eZTemplateOverrideArray'] =& $matchFileArray;
+                $eZTemplateOverrideCacheNoPermission = 'nocache';
+                $overrideCacheFile = false;
+
+            }
         }
 
         return $overrideCacheFile;
