@@ -130,7 +130,10 @@ eZTime:
   http://ez.no/community/bug_reports/debug_output
 - Fixed date operator to use correct first day of week.
   http://ez.no/community/bug_reports/ezdateoperatorcollection_php_doesn_t_fully_support_locales
-
+- Fixed not checking existense of "UseFullUrl" in layout.ini.
+  http://www.ez.no/community/bug_reports/usefullurl_missing_in_layout_ini_may_provoke_apache_crash_if_template_caching_is_on
+- Fixed bug of zero is stripped off in template.
+  http://ez.no/community/bug_reports/template_bug_zero_is_stripped_off
 
 *Library:
 

@@ -390,8 +390,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             } break;
                         }
                     }
-                    if ( !empty( $element["text"] ) )
+                    if ( $element["text"] !== '' )
+                    {
                         $tempTextElements[] =& $element;
+                    }
                 } break;
                 case EZ_ELEMENT_END_TAG:
                 case EZ_ELEMENT_SINGLE_TAG:
