@@ -2,6 +2,13 @@ Changes from 3.2-5 to 3.2-6
 
 *Kernel:
 
+*Datatypes:
+- Made sure eZOption and eZRangeOption does no initialization when an attribute is copied
+  (e.g. on when creating a new version).
+- Made sure eZImage, eZMedia and eZENUM only copies attribute data when
+  supplied version is non-false.
+
+
 *Bugfixes:
 - Made sure shop/confirmorder does not crash when order ID is missing or wrong.
   http://ez.no/community/bug_reports/error_in_confirmorder_php

@@ -25,6 +25,10 @@ Changes from 3.3-3 to 3.3-4
 - Added remove empty ini block function for datatype inisetting.
 - eZBinaryFile now uses eZMimeType for mime type handling. Merged from trunk (Rev. 5194)
 - eZMedia now uses eZMimeType for mime type handling.
+- Made sure eZOption and eZRangeOption does no initialization when an attribute is copied
+  (e.g. on when creating a new version).
+- Made sure eZImage, eZMedia and eZENUM only copies attribute data when
+  supplied version is non-false.
 
 *Bugs:
 - Fixed broken datatype range option.
