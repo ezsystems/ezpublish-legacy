@@ -44,6 +44,12 @@ access.php:
 - Siteaccess has been changed to prepend as an override dir instead of overwriting,
   that way personal overrides will always work.
 
+site.ini:
+- HashType is now set to md5_user instead of md5_site as default.
+
+sql files:
+- Password hashes for users in the kernel_clean.sql and demokernel.sql has been update to use the user/password
+  hash type.
 
 *SDK :
 - Added main concepts tutorial
