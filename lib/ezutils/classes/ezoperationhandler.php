@@ -67,7 +67,7 @@ class eZOperationHandler
         return $moduleOperationInfo;
     }
 
-    function &execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = false )
+    function &execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )
     {
         $moduleOperationInfo =& eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
         if ( !$moduleOperationInfo->isValid() )

@@ -23,7 +23,8 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Renamed misspelled setting AdditionalSiteDesignList in site.ini
 - Fixed problem with permissions for trash. Two additional functions 'restore' and 'cleantrash' has
   been added to content module.
-- Added missing information from default admin templates
+- Added missing information from default admin templates.
+- Fixed bug with approval workflow.
 
 *Library :
 eZ xml:
