@@ -40,6 +40,215 @@ define( 'EZ_ACCESS_TYPE_STATIC', 6 );
 define( 'EZ_ACCESS_SUBTYPE_PRE', 1 );
 define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
 
+/*!
+ Goes trough the access matching rules and returns the access match.
+ The returned match is an associative array with \a name and \c type.
+*/
+function accessType( &$uri, $host, $port, $file )
+{
+    $ini =& eZINI::instance();
+    if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
+    {
+        $match = $ini->variable( 'SiteAccessSettings', 'StaticMatch' );
+        if ( $match != '' )
+        {
+            $access = array( 'name' => $match,
+                             'type' => EZ_ACCESS_TYPE_STATIC );
+            return $access;
+        }
+    }
+
+    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+
+    $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
+                     'type' => EZ_ACCESS_TYPE_DEFAULT );
+
+    $order = $ini->variable( 'SiteAccessSettings', 'MatchOrder' );
+
+    if ( $order == 'none' )
+        return $access;
+
+    $order = $ini->variableArray( 'SiteAccessSettings', 'MatchOrder' );
+
+    foreach ( $order as $matchprobe )
+    {
+        $name = '';
+        $type = '';
+        $match_type = '';
+
+        switch( $matchprobe )
+        {
+            case 'port':
+            {
+                if ( $ini->hasVariable( 'PortAccessSettings', $port ) )
+                {
+                    $access['name'] = $ini->variable( 'PortAccessSettings', $port );
+                    $access['type'] = EZ_ACCESS_TYPE_PORT;
+                    return $access;
+                }
+                else
+                    continue;
+            } break;
+            case 'uri':
+            {
+                $type = EZ_ACCESS_TYPE_URI;
+                $match_type = $ini->variable( 'SiteAccessSettings', 'URIMatchType' );
+                if ( $match_type == 'element' )
+                {
+                    $matcher = $ini->variable( 'SiteAccessSettings', 'URIMatchElement' );
+                    $elements = $uri->elements( false );
+                    $elements = array_slice( $elements, 0, $matcher );
+                    $name = implode( '_', $elements );
+                }
+                else if ( $match_type == 'regexp' )
+                {
+                    $match_item = $uri->elements();
+                    $matcher = $ini->variable( 'SiteAccessSettings', 'URIMatchRegexp' );
+                    $match_num = $ini->variable( 'SiteAccessSettings', 'URIMatchRegexpItem' );
+                }
+                else
+                    continue;
+            } break;
+            case 'host':
+            {
+                $type = EZ_ACCESS_TYPE_HTTP_HOST;
+                $match_type = $ini->variable( 'SiteAccessSettings', 'HostMatchType' );
+                $match_item = $host;
+                if ( $match_type == 'map' )
+                {
+                    if ( $ini->hasVariable( 'SiteAccessSettings', 'HostMatchMapItems' ) )
+                    {
+                        $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostMatchMapItems' );
+                        foreach ( $matchMapItems as $matchMapItem )
+                        {
+                            $matchMapHost = $matchMapItem[0];
+                            $matchMapAccess = $matchMapItem[1];
+                            if ( $matchMapHost == $host )
+                            {
+                                $access['name'] = $matchMapAccess;
+                                $access['type'] = $type;
+                                return $access;
+                            }
+                        }
+                    }
+                }
+                else if ( $match_type == 'element' )
+                {
+                    $match_index = $ini->variable( 'SiteAccessSettings', 'HostMatchElement' );
+                    $match_arr = explode( '.', $match_item );
+                    $name = $match_arr[$match_index];
+                }
+                else if ( $match_type == 'text' )
+                {
+                    $matcher_pre = $ini->variable( 'SiteAccessSettings', 'HostMatchSubtextPre' );
+                    $matcher_post = $ini->variable( 'SiteAccessSettings', 'HostMatchSubtextPost' );
+                }
+                else if ( $match_type == 'regexp' )
+                {
+                    $matcher = $ini->variable( 'SiteAccessSettings', 'HostMatchRegexp' );
+                    $match_num = $ini->variable( 'SiteAccessSettings', 'HostMatchRegexpItem' );
+                }
+                else
+                    continue;
+            } break;
+            case 'index':
+            {
+                $type = EZ_ACCESS_TYPE_INDEX_FILE;
+                $match_type = $ini->variable( 'SiteAccessSettings', 'IndexMatchType' );
+                $match_item = $file;
+                if ( $match_type == 'element' )
+                {
+                    $match_index = $ini->variable( 'SiteAccessSettings', 'IndexMatchElement' );
+                    $match_pos = strpos( $match_item, '.php' );
+                    if ( $match_pos !== false )
+                    {
+                        $match_item = substr( $match_item, 0, $match_pos );
+                        $match_arr = explode( '_', $match_item );
+                        $name = $match_arr[$match_index];
+                    }
+                }
+                else if ( $match_type == 'text' )
+                {
+                    $matcher_pre = $ini->variable( 'SiteAccessSettings', 'IndexMatchSubtextPre' );
+                    $matcher_post = $ini->variable( 'SiteAccessSettings', 'IndexMatchSubtextPost' );
+                }
+                else if ( $match_type == 'regexp' )
+                {
+                    $matcher = $ini->variable( 'SiteAccessSettings', 'IndexMatchRegexp' );
+                    $match_num = $ini->variable( 'SiteAccessSettings', 'IndexMatchRegexpItem' );
+                }
+                else
+                    continue;
+            } break;
+            default:
+            {
+                eZDebug::writeError( "Unknown access match: $match", "access" );
+            } break;
+        }
+
+        if ( $match_type == 'regexp' )
+            $name = accessMatchRegexp( $match_item, $matcher, $match_num );
+        else if ( $match_type == 'text' )
+            $name = accessMatchText( $match_item, $matcher_pre, $matcher_post );
+
+        if ( isset( $name ) && $name != '' )
+        {
+            $name = preg_replace( array( '/[^a-z0-9]+/',
+                                         '/_+/',
+                                         '/^_/',
+                                         '/_$/' ),
+                                  array( '_',
+                                         '_',
+                                         '',
+                                         '' ),
+                                  strtolower( $name ) );
+
+            if ( in_array( $name, $siteAccessList ) )
+            {
+                if ( $type == EZ_ACCESS_TYPE_URI && $match_type == 'element' )
+                {
+                    $uri->increase( $matcher );
+                    $uri->dropBase();
+                }
+
+                $access['type'] = $type;
+                $access['name'] = $name;
+                return $access;
+            }
+        }
+    }
+    return $access;
+}
+
+/*!
+ Changes the site access to what's defined in \a $access. It will change the
+ access path in eZSys and prepend an override dir to eZINI
+ \param $access An associative array consisting of \c name and \c type.
+ \return the \a $access parameter.
+*/
+
+function changeAccess( $access )
+{
+    $ini =& eZINI::instance();
+
+    $name = $access['name'];
+    if ( $access['type'] == EZ_ACCESS_TYPE_URI )
+    {
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        eZSys::addAccessPath( $name );
+    }
+
+    if ( file_exists( "settings/siteaccess/$name" ) )
+    {
+        $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
+        $ini->loadCache();
+        eZUpdateDebugSettings();
+        if ( accessDebugEnabled() )
+            eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
+    }
+    return $access;
+}
+
 function accessMatchRegexp( $text, $reg, $num )
 {
     $reg = preg_replace( "#/#", "\\/", $reg );
@@ -62,231 +271,6 @@ function accessMatchText( $text, $match_pre, $match_post )
         return null;
     $text = substr( $text, 0, $pos );
     return $text;
-}
-
-
-function accessType( &$uri, $host, $port, $file )
-{
-    $ini =& eZINI::instance();
-
-    if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
-    {
-        $match = $ini->variable( 'SiteAccessSettings', 'StaticMatch' );
-        if ( $match != '' )
-        {
-            $access = array( 'name' => $match,
-                             'type' => EZ_ACCESS_TYPE_STATIC );
-            if ( accessDebugEnabled() )
-                eZDebug::writeDebug( "Returning static match '$match'", 'access.php' );
-            return $access;
-        }
-    }
-    $access = array();
-    $type =& $access['type'];
-    $type = EZ_ACCESS_TYPE_DEFAULT;
-
-    $order = $ini->variable( 'SiteAccessSettings', 'MatchOrder' );
-    if ( $order == 'none' )
-    {
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "No access matching", 'access.php' );
-        return $access;
-    }
-    $order = $ini->variableArray( 'SiteAccessSettings', 'MatchOrder' );
-    foreach ( $order as $match )
-    {
-        $tmp_type = null;
-        $match_type = false;
-        switch( $match )
-        {
-            case 'port':
-            {
-                if ( $ini->hasVariable( 'PortAccessSettings', $port ) )
-                {
-                    $match_type = 'port';
-                    $access['name'] = $ini->variable( 'PortAccessSettings', $port );
-                    $type = EZ_ACCESS_TYPE_PORT;
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matcing port '$port' to '" . $access['name'] . "'", 'access.php' );
-                }
-                else
-                    continue;
-            } break;
-            case 'uri':
-            {
-                $match_type = $ini->variable( 'SiteAccessSettings', 'URIMatchType' );
-                if ( $match_type != 'element' and
-                     $match_type != 'regexp' )
-                    continue;
-                $tmp_type = EZ_ACCESS_TYPE_URI;
-                if ( $match_type == 'element' )
-                {
-                    $matcher = $ini->variable( 'SiteAccessSettings', 'URIMatchElement' );
-                    $type = $tmp_type;
-                    $match = '';
-                    $elements = $uri->elements( false );
-                    $elements = array_slice( $elements, 0, $matcher );
-                    $uri->increase( $matcher );
-                    $uri->dropBase();
-                    $match = implode( '_', $elements );
-                    $access['name'] = $match;
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching uri element $matcher on uri '" . $uri->elements() . "' with match '$match'", 'access.php' );
-                }
-                else if ( $match_type == 'regexp' )
-                {
-                    $matcher = $ini->variable( 'SiteAccessSettings', 'URIMatchRegexp' );
-                    $match_num = $ini->variable( 'SiteAccessSettings', 'URIMatchRegexpItem' );
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching uri regexp '$matcher' and regexp item on '$match_item'", 'access.php' );
-                }
-                else
-                    $match_item = $uri->elements();
-            } break;
-            case 'host':
-            {
-                $match_type = $ini->variable( 'SiteAccessSettings', 'HostMatchType' );
-                if ( $match_type != 'text' and
-                     $match_type != 'map' and
-                     $match_type != 'element' and
-                     $match_type != 'regexp' )
-                    continue;
-                $match_item = $host;
-                $tmp_type = EZ_ACCESS_TYPE_HTTP_HOST;
-                if ( $match_type == 'map' )
-                {
-                    if ( $ini->hasVariable( 'SiteAccessSettings', 'HostMatchMapItems' ) )
-                    {
-                        $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostMatchMapItems' );
-                        foreach ( $matchMapItems as $matchMapItem )
-                        {
-                            $matchMapHost = $matchMapItem[0];
-                            $matchMapAccess = $matchMapItem[1];
-                            if ( $matchMapHost == $host )
-                            {
-                                $type = $tmp_type;
-                                $access['name'] = $matchMapAccess;
-                                if ( accessExtraDebugEnabled() )
-                                    eZDebug::writeDebug( "Matching host map with host '$match_item' and match '" . $access['name'] . "'", 'access.php' );
-                                break;
-                            }
-                        }
-                    }
-                }
-                else if ( $match_type == 'element' )
-                {
-                    $match_index = $ini->variable( 'SiteAccessSettings', 'HostMatchElement' );
-                    $type = $tmp_type;
-                    $match_arr = explode( '.', $match_item );
-                    $access['name'] = $match_arr[$match_index];
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching host element $match_index on host '$match_item' with match '" . $access['name'] . "'", 'access.php' );
-                }
-                else if ( $match_type == 'text' )
-                {
-                    $matcher_pre = $ini->variable( 'SiteAccessSettings', 'HostMatchSubtextPre' );
-                    $matcher_post = $ini->variable( 'SiteAccessSettings', 'HostMatchSubtextPost' );
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching host pre text '$matcher_pre' and post text '$matcher_post' on host '$match_item'", 'access.php' );
-                }
-                else if ( $match_type == 'regexp' )
-                {
-                    $matcher = $ini->variable( 'SiteAccessSettings', 'HostMatchRegexp' );
-                    $match_num = $ini->variable( 'SiteAccessSettings', 'HostMatchRegexpItem' );
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching host regexp '$matcher' and regexp item on '$match_item'", 'access.php' );
-                }
-            } break;
-            case 'index':
-            {
-                $match_type = $ini->variable( 'SiteAccessSettings', 'IndexMatchType' );
-                if ( $match_type != 'text' and
-                     $match_type != 'regexp' and
-                     $match_type != 'element' )
-                    continue;
-                $tmp_type = EZ_ACCESS_TYPE_INDEX_FILE;
-                $match_item = $file;
-                if ( $match_type == 'element' )
-                {
-                    $match_index = $ini->variable( 'SiteAccessSettings', 'IndexMatchElement' );
-                    $type = $tmp_type;
-                    $match_pos = strpos( $match_item, '.php' );
-                    if ( $match_pos !== false )
-                    {
-                        $match_item = substr( $match_item, 0, $match_pos );
-                        $match_arr = explode( '_', $match_item );
-                        $access['name'] = $match_arr[$match_index];
-                        if ( accessExtraDebugEnabled() )
-                            eZDebug::writeDebug( "Matching index element $match_index on index '$match_item' with match '" . $access['name'] . "'", 'access.php' );
-                    }
-                }
-                else if ( $match_type == 'text' )
-                {
-                    $matcher_pre = $ini->variable( 'SiteAccessSettings', 'IndexMatchSubtextPre' );
-                    $matcher_post = $ini->variable( 'SiteAccessSettings', 'IndexMatchSubtextPost' );
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching index pre text '$matcher_pre' and post text '$matcher_post' on index '$match_item'", 'access.php' );
-                }
-                else
-                {
-                    $matcher = $ini->variable( 'SiteAccessSettings', 'IndexMatchRegexp' );
-                    $match_num = $ini->variable( 'SiteAccessSettings', 'IndexMatchRegexpItem' );
-                    if ( accessExtraDebugEnabled() )
-                        eZDebug::writeDebug( "Matching index regexp '$matcher' and regexp item on '$match_item'", 'access.php' );
-                }
-            } break;
-            default:
-            {
-                eZDebug::writeError( "Unknown access match: $match", "access" );
-            } break;
-        }
-        if ( $match_type == 'element' )
-        {
-            break;
-        }
-        else if ( $match_type == 'regexp' )
-        {
-            $match = accessMatchRegexp( $match_item, $matcher, $match_num );
-            if ( $match !== null )
-            {
-                $type = $tmp_type;
-                $access['name'] = $match;
-                break;
-            }
-        }
-        else if ( $match_type == 'text' )
-        {
-            $match = accessMatchText( $match_item, $matcher_pre, $matcher_post );
-            if ( $match !== null )
-            {
-                $type = $tmp_type;
-                $access['name'] = $match;
-                break;
-            }
-        }
-        else if ( $match_type == 'port' )
-        {
-            break;
-        }
-        else if ( $match_type == 'map' )
-        {
-            break;
-        }
-    }
-    if ( isset( $access['name'] ) )
-    {
-        $access['name'] = preg_replace( array( '/[^a-z0-9]+/',
-                                               '/_+/',
-                                               '/^_/',
-                                               '/_$/' ),
-                                        array( '_',
-                                               '_',
-                                               '',
-                                               '' ),
-                                        strtolower( $access['name'] ) );
-        return $access;
-    }
-    return null;
 }
 
 function accessAllowed( $uri )
@@ -404,59 +388,5 @@ function accessExtraDebugEnabled()
     $ini =& eZINI::instance();
     return $ini->variable( 'SiteAccessSettings', 'DebugExtraAccess' ) == 'enabled';
 }
-
-function changeAccess( $access )
-{
-    $ini =& eZINI::instance();
-    $name = '';
-    if ( $access !== null )
-        $name = $access['name'];
-
-    // Check for a valid siteaccess
-    if ( !file_exists( "settings/siteaccess/$name" ) or $name == '' )
-    {
-        $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-        if ( is_numeric( $access['type'] ) )
-            $type = $access['type'];
-        else
-            $type = EZ_ACCESS_TYPE_DEFAULT;
-
-        $access = array( 'name' => $name,
-                         'type' => $type );
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "Using default site access '$name'", 'access.php' );
-    }
-    if ( $access !== null and
-         $access['type'] == EZ_ACCESS_TYPE_URI )
-    {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
-        eZSys::addAccessPath( $name );
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "Adding '$name' to access path", 'access.php' );
-    }
-
-    if ( file_exists( "settings/siteaccess/$name" ) )
-    {
-        $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
-        $ini->loadCache();
-        eZUpdateDebugSettings();
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
-    }
-
-    // Fallback siteaccess, will be used if default does not exist
-    if ( $access === null )
-    {
-        return array( 'type' => EZ_ACCESS_TYPE_DEFAULT,
-                      'name' => $name );
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "No access match, returning default '$name'", 'access.php' );
-    }
-    else
-    {
-        return $access;
-    }
-}
-
 
 ?>
