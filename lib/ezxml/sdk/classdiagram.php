@@ -34,9 +34,11 @@
 
 ?>
 
+<h1>Class diagram</h1>
+
 <p>
 On the diagram below you find the structure of eZ xml. There are three classes
-which handles XML parsing, DOM documents and DOM nodes.
+that handle XML parsing, DOM documents and DOM nodes.
 </p>
-<img src="/doc/design/uml/ezxml.png" alt="ezxml" border="" />
 
+<img src="/doc/design/uml/ezxml.png" alt="ezxml" border="" />

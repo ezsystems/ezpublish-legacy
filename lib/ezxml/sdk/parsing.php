@@ -35,11 +35,15 @@
 //
 
 ?>
+
+<h1>Plain parsing</h1>
+
 <p>
 Parsing XML documents with eZ xml&trade; is simple, all you need to do is
 pass the XML document to the <b>domTree()</b> function. The DOM object tree
 will then be returned.
 </p>
+
 <p>
 Below is the XML document used in this parser introduction.
 </p>
@@ -76,27 +80,27 @@ $testDoc = "&lt;?xml version='1.0'?&gt;
 $dom =& $xml->domTree( $testDoc );
 </pre>
 
-<h1>Finding nodes</h1>
+<h2>Finding nodes</h2>
 <p>
 To find special nodes in the document you can use the <b>elementsByName()</b>
-function. This will return an array of dom nodes. The code snippet below
+function. This will return an array of DOM nodes. The code snippet below
 shows how you can find all paragraphs in the XML document.
 </p>
 
 <pre class="example">
-// $paragraphs is an array of paragraph dom nodes
+// $paragraphs is an array of paragraph DOM nodes
 $paragraphs =& $dom->elementsByName( "paragraph" );
 </pre>
 
-<h1>Fetching content</h1>
+<h2>Fetching content</h2>
 <p>
 When you have all the nodes you need you can access the attributes and
 content of these items. All nodes have a name, this should in this example
 be <b>paragraph</b> as we only fetched nodes by that name. The function
 <b>attributeValue()</b> is used to fetch the value of an attribute on the
 current node. To fetch the contents of a node directly you can use the
-<b>textContent()</b> function. Note that the textcontent only works if it's
-a plain text node. Normally you would have to check all the childs of the
+<b>textContent()</b> function. Note that textcontent only works if it's
+a plain text node. Normally you would have to check all the children of the
 node if you expect subnodes of mixed type.
 </p>
 
@@ -107,42 +111,54 @@ foreach ( $paragraphs as $paragraph )
     print( "New " . $paragraph->name() );
     // print the value of the name attribute
     print( "Name: " . $paragraph->attributeValue( "name" ) );
-    // get the text content of the dom node
+    // get the text content of the DOM node
     print( "Content: " . $paragraph->textContent() );
 }
 </pre>
 
-<h1>The running example</h1>
+<p>
+This is the result of the above code:
+</p>
+
+<pre class="example">
+New paragraph:
+Name: Introduction
+Content: Paragraph contents
+
+New paragraph:
+Name: Story
+Content: Story paragraph contents
+</pre>
+
 <?php
-include_once( "lib/ezxml/classes/ezxml.php" );
+// include_once( "lib/ezxml/classes/ezxml.php" );
 
-$xml = new eZXML();
-$testDoc = "<?xml version='1.0'?>
-<doc>
-  <article>
-    <paragraph name='Introduction'>Paragraph contents</paragraph>
-    <paragraph name='Story'>Story paragraph contents</paragraph>
-  </article>
-</doc>";
+// $xml = new eZXML();
+// $testDoc = "< ?xml version='1.0'? >
+// <doc>
+//   <article>
+//     <paragraph name='Introduction'>Paragraph contents</paragraph>
+//     <paragraph name='Story'>Story paragraph contents</paragraph>
+//   </article>
+// </doc>";
 
-$dom =& $xml->domTree( $testDoc );
+// $dom =& $xml->domTree( $testDoc );
 
-print( "<b>XML document to parse:</b><br>" );
+// print( "<b>XML document to parse:</b><br>" );
 
-print( nl2br( htmlspecialchars( $testDoc ) ) );
+// print( nl2br( htmlspecialchars( $testDoc ) ) );
 
-print( "<br><b>Results from parsing:</b><br>" );
-$paragraphs =& $dom->elementsByName( "paragraph" );
+// print( "<br><b>Results from parsing:</b><br>" );
+// $paragraphs =& $dom->elementsByName( "paragraph" );
 
-foreach ( $paragraphs as $paragraph )
-{
-    // get the name of the item, should be paragraph
-    print( "<br/>New " . $paragraph->name() . ":<br/>" );
+// foreach ( $paragraphs as $paragraph )
+// {
+//     // get the name of the item, should be paragraph
+//     print( "<br/>New " . $paragraph->name() . ":<br/>" );
 
-    // print the value of the name attribute
-    print( "Name: " . $paragraph->attributeValue( "name" ) . "<br/>" );
-    print( "Content: " . $paragraph->textContent() . "<br/>" );
-}
-
+//     // print the value of the name attribute
+//     print( "Name: " . $paragraph->attributeValue( "name" ) . "<br/>" );
+//     print( "Content: " . $paragraph->textContent() . "<br/>" );
+// }
 
 ?>

@@ -69,20 +69,7 @@ $dependArray[] = array( "uri" => "ezutils",
 $infoArray["dependencies"] =& $dependArray;
 
 $featureArray = array();
-$featureArray[] = array( "level" => 0,
-                         "name" => "Diagrams" );
-$featureArray[] = array( "uri" => "classdiagram",
-                         "level" => 1,
-                         "name" => "Class diagram" );
 
-$featureArray[] = array( "level" => 0,
-                         "name" => "XML parsing" );
-$featureArray[] = array( "uri" => "parsing",
-                         "level" => 1,
-                         "name" => "Plain parsing" );
-$featureArray[] = array( "uri" => "parsing_with_namespaces",
-                         "level" => 1,
-                         "name" => "Namespace XML parsing" );
 $featureArray[] = array( "level" => 0,
                          "name" => "XML creation" );
 $featureArray[] = array( "uri" => "dom_creation",
@@ -91,9 +78,24 @@ $featureArray[] = array( "uri" => "dom_creation",
 $featureArray[] = array( "uri" => "dom_creation_with_namespaces",
                          "level" => 1,
                          "name" => "DOM creation with namespaces" );
-$featureArray[] = array( "uri" => "schema_validation",
+// $featureArray[] = array( "uri" => "schema_validation",
+//                          "level" => 1,
+//                          "name" => "Schema validation" );
+
+$featureArray[] = array( "level" => 0,
+                         "name" => "XML parsing" );
+$featureArray[] = array( "uri" => "parsing",
                          "level" => 1,
-                         "name" => "Schema validation" );
+                         "name" => "Plain parsing" );
+$featureArray[] = array( "uri" => "parsing_with_namespaces",
+                         "level" => 1,
+                         "name" => "Parsing with namespaces" );
+
+$featureArray[] = array( "level" => 0,
+                         "name" => "Diagrams" );
+$featureArray[] = array( "uri" => "classdiagram",
+                         "level" => 1,
+                         "name" => "Class diagram" );
 
 $infoArray["features"] =& $featureArray;
 

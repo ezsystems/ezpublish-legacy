@@ -29,13 +29,13 @@ $schemaDoc ='
  </xsd:complexType>
 ';
 
-//$schema = new eZSchema();
-//$schema->setSchema( $schemaDoc );
+// $schema = new eZSchema();
+// $schema->setSchema( $schemaDoc );
 
 
-print( "<pre>" );
-//print_r( $schema );
-print( "</pre>" );
+// print( "<pre>" );
+// print_r( $schema );
+// print( "</pre>" );
 
 $doc = "
 <?xml version=\"1.0\"?>

@@ -121,6 +121,8 @@ Hooks are a way of letting external code <i>hook</i> in extra code, the code wil
 at places defined by the view using the <i>runHooks()</i> function. The external code can
 create a function and add it to the hook name. It is also possible to run a method in an object
 by supplying an array with the object and method name instead of the function name.
+Hooks can also have priorities to allow a hook to be run before/after another. The default is
+to give everything the same priority.
 </p>
 
 <pre class="example">

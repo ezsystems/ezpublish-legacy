@@ -32,10 +32,13 @@
 // you.
 //
 ?>
+
+<h1>Parsing with namespaces</h1>
+
 <p>
 Namespaces are used to make it possible to identify nodes in different contexts.
 If you study the XML document below you will find that there are two <b>name</b>
-nodes but in different context. The first node refers to the name of the book, the
+nodes, in different contexts. The first node refers to the name of the book, the
 second refers to the name of the author. They are separated by the use of namespaces.
 </p>
 
@@ -51,12 +54,13 @@ second refers to the name of the author. They are separated by the use of namesp
 &lt;/ez:doc&gt;
 </pre>
 
-<h1>Fetching nodes from namespaces</h1>
+<h2>Fetching nodes from namespaces</h2>
 <p>
 The code snippet below shows how you can extract two DOM nodes called <b>name</b>.
 The nodes are identified by their namespace and name. You use the <b>elementsByNameNS()</b>
 function which takes the node name and namespace as parameters.
 </p>
+
 <pre class="example">
 // fetch the name node from the http://ez.no/book/ namespace
 $names =& $dom->elementsByNameNS( "name", "http://ez.no/book/" );
@@ -71,45 +75,51 @@ $name =& $names[0];
 print( $name->attributeValue( "firstName" ) . "  " . $name->attributeValue( "lastName" ) );
 </pre>
 
-<h1>Running example</h1>
+<p>
+This is the result of the above code:
+</p>
+
+<pre class="example">
+the eZ publish book
+Bilbo Baggins
+</pre>
+
 <?php
 
-include_once( "lib/ezxml/classes/ezxml.php" );
+// include_once( "lib/ezxml/classes/ezxml.php" );
 
-print( "<h3>eZ xml&trade; parsing with namespace :</h3>" );
+// print( "<h3>eZ xml&trade; parsing with namespace :</h3>" );
 
-$xml = new eZXML();
+// $xml = new eZXML();
 
-$testDoc = "<?xml version='1.0'?>
-<ez:doc xmlns:ez='http://ez.no/'>
-<ez:book xmlns:book='http://ez.no/book/'>
-<book:name title='the eZ publish book' />
-<book:author xmlns:author='http://ez.no/book/author/'>
-<author:name firstName='Bilbo' lastName='Baggins' />
-</book:author>
-</ez:book>
-</ez:doc>";
-
-
-print( "<b>Parsing:</b><br>" );
-
-print( nl2br( htmlspecialchars( $testDoc ) ) );
-
-$dom =& $xml->domTree( $testDoc );
-
-print( "<br><b>Fetching book:name node:</b><br>" );
-$names =& $dom->elementsByNameNS( "name", "http://ez.no/book/" );
-$name =& $names[0];
-print( $name->attributeValue( "title" ) . "<br>" );
-
-print( "<br><b>Fetching author:name node:</b><br>" );
-unset( $names );
-unset( $name );
-$names =& $dom->elementsByNameNS( "name", "http://ez.no/book/author/" );
-$name =& $names[0];
-
-print( $name->attributeValue( "firstName" ) . "  " . $name->attributeValue( "lastName" ) . "<br>" );
+// $testDoc = "< ?xml version='1.0'? >
+// <ez:doc xmlns:ez='http://ez.no/'>
+// <ez:book xmlns:book='http://ez.no/book/'>
+// <book:name title='the eZ publish book' />
+// <book:author xmlns:author='http://ez.no/book/author/'>
+// <author:name firstName='Bilbo' lastName='Baggins' />
+// </book:author>
+// </ez:book>
+// </ez:doc>";
 
 
+// print( "<b>Parsing:</b><br>" );
+
+// print( nl2br( htmlspecialchars( $testDoc ) ) );
+
+// $dom =& $xml->domTree( $testDoc );
+
+// print( "<br><b>Fetching book:name node:</b><br>" );
+// $names =& $dom->elementsByNameNS( "name", "http://ez.no/book/" );
+// $name =& $names[0];
+// print( $name->attributeValue( "title" ) . "<br>" );
+
+// print( "<br><b>Fetching author:name node:</b><br>" );
+// unset( $names );
+// unset( $name );
+// $names =& $dom->elementsByNameNS( "name", "http://ez.no/book/author/" );
+// $name =& $names[0];
+
+// print( $name->attributeValue( "firstName" ) . "  " . $name->attributeValue( "lastName" ) . "<br>" );
 
 ?>
