@@ -234,6 +234,11 @@ eZDebug:
 - When logging IP address the current hostname will be used if a remote address
   is missing (e.g running a script).
 
+eZDB:
+- The reading of INI settings can now be disabled by passing the 'use_default'
+  entry to the database parameter array in eZDB.
+  (Merged from stable/3.5 (3.5.2) rev. 11143)
+
 *SOAP:
 - Added authentication support.
 - Added ability to cleanup in the end of execution.
