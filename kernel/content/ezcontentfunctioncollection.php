@@ -796,7 +796,7 @@ class eZContentFunctionCollection
     {
         if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
             $contentObject =& $contentObject->attribute( 'object' );
-        if ( !is_numeric( $contentClassID ) )
+        if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
             $class =& eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
