@@ -96,5 +96,7 @@ eZXML:
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.3 rev. 5903)
 - Fixed typo
   http://ez.no/community/bug_reports/typo_in_ezcontentoperationcollection_php
+- Fixed bug in the autolink operator. (Merged from 3.3, rev. 5916)
+  http://ez.no/community/bug_reports/autolink_operator__1
 
 *Update
