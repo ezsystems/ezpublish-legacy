@@ -150,7 +150,8 @@ switch( $operationResult['status'] )
             {
                 $path[] = array( 'text' => $parent->attribute( 'name' ),
                                  'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                                 'url_alias' => $parent->attribute( 'url_alias' )
+                                 'url_alias' => $parent->attribute( 'url_alias' ),
+                                 'node_id' => $parent->attribute( 'node_id' )
                                  );
             }
             $path[] = array( 'text' => $object->attribute( 'name' ),
