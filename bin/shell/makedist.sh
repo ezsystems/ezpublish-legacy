@@ -136,6 +136,7 @@ for arg in $*; do
 	    echo "         --skip-unit-tests          Do not run unit tests*"
 	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)"
 	    echo "         --skip-db-update           Do not run db update check"
+	    echo "         --skip-db-check            Do not run db schema check"
 	    echo "         --skip-translation         Do not run translation check"
 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
             echo "         --db-user=user             Mysql DB user ( default: root )"
@@ -198,6 +199,9 @@ for arg in $*; do
 	    ;;
 	--skip-db-schema)
 	    SKIPDBSCHEMA="1"
+	    ;;
+	--skip-db-check)
+	    SKIPDBCHECK="1"
 	    ;;
 	--skip-db-update)
 	    SKIPDBUPDATE="1"
@@ -312,6 +316,19 @@ if [ -z $SKIPUNITTESTS ]; then
 	echo "Some unit tests failed"
 	echo "Run the following command to find out which one failed"
 	echo "./tests/testunits.php eztemplate"
+	exit 1
+    fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+fi
+
+if [ -z $SKIPDBCHECK ]; then
+    echo -n "Checking database schemas"
+    ./bin/shell/checkdbschema.sh "$DB_NAME" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "The database schema check failed"
+	echo "Run the following command to find out what is wrong"
+	echo "./bin/shell/checkdbschema.sh $DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
