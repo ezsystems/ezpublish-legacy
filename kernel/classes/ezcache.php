@@ -49,6 +49,7 @@
 
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( 'kernel/common/i18n.php' );
 
 class eZCache
 {

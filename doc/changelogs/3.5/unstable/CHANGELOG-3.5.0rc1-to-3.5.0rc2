@@ -37,5 +37,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Merged from stable/3.3, rev. 10052)
 - Added some more clean-up code for when users are deleted.
   Part of: http://ez.no/community/bug_reports/3_5_deleting_objects_dirty_tables_after_deleting_process
+- Fixed unincluded file required for ezCache
+  http://ez.no/community/bug_reports/fatal_error_when_clearing_cache_from_shell
 
 *Library:
