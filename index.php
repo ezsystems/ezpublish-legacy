@@ -233,6 +233,7 @@ function &eZDisplayDebug()
 
         if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true)
         {
+            include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
