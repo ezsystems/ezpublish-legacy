@@ -377,8 +377,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         {
 //                            $phpCode .= "        if ( $matchCondition )\n        {\n";
 //                            $phpCode .= "            return '" . $customMatch['match_file'] . "';\n        }\n";
-                            $matchConditionArray[] = array( 'condition' => $matchCondition,
-                                                            'matchFile' => $customMatch['match_file'] );
+                            if ( $condCount > 1 )
+                                $matchConditionArray[] = array( 'condition' => '(' . $matchCondition . ')',
+                                                                'matchFile' => $customMatch['match_file'] );
+                            else
+                                $matchConditionArray[] = array( 'condition' => $matchCondition,
+                                                                'matchFile' => $customMatch['match_file'] );
                         }
                         else
                         {
