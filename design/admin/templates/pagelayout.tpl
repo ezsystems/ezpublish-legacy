@@ -352,7 +352,7 @@ $ui_context:   {$ui_context}<br />
 $ui_component: {$ui_component}<br />
 
 {* The popup menu include must be outside all divs. It is hidden by default. *}
-{include uri='design:popupmenu/popup_menu.tpl'
+{include uri='design:popupmenu/popup_menu.tpl'}
 
 </body>
 </html>
