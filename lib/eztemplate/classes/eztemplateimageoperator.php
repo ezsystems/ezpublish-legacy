@@ -176,6 +176,7 @@ class eZTemplateImageOperator
                 $bgcol = $this->decodeColor( $namedParameters["bgcolor"] );
             if ( $namedParameters["textcolor"] !== null )
                 $textcol = $this->decodeColor( $namedParameters["textcolor"] );
+            $storeImage = $namedParameters["storeimage"];
 
             $fontDir = false;
             foreach ( $this->FontDir as $fontPath )
@@ -220,7 +221,8 @@ class eZTemplateImageOperator
                 $layer->allocateColor( 'textcol', $textcol[0], $textcol[1], $textcol[2] );
                 $layer->setTextColor( 'textcol' );
 
-                $this->storeImage( $layer, $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' );
+                if ( $storeImage )
+                    $this->storeImage( $layer, $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' );
                 $layer->destroy();
             }
             else
@@ -331,7 +333,10 @@ class eZTemplateImageOperator
                                                             "default" => null ),
                                               "usecache" => array( "type" => "boolean",
                                                                    "required" => false,
-                                                                   "default" => null )
+                                                                   "default" => null ),
+                                              "storeimage" => array( "type" => "boolean",
+                                                                     "required" => false,
+                                                                     "default" => true )
                                               ),
                       'imagefile' => array( 'filename' => array( 'type' => 'string',
                                                                  'required' => true ),
