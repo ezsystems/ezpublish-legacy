@@ -107,6 +107,13 @@ eZINI:
   http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
 - Fixed bug causing that the siteaccess names could not be written in capitals
   http://ez.no/community/bug_reports/changing_the_siteaccess_name_causes_a_module_not_found_error
+- Fixed bug: semicolons are not escaped in arrays specified in fetchalias.ini.
+  Additional fix for:
+  http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
+- Removed vardumps from cronjobs/unpublish.php.
+  http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
+- Fixed notification digest bug.    
+
 *Library:
 
 eZ Locale:
