@@ -17,19 +17,20 @@
 <!--[if IE]>
 <style>
 div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
+div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
+div.menu-block li { width: 19%; } /* Avoid width bug in IE */
+div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
 <style>
 div#maincontent div#maincontent-design { width: 99%; } /* Avoid width bug in IE 5.5 */
 div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
-div.menu-block li { width: 19%; } /* Avoid width bug in IE 5.5 */
-div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 <!--[if IE 6.0]>
 <style>
-div#maincontent div.box-bc { border-bottom: 1px solid #ecece4; /* Strange IE bug fix */ }
+div#maincontent div.box-bc { border-bottom: 1px solid #bfbfb7; /* Strange IE bug fix */ }
 div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 </style>
 <![endif]-->

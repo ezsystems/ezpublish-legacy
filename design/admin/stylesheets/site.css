@@ -292,7 +292,7 @@ div#leftmenu div.box-bc, div#rightmenu div.box-bc
 div#maincontent div.box-bc
 {
     background-image: url(../images/box-bc.gif);
-    background-position: bottom;
+    background-position: bottom left;
     background-repeat: repeat-x;
     background-color: #e7e8e0;
 }
@@ -353,7 +353,7 @@ div#leftmenu div#content-tree div.box-content
 
 div.box-content
 {
-    padding: 0 2px 2px 1px;
+    padding: 0 2px 3px 1px;
 }
 
 div.box-content p
@@ -388,8 +388,6 @@ div#contentstructure
     width: 100%;
     overflow: auto;
     overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
-    overflow-x: auto;                      /* hide vertical scrollbar in IE */
-    overflow-y: hidden;
 }
 
 div#contentstructure
