@@ -29,6 +29,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Fixed corrupt product view admin template
 - Fixed broken extension support for new override system
 - Fixed clearing of override and cache-block cache when clearing cache in admin
+- Removed default wordtoimage rule for :/ which messes up URL's
 
 *Library :
 eZ xml:
