@@ -334,70 +334,73 @@ class eZTemplateImageOperator
     */
     function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
     {
-        $family = $named_params["family"];
-        if ( preg_match( "/\.ttf$/", $family ) )
-            $family_file = $family;
-        else
-            $family_file = "$family.ttf";
-        if ( $this->FontDir != "" )
+        if ( function_exists( "ImageTTFBBox" ) )
         {
-            $font = $this->FontDir . "/$family_file";
-            if ( !file_exists( $font ) )
-                $font = $family;
-        }
-        else
-            $font = $family;
-        $size = $named_params["pointsize"];
-        $angle = $named_params["angle"];
-        $xadj = $named_params["x"];
-        $yadj = $named_params["y"];
-        $usecache = $named_params["usecache"];
-
-        $bgcol = $this->decodeColor( $named_params["bgcolor"] );
-        $textcol = $this->decodeColor( $named_params["textcolor"] );
-        if ( $bgcol === null )
-            $bgcol = $this->color( "bgcolor" );
-        if ( !is_array( $bgcol ) or
-             count( $bgcol ) < 3 )
-            $bgcol = array( 255, 255, 255 );
-        if ( $textcol === null )
-            $textcol = $this->color( "textcolor" );
-        if ( !is_array( $textcol ) or
-             count( $textcol ) < 3 )
-            $textcol = array( 0, 0, 0 );
-
-        if ( is_string( $usecache ) )
-            $cnt = $usecache;
-        else
-            $cnt = md5( $value . $family . $size . $angle . $xadj . $yadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
-        if ( $usecache )
-            $file = "image-$cnt.png";
-        else
-            $file = "image-uncached-$cnt.png";
-        $output = $this->CacheDir . "/$file";
-        if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
-        {
-            $bbox = @ImageTTFBBox( $size, $angle, $font, $value );
-            if ( !$bbox )
+            $family = $named_params["family"];
+            if ( preg_match( "/\.ttf$/", $family ) )
+                $family_file = $family;
+            else
+                $family_file = "$family.ttf";
+            if ( $this->FontDir != "" )
             {
-                $tpl->error( $op_name, "Could not open font \"$family\"" );
-                return;
+                $font = $this->FontDir . "/$family_file";
+                if ( !file_exists( $font ) )
+                    $font = $family;
             }
+            else
+                $font = $family;
+            $size = $named_params["pointsize"];
+            $angle = $named_params["angle"];
+            $xadj = $named_params["x"];
+            $yadj = $named_params["y"];
+            $usecache = $named_params["usecache"];
 
-            $width = $bbox[4] - $bbox[6];
-            $height = $bbox[1] - $bbox[7];
+            $bgcol = $this->decodeColor( $named_params["bgcolor"] );
+            $textcol = $this->decodeColor( $named_params["textcolor"] );
+            if ( $bgcol === null )
+                $bgcol = $this->color( "bgcolor" );
+            if ( !is_array( $bgcol ) or
+                 count( $bgcol ) < 3 )
+                $bgcol = array( 255, 255, 255 );
+            if ( $textcol === null )
+                $textcol = $this->color( "textcolor" );
+            if ( !is_array( $textcol ) or
+                 count( $textcol ) < 3 )
+                $textcol = array( 0, 0, 0 );
 
-            $im = ImageCreate( $width, $height );
+            if ( is_string( $usecache ) )
+                $cnt = $usecache;
+            else
+                $cnt = md5( $value . $family . $size . $angle . $xadj . $yadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
+            if ( $usecache )
+                $file = "image-$cnt.png";
+            else
+                $file = "image-uncached-$cnt.png";
+            $output = $this->CacheDir . "/$file";
+            if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
+            {
+                $bbox = @ImageTTFBBox( $size, $angle, $font, $value );
+                if ( !$bbox )
+                {
+                    $tpl->error( $op_name, "Could not open font \"$family\"" );
+                    return;
+                }
 
-            $bgcolor = ImageColorAllocate( $im, $bgcol[0], $bgcol[1], $bgcol[2] );
-            $textcolor = ImageColorAllocate ($im, $textcol[0], $textcol[1], $textcol[2] );
+                $width = $bbox[4] - $bbox[6];
+                $height = $bbox[1] - $bbox[7];
 
-            ImageTTFText ( $im, $size, $angle, $bbox[6] + $xadj, -$bbox[7] + $yadj,
-                           $textcolor, $font, $value );
-            ImagePNG( $im, $output );
-            ImageDestroy( $im );
+                $im = ImageCreate( $width, $height );
+
+                $bgcolor = ImageColorAllocate( $im, $bgcol[0], $bgcol[1], $bgcol[2] );
+                $textcolor = ImageColorAllocate ($im, $textcol[0], $textcol[1], $textcol[2] );
+
+                ImageTTFText ( $im, $size, $angle, $bbox[6] + $xadj, -$bbox[7] + $yadj,
+                               $textcolor, $font, $value );
+                ImagePNG( $im, $output );
+                ImageDestroy( $im );
+            }
+            $value = "<img src=\"" . $this->HTMLDir . "/$file\" alt=\"$value\"/>";
         }
-        $value = "<img src=\"" . $this->HTMLDir . "/$file\" alt=\"$value\"/>";
     }
 
     /// The operator array
