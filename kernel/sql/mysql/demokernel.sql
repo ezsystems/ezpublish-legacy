@@ -2736,8 +2736,8 @@ CREATE TABLE ezmessage (
   send_weekday varchar(50) NOT NULL default '',
   send_time varchar(50) NOT NULL default '',
   destination_address varchar(50) NOT NULL default '',
-  title varchar(50) NOT NULL default '',
-  body varchar(50) default NULL,
+  title varchar(255) NOT NULL default '',
+  body text default NULL,
   is_sent int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
