@@ -69,6 +69,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Merged from stable/3.3, rev. 10153)
 - Fixed bug in content structure menu related to disappearing of item icon when no content is present
   http://ez.no/community/bug_reports/treemenu_top_folder_icon_disappears_when_no_content_is_present
+- Fixed bug with setting template namespaces and toolboxes
+  http://ez.no/community/bug_reports/toolbar_function_ignores_namespaces_in_template_variable_management
 
 *Library:
 

@@ -226,7 +226,7 @@ class eZTemplateToolbarFunction
             case $this->BlockName:
             {
                 $viewMode = "full";
-                $name ="";
+                $name = $currentNamespace;
                 // Read ini file
                 $toolbarIni =& eZINI::instance( "toolbar.ini" );
 
