@@ -92,6 +92,9 @@ Datatype:
 - Fixed bug of fatal error occures if no node selected when you browse location of importing content
   objects.
   http://ez.no/community/bug_reports/3_5beta_fatal_error_at_package_import_browse_mode
+- Fixed bug of updating priority does not work if parent node is not main node.
+  http://ez.no/community/bug_reports/set_order_priority_in_other_location_no_main_location
+  (Merged from stable/3.4, rev. 9505)
 
 *Library:
 
