@@ -2,7 +2,7 @@
     
 {default with_children=true()
          is_editable=true()
-	 is_standalone=true()
+         is_standalone=true()
          content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
@@ -25,13 +25,12 @@
     {attribute_view_gui attribute=$node.object.data_map.body}
 
     <div class="buttonblock">
-        {section show=and($is_editable,$content_object.can_edit)}
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-        {/section}
+    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+    {section show=and($is_editable,$content_object.can_edit)}
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+    {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-        <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
-	    <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
     </div>
 </div>
