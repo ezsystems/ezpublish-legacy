@@ -506,7 +506,7 @@ class eZMail
 
     function extractEmail( $text, &$email, &$name )
     {
-        if ( preg_match( "/([^<]+)<([a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)>/", $text, $matches ) )
+        if ( preg_match( "/([^<]+)<([a-zA-Z0-9_\-\.]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)>/", $text, $matches ) )
         {
             $email = $matches[2];
             $name = $matches[1];
