@@ -1,5 +1,5 @@
 {let root_node=fetch( content, node, hash( node_id, 2 ) )}
-{section show=and( is_set( $module_result.path[1]), is_set( $module_result.node_id ) )}
+{section show=is_set( $module_result.node_id )}
 <div id="topmenu">
     <div id="topmenu-design">
 
