@@ -99,6 +99,8 @@ eZINI:
   http://ez.no/community/bug_reports/setup_registration_email_problem
 - Fixed bug with unabling to upload image to a new translated object.
   http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
+- Fixed bug with missing NodeID and ObjectID when displaying media folders.
+  http://ez.no/community/bug_reports/media_folder_doesn_t_show_node_id_and_object_id
 
 *Library:
 
