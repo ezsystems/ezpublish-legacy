@@ -9,6 +9,31 @@ ALTER TABLE ezinfocollection_attribute ADD COLUMN contentobject_attribute_id INT
 ALTER TABLE ezinfocollection_attribute ADD COLUMN contentobject_id INT;
 
 
+CREATE SEQUENCE ezpdf_export_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+CREATE TABLE ezpdf_export ( 
+  id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL
+  title varchar(255) default NULL,
+  intro_text text default NULL,
+  sub_text text default NULL,
+  source_node_id int default NULL,
+  export_structure varchar(255) default NULL,
+  export_classes varchar(255) default NULL,
+  site_access varchar(255) default NULL,
+  pdf_filename varchar(255) default NULL,
+  modifier_id integer default NULL,
+  modified integer default NULL,
+  created integer default NULL,
+  creator_id integer default NULL,
+  status integer default NULL,
+  PRIMARY KEY (id) 
+);
+
 CREATE SEQUENCE ezrss_export_s
     START 1
     INCREMENT 1
