@@ -308,10 +308,10 @@ Workflow:
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 - Improved Image interface methods and GD resource handling.
+- Added adjustment of placement when using centered alignment in eZImageObject.
 - Fixed logical problem in eZLocale attributes:
   'weekday_list' changed to 'weekday_name_list'
   'weekday_name_list' changed to 'weekday_number_list'
-
 eZ DB:
 - Added support to MySQL driver for setting the character set on the connection
   if the server is running MySQL 4.1.1 or higher.

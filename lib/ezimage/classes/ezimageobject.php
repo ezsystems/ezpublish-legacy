@@ -121,7 +121,7 @@ class eZImageObject extends eZImageInterface
         {
             $length = $axisStop - $axisStart;
             $halfLength = (int)(($length - $currentLength) / 2);
-            return $axisStart + $halfLength;
+            return $axisStart + $halfLength + $value;
         }
         else // Align to stop
         {
