@@ -1,220 +1,223 @@
-p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
-{
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-h1
-{
-    font-family: Times New Roman, Arial, Helvetica, sans-serif;
-    font-size: 120%;
-    font-weight: bold;
-}
-
-h2
-{
-    font-family: Times New Roman, Arial, Helvetica, sans-serif;
-    font-size: 105%;
-}
-
-h3
-{
-    font-family: Times New Roman, Arial, Helvetica, sans-serif;
-    font-size: 100%;
-}
-
 body
 {
+    padding: 0;
+    margin: 0;
+}
+
+div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
+{
     background-color: #ffffff;
-    margin-top: 20px;
-    margin-left: 0px;
-    padding: 0px;
+    height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
-#mainlayout
-{ 
-    width: 700px;
+div#header
+{
+    background-image: url(../images/header_image-repeat.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
 }
 
-#header
-{ 
-    width: 700px;
+div#header div.design
+{
+    background-image: url(../images/header_image.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
     height: 68px;
-    background: url("../images/mycompanylogo.jpg") no-repeat;
 }
 
-#logo
-{ 
+div#logo
+{
     float: left;
-    margin-left: 10px;
-    margin-top: 16px;
+    margin-top: 0.3em;
+    margin-left: 0.3em;
 }
 
-#navigation_bar
-{  
-    position: absolute;
-    top: 0;
-    font-size: small;
-    width: 690px;
-    height: 10px;
-    padding: 5px;
-    vertical-align: bottom;
-    background-color: #000000;
+div#subheader
+{
+    background-color: #ff6600;
+    padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
 }
 
-#navigation_bar a
-{  
-    color: #ffffff;
-}
-
-.navigation_item
-{  
-    margin-left: 20px;
-    margin-right: 20px;
-    display: inline;
-}
-
-#path
-{ 
-    font-size: small;
-    width: 690px;
-    padding: 5px;
-    background-color: #824b30;
-    color: #aaaaaa;
-}
-
-#path a
-{ 
-    color: #ffffff;
-}
-
-#path p
-{ 
-    margin: 0px;
-    padding: 0px;
-}
-
-/* Main menu  */
-#mainmenu
-{  
-    height: 100%;
+div#mainmenu
+{
     float: left;
-    width: 150px;
-    background-color: #ffeeff;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 
-#mainmenu .selected
+div#mainmenu ul, div#mainmenu li
 {
-  background-color: #c2977c;
-  border-color: #824b30;
-  border-top: 1px solid;
+    display: inline; /* This makes the vertical display of this menu */
 }
 
-#mainmenu .item
+div#mainmenu ul
 {
-  background-color: #824b30;
-  border-color: #4c5792;
-  border-top: 1px solid;
+    margin-left: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
-#mainmenu .item:hover
+div#mainmenu li
 {
-  background-color: #c2977c;
-  border-color: #aaaaaa;
+    padding-left: 1em;
+    padding-right: 3em;
 }
 
-#mainmenu .level_0
+div#mainmenu a
 {
-  padding: 4px; 
+    color: #202020;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-#mainmenu .level_1
+div#mainmenu a:hover
 {
-  padding: 4px; 
-  margin-left: 15px;
+    text-decoration: underline;
 }
 
-#mainmenu a
-{ 
-   color: #ffffff;
-}
-
-/* Information bar, latest news and search */
-
-#info_bar
-{  
+div#searchbox
+{
     float: right;
-    width: 140px;
-    padding: 5px;
-    background-color: #eeeeee;
+    clear: right;
 }
 
-#info_bar h3 a
-{  
-    color: #824b30;
+div#searchbox input.searchtext
+{
+    font-size: 80%;
+    width: 8em;
 }
 
-#info_bar h3
-{  
-    margin-bottom: 0px;
+div#searchbox input.searchbutton
+{
+    font-size: 80%;
+    margin-right: 1em;
 }
 
-#info_bar p
-{  
-    font-size: small;
-    color: #777777;
-    padding: 0px;
-    margin: 0px;
+div#path
+{
+    margin-top: 1.7em;
+    margin-bottom: 1em;
 }
 
-/* search box */
-
-#search_box
-{  
-    position: absolute;
-    top: 1px;
-    left: 480px;
-    font-size: small;
+div#path p
+{
+    margin: 0;
 }
 
-#search_box input.searchbutton
-{  
-    color: #ffffff;
-    background-color: #824b30;
+div#path a
+{
+    color: #ff7777;
 }
 
-/* main content area */
-#main_content
-{  
-   padding: 10px;
-   background-color: #ffffff;
-   margin-left: 150px;  
-   margin-right: 150px;  
-}
-
-#footer
-{  
-    font-size: small;
-    text-align: center;
+div#submenu
+{
     float: left;
+    clear: left;
+    width: 8em;
+}
+
+div#submenu div.design
+{
+    padding: 0.1em;
+}
+
+div#submenu ul
+{
+    list-style-type: none;
+    margin-left: 1em;
+    margin-top: 2em;
+}
+
+div#submenu li
+{
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+div#submenu a
+{
+    color: #ff9999;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#submenu a:hover
+{
+    text-decoration: underline;
+}
+
+div#infobox
+{
+    margin-top: 0;
+    margin-bottom: 2em;
+    float: right;
+    clear: right;
+    width: 200px;
+}
+
+div#infobox div.design
+{
+    border: 1px solid #ff8822;
+    background-image: url(../images/infobox_image.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#infobox h3
+{
+    margin-top: 116px;
+    padding: 0.2em;
+    padding-left: 1.2em;
+    background-color: #ff8822;
+}
+
+div#infobox ul
+{
+    list-style-type: none;
+    margin-bottom: 1.5em;
+}
+
+div#infobox li
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div#infobox a
+{
+    color: #000000;
+}
+
+div#mainmenu div.design
+{
+}
+
+div#maincontent
+{
+    margin-bottom: 2em;
+    margin-left: 8em;
+    margin-right: 220px;
+    clear: none;
+}
+
+div#footer
+{
     clear: both;
-    width: 100%;
-    background-color: #000000;
-    color: #cccccc;
-    padding: 5px;
 }
 
-#footer a
-{  
-    color: #cccccc;
+div#footer div.design
+{
+    background-color: #ff6600;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
-#footer p
-{  
-    padding: 0px;
-    margin: 0px;
-    color: #cccccc;
+div#footer a
+{
+    color: #000000;
 }
-
 
 /* General child "line view" object settings */
 
@@ -248,12 +251,11 @@ body
 
 #folder div.child div.readmore
 { 
-    font-size: small;
 }
 
 #folder div.child div.readmore a
 { 
-    color: #824b30;
+    color: #304b82;
 }
 
 #folder div.child div.readmore p
@@ -302,6 +304,6 @@ div.editbutton
 div.editbutton input
 { 
    font-size: small;
-   background-color: #824b30;
+   background-color: #304b82;
    color: #ffffff;
 }
