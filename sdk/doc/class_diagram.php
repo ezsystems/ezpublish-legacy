@@ -39,4 +39,7 @@ $DocResult["title"] = "Class Diagram";
 <p>
 The class diagram for the eZ publish&trade; kernel is shown below.
 </p>
+
+<p>
 <img src="/doc/design/uml/class.png" border="0" alt="database diagram" />
+</p>

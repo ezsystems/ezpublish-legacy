@@ -47,7 +47,7 @@ indenting and other nice features. You can get it from: <a href="http://develope
 
 <h1>Files </h1>
 <p>
-All files uses lower-case. PHP files are named <i>.php</i>
+Use lower-case in all file names. PHP files are named <i>.php</i>
 </p>
 
 <h1>Headers</h1>
@@ -111,10 +111,10 @@ names which is grouped should be indented to the same level.
 </p>
 <p>
 Empty lines should not only appear empty, but they should also be empty, all tab and space
- characters should be removed.
+characters should be removed.
 </p>
 <p>
-Use more parenthesis than necessary if you're not sure on the sequence the expression is executed.
+Use more parenthesis than necessary if you're not certain in which sequence the expression is executed.
 </p>
 
 <h1>Strings</h1>
@@ -124,15 +124,15 @@ $a = 'aiosdjfjiioj ' . $abc . ' aopsdfopasdokf ' . $adfafsd;
 $a = implode( 'aiosdjfjiioj ', $abc, ' aopsdfopasdokf ', $adfafsd );
 
 <p>
-PHP has many different ways of handling strings. Some are prefered because of speed, others
+PHP has many different ways of handling strings. Some are preferred because of speed, others
 because of readability of code.
 </p>
 
 <p>
 PHP has two different quotes " and '. These are used to define a text string. The difference
-between the two is that the single quote does not process the string an do variable replacement.
+between the two is that the single quote does not process the string or does variable replacement.
 I.e. if you write  "$myVariable\n" and '$myVariable\n' the first will print the contents of the variable
-followed by a newline character. The latter will print: $myVariable\n, with not aditional processing.
+followed by a newline character. The latter will print: $myVariable\n, with no aditional processing.
 For this reason you should use single quotes rather than double quotes because this will be quicker.
 If you need to have a combination of text and variables you should use the implode() function. This
 function should be used instead of the . operator since this does only allocate memory once and is
@@ -157,8 +157,8 @@ if ( $variable == 'string' )
 
 <h1>If and while statements</h1>
 <p>
-Nested if statements should always use {}. If you have a lot of if, else statements these should
-probably be replaced with case statements, or it should be redesign to use object oriented methods.
+Nested if statements should always use {}. If you have a lot of if-else statements these should
+probably be replaced by case statements, or redesign your code to use object oriented methods.
 If and while statements should be constructed of logic statements, no assignment or changing of
 data should occur.
 </p>
@@ -168,7 +168,7 @@ data should occur.
 Below is examples the syntax of the different PHP control structures. Notice the space
 after the control structure name, this is different from functions which does not have
 a space after the function name. PHP has different syntax rules for using control structures,
-the syntax below is prefered.
+the syntax below is preferred.
 </p>
 
 <pre class="example">
@@ -247,7 +247,7 @@ switch ( $value )
 
 <h1>Functions</h1>
 <p>
-Functions should as far as possible be placed inside classes. The syntax of functions are
+Functions should be placed inside classes when possible. The syntax of functions are
 showed in the snipped below.
 </p>
 
@@ -263,7 +263,7 @@ function &myFunction( $paramA = 1, $paramB = 2 )
 
 <h1>Arrays</h1>
 <p>
-When indexing hash arrays you should use single quotes and no space.
+When indexing hash arrays you should use single quotes and no spaces.
 </p>
 
 <pre class="example">
@@ -283,8 +283,8 @@ Example:
 $ValueOne
 </pre>
 <p>
-Function names can be constructed by several words, all words should have lower-case unless the first
-letter which should be an upper-case letter. Exception for this is the first letter which always should
+Function names can be constructed of several words, all words should have lower-case except the first
+letter which should be an upper-case letter. The exception for this is the first letter which should always
 be in lower-case. If the first letter is part of an abbreviation the whole abbreviation should be in
 lower-case. Functions which return booleans should be named as a question (<i>has</i>, <i>is</i>,
 <i>can</i> ...).
@@ -302,7 +302,7 @@ isValid();
 canProcess();
 </pre>
 <p>
-Constants should be constructed by only upper-case letters, _ should be used to separate words.
+Constants should be constructed by upper-case only letters, _ should be used to separate words.
 </p>
 <p>
 Example:
@@ -324,7 +324,7 @@ $X, $Y;
 $FirstName;
 </pre>
 <p>
-Local variables can also consist of several words with lower-case, the first character of each word is a
+Local variables can also consist of several words in lower-case, the first character of each word is a
 capital letter except the first word. The number of words should be as few as possible and the words can be abbreviated.
 </p>
 <pre class="example">
@@ -349,7 +349,7 @@ eZContentObject
 eZImageVariation
 </pre>
 <p>
-Global variables are not used, place them in a class and make them static.
+Global variables are to be avoided, place them in a class and make them static.
 </p>
 <h2>HTTP Post variables</h2>
 <p>
@@ -386,7 +386,7 @@ the more complex the function is the shorter should the function be. If it gets 
 function up into helper functions.
 </p>
 <p>
-The number of local variables in a function should not be larger than 7, 7 is a known limit to the number of
+The number of local variables in a function should not be larger than 7. 7 is a known limit to the number of
 things people can control at one time. Split up the function if it gets too large.
 </p>
 <p>
@@ -397,13 +397,14 @@ You should let the parameter line go over several lines with grouping of the sim
 </p>
 <h1>Classes</h1>
 <p>
-Classes should have one responsibility. All member variables are private . Help functions should also be private.
-Functions which does not access member variables should be static.
+Classes should have one responsibility. All member variables are private.
+Helper functions should also be private.
+Functions that do not access member variables should be static.
 </p>
 <h1>Commenting</h1>
 <p>
-The comments used should be written to comply with the syntax of the Doxygen tool. This tool is used to generate
-class reference documentation which is available at <a href="http://sdk.ez.no">http://sdk.ez.no.</a>.
+The comments used should be written to comply with the syntax of the Doxygen tool. This tool, which is used
+to generate class reference documentation, is available at <a href="http://sdk.ez.no">http://sdk.ez.no.</a>.
 </p>
 
 <pre class="example">

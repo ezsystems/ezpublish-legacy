@@ -38,4 +38,6 @@
 The diagram below shows a schematic overview of eZ publish.
 </p>
 
+<p>
 <img src="/doc/images/ezpublish_overview.png" alt="eZ publish overview" />
+</p>

@@ -39,7 +39,7 @@ $DocResult["title"] = "Template Coding Standard";
 ?>
 
 <p>
-The templates is a mix of XHTML, or other output formats, and some eZ template
+The templates are a mix of XHTML, or other output formats, and some eZ template
 blocks and variables. This document defines the structure and syntax of the
 eZ template related parts. The XHTML standard defines how you should format
 XHTML/HTML.
@@ -49,9 +49,9 @@ XHTML/HTML.
 <p>
 Template variables should be named in lower case. Each word in the variable should
 be separated by _. Attributes should be lowercase and named in the same manner as
-template variables. Template variables which works as lists should be named as such
-since this makes them more visible, ie. <i>workflow_list</i> not <i>workflows</i>,
-spotting <i>workflow</i> from <i>workflows</i> can be hard.
+template variables. Template variables that work as lists should be named as such,
+since this makes them more visible, i.e. <i>workflow_list</i> not <i>workflows</i>.
+Spotting <i>workflow</i> from <i>workflows</i> can be hard.
 </p>
 
 <pre class="example"><? print( eZTextTool::highlightHTML(

@@ -37,8 +37,7 @@ $DocResult = array( "title" => "Directory Layout" );
 
 <h2>Root</h2>
 <p>
-The root directory is divided into multiple subdirectories which have their own
-role.
+The eZ publish root directory is divided into multiple subdirectories, each which their own role.
 </p>
 
 <h3>bin</h3>
@@ -48,52 +47,52 @@ Contains various executables and shell scripts for different operation systems.
 
 <h3>design</h3>
 <p>
-Contains all design related files. This is templates, images, stylesheets and
+Contains all design related files, such as templates, images, style sheets and
 template preparation scripts. These are categorized in site designs and can
 contain override files.
-The default site design is <b>standard</b> will always the default fallback design.
+The default site design is <b>standard</b>. It is also the default fallback design.
 </p>
 
 <h3>doc</h3>
 <p>
-Contains all documentation ranging from requirement documents to design documents and changelogs.
+Contains all documentation ranging from requirement documents to design documents and change logs.
 This is the place too look if you want information on how eZ publish was designed and what has
 changed. The dynamic documentation can be found in the <b>sdk</b> directory.
 </p>
 
 <h3>kernel</h3>
 <p>
-Contains all classes, views, datatypes and related kernel files. This is the core of the system
-and this is where you should look if you need to change eZ publish specific problems. A lot
-of the kernel uses the <b>eZ publish libraries</b> so some features is probably moved
-to libraries when they are general.
+Contains all classes, views, data types and related kernel files. This is the core of the system.
+You should not normally need to change anything here.
+<!-- and this is where you should look if you want to change eZ publish specific functionality.
+A lot of the kernel uses the <b>eZ publish libraries</b> so some features are probably moved
+to libraries when they are general. -->
 </p>
 
 <h3>lib</h3>
 <p>
 Contains the general eZ publish libraries. These libraries are collections of classes which perform
-various tasks. The libraries are highly reusable and are no way dependent on the kernel.
-People looking for general PHP libraries should take a look in <b>lib</b>.
+various tasks. The libraries are highly reusable and are in no way dependent on the kernel.
+People looking for general PHP libraries should take a look here.
 </p>
 
 <h3>sdk<h3>
 <p>
-Contains dynamic php scripts for rendering the various documentation bits, such as changelogs,
-API reference and kernel examples.
-The code found here is somewhat dependent on the <b>kernel</b>.
+Contains dynamic PHP scripts for rendering the various documentation bits, such as change logs,
+API reference and kernel examples. The code found here is somewhat dependent on the <b>kernel</b>.
 </p>
 
 <h3>settings</h3>
 <p>
-Contains configuration files for eZ publish, these files are meant to be changed by sites and
-is unique for one site and should not be shared.
+Contains configuration files for eZ publish, these files are meant to be changed by sites,
+and are unique for one site and should not be shared.
 It also has site access configuration.
 The size of this directory is generally small and never grows, see <b>var</b> for cache files.
 </p>
 
 <h3>share</h3>
 <p>
-Contains static configuration files such as codepages, locale information and translation files.
+Contains static configuration files such as code pages, locale information and translation files.
 Dynamic configuration can be found in <b>settings</b>.
 This directory can easily be shared among eZ publish installations.
 </p>
@@ -102,5 +101,6 @@ This directory can easily be shared among eZ publish installations.
 <p>
 Contains various cache files, logs and stored images and files.
 This directory will grow in size as the site is used more and more,
-it is therefore a good idea to put this on a large partition.
+it is therefore a good idea to put this on a large partition, and monitor it's growth.
+Use the logs to solve configuration problems or other issues.
 </p>

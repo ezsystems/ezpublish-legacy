@@ -39,4 +39,7 @@ $DocResult["title"] = "ContentClass Database Diagram";
 <p>
 The database diagram for the content class is shown below.
 </p>
+
+<p>
 <img src="/doc/design/uml/contentclass_db.png" border="0" alt="ContentClass Database diagram" />
+</p>

@@ -39,4 +39,7 @@ $DocResult["title"] = "Database Diagram";
 <p>
 The database diagram for the eZ publish&trade; kernel is shown below.
 </p>
+
+<p>
 <img src="/doc/design/uml/database.png" border="0" alt="Database diagram" width=1280 height=930" />
+</p>

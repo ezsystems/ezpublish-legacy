@@ -44,11 +44,11 @@ $DocResult["title"] = "Security Standard";
 
 <h2>Passwords</h2>
 <p>
-Storing passwords should be done by creating a non-revertible hashed version of it. A very
+Storing passwords should be done by creating a non-reversible hashed version of it. A very
 good method for creating hashed versions is to use the <a href="http://www.faqs.org/rfcs/rfc1321.html">MD5 Message-Digest Algorithm</a>.
 The password is fed to the <a href="http://www.php.net/manual/en/function.md5.php">md5 function</a> with the username and a unique
-id for the site. This ensures that two users with the same password cannot be spotted in the DB tables, not even
-across sites.*
+id for the site. This ensures that two users with the same password cannot be spotted in the DB tables,
+not even across sites*.
 </p>
 <p>
 <b>Note:</b> Make sure that the supplied username and password are sent using <a href="http://www.openssl.org/">SSL</a> when submitting a form. Otherwise
@@ -74,7 +74,7 @@ function authenticateHash( $user, $password, $siteid, $stored_hash )
 <h2>Form tickets</h2>
 <p>
 To avoid Client side Trojans all forms must use a system called <i>tickets</i>. A
-ticket is unique key which is created dynamicly for a given action. The ticket is created
+ticket is a unique key which is created dynamically for a given action. The ticket is created
 on the server when a form is created and stored in a database as well as placed in the
 form as a hidden variable. When the user submits the form data the code fetches the ticket
 and authenticates it against the stored ticket in the DB table. If the ticket is valid
@@ -82,8 +82,8 @@ the action is performed and the ticket removed, if not a warning message is prin
 user telling him that he's probably been tricked by a Trojan.
 </p>
 <p>
-Tickets can also be used to help with double-click problems from forms. When the code
-starts a check for the ticket is done, if it exists it is locked in some way and code
+Tickets can also be used to help with double-click problems from forms. The code
+starts a check for the ticket, if it exists it is locked in some way and code
 continues. If the user then double-clicks and the code is restarted it will see that
 the ticket exists but is locked and thus shows a page explaining that the a double-click
 was detected.
@@ -120,11 +120,11 @@ else
 
 <h2>Input validation</h2>
 <p>
-All input from the user should be validated before storing them. For instance when expecting
-integer or date data always check to see if it is actually the wanted type, if not
+All input from the user should be validated before storing it. For instance when expecting
+integer or date data always check to see if it is actually of the wanted type, if not
 issue a warning to the user. The input may then be converted to a more reasonable state, for instance
-dates should be converted to integers, but do not perform any escaping of text or similar an text washing.*
-When the input is valid and in a acceptable form store it as it is.
+dates should be converted to integers, but do not perform any escaping of text or similar text washing.
+When the input is valid and in an acceptable form, store it as it is.
 </p>
 
 <h3>Reasons for not escaping input data</h3>
@@ -143,9 +143,9 @@ $date_num = $date_obj->value(); // Returns integer value
 
 <h2>Output washing</h2>
 <p>
-Before displaying stored data in a HTML page must make sure that it's presentable, especially
+Before displaying stored data in an HTML page you must make sure that it's presentable, especially
 to avoid cross-site scripting (XSS). This might mean
-escaping the data or converting to a different form, however this washing must not be done until
+escaping the data or converting it to a different form, however this washing must not be done until
 the data is just about to be shown to the user. This means that the code for escaping must not be
 placed in the class or function which returns the input data but rather in the template code, this
 because it's not known what the client code wants to do with the data.
