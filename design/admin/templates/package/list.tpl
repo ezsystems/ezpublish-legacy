@@ -35,7 +35,11 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 </div>
 
 {section-else}
-
+{section show=$module_action|eq( 'CancelRemovePackage' )}
+<div class="message-feedback">
+    <p>{'Package removal was cancelled.'|i18n('design/admin/package')}</p>
+</div>
+{/section}
 
 {* ## START default window ## *}
 
@@ -50,16 +54,6 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
-
-
-
-
-{section show=$module_action|eq( 'CancelRemovePackage' )}
-<div class="feedback">
-    <p>{'Package removal was cancelled.'|i18n('design/admin/package')}</p>
-</div>
-{/section}
-
 
 <p>{'The following packages are available on this system'|i18n('design/admin/package')}</p>
 

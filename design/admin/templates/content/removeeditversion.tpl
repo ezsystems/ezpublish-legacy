@@ -28,7 +28,7 @@
 
 <form action={"content/removeeditversion"|ezurl} method="post" name="EditVersionRemove">
 
-<div class="warning">
+<div class="message-warning">
 <h2>{"Are you sure you want to discard the draft %versionname?"
      |i18n( 'design/standard/content/edit',,
             hash( '%versionname', concat( '<i>', $version.version_name, '</i>' ) ) )}</h2>

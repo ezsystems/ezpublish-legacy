@@ -6,7 +6,7 @@
 
 {* Messages *}
 {section show=$sessions_removed}
-<div class="feedback">
+<div class="message-feedback">
 {"The sessions were successfully removed."|i18n( "design/standard/setup/session" )}
 </div>
 {/section}
