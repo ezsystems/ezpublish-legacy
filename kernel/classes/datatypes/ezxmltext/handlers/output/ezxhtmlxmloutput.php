@@ -338,35 +338,135 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null, $isChildOfLinkTag = false )
     {
         $tagText = "";
         $childTagText = "";
         $tagName = $tag->name();
-        // render children tags
-        $tagChildren = $tag->children();
-        foreach ( $tagChildren as $childTag )
+
+        // Set link parameters for rendering children of link tag
+        if ( $tagName=="link" )
         {
-            if ( $tag->name() == "literal" )
-                $childTagText .= $childTag->content();
-            else
-                $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+            $this->LinkParameters = array();
+
+            $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
+            $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
+
+            $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+            $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+
+            if ( $tag->attributeValue( 'url_id' ) != null )
+            {
+                $linkID = $tag->attributeValue( 'url_id' );
+                $href = $this->LinkArray[$linkID];
+
+                include_once( 'lib/ezutils/classes/ezmail.php' );
+                if ( eZMail::validate( $href ) )
+                    $href = "mailto:" . $href;
+            }
+            elseif ( $tag->attributeValue( 'node_id' ) != null )
+            {
+                $nodeID = $tag->attributeValue( 'node_id' );
+                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $href = $node->attribute( 'url_alias' );
+            }
+            elseif ( $tag->attributeValue( 'object_id' ) != null )
+            {
+                $objectID = $tag->attributeValue( 'object_id' );
+                $object = $this->ObjectArray["$objectID"];
+                if ( $object == null )
+                {
+                    eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
+                    break;
+                }
+                $node =& $object->attribute( 'main_node' );
+                if ( $node == null )
+                {
+                    eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
+                    break;
+                }
+                $href = $node->attribute( 'url_alias' );
+            }
+            elseif ( $tag->attributeValue( 'href' ) != null )
+            {
+                $href = $tag->attributeValue( 'href' );
+
+                include_once( 'lib/ezutils/classes/ezmail.php' );
+                if ( eZMail::validate( $href ) )
+                    $href = "mailto:" . $href;
+            }
+
+            if ( $tag->attributeValue( 'anchor_name' ) != null )
+            {
+                $href .= '#' . $tag->attributeValue( 'anchor_name' );
+            }
+
+            $this->LinkParameters['href'] = $href;
         }
 
+        // render children tags using recursion
+        $tagChildren = $tag->children();
+
+        foreach ( $tagChildren as $childTag )
+        {
+            switch( $tagName )
+            {
+                case "literal" :
+                {
+                    $childTagText .= $childTag->content();
+                }break;
+                case "link" :
+                {
+                    // we use no template for link tag, all link parameters are used
+                    // inside the templates of it's children, so we update tagText directly
+                    $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, true );
+                }break;
+                default :
+                    $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+            }
+        }
 
         switch ( $tagName )
         {
             case '#text' :
             {
-                $tagText .= htmlspecialchars( $tag->content() );
+                $text = htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
-                $tagText = preg_replace( "#[\n]+#", "", $tagText );
-                $tagText = preg_replace( "#    #", "", $tagText );
+                $text =& preg_replace( "#[\n]+#", "", $text );
+                $text =& preg_replace( "#    #", "", $text );
+
+                if ( $isChildOfLinkTag )
+                {
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'classification', $this->LinkParameters['class'] ) ) );
+    
+                    $tpl->setVariable( 'content', $text, 'xmltagns' );
+
+                    $tpl->setVariable( 'href', $this->LinkParameters['href'], 'xmltagns' );
+                    $tpl->setVariable( 'target', $this->LinkParameters['target'], 'xmltagns' );
+                    $tpl->setVariable( 'classification', $this->LinkParameters['class'], 'xmltagns' );
+                    $tpl->setVariable( 'title', $this->LinkParameters['title'], 'xmltagns' );
+                    $tpl->setVariable( 'id', $this->LinkParameters['id'], 'xmltagns' );
+
+                    $uri = "design:content/datatype/view/ezxmltags/link.tpl";
+
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+
+                    $tagText .= implode( '', $textElements );
+
+                    // Remove the design key, so it will not override other tags
+                    $res->removeKey( 'classification' );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                }
+                else
+                {
+                    $tagText .= $text;
+                }
             }break;
 
             case 'object' :
             {
-                $isBlockTag = true;
+               // $isBlockTag = true;
                 $objectID = $tag->attributeValue( 'id' );
                 // fetch attributes
                 $objectAttributes =& $tag->attributes();
@@ -383,8 +483,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
-                    $res->setKeys( array( array( 'classification', $class ),
-                                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
+                    $res->setKeys( array( array( 'classification', $class ) ) );
+                                         // array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
                     $hasLink = false;
                     $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
@@ -400,13 +500,16 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $target = "_self";
 
                     $objectParameters = array();
-//                    $objectParameters['align'] = "right;
+                    $objectParameters['align'] = 'right';
                     foreach ( $objectAttributes as $attribute )
                     {
                         if ( $attribute->name() == "ezurl_id" )
-                            $objectParameters['href'] = $href;
+                        {
+                            $this->LinkParameters = array();
+                            $this->LinkParameters['href'] = $href;
+                        }
                         else if ( $attribute->name() == "ezurl_target" )
-                            $objectParameters['target'] = $target;
+                            $this->LinkParameters['target'] = $target;
                         else if ( $attribute->name() == "align" )
                             $objectParameters['align'] = $alignment;
                         else
@@ -419,6 +522,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $tpl->setVariable( 'object', $object, 'xmltagns' );
                     $tpl->setVariable( 'view', $view, 'xmltagns' );
                     $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
+                    $tpl->setVariable( 'link_parameters', $this->LinkParameters, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
@@ -451,7 +555,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         case 'embed' :
         {
-            $isBlockTag = true;
+            //$isBlockTag = true;
 
             if ( $tag->attributeValue( 'object_id' ) != null )
             {
@@ -481,19 +585,22 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $view = $tag->attributeValue( 'view' );
                 if ( $view == null )
                     $view = 'embed';
+                $class = $tag->attributeValue( 'class' );
 
                 $objectParameters = array();
-
+                $objectParameters['align'] = 'right';
                 foreach ( $embedAttributes as $attribute )
                 {
                    $attrName = $attribute->name();
-                   if ( $attrName != 'view' )
+                   if ( $attrName != 'view' && $attrName != 'class' && $attrName != 'node_id' && $attrName != 'object_id' )
                        $objectParameters[$attribute->name()] = $attribute->content();
                 }
 
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
+                $tpl->setVariable( 'link_parameters', $this->LinkParameters, 'xmltagns' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
                 $textElements = array();
@@ -518,7 +625,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $isBlockTag = true;
                 else
                     $isBlockTag = false;
-
             }
         }break;
 
@@ -767,83 +873,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
             }break;
 
-            case 'link' :
-            {
-                $class = $tag->attributeValue( 'class' );
-
-                $res =& eZTemplateDesignResource::instance();
-                $res->setKeys( array( array( 'classification', $class ) ) );
-
-                $target = $tag->attributeValue( 'target' );
-                if ( $target == '_self' )
-                    $target = false;
-
-                $htmlTitle = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
-                $htmlID = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
-
-                include_once( 'lib/ezutils/classes/ezmail.php' );
-
-                if ( $tag->attributeValue( 'url_id' ) != null )
-                {
-                    $linkID = $tag->attributeValue( 'url_id' );
-                    $href = $this->LinkArray[$linkID];
-
-                    if ( eZMail::validate( $href ) )
-                        $href = "mailto:" . $href;
-                }
-                elseif ( $tag->attributeValue( 'node_id' ) != null )
-                {
-                    $nodeID = $tag->attributeValue( 'node_id' );
-                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                    $href = $node->attribute( 'url_alias' );
-                }
-                elseif ( $tag->attributeValue( 'object_id' ) != null )
-                {
-                    $objectID = $tag->attributeValue( 'object_id' );
-                    $object = $this->ObjectArray["$objectID"];
-                    if ( $object == null )
-                    {
-                    	eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
-                        break;
-                	}
-                    $node =& $object->attribute( 'main_node' );
-                    if ( $node == null )
-                    {
-                    	eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
-                        break;
-                	}
-                    $href = $node->attribute( 'url_alias' );
-                }
-                elseif ( $tag->attributeValue( 'href' ) != null )
-                {
-                    $href = $tag->attributeValue( 'href' );
-
-                    if ( eZMail::validate( $href ) )
-                        $href = "mailto:" . $href;
-                }
-
-                if ( $tag->attributeValue( 'anchor_name' ) != null )
-                {
-                    $href .= '#' . $tag->attributeValue( 'anchor_name' );
-                }
-
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-
-                $tpl->setVariable( 'href', $href, 'xmltagns' );
-                $tpl->setVariable( 'target', $target, 'xmltagns' );
-                $tpl->setVariable( 'classification', $class, 'xmltagns' );
-                $tpl->setVariable( 'title', $htmlTitle, 'xmltagns' );
-                $tpl->setVariable( 'id', $htmlID, 'xmltagns' );
-
-                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
-
-                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
-                // Remove the design key, so it will not override other tags
-                $res->removeKey( 'classification' );
-                $tpl->unsetVariable( 'classification', 'xmltagns' );
-            }break;
-
             case 'anchor' :
             {
                 $name = $tag->attributeValue( 'name' );
@@ -871,6 +900,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     var $ObjectArray = array();
 
     var $NodeObjectIDArray = array();
+
+    /// Array of parameters for rendering tags that are children of 'link' tag
+    var $LinkParameters = array();
 }
 
 ?>
