@@ -11,7 +11,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$statistic_result}
+{section show=$statistic_result[0].product_list}
 <table class="list" cellspacing="0">
 <tr>
 	<th class="wide">{'Product'|i18n( 'design/admin/shop/orderstatistics' )}</th>
@@ -34,6 +34,10 @@
 	<td><b>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</b></td>
 </tr>
 </table>
+{section-else}
+<div class="block">
+<p>{'There list is empty.'|i18n( 'design/admin/shop/orderstatistics' )}
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
