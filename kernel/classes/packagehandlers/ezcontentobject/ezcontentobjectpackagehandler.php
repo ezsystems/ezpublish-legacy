@@ -870,7 +870,31 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function add( $packageType, &$package, &$cli, $parameters )
     {
-        //TODO, command line support
+        $options = array();
+        foreach ( $parameters['node-list'] as $nodeItem )
+        {
+            $nodeIDList = $nodeItem['node-id-list'];
+            foreach ( $nodeIDList as $nodeIDItem )
+            {
+                $this->addNode( $nodeIDItem['id'], $nodeIDItem['subtree'] );
+                unset( $node );
+                $node = false;
+                if ( isset( $nodeIDItem['node'] ) )
+                    $node =& $nodeIDItem['node'];
+                else
+                    $node =& eZContentObjectTreeNode::fetch( $nodeIDItem['id'] );
+                $cli->notice( "Adding node /" . $node->attribute( 'path_identification_string' ) . " to package" );
+            }
+        }
+        $options['include_classes'] = $parameters['include-classes'];
+        $options['include_templates'] = $parameters['include-templates'];
+        $options['node_assignment'] = $parameters['node-assignment-type'];
+        $options['site_access_array'] = $parameters['siteaccess-list'];
+        $options['language_array'] = $parameters['language-list'];
+        $options['versions'] = $parameters['version-type'];
+        $options['related_objects'] = $parameters['related-type'];
+        $options['embed_objects'] = $parameters['embed-type'];
+        $this->generatePackage( $package, $options );
     }
 
     /*!
@@ -878,7 +902,178 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function handleAddParameters( $packageType, &$package, &$cli, $arguments )
     {
-        //TODO, command line support
+        return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
+    }
+
+    /*!
+     \private
+    */
+    function handleParameters( $packageType, &$package, &$cli, $type, $arguments )
+    {
+        $nodeList = array();
+        $includeClasses = true;
+        $includeTemplates = true;
+        $siteAccessList = array();
+        $nodeAssignmentType = 'main';
+        $relatedObjectType = 'selected';
+        $embedObjectType = 'selected';
+        $versionType = 'current';
+        $languageList = array();
+        $nodeItem = array( 'node-id-list' => array() );
+        $longOptions = array( 'include-classes' => 'include-classes',
+                              'include-templates' => 'include-templates',
+                              'exclude-classes' => 'exclude-classes',
+                              'exclude-templates' => 'exclude-templates',
+                              'language' => 'language',
+                              'current-version' => 'current-version',
+                              'all-versions' => 'all-versions',
+                              'node-main' => 'node-main',
+                              'node-selected' => 'node-selected',
+                              'siteaccess' => 'siteaccess' );
+        $shortOptions = array();
+        foreach ( $arguments as $argument )
+        {
+            if ( $argument[0] == '-' )
+            {
+                if ( strlen( $argument ) > 1 and
+                     $argument[1] == '-' )
+                {
+                    $option = substr( $argument, 2 );
+                    $valuePos = strpos( $option, '=' );
+                    $optionValue = false;
+                    if ( $valuePos !== false )
+                    {
+                        $optionValue = substr( $option, $valuePos + 1 );
+                        $option = substr( $option, 0, $valuePos );
+                    }
+                    if ( isset( $longOptions[$option] ) )
+                        $optionName = $longOptions[$option];
+                    else
+                        $optionName = false;
+                }
+                else
+                {
+                    $option = substr( $argument, 1 );
+                    if ( isset( $shortOptions[$option] ) )
+                        $optionName = $shortOptions[$option];
+                    else
+                        $optionName = false;
+                }
+                if ( $optionName == 'include-classes' or $optionName == 'exclude-classes' )
+                {
+                    if ( count( $nodeItem['node-id-list'] ) > 0 )
+                    {
+                        $nodeList[] = $nodeItem;
+                        $nodeItem['node-id-list'] = array();
+                    }
+                    $includeClasses = ( $optionName == 'include-classes' );
+                }
+                else if ( $optionName == 'include-templates' or $optionName == 'exclude-templates' )
+                {
+                    if ( count( $nodeItem['node-id-list'] ) > 0 )
+                    {
+                        $nodeList[] = $nodeItem;
+                        $nodeItem['node-id-list'] = array();
+                    }
+                    $includeTemplates = ( $optionName == 'include-templates' );
+                }
+                else if ( $optionName == 'node-main' )
+                {
+                    $nodeAssignmentType = 'main';
+                }
+                else if ( $optionName == 'node-selected' )
+                {
+                    $nodeAssignmentType = 'selected';
+                }
+                else if ( $optionName == 'siteaccess' )
+                {
+                    $siteAccessList = explode( ',', $optionValue );
+                }
+                else if ( $optionName == 'language' )
+                {
+                    $languageList = explode( ',', $optionValue );
+                }
+                else if ( $optionName == 'current-version' )
+                {
+                    $versionType = 'current';
+                }
+                else if ( $optionName == 'all-versions' )
+                {
+                    $versionType = 'all';
+                }
+            }
+            else
+            {
+                $nodeID = false;
+                $subtree = false;
+                if ( is_numeric( $argument ) )
+                {
+                    $nodeID = (int)$argument;
+                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                    if ( !is_object( $node ) )
+                    {
+                        $error = true;
+                        $nodeID = false;
+                        $cli->notice( "Could not find content-node using ID " . $cli->stylize( 'emphasize', $nodeID ) );
+                    }
+                }
+                else
+                {
+                    $path = $argument;
+                    if ( preg_match( "#(.+)/\*$#", $path, $matches ) )
+                    {
+                        $path = $matches[1];
+                        $subtree = true;
+                    }
+                    $node =& eZContentObjectTreeNode::fetchByURLPath( $path );
+                    if ( is_object( $node ) )
+                    {
+                        $nodeID = $node->attribute( 'node_id' );
+                    }
+                    else
+                    {
+                        $cli->notice( "Could not find content-node using path " . $cli->stylize( 'emphasize', $path ) );
+                        $error = true;
+                    }
+                }
+                if ( $nodeID )
+                {
+                    $nodeItem['node-id-list'][] = array( 'id' => $nodeID,
+                                                         'subtree' => $subtree,
+                                                         'node' => &$node );
+                }
+                if ( $error )
+                    return false;
+            }
+        }
+        if ( count( $nodeItem['node-id-list'] ) > 0 )
+        {
+            $nodeList[] = $nodeItem;
+        }
+        if ( count( $nodeList ) == 0 )
+        {
+            $cli->error( "No objects chosen" );
+            return false;
+        }
+        if ( count( $languageList ) == 0 )
+        {
+            $languageList[] = eZContentObject::defaultLanguage();
+        }
+        if ( count( $siteAccessList ) == 0 )
+        {
+            $ini =& eZINI::instance();
+            $siteAccessList[] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        }
+        return array( 'node-list' => $nodeList,
+                      'include-classes' => $includeClasses,
+                      'include-templates' => $includeTemplates,
+                      'siteaccess-list' => $siteAccessList,
+                      'language-list' => $languageList,
+                      'node-assignment-type' => $nodeAssignmentType,
+                      'related-type' => $relatedObjectType,
+                      'embed-type' => $embedObjectType,
+                      'version-type' => $versionType
+                      );
     }
 
     function contentObjectDirectory()
