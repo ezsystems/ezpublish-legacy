@@ -363,7 +363,6 @@ INSERT INTO ezcontentobject VALUES (157,14,0,5,22,'Travel guide',2,0,1037264847,
 INSERT INTO ezcontentobject VALUES (158,14,0,5,22,'Animal planet',3,0,1037265973,1037265973);
 INSERT INTO ezcontentobject VALUES (160,14,0,6,1,'My company',2,0,1037197585,1037197585);
 INSERT INTO ezcontentobject VALUES (161,14,0,6,1,'News',1,0,1037177708,1037177708);
-INSERT INTO ezcontentobject VALUES (162,14,0,6,2,'This is our latest customer',2,0,1037201003,1037201003);
 INSERT INTO ezcontentobject VALUES (163,14,0,6,1,'Products',3,0,1037263615,1037263615);
 INSERT INTO ezcontentobject VALUES (164,14,0,6,1,'Software',1,0,1037192378,1037192378);
 INSERT INTO ezcontentobject VALUES (165,14,0,6,1,'Services',2,0,1037281706,1037281706);
@@ -1035,11 +1034,6 @@ INSERT INTO ezcontentobject_attribute VALUES (452,'eng-GB',1,160,4,'My company',
 INSERT INTO ezcontentobject_attribute VALUES (453,'eng-GB',1,160,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (454,'eng-GB',1,161,4,'News',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (455,'eng-GB',1,161,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (456,'eng-GB',1,162,1,'This is new',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (457,'eng-GB',1,162,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text. Intro text.</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (458,'eng-GB',1,162,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text.</paragraph>\n  <paragraph>Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text.</paragraph>\n  <paragraph>Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. Body text. v</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (459,'eng-GB',1,162,122,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (460,'eng-GB',1,162,123,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (461,'eng-GB',1,163,4,'Products',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (462,'eng-GB',1,163,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (463,'eng-GB',1,164,4,'Software',0,0);
@@ -1076,11 +1070,6 @@ INSERT INTO ezcontentobject_attribute VALUES (483,'eng-GB',1,171,120,'<?xml vers
 INSERT INTO ezcontentobject_attribute VALUES (484,'eng-GB',1,171,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>We believe that this shows that to many companies forget about their most valuable asset in the chase for profit; the co-workers.</paragraph>\n  <paragraph>As the director of this great company I am very proud of being a part of this. And I can promise that we will not stop doing this just because we won this award. We will only get better and with the staff we have I am sure we will make it.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (485,'eng-GB',1,171,122,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (486,'eng-GB',1,171,123,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (456,'eng-GB',2,162,1,'This is our latest customer',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (457,'eng-GB',2,162,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>eZ systems today signed a contract that will be highly benefitial for them and My company in the next six years.</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (458,'eng-GB',2,162,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>    <header>About eZ systems</header>\n</paragraph>\n  <paragraph>eZ systems is a software company, located in Skien, Norway with 15 employees. eZ systems have developed an advanced content management system (CMS), eZ publish.</paragraph>\n  <paragraph>eZ systems strive to deliver ?easy to use? Content Management Solutions, by being a technology leader. With the product eZ publish, eZ systems has established itself as one of the leading Content Management System software houses in the world. eZ publish, being one one the most popular CMS in the world, it is downloaded more than 400 000 times over the last year and been translated to 26 languages.</paragraph>\n  <paragraph>eZ systems was founded in mai 1999, in Kongsberg, Norway, by three of todays employees. Their strategy was to build a leading competence center, where customer and user focus was central. Thereby the name eZ (?easy?) systems. Their main business was Linux and open source services and products.</paragraph>\n  <paragraph>eZ systems decided to make their main product eZ publish, available under the GPL licence, that is with open source. EZ systems set out to make the leading open source content management system, and the receipt was, open philosophy, academic development process and an active community. This should lead to the most flexible and usable, plus the best quality of a software product.</paragraph>\n  <paragraph>Ten developers working for six months on eZ publish resulted in the official release of eZ publish 1.0 in November 2000. The result was beyond any expectation. Within one year, eZ publish became the worlds most popular enterprise open source content management system. eZ publish had more features and a far better quality than any of its competing solutions, open source or not.</paragraph>\n  <paragraph>eZ systems, dedicated at bringing professionalism into the open source community, sets its focus on being the leading deliverer of content management systems. This leadership will be secured through continued technological innovation combined with close customer care and open source community cooperation.</paragraph>\n  <paragraph>eZ publish has been coded in PHP and runs on Unix, Windows and Linux. \nThere are a devoted community of developers and users of eZ publish worldwide. These people use, test and develop eZ publish to guarantee the best possible solution.</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (459,'eng-GB',2,162,122,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (460,'eng-GB',2,162,123,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (487,'eng-GB',1,172,1,'My company wins $ billion contract ',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (488,'eng-GB',1,172,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Miami, USA, My company today won a three-year, US$ 2 billion contract from Ad comp, the car manufactorer. &quot;This is a big step forward for us&quot; said the chairman Muggers.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (489,'eng-GB',1,172,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>This agreement, My company will implement main modules, construct and install our Big case software on their main servers. The servers will be running on the Big solutions core.</paragraph>\n  <paragraph>&quot;This is just one more proof ofthat our quality and effors pay off. &quot;Building big modules with complex modifications has become one of our specialities.&quot;</paragraph>\n  <paragraph>This also means that we will need a lot more workers in the next few weeks.</paragraph>\n  <paragraph>The future is bright</paragraph>\n</section>\n',0,0);
@@ -1140,12 +1129,6 @@ INSERT INTO ezcontentobject_attribute VALUES (418,'eng-GB',5,150,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (417,'eng-GB',4,150,147,'',0,39);
 INSERT INTO ezcontentobject_attribute VALUES (418,'eng-GB',4,150,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (546,'eng-GB',4,150,157,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Ever wondered how to make a good CMS? \nThis books will get you on the way. Packed with tips, clues and suggestions this is the only book you&apos;ll ever need when making a CMS.</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (576,'eng-GB',1,193,142,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (577,'eng-GB',1,193,144,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (578,'eng-GB',1,193,157,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (579,'eng-GB',1,193,145,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (580,'eng-GB',1,193,147,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (581,'eng-GB',1,193,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (414,'eng-GB',5,150,142,'How to make a perfect CMS solution',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (415,'eng-GB',5,150,144,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (416,'eng-GB',5,150,145,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Ever wondered how to make a good CMS? \nThis books will get you on the way. Packed with tips, clues and suggestions this is the only book you&apos;ll ever need when making a CMS.</paragraph>\n</section>\n',0,0);
@@ -1174,12 +1157,6 @@ INSERT INTO ezcontentobject_attribute VALUES (575,'eng-GB',2,192,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (461,'eng-GB',3,163,4,'Products',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (462,'eng-GB',3,163,119,'<?xml version=\"1.0\"?>\n<section>  <paragraph>My company provides advanced software for all kinds of customers. We offer solutions for most demands to give you easier access and control to your websites and content. Here you will find the powerful Server optimized beteen other powerful products.</paragraph>\n  <paragraph>Our product portfolio grows every day so you can be sure that we will have the product you need.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (414,'eng-GB',4,150,142,'How to make a perfect CMS solution',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (558,'eng-GB',1,190,142,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (559,'eng-GB',1,190,144,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (560,'eng-GB',1,190,157,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (561,'eng-GB',1,190,145,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (562,'eng-GB',1,190,147,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (563,'eng-GB',1,190,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (573,'eng-GB',2,192,145,'<?xml version=\"1.0\"?>\n<section>  <paragraph>My company Server optimized is a Linux distribution based on the Secure SoftLinux from My company. This linux server provides a secure, fast and easy way of getting the programs up and running in no time. My company software system is installed by default, configured and is ready to use as soon as the installation is complete.</paragraph>\n  <paragraph>My company Server optimizedalso comes with a fast log file analysis program, Herbalizer. Herbalizer is also configured and is ready to go after installation.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (573,'eng-GB',1,192,145,'<?xml version=\"1.0\"?>\n<section>  <paragraph>My company Server optimized is a Linux distribution based on the Secure SoftLinux from My company. This linux server provides a secure, fast and easy way of getting the programs up and running in no time. My company software system is installed by default, configured and is ready to use as soon as the installation is complete.</paragraph>\n  <paragraph>My company Server optimizedalso comes with a fast log file analysis program, Herbalizer. Herbalizer is also configured and is ready to go after installation.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (574,'eng-GB',1,192,147,'',0,34489);
@@ -1229,12 +1206,6 @@ INSERT INTO ezcontentobject_attribute VALUES (409,'eng-GB',7,148,145,'<?xml vers
 INSERT INTO ezcontentobject_attribute VALUES (410,'eng-GB',7,148,147,'',0,29);
 INSERT INTO ezcontentobject_attribute VALUES (411,'eng-GB',7,148,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (543,'eng-GB',7,148,157,'<?xml version=\"1.0\"?>\n<section>  <paragraph>What happens when you find yourself lost in the forest and the fog comes?</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (407,'eng-GB',8,148,142,'Forest fog',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (408,'eng-GB',8,148,144,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (409,'eng-GB',8,148,145,'<?xml version=\"1.0\"?>\n<section>  <paragraph>A book about the mysterious sounds and sights that can hide in a deep and dark forest. What happens when you find yourself lost in the forest and the fog comes?\nDo you imagine the sounds- or are they real?</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (410,'eng-GB',8,148,147,'',0,29);
-INSERT INTO ezcontentobject_attribute VALUES (411,'eng-GB',8,148,148,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (543,'eng-GB',8,148,157,'<?xml version=\"1.0\"?>\n<section>  <paragraph>What happens when you find yourself lost in the forest and the fog comes?</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (445,'eng-GB',3,158,142,'Animal planet',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (446,'eng-GB',3,158,144,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (447,'eng-GB',3,158,145,'<?xml version=\"1.0\"?>\n<section>  <paragraph>See the world through the eyes of the animals. Visit different parts of our planet and get to know the animals that live there. The animal planet is much more exiting that we ever imagine.</paragraph>\n</section>\n',0,0);
@@ -1243,19 +1214,12 @@ INSERT INTO ezcontentobject_attribute VALUES (449,'eng-GB',3,158,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (553,'eng-GB',3,158,157,'<?xml version=\"1.0\"?>\n<section>  <paragraph>See the world through the eyes of the animals. Visit different parts of our planet and get to know the animals that live there.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (582,'eng-GB',1,194,128,'New topic',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (583,'eng-GB',1,194,129,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (584,'eng-GB',1,195,1,'New article',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (585,'eng-GB',1,195,120,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (586,'eng-GB',1,195,121,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (587,'eng-GB',1,195,122,'',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (588,'eng-GB',1,195,123,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (589,'eng-GB',1,196,4,'Links',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (590,'eng-GB',1,196,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (591,'eng-GB',1,197,158,'eZ systems',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (592,'eng-GB',1,197,159,'<?xml version=\"1.0\"?>\n<section>  <paragraph>The creators of eZ publish.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (593,'eng-GB',1,197,160,'ez.no',2,0);
 INSERT INTO ezcontentobject_attribute VALUES (564,'eng-GB',2,191,142,'My company desktop editor',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (463,'eng-GB',2,164,4,'Software',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (464,'eng-GB',2,164,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (565,'eng-GB',2,191,144,'RG 23987',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (598,'eng-GB',1,200,1,'Test article',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (599,'eng-GB',1,200,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>this is a small and short test on how to make the 4th level</paragraph>\n</section>\n',0,0);
@@ -1380,7 +1344,6 @@ INSERT INTO ezcontentobject_link VALUES (18,119,3,107);
 INSERT INTO ezcontentobject_link VALUES (19,119,3,124);
 INSERT INTO ezcontentobject_link VALUES (20,31,11,118);
 INSERT INTO ezcontentobject_link VALUES (21,31,11,31);
-INSERT INTO ezcontentobject_link VALUES (25,162,1,124);
 INSERT INTO ezcontentobject_link VALUES (35,169,3,95);
 INSERT INTO ezcontentobject_link VALUES (34,169,3,94);
 INSERT INTO ezcontentobject_link VALUES (33,170,6,89);
@@ -1905,7 +1868,6 @@ INSERT INTO ezcontentobject_tree VALUES (156,62,154,3,1,517866225,4,'/1/2/60/62/
 INSERT INTO ezcontentobject_tree VALUES (191,62,158,3,1,956768381,4,'/1/2/60/62/191/','my_folder/the_book_corner/bestsellers/',1,1,0,191);
 INSERT INTO ezcontentobject_tree VALUES (158,2,160,2,1,-571349768,2,'/1/2/158/','frontpage20/',1,8,0,158);
 INSERT INTO ezcontentobject_tree VALUES (159,158,161,1,1,-1137624155,3,'/1/2/158/159/','frontpage20/my_company/',1,1,2,159);
-INSERT INTO ezcontentobject_tree VALUES (160,159,162,2,1,-527347220,4,'/1/2/158/159/160/','frontpage20/my_company/news/',1,1,0,160);
 INSERT INTO ezcontentobject_tree VALUES (161,158,163,3,1,-1137624155,3,'/1/2/158/161/','frontpage20/my_company/',1,1,3,161);
 INSERT INTO ezcontentobject_tree VALUES (162,161,164,1,1,-413784828,4,'/1/2/158/161/162/','frontpage20/my_company/products/',1,1,0,162);
 INSERT INTO ezcontentobject_tree VALUES (163,158,165,2,1,-1137624155,3,'/1/2/158/163/','frontpage20/my_company/',1,1,4,163);
@@ -2155,7 +2117,6 @@ INSERT INTO ezcontentobject_version VALUES (688,128,14,2,1036056949,1036056949,3
 INSERT INTO ezcontentobject_version VALUES (689,116,14,4,1036057024,1036057024,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (690,160,14,1,1037113911,1037113922,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (691,161,14,1,1037177691,1037177708,1,0,0);
-INSERT INTO ezcontentobject_version VALUES (692,162,14,1,1037177725,1037177766,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (693,163,14,1,1037178170,1037178181,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (694,164,14,1,1037192366,1037192378,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (695,165,14,1,1037196659,1037196669,3,0,0);
@@ -2169,17 +2130,14 @@ INSERT INTO ezcontentobject_version VALUES (707,170,14,3,1037199514,1037199597,3
 INSERT INTO ezcontentobject_version VALUES (708,170,14,4,1037199650,1037200111,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (709,170,14,5,1037200135,1037200157,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (710,171,14,1,1037200288,1037200671,1,0,0);
-INSERT INTO ezcontentobject_version VALUES (711,162,14,2,1037200706,1037201003,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (712,172,14,1,1037201086,1037201872,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (713,163,14,2,1037201926,1037262748,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (746,163,14,3,1037263479,1037263615,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (715,174,14,1,1037202053,1037202070,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (751,153,14,2,1037264765,1037264782,1,0,0);
-INSERT INTO ezcontentobject_version VALUES (741,190,14,1,1037262931,1037262931,0,0,0);
 INSERT INTO ezcontentobject_version VALUES (750,151,14,3,1037264726,1037264747,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (719,178,14,1,1037202294,1037202310,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (749,150,14,5,1037264692,1037264714,3,0,0);
-INSERT INTO ezcontentobject_version VALUES (748,193,14,1,1037263781,1037263781,0,0,0);
 INSERT INTO ezcontentobject_version VALUES (747,150,14,4,1037263722,1037264672,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (732,185,14,1,1037261058,1037261069,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (733,186,14,1,1037261098,1037261113,1,0,0);
@@ -2197,13 +2155,10 @@ INSERT INTO ezcontentobject_version VALUES (756,148,14,6,1037264927,1037264994,3
 INSERT INTO ezcontentobject_version VALUES (757,150,14,6,1037265078,1037265091,3,0,0);
 INSERT INTO ezcontentobject_version VALUES (758,150,14,7,1037265132,1037265164,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (759,148,14,7,1037265213,1037265917,1,0,0);
-INSERT INTO ezcontentobject_version VALUES (760,148,14,8,1037265833,1037265833,0,0,0);
 INSERT INTO ezcontentobject_version VALUES (761,158,14,3,1037265950,1037265973,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (762,194,10,1,1037267668,1037267668,0,0,0);
-INSERT INTO ezcontentobject_version VALUES (763,195,14,1,1037268346,1037268346,0,0,0);
 INSERT INTO ezcontentobject_version VALUES (764,196,14,1,1037280618,1037280633,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (765,197,14,1,1037280683,1037280728,1,0,0);
-INSERT INTO ezcontentobject_version VALUES (769,164,14,2,1037281316,1037281316,0,0,0);
 INSERT INTO ezcontentobject_version VALUES (770,191,14,2,1037281332,1037281355,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (768,200,14,1,1037280978,1037281016,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (771,201,14,1,1037281361,1037281396,1,0,0);
@@ -2461,7 +2416,6 @@ INSERT INTO ezimage VALUES (411,6,'NHFX20.jpg','Spenning1.jpg','image/jpeg');
 INSERT INTO ezimage VALUES (418,6,'RWjJMr.jpg','Book2.jpg','image/jpeg');
 INSERT INTO ezimage VALUES (418,7,'RWjJMr.jpg','Book2.jpg','image/jpeg');
 INSERT INTO ezimage VALUES (411,7,'NHFX20.jpg','Spenning1.jpg','image/jpeg');
-INSERT INTO ezimage VALUES (411,8,'NHFX20.jpg','Spenning1.jpg','image/jpeg');
 INSERT INTO ezimage VALUES (449,3,'g21z1g.jpg','Animalplanet.jpg','image/jpeg');
 
 #
@@ -2849,7 +2803,6 @@ INSERT INTO eznode_assignment VALUES (407,128,2,27,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (408,116,4,30,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (409,160,1,2,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (410,161,1,158,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (411,162,1,159,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (412,163,1,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (413,164,1,161,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (414,165,1,158,1,1,1,0);
@@ -2863,14 +2816,11 @@ INSERT INTO eznode_assignment VALUES (426,170,3,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (427,170,4,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (428,170,5,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (429,171,1,159,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (430,162,2,159,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (431,172,1,159,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (432,163,2,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (465,192,2,172,0,1,1,0);
 INSERT INTO eznode_assignment VALUES (434,174,1,161,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (470,150,5,62,0,1,1,0);
-INSERT INTO eznode_assignment VALUES (460,190,1,61,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (469,193,1,145,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (438,178,1,175,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (468,150,4,62,0,1,1,0);
 INSERT INTO eznode_assignment VALUES (467,150,4,145,1,1,1,0);
@@ -2898,14 +2848,11 @@ INSERT INTO eznode_assignment VALUES (482,150,6,145,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (483,150,7,62,0,1,1,0);
 INSERT INTO eznode_assignment VALUES (484,150,7,145,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (485,148,7,61,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (487,148,8,61,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (488,158,3,152,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (489,158,3,62,0,1,1,0);
 INSERT INTO eznode_assignment VALUES (490,194,1,118,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (491,195,1,2,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (492,196,1,31,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (493,197,1,192,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (497,164,2,161,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (498,191,2,162,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (496,200,1,195,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (499,201,1,192,1,1,1,0);
@@ -12593,9 +12540,6 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession VALUES ('0469f0a3452c469845a3e1211b56a03a',1039959460,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|s:2:\"14\";FromGroupID|s:1:\"5\";');
-INSERT INTO ezsession VALUES ('d6cf9e974e8bee781433154af9ccefec',1039973922,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}BrowseFromPage|s:15:\"/role/assign/1/\";BrowseActionName|s:10:\"AssignRole\";BrowseReturnType|s:8:\"ObjectID\";CustomActionButton|N;BrowseSelectionType|N;');
-INSERT INTO ezsession VALUES ('c532679e20ddd5bd5e78117d9ca261ee',1039973925,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|N;');
 
 #
 # Table structure for table 'eztask'
@@ -12810,7 +12754,7 @@ CREATE TABLE ezworkflow (
 # Dumping data for table 'ezworkflow'
 #
 
-INSERT INTO ezworkflow VALUES (1,0,1,'group_ezserial','Sp\'s forkflow',8,24,1031927869,1032856662);
+INSERT INTO ezworkflow VALUES (1,0,0,'group_ezserial','Sp\'s forkflow',8,24,1031927869,1032856662);
 INSERT INTO ezworkflow VALUES (1,1,1,'group_ezserial','Sp\'s forkflow',8,14,1031927869,1034172372);
 
 #
