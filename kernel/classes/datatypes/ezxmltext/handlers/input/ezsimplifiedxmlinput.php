@@ -55,7 +55,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->subTagArray['literal'] = array( );
         $this->subTagArray['custom'] = $this->sectionArray;
         $this->subTagArray['object'] = array( );
-        $this->subTagArray['li'] = $this->inlineTagArray;
+        $this->subTagArray['li'] = array_merge( $this->inlineTagArray, "paragraph" );
         $this->subTagArray['strong'] = $this->inlineTagArray;
         $this->subTagArray['emphasize'] = $this->inlineTagArray;
         $this->subTagArray['link'] = $this->inlineTagArray;
@@ -236,31 +236,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     /*!
-      Function deal with all block tags, pop up paragraph node.
-    */
-    /*  function &handleEndTag( $tagName, $lastInsertedNodeTag, &$currentNode, &$lastInsertedNode, &$TagStack )
-    {
-        // $parentNodeTag = $lastInsertedNodeTag;
-        if ( in_array( $tagName, $this->blockTagArray ) )
-        {
-            unset( $currentNode );
-            $currentNode =& $lastInsertedNode;
-            $lastInsertedNodeArray = array_pop( $TagStack );
-            $lastInsertedNode =& $lastNodeArray["ParentNodeObject"];
-            //$parentNodeTag = $lastInsertedNodeArray["TagName"];
-        }
-        if ( $lastInsertedNodeTag == "line" and $tagName == "paragraph" )
-        {
-            unset( $currentNode );
-            $currentNode =& $lastInsertedNode;
-            $lastInsertedNodeArray = array_pop( $TagStack );
-            $lastInsertedNode =& $lastNodeArray["ParentNodeObject"];
-            //$parentNodeTag = $lastInsertedNodeArray["TagName"];
-        }
-        return $lastInsertedNodeTag;
-    }*/
-
-    /*!
      */
     function &handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart )
     {
@@ -386,6 +361,40 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         if ( in_array( $currentTag, $this->subTagArray[$parentNodeTag] ) and $currentTag != $parentNodeTag )
         {
+            if ( $currentTag == "paragraph" and $parentNodeTag == "li" )
+            {
+                $isValidTag = true;
+                $deletedNodeArray = array();
+                while( $isValidTag )
+                {
+                    $lastChild =& $currentNode->lastChild();
+                    if ( $lastChild->Name == "#text" or in_array( $lastChild->Name, $this->lineTagArray ) )
+                    {
+                        $deletedNodeArray[] = $lastChild;
+                        $currentNode->removeLastChild();
+                    }
+                    else
+                        $isValidTag = false;
+                }
+                if ( $deletedNodeArray != null )
+                {
+                    unset( $insertedNode );
+                    $insertedNode = new eZDOMNode();
+                    $insertedNode->Name = "line";
+                    $insertedNode->LocalName = "line";
+                    $insertedNode->Type = EZ_NODE_TYPE_ELEMENT;
+                    $domDocument->registerElement( $insertedNode );
+                    $currentNode->appendChild( $insertedNode );
+                    $childTag = $this->lineTagArray;
+
+                    for ( $i = count( $deletedNodeArray ); $i > 0; $i--)
+                    {
+                        $domDocument->registerElement( $deletedNodeArray[$i-1] );
+                        $insertedNode->appendChild( $deletedNodeArray[$i-1] );
+                    }
+                }
+                $currentTag = "line";
+            }
             $subNode->Name = $currentTag;
             $subNode->LocalName = $currentTag;
             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
@@ -1358,11 +1367,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel );
                         }
                         if ( $tableCell->name() == "th" )
-                            $tableData .= "<th>" . trim( $cellContent ) . "</th>";
+                            $tableData .= "  <th>" . trim( $cellContent ) . "</th>\n";
                         else
-                            $tableData .= "  <td>" . trim( $cellContent ) . "</td>";
+                            $tableData .= "  <td>" . trim( $cellContent ) . "</td>\n";
                     }
-                    $tableRows .= "<tr>\n$tableData</tr>";
+                    $tableRows .= "<tr>\n$tableData</tr>\n";
                 }
                 $output .= "<table border='$border' width='$width'>\n$tableRows</table>\n";
             }break;
