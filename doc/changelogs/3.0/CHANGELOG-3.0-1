@@ -48,6 +48,8 @@ links to clickable links.
 - Made discard work, even if input did not validate
 - Binary file handler will now give a warning when file uploads are disabled.
 - Now element works for host matching as well.
+- Siteaccess matching can now be debugged with DebugAccess and DebugExtraAccess in
+  site.ini under SiteAccessSettings.
 
 *SDK :
 
