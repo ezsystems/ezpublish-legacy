@@ -560,7 +560,6 @@ class eZPDFTable extends Cezpdf
                     $newRow=1;
                     while(!$abortTable && ($newPage || $newRow)){
 
-//                        $y-=$height; // removes unessesary row spacing
                         if ($newPage || $y<$this->ez['bottomMargin'] || (isset($options['minRowSpace']) && $y<($this->ez['bottomMargin']+$options['minRowSpace'])) ){
                             // check that enough rows are with the heading
                             if ($options['protectRows']>0 && $movedOnce==0 && $cnt<=$options['protectRows']){
@@ -574,7 +573,6 @@ class eZPDFTable extends Cezpdf
                                 if (!$options['showHeadings']){
                                     $y0=$y1;
                                 }
-//                                $this->ezPrvtTableDrawLines($pos,$options['gap'],$x0,$x1,$y0,$y1,$y2,$options['lineCol'],$options['innerLineThickness'],$options['outerLineThickness'],$options['showLines']);
                             }
                             if ($options['shaded']){
                                 $this->closeObject();
@@ -648,9 +646,8 @@ class eZPDFTable extends Cezpdf
                                         $this->y-=$height;
                                     }
                                     if ($this->y < $this->ez['bottomMargin']){
-                                        //            $this->ezNewPage();
-                                        $newPage=1;  // whether a new page is required for any of the columns
-                                        $colNewPage=1; // whether a new page is required for this column
+                                        $newPage=1;
+                                        $colNewPage=1;
                                     }
                                     if ($colNewPage){
                                         if (isset($leftOvers[$realColumnCount])){
@@ -681,7 +678,7 @@ class eZPDFTable extends Cezpdf
                                         }
                                         else
                                         {
-                                            $this->setColor( $options['textCol'] );
+                                            $this->setColor( $options['textCol'], 1 );
                                             $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just,0,$options['test']);
                                         }
                                         $this->y = $storeY;
@@ -700,6 +697,12 @@ class eZPDFTable extends Cezpdf
                                 $mx=$dy-$height*$newPage;
                             }
 
+                            $realColumnCount += $colSpan;
+
+                        } // End for ( ... count( $row ) ... )
+
+                        if ( !$options['test'] )
+                        {
                             if ( isset( $options['cellData'][$realColumnCount.','.$rowCount] ) &&
                                  $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true )
                             {
@@ -717,36 +720,44 @@ class eZPDFTable extends Cezpdf
                                 }
                             }
 
-                            if ( !$options['test'] )
+                            $rowHeight = $mx - $height + $decender;
+                            var_dump( $mx, $rowHeight );
+                            $realColumnCount = 0;
+                            for ( $columnCount = 0; $columnCount < count ( $row ); $columnCount++ )
                             {
+                                if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
+                                {
+                                    $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'][0];
+                                }
+                                else
+                                {
+                                    $colSpan = 1;
+                                }
+
                                 if ( $options['shaded'] && $cnt % 2 == 0 )
                                 {
                                     $this->closeObject();
-                                    $this->setColor( $shadeCol, 1 );
+                                    $this->setColor( $shadeCol );
                                     $this->filledRectangle($pos[$realColumnCount] - $options['cellPadding'],
-                                                           $this->y + $height + $decender - $options['cellPadding'],
+                                                           $y,
                                                            $maxWidth[$colSpan][$realColumnCount] + 2*$options['cellPadding'],
-                                                           $height + 2*$options['cellPadding']);
+                                                           -$rowHeight );
                                     $this->reopenObject($textObjectId);
                                 }
 
                                 if ($options['shaded']==2 && $cnt%2==1){
                                     $this->closeObject();
-                                    $this->setColor( $shadeCol, 1 );
+                                    $this->setColor( $shadeCol );
                                     $this->filledRectangle($pos[$realColumnCount] - $options['cellPadding'],
-                                                           $this->y + $height + $decender - $options['cellPadding'],
+                                                           $y,
                                                            $maxWidth[$colSpan][$realColumnCount] + 2*$options['cellPadding'],
-                                                           $height + 2*$options['cellPadding']);
+                                                           -$rowHeight );
                                     $this->reopenObject($textObjectId);
                                 }
+
+                                $realColumnCount += $colSpan;
                             }
 
-                            $realColumnCount += $colSpan;
-
-                        } // End for ( ... count( $row ) ... )
-
-                        if ( !$options['test'] )
-                        {
                             // set $row to $leftOvers so that they will be processed onto the new page
                             $row = $leftOvers;
                             // now add the shading underneath
