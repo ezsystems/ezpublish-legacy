@@ -66,6 +66,7 @@ Changes from 3.2-4 to 3.2-5
 - Fixed setup to only check for existing eZ publish tables.
 
 *Library :
+- Fixed case bug in the Timeout variable in eZSOAPClient.
 
 eZ Locale:
 - Fixed eZFloat datatype to to handle locale settings correctly.

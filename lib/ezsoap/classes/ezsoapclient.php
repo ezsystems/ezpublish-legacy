@@ -94,7 +94,7 @@ class eZSOAPClient
             $this->Port,
             $this->errorNumber,
             $this->errorString,
-            $this->TimeOut );
+            $this->Timeout );
         }
         else
         {
