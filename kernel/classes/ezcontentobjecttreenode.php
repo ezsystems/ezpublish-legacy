@@ -634,7 +634,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
-                            $attributeWereSQL .= "
+                            $attributeWhereSQL .= "
                                    a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                    a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
                                    a$attributeJoinCount.version = ezcontentobject_name.content_version AND
@@ -1443,7 +1443,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $attributeFilterWhereSQL .= "
                             a$filterCount.contentobject_id = ezcontentobject.id AND
                                a$filterCount.version = ezcontentobject.current_version AND
-                               a$filterCount.contentclassattribute_id = $filterAttributeID AND ";
+                               a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                               a$filterCount.language_code = '".eZContentObject::defaultLanguage()."' AND ";
 
                         // Check datatype for filtering
                         //
