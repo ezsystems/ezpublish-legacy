@@ -41,4 +41,10 @@ MatchFile=commentedit.tpl
 Subdir=templates
 Match[class]=13
 
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed_image.tpl
+Subdir=templates
+Match[class]=5
+
 */ ?>

@@ -42,4 +42,10 @@ MatchFile=productedit.tpl
 Subdir=templates
 Match[class]=9
 
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed_image.tpl
+Subdir=templates
+Match[class]=5
+
 */ ?>
