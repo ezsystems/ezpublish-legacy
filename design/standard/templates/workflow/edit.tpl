@@ -4,6 +4,17 @@
 <h1>Editing workflow - {$workflow.name}</h1>
 </div>
 
+{section show=$can_store}
+<div class="feedback">
+<h2>Workflow stored</h2>
+</div>
+{/section}
+{section show=$require_fixup}
+<div class="warning">
+<h2>Data requires fixup</h2>
+</div>
+{/section}
+
 <div class="byline">
 <p class="created">Created by {$workflow.creator_id} on {$workflow.created|l10n(shortdatetime)}</p>
 <p class="modified">Modified by {$workflow.modifier_id} on {$workflow.modified|l10n(shortdatetime)}</p>
@@ -12,11 +23,6 @@
 <div class="block">
 <label>Name:</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=Name id_name=Workflow_name value=$workflow.name}
-</div>
-
-<div class="block">
-<label>Workflow Type:</label><div class="labelbreak"></div>
-<p class="box">{$workflow.workflow_type.name}</p>
 </div>
 
 <h2>Groups</h2>
@@ -39,18 +45,6 @@
 {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
 {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}
 </div>
-
-{section show=$can_store}
-<div class="feedback">
-<h2>Workflow stored</h2>
-</div>
-{/section}
-{section show=$require_fixup}
-<div class="warning">
-<h2>Data requires fixup</h2>
-</div>
-{/section}
-<p class="comment">I don't think these feedback/warning messages should be in the middle of the page, and I'm not even sure of their function. Needs to be discussed. th[eZ]</p>
 
 <h2>Events</h2>
 
@@ -81,13 +75,14 @@
 
 
 <div class="buttonblock">
-{include uri="design:workflow/workflowtypes.tpl" name=WorkflowTypes id_name=WorkflowTypeString workflowtypes=$workflow_type_list current=$workflow_type}{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New Event"}
-{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value=Delete}
+{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"}{include uri="design:workflow/workflowtypes.tpl" name=WorkflowTypes id_name=WorkflowTypeString workflowtypes=$workflow_type_list current=$workflow_type}
+&nbsp;
+{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Remove"}
 </div>
-<p class="comment">The dropdown menu above should be placed with a next button (new event) immediately to the right, with no spacing between them (because they are connected by function). The spacing now occurs because the rendering of the gui elements forces a line break between them, even if the template specifies them with no break. th[eZ]</p>
+
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}
-{include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value=Apply}
+{* {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value=Apply} *}
 {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value=Discard}
 </div>
 
