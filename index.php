@@ -246,8 +246,6 @@ include_once( 'lib/ezlocale/classes/ezlocale.php' );
 $ini =& eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
     eZLocale::setIsDebugEnabled( true );
-$locale =& eZLocale::instance();
-$languageCode =& $locale->httpLocaleCode();
 
 include_once( "lib/ezutils/classes/ezsys.php" );
 
@@ -262,14 +260,6 @@ eZSys::init( 'index.php' );
 $ini =& eZINI::instance();
 
 eZSys::initIni( $ini );
-
-
-// Initialize with locale settings
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-
-$locale =& eZLocale::instance();
-// $locale->setLanguage( $language );
-// $locale->initPHP( "UTF8" );
 
 eZDebug::addTimingPoint( "Script start" );
 
@@ -345,6 +335,10 @@ if ( $dbRequired or
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
 
+// Initialize with locale settings
+include_once( "lib/ezlocale/classes/ezlocale.php" );
+$locale =& eZLocale::instance();
+$languageCode =& $locale->httpLocaleCode();
 
 // send header information
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
