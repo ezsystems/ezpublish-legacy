@@ -38,7 +38,7 @@
 <area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
 <area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
 <area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<area shape="rect" coords="374,1,448,24" href={"content/view/full/210/"|ezurl}>
+<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
 <area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
 </map>
 

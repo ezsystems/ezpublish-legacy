@@ -1,7 +1,7 @@
 {default content_version=$node.contentobject_version_object
          node_name=$node.name}
 
-{$node_name|texttoimage(gallery)}
+<h1>{$node_name}</h1>
 <div class="imageright">
 {attribute_view_gui attribute=$content_version.data_map.image image_class=medium}
 {section name=Object loop=$content_version.related_contentobject_array show=$content_version.related_contentobject_array}
