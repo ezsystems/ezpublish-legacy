@@ -355,6 +355,11 @@ class eZSearchEngine
             else
                 $searchDate = -1;
 
+            if ( isset( $params['SearchTimestamp'] ) )
+                $searchTimestamp = $params['SearchTimestamp'];
+            else
+                $searchTimestamp = false;
+
             if ( isset( $params['SearchContentClassAttributeID'] ) )
                 $searchContentClassAttributeID = $params['SearchContentClassAttributeID'];
             else
@@ -414,46 +419,63 @@ class eZSearchEngine
             }
 
             $searchDateQuery = '';
-            if ( is_numeric( $searchDate ) and  $searchDate > 0 )
+            if ( ( is_numeric( $searchDate ) and  $searchDate > 0 ) or
+                 $searchTimestamp )
             {
                 $date = new eZDateTime();
                 $timestamp = $date->timeStamp();
                 $day = $date->attribute('day');
                 $month = $date->attribute('month');
                 $year = $date->attribute('year');
-                switch ( $searchDate )
+                $publishedDateStop = false;
+                if ( $searchTimestamp )
                 {
-                    case 1:
+                    if ( is_array( $searchTimestamp ) )
                     {
-                        $adjustment = 24*60*60; //seconds for one day
-                        $publishedDate = $timestamp - $adjustment;
-                    } break;
-                    case 2:
+                        $publishedDate = $searchTimestamp[0];
+                        $publishedDateStop = $searchTimestamp[1];
+                    }
+                    else
+                        $publishedDate = $searchTimestamp;
+                }
+                else
+                {
+                    switch ( $searchDate )
                     {
-                        $adjustment = 7*24*60*60; //seconds for one week
-                        $publishedDate = $timestamp - $adjustment;
-                    } break;
-                    case 3:
-                    {
-                        $adjustment = 31*24*60*60; //seconds for one month
-                        $publishedDate = $timestamp - $adjustment;
-                    } break;
-                    case 4:
-                    {
-                        $adjustment = 3*31*24*60*60; //seconds for three months
-                        $publishedDate = $timestamp - $adjustment;
-                    } break;
-                    case 5:
-                    {
-                        $adjustment = 365*24*60*60;; //seconds for one year
-                        $publishedDate = $timestamp - $adjustment;
-                    } break;
-                    default:
-                    {
-                        $publishedDate = $date->timeStamp();
+                        case 1:
+                        {
+                            $adjustment = 24*60*60; //seconds for one day
+                            $publishedDate = $timestamp - $adjustment;
+                        } break;
+                        case 2:
+                        {
+                            $adjustment = 7*24*60*60; //seconds for one week
+                            $publishedDate = $timestamp - $adjustment;
+                        } break;
+                        case 3:
+                        {
+                            $adjustment = 31*24*60*60; //seconds for one month
+                            $publishedDate = $timestamp - $adjustment;
+                        } break;
+                        case 4:
+                        {
+                            $adjustment = 3*31*24*60*60; //seconds for three months
+                            $publishedDate = $timestamp - $adjustment;
+                        } break;
+                        case 5:
+                        {
+                            $adjustment = 365*24*60*60;; //seconds for one year
+                            $publishedDate = $timestamp - $adjustment;
+                        } break;
+                        default:
+                        {
+                            $publishedDate = $date->timeStamp();
+                        }
                     }
                 }
                 $searchDateQuery = "ezsearch_object_word_link.published >= '$publishedDate' AND ";
+                if ( $publishedDateStop )
+                    $searchDateQuery .= "ezsearch_object_word_link.published <= '$publishedDateStop' AND ";
             }
 
             $classQuery = "";
