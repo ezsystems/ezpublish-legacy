@@ -2,28 +2,30 @@
 <content-object>
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
-            ezremote:id="56"
+            ezremote:id="64"
             name="Contact us"
             ezremote:section_id="1"
             ezremote:owner_id="14"
-            ezremote:class_id="16"
-            ezremote:published="Apr 26 2004 09:49:26"
-            ezremote:modified="Apr 26 2004 09:49:26"
+            ezremote:class_id="20"
+            ezremote:published="Wed, 21 Apr 2004 07:53:46 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 07:58:00 GMT"
             remote_id="8493ec0cef6f2f1a47554b1bab05c8d1"
             class_remote_id="df0257b8fc55f6b8ab179d6fb915455e"
             ezremote:class_identifier="feedback_form">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="2"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 07:57:22 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 07:58:00 GMT">
           <ezobject:object-translation language="eng-GB">
-            <ezobject:attribute ezremote:id="181"
+            <ezobject:attribute ezremote:id="203"
                                 ezremote:identifier="name"
                                 name="Name"
                                 type="ezstring">
               <text>Contact us</text>
             </ezobject:attribute>
-            <ezobject:attribute ezremote:id="182"
+            <ezobject:attribute ezremote:id="204"
                                 ezremote:identifier="description"
                                 name="Description"
                                 type="ezxmltext">
@@ -33,25 +35,19 @@
                 <paragraph>This is an example of how you can make a contact form on your eZ publish site. This form will be sent via e-mail to the address specified in the admin interface for this object. Go to the admin and edit this object to change this text the recipient.</paragraph>
               </section>
             </ezobject:attribute>
-            <ezobject:attribute ezremote:id="232"
-                                ezremote:identifier="email"
-                                name="E-mail address"
-                                type="ezstring">
-              <text></text>
-            </ezobject:attribute>
-            <ezobject:attribute ezremote:id="183"
+            <ezobject:attribute ezremote:id="205"
                                 ezremote:identifier="subject"
                                 name="Subject"
                                 type="ezstring">
               <text></text>
             </ezobject:attribute>
-            <ezobject:attribute ezremote:id="184"
+            <ezobject:attribute ezremote:id="206"
                                 ezremote:identifier="message"
                                 name="Message"
                                 type="eztext">
               <text></text>
             </ezobject:attribute>
-            <ezobject:attribute ezremote:id="185"
+            <ezobject:attribute ezremote:id="207"
                                 ezremote:identifier="recipient"
                                 name="Recipient"
                                 type="ezemail">
@@ -61,11 +57,11 @@
           <ezobject:node-assignment-list>
             <node-assignment is-main-node="1"
                              name=""
-                             node-id="58"
+                             node-id="66"
                              remote-id="8493ec0cef6f2f1a47554b1bab05c8d1"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="5" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -73,19 +69,19 @@
   </object-list>
   <override-list>
     <block name="file_binaryfile"
-           site-access="news">
+           site-access="base">
       <file_binaryfile Source="content/datatype/view/ezbinaryfile.tpl"
                        MatchFile="datatype/ezbinaryfile.tpl"
                        Subdir="templates" />
     </block>
     <block name="poll_result"
-           site-access="news">
+           site-access="base">
       <poll_result Source="content/collectedinfo/poll.tpl"
                    MatchFile="collectedinfo/poll_result.tpl"
                    Subdir="templates" />
     </block>
     <block name="feedback_form_full"
-           site-access="news">
+           site-access="base">
       <feedback_form_full Source="node/view/full.tpl"
                           MatchFile="full/feedback_form.tpl"
                           Subdir="templates">
@@ -93,7 +89,7 @@
       </feedback_form_full>
     </block>
     <block name="feedback_form_line"
-           site-access="news">
+           site-access="base">
       <feedback_form_line Source="node/view/line.tpl"
                           MatchFile="line/feedback_form.tpl"
                           Subdir="templates">
@@ -101,7 +97,7 @@
       </feedback_form_line>
     </block>
     <block name="feedback_form_mail"
-           site-access="news">
+           site-access="base">
       <feedback_form_mail Source="content/collectedinfomail/form.tpl"
                           MatchFile="collectedinfomail/feedback_form.tpl"
                           Subdir="templates">
@@ -109,83 +105,83 @@
       </feedback_form_mail>
     </block>
     <block name="factbox"
-           site-access="news">
+           site-access="base">
       <factbox Source="content/datatype/view/ezxmltags/factbox.tpl"
                MatchFile="datatype/ezxmltext/factbox.tpl"
                Subdir="templates" />
     </block>
     <block name="quote"
-           site-access="news">
+           site-access="base">
       <quote Source="content/datatype/view/ezxmltags/quote.tpl"
              MatchFile="datatype/ezxmltext/quote.tpl"
              Subdir="templates" />
     </block>
     <block name="price"
-           site-access="news">
+           site-access="base">
       <price Source="content/datatype/view/ezprice.tpl"
              MatchFile="datatype/price.tpl"
              Subdir="templates" />
     </block>
     <block name="matrix"
-           site-access="news">
+           site-access="base">
       <matrix Source="content/datatype/view/ezmatrix.tpl"
               MatchFile="datatype/ezmatrix/view.tpl"
               Subdir="templates" />
     </block>
     <block name="edit_matrix"
-           site-access="news">
+           site-access="base">
       <edit_matrix Source="content/datatype/edit/ezmatrix.tpl"
                    MatchFile="datatype/ezmatrix/edit.tpl"
                    Subdir="templates" />
     </block>
   </override-list>
   <template-list>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/ezbinaryfile.tpl</original-path>
       <path>/override/templates/datatype/ezbinaryfile.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/collectedinfo/poll_result.tpl</original-path>
       <path>/override/templates/collectedinfo/poll_result.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/full/feedback_form.tpl</original-path>
       <path>/override/templates/full/feedback_form.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/line/feedback_form.tpl</original-path>
       <path>/override/templates/line/feedback_form.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/collectedinfomail/feedback_form.tpl</original-path>
       <path>/override/templates/collectedinfomail/feedback_form.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/ezxmltext/factbox.tpl</original-path>
       <path>/override/templates/datatype/ezxmltext/factbox.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/ezxmltext/quote.tpl</original-path>
       <path>/override/templates/datatype/ezxmltext/quote.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/price.tpl</original-path>
       <path>/override/templates/datatype/price.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/ezmatrix/view.tpl</original-path>
       <path>/override/templates/datatype/ezmatrix/view.tpl</path>
     </file>
-    <file site-access="news"
+    <file site-access="base"
           file-type="design">
       <original-path>design/base/override/templates/datatype/ezmatrix/edit.tpl</original-path>
       <path>/override/templates/datatype/ezmatrix/edit.tpl</path>
@@ -193,10 +189,10 @@
   </template-list>
   <fetch-alias-list />
   <site-access-list>
-    <site-access>news</site-access>
+    <site-access>base</site-access>
   </site-access-list>
   <top-node-list>
-    <top-node node-id="58"
+    <top-node node-id="66"
               remote-id="8493ec0cef6f2f1a47554b1bab05c8d1">Contact us</top-node>
   </top-node-list>
 </content-object>
