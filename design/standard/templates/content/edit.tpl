@@ -162,10 +162,11 @@
 {let name=Translation
      language_index=0
      default_translation=$content_version.translation
-     translation_list=array_prepend($content_version.translation_list,$Translation:default_translation)}
+     other_translation_list=$content_version.translation_list
+     translation_list=array_prepend($Translation:other_translation_list,$Translation:default_translation)}
 {section show=$Translation:translation_list}
     <tr>
-        <th class="menuheaddark"  colspan="2">
+        <th class="menuheaddark" colspan="2">
         <p class="menuhead">{"Translations"|i18n('content/object')}</p>
         </th>
     </tr>
@@ -178,22 +179,26 @@
 
 {section loop=$Translation:translation_list sequence=array("bgdark","bglight")}
     <tr>
-        <td class="{$Translation:sequence}">
+        <td class="{$Translation:sequence}" colspan="{$Translation:other_translation_list|gt(0)|choose(2,1)}">
           {section show=$Translation:item.locale.is_valid}
             <p class="menufieldlabel">{$Translation:item.locale.intl_language_name}</p>
           {section-else}
             <p class="menufieldlabel">{$Translation:item.language_code} (No locale information available)</p>
           {/section}
         </td>
+{section show=$Translation:other_translation_list|gt(0)}
         <td class="{$Translation:sequence}">
           <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
         </td>
+{/section}
     </tr>
 {/section}
     <tr>
         <td colspan="2" align="right">
 	  <input class="menubutton" type="submit" name="TranslateButton" value="{'Manage'|i18n('content/object')}" />
+{section show=$Translation:other_translation_list|gt(0)}
           <input class="menubutton" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('content/object')}" />
+{/section}
         </td>
     </tr>
 
