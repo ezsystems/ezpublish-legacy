@@ -1,0 +1,17 @@
+dette er en test
+jenter er dumme
+Allman 101
+
+
+This is the lame beta version of the readme.txt file within the webdav virtual start-folder.
+
+Supported webdav commands (so far so good):
+
+PROPFIND
+HEAD
+GET
+PUT
+MKCOL
+MOVE
+
+Bla bla bla..
