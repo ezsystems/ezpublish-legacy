@@ -200,7 +200,7 @@ class eZWebDAVServer
                 $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
                 // Find which properties were requested
-//                 $this->appendLogEntry( $xmlBody, 'xmlbody' );
+                // $this->appendLogEntry( $xmlBody, 'xmlbody' );
                 $xml = new eZXML();
                 $bodyTree = $xml->domTree( $this->xmlBody() );
                 $requestedProperties = array();
@@ -396,8 +396,25 @@ class eZWebDAVServer
     */
     function outputCollectionContent( $collection, $requestedProperties )
     {
-        $xmlText = "<?xml version='1.0' encoding='utf-8'?>\n" .
-                   "<D:multistatus xmlns:D='DAV:'>\n";
+        // Sanity check & action: if client forgot to ask, we'll still
+        // play along revealing some basic/default properties.
+        if( count( $requestedProperties ) == 0 )
+        {
+            $requestedProperties = array( 'displayname',
+                                          'creationdate',
+                                          'getlastmodified',
+                                          'getcontenttype',
+                                          'getconentlength',
+                                          'resourcetype' );
+        }
+
+
+        $this->appendLogEntry( 'Client requesed ' .
+                               count( $requestedProperties ) .
+                               ' properties.', 'outputCollectionContent' );
+
+        $xmlText = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" .
+                   "<D:multistatus xmlns:D=\"DAV:\">\n";
 
         // Maps from WebDAV property names to internal names
         $nameMap = array( 'displayname' => 'name',
@@ -405,11 +422,18 @@ class eZWebDAVServer
                           'getlastmodified' => 'mtime',
                           'getcontenttype' => 'mimetype',
                           'getcontentlength' => 'size' );
+
         foreach ( $requestedProperties as $requestedProperty )
         {
             if ( !isset( $nameMap[$requestedProperty] ) )
                 $nameMap[$requestedProperty] = $requestedProperty;
         }
+
+        // Misc helpful debug info (use when things go wrong..)
+        //$this->appendLogEntry( var_dump( $requestedProperties ), 'outputCollectionContent' );
+        //$this->appendLogEntry( var_dump( $nameMap ), 'outputCollectionContent' );
+        //$this->appendLogEntry( var_dump( $collection ), 'outputCollectionContent' );
+
 
         // For all the entries in this dir/collection-array:
         foreach ( $collection as $entry )
@@ -425,6 +449,7 @@ class eZWebDAVServer
 
             $unknownProperties = array();
             $isCollection = $entry['mimetype'] == 'httpd/unix-directory';
+
             foreach ( $requestedProperties as $requestedProperty )
             {
                 $name = $nameMap[$requestedProperty];
@@ -440,20 +465,18 @@ class eZWebDAVServer
                         $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
                         $xmlText .= "   <D:" . $requestedProperty . ">" . $modificationTime . "</D:" . $requestedProperty . ">\n";
                     }
+                    else if ( $isCollection and $requestedProperty == 'getcontenttype' )
+                    {
+
+                        $xmlText .= ( "   <D:resourcetype>\n" .
+                                      "    <D:collection />\n" .
+                                      "   </D:resourcetype>\n" );
+
+                        $unknownProperties[] = $requestedProperty;
+                    }
                     else
                     {
-                        if ( $isCollection and $requestedProperty == 'getcontentlength' )
-                        {
-                            $xmlText .= ( "   <D:resourcetype>\n" .
-                                          "    <D:collection />\n" .
-                                          "   </D:resourcetype>\n" );
-
-                            $unknownProperties[] = $requestedProperty;
-                        }
-                        else
-                        {
-                            $xmlText .= "   <D:" . $requestedProperty . ">" . $entry[$name] . "</D:" . $requestedProperty . ">\n";
-                        }
+                        $xmlText .= "   <D:" . $requestedProperty . ">" . $entry[$name] . "</D:" . $requestedProperty . ">\n";
                     }
                 }
                 else if ( $requestedProperty != 'resourcetype' or !$isCollection )
@@ -462,12 +485,16 @@ class eZWebDAVServer
                 }
             }
 
+            $xmlText .= ( "  <D:lockdiscovery/>\n" );
+
             $xmlText .= ( "  </D:prop>\n" .
                           "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
                           " </D:propstat>\n" );
 
 
-            // List the non supported properties
+            // List the non supported properties and mark with 404
+            // This behavior (although recommended/standard) might
+            // confuse some clients. Try commenting out if necessary...
             $xmlText .= " <D:propstat>\n";
             $xmlText .= "  <D:prop>\n";
             foreach ( $unknownProperties as $unknownProperty )
@@ -488,14 +515,15 @@ class eZWebDAVServer
 
         // Comment out the next line if you don't
         // want to use chunked transfer encoding.
-        // header( 'Content-Length: '.strlen( $xml ) );
+        //header( 'Content-Length: '.strlen( $xmlText ) );
 
         $text = @ob_get_contents();
         if ( strlen( $text ) != 0 )
             $this->appendLogEntry( $text, "DAV: PHP Output" );
         while ( @ob_end_clean() );
 
-//         $this->appendLogEntry( $xmlText, 'xmlText' );
+        // Dump XML response (from server to client to logfile.
+        //$this->appendLogEntry( $xmlText, 'xmlText' );
 
         // Dump the actual XML data containing collection list.
         print( $xmlText );
