@@ -682,13 +682,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $std_base = eZTemplateDesignResource::designSetting( 'standard' );
         $site_base = eZTemplateDesignResource::designSetting( 'site' );
-        $SiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
-        array_unshift( $SiteDesignList , $site_base );
+        $SiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+        array_unshift( $SiteDesignList, $site_base );
         $SiteDesignList[] = $std_base;
         $designStartPath = eZTemplateDesignResource::designStartPath();
-        foreach ( $SiteDesignList as $design ){
+        foreach ( $SiteDesignList as $design )
+        {
             $bases[] = "$designStartPath/$design";
-            foreach( $extensions as $extension ){
+            foreach( $extensions as $extension )
+            {
                $bases[] = "$extensionDirectory/$extension/$designStartPath/$design";
             }
         }
