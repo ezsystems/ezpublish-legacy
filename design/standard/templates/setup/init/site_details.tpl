@@ -28,7 +28,7 @@
 </tr>
 <tr>
     <td class="normal">
-        {"Administator E-Mail"|i18n("design/standard/setup/init")}
+        {"Administrator E-Mail"|i18n("design/standard/setup/init")}
     </td>
     <td align="right" class="normal">
         <input type="text" size="45" name="eZSetupSiteAdminEmail" value="{$site_info.admin_email}" />
