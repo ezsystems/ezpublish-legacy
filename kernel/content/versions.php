@@ -68,12 +68,12 @@ if ( $object->attribute( 'can_remove' ) )
     $canRemove = true;
 $http =& eZHTTPTool::instance();
 
-if ( $http->hasSessionVariable( 'ExcessVesionHistoryLimit' ) )
+if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 {
-    $excessLimit = $http->sessionVariable( 'ExcessVesionHistoryLimit' );
+    $excessLimit = $http->sessionVariable( 'ExcessVersionHistoryLimit' );
     if ( $excessLimit )
         $editWarning = 3;
-    $http->removeSessionVariable( 'ExcessVesionHistoryLimit' );
+    $http->removeSessionVariable( 'ExcessVersionHistoryLimit' );
 }
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
@@ -201,7 +201,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         }
         else
         {
-            $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+            $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $object->attribute( 'current_version' );
             $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $editLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
