@@ -4,8 +4,10 @@
 
 KERNEL_MYSQL_SCHEMA_FILE="kernel/sql/mysql/kernel_schema.sql"
 KERNEL_POSTGRESQL_SCHEMA_FILE="kernel/sql/postgresql/kernel_schema.sql"
+KERNEL_SQL_DATA_FILE="kernel/sql/common/cleandata.sql"
 KERNEL_MYSQL_DATA_FILE="kernel/sql/mysql/cleandata.sql"
 KERNEL_POSTGRESQL_DATA_FILE="kernel/sql/postgresql/cleandata.sql"
+KERNEL_POSTGRESQL_SETVAL_FILE="kernel/sql/postgresql/setval.sql"
 
 PACKAGE_DATA_FILES=""
 PACKAGE_MYSQL_FILES=""

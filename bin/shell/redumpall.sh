@@ -129,7 +129,7 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE --postgresql-user=$POST_USER --sql-schema-only $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    ./bin/shell/sqlredump.sh --postgresql $PAUSE --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
@@ -143,9 +143,9 @@ if [ "$DUMP_DATA" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $DATA_UPDATES
+    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_MYSQL_DATA_FILE"
+	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
 	exit 1
     fi
 

@@ -60,6 +60,11 @@ for arg in $*; do
 	--pause)
 	    USE_PAUSE="yes"
 	    ;;
+	--setval-file=*)
+	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
+		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
+	    fi
+	    ;;
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
@@ -188,6 +193,9 @@ else
     else
 	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
     fi
+    if [ -n $SETVALFILE ]; then
+	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)) , 'ezcontentobject_tree' as tablename FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
+    fi
     perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
@@ -195,9 +203,11 @@ fi
 if [ $? -eq 0 ]; then
     mv "$SQLFILE" "$SQLFILE"~
     mv "$SQLFILE".0 "$SQLFILE"
+    [ -z $SETVALFILE ] || mv "$SETVALFILE".0 "$SETVALFILE"
     echo "Redumped $SQLFILE using $DBNAME database"
 else
     rm "$SQLFILE".0
+    [ -z $SETVALFILE ] || rm "$SETVALFILE".0
     echo "Failed dumping database $DBNAME to $SQLFILE"
     exit 1
 fi
