@@ -93,7 +93,10 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             {
                 $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
             }
-//        $Module->redirectTo( '/content/view/full/2/' );
+            else
+            {
+                $Module->redirectTo( '/' );
+            }
     }
 }
 
