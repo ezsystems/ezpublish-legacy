@@ -646,7 +646,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentActionList()
     {
-        print( "action list<br>" );
+        //print( "action list<br>" );
         $dataType =& $this->dataType();
         return $dataType->contentActionList( $this->contentClassAttribute() );
     }
