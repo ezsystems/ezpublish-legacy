@@ -15,7 +15,7 @@
 <div class="context-attributes">
     {* Title. *}
     <div class="block">
-        <label>{'Title'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Title'|i18n( 'design/admin/pdf/edit' )}:</label>
         <input class="box" type="text" name="Title" value="{$pdf_export.title|wash}" />
     </div>
 
@@ -24,19 +24,19 @@
 
     {* Display frontpage. *}
     <div class="block">
-        <label>{'Display frontpage'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Display frontpage'|i18n( 'design/admin/pdf/edit' )}:</label>
         <input type="checkbox" name="DisplayFrontpage" {section show=$pdf_export.show_frontpage|eq(1)}checked="checked"{/section} />
     </div>
 
     {* Intro text. *}
     <div class="block">
-        <label>{'Intro text'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Intro text'|i18n( 'design/admin/pdf/edit' )}:</label>
         <textarea class="box" name="IntroText" cols="64" rows="3">{$pdf_export.intro_text|wash}</textarea>
     </div>
 
     {* Sub text. *}
     <div class="block">
-        <label>{'Sub text'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Sub text'|i18n( 'design/admin/pdf/edit' )}:</label>
         <textarea class="box" name="SubText" cols="64" rows="3">{$pdf_export.sub_text|wash}</textarea>
     </div>
     </fieldset>
@@ -70,7 +70,7 @@
 
     {* Export structure. *}
     <div class="block">
-        <label>{'Export structure'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Export structure'|i18n( 'design/admin/pdf/edit' )}:</label>
         <select name="ExportType">
         <option {section show=$pdf_export.export_structure|eq( 'tree' )|not()}selected="selected"{/section} value="node">{'Node'|i18n( 'design/admin/pdf/edit' )}</option>
         <option {section show=$pdf_export.export_structure|eq( 'tree' )}selected="selected"{/section} value="tree">{'Tree'|i18n( 'design/admin/pdf/edit' )}</option>
@@ -79,7 +79,7 @@
 
     {* Export classes. *}
     <div class="block">
-        <label>{'Export classes (if exporting a tree)'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Export classes (if exporting a tree)'|i18n( 'design/admin/pdf/edit' )}:</label>
         <select name="ClassList[]" multiple="multiple" size="8">
             {section var=class loop=$export_class_array}
                 <option value="{$class.item.id}"
@@ -93,14 +93,14 @@
 
     {* Export destination. *}
     <div class="block">
-        <label>{'Export type'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Export type'|i18n( 'design/admin/pdf/edit' )}:</label>
         <select name="DestinationType">
         <option value="url" {section show=$export_type|eq( 2 )|not}selected="selected"{/section}>{'Generate once'|i18n( 'design/admin/pdf/edit' )}</option>
         <option value="download" {section show=$export_type|eq( 2 )}selected="selected"{/section}>{'Generate on the fly'|i18n( 'design/admin/pdf/edit' )}</option>
         </select>
     </div>
     <div class="block">
-        <label>{'Filename (if generated on the fly)'|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Filename (if generated on the fly)'|i18n( 'design/admin/pdf/edit' )}:</label>
         <input class="box" type="text" name="DestinationFile" value="{$pdf_export.pdf_filename|wash}" />
     </div>
 
