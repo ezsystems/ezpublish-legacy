@@ -37,30 +37,22 @@
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         // Initialize size array for image.
-        $sizeArray = array( 'small', 'medium', 'large', 'reference', 'original' );
         $imageIni =& eZINI::instance( 'image.ini' );
-        if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
+        if ( $imageIni->hasVariable( 'AliasSettings', 'AliasList' ) )
         {
-            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
-            if ( $heightList != null )
-            {
-                foreach ( array_keys ( $heightList ) as $key )
-                {
-                    if ( $key != "small" and $key != "medium" and $key != "large" and
-                         $key != "reference" and $key != "original" )
-                    {
-                        $sizeArray[] = $key;
-                    }
-                }
-            }
+            $sizeArray = $imageIni->variable( 'AliasSettings', 'AliasList' );
+            $sizeArray[] = 'original';
         }
+        else
+            $sizeArray = array( 'original' );
+
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
         $this->SubTagArray['section'] = $this->SectionArray;
         $this->SubTagArray['paragraph'] = array_merge( $this->BlockTagArray, $this->InLineTagArray );
