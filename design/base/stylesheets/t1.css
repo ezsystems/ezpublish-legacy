@@ -383,7 +383,42 @@ div#maincontent
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-/* Toolbax design */
+/* Navigators */
+div.content-navigator
+{
+    display: block;
+    clear: both;
+}
+
+div.content-navigator div
+{
+    display: inline;
+    text-align: center;
+}
+
+div.content-navigator div.content-navigator-previous-disabled
+{
+    color: #777;
+}
+
+div.content-navigator div.content-navigator-next-disabled
+{
+    color: #777;
+}
+
+div.content-navigator div.content-navigator-separator, div.content-navigator div.content-navigator-separator-disabled
+{
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+div.content-navigator div.content-navigator-arrow
+{
+    color: #f80;
+    font-size: 150%;
+}
+
+/* Toolbox design */
 div.toolbox
 { 
     width: 100%;

@@ -74,10 +74,18 @@ class eZContentFunctionCollection
         return array( 'result' => $contentVersion );
     }
 
-    function &fetchContentNode( $nodeID )
+    function &fetchContentNode( $nodeID, $nodePath )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+        $contentNode = null;
+        if ( $nodeID )
+        {
+            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
+        else if ( $nodePath )
+        {
+            $contentNode =& eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+        }
         if ( $contentNode === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

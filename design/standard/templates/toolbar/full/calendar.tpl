@@ -24,7 +24,9 @@
          time_published=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year )}
 {/case}
 {case}
-    {set today_info=currentdate()|gettime
+    {set today_info=cond( $module_result.content_info.node_id,
+                              fetch( content, node, hash( node_id, $module_result.content_info.node_id ) ).object.published,
+                          currentdate() )|gettime
          time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year)
          time_end=maketime( 23, 59, 59, $today_info.month | inc, 0, $today_info.year )
          time_published=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
@@ -40,10 +42,11 @@
     <h2>Calendar</h2>
 
     <div class="toolbox-content">
-    {let log_node_id=$module_result.content_info.node_id
-         log_node=fetch( content, node, hash( node_id, $log_node_id ) )
+{*     {let log_node_id=$module_result.content_info.node_id *}
+{*          log_node=fetch( content, node, hash( node_id, $log_node_id ) ) *}
+    {let log_node=fetch( content, node, hash( node_path, $show_subtree ) )
          show_week=false()
-         month_list=fetch( content, tree, hash( parent_node_id, $module_result.content_info.node_id,
+         month_list=fetch( content, tree, hash( parent_node_id, $log_node.node_id,
                                                 class_filter_type, include,
                                                 class_filter_array, $class_identifier|explode( ',' ),
                                                 attribute_filter, array( and, array( 'published', '>=',

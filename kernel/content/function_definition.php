@@ -67,7 +67,12 @@ $FunctionList['node'] = array( 'name' => 'node',
                                'parameter_type' => 'standard',
                                'parameters' => array( array( 'name' => 'node_id',
                                                              'type' => 'integer',
-                                                             'required' => true ) ) );
+                                                             'required' => false,
+                                                             'default' => false ),
+                                                      array( 'name' => 'node_path',
+                                                             'type' => 'string',
+                                                             'required' => false,
+                                                             'default' => false ) ) );
 $FunctionList['locale_list'] = array( 'name' => 'locale_list',
                                       'operation_types' => array( 'read' ),
                                       'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

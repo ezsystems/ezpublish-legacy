@@ -1717,6 +1717,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                  $asObject );
     }
 
+    function &fetchByURLPath( $pathString, $asObject = true )
+    {
+         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
+                                                 null,
+                                                 array( "path_identification_string" => $pathString ),
+                                                 $asObject );
+    }
+
     function &findMainNode( $objectID, $asObject = false )
     {
         $query="SELECT ezcontentobject.*,

@@ -1,9 +1,50 @@
 {* Weblog - Full view *}
 
+{let previous_log=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
+                                              class_filter_type, include,
+                                              class_filter_array, array( 'weblog' ),
+                                              limit, 1,
+                                              attribute_filter, array( and, array( 'published', '<', $node.object.published ) ),
+                                              sort_by, array( 'published', false() ) ) )
+     next_log=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
+                                          class_filter_type, include,
+                                          class_filter_array, array( 'weblog' ),
+                                          limit, 1,
+                                          attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
+                                          sort_by, array( 'published', true() ) ) )}
+
 <div class="content-view-full">
     <div class="class-weblog">
 
         <h1>{$node.name|wash()}</h1>
+
+        <div class="content-navigator">
+            {section show=$previous_log}
+                <div class="content-navigator-previous">
+                    <div class="content-navigator-arrow">&laquo;&nbsp;</div><a href={$previous_log[0].url_alias|ezurl} title="{$previous_log[0].name|wash}">{'Previous entry'|i18n( 'design/base/weblog' )}</a>
+                </div>
+            {section-else}
+                <div class="content-navigator-previous-disabled">
+                    <div class="content-navigator-arrow">&laquo;&nbsp;</div>{'Previous entry'|i18n( 'design/base/weblog' )}
+                </div>
+            {/section}
+
+            {section show=and( $previous_log, $next_log )}
+                <div class="content-navigator-separator">|</div>
+            {section-else}
+                <div class="content-navigator-separator-disabled">|</div>
+            {/section}
+
+            {section show=$next_log}
+                <div class="content-navigator-next">
+                    <a href={$next_log[0].url_alias|ezurl} title="{$next_log[0].name|wash}">{'Next entry'|i18n( 'design/base/weblog' )}</a><div class="content-navigator-arrow">&nbsp;&raquo;</div>
+                </div>
+            {section-else}
+                <div class="content-navigator-next-disabled">
+                    {'Next entry'|i18n( 'design/base/weblog' )}<div class="content-navigator-arrow">&nbsp;&raquo;</div>
+                </div>
+            {/section}
+        </div>
 
         <div class="attribute-byline">
            <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
@@ -43,3 +84,5 @@
         {/section}
    </div>
 </div>
+
+{/let}
