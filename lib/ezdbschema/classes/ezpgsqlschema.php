@@ -287,7 +287,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 $correctName = $this->primaryKeyIndexName( $table, $kn, $column_id_array );
                 if ( strlen( $correctName ) > 63 )
                 {
-                    eZDebug::writeError( "The name '$correctName' (" . strlen( $correctName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
+                    eZDebug::writeError( "The index name '$correctName' (" . strlen( $correctName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
                 }
                 if ( $kn == $correctName )
                 {
