@@ -613,6 +613,7 @@ class eZDOMNode
 
     function &set_attribute( $name, $value )
     {
+        $this->removeNamedAttribute( $name );
         return $this->appendAttribute( eZDOMDocument::createAttributeNode( $name, $value ) );
     }
 

@@ -92,6 +92,9 @@ Payment:
   http://ez.no/community/bug_reports/rss_cache_not_cleared_when_rss_feed_definition_is_changed
 - Fixed bug of multiple breaks in xmltext can't be shown in preview mode or after publishing.
   (Merged from stable/3.4 rev. 8688)
+- Fixed bug: disappearing images due to broken XML
+  http://ez.no/community/bug_reports/3_5alpha1_images_disappear_after_editing
+  http://ez.no/community/bug_reports/problem_with_image
 
 *Library:
 
