@@ -118,9 +118,9 @@ class eZMailNotificationTransport extends eZNotificationTransport
         }
         else if ( strlen( $addressList ) > 0 )
         {
-            if ( $mail->validate( $addressList ) )
+            if ( $mail->validate( $address ) )
             {
-                return $addressList;
+                return array( $address );
             }
         }
         return false;

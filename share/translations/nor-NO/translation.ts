@@ -372,42 +372,6 @@
         <source>New option</source>
         <translation>Nytt valg</translation>
     </message>
-    <message>
-        <source>Pretext</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Posttext</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (This value are the current identifier)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current temporary value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (This value is a copy of the original identifier)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Digits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start value</source>
-        <translation type="unfinished">Startverdi</translation>
-    </message>
-    <message>
-        <source>Update identifier</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -6454,11 +6418,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>XML Text field</source>
         <comment>Datatype name</comment>
         <translation>XML tekstfelt</translation>
-    </message>
-    <message>
-        <source>Identifier</source>
-        <comment>Datatype name</comment>
-        <translation type="unfinished">Identifikator</translation>
     </message>
 </context>
 <context>

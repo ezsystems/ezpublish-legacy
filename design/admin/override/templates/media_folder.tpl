@@ -125,6 +125,10 @@
                  <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
+        {section show=$:can_edit}
+        {/section}
+        {section show=$:can_copy}
+        {/section}
         {section show=$:can_remove}
             {section show=fetch(content, list, hash(
                                                parent_node_id, $node.node_id,

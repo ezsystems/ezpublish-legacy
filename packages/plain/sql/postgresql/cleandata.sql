@@ -1,3 +1,112 @@
+
+
+
+
+SET search_path = public, pg_catalog;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO ezcontentbrowserecent VALUES (1, 14, 2, 1060695457, 'Root folder');
 
 
@@ -193,15 +302,6 @@ INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 
 
 
 
-INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 1033919080, 1033919080, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 1033919080, 1033919080, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (438, 10, 14, 1, 1033920649, 1033920665, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (439, 11, 14, 1, 1033920737, 1033920746, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (440, 12, 14, 1, 1033920760, 1033920775, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (441, 13, 14, 1, 1033920786, 1033920794, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (442, 14, 14, 1, 1033920808, 1033920830, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (471, 40, 14, 1, 1053613007, 1053613020, 1, 0, 0);
-INSERT INTO ezcontentobject_version VALUES (472, 41, 14, 1, 1060695450, 1060695457, 1, 0, 0);
 
 
 
@@ -398,6 +498,8 @@ INSERT INTO ezpolicy VALUES (319, 3, 'login', 'user', '*');
 
 
 
+
+
 INSERT INTO ezpolicy_limitation VALUES (249, 326, 'Class', 0, 'read', 'content');
 
 
@@ -468,6 +570,10 @@ INSERT INTO ezrole VALUES (3, 0, 'Editor', ' ');
 
 
 
+
+
+
+
 INSERT INTO ezsearch_object_word_link VALUES (26, 40, 5, 0, 0, 0, 5, 4, 1053613020, 2, 8, '', 0);
 INSERT INTO ezsearch_object_word_link VALUES (27, 40, 5, 0, 1, 5, 0, 4, 1053613020, 2, 9, '', 0);
 INSERT INTO ezsearch_object_word_link VALUES (28, 41, 6, 0, 0, 0, 0, 1, 1060695457, 3, 4, '', 0);
@@ -524,15 +630,37 @@ INSERT INTO ezsection VALUES (3, 'Media', '', 'ezmedianavigationpart');
 
 
 
-INSERT INTO ezurlalias VALUES (12, '', 'd41d8cd98f00b204e9800998ecf8427e', 'content/view/full/2', 1, 0);
-INSERT INTO ezurlalias VALUES (13, 'users', '9bc65c2abec141778ffaa729489f3e87', 'content/view/full/5', 1, 0);
-INSERT INTO ezurlalias VALUES (14, 'users/anonymous_user', 'a37b7463e2c21098fa1a729dad4b4437', 'content/view/full/11', 1, 0);
-INSERT INTO ezurlalias VALUES (15, 'users/guest_accounts', '02d4e844e3a660857a3f81585995ffe1', 'content/view/full/12', 1, 0);
-INSERT INTO ezurlalias VALUES (16, 'users/administrator_users', '1b1d79c16700fd6003ea7be233e754ba', 'content/view/full/13', 1, 0);
-INSERT INTO ezurlalias VALUES (17, 'users/editors', '0bb9dd665c96bbc1cf36b79180786dea', 'content/view/full/14', 1, 0);
-INSERT INTO ezurlalias VALUES (18, 'users/administrator_users/administrator_user', 'f1305ac5f327a19b451d82719e0c3f5d', 'content/view/full/15', 1, 0);
-INSERT INTO ezurlalias VALUES (19, 'users/guest_accounts/test_test', '27a1813763d43de613bf05c31df7a6ef', 'content/view/full/42', 1, 0);
-INSERT INTO ezurlalias VALUES (20, 'media', '62933a2951ef01f4eafd9bdf4d3cd2f0', 'content/view/full/43', 1, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO ezurlalias VALUES (12, '', 'd41d8cd98f00b204e9800998ecf8427e', 'content/view/full/2', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (13, 'users', '9bc65c2abec141778ffaa729489f3e87', 'content/view/full/5', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (14, 'users/anonymous_user', 'a37b7463e2c21098fa1a729dad4b4437', 'content/view/full/11', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (15, 'users/guest_accounts', '02d4e844e3a660857a3f81585995ffe1', 'content/view/full/12', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (16, 'users/administrator_users', '1b1d79c16700fd6003ea7be233e754ba', 'content/view/full/13', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (17, 'users/editors', '0bb9dd665c96bbc1cf36b79180786dea', 'content/view/full/14', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (18, 'users/administrator_users/administrator_user', 'f1305ac5f327a19b451d82719e0c3f5d', 'content/view/full/15', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (19, 'users/guest_accounts/test_test', '27a1813763d43de613bf05c31df7a6ef', 'content/view/full/42', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (20, 'media', '62933a2951ef01f4eafd9bdf4d3cd2f0', 'content/view/full/43', 1, 0, 0);
 
 
 
@@ -648,71 +776,531 @@ INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 
 
-SELECT setval ('ezapprove_items_s', 1, false);
-SELECT setval ('ezbasket_s', 1, false);
-SELECT setval ('ezcollab_group_s', 1, false);
-SELECT setval ('ezcollab_item_s', 1, false);
-SELECT setval ('ezcollab_item_message_link_s', 1, false);
-SELECT setval ('ezcollab_notification_rule_s', 1, false);
-SELECT setval ('ezcollab_profile_s', 1, false);
-SELECT setval ('ezcollab_simple_message_s', 1, false);
-SELECT setval ('ezcontent_translation_s', 1, false);
-SELECT setval ('ezcontentbrowsebookmark_s', 1, false);
-SELECT setval ('ezcontentbrowserecent_s', 1, true);
-SELECT setval ('ezcontentclass_s', 13, true);
-SELECT setval ('ezcontentclass_attribute_s', 151, true);
-SELECT setval ('ezcontentclassgroup_s', 3, true);
-SELECT setval ('ezcontentobject_s', 41, true);
-SELECT setval ('ezcontentobject_attribute_s', 99, true);
-SELECT setval ('ezcontentobject_link_s', 1, false);
-SELECT setval ('ezcontentobject_tree_s', 43, true);
-SELECT setval ('ezcontentobject_version_s', 472, true);
-SELECT setval ('ezdiscountrule_s', 1, false);
-SELECT setval ('ezdiscountsubrule_s', 1, false);
-SELECT setval ('ezenumvalue_s', 3, true);
-SELECT setval ('ezforgot_password_s', 1, false);
-SELECT setval ('ezgeneral_digest_user_settings_s', 1, false);
-SELECT setval ('ezinfocollection_s', 1, false);
-SELECT setval ('ezinfocollection_attribute_s', 1, false);
-SELECT setval ('ezkeyword_s', 1, false);
-SELECT setval ('ezkeyword_attribute_link_s', 1, false);
-SELECT setval ('ezmessage_s', 1, false);
-SELECT setval ('ezmodule_run_s', 1, false);
-SELECT setval ('eznode_assignment_s', 182, true);
-SELECT setval ('eznotificationcollection_s', 1, false);
-SELECT setval ('eznotificationcollection_item_s', 1, false);
-SELECT setval ('eznotificationevent_s', 1, true);
-SELECT setval ('ezoperation_memento_s', 1, false);
-SELECT setval ('ezorder_s', 1, false);
-SELECT setval ('ezorder_item_s', 1, false);
-SELECT setval ('ezpolicy_s', 326, true);
-SELECT setval ('ezpolicy_limitation_s', 249, true);
-SELECT setval ('ezpolicy_limitation_value_s', 455, true);
-SELECT setval ('ezpreferences_s', 1, false);
-SELECT setval ('ezproductcollection_s', 1, false);
-SELECT setval ('ezproductcollection_item_s', 1, false);
-SELECT setval ('ezproductcollection_item_opt_s', 1, false);
-SELECT setval ('ezrole_s', 5, true);
-SELECT setval ('ezsearch_object_word_link_s', 28, true);
-SELECT setval ('ezsearch_return_count_s', 1, false);
-SELECT setval ('ezsearch_search_phrase_s', 1, false);
-SELECT setval ('ezsearch_word_s', 6, true);
-SELECT setval ('ezsection_s', 3, true);
-SELECT setval ('ezsubtree_notification_rule_s', 1, false);
-SELECT setval ('eztrigger_s', 1, false);
-SELECT setval ('ezurl_s', 1, false);
-SELECT setval ('ezurlalias_s', 20, true);
-SELECT setval ('ezuser_accountkey_s', 1, false);
-SELECT setval ('ezuser_discountrule_s', 1, false);
-SELECT setval ('ezuser_role_s', 30, true);
-SELECT setval ('ezvattype_s', 1, true);
-SELECT setval ('ezwaituntildatevalue_s', 1, false);
-SELECT setval ('ezwishlist_s', 1, false);
-SELECT setval ('ezworkflow_s', 1, false);
-SELECT setval ('ezworkflow_assign_s', 1, false);
-SELECT setval ('ezworkflow_event_s', 1, false);
-SELECT setval ('ezworkflow_group_s', 1, true);
-SELECT setval ('ezworkflow_process_s', 1, false);
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
+
+
+
+INSERT INTO ezsite_data VALUES ('ezpublish-version', '3.2');
+INSERT INTO ezsite_data VALUES ('ezpublish-release', '2');
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezbasket_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_group_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_item_message_link_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_notification_rule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_profile_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcollab_simple_message_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontent_translation_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentbrowsebookmark_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclass_s', 13, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclass_attribute_s', 151, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclassgroup_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_s', 41, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_attribute_s', 99, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_link_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_tree_s', 43, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_version_s', 472, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezdiscountrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezdiscountsubrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezenumvalue_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezforgot_password_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezgeneral_digest_user_settings_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezinfocollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezinfocollection_attribute_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezkeyword_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezkeyword_attribute_link_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezmessage_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezmodule_run_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznode_assignment_s', 182, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationcollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationcollection_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationevent_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezoperation_memento_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezorder_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezorder_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_s', 326, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_limitation_s', 249, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_limitation_value_s', 455, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpreferences_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_item_opt_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezrole_s', 5, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 28, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_return_count_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_word_s', 6, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsection_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsubtree_notification_rule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eztrigger_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezurl_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezurlalias_s', 20, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_accountkey_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_discountrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_role_s', 30, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezvattype_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezwaituntildatevalue_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezwishlist_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_assign_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_event_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_group_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_process_s', 1, false);
+
+

@@ -177,6 +177,7 @@ class eZTemplateSectionFunction
     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+//         $text = "";
         $children = $functionChildren;
         $parameters = $functionParameters;
         $name = null;
@@ -197,21 +198,6 @@ class eZTemplateSectionFunction
         {
             $hasLoopItemParameter = true;
             $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
-        $variableIterator = null;
-        if ( isset( $parameters['var'] ) )
-        {
-            $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
-        $noLastValue = false;
-        if ( isset( $parameters['no-last-value'] ) )
-        {
-            $noLastValue =& $tpl->elementValue( $parameters['no-last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
-        $reverseLoop = false;
-        if ( isset( $parameters['reverse'] ) )
-        {
-            $reverseLoop =& $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
@@ -332,15 +318,12 @@ class eZTemplateSectionFunction
                     if ( $iterationOffset !== false )
                         $arrayKeys = array_splice( $arrayKeys, $iterationOffset );
                     $currentCount = 0;
-                    if ( $reverseLoop )
-                        $arrayKeys = array_reverse( $arrayKeys );
                     foreach ( $arrayKeys as $key )
                     {
                         $item =& $array[$key];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -364,24 +347,19 @@ class eZTemplateSectionFunction
                     $currentCount = 0;
                     for ( $i = $loopStart; $i < $count; ++$i )
                     {
-                        if ( $reverseLoop )
-                            $iterator = ($count - $i) + $loopStart - 1;
-                        else
-                            $iterator = $i;
                         if ( $value < 0 )
                         {
-                            $key = -$iterator;
-                            $item = -$iterator - 1;
+                            $key = -$i;
+                            $item = -$i - 1;
                         }
                         else
                         {
-                            $key = $iterator;
-                            $item = $iterator + 1;
+                            $key = $i;
+                            $item = $i + 1;
                         }
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -403,16 +381,11 @@ class eZTemplateSectionFunction
                     $currentCount = 0;
                     for ( $i = $loopStart; $i < $stringLength; ++$i )
                     {
-                        if ( $reverseLoop )
-                            $iterator = ($stringLength - $i) + $loopStart - 1;
-                        else
-                            $iterator = $i;
-                        $key = $iterator;
-                        $item = $text[$iterator];
+                        $key = $i;
+                        $item = $text[$i];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -426,19 +399,12 @@ class eZTemplateSectionFunction
                 }
                 if ( !$isFirstRun )
                 {
-                    if ( $variableIterator !== null )
-                    {
-                        $tpl->unsetVariable( $variableIterator, $name );
-                    }
-                    else
-                    {
-                        $tpl->unsetVariable( "key", $name );
-                        $tpl->unsetVariable( "item", $name );
-                        $tpl->unsetVariable( "index", $name );
-                        $tpl->unsetVariable( "number", $name );
-                        if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
-                            $tpl->unsetVariable( "sequence", $name );
-                    }
+                    $tpl->unsetVariable( "key", $name );
+                    $tpl->unsetVariable( "item", $name );
+                    $tpl->unsetVariable( "index", $name );
+                    $tpl->unsetVariable( "number", $name );
+                    if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
+                        $tpl->unsetVariable( "sequence", $name );
                 }
             }
             else
@@ -449,7 +415,6 @@ class eZTemplateSectionFunction
     }
 
     /*!
-     \private
      Goes trough all children and process them into text.
      \return \c true.
     */
@@ -464,7 +429,6 @@ class eZTemplateSectionFunction
     }
 
     /*!
-     \private
      Goes trough all children and process them into text. It will skip the processing
      if the current item is filtered away.
      \return \c true if the element was processed, \c false otherwise.
@@ -472,28 +436,12 @@ class eZTemplateSectionFunction
     function processChildren( &$textElements,
                               &$children, $key, &$item, &$index, &$isFirstRun,
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
-                              &$tpl, $rootNamespace, $name, $functionPlacement,
-                              &$variableIterator, $noLastValue )
+                              &$tpl, $rootNamespace, $name, $functionPlacement )
     {
-        if ( $variableIterator !== null )
-        {
-            $variableValue = array( 'key' => $key,
-                                    'item' => $item,
-                                    'index' => $index,
-                                    'number' => $index + 1,
-                                    'sequence' => false,
-                                    'last' => false );
-            if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
-                $variableValue['last'] =& $tpl->variable( $variableIterator, $name );
-            $tpl->setVariable( $variableIterator, $variableValue, $name );
-        }
-        else
-        {
-            $tpl->setVariable( "key", $key, $name );
-            $tpl->setVariable( "item", $item, $name );
-            $tpl->setVariable( "index", $index, $name );
-            $tpl->setVariable( "number", $index + 1, $name );
-        }
+        $tpl->setVariable( "key", $key, $name );
+        $tpl->setVariable( "item", $item, $name );
+        $tpl->setVariable( "index", $index, $name );
+        $tpl->setVariable( "number", $index + 1, $name );
         if ( count( $filterStructure ) > 0 )
         {
             $filterCount = count( $filterStructure );
@@ -546,19 +494,8 @@ class eZTemplateSectionFunction
         if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
         {
             $sequenceValue = array_shift( $sequenceStructure );
-            if ( $variableIterator !== null )
-            {
-                $variableValue['sequence'] = $sequenceValue;
-            }
-            else
-            {
-                $tpl->setVariable( "sequence", $sequenceValue, $name );
-            }
+            $tpl->setVariable( "sequence", $sequenceValue, $name );
             $sequenceStructure[] = $sequenceValue;
-        }
-        if ( $variableIterator !== null )
-        {
-            $tpl->setVariable( $variableIterator, $variableValue, $name );
         }
         foreach ( array_keys( $children ) as $childKey )
         {

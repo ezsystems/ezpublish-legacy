@@ -38,6 +38,19 @@
 <h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
 </div>
 
+{section show=$stop_word_array}
+<p>
+{"The following words were excluded from the search:"|i18n("design/standard/content/search")} 
+{section name=StopWord loop=$stop_word_array}
+{$StopWord:item.word|wash}
+{delimiter}, {/delimiter}
+
+{/section}
+</p>
+
+{/section}
+
+
 <div class="block">
 <label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
@@ -89,6 +102,7 @@ selected="selected"
 &nbsp;
 
 {/section}
+
 <input class="smallbutton" type="submit" name="SelectClass" value="{'Update attributes'|i18n('design/standard/content/search')}"/>
 </div>
 
@@ -145,8 +159,6 @@ selected="selected"
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
-
-{section show=$search_text}
 <br/>
 {switch name=Sw match=$search_count}
   {case match=0}
@@ -164,7 +176,6 @@ selected="selected"
 {include name=Result
          uri='design:content/searchresult.tpl'
          search_result=$search_result}
-{/section}
 
 {include name=navigator
          uri='design:navigator/google.tpl'

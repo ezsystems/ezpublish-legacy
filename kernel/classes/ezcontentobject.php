@@ -1009,7 +1009,7 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
         if ( $version === false )
             $version = $this->CurrentVersion;
-        if ( $language === false )
+        if ( $language == false )
         {
             if ( $this->CurrentLanguage != false )
             {
@@ -1026,15 +1026,6 @@ class eZContentObject extends eZPersistentObject
         if ( !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
 //             print( "uncached<br>" );
-            $versionText = false;
-            if ( $version !== null )
-                $versionText = "AND\n                    ezcontentobject_attribute.version = '$version'";
-            $languageText = false;
-            if ( $language !== null )
-                $languageText = "AND\n                    ezcontentobject_attribute.language_code = '$language'";
-            $attributeIDText = false;
-            if ( $contentObjectAttributeID )
-                $attributeIDText = "AND\n                    ezcontentobject_attribute.id = '$contentObjectAttributeID'";
             $distinctText = false;
             if ( $distinctItemsOnly )
                 $distinctText = "GROUP BY ezcontentobject_attribute.id";
@@ -1043,7 +1034,9 @@ class eZContentObject extends eZPersistentObject
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
-                    ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
+                    ezcontentobject_attribute.version = '$version' AND
+                    ezcontentobject_attribute.contentobject_id = '$this->ID' AND
+                    ezcontentobject_attribute.language_code = '$language'
                   $distinctText
                   ORDER BY
                     ezcontentclass_attribute.placement ASC";
@@ -1058,8 +1051,7 @@ class eZContentObject extends eZPersistentObject
                 $returnAttributeArray[] = $attr;
             }
 
-            if ( $language !== null and $version !== null )
-                $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
+            $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
         }
         else
         {
@@ -1311,9 +1303,6 @@ class eZContentObject extends eZPersistentObject
                 }
 
                 // Custom Action Code
-                $this->handleCustomHTTPActions( $contentObjectAttribute, $attributeDataBaseName,
-                                                $customActionAttributeArray, $customActionParameters );
-                /*
                 $customActionParameters['base_name'] = $attributeDataBaseName;
                 if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
                 {
@@ -1324,28 +1313,12 @@ class eZContentObject extends eZPersistentObject
 
                 $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
                                                                   $customActionAttributeArray, $customActionParameters );
-                */
             }
 
         }
         return $result;
     }
 
-    function handleCustomHTTPActions( &$contentObjectAttribute, $attributeDataBaseName,
-                                      $customActionAttributeArray, $customActionParameters )
-    {
-        $http =& eZHTTPTool::instance();
-        $customActionParameters['base_name'] = $attributeDataBaseName;
-        if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
-        {
-            $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
-            $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
-            $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
-        }
-
-        $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
-                                                          $customActionAttributeArray, $customActionParameters );
-    }
     function storeInput( &$contentObjectAttributes,
                          $attributeInputMap )
     {
@@ -2088,18 +2061,15 @@ class eZContentObject extends eZPersistentObject
         $language = $this->defaultLanguage();
         if ( !isset( $this->ContentObjectAttributeArray[$version][$language] ) )
         {
-            $attributeList =& $this->contentObjectAttributes();
-            $this->ContentObjectAttributeArray[$version][$language] =& $attributeList;
+            $this->ContentObjectAttributeArray[$version][$language] =& $this->contentObjectAttributes();
         }
-        else
-            $attributeList =& $this->ContentObjectAttributeArray[$version][$language];
 
         // Fetch content actions if not already fetched
         if ( $this->ContentActionList === false )
         {
 
             $contentActionList = array();
-            foreach ( $attributeList as $attribute )
+            foreach ( $this->ContentObjectAttributeArray[$version][$language] as $attribute )
             {
                 $contentActions =& $attribute->contentActionList();
                 if ( count( $contentActions ) > 0 )

@@ -1,3 +1,98 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO ezcontentbrowserecent (id, user_id, node_id, created, name) VALUES (1,14,2,1060695457,'Root folder');
 
 
@@ -357,7 +452,15 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
 
 
+
+
+
+
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
+
+
+
+
 
 
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (435,249,'1');
@@ -371,6 +474,30 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (448,249
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (450,249,'7');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (452,249,'8');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (454,249,'9');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -430,6 +557,8 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'
 
 
 
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.2');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','3');
 
 
 
@@ -439,15 +568,36 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'
 
 
 
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0,0);
 
 
 
@@ -546,7 +696,4 @@ INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, grou
 
 
 
-
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
 

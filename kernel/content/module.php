@@ -168,9 +168,7 @@ $ViewList["collectinformation"] = array(
     "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "collectinformation.php",
     'single_post_actions' => array( 'ActionCollectInformation' => 'CollectInformation' ),
-    'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID',
-                                                                      'ContentNodeID' => 'ContentNodeID',
-                                                                      'ViewMode' => 'ViewMode' ) ),
+    'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID' ) ),
     "params" => array(  ) );
 
 $ViewList["versions"] = array(
@@ -240,12 +238,6 @@ $ViewList["tipafriend"] = array(
     "functions" => array( 'read' ),
     "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "tipafriend.php",
-    "params" => array( "NodeID" ) );
-
-$ViewList["collectedinfo"] = array(
-    "functions" => array( 'read' ),
-    "default_navigation_part" => 'ezcontentnavigationpart',
-    "script" => "collectedinfo.php",
     "params" => array( "NodeID" ) );
 
 $ViewList["bookmark"] = array(

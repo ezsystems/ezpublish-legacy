@@ -47,7 +47,7 @@ $Module =& $Params['Module'];
 $offset = $Params['Offset'];
 $limit = 15;
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
+if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
@@ -70,9 +70,9 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     }
 }
 
-if ( $http->hasPostVariable( 'NewButton' )  )
+if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $role =& eZRole::createNew( );
+    $role =& eZRole::createNew();
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 
@@ -80,9 +80,9 @@ $viewParameters = array( 'offset' => $offset );
 $tpl =& templateInit();
 
 //$roles =& eZRole::fetchList();
-$roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true );
+$roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount =& eZRole::roleCount();
-$tempRoles = & eZRole::fetchList( 'temporaryVersions' );
+$tempRoles = & eZRole::fetchList( $temporaryVersions = true );
 $tpl->setVariable( 'roles', $roles );
 $tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );

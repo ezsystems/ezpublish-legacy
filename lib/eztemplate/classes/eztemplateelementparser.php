@@ -224,7 +224,7 @@ class eZTemplateElementParser
                                       );
                     $elements[] = $element;
                     $currentPosition = $numericEndPosition;
-                    $allowedType = EZ_TEMPLATE_TYPE_OPERATOR_BIT;
+                    $allowedType = EZ_TEMPLATE_TYPE_NONE;
                 }
                 else
                 {

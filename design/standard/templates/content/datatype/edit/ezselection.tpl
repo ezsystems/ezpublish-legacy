@@ -1,4 +1,3 @@
-{default attribute_base=ContentObjectAttribute}
 {let selected_id_array=$attribute.content}
 
 <select name="{$attribute_base}_ezselect_selected_array_{$attribute.id}[]" {section show=$attribute.class_content.is_multiselect}multiple{/section}>
@@ -7,4 +6,3 @@
 {/section}</select>
 
 {/let}
-{/default}

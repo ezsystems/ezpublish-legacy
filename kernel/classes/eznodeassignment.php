@@ -164,7 +164,7 @@ class eZNodeAssignment extends eZPersistentObject
         return new eZNodeAssignment( $parameters );
     }
 
-    function &fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
+    function &fetchForObject( $contentObjectID, $version = 1, $main = 0 ,$asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version );

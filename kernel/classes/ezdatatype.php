@@ -137,20 +137,6 @@ class eZDataType
     }
 
     /*!
-     \return the template name to use for result view of an information collection attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \note \a $collectionAttribute can in some cases be a eZContentObjectAttribute, so any
-           datatype that overrides this must be able to handle both types.
-    */
-    function &resultTemplate( &$collectionAttribute )
-    {
-        return $this->DataTypeString;
-    }
-
-    /*!
      \static
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
@@ -311,12 +297,7 @@ class eZDataType
     {
     }
 
-
     function storeDefinedClassAttribute( &$classAttribute )
-    {
-    }
-
-    function preStoreDefinedClassAttribute( &$classAttribute )
     {
     }
 
@@ -401,33 +382,6 @@ class eZDataType
     }
 
     /*!
-     Validates the input for an object attribute and returns a validation
-     state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
-    {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-    }
-
-    /*!
-     Tries to do a fixup on the input text so that it's acceptable as
-     object attribute input.
-     \note Default implementation does nothing.
-    */
-    function fixupCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
-    {
-    }
-
-    /*!
-     Fetches the HTTP collected information for the content object attribute.
-     \note Default implementation does nothing.
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$objectAttribute )
-    {
-    }
-
-    /*!
      Executes a custom action for an object attribute which was defined on the web page.
      \note Default implementation does nothing.
     */
@@ -471,13 +425,6 @@ class eZDataType
     }
 
     /*!
-     Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
-     \note Default implementation does nothing.
-    */
-    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
-    {
-    }
-    /*!
      Clean up stored object attribute
      \note Default implementation does nothing.
     */
@@ -499,13 +446,7 @@ class eZDataType
     */
     function contentActionList( &$classAttribute )
     {
-        $actionList = array();
-        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
-        {
-            $actionList[] = array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
-                                   'action' => 'ActionCollectInformation' );
-        }
-        return $actionList;
+        return array();
     }
 
     /*!

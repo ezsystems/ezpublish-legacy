@@ -1,4 +1,3 @@
-{default attribute_base=ContentObjectAttribute}
 {let matrix=$attribute.content}
 
 <table>
@@ -18,7 +17,7 @@
 {section name=Rows loop=$matrix.rows.sequential}
 <td>
 {section name=Columns loop=$Rows:item.columns}
-<input type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]" value="{$Rows:Columns:item|wash(xhtml)}" />
+<input type="text" name="ContentObjectAttribute_ezmatrix_cell_{$attribute.id}[]" value="{$Rows:Columns:item|wash(xhtml)}" />
 {delimiter}
 </td>
 <td>
@@ -26,7 +25,7 @@
 {/section}
 </td>
 <td>
-<input type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows:index}" /><br />
+<input type="checkbox" name="ContentObjectAttribute_data_matrix_remove_{$attribute.id}[]" value="{$Rows:index}" /><br />
 </td>
 {delimiter}
 </tr>
@@ -42,4 +41,3 @@
 </div>
 
 {/let}
-{/default}

@@ -44,7 +44,6 @@
 </div>
 {/case}
 {case}
-
 <div class="imagecenter">
 {section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}"  />

@@ -131,7 +131,7 @@ class eZAuthorType extends eZDataType
 
         if ( count( $author->attribute( 'author_list' ) ) == 0 )
         {
-//            $author->addAuthor( "Default", "" );
+            $author->addAuthor( "Default", "" );
         }
 
         return $author;

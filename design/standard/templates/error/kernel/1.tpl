@@ -6,7 +6,7 @@
     {section show=ne($current_user.contentobject_id,$anonymous_user_id)}
     <li>{"Your current user does not have the proper privileges to access this page."|i18n("design/standard/error/kernel")}</li>
     {section-else}
-    <li>{"You are currently not logged in to the site, to get proper access create a new user or login with an existing user."|i18n("design/standard/error/kernel")}</li>
+    <li>{"You're currently not logged in on the site, to get proper access create a new user or login with an existing user."|i18n("design/standard/error/kernel")}</li>
     {/section}
     <li>{"You misspelled some parts of your url, try changing it."|i18n("design/standard/error/kernel")}</li>
 </ul>

@@ -4,12 +4,7 @@
  {"eZ publish will work with this option on however it will lead to some minor performance issues since all input variables need to be be converted back to"|i18n("design/standard/setup/tests")} <i>{"normal"|i18n("design/standard/setup/tests")}</i>.
 </p>
 <p>
- {"It's recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext."
-  |i18n( "design/standard/setup/tests",,
-         hash( '%phpini', "<i>php.ini</i>",
-               '%magic_quotes_gpc', "<i>magic_quotes_gpc</i>",
-               '%magic_quotes_runtime', "<i>magic_quotes_runtime</i>",
-               '%offtext', "<i>Off</i>" ) )}
+ {"It's recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4."|i18n("design/standard/setup/tests",,array("<i>php.ini</i>","<i>magic_quotes_gpc</i>","<i>magic_quotes_runtime</i>","<i>Off</i>"))}
  {"More information on the subject can be found at %1."|i18n("design/standard/setup/tests",,array('<a href="http://www.php.net/manual/en/ref.info.php#ini.magic-quotes-gpc">php.net</a>'))}
 </p>
 <label>{"php.ini example:"|i18n("design/standard/setup/tests")}</label><br/>

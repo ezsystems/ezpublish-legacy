@@ -17,6 +17,7 @@
     {set select_type='radio'}
 {/section}
 
+
 <form action={concat($browse.from_page)|ezurl} method="post">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -52,11 +53,7 @@
         </tr>
         <tr>
             <td class="bglight">
-	    {section show=$browse.ignore_nodes|contains($main_node.node_id)|not()}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
-	    {section-else}
-	        &nbsp;
-            {/section}
             </td>
         
             <td class="bglight">
@@ -80,17 +77,15 @@
         {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
         <tr class="{$Object:sequence}">
             <td>
-	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-                {/section}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             </td>
         
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
             <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{/section}
-                {$Object:item.name|wash}
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}</a>{/section}
+            <a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
+            {$Object:item.name|wash}
+                </a>
             </td>
         
             <td>
@@ -138,11 +133,7 @@
                  sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                {section show=$browse.ignore_nodes|contains($:item)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
-                {section-else}
-                    &nbsp;
-                {/section}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
             </td>
         
             <td>
@@ -151,7 +142,7 @@
                     {fetch(content,node,hash(node_id,$:item)).name|wash}
                 {section-else}
                     <a href={concat("/content/browse/",$:item,"/")|ezurl}>
-                        {fetch('content','node',hash(node_id,$:item)).name|wash}
+                        {fetch(content,node,hash(node_id,$:item)).name|wash}
                     </a>
                 {/section}
             </td>
@@ -167,16 +158,12 @@
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-                {section-else}
-                    &nbsp;
-		{/section}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             </td>
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
+                {section show=eq($:item.node_id,$main_node.node_id)}
                     {$:item.name|wash}
                 {section-else}
                     <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
@@ -211,16 +198,12 @@
             {section name=Recent loop=$recent_list sequence=array(bgdark,bglight)}
             <tr class="{$:sequence}">
                 <td width="1">
-		    {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                        <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-                    {section-else}
-		        &nbsp;
-		    {/section}
+                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
                 </td>
             
                 <td>
                     <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                    {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
+                    {section show=eq($:item.node_id,$main_node.node_id)}
                         {$:item.name|wash}
                     {section-else}
                         <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
@@ -237,7 +220,6 @@
             </td>
         </tr>
         {/section}
-
         </table>
         {* Recent and bookmark end *}
 
@@ -263,26 +245,5 @@
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
-</form>
-<form name="test" method="post" action={"content/action"|ezurl}>
-<table>
-        <tr>
-            <th colspan="2">
-                {"Create new"|i18n("design/standard/content/browse")}
-            </th>
-        </tr>
-        <tr class="bgdark">
-        <td colspan="2" align="left">
-	<select	name="ClassID" class="classcreate">
-	    {section name=Classes loop=$main_node.object.can_create_class_list}
-	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
-	    {/section}
-	</select>
-	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
-	<input class="menubutton" type="hidden" name="RedirectURIAfterPublish" value="/content/browse/" />
-	<input class="menubutton" type="hidden" name="NodeID" value="{$main_node.node_id}" />
-	</td>
-        </tr>
-</table>
 </form>
 {/let}

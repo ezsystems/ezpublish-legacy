@@ -205,7 +205,6 @@ class eZScript
                 {
                     $cli =& eZCLI::instance();
                     $cli->warning( 'Failed to login with user ' . $userLogin );
-                    include_once( 'lib/ezutils/classes/ezexecution.php' );
                     eZExecution::cleanup();
                     eZExecution::setCleanExit();
                 }
@@ -230,7 +229,6 @@ class eZScript
                 }
             }
             $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
-            include_once( 'lib/ezutils/classes/ezmodule.php' );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
     }
@@ -259,7 +257,6 @@ class eZScript
                                          $this->UseDebugTimingPoints, $this->UseIncludeFiles ) );
         }
 
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanup();
         eZExecution::setCleanExit();
     }

@@ -218,7 +218,6 @@ class eZContentClassAttribute extends eZPersistentObject
         $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
         $attribute->initialize();
         $attribute->store();
-        $attribute->postInitialize();
     }
 
     function instantiateTemporary( $contentobjectID )
@@ -242,10 +241,9 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function storeDefined()
     {
-        $dataType =& $this->dataType();
-        $dataType->preStoreDefinedClassAttribute( $this );
         $stored = eZPersistentObject::store();
 
+        $dataType =& $this->dataType();
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
         $dataType->storeDefinedClassAttribute( $this );

@@ -68,6 +68,7 @@ eZXML:
 - Made sure the validation only gives an error when there are data available.
 
 *Optimizations:
+- Fixed update search script to use less memory. Changed so it only fetches 50 objects a time.
 
 *Bugfixes:
 - Added the missing include.
@@ -127,9 +128,13 @@ eZ db:
 - The postgresql driver now allows for recursive transactions, it does so by keeping track
   of the number of transactions and only commits when all are done.
 
+eZ sys:
+- Made sure the request URI is url decoded to turn %xx elements into real characters, no Unicode support yet.
+
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 - Fixed the eng-CA locale, it previously reported eng-GB as it's locale code.
+- Updated chinese translation (chi-CN), thanks to Frank Lee.
 - Updated portuguese translation to 3.2.
 - Updated spanish and catalan translation.
 

@@ -54,18 +54,27 @@ if ( isset( $argv[1] ) )
     print( "Looking for override templates in: $siteBase\n" );
 
     $nodeOverrideFileArray =& eZDir::recursiveFindRelative( "design/" . $siteBase . "/override/templates/", "",  "tpl" );
-
     print( "The following override templates where found:\n\n" );
     $overrideTxt = "";
+
+
     foreach ( $nodeOverrideFileArray as $overrideFile )
     {
-        if ( preg_match( "#^/(.*)\/(([0-9a-z_]+)_([0-9a-z]+)_([0-9a-z_]++))\.tpl$#", $overrideFile, $matchParts ) )
+        if ( preg_match( "#^(.*)\/(([0-9a-z_]+)_([0-9a-z]+)_([0-9a-z_]+))\.tpl$#", $overrideFile, $matchParts ) )
         {
             $matchFile = $overrideFile;
+
+            //strip first slash
             if ( preg_match( "#^/(.*)$#", $matchFile, $matches ) )
                 $matchFile = $matches[1];
+
+            if ( preg_match( "#^/(.*)$#", $matchParts[1], $matches ) )
+                $matchParts[1] = $matches[1];
+            if ( $matchParts[1] != "" )
+                $matchParts[1] .= "/";
+
             $overrideTxt .= "[" . $matchParts[2] . "]\n";
-            $overrideTxt .= "Source=" . $matchParts[1] . "/" . $matchParts[3] . ".tpl\n";
+            $overrideTxt .= "Source=" . $matchParts[1] . $matchParts[3] . ".tpl\n";
             $overrideTxt .= "MatchFile=" . $matchFile . "\n";
             $overrideTxt .= "Subdir=templates\n";
             $overrideTxt .= "Match[" .$matchParts[4] . "]=" . $matchParts[5] . "\n";

@@ -162,7 +162,7 @@ class eZContentFunctionCollection
 
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $attribute_filter, $extended_attribute_filter,$class_filter_type, $class_filter_array )
     {
-//        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" ); //commented by kk, saw no use for it
+        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" );
 //         print( "fetch list $parentNodeID $hash<br>" );
 
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -408,90 +408,6 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezsection.php' );
         return array( 'result' => eZSection::fetchList() );
-    }
-
-    function fetchTipafriendTopList( $offset, $limit )
-    {
-        include_once( 'kernel/classes/eztipafriendcounter.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-        $topList = & eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
-                                                       null,
-                                                       null,
-                                                       null,
-                                                       array( 'length' => $limit, 'offset' => $offset ),
-                                                       true );
-
-        $contentNodeList = array();
-        foreach ( array_keys ( $topList ) as $key )
-        {
-            $nodeID = $topList[$key]->attribute( 'node_id' );
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-            if ( $contentNode === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentNodeList[] = $contentNode;
-        }
-        return array( 'result' => $contentNodeList );
-    }
-
-    function fetchMostViewedTopList( $classID, $sectionID, $offset, $limit )
-    {
-        include_once( 'kernel/classes/ezviewcounter.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-        $topList =& eZViewCounter::fetchTopList( $classID, $sectionID, $offset, $limit );
-        $contentNodeList = array();
-        foreach ( array_keys ( $topList ) as $key )
-        {
-            $nodeID = $topList[$key]['node_id'];
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-            if ( $contentNode === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentNodeList[] = $contentNode;
-        }
-        return array( 'result' => $contentNodeList );
-    }
-
-    function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value )
-    {
-        if ( $objectAttributeID )
-            $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
-        else if ( $objectID )
-            $count = eZInformationCollection::fetchCountForObject( $objectID, $value );
-        else
-            $count = 0;
-        return array( 'result' => $count );
-    }
-
-    function fetchCollectedInfoCountList( $objectAttributeID )
-    {
-        $count = eZInformationCollection::fetchCountList( $objectAttributeID );
-        return array( 'result' => $count );
-    }
-
-    function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
-    {
-        $collection = false;
-        if ( $collectionID )
-            $collection =& eZInformationCollection::fetch( $collectionID );
-        else if ( $contentObjectID )
-        {
-            $userIdentifier = eZInformationCollection::currentUserIdentifier();
-            $collection =& eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
-        }
-        return array( 'result' => &$collection );
-    }
-
-    function &fetchObjectByAttribute( $identifier )
-    {
-        include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-        $contentObjectAttribute =& eZContentObjectAttribute::fetchByIdentifier( $identifier );
-        if ( $contentObjectAttribute === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $contentObjectAttribute->attribute( 'object' ) );
     }
 }
 

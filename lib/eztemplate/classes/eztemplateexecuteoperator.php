@@ -43,18 +43,16 @@
 
 */
 
-include_once( 'lib/eztemplate/classes/eztemplate.php' );
+include_once( "lib/eztemplate/classes/eztemplate.php" );
 
 class eZTemplateExecuteOperator
 {
     /*!
      Constructor
     */
-    function eZTemplateExecuteOperator( $fetchName = 'fetch', $fetchAliasName = 'fetch_alias' )
+    function eZTemplateExecuteOperator( $fetchName = "fetch" )
     {
-        $this->Operators = array( $fetchName, $fetchAliasName );
-        $this->Fetch = $fetchName;
-        $this->FetchAlias = $fetchAliasName;
+        $this->Operators = array( $fetchName );
     }
 
     /*!
@@ -66,34 +64,19 @@ class eZTemplateExecuteOperator
     }
 
     /*!
-     \return true to tell the template engine that the parameter list exists per operator type.
-    */
-    function namedParameterPerOperator()
-    {
-        return true;
-    }
-
-
-    /*!
      See eZTemplateOperator::namedParameterList()
     */
     function namedParameterList()
     {
-        return array( 'fetch' => array( 'module_name' => array( 'type' => 'string',
-                                                                'required' => true,
-                                                                'default' => false ),
-                                        'function_name' => array( 'type' => 'string',
-                                                                  'required' => true,
-                                                                  'default' => false ),
-                                        'function_parameters' => array( 'type' => 'array',
-                                                                        'required' => false,
-                                                                        'default' => array() ) ),
-                      'fetch_alias' => array( 'function_name' => array( 'type' => 'string',
-                                                                  'required' => true,
-                                                                  'default' => false ),
-                                              'function_parameters' => array( 'type' => 'array',
-                                                                              'required' => false,
-                                                                              'default' => array() ) ) );
+        return array( "module_name" => array( "type" => "string",
+                                              "required" => true,
+                                              "default" => false ),
+                      "function_name" => array( "type" => "string",
+                                                "required" => true,
+                                                "default" => false ),
+                      "function_parameters" => array( "type" => "array",
+                                                      "required" => false,
+                                                      "default" => array() ) );
     }
 
     /*!
@@ -102,29 +85,18 @@ class eZTemplateExecuteOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters,
                      &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $moduleName = $namedParameters['module_name'];
         $functionName = $namedParameters['function_name'];
         $functionParameters = $namedParameters['function_parameters'];
 
         include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
+        $result =& eZFunctionHandler::execute( $moduleName, $functionName, $functionParameters );
 
-        if ( $operatorName == $this->Fetch )
-        {
-            $moduleName = $namedParameters['module_name'];
-            $result =& eZFunctionHandler::execute( $moduleName, $functionName, $functionParameters );
-            $operatorValue = $result;
-        }
-        else if ( $operatorName == $this->FetchAlias )
-        {
-            $result =& eZFunctionHandler::executeAlias( $functionName, $functionParameters );
-            $operatorValue = $result;
-        }
+        $operatorValue = $result;
     }
 
     /// \privatesection
     var $Operators;
-
-    var $Fetch;
-    var $FetchAlias;
 }
 
 ?>

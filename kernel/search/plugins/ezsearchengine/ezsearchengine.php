@@ -512,8 +512,8 @@ class eZSearchEngine
                 $searchDateQuery = "ezsearch_object_word_link.published >= '$publishedDate' AND ";
                 if ( $publishedDateStop )
                     $searchDateQuery .= "ezsearch_object_word_link.published <= '$publishedDateStop' AND ";
-                 $this->GeneralFilter['searchDateQuery'] = $searchDateQuery;
-           }
+                $this->GeneralFilter['searchDateQuery'] = $searchDateQuery;
+            }
 
             $classQuery = "";
             if ( is_numeric( $searchContentClassID ) and $searchContentClassID > 0 )
@@ -702,38 +702,16 @@ class eZSearchEngine
                         {
                             $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                         }
-                        elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
+                        elseif( $limitation->attribute( 'name' ) == 'Owner' )
                         {
-                            $user =& eZUser::currentUser();
-                            $userID = $user->attribute( 'contentobject_id' );
-                            $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                        }
-                        elseif( $limitation->attribute( 'identifier' ) == 'Node' )
-                        {
-                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                            $hasNodeLimitation = true;
-                        }
-                        elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
-                        {
-                            $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
-                            $sqlPartPartPart = array();
-                            foreach ( $pathArray as $limitationPathString )
-                            {
-                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                            }
-                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                            eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in search objects' );
                         }
                     }
-                    if ( count( $sqlPartPart ) > 0 )
-                    {
-                        $sqlParts[] = implode( ' AND ', $sqlPartPart );
-                    }
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
                 }
-                if ( count( $sqlParts ) > 0 )
-                {
-                    $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-                    $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
-                }
+                $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+                $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
+
             }
 
             $useVersionName = true;
@@ -775,33 +753,10 @@ class eZSearchEngine
             $i = $this->TempTablesCount;
 
 // Loop every word and insert result in temporary table
-            foreach ( $searchPartsArray as $searchPart )
+            if ( $i <= 0 && count( $searchPartsArray ) == 0 )
             {
-//                $wordID = $searchWord['id'];
-
-                $stopWordThresholdValue = 100;
-                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
-                     $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
-
-                $stopWordThresholdPercent = 60;
-                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
-                     $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
-
-                $searchThresholdValue = $totalObjectCount;
-                if ( $totalObjectCount > $stopWordThresholdValue )
-                {
-                    $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
-                }
-
-                // do not search words that are too frequent
-                if ( $searchPart['object_count'] < $searchThresholdValue )
-                {
-                    $tmpTableCount++;
-                    $searchPartText =& $searchPart['sql_part'];
-                    if ( $i == 0 )
-                    {
-                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-                            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -813,7 +768,6 @@ class eZSearchEngine
                     $sectionQuery
                     $classQuery
                     $classAttributeQuery
-                    $searchPartText
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                     ezcontentobject.contentclass_id = ezcontentclass.id and
@@ -821,52 +775,101 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString" );
+                $i = 1;
+            }
+            else
+            {
+                foreach ( $searchPartsArray as $searchPart )
+                {
+//                    $wordID = $searchWord['id'];
 
+                    $stopWordThresholdValue = 100;
+                    if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
+                        $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
+
+                    $stopWordThresholdPercent = 60;
+                    if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
+                        $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
+
+                    $searchThresholdValue = $totalObjectCount;
+                    if ( $totalObjectCount > $stopWordThresholdValue )
+                    {
+                        $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
+                    }
+
+                    // do not search words that are too frequent
+                    if ( $searchPart['object_count'] < $searchThresholdValue )
+                    {
+                        $tmpTableCount++;
+                        $searchPartText =& $searchPart['sql_part'];
+                        if ( $i == 0 )
+                        {
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                                         FROM ezcontentobject,
+                                              ezsearch_object_word_link
+                                              $subTreeTable,
+                                              ezcontentclass,
+                                              ezcontentobject_tree
+                                         WHERE
+                                               $searchDateQuery
+                                               $sectionQuery
+                                               $classQuery
+                                               $classAttributeQuery
+                                               $searchPartText
+                                               $subTreeSQL
+                                         ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                                         ezcontentobject.contentclass_id = ezcontentclass.id and
+                                         ezcontentclass.version = '0' and
+                                         ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                                         ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                         $sqlPermissionCheckingString" );
+                        }
+                        else
+                        {
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+                            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                                         FROM
+                                             ezcontentobject,
+                                             ezsearch_object_word_link
+                                             $subTreeTable,
+                                             ezcontentclass,
+                                             ezcontentobject_tree,
+                                             ezsearch_tmp_0
+                                          WHERE
+                                          ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                                          $searchDateQuery
+                                          $sectionQuery
+                                          $classQuery
+                                          $classAttributeQuery
+                                          $searchPartText
+                                          $subTreeSQL
+                                          ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                                          ezcontentobject.contentclass_id = ezcontentclass.id and
+                                          ezcontentclass.version = '0' and
+                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                          $sqlPermissionCheckingString" );
+                        }
+                        $i++;
                     }
                     else
                     {
-                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
-                            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
-                    FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree,
-                       ezsearch_tmp_0
-                    WHERE
-                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
-                    $searchDateQuery
-                    $sectionQuery
-                    $classQuery
-                    $classAttributeQuery
-                    $searchPartText
-                    $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
-                    ezcontentobject.contentclass_id = ezcontentclass.id and
-                    ezcontentclass.version = '0' and
-                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                        $stopWordArray[] = array( 'word' => $searchPart['word'] );
                     }
-                    $i++;
-                }
-                else
-                {
-                    $stopWordArray[] = array( 'word' => $searchPart['word'] );
                 }
             }
 
             $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
-            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
+/*            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
             {
                 // No words to search for, return empty result
                 return array( "SearchResult" => array(),
                           "SearchCount" => 0,
                           "StopWordArray" => $stopWordArray );
-            }
+            }*/
             $tmpTablesFrom = "";
             $tmpTablesWhere = "";
             /// tmp tables
@@ -1014,8 +1017,6 @@ class eZSearchEngine
             {
                 $db->dropTempTable( "DROP TABLE ezsearch_tmp_$i" );
             }
-
-
             return array( "SearchResult" => $objectRes,
                           "SearchCount" => $searchCount,
                           "StopWordArray" => $stopWordArray );
@@ -1994,6 +1995,8 @@ class eZSearchEngine
 
     function &prepareWordIDArrays( $searchText )
     {
+        if ( trim( $searchText ) == "" )
+            return array();
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 

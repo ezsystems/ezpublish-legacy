@@ -129,25 +129,10 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         if ( eZMailTransport::send( $mail ) )
         {
             $tpl->setVariable( 'action', 'confirm' );
-
-            // Increase tipafriend count for this node
-            include_once( "kernel/classes/eztipafriendcounter.php" );
-            $counter =& eZTipafriendCounter::fetch( $NodeID );
-            if ( $counter == null )
-            {
-                $counter =& eZTipafriendCounter::create( $NodeID );
-            }
-            $counter->increase();
-            $counter->store();
         }
         else // some error occured
         {
             $tpl->setVariable( 'action', 'error' );
-        }
-        if ( $http->hasPostVariable( 'RedirectBack' ) && $http->postVariable( 'RedirectBack' ) == 1 )
-        {
-            $Module->redirectTo( '/content/view/full/' . $NodeID );
-            return;
         }
     }
 }

@@ -1,3 +1,7 @@
+
+
+
+
 SET search_path = public, pg_catalog;
 
 
@@ -1870,7 +1874,8 @@ CREATE TABLE ezurlalias (
     source_md5 character varying(32),
     destination_url text NOT NULL,
     is_internal integer DEFAULT '1' NOT NULL,
-    forward_to_id integer DEFAULT '0' NOT NULL
+    forward_to_id integer DEFAULT '0' NOT NULL,
+    is_wildcard integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2086,6 +2091,17 @@ CREATE TABLE ezworkflow_process (
     status integer,
     parameters text,
     memento_key character varying(32)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezsite_data (
+    name character varying(60) DEFAULT '' NOT NULL,
+    value text DEFAULT '' NOT NULL
 );
 
 
@@ -2311,6 +2327,94 @@ CREATE INDEX ezuser_role_contentobject_id1112 ON ezuser_role USING btree (conten
 
 
 CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver1151 ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item USING btree (productcollection_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_source_url ON ezurlalias USING btree (source_url);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_opt USING btree (item_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (productcollection_id);
+
+
+
+
+
+
+
+CREATE INDEX ezbasket_session_id ON ezbasket USING btree (session_id);
+
+
+
+
+
+
+
+CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
+
+
+
+
+
+
+
+CREATE INDEX eztrigger_fetch ON eztrigger USING btree (name, module_name, function_name);
+
+
+
+
+
+
+
+CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process USING btree (process_key);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
 
 
 
@@ -3044,13 +3148,10 @@ ALTER TABLE ONLY ezworkflow_process
 
 
 
-CREATE TABLE ezsite_data (
-  name varchar(60) NOT NULL default '',
-  value text NOT NULL default '',
-  PRIMARY KEY (name)
-);
 
-CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
-CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url);
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
+
+
+ALTER TABLE ONLY ezsite_data
+    ADD CONSTRAINT ezsite_data_pkey PRIMARY KEY (name);
+
+

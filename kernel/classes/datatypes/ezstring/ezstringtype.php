@@ -94,31 +94,22 @@ class eZStringType extends eZDataType
     }
 
     /*!
-     \reimp
+     Validates the input and returns true if the input was
+     valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, false );
-    }
-
-    /*!
-    */
-    function validateAttributeHTTPInput( &$http, $base, &$contentObjectAttribute, $isInformationCollector )
     {
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data =& $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
+            if( $classAttribute->attribute( "is_required" ) == true )
             {
-                if ( $classAttribute->attribute( "is_required" ) )
+                if( $data == "" )
                 {
-                    if ( $data == "" )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Text line is empty, content required.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Text line is empty, content required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
@@ -147,26 +138,6 @@ class eZStringType extends eZDataType
             return true;
         }
         return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, true );
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $dataText =& $http->postVariable( $base . "_ezstring_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $collectionAttribute->setAttribute( 'data_text', $dataText );
-
-        return true;
     }
 
     /*!
@@ -263,6 +234,21 @@ class eZStringType extends eZDataType
     function metaData( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => 'Send',
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
     }
 
     /*!

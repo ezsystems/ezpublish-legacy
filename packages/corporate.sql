@@ -1,12 +1,12 @@
--- MySQL dump 8.22
---
--- Host: localhost    Database: tmp
----------------------------------------------------------
--- Server version	3.23.56
 
---
--- Table structure for table 'ezapprove_items'
---
+
+
+
+
+
+
+
+
 
 CREATE TABLE ezapprove_items (
   id int(11) NOT NULL auto_increment,
@@ -15,32 +15,33 @@ CREATE TABLE ezapprove_items (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezapprove_items'
---
 
 
 
---
--- Table structure for table 'ezbasket'
---
+
+
+
+
+
+
 
 CREATE TABLE ezbasket (
   id int(11) NOT NULL auto_increment,
   session_id varchar(255) NOT NULL default '',
   productcollection_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezbasket_session_id (session_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezbasket'
---
 
 
 
---
--- Table structure for table 'ezbinaryfile'
---
+
+
+
+
+
+
 
 CREATE TABLE ezbinaryfile (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -51,15 +52,15 @@ CREATE TABLE ezbinaryfile (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezbinaryfile'
---
 
 
 
---
--- Table structure for table 'ezcollab_group'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_group (
   id int(11) NOT NULL auto_increment,
@@ -77,15 +78,15 @@ CREATE TABLE ezcollab_group (
   KEY ezcollab_group_depth (depth)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_group'
---
 
 
 
---
--- Table structure for table 'ezcollab_item'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_item (
   id int(11) NOT NULL auto_increment,
@@ -106,15 +107,15 @@ CREATE TABLE ezcollab_item (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_item'
---
 
 
 
---
--- Table structure for table 'ezcollab_item_group_link'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_item_group_link (
   collaboration_id int(11) NOT NULL default '0',
@@ -128,15 +129,15 @@ CREATE TABLE ezcollab_item_group_link (
   PRIMARY KEY  (collaboration_id,group_id,user_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_item_group_link'
---
 
 
 
---
--- Table structure for table 'ezcollab_item_message_link'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_item_message_link (
   id int(11) NOT NULL auto_increment,
@@ -149,15 +150,15 @@ CREATE TABLE ezcollab_item_message_link (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_item_message_link'
---
 
 
 
---
--- Table structure for table 'ezcollab_item_participant_link'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_item_participant_link (
   collaboration_id int(11) NOT NULL default '0',
@@ -172,15 +173,15 @@ CREATE TABLE ezcollab_item_participant_link (
   PRIMARY KEY  (collaboration_id,participant_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_item_participant_link'
---
 
 
 
---
--- Table structure for table 'ezcollab_item_status'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_item_status (
   collaboration_id int(11) NOT NULL default '0',
@@ -191,15 +192,15 @@ CREATE TABLE ezcollab_item_status (
   PRIMARY KEY  (collaboration_id,user_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_item_status'
---
 
 
 
---
--- Table structure for table 'ezcollab_notification_rule'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_notification_rule (
   id int(11) NOT NULL auto_increment,
@@ -208,15 +209,15 @@ CREATE TABLE ezcollab_notification_rule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_notification_rule'
---
 
 
 
---
--- Table structure for table 'ezcollab_profile'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_profile (
   id int(11) NOT NULL auto_increment,
@@ -228,15 +229,15 @@ CREATE TABLE ezcollab_profile (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_profile'
---
 
 
 
---
--- Table structure for table 'ezcollab_simple_message'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcollab_simple_message (
   id int(11) NOT NULL auto_increment,
@@ -256,15 +257,15 @@ CREATE TABLE ezcollab_simple_message (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcollab_simple_message'
---
 
 
 
---
--- Table structure for table 'ezcontent_translation'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcontent_translation (
   id int(11) NOT NULL auto_increment,
@@ -273,15 +274,15 @@ CREATE TABLE ezcontent_translation (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontent_translation'
---
 
 
 
---
--- Table structure for table 'ezcontentbrowsebookmark'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcontentbrowsebookmark (
   id int(11) NOT NULL auto_increment,
@@ -292,15 +293,15 @@ CREATE TABLE ezcontentbrowsebookmark (
   KEY ezcontentbrowsebookmark_user (user_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentbrowsebookmark'
---
 
 
 
---
--- Table structure for table 'ezcontentbrowserecent'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcontentbrowserecent (
   id int(11) NOT NULL auto_increment,
@@ -312,16 +313,16 @@ CREATE TABLE ezcontentbrowserecent (
   KEY ezcontentbrowserecent_user (user_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentbrowserecent'
---
+
+
+
 
 
 INSERT INTO ezcontentbrowserecent (id, user_id, node_id, created, name) VALUES (7,14,46,1061216019,'Services');
 
---
--- Table structure for table 'ezcontentclass'
---
+
+
+
 
 CREATE TABLE ezcontentclass (
   id int(11) NOT NULL auto_increment,
@@ -337,9 +338,9 @@ CREATE TABLE ezcontentclass (
   KEY ezcontentclass_version (version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentclass'
---
+
+
+
 
 
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (1,0,'Folder','folder','<name>',14,14,1024392098,1048494694);
@@ -356,9 +357,9 @@ INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, c
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (12,0,'File','file','<name>',14,14,1052385472,1052385669);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1052385756);
 
---
--- Table structure for table 'ezcontentclass_attribute'
---
+
+
+
 
 CREATE TABLE ezcontentclass_attribute (
   id int(11) NOT NULL auto_increment,
@@ -388,9 +389,9 @@ CREATE TABLE ezcontentclass_attribute (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentclass_attribute'
---
+
+
+
 
 
 INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
@@ -437,9 +438,9 @@ INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, 
 INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (150,0,13,'author','Author','ezstring',1,1,2,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
 INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (149,0,13,'subject','Subject','ezstring',1,1,1,40,0,0,0,0,0,0,0,'','','','',NULL,0,1);
 
---
--- Table structure for table 'ezcontentclass_classgroup'
---
+
+
+
 
 CREATE TABLE ezcontentclass_classgroup (
   contentclass_id int(11) NOT NULL default '0',
@@ -449,9 +450,9 @@ CREATE TABLE ezcontentclass_classgroup (
   PRIMARY KEY  (contentclass_id,contentclass_version,group_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentclass_classgroup'
---
+
+
+
 
 
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (1,0,1,'Content');
@@ -468,9 +469,9 @@ INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, gr
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (12,0,3,'Media');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (13,0,1,'Content');
 
---
--- Table structure for table 'ezcontentclassgroup'
---
+
+
+
 
 CREATE TABLE ezcontentclassgroup (
   id int(11) NOT NULL auto_increment,
@@ -482,18 +483,18 @@ CREATE TABLE ezcontentclassgroup (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentclassgroup'
---
+
+
+
 
 
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Content',1,14,1031216928,1033922106);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (2,'Users',1,14,1031216941,1033922113);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (3,'Media',8,14,1032009743,1033922120);
 
---
--- Table structure for table 'ezcontentobject'
---
+
+
+
 
 CREATE TABLE ezcontentobject (
   id int(11) NOT NULL auto_increment,
@@ -510,9 +511,9 @@ CREATE TABLE ezcontentobject (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject'
---
+
+
+
 
 
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (1,14,1,1,'Root folder',1,0,1033917596,1033917596,1,NULL);
@@ -536,9 +537,9 @@ INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, cu
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (52,14,1,2,'Our software product',1,0,1061215972,1061215972,1,'');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (53,14,1,10,'Consulting',1,0,1061216018,1061216018,1,'');
 
---
--- Table structure for table 'ezcontentobject_attribute'
---
+
+
+
 
 CREATE TABLE ezcontentobject_attribute (
   id int(11) NOT NULL auto_increment,
@@ -556,12 +557,13 @@ CREATE TABLE ezcontentobject_attribute (
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
   KEY sort_key_int (sort_key_int),
-  KEY sort_key_string (sort_key_string)
+  KEY sort_key_string (sort_key_string),
+  KEY ezcontentobject_attribute_co_id_ver_lang_code (contentobject_id,version,language_code)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject_attribute'
---
+
+
+
 
 
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (1,'eng-GB',1,1,4,'Root folder',NULL,NULL,0,0,'');
@@ -622,9 +624,9 @@ INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (134,'eng-GB',1,53,141,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas augue leo, hendrerit vitae, dapibus ut, interdum at, ligula. Sed ut ipsum vitae sem rhoncus pulvinar. Quisque fringilla nibh at odio convallis mollis. </paragraph>\n  <section>\n    <header>Proin consectetuer lacus</header>\n    <paragraph>\n      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>\n      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n    </paragraph>\n    <paragraph>\n      <ul>\n        <li>Phasellus</li>\n        <li>Dictum</li>\n        <li>Dignissim</li>\n      </ul>\n    </paragraph>\n  </section>\n</section>',1045487555,0,0,0,'0');
 INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (135,'eng-GB',1,53,142,'',0,0,0,0,'0');
 
---
--- Table structure for table 'ezcontentobject_link'
---
+
+
+
 
 CREATE TABLE ezcontentobject_link (
   id int(11) NOT NULL auto_increment,
@@ -634,15 +636,15 @@ CREATE TABLE ezcontentobject_link (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject_link'
---
 
 
 
---
--- Table structure for table 'ezcontentobject_name'
---
+
+
+
+
+
+
 
 CREATE TABLE ezcontentobject_name (
   contentobject_id int(11) NOT NULL default '0',
@@ -653,9 +655,9 @@ CREATE TABLE ezcontentobject_name (
   PRIMARY KEY  (contentobject_id,content_version,content_translation)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject_name'
---
+
+
+
 
 
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (1,'Root folder',1,'eng-GB','eng-GB');
@@ -680,9 +682,9 @@ INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, conte
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (52,'Our software product',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (53,'Consulting',1,'eng-GB','eng-GB');
 
---
--- Table structure for table 'ezcontentobject_tree'
---
+
+
+
 
 CREATE TABLE ezcontentobject_tree (
   node_id int(11) NOT NULL auto_increment,
@@ -704,9 +706,9 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_depth (depth)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject_tree'
---
+
+
+
 
 
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1);
@@ -731,9 +733,9 @@ INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, con
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (53,50,52,1,1,4,'/1/2/45/50/53/',9,1,0,'products/software/our_software_product',53);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (54,46,53,1,1,3,'/1/2/46/54/',9,1,0,'services/consulting',54);
 
---
--- Table structure for table 'ezcontentobject_version'
---
+
+
+
 
 CREATE TABLE ezcontentobject_version (
   id int(11) NOT NULL auto_increment,
@@ -748,9 +750,9 @@ CREATE TABLE ezcontentobject_version (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezcontentobject_version'
---
+
+
+
 
 
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (1,1,14,1,1033919080,1033919080,1,1,0);
@@ -775,9 +777,9 @@ INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, 
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (484,52,14,1,1061215946,1061215972,1,0,0);
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (485,53,14,1,1061215996,1061216018,1,0,0);
 
---
--- Table structure for table 'ezdiscountrule'
---
+
+
+
 
 CREATE TABLE ezdiscountrule (
   id int(11) NOT NULL auto_increment,
@@ -785,15 +787,15 @@ CREATE TABLE ezdiscountrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezdiscountrule'
---
 
 
 
---
--- Table structure for table 'ezdiscountsubrule'
---
+
+
+
+
+
+
 
 CREATE TABLE ezdiscountsubrule (
   id int(11) NOT NULL auto_increment,
@@ -804,15 +806,15 @@ CREATE TABLE ezdiscountsubrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezdiscountsubrule'
---
 
 
 
---
--- Table structure for table 'ezdiscountsubrule_value'
---
+
+
+
+
+
+
 
 CREATE TABLE ezdiscountsubrule_value (
   discountsubrule_id int(11) NOT NULL default '0',
@@ -821,15 +823,15 @@ CREATE TABLE ezdiscountsubrule_value (
   PRIMARY KEY  (discountsubrule_id,value,issection)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezdiscountsubrule_value'
---
 
 
 
---
--- Table structure for table 'ezenumobjectvalue'
---
+
+
+
+
+
+
 
 CREATE TABLE ezenumobjectvalue (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -841,15 +843,15 @@ CREATE TABLE ezenumobjectvalue (
   KEY ezenumobjectvalue_co_attr_id_co_attr_ver (contentobject_attribute_id,contentobject_attribute_version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezenumobjectvalue'
---
 
 
 
---
--- Table structure for table 'ezenumvalue'
---
+
+
+
+
+
+
 
 CREATE TABLE ezenumvalue (
   id int(11) NOT NULL auto_increment,
@@ -862,18 +864,18 @@ CREATE TABLE ezenumvalue (
   KEY ezenumvalue_co_cl_attr_id_co_class_att_ver (contentclass_attribute_id,contentclass_attribute_version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezenumvalue'
---
+
+
+
 
 
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (2,136,0,'Ok','3',2);
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (1,136,0,'Poor','2',1);
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (3,136,0,'Good','5',3);
 
---
--- Table structure for table 'ezforgot_password'
---
+
+
+
 
 CREATE TABLE ezforgot_password (
   id int(11) NOT NULL auto_increment,
@@ -883,15 +885,15 @@ CREATE TABLE ezforgot_password (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezforgot_password'
---
 
 
 
---
--- Table structure for table 'ezgeneral_digest_user_settings'
---
+
+
+
+
+
+
 
 CREATE TABLE ezgeneral_digest_user_settings (
   id int(11) NOT NULL auto_increment,
@@ -903,15 +905,15 @@ CREATE TABLE ezgeneral_digest_user_settings (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezgeneral_digest_user_settings'
---
 
 
 
---
--- Table structure for table 'ezimage'
---
+
+
+
+
+
+
 
 CREATE TABLE ezimage (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -923,15 +925,15 @@ CREATE TABLE ezimage (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezimage'
---
 
 
 
---
--- Table structure for table 'ezimagevariation'
---
+
+
+
+
+
+
 
 CREATE TABLE ezimagevariation (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -945,15 +947,15 @@ CREATE TABLE ezimagevariation (
   PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezimagevariation'
---
 
 
 
---
--- Table structure for table 'ezinfocollection'
---
+
+
+
+
+
+
 
 CREATE TABLE ezinfocollection (
   id int(11) NOT NULL auto_increment,
@@ -962,15 +964,15 @@ CREATE TABLE ezinfocollection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezinfocollection'
---
 
 
 
---
--- Table structure for table 'ezinfocollection_attribute'
---
+
+
+
+
+
+
 
 CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
@@ -982,15 +984,15 @@ CREATE TABLE ezinfocollection_attribute (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezinfocollection_attribute'
---
 
 
 
---
--- Table structure for table 'ezkeyword'
---
+
+
+
+
+
+
 
 CREATE TABLE ezkeyword (
   id int(11) NOT NULL auto_increment,
@@ -999,15 +1001,15 @@ CREATE TABLE ezkeyword (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezkeyword'
---
 
 
 
---
--- Table structure for table 'ezkeyword_attribute_link'
---
+
+
+
+
+
+
 
 CREATE TABLE ezkeyword_attribute_link (
   id int(11) NOT NULL auto_increment,
@@ -1016,15 +1018,15 @@ CREATE TABLE ezkeyword_attribute_link (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezkeyword_attribute_link'
---
 
 
 
---
--- Table structure for table 'ezmedia'
---
+
+
+
+
+
+
 
 CREATE TABLE ezmedia (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -1043,15 +1045,15 @@ CREATE TABLE ezmedia (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezmedia'
---
 
 
 
---
--- Table structure for table 'ezmessage'
---
+
+
+
+
+
+
 
 CREATE TABLE ezmessage (
   id int(11) NOT NULL auto_increment,
@@ -1065,15 +1067,15 @@ CREATE TABLE ezmessage (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezmessage'
---
 
 
 
---
--- Table structure for table 'ezmodule_run'
---
+
+
+
+
+
+
 
 CREATE TABLE ezmodule_run (
   id int(11) NOT NULL auto_increment,
@@ -1085,15 +1087,15 @@ CREATE TABLE ezmodule_run (
   UNIQUE KEY ezmodule_run_workflow_process_id_s (workflow_process_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezmodule_run'
---
 
 
 
---
--- Table structure for table 'eznode_assignment'
---
+
+
+
+
+
+
 
 CREATE TABLE eznode_assignment (
   id int(11) NOT NULL auto_increment,
@@ -1108,9 +1110,9 @@ CREATE TABLE eznode_assignment (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'eznode_assignment'
---
+
+
+
 
 
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (2,1,1,1,1,1,1,0,0);
@@ -1140,9 +1142,9 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (195,52,1,50,9,1,1,0,0);
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (196,53,1,46,9,1,1,0,0);
 
---
--- Table structure for table 'eznotificationcollection'
---
+
+
+
 
 CREATE TABLE eznotificationcollection (
   id int(11) NOT NULL auto_increment,
@@ -1154,15 +1156,15 @@ CREATE TABLE eznotificationcollection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'eznotificationcollection'
---
 
 
 
---
--- Table structure for table 'eznotificationcollection_item'
---
+
+
+
+
+
+
 
 CREATE TABLE eznotificationcollection_item (
   id int(11) NOT NULL auto_increment,
@@ -1173,15 +1175,15 @@ CREATE TABLE eznotificationcollection_item (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'eznotificationcollection_item'
---
 
 
 
---
--- Table structure for table 'eznotificationevent'
---
+
+
+
+
+
+
 
 CREATE TABLE eznotificationevent (
   id int(11) NOT NULL auto_increment,
@@ -1198,9 +1200,9 @@ CREATE TABLE eznotificationevent (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'eznotificationevent'
---
+
+
+
 
 
 INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (1,0,'ezpublish',41,1,0,0,'','','','');
@@ -1217,9 +1219,9 @@ INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_
 INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (12,0,'ezpublish',52,1,0,0,'','','','');
 INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (13,0,'ezpublish',53,1,0,0,'','','','');
 
---
--- Table structure for table 'ezoperation_memento'
---
+
+
+
 
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
@@ -1227,18 +1229,19 @@ CREATE TABLE ezoperation_memento (
   memento_data text NOT NULL,
   main int(11) NOT NULL default '0',
   main_key varchar(32) NOT NULL default '',
-  PRIMARY KEY  (id,memento_key)
+  PRIMARY KEY  (id,memento_key),
+  KEY ezoperation_memento_memento_key_main (memento_key,main)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezoperation_memento'
---
 
 
 
---
--- Table structure for table 'ezorder'
---
+
+
+
+
+
+
 
 CREATE TABLE ezorder (
   id int(11) NOT NULL auto_increment,
@@ -1254,15 +1257,15 @@ CREATE TABLE ezorder (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezorder'
---
 
 
 
---
--- Table structure for table 'ezorder_item'
---
+
+
+
+
+
+
 
 CREATE TABLE ezorder_item (
   id int(11) NOT NULL auto_increment,
@@ -1270,18 +1273,19 @@ CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   price float default NULL,
   vat_value int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezorder_item_order_id (order_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezorder_item'
---
 
 
 
---
--- Table structure for table 'ezpolicy'
---
+
+
+
+
+
+
 
 CREATE TABLE ezpolicy (
   id int(11) NOT NULL auto_increment,
@@ -1292,9 +1296,9 @@ CREATE TABLE ezpolicy (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezpolicy'
---
+
+
+
 
 
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
@@ -1303,9 +1307,9 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,1,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
 
---
--- Table structure for table 'ezpolicy_limitation'
---
+
+
+
 
 CREATE TABLE ezpolicy_limitation (
   id int(11) NOT NULL auto_increment,
@@ -1317,16 +1321,16 @@ CREATE TABLE ezpolicy_limitation (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezpolicy_limitation'
---
+
+
+
 
 
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
 
---
--- Table structure for table 'ezpolicy_limitation_value'
---
+
+
+
 
 CREATE TABLE ezpolicy_limitation_value (
   id int(11) NOT NULL auto_increment,
@@ -1335,9 +1339,9 @@ CREATE TABLE ezpolicy_limitation_value (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezpolicy_limitation_value'
---
+
+
+
 
 
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (435,249,'1');
@@ -1362,9 +1366,9 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (453,249
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (454,249,'9');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249,'9');
 
---
--- Table structure for table 'ezpreferences'
---
+
+
+
 
 CREATE TABLE ezpreferences (
   id int(11) NOT NULL auto_increment,
@@ -1375,15 +1379,15 @@ CREATE TABLE ezpreferences (
   KEY ezpreferences_name (name)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezpreferences'
---
 
 
 
---
--- Table structure for table 'ezproductcollection'
---
+
+
+
+
+
+
 
 CREATE TABLE ezproductcollection (
   id int(11) NOT NULL auto_increment,
@@ -1391,15 +1395,15 @@ CREATE TABLE ezproductcollection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezproductcollection'
---
 
 
 
---
--- Table structure for table 'ezproductcollection_item'
---
+
+
+
+
+
+
 
 CREATE TABLE ezproductcollection_item (
   id int(11) NOT NULL auto_increment,
@@ -1410,18 +1414,20 @@ CREATE TABLE ezproductcollection_item (
   is_vat_inc int(11) default NULL,
   vat_value float default NULL,
   discount float default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezproductcollection_item_productcollection_id (productcollection_id),
+  KEY ezproductcollection_item_contentobject_id (productcollection_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezproductcollection_item'
---
 
 
 
---
--- Table structure for table 'ezproductcollection_item_opt'
---
+
+
+
+
+
+
 
 CREATE TABLE ezproductcollection_item_opt (
   id int(11) NOT NULL auto_increment,
@@ -1431,18 +1437,19 @@ CREATE TABLE ezproductcollection_item_opt (
   value varchar(255) NOT NULL default '',
   price float NOT NULL default '0',
   object_attribute_id int(11) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezproductcollection_item_opt_item_id (item_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezproductcollection_item_opt'
---
 
 
 
---
--- Table structure for table 'ezrole'
---
+
+
+
+
+
+
 
 CREATE TABLE ezrole (
   id int(11) NOT NULL auto_increment,
@@ -1452,18 +1459,18 @@ CREATE TABLE ezrole (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezrole'
---
+
+
+
 
 
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
 
---
--- Table structure for table 'ezsearch_object_word_link'
---
+
+
+
 
 CREATE TABLE ezsearch_object_word_link (
   id int(11) NOT NULL auto_increment,
@@ -1487,9 +1494,9 @@ CREATE TABLE ezsearch_object_word_link (
   KEY ezsearch_object_word_link_integer_value (integer_value)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsearch_object_word_link'
---
+
+
+
 
 
 INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (26,40,5,0,0,0,5,4,1053613020,2,8,'',0);
@@ -3344,9 +3351,9 @@ INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency,
 INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (2085,53,55,0,206,73,82,10,1061216018,1,141,'',0);
 INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (2086,53,82,0,207,55,0,10,1061216018,1,141,'',0);
 
---
--- Table structure for table 'ezsearch_return_count'
---
+
+
+
 
 CREATE TABLE ezsearch_return_count (
   id int(11) NOT NULL auto_increment,
@@ -3356,15 +3363,15 @@ CREATE TABLE ezsearch_return_count (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsearch_return_count'
---
 
 
 
---
--- Table structure for table 'ezsearch_search_phrase'
---
+
+
+
+
+
+
 
 CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
@@ -3372,15 +3379,15 @@ CREATE TABLE ezsearch_search_phrase (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsearch_search_phrase'
---
 
 
 
---
--- Table structure for table 'ezsearch_word'
---
+
+
+
+
+
+
 
 CREATE TABLE ezsearch_word (
   id int(11) NOT NULL auto_increment,
@@ -3390,9 +3397,9 @@ CREATE TABLE ezsearch_word (
   KEY ezsearch_word (word)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsearch_word'
---
+
+
+
 
 
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (5,'test',1);
@@ -3581,9 +3588,9 @@ INSERT INTO ezsearch_word (id, word, object_count) VALUES (188,'thing',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (189,'product',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (190,'consulting',1);
 
---
--- Table structure for table 'ezsection'
---
+
+
+
 
 CREATE TABLE ezsection (
   id int(11) NOT NULL auto_increment,
@@ -3593,18 +3600,18 @@ CREATE TABLE ezsection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsection'
---
+
+
+
 
 
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard section','nor-NO','ezcontentnavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
 
---
--- Table structure for table 'ezsession'
---
+
+
+
 
 CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
@@ -3614,15 +3621,33 @@ CREATE TABLE ezsession (
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsession'
---
 
 
 
---
--- Table structure for table 'ezsubtree_notification_rule'
---
+
+
+
+
+
+
+
+CREATE TABLE ezsite_data (
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL,
+  PRIMARY KEY  (name)
+) TYPE=MyISAM;
+
+
+
+
+
+
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.2');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','3');
+
+
+
+
 
 CREATE TABLE ezsubtree_notification_rule (
   id int(11) NOT NULL auto_increment,
@@ -3632,15 +3657,15 @@ CREATE TABLE ezsubtree_notification_rule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezsubtree_notification_rule'
---
 
 
 
---
--- Table structure for table 'eztrigger'
---
+
+
+
+
+
+
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
@@ -3650,18 +3675,19 @@ CREATE TABLE eztrigger (
   connect_type char(1) NOT NULL default '',
   workflow_id int(11) default NULL,
   PRIMARY KEY  (id),
-  UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type)
+  UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type),
+  KEY eztrigger_fetch (name(25),module_name(50),function_name(50))
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'eztrigger'
---
 
 
 
---
--- Table structure for table 'ezurl'
---
+
+
+
+
+
+
 
 CREATE TABLE ezurl (
   id int(11) NOT NULL auto_increment,
@@ -3674,15 +3700,15 @@ CREATE TABLE ezurl (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezurl'
---
 
 
 
---
--- Table structure for table 'ezurl_object_link'
---
+
+
+
+
+
+
 
 CREATE TABLE ezurl_object_link (
   url_id int(11) NOT NULL default '0',
@@ -3691,15 +3717,15 @@ CREATE TABLE ezurl_object_link (
   PRIMARY KEY  (url_id,contentobject_attribute_id,contentobject_attribute_version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezurl_object_link'
---
 
 
 
---
--- Table structure for table 'ezurlalias'
---
+
+
+
+
+
+
 
 CREATE TABLE ezurlalias (
   id int(11) NOT NULL auto_increment,
@@ -3708,40 +3734,43 @@ CREATE TABLE ezurlalias (
   destination_url text NOT NULL,
   is_internal int(11) NOT NULL default '1',
   forward_to_id int(11) NOT NULL default '0',
+  is_wildcard int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezurlalias_source_md5 (source_md5)
+  KEY ezurlalias_source_md5 (source_md5),
+  KEY ezurlalias_source_url (source_url(255)),
+  KEY ezurlalias_desturl (destination_url(200))
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezurlalias'
---
 
 
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (21,'company','93c731f1c3a84ef05cd54d044c379eaa','content/view/full/44',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (22,'products','86024cad1e83101d97359d7351051156','content/view/full/45',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (23,'services','10cd395cf71c18328c863c08e78f3fd0','content/view/full/46',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (24,'company/press_releases','e5800232891ecf58d893ae11f3a74e67','content/view/full/47',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (25,'company/press_releases/a_press_release','6912f5a4fe4a4084eed697a63537338c','content/view/full/48',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (26,'company/press_releases/about_my_company','60e63653f5c8fb907ae65bc5620484cc','content/view/full/49',1,27);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (27,'company/about_my_company','44d707c8e884d291b26b178de533798c','content/view/full/49',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (28,'products/software','248afd8e918aa9380622f515f11e25c1','content/view/full/50',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (29,'products/hardware','b2337ecb28b6b10a33b246c2ca546b56','content/view/full/51',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (30,'products/hardware/a_hardware_thing','87bba8492402d13f4cbd294286162cbf','content/view/full/52',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (31,'products/software/our_software_product','9ba7da50e2955cbb1c108471c552f8d4','content/view/full/53',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (32,'services/consulting','c760f8839c491854158c2bf58d3376f5','content/view/full/54',1,0);
 
---
--- Table structure for table 'ezuser'
---
+
+
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (21,'company','93c731f1c3a84ef05cd54d044c379eaa','content/view/full/44',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (22,'products','86024cad1e83101d97359d7351051156','content/view/full/45',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (23,'services','10cd395cf71c18328c863c08e78f3fd0','content/view/full/46',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (24,'company/press_releases','e5800232891ecf58d893ae11f3a74e67','content/view/full/47',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (25,'company/press_releases/a_press_release','6912f5a4fe4a4084eed697a63537338c','content/view/full/48',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (26,'company/press_releases/about_my_company','60e63653f5c8fb907ae65bc5620484cc','content/view/full/49',1,27,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (27,'company/about_my_company','44d707c8e884d291b26b178de533798c','content/view/full/49',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (28,'products/software','248afd8e918aa9380622f515f11e25c1','content/view/full/50',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (29,'products/hardware','b2337ecb28b6b10a33b246c2ca546b56','content/view/full/51',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (30,'products/hardware/a_hardware_thing','87bba8492402d13f4cbd294286162cbf','content/view/full/52',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (31,'products/software/our_software_product','9ba7da50e2955cbb1c108471c552f8d4','content/view/full/53',1,0,0);
+INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) VALUES (32,'services/consulting','c760f8839c491854158c2bf58d3376f5','content/view/full/54',1,0,0);
+
+
+
+
 
 CREATE TABLE ezuser (
   contentobject_id int(11) NOT NULL default '0',
@@ -3752,18 +3781,18 @@ CREATE TABLE ezuser (
   PRIMARY KEY  (contentobject_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezuser'
---
+
+
+
 
 
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (40,'test','test@test.com',2,'be778b473235e210cc577056226536a4');
 
---
--- Table structure for table 'ezuser_accountkey'
---
+
+
+
 
 CREATE TABLE ezuser_accountkey (
   id int(11) NOT NULL auto_increment,
@@ -3773,15 +3802,15 @@ CREATE TABLE ezuser_accountkey (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezuser_accountkey'
---
 
 
 
---
--- Table structure for table 'ezuser_discountrule'
---
+
+
+
+
+
+
 
 CREATE TABLE ezuser_discountrule (
   id int(11) NOT NULL auto_increment,
@@ -3791,15 +3820,15 @@ CREATE TABLE ezuser_discountrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezuser_discountrule'
---
 
 
 
---
--- Table structure for table 'ezuser_role'
---
+
+
+
+
+
+
 
 CREATE TABLE ezuser_role (
   id int(11) NOT NULL auto_increment,
@@ -3809,9 +3838,9 @@ CREATE TABLE ezuser_role (
   KEY ezuser_role_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezuser_role'
---
+
+
+
 
 
 INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (29,1,10);
@@ -3819,9 +3848,9 @@ INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (25,2,12);
 INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (30,3,13);
 INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (28,1,11);
 
---
--- Table structure for table 'ezuser_setting'
---
+
+
+
 
 CREATE TABLE ezuser_setting (
   user_id int(11) NOT NULL default '0',
@@ -3830,9 +3859,9 @@ CREATE TABLE ezuser_setting (
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezuser_setting'
---
+
+
+
 
 
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (10,1,1000);
@@ -3840,9 +3869,9 @@ INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (14,1,10);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (23,1,0);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (40,1,0);
 
---
--- Table structure for table 'ezvattype'
---
+
+
+
 
 CREATE TABLE ezvattype (
   id int(11) NOT NULL auto_increment,
@@ -3851,16 +3880,16 @@ CREATE TABLE ezvattype (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezvattype'
---
+
+
+
 
 
 INSERT INTO ezvattype (id, name, percentage) VALUES (1,'Std',0);
 
---
--- Table structure for table 'ezwaituntildatevalue'
---
+
+
+
 
 CREATE TABLE ezwaituntildatevalue (
   id int(11) NOT NULL auto_increment,
@@ -3872,15 +3901,15 @@ CREATE TABLE ezwaituntildatevalue (
   KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezwaituntildatevalue'
---
 
 
 
---
--- Table structure for table 'ezwishlist'
---
+
+
+
+
+
+
 
 CREATE TABLE ezwishlist (
   id int(11) NOT NULL auto_increment,
@@ -3889,15 +3918,15 @@ CREATE TABLE ezwishlist (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezwishlist'
---
 
 
 
---
--- Table structure for table 'ezworkflow'
---
+
+
+
+
+
+
 
 CREATE TABLE ezworkflow (
   id int(11) NOT NULL auto_increment,
@@ -3912,15 +3941,15 @@ CREATE TABLE ezworkflow (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow'
---
 
 
 
---
--- Table structure for table 'ezworkflow_assign'
---
+
+
+
+
+
+
 
 CREATE TABLE ezworkflow_assign (
   id int(11) NOT NULL auto_increment,
@@ -3931,15 +3960,15 @@ CREATE TABLE ezworkflow_assign (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow_assign'
---
 
 
 
---
--- Table structure for table 'ezworkflow_event'
---
+
+
+
+
+
+
 
 CREATE TABLE ezworkflow_event (
   id int(11) NOT NULL auto_increment,
@@ -3959,15 +3988,15 @@ CREATE TABLE ezworkflow_event (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow_event'
---
 
 
 
---
--- Table structure for table 'ezworkflow_group'
---
+
+
+
+
+
+
 
 CREATE TABLE ezworkflow_group (
   id int(11) NOT NULL auto_increment,
@@ -3979,16 +4008,16 @@ CREATE TABLE ezworkflow_group (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow_group'
---
+
+
+
 
 
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Standard',14,14,1024392098,1024392098);
 
---
--- Table structure for table 'ezworkflow_group_link'
---
+
+
+
 
 CREATE TABLE ezworkflow_group_link (
   workflow_id int(11) NOT NULL default '0',
@@ -3998,16 +4027,16 @@ CREATE TABLE ezworkflow_group_link (
   PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow_group_link'
---
+
+
+
 
 
 INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) VALUES (1,1,0,'Standard');
 
---
--- Table structure for table 'ezworkflow_process'
---
+
+
+
 
 CREATE TABLE ezworkflow_process (
   id int(11) NOT NULL auto_increment,
@@ -4031,25 +4060,13 @@ CREATE TABLE ezworkflow_process (
   status int(11) default NULL,
   parameters text,
   memento_key varchar(32) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezworkflow_process_process_key (process_key)
 ) TYPE=MyISAM;
 
---
--- Dumping data for table 'ezworkflow_process'
---
 
 
 
-CREATE TABLE ezsite_data (
-  name varchar(60) NOT NULL default '',
-  value text NOT NULL default '',
-  PRIMARY KEY (name)
-) TYPE=MyISAM;
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
 
-CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
-CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
+

@@ -63,7 +63,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      \return the sitedesign for the design type \a $type, currently \c standard and \c site is allowed.
              If no sitedesign is set it will fetch it from site.ini.
     */
-    function &designSetting( $type = 'standard' )
+    function designSetting( $type = 'standard' )
     {
         if ( $type != 'standard' and
              $type != 'site' )
@@ -84,9 +84,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             return $designSetting;
         $ini =& eZINI::instance();
         if ( $type == 'standard' )
-            $designSetting =& $ini->variable( "DesignSettings", "StandardDesign" );
+            $designSetting = $ini->variable( "DesignSettings", "StandardDesign" );
         else if ( $type == 'site' )
-            $designSetting =& $ini->variable( "DesignSettings", "SiteDesign" );
+            $designSetting = $ini->variable( "DesignSettings", "SiteDesign" );
         return $designSetting;
     }
 
@@ -115,9 +115,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         eZDebug::accumulatorStart( 'matching_rules', 'override', 'Matching rules' );
 
-        $standardBase =& eZTemplateDesignResource::designSetting( 'standard' );
+        $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
         if ( !$onlyStandard )
-            $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
+            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $ini =& eZINI::instance();
         $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
@@ -189,13 +189,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 //     function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
     function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
     {
-//        $templateRoot =& $resourceData['template-root'];
-//        $text =& $resourceData['text'];
-//        $tstamp =& $resourceData['time-stamp'];
-//        $uri =& $resourceData['uri'];
-//        $resourceName =& $resourceData['resource'];
-//        $keyData =& $resourceData['key-data'];
+        $templateRoot =& $resourceData['template-root'];
+        $text =& $resourceData['text'];
+        $tstamp =& $resourceData['time-stamp'];
+        $uri =& $resourceData['uri'];
+        $resourceName =& $resourceData['resource'];
         $path =& $resourceData['template-name'];
+        $keyData =& $resourceData['key-data'];
 
         $matchKeys = $this->Keys;
         if ( is_array( $extraParameters ) and
@@ -211,16 +211,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $cahceMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
-            if ( !is_string( $cahceMap ) and trim( $cahceMap['code'] ) )
-            {
-                eval( "\$matchFile = " . $cahceMap['code'] . ";" );
-            }
-            else
-            {
-                $matchFile =& $cahceMap;
-            }
-            $match['file'] = $matchFile;
+            $match['file'] = overrideFile( "/" . $path, $matchKeys );
         }
         else
         {
@@ -312,7 +303,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
-            if ( $GLOBALS['eZSiteBasics']['no-cache-adviced'] )
+            $siteBasics = $GLOBALS['eZSiteBasics'];
+            if ( $siteBasics['no-cache-adviced'] )
                 return false;
         }
         global $eZTemplateOverrideCacheNoPermission;
@@ -321,21 +313,24 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             return false;
         }
 
+        $onlyStandard = $this->OnlyStandard;
+
         $ini =& eZINI::instance( 'site.ini' );
         $useOverrideCache = true;
         if ( $ini->hasVariable( 'OverrideSettings', 'Cache' ) )
             $useOverrideCache = $ini->variable( 'OverrideSettings', 'Cache' ) == 'enabled';
 
-        $standardBase =& eZTemplateDesignResource::designSetting( 'standard' );
-        if ( !$this->OnlyStandard )
-            $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
+        $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
+        if ( !$onlyStandard )
+            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
-        $overrideKeys =& eZTemplateDesignResource::overrideKeys();
+        $overrideKeys = eZTemplateDesignResource::overrideKeys();
 
-        $overrideKey = sprintf( "%u", crc32( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) );
+        $overrideKey = md5( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) ;
         $cacheDir = eZSys::cacheDirectory();
 
-        $overrideCacheFile = $cacheDir.'/override/override_'.$overrideKey.'.php';
+        $overrideCacheFile = "$cacheDir/override/override_$overrideKey.php";
+
 
         // Build matching cache only of it does not already exists,
         // or override file has been updated
@@ -348,21 +343,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
-            $phpCode = "\$GLOBALS['eZOverrideTemplateCacheMap'] = array (\n";
-            $numMatchFiles = count ( $matchFileArray );
-            $countMatchFiles = 0;
-//            $phpCode .= "switch ( \$matchFile )\n{\n    ";
+            $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
+            $phpCode .= "switch ( \$matchFile )\n{\n    ";
+            $i = 0;
             foreach ( array_keys( $matchFileArray ) as $matchKey )
             {
-                $countMatchFiles++;
-                $phpCode .= '\'' . sprintf( "%u", crc32( $matchKey ) ) . '\' => ';
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
                     $defaultMatchFile = $matchFileArray[$matchKey]['base_dir'] . $matchKey;
                     // Custom override matching
-//                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
+                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
 
-                    $matchConditionArray = array();
                     foreach ( $matchFileArray[$matchKey]['custom_match'] as $customMatch )
                     {
                         $matchCondition = "";
@@ -374,9 +365,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
                             // Have a special substring match for subtree matching
                             if ( $conditionKey == 'url_alias' )
-                                $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
+                                $matchCondition .= "( strpos( \$matchKeys['url_alias'],  '" . $customMatch['conditions'][$conditionKey] . "' ) === 0 )";
                             else
-                                $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
+                                $matchCondition .= "\$matchKeys['$conditionKey'] == '" . $customMatch['conditions'][$conditionKey] . "'";
 
 
                             $condCount++;
@@ -385,14 +376,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         // Only create custom match if conditions are defined
                         if ( $matchCondition != "" )
                         {
-//                            $phpCode .= "        if ( $matchCondition )\n        {\n";
-//                            $phpCode .= "            return '" . $customMatch['match_file'] . "';\n        }\n";
-                            if ( $condCount > 1 )
-                                $matchConditionArray[] = array( 'condition' => '(' . $matchCondition . ')',
-                                                                'matchFile' => $customMatch['match_file'] );
-                            else
-                                $matchConditionArray[] = array( 'condition' => $matchCondition,
-                                                                'matchFile' => $customMatch['match_file'] );
+                            $phpCode .= "        if ( $matchCondition )\n        {\n";
+                            $phpCode .= "            return '" .
+                                 $customMatch['match_file'] . "';\n        }\n";
                         }
                         else
                         {
@@ -401,49 +387,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         }
                     }
 
-                    $phpCode .= "array ( 'eval' => 1, 'code' => ";
-
-                    $phpCode .= "'";
-
-                    foreach ( array_keys( $matchConditionArray ) as $key )
-                    {
-                        $phpCode .= '(' . $matchConditionArray[$key]['condition'] . '?' . "\\'" .  $matchConditionArray[$key]['matchFile'] . "\\'" . ':';
-                    }
-
-                    $phpCode .= "\\'" . $defaultMatchFile . "\\'";
-
-                    for ( $condCount = 0; $condCount < count( $matchConditionArray ); $condCount++)
-                    {
-                        $phpCode .= ')';
-                    }
-
-                    $phpCode .= "' )";
+                    $phpCode .= "        return '" . $defaultMatchFile . "';\n    }break;\n";
                 }
                 else
                 {
-                    $phpCode .= "'". $matchFileArray[$matchKey]['base_dir'] . $matchKey . "'";
                     // Plain matching without custom override
-//                    $phpCode .= "case  \"$matchKey\":\n    {\n
-//                           return '" .
-//                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
+                    $phpCode .= "case  \"$matchKey\":\n    {\n
+                           return '" .
+                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
                 }
 
-                if ( $countMatchFiles < $numMatchFiles )
-                {
-                    $phpCode .= ",\n";
-                }
-                else
-                {
-                    $phpCode .= ");\n";
-                }
+                $i++;
             }
-//            $phpCode .= "default:\n {\n}break;\n}";
+            $phpCode .= "default:\n {\n}break;\n}";
 
-//            $phpCode .= "}\n";
-
-//            $phpCode .= "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
-//            $phpCode .= '  eval( "\$return = " . $GLOBALS[\'eZOverrideTemplateCacheMap\'][$matchFile] . ";" );' . "\n";
-//            $phpCode .= '  return $return;' . "\n}\n\n";
+            $phpCode .= "}\n";
 
             $phpCache->addCodePiece( $phpCode );
             if ( $useOverrideCache and
@@ -472,6 +430,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     function &overrideKeys( $siteAccess = false )
     {
         $keys = array();
+        $onlyStandard = $this->OnlyStandard;
 
         // fetch the override array from a specific siteacces
         if ( $siteAccess )
@@ -491,15 +450,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $overrideINI =& eZINI::instance( 'override.ini' );
         }
 
-        $standardBase =& $ini->variable( "DesignSettings", "StandardDesign" );
+        $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
         $keys[] = $standardBase;
-        if ( !$this->OnlyStandard )
+        if ( !$onlyStandard )
         {
-            $siteBase =& $ini->variable( "DesignSettings", "SiteDesign" );
+            $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
             $keys[] = $siteBase;
         }
 
-        $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
         $keys = array_merge( $keys, $additionalSiteDesignList );
 
         // Add extension paths
@@ -507,7 +466,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI =& eZINI::instance( 'design.ini' );
-        $extensions =& $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
         $keys = array_merge( $keys, $extensions );
 
         return $keys;
@@ -551,12 +510,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $ini =& eZINI::instance();
             $overrideINI =& eZINI::instance( 'override.ini' );
 
-            $standardBase =& eZTemplateDesignResource::designSetting( 'standard' );
+            $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
             if ( !$onlyStandard )
-                $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
+                $siteBase = eZTemplateDesignResource::designSetting( 'site' );
         }
 
-        $additionalSiteDesignList =& $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
         // Generate match cache for all templates
         include_once( "lib/ezutils/classes/ezdir.php" );

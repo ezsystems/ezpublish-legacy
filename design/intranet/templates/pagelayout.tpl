@@ -1,195 +1,143 @@
-{*?template charset=latin1?*}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
-
 <head>
-<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
-{* <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} />  *}
-{* <link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} /> *}
+{cache-block keys=$uri_string}
+    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/intranet.css"|ezdesign} />
 
-{* page header start *}
-{default enable_help=true() enable_link=true()}
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
-{let name=Path
-     path=$module_result.path
-     reverse_path=array()}
-{section show=is_set($module_result.title_path)}
-    {set path=$module_result.title_path}
-{/section}
-{section loop=$:path}
-    {set reverse_path=$:reverse_path|array_prepend($:item)}
-{/section}
-
-{set-block scope=root variable=site_title}
-{section loop=$Path:reverse_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section} - {$site.title|wash}
-{/set-block}
-
-{/let}
-
-<title>{$site_title}</title>
-
-{section show=and(is_set($#Header:extra_data),is_array($#Header:extra_data))}
-    {section name=ExtraData loop=$#Header:extra_data}
-        {$:item}
-    {/section}
-{/section}
-
-{* check if we need a http-equiv refresh *}
-{section show=$site.redirect}
-    <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
-{/section}
-
-{section name=HTTP loop=$site.http_equiv}
-    <meta http-equiv="{$HTTP:key|wash}" content="{$HTTP:item|wash}" />
-{/section}
-
-{section name=meta loop=$site.meta}
-    <meta name="{$meta:key|wash}" content="{$meta:item|wash}" />
-{/section}
-
-<meta name="MSSmartTagsPreventParsing" content="TRUE" />
-<meta name="generator" content="eZ publish" />
-
-{/default}
-{* page header finished *}
 </head>
 
 <body>
-<div id="container">
-    {* Top box START *}
-    <div id="topbox">
-        <form action={"/content/search/"|ezurl} method="get">
-	<div id="logo">
-        {let content=$pagedesign.data_map.image.content}
-	    <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a> 
-        {/let}
-	</div>
-	<div id="searchbox">
-	        <input type="text" size="20" name="SearchText" id="Search" value="" />
-	        <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-	</div>
-	<div id="sitelogo">
-	&nbsp;
-	</div>
-	</form>
-    </div>
-    {* Top box END *}
 
-    {* Top menu START *}
-    <div id="topmenu">
-	{* Menubox start *}
-	{let  top_menu=fetch( content, list, hash( parent_node_id, 2, 
-				     sort_by, array( priority, true() ),
-				     class_filter_type, include,
-				     class_filter_array, array( 'folder' ) ) ) }
 
-	{section name=item loop=$top_menu}
-	    <div class="item">
-	        <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
-	    </div>
-            {delimiter}
-	    <div class="delimiter">
-            |
-            </div> 
-            {/delimiter}
-	{/section}
-	{/let}
-	{* Menubox stop *}    
-    </div>
-    {* Top menu END *}
+<form action={"/content/search/"|ezurl} method="get">
 
-    <div id="pathline">
-    {* Main path START *}
-    <div id="mainpath">
-	{section name=Path loop=$module_result.path}
-            <div class="item">  
-	    {section show=$Path:item.url}
-	    <a href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
-	    {section-else}
-	    {$Path:item.text|wash}
-	    {/section}
-            </div>   
-	    {delimiter}
-            <div class="delimiter">  
-	    /
-            </div>   
-	    {/delimiter}
-	{/section}
-    </div>
-    {* Main path END *}
-    
-    {* Login box START *}
-    <div id="login">
-    {section show=eq($current_user.is_logged_in)}
-    <a href="/user/login">login</a>
-    {section-else}
-    <a href="/user/logout">logout</a> ( {$current_user.contentobject.name} )
-    {/section}
-    </div>
-    {* Login box END *}
+<table class="layout" width="700" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="tight" colspan="2">
+        <img class="toplogo" src={"intranet-top-logo.gif"|ezimage} width="142" height="32" alt="Intranet" />
+    </td>
+</tr>
+<tr>
+    <td class="topline" background={"intranet-top-background-repeat.gif"|ezimage} width="1%">
+        <input class="searchbox" type="text" size="10" name="SearchText" id="Search" value="" />
+    </td>
+    <td class="topline" width="1%" background={"intranet-top-background-repeat.gif"|ezimage} >
+        <input name="SearchButton" type="submit" value="Search" />
+    </td>
+    <td class="topline" width="98%" align="right" background={"intranet-top-background-repeat.gif"|ezimage} >
+        <img src={"intranet-top-background-image.gif"|ezimage} width="160" height="48" alt="" />
+    </td>
+</tr>
+</table>
+</form>
 
-    </div>
-    
-    {* Current Date START *}
-    <div id="date">
-    {currentdate()|l10n( date )}
-    </div>
-    {* Current Date END *}
-    
-   
-    {* Main part START *}
-    <div id="mainframe">
-
-    {* Main menu START *}
-    <div id="mainmenu">
-    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
-        {section name=Menu loop=$MainMenu}
-            <div class="item">
-	    {section show=$:item.is_selected}
-               <div class="selected">
-            {/section}
-
-            <div class="level_{$:item.level}">
-               <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
-            </div>
-
-	    {section show=$:item.is_selected}
-               </div>
-            {/section}
-            </div>
+<div class="path">
+    &gt;
+    {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
+        {section show=$Path:item.url}
+            <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+        {section-else}
+	    <span class="small">{$Path:item.text|wash}</span>
         {/section}
-    {/let}
-    
-    </div>
 
-    {* Main menu END *}
-
-    {* Main area START *}
-
-    <div id="maincontent">
-    {$module_result.content}    
-    </div>
-    
-    </div>
-    
-    {* Main area END *}
-
-{* Main part END *}
-
-{* Footer START *}
-<div id="footer">
-    <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
+        {delimiter}
+            <span class="small">/</span>
+        {/delimiter}
+    {section-else}
+        {section name=Path loop=$module_result.path}
+            {section show=$Path:Path:item.url}
+                <a class="small" href="{$Path:item.url}">{$Path:Path:item.text|wash}</a>
+            {section-else}
+	        <span class="small">{$Path:Path:item.text|wash}</span>
+            {/section}
+        {delimiter}
+            <span class="small">/</span>
+        {/delimiter}
+        {/section}
+    {/section}
 </div>
-{* Copyright END *}
 
+{/cache-block}
+{cache-block}
+<table class="layout" width="700" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="leftmenu">
+        {* Menubox start *}
+        <div class="menubox">
+            <table class="menubox"width="120" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <th background={"intranet-menubox-corner.gif"|ezimage} width="100%">News</th>
+            </tr>
 
-</div>
-<!--DEBUG_REPORT-->
+	    {let  news_list=fetch( content, tree, hash( parent_node_id, 2, 
+                                           limit, 5, 
+                                           sort_by, array( published, false() ),
+                                           class_filter_type, include,
+                                           class_filter_array, array( 'article' ) ) ) }
+
+            {section name=News loop=$news_list}
+                <tr>
+                    <td class="menuchoice" colspan="2">
+                        <a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name|wash}</a>
+	            </td>
+                </tr>
+            {/section}
+	    {/let}
+            </table>
+        </div>
+        {* Menubox stop *}    
+    </td>
+
+    <td class="divider">
+        <img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" />
+    </td>
+    <td class="maincontent" valign="top">
+
+        {* Main area start *}
+{/cache-block}
+        {$module_result.content}
+{cache-block}
+        {* Main area end *}
+        <br />
+        <div class="credits" align="center">
+            <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2003</p>
+            <a href="http://ez.no/"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
+        </div>
+    </td>
+    <td class="divider">
+        <img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" />
+    </td>
+    <td class="rightmenu">
+        {* Menubox start *}
+        <div class="menubox">
+            <table class="menubox"width="120" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <th background={"intranet-menubox-corner.gif"|ezimage} width="100%">Files</th>
+            </tr>
+	    {let file_list=fetch( content, list, hash( parent_node_id, 2, 
+	                                   sort_by, array( array( published, false() ) ),
+                                           class_filter_type, include,
+					   class_filter_array, array( 'file' ) ) ) }
+
+            {section name=File loop=$file_list}
+                <tr>
+                    <td class="menuchoice" colspan="2">
+                        <a href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name|wash}</a>
+                    </td>
+                </tr>
+            {/section}
+	    {/let}
+            </table>
+        </div>
+        {* Menubox stop *} 
+    </td>
+</tr>    
+</table>
 
 </body>
-
-{/let}
 </html>
+{/cache-block}

@@ -1,23 +1,5 @@
 <?php /* #?ini charset="utf8"?
 
-[browse_media]
-Source=content/browse.tpl
-MatchFile=browse_media.tpl
-Subdir=templates
-Match[navigation_part_identifier]=ezmedianavigationpart
-
-[browse_thumbnail_image]
-Source=node/view/browse_thumbnail.tpl
-MatchFile=image_browse_thumbnail.tpl
-Subdir=templates
-Match[class]=5
-
-[browse_thumbnail_folder]
-Source=node/view/browse_thumbnail.tpl
-MatchFile=folder_browse_thumbnail.tpl
-Subdir=templates
-Match[class]=1
-
 [media_folder]
 Source=node/view/full.tpl
 MatchFile=media_folder.tpl

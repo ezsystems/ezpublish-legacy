@@ -84,6 +84,8 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $canCreate = $newNodeObject->attribute( 'can_create' );
                 if ( !$canCreate )
                     $isPermitted = false;
+                else if ( $newNodeObject->attribute( 'id' ) == $object->attribute( 'id' ) )
+                    $isPermitted = false;
                 else
                 {
                     $canCreateClassList = $newNodeObject->attribute( 'can_create_class_list' );
@@ -315,26 +317,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
     if ( $module->isCurrentAction( 'BrowseForNodes' ) )
     {
-        $assignedArray = array();
-        $assigned = $version->nodeAssignments();
-        $publishedAssigned = $object->assignedNodes( false );
-        foreach ( $publishedAssigned as $element )
-        {
-            $append = false;
-            foreach ( $assigned as $ass )
-            {
-                if ( $ass->attribute( 'parent_node' ) == $element['parent_node_id'] )
-                {
-                    $append = true;
-                }
-            }
-            if ( $append )
-            {
-                $assignedArray[] = $element['node_id'];
-                $assignedArray[] = $element['parent_node_id'];
-            }
-        }
-        $assignedArray = array_unique( $assignedArray );
         $objectID = $object->attribute( 'id' );
         eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
                                         'description_template' => 'design:content/browse_placement.tpl',
@@ -342,7 +324,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                          'class_id' => $class->attribute( 'identifier' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                          'section' => $object->attribute( 'section_id' ) ),
-                                        'ignore_nodes' => $assignedArray,
                                         'content' => array( 'object_id' => $objectID,
                                                             'object_version' => $editVersion,
                                                             'object_langauge' => $editLanguage ),

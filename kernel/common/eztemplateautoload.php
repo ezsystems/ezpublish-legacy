@@ -38,7 +38,6 @@
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();
-
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php',
                                     'class' => 'eZURLOperator',
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl',
@@ -79,18 +78,12 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleparamsope
                                     'class' => 'eZModuleParamsOperator',
                                     'operator_names' => array( 'module_params' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator.php',
-                                    'class' => 'eZPackageOperator',
-                                    'operator_names' => array( 'ezpackage' ) );
-
 // Function autoloading
 
 $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                     'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
-                                                               'attribute_result_gui',
-                                                               'attribute_pdf_gui',
                                                                'node_view_gui',
                                                                'content_view_gui',
                                                                'shop_account_view_gui',
@@ -132,16 +125,9 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                 'attribute_edit_gui' => array( 'template_root' => 'content/datatype/edit',
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
-                                               'namespace' => '',
+                                               'namespace' => 'ContentAttribute',
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
-
-                'attribute_pdf_gui' => array( 'template_root' => 'content/datatype/pdf',
-                                              'input_name' => 'attribute',
-                                              'output_name' => 'attribute',
-                                              'namespace' => '',
-                                              'attribute_access' => array( array( 'view_template' ) ),
-                                              'use_views' => false ),
 
                 'attribute_view_gui' => array( 'template_root' => array( 'type' => 'multi_match',
                                                                          'attributes' => array( 'contentclass_attribute',
@@ -149,7 +135,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                          'matches' => array( array( false,
                                                                                                     'content/datatype/view' ),
                                                                                              array( true,
-                                                                                                    'content/datatype/collect' ) ) ),
+                                                                                                    'content/datatype/edit' ) ) ),
                                                'render_mode' => false,
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
@@ -157,15 +143,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'optional_views' => true,
                                                'use_views' => 'view' ),
-
-                'attribute_result_gui' => array( 'template_root' => 'content/datatype/result',
-                                                 'render_mode' => false,
-                                                 'input_name' => 'attribute',
-                                                 'output_name' => 'attribute',
-                                                 'namespace' => 'CollectionAttribute',
-                                                 'attribute_access' => array( array( 'result_template' ) ),
-                                                 'optional_views' => true,
-                                                 'use_views' => 'view' ),
 
                 'shop_account_view_gui' => array( 'template_root' => "shop/accounthandlers",
                                                   'input_name' => 'order',

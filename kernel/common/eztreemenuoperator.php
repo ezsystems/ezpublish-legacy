@@ -76,10 +76,7 @@ class eZTreeMenuOperator
                                             'default' => false ),
                       'string_limit' => array( 'type' => 'int',
                                                'required' => false,
-                                               'default' => false ),
-                      'offset' => array( 'type' => 'int',
-                                             'required' => false,
-                                             'default' => 1 ) );
+                                               'default' => false ) );
     }
 
     /*!
@@ -92,10 +89,6 @@ class eZTreeMenuOperator
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $namedParameters['path'];
-        $classFilter = $namedParameters['class_filter'];
-
-        if ( count( $classFilter ) == 0 )
-            $classFilter = array( 1 );
 
         $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
 
@@ -109,7 +102,7 @@ class eZTreeMenuOperator
         if ( $maxLevel === false )
             $maxLevel = 2;
 
-        $offset = $namedParameters['offset'];
+        $offset = 1;
 
         $classFilter = $namedParameters['class_filter'];
         if ( !$classFilter )
@@ -124,9 +117,6 @@ class eZTreeMenuOperator
             // get node id
             $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
             $nodeID = $elements[4];
-
-            $nextElements = explode( "/", $tmpModulePath[$i+$offset+1]['url'] );
-            $nextNodeID = $nextElements[4];
 
             $excludeNode = false;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
@@ -150,29 +140,19 @@ class eZTreeMenuOperator
                     $name = $child->attribute( 'name' );
                     $tmpNodeID = $child->attribute( 'node_id' );
 
-                     /*
-                    $strLimit = 17;
                     if ( strlen( $name ) > $strLimit )
                     {
                         $name = substr( $name, 0, $strLimit ) . "...";
                     }
-					*/
 
                     $url = "/content/view/full/$tmpNodeID/";
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
-
-					$isSelected = false;
-					if ( $nextNodeID === $tmpNodeID )
-					{
-						$isSelected = true;
-  					}
 
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
                                              'url_alias' => $urlAlias,
                                              'url' => $url,
-                                             'text' => $name,
-											 'is_selected' => $isSelected );
+                                             'text' => $name );
                 }
 
                 // find insert pos
@@ -209,12 +189,11 @@ class eZTreeMenuOperator
                     {
                         $name = $child->attribute( 'name' );
                         $tmpNodeID = $child->attribute( 'node_id' );
-						/*
+
                         if ( strlen( $name ) > $strLimit )
                         {
                             $name = substr( $name, 0, $strLimit ) . "...";
                         }
-						*/
 
                         $url = "/content/view/full/$tmpNodeID/";
                         $urlAlias = "/" . $child->attribute( 'url_alias' );

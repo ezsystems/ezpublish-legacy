@@ -764,24 +764,6 @@ class eZUser extends eZPersistentObject
         return array( 'accessWord' => $access, 'policies' => $limitationPolicyList );
     }
 
-    function &policies()
-    {
-        $roles =& $this->attribute( 'roles' );
-        $limitationPolicyList = array();
-        reset( $roles );
-        foreach ( array_keys( $roles ) as $key )
-        {
-            $role =& $roles[$key];
-            $policies =& $role->attribute( 'policies');
-            foreach ( array_keys( $policies ) as $policy_key )
-            {
-                $policy =& $policies[$policy_key];
-                $limitationPolicyList[] =& $policy;
-            }
-        }
-        return $limitationPolicyList;
-    }
-
     /*!
      \return an array of roles which the user is assigned to
     */

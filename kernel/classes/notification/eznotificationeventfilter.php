@@ -89,14 +89,12 @@ class eZNotificationEventFilter
     {
         $notificationINI =& eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
-//        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
-        $repositoryDirectories = array();
+        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $handlers = array();
         foreach( $availableHandlers as $handlerString )
         {
             $handlers[$handlerString] =& eZNotificationEventFilter::loadHandler( $repositoryDirectories, $handlerString );
         }
-        eZDebug::writeDebug( $handlers, "available handlers" );
         return $handlers;
     }
 
@@ -104,22 +102,7 @@ class eZNotificationEventFilter
     {
         $foundHandler = false;
         $includeFile = '';
-
-
-        include_once( 'lib/ezutils/classes/ezextension.php' );
-        $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
-        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
-        $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
-        foreach ( $extensionDirectories as $extensionDirectory )
-        {
-            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/notification/handler/';
-            if ( file_exists( $extensionPath ) )
-                $repositoryDirectories[] = $extensionPath;
-        }
-
-        
-        foreach ( $repositoryDirectories as $repositoryDirectory )
+        foreach ( $directories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$handlerString/" . $handlerString . "handler.php";
             if ( file_exists( $includeFile ) )

@@ -84,7 +84,7 @@ class eZHTTPFile
     /*!
      Stores the temporary file to the destination dir $dir.
     */
-    function store( $sub_dir = false, $suffix = false, $mimeData = false )
+    function store( $sub_dir = false, $suffix=false )
     {
         include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( !$this->IsTemporary )
@@ -96,19 +96,17 @@ class eZHTTPFile
         $this->IsTemporary = false;
 
         $ini =& eZINI::instance();
-//         $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
-        $storage_dir = eZSys::storageDirectory();
+        $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/";
         else
             $dir = $storage_dir . "/";
-        if ( $mimeData )
-            $dir = $mimeData['dirpath'];
 
         if ( !file_exists( $dir ) )
         {
             $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $dir, eZDir::directoryPermission(), true ) )
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
                 umask( $oldumask );
                 return false;
@@ -116,49 +114,42 @@ class eZHTTPFile
             umask( $oldumask );
         }
 
-        if ( !$mimeData )
+        $dir .= $this->MimeCategory;
+        if ( !file_exists( $dir ) )
         {
-            $dir .= $this->MimeCategory;
-            if ( !file_exists( $dir ) )
+            $oldumask = umask( 0 );
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
-                $oldumask = umask( 0 );
-                $perm = $ini->variable( "FileSettings", "StorageDirPermissions" );
-                if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
-                {
-                    umask( $oldumask );
-                    return false;
-                }
                 umask( $oldumask );
+                return false;
             }
+            umask( $oldumask );
         }
 
         $suffixString = false;
         if ( $suffix != false )
             $suffixString = ".$suffix";
 
-        if ( $mimeData )
-        {
-            $dest_name = $mimeData['url'];
-        }
-        else
-        {
-            $dest_name = $dir .  "/". basename( $this->Filename ) . $suffixString;
-        }
+//        $dest_name = tempnam( $dir, $this->MimePart . "-" );
+//        $dest_name = tempnam( $dir , '');
+        // the above code does not work on windows.
+        $dest_name = $dir .  "/". basename( $this->Filename );
 
-        eZDebug::writeDebug( $this->Filename );
-        if ( !move_uploaded_file( $this->Filename, $dest_name ) )
+        eZDebug::writeDebug( $this->Filename . " " . $dest_name . $suffixString );
+        if ( !move_uploaded_file( $this->Filename, $dest_name . $suffixString ) )
         {
-            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name" );
-            unlink( $dest_name );
+            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name$suffixString" );
+            unlink( $dest_name . $suffixString );
             $ret = false;
         }
         else
         {
             $ret = true;
-            $this->Filename = $dest_name;
-            $perm = $ini->variable( "FileSettings", "StorageFilePermissions" );
+            $this->Filename = $dest_name . $suffixString;
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
             $oldumask = umask( 0 );
-            chmod( $dest_name, octdec( $perm ) );
+            chmod( $dest_name . $suffixString, octdec( $perm ) );
             umask( $oldumask );
 
             // Write log message to storage.log

@@ -536,6 +536,7 @@ class eZSys
 			$wwwDir = $regs[1];
 
         $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
+        $requestURI = urldecode( $requestURI );
 
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )

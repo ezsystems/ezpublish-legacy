@@ -29,8 +29,6 @@
 // you.
 //
 
-//xdebug_start_profiling();
-
 $scriptStartTime = microtime();
 ob_start();
 
@@ -837,7 +835,5 @@ ob_end_flush();
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();
-
-//xdebug_dump_function_profile( 4 );
 
 ?>

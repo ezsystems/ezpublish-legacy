@@ -158,9 +158,9 @@
 
     {* Set up menu *}
     {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
     {/section}
 
     </td>

@@ -87,8 +87,7 @@ class eZTextType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( $classAttribute->attribute( "is_required" ) and
-                !$classAttribute->attribute( 'is_information_collector' ) )
+            if( $classAttribute->attribute( "is_required" ) == true )
             {
                 if( $data == "" )
                 {
@@ -120,18 +119,6 @@ class eZTextType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $collectionAttribute->setAttribute( 'data_text', $dataText );
-
-        return true;
     }
 
     /*!
@@ -184,6 +171,21 @@ class eZTextType extends eZDataType
     function isInformationCollector()
     {
         return true;
+    }
+
+    /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
     }
 
     /*!

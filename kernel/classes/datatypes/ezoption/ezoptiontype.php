@@ -69,8 +69,7 @@ class eZOptionType extends eZDataType
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
             $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
 
-            if ( $classAttribute->attribute( "is_required" ) and
-                 !$classAttribute->attribute( 'is_information_collector' ) )
+            if ( $classAttribute->attribute( "is_required" ) == true )
             {
                 if ( trim( $valueList[0] ) == "" )
                 {
@@ -102,7 +101,7 @@ class eZOptionType extends eZDataType
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-//         eZDebug::writeNotice( "Validating option $data" );
+        eZDebug::writeNotice( "Validating option $data" );
     }
 
     /*!
@@ -125,6 +124,7 @@ class eZOptionType extends eZDataType
 
         return $option;
     }
+
 
     /*!
      Returns the meta data used for storing search indeces.
@@ -157,20 +157,6 @@ class eZOptionType extends eZDataType
         return true;
     }
 
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $collectionAttribute->setAttribute( 'data_int', $optionValue );
-        $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-
-        return true;
-    }
-
     /*!
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
@@ -189,7 +175,7 @@ class eZOptionType extends eZDataType
                     if ( $beforeID >= 0 )
                     {
                         $option->insertOption( array(), $beforeID );
-//                         eZDebug::writeDebug( $option, "option added before $beforeID" );
+                        eZDebug::writeDebug( $option, "option added before $beforeID" );
                         $contentObjectAttribute->setContent( $option );
                         $contentObjectAttribute->store();
                         $option = new eZOption( "" );
@@ -300,14 +286,6 @@ class eZOptionType extends eZDataType
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
-    {
-        return true;
-    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );

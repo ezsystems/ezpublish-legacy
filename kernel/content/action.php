@@ -78,10 +78,6 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                                                          );
             $nodeAssignment->store();
 
-            if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
-            {
-                $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
-            }
             $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;
 
@@ -342,8 +338,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {
-        $Result =& $module->run( "collectinformation", array() );
-        return $Result;
+        $result =& $module->run( "collectinformation", array() );
     }
     else
     {

@@ -358,19 +358,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 $module->redirectTo( $parentURL );
                 $hasRedirected = true;
             }
-            if ( $http->hasSessionVariable( 'RedirectURIAfterPublish' ) && !$hasRedirected )
-            {
-                $uri =& $http->sessionVariable( 'RedirectURIAfterPublish' );
-                $http->removeSessionVariable( 'RedirectURIAfterPublish' );
-                $module->redirectTo( $uri );
-                $hasRedirected = true;
-            }
-            if ( $http->hasPostVariable( 'RedirectURIAfterPublish' )  && !$hasRedirected )
-            {
-                $uri =& $http->postVariable( 'RedirectURIAfterPublish' );
-                $module->redirectTo( $uri );
-                $hasRedirected = true;
-            }
             if ( !$hasRedirected )
             {
                 if ( $http->hasPostVariable( 'RedirectURI' ) )
