@@ -155,6 +155,10 @@ foreach ( $ruleList as $rule )
             }
         }
     }
+    else
+    {
+        $limitation = "Any products";
+    }
     $item = array( "name" => $name,
                    "discount_percent" => $percent,
                    "id" => $discountRuleID,

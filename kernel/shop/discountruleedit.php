@@ -132,6 +132,10 @@ if ( $http->hasPostVariable( "StoreButton" ) )
              }
              $discountRule->setAttribute( 'limitation', null );
         }
+        else
+        {
+             $discountRule->setAttribute( 'limitation', '*' );
+        }
     }
     if ( $http->hasPostVariable( "Sections" ) )
     {
@@ -150,6 +154,10 @@ if ( $http->hasPostVariable( "StoreButton" ) )
                  $ruleValue->store();
              }
              $discountRule->setAttribute( 'limitation', null );
+        }
+        else
+        {
+             $discountRule->setAttribute( 'limitation', '*' );
         }
     }
     $discountRule->store();

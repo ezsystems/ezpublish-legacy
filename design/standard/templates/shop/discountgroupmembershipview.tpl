@@ -14,7 +14,7 @@
         Percent
 	</th>
 	<th>
-	Limitation List:
+	Apply to:
 	</th>
 	<th>
 	</th>
