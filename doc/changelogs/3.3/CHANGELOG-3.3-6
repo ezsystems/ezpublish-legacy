@@ -214,6 +214,8 @@ eZINI:
   http://ez.no/community/bug_reports/wrong_case_syntax_causes_template_compile_error
 - Fixed some of the issues in this bugreport.
   http://ez.no/community/bug_reports/bugs_in_kernel__2
+- Fixed incorrect API doc for eZUser.
+  http://ez.no/community/bug_reports/ezuser_api_correction
 
 *Library:
 
