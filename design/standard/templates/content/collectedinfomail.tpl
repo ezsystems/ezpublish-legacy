@@ -13,7 +13,7 @@
 
 {section name=Attribute loop=$collection.attributes}
 {$Attribute:item.contentclass_attribute_name}:
-{$Attribute:item.data_text}
+{$Attribute:item.data_text|wash}
 
 
 {/section}

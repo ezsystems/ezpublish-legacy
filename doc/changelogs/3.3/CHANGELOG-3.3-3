@@ -47,6 +47,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/rss_export
 - Fixed detecting DB type in eZSearchEngine::indexWords().
   http://ez.no/developer/ez_publish_3/bug_reports/undefinde_variable_dbname_in_ezsearchengine_php
+- Fixed wash operator for several templates.
+  http://ez.no/developer/ez_publish_3/bug_reports/no_output_wash_in_collectedinfo_templates
 
 *Library:
 

@@ -12,7 +12,7 @@
 {"The following information was collected:"|i18n("design/standard/content/edit")}
 
 {section name=Attribute loop=$collection.attributes}
-{$Attribute:item.contentclass_attribute_name}:
+{$Attribute:item.contentclass_attribute_name|wash}:
 {attribute_result_gui view=info attribute=$Attribute:item}
 
 
