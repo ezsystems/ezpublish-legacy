@@ -109,7 +109,6 @@ if ( $module->isCurrentAction( 'Store' ) )
         $cacheDir =  eZSys::cacheDirectory();
     }
     $compiledTemplateDir = $cacheDir ."/template/compiled";
-    print( $compiledTemplateDir );
     eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
 }
 
