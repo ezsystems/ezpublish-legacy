@@ -134,6 +134,7 @@ for arg in $*; do
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
+	    echo "         --skip-db-update           Do not run db update check"
 	    echo "         --skip-translation         Do not run translation check"
 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
             echo "         --db-user=user             Mysql DB user ( default: root )"
@@ -193,6 +194,9 @@ for arg in $*; do
 	    ;;
 	--skip-php-check)
 	    SKIPCHECKPHP="1"
+	    ;;
+	--skip-db-update)
+	    SKIPDBUPDATE="1"
 	    ;;
 	--skip-unit-tests)
 	    SKIPUNITTESTS="1"
@@ -308,6 +312,31 @@ if [ -z $SKIPUNITTESTS ]; then
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
+
+if [ -z $SKIPDBUPDATE ]; then
+    echo -n "Checking MySQL database updates"
+    ./bin/shell/checkdbupdate.sh --mysql "$DB_NAME" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "The database update check for MySQL failed"
+	echo "Run the following command to find out what is wrong"
+	echo "./bin/shell/checkdbupdate.sh --mysql $DB_NAME"
+	exit 1
+    fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+
+    echo -n "Checking PostgreSQL database updates"
+    ./bin/shell/checkdbupdate.sh --postgresql "$DB_NAME" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "The database update check for Postgresql failed"
+	echo "Run the following command to find out what is wrong"
+	echo "./bin/shell/checkdbupdate.sh --postgresql $DB_NAME"
+	exit 1
+    fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+fi
+
 
 echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
 
