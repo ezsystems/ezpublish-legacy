@@ -119,7 +119,7 @@ div#topmenu
 {
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid; /* This line needs to be set to avoid bug in IE */
+    /* border-bottom: 1px solid; */
 }
 
 div.topmenu-line
@@ -170,7 +170,7 @@ div#topmenu li a:hover
 
 div#submenu
 {
-    margin-top: -1px;
+    /* margin-top: -1px; */
     padding: 0;
     border-bottom: 1px solid; /* This line needs to be set to avoid bug in IE */
 }
