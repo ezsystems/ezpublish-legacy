@@ -1,5 +1,5 @@
 <div class="block">
-<label>Prefered columns:</label><div class="labelbreak"></div>
+<label>{"Prefered columns:"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <select name="ContentClass_ezxmltext_cols_{$class_attribute.id}">
     <option value="2" {section show=eq($class_attribute.data_int1,2)}selected{/section}>2</option>
     <option value="5" {section show=eq($class_attribute.data_int1,5)}selected{/section}>5</option>
