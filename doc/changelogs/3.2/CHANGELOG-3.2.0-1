@@ -103,6 +103,9 @@ Changes from 3.1-1 to 3.2.0-1
 - Improved the template parser for ezlupdate, it will now allow more whitespaces between elements.
 - Added support for creating/updating multiple translations for ezlupdate.
 - Added detection for non-strings in i18n translations in ezlupdate.
+- The autoload path for templates are now defined in site.ini as an array instead of
+  a semi-colon separated list. The new setting is called AutoloadPathList.
+  The old setting is kept for compatability and will be read but is considered deprecated.
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.

@@ -53,7 +53,10 @@ function &templateInit( $name = false )
     if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
         eZTemplate::setIsDebugEnabled( true );
 
-    $tpl->setAutoloadPathList( $ini->variableArray( 'TemplateSettings', 'AutoloadPath' ) );
+    $compatAutoLoadPath = $ini->variableArray( 'TemplateSettings', 'AutoloadPath' );
+    $autoLoadPathList = $ini->variable( 'TemplateSettings', 'AutoloadPathList' );
+    $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList ) );
+    $tpl->setAutoloadPathList( $autoLoadPathList );
     $tpl->autoload();
 
     $tpl->registerResource( eZTemplateDesignResource::instance() );
