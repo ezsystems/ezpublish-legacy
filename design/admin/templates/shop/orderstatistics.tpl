@@ -45,7 +45,7 @@
     {/section}
 </select>
 
-<input class="button" type="submit" name="View" value="{'Update list'|i18n( 'design/admin/shop/orderstatistics' )}" />
+<input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" />
 
 </div>
 </div>

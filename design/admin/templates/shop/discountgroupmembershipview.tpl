@@ -50,7 +50,7 @@
 <div class="controlbar">
 <div class="block">
     <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" {section show=$rule_list|not}disabled="disabled"{/section}/>
-    <input class="button" type="submit" name="AddRuleButton" value="{'New rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
 </div>
 
