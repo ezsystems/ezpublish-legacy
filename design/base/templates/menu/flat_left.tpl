@@ -14,10 +14,8 @@
             {section-else}
             {section show=and( $menu.last.level|gt( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
-                {section loop=sub( $menu.last.level, $menu.level )}
-                    </ul>
-                </li>
-                {/section}
+                    {"</ul>
+                </li>"|repeat(sub( $menu.last.level, $menu.level ))}
             {/section}
             {/section}
 
