@@ -218,6 +218,9 @@ eZSys:
 eZi18n:
 - Added translation cache system
   Added setting in site.ini: [RegionalSettings] TranslationCache=enabled
+- TextCodec settings are now handled by external clients instead of
+  reading it internally. This avoids the recursion problem with
+  eZINI and eZTextCodec.
 
 eZ web:
 - New class for handling web browser detection.

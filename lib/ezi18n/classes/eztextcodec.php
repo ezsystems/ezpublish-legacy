@@ -60,9 +60,11 @@ class eZTextCodec
         $this->InputCharacterEncodingScheme = eZCharsetInfo::characterEncodingScheme( $this->InputCharsetCode );
         $this->OutputCharacterEncodingScheme = eZCharsetInfo::characterEncodingScheme( $this->OutputCharsetCode );
 
-        $ini =& eZTextCodec::ini();
+        $useMBStringExtension = false;
+        if ( isset( $GLOBALS['eZTextCodecMBStringExtension'] ) )
+            $useMBStringExtension = $GLOBALS['eZTextCodecMBStringExtension'];
 
-        $useMBString = ( $ini->variable( "CharacterSettings", "MBStringExtension" ) == "enabled" and
+        $useMBString = ( $useMBStringExtension and
                          eZTextCodec::useMBString() and
                          eZMBStringMapper::hasMBStringExtension() );
 
@@ -296,29 +298,44 @@ class eZTextCodec
         return $codec;
     }
 
-    function &ini()
+    /*!
+     \static
+     Initializes the eZTextCodec settings to the ones in the array \a $settings.
+     \sa internalCharset, httpCharset.
+    */
+    function updateSettings( $settings )
     {
-        include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance( "i18n.ini", "", false );
-        return $ini;
+        $GLOBALS['eZTextCodecInternalCharset'] = $settings['internal-charset'];
+        $GLOBALS['eZTextCodecHTTPCharset'] = $settings['http-charset'];
+        $GLOBALS['eZTextCodecMBStringExtension'] = $settings['mbstring-extension'];
     }
 
     /*!
      \static
-     Returns the charset which is used internally,
+     \return the charset which is used internally,
      this is the charset which all external files and resources are converted to.
+     \note will return iso-8859-1 if eZTextCodec has been updated with proper settings.
     */
     function internalCharset()
     {
-        $ini =& eZTextCodec::ini();
-        $charset = eZCharsetInfo::realCharsetCode( $ini->variable( "CharacterSettings", "Charset" ) );
+        if ( !isset( $GLOBALS['eZTextCodecInternalCharset'] ) )
+            $charsetCode = 'iso-8859-1';
+        else
+            $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
+        $charset = eZCharsetInfo::realCharsetCode( $charsetCode );
         return $charset;
     }
 
+    /*!
+     \static
+     \return a charset value which can be used in HTTP headers.
+     \note Will return the internalCharset() if not http charset is set.
+    */
     function httpCharset()
     {
-        $ini =& eZTextCodec::ini();
-        $charset = $ini->variable( "CharacterSettings", "HTTPCharset" );
+        $charset = '';
+        if ( isset( $GLOBALS['eZTextCodecHTTPCharset'] ) )
+            $charset = $GLOBALS['eZTextCodecHTTPCharset'];
         if ( $charset == '' )
             $charset = eZTextCodec::internalCharset();
         else

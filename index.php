@@ -74,7 +74,11 @@ error_reporting ( E_ALL );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+eZINI::setIsDebugEnabled( true );
 
+/*!
+ Reads settings from site.ini and passes them to eZDebug.
+*/
 function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
@@ -84,6 +88,24 @@ function eZUpdateDebugSettings()
     $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
     eZDebug::updateSettings( $debugSettings );
 }
+
+/*!
+ Reads settings from i18n.ini and passes them to eZTextCodec.
+*/
+function eZUpdateTextCodecSettings()
+{
+    $ini =& eZINI::instance( 'i18n.ini' );
+    $i18nSettings = array();
+    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
+    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
+    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
+    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    eZTextCodec::updateSettings( $i18nSettings );
+}
+
+// Initialize text codec settings
+eZUpdateTextCodecSettings();
+
 // Initialize debug settings
 eZUpdateDebugSettings();
 
