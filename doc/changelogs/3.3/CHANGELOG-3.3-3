@@ -33,6 +33,8 @@ Changes from 3.3-1 to 3.3-2
 - Fixed xref table bug in PDF export.
 - Fixed search when phrase and other term contain same word.
   http://ez.no/developer/ez_publish_3/bug_reports/advanced_search_fails
+- Fixed deleting information collection information when deleting content object.
+  http://ez.no/developer/ez_publish_3/bug_reports/information_collection_won_t_be_deleted
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl

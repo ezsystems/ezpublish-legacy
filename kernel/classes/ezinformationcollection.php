@@ -123,6 +123,28 @@ class eZInformationCollection extends eZPersistentObject
 
     /*!
      \static
+
+     Remove infomation collection from specified contentobject_id
+
+     \param contentobject id
+    */
+    function removeContentObject( $delID )
+    {
+        if( !is_numeric( $delID ) )
+        {
+            return;
+        }
+
+        $db =& eZDB::instance();
+
+        $db->query( "DELETE FROM ezinfocollection
+                     WHERE contentobject_id = '$delID'" );
+        $db->query( "DELETE FROM ezinfocollection_attribute
+                     WHERE contentobject_id = '$delID'" );
+    }
+
+    /*!
+     \static
      \return the name of the template to use for viewing a specific information collection.
 
      The template name is determined from the content class type and object attributes.
