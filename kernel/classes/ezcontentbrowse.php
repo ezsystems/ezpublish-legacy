@@ -283,7 +283,7 @@ class eZContentBrowse
         else
             $postName = 'SelectedObjectIDArray';
         $http =& eZHTTPTool::instance();
-        if ( $http->hasPostVariable( $postName ) )
+        if ( $http->hasPostVariable( $postName ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             return $http->postVariable( $postName );
         return false;
     }
