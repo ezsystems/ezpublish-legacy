@@ -44,6 +44,8 @@
 */
 
 include_once( "lib/ezxml/classes/ezxml.php" );
+include_once( "lib/ezxml/classes/ezdomnode.php" );
+include_once( "lib/ezxml/classes/ezdomdocument.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 
@@ -67,11 +69,17 @@ class eZXMLInputHandler
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
             $data =& $this->convertInput( $data );
-            $xml = new eZXML();
-            $dom =& $xml->domTree( $data );
-
-            if ( $dom )
+            $message = $data[1];
+            if ( $message != "" )
             {
+                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                     'ezXMLTextType',
+                                                                     $message ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+            else
+            {
+                $dom = $data[0];
                 $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
                 $objects =& $dom->elementsByName( 'object' );
                 foreach ( $objects as $object )
@@ -125,34 +133,27 @@ class eZXMLInputHandler
                 }
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
-            else
-            {
-                $contentObjectAttribute->setAttribute( "data_text", "test" );
-            }
-            eZDebug::writeDebug( $data, "eZXMLTextType::XML text" );
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
-
     /*!
      \private
     */
     function &convertInput( &$text )
     {
+        $message = null;
         // fix newlines
         // Convet windows newlines
         $text =& preg_replace( "#\r\n#", "\n", $text );
         // Convet mac newlines
         $text =& preg_replace( "#\r#", "\n", $text );
 
-        $data =& preg_replace( "#\n[\n]+#", "\n\n", $text );
+        $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
         // Convert headers
-        $data =& preg_replace( "#<header>#", "<header level='1'>", $data );
-
-        // split on headers
+        $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
         $sectionData = "<section>";
-        $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+        $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
         $sectionLevel = 1;
         foreach ( $sectionArray as $sectionPart )
         {
@@ -194,9 +195,173 @@ class eZXMLInputHandler
         }
         $sectionData .= "</section>";
 
-        $data  = '<?xml version="1.0" encoding="utf-8" ?>' . $sectionData;
+        $data =& $sectionData;
 
-        return $data;
+        $domDocument = new eZDOMDocument();
+        $currentNode =& $domDocument;
+        $TagStack = array();
+        $pos = 0;
+        $endTagPos = 0;
+        $unMatchedParagraph = false;
+        while ( $pos < strlen( $data ) )
+        {
+            $char = $data[$pos];
+            if ( $char == "<" )
+            {
+                // find tag name
+                $endTagPos = strpos( $data, ">", $pos );
+
+                // tag name with attributes
+                $tagName = substr( $data, $pos + 1, $endTagPos - ( $pos + 1 ) );
+                // check if it's an endtag </tagname>
+                if ( $tagName[0] == "/" )
+                {
+                    $lastNodeArray = array_pop( $TagStack );
+                    $lastTag = $lastNodeArray["TagName"];
+
+                    $lastNode =& $lastNodeArray["ParentNodeObject"];
+
+                    $tagName = substr( $tagName, 1, strlen( $tagName ) );
+
+                    if ( $lastTag != $tagName )
+                    {
+                        if ( $tagName == "paragraph" )
+                        {
+                            array_push( $TagStack,
+                                        array( "TagName" => $lastTag, "ParentNodeObject" => &$lastNode ) );
+                            $unMatchedParagraph = true;
+                        }
+                        else
+                        {
+                            $message =  "Unmatched tag " . $tagName;
+                            $output = array( null, $message );
+                            eZDebug::writeDebug( $message,"1111111111111111111");
+                            return $output;
+                        }
+                    }
+                    else
+                    {
+                        unset( $currentNode );
+                        $currentNode =& $lastNode;
+                        eZDebug::writeDebug( $tagName. " is valid" );
+                    }
+                }
+                elseif ( ( $tagName == "paragraph" ) and ( $unMatchedParagraph ) )
+                {
+                    // Do nothing
+                    $unMatchedParagraph = false;
+                }
+                else
+                {
+                    $firstSpaceEnd = strpos( $tagName, " " );
+                    $firstNewlineEnd = strpos( $tagName, "\n" );
+
+                    if ( $firstNewlineEnd != false )
+                    {
+                        if ( $firstSpaceEnd != false )
+                        {
+                            $tagNameEnd = min( $firstSpaceEnd, $firstNewlineEnd );
+                        }
+                        else
+                        {
+                            $tagNameEnd = $firstNewlineEnd;
+                        }
+                    }
+                    else
+                    {
+                        if ( $firstSpaceEnd != false )
+                        {
+                            $tagNameEnd = $firstSpaceEnd;
+                        }
+                        else
+                        {
+                            $tagNameEnd = 0;
+                        }
+                    }
+
+                    if ( $tagNameEnd > 0 )
+                    {
+                        $justName = substr( $tagName, 0, $tagNameEnd );
+                    }
+                    else
+                        $justName = $tagName;
+
+
+                    // remove trailing / from the name if exists
+                    if ( $justName[strlen($justName) - 1]  == "/" )
+                    {
+                        $justName = substr( $justName, 0, strlen( $justName ) - 1 );
+                    }
+
+                    // create the new XML element node
+                    unset( $subNode );
+                    $subNode = new eZDOMNode();
+
+                    // find attributes
+                    if ( $tagNameEnd > 0 )
+                    {
+                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+
+                        // attributes
+                        unset( $attr );
+                        $attr =& eZXML::parseAttributes( $attributePart );
+
+                        if ( $attr != false )
+                            $subNode->Attributes =& $attr;
+                    }
+
+                    $subNode->Name = $justName;
+                    $subNode->LocalName = $justName;
+                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+
+                    $domDocument->registerElement( &$subNode );
+                    $currentNode->appendChild( $subNode );
+
+                    if ( $tagName[strlen($tagName) - 1]  != "/" )
+                    {
+                        array_push( $TagStack,
+                                    array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
+                        unset( $currentNode );
+                        $currentNode =& $subNode;
+                    }
+                }
+            }
+            $pos = strpos( $data, "<", $pos + 1 );
+            if ( $pos == false )
+            {
+                // end of document
+                $pos = strlen( $data );
+            }
+            else
+            {
+                // content tag
+                $tagContent = substr( $data, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
+                if (  trim( $tagContent ) != "" )
+                {
+                    $domDocument->registerElement( &$subNode );
+                    unset( $subNode );
+                    $subNode = new eZDOMNode();
+                    $subNode->Name = "#text";
+                    $subNode->Type = EZ_NODE_TYPE_TEXT;
+
+                    // convert special chars
+                    $tagContent =& str_replace("&gt;", ">", $tagContent );
+                    $tagContent =& str_replace("&lt;", "<", $tagContent );
+                    $tagContent =& str_replace("&apos;", "'", $tagContent );
+                    $tagContent =& str_replace("&quot;", '"', $tagContent );
+                    $tagContent =& str_replace("&amp;", "&", $tagContent );
+
+                    $subNode->Content = $tagContent;
+
+                    $domDocument->registerElement( &$subNode );
+
+                    $currentNode->appendChild( $subNode );
+                }
+            }
+        }
+        $output = array( $domDocument, $message );
+        eZDebug::writeDebug($domDocument->toString(),"2222222222");
+        return $output;
     }
     /*!
      Returns the input XML representation of the datatype.
@@ -291,7 +456,7 @@ class eZXMLInputHandler
             {
                 $view = $tag->attributeValue( 'view' );
                 if ( strlen( $view ) == 0 )
-                    $view = "embed";
+                    $view = "text_linked";
 
                 $objectID = $tag->attributeValue( 'id' );
                 $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();

@@ -75,7 +75,6 @@ class eZXMLInputType
             {
                 include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
-                $this->EditorName = "standard";
             }
         }elseif ( $inputHandler == "dhtml" )
         {
@@ -83,14 +82,12 @@ class eZXMLInputType
             {
                 include_once( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
-                $this->EditorName = "dhtml";
             }else
             {
                 if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
                 {
                     include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                     $impl = new eZXMLInputHandler();
-                    $this->EditorName = "standard";
                 }
             }
         }else
@@ -100,7 +97,7 @@ class eZXMLInputType
         return $impl;
     }
 
-    function &getEditorName()
+    function &editorName()
     {
         $ini =& eZINI::instance();
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
