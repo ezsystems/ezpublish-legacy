@@ -100,6 +100,8 @@ eZTime:
   http://ez.no/community/bug_reports/search_statistics_and_postgresql
 - Added clearing RSS cache in script and from web UI.
   http://ez.no/community/bug_reports/rss_cache
+- Added l18n operators to design/standard/templates/setup/cache.tpl.
+  http://ez.no/community/bug_reports/lack_i18n_and_translate_problem_with_linquist
 
 *Library:
 
