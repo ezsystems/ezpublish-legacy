@@ -175,6 +175,7 @@ CREATE TABLE "ezcontentobject" (
 	"published" integer,
 	"modified" integer,
 	"status" smallint DEFAULT 0,
+    "remote_id" varchar(100) not null DEFAULT '',
 	Constraint "ezcontentobject_pkey" Primary Key ("id")
 );
 
@@ -337,6 +338,7 @@ CREATE TABLE "ezimage" (
 	"filename" character varying(255) NOT NULL,
 	"original_filename" character varying(255) NOT NULL,
 	"mime_type" character varying(50) NOT NULL,
+    "alternative_text" varchar(255) not null default '',
 	Constraint "ezimage_pkey" Primary Key ("contentobject_attribute_id", "version")
 );
 
@@ -452,8 +454,13 @@ CREATE TABLE "ezorder" (
 	"created" integer NOT NULL,
 	"is_temporary" integer DEFAULT '1' NOT NULL,
 	"order_nr" integer DEFAULT '0' NOT NULL,
+    "account_identifier" varchar(100) not null default 'default',
+    "ignore_vat" int not null default '0',
+    "data_text_1" text,
+    "data_text_2" text,
 	Constraint "ezorder_pkey" Primary Key ("id")
 );
+
 
 --
 -- TOC Entry ID 30 (OID 659462)
@@ -539,6 +546,7 @@ CREATE SEQUENCE "ezproductcollection_s" start 1 increment 1 maxvalue 92233720368
 
 CREATE TABLE "ezproductcollection" (
 	"id" integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL,
+    "created" integer,
 	Constraint "ezproductcollection_pkey" Primary Key ("id")
 );
 
@@ -562,6 +570,9 @@ CREATE TABLE "ezproductcollection_item" (
 	"contentobject_id" integer NOT NULL,
 	"item_count" integer NOT NULL,
 	"price" float NOT NULL,
+    "is_vat_inc" integer NOT NULL,
+    "vat_value" float NOT NULL DEFAULT 0,
+    "discount" float NOT NULL DEFAULT 0,
 	Constraint "ezproductcollection_item_pkey" Primary Key ("id")
 );
 
@@ -697,6 +708,7 @@ CREATE TABLE "ezsection" (
 	"id" integer DEFAULT nextval('ezsection_s'::text) NOT NULL,
 	"name" character varying(255),
 	"locale" character varying(255),
+    "navigation_part_identifier" varchar(100) default 'ezcontentnavigationpart',
 	Constraint "ezsection_pkey" Primary Key ("id")
 );
 
@@ -710,7 +722,6 @@ CREATE TABLE "ezsession" (
 	"session_key" character(32) NOT NULL,
 	"expiration_time" integer NOT NULL,
 	"data" text NOT NULL,
-	"cache_mask_1" integer,
 	Constraint "ezsession_pkey" Primary Key ("session_key")
 );
 
@@ -1191,8 +1202,7 @@ CREATE TABLE "ezorder_item" (
 	"order_id" integer NOT NULL,
 	"description" character varying(255),
 	"price" double precision,
-	"vat_is_included" integer,
-	"vat_type_id" integer,
+    "vat_value" int not null default '0',
 	Constraint "ezorder_item_pkey" Primary Key ("id")
 );
 
@@ -2204,6 +2214,7 @@ CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btr
 --
 
 CREATE INDEX ezcontentobject_tree_crc32_path ON ezcontentobject_tree USING btree (crc32_path);
+CREATE unique INDEX ezcontentobject_tree_md5_path ON ezcontentobject_tree USING btree (md5_path);
 
 --
 -- TOC Entry ID 192 (OID 659847)
@@ -2711,8 +2722,19 @@ create table ezproductcollection_item_opt(
 	id integer DEFAULT nextval('ezproductcollection_item_opt_s'::text) NOT NULL,
     item_id int not null,
     option_item_id int not null,
+    object_attribute_id int not null,
     name varchar(255) not null,
     value varchar(255) not null,
     price float not null default 0,
+    PRIMARY KEY  (id)
+    );
+
+CREATE SEQUENCE "ezforgot_password_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+create table ezforgot_password(
+    id int DEFAULT nextval('ezforgot_password_s'::text) NOT NULL,
+    user_id int not null,
+    hash_key varchar(32) not null,
+    time int not null,
     PRIMARY KEY  (id)
     );
