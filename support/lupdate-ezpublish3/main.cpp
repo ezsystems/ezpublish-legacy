@@ -66,7 +66,7 @@ static void printUsage()
               "    -e, --extension EXT       Extension mode. Scans extension EXT instead of\n"
               "                              kernel, lib and design\n"
               "    -d, --dirs DIR [DIR]...   Directories to scan in addition to kernel, lib\n"
-              "                              and design\n"
+              "                              and designs\n"
               "    -u, --untranslated        Create/update the untranslated file as well\n"
               "    -no, --noobsolete         Drop all obsolete strings\n"
               "    -v, --verbose             Explain what is being done\n"

@@ -294,6 +294,31 @@ echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 (cd $DIST_SRC && scan_dir .)
 echo
 
+for settingsfile in settings/*; do
+    if [ -d "$settingsfile" ]; then
+	continue
+    fi
+    if echo $settingsfile | grep -E "^.*~$" &>/dev/null; then
+	continue
+    fi
+    file=`echo $settingsfile | sed 's#^settings/##'`
+    if [ ! -f "$DEST/$settingsfile" ]; then
+	MISSING_FILES="$MISSING_FILES $settingsfile"
+    fi
+done
+
+if [ -n "$MISSING_FILES" ]; then
+    echo
+    echo "Some files are missing in the created distribution"
+    echo "You should make sure the files have proper distribution properties set"
+    echo
+    echo "The files are:"
+    for file in $MISSING_FILES; do
+	echo "`$SETCOLOR_FILE`$file`$SETCOLOR_NORMAL`"
+    done
+    exit 1
+fi
+
 if [ ! -f bin/linux/ezlupdate ]; then
     echo "You do not have the ezlupdate program compiled"
     echo "this is required to create a distribution"
@@ -332,20 +357,36 @@ echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
 echo
 
 dir=`pwd`
-(cd  $DEST
-    cp -R -f share/translations share/translations.org &>/dev/null || exit 1
-    cd  $DEST/share/translations
-    echo -n "Translation: "
-    for translation in *; do
-	echo -n " `$POSITION_STORE`$translation"
-	cd  $DEST
-	$dir/bin/linux/ezlupdate "$translation" &>/dev/null || exit 1
-	echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
-    done)
+cp -R -f $DEST/share/translations $DEST/share/translations.org &>/dev/null
+if [ $? -ne 0 ]; then
+    echo "Failed to make copy of translations"
+    exit 1
+fi
+echo -n "Processing:"
+cd $DEST/share/translations
+for translation in *; do
+    echo -n " `$POSITION_STORE`$translation"
+    if [ "$translation" == "untranslated" ]; then
+	(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
+	if [ $? -ne 0 ]; then
+	    echo
+	    echo "Error updating translations"
+	    exit 1
+	fi
+    else
+	(cd  $DEST && $dir/bin/linux/ezlupdate -d "$dir/design" "$translation" &>/dev/null )
+	if [ $? -ne 0 ]; then
+	    echo
+	    echo "Error updating translations"
+	    exit 1
+	fi
+    fi
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+done
+cd $dir
 echo
 
-(cd  $DEST
-    diff -U3 -r share/translations.org share/translations &>/dev/null)
+diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
 if [ $? -ne 0 ]; then
     echo "The translations are not up to date"
     echo "You must update the translations in the repository using the ezlupdate program"
@@ -354,17 +395,28 @@ fi
 
 rm -rf $DEST/share/translations.org
 
-(cd  $DEST/share/translations
-    for translation in share/translations/*; do
-	if [ "$translation" != "untranslated" ]; then
-	    cd  $DEST
-	    $dir/bin/linux/ezlupdate -no "$translation" &>/dev/null
+echo "Removing obsoletes"
+cd $DEST/share/translations
+for translation in *; do
+    if [ "$translation" == "untranslated" ]; then
+	(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
+	if [ $? -ne 0 ]; then
+	    echo "Error removing obsolete entries"
+	    exit 1
 	fi
-    done)
+    else
+	(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
+	if [ $? -ne 0 ]; then
+	    echo "Error removing obsolete entries"
+	    exit 1
+	fi
+    fi
+done
+cd $dir
 
 echo
 echo "Copying changelogs from earlier versions"
-echo -n "Version: "
+echo -n "Version:"
 for version in $STABLE_VERSIONS; do
     changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
     rm -rf "$DEST/doc/changelogs/$version"
