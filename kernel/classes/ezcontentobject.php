@@ -1431,6 +1431,29 @@ class eZContentObject extends eZPersistentObject
         $customActionParameters['base_name'] = $oldAttributeDataBaseName;
     }
 
+    function recursionProtectionStart()
+    {
+        $GLOBALS["ez_content_object_recursion_protect"] = array();
+    }
+
+    function recursionProtect( $id )
+    {
+        if ( isset( $GLOBALS["ez_content_object_recursion_protect"][$id] ) )
+        {
+            return false;
+        }
+        else
+        {
+             $GLOBALS["ez_content_object_recursion_protect"][$id] = true;
+             return true;
+        }
+    }
+
+    function recursionProtectionEnd()
+    {
+        unset( $GLOBALS["ez_content_object_recursion_protect"] );
+    }
+
     function storeInput( &$contentObjectAttributes,
                          $attributeInputMap )
     {

@@ -764,14 +764,16 @@ class eZObjectRelationListType extends eZDataType
             $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
 //                 $object =& eZContentObject::fetch( $subObjectID );
             $object =& $content['temp'][$subObjectID]['object'];
-            if ( !$object )
-                $object =& eZContentObject::fetch( $subObjectID );
-            if ( $object )
-                $object->handleAllCustomHTTPActions( $attributeBase,
-                                                     $customActionAttributeArray,
-                                                     $customActionParameters,
-                                                     $subObjectVersion );
-
+            if ( eZContentObject::recursionProtect( $subObjectID ) )
+            {
+                if ( !$object )
+                    $object =& eZContentObject::fetch( $subObjectID );
+                if ( $object )
+                    $object->handleAllCustomHTTPActions( $attributeBase,
+                                                         $customActionAttributeArray,
+                                                         $customActionParameters,
+                                                         $subObjectVersion );
+            }
         }
     }
 
@@ -1050,11 +1052,14 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $object =& eZContentObject::fetch( $subObjectID );
-                if ( !$object )
+                if ( eZContentObject::recursionProtect( $subObjectID ) )
                 {
-                    continue;
+                    if ( !$object )
+                    {
+                        continue;
+                    }
+                    $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
                 }
-                $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
             }
 
             $metaDataArray = array_merge( $metaDataArray, eZContentObjectAttribute::metaDataArray( $attributes ) );
