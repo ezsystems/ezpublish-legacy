@@ -4,15 +4,35 @@
 [DatabaseSettings]
 DatabaseImplementation=mysql
 Server=localhost
-User=bf
-Password=bf
-Database=bf
+User=publish
+Password=secret
+Database=publish
 Charset=iso-8859-1
 UseBuiltinEncoding=true
-Socket=disabled
+Socket=/opt/ezpublish/mysql.sock
 SQLOutput=enabled
-UsePersistentConnection=disabled 
+UsePersistentConnection=disabled
 
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=standard
+
+[SiteSettings]
+DefaultPage=/content/view/full/2
+ErrorHandler=defaultpage
+
+[SiteAccessSettings]
+RequireUserLogin=true
+
+[SiteAccessRules]
+Access=disable
+ModuleAll=true
+Access=enable
+Module=sdk
+
+[SitePrecheckRules]
+Access=disable
+PreCheck=user
 
 [DebugSettings]
 # IP addresses which will get debug information
@@ -22,3 +42,7 @@ DebugIP=enabled
 Debug=inline
 # Use either enabled or a an array of uris to match
 DebugRedirection=disabled
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=standard

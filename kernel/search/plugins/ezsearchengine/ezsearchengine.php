@@ -72,9 +72,17 @@ class eZSearchEngine
 
                 // Strip multiple whitespaces
                 $text = str_replace(".", " ", $text );
+                $text = str_replace(":", " ", $text );
                 $text = str_replace(",", " ", $text );
+                $text = str_replace(";", " ", $text );
                 $text = str_replace("'", " ", $text );
                 $text = str_replace("\"", " ", $text );
+                $text = str_replace("(", " ", $text );
+                $text = str_replace(")", " ", $text );
+                $text = str_replace("-", " ", $text );
+                $text = str_replace("!", " ", $text );
+                $text = str_replace("?", " ", $text );
+                $text = str_replace("$", " ", $text );
 
                 $text = str_replace("\n", " ", $text );
                 $text = str_replace("\r", " ", $text );

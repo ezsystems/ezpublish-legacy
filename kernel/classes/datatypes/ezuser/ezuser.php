@@ -182,7 +182,6 @@ class eZUser extends eZPersistentObject
             include_once( 'lib/ezutils/classes/ezini.php' );
             $builtinInstance =  eZUser::fetch( EZ_USER_ANONYMOUS_ID );
         }
-        print( "test" );
         return $builtinInstance;
     }
 
@@ -260,7 +259,6 @@ class eZUser extends eZPersistentObject
         $currentUser =& eZUser::fetch( $id );
         if ( !$currentUser )
         {
-            print( "fetch" );
             $currentUser =& eZUser::fetchBuiltin( $id );
             eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
@@ -370,6 +368,7 @@ class eZUser extends eZPersistentObject
         }
         return $this->Roles;
     }
+
     /*!
      \return an array of id's with all the groups the user belongs to.
     */

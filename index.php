@@ -185,6 +185,7 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     eZDebug::addTimingPoint( "Module start" );
 
     $currentUser =& eZUser::currentUser();
+
     $aviableViewsInModule = $module->attribute( 'views' );
     $runningFunctions = $aviableViewsInModule[ $function_name ][ 'functions' ];
     $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
