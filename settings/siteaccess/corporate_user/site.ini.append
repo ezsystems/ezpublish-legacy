@@ -14,3 +14,11 @@ SiteDesign=corporate
 
 [FileSettings]
 VarDir=var/corporate
+
+[SiteSettings]
+ErrorHandler=displayerror
+LoginPage=embedded
+SiteURL=corporate.wy.dvh1.ez.no
+
+[SiteAccessSettings]
+RequireUserLogin=false
