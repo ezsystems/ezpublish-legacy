@@ -42,7 +42,7 @@ link_icon=url_translator.png
 url=/content/urltranslator
 
 [Tool_setup_setup_link_4]
-title=Common ini settings
+title=Settings
 link_icon=common_ini_settings.png
 url=/content/edit/52
 
