@@ -147,6 +147,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 
 if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
+    include_once( 'kernel/classes/ezcontentcache.php' );
     if ( $http->hasPostVariable( 'Priority' ) and $http->hasPostVariable( 'PriorityID' ) )
     {
         $db =& eZDB::instance();
@@ -175,6 +176,23 @@ if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     {
         $topLevelNode = '2';
     }
+
+    $clearNodeArray = array();
+    if ( $http->hasPostVariable( 'ContentObjectID' ) )
+    {
+        $object =& eZContentObject::fetch( $http->postVariable( 'ContentObjectID' ) );
+        $nodes =& $object->assignedNodes( false );
+        foreach ( $nodes as $node )
+        {
+            $clearNodeArray[] = $node['main_node_id'];
+        }
+    }
+
+    if ( eZContentCache::cleanup( $clearNodeArray ) )
+    {
+//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
+    }
+
 
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;

@@ -860,7 +860,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the node assignments for the current object.
     */
-    function &assignedNodes( $asobject = true)
+    function &assignedNodes( $asObject = true)
     {
         $contentobjectID = $this->attribute( 'id' );
         $query = "SELECT ezcontentobject.*,
@@ -876,8 +876,13 @@ class eZContentObject extends eZPersistentObject
 		  ORDER BY path_string";
         $db =& eZDB::instance();
         $nodesListArray =& $db->arrayQuery( $query );
-        $nodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
-        return $nodes;
+        if ( $asObject == true )
+        {
+            $nodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+            return $nodes;
+        }
+        else
+            return $nodesListArray;
     }
 
     function mainNodeID()
