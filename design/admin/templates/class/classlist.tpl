@@ -34,8 +34,8 @@
 <form action={'class/grouplist'|ezurl} method="post" name="GroupList">
     <input type="hidden" name="DeleteIDArray[]" value="{$group.id}" />
     <input type="hidden" name="EditGroupID" value="{$group.id}" />
-    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/class/classlist' )}">
-    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove'|i18n( 'design/admin/class/classlist' )}">
+    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/class/classlist' )}" title="{'Edit the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove'|i18n( 'design/admin/class/classlist' )}" title="{'Remove the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
