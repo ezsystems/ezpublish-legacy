@@ -12,10 +12,7 @@
 {/section}
 
 {* Allow remove button if this is not a root node and if the user is allowed to remove it: *}
-{section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode',      'content.ini' ) ),
-                  eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ),
-                  eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode',  'content.ini' ) ),
-                  eq( $node.object.can_remove, false() ) ) }
+{section show=$node.object.can_remove|not}
 <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove the item that is being displayed above.'|i18n( 'design/admin/layout' )}"disabled="disabled" />
 {section-else}
 <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" title="{'Click here to remove the item that is being displayed above.'|i18n( 'design/admin/layout' )}" />
@@ -31,7 +28,7 @@
 {* Show node assignment controls if there are more than one assignment or advanced mode is used *}
 {let assigned_nodes=$node.object.current.node_assignments
      assignment_count=$assigned_nodes|count}
-{section show=or( true(), $assigned_nodes|count|gt( 1 ) )}
+{section show=and( $node.can_edit, or( true(), $assigned_nodes|count|gt( 1 ) ) )}
 <form method="post" action={"content/action"|ezurl}>
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -48,7 +45,8 @@
     <th class="main">{'Main'|i18n( 'design/admin/location' )}:</th>
 </tr>
 {section var=assignment loop=$assigned_nodes}
-{let assignment_node=$assignment.node}
+{let assignment_node=$assignment.node
+     assignment_path=$assignment_node.path|append( $assignment_node )}
 {*<tr class="bglight">
     <td class="delete">&nbsp;</td>
     <td class="path">&gt; <a href="/">Top node</a> / <a href="/">First sub node</a> / <a href="/">Another sub node</a> / This node</td>
@@ -60,9 +58,9 @@
     <td class="main"><input type="radio" /></td>
 </tr>*}
 <tr class="bgdark">
-    <td class="delete"><input type="checkbox" name="AssignmentIDSelection[]" {section show=eq( $assignment.parent_node, $node.parent_node_id )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
-    <td class="path">{section var=node_path loop=$assignment_node.path}<a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section} / <a href={$assignment_node.url|ezurl}>{$assignment_node.name|wash}</a></td>
-    <td class="main"><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
+    <td class="delete"><input type="checkbox" name="AssignmentIDSelection[]" {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
+    <td class="path">{section var=node_path loop=$assignment_path}<a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
+    <td class="main"><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=or( $assignment_node.can_edit|not, $assignment_count|le( 1 ) )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
 </tr>
 {/let}
 {/section}

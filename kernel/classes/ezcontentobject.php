@@ -1900,6 +1900,17 @@ class eZContentObject extends eZPersistentObject
         $userID = $user->attribute( 'contentobject_id' );
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
+
+        if ( $functionName == 'remove' )
+        {
+            $mainNode =& $this->attribute( 'main_node' );
+            // We do not allow removal of objects placed at top-level
+            if ( $mainNode->attribute( 'parent_node_id' ) <= 1 )
+            {
+                return 0;
+            }
+        }
+
         if ( $classID === false )
         {
             $classID = $this->attribute( 'contentclass_id' );

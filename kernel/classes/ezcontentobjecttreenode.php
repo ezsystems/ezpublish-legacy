@@ -2605,6 +2605,16 @@ WHERE
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $contentObject =& $this->attribute( 'object' );
+
+        if ( $functionName == 'remove' )
+        {
+            // We do not allow removal of top-level nodes
+            if ( $this->ParentNodeID <= 1 )
+            {
+                return 0;
+            }
+        }
+
         if ( $classID === false )
         {
             $classID = $contentObject->attribute( 'contentclass_id' );
