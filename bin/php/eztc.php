@@ -81,8 +81,6 @@ foreach ( $designList as $design )
     }
 }
 
-$script->initialize();
-
 $script->shutdown();
 
 ?>
