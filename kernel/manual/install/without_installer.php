@@ -1,0 +1,197 @@
+<h1>eZ publish installation without installers</h1>
+
+<ul>
+	<li><a href="#Linux_FreeBSD_Installation">Installation on Linux and FreeBSD</a></li>
+	<ul>
+		<li><a href="#Linux_FreeBSD_Database">Database setup</a></li>
+
+		<li><a href="#Linux_FreeBSD_Demodata">Demo data</a></li>
+		<li><a href="#Linux_FreeBSD_Configure">Configure</a></li>
+		<li><a href="#Linux_FreeBSD_VirtualHost">VirtualHost</a></li>
+	</ul>
+	
+	<li><a href="#Windows_Installation">Installation on Linux and FreeBSD</a></li>
+	<ul>
+		<li><a href="#Windows_Database">Database setup</a></li>
+		<li><a href="#Windows_Demodata">Demo data</a></li>
+		<li><a href="#Windows_Configure">Configure</a></li>
+		<li><a href="#Windows_VirtualHost">VirtualHost</a></li>
+	</ul>
+
+	<li><a href="#MacOS_Installation">Installation on Mac OS X</a></li>
+	<ul>
+		<li><a href="#MacOS_Database">Database setup</a></li>
+		<li><a href="#MacOS_Demodata">Demo data</a></li>
+		<li><a href="#MacOS_Configure">Configure</a></li>
+		<li><a href="#MacOS_VirtualHost">VirtualHost</a></li>
+	</ul>
+</ul>
+
+<h2>Installation on Linux and FreeBSD without installers</h2>
+<ol>
+	<li>Unpack ezpublish-xxx.tar.gz into the <httproot> folder<pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;httproot&gt;</pre></li>
+	<li>Now go to the extracted eZ publish directory <pre class="example"> $ cd &lt;httproot&gt;/ezpublish-xxx/</pre></li>
+	<li>Run the modfix.sh script <pre class="example"> $ bin/modfix.sh</pre></li>
+</ol>
+
+<h3 id="database_setup">Database setup</h3>
+
+<h4>MySQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
+	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysqlgt&; create database &lt;name_of_database&gt;</pre></li>
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost identified by '&lt;password&gt;';</pre></li>
+	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; &lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
+	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; &lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/demokernel.sql </pre></li>
+</ol>
+
+
+<h4 id="">PosgreSQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li>Become the PostgreSQL super user<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
+	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
+	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
+	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt; &lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
+</ol>
+
+<h3>Demo data</h3>
+<p>
+	Demodata is only available for MySQL at the moment.
+</p>
+
+<h3>Configure eZ publish</h3>
+<p>
+	Open &lt;httproot&gt;/ezpublish-xxx/settings/site.ini with your favourite editor
+	and set the correct setting in the [Database Settings] section.
+	You need to select what database implementation you would like to use,
+	hostname of database server to connect to, username, password and database name.
+</p>
+
+<pre class="example">[Database Settings]
+# Use either ezmysql or ezpostgresql
+Database Implementation=ezpostgresql
+# Name of server to connect to
+Server=localhost
+# DB user name
+User=&lt;user&gt;
+# DB Password
+Password=&lt;password&gt;
+# database name you have created on previous step
+Database=&lt;name_of_database&gt;
+</pre>
+
+<h3>Virtualhost setup</h3>
+<p>
+	You can use eZ publish with a virtualhost setup. When using a virtualhost you
+	don't need to specify the index.php in the URL.
+	Below is a sample configuration for virtualhost setup. Include this in your apache config file and restart apache when you are done.
+</p>
+<pre class="example">&lt;Virtualhost &lt;you_ip_address&gt;&gt;
+  &lt;Directory&gt; &lt;httproot&gt;/ezpublish-xxx/&gt;
+    Options FollowSymLinks Indexes ExecCGI
+    AllowOverride None
+  &lt;/Directory&gt;
+
+  RewriteEngine On
+  RewriteRule !\.(gif|css|jpg|png)$ &lt;httproot&gt;/ezpublish-xxx/index.php
+
+  ServerAdmin root@localhost
+  DocumentRoot &lt;httproot&gt;/ezpublish-xxx/
+  ServerName &lt;you_ip_address&gt;
+&lt;/VirtualHost&gt;
+</pre>
+
+<h2 id="Windows_Installation">Installation on Windows without installers</h2>
+<ol>
+	<li>Unpack ezpublish-xxx.tar.gz into the &lt;httproot&gt; folder. Use a program that supports .tar.gz files, like WinZip.</li>
+	<li>Go to &lt;httproot&gt;\ezpublish-xxx</li>
+	<li>Make sure the directory var\cache\ini exists, if not, create it.</li>
+</ol>
+
+<h3>Database setup</h3>
+
+<h4>MySQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the windows version)</li>
+	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
+	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
+	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified by '&lt;password&gt;';</pre>
+	<li>If you don't want demodata <pre class="example">$ mysql.exe -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; &lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql\mysql\kernel_clean.sql</pre></li>
+	If you do want demodata <pre class="example"> $ mysql.exe -u&lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; &lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql/mysql\demokernel.sql</pre></li>
+</ol>
+
+<h3>Demo data</h3>
+<p>
+	Demodata is only available for MySQL. Before you proceed make sure you
+	installed the demokernel.sql file and NOT the kernel_clean.sql file.
+</p>
+<p>
+	To install the demodata all you have to do is unpack the var.tgz file
+</p>
+<ol>
+	<li>Go to &lt;httproot&gt;\ezpublish-xxx</li>
+	<li>unpack var.tgz into &lt;httproot&gt;\ezpublish-xxx</li>
+</ol>
+
+
+<h3>Configure eZ publish</h3>
+<p>
+	Open &lt;httproot&gt/ezpublish-xxx/settings/site.ini in notepad and set the correct settings in the [Database Settings] section.
+	You need to set what database implementation you use, hostname of database
+	server to connect to, user name, password, database name.
+</p>
+<pre class="example">[Database Settings]
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezpostgresql
+# Name of server to connect to
+Server=localhost
+# DB user name
+User=&lgt;user&gt;
+# DB Password
+Password=&lt;password&gt;
+# database name you have created on previous step
+Database=&lt;name_of_database&gt;
+</pre>
+
+<h3>Virtualhost setup</h3>
+<p>
+	You can use eZ publish with a virtualhost setup. When using a virtualhost you don't need to specify the index.php in the URL.
+	Below is a sample configuration for virtualhost setup. Include this in your apache config file and restart apache when you are done.
+</p>
+
+<pre class="example">&lt;VirtualHost &lt;your_ip_adress&gt;>
+  &lt;Directory &lt;httproot&gt;/ezpublish-xxx/&gt;
+    Options FollowSymLinks Indexes ExecCGI
+    AllowOverride None
+  &lt;/Directory&gt;
+
+  RewriteEngine On
+  RewriteRule !\.(gif|css|jpg|png)$ &lt;httproot&gt;/ezpublish-xxx/index.php
+
+  ServerAdmin root@localhost
+  DocumentRoot &lt;httproot&gt;/ezpublish-xxx
+  ServerName &lt;your_ip_adress&gt;
+&lt;/VirtualHost&gt;
+</pre>
+
+<h2>eZ publish installation on Mac without installers</h2>
+
+Not completed
+
+<h3>Database setup</h3>
+<h3>Demo data</h3>
+<h3>Configure eZ publish</h3>
+<h3>Virtualhost setup</h3>

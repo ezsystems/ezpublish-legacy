@@ -9,7 +9,6 @@
 		<li><a href="#FreeBSD">FreeBSD installer</a></li>
 	</ul>
 </ul>
-<br></br>
 
 <p>
 	You have basically four ways of installing eZ publish 3. You can use one of the
@@ -23,7 +22,6 @@
 	don't want to install eZ publish 3 yourself you can always hire eZ systems to
 	install the software for you. You can also buy a ready hosted eZ publish 3 solution.
 </p>
-<br></br>
 
 <h2 id="Requirements"> eZ publish 3 requirements</h2>
 <p>
@@ -34,17 +32,17 @@
 </p>
 
 <ul>
-	<li>PHP >= 4.1.x <br><a href="http://www.php.net">http://www.php.net </a> </br> </li>
-	<li>Apache 1.3 (apache 2.0 might/might not work) <br><a href="http://www.apache.org">http://www.apache.org</a></br> </li>
-	<li>Either MySQL or PostgreSQL <br><a href="http://www.mysql.org">http://www.mysql.org</a></br> <br><a href="http://www.postgresql.org">http://www.postgresql.org</a></br> </li>
-	<li> ImageMagick and/or GD compiled in PHP for image conversion (not required) <br><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></br> </li>
+	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
+	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
+	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
+	<li> ImageMagick and/or GD compiled in PHP for image conversion (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
 <p>
 	The installation process for the above programs are very well documented on
 	their homepage, so we will not include that here.
 </p>
-<br></br>
+
 
 <h2 id="Installers">Install eZ publish 3 with installers</h2>
 <p>
@@ -99,7 +97,7 @@
 	http://localhost:1337 and the default admin site at http://localhost:1338
 </p>
 
-<h3 id ="FreeBSD">FreeBSD installer</h3>
+<h3 id="FreeBSD">FreeBSD installer</h3>
 
 <ol>
 	<li>Open your web browser and go to <a href="http://ez.no/download">http://ez.no/download</a></li>
