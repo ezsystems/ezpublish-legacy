@@ -1,13 +1,13 @@
 {let settings=$handler.settings}
 
 <div class="block">
-    <label>{'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
+    <label>{'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}:</label>
     <input type="checkbox" name="ReceiveDigest_{$handler.id_string}" {$settings.receive_digest|choose( '', checked)} />
 </div>
 
 
 <div class="block">
-<label>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
+<label>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}:</label>
 <table cellspacing="4">
 <tr>
 <td>
