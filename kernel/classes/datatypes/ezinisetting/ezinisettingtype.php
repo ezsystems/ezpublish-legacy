@@ -342,7 +342,7 @@ class eZIniSettingType extends eZDataType
                 }
                 else
                 {
-                    $config->removeGroup( $section );
+                    $config->removeSetting( $section, $parameter );
                 }
             }
             else

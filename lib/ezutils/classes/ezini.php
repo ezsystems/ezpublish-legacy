@@ -1038,6 +1038,19 @@ class eZINI
     }
 
     /*!
+      Removes settings from the group and if the group will become empty it will be
+      removed too.
+    */
+    function removeSetting( $blockName, $settingName )
+    {
+        unset( $this->BlockValues[$blockName][$settingName] );
+        $this->ModifiedBlockValues[$blockName][$variableName] = true;
+
+        if ( $this->BlockValues[$blockName] == null )
+            $this->removeGroup( $blockName );
+    }
+
+    /*!
      Fetches all defined groups and returns them as an associative array
     */
     function &groups()
