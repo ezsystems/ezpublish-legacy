@@ -9,7 +9,7 @@ eZ soap&trade; is a library for SOAP communication. It handles both client and s
 functionality. eZ xml&trade; is used to handle XML manipulations in eZ soap&trade;.
 </p>
 
-<p>eZ soap&trade; definition of SOAP, from the W3C spec:</p>
+<p>Definition of SOAP, from the W3C spec:</p>
 
 <blockquote>SOAP is a lightweight protocol for exchange of information in a decentralized,
   distributed environment. It is an XML based protocol that consists of three
@@ -25,7 +25,7 @@ SOAP Version 1.2</a> standard. Read the <a href='http://www.w3.org/TR/2001/WD-so
 Messaging framework specification</a> for details about messaging with SOAP.
 </p>
 
-<h1>SOAP usage</h1>
+<h2>SOAP usage</h2>
 <p>
 eZ soap&trade; can be used for distributed computing. It's platform and language independent.
 The basis of SOAP is to exchange XML encoded information, using XML namespaces and schemas.
@@ -33,7 +33,7 @@ SOAP can be used in two different ways, either sending a custom XML document or 
 (Remote Procedure Call) protocol. eZ soap&trade; focuses on the latter.
 </p>
 
-<h1>SOAP messages</h1>
+<h2>SOAP messages</h2>
 <p>
 Every SOAP message contains the following elements, SOAP Envelope, Body and an optional Header. The SOAP
 message below shows a simple \"Hello World!\" request. eZ soap&trade; provides a simple, yet powerful,
@@ -92,24 +92,24 @@ $featureArray[] = array( "uri" => "class",
                          "name" => "Class diagram" );
 
 
-$featureArray[] = array( "level" => 0,
-                         "name" => "Datatype examples" );
+// $featureArray[] = array( "level" => 0,
+//                          "name" => "Datatype examples" );
 
-$featureArray[] = array( "uri" => "echostring",
-                         "level" => 1,
-                         "name" => "EchoString" );
-$featureArray[] = array( "uri" => "echostringarray",
-                         "level" => 1,
-                         "name" => "EchoStringArray" );
-$featureArray[] = array( "uri" => "echostruct",
-                         "level" => 1,
-                         "name" => "EchoStruct" );
-$featureArray[] = array( "uri" => "echointeger",
-                         "level" => 1,
-                         "name" => "EchoInteger" );
-$featureArray[] = array( "uri" => "echofloat",
-                         "level" => 1,
-                         "name" => "EchoFloat" );
+// $featureArray[] = array( "uri" => "echostring",
+//                          "level" => 1,
+//                          "name" => "EchoString" );
+// $featureArray[] = array( "uri" => "echostringarray",
+//                          "level" => 1,
+//                          "name" => "EchoStringArray" );
+// $featureArray[] = array( "uri" => "echostruct",
+//                          "level" => 1,
+//                          "name" => "EchoStruct" );
+// $featureArray[] = array( "uri" => "echointeger",
+//                          "level" => 1,
+//                          "name" => "EchoInteger" );
+// $featureArray[] = array( "uri" => "echofloat",
+//                          "level" => 1,
+//                          "name" => "EchoFloat" );
 
 $infoArray["features"] =& $featureArray;
 

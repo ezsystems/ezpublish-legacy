@@ -51,16 +51,16 @@ $featureArray[] = array( "uri" => "mbstring",
                          "name" => "MBString extension" );
 $featureArray[] = array( "uri" => "textcodec",
                          "name" => "TextCodec conversion" );
-$featureArray[] = array( "uri" => "rev_textcodec",
-                         "name" => "Reverse TextCodec conversion" );
+// $featureArray[] = array( "uri" => "rev_textcodec",
+//                          "name" => "Reverse TextCodec conversion" );
 // $featureArray[] = array( "uri" => "output",
 //                          "name" => "Charset output" );
 // $featureArray[] = array( "uri" => "input",
 //                          "name" => "Charset input" );
 $featureArray[] = array( "uri" => "translate",
                          "name" => "Translation" );
-$featureArray[] = array( "uri" => "file_reading",
-                         "name" => "File Reading" );
+// $featureArray[] = array( "uri" => "file_reading",
+//                          "name" => "File Reading" );
 $featureArray[] = array( "uri" => "databases",
                          "name" => "Databases" );
 

@@ -33,13 +33,14 @@
 //
 
 ?>
+<h1>Hello World!</h1>
 <p>
 Every SDK with programming examples must contain a hello world example, eZ soap&trade; is no
 exception. This example shows how you can send a request to a SOAP server and print out the
 result.
 </p>
 
-<h1>Talking with the server</h1>
+<h2>Talking with the server</h2>
 <p>
 The default transport in eZ soap&trade; is HTTP. In this example we set up a client
 object to talk to the server myserver.com and the path /helloworld.
@@ -51,9 +52,9 @@ include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 $client = new eZSOAPClient( "myserver.com", "/helloworld" );
 </pre>
 
-<h1>Sending a request</h1>
+<h2>Sending a request</h2>
 <p>
-You need to prepare a request object which you're going to send. In this example
+You need to prepare a request object to send. In this example
 we have a simple request without any parameters. All we need to do is to give the
 request name, <b>helloWorld</b>, and the target namespace, <b>http://sdk.ez.no/soap/examples</b>.
 This object is then sent to the server via the client.
@@ -65,7 +66,7 @@ $request = new eZSOAPRequest( "helloWorld", "http://sdk.ez.no/soap/examples" );
 $response =& $client->send( $request );
 </pre>
 
-<h1>Response</h1>
+<h2>Response</h2>
 <p>
 When the request is sent you will get a response returned from the server. This response
 will be returned by eZ soap&trade; as a eZSOAPResponse object. If the server returned a fault
@@ -74,8 +75,8 @@ is printed.
 </p>
 
 <p>
-As you can see the values returned from the server is automatically converted to PHP types all the
-encoding/decoding of data is handled by the eZ soap&trade; library.
+As you can see the values returned from the server is automatically converted to PHP types,
+all the encoding/decoding of data is handled by the eZ soap&trade; library.
 </p>
 
 <pre class="example">
@@ -88,11 +89,11 @@ else
     print( "Returned SOAP value was: \"" . $response->value() . "\"" );
 </pre>
 
-<h1>The server</h1>
+<h2>The server</h2>
 <p>
-To create a SOAP server is just as simple as the client. All you need to do is to create a eZSOAPServer
-object. Then you need to register the functions which should be available. These functions is normal
-PHP functions returning normal PHP variables, eZ soap&trade; handles the rest. To process the incomming
+To create a SOAP server is just as simple as the client. All you need to do is to create an eZSOAPServer
+object. Then you need to register the functions which should be available. These functions are normal
+PHP functions returning normal PHP variables, eZ soap&trade; handles the rest. To process the incoming
 request you run the function <b>processRequest()</b>.
 </p>
 
@@ -111,27 +112,26 @@ function helloWorld()
 }
 </pre>
 
-<h1>The running example</h1>
-<p>
-Below you will see this hello world example in action.
-</p>
 <?php
+// <h2>The running example</h2>
+// <p>
+// Below you will see this hello world example in action.
+// </p>
+// <?php
 
-include_once( "lib/ezsoap/classes/ezsoapclient.php" );
-include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
-
-
-$client = new eZSOAPClient( eZSys::hostname(), eZSys::wwwDir() .  eZSys::indexFile() . "/sdk/ezsoap/view/helloworldserver" );
-$request = new eZSOAPRequest( "helloWorld", "http://sdk.ez.no/soap/examples" );
-
-$response =& $client->send( $request );
-
-if ( $response->isFault() )
-{
-    print( "SOAP fault: " . $response->faultCode(). " - " . $response->faultString() . "" );
-}
-else
-    print( "Returned SOAP value was: \"" . $response->value() . "\"" );
+// include_once( "lib/ezsoap/classes/ezsoapclient.php" );
+// include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 
 
+// $client = new eZSOAPClient( eZSys::hostname(), eZSys::wwwDir() .  eZSys::indexFile() . "/sdk/ezsoap/view/helloworldserver" );
+// $request = new eZSOAPRequest( "helloWorld", "http://sdk.ez.no/soap/examples" );
+
+// $response =& $client->send( $request );
+
+// if ( $response->isFault() )
+// {
+//     print( "SOAP fault: " . $response->faultCode(). " - " . $response->faultString() . "" );
+// }
+// else
+//     print( "Returned SOAP value was: \"" . $response->value() . "\"" );
 ?>

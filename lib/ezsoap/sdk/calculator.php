@@ -33,24 +33,27 @@
 //
 
 ?>
+<h1>Simple calculator</h1>
 <p>
-This simple calculator application sends two integer walues to the server.
+This simple calculator application sends two integer values to the server.
 The server adds these numbers and returns the result. This shows how you can
 add parameters to your request and how eZ soap&trade; handles the data types.
 </p>
-<h1>Sending request parameters</h1>
+
+<h2>Sending request parameters</h2>
 <p>
 You can add request parameters with the <b>addParameter</b> function.
 </p>
+
 <pre class="example">
 $request->addParameter( "valueA", 42 );
 $request->addParameter( "valueB", 17 );
 </pre>
 
-<h1>Server handling of parameters</h1>
+<h2>Server handling of parameters</h2>
 <p>
-On the server you have to regsiter the function with the parameters and the types for the
-parameters. Since PHP is a loosely typed language we also have to set the type on the return
+On the server you have to register the function with the parameters and the types for the
+parameters. Since PHP is a loosely typed language we also have to set the type of the return
 value so that eZ soap&trade; knows what type to encode the response as.
 </p>
 
@@ -69,27 +72,28 @@ function addNumbers( $valueA, $valueB )
 }
 </pre>
 
-<h1>The running example</h1>
 <?php
-include_once( "lib/ezsoap/classes/ezsoapclient.php" );
-include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
+// <h2>The running example</h2>
+// <?php
+// include_once( "lib/ezsoap/classes/ezsoapclient.php" );
+// include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 
-$client = new eZSOAPClient( eZSys::hostname(), eZSys::wwwDir() .  eZSys::indexFile() . "/sdk/ezsoap/view/server" );
+// $client = new eZSOAPClient( eZSys::hostname(), eZSys::wwwDir() .  eZSys::indexFile() . "/sdk/ezsoap/view/server" );
 
-$namespace = "http://soapinterop.org/";
+// $namespace = "http://soapinterop.org/";
 
-$request = new eZSOAPRequest( "addNumbers", "http://calkulator.com/simplecalculator" );
+// $request = new eZSOAPRequest( "addNumbers", "http://calkulator.com/simplecalculator" );
 
-$request->addParameter( "valueA", 42 );
-$request->addParameter( "valueB", 17 );
+// $request->addParameter( "valueA", 42 );
+// $request->addParameter( "valueB", 17 );
 
-$response =& $client->send( $request );
+// $response =& $client->send( $request );
 
-if ( $response->isFault() )
-{
-    print( "SOAP fault: " . $response->faultCode(). " - " . $response->faultString() . "" );
-}
-else
-    print( "Returned SOAP value was: \"" . $response->value() . "\"" );
+// if ( $response->isFault() )
+// {
+//     print( "SOAP fault: " . $response->faultCode(). " - " . $response->faultString() . "" );
+// }
+// else
+//     print( "Returned SOAP value was: \"" . $response->value() . "\"" );
 
 ?>

@@ -32,32 +32,51 @@
 // you.
 //
 
+?>
+
+<h1>Codepage mapping</h1>
+
+<p>
+Mapping from one codepage to another can be done using the eZCodePageMapper class,
+it provides instantaneous mapping from one character code in one charset to the
+code in the other charset.
+</p>
+
+<img src="/doc/images/codepage_mapping.jpg"/>
+
+<p>
+This table can be produced by the following code.
+Table <b>1</b> shows the charset to map from, table <b>2</b> shows the charset to map to
+and table <b>3</b> shows the characters that could be mapped.
+</p>
+
+<pre class="example">
 function displayCharsetTable( $values,
                               $x_start, $x_stop,
                               $y_start, $y_stop )
 {
-    print( "<table>\n<tr><td></td>" );
-    for ( $x = $x_start; $x < $x_stop; ++$x )
-        print( "<td>$x</td>" );
-    print( "</tr>\n" );
-    for ( $y = $y_start; $y < $y_stop; ++$y )
+    print( "&lt;table&gt;\n&lt;tr&gt;&lt;td&gt;&lt;/td&gt;" );
+    for ( $x = $x_start; $x &lt; $x_stop; ++$x )
+        print( "&lt;td&gt;$x&lt;/td&gt;" );
+    print( "&lt;/tr&gt;\n" );
+    for ( $y = $y_start; $y &lt; $y_stop; ++$y )
     {
-        print( "<tr><td>$y</td>" );
-        for ( $x = $x_start; $x < $x_stop; ++$x )
+        print( "&lt;tr&gt;&lt;td&gt;$y&lt;/td&gt;" );
+        for ( $x = $x_start; $x &lt; $x_stop; ++$x )
         {
             if ( isset( $values[$x][$y] ) )
             {
                 $value = $values[$x][$y];
                 $char_utf8 = htmlspecialchars( $value[0] );
                 $char_code = $value[1];
-                print( "<td>$char_utf8</td>" );
+                print( "&lt;td&gt;$char_utf8&lt;/td&gt;" );
             }
             else
-                print( "<td></td>" );
+                print( "&lt;td&gt;&lt;/td&gt;" );
         }
-        print( "</tr>\n" );
+        print( "&lt;/tr&gt;\n" );
     }
-    print( "</table>\n" );
+    print( "&lt;/table&gt;\n" );
 }
 
 function generateCharsetTable( &$values, &$codepage,
@@ -65,12 +84,12 @@ function generateCharsetTable( &$values, &$codepage,
                                $y_start, $y_stop )
 {
     $values = array();
-    for ( $y = $y_start; $y < $y_stop; ++$y )
+    for ( $y = $y_start; $y &lt; $y_stop; ++$y )
     {
-        for ( $x = $x_start; $x < $x_stop; ++$x )
+        for ( $x = $x_start; $x &lt; $x_stop; ++$x )
         {
             $code = ($y*$y_stop) + $x;
-            $utf8 = $codepage->codeToUtf8( $code );
+            $utf8 = $codepage-&gt;codeToUtf8( $code );
             $values[$x][$y] = array( $utf8, $code );
         }
     }
@@ -78,27 +97,22 @@ function generateCharsetTable( &$values, &$codepage,
 
 header( "Content-Type: text/html; charset=utf8" );
 
-$Result = array();
-$Result["title"] = "Codepage mapping";
-$Result["content"] = "";
-
 include_once( "lib/ezi18n/classes/ezcodepagemapper.php" );
+include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $input_charset = "cyrillic";
 $output_charset = "wincyrillic";
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 $http =& eZHTTPTool::instance();
-if ( $http->hasPostVariable( "ChangeCharset" ) )
+if ( $http-&gt;hasPostVariable( "ChangeCharset" ) )
 {
-    if ( $http->hasPostVariable( "InputCharset" ) )
+    if ( $http-&gt;hasPostVariable( "InputCharset" ) )
     {
-        $input_charset = $http->postVariable( "InputCharset" );
+        $input_charset = $http-&gt;postVariable( "InputCharset" );
     }
-    if ( $http->hasPostVariable( "OutputCharset" ) )
+    if ( $http-&gt;hasPostVariable( "OutputCharset" ) )
     {
-        $output_charset = $http->postVariable( "OutputCharset" );
+        $output_charset = $http-&gt;postVariable( "OutputCharset" );
     }
 }
 
@@ -106,25 +120,17 @@ $input_codepage =& eZCodePage::instance( $input_charset );
 $output_codepage =& eZCodePage::instance( $output_charset );
 $codepage_mapper =& eZCodePageMapper::instance( $input_charset, $output_charset );
 
-$text = "abc123[];רזו₪½";
-// $text = "abc123[];רזו" . chr( 0xa4 ) . chr( 0xbc );
-
 print( "
-<form action=\"\" method=\"post\" name=\"CodepageMapping\">
-<p>
-Mapping from one codepage to another can be done using the eZCodePageMapper class,
-it provides instantaneous mapping from one character code in one charset to the
-code in the other charset.
-</p>
-<p>
-Table <b>1</b> shows the charset to map from, table <b>2</b> shows the charset to map to
-and table <b>3</b> shows the characters that could be mapped.
-</p>
+&lt;form action=\"\" method=\"post\" name=\"CodepageMapping\"&gt;
+&lt;p&gt;
+Table &lt;b&gt;1&lt;/b&gt; shows the charset to map from, table &lt;b&gt;2&lt;/b&gt; shows the charset to map to
+and table &lt;b&gt;3&lt;/b&gt; shows the characters that could be mapped.
+&lt;/p&gt;
 
-<p class=\"footnote\">
+&lt;p class=\"footnote\"&gt;
 This page uses utf8 output to allow displaying two different charsets at the same time,
 you might not see all characters depending on your font support.
-</p>
+&lt;/p&gt;
 " );
 
 
@@ -136,13 +142,13 @@ generateCharsetTable( $output_values, $output_codepage,
                       0, 16 );
 
 $mapped_values = array();
-for ( $y = 0; $y < 16; ++$y )
+for ( $y = 0; $y &lt; 16; ++$y )
 {
-    for ( $x = 0; $x < 16; ++$x )
+    for ( $x = 0; $x &lt; 16; ++$x )
     {
         $input_code = ($y*16) + $x;
-        $output_code = $codepage_mapper->mapInputCode( $input_code );
-        $output_utf8 = $output_codepage->codeToUtf8( $output_code );
+        $output_code = $codepage_mapper-&gt;mapInputCode( $input_code );
+        $output_utf8 = $output_codepage-&gt;codeToUtf8( $output_code );
         $output_x = ( $output_code % 16 );
         $output_y = ( $output_code / 16 );
         $mapped_values[$output_x][$output_y] = array( $output_utf8, $input_code );
@@ -151,49 +157,48 @@ for ( $y = 0; $y < 16; ++$y )
 
 $charset_list = eZCodePage::codepageList();
 
-print( "<table width=\"100%\">
-<tr><td>
-<select name=\"InputCharset\">" );
+print( "&lt;table width=\"100%\"&gt;
+&lt;tr&gt;&lt;td&gt;
+&lt;select name=\"InputCharset\"&gt;" );
 foreach( $charset_list as $charset )
 {
-    print( "<option value=\"$charset\" " . ( $input_codepage->charsetCode() == $charset ? "selected=\"selected\"" : "" ) . ">$charset</option>" );
+    print( "&lt;option value=\"$charset\" " . ( $input_codepage-&gt;charsetCode() == $charset ? "selected=\"selected\"" : "" ) . "&gt;$charset&lt;/option&gt;" );
 }
-print( "</select>
-</td><td>
-<select name=\"OutputCharset\">" );
+print( "&lt;/select&gt;
+&lt;/td&gt;&lt;td&gt;
+&lt;select name=\"OutputCharset\"&gt;" );
 foreach( $charset_list as $charset )
 {
-    print( "<option value=\"$charset\" " . ( $output_codepage->charsetCode() == $charset ? "selected=\"selected\"" : "" ) . ">$charset</option>" );
+    print( "&lt;option value=\"$charset\" " . ( $output_codepage-&gt;charsetCode() == $charset ? "selected=\"selected\"" : "" ) . "&gt;$charset&lt;/option&gt;" );
 }
-print( "</select>
+print( "&lt;/select&gt;
 
-</td><td>
-<input class=\"stdbutton\" type=\"submit\" Name=\"ChangeCharset\" value=\"Change charset\">
-</td></tr>
-<tr><td>" );
-print( "<h2>1. " . $input_codepage->charsetCode() );
-if ( $input_codepage->charsetCode() != $input_codepage->requestedCharsetCode() )
-    print( "(" . $input_codepage->requestedCharsetCode() . ")" );
-print( "</h2>" );
+&lt;/td&gt;&lt;td&gt;
+&lt;input class=\"stdbutton\" type=\"submit\" Name=\"ChangeCharset\" value=\"Change charset\"&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;" );
+print( "&lt;h2&gt;1. " . $input_codepage-&gt;charsetCode() );
+if ( $input_codepage-&gt;charsetCode() != $input_codepage-&gt;requestedCharsetCode() )
+    print( "(" . $input_codepage-&gt;requestedCharsetCode() . ")" );
+print( "&lt;/h2&gt;" );
 displayCharsetTable( $input_values,
                      0, 16,
                      0, 16 );
-print( "</td><td>" );
-print( "<h2>2. " . $output_codepage->charsetCode() );
-if ( $output_codepage->charsetCode() != $output_codepage->requestedCharsetCode() )
-    print( "(" . $output_codepage->requestedCharsetCode() . ")" );
-print( "</h2>" );
+print( "&lt;/td&gt;&lt;td&gt;" );
+print( "&lt;h2&gt;2. " . $output_codepage-&gt;charsetCode() );
+if ( $output_codepage-&gt;charsetCode() != $output_codepage-&gt;requestedCharsetCode() )
+    print( "(" . $output_codepage-&gt;requestedCharsetCode() . ")" );
+print( "&lt;/h2&gt;" );
 displayCharsetTable( $output_values,
                      0, 16,
                      0, 16 );
-print( "</td>" );
-print( "<td colspan=\"2\">" );
-print( "<h2>3. " . $input_codepage->charsetCode() . " => " . $output_codepage->charsetCode() . "</h2>" );
+print( "&lt;/td&gt;" );
+print( "&lt;td colspan=\"2\"&gt;" );
+print( "&lt;h2&gt;3. " . $input_codepage-&gt;charsetCode() . " =&gt; " . $output_codepage-&gt;charsetCode() . "&lt;/h2&gt;" );
 displayCharsetTable( $mapped_values,
                      0, 16,
                      0, 16 );
-print( "</td></tr>" );
-print( "</table>" );
-print( "</form>" );
-
-?>
+print( "&lt;/td&gt;&lt;/tr&gt;" );
+print( "&lt;/table&gt;" );
+print( "&lt;/form&gt;" );
+</pre>

@@ -26,7 +26,7 @@ if ( $response->isFault() )
 }
 else
 {
-    print( "Returned SOAP value was: \"" . $response->value() . "\"" );
+    print( "Returned SOAP value was: \"" . $response->value() . "\"<br/>" );
 
     foreach ( $response->value() as $item )
     {

@@ -1,4 +1,4 @@
-<h1>Translation of text</h1>
+<h1>Translation</h1>
 
 <p>
 By using the Translation Manager it's possible to do translation of text into other languages or other forms.
@@ -35,12 +35,87 @@ comment can't be found.
 </p>
 
 <h2>Example</h2>
-<p>The table below shows a test translation, notice that the <b>Store Draft</b> source is translated
-to 1337 because there was no manual translation available.</p>
-<br/>
+<p>
+The table below shows a test translation to Norwegian, notice that the <b>Store Draft</b> source is
+translated to 1337 because there was no manual translation available.
+</p>
 
-<?php
+<img src="/doc/images/translation.jpg"/>
 
+<p>
+The table was produced by the following .ts file:
+</p>
+
+<pre class="example">
+&lt;!DOCTYPE TS&gt;&lt;TS&gt;
+&lt;context&gt;
+    &lt;name&gt;edit&lt;/name&gt;
+    &lt;message&gt;
+        &lt;source&gt;Preview&lt;/source&gt;
+        &lt;translation&gt;Forhaandsvisning&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Preview&lt;/source&gt;
+        &lt;comment&gt;side-pane&lt;/comment&gt;
+        &lt;translation&gt;Vis fram&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Versions&lt;/source&gt;
+        &lt;translation&gt;Versjoner&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Versions&lt;/source&gt;
+        &lt;comment&gt;side-pane&lt;/comment&gt;
+        &lt;translation&gt;Tidligere verk&lt;/translation&gt;
+    &lt;/message&gt;
+&lt;/context&gt;
+&lt;context&gt;
+    &lt;name&gt;default&lt;/name&gt;
+    &lt;message&gt;
+        &lt;source&gt;Preview&lt;/source&gt;
+        &lt;translation&gt;Vis&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Versions&lt;/source&gt;
+        &lt;translation&gt;Versjon liste&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Translate&lt;/source&gt;
+        &lt;translation&gt;Oversett&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Permission&lt;/source&gt;
+        &lt;translation&gt;Rettigheter&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Some text&lt;/source&gt;
+        &lt;translation&gt;Litt tekst&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Store Draft&lt;/source&gt;
+        &lt;translation  type='unfinished'&gt;&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Send for publishing&lt;/source&gt;
+        &lt;translation&gt;Send til publisering&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Discard&lt;/source&gt;
+        &lt;translation&gt;Fjern&lt;/translation&gt;
+    &lt;/message&gt;
+    &lt;message&gt;
+        &lt;source&gt;Find object&lt;/source&gt;
+        &lt;translation&gt;Finn objekt&lt;/translation&gt;
+    &lt;/message&gt;
+&lt;/context&gt;
+&lt;/TS&gt;
+</pre>
+
+<p>
+And the following code:
+</p>
+
+<pre class="example">
 include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
 include_once( "lib/ezi18n/classes/eztstranslator.php" );
 include_once( "lib/ezi18n/classes/ez1337translator.php" );
@@ -51,20 +126,20 @@ eZ1337Translator::initialize();
 
 $texts = array(
     "Preview",
-    array( "source" => "Preview",
-           "context" => "edit" ),
-    array( "source" => "Preview",
-           "context" => "edit",
-           "comment" => "side-pane" ),
-    array( "source" => "Preview",
-           "context" => "edit",
-           "comment" => "bottom-pane" ),
+    array( "source" =&gt; "Preview",
+           "context" =&gt; "edit" ),
+    array( "source" =&gt; "Preview",
+           "context" =&gt; "edit",
+           "comment" =&gt; "side-pane" ),
+    array( "source" =&gt; "Preview",
+           "context" =&gt; "edit",
+           "comment" =&gt; "bottom-pane" ),
     "Versions",
-    array( "source" => "Versions",
-           "context" => "edit" ),
-    array( "source" => "Versions",
-           "context" => "edit",
-           "comment" => "side-pane" ),
+    array( "source" =&gt; "Versions",
+           "context" =&gt; "edit" ),
+    array( "source" =&gt; "Versions",
+           "context" =&gt; "edit",
+           "comment" =&gt; "side-pane" ),
     "Translate",
     "Permission",
     "Some text",
@@ -74,10 +149,10 @@ $texts = array(
     "Find object"
     );
 
-print( '<table cellspacing="0">
-<tr>
-  <th>Context</th><th>Source</th><th>Comment</th><th>Translation(nor-NO)</th>
-</tr>
+print( '&lt;table cellspacing="0"&gt;
+&lt;tr&gt;
+  &lt;th&gt;Context&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Comment&lt;/th&gt;&lt;th&gt;Translation(nor-NO)&lt;/th&gt;
+&lt;/tr&gt;
 ');
 
 $seq = array( "bgdark", "bglight" );
@@ -100,19 +175,14 @@ foreach( $texts as $text )
         $source = $text;
     $class = array_pop( $seq );
     array_splice( $seq, 0, 0, array( $class ) );
-    $translation = $trans->translate( $context, $source, $comment );
+    $translation = $trans-&gt;translate( $context, $source, $comment );
     if ( $context == "" )
         $context = "default";
-    print( "<tr>
-  <td class=\"$class\">$context</td><td class=\"$class\">$source</td><td class=\"$class\">$comment</td><td class=\"$class\">$translation</td>
-</tr>
+    print( "&lt;tr&gt;
+  &lt;td class=\"$class\"&gt;$context&lt;/td&gt;&lt;td class=\"$class\"&gt;$source&lt;/td&gt;&lt;td class=\"$class\"&gt;$comment&lt;/td&gt;&lt;td class=\"$class\"&gt;$translation&lt;/td&gt;
+&lt;/tr&gt;
 " );
 }
 
-print( '</table>' );
-
-$Result = array();
-$Result["title"] = "Translation";
-$Result["content"] = "";
-
-?>
+print( '&lt;/table&gt;' );
+</pre>

@@ -1,99 +1,44 @@
 <?php
+//
+// Created on: <04-Jun-2002 12:31:42 bf>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
 
-$Result = array();
-$Result["title"] = "MBString";
-$Result["content"] = "";
+?>
 
-include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
+<h1>MBString extension</h1>
 
-header( "Content-Type: text/html; charset=utf8" );
-
-if ( !eZMBStringMapper::hasMBStringExtension() )
-{
-    print( "<h1>No mbstring extension</h1>
 <p>
-The mbstring extension is not compiled in, please
-see <a href=\"http://www.php.net/manual/en/ref.mbstring.php\">http://www.php.net/manual/en/ref.mbstring.php</a>
-for more information on how to compile it.
-</p>" );
-    return;
-}
-
-$latinstr = "";
-for ( $i = 0x41; $i < 0x60; ++$i )
-    $latinstr .= chr( $i );
-
-$cyrstr = "";
-for ( $i = 0xb0; $i < 0xd0; ++$i )
-    $cyrstr .= chr( $i );
-
-$greekstr = "";
-for ( $i = 0xc1; $i < 0xe0; ++$i )
-    $greekstr .= chr( $i );
-
-$hebrewstr = "";
-for ( $i = 0xe0; $i < 0xfb; ++$i )
-    $hebrewstr .= chr( $i );
-
-$arabicstr = "";
-for ( $i = 0xc0; $i < 0xdf; ++$i )
-    $arabicstr .= chr( $i );
-
-$northeurstr = "";
-for ( $i = 0xc0; $i < 0xe0; ++$i )
-    $northeurstr .= chr( $i );
-
-$sjisstr = "";
-for ( $i = 0x829f; $i < 0x82c2; ++$i )
-    $sjisstr .= chr( $i >> 8 ) . chr( $i & 0xff );
-
-$sjisstr2 = "";
-for ( $i = 0x8340; $i < 0x8362; ++$i )
-    $sjisstr2 .= chr( $i >> 8 ) . chr( $i & 0xff );
-
-$sjisstr3 = "";
-for ( $i = 0x889f; $i < 0x88cb; ++$i )
-    $sjisstr3 .= chr( $i >> 8 ) . chr( $i & 0xff );
-
-$sjisstr4 = "";
-for ( $i = 0xa6; $i < 0xc5; ++$i )
-    $sjisstr4 .= chr( $i );
-
-$convert_list = array( array( "text" => $latinstr,
-                              "charset" => "iso-8859-1",
-                              "name" => "Latin1" ),
-                       array( "text" => $cyrstr,
-                              "charset" => "cyrillic",
-                              "name" => "Cyrillic" ),
-                       array( "text" => $greekstr,
-                              "charset" => "iso-8859-7",
-                              "name" => "Greek" ),
-                       array( "text" => $northeurstr,
-                              "charset" => "iso-8859-4",
-                              "name" => "Northern Europe" ),
-                       array( "text" => $hebrewstr,
-                              "charset" => "iso-8859-8",
-                              "name" => "Hebrew" ),
-                       array( "text" => $arabicstr,
-                              "charset" => "iso-8859-6",
-                              "name" => "Arabic" ),
-                       array( "text" => $sjisstr,
-                              "charset" => "sjis",
-                              "name" => "Hiragana" ),
-                       array( "text" => $sjisstr2,
-                              "charset" => "sjis",
-                              "name" => "Katakana" ),
-                       array( "text" => $sjisstr3,
-                              "charset" => "sjis",
-                              "name" => "CJK Unified" ),
-                       array( "text" => $sjisstr4,
-                              "charset" => "sjis",
-                              "name" => "Halfwidth Katakana" )
-                       );
-
-print( "<p>
 The mbstring extension allows for some charset conversions such as iso-8859-1, utf8 and sjis.
-This extension is however not part of the standard compiled PHP modules out there so will only
+This extension is however not part of the standard compiled PHP modules out there so it will only
 be an optional but faster way to do charset conversion.
 </p>
 
@@ -101,24 +46,122 @@ be an optional but faster way to do charset conversion.
 The table below displays some of the various charsets it can convert and it's utf8 conversion. Using
 utf8 allows us to display the various characters in one page.
 </p>
+
+<img src="/doc/images/mbstring.jpg"/>
+
+<p>
+This table can be produced by the following code:
+</p>
+
+<pre class="example">
+include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
+
+header( "Content-Type: text/html; charset=utf8" );
+
+if ( !eZMBStringMapper::hasMBStringExtension() )
+{
+    print( "&lt;h1&gt;No mbstring extension&lt;/h1&gt;
+&lt;p&gt;
+The mbstring extension is not compiled in, please
+see &lt;a href=\"http://www.php.net/manual/en/ref.mbstring.php\"&gt;http://www.php.net/manual/en/ref.mbstring.php&lt;/a&gt;
+for more information on how to compile it.
+&lt;/p&gt;" );
+    return;
+}
+
+$latinstr = "";
+for ( $i = 0x41; $i &lt; 0x60; ++$i )
+    $latinstr .= chr( $i );
+
+$cyrstr = "";
+for ( $i = 0xb0; $i &lt; 0xd0; ++$i )
+    $cyrstr .= chr( $i );
+
+$greekstr = "";
+for ( $i = 0xc1; $i &lt; 0xe0; ++$i )
+    $greekstr .= chr( $i );
+
+$hebrewstr = "";
+for ( $i = 0xe0; $i &lt; 0xfb; ++$i )
+    $hebrewstr .= chr( $i );
+
+$arabicstr = "";
+for ( $i = 0xc0; $i &lt; 0xdf; ++$i )
+    $arabicstr .= chr( $i );
+
+$northeurstr = "";
+for ( $i = 0xc0; $i &lt; 0xe0; ++$i )
+    $northeurstr .= chr( $i );
+
+$sjisstr = "";
+for ( $i = 0x829f; $i &lt; 0x82c2; ++$i )
+    $sjisstr .= chr( $i &gt;&gt; 8 ) . chr( $i & 0xff );
+
+$sjisstr2 = "";
+for ( $i = 0x8340; $i &lt; 0x8362; ++$i )
+    $sjisstr2 .= chr( $i &gt;&gt; 8 ) . chr( $i & 0xff );
+
+$sjisstr3 = "";
+for ( $i = 0x889f; $i &lt; 0x88cb; ++$i )
+    $sjisstr3 .= chr( $i &gt;&gt; 8 ) . chr( $i & 0xff );
+
+$sjisstr4 = "";
+for ( $i = 0xa6; $i &lt; 0xc5; ++$i )
+    $sjisstr4 .= chr( $i );
+
+$convert_list = array( array( "text" =&gt; $latinstr,
+                              "charset" =&gt; "iso-8859-1",
+                              "name" =&gt; "Latin1" ),
+                       array( "text" =&gt; $cyrstr,
+                              "charset" =&gt; "cyrillic",
+                              "name" =&gt; "Cyrillic" ),
+                       array( "text" =&gt; $greekstr,
+                              "charset" =&gt; "iso-8859-7",
+                              "name" =&gt; "Greek" ),
+                       array( "text" =&gt; $northeurstr,
+                              "charset" =&gt; "iso-8859-4",
+                              "name" =&gt; "Northern Europe" ),
+                       array( "text" =&gt; $hebrewstr,
+                              "charset" =&gt; "iso-8859-8",
+                              "name" =&gt; "Hebrew" ),
+                       array( "text" =&gt; $arabicstr,
+                              "charset" =&gt; "iso-8859-6",
+                              "name" =&gt; "Arabic" ),
+                       array( "text" =&gt; $sjisstr,
+                              "charset" =&gt; "sjis",
+                              "name" =&gt; "Hiragana" ),
+                       array( "text" =&gt; $sjisstr2,
+                              "charset" =&gt; "sjis",
+                              "name" =&gt; "Katakana" ),
+                       array( "text" =&gt; $sjisstr3,
+                              "charset" =&gt; "sjis",
+                              "name" =&gt; "CJK Unified" ),
+                       array( "text" =&gt; $sjisstr4,
+                              "charset" =&gt; "sjis",
+                              "name" =&gt; "Halfwidth Katakana" )
+                       );
+
+print( "&lt;p&gt;
+The table below displays some of the various charsets it can convert and it's utf8 conversion. Using
+utf8 allows us to display the various characters in one page.
+&lt;/p&gt;
 " );
 
-print( "<table>
-<tr><th>Requested charset</th><th>Charset</th><th>Name</th><th>Text</th><th>Original strlen</th><th>Correct strlen</th></tr>\n" );
+print( "&lt;table&gt;
+&lt;tr&gt;&lt;th&gt;Requested charset&lt;/th&gt;&lt;th&gt;Charset&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Text&lt;/th&gt;&lt;th&gt;Original strlen&lt;/th&gt;&lt;th&gt;Correct strlen&lt;/th&gt;&lt;/tr&gt;\n" );
 foreach( $convert_list as $convert_item )
 {
     $charset = $convert_item["charset"];
     $text = $convert_item["text"];
     $name = $convert_item["name"];
     $mb =& eZMBStringMapper::instance( $charset, "utf-8" );
-    $req_charset = $mb->requestedInputCharsetCode();
-    $charset = $mb->inputCharsetCode();
+    $req_charset = $mb-&gt;requestedInputCharsetCode();
+    $charset = $mb-&gt;inputCharsetCode();
 
-    $out = $mb->convertString( $text );
-    print( "<tr><td>$req_charset</td><td>$charset</td><td>$name</td><td>$out</td><td>" . strlen( $text ) . "</td><td>" . $mb->strlen( $text ) . "</td></tr>\n" );
+    $out = $mb-&gt;convertString( $text );
+    print( "&lt;tr&gt;&lt;td&gt;$req_charset&lt;/td&gt;&lt;td&gt;$charset&lt;/td&gt;&lt;td&gt;$name&lt;/td&gt;&lt;td&gt;$out&lt;/td&gt;&lt;td&gt;" . strlen( $text ) . "&lt;/td&gt;&lt;td&gt;" . $mb-&gt;strlen( $text ) . "&lt;/td&gt;&lt;/tr&gt;\n" );
 }
-print( "</table>
-<p class=\"footnote\">Not all characters may be visible depending on your browser font support.</p>
+print( "&lt;/table&gt;
+&lt;p class=\"footnote\"&gt;Not all characters may be visible depending on your browser font support.&lt;/p&gt;
 " );
-
-?>
+</pre>
