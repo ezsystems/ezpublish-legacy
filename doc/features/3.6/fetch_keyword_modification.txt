@@ -1,0 +1,14 @@
+*Title: Type of parameter 'classid' changed in fetch keyword function
+
+*Documentation:
+Fetch keyword function has one parameter 'classid', which can only be interger before 3.6.
+Now it can be either a single class id or an array of class id.
+
+*Example:
+The following example will explain how to use keyword fetch function:
+
+<code>
+{let kword_list=fetch('content','keyword',hash(alphabet,$alphabet,limit,10,offset,$view_parameters.offset,classid,array(26, 32)))}
+code
+{/let}
+</code>
