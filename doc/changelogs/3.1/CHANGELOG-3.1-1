@@ -46,7 +46,7 @@ Admin:
 - Added document describing authentication and authorization handling in eZ publish
 
 *SDK :
-- Swaped the last two images in the main concepts tutorial.
+- Swapped the last two images in the main concepts tutorial.
 
 *Library :
 eZUtils:
@@ -86,3 +86,7 @@ site.ini:
 
 siteaccess/admin/site.ini.append:
 - Removed errorhandler setting.
+
+*New files:
+design/standard/templates/content/edit_draft.tpl:
+- Template for draft overview when editing objects.
