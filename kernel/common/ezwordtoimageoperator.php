@@ -87,10 +87,6 @@ class eZWordToImageOperator
             case 'mimetype_icon':
             case 'class_icon':
             {
-                if ( $operatorName == 'mimetype_icon' )
-                    $subdir = 'mimetypes';
-                else if ( $operatorName == 'class_icon' )
-                    $subdir = 'classes';
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'IconSettings', 'Theme' );
@@ -118,6 +114,14 @@ class eZWordToImageOperator
                 {
                     $width = (int)substr( $size, 0, $xDivider );
                     $height = (int)substr( $size, $xDivider + 1 );
+                }
+                if ( isset( $operatorParameters[1] ) )
+                {
+                    $altText = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                }
+                else
+                {
+                    $altText = $operatorValue;
                 }
 
                 if ( $operatorName == 'mimetype_icon' )
@@ -161,7 +165,7 @@ class eZWordToImageOperator
                     }
                 }
 
-                $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $subdir . '/' . $icon;
+                $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $icon;
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
@@ -172,7 +176,7 @@ class eZWordToImageOperator
                     $sizeText = ' width="' . $width . '" height="' . $height . '"';
                 }
 
-                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $operatorValue ) . '" />';
+                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $altText ) . '" title="' . htmlspecialchars( $altText ) . '" />';
             } break;
 
             default:
