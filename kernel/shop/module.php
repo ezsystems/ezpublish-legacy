@@ -85,18 +85,18 @@ $ViewList["removeorder"] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
 
-$ViewList["customlist"] = array(
+$ViewList["customerlist"] = array(
     "functions" => array( 'adminstrate' ),
-    "script" => "customlist.php",
+    "script" => "customerlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( 'offset' => 'Offset' ),
     "params" => array(  ) );
 
-$ViewList["customorderview"] = array(
+$ViewList["customerorderview"] = array(
     "functions" => array( 'adminstrate' ),
-    "script" => "customorderview.php",
+    "script" => "customerorderview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array( "CustomID", "Email" ) );
+    "params" => array( "CustomerID", "Email" ) );
 
 $ViewList["statistic"] = array(
     "functions" => array( 'adminstrate' ),

@@ -51,12 +51,12 @@ $tpl =& templateInit();
 
 $http =& eZHttpTool::instance();
 
-$customArray =& eZOrder::customList( $offset, $limit );
+$customerArray =& eZOrder::customerList( $offset, $limit );
 
-$customCount =& eZOrder::customCount();
+$customerCount =& eZOrder::customerCount();
 
-$tpl->setVariable( "custom_list", $customArray );
-$tpl->setVariable( "custom_list_count", $customCount );
+$tpl->setVariable( "customer_list", $customerArray );
+$tpl->setVariable( "customer_list_count", $customerCount );
 $tpl->setVariable( "limit", $limit );
 
 $viewParameters = array( 'offset' => $offset );
@@ -64,12 +64,12 @@ $tpl->setVariable( "module", $module );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Custom list' ),
+$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Customer list' ),
                  'url' => false );
 
 $Result = array();
 $Result['path'] =& $path;
 
-$Result['content'] =& $tpl->fetch( "design:shop/customlist.tpl" );
+$Result['content'] =& $tpl->fetch( "design:shop/customerlist.tpl" );
 
 ?>

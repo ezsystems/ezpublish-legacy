@@ -519,7 +519,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \returns number of customs.
     */
-    function &customCount( )
+    function &customerCount( )
     {
         $db =& eZDB::instance();
         $countArray = $db->arrayQuery(  "SELECT count( DISTINCT email) AS count FROM ezorder WHERE is_temporary='0'" );
@@ -530,7 +530,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the list customs.
     */
-    function &customList( $offset, $limit )
+    function &customerList( $offset, $limit )
     {
         $db =& eZDB::instance();
 

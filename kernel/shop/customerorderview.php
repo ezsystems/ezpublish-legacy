@@ -38,7 +38,7 @@
 /*! \file customorderview.php
 */
 
-$CustomID = $Params['CustomID'];
+$CustomerID = $Params['CustomerID'];
 $Email = $Params['Email'];
 $module =& $Params['Module'];
 include_once( "kernel/common/template.php" );
@@ -50,16 +50,16 @@ $http =& eZHTTPTool::instance();
 $tpl =& templateInit();
 
 $Email = urldecode( $Email );
-$productList =& eZOrder::productList( $CustomID, $Email );
-$orderList =& eZOrder::orderList( $CustomID, $Email );
+$productList =& eZOrder::productList( $CustomerID, $Email );
+$orderList =& eZOrder::orderList( $CustomerID, $Email );
 
 $tpl->setVariable( "product_list", $productList );
 
 $tpl->setVariable( "order_list", $orderList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/customorderview.tpl" );
+$Result['content'] =& $tpl->fetch( "design:shop/customerorderview.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/shop', ' Custom order view' ) ) );
+                                'text' => ezi18n( 'kernel/shop', ' Customer order view' ) ) );
 
 ?>
