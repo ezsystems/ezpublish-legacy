@@ -206,6 +206,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 $isBlockTag = true;
                 $objectID = $tag->attributeValue( 'id' );
+                // fetch attributes
+                $objectAttributes =& $tag->attributes();
                 $object =& eZContentObject::fetch( $objectID );
                 $view = $tag->attributeValue( 'view' );
                 $alignment = $tag->attributeValue( 'align' );
@@ -213,6 +215,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $src = "";
                 $classID = $object->attribute( 'contentclass_id' );
 
+                $objectParameters = array();
+                foreach ( $objectAttributes as $attribute )
+                {
+                    $objectParameters[$attribute->name()] = $attribute->content();
+                }
+
+                /*
                 $domain = getenv( 'HTTP_HOST' );
                 $URL = "http://" . $domain;
                 $URL .= eZSys::wwwDir();
@@ -254,13 +263,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $parameters = array();
                 $item = array( "alignment" => $alignment ,
                                "src" => $srcString );
+
+                */
                 $parameters[] = $item;
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
 
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
-                $tpl->setVariable( 'parameters', $parameters, 'xmltagns' );
+                $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
