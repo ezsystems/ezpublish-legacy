@@ -64,6 +64,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperato
                                     'class' => 'eZTreeMenuOperator',
                                     'operator_names' => array( 'treemenu' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezcontentstructuretreeoperator.php',
+                                    'class' => 'eZContentStructureTreeOperator',
+                                    'operator_names' => array( 'content_structure_tree' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
                                     'class' => 'eZWordToImageOperator',
                                     'operator_names' => array( 'wordtoimage', 'mimetype_icon', 'class_icon', 'classgroup_icon' ) );
