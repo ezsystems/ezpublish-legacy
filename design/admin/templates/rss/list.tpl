@@ -1,12 +1,39 @@
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function toggleCheckboxes( formname, checkboxname )
+{
+    with( formname )
+        {
+        for( var i=0; i<elements.length; i++ )
+        {
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
+            }
+    }
+}
+//-->
+</script>
+{/literal}
+
 <div class="context-block">
 <h2 class="context-title">{'RSS exports [%exports_count]'|i18n( 'design/admin/rss/list',, hash( '%exports_count', $rssexport_list|count ) )}</h2>
 
-<form action={'rss/list'|ezurl} method="post" name="RSSExport">
+<form name="rssexportslist" action={'rss/list'|ezurl} method="post" name="RSSExport">
 
 <table class="list" cellspacing="0">
 {section show=$rssexport_list|count}
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.rssexportslist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/rss/list' )}</th>
     <th>{'Version'|i18n( 'design/admin/rss/list' )}</th>
     <th>{'Status'|i18n( 'design/admin/rss/list' )}</th>
@@ -48,7 +75,7 @@
 </form>
 
 
-<form action={'rss/list'|ezurl} method="post" name="RSSImport">
+<form name="rssimportslist" action={'rss/list'|ezurl} method="post" name="RSSImport">
 
 <div class="context-block">
 <h2 class="context-title">{'RSS imports [%imports_count]'|i18n( 'design/admin/rss/list',, hash( '%imports_count', $rssimport_list|count ) )}</h2>
@@ -56,7 +83,7 @@
 <table class="list" cellspacing="0">
 {section show=$rssimport_list|count}
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.rssimportslist, 'DeleteIDArrayImport[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{"Name"|i18n( 'design/admin/rss/list' )}</th>
     <th>{"Status"|i18n( 'design/admin/rss/list' )}</th>
     <th>{"Modifier"|i18n( 'design/admin/rss/list' )}</th>
