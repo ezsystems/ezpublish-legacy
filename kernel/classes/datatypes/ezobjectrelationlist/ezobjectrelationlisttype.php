@@ -138,13 +138,11 @@ class eZObjectRelationListType extends eZDataType
                 $subObjectID = $relationItem['contentobject_id'];
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
-//                 $object =& eZContentObject::fetch( $subObjectID );
                 $object =& $content['temp'][$subObjectID]['object'];
                 $requireFixup = $content['temp'][$subObjectID]['require-fixup'];
                 if ( $object and
                      $requireFixup )
                 {
-//                     $attributes =& $object->contentObjectAttributes();
                     $attributes =& $content['temp'][$subObjectID]['attributes'];
                     $object->fixupInput( $contentObjectAttributes, $attributeBase );
                 }
@@ -762,7 +760,6 @@ class eZObjectRelationListType extends eZDataType
             $subObjectVersion = $relationItem['contentobject_version'];
 
             $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
-//                 $object =& eZContentObject::fetch( $subObjectID );
             $object =& $content['temp'][$subObjectID]['object'];
             if ( !$object )
                 $object =& eZContentObject::fetch( $subObjectID );
@@ -901,8 +898,6 @@ class eZObjectRelationListType extends eZDataType
             return eZObjectRelationListType::defaultObjectAttributeContent();
         $doc =& eZObjectRelationListType::parseXML( $xmlText );
         $content = eZObjectRelationListType::createObjectContentStructure( $doc );
-//         $serializedText = serialize( $content );
-//         $content['serialized_text'] = $serializedText;
         return $content;
     }
 
