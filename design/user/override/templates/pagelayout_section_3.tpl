@@ -31,6 +31,28 @@
 
 <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
+<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
+<tr>
+   <th>
+   Quick links
+   </th>
+</tr>
+<tr>
+    <td >
+    <a href="/content/view/full/31/">Crossroads Forum</a>
+    </td>
+    <td >
+    <a href="/content/view/news/26">News 24</a>
+    </td>
+    <td >
+    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
+    </td>
+    <td >
+    <a href="/content/view/full/65/">the Book corner</a>
+    </td>
+</tr>
+</table>
+
 {let folder_list=fetch(content,list,hash(parent_node_id,24))}
 {let news_list=fetch(content,tree,hash(parent_node_id,24,limit,3,publish_sorting,1,class_id,2))}
 

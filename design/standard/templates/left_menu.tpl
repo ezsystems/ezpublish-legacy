@@ -134,6 +134,7 @@
 </tr>
 </table>
 
+{*
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheadlight" colspan="2">
@@ -165,3 +166,4 @@
     </td>
 </tr>
 </table>
+*}

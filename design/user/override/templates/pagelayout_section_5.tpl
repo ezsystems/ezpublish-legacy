@@ -35,7 +35,29 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 </head>
 
 <body link="#000000" vlink="#000000" alink="#000000">
-<p>&nbsp;</p><table width="700" height="633" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
+<tr>
+   <th>
+   Quick links
+   </th>
+</tr>
+<tr>
+    <td >
+    <a href="/content/view/full/31/">Crossroads Forum</a>
+    </td>
+    <td >
+    <a href="/content/view/news/26">News 24</a>
+    </td>
+    <td >
+    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
+    </td>
+    <td >
+    <a href="/content/view/full/65/">the Book corner</a>
+    </td>
+</tr>
+</table>
+
+<p>&nbsp;</p><table width="700" height="633" border="0" align="left" cellpadding="0" cellspacing="0">
   <tr>
     <td height="106" valign="top" bgcolor="#333333"><a href={concat("content/view/full/",60)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a> 
       <table width="700" border="0" cellspacing="0" cellpadding="0">

@@ -39,7 +39,6 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
-
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
     if ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) )
@@ -69,7 +68,8 @@ if ( $http->hasPostVariable( 'NewButton' )  )
             $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;
 
-        }else
+        }
+        else
         {
             $Module->redirectTo( '/error/403' );
             return;
@@ -96,7 +96,7 @@ if ( $http->hasPostVariable( 'EditButton' )  )
     }
 }
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
+if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
@@ -111,30 +111,37 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         unset( $contentObject );
     }
-    /*
-    if ( $http->hasPostVariable( 'ContentObjectID' ) )
+
+    if ( $http->hasPostVariable( 'ViewMode' ) )
     {
-        $objectID =& $http->postVariable( 'ContentObjectID' );
-        $contentObject = eZContentObject::fetch( $objectID );
+        $viewMode = $http->postVariable( 'ViewMode' );
+    }
+    else
+    {
+        $viewMode = 'full';
+    }
+    if ( $http->hasPostVariable( 'TopLevelNode' ) )
+    {
+        $topLevelNode = $http->postVariable( 'TopLevelNode' );
+    }
+    else
+    {
+        $topLevelNode = '2';
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
+    return;
+}
+
+if ( $http->hasPostVariable( 'RemoveObject' ) )
+{
+    $removeObjectID = $http->postVariable( 'RemoveObject' );
+    if ( is_numeric( $removeObjectID ) )
+    {
+        $contentObject = eZContentObject::fetch( $removeObjectID );
         if ( $contentObject->attribute( 'can_remove' ) )
         {
             $contentObject->remove();
         }
-    }*/
-    
-    if( $http->hasPostVariable( 'ViewMode' ) )
-    {
-        $viewMode = $http->postVariable( 'ViewMode' );
-    }else
-    {
-        $viewMode = 'full';
-    }
-    if( $http->hasPostVariable( 'TopLevelNode' ) )
-    {
-        $topLevelNode = $http->postVariable( 'TopLevelNode' );
-    }else
-    {
-        $topLevelNode = '2';
     }
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
@@ -164,7 +171,7 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
-        eZDebug::writeError( "Unknown content object action" );
+        eZDebug::writeError( "Unknown content object action", "kernel/content/action.php" );
     }
 }
 

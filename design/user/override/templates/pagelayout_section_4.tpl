@@ -33,6 +33,28 @@
 
 <body>
 
+<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
+<tr>
+   <th>
+   Quick links
+   </th>
+</tr>
+<tr>
+    <td >
+    <a href="/content/view/full/31/">Crossroads Forum</a>
+    </td>
+    <td >
+    <a href="/content/view/news/26">News 24</a>
+    </td>
+    <td >
+    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
+    </td>
+    <td >
+    <a href="/content/view/full/65/">the Book corner</a>
+    </td>
+</tr>
+</table>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="10">
 <tr>
 <td>

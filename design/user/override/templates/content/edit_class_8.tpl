@@ -54,13 +54,15 @@
     </div>
     {/section}
 
+{*
     <div class="buttonblock">
     <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
     <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
     <input class="button" type="submit" name="TranslateButton" value="{'Translate'|i18n('content/object')}" />
     </div>
+*}
     <div class="buttonblock">
-    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
+{*    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" /> *}
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
     <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
     </div>

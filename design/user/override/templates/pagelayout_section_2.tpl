@@ -55,6 +55,28 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <!-- Top box START -->
 
+<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
+<tr>
+   <th>
+   Quick links
+   </th>
+</tr>
+<tr>
+    <td >
+    <a href="/content/view/full/31/">Crossroads Forum</a>
+    </td>
+    <td >
+    <a href="/content/view/news/26">News 24</a>
+    </td>
+    <td >
+    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
+    </td>
+    <td >
+    <a href="/content/view/full/65/">the Book corner</a>
+    </td>
+</tr>
+</table>
+
 <img src={"images/whiteboxlogo.png"|ezdesign} alt="White box - contemporary art gallery" />
 
 <!-- Top box END -->
@@ -63,8 +85,8 @@ function OpenWindow ( URL, WinName, Features ) {
 <tr>
     <td bgcolor="#cccccc">
     &nbsp;&nbsp;:: about<br /> 
-    &nbsp;&nbsp;:: about<br /> 
-    &nbsp;&nbsp;:: about<br /> 
+    &nbsp;&nbsp;:: not<br /> 
+    &nbsp;&nbsp;:: done<br /> 
     </td>
     <td bgcolor="#e8e8e8">
 {section name=Gallery loop=$gallery_list}

@@ -5,6 +5,11 @@ DEBUG
 ---------
 Does not work with IP settings anymore.
 
+http image post variables
+-------------------------
+We handle image post variables and buttons in the same way so that one can change the 
+buttons to nice images.
+
 Image (fixed)
 ---------
 If no image is uploaded, image should not be shown. Now an invalid url is used

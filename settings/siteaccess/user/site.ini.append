@@ -2,19 +2,16 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
+DatabasePluginPath=
 DatabaseImplementation=ezmysql
 Server=localhost
-User=bf
-Password=bf
-Database=bf
-#Server=localhost
-#User=publish
-#Password=secret
-#Database=publish
+User=publish
+Password=secret
+Database=publish
 Charset=iso-8859-1
 UseBuiltinEncoding=true
 Socket=disabled
-#Socket=/opt/ezpublish/mysql.sock
+Socket=/opt/ezpublish/mysql.sock
 SQLOutput=disabled
 UsePersistentConnection=disabled
 
@@ -23,7 +20,7 @@ StandardDesign=standard
 SiteDesign=user
 
 [SiteSettings]
-DefaultPage=/content/view/full/2
+IndexPage=/content/view/news/26
 ErrorHandler=defaultpage
 
 [SiteAccessSettings]
