@@ -325,9 +325,10 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
     $filesystemType = eZSys::filesystemType();
     $envSeparator = eZSys::envSeparator();
-	$program = eZSetupConfigVariable( $type, $filesystemType . '_Executable' );
+	$programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
     $systemSearchPaths = explode( $envSeparator, eZSys::path() );
 	$additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
+	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $extraPath = array();
     if ( $http->hasPostVariable( $type . '_ExtraPath' ) )
         $extraPath = explode( $envSeparator, $http->postVariable( $type . '_ExtraPath' ) );
@@ -335,11 +336,45 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
 	$result = false;
     $correctPath = false;
+    foreach ( $programs as $program )
+    {
 	foreach( $searchPaths as $path )
 	{
 		$pathProgram = eZDir::path( array( $path, $program ) );
 		if ( file_exists( $pathProgram ) )
 		{
+            if ( $filesystemType == 'unix' )
+            {
+                $relativePath = $path;
+                if ( preg_match( "#^/(.+)$#", $path, $matches ) )
+                    $relativePath = $matches[1];
+                $relativePath = eZDir::cleanPath( $relativePath );
+            }
+            else
+            {
+                $relativePath = $path;
+                if ( preg_match( "#^[a-zA-Z]:[/\\\\](.+)$#", $path, $matches ) )
+                    $relativePath = $matches[1];
+                $relativePath = eZDir::cleanPath( $relativePath );
+            }
+            $exclude = false;
+            foreach ( $excludePaths as $excludePath )
+            {
+                $excludePath = strtolower( $excludePath );
+                $match = strtolower( $program . "@" . $relativePath );
+                if ( $match == $excludePath )
+                {
+                    $exclude = true;
+                    break;
+                }
+                else if ( $relativePath == $excludePath )
+                {
+                    $exclude = true;
+                    break;
+                }
+            }
+            if ( $exclude )
+                continue;
 			if ( function_exists( "is_executable" ) )
 			{
 				if ( is_executable( $pathProgram ) )
@@ -357,12 +392,16 @@ function eZSetupCheckExecutable( $type, &$arguments )
 				break;
 			}
 		}
+    }
+    if ( $result )
+        break;
 	}
 
 	return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
                                               'result' => array( 'value' => $result ) ),
                   'env_separator' => $envSeparator,
+                  'filesystem_type' => $filesystemType,
                   'extra_path' => $extraPath,
                   'correct_path' => $correctPath,
                   'system_search_path' => $systemSearchPaths,

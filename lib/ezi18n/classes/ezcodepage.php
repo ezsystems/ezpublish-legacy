@@ -361,12 +361,12 @@ class eZCodePage
                 if ( preg_match( "/(=|0x)([0-9a-fA-F]{4})/", $items[0], $args ) )
                 {
                     $code = hexdec( $args[2] );
-                    eZDebug::writeNotice( $args, "doublebyte" );
+//                    eZDebug::writeNotice( $args, "doublebyte" );
                 }
                 else if ( preg_match( "/(=|0x)([0-9a-fA-F]{2})/", $items[0], $args ) )
                 {
                     $code = hexdec( $args[2] );
-                    eZDebug::writeNotice( $args, "singlebyte" );
+//                    eZDebug::writeNotice( $args, "singlebyte" );
                 }
                 if ( preg_match( "/(U\+|0x)([0-9a-fA-F]{4})/", $items[1], $args ) )
                 {

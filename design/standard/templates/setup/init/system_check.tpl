@@ -1,6 +1,8 @@
 {*?template charset=latin1?*}
 {include uri='design:setup/setup_header.tpl' setup=$setup}
 
+  <form method="post" action="{$script}">
+
 {section show=$test.result|eq(1)}
   <p>No problems was found with your system, you can continue by clicking the <i>Next</i> button.</p>
   <p>However if you wish to finetune your system you should click the <i>Show Details</i> button.</p>
@@ -42,7 +44,6 @@
   {/section}
   </table>
 
-  <form method="post" action="{$script}">
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
       <input class="button" type="submit" name="StepButton_2" value="Check Again" />

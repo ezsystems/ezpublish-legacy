@@ -581,8 +581,18 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $attr_pos = $attr_pos_start;
                         $attr_name_pos = $this->ElementParser->identifierEndPosition( $tpl, $text, $attr_pos, $text_len );
                         $attr_name = substr( $text, $attr_pos, $attr_name_pos - $attr_pos );
-                        if ( $attr_name_pos >= $text_len )
+                        if ( $attr_name_pos >= $text_len or
+                             ( $text[$attr_name_pos] != '=' and
+                               preg_match( "/[ \t\r\n]/", $text[$attr_name_pos] ) ) )
                         {
+                            unset( $var_data );
+                            $var_data = array();
+                            $var_data[] = array( EZ_TEMPLATE_TYPE_NUMERIC, // type
+                                                 true, // content
+                                                 false // debug
+                                                 );
+                            $args[$attr_name] = $var_data;
+                            $attr_pos = $attr_name_pos;
                             continue;
 //                             $tpl->error( "", "Unterminated parameter in function '$tag' ($text)" );
 //                             break;
