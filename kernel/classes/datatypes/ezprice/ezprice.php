@@ -255,6 +255,8 @@ class eZPrice
 
                             $hasSectionLimitation = false;
                             $hasClassLimitation = false;
+                            $hasObjectLimitation = false;
+                            $objectMatch = false;
                             $sectionMatch = false;
                             $classMatch = false;
                             foreach ( $limitationArray as $limitation )
@@ -265,6 +267,13 @@ class eZPrice
 
                                     if ( $object->attribute( 'section_id' ) == $limitation['value'] )
                                         $sectionMatch = true;
+                                }
+                                elseif ( $limitation['issection'] == '2' )
+                                {
+                                    $hasObjectLimitation = true;
+
+                                    if ( $object->attribute( 'id' ) == $limitation['value'] )
+                                        $objectMatch = true;
                                 }
                                 else
                                 {
@@ -279,6 +288,9 @@ class eZPrice
                                 $match = false;
 
                             if ( ( $hasSectionLimitation == true ) and ( $sectionMatch == false ) )
+                                $match = false;
+
+                            if ( ( $hasObjectLimitation == true ) and ( $objectMatch == false ) )
                                 $match = false;
 
                             if ( $match == true  )

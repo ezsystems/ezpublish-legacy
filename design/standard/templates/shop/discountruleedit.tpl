@@ -12,7 +12,7 @@
 <label>{"Discount percent"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
 <input type="text" name="discountrule_percent" value="{$discountrule.discount_percent}" size=4>%
 </div>
-<p>{"Choose which classes or sections applied to this sub rule, 'Any' means the rule will applied to all."|i18n("design/standard/shop")}</p>
+<p>{"Choose which classes, sections or objects ( products ) applied to this sub rule, 'Any' means the rule will applied to all."|i18n("design/standard/shop")}</p>
 <div class="block">
 <div class="element">
      <label>{"Class"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
@@ -33,6 +33,33 @@
 </option>
      {/section}
      </select>
+</div>
+<div class="element">
+     <label>{"Object"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+     <table>
+     {section show=$product_list name=Products loop=$product_list}
+     <tr>
+     <td>
+     {$Products:item.name}
+     </td>
+     <td>
+     <input type="checkbox" name="DeleteProductIDArray[]" value="{$Products:item.id}" />
+     </td>
+     </tr>
+     {section-else}
+     <tr>
+     <td>
+      Not specified.
+     </td>
+     </tr>
+     {/section}
+     </table>
+     <div class="buttonblock">
+     <input class="menubutton" type="image" name="BrowseProductButton" value="{'Find'|i18n('design/standard/shop')}" src={"find.png"|ezimage} />
+     {section show=$product_list}
+     <input class="menubutton" type="image" name="DeleteProductButton" value="{'Remove'|i18n('design/standard/shop')}" src={"trash.png"|ezimage} />
+     {/section}
+     </div>
 </div>
 <div class="break"></div>
 </div>

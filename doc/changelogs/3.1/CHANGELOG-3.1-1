@@ -11,6 +11,8 @@ Search:
 - Fixed for compatibility with Oracle driver
 Setup tool:
 - has been changed to support separate ( for schema and for data ) kernel sql files.
+Shop:
+- Added support for choosing objects ( products ) to discount rule editing.
 
 *SDK :
 
