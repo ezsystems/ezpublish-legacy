@@ -47,15 +47,15 @@
   </td>
 </tr>
 <tr>
-  <td class="normal">&nbsp;{"Server name"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">&nbsp;{"Server name: "|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" size="25" name="eZSetupSMTPServer" value="{$email_info.server}"></td>
 </tr>
 <tr>
-  <td class="normal">&nbsp;{"Username (optional)"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">&nbsp;{"Username (optional): "|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" size="25" name="eZSetupSMTPUser" value="{$email_info.user}"></td>
 </tr>
 <tr>
-  <td class="normal">&nbsp;{"Password (optional)"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">&nbsp;{"Password (optional): "|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="password" size="25" name="eZSetupSMTPPassword" value="{$email_info.password}"></td>
 </tr>
 </table>
