@@ -15,6 +15,10 @@
     {set select_type='radio'}
 {/section}
 
+{section show=$browse.description_template}
+    {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
+{section-else}
+
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -29,18 +33,17 @@
 
 <div class="block">
 
-{section show=$browse.description_template}
-    {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
-{section-else}
-    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/admin/content/browse')}</p>
-    <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/admin/content/browse')}</p>
-{/section}
+<p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/admin/content/browse')}</p>
+<p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/admin/content/browse')}</p>
 
 </div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
+
+{/section}
+
 
 <div class="context-block">
 
