@@ -587,7 +587,7 @@ if ( $show_page_layout )
 
         if ( $useHIOCode )
         {
-            /// HiO special menu code tmp
+             /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
         $level = 0;
@@ -597,7 +597,7 @@ if ( $show_page_layout )
         $tmpModulePath = $moduleResult['path'];
         $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::requestURI();
         $offset = 0;
-        $sessionIDs = array ( 2,  // Sykepleierutdannin
+        $sessionIDs = array ( 2,  // Sykepleierutdanning
                               4,  // Estetiske fag
                               5,  // Helsefag
                               6,  // Ingeniørutdanning
@@ -610,12 +610,15 @@ if ( $show_page_layout )
                               13, // Voldsofferarbeid
                               14, // Pedagogisk utviklingssenter
                               15, // Høgskolebiblioteket
-                              16  // Administrasjonen
+                              16  // Administrasjonen16
                               );
+	
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
-
-        while ( !$done )
+	else if ( $moduleResult['section_id']==19)  // English pages
+            $offset = 1;
+        
+	while ( !$done )
         {
 
             // get node id
