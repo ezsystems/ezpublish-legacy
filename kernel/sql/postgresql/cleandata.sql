@@ -138,11 +138,11 @@ INSERT INTO ezcontentobject_tree (node_id, main_node_id, parent_node_id, content
 
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (436, 1, 8, 1, 1033919080, 1033919080, 1, 1, 0, NULL);
 INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (4, 4, 8, 1, 1033919080, 1033919080, 1, 1, 0, NULL);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (438, 10, 8, 1, 1033920649, 1033920665, 0, 0, 0, NULL);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (439, 11, 8, 1, 1033920737, 1033920746, 0, 0, 0, NULL);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (440, 12, 8, 1, 1033920760, 1033920775, 0, 0, 0, NULL);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (441, 13, 8, 1, 1033920786, 1033920794, 0, 0, 0, NULL);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (442, 14, 8, 1, 1033920808, 1033920830, 0, 0, 0, NULL);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (438, 10, 8, 1, 1033920649, 1033920665, 1, 0, 0, NULL);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (439, 11, 8, 1, 1033920737, 1033920746, 1, 0, 0, NULL);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (440, 12, 8, 1, 1033920760, 1033920775, 1, 0, 0, NULL);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (441, 13, 8, 1, 1033920786, 1033920794, 1, 0, 0, NULL);
+INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id, main_node_id) VALUES (442, 14, 8, 1, 1033920808, 1033920830, 1, 0, 0, NULL);
 
 
 
