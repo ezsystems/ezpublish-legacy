@@ -109,7 +109,7 @@ class eZWordToImageOperator
                 }
                 $width = false;
                 $height = false;
-                $xDivider = strpos( 'x', $size );
+                $xDivider = strpos( $size, 'x' );
                 if ( $xDivider !== false )
                 {
                     $width = (int)substr( $size, 0, $xDivider );
