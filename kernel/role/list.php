@@ -45,7 +45,7 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
 
 $offset = $Params['Offset'];
-$limit = 3;
+$limit = 15;
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
