@@ -73,3 +73,16 @@ p.disabled
 	text-decoration: none;
 	color: #cccccc;
 }
+
+div.input_highlight
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+    padding: 0.5ex;
+    padding-left: 1ex;
+    padding-right: 2ex;
+    border-width: 0.2ex;
+    border-style: solid;
+    border-color: #000000;
+    background-color: #f8f8f8;
+}

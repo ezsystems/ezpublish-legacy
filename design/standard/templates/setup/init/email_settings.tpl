@@ -13,7 +13,7 @@
 {/section}
 
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 {section show=eq($system.type,"unix")}
 <tr>

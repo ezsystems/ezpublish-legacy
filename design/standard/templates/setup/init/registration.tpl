@@ -7,7 +7,7 @@
  {"If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases."|i18n("design/standard/setup/init")}
 </p>
 
-<div class="highlight">
+<div class="input_highlight">
 <p>{"The following data will be sent to eZ systems:"|i18n("design/standard/setup/init")}</p>
 <ul>
   <li>{"Details of your system, like OS type etc."|i18n("design/standard/setup/init")}</li>
@@ -23,7 +23,7 @@
  {"If you wish you can also add some comments which will be included in the registration."|i18n("design/standard/setup/init")}
 </p>
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellpadding="0" cellspacing="0" border="0">
 <tr><th class="normal">{"Comments"|i18n("design/standard/setup/init")}</th></tr>
 <tr><td class="normal"><textarea class="box" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>

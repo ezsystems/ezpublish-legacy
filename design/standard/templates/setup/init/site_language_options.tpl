@@ -7,7 +7,7 @@
  {"What kind of language support should this site have. The type of support determines the language selection and charset."|i18n("design/standard/setup/init")}
 </p>
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td class="normal">

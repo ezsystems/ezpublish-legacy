@@ -13,7 +13,7 @@
 </p>
 {/section}
 
-<div class="highlight">
+<div class="input_highlight">
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
   <th class="normal" colspan="3">Database:</th>

@@ -33,7 +33,7 @@
  {/section}
 {/section}
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr><th>{"Language name"|i18n("design/standard/setup/init")}</th><th colspan="2">{"Selection"|i18n("design/standard/setup/init")}</th></tr>
 {section name=Language loop=$available_languages}

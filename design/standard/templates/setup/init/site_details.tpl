@@ -7,7 +7,7 @@
  {"It's time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url."|i18n("design/standard/setup/init")}
 </p>
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td class="normal">

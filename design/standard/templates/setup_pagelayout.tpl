@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/admin.css"|ezroot} />
     <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/debug.css"|ezroot} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/setup.css"|ezdesign} />
 
 {include uri="design:page_head.tpl"}
 

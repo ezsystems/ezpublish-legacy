@@ -13,7 +13,7 @@
  </p>
 {/section}
 
-<div class="highlight">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 {section name=Language loop=$chosen_languages}
 <tr>
