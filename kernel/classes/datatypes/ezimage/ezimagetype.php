@@ -96,7 +96,7 @@ class eZImageType extends eZDataType
         $ref_dir =  $storage_dir . "/reference/image";
         $vari_dir = $storage_dir . "/variations/image";
         $images =& eZImage::fetch( $contentObjectAttributeID );
-        if( $version == null )
+        if ( $version == null )
         {
             foreach ( $images as $image )
             {
@@ -131,22 +131,22 @@ class eZImageType extends eZDataType
                 if( $currentFileName == $fileName )
                      $count += 1;
             }
-            if( $count == 1 )
+            if ( $count == 1 )
             {
                 $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
                 $additionalPath = eZDir::getPathFromFilename( $currentFileName );
-                if( file_exists( $orig_dir . "/" . $currentFileName ) )
+                if ( file_exists( $orig_dir . "/" . $currentFileName ) )
                     unlink( $orig_dir . "/" .  $currentFileName );
-                if( file_exists( $orig_dir . "/" . $variationFileName ) )
+                if ( file_exists( $orig_dir . "/" . $variationFileName ) )
                     unlink( $orig_dir . "/" . $variationFileName );
-                if( file_exists( $ref_dir . "/" .  $currentFileName ) )
+                if ( file_exists( $ref_dir . "/" .  $currentFileName ) )
                     unlink( $ref_dir . "/" .  $currentFileName );
-                if( file_exists( $ref_dir . "/" . $variationFileName ) )
+                if ( file_exists( $ref_dir . "/" . $variationFileName ) )
                     unlink( $ref_dir . "/" . $variationFileName );
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
                 while ( $file = readdir($dir))
                 {
-                    if( preg_match( "/$variationFileName/", $file ) )
+                    if ( preg_match( "/$variationFileName/", $file ) )
                          unlink( $vari_dir . "/" . $additionalPath . $file );
                 }
             }
@@ -188,14 +188,28 @@ class eZImageType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        // Fetch the alt name
+        $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+
         if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $image =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $image )
+            {
+                $image->setAttribute( "alternative_text", $imageAltText );
+
+                $image->store();
+            }
+
             eZDebug::writeError( "Could not get image file, is fileupload enabled in PHP?", "ezimagetype" );
             return false;
         }
 
         $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
         $contentObjectAttribute->setContent( $imageFile );
+
 
         if ( get_class( $imageFile ) == "ezhttpfile" )
         {
@@ -228,6 +242,7 @@ class eZImageType extends eZDataType
             $image->setAttribute( "filename", basename( $imageFile->attribute( "filename" ) ) );
             $image->setAttribute( "original_filename", $imageFile->attribute( "original_filename" ) );
             $image->setAttribute( "mime_type", $imageFile->attribute( "mime_type" ) );
+            $image->setAttribute( "alternative_text", $imageAltText );
 
             $image->store();
 

@@ -40,6 +40,7 @@ links to clickable links.
   they now all honor the required flag properly and can choose a default value.
 - Fixed a bug in content edit where the last attribute would decide if the
   input was valid or not.
+- Added alternative text to image datatype
 - Added output washing for datatypes.
 
 *SDK :

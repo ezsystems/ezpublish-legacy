@@ -387,3 +387,5 @@ alter table ezorder add account_identifier varchar(100) not null default 'defaul
 
 drop table eztask;
 drop table eztask_message;
+
+alter table ezimage add alternative_text varchar(255) not null default "";

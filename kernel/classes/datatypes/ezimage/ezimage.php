@@ -59,7 +59,8 @@ class eZImage extends eZPersistentObject
                                          "version" => "Version",
                                          "filename" => "Filename",
                                          "original_filename" => "OriginalFilename",
-                                         "mime_type" => "MimeType"
+                                         "mime_type" => "MimeType",
+                                         "alternative_text" => "AlternativeText"
                                          ),
                       "keys" => array( "contentobject_attribute_id", "version" ),
                       "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
