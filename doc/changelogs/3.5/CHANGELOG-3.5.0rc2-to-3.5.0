@@ -5,6 +5,8 @@ Changes from 3.5.0rc2 to 3.5.0
   type.
 
 *Bugfixes:
+- Fixed problem with class/edit and removal of object attributes
+  http://ez.no/community/bug_reports/storing_a_class_in_ui_will_remove_attributes_of_all_related_objects
 
 *Library:
 
