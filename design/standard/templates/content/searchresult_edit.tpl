@@ -1,3 +1,4 @@
+{* Lists search results with edit controls *}
 {section name=Child show=$search_result}
 
     {let name=Child can_remove=false() 
