@@ -7,13 +7,13 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="3.3-5"
+PREVIOUS_VERSION="3.3-6"
 # The last version of the newest stable branch
-LAST_STABLE="3.3-5"
+LAST_STABLE="3.3-6"
 
 MAJOR=3
 MINOR=3
-RELEASE=6
+RELEASE=7
 REAL_RELEASE=$RELEASE
 STATE=""
 DEVELOPMENT="false"
