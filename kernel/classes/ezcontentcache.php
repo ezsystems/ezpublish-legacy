@@ -151,7 +151,8 @@ class eZContentCache
         $ini =& eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
-        $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
+        $languages =& eZContentTranslation::fetchLocaleList();
+//        $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
 
         $contentINI =& eZINI::instance( "content.ini" );
         $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );

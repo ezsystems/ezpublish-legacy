@@ -349,12 +349,15 @@ function precheckAllowed( &$prechecks )
 function changeAccess( $access )
 {
     $ini =& eZINI::instance();
-    $name = $access['name'];
+    $name='';
+    if ( $access !== null )
+        $name = $access['name'];
+
+    if ( $name == '' )
+        $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
     if ( $access['type'] == EZ_ACCESS_TYPE_URI )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
-        if ( $name == '' )
-            $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
         eZSys::addAccessPath( $name );
     }
     if ( file_exists( "settings/siteaccess/$name" ) )
@@ -362,6 +365,15 @@ function changeAccess( $access )
         $ini->prependOverrideDir( "siteaccess/$name" );
         $ini->loadCache();
 //         $ini->parse( 'site.ini' );
+    }
+    if ( $access === null )
+    {
+        return array( 'type' => EZ_ACCESS_TYPE_DEFAULT,
+                      'name' => $name );
+    }
+    else
+    {
+        return $access;
     }
 }
 

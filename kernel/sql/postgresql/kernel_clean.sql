@@ -1,4 +1,3 @@
---
 -- TOC Entry ID 68 (OID 373906)
 --
 -- Name: ezapprovetasks_s Type: SEQUENCE Owner: sp
@@ -1486,3 +1485,13 @@ create table ezwaituntildatevalue(
 create index ezwaituntildatevalue_wf_ev_id_wf_ver on ezwaituntildatevalue( workflow_event_id,workflow_event_version);
 alter table ezinformationcollection_attribute add contentclass_attribute_id int ;
 alter table eznode_assignment rename column main to is_main;
+
+CREATE SEQUENCE "ezcontent_translation_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+create table ezcontent_translation(
+    id int DEFAULT nextval('ezcontent_translation_s'::text) NOT NULL,
+    name varchar(255) NOT NULL DEFAULT '',
+    locale varchar(255) NOT NULL,
+    PRIMARY KEY  (id)
+    );
+

@@ -73,4 +73,19 @@ $ViewList["success"] = array(
     "script" => "success.php",
     "params" => array( ) );
 
+
+
+$SiteAccess = array(
+    'name'=> 'SiteAccess',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezsiteaccess.php',
+    'class' => 'eZSiteAccess',
+    'function' => 'siteAccessList',
+    'parameter' => array()
+    );
+
+$FunctionList['login'] = array( 'SiteAccess' => $SiteAccess );
+
+
 ?>

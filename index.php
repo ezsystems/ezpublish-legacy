@@ -217,7 +217,6 @@ include_once( "lib/ezutils/classes/ezuri.php" );
 
 $uri =& eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] =& $uri;
-
 include_once( "pre_check.php" );
 
 // Shall we start the eZ setup module?
@@ -236,7 +235,6 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
-
 // Check for extension
 include_once( 'kernel/classes/ezextension.php' );
 eZExtension::activateExtensions();
@@ -248,11 +246,11 @@ $access = accessType( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-if ( $access !== null )
-{
-    changeAccess( $access );
-}
-
+//if ( $access !== null )
+//{
+$access = changeAccess( $access );
+//}
+eZDebug::writeDebug( $access, 'current siteaccess' );
 $check = eZHandlePreChecks( $siteBasics );
 
 if ( $sessionRequired )
@@ -385,16 +383,54 @@ while ( $moduleRunRequired )
             $runningFunctions = false;
             if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
-            $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
-
-            if ( $accessResult['accessWord'] == 'limited' )
+            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+            $hasAccessToSite = false;
+            if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
             {
-                $params['Limitation'] =& $accessResult['policies'];
-                $GLOBALS['ezpolicylimitation_list'] =& $params['Limitation'];
+                foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+                {
+                    $policy =& $siteAccessResult['policies'][$key];
+                    $limitations =& $policy->attribute( 'limitations' );
+                    foreach ( array_keys( $limitations ) as $limitationKey )
+                    {
+                        $limitation =& $limitations[$limitationKey];
+                        if ( $limitation->attribute( 'identifier' ) == 'SiteAccess' )
+                        {
+                            $limitationValues =& $limitation->attribute( 'values_as_array' );
+                            eZDebug::writeDebug( $limitationValues, crc32( $access[ 'name' ] ));
+                            if ( in_array( crc32( $access[ 'name' ] ), $limitationValues ) )
+                            {
+                                $hasAccessToSite = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ( $hasAccessToSite )
+                        break;
+                }
+            }
+            else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
+            {
+                eZDebug::writeDebug( "access is yes" );
+                $hasAccessToSite = true;
             }
 
-            if ( $accessResult['accessWord'] == 'no' )
+            if ( $hasAccessToSite )
+            {
+                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
+                if ( $accessResult['accessWord'] == 'limited' )
+                {
+                    $params['Limitation'] =& $accessResult['policies'];
+                    $GLOBALS['ezpolicylimitation_list'] =& $params['Limitation'];
+                }
+                if ( $accessResult['accessWord'] == 'no' )
+                    $moduleAccessAllowed = false;
+            }
+            else
+            {
+                eZDebug::writeDebug( $access, 'note able to get access to siteaccess' );
                 $moduleAccessAllowed = false;
+            }
         }
 
         $GLOBALS['eZRequestedModule'] =& $module;

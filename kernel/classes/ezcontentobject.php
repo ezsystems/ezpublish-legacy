@@ -220,8 +220,8 @@ class eZContentObject extends eZPersistentObject
         }
 
         $ini =& eZINI::instance();
-        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
-
+//        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
+        $needTranslations =& eZContentTranslation::fetchLocaleList();
         if ( $translation == $this->defaultLanguage() )
         {
             $default = true;
@@ -1480,8 +1480,11 @@ class eZContentObject extends eZPersistentObject
         $translationList =& $GLOBALS['eZContentTranslationStringList'];
         if ( isset( $translationList ) )
             return $translationList;
+        $translationList =& eZContentTranslation::fetchLocaleList();
+/*
         $ini =& eZINI::instance();
         $translationList = $ini->variableArray( 'ContentSettings', 'TranslationList' );
+*/
         return $translationList;
     }
 

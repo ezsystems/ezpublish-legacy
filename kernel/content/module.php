@@ -194,6 +194,18 @@ $ViewList["draft"] = array(
     "params" => array( ) );
 
 
+$ViewList["translations"] = array(
+    "functions" => array( 'edit' ),
+    "script" => "translations.php",
+    'single_post_actions' => array( 'RemoveButton' => 'Remove',
+                                    'StoreButton' => 'StoreNew',
+                                    'NewButton' => 'New',
+                                    'ConfirmButton' => 'Confirm' ),
+    'post_action_parameters' => array( 'StoreNew' => array( 'TranslationName' => 'TranslationName',
+                                                            'TranslationLocale' => 'TranslationLocale' ),
+                                       'Remove' => array( 'SelectedTranslationList' => 'DeleteIDArray' ),
+                                       'Confirm' => array( 'ConfirmList' => 'ConfirmTranlationID' ) ),
+    "params" => array( ) );
 
 
 
