@@ -10,6 +10,9 @@
     </div>
   {section-else}
     <div class="feedback">
+    {section show=$failure_reason}
+    {$failure_reason}
+    {section-else}
     {"Warning, it is not safe to upgrade without checking the modifications done to the following files :"|i18n("design/standard/setup")}<br />
     <p>
       {section loop=$md5_result}
@@ -17,6 +20,7 @@
         {delimiter}<br />{/delimiter}
       {/section}
     </p>
+    {/section}
     </div>
   {/section}
 {/section}

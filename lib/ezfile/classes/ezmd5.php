@@ -66,7 +66,7 @@ class eZMD5
             {
                 $md5Key = substr( $line, 0, 32 );
                 $filename = substr( $line, 34 );
-                if ( $md5Key != md5_file( $filename ) )
+                if ( !file_exists( $filename ) || $md5Key != md5_file( $filename ) )
                 {
                     $result[] = $filename;
                 }
