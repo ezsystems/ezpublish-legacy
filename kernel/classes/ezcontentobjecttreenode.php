@@ -1654,13 +1654,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
      Returns the number of children for the current node.
+     \params $checkPolicies If \c true it will only include nodes which can be read using the current policies,
+                            if \c false all nodes are included in count.
     */
-    function &childrenCount( )
+    function &childrenCount( $checkPolicies = true )
     {
-        return $this->subTreeCount( array( 'Depth' => 1,
-                                           'DepthOperator' => 'eq' ) );
-//                                           'Limitation' => $limitationList
-//                                           ) );
+        $params = array( 'Depth' => 1,
+                         'DepthOperator' => 'eq' );
+        if ( !$checkPolicies )
+            $params['Limitation'] = array();
+        return $this->subTreeCount( $params );
     }
 
     /*!
@@ -1783,6 +1786,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart id IN ( $inSQL )" );
         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart contentobject_id IN ( $inSQL )" );
+    }
+
+    /*!
+     \static
+     Updates the main node selection for the content object \a $objectID.
+
+     \param $mainNodeID The ID of the node that should be that main node
+     \param $objectID The ID of the object that all nodes belong to
+     \param $version The version of the object to update node assignments, use \c false for currently published version.
+     \param $parentMainNodeID The ID of the parent node of the current main placement
+    */
+    function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID )
+    {
+        $mainNodeID = (int)$mainNodeID;
+        $parentMainNodeID = (int)$parentMainNodeID;
+        $objectID = (int)$objectID;
+        $version = (int)$version;
+
+        $db =& eZDB::instance();
+        $db->query( "UPDATE ezcontentobject_tree SET main_node_id=$mainNodeID WHERE contentobject_id=$objectID" );
+        if ( !$version )
+        {
+            $rows = $db->arrayQuery( "SELECT current_version FROM ezcontentobject WHERE id=$objectID" );
+            $version = $rows[0]['current_version'];
+        }
+        $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
+        $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node!=$parentMainNodeID" );
     }
 
     function &fetchByCRC( $pathStr )
@@ -1960,15 +1990,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
+    /*!
+     \static
+     Finds the node for the object \a $contentObjectID which placed as child of node \a $parentNodeID.
+     \return An eZContentObjectTreeNode object or \c null if no node was found.
+    */
     function &fetchNode( $contentObjectID, $parentNodeID )
     {
         $returnValue = null;
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
-        $query="SELECT *
-                FROM ezcontentobject_tree
-                WHERE contentobject_id = $contentObjectID AND
-                      parent_node_id = $parentNodeID";
+        $lang = eZContentObject::defaultLanguage();
+        $query = "SELECT ezcontentobject_tree.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
+                  FROM ezcontentobject_tree, ezcontentobject_name
+                  WHERE ezcontentobject_tree.contentobject_id = $contentObjectID AND
+                        ezcontentobject_tree.parent_node_id = $parentNodeID  AND
+                        ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id AND
+                        ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version AND
+                        ezcontentobject_name.content_translation = '$lang'";
+
         $nodeListArray =& $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {

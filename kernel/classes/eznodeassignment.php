@@ -103,6 +103,7 @@ class eZNodeAssignment extends eZPersistentObject
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode",
                                                       "parent_contentobject" => "getParentObject",
+                                                      "node" => "fetchNode",
                                                       'temp_node' => 'tempNode' ),
 
                       "increment_key" => "id",
@@ -187,9 +188,11 @@ class eZNodeAssignment extends eZPersistentObject
     }
 
     /*!
-     Remove specified nodeassignment if \param parentNodeID and \param contentObjectID are given.
-     \param parent node
-     \param content object id
+     Remove specified nodeassignment if \a parentNodeID and \a contentObjectID are given,
+     if they are \c false it will remove the current node assignment.
+
+     \param $parentNodeID The ID of the parent node
+     \param $contentObjectID The ID of the object
      */
     function remove( $parentNodeID = false, $contentObjectID = false )
     {
@@ -206,6 +209,40 @@ class eZNodeAssignment extends eZPersistentObject
             $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
             $db->query( $sqlQuery );
         }
+    }
+
+    /*!
+     \static
+     Removes the node assignment with the ID \a $assignmentID.
+
+     \param $assignmentID Either an ID or an array with IDs.
+     \return \c true if it were able to remove the assignments, \c false if something failed.
+     \note If \a $assignmentID is an empty array it immediately returns \c false.
+    */
+    function removeByID( $assignmentID )
+    {
+        $db =& eZDB::instance();
+        if ( is_array( $assignmentID ) )
+        {
+            if ( count( $assignmentID ) == 0 )
+                return false;
+            $sql = "DELETE FROM eznode_assignment WHERE id IN ( ";
+            $i = 0;
+            foreach ( $assignmentID as $id )
+            {
+                if ( $i > 0 )
+                    $sql .= ", ";
+                $sql .= (int)$id;
+                ++$i;
+            }
+            $sql .= ' )';
+        }
+        else
+        {
+            $sql = "DELETE FROM eznode_assignment WHERE id=" . (int)$assignmentID;
+        }
+        $db->query( $sql );
+        return true;
     }
 
     function &fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
@@ -232,6 +269,16 @@ class eZNodeAssignment extends eZPersistentObject
                                                 $cond,
                                                 $asObject );
 
+    }
+
+    /*!
+     Finds the node for the current assignemnt if it exists and returns it.
+     \return An eZContentObjectTreeNode object or \c null if no node was found.
+      \sa eZContentObjectTreeNode::fetchNode
+    */
+    function &fetchNode()
+    {
+        return eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
     }
 
     function &fetchByID( $id ,$asObject = true )

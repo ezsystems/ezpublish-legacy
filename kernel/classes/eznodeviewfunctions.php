@@ -72,6 +72,7 @@ class eZNodeviewfunctions
                               ) );
 
         $tpl->setVariable( 'node', $node );
+        $tpl->setVariable( 'viewmode', $viewMode );
         $tpl->setVariable( 'language_code', $languageCode );
         $tpl->setVariable( 'view_parameters', $viewParameters );
         $tpl->setVariable( 'collection_attributes', $collectionAttributes );
