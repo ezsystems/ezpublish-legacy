@@ -151,3 +151,8 @@ site.ini:
 New DB fields:
  - ezcontentobject_tree.hidden
  - ezcontentobject_tree.invisible
+
+New parameter for template function fetch():
+- fetch( 'content', 'list|list_count|tree|tree_count', ... )
+  now accepts new boolean parameter 'ignore_visibility'.
+  This might be useful to fetch/count invisible nodes disregarding the ini setting.
