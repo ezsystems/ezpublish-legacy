@@ -37,11 +37,22 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" {section show=$vattype_array|not}disabled="disabled"{/section}/>
+<div class="button-left">
+    {section show=$vattype_array}
+    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
+    {/section}
     <input class="button" type="submit" name="AddVatTypeButton" value="{'New VAT type'|i18n( 'design/admin/shop/vattype' )}" />
-<div class="right">
-    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" {section show=$vattype_array|not}disabled="disabled"{/section}/>
 </div>
+<div class="button-right">
+    {section show=$vattype_array}
+    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
+    {/section}
+</div>
+<div class="break"></div>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
