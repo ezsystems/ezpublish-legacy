@@ -1,3 +1,10 @@
-2004-02-23
-klokka 17:12
-pm, PM, 23, Mon, February, 5, 17, 05, 17, 12, 23, Monday, 02, Feb, 2, +0100, 55, CET, 1077552775, 1, 9, 2004, 04, 53, 3600
+custom,%Y-%m-%d:
+      '2004-02-23'
+custom,klokka %H:%i:%s:
+      'klokka 17:12:55'
+custom,%B %r %S %a %A %d %D %F %g %G %h %H %i %I %j %l %L %m %M %n %O %s %t %T %U %w %W %Y %y %z %Z:
+      '%B %r %S pm PM 23 Mon February 5 17 05 17 12 0 23 Monday 1 02 Feb 2 +0100 55 29 CET 1077552775 1 9 2004 04 53 3600'
+custom,abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-1234567890:
+      'abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-1234567890'
+all:
+'pm, PM, 23, Mon, February, 5, 17, 05, 17, 12, 23, Monday, 02, Feb, 2, +0100, 55, CET, 1077552775, 1, 9, 2004, 04, 53, 3600'
