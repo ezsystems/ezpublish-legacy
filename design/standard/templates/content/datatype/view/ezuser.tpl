@@ -2,17 +2,17 @@
 <div class="block">
 
 <div class="element">
-<label>{'User ID'|i18n( 'design/admin/content/datatype/ezuser' )}</label>
+<label>{'User ID'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
 {$attribute.content.contentobject_id}
 </div>
 
 <div class="element">
-<label>{'Username'|i18n( 'design/admin/content/datatype/ezuser' )}</label>
+<label>{'Username'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
 {$attribute.content.login|wash( xhtml )}
 </div>
 
 <div class="element">
-<label>{'E-mail'|i18n( 'design/admin/content/datatype/ezuser' )}</label>
+<label>{'E-mail'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
 <a href="mailto:{$attribute.content.email}">{$attribute.content.email}</a>
 </div>
 
