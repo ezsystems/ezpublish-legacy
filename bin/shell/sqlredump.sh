@@ -241,7 +241,7 @@ if [ "$USE_MYSQL" != "" ]; then
     }
 
     mysqladmin $USERARG $HOSTARG $PWDARG -f drop "$DBNAME" &>/dev/null
-    echo -n "Creating database `$SETCOLOR_EMPHASIZE`$DBNAME`$SETCOLOR_NORMAL`"
+    echo -n "Creating database `ez_color_comment $DBNAME`"
     mysqladmin $USERARG $HOSTARG $PWDARG create "$DBNAME" 2>.mysql.log
     ez_result_file $? .mysql.log || exit 1
     for sql in $SCHEMAFILES; do
@@ -337,7 +337,7 @@ else
 	exit 1
     fi
     dropdb $USERARG $HOSTARG "$DBNAME" &>/dev/null
-    echo -n "Creating database `$SETCOLOR_EMPHASIZE`$DBNAME`$SETCOLOR_NORMAL`"
+    echo -n "Creating database `ez_color_comment $DBNAME`"
     createdb $USERARG $HOSTARG "$DBNAME" &>.psql.log
     ez_result_file $? .psql.log || exit 1
 

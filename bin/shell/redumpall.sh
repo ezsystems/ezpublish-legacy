@@ -160,7 +160,7 @@ if [ -n "$DUMP_SCHEMA" ]; then
 
     [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
     [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
-    echo "Handling MySQL schema"
+    echo "Handling `ez_color_em MySQL` schema"
     ./bin/shell/sqlredump.sh --mysql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_MYSQL_SCHEMA_FILE" --sql-schema-only "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$MYSQL_SCHEMA_UPDATES"
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping schema file `ez_color_file $KERNEL_GENERIC_SCHEMA_FILE`"
@@ -176,7 +176,7 @@ if [ -n "$DUMP_SCHEMA" ]; then
 
     [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
     [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
-    echo "Handling PostgreSQL schema"
+    echo "Handling `ez_color_em PostgreSQL` schema"
     ./bin/shell/sqlredump.sh --postgresql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_POSTGRESQL_SCHEMA_FILE" --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$POSTGRESQL_SCHEMA_UPDATES"
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
