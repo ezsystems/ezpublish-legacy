@@ -1,0 +1,20 @@
+*Title: Hide cronjob
+
+*Documentation:
+The hide cronjob feature in eZ publish 3.6 makes it possible to hide objects after they
+have been published and visible on the web automaticly. It uses a date, datetime or time
+field in the object to specify when the object should be hidden. 
+
+*Example:
+To set up the hide cronjob do the override content.ini, and add new settings for
+the block HideSettings. The following example will hide all articles, based on the 
+class attribute hide_date. Article class identifier is article :
+
+<code>
+[HideSettings]
+RootNodeList[]=2
+HideDateAttributeList[article]=hide_date
+</code>
+
+The first time the cronjob is run after the specified date/time specified in an article
+it will hide the article and all subnodes of the article.xo
