@@ -1,7 +1,9 @@
 <form action={concat( 'pdf/edit/', $pdf_export.id )|ezurl} method="post" name="ExportPDF">
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'pdfexport'|icon( 'normal', 'PDF Export'|i18n( 'design/admin/pdf/edit' ) )}&nbsp;{'%pdf_export_title [PDF export]'|i18n( 'design/admin/pdf/edit',, hash( '%pdf_export_title', $pdf_export.title ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -14,8 +16,11 @@
     {* Title. *}
     <div class="block">
         <label>{'Title'|i18n( 'design/admin/pdf/edit' )}</label>
-        {include uri="design:gui/lineedit.tpl" id_name="Title" value=$pdf_export.title|wash }
+        <input class="box" type="text" name="Title" value="{$pdf_export.title|wash}" />
     </div>
+
+    <fieldset>
+    <legend>{'Frontpage'|i18n( 'design/admin/pdf/edit' )}</legend>
 
     {* Display frontpage. *}
     <div class="block">
@@ -26,33 +31,55 @@
     {* Intro text. *}
     <div class="block">
         <label>{'Intro text'|i18n( 'design/admin/pdf/edit' )}</label>
-        <textarea name="IntroText" cols="64" rows="3">{$pdf_export.intro_text|wash}</textarea>
+        <textarea class="box" name="IntroText" cols="64" rows="3">{$pdf_export.intro_text|wash}</textarea>
     </div>
 
     {* Sub text. *}
     <div class="block">
         <label>{'Sub text'|i18n( 'design/admin/pdf/edit' )}</label>
-        <textarea name="SubText" cols="64" rows="3">{$pdf_export.sub_text|wash}</textarea>
+        <textarea class="box" name="SubText" cols="64" rows="3">{$pdf_export.sub_text|wash}</textarea>
     </div>
+    </fieldset>
 
     {* Source node. *}
     <div class="block">
-        <label>{'Source node'|i18n( 'design/admin/pdf/edit' )}</label>
-        <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node..path_identification_string|wash}{/section}" maxlength="60" />
-        {include uri='design:gui/button.tpl' id_name='ExportPDFBrowse' value='Browse'|i18n( 'design/admin/pdf/edit' )}
+        <fieldset>
+        <legend>{'Source node'|i18n( 'design/admin/pdf/edit' )}</legend>
+        {section show=$pdf_export.source_node}
+<table class="list" cellspacing="0">
+
+<tr>
+<th>{'Name'|i18n( 'design/admin/pdf/edit' )}</th>
+<th>{'Type'|i18n( 'design/admin/pdf/edit' )}</th>
+<th>{'Section'|i18n( 'design/admin/pdf/edit' )}</th>
+</tr>
+<tr>
+<td>{$pdf_export.source_node.class_identifier|class_icon( small, $pdf_export.source_node.class_name )}&nbsp;{$pdf_export.source_node.name|wash}</td>
+<td>{$pdf_export.source_node.class_name|wash}</td>
+<td>{fetch( section, object, hash( section_id, $pdf_export.source_node.object.section_id ) ).name|wash}</td>
+</tr>
+
+</table>
+        {section-else}
+        <p>{'There is no source node.'|i18n( 'design/admin/pdf/edit' )}</p>
+        {/section}
+        <input class="button" type="submit" name="ExportPDFBrowse" value="{'Browse'|i18n( 'design/admin/pdf/edit' )}" />
         <input type="hidden" name="SourceNode" value="{$pdf_export.source_node_id|wash}" />
+        </fieldset>
     </div>
 
     {* Export structure. *}
     <div class="block">
-        <label>{"Export structure"|i18n( 'design/admin/pdf/edit' )}</label>
-        <input type="radio" name="ExportType" {section show=$pdf_export.export_structure|eq("tree")} checked="checked" {/section} value="tree">{"Tree"|i18n( 'design/admin/pdf/edit' )}</input><br />
-        <input type="radio" name="ExportType" {section show=$pdf_export.export_structure|eq("tree")|not()} checked="checked" {/section} value="node">{"Node"|i18n( 'design/admin/pdf/edit' )}</input>
+        <label>{'Export structure'|i18n( 'design/admin/pdf/edit' )}</label>
+        <select name="ExportType">
+        <option {section show=$pdf_export.export_structure|eq( 'tree' )|not()}selected="selected"{/section} value="node">{'Node'|i18n( 'design/admin/pdf/edit' )}</option>
+        <option {section show=$pdf_export.export_structure|eq( 'tree' )}selected="selected"{/section} value="tree">{'Tree'|i18n( 'design/admin/pdf/edit' )}</option>
+        </select>
     </div>
 
     {* Export classes. *}
     <div class="block">
-        <label>{"Export classes"|i18n( 'design/admin/pdf/edit' )}</label>
+        <label>{'Export classes (if exporting a tree)'|i18n( 'design/admin/pdf/edit' )}</label>
         <select name="ClassList[]" multiple="multiple" size="8">
             {section var=class loop=$export_class_array}
                 <option value="{$class.item.id}"
@@ -66,10 +93,15 @@
 
     {* Export destination. *}
     <div class="block">
-        <label>{'Export destination'|i18n( 'design/admin/pdf/edit' )}</label>
-        <input type="radio" name="DestinationType" value="url" {section show=$export_type|eq(2)|not}checked="checked"{/section}>{"Export to URL"|i18n( 'design/admin/pdf/edit' )}</input>
-        {include uri="design:gui/lineedit.tpl" id_name="DestinationFile" value=$pdf_export.pdf_filename|wash }
-        <input type="radio" name="DestinationType" value="download" {section show=$export_type|eq(2)}checked="checked"{/section}>{"Export for direct download"|i18n( 'design/admin/pdf/edit' )}</input>
+        <label>{'Export type'|i18n( 'design/admin/pdf/edit' )}</label>
+        <select name="DestinationType">
+        <option value="url" {section show=$export_type|eq( 2 )|not}selected="selected"{/section}>{'Generate once'|i18n( 'design/admin/pdf/edit' )}</option>
+        <option value="download" {section show=$export_type|eq( 2 )}selected="selected"{/section}>{'Generate on the fly'|i18n( 'design/admin/pdf/edit' )}</option>
+        </select>
+    </div>
+    <div class="block">
+        <label>{'Filename (if generated on the fly)'|i18n( 'design/admin/pdf/edit' )}</label>
+        <input class="box" type="text" name="DestinationFile" value="{$pdf_export.pdf_filename|wash}" />
     </div>
 
 </div>
