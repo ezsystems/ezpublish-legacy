@@ -47,29 +47,8 @@
 
                 {* Text *}
                 {section show=$:csm_menu_item_click_action|eq('')}
-                    {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                        <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
-                    {/let}
-                {section-else}
-                        <a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">
-                {/section}
-                {section show=$:parentNode.node.is_hidden}
-                        <span class="node-name-hidden">{$:parentNode.object.name|wash}</span>
-                {section-else}
-                    {section show=$:parentNode.node.is_invisible}
-                        <span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>
-                    {section-else}
-                        <span class="node-name-normal">{$:parentNode.object.name|wash}</span>
-                    {/section}
-                {/section}
-                {section show=$:parentNode.node.is_hidden}
-                    <span class="node-hidden">(Hidden)</span></a>
-                {section-else}
-                    {section show=$:parentNode.node.is_invisible}
-                        <span class="node-hiddenbyparent">(Hidden by parent)</span></a>
-                    {section-else}
-</a> {* Do not indent this line; otherwise links will contain empty space at the end! *}
-                    {/section}
+                    {* Do not indent this line; otherwise links will contain empty space at the end! *}
+                    {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}<a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">{/let}{section-else}<a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">{/section}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}
                 {/section}
 
             {* Show children *}
