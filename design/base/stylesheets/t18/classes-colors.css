@@ -37,7 +37,7 @@ div#maincontent div.content-view-full div.attribute-link-disabled p, div#maincon
 
 /* AUTHOR AND DATE FOR ALL FULL OBJECTS */
 
-div.content-view-full div.attribute-byline p.author, div.content-view-full div.attribute-byline p.date, div.content-view-full div.attribute-byline p.placement
+div.content-view-full div.attribute-byline p
 { 
     color: #666666;
 }
@@ -45,7 +45,7 @@ div.content-view-full div.attribute-byline p.author, div.content-view-full div.a
 
 /* AUTHOR AND DATE FOR ALL CHILD OBJECTS */
 
-div.content-view-full div.content-view-line div.attribute-byline p.author, div.content-view-full div.content-view-line div.attribute-byline p.date
+div.content-view-full div.content-view-line div.attribute-byline p
 { 
     color: #666666;
 }
@@ -271,12 +271,12 @@ div.calendar div.selected
 
 /* POLL RESULT STYLE */
 
-div#poll-result div.chart-bar-resultbox
+div.poll-result div.chart-bar-resultbox
 {  
     background-color: #eeeeee;
 }
 
-div#poll-result div.chart-bar-resultbar
+div.poll-result div.chart-bar-resultbar
 {  
     background-color: #003366;; /* This could also be a repeating background image */
 }
