@@ -8,7 +8,7 @@
 
 <div class="block">
 <label>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
-<table cellspacing="4" cellspacing="4">
+<table cellspacing="4">
 <tr>
 <td>
 <input type="radio" name="DigestType_{$handler.id_string}" value="3" {eq($settings.digest_type,3)|choose('',checked)} />
