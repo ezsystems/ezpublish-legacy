@@ -84,6 +84,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleparamsope
                                     'class' => 'eZModuleParamsOperator',
                                     'operator_names' => array( 'module_params' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztopmenuurloperator.php',
+                                    'class' => 'eZTopMenuURLOperator',
+                                    'operator_names' => array( 'topmenu_url' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator.php',
                                     'class' => 'eZPackageOperator',
                                     'operator_names' => array( 'ezpackage' ) );
