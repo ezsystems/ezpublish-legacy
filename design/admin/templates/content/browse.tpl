@@ -112,51 +112,7 @@
     {'Type'|i18n('design/admin/content/browse')}
     </th>
 </tr>
-<!--
-<tr>
-    <td>
-    {section show=and( or( $browse.permission|not,
-                           cond( is_set( $browse.permission.contentclass_id ),
-                                 fetch( content, access, hash( access,          $browse.permission.access,
-                                                               contentobject,   $main_node,
-                                                               contentclass_id, $browse.permission.contentclass_id ) ),
-                                 fetch( content, access, hash( access,          $browse.permission.access,
-                                                               contentobject,   $main_node ) ) ) ),
-                                 $browse.ignore_nodes_select|contains( $main_node.node_id )|not() )}
 
-        {section show=is_array($browse.class_array)}
-	        {section show=$browse.class_array|contains($main_node.object.content_class.identifier)}
-                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
-            {section-else}
-                <input type="{$select_type}" name="" value="" disabled="disabled" />
-            {/section}
-        {section-else}
-	        <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
-        {/section}
-
-    {section-else}
-
-    <input type="{$select_type}" name="" value="" disabled="disabled" />
-
-    {/section}
-
-    </td>
-
-    <td>
-
-    {*$main_node.object.class_identifier|class_icon(small, $main_node.object.class_name)node_view_gui view=line content_node=$main_node node_url=false()*}
-
-    {section show=$main_node.depth|gt(1)}
-        <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>[{'Up one level'|i18n('design/admin/content/browse')}]</a>
-    {/section}
-    </td>
-
-<td>
-{$main_node.object.content_class.name|wash}
-</td>
-
-</tr>
--->
 {section name=Object loop=$object_array sequence=array( bglight, bgdark )}
     <tr class="{$Object:sequence}">
     <td>
