@@ -306,6 +306,9 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor )
     if ( verbose )
         qWarning( "   Checking subdirectory '%s'", dir.path().latin1() );
 
+    if ( !dir.exists() )
+        return;
+
     const QFileInfoList *list = dir.entryInfoList();
     QFileInfoListIterator it( *list );
     QFileInfo *fi;
