@@ -312,7 +312,7 @@ div#maincontent div.box-bc
     background-image: url(../images/box-bc.gif);
     background-position: bottom left;
     background-repeat: repeat-x;
-    background-color: #e7e8e0;
+    background-color: #fefefb;
 }
 
 div#maincontent div.controlbar div.box-bc
@@ -320,6 +320,7 @@ div#maincontent div.controlbar div.box-bc
     background-image: url(../images/controlbar-background.gif);
     background-position: bottom;
     background-repeat: repeat-x;
+    background-color: #e7e8e0;
 }
 
 div#leftmenu div.box-ml, div#rightmenu div.box-ml, div#maincontent div.box-ml
