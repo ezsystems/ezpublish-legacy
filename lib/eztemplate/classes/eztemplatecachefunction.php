@@ -184,11 +184,11 @@ class eZTemplateCacheFunction
                                    "\n" .
                                    "    if ( substr( \$subtreeExpiry, -1 ) == '/'  )\n" .
                                    "    {\n" .
-                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 0, -1 );\n" .
+                                   "        \$subtreeExpiry = substr( \$subtreeExpiry, 0, -1 );\n" .
                                    "    }\n" .
                                    "    if ( substr( \$subtreeExpiry, 0, 1 ) == '/'  )\n" .
                                    "    {\n" .
-                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 1 );\n" .
+                                   "        \$subtreeExpiry = substr( \$subtreeExpiry, 1 );\n" .
                                    "    }\n" .
                                    "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
                                    "    \$nonAliasPath = 'content/view/full/';\n" .
