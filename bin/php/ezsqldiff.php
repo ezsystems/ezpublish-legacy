@@ -123,9 +123,9 @@ $ini =& eZINI::instance();
 
 function &loadDatabaseSchema( $type, $host, $user, $password, $db )
 {
-    inclide_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $dbInstance = eZDB::instance( $type,
+    $dbInstance =& eZDB::instance( 'ez'.$type,
                                   array( 'server' => $host,
                                          'user' => $user,
                                          'password' => $password,
@@ -138,8 +138,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db )
         return false;
     }
 
-    $dbSchema = eZDBSchema::instance( $dbInstance );
-    return $dbSchema->schema();
+    return eZDBSchema::instance( $dbInstance );
 }
 
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB );
@@ -158,18 +157,6 @@ if ( !$matchSchema )
     $script->shutdown( 1 );
 }
 
-function generateSQLChanges( $type, $differences )
-{
-    if ( $type == 'mysql' )
-    {
-        return eZMySQLSchema::generateUpgradeFile( $differences );
-    }
-    else if ( $type == 'postgresql' )
-    {
-        return eZPGSQLSchema::generateUpgradeFile( $differences );
-    }
-}
-
 function SQLName( $type )
 {
     if ( $type == 'mysql' )
@@ -186,21 +173,21 @@ include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
 
 if ( $options['reverse'] )
 {
-    $differences = eZDbSchemaChecker::diff( $sourceSchema, $matchSchema, $sourceType, $matchType );
+    $differences = eZDbSchemaChecker::diff( $sourceSchema->schema(), $matchSchema->schema(), $sourceType, $matchType );
     if ( !$options['check-only'] )
     {
         $cli->output( "-- Difference in SQL commands for " . SQLName( $sourceType ) );
-        $sql = generateSQLChanges( $sourceType, $differences );
+        $sql = $sourceSchema->generateUpgradeFile( $differences );
         $cli->output( $sql );
     }
 }
 else
 {
-    $differences = eZDbSchemaChecker::diff( $matchSchema, $sourceSchema, $matchType, $sourceType );
+    $differences = eZDbSchemaChecker::diff( $matchSchema->schema(), $sourceSchema->schema(), $matchType, $sourceType );
     if ( !$options['check-only'] )
     {
         $cli->output( "-- Difference in SQL commands for " . SQLName( $matchType ) );
-        $sql = generateSQLChanges( $matchType, $differences );
+        $sql = $matchSchema->generateUpgradeFile( $differences );
         $cli->output( $sql );
     }
 }

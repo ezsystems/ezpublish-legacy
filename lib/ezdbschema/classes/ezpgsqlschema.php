@@ -95,7 +95,7 @@ END
 
 include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
-class eZPgsqlSchema extends eZSchemaInterface
+class eZPgsqlSchema extends eZDBSchemaInterface
 {
     /*!
      \reimp
