@@ -198,6 +198,11 @@ function ezjslib_getScreenProperties()
 {
   // client width and height
   result = new Array();
+  result.ScrollX = 0;
+  result.ScrollY = 0;
+  result.Height = 0;
+  result.Width = 0;
+
   if( typeof( window.innerWidth ) == 'number' ) 
   {
     // all but IE
@@ -235,6 +240,8 @@ function ezjslib_getScreenProperties()
     // IE6
     result.ScrollY = document.documentElement.scrollTop;
     result.ScrollX = document.documentElement.scrollLeft;
+    alert( "Here" + result.ScrollY );
   }
+
   return result;
 }

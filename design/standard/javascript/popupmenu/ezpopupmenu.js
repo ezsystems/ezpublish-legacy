@@ -200,15 +200,15 @@ function ezpopmenu_moveOnScreen( menuID )
     newX = 0; newY = 0;
     if( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
 	newY = MouseY - EZPOPMENU_OFFSET - menuElement.offsetHeight; // compensate if we are below the screen
-    else if( screenData.scrollY > EZPOPMENU_OFFSET + MouseY )
-	 newY = screenData.scrollY;  // compensate if we are above the top of the screen
+    else if( screenData.ScrollY > EZPOPMENU_OFFSET + MouseY )
+	 newY = screenData.ScrollY;  // compensate if we are above the top of the screen
     else
 	newY = MouseY + EZPOPMENU_OFFSET;
         
     if( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
 	newX = MouseX - EZPOPMENU_OFFSET - menuElement.offsetWidth;     // compensate if we are to the right of the screen
-    else if( screenData.scrollX > EZPOPMENU_OFFSET + MouseX )
-	 newX = screenData.scrollX;  // compensate if we are to the left
+    else if( screenData.ScrollX > EZPOPMENU_OFFSET + MouseX )
+	 newX = screenData.ScrollX;  // compensate if we are to the left
     else
 	newX = MouseX + EZPOPMENU_OFFSET;
 
