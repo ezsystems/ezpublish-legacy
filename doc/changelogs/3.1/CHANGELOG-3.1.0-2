@@ -20,6 +20,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Made sure name and type for access is set in access.php when default access is used.
 - Added setting in object.tpl which decides if the object should be rendered as a block tag or as inline
 - Fixed crash with object tag referencing a non existing object
+- Renamed misspelled setting AdditionalSiteDesignList in site.ini
 
 *Library :
 eZ xml:

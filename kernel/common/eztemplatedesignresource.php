@@ -120,7 +120,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $ini =& eZINI::instance();
-        $aditionalSiteDesignList = $ini->variable( "DesignSettings", "AditionalSiteDesignList" );
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
@@ -139,9 +139,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             $matches[] = array( "file" => "design/$siteBase/override/$elementText$path",
                                 "type" => "override" );
-            foreach ( $aditionalSiteDesignList as $aditionalSiteDesign )
+            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $matches[] = array( "file" => "design/$aditionalSiteDesign/override/$elementText$path",
+                $matches[] = array( "file" => "design/$additionalSiteDesign/override/$elementText$path",
                                     "type" => "override" );
             }
         }
@@ -161,9 +161,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             $matches[] = array( "file" => "design/$siteBase/$elementText$path",
                                 "type" => "normal" );
-            foreach ( $aditionalSiteDesignList as $aditionalSiteDesign )
+            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $matches[] = array( "file" => "design/$aditionalSiteDesign/$elementText$path",
+                $matches[] = array( "file" => "design/$additionalSiteDesign/$elementText$path",
                                     "type" => "normal" );
             }
         }
@@ -439,7 +439,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$onlyStandard )
             $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
 
-        $aditionalSiteDesignList = $ini->variable( "DesignSettings", "AditionalSiteDesignList" );
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
         // Generate match cache for all templates
         include_once( "lib/ezutils/classes/ezdir.php" );
@@ -460,11 +460,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // TODO: fetch all resource repositories
         $resourceArray[] = "design/$standardBase/templates";
 
-        // Add the aditional sitedesigns
-        foreach ( $aditionalSiteDesignList as $aditionalSiteDesign )
+        // Add the additional sitedesigns
+        foreach ( $additionalSiteDesignList as $additionalSiteDesign )
         {
-            $resourceArray[] = "design/$aditionalSiteDesign/override/templates";
-            $resourceArray[] = "design/$aditionalSiteDesign/templates";
+            $resourceArray[] = "design/$additionalSiteDesign/override/templates";
+            $resourceArray[] = "design/$additionalSiteDesign/templates";
         }
 
         $resourceArray[] = "design/$siteBase/override/templates";

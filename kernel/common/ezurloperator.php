@@ -247,18 +247,18 @@ class eZURLOperator
                 }
                 else
                 {
-                    $aditionalSiteDesignList =& $ini->variable( "DesignSettings", "AditionalSiteDesignList" );
+                    $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
                     $imageFound = false;
-                    // Check all aditional sitedesigns
-                    foreach ( $aditionalSiteDesignList as $aditionalSiteDesign )
+                    // Check all additional sitedesigns
+                    foreach ( $additionalSiteDesignList as $additionalSiteDesign )
                     {
-                        if ( file_exists( "design/$aditionalSiteDesign/images/$operatorValue" ) )
+                        if ( file_exists( "design/$additionalSiteDesign/images/$operatorValue" ) )
                         {
                             if ( $no_slash_prefix == true )
-                                $operatorValue = "design/$aditionalSiteDesign/images/$operatorValue";
+                                $operatorValue = "design/$additionalSiteDesign/images/$operatorValue";
                             else
-                                $operatorValue = $this->Sys->wwwDir() . "/design/$aditionalSiteDesign/images/$operatorValue";
+                                $operatorValue = $this->Sys->wwwDir() . "/design/$additionalSiteDesign/images/$operatorValue";
                             $operatorValue = htmlspecialchars( $operatorValue );
                             $imageFound = true;
                         }
