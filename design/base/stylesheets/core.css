@@ -293,6 +293,23 @@ div.message-error
     background-color: #fff0f0;
 }
 
+/* PAGE NAVIGATION */
+
+div.pagenavigator
+{
+    text-align: center;    
+}
+
+div.pagenavigator span.previous
+{
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    float: right;
+}
+
 /* MISC STYLES */
 
 .small
@@ -360,6 +377,7 @@ div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.f
 }
 
 /* Misc */
+
 span.spamfilter
 {
      display: none;
