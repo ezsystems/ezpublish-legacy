@@ -461,7 +461,7 @@ div.message-error span.time
     background-repeat: repeat;
 }
 
-label.message-error
+label.message-error, legend.message-error
 {
     color: #ff0000;
 }

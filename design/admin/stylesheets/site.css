@@ -433,11 +433,6 @@ div.box-content div.block p
     padding: 0.25em 0 0.25em 0;
 }
 
-div.box-content div.block div.block
-{
-    padding: 0;
-}
-
 div.box-content div.context-toolbar div.block
 {
     padding: 0;
@@ -446,6 +441,11 @@ div.box-content div.context-toolbar div.block
 div.box-content div p
 {
     padding: 0;
+}
+
+div#maincontent div.box-content fieldset div.block
+{
+    margin: 0.5em 0 0.5em 0;
 }
 
 div#leftmenu div.box-content
