@@ -181,7 +181,35 @@ class eZKeywordType extends eZDataType
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
         $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezkeyword_attribute_link WHERE objectattribute_id='$contentObjectAttributeID'" );
+
+        /* First we retrieve all the keyword ID related to this object attribute */
+        $res = $db->arrayQuery( "SELECT keyword_id 
+                                 FROM ezkeyword_attribute_link
+                                 WHERE objectattribute_id='$contentObjectAttributeID'" );
+        $keywordIDs = array();
+        foreach ( $res as $record )
+            $keywordIDs[] = $record['keyword_id'];
+        $keywordIDString = implode( ', ', $keywordIDs );
+        
+        /* Then we see which ones only have a count of 1 */
+        $res = $db->arrayQuery( "SELECT keyword_id
+                                 FROM ezkeyword, ezkeyword_attribute_link
+                                 WHERE ezkeyword.id = ezkeyword_attribute_link.keyword_id
+                                     AND ezkeyword.id IN ($keywordIDString)
+                                 GROUP BY keyword_id
+                                 HAVING COUNT(*) = 1" );
+        $unusedKeywordIDs = array();
+        foreach ( $res as $record )
+            $unusedKeywordIDs[] = $record['keyword_id'];
+        $unusedKeywordIDString = implode( ', ', $unusedKeywordIDs );
+
+        /* Then we delete those unused keywords */
+        $db->query( "DELETE FROM ezkeyword WHERE id IN ($unusedKeywordIDString)" );
+
+        /* And as last we remove the link between the keyword and the object
+         * attribute to be removed */
+        $db->query( "DELETE FROM ezkeyword_attribute_link
+                     WHERE objectattribute_id='$contentObjectAttributeID'" );
     }
 
     /*!
