@@ -63,6 +63,11 @@ if ( $Month )
 if ( $Day )
     $Day = (int) $Day;
 
+if ( trim( $LanguageCode ) != '' )
+{
+    eZContentObject::setDefaultLanguage( $LanguageCode );
+}
+
 if ( $NodeID < 2 )
     $NodeID = 2;
 
