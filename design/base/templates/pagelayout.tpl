@@ -36,7 +36,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <div id="header">
     <div id="header-design">
-    <h1> </h1>
+    <h1>Overskrift</h1>
     </div>
 </div>
 
