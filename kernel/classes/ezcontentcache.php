@@ -191,6 +191,8 @@ class eZContentCache
         $result['content_info'] = $cachedArray['content_info'];
         $result['content'] = $cachedArray['content'];
 
+        $result['view_parameters'] = $cachedArray['content_info']['view_parameters'];
+
         foreach ( array( 'path', 'node_id', 'section_id', 'navigation_part' ) as $item )
         {
             if ( isset( $cachedArray[$item] ) )
