@@ -19,12 +19,16 @@
         <td class="normal">{$configWrite}</td>
     </tr>
     <tr>
-        <td>
+        <td colspan="2">
         {section name=continue show=$continue}
-            <h2>Congratulations! eZ publish should now run on your system.</h2>
+            <hr />
+            <div align="center">
+            <h2>Congratulations!</h2>
+            <h2>eZ publish should now run on your system.</h2>
+            </div>
             <p>
-            If you need help with eZ publish, you can go to the <a href="http://developer.ez.no">eZ publish website</a>. If you find bugs (errors),
-            please go to <a href="http://developer.ez.no/developer/bugreports/">eZ publish bug reports</a> and report this error. Only with your help
+            If you need help with eZ publish, you can go to the <a href="http://developer.ez.no">eZ publish website</a>. If you find a bug (error),
+            please go to <a href="http://developer.ez.no/developer/bugreports/">eZ publish bug reports</a> and report it. Only with your help
             we can fix the errors eZ publish might have and implement new features.
             </p>
             <p>
@@ -32,7 +36,7 @@
             "SiteAccessSettings" to "true".
             </p>
             <p>
-            You can find your new eZ publish website <a href="{$url}">here</a>. Enjoy one of the most successful web content management systems that exist!
+            You can find your new eZ publish website <a href="{$url}">here</a>. Enjoy one of the most successful web content management systems!
             </p>
         {section-else}
             <p>
