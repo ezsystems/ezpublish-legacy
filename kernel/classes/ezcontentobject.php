@@ -1633,7 +1633,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.to_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version='$version'" );
+					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
@@ -1645,32 +1645,11 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the related objects.
+     \note This function is a duplicate of reverseRelatedObjectList(), use that function instead.
     */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID" );
-        if ( $version == false )
-            $version = $this->CurrentVersion;
-        if( ! $objectID )
-        {
-            $objectID = $this->ID;
-        }
-        $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( "SELECT
-					       ezcontentobject.*
-					     FROM
-					       ezcontentobject, ezcontentobject_link
-					     WHERE
-					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.to_contentobject_id='$objectID'" );
-
-        $return = array();
-        foreach ( $relatedObjects as $object )
-        {
-            $return[] = new eZContentObject( $object );
-        }
-        return $return;
+        return $this->reverseRelatedObjectList( $version, $objectID );
     }
 
     /*!

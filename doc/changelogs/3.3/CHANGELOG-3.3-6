@@ -3,6 +3,10 @@ Changes from 3.3-5 to 3.3-6
 *Kernel:
 
 - Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
+- Made sure the eZContentObject::contentObjectListRelatingThis function uses
+  the eZContentObject::reverseRelatedObjectList function.
+- eZContentObject::reverseRelatedObjectList now only lists relations from published
+  versions and not drafts.
 
 *Setup:
 
