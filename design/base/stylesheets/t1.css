@@ -711,6 +711,7 @@ div#maincontent-design div.content-view-full div.content-view-line div.attribute
 /* Content link for all main objects, e.g. " and "Thumbnail/slideshow view" */
 div#maincontent-design div.content-view-full div.attribute-link p, div#maincontent-design div.view-slideshow div.attribute-link p, div#maincontent-design div.content-view-full div.attribute-tipafriend p
 { 
+    clear: both;
     padding-top: 0px;
     padding-left: 6px;
     font: 9pt;
@@ -892,6 +893,13 @@ div#maincontent-design div.content-view-embed div.content-view-children, div.fac
     margin-top: 0px;
     padding-top: 2px;
     padding-bottom: 3px;
+}
+
+div#maincontent-design div.content-view-embed h3
+{ 
+    font: 9pt regular underline;
+    color: #369;
+    margin: 0px;
 }
 
 div.quote
