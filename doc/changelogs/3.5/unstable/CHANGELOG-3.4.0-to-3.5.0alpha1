@@ -84,6 +84,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed bug related to wrong deletion of rows in eZMatrix datatype
   http://ez.no/community/bug_reports/martix_rows_reappear_after_deleting
   (merged from stable/3.4 rev. 7930)
+- Added missing template node/view/listitem.tpl
+  http://ez.no/community/bug_reports/missing_template_file
+  (Merged from stable/3.4 rev. 7935)
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
