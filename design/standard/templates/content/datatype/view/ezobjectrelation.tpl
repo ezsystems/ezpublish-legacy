@@ -3,6 +3,6 @@
    No relation
    {/case}
    {case}
-   <a href="/content/view/{$attribute.content.main_node_id}/">{$attribute.content.name}</a>
+   <a href={concat("content/view/",$attribute.content.main_node_id,"/")|ezurl}>{$attribute.content.name}</a>
    {/case}
 {/switch}

@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action="/content/edit/{$object.id}/{$edit_version}/">
+<form enctype="multipart/form-data" method="post" action={concat("content/edit/",$object.id,"/",$edit_version,"/")ezurl}>
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

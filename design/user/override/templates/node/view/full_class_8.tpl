@@ -1,4 +1,4 @@
-<form method="post" action="/content/action/">
+<form method="post" action={"content/action/"|ezurl}>
 
 <table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>

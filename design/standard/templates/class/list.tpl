@@ -23,7 +23,7 @@
   <td class="{$Classes:sequence}">{$Classes:item.modifier_id}</td>
   <td class="{$Classes:sequence}">{$Classes:item.created|l10n(shortdatetime)}</td>
   <td class="{$Classes:sequence}">{$Classes:item.modified|l10n(shortdatetime)}</td>
-  <td class="{$Classes:sequence}" width="1%"><a href="{$module.functions.edit.uri}/{$Classes:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+  <td class="{$Classes:sequence}" width="1%"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
   <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="ContentClass_id_checked[]" value="{$Classes:item.id}"></td>
 </tr>
 {/section}
@@ -58,7 +58,7 @@
   <td class="{$Classes:sequence}">{$Classes:item.modifier_id}</td>
   <td class="{$Classes:sequence}">{$Classes:item.created|l10n(shortdatetime)}</td>
   <td class="{$Classes:sequence}">{$Classes:item.modified|l10n(shortdatetime)}</td>
-  <td class="{$Classes:sequence}" width="1%"><a href="{$module.functions.edit.uri}/{$Classes:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+  <td class="{$Classes:sequence}" width="1%"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
   <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="TempContentClass_id_checked[]" value="{$Classes:item.id}"></td>
 </tr>
 {/section}

@@ -155,7 +155,7 @@ function OpenWindow ( URL, WinName, Features ) {
             </td>
 {*
     <td bgcolor="#cccccc" valign="top" width="150">
-    <form action="/content/search/" method="get">
+    <form action={"content/search/"|ezurl} method="get">
     <label class="topline" for="Search">Search:</label><a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">Advanced search</span></a><div class="labelbreak"></div>
     <input type="text" size="10" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />

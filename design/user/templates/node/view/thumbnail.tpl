@@ -1,7 +1,7 @@
 {let page_limit=8
      list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
-<form method="post" action="/content/action/">
+<form method="post" action={"content/action/"|ezurl}>
 
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
