@@ -8,9 +8,10 @@
 {*<link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />*}
 
 <style>
-    @import url("/design/corporate/stylesheets/core.css");
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-     {*@import url("/design/corporate/stylesheets/corporate_red.css");*}
+    @import url({"stylesheets/core.css"|ezdesign});
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+*}
+     @import url("/design/corporate/stylesheets/corporate.css");
 </style>
 
 </head>
