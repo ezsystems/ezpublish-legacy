@@ -1093,13 +1093,14 @@ class eZTemplate
      Returns the actual value of a template type or null if an unknown type.
     */
     function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
-                            $checkExistance = false )
+                            $checkExistance = false, $checkForProxy = false )
     {
         /*
          * We use a small dirty hack in this function...
          * To help the caller to determine if the value was a proxy object,
          * we store boolean true to $dataElements['proxy-object-found'] in this case.
          * (it's up to caller to remove this garbage from $dataElements...)
+         * This behaviour is enabled by $checkForProxy parameter.
          */
 
         $value = null;
@@ -1266,7 +1267,8 @@ class eZTemplate
                     if ( is_object( $value ) and
                          method_exists( $value, 'templateValue' ) )
                     {
-                        $dataElements['proxy-object-found'] = true;
+                        if ( $checkForProxy )
+                            $dataElements['proxy-object-found'] = true;
                         $value =& $value->templateValue();
                     }
                     $valueData = array( 'value' => $value );
@@ -1287,7 +1289,8 @@ class eZTemplate
         if ( is_object( $value ) and
              method_exists( $value, 'templateValue' ) )
         {
-            $dataElements['proxy-object-found'] = true;
+            if ( $checkForProxy )
+                $dataElements['proxy-object-found'] = true;
             $value =& $value->templateValue();
         }
         return $value;

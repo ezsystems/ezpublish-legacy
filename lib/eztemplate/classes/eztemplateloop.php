@@ -282,7 +282,7 @@ class eZTemplateLoop
 
         // get parameter value
         $dst = $this->Tpl->elementValue( $this->FunctionParameters[$paramName], $this->RootNamespace,
-                                         $this->CurrentNamespace, $this->FunctionPlacement );
+                                         $this->CurrentNamespace, $this->FunctionPlacement, false, true );
 
         // check if a proxy object ({section} loop iterator) was involved in the parameter value
         if ( isset( $this->FunctionParameters[$paramName]['proxy-object-found'] ) )
