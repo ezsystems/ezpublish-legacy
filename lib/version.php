@@ -71,7 +71,7 @@ class eZPublishSDK
     */
     function release()
     {
-        return 5;
+        return 6;
     }
 }
 

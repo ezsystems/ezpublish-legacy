@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION="2.9-5"
-VERSION_NICK="3.0.0-beta4"
+VERSION="2.9-6"
+VERSION_NICK="3.0.0-beta5"
 
 # column to start "[  OK  ]" label in
 RES_COL=60
