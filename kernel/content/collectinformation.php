@@ -285,12 +285,12 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                 if ( !$receiver )
                     $receiver = $ini->variable( "MailSettings", "AdminEmail" );
             }
-	    $mail->setReceiver( $receiver );      
+            $mail->setReceiver( $receiver );
 
-	    $sender = $ini->variable( "MailSettings", "EmailSender" );
+            $sender = $ini->variable( "MailSettings", "EmailSender" );
             $mail->setSender( $sender );
             $mail->setReplyTo( $sender );
-        
+
             $mail->setSubject( $subject );
             $mail->setBody( $templateResult );
             $mailResult = eZMailTransport::send( $mail );
