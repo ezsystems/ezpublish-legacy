@@ -4035,7 +4035,8 @@ $schema = array (
       array (
         'length' => 11,
         'type' => 'int',
-        'default' => NULL,
+        'not_null' => '1',
+        'default' => 0,
       ),
       'title' => 
       array (
@@ -4058,6 +4059,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+          1 => 'status',
         ),
       ),
     ),
@@ -4096,6 +4098,13 @@ $schema = array (
         'type' => 'int',
         'default' => NULL,
       ),
+      'status' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'title' => 
       array (
         'length' => 255,
@@ -4111,6 +4120,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+          1 => 'status',
         ),
       ),
       'ezrss_export_rsseid' => 
@@ -4209,7 +4219,8 @@ $schema = array (
       array (
         'length' => 11,
         'type' => 'int',
-        'default' => NULL,
+        'not_null' => '1',
+        'default' => 0,
       ),
       'url' => 
       array (
@@ -4225,6 +4236,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+          1 => 'status',
         ),
       ),
     ),

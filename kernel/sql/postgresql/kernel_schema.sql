@@ -1892,7 +1892,7 @@ CREATE TABLE ezrss_export (
     modifier_id integer,
     rss_version character varying(255),
     site_access character varying(255),
-    status integer,
+    status integer DEFAULT 0 NOT NULL,
     title character varying(255),
     url character varying(255)
 );
@@ -1909,6 +1909,7 @@ CREATE TABLE ezrss_export_item (
     id integer DEFAULT nextval('ezrss_export_item_s'::text) NOT NULL,
     rssexport_id integer,
     source_node_id integer,
+    status integer DEFAULT 0 NOT NULL,
     title character varying(255)
 );
 
@@ -1932,7 +1933,7 @@ CREATE TABLE ezrss_import (
     modifier_id integer,
     name character varying(255),
     object_owner_id integer,
-    status integer,
+    status integer DEFAULT 0 NOT NULL,
     url text
 );
 
@@ -3336,7 +3337,7 @@ ALTER TABLE ONLY ezrole
 
 
 ALTER TABLE ONLY ezrss_export
-    ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id, status);
 
 
 
@@ -3345,7 +3346,7 @@ ALTER TABLE ONLY ezrss_export
 
 
 ALTER TABLE ONLY ezrss_export_item
-    ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id, status);
 
 
 
@@ -3354,7 +3355,7 @@ ALTER TABLE ONLY ezrss_export_item
 
 
 ALTER TABLE ONLY ezrss_import
-    ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id, status);
 
 
 
