@@ -137,17 +137,17 @@
         {/section}
     </td>
 
-    {* Preview. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'Preview the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}">{$Versions.item.version}</a></td>
-
-    {* Version. *}
-	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ) )}</td>
+    {* Version/view. *}
+	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'View the contents of version #%version_number. Default translation: %default_translation.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version, '%default_translation', $object.default_language|locale().intl_language_name ) )}">{$Versions.item.version}</a></td>
 
     {* Status. *}
+	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ) )}</td>
+
+    {* Translations. *}
 	<td>
 	    {section var=Languages loop=$Versions.item.language_list}
         {delimiter}<br />{/delimiter}
-	    <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'Preview the %translation translation of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
+	    <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
         {/section}
 	</td>
 

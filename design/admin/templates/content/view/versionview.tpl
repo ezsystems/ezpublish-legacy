@@ -110,10 +110,10 @@
 </div></div></div></div></div>
 
 
-{* Preview control *}
-<div class="preview-control">
+{* View control *}
+<div class="view-control">
 <div class="box-header"><div class="box-ml"><div class="box-mr">
-<h4>{'Preview control'|i18n( 'design/admin/content/view/versionview' )}</h4>
+<h4>{'View control'|i18n( 'design/admin/content/view/versionview' )}</h4>
 </div></div></div>
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -183,7 +183,7 @@
 <input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
 <div class="block">
-<input class="button" type="submit" name="ChangeSettingsButton" value="{'Update preview'|i18n( 'design/admin/content/view/versionview' )}" title="{'Preview the version that is currently being displayed using the selected language, location and design.'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button" type="submit" name="ChangeSettingsButton" value="{'Update view'|i18n( 'design/admin/content/view/versionview' )}" title="{'View the version that is currently being displayed using the selected language, location and design.'|i18n( 'design/admin/content/view/versionview' )}" />
 </div>
 
 </div>
@@ -233,7 +233,6 @@
 </div>
 
 {* Content preview in content window. *}
-
 <div class="mainobject-window">
     {node_view_gui content_node=$node view=admin_preview}
 </div>

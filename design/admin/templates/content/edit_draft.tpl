@@ -145,14 +145,14 @@
         {/section}
     </td>
 
-    {* Version. *}
-    <td><a href={concat( '/content/versionview/', $object.id, '/', $Drafts.item.version )|ezurl} title="{'Preview the contents of version #%version.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}">{$Drafts.item.version}</a></td>
+    {* Version/view. *}
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $Drafts.item.version )|ezurl} title="{'View the contents of version #%version. Default translation: %default_translation.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version, '%default_translation', $object.default_language|locale().intl_language_name ) )}">{$Drafts.item.version}</a></td>
 
     {* Translation. *}
     <td>
         {section var=Languages loop=$Drafts.item.language_list}
             {delimiter}<br />{/delimiter}
-            <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Drafts.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'Preview the %translation translation of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Drafts.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
+            <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Drafts.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Drafts.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
         {/section}
     </td>
 
