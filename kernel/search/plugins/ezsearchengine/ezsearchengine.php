@@ -497,6 +497,7 @@ class eZSearchEngine
                 $searchDateQuery = "ezsearch_object_word_link.published >= '$publishedDate' AND ";
                 if ( $publishedDateStop )
                     $searchDateQuery .= "ezsearch_object_word_link.published <= '$publishedDateStop' AND ";
+                $this->GeneralFilter['searchDateQuery'] = $searchDateQuery;
             }
 
             $classQuery = "";
@@ -1893,10 +1894,13 @@ class eZSearchEngine
         // create the word hash
         $wordIDArray = array();
         $wordIDHash = array();
-        foreach ( $wordIDArrayRes as $wordRes )
+        if ( is_array( $wordIDArrayRes ) )
         {
-            $wordIDArray[] = $wordRes['id'];
-            $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
+            foreach ( $wordIDArrayRes as $wordRes )
+            {
+                $wordIDArray[] = $wordRes['id'];
+                $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
+            }
         }
 
         return array( 'wordIDArray' => &$wordIDArray,
