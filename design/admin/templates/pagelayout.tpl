@@ -55,7 +55,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <ul>
     <li><div>
     {* Content menu *}
-    {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
@@ -63,7 +63,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     </div></li>
     <li><div>
     {* Media menu *}
-    {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
@@ -71,7 +71,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     </div></li>
     <li><div>
     {* Users menu *}
-    {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
@@ -80,7 +80,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=eq(ezpreference( 'interface_mode'),'advanced')}
     <li><div>
     {* Shop menu *}
-    {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
@@ -88,7 +88,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     </div></li>
     <li><div>
     {* Set up menu *}
-    {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
@@ -97,7 +97,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/section}
     <li><div>
     {* Personal *}
-    {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
+    {section show=ne($ui_context,'edit')}
     {include uri="design:page_menuheadselected.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}

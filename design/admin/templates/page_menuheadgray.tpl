@@ -1,2 +1,2 @@
 {*?template charset=latin1?*}
-<a href={$menu_url|ezurl}>{$menu_text|wash}</a>
+<span class="disabled">{$menu_text|wash}</span>

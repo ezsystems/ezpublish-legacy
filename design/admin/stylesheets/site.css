@@ -87,12 +87,17 @@ div#topmenu li
     border-right-color: #d0d0d0;
 }
 
-div#topmenu li a
+div#topmenu li a, div#topmenu span.disabled
 {
     color: #000000;
     font-weight: bold;
     padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
+}
+
+div#topmenu span.disabled
+{
+    color: #c0c0c0;
 }
 
 div#path
