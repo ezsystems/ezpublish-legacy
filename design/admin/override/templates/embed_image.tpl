@@ -23,7 +23,7 @@
 {switch match=$align}
 {case match="left"}
 <div class="imageleft">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} />
 {section show=$href}</a>{/section}
 
@@ -34,7 +34,7 @@
 {/case}
 {case match="right"}
 <div class="imageright">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} />
 {section show=$href}</a>{/section}
 
@@ -44,8 +44,9 @@
 </div>
 {/case}
 {case}
+
 <div class="imagecenter">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} />
 {section show=$href}</a>{/section}
 
