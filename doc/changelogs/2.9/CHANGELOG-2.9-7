@@ -73,6 +73,8 @@ Changes from 2.9-6 to 2.9-7
 - Fixed problem with postgresql db not being found, postgresql extension
   was searched for while pgsql is the correct extension.
 - Google navigation tab added to 'My drafts' and 'Archive' views
+- Main pagelayout now has some extra metadata to inform browser of
+  specific urls. Opera 7 will create a top bar with this information.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

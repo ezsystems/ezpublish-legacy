@@ -1,10 +1,13 @@
 {*?template charset=latin1?*}
+{set-block variable=site_title}
+{$site.title} - {section name=Path loop=$module_result.path}{$:item.text}{delimiter} / {/delimiter}{/section}
+{/set-block}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
+    <title>{$site_title}</title>
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
@@ -30,6 +33,8 @@
 <meta name="generator" content="eZ publish" />
 
 {* Meta information end *}
+
+{include uri="design:link.tpl"}
 
 </head>
 
