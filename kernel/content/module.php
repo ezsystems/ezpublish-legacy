@@ -155,11 +155,31 @@ $ViewList['removeeditversion'] = array(
 
 $ViewList['exportpdf'] = array(
     'script' => 'exportpdf.php',
-    'functions' => array( 'read' ),
+    'functions' => array( 'read', 'edit' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ExportPDFBrowse' => 'BrowseSource',
-                                    'ExportPDFExport' => 'Export',
-                                    'SelectedNodeIDArray' => 'NodeID' ),
+                                    'ExportPDFButton' => 'Export',
+                                    'CreateExport' => 'CreateExport' ),
+    'post_action_parameters' => array( 'Export' => array( 'Title' => 'Title',
+                                                          'DisplayFrontpage' => 'DisplayFrontpage',
+                                                          'IntroText' => 'IntroText',
+                                                          'SubText' => 'SubText',
+                                                          'PDFSourceNode' => 'SourceNode',
+                                                          'ExportType' => 'ExportType',
+                                                          'ClassList' => 'ClassList',
+                                                          'SiteAccess' => 'SiteAccess',
+                                                          'DestinationType' => 'DestinationType',
+                                                          'DestinationFile' => 'DestinationFile' ) ),
+    'unordered_params' => array( 'language' => 'Language' ),
+    'params' => array( 'PDFExportID' ) );
+
+$ViewList['listpdf'] = array(
+    'script' => 'listpdf.php',
+    'functions' => array( 'read', 'edit' ),
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'NewPDFExport' => 'NewExport',
+                                    'RemoveExportButton' => 'RemoveExport' ),
+    'post_action_parameters' => array( 'RemoveExport' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
     'unordered_params' => array( 'language' => 'Language' ) );
 
 $ViewList['download'] = array(
