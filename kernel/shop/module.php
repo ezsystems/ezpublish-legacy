@@ -61,16 +61,16 @@ $ViewList["vattype"] = array(
     "script" => "vattype.php",
     "params" => array(  ) );
 
-$ViewList["discountrule"] = array(
-    "script" => "discountrule.php",
+$ViewList["discountgroup"] = array(
+    "script" => "discountgroup.php",
     "params" => array(  ) );
+$ViewList["discountgroupedit"] = array(
+    "script" => "discountgroupedit.php",
+    "params" => array( 'DiscountGroupID' ) );
 $ViewList["discountruleedit"] = array(
     "script" => "discountruleedit.php",
-    "params" => array( 'DiscountRuleID' ) );
-$ViewList["discountsubruleedit"] = array(
-    "script" => "discountsubruleedit.php",
-    "params" => array( 'DiscountRuleID', 'DiscountSubRuleID'  ) );
-$ViewList["discountrulemembershipview"] = array(
-    "script" => "discountrulemembershipview.php",
-    "params" => array( 'DiscountRuleID' ) );
+    "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
+$ViewList["discountgroupmembershipview"] = array(
+    "script" => "discountgroupmembershipview.php",
+    "params" => array( 'DiscountGroupID' ) );
 ?>

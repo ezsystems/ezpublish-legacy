@@ -84,7 +84,7 @@ class eZDiscountRule extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => "New rule" );
+            "name" => "New group" );
         return new eZDiscountRule( $row );
     }
 

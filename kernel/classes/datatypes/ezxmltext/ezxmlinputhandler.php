@@ -272,7 +272,8 @@ class eZXMLInputHandler
                         }
                         else
                         {
-                            $message =  "Unmatched tag " . $tagName;
+                            $message =  "Unmatched tag - If the unmatched tag is not " . $lastTag . ", ";
+                            $message .=  "then it must be " . $tagName;
                             $output = array( null, $message );
                             return $output;
                         }
