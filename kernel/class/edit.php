@@ -140,6 +140,7 @@ $ClassID = $class->attribute( "id" );
 $ClassVersion = $class->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
+    eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
     $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
@@ -371,8 +372,16 @@ if ( $contentClassHasInput )
     }
 }
 // Store version 0 and discard version 1
-if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
+if ( $http->hasPostVariable( "StoreButton" ) && $canStore )
 {
+    $firstStoreAttemt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+    if ( !$firstStoreAttemt )
+    {
+        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
+        return;
+    }
+    eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
+
     // Class cleanup, update existing class objects according to new changes
     include_once( "kernel/classes/ezcontentobject.php" );
     $id = $class->attribute( "id" );
@@ -505,6 +514,11 @@ if ( $http->hasPostVariable( "NewButton" ) )
 }
 
 $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
+if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
+{
+    $http->setSessionVariable( 'CanStoreTicket', md5( (string)rand() ) );
+    eZSessionWrite( $http->sessionVariable( 'CanStoreTicket' ), 1 );
+}
 
 // Template handling
 include_once( "kernel/common/template.php" );
