@@ -943,9 +943,15 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( !$currentUser )
         {
+            $currentUser = & eZUser::fetch( EZ_USER_ANONYMOUS_ID );
+            eZDebug::writeWarning( 'User not found, returning anonymous' );
+        }
+
+        if ( !$currentUser )
+        {
             $currentUser = new eZUser( array( 'id' => -1, 'login' => 'NoUser' ) );
 
-            eZDebug::writeWarning( 'User not found, returning anonymous' );
+            eZDebug::writeWarning( 'Anonymous user not found, returning NoUser' );
         }
 
         return $currentUser;
@@ -964,6 +970,18 @@ WHERE user_id = '" . $userID . "' AND
         include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /*!
+     \return \c true if the user is the anonymous user.
+    */
+    function isAnonymous()
+    {
+        if ( $this->attribute( 'contentobject_id' ) != EZ_USER_ANONYMOUS_ID )
         {
             return false;
         }

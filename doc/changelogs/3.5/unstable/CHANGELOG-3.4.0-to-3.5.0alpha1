@@ -5,6 +5,7 @@ Changes from 3.4.0 to 3.5.0alpha1
   Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
 - Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
   (merged from stable/3.4 rev. 6843)
+- Added function eZUser::isAnonymous
 
 *Scripts:
 eztc.php:
