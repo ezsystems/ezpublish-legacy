@@ -68,8 +68,6 @@ class eZStepSiteDetails extends eZStepInstaller
         include_once( 'lib/ezdb/classes/ezdbtool.php' );
         $databaseMap = eZSetupDatabaseMap();
 
-        $password = $this->PersistenceList['database_info']['password'];
-
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $regionalInfo = $this->PersistenceList['regional_info'];
@@ -79,6 +77,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbServer = $databaseInfo['server'];
         $dbUser = $databaseInfo['user'];
         $dbSocket = $databaseInfo['socket'];
+        $dbPwd = $databaseInfo['password'];
 
         $chosenDatabases = array();
         $siteAccessValues = array();
