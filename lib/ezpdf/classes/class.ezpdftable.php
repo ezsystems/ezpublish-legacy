@@ -1257,7 +1257,7 @@ class eZPDFTable extends Cezpdf
                         $indentArray = array( 0, 4, 6, 8, 10 ),
                         $dots = true,
                         $contentText = '',
-                        $level = 2 )
+                        $level = 3 )
     {
         $fontSize = $this->fontSize();
         $this->ezStopPageNumbers(1,1);
