@@ -666,9 +666,25 @@ class eZTemplateLogicOperator
             case $this->LeName:
             case $this->GeName:
             {
-                if ( ( $cnt = $this->getValueCount( $value ) ) === false )
+                if ( $value !== null )
                 {
-                    $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
+                    $operandA = $value;
+                    $operandB = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                }
+                else
+                {
+                    $operandA = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $operandB = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                }
+
+                if ( ( $cnt = $this->getValueCount( $operandA ) ) === false )
+                {
+                    $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $operandA ) . "( $operandA ), must be either array, attribute object or numerical" );
+                    return;
+                }
+                if ( ( $val_cnt = $this->getValueCount( $operandB ) ) === false )
+                {
+                    $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $operandB ) . "( $operandB ), must be either array, attribute object or numerical" );
                     return;
                 }
                 if ( $operatorName == $this->LtName )
@@ -686,19 +702,28 @@ class eZTemplateLogicOperator
             } break;
             case $this->NotName:
             {
-                if ( is_array( $value ) )
-                    $value = ( count( $value ) == 0 );
-                else if ( is_null( $value ) )
-                    $value = true;
-                else if ( is_object( $value ) and
-                          method_exists( $value, "attributes" ) )
-                    $value = ( count( $value->attributes() ) == 0 );
-                else if ( is_numeric( $value ) )
-                    $value = ( $value == 0 );
-                else if ( is_string( $value ) )
-                    $value = ( strlen( $value ) == 0 );
+                if ( $value !== null )
+                {
+                    $operand = $value;
+                }
                 else
-                    $value = !$value;
+                {
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                }
+                if ( is_array( $operand ) )
+                    $operand = ( count( $operand ) == 0 );
+                else if ( is_null( $operand ) )
+                    $operand = true;
+                else if ( is_object( $operand ) and
+                          method_exists( $operand, "attributes" ) )
+                    $operand = ( count( $operand->attributes() ) == 0 );
+                else if ( is_numeric( $operand ) )
+                    $operand = ( $operand == 0 );
+                else if ( is_string( $operand ) )
+                    $operand = ( strlen( $operand ) == 0 );
+                else
+                    $operand = !$operand;
+                $value = $operand;
             } break;
         }
     }

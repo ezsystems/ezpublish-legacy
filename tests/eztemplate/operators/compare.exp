@@ -1,7 +1,9 @@
-1
-1
-
-
-1
-1
-
+array( 1, 2, 3, 4 )|compare( array( 1, 2, 3, 4 ) )='1'
+$arr|compare($arr)='1'
+array( 1, 2, 3, 5 )|compare( array( 1, 2, 3, 4 ) )=''
+array( 1, 2, 3 )|compare( $arr )=''
+$arr|compare( array( 1, 2, 3 ) )=''
+"str"|compare( "str" )='1'
+$str|compare( $str )='1'
+"str2"|compare( "str" )=''
+$str|compare( "str2" )=''

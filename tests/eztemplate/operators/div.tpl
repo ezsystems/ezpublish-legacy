@@ -12,5 +12,5 @@
 0.25={div( 2, $:page_count, $:current_page )}
 0.125={div( 2, 2, $:page_count, $:current_page )}
 0.5={div( 2, 2, 2 )}
-2={div( 2 )}
+2={1|div( 2 )}
 {/let}

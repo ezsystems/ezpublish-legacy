@@ -218,7 +218,7 @@ class eZTemplateStringOperator
                                                                              "default" => " " ) ),
                       $this->SimplifyName => array ( 'char'        => array( "type" => "string",
                                                                              "required" => false,
-                                                                             "default" => "\s" ) ) );
+                                                                             "default" => false ) ) );
     }
 
     function phpMapTransformation( $operatorName, &$node, &$tpl, &$resourceData,
@@ -469,7 +469,20 @@ class eZTemplateStringOperator
             // Wrap line (insert newlines).
             case $this->WrapName:
             {
-                $operatorValue = wordwrap( $operatorValue, $namedParameters['wrap_at_position'], $namedParameters['break_sequence'], $namedParameters['cut']);
+                $parameters = array( $operatorValue );
+                if ( $namedParameters['wrap_at_position'] )
+                {
+                    $parameters[] = $namedParameters['wrap_at_position'];
+                    if ( $namedParameters['break_sequence'] )
+                    {
+                        $parameters[] = $namedParameters['break_sequence'];
+                        if ( $namedParameters['cut'] )
+                        {
+                            $parameters[] = $namedParameters['cut'];
+                        }
+                    }
+                }
+                $operatorValue = call_user_func_array( 'wordwrap', $parameters );
             }break;
 
             // Convert the first character to uppercase.
@@ -481,8 +494,17 @@ class eZTemplateStringOperator
             // Simplify / transform multiple consecutive characters into one.
             case $this->SimplifyName:
             {
-                $replace_this = "/".$namedParameters['char']."{2,}/";
-                $operatorValue = preg_replace( $replace_this, $namedParameters['char'], $operatorValue );
+                $simplifyCharacter = $namedParameters['char'];
+                if ( $namedParameters['char'] === false )
+                {
+                    $replace_this = "/\s{2,}/";
+                    $simplifyCharacter = ' ';
+                }
+                else
+                {
+                    $replace_this = "/". $simplifyCharacter ."{2,}/";
+                }
+                $operatorValue = preg_replace( $replace_this, $simplifyCharacter, $operatorValue );
             }break;
             // Convert all first characters [in all words] to uppercase.
             case $this->UpwordName:
@@ -493,7 +515,10 @@ class eZTemplateStringOperator
             // Strip whitespace from the beginning and end of a string.
             case $this->TrimName:
             {
-                $operatorValue = trim( $operatorValue, $namedParameters['chars_to_remove']);
+                if ( $namedParameters['chars_to_remove'] === false )
+                    $operatorValue = trim( $operatorValue );
+                else
+                    $operatorValue = trim( $operatorValue, $namedParameters['chars_to_remove'] );
             }break;
 
             // Pad...

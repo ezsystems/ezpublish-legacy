@@ -1634,7 +1634,7 @@ class eZTemplateArrayOperator
                                                            $rootNamespace,
                                                            $currentNamespace );
                     }
-                    if ( $operatorName == $this->ArrayPrependName )
+                    if ( $operatorName == $this->ArrayPrependName or $operatorName == $this->PrependName )
                         $operatorValue = array_merge( $tmpArray, $mainArray );
                     else
                         $operatorValue = array_merge( $mainArray, $tmpArray );
@@ -1683,7 +1683,8 @@ class eZTemplateArrayOperator
                 // Compare two arrays:
                 case $this->CompareName:
                 {
-                    if ( array_diff( $operatorValue, $namedParameters['compare'] ) )
+                    if ( count( array_diff( $operatorValue, $namedParameters['compare'] ) ) != 0 or
+                         count( array_diff( $namedParameters['compare'], $operatorValue ) ) != 0 )
                     {
                         $operatorValue = false;
                     }
@@ -1936,7 +1937,7 @@ class eZTemplateArrayOperator
                 // Check if string ends with specified sequence:
                 case $this->EndsWithName:
                 {
-                    if (strpos ($operatorValue, $namedParameters['match']) === ( strlen( $operatorValueb ) - strlen ($namedParameters['match'])))
+                    if ( strpos( $operatorValue, $namedParameters['match'] ) === ( strlen( $operatorValue ) - strlen ($namedParameters['match'] ) ) )
                     {
                         $operatorValue = true;
                     }

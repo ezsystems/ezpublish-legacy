@@ -1,2 +1,4 @@
-{"foo"|nl2br}
-{nl2br("foo")}
+{"foo
+bar"|nl2br}
+{nl2br("foo
+bar")}

@@ -1,8 +1,8 @@
-1
-1
-
-
-
-
-1
-1
+array( 1, 2, 3, 4 )|ends_with( 3, 4 )='1'
+array( 1, 2, 3, $kake )|ends_with( 3, 4 )='1'
+array( 1, 2, 3, 4 )|ends_with( 4, 3 )=''
+array( 1, 2, 3, $kake )|begins_with( 4, 3 )=''
+"Kake mann"|ends_with( "Kake" )=''
+$arr|ends_with( "Kake" )=''
+"Kake mann"|ends_with( "mann" )='1'
+$arr|ends_with( "mann" )='1'

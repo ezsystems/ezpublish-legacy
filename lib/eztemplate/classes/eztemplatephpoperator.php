@@ -119,7 +119,11 @@ class eZTemplatePHPOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
     {
         $phpname = $this->PHPNames[$operatorName];
-        $value = $phpname( $value );
+        if ( $value !== null )
+            $operand = $value;
+        else
+            $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+        $value = $phpname( $operand );
     }
 
     /// The array of operators, used for registering operators

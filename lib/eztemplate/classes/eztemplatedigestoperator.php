@@ -143,30 +143,34 @@ class eZTemplateDigestOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $digestData = $operatorValue;
+        if ( $digestData === null and
+             count( $operatorParameters ) > 0 )
+            $digestData = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
         switch ( $operatorName )
         {
             // Calculate and return crc32 polynomial.
             case $this->Crc32Name:
             {
-                $operatorValue = crc32( $operatorValue );
+                $operatorValue = crc32( $digestData );
             }break;
 
             // Calculate the MD5 hash.
             case $this->Md5Name:
             {
-                $operatorValue = md5( $operatorValue );
+                $operatorValue = md5( $digestData );
             }break;
 
             // Calculate the SHA1 hash.
             case $this->Sha1Name:
             {
-                $operatorValue = sha1( $operatorValue );
+                $operatorValue = sha1( $digestData );
             }break;
 
             // Preform rot13 transform on the string.
             case $this->Rot13Name:
             {
-                $operatorValue = str_rot13( $operatorValue );
+                $operatorValue = str_rot13( $digestData );
             }break;
 
             // Default case: something went wrong - unknown things...

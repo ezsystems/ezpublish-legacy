@@ -43,8 +43,6 @@
 
 */
 
-include_once( "lib/ezutils/classes/eztexttool.php" );
-
 class eZTemplateTextOperator
 {
     /*!
@@ -233,13 +231,15 @@ class eZTemplateTextOperator
             case $this->ConcatName:
             {
                 $operands = array();
+                if ( $operatorValue !== null )
+                    $operands[] = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
                     $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     if ( !is_object( $operand ) )
                         $operands[] = $operand;
                 }
-                $operatorValue = eZTextTool::concat( $operands );
+                $operatorValue = implode( '', $operands );
             } break;
             case $this->IndentName:
             {
