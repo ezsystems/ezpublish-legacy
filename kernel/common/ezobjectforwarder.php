@@ -63,7 +63,7 @@ class eZObjectForwarder
             return null;
         }
         $rule =& $this->Rules[$func_name];
-        $template_dir =& $rule["template_root"];
+        $template_dir = $rule["template_root"];
         $input_name =& $rule["input_name"];
 
         $params =& $func_obj->parameters();
