@@ -163,16 +163,6 @@ class eZContentObject extends eZPersistentObject
         {
             return $this->remoteID();
         }
-        else if ( $attr == "can_read" )
-            return $this->canRead( $accessList );
-        else if ( $attr == "can_create" )
-            return $this->canCreate( $accessList );
-        else if ( $attr == "can_edit" )
-            return $this->canEdit( $accessList );
-        else if ( $attr == "can_translate" )
-            return $this->canTranslate( $accessList );
-        else if ( $attr == "can_remove" )
-            return $this->canRemove( $accessList );
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -1761,12 +1751,23 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, &$accessList )
+    /*!
+     Check access for the current object
+
+     \param function name ( edit, read, remove, etc. )
+     \param original class ID ( used to check access for object creation ), default false
+     \param parent class id ( used to check access for object creation ), default false
+     \param return access list instead of access result (optional, default false )
+
+     \return 1 if has access, 0 if not.
+             If returnAccessList is set to true, access list is returned
+    */
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, $returnAccessList = false )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult = $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         if ( $classID === false )
         {
@@ -1778,7 +1779,14 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $accessWord == 'no' )
         {
-            return 0;
+            if ( $returnAccessList === false )
+            {
+                return 0;
+            }
+            else
+            {
+                return $accessResult['accessList'];
+            }
         }
         else
         {
@@ -1954,12 +1962,18 @@ class eZContentObject extends eZPersistentObject
             }
             if ( $access == 'denied' )
             {
-                $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
-                                                                   'Function' => $functionName,
-                                                                   'ClassID' => $classID,
-                                                                   'MainNodeID' => $this->attribute( 'main_node_id' ) ),
-                                     'PolicyList' => $policyList );
-                return 0;
+                if ( $returnAccessList === false )
+                {
+                    return 0;
+                }
+                else
+                {
+                    return array( 'FunctionRequired' => array ( 'Module' => 'content',
+                                                                'Function' => $functionName,
+                                                                'ClassID' => $classID,
+                                                                'MainNodeID' => $this->attribute( 'main_node_id' ) ),
+                                  'PolicyList' => $policyList );
+                }
             }
             else
             {
@@ -2053,7 +2067,7 @@ class eZContentObject extends eZPersistentObject
     function &canCreateClassList()
     {
         $user =& eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create', $accessList );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         if ( $accessWord == 'yes' )
@@ -2096,40 +2110,64 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Get accesslist for specified function
+
+     \param function
+
+     \return AccessList
+    */
+    function accessList( $function )
+    {
+        switch( $function )
+        {
+            case 'read':
+            {
+                return $this->checkAccess( 'read', false, false, true );
+            } break;
+
+            case 'edit':
+            {
+                return $this->checkAccess( 'edit', false, false, true );
+            } break;
+        }
+        return 0;
+    }
+
+    /*!
      Returns true if the current
     */
-    function canRead( &$accessList )
+    function canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
-            $this->Permissions["can_read"] = $this->checkAccess( 'read', false, false, $accessList );
+            $this->Permissions["can_read"] = $this->checkAccess( 'read' );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
 
-    function canCreate( &$accessList )
+    function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
-            $this->Permissions["can_create"] = $this->checkAccess( 'create', false, false, $accessList );
+            $this->Permissions["can_create"] = $this->checkAccess( 'create' );
         }
         $p = ( $this->Permissions["can_create"] == 1 );
         return $p;
     }
 
 
-    function canEdit( &$accessList )
+    function canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', false, false, $accessList );
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
+                     $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_edit"] = 1;
@@ -2141,17 +2179,17 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canTranslate( &$accessList )
+    function canTranslate( )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
-            $this->Permissions["can_translate"] = $this->checkAccess( 'translate', false, false, $accessList );
+            $this->Permissions["can_translate"] = $this->checkAccess( 'translate' );
             if ( $this->Permissions["can_translate"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
+                     $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_translate"] = 1;
@@ -2163,12 +2201,12 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( &$accessList )
+    function canRemove( )
     {
 
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
-            $this->Permissions["can_remove"] = $this->checkAccess( 'remove', false, false, $accessList );
+            $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;

@@ -539,7 +539,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
         if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
         {
             foreach ( array_keys( $accessResult['policies'] ) as $key )
@@ -637,7 +637,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
 
         if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
         {
@@ -807,7 +807,7 @@ class eZContentFunctionCollection
         }
         if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
         {
-            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID, $accessList );
+            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID );
             return array( 'result' => $result );
         }
     }

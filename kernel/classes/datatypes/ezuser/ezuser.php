@@ -1116,7 +1116,20 @@ WHERE user_id = '" . $userID . "' AND
         return $str;
     }
 
-    function &hasAccessTo( $module, $function, &$accessList )
+    /*!
+     Check if user has got access to the specified module and function
+
+     \param module name
+     \param funtion name
+
+     \return Array containg result.
+             Array elements : 'accessWord', yes - access allowed
+                                            no - access denied
+                                            limited - access array describing access included
+                              'policies', array containing the policy limitations
+                              'accessList', array describing missing access rights
+    */
+    function &hasAccessTo( $module, $function )
     {
         $accessArray = null;
         $ini =& eZINI::instance();
@@ -1162,7 +1175,8 @@ WHERE user_id = '" . $userID . "' AND
                                               'ClassID' => '',
                                               'MainNodeID' => '' ),
                 'PolicyList' => array() );
-            return array( 'accessWord' => 'no' );
+            return array( 'accessWord' => 'no',
+                          'accessList' => $accessList );
         }
 
         if ( isset( $moduleArray['*'] ) )
@@ -1181,7 +1195,8 @@ WHERE user_id = '" . $userID . "' AND
                                               'ClassID' => '',
                                               'MainNodeID' => '' ),
                 'PolicyList' => array() );
-            return array( 'accessWord' => 'no' );
+            return array( 'accessWord' => 'no',
+                          'accessList' => $accessList );
         }
 
         if ( isset( $functionArray['*'] ) && ( $functionArray['*'] == '*' || in_array( '*',  $functionArray['*'] ) ) )

@@ -381,7 +381,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult =  $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $object =& $this->attribute( 'contentobject' );
         $objectClassID = $object->attribute( 'contentclass_id' );

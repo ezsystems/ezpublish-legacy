@@ -230,9 +230,9 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 //    if ( !$object->attribute( 'can_read' ) )
-    if ( !$object->canRead( $accessList ) )
+    if ( !$object->canRead() )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
     }
 
     $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset,

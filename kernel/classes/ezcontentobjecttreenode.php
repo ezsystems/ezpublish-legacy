@@ -194,22 +194,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->remoteID();
         }
-        else if ( $attr == 'can_read' )
-        {
-            return $this->canRead();
-        }
-        else if ( $attr == 'can_create' )
-        {
-            return $this->canCreate();
-        }
-        else if ( $attr == 'can_edit' )
-        {
-            return $this->canEdit();
-        }
-        else if ( $attr == 'can_remove' )
-        {
-            return $this->canRemove();
-        }
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -538,7 +522,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser =& eZUser::currentUser();
-            $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+            $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
             if ( $accessResult['accessWord'] == 'limited' )
             {
                 $params['Limitation'] =& $accessResult['policies'];
@@ -1261,7 +1245,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser =& eZUser::currentUser();
-            $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+            $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
             if ( $accessResult['accessWord'] == 'limited' )
             {
                 $limitationList =& $accessResult['policies'];
@@ -2574,12 +2558,12 @@ WHERE
 
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, &$accessList )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult = $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $contentObject =& $this->attribute( 'object' );
         if ( $classID === false )
