@@ -2575,7 +2575,16 @@ WHERE
 
     function &urlAlias()
     {
-        return $this->PathIdentificationString;
+        $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
+        if ( !isset( $useURLAlias ) )
+        {
+            $ini =& eZINI::instance();
+            $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
+        }
+        if ( $useURLAlias )
+            return $this->PathIdentificationString;
+        else
+            return '/content/view/full/' . $this->NodeID;
     }
 
     function &url()

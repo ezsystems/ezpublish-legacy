@@ -58,6 +58,9 @@ Changes from 3.2-3 to 3.3.0-1
 - Added correct path for versionview, it uses a similar technique as content edit.
 - Added class_attribute_view_gui template function for viewing content class attributes.
 - Added content_attributes_data_map to content edit, it is similar to data_map for a contentobject.
+- Changed the url_alias attribute of eZContentObjectTreeNode to only return url aliases if
+  url translations are enabled (site.ini). This ensures that the urls returned from nodes
+  will always work. This also helps with creating urls to nodes/objects, just use the url_alias attribute.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.
