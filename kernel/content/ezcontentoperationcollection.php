@@ -189,6 +189,9 @@ class eZContentOperationCollection
         $existingNode->setAttribute( 'contentobject_is_published', 1 );
         $existingNode->setName( $objectName );
 
+        $existingNode->updateSubTreePath();
+
+
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {
             $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );

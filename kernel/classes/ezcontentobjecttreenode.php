@@ -1047,20 +1047,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
-    function updatePathWithNames()
+/*    function updatePathWithNames()
     {
         $this->setAttribute( 'path_identification_string', $this->pathWithNames() );
         $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
         $this->store();
     }
-    function updateSubTreePath()
+*/  function updateSubTreePath()
     {
+        $oldPathString = $this->attribute( 'path_identification_string' );
+        $oldPathStringLength = strlen( $oldPathString );
+
+        $newPathString = $this->pathWithNames();
+        $this->setAttribute( 'path_identification_string', $newPathString );
+
+        $this->setAttribute( 'crc32_path', crc32 ( $newPathString ) );
+        $this->store();
         $subTree = & $this->subTree();
          reset( $subTree );
          while( ( $key = key( $subTree ) ) !== null )
          {
                $node =& $subTree[$key];
-               $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
+               $nodeOldPathString = $node->attribute( 'path_identification_string' );
+               $node->setAttribute( 'path_identification_string', $newPathString . substr( $nodeOldPathString, $oldPathStringLength ) );
                $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
                $node->store();
                next( $subTree );
@@ -1254,7 +1263,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function store()
     {
-        $newPathString = $this->pathWithNames();
+        /*      $newPathString = $this->pathWithNames();
 
         if ( $newPathString != $this->attribute ( 'path_identification_string' ) )
         {
@@ -1263,6 +1272,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
             $this->updateSubTreePath();
         }
+        */
         eZPersistentObject::storeObject( $this );
     }
     function &object()
