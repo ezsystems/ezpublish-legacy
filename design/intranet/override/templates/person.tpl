@@ -1,27 +1,27 @@
-{default content_object=$node.object
-         content_version=$node.contentobject_version_object}
+<div class="person_line">
 
-<div class="maincontentheader">
-    <h1>{$node.name}</h1>
+<form method="post" action={"content/action"|ezurl}>
+
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
+
+<div class="object_title">
+<a href={$node.url_alias|ezurl}><h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1></a>
 </div>
+
+{section show=$node.object.can_edit}
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+{/section}
 
 <div class="imageright">
-    {attribute_view_gui attribute=$content_version.data_map.picture image_class=medium}
+    {attribute_view_gui attribute=$node.object.data_map.picture image_class=medium}
 </div>
 
-<div class="text">
-<b>Last Name:</b> {attribute_view_gui attribute=$content_version.data_map.last_name}
-</div>
-<div class="text">
-<b>First Name:</b> {attribute_view_gui attribute=$content_version.data_map.first_name}
-</div>
+{attribute_view_gui attribute=$node.object.data_map.person_numbers}
 
-<div class="text">
-<b>Position:</b> {attribute_view_gui attribute=$content_version.data_map.position}
-</div>
+{attribute_view_gui attribute=$node.object.data_map.comment}
 
-<div class="contact">
-{attribute_view_gui attribute=$content_version.data_map.person_numbers}
-</div>
+</form>
 
-{/default}
+</div>

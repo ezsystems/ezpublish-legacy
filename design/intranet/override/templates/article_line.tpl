@@ -33,7 +33,7 @@
 
 
 <div class="readmore">
-<a href={concat( "/content/view/full/", $node.node_id, "/" )|ezurl}>Read more</a>
+<a href={$node.url_alias|ezurl}>Read more</a>
 </div>
 
 {/default}

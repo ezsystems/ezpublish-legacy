@@ -1,7 +1,7 @@
 <div class="person_line">
 
 <div class="object_title">
-    <h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1>
+<a href={$node.url_alias|ezurl}><h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1></a>
 </div>
 
 <div class="imageright">

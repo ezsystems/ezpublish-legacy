@@ -10,6 +10,10 @@
 <h1>{$node.name}</h1>
 </div>
 
+{section show=$node.object.can_edit}
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+{/section}
+
 <div class="object_content">
 {attribute_view_gui attribute=$node.object.data_map.description}
 </div>
