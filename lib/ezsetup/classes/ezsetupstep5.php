@@ -34,6 +34,10 @@
 // you.
 //
 
+// For sending the register email
+include_once( "lib/ezutils/ezmail.php" );
+
+
 
 /*!
     Step 5: Write site.ini
@@ -67,7 +71,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     $ini->setVariable( "DatabaseSettings", "Database", $dbName );
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    //$ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
                         
 	// Set values in i18n ini
 	$i18n = eZIni::instance( "i18n.ini", "" );
