@@ -103,6 +103,8 @@ define( "EZ_HANDLE_TO_PHP", 2 );
 define( "EZ_OUTPUT_MESSAGE_SCREEN", 1 );
 define( "EZ_OUTPUT_MESSAGE_STORE", 2 );
 
+define( "EZ_DEBUG_MAX_LOGFILE_SIZE", 200*1024 );
+define( "EZ_DEBUG_MAX_LOGROTATE_FILES", 3 );
 
 class eZDebug
 {
@@ -157,6 +159,7 @@ class eZDebug
         $this->ScriptStart = eZDebug::timeToFloat( microtime() );
         $this->TimeAccumulatorList = array();
         $this->TimeAccumulatorGroupList = array();
+        $this->OverrideList = array();
     }
 
     function reset()
@@ -222,7 +225,7 @@ class eZDebug
              $type != EZ_HANDLE_FROM_PHP )
             $type = EZ_HANDLE_NONE;
         if ( $type == $this->HandleType )
-            return;
+            return $this->HandleType;
 
         if ( $this->HandleType == EZ_HANDLE_FROM_PHP )
             restore_error_handler();
@@ -242,7 +245,9 @@ class eZDebug
             {
             }
         }
+        $oldHandleType = $this->HandleType;
         $this->HandleType = $type;
+        return $oldHandleType;
     }
 
     /*!
@@ -555,6 +560,86 @@ class eZDebug
     }
 
     /*!
+     \static
+     \return the maxium size for a log file in bytes.
+    */
+    function maxLogSize()
+    {
+        $maxLogSize =& $GLOBALS['eZDebugMaxLogSize'];
+        if ( isset( $maxLogSize ) )
+            return $maxLogSize;
+        return EZ_DEBUG_MAX_LOGFILE_SIZE;
+    }
+
+    /*!
+     \static
+     Sets the maxium size for a log file to \a $size.
+    */
+    function setMaxLogSize( $size )
+    {
+        $GLOBALS['eZDebugMaxLogSize'] = $size;
+    }
+
+    /*!
+     \static
+     \return the maxium number of logrotate files to keep.
+    */
+    function maxLogrotateFiles()
+    {
+        $maxLogrotateFiles =& $GLOBALS['eZDebugMaxLogrotateFiles'];
+        if ( isset( $maxLogrotateFiles ) )
+            return $maxLogrotateFiles;
+        return EZ_DEBUG_MAX_LOGROTATE_FILES;
+    }
+
+    /*!
+     \static
+     Sets the maxium number of logrotate files to keep to \a $files.
+    */
+    function setMaxLogSize( $files )
+    {
+        $GLOBALS['eZDebugMaxLogrotateFiles'] = $filse;
+    }
+
+    /*!
+     \static
+     Rotates logfiles so the current logfile is backed up,
+     old rotate logfiles are rotated once more and those that
+     exceed maxLogrotateFiles() will be removed.
+     Rotated files will get the extension .1, .2 etc.
+    */
+    function rotateLog( $fileName )
+    {
+        $maxLogrotateFiles = eZDebug::maxLogrotateFiles();
+        for ( $i = $maxLogrotateFiles; $i > 0; --$i )
+        {
+            $logRotateName = $fileName . '.' . $i;
+            if ( @file_exists( $logRotateName ) )
+            {
+                if ( $i == $maxLogrotateFiles )
+                {
+                    @unlink( $logRotateName );
+//                     print( "@unlink( $logRotateName )<br/>" );
+                }
+                else
+                {
+                    $newLogRotateName = $fileName . '.' . ($i + 1);
+                    @rename( $logRotateName, $newLogRotateName );
+//                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
+                }
+            }
+        }
+        if ( @file_exists( $fileName ) )
+        {
+            $newLogRotateName = $fileName . '.' . 1;
+            @rename( $fileName, $newLogRotateName );
+//             print( "@rename( $fileName, $newLogRotateName )<br/>" );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
      \private
      Writes the log message $string to the file $fileName.
     */
@@ -564,6 +649,7 @@ class eZDebug
             return;
         if ( !$this->isLogFileEnabled( $verbosityLevel ) )
             return;
+        $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
         $logDir = $logFileData[0];
         $logName = $logFileData[1];
         $fileName = $logDir . $logName;
@@ -574,6 +660,12 @@ class eZDebug
         }
         $oldumask = @umask( 0 );
         $fileExisted = @file_exists( $fileName );
+        if ( $fileExisted and
+             filesize( $fileName ) > eZDebug::maxLogSize() )
+        {
+            if ( eZDebug::rotateLog( $fileName ) )
+                $fileExisted = false;
+        }
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
@@ -593,11 +685,13 @@ class eZDebug
             if ( $verbosityLevel != EZ_LEVEL_ERROR or
                  $logEnabled )
             {
+                eZDebug::setHandleType( $oldHandleType );
                 $this->writeError( "Cannot open log file '$fileName' for writing\n" .
                                    "The web server must be allowed to modify the file.\n" .
                                    "File logging for '$fileName' is disabled." , 'eZDebug::writeFile' );
             }
         }
+        eZDebug::setHandleType( $oldHandleType );
     }
 
     /*!
@@ -650,11 +744,70 @@ class eZDebug
         $debugEnabled =& $GLOBALS['eZDebugEnabled'];
         if ( isset( $debugEnabled ) )
             return $debugEnabled;
-        if ( !eZINI::isLoaded() )
-            return true;
-        $ini =& eZINI::instance();
-        $debugEnabled = $ini->variable( 'DebugSettings', 'DebugIP' ) == 'enabled';
+
+//         if ( !eZINI::isLoaded() )
+//             return true;
+//         $ini =& eZINI::instance();
+//         $debugEnabled = $ini->variable( 'DebugSettings', 'DebugIP' ) == 'enabled';
+
+        eZDebug::loadSettings();
+
         return $debugEnabled;
+    }
+
+    /*!
+     Appends the directory \a $directory to the override list
+    */
+    function appendOverrideDirectory( $directory )
+    {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+        $this->OverrideList[] = $directory;;
+    }
+
+    /*!
+     \return an array of directories which contains settings.
+    */
+    function settingsDirectories()
+    {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+        $dirs = array( 'settings/custom' );
+        $dirs = array_merge( $dirs, $this->OverrideList );
+        $dirs[] = 'settings/override/custom';
+        return $dirs;
+    }
+
+    /*!
+     (re)loads the settings.
+    */
+    function loadSettings()
+    {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+
+        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+        // Make sure errors are handled by PHP when we read, including our own debug output.
+        $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+        $settingsFile = 'debugsettings.php';
+        $settingsDirectories = $this->settingsDirectories();
+        foreach ( $settingsDirectories as $settingsDirectory )
+        {
+            $settingsPath = $settingsDirectory . '/' . $settingsFile;
+            if ( file_exists( $settingsPath ) )
+                include( $settingsPath );
+        }
+        $debugEnabled = $settings['debug-enabled'];
+        if ( $settings['debug-enabled'] and
+             $settings['debug-by-ip'] )
+        {
+            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR' );
+            $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
+        }
+        eZDebug::setHandleType( $oldHandleType );
     }
 
     /*!
@@ -1162,6 +1315,9 @@ td.timingpoint2
 
     /// The time when the script was started
     var $ScriptStart;
+
+    /// A list of override directories
+    var $OverrideList;
 }
 
 /*!

@@ -143,6 +143,9 @@ eZ debug:
 - Added missing class variable for group loop in debug output.
 - New helper class called eZDebugSetting which allows for conditional debug
   messages.
+- Log rotation has been added, this avoids the log files flooding your file system.
+- Debug settings has been moved from site.ini to custom/debugsettings.php, this
+  removes the dependency from eZINI.
 
 eZXML:
 - Some minor fixes to the toString() function with regards to text output.
