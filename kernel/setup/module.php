@@ -126,4 +126,11 @@ $ViewList['systemupgrade'] = array(
     'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check' ),
     'params' => array( ) );
 
+$ViewList["menu"] = array(
+    "script" => "menuconfig.php",
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'StoreButton' => 'Store',
+                                    'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess' ),
+    "params" => array() );
+
 ?>
