@@ -328,7 +328,7 @@ class eZURLOperator
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                    $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
 
                     $ini =& eZINI::instance();
                     $std_base = eZTemplateDesignResource::designSetting( 'standard' );
@@ -345,7 +345,6 @@ class eZURLOperator
                             $path = $site_file;
                         else
                             $path = $this->Sys->wwwDir() . "/$site_file";
-                        $path = htmlspecialchars( $path );
                     }
                     else
                     {
@@ -361,7 +360,6 @@ class eZURLOperator
                                     $path = "design/$additionalSiteDesign/images/$path";
                                 else
                                     $path = $this->Sys->wwwDir() . "/design/$additionalSiteDesign/images/$path";
-                                $path = htmlspecialchars( $path );
                                 $imageFound = true;
                             }
                         }
@@ -374,15 +372,95 @@ class eZURLOperator
                                     $path = $std_file;
                                 else
                                     $path = $this->Sys->wwwDir() . "/$std_file";
-                                $path = htmlspecialchars( $path );
                             }
-                            else
-                                $tpl->warning( $this->ImageName, "Image '$path' does not exist in any design" );
                         }
                     }
+                    $path = htmlspecialchars( $path );
+
+                    $path = $this->applyQuotes( $path, $parameters[1] );
+
+                    return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
                 else
-                    return false; //TODO : generate code for dynamic images.
+                {
+                    $values = array();
+                    $values[] = $parameters[0];
+
+                    $no_slash_prefix = false;
+                    $ini =& eZINI::instance();
+                    $wwwDir = $this->Sys->wwwDir();
+                    if ( count ( $parameters ) > 2 )
+                    {
+                        if ( eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true && strlen( $wwwDir ) )
+                        {
+                            $no_slash_prefix = true;
+                        }
+                    }
+
+                    $ini =& eZINI::instance();
+                    $values[] = array( eZTemplateNodeTool::createStringElement( 'design/' . eZTemplateDesignResource::designSetting( 'standard' ) . '/images/' ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( 'design/' . eZTemplateDesignResource::designSetting( 'site' ) . '/images/' ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $wwwDir ) );
+                    $values[] = array( eZTemplateNodeTool::createArrayElement( $ini->variable( "DesignSettings", "AdditionalSiteDesignList" ) ) );
+
+                    $code = 'if ( file_exists( %3%.%1% ) )' . "\n" .
+                         '{' . "\n";
+                    if ( $no_slash_prefix == true )
+                    {
+                        $code .= '%output% = %3% . %1%;' . "\n";
+                    }
+                    else
+                    {
+                        $code .= '%output% = %4% . \'/\' . %3% . %1%;' . "\n";
+                    }
+                    $code .= '}' . "\n" .
+                         'else' . "\n" .
+                         '{' . "\n" .
+                         '  %tmp1% = false;' . "\n" .
+                         ' if ( %5% ){' . "\n" .
+                         ' foreach ( %5% as %tmp2% )' . "\n" .
+                         ' {' . "\n" .
+                         '   if ( file_exists( \'design/\' . %tmp2% . \'/images/\' . %1% ) )' . "\n" .
+                         '   {' . "\n";
+                    if ( $no_slash_prefix == true )
+                    {
+                        $code .= '%output% = \'design/\' . %tmp2% . \'/images/\' . %1%;' . "\n";
+                    }
+                    else
+                    {
+                        $code .= '%output% = %4% . \'/design/\' . %tmp2% . \'/images/\' . %1%;' . "\n";
+                    }
+                    $code .= '      %tmp1% = true;' . "\n" .
+                         '    }' . "\n" .
+                         '  }' . "\n" .
+                         '}' . "\n" .
+                         'if ( !%tmp1% )' . "\n" .
+                         '{' . "\n" .
+                         '  if ( file_exists( %2% . %1% ) )' . "\n" .
+                         '  {' . "\n";
+                    if ( $no_slash_prefix == true )
+                    {
+                        $code .= '%output% = %2% . %1%;' . "\n";
+                    }
+                    else
+                    {
+                        $code .= '%output% = %4% . \'/\' . %2% . %1%;' . "\n";
+                    }
+                    $code .= '  }' . "\n" .
+                         '}' . "\n" .
+                         '}' . "\n" .
+                         '%output% = htmlspecialchars( %output% );' . "\n";
+
+                    $quote = $this->applyQuotes( '', $parameters[1], true );
+
+                    if ( $quote )
+                    {
+                        $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
+                        $code .= '%output% = %6% . %output% . %6%;' . "\n";
+                    }
+
+                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
+                }
             } break;
 
             case $this->ExtName:
@@ -456,10 +534,11 @@ class eZURLOperator
 
      \param static text
      \param quote parameter
+     \param if set to true, return only quote value
 
      \return text with quotes
     */
-    function applyQuotes( $text, &$parameter )
+    function applyQuotes( $text, &$parameter, $onlyQuote = false )
     {
         $quote = "\"";
         if ( $parameter != null )
@@ -469,6 +548,11 @@ class eZURLOperator
                 $quote = "'";
             else if ( $val == 'no' )
                 $quote = false;
+        }
+
+        if ( $onlyQuote )
+        {
+            return $quote;
         }
 
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
