@@ -1128,7 +1128,7 @@ td.timingpoint2
         if ( $as_html )
         {
             $returnText .= "<h2>Time accumulators:</h2>";
-            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</tr>";
+            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
             $i = 0;
         }
 

@@ -22,7 +22,7 @@
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="toolbar">
+    <td colspan="2">
 
 {* Toolbar START *}
 
@@ -33,10 +33,10 @@
     </td>
 </tr>
 <tr>
-    <td>
+{*    <td>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
+<tr>*}
     <td  class="pathline"  colspan="2">
 {* Path START *}
 

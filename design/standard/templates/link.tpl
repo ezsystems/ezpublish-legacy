@@ -1,5 +1,5 @@
 {*?template charset=latin1?*}
-{default enable_glossary=true() enable_help=true()}
+{default enable_glossary=true() enable_help=true() enable_print=true()}
 
 <link rel="Home" href={"/"|ezurl} title="{'%1 front page'|i18n('design/standard/layout',,array($site.title))}" />
 <link rel="Index" href={"/"|ezurl} />
@@ -16,6 +16,8 @@
 <link rel="Glossary" href={"sdk"|ezurl} />
 {/section}
 
-<link rel=Alternate href={concat("layout/set/print/",$site.uri.tail)|ezurl} media=print title="Printable version" />
+{section show=$enable_print}
+<link rel="Alternate" href={concat("layout/set/print/",$site.uri.tail)|ezurl} media="print" title="{'Printable version'|i18n('design/standard/layout')}" />
+{/section}
 
 {/default}

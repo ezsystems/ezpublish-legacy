@@ -1,6 +1,9 @@
 {*?template charset=latin1?*}
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
 {switch match=fetch('content', 'can_instantiate_classes')}
 {case match=1}
+    <td  class="toolbar">
 
 <form method="post" action={"content/action"|ezurl}>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -19,6 +22,7 @@
 </tr>
 </table>
 </form>
+    </td>
 
 {/case}
 {case match=0}
@@ -48,10 +52,9 @@
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
       <a class="menuitem" href={"/user/login/"|ezurl}>{"Login"|i18n("design/standard/layout")}</a>
       {section-else}
-      <a class="menuitem" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")} ({content_view_gui view=text_linked content_object=$current_user.contentobject})</label><div class="labelbreak"></a>
+      <a class="menuitem" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")}</a> ({content_view_gui view=text_linked content_object=$current_user.contentobject})
       {/section}
       </p>
     </td>
-
 </tr>
 </table>

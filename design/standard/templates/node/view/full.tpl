@@ -129,7 +129,8 @@
 {section name=Child loop=$children  sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
-        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
+{*        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>*}
+        {node_view_gui view=line content_node=$Child:item}
 	</td>
         <td class="{$Child:sequence}">{$Child:item.object.class_name}
 	</td>
@@ -152,7 +153,7 @@
         {/case}
         {/switch}
         <td class="{$Child:sequence}">
-          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
+          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0" /></a>
         </td>
 
 	{switch name=sw match=$Child:item.object.can_remove}
