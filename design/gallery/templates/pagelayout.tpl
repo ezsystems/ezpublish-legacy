@@ -71,7 +71,7 @@
             <ul>
                    {section name=Gallery loop=$gallery_list}
                        <li>
-                       <a href={$node.url_alias|ezurl}>{$Gallery:item.name|wash}</a>  
+                       <a href={$:item.url_alias|ezurl}>{$Gallery:item.name|wash}</a>  
                        </li>
                     {/section}
             </ul>

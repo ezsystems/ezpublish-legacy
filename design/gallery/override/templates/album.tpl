@@ -29,9 +29,19 @@
                                             class_filter_array, array( 5 ),
                                             sort_by, array( 'published', false() ) ) )}
 
+  <table>
+  <tr> 
   {section var=image loop=$image_list}
-    {node_view_gui view=thumbnail content_node=$image.item}
+     <td>
+        {node_view_gui view=line content_node=$image.item}
+     </td>
+     {delimiter modulo=4}
+       </tr>
+       <tr>
+     {/delimiter}
   {/section}
+  </tr>
+  </table>
 </div>
 
 {/let}

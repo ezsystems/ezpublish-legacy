@@ -64,11 +64,21 @@
 {* Default search results lister *}
 {let use_url_translation=ezini('URLTranslator','Translation')|eq('enabled')}
 
-{section show=$search_result}
-  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-      {node_view_gui view=line content_node=$:item}
-  {/section}
-{/section}
+<table width="100%">
+<tr>
+    {section show=$search_result}
+      {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
+          <td>
+              {node_view_gui view=line content_node=$:item}
+          </td>
+          {delimiter modulo=3}
+              </tr>
+              <tr>
+          {/delimiter}
+      {/section}
+    {/section}
+</tr>
+</table>
 
 {/let}
 

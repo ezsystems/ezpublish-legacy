@@ -12,6 +12,7 @@ div#background /* Stretching over the the whole area the other DIVs cover, and t
 
 div#header
 {
+    background-color: #3366aa;
     background-position: top left;
     background-repeat: repeat-x;
 }
@@ -155,14 +156,13 @@ div#infobox
 
 div#infobox div.design
 {
-    border: 1px solid #3366ff;
+    border: 1px solid #e4eaf3;
     background-position: top left;
     background-repeat: no-repeat;
 }
 
 div#infobox h3
 {
-    margin-top: 116px;
     padding: 0.2em;
     padding-left: 1.2em;
     background-color: #e4eaf3;
@@ -274,6 +274,34 @@ div#footer a
     padding: 0px;
 }
 
+/* image styles */
+
+#image img
+{ 
+    background-color: #000;
+    padding: 20px;
+}
+
+div.image_line img
+{ 
+    background-color: #000;
+    padding: 10px;
+}
+
+/* image comments */
+
+#commentlist
+{ 
+    background-color: #cccccc;
+    padding: 10px;
+}
+
+#commentlist h2
+{ 
+    color: #999999
+    border-bottom: 1px solid #999999;
+}
+
 /* Search */
 
 div.advancedsearchbox
@@ -285,8 +313,9 @@ div.advancedsearchbox
 
 h1
 { 
+    font: bold 110% Georgia,Serif;
     margin-bottom: 5px;
-
+    color: #888;
 }
 
 div.editbutton

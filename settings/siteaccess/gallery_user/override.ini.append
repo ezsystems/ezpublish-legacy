@@ -1,5 +1,4 @@
 
-
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
@@ -22,6 +21,12 @@ Match[class]=26
 Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
+
+[edit_comment]
+Source=content/edit.tpl
+MatchFile=edit_comment.tpl
+Subdir=templates
+Match[class]=26
 
 [info_page]
 Source=node/view/full.tpl
