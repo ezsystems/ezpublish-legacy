@@ -693,6 +693,14 @@ class eZPersistentObject
         return eZPersistentObject::handleRows( $rows, $class_name, $asObject );
     }
 
+    /*!
+     Creates PHP objects out of the database rows \a $rows.
+     Each object is created from class \$ class_name and is passed
+     as a row array as parameter.
+
+     \param $asObject If \c true then objects will be created,
+                      if not it just returns \a $rows as it is.
+    */
     function &handleRows( &$rows, $class_name, $asObject )
     {
         if ( $asObject )
