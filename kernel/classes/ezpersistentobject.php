@@ -114,7 +114,7 @@ class eZPersistentObject
     */
     function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
     {
-        if ( !$db->useShortNames() )
+        if ( !$db->useShortNames() || !$fields )
             return;
 
         $short_fields_names = array();
