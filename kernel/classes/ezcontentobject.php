@@ -749,6 +749,24 @@ class eZContentObject extends eZPersistentObject
             // Delete stored attribute from other tables
 
         }
+        else if ( $nodeID !== null )
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node->attribute( 'main_node_id' )  == $nodeID )
+            {
+                foreach ( array_keys( $nodes ) as $key )
+                {
+                    $node =& $nodes[$key];
+                    $node->remove();
+                }
+                $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+                $contentobject->store();
+            }
+            else
+            {
+                eZContentObjectTreeNode::remove( $nodeID );
+            }
+        }
         else
         {
              eZContentObjectTreeNode::remove( $nodeID );

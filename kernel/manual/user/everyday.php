@@ -9,6 +9,7 @@
 	<li><a href="#Finding">Finding content</a></li>
 	<li><a href="#Drafts">Drafts</a></li>
 	<li><a href="#Locations">Publish in several locations</a></li>
+	<li><a href="#Remove">Remove objects</a></li>
 	<li><a href="#Edit">Edit objects</a></li>
 	<li><a href="#Related">Related objects</a></li>
 	<li><a href="#Version">Version control</a></li>
@@ -168,6 +169,20 @@ the "Select" box. if you want to publish your article deeper down in the tree yo
 click the "Remove location" button.  That's it. Your article or product is removed from that specific location.
 
 </p>
+
+<br>
+
+<h2 id="Remove">Remove objects </h2>
+<p>
+Objects like folders, articles, forums and products can be edited anytime you wish.
+To remove object you need to find object you wish to remove, click checkbox to the right from object to mark object for removal
+and click remove button under the list of objects. Objects are not totaly removed from system they are just removed from site
+and placed to the archive. When you remove object the behavour of system differs in some cases. When object is published in
+several places and you try to remove object from its main place object will be removed from all places. You will be warned about it.
+If you try to remove object from additional placement the object will be removed only from that additional place.
+
+</p>
+
 <br>
 <h2 id="Edit">Edit objects</h2>
 <p>

@@ -73,6 +73,26 @@ foreach ( $deleteIDArray as $deleteID )
         $NodeName = $object->attribute( 'name' );
         $contentObject = $node->attribute( 'object' );
         $nodeID =  $node->attribute( 'node_id' );
+        $additionalWarning = '';
+        if ( $node->attribute( 'main_node_id' ) == $nodeID )
+        {
+            $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
+            if ( count( $allAssignedNodes ) > 1 )
+            {
+                $additionalWarning = ezi18n( 'kernel/content/removeobject',
+                                             'And also it will remove nodes:' );
+                foreach( array_keys( $allAssignedNodes ) as $key )
+                {
+                    $assignedNode =& $allAssignedNodes[$key];
+                    $additionalNodeIDList = array();
+                    if ( $assignedNode->attribute( 'node_id' ) != $nodeID )
+                    {
+                        $additionalNodeIDList[] = $assignedNode->attribute( 'node_id' );
+                    }
+                    $additionalWarning .= implode( ',', $additionalNodeIDList );
+                }
+            }
+        }
 
         if ( !$object->attribute( 'can_remove' ) )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
@@ -88,7 +108,8 @@ foreach ( $deleteIDArray as $deleteID )
                                           'children',
                                           'several children' );
         $item = array( "nodeName" => $NodeName,
-                       "childCount" => $ChildObjectsCount );
+                       "childCount" => $ChildObjectsCount,
+                       "additionalWarning" => $additionalWarning );
         $deleteResult[] = $item;
     }
 }
