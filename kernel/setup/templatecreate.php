@@ -63,7 +63,7 @@ if ( strpos( $template, "node/view" ) )
 }
 else if ( strpos( $template, "content/view" ) )
 {
-    $templateType = 'content_view';
+    $templateType = 'object_view';
 }
 else if ( strpos( $template, "pagelayout.tpl" ) )
 {
@@ -87,6 +87,11 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
                 $templateCode =& generateNodeViewTemplate( $http, $template, $fileName );
             }break;
 
+            case "object_view":
+            {
+                $templateCode =& generateObjectViewTemplate( $http, $template, $fileName );
+            }break;
+
             case "pagelayout":
             {
                 $templateCode =& generatePagelayoutTemplate( $http, $template, $fileName );
@@ -94,7 +99,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
             default:
             {
-
+                $templateCode =& generateDefaultTemplate( $http, $template, $fileName );
             }break;
         }
 
@@ -180,7 +185,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             }
             else
             {
-                print( "Could not open file" );
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
             }
             fclose( $fp );
         }break;
@@ -248,7 +253,107 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
 }
 
 
+function &generateObjectViewTemplate( &$http, $template, $fileName )
+{
+    $matchArray = $http->postVariable( 'Match' );
+
+    $templateCode = "";
+    $classID = $matchArray['class'];
+
+    $class = eZContentClass::fetch( $classID );
+
+    // Check what kind of contents we should create in the template
+    switch ( $http->postVariable( 'TemplateContent' ) )
+    {
+        case 'DefaultCopy' :
+        {
+            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'r' );
+            if ( $fp )
+            {
+                $templateCode = fread( $fp, filesize( $fileName ) );
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
+        }break;
+
+        case 'ViewTemplate' :
+        {
+            $templateCode = "<h1>{\$object.name}</h1>\n\n";
+
+            // Append attribute view
+            if ( get_class( $class ) == "ezcontentclass" )
+            {
+                $attributes =& $class->fetchAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $identifier = $attribute->attribute( 'identifier' );
+                    $name = $attribute->attribute( 'name' );
+                    $templateCode .= "<h2>$name</h2>\n";
+                    $templateCode .= "{attribute_view_gui attribute=\$object.data_map.$identifier}\n\n";
+                }
+            }
+
+        }break;
+
+        default:
+        case 'EmptyFile' :
+        {
+        }break;
+    }
+    return $templateCode;
+}
+
 function &generatePagelayoutTemplate( &$http, $template, $fileName )
+{
+    $templateCode = "";
+    // Check what kind of contents we should create in the template
+    switch ( $http->postVariable( 'TemplateContent' ) )
+    {
+        case 'DefaultCopy' :
+        {
+            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'r' );
+            if ( $fp )
+            {
+                $templateCode = fread( $fp, filesize( $fileName ) );
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
+        }break;
+
+        default:
+        case 'EmptyFile' :
+        {
+            $templateCode = '{*?template charset=latin1?*}' .
+                 '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
+                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" .
+                 '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
+                 '<head>' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .
+                 '    {include uri="design:page_head.tpl"}' . "\n" .
+                 '</head>' . "\n" .
+                 '<body>' . "\n" .
+                 '{$module_result.content}' . "\n" .
+                 '<!--DEBUG_REPORT-->' . "\n" .
+                 '</body>' . "\n" .
+                 '</html>' . "\n";
+        }break;
+    }
+    return $templateCode;
+}
+
+function &generateDefaultTemplate( &$http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template

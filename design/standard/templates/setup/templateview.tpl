@@ -1,9 +1,9 @@
 <form method="post" action={concat('/setup/templateview',$template_settings.template)|ezurl}>
 
-<h1>Template view: {$template_settings.template}</h1>
+<h1>{"Template view"|i18n("design/standard/setup")}  {$template_settings.template}</h1>
 
 <p>
-Default template resource: <b>{$template_settings.base_dir}</b>
+{"Default template resource"|i18n("design/standard/setup")} <b>{$template_settings.base_dir}</b>
 </p>
 
 <select name="CurrentSiteAccess">
@@ -15,26 +15,26 @@ Default template resource: <b>{$template_settings.base_dir}</b>
     {/section}
 {/section}    
 </select>
-<input type="submit" value="Set" name="SelectCurrentSiteAccessButton" />
+<input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
 
 {section show=$custom_match}
 
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
-    Override
+    {"Override"|i18n("design/standard/setup")}
     </th>
     <th>
-    File
+    {"File"|i18n("design/standard/setup")}
     </th>
     <th>
-    Match conditions
+    {"Match conditions"|i18n("design/standard/setup")}
     </th>
     <th>
-    Edit
+    {"Edit"|i18n("design/standard/setup")}
     </th>
     <th>
-    Remove
+    {"Remove"|i18n("design/standard/setup")}
     </th>
 </tr>
 {section name=CustomMatch loop=$template_settings.custom_match sequence=array(bglight,bgdark)}
@@ -46,15 +46,17 @@ Default template resource: <b>{$template_settings.base_dir}</b>
         {$CustomMatch:item.match_file} 
     </td>
     <td valign="top">
-        {section name=Condition loop=$CustomMatch:item.conditions}
-        {$:key} : {$:item}
-        {delimiter}
+        {section show=is_set($CustomMatch:item.conditions)}
+            {section name=Condition  loop=$CustomMatch:item.conditions}
+            {$:key} : {$:item}
+            {delimiter}
             <br />
-        {/delimiter}
-        {/section}
+            {/delimiter}
+            {/section}
+	{/section}
     </td>
     <td valign="top">
-        <a href={concat('/setup/templateedit/',$CustomMatch:item.match_file)|ezurl}>[ edit ]</a>
+        <a href={concat('/setup/templateedit/',$CustomMatch:item.match_file)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
     </td>
     <td valign="top">
         <input type="checkbox" name="RemoveOverrideArray[]" value="{$CustomMatch:item.override_name}" />
@@ -66,8 +68,8 @@ Default template resource: <b>{$template_settings.base_dir}</b>
 {/section}
 
 <div class="buttonblock">
-<input class="button" type="submit" value="Create new" name="NewOverrideButton" />
-<input class="button" type="submit" value="Remove" name="RemoveOverrideButton" />
+<input class="button" type="submit" value="{"Create new"|i18n("design/standard/setup")}" name="NewOverrideButton" />
+<input class="button" type="submit" value="{"Remove"|i18n("design/standard/setup")}" name="RemoveOverrideButton" />
 </div>
 
 </form>

@@ -1,14 +1,14 @@
-<h1>Template list</h1>
+<h1>{"Template list"|i18n("design/standard/setup")}</h1>
 
-<h2>Most common templates</h2>
+<h2>{"Most common templates"|i18n("design/standard/setup")}</h2>
 
 <table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
    <th>
-   Template
+   {"Template"|i18n("design/standard/setup")}
    </th>
    <th>
-   Design Resource
+   {"Design Resource"|i18n("design/standard/setup")}
    </th>
 </tr>
 {section name=Template loop=$most_used_template_array sequence=array(bglight,bgdark)}
@@ -23,15 +23,15 @@
 {/section}
 </table>
 
-<h2>Complete template list</h2>
+<h2>{"Complete template list"|i18n("design/standard/setup")}</h2>
 
 <table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
    <th>
-   Template
+   {"Template"|i18n("design/standard/setup")}
    </th>
    <th>
-   Design Resource
+   {"Design Resource"|i18n("design/standard/setup")}
    </th>
 </tr>
 {section max=20 offset=$view_parameters.offset name=Template loop=$template_array sequence=array(bglight,bgdark)}
