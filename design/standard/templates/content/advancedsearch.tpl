@@ -27,6 +27,7 @@
                            class_id,$search_contentclass_id,
                            class_attribute_id,$search_contentclass_attribute_id,
                            offset,$view_parameters.offset,
+                           publish_date,$search_date,
                            limit,$page_limit))}
     {set search_result=$search['SearchResult']}
     {set search_count=$search['SearchCount']}
