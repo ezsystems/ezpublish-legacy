@@ -86,8 +86,6 @@ eZINI:
   http://ez.no/community/bug_reports/forgotpassword_tpl_wrong_action
 - Fixed typo in user/activate.tpl
   http://ez.no/community/bug_reports/user_activate_template_typo
-
-
 - Fixed bug in kernel/sql/postgresql/sequence.sql
   http://ez.no/community/bug_reports/postgres_setval
 - Fixed bug in cronjobs/workflow.php
@@ -96,6 +94,12 @@ eZINI:
   http://ez.no/community/bug_reports/problem_with_sql_update_file_dbupdate_3_3_5_to_3_3_6_sql
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
   http://ez.no/community/bug_reports/workflow_approve_and_author
+- Fixed bug: "Registration" setup step didn't notice that convert program
+  (included into Imagemagick) had been found in path entered by user. 
+  http://ez.no/community/bug_reports/setup_registration_email_problem
+- Fixed bug with unabling to upload image to a new translated object.
+  http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
+
 *Library:
 
 eZ Locale:

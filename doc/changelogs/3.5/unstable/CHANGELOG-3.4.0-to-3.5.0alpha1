@@ -142,6 +142,9 @@ eztc.php:
 - Fixed bug: when user enabled DebugByIP then DebugRedirection was automatically enabled.
   Merged from stable/3.4 rev. 6912.
   http://ez.no/community/bug_reports/debug_redirect_always_on_when_using_debug_by_ip
+- Fixed bug with unabling to upload image to a new translated object.
+  Merged from stable/3.3 rev.6916.
+  http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
