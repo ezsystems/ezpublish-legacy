@@ -448,7 +448,11 @@ Workflow:
 - Fixed bug where user can not create comments in weblog
   http://www.ez.no/community/bug_reports/users_cannot_add_comments_use_weblog
   (Merged from stable/3.4 rev. 7876)
-  
+- Added missing sender and reply to when sending informationcollector mail
+  (Merged from stable/3.4 rev. 7883)
+  http://www.ez.no/community/bug_reports/information_collection_mail_sender_is_empty
+
+
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 - Added eZSOAPServer::registerObject() method.
