@@ -6,8 +6,8 @@
     <p>{'The class is temporarly locked and thus it can not be edited by you.'|i18n( 'design/admin/class/edit_denied' )}</p>
     <p>{'Possible actions'|i18n( 'design/admin/class/edit_denied' )}:</p>
 <ul>
-    <li>{'Contact the person who is editing the class.'|i18n( 'design/admin/content/edit_denied' )}</li>
-    <li>{'Wait until the lock expires and try again.'|i18n( 'design/admin/content/edit_denied' )}</li>
+    <li>{'Contact the person who is editing the class.'|i18n( 'design/admin/class/edit_denied' )}</li>
+    <li>{'Wait until the lock expires and try again.'|i18n( 'design/admin/class/edit_denied' )}</li>
 </ul>
 
 </div>
@@ -44,7 +44,7 @@
 {sum( $class.modified, $lock_timeout )|l10n( shortdatetime )}
 </div>
 
-<p>{'The class will be available for editing once it has been stored by the current modifier or when it is unlocked by the system.'|i18n( 'design/admin/content/edit_denied' )}</p>
+<p>{'The class will be available for editing once it has been stored by the current modifier or when it is unlocked by the system.'|i18n( 'design/admin/class/edit_denied' )}</p>
 
 </div>
 
