@@ -45,7 +45,7 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     include_once( 'lib/ezfile/classes/ezmd5.php' );
     $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
 
-    if ( strlen( $checkMD5Sums ) == 0 )
+    if ( strlen( $checkResult ) == 0 )
     {
         $tpl->setVariable( 'md5_result', 'ok' );
     }
