@@ -226,7 +226,7 @@ class eZNodeviewfunctions
 
         // Make the cache unique for every case of the preferences
         $siteIni =& eZINI::instance( );
-        $depPreferences = $siteIni->variable( 'ContentSettings', 'ViewPreferences' );
+        $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
         if ( $depPreferences[$viewMode] )
         {
             $depPreferences = explode( ';', $depPreferences[$viewMode] );
