@@ -1,19 +1,17 @@
 {default content_version=$node.contentobject_version_object
          node_name=$node.name}
 
-<table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
+<table class="linklist" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th bgcolor="#FF9900" width="100%">
-    <span class="small">{$node_name}</span>
+    <th class="linkheader">
+    {$node_name}
     </th>
 </tr>
 <tr>
-    <td bgcolor="#FDF4D9" width="100%">
+    <td class="linkcontent">
     {attribute_view_gui attribute=$content_version.data_map.description}
-    <span class="small">
-    URL:
+    <label>URL:</label><div class="labelbreak"></div>
     {attribute_view_gui attribute=$content_version.data_map.link}
-    </span>
     </td>
 </tr>
 

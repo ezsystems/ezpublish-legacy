@@ -34,17 +34,17 @@
 
 <body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" />
 
-<MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-</MAP>
+<map name="map">
+<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
+<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
+<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
+<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
+<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
+<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
+<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+</map>
 
 {let file_list=fetch(content,list,hash(parent_node_id,201,sort_by,array(array(published,false())),limit,5,))
      news_list=fetch(content,tree,hash(parent_node_id,200,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}

@@ -31,91 +31,76 @@
 
 <body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" />
 
-<MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-</MAP>
+<map name="map">
+<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
+<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
+<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
+<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
+<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
+<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
+<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+</map>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td>
-<br />
-
-<table width="700" border="0" cellspacing="0" cellpadding="0">
+<table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td><a href={"content/view/full/32/"|ezurl}><img src={"images/crossroads_logo.gif"|ezdesign} alt="Forum fora" border="0" /></a></td>
 </tr>
 <tr>
     <td>
-    <table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#FF9900;">
+
+    <table class="topmenu" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td align="center" bgcolor="#990000">
-	<a href={"content/view/full/32/"|ezurl}><font color="white"><b class="small">home</b></font></a>
-	</td>
-        <td align="center" bgcolor="#990000">
-	<a href={"content/view/full/192/"|ezurl}><font color="white"><b class="small">links</b></font></a>
-	</td>
-        <td align="center" bgcolor="#990000">
-	<a href={"content/view/full/198/"|ezurl}><font color="white"><b class="small">about</b></font></a>
-	</td>
-        <td align="center" bgcolor="#990000">
-	<a href={"user/login/"|ezurl}><font color="white"><b class="small">login</b></font></a>
-	</td>
+        <td class="menuitem" width="25%">
+	    <a href={"content/view/full/32/"|ezurl}>home</a>
+	    </td>
+        <td class="menuitem" width="25%">
+	    <a href={"content/view/full/192/"|ezurl}>links</a>
+    	</td>
+        <td class="menuitem" width="25%">
+	    <a href={"content/view/full/198/"|ezurl}>about</a>
+	    </td>
+        <td class="menuitem" width="25%">
+	    <a href={"user/login/"|ezurl}>login</a>
+    	</td>
     </tr> 	
     </table>
+
     </td>    
 </tr>
-</table>
-
-<table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td>
-
-    <table width="100%" border="0" cellspacing="20" cellpadding="0">
-    <tr>
-       <td>
-       <span class="small">&gt;</span>
+    <td class="path">
+       &gt;
        {section name=Path loop=$module_result.path offset=2}
         {section show=$Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
         {section-else}
-        <span class="small">{$Path:item.text}</span>
-      
+        {$Path:item.text}
         {/section}
 
         {delimiter}
-        <span class="small">/</span>
+        /
         {/delimiter}
         {/section}
-	</td>
+	    </td>
     </tr> 	
     <tr>
-        <td>
+        <td class="maincontent">
         {$module_result.content}
-	</td>
+	    </td>
     </tr>
-    </table>
-    <div align="center" class="small">
-    <a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a><br />
-    Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.
+    <tr>
+        <td>
+    
+    <div class="credits">
+    <a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+    <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002</p>
     </div>
+
     </td>    
 </tr>
-<tr>
-</tr>
 </table>
-
-</td>
-</tr>
-</table>
-
 
 </body>
 </html>

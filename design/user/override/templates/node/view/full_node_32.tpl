@@ -1,7 +1,7 @@
 {default with_children=true()}
 
 {section show=$with_children}
-<table width="100%">
+<table class="layout" width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
     {section name=Forum loop=fetch(content,list,hash(parent_node_id,32))}
     <td valign="top">
