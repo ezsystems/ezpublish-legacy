@@ -526,39 +526,64 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeID = $this->attribute( 'node_id' );
             $node = $this;
         }
-        else
+        else if ( is_numeric( $nodeID ) )
         {
             $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
-        $fromNode = $nodeID ;
-
-        if ( count( $node ) != 0 )
+        $pathStringCond = '';
+        if ( is_array( $nodeID ) )
         {
-            $nodePath =  $node->attribute( 'path_string' );
-            $nodeDepth = $node->attribute( 'depth' );
-        }
-
-        $childrensPath = $nodePath ;
-        $pathLength = strlen( $childrensPath );
-
-        $db =& eZDB::instance();
-        $subStringString = $db->subString( 'path_string', 1, $pathLength );
-          $pathString = " path_string like '$childrensPath%' and ";
-
-        $notEqParentString = "node_id != $fromNode AND";
-        $depthCond = '';
-        if ( $depth )
-        {
-
-            $nodeDepth += $params[ 'Depth' ];
-            if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
+            $nodeIDList = $nodeID;
+            $nodeList = array();
+            $sqlPartForOneNodeList = array();
+            foreach ( $nodeIDList as $nodeID )
             {
-                $depthCond = ' depth = ' . $nodeDepth . ' and ';
-                $notEqParentString = '';
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                $nodePath =  $node->attribute( 'path_string' );
+                $nodeDepth = $node->attribute( 'depth' );
+                $childrensPath = $nodePath ;
+                $pathString = " path_string like '$childrensPath%' and ";
+                $nodeDepth += $params[ 'Depth' ];
+                $depthCond = ' depth = ' . $nodeDepth . ' ';
+                $sqlPartForOneNodeList[] = " ( path_string like '$childrensPath%' and  $depthCond ) ";
             }
-            else
-                $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+            $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );
+            $pathStringCond = ' (' . $pathStringCond . ') and';
+        }
+        else
+        {
+            $fromNode = $nodeID ;
+
+            if ( count( $node ) != 0 )
+            {
+                $nodePath =  $node->attribute( 'path_string' );
+                $nodeDepth = $node->attribute( 'depth' );
+            }
+
+            $childrensPath = $nodePath ;
+            $pathLength = strlen( $childrensPath );
+
+            $db =& eZDB::instance();
+            $subStringString = $db->subString( 'path_string', 1, $pathLength );
+            $pathString = " path_string like '$childrensPath%' and ";
+
+            $notEqParentString = "node_id != $fromNode AND";
+            $depthCond = '';
+            if ( $depth )
+            {
+
+                $nodeDepth += $params[ 'Depth' ];
+                if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
+                {
+                    $depthCond = ' depth = ' . $nodeDepth . ' and ';
+                    $notEqParentString = '';
+                }
+                else
+                    $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+            }
+
+            $pathStringCond = $pathString . $depthCond;
         }
 
         $ini =& eZINI::instance();
@@ -630,8 +655,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $versionNameTables
                           $attributeFromSQL
                           $attributeFilterFromSQL
-                       WHERE $pathString
-                          $depthCond
+                       WHERE
+                          $pathStringCond
                           $attributeWereSQL
                           $attributeFilterWhereSQL
                           ezcontentclass.version=0 AND
@@ -656,8 +681,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $versionNameTables
                             $attributeFromSQL
                             $attributeFilterFromSQL
-                      WHERE $pathString
-                            $depthCond
+                      WHERE
+                            $pathStringCond
                             $attributeWereSQL
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
