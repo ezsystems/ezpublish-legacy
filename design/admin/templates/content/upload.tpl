@@ -66,7 +66,8 @@
 {* Errors. *}
 {section show=$errors|count|gt( 0 )}
     <div class="message-error">
-        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Some errors occured'|i18n( 'design/admin/content/upload' )}</h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The file could not be uploaded'|i18n( 'design/admin/content/upload' )}</h2>
+        <p>{'The following errors occured'|i18n( 'design/admin/content/upload' )}:</p>
         <ul>
             {section var=error loop=$errors}
                 <li>{$error.description}</li>
@@ -76,11 +77,16 @@
 {/section}
 
 
+
+
+{section show=$upload.description_template}
+    {include name=Description uri=$upload.description_template upload=$upload}
+{section-else}
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Upload file'|i18n( 'design/admin/content/upload' )}</h1>
+<h1 class="context-title">{'File upload'|i18n( 'design/admin/content/upload' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -88,20 +94,38 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="context-attributes">
+<div class="block">
+<p>{'Choose a file from your local machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n( 'design/admin/content/upload' )}</p>
+</div>
 
-{section show=$upload.description_template}
-    {include name=Description uri=$upload.description_template upload=$upload}
-{section-else}
-    <p>{'Choose a file from your local machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n( 'design/admin/content/upload' )}</p>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+
+</div>
 {/section}
+
+
+
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h2 class="context-title">{'Upload file'|i18n( 'design/admin/content/upload' )}</h2>
+
+{* DESIGN: Subline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="context-attributes">
 
 <input type="hidden" name="UploadActionName" value="{$upload.action_name}" />
 
 <div class="block">
 
     <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
-    <select	name="UploadLocationChoice" class="combobox locationchoice">
+    <select	name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
         <option value="auto">{'Automatic'|i18n( 'design/admin/content/upload' )}</option>
     {let root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
          root_node=cond( $root_node_value|is_numeric, fetch( content, node, hash( node_id, $root_node_value ) ),
@@ -121,7 +145,7 @@
 
 <div class="block">
     <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>
-    <input name="UploadFile" type="file" />
+    <input name="UploadFile" type="file" title="{'Select the file that you wish to upload.'|i18n( 'design/admin/content/upload' )}" />
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 </div>
 
@@ -132,8 +156,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-<input class="button" type="submit" name="UploadFileButton" value="{'OK'|i18n( 'design/admin/content/upload' )}" title="{'__FIX_ME__'|i18n( 'design/admin/content/upload' )}" />
-<input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" />
+<input class="button" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/admin/content/upload' )}" title="{'Proceed with uploading the selected file.'|i18n( 'design/admin/content/upload' )}" />
+<input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" title="{'Abort the upload operation and go back to where you came from.'|i18n( 'design/admin/content/upload' )}" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
