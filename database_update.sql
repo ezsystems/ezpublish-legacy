@@ -353,6 +353,9 @@ alter table ezurl add is_valid int NOT NULL DEFAULT '1';
 alter table ezurl add last_checked int NOT NULL DEFAULT '0';
 alter table ezurl add original_url_md5 varchar(32) NOT NULL DEFAULT '';
 
+# run update/common/scripts/updateurllink.php to fix XML fields with bad links.
+
+
 #After RC2
 alter table ezproductcollection add column created integer;
 
@@ -375,3 +378,5 @@ alter table ezproductcollection_item_opt add object_attribute_id int;
 alter table ezorder add data_text_2 text;
 alter table ezorder add data_text_1 text;
 alter table ezorder add account_identifier varchar(100) not null default 'default';
+
+# run update/common/scripts/updateurllink.php to fix XML fields with inproper text encoding

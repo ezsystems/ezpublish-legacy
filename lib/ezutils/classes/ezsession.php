@@ -41,11 +41,6 @@
 function eZSessionOpen( )
 {
     // do nothing eZDB will open connection when needed.
-/*    include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
-    if ( !$db->isConnected() )
-        eZDebug::writeError( 'Database session will not work, not connected to a database', 'eZSession' );
-*/
 }
 
 function eZSessionClose( )
@@ -120,6 +115,7 @@ function eZSessionDestroy( $key )
     $db =& eZDB::instance();
     $query = "DELETE FROM ezsession WHERE session_key='$key'";
 
+    $db->query( $query );
 }
 
 /*!
@@ -131,7 +127,7 @@ function eZSessionGarbageCollector()
     $db =& eZDB::instance();
     $query = "DELETE FROM ezsession WHERE expiration_time < " . time();
 
-    $db->query();
+    $db->query( $query );
 }
 
 /*!

@@ -19,6 +19,7 @@ links to clickable links.
   It uses a new timestamp value to know which version the xml format is in
   and allows automatic conversion when older versions are detected.
   Use update/common/scripts/updateurllink.php to update all XML fields.
+- Some fixes to session cleanup.
 
 *SDK :
 
