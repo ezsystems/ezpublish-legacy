@@ -52,4 +52,10 @@ Source=node/view/line.tpl
 MatchFile=product_line.tpl
 Subdir=templates
 Match[class]=23
+
+[search]
+Source=content/search.tpl
+MatchFile=search.tpl
+Subdir=templates
+
 */ ?>
