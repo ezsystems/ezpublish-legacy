@@ -76,6 +76,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug #6034: eZMYSQLDB::query() unproper error handling
 - Fixed bug #4411: Modules does not work after creating node named like module
 - Fixed bug #5983: User id is not stored in workflow processes.
+- Fixed bug #6165: A Problem with Paypal Extension in Ez 3.5.0.
+  (Merged from stable/3.5 (3.5.1) rev.10786)
 
 *Library:
 
