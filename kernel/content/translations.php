@@ -164,7 +164,9 @@ if ( $Params['TranslationID'] )
 
     $Result['content'] =& $tpl->fetch( 'design:content/translationview.tpl' );
     $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
-                                'url' => false ) );
+                                    'url' => 'content/translations' ),
+                             array( 'text' => $translation->attribute( 'name' ),
+                                    'url' => false ) );
     return;
 }
 
