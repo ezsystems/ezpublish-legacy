@@ -49,6 +49,7 @@
   http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
 - Fixed bug eZContentObjectTreeNode::findMainNodeArray when $objectIDArray is empty ( merged from stable 4367 )
   http://www.ez.no/developer/ez_publish_3/bug_reports/related_objects_error_2
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/others_can_see_my_wishlist_ ( merged from stable 4369 )
 - Fixed bug with long object names generating invalid SQL : ( merged from stable 4371 )
   http://www.ez.no/developer/ez_publish_3/bug_reports/too_long_textline_attribute_doesnt_give_an_error_message
 - Fixed eZContentBrowseRecent count SQL. ( merged from stable 4371 )
