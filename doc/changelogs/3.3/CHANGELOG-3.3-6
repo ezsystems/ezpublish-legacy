@@ -178,6 +178,8 @@ eZINI:
 - Removed vardumps from cronjobs/unpublish.php.
   http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
 - Fixed notification digest bug.
+- Fixed bug in {section show=$abc } where $abc is undefined. Bug only occured when template compilation was disabled. 
+  Merged from stable/3.4 rev. 7097.
     
 *Library:
 
