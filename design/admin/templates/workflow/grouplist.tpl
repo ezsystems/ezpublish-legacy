@@ -10,10 +10,10 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$groups}
 <table class="list" cellspacing="0">
-{section show=$groups|count}
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.grouplistform, 'ContentClass_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.grouplistform, 'ContentClass_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/grouplist' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/workflow/grouplist' )}</th>
     <th class="tight">&nbsp;</th>
 
@@ -26,9 +26,9 @@
 </tr>
 {/section}
 {section-else}
-
-<tr><td>{'There are no workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}</td></tr>
-
+<div class="block">
+<p>{'There are no workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}</p>
+</div>
 {/section}
 
 </table>
