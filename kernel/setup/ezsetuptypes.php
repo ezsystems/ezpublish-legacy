@@ -171,12 +171,12 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
     $settings = array();
     if ( $siteType == 'intranet' or $isAdmin )
     {
-        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'true' ) );
+        $settings['SiteAccessSettings'] = array( 'RequireUserLogin' => 'true' );
         $settings['SiteSettings'] = array( 'LoginPage' => 'custom' );
     }
     else
     {
-        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'false' ) );
+        $settings['SiteAccessSettings'] = array( 'RequireUserLogin' => 'false' );
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
 
@@ -197,7 +197,7 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
                   'settings' => $settings );
 }
 
-function eZSetupCommonSiteINISettings( $siteType, $parameters, $isAdmin )
+function eZSetupCommonSiteINISettings( $siteType, $parameters )
 {
     $settings = array();
 
