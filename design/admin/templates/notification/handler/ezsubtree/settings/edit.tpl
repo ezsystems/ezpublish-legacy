@@ -12,7 +12,7 @@
 {section show=$subscribed_nodes}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" onclick="ezjs_toggleCheckboxes( document.notification, 'SelectedRuleIDArray_{$handler.id_string}[]' ); return false;" /></th>
 	<th>{'Name'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
 	<th>{'Type'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
 	<th>{'Section'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>

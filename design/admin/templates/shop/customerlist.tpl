@@ -27,11 +27,10 @@
 	<td>{$Customers.sum_ex_vat|l10n( currency )}</td>
 	<td>{$Customers.sum_inc_vat|l10n( currency )}</td>
 </tr>
-</table>
 {section-else}
 
-asdf
 {/section}
+</table>
 
 <div class="context-toolbar">
 {include name=navigator
