@@ -4620,9 +4620,9 @@ INSERT INTO ezcontentobject_attribute VALUES (1073, 'eng-GB', 58, 56, 220, 'Copy
 INSERT INTO ezcontentobject_attribute VALUES (1074, 'eng-GB', 59, 56, 220, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1075, 'eng-GB', 61, 56, 220, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 62, 56, 220, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 64, 56, 220, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 63, 56, 220, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 65, 56, 220, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 64, 56, 220, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 63, 56, 220, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 65, 56, 220, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1146, 'eng-GB', 1, 291, 6, 'Anonymous Users', 0, 0, 0, 0, 'anonymous users', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1147, 'eng-GB', 1, 291, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'user group for the anonymous user', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 3, 10, 8, 'Anonymous', 0, 0, 0, 0, 'anonymous', 'ezstring');

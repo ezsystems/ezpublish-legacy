@@ -4299,16 +4299,16 @@ INSERT INTO ezcontentobject_attribute VALUES (757, 'eng-GB', 4, 141, 201, '<?xml
             attribute_version=""
             attribute_language="" />
 </ezimage>', 0, 0, 0, 0, '', 'ezimage');
-INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 54, 56, 202, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 54, 56, 202, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (779, 'eng-GB', 46, 56, 202, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (778, 'eng-GB', 45, 56, 202, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 57, 56, 202, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 58, 56, 202, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 59, 56, 202, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 57, 56, 202, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 58, 56, 202, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 59, 56, 202, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (780, 'eng-GB', 50, 56, 202, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (781, 'eng-GB', 52, 56, 202, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 53, 56, 202, 'Copyright &copy;', 0, 0, 0, 0, 'copyright &copy;', 'ezstring');
-INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 56, 56, 202, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (782, 'eng-GB', 56, 56, 202, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (835, 'eng-GB', 1, 233, 6, 'Anonymous Users', 0, 0, 0, 0, 'anonymous users', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (836, 'eng-GB', 1, 233, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'user group for the anonymous user', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 2, 10, 8, 'Anonymous', 0, 0, 0, 0, 'anonymous', 'ezstring');
