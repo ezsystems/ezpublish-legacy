@@ -81,27 +81,22 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         if ( $tempDeleteClass != null )
             $tempDeleteClass->remove( true, 1 );
 
-       //Remove all object from thrash
-       $db =& eZDB::instance();
-       $count = $db->arrayQuery( "SELECT count( * ) AS count FROM ezcontentobject WHERE  ezcontentobject.contentclass_id='$deleteID'" );
-
-       $offset = 0;
-       $limit = 50;
-
-       while ( $offset < $count[0]['count'] )
-       {
-           $query = "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID' LIMIT $offset, $limit";
-           $resArray =& $db->arrayQuery( $query );
-
-           foreach( $resArray as $row )
-           {
-                $objectID = $row['id'];
-                $object =& eZContentObject::fetch( $objectID );
+        //Remove all object from thrash
+        $db =& eZDB::instance();
+        $deleteID = $db->escapeString( $deleteID ); //security thing
+        while ( true )
+        {
+            $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
+            if( !$resArray || count( $resArray ) == 0 )
+            {
+               break;
+            }
+            foreach( $resArray as $row )
+            {
+                $object =& eZContentObject::fetch( $row['id'] );
                 $object->purge();
-           }
-           $offset += count( $resArray );
-      }
-    
+       	    }
+        }
     }
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
