@@ -72,7 +72,18 @@ class eZRole extends eZPersistentObject
                                          "name" => array( 'name' => "Name",
                                                           'datatype' => 'string',
                                                           'default' => '',
+                                                          'required' => true ) ,
+
+                                         "limit_identifier" => array( 'name' => "LimitIdentifier",
+                                                          'datatype' => 'string',
+                                                          'default' => false,
+                                                          'required' => true ) ,
+
+                                         "limit_value" => array( 'name' => "LimitValue",
+                                                          'datatype' => 'string',
+                                                          'default' => false,
                                                           'required' => true ) ),
+							  
                       "function_attributes" => array( "policies" => "policyList" ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
@@ -87,8 +98,7 @@ class eZRole extends eZPersistentObject
     */
     function attributes()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            array( 'limit_identifier', 'limit_value' ) );
+        return eZPersistentObject::attributes();
     }
 
     /*!
