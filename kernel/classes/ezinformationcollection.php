@@ -478,11 +478,28 @@ class eZInformationCollection extends eZPersistentObject
 
     function &informationCollectionAttributes( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZInformationCollectionAttribute::definition(),
-                                                    null,
-                                                    array( 'informationcollection_id' => $this->ID ),
-                                                    null, null,
-                                                    $asObject );
+        $db =& eZDB::instance();
+
+        $arrayRes = $db->arrayQuery( "SELECT ica.id, ica.informationcollection_id, ica.contentclass_attribute_id, ica.contentobject_attribute_id, ica.contentobject_id, ica.data_text, ica.data_int,
+                                          ica.data_float
+                                      FROM   ezinfocollection_attribute ica, ezcontentclass_attribute
+                                      WHERE  ezcontentclass_attribute.id=ica.contentclass_attribute_id AND informationcollection_id='" . $this->ID . "'
+                                      ORDER BY ezcontentclass_attribute.placement" );
+
+        if ( $asObject )
+        {
+            $retArray = array();
+            foreach ( $arrayRes as $row )
+            {
+                $retArray[] = new eZInformationCollectionAttribute( $row );
+            }
+        }
+        else
+        {
+            $retArray = $arrayRes;
+        }
+
+        return $retArray;
     }
 
     function object()
