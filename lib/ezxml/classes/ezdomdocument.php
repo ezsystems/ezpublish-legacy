@@ -41,6 +41,35 @@
   \ingroup eZXML
   \brief eZDOMDocument handles DOM nodes in DOM documents
 
+  The DOM document keeps a tree of DOM nodes and maintains
+  information on the various namespaces in the tree.
+  It also has helper functions for creating nodes and serializing
+  the tree into text.
+
+  Accessing and changing the name of the document is done using name() and setName().
+
+  Accessing the tree is done using the root() method, use setRoot() to set
+  a new root node. The method appendChild() will do the same as setRoot().
+
+  For fetching nodes globally the methods elementsByName(), elementsByNameNS() and namespaceByAlias()
+  can be used. They will fetch nodes according to the fetch criteria no matter where they are in the tree.
+
+  Creating new nodes is most easily done with the helper methods
+  createTextNode(), createCDATANode(), createElementNode() and createAttributeNode().
+  They take care of creating the node with the correct type and does proper initialization.
+
+  Creating typical structures is also possible with the helper methods
+  createElementTextNode(), createElementCDATANode(), createElementNodeNS(),
+  createAttributeNamespaceDefNode() and createAttributeNodeNS().
+  This will not only create the node itself but also the correct subchild, attribute or namespace.
+
+  After nodes are created they can be registered with the methods registerElement(), registerNamespaceAlias().
+  This ensures that they are available globally in the DOM document.
+
+  Serializing the tree structure is done using toString(), this also allows specifying
+  the character set of the output.
+
+  Example of using the DOM document to create a node structure.
   \code
   $doc = new eZDOMDocument();
   $doc->setName( "FishCatalogue" );
@@ -87,15 +116,15 @@ include_once( "lib/ezxml/classes/ezdomnode.php" );
 class eZDOMDocument
 {
     /*!
-      Creates a new DOM document object. You can provide a name for the document.
+      Initializes the DOM document object with the name \a $name.
     */
-    function eZDOMDocument( $name="")
+    function eZDOMDocument( $name = "" )
     {
         $this->Name = $name;
     }
 
     /*!
-      Sets the document name
+      Sets the document name to \a $name.
     */
     function setName( $name )
     {
@@ -103,8 +132,7 @@ class eZDOMDocument
     }
 
     /*!
-      Returns the document root if it exists.
-      False is returned if the root does not exist.
+      \return The document root node if it exists, if not \c false is returned.
     */
     function &root()
     {
@@ -112,7 +140,8 @@ class eZDOMDocument
     }
 
     /*!
-      Sets the document root.
+      Sets the document root node to \a $node.
+      If the parameter is not an eZDOMNode it will not be set.
     */
     function setRoot( &$node )
     {
@@ -123,7 +152,9 @@ class eZDOMDocument
     }
 
     /*!
-      Sets the document root.
+      Sets the document root node to \a $node.
+      If the parameter is not an eZDOMNode it will not be set.
+      \sa setRoot()
     */
     function appendChild( &$node )
     {
@@ -134,7 +165,50 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a text node.
+      Finds all element nodes which matches the name \a $name and returns it.
+      \return An array with eZDOMNode elements.
+    */
+    function &elementsByName( $name )
+    {
+        return $this->NamedNodes[$name];
+    }
+
+    /*!
+      Finds all element nodes which matches the name \a $name and namespace URI \a $namespaceURI and returns it.
+      \return An array with eZDOMNode elements.
+    */
+    function &elementsByNameNS( $name, $namespaceURI )
+    {
+        return $this->NamedNodesNS[$name][$namespaceURI];
+    }
+
+    /*!
+      Finds all element nodes which matches the namespace alias \a $alias and returns it.
+      \return An array with eZDOMNode elements.
+    */
+    function &namespaceByAlias( $alias )
+    {
+        if ( isset( $this->Namespaces[$alias] ) )
+            return $this->Namespaces[$alias];
+        else
+            return false;
+    }
+
+    /*!
+      Creates a DOM node of type text and returns it.
+
+      Text nodes are used to store text strings,
+      use content() on the node to extract the text.
+
+      \param $text The text string which will be stored in the node
+
+      \code
+      $dom->createTextNode( 'Edge' );
+      \endcode
+      The resulting XML text will be
+      \code
+      Edge
+      \endcode
     */
     function &createTextNode( $text )
     {
@@ -147,7 +221,20 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a cdata node.
+      Creates a DOM node of type CDATA and returns it.
+
+      CDATA nodes are used to store text strings,
+      use content() on the node to extract the text.
+
+      \param $text The text string which will be stored in the node
+
+      \code
+      $dom->createCDATANode( 'http://ez.no' );
+      \endcode
+      The resulting XML text will be
+      \code
+      <![CDATA[http://ez.no]]>
+      \endcode
     */
     function &createCDATANode( $text )
     {
@@ -209,7 +296,26 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a element node
+      Creates a DOM node of type element and returns it.
+
+      Element nodes are the basic node type in DOM tree,
+      they are used to structure nodes.
+      They can contain child nodes and attribute nodes accessible
+      with children() and attributes().
+
+      \param $name The name of the element node.
+      \param $attributes An associative array with attribute names and attribute data.
+                         This can be used to quickly fill in node attributes.
+
+      \code
+      $dom->createElementNode( 'song',
+                               array( 'name' => 'Shine On You Crazy Diamond',
+                                      'track' => 1 ) );
+      \endcode
+      The resulting XML text will be
+      \code
+      <song name='Shine On You Crazy Diamond' track='1' />
+      \endcode
     */
     function &createElementNode( $name, $attributes = array() )
     {
@@ -225,7 +331,25 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a element node with a text node as child.
+      Creates a DOM node of type element and returns it.
+      It will also create a DOM node of type text and add it as child of the element node.
+
+      \param $name The name of the element node.
+      \param $text The text string which will be stored in the text node
+      \param $attributes An associative array with attribute names and attribute data.
+                         This can be used to quickly fill in element node attributes.
+
+      \code
+      $dom->createElementTextNode( 'name',
+                                   'Archer Maclean',
+                                    array( 'id' => 'archer',
+                                           'game' => 'ik+' ) );
+      \endcode
+      The resulting XML text will be
+      \code
+      <name id='archer' game='ik+'>Archer Maclean</name>
+      \endcode
+
       \sa createTextNode, createElementNode
     */
     function &createElementTextNode( $name, $text, $attributes = array() )
@@ -238,7 +362,25 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a element node with a CDATA node as child.
+      Creates a DOM node of type element and returns it.
+      It will also create a DOM node of type CDATA and add it as child of the element node.
+
+      \param $name The name of the element node.
+      \param $text The text string which will be stored in the CDATA node
+      \param $attributes An associative array with attribute names and attribute data.
+                         This can be used to quickly fill in element node attributes.
+
+      \code
+      $dom->createElementCDATANode( 'name',
+                                    'Peter Molyneux',
+                                     array( 'type' => 'developer',
+                                            'game' => 'dungeon keeper' ) );
+      \endcode
+      The resulting XML text will be
+      \code
+      <name type='developer' game='dungeon keeper'><![CDATA[Peter Molyneux]]></name>
+      \endcode
+
       \sa createCDATANode, createElementNode
     */
     function &createElementCDATANode( $name, $text, $attributes = array() )
@@ -251,7 +393,21 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns a element node with a namespace URI
+      Creates a DOM node of type element with a namespace and returns it.
+
+      \param $uri The namespace URI for the element
+      \param $name The name of the element node.
+
+      \code
+      $dom->createElementNodeNS( 'http://ez.no/package',
+                                 'package' );
+      \endcode
+      The resulting XML text will be
+      \code
+      <package xmlns="http://ez.no/package" />
+      \endcode
+
+      \sa createElementNode
     */
     function &createElementNodeNS( $uri, $name )
     {
@@ -264,7 +420,21 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns an attribute node
+      Creates a DOM node of type attribute and returns it.
+
+      \param $name The name of the attribute
+      \param $content The content of the attribute
+      \param $prefix Namespace prefix which will be placed before the attribute name
+
+      \code
+      $dom->createAttributeNode( 'name',
+                                 'Pink Floyd',
+                                 'music-group' );
+      \endcode
+      The resulting XML text will be
+      \code
+      music-group:name="Pink Floyd"
+      \endcode
     */
     function &createAttributeNode( $name, $content, $prefix = false )
     {
@@ -279,7 +449,19 @@ class eZDOMDocument
     }
 
     /*!
-      Creates an namespace definition attribute
+      Creates a DOM node of type attribute which is used for namespace definitions and returns it.
+
+      \param $prefix Namespace prefix which will be placed before the attribute name
+      \param $uri The unique URI for the namespace
+
+      \code
+      $dom->createAttributeNamespaceDefNode( 'music-group',
+                                             'http://music.org/groups' );
+      \endcode
+      The resulting XML text will be
+      \code
+      xmlns:music-group="http://music.org/groups"
+      \endcode
     */
     function &createAttributeNamespaceDefNode( $prefix, $uri )
     {
@@ -293,7 +475,21 @@ class eZDOMDocument
     }
 
     /*!
-      Creates and returns an attribute node with a namespace URI
+      Creates a DOM node of type attribute which is used for namespace definitions and returns it.
+
+      \param $uri The unique URI for the namespace
+      \param $name The name of the attribute
+      \param $content The content of the attribute
+
+      \code
+      $dom->createAttributeNodeNS( 'http://music.org/groups',
+                                   'name',
+                                   'Pink Floyd' );
+      \endcode
+      The resulting XML text will be
+      \code
+      name="Pink Floyd"
+      \endcode
     */
     function &createAttributeNodeNS( $uri, $name, $content )
     {
@@ -308,7 +504,20 @@ class eZDOMDocument
     }
 
     /*!
-      Returns a XML string of the DOM document
+      Returns a XML string representation of the DOM document.
+
+      \param $charset The name of the output charset or \c false to use UTF-8 (default in XML)
+      \param $charsetConversion Controls whether the resulting text is converted to the specified
+                                charset or not.
+
+      The \a $charsetConversion parameter can be useful when you know the inserted texts are
+      in the correct charset, turning conversion off can speed things up.
+
+      The XML creation is done by calling the eZDOMNode::toString() function on the root node
+      and let that handle the rest.
+
+      \note The charset conversion is smart enough to only do conversion when required
+      \note Using charset conversion will require the ezi18n library being installed
     */
     function &toString( $charset = true, $charsetConversion = true )
     {
@@ -338,7 +547,12 @@ class eZDOMDocument
     }
 
     /*!
-      Registers the elements
+      Registers the node element \a $node in the DOM document.
+      This involves extracting the name of the node and add it to the
+      name lookup table which elementsByName() uses, then adding it
+      to the namespace lookup table which elementsByNameNS() uses.
+
+      \note This will not insert the node into the node tree.
     */
     function registerElement( &$node )
     {
@@ -351,41 +565,16 @@ class eZDOMDocument
     }
 
     /*!
-      Returns all the elements with the given name by reference.
-    */
-    function &elementsByName( $name )
-    {
-        return $this->NamedNodes[$name];
-    }
+     Register the namespace alias \a $alias to point to the namespace \a $namespace.
 
-    /*!
-      Returns all the elements with the given name and namespace URI by reference.
-    */
-    function &elementsByNameNS( $name, $namespaceURI )
-    {
-        return $this->NamedNodesNS[$name][$namespaceURI];
-    }
-
-    /*!
-     Regsiter a new namespace alias. Provide the alias/prefix and the
-     namespace identifier.
+     The namespace can then later on be fetched with namespaceByAlias().
     */
     function registerNamespaceAlias( $alias, $namespace )
     {
         $this->Namespaces[$alias] =& $namespace;
     }
 
-    /*!
-     Returns the namespace which corresponds to the given alias.
-     Returns false if the namespace is not known.
-    */
-    function &namespaceByAlias( $alias )
-    {
-        if ( isset( $this->Namespaces[$alias] ) )
-            return $this->Namespaces[$alias];
-        else
-            return false;
-    }
+    /// \privatesection
 
     /// Document name
     var $Name;
@@ -404,9 +593,6 @@ class eZDOMDocument
 
     /// Contains an array of the registered namespaces and their aliases
     var $Namespaces = array();
-
-    var $Standalone;
-    var $Type;
 
     /// Reference to the first child of the DOM document
     var $Root;
