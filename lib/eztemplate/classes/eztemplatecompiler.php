@@ -1809,33 +1809,26 @@ if ( !function_exists( 'compiledfetchattribute' ) )
 $lbracket
     function compiledFetchAttribute( &\$value, \$attributeValue )
     $lbracket
-        if ( !is_null( \$attributeValue ) )
+        if ( is_object( \$value ) )
         $lbracket
-            if ( !is_numeric( \$attributeValue ) and
-                 !is_string( \$attributeValue ) and
-                 !is_bool( \$attributeValue ) )
-                return null;
-            if ( is_array( \$value ) )
+            if ( method_exists( \$value, \"attribute\" ) and
+                 method_exists( \$value, \"hasattribute\" ) )
             $lbracket
-                if ( isset( \$value[\$attributeValue] ) )
+                if ( \$value->hasAttribute( \$attributeValue ) )
                 $lbracket
                     unset( \$tempValue );
-                    \$tempValue = \$value[\$attributeValue];
+                    \$tempValue = \$value->attribute( \$attributeValue );
                     return \$tempValue;
                 $rbracket
             $rbracket
-            else if ( is_object( \$value ) )
+        $rbracket
+        else if ( is_array( \$value ) )
+        $lbracket
+            if ( isset( \$value[\$attributeValue] ) )
             $lbracket
-                if ( method_exists( \$value, \"attribute\" ) and
-                     method_exists( \$value, \"hasattribute\" ) )
-                $lbracket
-                    if ( \$value->hasAttribute( \$attributeValue ) )
-                    $lbracket
-                        unset( \$tempValue );
-                        \$tempValue = \$value->attribute( \$attributeValue );
-                        return \$tempValue;
-                    $rbracket
-                $rbracket
+                unset( \$tempValue );
+                \$tempValue = \$value[\$attributeValue];
+                return \$tempValue;
             $rbracket
         $rbracket
         return null;
