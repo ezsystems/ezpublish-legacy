@@ -32,10 +32,34 @@
 // you.
 //
 
-print( "test" );
-$result = "test";
+$Module =& $Params['Module'];
+$http =& eZHTTPTool::instance();
 
-$Result = array();
-$Result['content'] =& $result;
+if ( $Module->isCurrentAction( 'CollectInformation' ) )
+{
+    $ObjectID = $Module->actionParameter( 'ContentObjectID' );
+
+    $object =& eZContentObject::fetch( $ObjectID );
+    $version =& $object->currentVersion();
+    $contentObjectAttributes =& $version->contentObjectAttributes();
+
+    // Check every attribute if it's supposed to collect information
+    $unvalidatedAttributes = array();
+    foreach ( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+        if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
+        {
+            // Collect the information for the current attribute
+            if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
+            {
+                print( "Found info:<br>" );
+                print( $contentObjectAttribute->content() . "<br>" );
+            }
+        }
+    }
+}
 
 ?>

@@ -85,6 +85,9 @@ class eZDataType
             $translationAllowed = $properties['translation_allowed'];
 
         $this->Attributes = array();
+        $this->Attributes["is_indexable"] = $this->isIndexable();
+        $this->Attributes["is_information_collector"] = $this->isInformationCollector();
+
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed );
@@ -353,6 +356,22 @@ class eZDataType
     function title(  &$objectAttribute, $name = null )
     {
         return "";
+    }
+
+    /*!
+     \return true if the datatype can be indexed
+    */
+    function isIndexable()
+    {
+        return false;
+    }
+
+    /*!
+     \return true if the datatype can be used as an information collector
+    */
+    function isInformationCollector()
+    {
+        return false;
     }
 
     /*!

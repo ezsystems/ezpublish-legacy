@@ -23,7 +23,7 @@ modfix:
 - The eZObjectForwarder class can now use different template roots depending on values from the input.
 - New class eZURLTranslator which handles all types of url translations.
 - Moved url nodepath matching to the new urltranslator class.
-- Added general XML serialization framework
+- Added general XML serialization framework for content objects
 - Added function to fetch node children by name in eZContentObjectTreeNode
 - Added function of calculating price with real VAT value for module shop
 - Added function of discount for module shop

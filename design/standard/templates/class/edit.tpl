@@ -36,7 +36,6 @@
 {/section}
 </table>
 
-
 <div class="buttonblock">
 <select name="ContentClass_group">
 {section name=AllGroup loop=$class.group_list}
@@ -46,7 +45,6 @@
 {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
 {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}
 </div>
-
 
 {section show=$validation.processed}
 
@@ -92,17 +90,21 @@
 </div>
 
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked{/section} /><label>Searchable</label>
-</div>
-
-<div class="block">
 <input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked{/section} /><label>Required</label>
 </div>
 
+{section show=$Attributes:item.data_type.is_indexable}
+<div class="block">
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked{/section} /><label>Searchable</label>
+</div>
+{/section}
+
+
+{section show=$Attributes:item.data_type.is_information_collector}
 <div class="block">
 <input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked{/section} /><label>Information collector</label>
 </div>
-
+{/section}
 {* {include uri="design:class/datatypes.tpl" name=DataTypes id_name="ContentAttribute_data_type_string[]" datatypes=$datatypes current=$Attributes:item.data_type.information.string} *}
 </td>
         <td class="{$Attributes:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.down.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}><img class="button" src={"button-move_down.gif"|ezimage} height="16" width="16" alt="Down" /></a></div></td>

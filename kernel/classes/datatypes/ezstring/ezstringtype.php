@@ -263,6 +263,22 @@ class eZStringType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return true;
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )

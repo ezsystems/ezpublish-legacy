@@ -119,7 +119,6 @@ $storeActions = array( 'Preview',
                        'DeleteNode' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
-
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
@@ -160,7 +159,7 @@ if ( $storingAllowed )
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
-        if( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
+        if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
         {
             $requreStoreAction= true;
         }

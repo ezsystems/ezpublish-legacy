@@ -124,6 +124,8 @@ $ViewList["action"] = array(
 $ViewList["collectinformation"] = array(
     "functions" => array( 'read' ),
     "script" => "collectinformation.php",
+    'single_post_actions' => array( 'ActionCollectInformation' => 'CollectInformation' ),
+    'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID' ) ),
     "params" => array(  ) );
 
 $ViewList["versions"] = array(
