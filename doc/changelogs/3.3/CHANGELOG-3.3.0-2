@@ -1,6 +1,8 @@
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number. (merged from stable 4293)
+- Fixed comment edit layout bug: http://ez.no/developer/ez_publish_3/bug_reports/new_comment_break_layout_news_package
+
 
 *Kernel:
 - Fixed editing PDF exports
