@@ -73,6 +73,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed problem with related object datatype and lost POST data. (Fix taken from 3.3)
   http://ez.no/developer/ez_publish_3/bug_reports/admin_interface_objectrelationattributes_wipe_out_other_attribute_settings
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/others_can_see_my_wishlist_
+- Fixed bug with long object names generating invalid SQL : http://www.ez.no/developer/ez_publish_3/bug_reports/too_long_textline_attribute_doesnt_give_an_error_message
+- Fixed eZContentBrowseRecent count SQL.
 
 *Library :
 

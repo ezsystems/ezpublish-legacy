@@ -192,8 +192,12 @@ class eZContentBrowseRecent extends eZPersistentObject
     function &createNew( $userID, $nodeID, $nodeName )
     {
         $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
-                                                                array(), array( 'user_id' => $userID ),
-                                                                null, null, false, null,
+                                                                array(),
+                                                                array( 'user_id' => $userID ),
+                                                                false,
+                                                                null,
+                                                                false,
+                                                                array( 'user_id' ),
                                                                 array( array( 'operation' => 'count( * )',
                                                                               'name' => 'count' ) ) );
         $matchingRecentList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),

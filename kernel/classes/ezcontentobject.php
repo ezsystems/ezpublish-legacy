@@ -291,6 +291,8 @@ class eZContentObject extends eZPersistentObject
     */
     function setName( $objectName, $versionNum = false, $translation = false )
     {
+        $objectName = substr( $objectName, 0, 255 );
+
         $this->Name = $objectName;
 
         $db =& eZDB::instance();
