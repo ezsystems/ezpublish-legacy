@@ -321,14 +321,10 @@ class eZMatrixType extends eZDataType
                 if ( strlen( $columnID ) == 0 )
                 {
                     $columnID = $name;
-                    $columnID = strtolower( $columnID );
-                    $columnID = preg_replace( array( '/[^a-z0-9_ ]/' ,
-                                       '/ /',
-                                       '/__+/' ),
-                                array( '',
-                                       '_',
-                                       '_' ),
-                                $columnID );
+                    // Initialize transformation system
+                    include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                    $trans = new eZCharTransform();
+                    $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                 }
 
                 $columns[] = array( 'name' => $name,

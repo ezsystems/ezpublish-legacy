@@ -128,14 +128,10 @@ class eZMatrixDefinition
 
         if ( $id == false )
         {
-            $id = strtolower( $name );
-            $id = preg_replace( array( "/[^a-z0-9_ ]/" ,
-                                       "/ /",
-                                       "/__+/" ),
-                                array( "",
-                                       "_",
-                                       "_" ),
-                                $id );
+            // Initialize transformation system
+            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            $trans = new eZCharTransform();
+            $id = $trans->transformByGroup( $name, 'identifier' );
         }
 
         $this->ColumnNames[] = array( 'name' => $name,
