@@ -178,6 +178,8 @@ class eZXHTMLOutput
             }
 
         }
+        if ( $paragraph->children() == null )
+            $output = "<p></p>";
         return $output;
     }
 
@@ -197,7 +199,10 @@ class eZXHTMLOutput
         $sectionLevel = $currentSectionLevel + 1;
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag );
+            if ( $tag->name() == "literal" )
+                $childTagText .= $childTag->content();
+            else
+                $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag );
         }
 
 
@@ -205,7 +210,10 @@ class eZXHTMLOutput
         {
             case '#text' :
             {
-                $tagText .= $tag->content();
+                //$tagText .= $tag->content();
+                $tagContent = $tag->content();
+                $tagContent = str_replace( " ", "&nbsp;" , $tagContent );
+                $tagText .= $tagContent;
             }break;
 
             case 'object' :
