@@ -390,7 +390,7 @@ CREATE TABLE ezcontentobject (
 -- Dumping data for table 'ezcontentobject'
 --
 
-INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596,1,NULL);
+INSERT INTO ezcontentobject VALUES (1,0,1,1,'Root folder',1,0,1033917596,1033917596,1,NULL);
 INSERT INTO ezcontentobject VALUES (4,0,2,3,'Users',1,0,0,0,1,NULL);
 INSERT INTO ezcontentobject VALUES (10,8,2,4,'Anonymous User',1,0,1033920665,1033920665,1,NULL);
 INSERT INTO ezcontentobject VALUES (11,8,2,3,'Guest accounts',1,0,1033920746,1033920746,1,NULL);
@@ -473,7 +473,7 @@ CREATE TABLE ezcontentobject_name (
 -- Dumping data for table 'ezcontentobject_name'
 --
 
-INSERT INTO ezcontentobject_name VALUES (1,'Frontpage20',1,'eng-GB','eng-GB');
+INSERT INTO ezcontentobject_name VALUES (1,'Root folder',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name VALUES (4,'Users',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name VALUES (10,'Anonymous User',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name VALUES (11,'Guest accounts',1,'eng-GB','eng-GB');
