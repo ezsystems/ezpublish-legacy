@@ -507,6 +507,12 @@ class eZTemplateCompiler
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_NUMERIC )
             {
             }
+            else if ( $variableItemType == EZ_TEMPLATE_TYPE_ARRAY )
+            {
+            }
+            else if ( $variableItemType == EZ_TEMPLATE_TYPE_BOOLEAN )
+            {
+            }
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_VARIABLE )
             {
                 $variableNamespace = $variableItemData[0];
@@ -865,7 +871,9 @@ class eZTemplateCompiler
                 $dataType = $data[0][0];
                 if ( $dataType == EZ_TEMPLATE_TYPE_STRING or
                      $dataType == EZ_TEMPLATE_TYPE_NUMERIC or
-                     $dataType == EZ_TEMPLATE_TYPE_IDENTIFIER )
+                     $dataType == EZ_TEMPLATE_TYPE_IDENTIFIER or
+                     $dataType == EZ_TEMPLATE_TYPE_ARRAY or
+                     $dataType == EZ_TEMPLATE_TYPE_BOOLEAN )
                 {
                     return $data[0][1];
                 }
@@ -1311,6 +1319,18 @@ class eZTemplateCompiler
                 $dataInspection['is-variable'] = false;
                 $newVariableData[] = $variableItem;
             }
+            else if ( $variableItemType == EZ_TEMPLATE_TYPE_BOOLEAN )
+            {
+                $dataInspection['is-constant'] = true;
+                $dataInspection['is-variable'] = false;
+                $newVariableData[] = $variableItem;
+            }
+            else if ( $variableItemType == EZ_TEMPLATE_TYPE_ARRAY )
+            {
+                $dataInspection['is-constant'] = true;
+                $dataInspection['is-variable'] = false;
+                $newVariableData[] = $variableItem;
+            }
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_VARIABLE )
             {
                 $dataInspection['is-constant'] = false;
@@ -1453,8 +1473,16 @@ class eZTemplateCompiler
             return array( EZ_TEMPLATE_TYPE_TEXT,
                           $staticData,
                           $variableItemPlacement );
+        else if ( is_bool( $staticData ) )
+            return array( EZ_TEMPLATE_TYPE_BOOLEAN,
+                          $staticData,
+                          $variableItemPlacement );
         else if ( is_bool( $staticData ) or is_numeric( $staticData ) )
             return array( EZ_TEMPLATE_TYPE_NUMERIC,
+                          $staticData,
+                          $variableItemPlacement );
+        else if ( is_array( $staticData ) )
+            return array( EZ_TEMPLATE_TYPE_ARRAY,
                           $staticData,
                           $variableItemPlacement );
         else
@@ -2248,7 +2276,9 @@ else
             $variableDataType = $variableDataItem[0];
             if ( $variableDataType == EZ_TEMPLATE_TYPE_STRING or
                  $variableDataType == EZ_TEMPLATE_TYPE_NUMERIC or
-                 $variableDataType == EZ_TEMPLATE_TYPE_IDENTIFIER )
+                 $variableDataType == EZ_TEMPLATE_TYPE_IDENTIFIER or
+                 $variableDataType == EZ_TEMPLATE_TYPE_ARRAY or
+                 $variableDataTYpe == EZ_TEMPLATE_TYPE_BOOLEAN )
             {
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->variableText( $dataValue, 0 );
