@@ -1,0 +1,49 @@
+*Title: Enhanced filters for content/list*, content/tree*
+
+*Documentation:
+The fetch functions content/list, content/list_count, content/tree
+and content/tree_count have been given extra filter functionality.
+
+Filter attribute:
+The filter attribute 'owner' has been added, this refers to the owner_id
+of the content object. This can for instance be used to find all objects
+of a given user.
+
+Filter operations:
+The following operations have been added.
+- in, not_in: This matches the field against an array of values.
+- between, not_between: This matches the field against a start and end value
+  passed as an array with two elements. The field must either be part of that
+  range (for between) or outside of it (for not_between).
+- like, not_like: This matches the field against a wildcard string. The wildcard
+  character is a *.
+
+Example of 'owner' usage:
+Fetches all objects for the current user.
+{fetch( content, tree,
+        hash( parent_node_id, 2,
+              attribute_filter,
+              hash( 'owern', $current_user.contentobject_id ) )}
+
+
+Example of 'in' usage:
+Fetches bugs with priority 1 and 4.
+{fetch( content, list,
+        hash( parent_node_id, 2,
+              attribute_filter,
+              hash( 'bug/priority', 'in', array( 1, 4 ) ) )}
+
+Example of 'between' usage:
+Fetches bugs with priority 2, 3 and 4.
+{fetch( content, list,
+        hash( parent_node_id, 2,
+              attribute_filter,
+              hash( 'bug/priority', 'between', array( 2, 4 ) ) )}
+
+Example of 'like' usage:
+Fetches all bugs with the text 'class' in it.
+{fetch( content, list,
+        hash( parent_node_id, 2,
+              attribute_filter,
+              hash( 'bug/title', 'like', '*class*' ) )}
+

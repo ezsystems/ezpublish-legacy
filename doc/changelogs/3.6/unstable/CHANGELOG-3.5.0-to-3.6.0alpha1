@@ -29,6 +29,10 @@ Changes from 3.5.0 to 3.6.0alpha1
   to always log to files.
 - Added database transaction to the critical sections. (Spec #8)
 - Changed parameter type 'classid' used in keyword fetch function. It can be either integer or array.
+- Added: Attribute filter for content/list* and content/tree* have new
+  operators called in, not_in, like, not_like, between and not_between.
+  Filter field 'owner' is now also available.
+  (Submitted by: Paul Borgemans)
 
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default

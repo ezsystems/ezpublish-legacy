@@ -906,6 +906,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $filterField = 'ezcontentobject_name.name';
                         } break;
+                        case 'owner':
+                        {
+                            $filterField = 'ezcontentobject.owner_id';
+                        } break;
                         default:
                         {
                             $useAttributeFilter = true;
@@ -987,6 +991,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if( $isFilterValid )
                     {
                         $hasFilterOperator = true;
+                        // Controls quotes around filter value, some filters do this manually
+                        $noQuotes = false;
+                        // Controls if $filterValue or $folder[2] is used, $filterValue is already escaped
+                        $unEscape = false;
+
                         switch ( $filterType )
                         {
                             case '=' :
@@ -1019,6 +1028,71 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $filterOperator = '>=';
                             }break;
 
+                            case 'like':
+                            case 'not_like':
+                            {
+                                $filterOperator = ( $filterType == 'like' ? 'LIKE' : 'NOT LIKE' );
+                                // We escape the string ourselves, this MUST be done before wildcard replace
+                                $filter[2] = $db->escapeString( $filter[2] );
+                                $unEscape = true;
+                                // Since * is used as wildcard we need to transform the string to
+                                // use % as wildcard. The following rules apply:
+                                // - % -> \%
+                                // - * -> %
+                                // - \* -> *
+                                // - \\ -> \
+
+                                $filter[2] = preg_replace( array( '#%#m',
+                                                                  '#(?<!\\\\)\\*#m',
+                                                                  '#(?<!\\\\)\\\\\\*#m',
+                                                                  '#\\\\\\\\#m' ),
+                                                           array( '\\%',
+                                                                  '%',
+                                                                  '*',
+                                                                  '\\\\' ),
+                                                           $filter[2] );
+                            } break;
+
+                            case 'in':
+                            case 'not_in' :
+                            {
+                                $filterOperator = ( $filterType == 'in' ? 'IN' : 'NOT IN' );
+                                // Turn off quotes for value, we do this ourselves
+                                $noQuotes = true;
+                                if ( is_array( $filter[2] ) )
+                                {
+                                    reset( $filter[2] );
+                                    while ( list( $key, $value ) = each( $filter[2] ) )
+                                    {
+                                        // Non-numerics must be escaped to avoid SQL injection
+                                        $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
+                                    }
+                                    $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
+                                }
+                                else
+                                {
+                                    $hasFilterOperator = false;
+                                }
+                            } break;
+
+                            case 'between':
+                            case 'not_between' :
+                            {
+                                $filterOperator = ( $filterType == 'between' ? 'BETWEEN' : 'NOT BETWEEN' );
+                                // Turn off quotes for value, we do this ourselves
+                                $noQuotes = true;
+                                if ( is_array( $filter[2] ) )
+                                {
+                                    // Check for non-numerics to avoid SQL injection
+                                    if ( !is_numeric( $filter[2][0] ) )
+                                        $filter[2][0] = "'" . $db->escapeString( $filter[2][0] ) . "'";
+                                    if ( !is_numeric( $filter[2][1] ) )
+                                        $filter[2][1] = "'" . $db->escapeString( $filter[2][1] ) . "'";
+
+                                    $filterValue = $filter[2][0] . ' AND ' . $filter[2][1];
+                                }
+                            } break;
+
                             default :
                             {
                                 $hasFilterOperator = false;
@@ -1030,7 +1104,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             if ( ( $filterCount - $sortingInfo['sortCount'] ) > 0 )
                                 $attibuteFilterJoinSQL .= " $filterJoinType ";
-                            $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
+
+                            // If $unEscape is true we get the filter value from the 2nd element instead
+                            // which must have been escaped by filter type
+                            $filterValue = $unEscape ? $filter[2] : $filterValue;
+
+                            $attibuteFilterJoinSQL .= "$filterField $filterOperator ";
+                            $attibuteFilterJoinSQL .= $noQuotes ? "$filterValue " : "'" . $filterValue . "' ";
+
                             $filterCount++;
                             $justFilterCount++;
                         }
@@ -2055,6 +2136,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $filterField = 'ezcontentobject_name.name';
                         } break;
+                        case 'owner':
+                        {
+                            $filterField = 'ezcontentobject.owner_id';
+                        } break;
                         default:
                         {
                             $useAttributeFilter = true;
@@ -2126,6 +2211,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if ( $isFilterValid )
                     {
                         $hasFilterOperator = true;
+                        // Controls quotes around filter value, some filters do this manually
+                        $noQuotes = false;
+                        // Controls if $filterValue or $folder[2] is used, $filterValue is already escaped
+                        $unEscape = false;
+
                         switch ( $filterType )
                         {
                             case '=' :
@@ -2158,6 +2248,71 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $filterOperator = '>=';
                             }break;
 
+                            case 'like':
+                            case 'not_like':
+                            {
+                                $filterOperator = ( $filterType == 'like' ? 'LIKE' : 'NOT LIKE' );
+                                // We escape the string ourselves, this MUST be done before wildcard replace
+                                $filter[2] = $db->escapeString( $filter[2] );
+                                $unEscape = true;
+                                // Since * is used as wildcard we need to transform the string to
+                                // use % as wildcard. The following rules apply:
+                                // - % -> \%
+                                // - * -> %
+                                // - \* -> *
+                                // - \\ -> \
+
+                                $filter[2] = preg_replace( array( '#%#m',
+                                                                  '#(?<!\\\\)\\*#m',
+                                                                  '#(?<!\\\\)\\\\\\*#m',
+                                                                  '#\\\\\\\\#m' ),
+                                                           array( '\\%',
+                                                                  '%',
+                                                                  '*',
+                                                                  '\\\\' ),
+                                                           $filter[2] );
+                            } break;
+
+                            case 'in':
+                            case 'not_in' :
+                            {
+                                $filterOperator = ( $filterType == 'in' ? 'IN' : 'NOT IN' );
+                                // Turn off quotes for value, we do this ourselves
+                                $noQuotes = true;
+                                if ( is_array( $filter[2] ) )
+                                {
+                                    reset( $filter[2] );
+                                    while ( list( $key, $value ) = each( $filter[2] ) )
+                                    {
+                                        // Non-numerics must be escaped to avoid SQL injection
+                                        $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
+                                    }
+                                    $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
+                                }
+                                else
+                                {
+                                    $hasFilterOperator = false;
+                                }
+                            } break;
+
+                            case 'between':
+                            case 'not_between' :
+                            {
+                                $filterOperator = ( $filterType == 'between' ? 'BETWEEN' : 'NOT BETWEEN' );
+                                // Turn off quotes for value, we do this ourselves
+                                $noQuotes = true;
+                                if ( is_array( $filter[2] ) )
+                                {
+                                    // Check for non-numerics to avoid SQL injection
+                                    if ( !is_numeric( $filter[2][0] ) )
+                                        $filter[2][0] = "'" . $db->escapeString( $filter[2][0] ) . "'";
+                                    if ( !is_numeric( $filter[2][1] ) )
+                                        $filter[2][1] = "'" . $db->escapeString( $filter[2][1] ) . "'";
+
+                                    $filterValue = $filter[2][0] . ' AND ' . $filter[2][1];
+                                }
+                            } break;
+
                             default :
                             {
                                 $hasFilterOperator = false;
@@ -2169,7 +2324,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             if ( $filterCount > 0 )
                                 $attibuteFilterJoinSQL .= " $filterJoinType ";
-                            $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
+
+                            // If $unEscape is true we get the filter value from the 2nd element instead
+                            // which must have been escaped by filter type
+                            $filterValue = $unEscape ? $filter[2] : $filterValue;
+
+                            $attibuteFilterJoinSQL .= "$filterField $filterOperator ";
+                            $attibuteFilterJoinSQL .= $noQuotes ? "$filterValue " : "'$filterValue' ";
+
                             $filterCount++;
                         }
                     }
