@@ -2,7 +2,7 @@
 
 <ul>
 
-	<li><a href="#Installers">Install eZ publish 3 with installers</a></li>
+	<li><a href="#Installers">Install eZ publish 3 using installers</a></li>
 	<ul>
 		<li><a href="#Windows">Windows installer</a></li>
 		<li><a href="#Linux">Linux installer</a></li>
@@ -25,7 +25,7 @@
 
 
 
-<h2 id="Installers">Install eZ publish 3 with installers</h2>
+<h2 id="Installers">Install eZ publish 3 using installers</h2>
 <p>
 	With the installers you get the basic requirements you need to run eZ publish 3 on
 	your platform. You will get Apache, PHP, MySQL and ImageMagick. If you don't want these

@@ -2,13 +2,13 @@
 
 <ul>
 	<li><a href="#Requirements">Requirements</a></li>
-	<li><a href="#Linux_FreeBSD_Installation">Installation on Linux, FreeBSD and Mac OS X</a></li>
+	<li><a href="#Linux_FreeBSD_Macos">Installation on Linux, FreeBSD and Mac OS X</a></li>
 	<ul>
-		<li><a href="#Linux_FreeBSD_Database">Database setup</a></li>
+		<li><a href="#Linux_FreeBSD_Macos_Database">Database setup</a></li>
 
-		<li><a href="#Linux_FreeBSD_Demodata">Demo data</a></li>
-		<li><a href="#Linux_FreeBSD_Configure">Configure</a></li>
-		<li><a href="#Linux_FreeBSD_VirtualHost">VirtualHost</a></li>
+		<li><a href="#Linux_FreeBSD_Macos_Demodata">Demo data</a></li>
+		<li><a href="#Linux_FreeBSD_Macos_Configure">Configure</a></li>
+		<li><a href="#Linux_FreeBSD_Macos_VirtualHost">VirtualHost</a></li>
 	</ul>
 
 	<li><a href="#Windows_Installation">Installation on Windows</a></li>
@@ -41,14 +41,14 @@
 </p>
 
 
-<h2>Installation on Linux, FreeBSD and Mac OS X without installers</h2>
+<h2 id="Linux_FreeBSD_Macos">Installation on Linux, FreeBSD and Mac OS X without installers</h2>
 <ol>
 	<li>Unpack ezpublish-xxx.tar.gz into the <httproot> folder<pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;httproot&gt;</pre></li>
 	<li>Now go to the extracted eZ publish directory <pre class="example"> $ cd &lt;httproot&gt;/ezpublish-xxx/</pre></li>
 	<li>Run the modfix.sh script <pre class="example"> $ bin/modfix.sh</pre></li>
 </ol>
 
-<h3 id="database_setup">Database setup</h3>
+<h3 id="Linux_FreeBSD_Macos_Database">Database setup</h3>
 
 <h4>MySQL</h4>
 <p>
@@ -76,7 +76,7 @@
 	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt; &lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
 </ol>
 
-<h3>Demo data</h3>
+<h3 id="Linux_FreeBSD_Macos_Demodata">Demo data</h3>
 <p>
 	Demodata is only available for MySQL. Before you proceed make sure you
 	installed the demokernel.sql file and NOT the kernel_clean.sql file.
@@ -89,7 +89,7 @@
 	<li>Unpack var.tgz <pre class="example"> $ tar xvfz var.tgz</pre></li>
 </ol>
 
-<h3>Configure eZ publish</h3>
+<h3 id="Linux_FreeBSD_Macos_Configure">Configure eZ publish</h3>
 <p>
 	Open &lt;httproot&gt;/ezpublish-xxx/settings/site.ini with your favourite editor
 	and set the correct setting in the [Database Settings] section.
@@ -110,7 +110,7 @@ Password=&lt;password&gt;
 Database=&lt;name_of_database&gt;
 </pre>
 
-<h3>Virtualhost setup</h3>
+<h3 id="Linux_FreeBSD_Macos_VirtualHost">Virtualhost setup</h3>
 <p>
 	You can use eZ publish with a virtualhost setup. When using a virtualhost you
 	don't need to specify the index.php in the URL.
@@ -138,7 +138,7 @@ Database=&lt;name_of_database&gt;
 	<li>Make sure the directory var\cache\ini exists, if not, create it.</li>
 </ol>
 
-<h3>Database setup</h3>
+<h3 id="Windows_Database">Database setup</h3>
 
 <h4>MySQL</h4>
 <p>
@@ -155,7 +155,7 @@ Database=&lt;name_of_database&gt;
 	If you do want demodata <pre class="example"> $ mysql.exe -u&lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; &lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql/mysql\demokernel.sql</pre></li>
 </ol>
 
-<h3>Demo data</h3>
+<h3 id="Windows_Demodata">Demo data</h3>
 <p>
 	Demodata is only available for MySQL. Before you proceed make sure you
 	installed the demokernel.sql file and NOT the kernel_clean.sql file.
@@ -169,7 +169,7 @@ Database=&lt;name_of_database&gt;
 </ol>
 
 
-<h3>Configure eZ publish</h3>
+<h3 id="Windows_Configure">Configure eZ publish</h3>
 <p>
 	Open &lt;httproot&gt/ezpublish-xxx/settings/site.ini in notepad and set the correct settings in the [Database Settings] section.
 	You need to set what database implementation you use, hostname of database
@@ -188,7 +188,7 @@ Password=&lt;password&gt;
 Database=&lt;name_of_database&gt;
 </pre>
 
-<h3>Virtualhost setup</h3>
+<h3 id="Windows_VirtualHost">Virtualhost setup</h3>
 <p>
 	You can use eZ publish with a virtualhost setup. When using a virtualhost you don't need to specify the index.php in the URL.
 	Below is a sample configuration for virtualhost setup. Include this in your apache config file and restart apache when you are done.
