@@ -451,6 +451,9 @@ class eZContentObject extends eZPersistentObject
         return $temp;
     }
 
+    /*!
+     Fetches the content object with the given ID
+    */
     function &fetch( $id, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
@@ -488,7 +491,6 @@ class eZContentObject extends eZPersistentObject
 
             $resArray =& $db->arrayQuery( $query );
 
-
             if ( count( $resArray ) == 1 )
             {
                 $objectArray =& $resArray[0];
@@ -513,6 +515,65 @@ class eZContentObject extends eZPersistentObject
         {
             return $eZContentObjectContentObjectCache[$id];
         }
+    }
+
+    /*!
+     Fetches the content object from the ID array
+    */
+    function &fetchIDArray( $idArray, $asObject = true )
+    {
+        $uniqueIDArray = array_unique( $idArray );
+
+        $language = eZContentObject::defaultLanguage();
+
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            if ( $language == false )
+            {
+                $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            }
+
+            $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject.current_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$language' ";
+        }
+
+        $db =& eZDB::instance();
+
+        $objectInSQL = implode( ', ', $uniqueIDArray );
+
+        $query = "SELECT ezcontentobject.* $versionNameTargets
+                      FROM
+                         ezcontentobject
+                         $versionNameTables
+                      WHERE
+                         ezcontentobject.id IN ( $objectInSQL )
+                         $versionNameJoins";
+
+        $resRowArray =& $db->arrayQuery( $query );
+
+        $objectRetArray = array();
+        foreach ( $resRowArray as $resRow )
+        {
+            $objectID = $resRow['id'];
+            if ( $asObject )
+            {
+                $obj = new eZContentObject( $resRow );
+                $obj->CurrentLanguage = $resRow['real_translation'];
+                $eZContentObjectContentObjectCache[$objectID] = $obj;
+                $objectRetArray[$objectID] = $obj;
+            }
+            else
+            {
+                $objectRetArray[$objectID] =& $resRow;
+            }
+        }
+        return $objectRetArray;
     }
 
     function &fetchList( $asObject = true )
@@ -1461,9 +1522,20 @@ class eZContentObject extends eZPersistentObject
             return $nodesListArray;
     }
 
+    /*!
+     Returns the main node id for the current object.
+    \todo cache id in memory
+    */
     function mainNodeID()
     {
-        return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ) );
+        if ( !is_numeric( $this->MainNodeID ) )
+        {
+            $mainNodeID = eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ) );
+            $this->MainNodeID = $mainNodeID;
+            return $mainNodeID;
+        }
+        else
+            return $this->MainNodeID;
     }
 
     function mainNode()
@@ -2060,7 +2132,7 @@ class eZContentObject extends eZPersistentObject
     /// Stores the current language
     var $CurrentLanguage;
 
-    /// Stores the current permissions
+    /// Stores the current class name
     var $ClassName;
 
     /// Contains the datamap for content object attributes
@@ -2071,6 +2143,9 @@ class eZContentObject extends eZPersistentObject
 
     /// Contains a cached version of the content object attributes for the given version and language
     var $ContentObjectAttributes = array();
+
+    /// Contains the main node id for this object
+    var $MainNodeID = false;
 }
 
 ?>
