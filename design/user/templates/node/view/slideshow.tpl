@@ -5,7 +5,7 @@
 
 <form method="post" action={"/content/action/"|ezurl}>
 
-<table width="100%" border="0" cellspacing="10" cellpadding="0">
+<table border="0" cellspacing="10" cellpadding="0">
 <tr>
     <td>
 

@@ -63,7 +63,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
 <area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
 </map>
-
+<br />
 
 <img src={"images/whiteboxlogo.png"|ezdesign} alt="White box - contemporary art gallery" />
 
@@ -77,12 +77,13 @@ function OpenWindow ( URL, WinName, Features ) {
     &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>About</a><br /> 
     </td>
     <td bgcolor="#e8e8e8">
-{section name=Gallery loop=$gallery_list}
+    {section name=Gallery loop=$gallery_list}
   {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
 {*  &nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a>*}
   <strong class="small">&nbsp;&nbsp;{$Gallery:item.name}</strong>
   {/section}
 {/section}
+   &nbsp;
     </td>
 </tr>
 <tr>

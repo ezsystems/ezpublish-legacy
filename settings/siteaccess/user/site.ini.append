@@ -12,9 +12,11 @@ SiteDesign=user
 
 [SiteSettings]
 IndexPage=/content/view/news/26
+LoginPage=embedded
+
 
 [SiteAccessSettings]
-RequireUserLogin=true
+RequireUserLogin=false
 
 [SiteAccessRules]
 Access=enable
