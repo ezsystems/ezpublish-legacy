@@ -107,11 +107,11 @@ class eZDir
                 $result = eZDir::doMkdir( $currentDir, $perm );
             if ( !$result )
                 return false;
+
             for ( $i = 1; $i < count( $dirElements ); ++$i )
             {
                 $dirElement = $dirElements[$i];
                 $currentDir .= '/' . $dirElement;
-//                print( "trying '$dir' )<br/>" );
                 $result = true;
                 if ( !file_exists( $currentDir ) )
                     $result = eZDir::doMkdir( $currentDir, $perm );
@@ -156,14 +156,16 @@ class eZDir
         eZDebugSetting::writeDebug( 'lib-ezutils-dir', "Make dir $dir with perms 0" . decoct( $perm ) );
 //        print( "About to doMkdir( '$dir' )<br/>" );
 //        exit;
+
         $oldumask = umask( 0 );
-        if ( ! @mkdir( $dir, $perm ) )
+        if ( ! mkdir( $dir, $perm ) )
         {
             umask( $oldumask );
 			// eZDebug::writeError( "Couldn't create the directory \"$dir\".", "eZDir::doMkdir()" );
             return false;
         }
         umask( $oldumask );
+
         return true;
     }
 

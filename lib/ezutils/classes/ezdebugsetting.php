@@ -86,16 +86,22 @@ class eZDebugSetting
     */
     function isConditionTrue( $conditionName, $messageType )
     {
-        $ini =& eZINI::instance( 'debug.ini' );
-        if ( $ini->variable( 'DebugSettings', 'ConditionDebug' ) != 'enabled' )
-            return false;
-        $generalSetting = 'GeneralCondition';
-        $debugName = eZDebug::messageName( $messageType );
-        $specificSetting = $debugName . 'Condition';
-        if ( $ini->hasVariable( $generalSetting, $conditionName ) )
-            return $ini->variable( $generalSetting, $conditionName ) == 'enabled';
-        if ( $ini->hasVariable( $specificSetting, $conditionName ) )
-            return $ini->variable( $specificSetting, $conditionName ) == 'enabled';
+        global $eZDebugSettingINIObject;
+
+        $ini =& $eZDebugSettingINIObject;
+
+        if ( isset( $eZDebugSettingINIObject ) and  get_class( $ini ) == 'ezini' )
+        {
+            if ( $ini->variable( 'DebugSettings', 'ConditionDebug' ) != 'enabled' )
+                return false;
+            $generalSetting = 'GeneralCondition';
+            $debugName = eZDebug::messageName( $messageType );
+            $specificSetting = $debugName . 'Condition';
+            if ( $ini->hasVariable( $generalSetting, $conditionName ) )
+                return $ini->variable( $generalSetting, $conditionName ) == 'enabled';
+            if ( $ini->hasVariable( $specificSetting, $conditionName ) )
+                return $ini->variable( $specificSetting, $conditionName ) == 'enabled';
+        }
         return false;
     }
 
@@ -165,6 +171,17 @@ class eZDebugSetting
             return false;
         eZDebug::addTimingPoint( eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
+
+    /*!
+     \static
+     Sets the INI object
+    */
+    function setDebugINI( $ini )
+    {
+        global $eZDebugSettingINIObject;
+        $eZDebugSettingINIObject = $ini;
+    }
+
 }
 
 ?>
