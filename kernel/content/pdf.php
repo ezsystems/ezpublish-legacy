@@ -281,7 +281,7 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
                           array( 'url_alias', $node->attribute( 'url_alias' ) ),
                           array( 'class_group', $object->attribute( 'class_group_id_list' ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) )
-                          ) );
+                          ) ) );
 
     $tpl =& templateInit();
 
