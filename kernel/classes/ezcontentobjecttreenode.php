@@ -259,6 +259,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'Offset' => false,
                              'Limit' => false,
                              'SortBy' => false,
+                             'AttributeFilter' => false,
                              'ClassFilterType' => false,
                              'ClassFilterArray' => false );
         }
@@ -369,6 +370,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                   ezcontentobject_attribute.version = ezcontentobject_name.content_version AND";
 
                         }break;
+
                         default:
                         {
                             eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
@@ -417,6 +419,61 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCondition .= ' ) AND ';
         }
 
+        // Check for attribute filtering
+        $attributeFilterFromSQL = "";
+        $attributeFilterWhereSQL = "";
+
+        if ( isset( $params['AttributeFilter'] ) )
+        {
+            $filterArray = $params['AttributeFilter'];
+
+            // Check if first value of array is a string.
+            // To check for and/or filtering
+            $filterJoinType = 'AND';
+            if ( is_string( $filterArray[0] ) )
+            {
+                if ( strtolower( $filterArray[0] ) == 'or' )
+                {
+                    $filterJoinType = 'OR';
+                }
+                unset( $filterArray[0] );
+            }
+
+            $attibuteFilterJoinSQL = "";
+            $filterCount = 0;
+
+            // Handle attribute filters and generate SQL
+            foreach ( $filterArray as $filter )
+            {
+                $filterAttributeID = $filter[0];
+                $filterType = $filter[1];
+                $filterValue = $filter[2];
+
+                $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
+                $attributeFilterWhereSQL .= " a$filterCount.contentobject_id = ezcontentobject.id AND
+                                             a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                                             a$filterCount.version = ezcontentobject_name.content_version AND ";
+
+                switch ( $filterType )
+                {
+                    case '=' :
+                    {
+                        if ( $filterCount > 0 )
+                            $attibuteFilterJoinSQL .= " $filterJoinType ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key = '$filterValue' ";
+                    }break;
+
+                    default :
+                    {
+                        eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                    }break;
+
+                }
+                $filterCount++;
+            }
+
+            $attributeFilterWhereSQL .= "( " . $attibuteFilterJoinSQL . " ) AND ";
+        }
 
         if ( $nodeID == 0 )
         {
@@ -518,9 +575,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject,ezcontentclass
                           $versionNameTables
                           $attributeFromSQL
-                    WHERE $pathString
+                          $attributeFilterFromSQL
+                       WHERE $pathString
                           $depthCond
                           $attributeWereSQL
+                          $attributeFilterWhereSQL
                           ezcontentclass.version=0 AND
                           node_id != $fromNode AND
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
@@ -542,9 +601,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentobject,ezcontentclass
                             $versionNameTables
                             $attributeFromSQL
+                            $attributeFilterFromSQL
                       WHERE $pathString
                             $depthCond
                             $attributeWereSQL
+                            $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND

@@ -160,9 +160,9 @@ class eZContentFunctionCollection
         return array( 'result' => &$attribute );
     }
 
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array )
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array )
     {
-        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array" );
+        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" );
 //         print( "fetch list $parentNodeID $hash<br>" );
 
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -171,6 +171,7 @@ class eZContentFunctionCollection
                                  'Limitation' => null,
                                  'SortBy' => $sortBy,
                                  'class_id' => $classID,
+                                 'AttributeFilter' => $attribute_filter,
                                  'ClassFilterType' => $class_filter_type,
                                  'ClassFilterArray' => $class_filter_array );
         if ( $depth !== false )
@@ -295,7 +296,7 @@ class eZContentFunctionCollection
         return array( 'result' => $versionList[0]['count'] );
     }
 
-    
+
     function canInstantiateClassList( $groupID, $parentNode )
     {
         eZDebug::writeDebug( $parentNode, "parent node" );
