@@ -10,3 +10,4 @@ Changes from 3.1-1 to 3.1-2
 - Fixed updating of URLs when moving or renaming a node
 - Fixed HTML compatibility problem in tipafriend.tpl
 - Fixed bug in user group template, form inside form
+- Fixed bug for xml datatype which can't be validate if content only has header.
