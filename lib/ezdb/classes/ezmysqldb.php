@@ -226,8 +226,11 @@ class eZMySQLDB extends eZDBInterface
             {
                 $this->endTimer();
 
-                $num_rows = mysql_affected_rows( $connection );
-                $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
+                if ($this->timeTaken() > $this->SlowSQLTimeout)
+                {
+                    $num_rows = mysql_affected_rows( $connection );
+                    $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
+                }
             }
             eZDebug::accumulatorStop( 'mysql_query' );
             if ( $result )
