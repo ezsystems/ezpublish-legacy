@@ -2249,10 +2249,6 @@ WHERE
         {
             $urlObject->cleanup();
         }
-
-        // Clean node assignment.
-        $db->query( "DELETE FROM eznode_assignment
-                            WHERE contentobject_id = '$contentObjectID' AND parent_node = '$parentNodeID' AND contentobject_version = '$version'" );
     }
 
     /*!

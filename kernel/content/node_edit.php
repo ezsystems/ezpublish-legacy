@@ -66,11 +66,17 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
         $assignedNodes =& $version->nodeAssignments();
         $assignedIDArray = array();
+        $setMainNode = false;
+        $hasMainNode = false;
         foreach ( $assignedNodes as $assignedNode )
         {
             $assignedNodeID = $assignedNode->attribute( 'parent_node' );
+            if ( $assignedNode->attribute( 'is_main' ) )
+                $hasMainNode = true;
             $assignedIDArray[] = $assignedNodeID;
         }
+        if ( !$hasMainNode )
+            $setMainNode = true;
 
         foreach ( $selectedNodeIDArray as $nodeID )
         {
@@ -104,7 +110,11 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 }
                 else
                 {
-                    $version->assignToNode( $nodeID );
+                    $isMain = 0;
+                    if ( $setMainNode )
+                        $isMain = 1;
+                    $setMainNode = false;
+                    $version->assignToNode( $nodeID, $isMain );
                 }
             }
         }
