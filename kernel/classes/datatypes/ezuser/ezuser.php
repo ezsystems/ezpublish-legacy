@@ -515,6 +515,8 @@ class eZUser extends eZPersistentObject
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
+        $http->removeSessionVariable( 'eZRoleIDList' );
+        $http->setSessionVariable( 'eZRoleIDList_Timestamp', 0 );
 
         // Note: This must be done more generic with an internal
         //       callback system.

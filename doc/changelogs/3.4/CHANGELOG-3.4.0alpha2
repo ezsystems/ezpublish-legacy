@@ -1,0 +1,21 @@
+Changes from 3.4.0alpha1 to 3.4.0alpha2
+
+*Kernel:
+
+*Setup
+
+*DataType:
+
+eZObjectRelation:
+
+*Libraries:
+
+eZ ini:
+
+eZ template:
+
+eZ PHP creator:
+
+*Bugs:
+- Made sure eZRoleIDList session variable is cleaned up in eZUser::cleanup().
+  http://ez.no/community/bug_reports/security_risk_caching_problems_session_problems
