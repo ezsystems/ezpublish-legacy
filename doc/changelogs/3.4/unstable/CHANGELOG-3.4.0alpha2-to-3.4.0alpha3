@@ -126,3 +126,5 @@ eZFile:
 - Added "Session admin" (clear all sessions or timed out/old sessions)
 - Reorganized setup menu (alphabetic list + some elements moved to advanced)
 - Added assign limited on section on roles.
+- Removed "Remove" button from misc. preview templates (dangerous)
+
