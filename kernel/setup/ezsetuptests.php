@@ -605,7 +605,7 @@ function eZSetupTestExecutionTime( $type, &$arguments )
     $minExecutionTime = eZSetupConfigVariable( $type, 'MinExecutionTime' );
     $execTimeLimit = ini_get( 'max_execution_time' );
 
-    if ( $execTimeLimit === false )
+    if ( $execTimeLimit == false )
     {
         return array( 'result' => true,
                       'persistent_data' => array( 'result' => array( 'value' => true ) ) );
@@ -628,7 +628,7 @@ function eZSetupTestMemLimit( $type, &$arguments )
 {
     $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
     $memoryLimit = ini_get( 'memory_limit' );
-    if ( $memoryLimit  === false )
+    if ( $memoryLimit  == false )
     {
         return array( 'result' => true,
                       'persistent_data' => array( 'result' => array( 'value' => true ) ) );
