@@ -39,10 +39,10 @@ URL=/content/urltranslator
 [Tool_setup_setup_link_4]
 Title=Common ini settings
 Icon=common_ini_settings.png
-URL=/content/edit/71
+URL=/content/edit/52
 
 [Tool_setup_setup_link_5]
 Title=Look and feel
 Icon=look_and_feel.png
-URL=/content/edit/72
+URL=/content/edit/54
 */ ?>
