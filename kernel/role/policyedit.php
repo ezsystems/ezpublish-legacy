@@ -286,7 +286,7 @@ if ( $http->hasPostVariable( "BrowseLimitationSubtreeButton" ) )
 }
 
 if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
-     $http->sessionVariable( "BrowseActionName" ) == "FindLimitationNode" )
+     $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" )
 {
     // Remove other limitations. When the policy is applied to node, no other constraints needed.
     foreach ( $limitationList as $limitation )
@@ -301,7 +301,6 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
 
     if ( $nodeLimitation == null )
         $nodeLimitation = eZPolicyLimitation::createNew( $policyID, "Node", $currentModule, $currentFunction);
-
     foreach ( $selectedNodeIDList as $nodeID )
     {
         if ( !in_array( $nodeID, $nodeIDList ) )
@@ -313,7 +312,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
     }
 }
 
-if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->sessionVariable( "BrowseActionName" ) == "FindLimitationSubtree" )
+if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" )
 {
     $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
 
