@@ -147,6 +147,11 @@ div#maincontent
 */
 }
 
+div#maincontent div.design
+{
+    width: 100%;
+}
+
 div#footer
 {
     clear: both;
@@ -402,6 +407,59 @@ div.forum_level4 td.message p
 div.forum_level4 td.message p.date
 {
     font-size: 65%
+}
+
+table.frontpagelist
+{
+    margin: 0.5em 0 0.5em 0;
+    width: 100%;
+}
+
+table.frontpagelist th
+{
+    color: #ffffff;
+    background-color: #cc0000;
+    padding: 0.5em;
+    font-weight: bold;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+table.frontpagelist td
+{
+    background-color: #f0f0f0;
+    padding: 0.5em;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+table.frontpagelist th p
+{
+    padding: 0;
+    margin: 0;
+}
+
+table.frontpagelist a
+{
+    color: #000000;
+    font-weight: bold;
+}
+
+table.frontpagelist li
+{
+    list-style-type: none; 
+}
+
+table.frontpagelist a
+{
+    color: #000000;
+    display: block; 
+    margin-left: -16px;
+    padding-left: 16px;
+    text-decoration: underline;
+    background-image: url(../images/frontpage_bullet.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
 }
 
 div.selectedsearch

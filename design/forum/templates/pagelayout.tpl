@@ -59,6 +59,7 @@
         </div>
     </div>
 
+
     <div id="usermenu">
         <div class="design">
 
@@ -71,7 +72,7 @@
         {section show=eq($current_user.is_logged_in)}
             <li><a href={"/user/login"|ezurl}>Login</a></li>
         {section-else}
-            <li><a href={"/user/logout"|ezurl}>Logout {*({$current_user.contentobject.name})*}</a></li>
+            <li><a href={"/user/logout"|ezurl}>Logout</a></li>
         {/section}
         
         </ul>

@@ -1,4 +1,4 @@
-<ul>
+<ul class="forumlist">
     {section name=Child loop=fetch('content','tree',hash(parent_node_id,$object.main_node_id,limit,5,sort_by,array(array('modified',false()))))}
     <li>
     {switch match=$Child:item.object.contentclass_id}
@@ -19,7 +19,7 @@
     {/section}
     {/case}
     {/switch}
-
+    by {$Child:item.object.owner.name} 
     </li>
     {/section}
 </ul>
