@@ -1,4 +1,4 @@
-1<?php
+<?php
 //
 // Created on: <01-Aug-2002 09:58:09 bf>
 //
