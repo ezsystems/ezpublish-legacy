@@ -17,3 +17,19 @@ CREATE INDEX ezpreferences_user_id_idx on ezpreferences ( user_id, name );
 
 ALTER TABLE ezorder ADD COLUMN email CHARACTER VARYING(150);
 ALTER TABLE ezorder ALTER email SET DEFAULT '';
+
+
+CREATE TABLE ezsubtree_expiry (
+    subtree character varying(255) NOT NULL,
+    cache_file character varying(255) NOT NULL
+);
+
+CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
+
+
+CREATE TABLE ezpending_actions (
+  action character varying(64) NOT NULL,
+  param text
+);
+
+CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree (action);
