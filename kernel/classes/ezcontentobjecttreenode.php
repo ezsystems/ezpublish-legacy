@@ -2532,7 +2532,7 @@ WHERE
 
     function hasContentObject()
     {
-        if ( get_class( $this->ContentObject ) == "ezcontentobject" )
+        if ( isset( $this->ContentObject ) && get_class( $this->ContentObject ) == "ezcontentobject" )
             return true;
         else
             return false;
