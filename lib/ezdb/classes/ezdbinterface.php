@@ -559,27 +559,101 @@ class eZDBInterface
     }
 
     /*!
-      \pure
-      Starts a new transaction.
+      Begin a new transaction. If we are already in transaction then we omit 
+      this new transaction and its matching commit or rollback.
     */
     function begin()
     {
+        $ini =& eZINI::instance();
+        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        {
+            ++$this->TransactionCounter;
+            if ( $this->TransactionCounter > 1 ) return false;
+
+            if ( $this->isConnected() )
+            {
+                $this->beginQuery();
+            }
+        }
+        return true;
     }
 
     /*!
-      \pure
+      \virtual
+      The query to start a transaction. 
+      This function must be reimplemented in the subclasses. 
+    */
+     function beginQuery()
+    {
+        return false;
+    }
+
+    /*!
       Commits the transaction.
     */
     function commit()
     {
+        $ini =& eZINI::instance();
+        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        {
+            if ( $this->TransactionCounter <= 0 )
+            {
+                eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZDBInterface::commit' );
+                return false;
+            }
+
+            --$this->TransactionCounter;
+            if ( $this->TransactionCounter == 0 )
+            {
+                if ( $this->isConnected() )
+                {
+                    $this->commitQuery();
+                }
+            }
+        }
+        return true;
     }
 
     /*!
-      \pure
+      \virtual
+      The query to commit the transaction. 
+      This function must be reimplemented in the subclasses. 
+    */
+    function commitQuery()
+    {
+        return false;
+    }
+
+    /*!
       Cancels the transaction.
     */
     function rollback()
     {
+        $ini =& eZINI::instance();
+        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        {
+            if ( $this->TransactionCounter <= 0 )
+            {
+                eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
+                return false;
+            }
+            --$this->TransactionCounter;
+            if ( $this->isConnected() )
+            {
+                $this->rollbackQuery();
+            }
+        }
+        return true;
+    }
+
+    /*!
+      \virtual
+      The query to cancel the transaction. 
+      This function must be reimplemented in the subclasses.
+    */
+    function rollbackQuery()
+    {
+        return false;
     }
 
     /*!

@@ -679,35 +679,29 @@ class eZMySQLDB extends eZDBInterface
 
     /*!
      \reimp
+     The query to start the transaction. 
     */
-    function begin()
+    function beginQuery()
     {
-        if ( $this->IsConnected )
-        {
-            $this->query( "BEGIN WORK" );
-        }
+        return $this->query("BEGIN WORK");
+    }
+    
+    /*!
+     \reimp
+     The query to commit the transaction. 
+    */
+    function commitQuery()
+    {
+        return $this->query( "COMMIT" );
     }
 
     /*!
      \reimp
+     The query to cancel the transaction. 
     */
-    function commit()
+    function rollbackQuery()
     {
-        if ( $this->IsConnected )
-        {
-            $this->query( "COMMIT" );
-        }
-    }
-
-    /*!
-     \reimp
-    */
-    function rollback()
-    {
-        if ( $this->IsConnected )
-        {
-            $this->query( "ROLLBACK" );
-        }
+        return $this->query( "ROLLBACK" );
     }
 
     /*!

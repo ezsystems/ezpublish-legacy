@@ -486,55 +486,29 @@ class eZPostgreSQLDB extends eZDBInterface
 
     /*!
      \reimp
+     The query to start the transaction. 
     */
-    function begin()
+    function beginQuery()
     {
-        $counter = $this->TransactionCounter++;
-        if ( $counter > 0 )
-            return false;
-        if ( $this->isConnected() )
-        {
-            $this->query( "BEGIN WORK" );
-        }
-        return true;
+        return $this->query("BEGIN WORK");
+    }
+    
+    /*!
+     \reimp
+     The query to commit the transaction. 
+    */
+    function commitQuery()
+    {
+        return $this->query( "COMMIT WORK" );
     }
 
     /*!
      \reimp
+     The query to cancel the transaction. 
     */
-    function commit()
+    function rollbackQuery()
     {
-        if ( $this->TransactionCounter <= 0 )
-        {
-            eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZPostgreSQLDB::commit' );
-            return false;
-        }
-        --$this->TransactionCounter;
-        if ( $this->TransactionCounter == 0 )
-        {
-            if ( $this->isConnected() )
-            {
-                $this->query( "COMMIT WORK" );
-            }
-        }
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function rollback()
-    {
-        if ( $this->TransactionCounter <= 0 )
-        {
-            eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZPostgreSQLDB::rollback' );
-            return false;
-        }
-        --$this->TransactionCounter;
-        if ( $this->isConnected() )
-        {
-            $this->query( "ROLLBACK WORK" );
-        }
+        return $this->query( "ROLLBACK WORK" );
     }
 
     /*!
