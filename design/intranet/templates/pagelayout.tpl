@@ -6,9 +6,9 @@
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
 
 <head>
-<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
+{* <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} /> *}
 {* <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} /> *}
-{* <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" /> *}
+<link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />
 
 {* page header start *}
 {default enable_help=true() enable_link=true()}
@@ -63,7 +63,9 @@
     <div id="topbox">
         <form action={"/content/search/"|ezurl} method="get">
 	<div id="logo">
-{*	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a> *}
+        {let content=$pagedesign.data_map.image.content}
+	    <a href="/"><img src={$content[large].full_path|ezroot} /></a> 
+        {/let}
 	</div>
 	<div id="searchbox">
 	        <input type="text" size="20" name="SearchText" id="Search" value="" />
