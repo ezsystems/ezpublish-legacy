@@ -3,8 +3,8 @@
     <td valign="top"> 
     <table width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <td bgcolor="#663366"><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-        <strong>&nbsp;&nbsp;&nbsp;<font color="#FFFFFF">{attribute_view_gui attribute=$node.object.data_map.title}</font></strong></font>
+        <td class="header">
+        {attribute_view_gui attribute=$node.object.data_map.title}
         </td>
     </tr>
     </table>

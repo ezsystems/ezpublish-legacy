@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/news24.css"|ezdesign} />
 
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}

@@ -1,10 +1,10 @@
 <table width="95%" border="0" align="left"  cellpadding="0" cellspacing="0" >
 <tr> 
-     <td valign="top" bordercolor="#FFD2A6" bgcolor="#FFFFFF"> 
+     <td valign="top" bgcolor="#FFFFFF"> 
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
      <tr>
-         <td width="100%" height="18" bgcolor="#663366"><font color="#ffffff" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-         <strong>&nbsp;&nbsp;&nbsp;{attribute_view_gui attribute=$node.object.data_map.title}</strong></font>
+         <td width="100%" height="18" class="header">
+         {attribute_view_gui attribute=$node.object.data_map.title}
          </td>
      </tr>
      </table>                 
