@@ -1,3 +1,31 @@
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function toggleCheckboxes( formname, checkboxname )
+{
+    with( formname )
+        {
+        for( var i=0; i<elements.length; i++ )
+        {
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
+            }
+    }
+}
+//-->
+</script>
+{/literal}
+
+
 {section show=$forward_info.error}
     <div class="message-error">
         <h2>{'The requested URL forwarding could not be created.'|i18n( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
@@ -10,7 +38,7 @@
 {/section}
 
 
-<form action={concat( 'content/urltranslator/' )|ezurl} method="post" >
+<form name="urltranslator" action={concat( 'content/urltranslator/' )|ezurl} method="post" >
 
 <div class="context-block">
 <h2 class="context-title">{'New URL translation'|i18n( 'design/admin/content/urltranslator' )}</h2>
@@ -118,19 +146,19 @@
 </div>
 
 <div class="context-block">
-<h2 class="context-title">{'Custom URL translations, forwardings and wildcards [%alias_count]'|i18n(  'design/admin/content/urltranslator' ,, hash( '%alias_count', $alias_list|count ) )}</h2>
+<h2 class="context-title">{'Custom URL translations [%alias_count]'|i18n(  'design/admin/content/urltranslator' ,, hash( '%alias_count', $alias_list|count ) )}</h2>
 
 {section show=$alias_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.urltranslator, 'URLAliasSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'System URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urltranslator' )}</th>
 </tr>
 {section name=Alias loop=$alias_list show=$alias_list sequence=array( bglight, bgdark )}
 <tr class="{$Alias:sequence}">
-    <td><input type="checkbox" name="URLAliasSelection[{$Alias:item.id}]" value="{$Alias:item.id}" /></td>
+    <td><input type="checkbox" name="URLAliasSelection[]" value="{$Alias:item.id}" /></td>
     <td>
         <input type="text" name="URLAliasSourceValue[{$Alias:item.id}]" value="{$Alias:item.source_url|wash}" />
     </td>

@@ -92,7 +92,7 @@ if ( $module->isCurrentAction( 'RemoveURLAlias' ) )
         $aliasSelection = $http->postVariable( 'URLAliasSelection' );
 
         $requireExpiration = false;
-        foreach ( array_keys( $aliasSelection ) as $keyID )
+        foreach ( $aliasSelection  as $keyID )
         {
             unset( $alias );
             $alias = eZURLAlias::fetch( $keyID );
