@@ -61,7 +61,6 @@ class eZSearchEngine
         $db =& eZDB::instance();
 
         $contentObjectID = $contentObject->attribute( 'id' );
-
         $currentVersion =& $contentObject->currentVersion();
 
         $indexArray = array();
@@ -69,12 +68,13 @@ class eZSearchEngine
 
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
+
             $classAttribute =& $attribute->contentClassAttribute();
+
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
                 // strip tags
-                $text =& strip_tags( $attribute->metaData() );
-
+                $text =& strip_tags( $attribute->metaData( ) );
                 $text = eZSearchEngine::normalizeText( $text );
 
                 // Split text on whitespace
