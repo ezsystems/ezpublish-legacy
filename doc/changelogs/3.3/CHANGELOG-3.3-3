@@ -50,6 +50,7 @@ eZ template:
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
+- Fixed blog, corporate and shop css for stylesheet bug in IE 6.0.
 
 *Translations:
 - Added Finnish locale
