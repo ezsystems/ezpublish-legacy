@@ -593,6 +593,7 @@ class eZLocale
                       'currency_short_name' => 'currencyShortName',
                       'is_monday_first' => 'isMondayFirst',
                       'weekday_name_list' => 'weekDayNames',
+                      'weekday_short_name_list' => 'weekDayShortNames',
                       'weekday_number_list' => 'weekDays',
                       'month_list' => 'months',
                       'month_name_list' => 'monthsNames',
@@ -897,6 +898,14 @@ class eZLocale
             return $this->ShortWeekDayNames;
         else
             return $this->LongWeekDayNames;
+    }
+
+    /*!
+     Returns the same array as in weekDayNames() but with short version of days.
+    */
+    function &weekDayShortNames()
+    {
+        return $this->weekDayNames( true );
     }
 
     /*!
