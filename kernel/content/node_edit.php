@@ -65,8 +65,8 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
     {
         $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
         $assignedNodes =& $version->nodeAssignments();
-        $assignedIDArray =array();
-        foreach ( $assignedNodes as  $assignedNode )
+        $assignedIDArray = array();
+        foreach ( $assignedNodes as $assignedNode )
         {
             $assignedNodeID = $assignedNode->attribute( 'parent_node' );
             $assignedIDArray[] = $assignedNodeID;
@@ -147,17 +147,17 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         $nodesID = $http->postVariable( 'NodesID' );
 
     $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
-    eZDebug::writeNotice( $nodeID, 'nodeID' );
+    eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeID, 'nodeID' );
 //    $object->setAttribute( 'main_node_id', $nodeID );
     $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
-    eZDebug::writeNotice( $mainNodeID, "mainNodeID" );
+    eZDebugSetting::writeDebug( 'kernel-content-edit', $mainNodeID, "mainNodeID" );
 
     $setPlacementNodeIDArray = array();
     if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
         $setPlacementNodeIDArray = $http->postVariable( 'SetPlacementNodeIDArray' );
 
     $setPlacementNodeIDArray = array_unique( $setPlacementNodeIDArray );
-    eZDebug::writeDebug( $setPlacementNodeIDArray, '$setPlacementNodeIDArray' );
+    eZDebugSetting::writeDebug( 'kernel-content-edit', $setPlacementNodeIDArray, '$setPlacementNodeIDArray' );
     $remoteIDFieldMap = array();
     if ( $http->hasPostVariable( 'SetRemoteIDFieldMap' ) )
         $remoteIDFieldMap = $http->postVariable( 'SetRemoteIDFieldMap' );
@@ -174,7 +174,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $nodeAssignment =& $nodeAssignments[$key];
                 if ( $nodeAssignment->attribute( 'remote_id' ) == $setPlacementRemoteID )
                 {
-                    eZDebug::writeDebug( "Remote ID $setPlacementRemoteID already in use for node " . $nodeAssignment->attribute( 'parent_node' ), 'node_edit' );
+                    eZDebugSetting::writeDebug( 'kernel-content-edit', "Remote ID $setPlacementRemoteID already in use for node " . $nodeAssignment->attribute( 'parent_node' ), 'node_edit' );
                     if ( isset( $remoteIDFieldMap[$setPlacementRemoteID] ) )
                         $nodeAssignment->setAttribute( 'sort_field',  $remoteIDFieldMap[$setPlacementRemoteID] );
                     if ( isset( $remoteIDOrderMap[$setPlacementRemoteID] ) )
@@ -187,7 +187,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
             }
             if ( !$hasAssignment )
             {
-                eZDebug::writeDebug( "Adding to node $setPlacementNodeID", 'node_edit' );
+                eZDebugSetting::writeDebug( 'kernel-content-edit', "Adding to node $setPlacementNodeID", 'node_edit' );
                 $sortField = null;
                 $sortOrder = null;
                 if ( isset( $remoteIDFieldMap[$setPlacementRemoteID] ) )
@@ -211,7 +211,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     foreach ( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
-        eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
+        eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeAssignment, "nodeAssignment" );
         if ( $sortFieldMap !== false )
         {
             if ( isset( $sortFieldMap[$nodeAssignment->attribute( 'id' )] ) )
@@ -251,8 +251,8 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
 //    $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
 //    $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
-//    eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );
-//    eZDebug::writeNotice( $node->attribute( 'crc32_path' ), 'CRC32' );
+//    eZDebugSetting::writeDebug( 'kernel-content-edit', $node->attribute( 'path_identification_string' ), 'path_identification_string' );
+//    eZDebugSetting::writeDebug( 'kernel-content-edit', $node->attribute( 'crc32_path' ), 'CRC32' );
 
 //    $node->store();
 }
@@ -307,7 +307,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
         $mainNodeID = $http->postVariable( 'MainNodeID' );
 
-        if ( $nodeID != $mainNodeID )
+//         if ( $nodeID != $mainNodeID )
         {
             $objectID = $object->attribute( 'id' );
             $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeID );
@@ -324,7 +324,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     $version->removeAssignment( $nodeID );
 
                 }
-            }else
+            }
+            else
             {
                 $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $nodeID );
                 if ( $nodeAssignment->attribute( 'from_node_id' ) != 0 )
@@ -389,7 +390,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
-    eZDebug::writeDebug( $assignedNodeArray, "assigned nodes array" );
+    eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
     foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
     {
@@ -423,7 +424,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
             unset( $assignedNodeArray[$assignedNodeKey] );
         }
     }
-    eZDebug::writeDebug( $assignedNodeArray, "assigned nodes array" );
+    eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
 
     $currentVersion =& $object->version( $editVersion );
     $publishedNodeArray = array();

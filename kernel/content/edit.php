@@ -304,7 +304,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         $nodeList[] = $assignedNode->attribute( 'node_id' );
                     }
                 }
-                eZDebug::writeDebug( count( $nodeList), "count in nodeList " );
+                eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
                 eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
                 if ( eZContentCache::cleanup( $nodeList ) )
                 {

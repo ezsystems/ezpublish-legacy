@@ -41,6 +41,7 @@
         <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}:</th>
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}:</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}:</th>
+        <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}:</th>
     </tr>
     {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
                    sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
@@ -93,9 +94,9 @@
         {/switch}
         </td>
         <td class="{$Node:sequence}" align="right">
-     {section show=eq($Node:item.parent_node,$main_node_id)|not}
+{*     {section show=eq($Node:item.parent_node,$main_node_id)|not}*}
         <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"remove.png"|ezimage} value="{$Node:item.parent_node}"  />
-     {/section}
+{*     {/section}*}
         </td>
     </tr>
     {/let}
@@ -104,6 +105,6 @@
     {/let}
  </table>
  <div align="right" class="buttonblock">
-  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add location(s)'|i18n('design/standard/content/edit')}" />
+  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
  </div>
 {/default}

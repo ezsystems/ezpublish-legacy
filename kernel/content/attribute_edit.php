@@ -132,6 +132,7 @@ $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
+$validatedAttributesLog = array();
 
 if ( $storingAllowed )
 {
@@ -145,7 +146,7 @@ if ( $storingAllowed )
 
         if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
             $requireFixup = true;
-        elseif ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
         {
             $inputValidated = false;
             $dataType =& $contentObjectAttribute->dataType();
@@ -157,7 +158,7 @@ if ( $storingAllowed )
                                               'name' => $contentClassAttribute->attribute( 'name' ),
                                               'description' => $contentObjectAttribute->attribute( 'validation_error' ) );
         }
-        elseif ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+        else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
         {
             $inputValidated = true;
             $dataType =& $contentObjectAttribute->dataType();
@@ -183,13 +184,13 @@ if ( $storingAllowed )
             $contentObjectAttribute->fixupInput( $http, 'ContentObjectAttribute' );
         }
     }
-    $requreStoreAction= false;
+    $requireStoreAction= false;
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
         {
-            $requreStoreAction= true;
+            $requireStoreAction= true;
         }
 /********** Custom Action Code Start ***************/
         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
@@ -200,7 +201,7 @@ if ( $storingAllowed )
 
     }
 
-    if ( $inputValidated == true && $requreStoreAction )
+    if ( $inputValidated and $requireStoreAction )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
@@ -235,15 +236,15 @@ if ( $Module->isCurrentAction( 'Publish' ) )
             break;
         }
     }
-    if ( !$mainFound && count ( $assignments ) > 0 )
+    if ( !$mainFound and count( $assignments ) > 0 )
     {
-        $validation[ 'placement' ][] = array( 'text' => 'There is no main node specified' );
+        $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
         $validation[ 'processed' ] = true;
         $inputValidated = false;
-        eZDebug::writeDebug( "placement is not validated" );
+        eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is not validated" );
     }
     else
-        eZDebug::writeDebug( "placement is validated" );
+        eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is validated" );
 
 }
 
@@ -272,6 +273,8 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'class', $class->attribute( 'id' ) ) // Class ID
                       ) ); // Section ID
 
+if ( !isset( $OmitSectionSetting ) )
+    $OmitSectionSetting = false;
 if ( $OmitSectionSetting !== true )
 {
     include_once( 'kernel/classes/ezsection.php' );

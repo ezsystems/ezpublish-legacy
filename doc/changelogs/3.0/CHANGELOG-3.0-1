@@ -25,6 +25,8 @@ links to clickable links.
 - Fixed problem with indexing objects in search engine
 - Fixed advanced search attribute list, it now only shows searchable attributes.
 - Fixed problem with rendering tables with width
+- Made sure only one warning block is shown for input and locations.
+- Locations can now be removed even if it's a main location.
 
 *SDK :
 
