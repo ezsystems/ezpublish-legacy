@@ -50,6 +50,9 @@ Changes from 3.2-5 to 3.2-6
 - Fixed bug in copying objects; the old object's publish date was not updated.
   http://ez.no/community/bug_reports/object_copy_also_copies_creation_date
 - Fixed security bug in notification system.
+- Fixed bug related to useless eZSOAPServer::registerFunction() method.
+  It now does whata user expect it to do.
+  http://ez.no/community/bug_reports/ezsoap_registerfunction_is_useless_invalid_code
 
 *Setup:
 
