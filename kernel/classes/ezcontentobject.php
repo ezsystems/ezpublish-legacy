@@ -625,17 +625,7 @@ class eZContentObject extends eZPersistentObject
             $limitation = array( 'offset' => $offset,
                                  'length' => $limit );
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                    array( 'id',
-                                                           'parent_id',
-                                                           'section_id',
-                                                           'owner_id',
-                                                           'contentclass_id',
-                                                           'is_published',
-                                                           'published',
-                                                           'modified',
-                                                           'current_version',
-                                                           'remote_id'
-                                                           ),
+                                                    null,
                                                     $conditions, null, $limitation,
                                                     $asObject );
     }

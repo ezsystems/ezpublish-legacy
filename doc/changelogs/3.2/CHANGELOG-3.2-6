@@ -44,6 +44,7 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 - Fixed bug in checking number of parameters to array_merge()
   http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
+- Removed the hardcoded field list in eZContentObject::fetchList.
 
 *Setup:
 
