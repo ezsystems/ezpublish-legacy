@@ -37,7 +37,7 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Location'|i18n( 'design/admin/content/edit' )}</th>
-    <th>{'Sorting'|i18n( 'design/admin/content/edit' )}</th>
+    <th>{'Sorting of sub items'|i18n( 'design/admin/content/edit' )}</th>
     {section show=$:has_top_levels|not}
     <th>{'Current visibility'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Visibility after publishing'|i18n( 'design/admin/content/edit' )}</th>
@@ -153,7 +153,7 @@
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'There are no locations that can be removed.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {/section}
 
-    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations.'|i18n( 'design/admin/content/edit' )}" />
 
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" disabled="disabled"  title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
