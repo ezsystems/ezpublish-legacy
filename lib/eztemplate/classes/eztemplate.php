@@ -686,7 +686,7 @@ class eZTemplate
         $uri = $resourceData['uri'];
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
-        eZDebug::writeDebug( 'Generating compiled template', 'eztemplate' );
+//         eZDebug::writeDebug( 'Generating compiled template', 'eztemplate' );
         return $resourceObject->compileTemplate( $this, $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
     }
 
@@ -700,7 +700,7 @@ class eZTemplate
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
         $timestamp = $resourceData['time-stamp'];
-        eZDebug::writeDebug( 'Executing compiled template', 'eztemplate' );
+//         eZDebug::writeDebug( 'Executing compiled template', 'eztemplate' );
         return $resourceObject->executeCompiledTemplate( $this, $textElements,
                                                          $keyData, $uri, $resourceData, $templatePath,
                                                          $extraParameters, $timestamp,

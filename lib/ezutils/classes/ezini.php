@@ -605,7 +605,7 @@ class eZINI
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
     function &save( $fileName = false, $suffix = false, $useOverride = false,
-                    $onlyModified = false, $useRootDir = true )
+                    $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
@@ -700,6 +700,8 @@ class eZINI
                     {
                         if ( count( $varValue ) > 0 )
                         {
+                            if ( $resetArrays )
+                                $written = fwrite( $fp, "$varKey" . "[]$lineSeparator" );
                             foreach ( $varValue as $varArrayKey => $varArrayValue )
                             {
                                 if ( is_string( $varArrayKey ) )

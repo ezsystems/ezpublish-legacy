@@ -225,7 +225,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         if ( $saveData )
         {
-            $saveResult = $ini->save( false, '.php', 'append', true );
+            $saveResult = $ini->save( false, '.php', 'append', true, true, true );
         }
 
 //     $htaccess = array( 'required' => false,
