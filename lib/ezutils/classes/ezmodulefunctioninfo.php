@@ -247,9 +247,9 @@ class eZModuleFunctionInfo
                     return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_MISSING_PARAMETER,
                                   'internal_error_parameter_name' => $parameterName );
                 }
-                else if ( isset( $functionParameterDefinition['default_value'] ) )
+                else if ( isset( $functionParameterDefinition['default'] ) )
                 {
-                    $parameterArray[] = $functionParameterDefinition['default_value'];
+                    $parameterArray[] = $functionParameterDefinition['default'];
                 }
                 else
                 {

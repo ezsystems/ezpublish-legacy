@@ -64,7 +64,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$object );
     }
 
-    function &fetchObjectTree( $parentNodeID, $offset, $limit, $depth, $sortBy, $classID, $class_filter_type, $class_filter_array   )
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array   )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
@@ -76,6 +76,7 @@ class eZContentFunctionCollection
                                  'ClassFilterArray' => $class_filter_array );
         if ( $depth !== false )
             $treeParameters['Depth'] = $depth;
+
         $children =& eZContentObjectTreeNode::subTree( $treeParameters,
                                                        $parentNodeID );
         if ( $children === null )
