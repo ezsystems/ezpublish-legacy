@@ -3546,7 +3546,7 @@ WHERE
         if( $this->IsHidden )
             return 'Hidden';
         else if( $this->IsInvisible )
-            return 'Hidden by parent';
+            return 'Hidden by superior';
         else
             return 'Visible';
     }
