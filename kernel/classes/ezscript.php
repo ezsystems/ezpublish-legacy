@@ -1026,6 +1026,9 @@ class eZScript
             }
             if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
                 $this->setUseSiteAccess( $options['siteaccess'] );
+
+            if ( isset( $options['login'] ) and $options['login'] )
+                $this->setUser( $options['login'], isset( $options['password'] ) ? $options['password'] : false );
         }
         return $options;
     }
