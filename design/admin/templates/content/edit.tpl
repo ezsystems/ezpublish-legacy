@@ -3,7 +3,7 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-{include uri='design:edit_menu.tpl'}
+{include uri='design:content/edit_menu.tpl'}
 
 </div>
 </div>
@@ -56,19 +56,9 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <select>
-        <option>{'Publish as visible'|i18n( 'design/admin/content/edit' )}</option>
-        <option>{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</option>
-        {section show=$object.assigned_nodes|gt( 1 )}
-        <option>{'Publish all (%locations) as visible'|i18n( 'design/admin/content/edit',, hash( '%locations', $object.assigned_nodes|count ) )}</option>
-        <option>{'Publish all (%locations) as hidden'|i18n( 'design/admin/content/edit',, hash( '%locations', $object.assigned_nodes|count ) )}</option>
-        {/section}
-    </select>
-</div>
-<div class="block">
-    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/admin/content/edit' )}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" title="{'Discard the draft that is being edited. This action will also remove the translations that belong to the draft (if any).'}" />
+    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will thus become the published version of the object.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/admin/content/edit' )}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/content/edit' )}' );" title="{'Discard the draft that is being edited. This will also get rid of the translations that belong to the draft (if any).'|i18n( 'design/admin/content/edit' ) }" />
     <input type="hidden" name="DiscardConfirm" value="1" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
