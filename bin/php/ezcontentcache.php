@@ -39,9 +39,11 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Content Cache Handler\n" .
-                                                         "Allows for easy clearing of Conten Caches\n" .
+                                                         "Allows for easy clearing of Content Caches\n" .
                                                          "\n" .
-                                                         "./bin/ezcontentcache.php --clear-node=2\n" .
+                                                         "Clearing node for content and users tree\n" .
+                                                         "./bin/ezcontentcache.php --clear-node=/,5\n" .
+                                                         "Clearing subtree for content tree\n" .
                                                          "./bin/ezcontentcache.php --clear-subtree=/" ),
                                       'use-session' => false,
                                       'use-modules' => false,
@@ -51,9 +53,12 @@ $script->startup();
 
 $options = $script->getOptions( "[clear-node:][clear-subtree:]",
                                 "",
-                                array( 'clear-node' => 'Clears all content caches related to a given node ID, separate multiple nodes with a comma.',
-                                       'clear-subtree' => 'Clears all content caches related to a given node subtree, subtree expects a nice url as input.' . "\n" .
-                                       'Separate multiple subtrees with a comma' ) );
+                                array( 'clear-node' => ( "Clears all content caches related to a given node,\n" .
+                                                         "pass either node ID or nice url of node.\n" .
+                                                         "Separate multiple nodes with a comma." ),
+                                       'clear-subtree' => ( "Clears all content caches related to a given node subtree,\n" .
+                                                            "subtree expects a nice url as input.\n" .
+                                                            "Separate multiple subtrees with a comma" ) ) );
 $sys =& eZSys::instance();
 
 $script->initialize();
@@ -69,14 +74,34 @@ if ( $options['clear-node'] )
     $idList = explode( ',', $options['clear-node'] );
     foreach ( $idList as $nodeID )
     {
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
-        if ( !$node )
+        if ( is_numeric( $nodeID ) )
         {
-            $cli->output( "Node with ID $nodeID does not exist, skipping" );
-            continue;
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( !$node )
+            {
+                $cli->output( "Node with ID $nodeID does not exist, skipping" );
+                continue;
+            }
+        }
+        else
+        {
+            $nodeSubtree = trim( $nodeID, '/' );
+            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
+            if ( !$node )
+            {
+                $cli->output( "Node with subtree " . $cli->stylize( 'emphasize', $nodeSubtree ) . " does not exist, skipping" );
+                continue;
+            }
+        }
+        $nodeSubtree = $node->attribute( 'path_identification_string' );
+        $nodeName = false;
+        $object = $node->attribute( 'object' );
+        if ( $object )
+        {
+            $nodeName = $object->attribute( 'name' );
         }
         $objectID = $node->attribute( 'contentobject_id' );
-        $cli->output( "Clearing cache for node ID $nodeID" );
+        $cli->output( "Clearing cache for $nodeName ($nodeSubtree)" );
         eZContentCacheManager::clearViewCache( $objectID, true );
     }
     return $script->shutdown();
@@ -86,17 +111,36 @@ else if ( $options['clear-subtree'] )
     $subtreeList = explode( ',', $options['clear-subtree'] );
     foreach ( $subtreeList as $nodeSubtree )
     {
-        $nodeSubtree = trim( $nodeSubtree, '/' );
-        $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
-        if ( !$node )
+        if ( is_numeric( $nodeSubtree ) )
         {
-            $cli->output( "Node with subtree " . $cli->stylize( 'emphasize', $nodeSubtree ) . " does not exist, skipping" );
-            continue;
+            $nodeID = (int)$nodeSubtree;
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( !$node )
+            {
+                $cli->output( "Node with ID " . $cli->stylize( 'emphasize', $nodeID ) . " does not exist, skipping" );
+                continue;
+            }
         }
+        else
+        {
+            $nodeSubtree = trim( $nodeSubtree, '/' );
+            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
+            if ( !$node )
+            {
+                $cli->output( "Node with subtree " . $cli->stylize( 'emphasize', $nodeSubtree ) . " does not exist, skipping" );
+                continue;
+            }
+        }
+        $nodeSubtree = $node->attribute( 'path_identification_string' );
+        $nodeName = false;
+        $object = $node->attribute( 'object' );
+        if ( $object )
+        {
+            $nodeName = $object->attribute( 'name' );
+        }
+        $cli->output( "Clearing cache for subtree $nodeName ($nodeSubtree)" );
         $objectID = $node->attribute( 'contentobject_id' );
-
         $offset = 0;
-        $cli->output( "Clearing cache for subtree $nodeSubtree" );
         $params = array( 'AsObject' => false,
                          'Depth' => false,
                          'Limitation' => array() ); // Empty array means no permission checking
