@@ -74,6 +74,8 @@ $logFileIni =& eZINI::instance( 'logfile.ini' );
 $fileDir = $logFileIni->variable( 'AccessLogFileSettings', 'StorageDir' );
 $fileName = $logFileIni->variable( 'AccessLogFileSettings', 'LogFileName' );
 
+$prefixes = $logFileIni->variable( 'AccessLogFileSettings', 'SitePrefix' );
+
 $ini =& eZINI::instance();
 $logDir = $ini->variable( 'FileSettings', 'LogDir' );
 
@@ -129,12 +131,18 @@ if ( $handle )
 
             list( $requireMethod, $url ) = split( " ", $requirePart );
 
+            foreach ( $prefixes as $prefix )
+            {
+                $url = preg_replace( "/^\/$prefix/", "", $url );
+            }
+
             if ( preg_match( "/\/content\/view\/full\//", $url ) )
             {
                 $url = str_replace( "/content/view/full/", "", $url );
                 $url = str_replace( "/", "", $url );
                 $url = preg_replace( "/\?(.*)/", "", $url );
                 $nodeIDArray[] = $url;
+                print_r( $nodeIDArray );
             }
             else
             {

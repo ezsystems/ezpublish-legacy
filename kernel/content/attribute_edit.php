@@ -244,8 +244,11 @@ if ( $Module->isCurrentAction( 'Publish' ) )
 
 if ( $inputValidated == true )
 {
-    if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
-        return;
+    if ( $validatedAttributes == null )
+    {
+        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
+            return;
+    }
 }
 
 if ( isset( $Params['TemplateObject'] ) )

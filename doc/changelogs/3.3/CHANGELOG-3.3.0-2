@@ -44,6 +44,7 @@
   will use a default value from the client. (e.g node_45 from content tree nodes)
 - When you add a new location to an object it will be automatically set to main if no other
   locations is already set as main
+- Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
 
 *DataTypes:
 

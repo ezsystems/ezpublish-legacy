@@ -161,6 +161,7 @@ class eZXMLTextType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         /// Get object for input validation
+        // To do: only validate, not save data
         $xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
         $input =& $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );
@@ -185,9 +186,10 @@ class eZXMLTextType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
+        // To do: Data should be saved here.
+        /*$xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
         $input =& $xmlText->attribute( 'input' );
-        $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );
+        $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );*/
         return true;
     }
 
