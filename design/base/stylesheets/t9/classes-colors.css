@@ -6,7 +6,7 @@
 
 div#maincontent div.content-view-line div.attribute-link p
 { 
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t9/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@ div#maincontent div.content-view-line div.attribute-link p
 div#maincontent div.content-view-line div.attribute-link-disabled p
 { 
     color: #ddd;
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t9/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -24,7 +24,7 @@ div#maincontent div.content-view-line div.attribute-link-disabled p
 
 div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
 { 
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t9/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
