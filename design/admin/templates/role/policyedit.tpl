@@ -139,7 +139,13 @@
     <input type="hidden" name="CurrentModule" value="{$current_module}" />
     <input type="hidden" name="CurrentFunction" value="{$current_function}" />
     <input class="button" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" />
-    <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" {section show=$function_limitations|not}disabled="disabled"{/section} />
+
+    {section show=$function_limitations}
+    <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
+    {/section}
+
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
