@@ -6,20 +6,7 @@
 </div>
 
 <p>
-{"Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed."|i18n("design/standard/setup/init")}
-</p>
-<p>
-{"Requirements"|i18n("design/standard/setup/init")}
-</p>
-<p>
-{"You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):"|i18n("design/standard/setup/init")}
-</p>
-<p>
-1) MySQL: <a href="http://www.mysql.com">http://www.mysql.com</a> ({"recommended"|i18n("design/standard/setup/init")})<br>
-2) PostgreSQL: <a href="http://www.postgresql.org">http://www.postgresql.org</a>
-</p>
-<p>
-{'Click "Next" to start the configuration of up eZ publish.'|i18n("design/standard/setup/init")}
+{"Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press <i>Next &gt;</i> to continue."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">

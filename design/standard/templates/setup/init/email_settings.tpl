@@ -15,7 +15,7 @@
 </p>
 {section-else}
 <p>
-{"SMTP is recommended for MS Windows users"|i18n("design/standard/setup/init")}
+{"SMTP is recommended for MS Windows users."|i18n("design/standard/setup/init")}
 </p>
 {/section}
 

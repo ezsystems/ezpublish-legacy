@@ -98,6 +98,27 @@ $step = null;
 if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 {
     $step = &$stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
+    $goBack = true;
+    while ( $goBack )
+    {
+        $includeFile = $baseDir .'steps/ezstep_'.$step['file'].'.php';
+
+        if ( file_exists( $includeFile ) )
+        {
+            include_once( $includeFile );
+            $className = 'eZStep'.$step['class'];
+            $stepObject = new $className( $tpl, $http, $ini, $persistenceList );
+
+            if ( $stepObject->init() === true )
+            {
+                $step = &$stepData->previousStep( $step );
+                continue;
+            }
+        }
+
+        $goBack = false;
+    }
+
 }
 else if ( $http->hasPostVariable( 'eZSetup_refresh_button' ) ) // refresh selected step
 {

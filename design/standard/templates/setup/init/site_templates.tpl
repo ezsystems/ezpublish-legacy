@@ -8,7 +8,9 @@
   </div>
 
   <p>
-    {"Choose one or more site templates for your site"|i18n("design/standard/setup/init")}
+    {"Choose one or more of the demo sites you would like to test or base your site on."i18n("design/standard/setup/init")}
+    <br />
+    {"Use Plain if you would like to start from scratch."|i18n("design/standard/setup/init")}
   </p>
 
   <table border="0" cellspacing="2" cellpadding="0">
