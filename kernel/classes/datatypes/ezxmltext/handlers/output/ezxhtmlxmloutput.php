@@ -497,7 +497,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $listItemContent = "";
 
-                    $listSctionLevel = $currentSectionLevel;
+                    $listSectionLevel = $currentSectionLevel;
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
                         $listSectionLevel = $currentSectionLevel;
