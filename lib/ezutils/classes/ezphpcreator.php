@@ -1103,7 +1103,4 @@ print( $values['MyValue'] );
     var $Elements;
     var $TextChunks;
 }
-/*
- * vim:et
- */
 ?>
