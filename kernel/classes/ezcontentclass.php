@@ -807,7 +807,8 @@ class eZContentClass extends eZPersistentObject
         }
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
-                                                                  "version" => $version ) );
+                                                                  "version" => $version ),
+                                                           $asObject );
     }
 
     /*!
