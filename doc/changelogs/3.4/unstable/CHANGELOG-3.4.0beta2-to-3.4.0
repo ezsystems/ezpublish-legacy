@@ -59,6 +59,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/default_article_content_type_has_incorrect_object_name_pattern
 - Fixed problem with missing duplicate function for file handlers.
   http://ez.no/community/bug_reports/missing_function_duplicate_in_ezarchivehandler_detachhandler
+- Fixed bug in input-transforming code for the template compiler.
+  http://ez.no/community/bug_reports/problems_with_input_parameter
 
 *Library:
 

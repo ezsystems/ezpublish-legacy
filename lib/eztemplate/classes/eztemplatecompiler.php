@@ -2842,6 +2842,8 @@ else
                 }
 
                 $php->addCodePiece( "if (! isset( \$$variableAssignmentName ) ) \$$variableAssignmentName = NULL;\n", array ( 'spacing' => $spacing ) );
+                $php->addCodePiece( "while ( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
+                                                  "    \$$variableAssignmentName = \$$variableAssignmentName" . "->templateValue();\n" );
                 $php->addCodePiece( "\$" . $variableAssignmentName . "Data = array( 'value' => \$$variableAssignmentName );
 \$tpl->processOperator( $operatorNameText,
                        $operatorParametersText,
