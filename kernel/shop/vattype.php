@@ -89,7 +89,13 @@ $tpl =& templateInit();
 $tpl->setVariable( "vattype_array", $vatTypeArray );
 $tpl->setVariable( "module", $module );
 
+$path = array();
+$path[] = array( 'text' => "VAT types",
+                 'url' => false );
+
+
 $Result = array();
+$Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( "design:shop/vattype.tpl" );
 
 ?>

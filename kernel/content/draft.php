@@ -67,9 +67,7 @@ $tpl->setVariable( 'draft_list', $versions );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/draft.tpl' );
-$Result['path'] = array( array( 'text' => 'Draft',
-                                'url' => false ),
-                         array( 'text' => 'List',
+$Result['path'] = array( array( 'text' => 'My drafts',
                                 'url' => false ) );
 
 ?>

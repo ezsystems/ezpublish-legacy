@@ -30,24 +30,6 @@
 </tr>
 </table>
 
-
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"My"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/standard/layout")}</a></p>
-    </td>
-</tr>
-</table>
-
-
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
@@ -84,6 +66,14 @@
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/standard/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 </table>
@@ -155,7 +145,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/task/view/"|ezurl}>{"Tasks"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/task/view/"|ezurl}>{"My Tasks"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 </table>

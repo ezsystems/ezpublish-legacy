@@ -64,7 +64,7 @@
   {/section}
 
 {section name=Message loop=$task.messages|gt(1)}
-{* <h2>Messages</h2> Why is this subheadline here, when already used above? *}
+<h2>Messages</h2>
   {section name=Message loop=$task.messages offset=1}
     {section show=$Message:item.contentobject_id|gt(0)}
       {let object=$Message:item.contentobject}
@@ -169,8 +169,10 @@
   <td class="{$Outgoing:sequence}"><span class="small">{$Outgoing:item.modified|l10n('shortdatetime')}</span></td>
   <td class="{$Outgoing:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Outgoing:item.id}"></td>
 </tr>
-{/section}
+
 </table>
+{/section}
+
 
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=NewTask id_name=NewTaskButton value="New Task"|i18n('task')}
