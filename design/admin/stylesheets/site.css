@@ -1307,6 +1307,12 @@ a.nodeicon
   text-decoration: none;
 }
 
+span.required
+{
+    font-style: italic;
+    font-weight: normal;
+}
+
 div#maincontent div.content-translation div.block div.original
 {
     background-color: #ecece4;

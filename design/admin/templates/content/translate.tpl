@@ -185,7 +185,7 @@
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{$original_locale.intl_language_name} ({$original_locale.locale_code}) --&gt; {$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h2>
+<h2 class="context-title">{$original_locale.intl_language_name} ({$original_locale.locale_code}) &gt;&gt; {$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
