@@ -261,13 +261,29 @@ class eZUserType extends eZDataType
         return $user;
     }
 
+    /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
 
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( $contentObjectAttribute )
+    function metaData( &$contentObjectAttribute )
     {
-        return "";
+        $metaString = "";
+        $user =& $contentObjectAttribute->content();
+        if ( get_class( $user ) == "ezuser" )
+        {
+            // create a default user account
+            $metaString .= $user->attribute( 'login' ) . " ";
+            $metaString .= $user->attribute( 'email' ) . " ";
+        }
+
+        return $metaString;
     }
 }
 

@@ -16,6 +16,8 @@ Changes from 3.0-1 to 3.0-2
 - Fixed bug in approval which would stop the workflow if the publisher was an editor, excluded
   or object was in wrong section.
 - Fixed parsing of nice URL's with internal links #.
+- Made eZ user datatype searchable
+- Fixed proper indexing of e-mail addresses and numbers containing .
 
 Binary file:
 - Fixed bug with stored file not being removed when the object was deleted (removed from trash).
