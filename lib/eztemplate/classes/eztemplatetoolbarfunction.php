@@ -120,13 +120,28 @@ class eZTemplateToolbarFunction
 
                 if ( $placement == 1 )
                 {
-                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                    if ( $placement == count( $toolArray ) )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item first\">" );
+                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                        {
+                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class=\"toolbar-item last\">" );
+                        }
+                        else
+                        {
+                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item last\">" );
+                        }
+
                     }
                     else
                     {
-                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item first\">" );
+                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                        {
+                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class=\"toolbar-item first\">" );
+                        }
+                        else
+                        {
+                            $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class=\"toolbar-item first\">" );
+                        }
                     }
                 }
                 else if ( $placement == count( $toolArray ) )
@@ -295,15 +310,30 @@ class eZTemplateToolbarFunction
                         $tpl->setVariable( "offset", $toolOffset, $name );
                         $definedVariables[] = "offset";
                         $uri = "design:toolbar/$viewMode/$tool.tpl";
+
                         if ( $placement == 1 )
                         {
-                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                            if ( count( $toolArray ) == 1 )
                             {
-                                $textElements[] = "<ul><li class=\"toolbar-item first\">";
+                                if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                                {
+                                    $textElements[] = "<li class=\"toolbar-item last\">";
+                                }
+                                else
+                                {
+                                    $textElements[] = "<div class=\"toolbar-item first\">";
+                                }
                             }
                             else
                             {
-                                $textElements[] = "<div class=\"toolbar-item first\">";
+                                if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                                {
+                                    $textElements[] = "<ul><li class=\"toolbar-item first\">";
+                                }
+                                else
+                                {
+                                    $textElements[] = "<div class=\"toolbar-item first\">";
+                                }
                             }
                         }
                         else if ( $placement == count( $toolArray ) )
