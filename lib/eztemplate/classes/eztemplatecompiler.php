@@ -2228,6 +2228,7 @@ $rbracket
                                     $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
                                     $hasResourceData = false;
                                 }
+/* FIXME: We should be able to remove this stuff, but for some reason it fails then */
                                 if ( !$tmpResourceData['compiled-template'] and
                                      $resourceCanCache and
                                      $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
@@ -2246,6 +2247,7 @@ $rbracket
                                     if ( $generateStatus )
                                         $tmpResourceData['compiled-template'] = true;
                                 }
+/* ***** */
                             }
                             $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
                         }
