@@ -136,6 +136,11 @@ class eZDebug
                                      EZ_LEVEL_ERROR,
                                      EZ_LEVEL_TIMING_POINT,
                                      EZ_LEVEL_DEBUG );
+        $this->MessageNames = array( EZ_LEVEL_NOTICE => 'Notice',
+                                     EZ_LEVEL_WARNING => 'Warning',
+                                     EZ_LEVEL_ERROR => 'Error',
+                                     EZ_LEVEL_TIMING_POINT => 'TimingPoint',
+                                     EZ_LEVEL_DEBUG => 'Debug' );
         $this->LogFileEnabled = array( EZ_LEVEL_NOTICE => true,
                                        EZ_LEVEL_WARNING => true,
                                        EZ_LEVEL_ERROR => true,
@@ -160,6 +165,17 @@ class eZDebug
                                       EZ_LEVEL_DEBUG => array() );
         $this->TimeAccumulatorList = array();
         $this->TimeAccumulatorGroupList = array();
+    }
+
+    /*!
+     \return the name of the message type.
+    */
+    function messageName( $messageType )
+    {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+        return $this->MessageNames[$messageType];
     }
 
     /*!
@@ -880,6 +896,7 @@ td.timingpoint2
                 $label = $debug["Label"];
                 if ( $as_html )
                 {
+                    $label = htmlspecialchars( $label );
                     $returnText .= "<tr><td class='debugheader' valign='top'><b><font color=\"$color\">$name:</font> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
                                     <tr><td colspan='2'><pre>" .  htmlspecialchars( $debug["String"] )  . "</pre></td></tr>";

@@ -73,6 +73,7 @@ error_reporting ( E_ALL );
 // include standard libs
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
 $warningList = array();
 

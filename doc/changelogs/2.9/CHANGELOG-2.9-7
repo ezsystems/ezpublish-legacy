@@ -111,6 +111,8 @@ eZ db:
 
 eZ debug:
 - Added missing class variable for group loop in debug output.
+- New helper class called eZDebugSetting which allows for conditional debug
+  messages.
 
 eZXML:
 - Some minor fixes to the toString() function with regards to text output.
