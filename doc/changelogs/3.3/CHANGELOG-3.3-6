@@ -271,6 +271,7 @@ eZINI:
 - Fixed bug: index.php didn't set LastAccessesURI session variable when viewing node #2.
 - Fixed bug: user should not be able to relate an object to itself.
   http://ez.no/community/bug_reports/you_can_relate_an_object_to_itself
+- Fixed bug: Fixed SQL error that happened when removing classes along with removing class group.
 
 *Library:
 
