@@ -67,6 +67,8 @@ eztc.php:
   from being added to the list more than once doing appropriate check.  
   Merged from 3.3 rev. 6813, also in 3.4 rev. 6814.
   http://ez.no/community/bug_reports/objectrelationlist_repeats_adding_relatedobjects_when_page_reloads
+- Removed eztime from the list of simple types because its data_int field
+  cannot be treated as sort key anymore (merged from 3.3 rev. 6818, also in 3.4 rev. 6819).
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
