@@ -16,6 +16,7 @@ Changes from 2.9-3 to 2.9-4
 - Added site.ini setting which controls the languages one can translate to.
 - Many improvements to the translation page.
 - Added translation overview to object edit.
+- Fixed single selection in browse object/node.
 
 Datatypes:
 - Datatypes can now report if the are non-translateable.
