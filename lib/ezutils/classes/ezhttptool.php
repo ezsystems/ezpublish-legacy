@@ -344,7 +344,7 @@ class eZHTTPTool
 			}
             else
             {
-                foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"][$key] as $arrayKey ) )
+                foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"][$key] ) as $arrayKey )
                 {
                     $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
                     $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
