@@ -1,0 +1,23 @@
+<?php /* #?ini charset="utf8"?
+
+[Toolbar]
+AvailableToolBarArray[]
+AvailableToolBarArray[]=setup
+
+[Tool]
+AvailableToolArray[]
+AvailableToolArray[]=setup_link
+
+[Toolbar_setup]
+Tool[]
+Tool[]=setup_link
+Tool[]=setup_link
+
+[Tool_setup_link]
+icon=bla.png
+title=Link
+url=/setup/menu
+
+[Tool_setup_setup_link_2]
+url=/class/grouplist
+*/ ?>
