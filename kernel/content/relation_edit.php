@@ -169,7 +169,14 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
-            $sectionID = 0; /* Will be changed later */
+            if ( $http->hasPostVariable( 'SectionID' ) )
+            {
+                $sectionID = $http->postVariable( 'SectionID' );
+            }
+            else
+            {
+                $sectionID = 0; /* Will be changed later */
+            }
             $contentClassID = $http->postVariable( 'ClassID' );
             $class =& eZContentClass::fetch( $contentClassID );
             $relatedContentObject =& $class->instantiate( $userID, $sectionID );
