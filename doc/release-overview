@@ -52,3 +52,8 @@ This is an overview of all the releases and their revision numbers.
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0_release_2 (2374)
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.0-2 (2375)
 - Date 24-Apr-2003
+
+Security fix 1:
+- Fixes exploit for user/edit
+- Revision 2454 and 2458
+- Date 19-May-2003
