@@ -65,10 +65,10 @@ eZContentUpload::result( 'MyActionName' );
   It is also possible to use this class to upload a given file (HTTP or regular) as an object.
   The correct class and location can be determined automatically.
 
-  Simple create a new instance of this class and then call handleUpload() or handleLocalFile().
+  Simply create an instance and then call handleUpload() or handleLocalFile().
 
 \code
-$upload = new eZContentUpload( array() );
+$upload = new eZContentUpload();
 $upload->handleUpload( $result, 'UploadFile', 'auto', false );
 
 $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
@@ -248,6 +248,24 @@ class eZContentUpload
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filePath );
         $mime = $mimeData['name'];
+
+        $handler =& $this->findHandler( $result, $mimeData );
+        if ( $handler === false )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'There was an error trying to instantiate content upload handler.' ) );
+            return false;
+        }
+
+        // If this is an object we have a special handler for the file.
+        // The handler will be responsible for the rest of the execution.
+        if ( is_object( $handler ) )
+        {
+            $originalFilename = $filePath;
+            return $handler->handleFile( $this, $result,
+                                         $filePath, $originalFilename, $mimeData,
+                                         $location, $existingNode );
+        }
 
         $object = false;
         $class = false;
@@ -449,6 +467,25 @@ class eZContentUpload
         $mime = $mimeData['name'];
         if ( $mime == '' )
             $mime = $file->attribute( "mime_type" );
+
+        $handler =& $this->findHandler( $result, $mimeData );
+        if ( $handler === false )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'There was an error trying to instantiate content upload handler.' ) );
+            return false;
+        }
+
+        // If this is an object we have a special handler for the file
+        // The handler will be responsible for the rest of the execution.
+        if ( is_object( $handler ) )
+        {
+            $filePath = $file->attribute( "filename" );
+            $originalFilename = $file->attribute( "original_filename" );
+            return $handler->handleFile( $this, $result,
+                                         $filePath, $originalFilename, $mimeData,
+                                         $location, $existingNode );
+        }
 
         $object = false;
         $class = false;
@@ -1142,6 +1179,71 @@ class eZContentUpload
     {
         $http =& eZHTTPTool::instance();
         $http->removeSessionVariable( 'ContentUploadParameters' );
+    }
+
+    /*!
+     Finds the correct upload handler for the file specified in \a $mimeInfo.
+     If no handler is found it will return the default attribute based handler eZContentUpload,
+     this means that the file is passed to one suitable attribute and handled from there.
+     \return An object with the interface eZContentUploadHandler or \c false if an error occured.
+             Will return \c true if there is no handler configured for this type.
+    */
+    function &findHandler( &$result, $mimeInfo )
+    {
+        $errors =& $result['errors'];
+        $notices =& $result['notices'];
+
+        // Check for specific mime handler plugin
+        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadSettings = $uploadINI->variable( 'CreateSettings', 'MimeUploadHandlerMap' );
+
+        $mime = $mimeInfo['name'];
+        $elements = explode( '/', $mime );
+        $mimeGroup = $elements[0];
+
+        $handlerName = false;
+        // Check first for MIME-Type group, this allows a handler to work
+        // with an entire group, e.g. image
+        if ( isset( $uploadSettings[$mimeGroup] ) )
+        {
+            $handlerName = $uploadSettings[$mimeGroup];
+        }
+        else if ( isset( $uploadSettings[$mime] ) )
+        {
+            $handlerName = $uploadSettings[$mime];
+        }
+
+        if ( $handlerName !== false )
+        {
+            include_once( 'lib/ezutils/classes/ezextension.php' );
+            $baseDirectory = eZExtension::baseDirectory();
+            $extensionDirectories = eZExtension::activeExtensions();
+
+            // Check all extension directories for an upload handler for this mimetype
+            foreach ( $extensionDirectories as $extensionDirectory )
+            {
+                $handlerPath = $baseDirectory . '/' . $extensionDirectory . '/uploadhandlers/' . $handlerName . ".php";
+                if ( !file_exists( $handlerPath ) )
+                    continue;
+
+                include_once( $handlerPath );
+                $handlerClass = $handlerName;
+                $handler = new $handlerClass();
+                if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
+                {
+                    eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
+                    return false;
+                }
+                return $handler;
+            }
+
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        "Could not find content upload handler '%handler_name'",
+                                                        null, array( '%handler_name' => $handlerName ) ) );
+//             eZDebug::writeError( "Could not find content upload handler '$handlerName'", 'eZContentUpload::findHandler' );
+            return false;
+        }
+        return true;
     }
 
     /// \privatesection

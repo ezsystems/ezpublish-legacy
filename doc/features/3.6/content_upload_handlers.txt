@@ -1,0 +1,55 @@
+*Title: Upload handlers for content objects
+
+*Incentive:
+Make it possible for extensions to handle the creation of content objects
+from uploaded files. They can for instance create multiple objects and
+fill in multiple attributes.
+
+*Documentation:
+This extension enables you to write upload handlers for
+content objects in an extension. You can configure 
+different MIME-Types to execute different upload handlers.
+
+The upload handlers are useful for doing automatic import
+or conversion of documents upon upload. For example importing
+OpenOffice.org documents when uploading them.
+
+The upload system will be used by both normal web based uploading as well
+as WebDAV put requests.
+
+To enable a upload handler for a specific mimetype you need
+to set the following setting in upload.ini.
+MimeUploadHandlerMap[<mime_type>]=<handler_identifier>
+
+The <handler_identifier> will be the name of the class that exists in a given
+extension.
+e.g. if the idenfier was called ezopenofficeuploadhandler it would look for
+extension/*/uploadhandlers/ezopenofficeuploadhandler.php and use ezopenofficeuploadhandler
+for the class.
+
+INI example:
+[CreateSettings]
+MIME[application/vnd.sun.xml.writer]=ezopenofficeuploadhandler
+
+Example code of a upload handler is shown below:
+
+include_once( 'kernel/classes/ezcontentuploadhandler.php' );
+
+class eZOpenofficeUploadHandler extends eZContentUploadHandler
+{
+    function eZOpenofficeUploadHandler()
+    {
+        $this->eZContentUploadHandler( 'OOo file handling', 'openoffice' );
+    }
+
+    /*!
+      Handles the uploading of OpenOffice.org documents.
+    */
+    function handleFile( &$upload, &$result,
+                         $filePath, $originalFilename, $mimeInfo,
+                         $location, $existingNode )
+    {
+        // Implement your import/conversion routine here
+        copy( $filepath, "var/cache/oofile.sxw" );
+    }
+}
