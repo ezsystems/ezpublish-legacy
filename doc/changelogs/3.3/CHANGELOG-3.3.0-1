@@ -1,8 +1,5 @@
 Changes from 3.2-3 to 3.3.0-1
 
-- Fixed links in class and classgroup lists to the class view.
-
-
 *Kernel:
 - Added function checking main node id from drop down node assignments.
 - Added count function for tipafriend and content view.
