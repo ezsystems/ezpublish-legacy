@@ -232,3 +232,9 @@ MatchFile=line/gallery.tpl
 Subdir=templates
 Match[class_identifier]=gallery
 
+[gallery_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/gallery.tpl
+Subdir=templates
+Match[class_identifier]=gallery
+
