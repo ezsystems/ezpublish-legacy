@@ -173,11 +173,6 @@
         {/section}
         </table>
 
-        {section show=eq( $node.sort_array[0][0], 'priority' )}
-            {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
-                 <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
-            {/section}
-        {/section}
         {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
         {/section}
         {section show=$:can_edit}
@@ -191,6 +186,11 @@
                                                limit, $page_limit,
                                                offset, $view_parameters.offset ) )}
                 <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+            {/section}
+        {/section}
+        {section show=eq( $node.sort_array[0][0], 'priority' )}
+            {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
+                 <input class="button" align="right" type="submit" name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
     {/section}
