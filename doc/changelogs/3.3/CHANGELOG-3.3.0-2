@@ -28,6 +28,8 @@
   http://ez.no/developer/ez_publish_3/bug_reports/custom_notification_handler_in_extension_wont_work
 - Fixed bug dowloading PDF documents directly : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_for_direct_download_does_not_work
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/kernelcontentversionviewphp_missing_node_pseudo_path_attribute ( merged from stable 4325 )
+- Sending objects to trash no longer removes the node assignments (location) of the current version.
+  http://ez.no/developer/ez_publish_3/bug_reports/restore_from_trash_returns_error
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
@@ -37,6 +39,8 @@
 - Improved the translated URLs (URL alias), it will not contain leading or trailing underscores,
   special characters are translated into underscore instead of being removed and empty translations
   will use a default value from the client. (e.g node_45 from content tree nodes)
+- When you add a new location to an object it will be automatically set to main if no other
+  locations is already set as main
 
 *DataTypes:
 
