@@ -21,7 +21,10 @@ div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 
 <![endif]-->
 {/literal}
 
-{section show=and( eq( $navigation_part.identifier, 'ezcontentnavigationpart' ), ezpreference( 'admin_left_menu_width' )|gt(0))}
+    {section show=and( or( eq( $navigation_part.identifier, 'ezcontentnavigationpart' ),
+                           eq( $navigation_part.identifier, 'ezmedianavigationpart' ),
+                           eq( $navigation_part.identifier, 'ezusernavigationpart' ) ),
+                       ezpreference( 'admin_left_menu_width' )|gt( 0 ) )}
 <style>
 div#leftmenu {ldelim} width: {ezpreference( 'admin_left_menu_width' )}em; {rdelim}
 div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width' ), 0.5 )}em; {rdelim}
