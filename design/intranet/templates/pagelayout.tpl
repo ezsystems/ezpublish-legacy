@@ -3,12 +3,12 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet_package))}
 
 <head>
-<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
+ <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} /> 
 {* <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} />  *}
-{* <link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} /> *}
+{*<link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />*}
 
 {* page header start *}
 {default enable_help=true() enable_link=true()}
@@ -61,15 +61,21 @@
 <div id="container">
     {* Top box START *}
     <div id="topbox">
-        <form action={"/content/search/"|ezurl} method="get">
+        <form action={"/content/advancedsearch/"|ezurl} method="get">
 	<div id="logo">
         {let content=$pagedesign.data_map.image.content}
 	    <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a> 
         {/let}
 	</div>
 	<div id="searchbox">
-	        <input type="text" size="20" name="SearchText" id="Search" value="" />
-	        <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+                <select name="SearchContentClassID">
+		<option value="-1"{section show=eq($search_contentclass_id,-1)}selected{/section} />Alle site</option>
+		<option value="2" {section show=eq($search_contentclass_id,2)}selected{/section} />Article</option>
+		<option value="16" {section show=eq($search_contentclass_id,16)}selected{/section} />Company</option>
+		<option value="17" {section show=eq($search_contentclass_id,17)}selected{/section} />Person</option>	
+		</select>
+	        <input type="text" size="15" name="SearchText" id="Search" value="" />
+	        <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 	</div>
 	<div id="sitelogo">
 	&nbsp;
@@ -77,7 +83,7 @@
 	</form>
     </div>
     {* Top box END *}
-
+{/let}
     {* Top menu START *}
     <div id="topmenu">
 	{* Menubox start *}
@@ -145,7 +151,7 @@
 
     {* Main menu START *}
     <div id="mainmenu">
-    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
+    {let MainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1)}
         {section name=Menu loop=$MainMenu}
             <div class="item">
 	    {section show=$:item.is_selected}
