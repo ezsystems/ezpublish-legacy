@@ -1,12 +1,12 @@
--- MySQL dump 8.22
---
--- Host: localhost    Database: sp
----------------------------------------------------------
--- Server version	3.23.54-log
 
---
--- Table structure for table 'ezapprove_items'
---
+
+
+
+
+
+
+
+
 
 CREATE TABLE ezapprove_items (
   id int(11) NOT NULL auto_increment,
@@ -15,9 +15,9 @@ CREATE TABLE ezapprove_items (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezbasket'
---
+
+
+
 
 CREATE TABLE ezbasket (
   id int(11) NOT NULL auto_increment,
@@ -26,9 +26,9 @@ CREATE TABLE ezbasket (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezbinaryfile'
---
+
+
+
 
 CREATE TABLE ezbinaryfile (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -39,9 +39,9 @@ CREATE TABLE ezbinaryfile (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_group'
---
+
+
+
 
 CREATE TABLE ezcollab_group (
   id int(11) NOT NULL auto_increment,
@@ -59,9 +59,9 @@ CREATE TABLE ezcollab_group (
   KEY ezcollab_group_depth (depth)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_item'
---
+
+
+
 
 CREATE TABLE ezcollab_item (
   id int(11) NOT NULL auto_increment,
@@ -82,9 +82,9 @@ CREATE TABLE ezcollab_item (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_item_group_link'
---
+
+
+
 
 CREATE TABLE ezcollab_item_group_link (
   collaboration_id int(11) NOT NULL default '0',
@@ -98,9 +98,9 @@ CREATE TABLE ezcollab_item_group_link (
   PRIMARY KEY  (collaboration_id,group_id,user_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_item_message_link'
---
+
+
+
 
 CREATE TABLE ezcollab_item_message_link (
   id int(11) NOT NULL auto_increment,
@@ -113,9 +113,9 @@ CREATE TABLE ezcollab_item_message_link (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_item_participant_link'
---
+
+
+
 
 CREATE TABLE ezcollab_item_participant_link (
   collaboration_id int(11) NOT NULL default '0',
@@ -130,9 +130,9 @@ CREATE TABLE ezcollab_item_participant_link (
   PRIMARY KEY  (collaboration_id,participant_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_item_status'
---
+
+
+
 
 CREATE TABLE ezcollab_item_status (
   collaboration_id int(11) NOT NULL default '0',
@@ -143,9 +143,9 @@ CREATE TABLE ezcollab_item_status (
   PRIMARY KEY  (collaboration_id,user_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_profile'
---
+
+
+
 
 CREATE TABLE ezcollab_profile (
   id int(11) NOT NULL auto_increment,
@@ -157,9 +157,9 @@ CREATE TABLE ezcollab_profile (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcollab_simple_message'
---
+
+
+
 
 CREATE TABLE ezcollab_simple_message (
   id int(11) NOT NULL auto_increment,
@@ -179,9 +179,9 @@ CREATE TABLE ezcollab_simple_message (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontent_translation'
---
+
+
+
 
 CREATE TABLE ezcontent_translation (
   id int(11) NOT NULL auto_increment,
@@ -190,9 +190,9 @@ CREATE TABLE ezcontent_translation (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentclass'
---
+
+
+
 
 CREATE TABLE ezcontentclass (
   id int(11) NOT NULL auto_increment,
@@ -208,9 +208,9 @@ CREATE TABLE ezcontentclass (
   KEY ezcontentclass_version (version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentclass_attribute'
---
+
+
+
 
 CREATE TABLE ezcontentclass_attribute (
   id int(11) NOT NULL auto_increment,
@@ -238,9 +238,9 @@ CREATE TABLE ezcontentclass_attribute (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentclass_classgroup'
---
+
+
+
 
 CREATE TABLE ezcontentclass_classgroup (
   contentclass_id int(11) NOT NULL default '0',
@@ -250,9 +250,9 @@ CREATE TABLE ezcontentclass_classgroup (
   PRIMARY KEY  (contentclass_id,contentclass_version,group_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentclassgroup'
---
+
+
+
 
 CREATE TABLE ezcontentclassgroup (
   id int(11) NOT NULL auto_increment,
@@ -264,9 +264,9 @@ CREATE TABLE ezcontentclassgroup (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject'
---
+
+
+
 
 CREATE TABLE ezcontentobject (
   id int(11) NOT NULL auto_increment,
@@ -283,9 +283,9 @@ CREATE TABLE ezcontentobject (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject_attribute'
---
+
+
+
 
 CREATE TABLE ezcontentobject_attribute (
   id int(11) NOT NULL auto_increment,
@@ -301,9 +301,9 @@ CREATE TABLE ezcontentobject_attribute (
   KEY ezcontentobject_attribute_language_code (language_code)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject_link'
---
+
+
+
 
 CREATE TABLE ezcontentobject_link (
   id int(11) NOT NULL auto_increment,
@@ -313,9 +313,9 @@ CREATE TABLE ezcontentobject_link (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject_name'
---
+
+
+
 
 CREATE TABLE ezcontentobject_name (
   contentobject_id int(11) NOT NULL default '0',
@@ -326,9 +326,9 @@ CREATE TABLE ezcontentobject_name (
   PRIMARY KEY  (contentobject_id,content_version,content_translation)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject_tree'
---
+
+
+
 
 CREATE TABLE ezcontentobject_tree (
   node_id int(11) NOT NULL auto_increment,
@@ -355,9 +355,9 @@ CREATE TABLE ezcontentobject_tree (
   KEY md5_path_2 (md5_path)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezcontentobject_version'
---
+
+
+
 
 CREATE TABLE ezcontentobject_version (
   id int(11) NOT NULL auto_increment,
@@ -372,9 +372,9 @@ CREATE TABLE ezcontentobject_version (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezdiscountrule'
---
+
+
+
 
 CREATE TABLE ezdiscountrule (
   id int(11) NOT NULL auto_increment,
@@ -382,9 +382,9 @@ CREATE TABLE ezdiscountrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezdiscountsubrule'
---
+
+
+
 
 CREATE TABLE ezdiscountsubrule (
   id int(11) NOT NULL auto_increment,
@@ -395,9 +395,9 @@ CREATE TABLE ezdiscountsubrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezdiscountsubrule_value'
---
+
+
+
 
 CREATE TABLE ezdiscountsubrule_value (
   discountsubrule_id int(11) NOT NULL default '0',
@@ -406,9 +406,9 @@ CREATE TABLE ezdiscountsubrule_value (
   PRIMARY KEY  (discountsubrule_id,value,issection)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezenumobjectvalue'
---
+
+
+
 
 CREATE TABLE ezenumobjectvalue (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -420,9 +420,9 @@ CREATE TABLE ezenumobjectvalue (
   KEY ezenumobjectvalue_co_attr_id_co_attr_ver (contentobject_attribute_id,contentobject_attribute_version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezenumvalue'
---
+
+
+
 
 CREATE TABLE ezenumvalue (
   id int(11) NOT NULL auto_increment,
@@ -435,9 +435,9 @@ CREATE TABLE ezenumvalue (
   KEY ezenumvalue_co_cl_attr_id_co_class_att_ver (contentclass_attribute_id,contentclass_attribute_version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezforgot_password'
---
+
+
+
 
 CREATE TABLE ezforgot_password (
   id int(11) NOT NULL auto_increment,
@@ -447,9 +447,9 @@ CREATE TABLE ezforgot_password (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezimage'
---
+
+
+
 
 CREATE TABLE ezimage (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -461,9 +461,9 @@ CREATE TABLE ezimage (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezimagevariation'
---
+
+
+
 
 CREATE TABLE ezimagevariation (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -477,9 +477,9 @@ CREATE TABLE ezimagevariation (
   PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezinfocollection'
---
+
+
+
 
 CREATE TABLE ezinfocollection (
   id int(11) NOT NULL auto_increment,
@@ -488,9 +488,9 @@ CREATE TABLE ezinfocollection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezinfocollection_attribute'
---
+
+
+
 
 CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
@@ -502,9 +502,9 @@ CREATE TABLE ezinfocollection_attribute (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezmedia'
---
+
+
+
 
 CREATE TABLE ezmedia (
   contentobject_attribute_id int(11) NOT NULL default '0',
@@ -523,9 +523,9 @@ CREATE TABLE ezmedia (
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezmessage'
---
+
+
+
 
 CREATE TABLE ezmessage (
   id int(11) NOT NULL auto_increment,
@@ -539,9 +539,9 @@ CREATE TABLE ezmessage (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezmodule_run'
---
+
+
+
 
 CREATE TABLE ezmodule_run (
   id int(11) NOT NULL auto_increment,
@@ -553,9 +553,9 @@ CREATE TABLE ezmodule_run (
   UNIQUE KEY ezmodule_run_workflow_process_id_s (workflow_process_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'eznode_assignment'
---
+
+
+
 
 CREATE TABLE eznode_assignment (
   id int(11) NOT NULL auto_increment,
@@ -570,9 +570,9 @@ CREATE TABLE eznode_assignment (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezoperation_memento'
---
+
+
+
 
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
@@ -583,9 +583,9 @@ CREATE TABLE ezoperation_memento (
   PRIMARY KEY  (id,memento_key)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezorder'
---
+
+
+
 
 CREATE TABLE ezorder (
   id int(11) NOT NULL auto_increment,
@@ -601,9 +601,9 @@ CREATE TABLE ezorder (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezorder_item'
---
+
+
+
 
 CREATE TABLE ezorder_item (
   id int(11) NOT NULL auto_increment,
@@ -614,9 +614,9 @@ CREATE TABLE ezorder_item (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezpolicy'
---
+
+
+
 
 CREATE TABLE ezpolicy (
   id int(11) NOT NULL auto_increment,
@@ -627,9 +627,9 @@ CREATE TABLE ezpolicy (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezpolicy_limitation'
---
+
+
+
 
 CREATE TABLE ezpolicy_limitation (
   id int(11) NOT NULL auto_increment,
@@ -641,9 +641,9 @@ CREATE TABLE ezpolicy_limitation (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezpolicy_limitation_value'
---
+
+
+
 
 CREATE TABLE ezpolicy_limitation_value (
   id int(11) NOT NULL auto_increment,
@@ -652,9 +652,9 @@ CREATE TABLE ezpolicy_limitation_value (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezproductcollection'
---
+
+
+
 
 CREATE TABLE ezproductcollection (
   id int(11) NOT NULL auto_increment,
@@ -662,9 +662,9 @@ CREATE TABLE ezproductcollection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezproductcollection_item'
---
+
+
+
 
 CREATE TABLE ezproductcollection_item (
   id int(11) NOT NULL auto_increment,
@@ -678,9 +678,9 @@ CREATE TABLE ezproductcollection_item (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezproductcollection_item_opt'
---
+
+
+
 
 CREATE TABLE ezproductcollection_item_opt (
   id int(11) NOT NULL auto_increment,
@@ -693,9 +693,9 @@ CREATE TABLE ezproductcollection_item_opt (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezrole'
---
+
+
+
 
 CREATE TABLE ezrole (
   id int(11) NOT NULL auto_increment,
@@ -705,9 +705,9 @@ CREATE TABLE ezrole (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsearch_object_word_link'
---
+
+
+
 
 CREATE TABLE ezsearch_object_word_link (
   id int(11) NOT NULL auto_increment,
@@ -727,9 +727,9 @@ CREATE TABLE ezsearch_object_word_link (
   KEY ezsearch_object_word_link_frequency (frequency)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsearch_return_count'
---
+
+
+
 
 CREATE TABLE ezsearch_return_count (
   id int(11) NOT NULL auto_increment,
@@ -739,9 +739,9 @@ CREATE TABLE ezsearch_return_count (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsearch_search_phrase'
---
+
+
+
 
 CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
@@ -749,9 +749,9 @@ CREATE TABLE ezsearch_search_phrase (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsearch_word'
---
+
+
+
 
 CREATE TABLE ezsearch_word (
   id int(11) NOT NULL auto_increment,
@@ -761,9 +761,9 @@ CREATE TABLE ezsearch_word (
   KEY ezsearch_word (word)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsection'
---
+
+
+
 
 CREATE TABLE ezsection (
   id int(11) NOT NULL auto_increment,
@@ -773,9 +773,9 @@ CREATE TABLE ezsection (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezsession'
---
+
+
+
 
 CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
@@ -785,9 +785,9 @@ CREATE TABLE ezsession (
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'eztrigger'
---
+
+
+
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
@@ -800,9 +800,9 @@ CREATE TABLE eztrigger (
   UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezurl'
---
+
+
+
 
 CREATE TABLE ezurl (
   id int(11) NOT NULL auto_increment,
@@ -815,9 +815,9 @@ CREATE TABLE ezurl (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezuser'
---
+
+
+
 
 CREATE TABLE ezuser (
   contentobject_id int(11) NOT NULL default '0',
@@ -828,9 +828,9 @@ CREATE TABLE ezuser (
   PRIMARY KEY  (contentobject_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezuser_accountkey'
---
+
+
+
 
 CREATE TABLE ezuser_accountkey (
   id int(11) NOT NULL auto_increment,
@@ -840,9 +840,9 @@ CREATE TABLE ezuser_accountkey (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezuser_discountrule'
---
+
+
+
 
 CREATE TABLE ezuser_discountrule (
   id int(11) NOT NULL auto_increment,
@@ -852,9 +852,9 @@ CREATE TABLE ezuser_discountrule (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezuser_role'
---
+
+
+
 
 CREATE TABLE ezuser_role (
   id int(11) NOT NULL auto_increment,
@@ -864,9 +864,9 @@ CREATE TABLE ezuser_role (
   KEY ezuser_role_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezuser_setting'
---
+
+
+
 
 CREATE TABLE ezuser_setting (
   user_id int(11) NOT NULL default '0',
@@ -875,9 +875,9 @@ CREATE TABLE ezuser_setting (
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezvattype'
---
+
+
+
 
 CREATE TABLE ezvattype (
   id int(11) NOT NULL auto_increment,
@@ -886,9 +886,9 @@ CREATE TABLE ezvattype (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezwaituntildatevalue'
---
+
+
+
 
 CREATE TABLE ezwaituntildatevalue (
   id int(11) NOT NULL auto_increment,
@@ -900,9 +900,9 @@ CREATE TABLE ezwaituntildatevalue (
   KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezwishlist'
---
+
+
+
 
 CREATE TABLE ezwishlist (
   id int(11) NOT NULL auto_increment,
@@ -911,9 +911,9 @@ CREATE TABLE ezwishlist (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow'
---
+
+
+
 
 CREATE TABLE ezworkflow (
   id int(11) NOT NULL auto_increment,
@@ -928,9 +928,9 @@ CREATE TABLE ezworkflow (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow_assign'
---
+
+
+
 
 CREATE TABLE ezworkflow_assign (
   id int(11) NOT NULL auto_increment,
@@ -941,9 +941,9 @@ CREATE TABLE ezworkflow_assign (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow_event'
---
+
+
+
 
 CREATE TABLE ezworkflow_event (
   id int(11) NOT NULL auto_increment,
@@ -963,9 +963,9 @@ CREATE TABLE ezworkflow_event (
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow_group'
---
+
+
+
 
 CREATE TABLE ezworkflow_group (
   id int(11) NOT NULL auto_increment,
@@ -977,9 +977,9 @@ CREATE TABLE ezworkflow_group (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow_group_link'
---
+
+
+
 
 CREATE TABLE ezworkflow_group_link (
   workflow_id int(11) NOT NULL default '0',
@@ -989,9 +989,9 @@ CREATE TABLE ezworkflow_group_link (
   PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
 
---
--- Table structure for table 'ezworkflow_process'
---
+
+
+
 
 CREATE TABLE ezworkflow_process (
   id int(11) NOT NULL auto_increment,
