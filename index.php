@@ -39,12 +39,6 @@ include_once( "lib/ezutils/classes/ezini.php" );
 
 $warningList = array();
 
-// unlink( 'var/log/error.log' );
-// unlink( 'var/log/debug.log' );
-// unlink( 'var/log/notice.log' );
-// unlink( 'var/log/warning.log' );
-// exit;
-
 include_once( 'lib/ezutils/classes/ezexecution.php' );
 
 function eZDBCleanup()
