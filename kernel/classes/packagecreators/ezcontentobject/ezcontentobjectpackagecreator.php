@@ -280,10 +280,13 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $options = $persistentData['object_options'];
         $nodeCount = 0;
         $description = 'This package contains the following nodes :' . "\n";
+        $nodeNames = array();
         foreach( $nodeList as $nodeInfo )
         {
             $contentNode =& eZContentObjectTreeNode::fetch( $nodeInfo['id'] );
             $description .= $contentNode->attribute( 'name' ) . ' - ' . $nodeInfo['type'] . "\n";
+            print( "'" . $contentNode->attribute( 'name' ) . "'<br/>" );
+            $nodeNames[] = trim( $contentNode->attribute( 'name' ) );
             if ( $nodeInfo['type'] == 'node' )
             {
                 ++$nodeCount;
@@ -294,8 +297,8 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
             }
         }
 
-        $packageInformation['name'] = 'Custom object package';
-        $packageInformation['summary'] = 'Export of ' . $nodeCount . ' nodes.';
+        $packageInformation['name'] = strtolower( implode( ',', $nodeNames ) );
+        $packageInformation['summary'] = implode( ', ', $nodeNames );
         $packageInformation['description'] = $description;
     }
 
