@@ -174,12 +174,12 @@ class eZContentFunctionCollection
 
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator,
                                $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
-                               $groupBy, $mainNodeOnly, $ignoreVisibility, $asObject )
+                               $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
                                  'Limit' => $limit,
-                                 'Limitation' => null,
+                                 'Limitation' => $limitation,
                                  'SortBy' => $sortBy,
                                  'class_id' => $classID,
                                  'AttributeFilter' => $attribute_filter,
@@ -221,7 +221,9 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $attributeFilter, $depth, $depthOperator, $ignoreVisibility, $mainNodeOnly )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array,
+                                    $attributeFilter, $depth, $depthOperator,
+                                    $ignoreVisibility, $limitation, $mainNodeOnly )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 /*        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
@@ -235,7 +237,7 @@ class eZContentFunctionCollection
 
         if ( is_numeric( $parentNodeID ) )
         {
-            $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => null,
+            $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => $limitation,
                                                                             'ClassFilterType' => $class_filter_type,
                                                                             'ClassFilterArray' => $class_filter_array,
                                                                             'AttributeFilter' => $attributeFilter,

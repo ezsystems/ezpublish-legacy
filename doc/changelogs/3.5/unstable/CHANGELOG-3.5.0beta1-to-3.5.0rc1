@@ -10,6 +10,9 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - Made sure all errors, warnings and notices in eZScript are sent to stderr.
 - Added support for dumping data in ezsqldumpschema.php.
 - Added support for dumping to SQL format in ezsqldumpschema.php.
+- The fetch functions content/list, content/tree, content/list_count
+  and content/tree_count can now pass the parameter 'limitation' which controls
+  the permission handling of the list.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should

@@ -1,0 +1,15 @@
+*Title: New AutoConvertOnSave setting
+
+*Incentive:
+Make it possible to list all children of a node allthough the current
+user has no access to them.
+This is quite useful if you want to list some children in a given folder
+and display some information about them. If the user tries to view
+the child object he will not be allowed.
+
+*Documentation:
+A new parameter has been added to content/list, content/tree,
+content/list_count and content/tree_count.
+- limitation - This can be set to an array containing the limitation
+               information. Use an empty array for no checking and
+               null for default checking. The default value is null.
