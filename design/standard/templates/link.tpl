@@ -1,3 +1,4 @@
+{*?template charset=latin1?*}
 <link rel="home" href={"/"|ezurl} title="{'%1 front page'|i18n('design/standard/layout',,array($site.title))}" />
 <link rel="index" href={"/"|ezurl} />
 <link rel="top"  href={"/"|ezurl} title="{$site_title}" />

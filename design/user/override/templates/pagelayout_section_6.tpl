@@ -8,13 +8,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
-
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/mycompany.css"|ezdesign} />
 
-<!-- Javascript START -->
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
+
+{* Javascript START *}
 
 <script language="JavaScript">
 <!--
@@ -31,30 +31,13 @@ function OpenWindow ( URL, WinName, Features ) {
 // -->
 </script>
 
-<!-- Javascript END -->
-
-{* check if we need a http-equiv refresh *}
-{section show=$site.redirect}
-<meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
-{/section}
-
-<!-- Meta information START -->
-
-{section name=meta loop=$site.meta}
-<meta name="{$meta:key}" content="{$meta:item}" />
-{/section}
-
-<meta name="MSSmartTagsPreventParsing" content="TRUE" />
-
-<meta name="generator" content="eZ publish" />
-
-<!-- Meta information END -->
+{* Javascript END *}
 
 </head>
 
 <body>
 
-<!-- Top box START -->
+{* Top box START *}
 
 <img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" /><br /><br />
 
@@ -178,7 +161,7 @@ function OpenWindow ( URL, WinName, Features ) {
     </table>
 
 <div class="credits" align="center">
-<p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2002</p>
+<p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2003</p>
 <a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
 </div>
 

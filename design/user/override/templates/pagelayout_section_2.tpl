@@ -8,12 +8,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
-
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/gallery.css"|ezdesign} />
 
-<!-- Javascript START -->
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
+
+{* Javascript START *}
 
 <script language="JavaScript">
 <!--
@@ -30,24 +30,7 @@ function OpenWindow ( URL, WinName, Features ) {
 // -->
 </script>
 
-<!-- Javascript END -->
-
-{* check if we need a http-equiv refresh *}
-{section show=$site.redirect}
-<meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
-{/section}
-
-<!-- Meta information START -->
-
-{section name=meta loop=$site.meta}
-<meta name="{$meta:key}" content="{$meta:item}" />
-{/section}
-
-<meta name="MSSmartTagsPreventParsing" content="TRUE" />
-
-<meta name="generator" content="eZ publish" />
-
-<!-- Meta information END -->
+{* Javascript END *}
 
 </head>
 
@@ -169,7 +152,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <tr>
     <td bgcolor="#e2e2e2" colspan="2">
     <div align="left" style="padding: 0.5em;">
-    <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a></p>
+    <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
     </div>
     </td>
 </tr>
@@ -177,7 +160,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {/let}
 
 <div align="center" class="small">
-Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.
+Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003.
 </div>
 
 </body>
