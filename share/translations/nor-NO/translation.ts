@@ -132,7 +132,7 @@
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiserings kø</translation>
     </message>
     <message>
         <source>URL translator</source>
@@ -685,7 +685,7 @@
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Sammendrag</translation>
     </message>
 </context>
 <context>
@@ -1989,11 +1989,11 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiseringskø</translation>
     </message>
     <message>
         <source>Your pending list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Din publiseringskø er tom</translation>
     </message>
 </context>
 <context>
@@ -2577,7 +2577,7 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Sammendrag</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2632,7 +2632,7 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>Compound list</source>
-        <translation type="unfinished"></translation>
+        <translation>Samlings liste</translation>
     </message>
     <message>
         <source>File list</source>
@@ -2640,7 +2640,7 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>Compound members</source>
-        <translation type="unfinished"></translation>
+        <translation>Medlems samling</translation>
     </message>
     <message>
         <source>File members</source>
@@ -5322,7 +5322,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Order summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre sammendrag</translation>
     </message>
     <message>
         <source>Help</source>
@@ -5346,19 +5346,19 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Økende</translation>
     </message>
     <message>
         <source>Sort ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Økende sortering</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Minkende</translation>
     </message>
     <message>
         <source>Sort descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Minkende sortering</translation>
     </message>
     <message>
         <source>Order %1</source>
@@ -5531,7 +5531,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne i nytt vindu</translation>
     </message>
     <message>
         <source>Never</source>
@@ -5857,7 +5857,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Innlogging</translation>
     </message>
     <message>
         <source>Email</source>
@@ -6236,7 +6236,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>New entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Nytt element</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -6901,7 +6901,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Range option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Valg område</translation>
     </message>
     <message>
         <source>Selection</source>
@@ -7039,7 +7039,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiseringskø</translation>
     </message>
     <message>
         <source>URL translator</source>
@@ -7387,7 +7387,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Multiplexer</source>
-        <translation type="unfinished"></translation>
+        <translation>Multiplekser</translation>
     </message>
     <message>
         <source>Publish</source>
