@@ -2061,6 +2061,94 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+        \a static
+    */
+    function &fetchPathByPathString( $nodePath, $fetchLastNodeInThePath = false, $asObjects = true )
+    {
+        $nodesListArray = array();
+        
+        $pathString     = false;
+        $pathArray      = explode( '/', trim($nodePath,'/') );
+
+        if ( $fetchLastNodeInThePath == false )
+            $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
+        
+        if ( count( $pathArray ) > 0 )
+        {
+            foreach ( $pathArray as $node )
+            {
+                $pathString .= 'or node_id = ' . $node . ' ';
+    
+            }
+            if ( strlen( $pathString) > 0 )
+            {
+                $pathString = '('. substr( $pathString, 2 ) . ') and ';
+            }
+        }
+        
+        if ( $pathString  )
+        {
+            $useVersionName     = true;
+            if ( $useVersionName )
+            {
+                $versionNameTables  = ', ezcontentobject_name ';
+                $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';;
+
+                $lang = eZContentObject::defaultLanguage();
+                $versionNameJoins   = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                    ezcontentobject_name.content_translation = '$lang' ";
+            }
+            
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name,
+                           ezcontentclass.identifier as class_identifier
+                           $versionNameTargets
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                         $versionNameTables
+                    WHERE $pathString
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+                          ezcontentclass.version=0 AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                          $versionNameJoins
+                    ORDER BY path_string";
+    
+            $db =& eZDB::instance();
+            $nodesListArray = $db->arrayQuery( $query );
+        }
+        
+        if ( $asObjects )          
+            $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        else
+            $retNodes =& $nodesListArray;
+
+        return $retNodes;
+    }
+
+    /*!
+        \a static
+        Extracts each node that in the path from db and returns an array of class identifiers 
+    */
+    function &getClassIdentifiersListByPath( $nodePath, $includingLastNodeInThePath )
+    {
+        $classIds   =  array();
+        $nodes      =& eZContentObjectTreeNode::fetchPathByPathString( $nodePath, $includingLastNodeInThePath, false );
+
+        foreach ( array_keys( $nodes ) as $nodeKey )
+        {
+            $node       =& $nodes[$nodeKey];
+
+            $classIds[]  = array( 'node_id'          => $node['node_id'],
+                                  'class_identifier' => $node['class_identifier'] );
+        }
+
+        return $classIds;
+    }
+
+    /*!
      \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
     */
     function createObject( $contentClassID, $parentNodeID = 2 )
