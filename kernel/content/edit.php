@@ -51,7 +51,16 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
         {
             // Fetch and create new version
             $object =& eZContentObject::fetch( $objectID );
-            $version =& $object->createNewVersion();
+            $user =& eZUser::currentUser();
+
+            $userID = $user->id();
+
+            $version = eZContentObjectVersion::fetchUserDraft( $objectID, $userID ); //$object->latestUserDraft();
+            if ( $version == null )
+            {
+                $version =& $object->createNewVersion();
+            }
+
             $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ) ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
@@ -146,6 +155,8 @@ if ( !function_exists( 'checkContentActions' ) )
 
                 if ( $runTrigger )
                 {
+                    $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
+                    $version->store();
                     $status = eZTrigger::runTrigger( 'content',
                                                      'publish',
                                                      'b',
@@ -158,6 +169,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
                 {
+                    $oldVersion =& $object->attribute( 'current' );
+                    $oldVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
+                    $oldVersion->store();
                     $object->setAttribute( 'current_version', $EditVersion );
                     $object->setAttribute( 'modified', mktime() );
                     $object->setAttribute( 'published', mktime() );
@@ -181,6 +195,9 @@ if ( !function_exists( 'checkContentActions' ) )
 //                    print( $version->attribute( 'main_parent_node_id' ) . "\n inside if" );
                         $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
                     }
+                    $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
+                    $version->store();
+
                     $object->store();
                     $existingNode->store();
 

@@ -348,6 +348,9 @@ CREATE TABLE "ezcontentobject_tree" (
 	"left_margin" integer NOT NULL,
 	"right_margin" integer NOT NULL,
 	"path_identification_string" text,
+    "sort_field" integer default 1,
+    sort_order smallint default 1,
+    priority integer  default 0,
 	Constraint "ezcontentobject_tree_pkey" Primary Key ("node_id")
 );
 
@@ -414,8 +417,8 @@ CREATE TABLE "ezenumobjectvalue" (
 	"contentobject_attribute_id" integer NOT NULL,
 	"contentobject_attribute_version" integer NOT NULL,
 	"enumid" integer NOT NULL,
-	"enumelement" character varying(50) NOT NULL,
-	"enumvalue" character varying(50) NOT NULL,
+	"enumelement" character varying(255) NOT NULL,
+	"enumvalue" character varying(255) NOT NULL,
 	Constraint "ezenumobjectvalue_pkey" Primary Key ("contentobject_attribute_id", "contentobject_attribute_version", "enumid")
 );
 
@@ -438,8 +441,8 @@ CREATE TABLE "ezenumvalue" (
 	"id" integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
 	"contentclass_attribute_id" integer NOT NULL,
 	"contentclass_attribute_version" integer NOT NULL,
-	"enumelement" character varying(50) NOT NULL,
-	"enumvalue" character varying(50) NOT NULL,
+	"enumelement" character varying(255) NOT NULL,
+	"enumvalue" character varying(255) NOT NULL,
 	"placement" integer NOT NULL,
 	Constraint "ezenumvalue_pkey" Primary Key ("id", "contentclass_attribute_id", "contentclass_attribute_version")
 );
@@ -552,6 +555,8 @@ CREATE TABLE "eznode_assignment" (
 	"contentobject_version" integer,
 	"parent_node" integer,
 	"main" integer,
+    "sort_field" integer DEFAULT 1,
+    "sort_order" smallint DEFAULT 1,
 	Constraint "eznode_assignment_pkey" Primary Key ("id")
 );
 

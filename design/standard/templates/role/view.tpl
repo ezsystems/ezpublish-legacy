@@ -13,19 +13,26 @@ View role - {$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edi
 
 </tr>
 <h2>{"Role policies"|i18n('role/view')}</h2>
-{section name=Policies loop=$policies sequence=array(bglight,bgdark)}
+{section name=Policy loop=$policies sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Policies:sequence}">{$Policies:item.id}</td>
-	<td class="{$Policies:sequence}">
-	{$Policies:item.module_name}
+	<td class="{$Policy:sequence}">{$Policy:item.id}</td>
+	<td class="{$Policy:sequence}">
+	{$Policy:item.module_name}
 	</td>
-        <td class="{$Policies:sequence}">
-	           {$Policies:item.function_name}
+        <td class="{$Policy:sequence}">
+	           {$Policy:item.function_name}
         </td>
-        <td class="{$Policies:sequence}">
-                {$Policies:item.limitation} 
-        {section name=Limitation loop=$Policies:item.limitations}
-           {$Policies:Limitation:item.identifier}({$Policies:Limitation:item.values_as_string})
+        <td class="{$Policy:sequence}">
+                {$Policy:item.limitation} 
+        {section name=Limitation loop=$Policy:item.limitations}
+           {$Policy:Limitation:item.identifier}(
+
+	          {section name=LimitationValues loop=$Policy:Limitation:item.values_as_array_with_names}
+
+                   {$Policy:Limitation:LimitationValues:item.Name}
+                  {delimiter},{/delimiter}
+                  {/section})
+
 	   {delimiter},{/delimiter}
         {/section}  
         </td>

@@ -170,6 +170,7 @@ if ( $storingAllowed )
 
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
 
         // Tell attributes to store themselves if necessary

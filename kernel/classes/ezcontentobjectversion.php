@@ -49,6 +49,14 @@ include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentobjecttranslation.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
+
+define( "EZ_VERSION_STATUS_DRAFT", 0 );
+define( "EZ_VERSION_STATUS_PUBLISHED", 1 );
+define( "EZ_VERSION_STATUS_PENDING", 2 );
+define( "EZ_VERSION_STATUS_ARCHIVED", 3 );
+define( "EZ_VERSION_STATUS_REJECTED", 4 );
+
+
 class eZContentObjectVersion extends eZPersistentObject
 {
     function eZContentObjectVersion( $row=array() )
@@ -72,7 +80,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'creator' => 'creator',
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       'parent_nodes' => 'parentNodes',
-                                                      'node_assignments' => 'nodeAssignments'
+                                                      'node_assignments' => 'nodeAssignments',
+                                                      'contentobject' => 'contentObject'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
                       'sort' => array( 'version' => 'asc' ),
@@ -88,13 +97,18 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'main_parent_node_id'
             or $attr == 'parent_nodes'
             or $attr == 'node_assignments'
+            or $attr == 'contentobject'
             or eZPersistentObject::hasAttribute( $attr );
     }
 
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $asObject );
+        return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(),
+                                                null,
+                                                array( 'id' => $id ),
+                                                $asObject );
     }
+
 
 
     /*!
@@ -118,10 +132,23 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             return  $this->nodeAssignments();
         }
+        elseif ( $attr == 'contentobject' )
+        {
+            return  $this->contentObject();
+        }
         else
         {
             return eZPersistentObject::attribute( $attr );
         }
+    }
+
+    function &contentObject()
+    {
+        if( !isset( $this->ContentObject ) )
+        {
+            $this->ContentObject =& eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
+        }
+        return $this->ContentObject;
     }
 
     function mainParentNodeID()
@@ -203,11 +230,6 @@ class eZContentObjectVersion extends eZPersistentObject
                                                     $as_object );
     }
 */
-    function &fetch( $id, $as_object = true )
-    {
-        return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $as_object );
-    }
-
     function create( $contentobjectID, $userID = false, $version = 1 )
     {
         if ( $userID === false )
@@ -225,6 +247,36 @@ class eZContentObjectVersion extends eZPersistentObject
         return new eZContentObjectVersion( $row );
     }
 
+    function remove()
+    {
+        eZDebug::writeNotice( $this, 'version' );
+        $contentobjectID = $this->attribute( 'contentobject_id' );
+        $versionNum = $this->attribute( 'version' );
+
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentobject_link
+                         WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
+        $db->query( "DELETE FROM eznode_assignment
+                         WHERE contentobject_id=$contentobjectID AND contentobject_version=$versionNum" );
+
+        $db->query( 'DELETE FROM ezcontentobject_version
+                         WHERE id=' . $this->attribute( 'id' ) );
+
+        $contentObjectTranslations =& $this->translations();
+
+        foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
+        {
+            $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
+            $contentObjectAttributes =& $contentObjectTranslation->attributes();
+            foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+            {
+                $attribute =& $contentObjectAttributes[$attributeKey];
+                $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
+            }
+        }
+
+    }
+
     /*!
      Clones the version with new version \a $newVersionNumber and creator \a $userID
      \note The cloned version is not stored.
@@ -238,6 +290,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'creator_id', $userID );
+        $clonedVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         return $clonedVersion;
     }
 
@@ -273,6 +326,28 @@ class eZContentObjectVersion extends eZPersistentObject
                                                     null, null,
                                                      $asObject );
         return $ret[0];
+    }
+
+    function fetchUserDraft( $objectID, $userID )
+    {
+        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          null, array( 'creator_id' => $userID,
+                                                                       'contentobject_id' => $objectID,
+                                                                       'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
+                                                                       ),
+                                                          array( 'version' => 'desc' ), null,
+                                                          true );
+        return $versions[0];
+    }
+    function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
+    {
+        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          null, array( 'creator_id' => $userID,
+                                                                       'status' => $status
+                                                                       ),
+                                                          null, null,
+                                                          true );
+        return $versions;
     }
 
     /*!
