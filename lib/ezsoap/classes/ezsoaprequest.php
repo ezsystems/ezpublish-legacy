@@ -52,14 +52,23 @@ class eZSOAPRequest extends eZSOAPEnvelope
     /*!
      Constructs a new eZSOAPRequest object. You have to provide the request name
      and the target namespace for the request.
+
+     \param name
+     \param namespace
+     \param parameters, assosiative array, example: array( 'param1' => 'value1, 'param2' => 'value2' )
     */
-    function eZSOAPRequest( $name="", $namespace="" )
+    function eZSOAPRequest( $name="", $namespace="", $parameters = array() )
     {
         $this->Name = $name;
         $this->Namespace = $namespace;
 
         // call the parents constructor
         $this->eZSOAPEnvelope();
+
+        foreach( $parameters as $name => $value )
+        {
+            $this->addParameter( $name, $value );
+        }
     }
 
     /*!

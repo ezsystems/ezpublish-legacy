@@ -2,7 +2,7 @@
 //
 // Definition of eZExtension class
 //
-// Created on: <16-��2002 14:23:45 amos>
+// Created on: <16-Mar-2002 14:23:45 amos>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //

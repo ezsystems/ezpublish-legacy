@@ -51,8 +51,6 @@ include_once( "lib/ezsoap/classes/ezsoapbody.php" );
 
 define( "EZ_SOAP_ENV", "http://schemas.xmlsoap.org/soap/envelope/" );
 define( "EZ_SOAP_ENC", "http://schemas.xmlsoap.org/soap/encoding/" );
-//define( "EZ_SOAP_SCHEMA_INSTANCE", "http://www.w3.org/1999/XMLSchema-instance" );
-//define( "EZ_SOAP_SCHEMA_DATA", "http://www.w3.org/1999/XMLSchema" );
 define( "EZ_SOAP_SCHEMA_INSTANCE", "http://www.w3.org/2001/XMLSchema-instance" );
 define( "EZ_SOAP_SCHEMA_DATA", "http://www.w3.org/2001/XMLSchema" );
 
