@@ -1281,3 +1281,5 @@ create table ezwaituntildatevalue(
     PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
     KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
     );
+alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
+alter table ezsession add cache_mask_1 int default 0 not null;
