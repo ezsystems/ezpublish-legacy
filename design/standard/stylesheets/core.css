@@ -312,6 +312,22 @@ p.box
     padding-top: 0.25ex;
 }
 
+
+/* Status message styles, used for items which have the read/unread/inactive status */
+p.status_unread
+{
+    color: #ff0000;
+}
+
+p.status_read
+{
+}
+
+p.status_inactive
+{
+    color: #aaaaaa;
+}
+
 optgroup
 /* Newer browsers usually supports this tag; may come in handy to visually divide a select dropdown into several parts. */
 {
