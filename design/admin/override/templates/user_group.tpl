@@ -47,8 +47,6 @@
     {/section}
 {/section}
 
-<h2>{'Users'|i18n('design/admin/node/view')}</h2>
-
 {let user_class_group_id=ezini('UserSettings','UserClassGroupID')
      user_class_list_allowed=fetch('content','can_instantiate_classes',hash(parent_node,$node))
      user_class_list=fetch('content','can_instantiate_class_list',hash(group_id,$user_class_group_id,parent_node,$node))}
