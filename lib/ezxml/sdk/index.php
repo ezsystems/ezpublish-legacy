@@ -35,7 +35,7 @@
 $infoArray = array();
 $infoArray["name"] = "eZ xml";
 $infoArray["description"] = "
-<h1>eZ xml&trade; - XML made easy</h1>
+<h1>eZ xml&trade;</h1>
 
 <blockquote>
 The Extensible Markup Language (XML) is the universal format for structured documents and data on the Web.

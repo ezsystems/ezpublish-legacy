@@ -377,6 +377,109 @@
         <source>Approval</source>
         <translation>Godkjenning</translation>
     </message>
+    <message>
+        <source>%1 was deferred for reediting</source>
+        <translation>%1 ble utsatt for republisering</translation>
+    </message>
+    <message>
+        <source>Read</source>
+        <translation>Les</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>Ikke lest</translation>
+    </message>
+    <message>
+        <source>Inactive</source>
+        <translation>Inaktiv</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/collaboration/approval</name>
+    <message>
+        <source>Approval</source>
+        <translation>Godkjenning</translation>
+    </message>
+    <message>
+        <source>The content object %1 awaits approval before it can be published.</source>
+        <translation>Innholdsobjektet %1 må godkjennes før det kan publiseres.</translation>
+    </message>
+    <message>
+        <source>If you wish you may send a message to the person approving it?</source>
+        <translation>Vil du sende en melding til personen som skal godkjenne det?</translation>
+    </message>
+    <message>
+        <source>The content object %1 needs your approval before it can be published.</source>
+        <translation>Innholdsobjektet %1 må godkjennes av deg før det kan publiseres.</translation>
+    </message>
+    <message>
+        <source>Do you approve of the content object being published?</source>
+        <translation>Godkjenner du at innholdsobjektet blir publisert?</translation>
+    </message>
+    <message>
+        <source>The content object %1 was approved and will be published once the publishing workflow continues.</source>
+        <translation>Innholdsobjektet %1 ble godkjent og vil bli publisert når arbeidsflyten fortsetter.</translation>
+    </message>
+    <message>
+        <source>The content object %1 was not approved and will be archived.</source>
+        <translation>Innholdsobjektet %1 ble ikke godkjent og vil bli arkivert.</translation>
+    </message>
+    <message>
+        <source>The content object %1 was deferred and is available as a draft.</source>
+        <translation>Innholdsobjektet %1 ble utsatt, og er tilgjengelig som utkast.</translation>
+    </message>
+    <message>
+        <source>You must reedit the draft and publish it again for the approval to continue.</source>
+        <translation>Du må redigere utkastet og publisere det igjen hvis du vil sende det til ny godkjenning.</translation>
+    </message>
+    <message>
+        <source>If the approver finds the new changes satisfying the object will be accepted.</source>
+        <translation>Redaktøren vil akseptere objektet hvis endringene blir godkjent.</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>The content object %1 was deferred and will be available as a draft.</source>
+        <translation>Innholdsobjektet %1 ble utsatt, og vil bli tilgjengelig som utkast.</translation>
+    </message>
+    <message>
+        <source>The author must reedit the draft and publish it again for the approval to continue.</source>
+        <translation>Forfatteren må redigere utkastet og publisere det igjen hvis det skal sendes til ny godkjenning.</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Kommentar</translation>
+    </message>
+    <message>
+        <source>Add Comment</source>
+        <translation>Legg til kommentar</translation>
+    </message>
+    <message>
+        <source>Approve</source>
+        <translation>Godkjenn</translation>
+    </message>
+    <message>
+        <source>Deny</source>
+        <translation>Ikke godkjenn</translation>
+    </message>
+    <message>
+        <source>Defer</source>
+        <translation>Utsett</translation>
+    </message>
+    <message>
+        <source>Participants</source>
+        <translation>Deltakere</translation>
+    </message>
+    <message>
+        <source>Content object class - %1</source>
+        <translation>Klasse til innholdsobject - %1</translation>
+    </message>
+    <message>
+        <source>Messages</source>
+        <translation>Meldinger</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content</name>
@@ -459,33 +562,6 @@
     <message>
         <source>Country</source>
         <translation>Land</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/archive</name>
-    <message>
-        <source>Archive</source>
-        <translation>Arkiv</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versjon:</translation>
-    </message>
-    <message>
-        <source>Restore:</source>
-        <translation>Hent tilbake:</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Archive is empty</source>
-        <translation>Arkivet er tomt</translation>
     </message>
 </context>
 <context>
@@ -1067,6 +1143,33 @@
     </message>
 </context>
 <context>
+    <name>design/standard/content/trash</name>
+    <message>
+        <source>Trash</source>
+        <translation>Papirkurv</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Navn:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Versjon:</translation>
+    </message>
+    <message>
+        <source>Restore:</source>
+        <translation>Hent tilbake:</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Trash is empty</source>
+        <translation>Papirkurven er tom</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/content/version</name>
     <message>
         <source>Versions for:</source>
@@ -1414,10 +1517,6 @@
         <translation>Søk %1</translation>
     </message>
     <message>
-        <source>Archive</source>
-        <translation>Arkiv</translation>
-    </message>
-    <message>
         <source>eZ publish manuals</source>
         <translation>eZ publish manualer</translation>
     </message>
@@ -1432,6 +1531,10 @@
     <message>
         <source>Printable version</source>
         <translation>Utskriftsvennlig versjon</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation>Papirkurv</translation>
     </message>
 </context>
 <context>
@@ -4229,6 +4332,72 @@
     <message>
         <source>Inbox</source>
         <translation>Innboks</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/ezworkflow</name>
+    <message>
+        <source>No state yet</source>
+        <translation>Ingen status ennå</translation>
+    </message>
+    <message>
+        <source>Workflow running</source>
+        <translation>Arbeidsflyt kjører</translation>
+    </message>
+    <message>
+        <source>Workflow done</source>
+        <translation>Arbeidsflyt er ferdig</translation>
+    </message>
+    <message>
+        <source>Workflow failed an event</source>
+        <translation>Arbeidsflyt ble ikke kjørt ved en hendelse</translation>
+    </message>
+    <message>
+        <source>Workflow event deferred to cron job</source>
+        <translation>Arbeidsflyt ble sendt til cron jobb</translation>
+    </message>
+    <message>
+        <source>Workflow was cancelled</source>
+        <translation>Arbeidsflyt ble avbrutt</translation>
+    </message>
+    <message>
+        <source>Workflow was reset for reuse</source>
+        <translation>Arbeidsflyt ble nullstilt for senere bruk</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/ezworkflowtype</name>
+    <message>
+        <source>No state yet</source>
+        <translation>Ingen status ennå</translation>
+    </message>
+    <message>
+        <source>Accepted event</source>
+        <translation>Aksepterte hendelsen</translation>
+    </message>
+    <message>
+        <source>Rejected event</source>
+        <translation>Avviste hendelsen</translation>
+    </message>
+    <message>
+        <source>Event deferred to cron job</source>
+        <translation>Hendelsen ble sendt til cron jobb</translation>
+    </message>
+    <message>
+        <source>Event deferred to cron job, event will be rerun</source>
+        <translation>Hendelsen ble sendt til cron jobb, den vil bli kjørt om igjen</translation>
+    </message>
+    <message>
+        <source>Event runs a sub event</source>
+        <translation>Hendelsen kjører en under-hendelse</translation>
+    </message>
+    <message>
+        <source>Cancelled whole workflow</source>
+        <translation>Avbrøt hele arbeidsflyten</translation>
+    </message>
+    <message>
+        <source>Workflow was reset for reuse</source>
+        <translation>Arbeidsflyten ble nullstilt for senere bruk</translation>
     </message>
 </context>
 <context>
