@@ -185,7 +185,7 @@ class eZURLOperator
             {
                 if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
                      substr( $operatorValue, 0, 2 ) == '//' )
-                     return;
+                     break;
                 if ( $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
@@ -200,7 +200,7 @@ class eZURLOperator
             {
                 if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
                      substr( $operatorValue, 0, 2 ) == '//' )
-                     return;
+                     break;
                 if ( strlen( $operatorValue ) > 0 and
                      $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;

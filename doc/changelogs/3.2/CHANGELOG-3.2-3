@@ -33,6 +33,9 @@ Changes from 3.2-2 to 3.2-3
   Fixed html_class typo.
 - http://ez.no/developer/ez_publish_3/bug_reports/bookmark_ezuser_not_defined
   Added missing include to ezuser.
+- http://ez.no/content/view/full/36869/ (Online editor mailto fails XHTML 1.0 checks)
+  Fixed bug in ezurl where " or ' characters were not included if http: or mailto: type url's
+  where used.
 - Fixed publishing process to go over all languages of a version not just the main language.
 - Fixed object deletion to go include all attributes of all languages not just the main language.
 - Changed the contentObjectAttributes function of eZContentObject to allow it to return unique attribute entries.
