@@ -719,7 +719,7 @@ class eZSearchEngine
             {
                 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
                 $currentUser =& eZUser::currentUser();
-                $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+                $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $limitationList =& $accessResult['policies'];

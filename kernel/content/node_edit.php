@@ -78,7 +78,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $newNodeObject = $newNode->attribute( 'object' );
 
 //                 $canCreate = $newNodeObject->attribute( 'can_create' );
-                $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ), $accessList ) == 1;
+                $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
                 if ( !$canCreate )
                     $isPermitted = false;
                 else
@@ -140,7 +140,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     $newNodeObject = $newNode->attribute( 'object' );
 
 //                     $canCreate = $newNodeObject->attribute( 'can_create' );
-                    $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ), $accessList ) == 1;
+                    $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
                     eZDebug::writeDebug( $canCreate,"can create");
                     if ( !$canCreate )
                         $isPermitted = false;

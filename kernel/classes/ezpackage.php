@@ -414,7 +414,7 @@ class eZPackage
     {
 		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', $functionName, $accessList );
+		$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
 		if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
 		{
 		    return true;
@@ -449,7 +449,7 @@ class eZPackage
         {
 			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', $functionName, $accessList );
+			$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
 		    $limitationList = array();
 		    $canUse = false;
 			if ( $accessResult['accessWord'] == 'yes' )
@@ -497,7 +497,7 @@ class eZPackage
 		{
 			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', 'create', $accessList );
+			$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
 		    $limitationList = array();
 			if ( $accessResult['accessWord'] == 'limited' )
 			{

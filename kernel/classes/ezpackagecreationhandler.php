@@ -318,7 +318,7 @@ class eZPackageCreationHandler
 
 		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', 'create', $accessList );
+		$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
 	    $limitationList = array();
 	    $canCreate = false;
 		if ( $accessResult['accessWord'] == 'no' )

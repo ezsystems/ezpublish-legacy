@@ -527,7 +527,7 @@ while ( $moduleRunRequired )
             $runningFunctions = false;
             if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
-            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login', $accessList );
+            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
 
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
@@ -557,10 +557,14 @@ while ( $moduleRunRequired )
                 eZDebugSetting::writeDebug( 'kernel-siteaccess', "access is yes" );
                 $hasAccessToSite = true;
             }
+            else if ( $siteAccessResult['accessWord'] == 'no' )
+            {
+                $accessList = $siteAccessResult['accessList'];
+            }
 
             if ( $hasAccessToSite )
             {
-                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0], $accessList );
+                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $moduleName = $module->attribute( 'name' );
@@ -569,7 +573,10 @@ while ( $moduleRunRequired )
                     $GLOBALS['ezpolicylimitation_list'][$moduleName][$functionName] =& $params['Limitation'];
                 }
                 if ( $accessResult['accessWord'] == 'no' )
+                {
+                    $accessList = $siteAccessResult['accessList'];
                     $moduleAccessAllowed = false;
+                }
             }
             else
             {
