@@ -201,9 +201,9 @@ class eZDataType
                 if ( get_class( $def ) != $className )
                     $def = new $className();
             }
-            usort( $type_objects,
-                   create_function( '$a, $b',
-                                    'return strcmp( $a->Name, $b->Name);' ) );
+            uasort( $type_objects,
+                    create_function( '$a, $b',
+                                     'return strcmp( $a->Name, $b->Name);' ) );
         }
         return $type_objects;
     }
