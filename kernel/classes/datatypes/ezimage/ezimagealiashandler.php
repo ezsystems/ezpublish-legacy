@@ -808,6 +808,7 @@ class eZImageAliasHandler
                     if ( file_exists( $referenceFilePath ) )
                     {
                         $filePath = $referenceFilePath;
+                        $dirPath = $referenceDirPath;
                         break;
                     }
                 }
