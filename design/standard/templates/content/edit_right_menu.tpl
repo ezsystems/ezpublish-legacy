@@ -111,9 +111,11 @@
         <td align="left">
           <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
 	</td>
+    {section show=$related_contentobjects}
         <td align="right">
           <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
         </td>
+    {/section}
     </tr>
     <tr>
         <td colspan="2" align="right">
