@@ -36,6 +36,10 @@ links to clickable links.
 - Fixed problem with multiple content actions appearing when having e.g. multiple information
   collection fields
 - Added possibility to specify redirect node in information collection template
+- The date, datetime and time datatypes has been cleaned up to work more similar,
+  they now all honor the required flag properly and can choose a default value.
+- Fixed a bug in content edit where the last attribute would decide if the
+  input was valid or not.
 
 *SDK :
 
@@ -53,7 +57,7 @@ eZ XML:
 eZ utils:
 - Removed cyclic dependecy between eZDebugSetting and eZINI
 - Fixed automatic removal of magick quotes for _GET variables, if magickquotes is enabled
-- Removed unneded global definitino of $_ENV and $_SERVER
+- Removed unneeded global definition of $_ENV and $_SERVER
 
 eZ template:
 - imagelabel was removed and image, imagefile and texttoimage was improved

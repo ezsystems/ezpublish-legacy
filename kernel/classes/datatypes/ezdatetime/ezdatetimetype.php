@@ -50,7 +50,7 @@ class eZDateTimeType extends eZDataType
 {
     function eZDateTimeType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, "Datetime" );
+        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, "Datetime field" );
     }
 
     /*!
@@ -64,17 +64,23 @@ class eZDateTimeType extends eZDataType
         $day = $http->postVariable( $base . "_datetime_day_" . $contentObjectAttribute->attribute( "id" ) );
         $hour = $http->postVariable( $base . "_datetime_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_datetime_minute_" . $contentObjectAttribute->attribute( "id" ) );
-//         $dateTime = $year.'-'.$month.'-'.$day.'-'.$hour.'-'.$minute;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-//         if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $dateTime == "----" ) )
-        if( ( $classAttribute->attribute( "is_required" ) == false ) and
-            $year == '' and $month == '' and $day == '' and
-            $hour == '' and $minute == '' )
+
+        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
+             $year == '' and $month == '' and $day == '' and
+             $hour == '' and $minute == '' )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-//         if ( preg_match( "#^[1-2]{1}[0-9]{3}-[0-9]{1,2}-[0-9]{1,2}-[0-9]{1,2}-[0-9]{1,2}$#", $dateTime ) )
-//             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $classAttribute->attribute( "is_required" ) and
+             $year == '' and $month == '' and $day == '' and
+             $hour == '' and $minute == '' )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Missing datetime input.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+
         $datetime = mktime( $hour, $minute, 0, $month, $day, $year );
         if ( $datetime !== false )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -92,8 +98,20 @@ class eZDateTimeType extends eZDataType
         $hour = $http->postVariable( $base . "_datetime_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_datetime_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $dateTime = new eZDateTime();
-        $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if ( $year == '' and $month == '' and $day == '' and
+             $hour == '' and $minute == '' )
+        {
+//             if ( !$contentClassAttribute->attribute( "is_required" ) )
+                $dateTime->setTimeStamp( 0 );
+//             else
+//                 $dateTime->setTimeStamp( mktime() );
+        }
+        else
+            $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
+        eZDebug::writeDebug( $dateTime->timeStamp(), 'datetime' );
         $contentObjectAttribute->setAttribute( "data_int", $dateTime->timeStamp() );
+        return true;
     }
 
     /*!
@@ -103,8 +121,6 @@ class eZDateTimeType extends eZDataType
     {
         $dateTime = new eZDateTime();
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( $stamp <= 0 )
-            $stamp = mktime();
         $dateTime->setTimeStamp( $stamp );
         return $dateTime;
     }
@@ -118,14 +134,6 @@ class eZDateTimeType extends eZDataType
     }
 
     /*!
-     Sets the default value.
-    */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
-    {
-         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-    }
-
-    /*!
      Set class attribute value for template version
     */
     function initializeClassAttribute( &$classAttribute )
@@ -133,6 +141,25 @@ class eZDateTimeType extends eZDataType
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT ) == null )
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, 0 );
         $classAttribute->store();
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
+            $contentObjectAttribute->setAttribute( "data_int", $dataInt );
+        }
+        else
+        {
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
+            if ( $defaultType == 1 )
+                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+        }
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
@@ -150,9 +177,10 @@ class eZDateTimeType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        return $contentObjectAttribute->attribute( "data_int" );
     }
 }
+
 eZDataType::register( EZ_DATATYPESTRING_DATETIME, "ezdatetimetype" );
 
 ?>

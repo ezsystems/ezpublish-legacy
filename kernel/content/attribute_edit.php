@@ -142,6 +142,7 @@ if ( $storingAllowed )
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
         $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
 
         if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
@@ -151,7 +152,6 @@ if ( $storingAllowed )
             $inputValidated = false;
             $dataType =& $contentObjectAttribute->dataType();
             $attributeName = $dataType->attribute( 'information' );
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $attributeName = $attributeName['name'];
             $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
                                               'identifier' => $contentClassAttribute->attribute( 'identifier' ),
@@ -160,10 +160,9 @@ if ( $storingAllowed )
         }
         else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
         {
-            $inputValidated = true;
+//             $inputValidated = true;
             $dataType =& $contentObjectAttribute->dataType();
             $attributeName = $dataType->attribute( 'information' );
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $attributeName = $attributeName['name'];
             if ( $contentObjectAttribute->attribute( 'validation_log' ) != null )
             {
@@ -201,6 +200,8 @@ if ( $storingAllowed )
 
     }
 
+    eZDebug::writeDebug( $inputValidated, 'inputValidated' );
+    eZDebug::writeDebug( $requireStoreAction, 'requireStoreAction' );
     if ( $inputValidated and $requireStoreAction )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )

@@ -43,6 +43,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 
 define( "EZ_DATATYPESTRING_DATE", "ezdate" );
+define( 'EZ_DATATYPESTRING_DATE_DEFAULT', 'data_int1' );
 include_once( "lib/ezlocale/classes/ezdate.php" );
 
 class eZDateType extends eZDataType
@@ -63,11 +64,20 @@ class eZDateType extends eZDataType
         $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
         $date = $year.$month.$day;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $date == "" ) )
+        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
+             $year == '' and $month == '' and $day == '' )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#^[1-2]{1}[0-9]{3}[0-9]{1,2}[0-9]{1,2}$#", $date ) )
+        if ( $classAttribute->attribute( "is_required" ) and
+             $year == '' and $month == '' and $day == '' )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Missing date input.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+        $datetime = mktime( 0, 0, 0, $month, $day, $year );
+        if ( $datetime !== false )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
@@ -81,8 +91,19 @@ class eZDateType extends eZDataType
         $month = $http->postVariable( $base . "_date_month_" . $contentObjectAttribute->attribute( "id" ) );
         $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
         $date = new eZDate();
-        $date->setMDY( $month, $day, $year );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if ( $year == '' and $month == '' and $day == '' )
+        {
+//             if ( !$contentClassAttribute->attribute( "is_required" ) )
+                $date->setTimeStamp( 0 );
+//             else
+//                 $date->setTimeStamp( mktime() );
+        }
+        else
+            $date->setMDY( $month, $day, $year );
+        eZDebug::writeDebug( $date->timeStamp(), 'date' );
         $contentObjectAttribute->setAttribute( "data_int", $date->timeStamp() );
+        return true;
     }
 
     /*!
@@ -92,10 +113,47 @@ class eZDateType extends eZDataType
     {
         $date = new eZDate( );
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( $stamp <= 0 )
-            $stamp = mktime();
         $date->setTimeStamp( $stamp );
         return $date;
+    }
+
+    /*!
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT ) == null )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, 0 );
+        $classAttribute->store();
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
+            $contentObjectAttribute->setAttribute( "data_int", $dataInt );
+        }
+        else
+        {
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
+            if ( $defaultType == 1 )
+                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+        }
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $default = $base . "_ezdate_default_" . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $default ) )
+        {
+            $defaultValue = $http->postVariable( $default );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT,  $defaultValue );
+        }
     }
 
     /*!

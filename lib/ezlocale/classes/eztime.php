@@ -63,10 +63,10 @@
 
 Example:
 \code
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-include_once( "lib/ezlocale/classes/eztime.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
+include_once( 'lib/ezlocale/classes/eztime.php' );
 
-$us_locale =& eZLocale::instance( "us" );
+$us_locale =& eZLocale::instance( 'us' );
 
 $time1 = new eZTime();
 $time2 =& eZTime::create();
@@ -76,27 +76,27 @@ $time3 =& $time1->duplicate();
 
 print( $time1->toString() );
 print( $time2->toString( true ) );
-print( $time1->isEqualTo( $time3 ) ? "true" : "false" ); // Prints "true"
+print( $time1->isEqualTo( $time3 ) ? 'true' : 'false' ); // Prints 'true'
 
 \endcode
 
   \sa eZDate, eZDateTime, eZLocale
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 /*!
  Number of seconds in a minute.
 */
-define( "EZTIME_SECONDS_A_MINUTE", 60 );
+define( 'EZTIME_SECONDS_A_MINUTE', 60 );
 /*!
  Number of seconds in an hour.
 */
-define( "EZTIME_SECONDS_AN_HOUR", 3600 );
+define( 'EZTIME_SECONDS_AN_HOUR', 3600 );
 /*!
  Number of seconds in a day.
 */
-define( "EZTIME_SECONDS_A_DAY", 86400 ); // 24*60*60
+define( 'EZTIME_SECONDS_A_DAY', 86400 ); // 24*60*60
 
 class eZTime
 {
@@ -113,25 +113,48 @@ class eZTime
         $time = ( $time % EZTIME_SECONDS_A_DAY );
         $this->Time =& $time;
         $this->Locale =& eZLocale::instance();
+        $this->IsValid = $time > 0;
     }
 
-    function hasAttribute( $attr )
+    function attributes()
     {
-        if ( $attr == "hour" or
-             $attr == "minute"  )
+        return array( 'timestamp',
+                      'hour',
+                      'minute',
+                      'is_valid' );
+    }
+
+    function hasAttribute( $name )
+    {
+        if ( $name == 'timestamp' or
+             $name == 'hour' or
+             $name == 'minute' or
+             $name == 'is_valid' )
             return true;
         else
             return false;
     }
 
-    function &attribute( $attr )
+    function &attribute( $name )
     {
-        if ( $attr == "hour" )
+        if ( $name == 'timestamp'  )
+            return $this->timeStamp();
+        else if ( $name == 'hour' )
             return $this->hour();
-        else if ( $attr == "minute"  )
+        else if ( $name == 'minute'  )
             return $this->minute();
+        else if ( $name == 'is_valid'  )
+            return $this->isValid();
         else
             return false;
+    }
+
+    /*!
+     \return true if the date has valid data.
+    */
+    function &isValid()
+    {
+        return $this->IsValid;
     }
 
     /*!
@@ -155,7 +178,7 @@ class eZTime
     */
     function &timeZone()
     {
-        return date( "T", $this->Time );
+        return date( 'T', $this->Time );
     }
 
     /*!
@@ -163,7 +186,8 @@ class eZTime
     */
     function setHour( $hour )
     {
-        $this->Time = ( mktime( $hour, date( "i", $this->Time ), date( "s", $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+//         $this->Time = ( mktime( $hour, date( 'i', $this->Time ), date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+        $this->Time = ( mktime( $hour, date( 'i', $this->Time ), date( 's', $this->Time ) )  );
     }
 
     /*!
@@ -171,7 +195,8 @@ class eZTime
     */
     function setMinute( $min )
     {
-        $this->Time = ( mktime( date( "G", $this->Time ), $min, date( "s", $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+//         $this->Time = ( mktime( date( 'G', $this->Time ), $min, date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+        $this->Time = ( mktime( date( 'G', $this->Time ), $min, date( 's', $this->Time ) )  );
     }
 
     /*!
@@ -179,7 +204,8 @@ class eZTime
     */
     function setSecond( $sec )
     {
-        $this->Time = ( mktime( date( "G", $this->Time ),date( "i", $this->Time ), $sec ) % EZTIME_SECONDS_A_DAY );
+//         $this->Time = ( mktime( date( 'G', $this->Time ),date( 'i', $this->Time ), $sec ) % EZTIME_SECONDS_A_DAY );
+        $this->Time = ( mktime( date( 'G', $this->Time ),date( 'i', $this->Time ), $sec )  );
     }
 
     /*!
@@ -187,7 +213,8 @@ class eZTime
     */
     function setHMS( $hour, $min = 0, $sec = 0 )
     {
-        $this->Time = ( mktime( $hour, $min, $sec ) % EZTIME_SECONDS_A_DAY );
+//         $this->Time = ( mktime( $hour, $min, $sec ) % EZTIME_SECONDS_A_DAY );
+        $this->Time = ( mktime( $hour, $min, $sec ) );
     }
 
     /*!
@@ -195,7 +222,7 @@ class eZTime
     */
     function &hour()
     {
-        return date( "G", $this->Time );
+        return date( 'G', $this->Time );
     }
 
     /*!
@@ -203,7 +230,7 @@ class eZTime
     */
     function &minute()
     {
-        return date( "i", $this->Time );
+        return date( 'i', $this->Time );
     }
 
     /*!
@@ -211,7 +238,7 @@ class eZTime
     */
     function &second()
     {
-        return date( "s", $this->Time );
+        return date( 's', $this->Time );
     }
 
     /*!
@@ -227,6 +254,7 @@ class eZTime
     function setTimeStamp( $stamp )
     {
         $this->Time = $stamp;
+        $this->IsValid = $stamp > 0;
     }
 
     /*!
@@ -235,10 +263,14 @@ class eZTime
     */
     function adjustTime( $hour, $min = 0, $sec = 0 )
     {
-        $this->Time = ( ( $hour*EZTIME_SECONDS_AN_HOUR +
-                          $min*EZTIME_SECONDS_A_MINUTE +
+//         $this->Time = ( ( $hour * EZTIME_SECONDS_AN_HOUR +
+//                           $min * EZTIME_SECONDS_A_MINUTE +
+//                           $sec +
+//                           $this->Time )  % EZTIME_SECONDS_A_DAY );
+        $this->Time = ( ( $hour * EZTIME_SECONDS_AN_HOUR +
+                          $min * EZTIME_SECONDS_A_MINUTE +
                           $sec +
-                          $this->Time )  % EZTIME_SECONDS_A_DAY );
+                          $this->Time ) );
     }
 
     /*!
@@ -276,7 +308,7 @@ class eZTime
     function isGreaterThan( &$time, $equal = false )
     {
         $t1 =& $this->Time;
-        if ( get_class( $time ) == "eztime" )
+        if ( get_class( $time ) == 'eztime' )
             $t2 =& $time->timeStamp();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
@@ -295,7 +327,7 @@ class eZTime
     function isEqualTo( &$time )
     {
         $t1 =& $this->Time;
-        if ( get_class( $time ) == "eztime" )
+        if ( get_class( $time ) == 'eztime' )
             $t2 =& $time->timeStamp();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );

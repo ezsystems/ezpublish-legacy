@@ -1,1 +1,1 @@
-<p class="box">{$attribute.content.hour}:{$attribute.content.minute}</p>
+{section show=$attribute.content.is_valid}{$attribute.content.hour}:{$attribute.content.minute}{/section}

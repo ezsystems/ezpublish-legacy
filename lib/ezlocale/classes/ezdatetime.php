@@ -66,10 +66,10 @@
 
 Example:
 \code
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
-$us_locale =& eZLocale::instance( "us" );
+$us_locale =& eZLocale::instance( 'us' );
 
 $dt1 = new eZDateTime();
 $dt2 =& eZDateTime::create();
@@ -79,7 +79,7 @@ $dt3 =& $dt1->duplicate();
 
 print( $dt1->toString() );
 print( $dt2->toString( true ) );
-print( $dt1->isEqualTo( $dt3 ) ? "true" : "false" ); // Prints "true"
+print( $dt1->isEqualTo( $dt3 ) ? 'true' : 'false' ); // Prints 'true'
 
 \endcode
 
@@ -88,10 +88,10 @@ print( $dt1->isEqualTo( $dt3 ) ? "true" : "false" ); // Prints "true"
   \sa eZDate, eZTime, eZLocale
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-include_once( "lib/ezlocale/classes/ezdate.php" );
-include_once( "lib/ezlocale/classes/eztime.php" );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
+include_once( 'lib/ezlocale/classes/ezdate.php' );
+include_once( 'lib/ezlocale/classes/eztime.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZDateTime
 {
@@ -101,19 +101,19 @@ class eZDateTime
     */
     function eZDateTime( $datetime = false )
     {
-        if ( get_class( $datetime ) == "ezdate" )
+        if ( get_class( $datetime ) == 'ezdate' )
         {
             $arr =& getdate( $datetime->timeStamp() );
             $arr2 =& getdate( $this->DateTime );
-            $datetime =& mktime( $arr2["hours"], $arr2["minutes"], $arr2["seconds"],
-                                 $arr["mon"], $arr["mday"], $arr["year"] );
+            $datetime =& mktime( $arr2['hours'], $arr2['minutes'], $arr2['seconds'],
+                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
-        else if ( get_class( $datetime ) == "eztime" )
+        else if ( get_class( $datetime ) == 'eztime' )
         {
             $arr2 =& getdate( $datetime->timeStamp() );
             $arr =& getdate( $this->DateTime );
-            $datetime =& mktime( $arr2["hours"], $arr2["minutes"], $arr2["seconds"],
-                                 $arr["mon"], $arr["mday"], $arr["year"] );
+            $datetime =& mktime( $arr2['hours'], $arr2['minutes'], $arr2['seconds'],
+                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
         else if ( $datetime === false )
         {
@@ -122,39 +122,65 @@ class eZDateTime
         else
         {
             $arr =& getdate( $datetime );
-            $date =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
-                             $arr["mon"], $arr["mday"], $arr["year"] );
+            $date =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
+                             $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->DateTime =& $datetime;
         $this->Locale =& eZLocale::instance();
+        $this->IsValid = $datetime > 0;
     }
 
-    function hasAttribute( $attr )
+    function attributes()
     {
-        if ( $attr == "hour" or
-             $attr == "minute" or
-             $attr == "year" or
-             $attr == "month" or
-             $attr == "day")
+        return array( 'timestamp',
+                      'hour',
+                      'minute',
+                      'year',
+                      'month',
+                      'day',
+                      'is_valid' );
+    }
+
+    function hasAttribute( $name )
+    {
+        if ( $name == 'timestamp' or
+             $name == 'hour' or
+             $name == 'minute' or
+             $name == 'year' or
+             $name == 'month' or
+             $name == 'day' or
+             $name == 'is_valid' )
             return true;
         else
             return false;
     }
 
-    function &attribute( $attr )
+    function &attribute( $name )
     {
-        if ( $attr == "hour" )
+        if ( $name == 'timestamp'  )
+            return $this->timeStamp();
+        else if ( $name == 'hour' )
             return $this->hour();
-        else if ( $attr == "minute"  )
+        else if ( $name == 'minute'  )
             return $this->minute();
-        else if ( $attr == "day"  )
+        else if ( $name == 'day'  )
             return $this->day();
-        else if ( $attr == "year"  )
+        else if ( $name == 'year'  )
             return $this->year();
-        else if ( $attr == "month"  )
+        else if ( $name == 'month'  )
             return $this->month();
+        else if ( $name == 'is_valid'  )
+            return $this->isValid();
         else
             return false;
+    }
+
+    /*!
+     \return true if the date has valid data.
+    */
+    function &isValid()
+    {
+        return $this->IsValid;
     }
 
     /*!
@@ -178,7 +204,7 @@ class eZDateTime
     */
     function &timeZone()
     {
-        return date( "T", $this->DateTime );
+        return date( 'T', $this->DateTime );
     }
 
     /*!
@@ -193,6 +219,7 @@ class eZDateTime
     function setTimeStamp( $stamp )
     {
         $this->DateTime = $stamp;
+        $this->IsValid = $stamp > 0;
     }
 
     /*!
@@ -231,7 +258,7 @@ class eZDateTime
     */
     function &year()
     {
-        return date( "Y", $this->DateTime );
+        return date( 'Y', $this->DateTime );
     }
 
     /*!
@@ -239,7 +266,7 @@ class eZDateTime
     */
     function &month()
     {
-        return date( "m", $this->DateTime );
+        return date( 'm', $this->DateTime );
     }
 
     /*!
@@ -247,7 +274,7 @@ class eZDateTime
     */
     function &day()
     {
-        return date( "d", $this->DateTime );
+        return date( 'd', $this->DateTime );
     }
 
     /*!
@@ -255,7 +282,7 @@ class eZDateTime
     */
     function &hour()
     {
-        return date( "G", $this->DateTime );
+        return date( 'G', $this->DateTime );
     }
 
     /*!
@@ -263,7 +290,7 @@ class eZDateTime
     */
     function &minute()
     {
-        return date( "i", $this->DateTime );
+        return date( 'i', $this->DateTime );
     }
 
     /*!
@@ -271,7 +298,7 @@ class eZDateTime
     */
     function &second()
     {
-        return date( "s", $this->DateTime );
+        return date( 's', $this->DateTime );
     }
 
     /*!
@@ -280,8 +307,8 @@ class eZDateTime
     function setYear( $year )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
-                                   $arr["mon"], $arr["mday"], $year );
+        $this->DateTime =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
+                                   $arr['mon'], $arr['mday'], $year );
     }
 
     /*!
@@ -290,8 +317,8 @@ class eZDateTime
     function setMonth( $month )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
-                                   $month, $arr["mday"], $arr["year"] );
+        $this->DateTime =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
+                                   $month, $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -300,8 +327,8 @@ class eZDateTime
     function setDay( $day )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
-                                   $arr["mon"], $day, $arr["year"] );
+        $this->DateTime =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
+                                   $arr['mon'], $day, $arr['year'] );
     }
 
     /*!
@@ -310,8 +337,8 @@ class eZDateTime
     function setHour( $hour )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTimeTime =& mktime( $hour, $arr["minutes"], $arr["seconds"],
-                                       $arr["mon"], $arr["mday"], $arr["year"] );
+        $this->DateTimeTime =& mktime( $hour, $arr['minutes'], $arr['seconds'],
+                                       $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -320,8 +347,8 @@ class eZDateTime
     function setMinute( $min )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTimeTime =& mktime( $arr["hours"], $min, $arr["seconds"],
-                                       $arr["mon"], $arr["mday"], $arr["year"] );
+        $this->DateTimeTime =& mktime( $arr['hours'], $min, $arr['seconds'],
+                                       $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -330,8 +357,8 @@ class eZDateTime
     function setSecond( $sec )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTimeTime =& mktime( $arr["hours"], $arr["minutes"], $sec,
-                                       $arr["mon"], $arr["mday"], $arr["year"] );
+        $this->DateTimeTime =& mktime( $arr['hours'], $arr['minutes'], $sec,
+                                       $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -340,7 +367,7 @@ class eZDateTime
     function setHMS( $hour, $min = 0, $sec = 0 )
     {
         $this->DateTimeTime =& mktime( $hour, $min, $sec,
-                                       $arr["mon"], $arr["mday"], $arr["year"] );
+                                       $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -359,13 +386,13 @@ class eZDateTime
     {
         $arr =& getdate( $this->DateTime );
         if ( $year != 0 )
-            $date =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
+            $date =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
                              $month, $day, $year );
         else if ( $day != 0 )
-            $date =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
+            $date =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
                              $month, $day );
         else
-            $date =& mktime( $arr["hours"], $arr["minutes"], $arr["seconds"],
+            $date =& mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
                              $month );
         $this->DateTime =& $date;
     }
@@ -377,8 +404,8 @@ class eZDateTime
     function adjustDateTime( $hour, $minute = 0, $second = 0, $month = 0, $day = 0, $year = 0 )
     {
         $arr =& getdate( $this->DateTime );
-        $date =& mktime( $hour + $arr["hours"], $minute + $arr["minutes"], $second + $arr["seconds"],
-                         $month + $arr["mon"], $day + $arr["mday"], $year + $arr["year"] );
+        $date =& mktime( $hour + $arr['hours'], $minute + $arr['minutes'], $second + $arr['seconds'],
+                         $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
         $this->DateTime =& $date;
     }
 
@@ -391,12 +418,12 @@ class eZDateTime
     */
     function isGreaterThan( &$datetime, $equal = false )
     {
-        if ( get_class( $datetime ) == "ezdate" )
+        if ( get_class( $datetime ) == 'ezdate' )
         {
             $d1 =& $this->toDate();
             return $d1->isGreaterThan( $datetime, $equal );
         }
-        else if ( get_class( $datetime ) == "eztime" )
+        else if ( get_class( $datetime ) == 'eztime' )
         {
             $t1 =& $this->toTime();
             return $t1->isGreaterThan( $datetime, $equal );
@@ -404,7 +431,7 @@ class eZDateTime
         else
         {
             $dt1 =& $this->timeStamp();
-            if ( get_class( $datetime ) == "ezdatetime" )
+            if ( get_class( $datetime ) == 'ezdatetime' )
                 $dt2 =& $datetime->timeStamp();
             else
                 $dt2 =& $datetime;
@@ -424,12 +451,12 @@ class eZDateTime
     */
     function isEqualTo( &$datetime )
     {
-        if ( get_class( $datetime ) == "ezdate" )
+        if ( get_class( $datetime ) == 'ezdate' )
         {
             $d1 =& $this->toDate();
             return $d1->isEqualTo( $datetime );
         }
-        else if ( get_class( $datetime ) == "eztime" )
+        else if ( get_class( $datetime ) == 'eztime' )
         {
             $t1 =& $this->toTime();
             return $t1->isEqualTo( $datetime );
@@ -437,7 +464,7 @@ class eZDateTime
         else
         {
             $dt1 =& $this->timeStamp();
-            if ( get_class( $datetime ) == "ezdatetime" )
+            if ( get_class( $datetime ) == 'ezdatetime' )
                 $dt2 =& $datetime->timeStamp();
             else
                 $dt2 =& $datetime;
@@ -486,10 +513,10 @@ class eZDateTime
     function &toString( $short = false )
     {
         if ( $short )
-            $str = $this->Locale->formatShortDate( $this->DateTime ) . " " .
+            $str = $this->Locale->formatShortDate( $this->DateTime ) . ' ' .
                 $this->Locale->formatShortTime( $this->DateTime );
         else
-            $str = $this->Locale->formatDate( $this->DateTime ) . " " .
+            $str = $this->Locale->formatDate( $this->DateTime ) . ' ' .
                 $this->Locale->formatTime( $this->DateTime );
         return $str;
     }
@@ -498,6 +525,7 @@ class eZDateTime
     var $Locale;
     /// The current datetime as a timestamp
     var $DateTime;
+    var $IsValid;
 }
 
 ?>

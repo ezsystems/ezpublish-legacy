@@ -44,11 +44,13 @@ include_once( "lib/ezlocale/classes/eztime.php" );
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 
 define( "EZ_DATATYPESTRING_TIME", "eztime" );
+define( 'EZ_DATATYPESTRING_TIME_DEFAULT', 'data_int1' );
+
 class eZTimeType extends eZDataType
 {
     function eZTimeType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_TIME, "Time" );
+        $this->eZDataType( EZ_DATATYPESTRING_TIME, "Time field" );
     }
 
     /*!
@@ -61,12 +63,24 @@ class eZTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $time =  $hour.':'.$minute;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $time == ":" ) )
+
+        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
+             $hour == '' and $minute == '' )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#^[0-9]{1,2}:[0-9]{1,2}$#", $time ) )
+        if ( $classAttribute->attribute( "is_required" ) and
+             $hour == '' and $minute == '' )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Missing time input.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+
+        $datetime = mktime( $hour, $minute );
+        if ( $datetime !== false )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -79,9 +93,20 @@ class eZTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
 
         $time = new eZTime();
-        $time->setHMS( $hour, $minute, 0 );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if ( $hour == '' and $minute == '' )
+        {
+//             if ( !$contentClassAttribute->attribute( "is_required" ) )
+                $time->setTimeStamp( 0 );
+//             else
+//                 $time->setTimeStamp( mktime() );
+        }
+        else
+            $time->setHMS( $hour, $minute, 0 );
 
+        eZDebug::writeDebug( $time->timeStamp(), 'time' );
         $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() );
+        return true;
     }
 
     /*!
@@ -91,10 +116,47 @@ class eZTimeType extends eZDataType
     {
         $time = new eZTime( );
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( $stamp <= 0 )
-            $stamp = mktime();
         $time->setTimeStamp( $stamp );
         return $time;
+    }
+
+    /*!
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT ) == null )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT, 0 );
+        $classAttribute->store();
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
+            $contentObjectAttribute->setAttribute( "data_int", $dataInt );
+        }
+        else
+        {
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
+            if ( $defaultType == 1 )
+                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+        }
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $default = $base . "_eztime_default_" . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $default ) )
+        {
+            $defaultValue = $http->postVariable( $default );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT,  $defaultValue );
+        }
     }
 
     /*!
@@ -102,7 +164,7 @@ class eZTimeType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        return $contentObjectAttribute->attribute( 'date_int' );
     }
 
     /*!

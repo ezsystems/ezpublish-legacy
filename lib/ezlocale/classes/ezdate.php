@@ -62,10 +62,10 @@
 
 Example:
 \code
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-include_once( "lib/ezlocale/classes/ezdate.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
+include_once( 'lib/ezlocale/classes/ezdate.php' );
 
-$us_locale =& eZLocale::instance( "us" );
+$us_locale =& eZLocale::instance( 'us' );
 
 $date1 = new eZDate();
 $date2 =& eZDate::create();
@@ -75,14 +75,14 @@ $date3 =& $date1->duplicate();
 
 print( $date1->toString() );
 print( $date2->toString( true ) );
-print( $date1->isEqualTo( $date3 ) ? "true" : "false" ); // Prints "true"
+print( $date1->isEqualTo( $date3 ) ? 'true' : 'false' ); // Prints 'true'
 
 \endcode
 
   \sa eZTime, eZDateTime, eZLocale
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 class eZDate
 {
@@ -99,36 +99,58 @@ class eZDate
         else
         {
             $arr =& getdate( $date );
-            $date =& mktime( 0, 0, 0, $arr["mon"], $arr["mday"], $arr["year"] );
+            $date =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->Date =& $date;
         $this->Locale =& eZLocale::instance();
+        $this->IsValid = $date > 0;
     }
 
-    function hasAttribute( $attr )
+    function attributes()
     {
-        if ( $attr == "timestamp" or
-             $attr == "year" or
-             $attr == "month" or
-             $attr == "day")
+        return array( 'timestamp',
+                      'is_valid',
+                      'year',
+                      'month',
+                      'day' );
+    }
+
+    function hasAttribute( $name )
+    {
+        if ( $name == 'timestamp' or
+             $name == 'is_valid' or
+             $name == 'year' or
+             $name == 'month' or
+             $name == 'day' )
             return true;
         else
             return false;
     }
 
-    function &attribute( $attr )
+    function &attribute( $name )
     {
-        if ( $attr == "timestamp"  )
+        if ( $name == 'timestamp'  )
             return $this->timeStamp();
-        if ( $attr == "day"  )
+        else if ( $name == 'is_valid' )
+            return $this->isValid();
+        else if ( $name == 'day'  )
             return $this->day();
-        else if ( $attr == "year"  )
+        else if ( $name == 'year'  )
             return $this->year();
-        else if ( $attr == "month"  )
+        else if ( $name == 'month'  )
             return $this->month();
         else
             return false;
     }
+
+    /*!
+     \return true if the date has valid data.
+    */
+    function &isValid()
+    {
+        return $this->IsValid;
+    }
+
     /*!
      Sets the locale to $locale which is used in text output.
     */
@@ -158,6 +180,7 @@ class eZDate
     function setTimeStamp( $stamp )
     {
         $this->Date = $stamp;
+        $this->IsValid = $stamp > 0;
     }
 
     /*!
@@ -166,7 +189,7 @@ class eZDate
     function setYear( $year )
     {
         $arr =& gettime( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $arr["mon"], $arr["mday"], $year );
+        $this->Time =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
     }
 
     /*!
@@ -175,7 +198,7 @@ class eZDate
     function setMonth( $month )
     {
         $arr =& gettime( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $month, $arr["mday"], $arr["year"] );
+        $this->Time =& mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -184,7 +207,7 @@ class eZDate
     function setDay( $day )
     {
         $arr =& gettime( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $arr["mon"], $day, $arr["year"] );
+        $this->Time =& mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
     }
 
     /*!
@@ -192,7 +215,7 @@ class eZDate
     */
     function &year()
     {
-        return date( "Y", $this->Date );
+        return date( 'Y', $this->Date );
     }
 
     /*!
@@ -200,7 +223,7 @@ class eZDate
     */
     function &month()
     {
-        return date( "m", $this->Date );
+        return date( 'm', $this->Date );
     }
 
     /*!
@@ -208,7 +231,7 @@ class eZDate
     */
     function &day()
     {
-        return date( "d", $this->Date );
+        return date( 'd', $this->Date );
     }
 
     /*!
@@ -233,7 +256,7 @@ class eZDate
     function adjustDate( $month, $day = 0, $year = 0 )
     {
         $arr =& getdate( $this->Date );
-        $date =& mktime( 0, 0, 0, $month + $arr["mon"], $day + $arr["mday"], $year + $arr["year"] );
+        $date =& mktime( 0, 0, 0, $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
         $this->Date =& $date;
     }
 
@@ -245,12 +268,12 @@ class eZDate
     function isGreaterThan( &$date, $equal = false )
     {
         $d1 =& $this->timeStamp();
-        if ( get_class( $date ) == "ezdate" )
+        if ( get_class( $date ) == 'ezdate' )
             $d2 =& $date->timeStamp();
         else
         {
             $arr =& getdate( $date );
-            $d2 =& mktime( 0, 0, 0, $arr["mon"], $arr["mday"], $arr["year"] );
+            $d2 =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         if ( $d1 > $d2 )
             return true;
@@ -266,12 +289,12 @@ class eZDate
     function isEqualTo( &$date )
     {
         $d1 =& $this->timeStamp();
-        if ( get_class( $date ) == "ezdate" )
+        if ( get_class( $date ) == 'ezdate' )
             $d2 =& $date->timeStamp();
         else
         {
             $arr =& getdate( $date );
-            $d2 =& mktime( 0, 0, 0, $arr["mon"], $arr["mday"], $arr["year"] );
+            $d2 =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         return $d1 == $d2;
     }
@@ -319,6 +342,7 @@ class eZDate
     var $Locale;
     /// The current date as a timestamp without hour, minute or second values
     var $Date;
+    var $IsValid;
 }
 
 ?>
