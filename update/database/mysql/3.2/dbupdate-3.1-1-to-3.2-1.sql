@@ -23,10 +23,6 @@ CREATE TABLE ezsite_data (
   PRIMARY KEY (id)
 );
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2.0');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
-
-
 drop index ezcontentobject_tree_depth on ezcontentobject_tree;
 create index ezsearch_word_object_count on ezsearch_word(object_count);
 create index ezcontentobject_status on ezcontentobject( status );
@@ -77,3 +73,13 @@ alter table ezcontentobject_attribute add sort_key_string varchar(50) not null d
 
 ALTER TABLE ezcontentobject_attribute ADD index ( sort_key_int );
 ALTER TABLE ezcontentobject_attribute ADD index ( sort_key_string );
+
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
+CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
+
+
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
