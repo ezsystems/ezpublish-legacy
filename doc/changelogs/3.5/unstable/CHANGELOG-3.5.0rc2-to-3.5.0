@@ -26,6 +26,8 @@ Changes from 3.5.0rc2 to 3.5.0
   http://ez.no/community/bug_reports/xml_and_broken_link_with
 - Fixed SQL error in PostgreSQL when versionviewing objects in trash.
   http://ez.no/community/bugs/versionview_in_trash_postgresql
+- Removed warning when redirecting to some views.
+  http://ez.no/community/bugs/warning_when_redirecting
 
 *Library:
 
