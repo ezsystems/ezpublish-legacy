@@ -62,7 +62,7 @@ Returns the template operators.
 
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        include_once( "/lib/ezutils/classes/ezini.php" );
+        include_once( "lib/ezutils/classes/ezini.php" );
         $ini =& eZINI::instance("wordtoimage.ini");
         $iconRoot = $ini->variable( 'WordToImageSettings', 'IconRoot' );
 

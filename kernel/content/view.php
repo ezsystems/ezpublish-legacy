@@ -257,6 +257,15 @@ switch( $operationResult['status'] )
             $Result['section_id'] =& $object->attribute( 'section_id' );
             $Result['node_id'] =& $NodeID;
             $Result['navigation_part'] = $navigationPartIdentifier;
+            $Result['content_info'] = array( 'object_id' => $object->attribute( 'id' ),
+                                             'node_id' => $node->attribute( 'node_id' ),
+                                             'parent_node_id' => $node->attribute( 'parent_node_id' ),
+                                             'class_id' => $object->attribute( 'contentclass_id' ),
+                                             'offset' => $Offset,
+                                             'viewmode' => $ViewMode,
+                                             'navigation_part_identifier' => $navigationPartIdentifier,
+                                             'node_depth' => $node->attribute( 'depth' ),
+                                             'url_alias' => $node->attribute( 'url_alias' ) );
 
 
             // Check if time to live is set in template
