@@ -271,18 +271,17 @@ class eZWebDAVServer
      */
     function outputOptions( $options )
     {
+        header( "HTTP/1.1 200 OK" );
+        header( "MS-Author-Via: DAV" );
+        header( "DAV: 1,2\nDAV: <http://apache.org/dav/propset/fs/1>\n");
+
         if (!$options)
         {
-            append_to_log( "OPTIONS: outputting options to client..." );
-            header( "HTTP/1.1 200 OK" );
-            header( "MS-Author-Via: DAV" );
-            header( "DAV: 1,2\nDAV: <http://apache.org/dav/propset/fs/1>\n");
             header( "Allow: OPTIONS,PROPFIND,HEAD,GET,PUT,MKCOL,COPY,MOVE,DELETE" );
         }
         else
         {
-            append_to_log( "OPTIONS: EMPTY options..." );
-            // __FIX_ME__ output custom options... whatever that is.. ?
+            header( $options );
         }
 
         return( EZ_WEBDAV_OK_SILENT );
