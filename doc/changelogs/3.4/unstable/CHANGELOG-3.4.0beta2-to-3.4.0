@@ -103,6 +103,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/bug_in_the_double_top_meny_for_news
 - Fixed bug with undefined user in eZAuthor datatype
   http://ez.no/community/bug_reports/package_install_error_on_article_content_object
+- Fixed missing class_identifier bug in class/grouplist view.
+  http://ez.no/community/bug_reports/undefined_index_class_identifier
 - Fixed bug in the content cache where year/month/day parameters were not taken
   into account.
   http://ez.no/community/bug_reports/toolbar_error_when_publishing_a_calendar

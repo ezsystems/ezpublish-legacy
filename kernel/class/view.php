@@ -60,7 +60,8 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "class", $class->attribute( "id" ) ) ) );
+$res->setKeys( array( array( "class", $class->attribute( "id" ) ),
+                      array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "class", $class );
 $tpl->setVariable( "attributes", $attributes );
