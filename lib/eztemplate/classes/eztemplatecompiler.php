@@ -2333,11 +2333,16 @@ else
                 {
                     $values = $variableDataItem[4];
 
-                    foreach ( $values as $value )
+                    for ( $i = 0; $i < $values; $i++ )
                     {
-                        $matchMap[] = "%tmp$value%";
-                        $replaceMap[] = '$tmp_' . $newParameters['variable'] . $value;
-                        $unsetList[] = 'tmp_' . $newParameters['variable'] . $value;
+                        $newParameters['counter'] += 1;
+                        $newVariableAssignmentName = $newParameters['variable'];
+                        $newVariableAssignmentCounter = $newParameters['counter'];
+                        if ( $newVariableAssignmentCounter > 0 )
+                            $newVariableAssignmentName .= $newVariableAssignmentCounter;
+                        $matchMap[] = '%tmp' . ( $i + 1 ) . '%';
+                        $replaceMap[] = '$' . $newVariableAssignmentName;
+                        $unsetList[] = $newVariableAssignmentName;
                     }
                 }
                 $code = str_replace( $matchMap, $replaceMap, $code );

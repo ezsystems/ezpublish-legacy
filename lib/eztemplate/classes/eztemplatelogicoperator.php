@@ -411,9 +411,9 @@ class eZTemplateLogicOperator
                 $code .= "%$counter%, ";
                 $counter++;
             }
-            $code .= " );\n";
+            $code .= ");\n";
             $code .= "%output% = %tmp1%[%1%];\n";
-            $tmpValues = array (1);
+            $tmpValues = 1;
         }
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpValues );
         return $newElements;
