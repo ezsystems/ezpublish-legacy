@@ -732,9 +732,10 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $languageSQL = "AND language_code!='$language'";
         }
+
         $query = "SELECT DISTINCT language_code
-                  FROM ezcontentobject_attribute, ezcontent_translation
-                  WHERE contentobject_id='$this->ContentObjectID' AND version='$this->Version' AND locale=language_code
+                  FROM ezcontentobject_attribute
+                  WHERE contentobject_id='$this->ContentObjectID' AND version='$this->Version'
                   $languageSQL
                   ORDER BY language_code";
 
