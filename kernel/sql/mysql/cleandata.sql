@@ -359,66 +359,22 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,1,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,1,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,5,'login','user','*');
-
-
-
-
 
 
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
 
 
-
-
-
-
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (435,249,'1');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (436,249,'10');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (437,249,'10');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (438,249,'11');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (439,249,'11');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (440,249,'12');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (441,249,'12');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (442,249,'13');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (443,249,'13');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (444,249,'2');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (445,249,'2');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (446,249,'5');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (447,249,'5');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (448,249,'6');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (449,249,'6');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (450,249,'7');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (451,249,'7');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (452,249,'8');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (453,249,'8');
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (454,249,'9');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249,'9');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -428,7 +384,6 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
-INSERT INTO ezrole (id, version, name, value) VALUES (5,3,'Editor',NULL);
 
 
 

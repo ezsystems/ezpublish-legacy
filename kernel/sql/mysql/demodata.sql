@@ -1311,11 +1311,8 @@ INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_
 
 
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (333,13,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,3,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,9,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (356,17,'create','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (355,17,'create','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (354,17,'login','user','*');
@@ -1326,12 +1323,6 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 
 
 
-
-
-
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (257,333,'Subtree',0,'read','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (259,333,'Class',0,'read','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (248,326,'Subtree',0,'read','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (282,357,'ParentClass',0,'create','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (281,357,'Class',0,'create','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (280,356,'ParentClass',0,'create','content');
@@ -1346,21 +1337,6 @@ INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_na
 
 
 
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (516,257,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (515,257,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (414,248,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (517,257,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (549,259,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (548,259,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (547,259,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (546,259,4);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (545,259,3);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (544,259,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (543,259,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (542,259,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (541,259,4);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (540,259,3);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (539,259,2);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (661,282,8);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (660,282,8);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (659,281,9);
@@ -1395,41 +1371,13 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (662,283
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (663,283,1);
 
 
-
-
-
-
-
-
-
-
-
-
 INSERT INTO ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) VALUES (1,1,76,1,0,1,0,0);
 INSERT INTO ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) VALUES (2,1,76,1,0,1,0,0);
-
-
-
-
-
-
-
-
-
-
 
 
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
 INSERT INTO ezrole (id, version, name, value) VALUES (17,0,'Anonymous',NULL);
-INSERT INTO ezrole (id, version, name, value) VALUES (5,2,'Administrator',NULL);
-INSERT INTO ezrole (id, version, name, value) VALUES (9,7,'Anonymous2',NULL);
-INSERT INTO ezrole (id, version, name, value) VALUES (13,12,'New Role',NULL);
-INSERT INTO ezrole (id, version, name, value) VALUES (11,10,'test',NULL);
-
-
-
-
 
 
 INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id) VALUES (1,15,1,0,0,0,2,1,1053683300,2,4);

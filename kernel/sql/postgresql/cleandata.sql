@@ -396,10 +396,6 @@ INSERT INTO ezpolicy VALUES (308, 2, '*', '*', '*');
 INSERT INTO ezpolicy VALUES (326, 1, 'read', 'content', ' ');
 INSERT INTO ezpolicy VALUES (325, 1, 'login', 'user', '*');
 INSERT INTO ezpolicy VALUES (319, 3, 'login', 'user', '*');
-INSERT INTO ezpolicy VALUES (323, 5, '*', 'content', '*');
-INSERT INTO ezpolicy VALUES (324, 5, 'login', 'user', '*');
-
-
 
 
 
@@ -472,11 +468,6 @@ INSERT INTO ezpolicy_limitation_value VALUES (455, 249, '9');
 INSERT INTO ezrole VALUES (1, 0, 'Anonymous', ' ');
 INSERT INTO ezrole VALUES (2, 0, 'Administrator', '*');
 INSERT INTO ezrole VALUES (3, 0, 'Editor', ' ');
-INSERT INTO ezrole VALUES (5, 3, 'Editor', NULL);
-
-
-
-
 
 
 
