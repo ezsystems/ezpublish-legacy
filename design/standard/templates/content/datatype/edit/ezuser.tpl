@@ -16,8 +16,10 @@
 </div>
 <div class="element">
 <label>{"E-Mail"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<input type="text" name="{$attribute_base}_data_user_email_{$attribute.id}" size="11" value="{$attribute.content.email|wash(xhtml)}">
+<input type="text" name="{$attribute_base}_data_user_email_{$attribute.id}" size="17" value="{$attribute.content.email|wash(xhtml)}">
 </div>
+</div>
+<div class="block">
 <div class="element">
 <label>{"Password"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input type="password" name="{$attribute_base}_data_user_password_{$attribute.id}" size="11" value="{section show=$attribute.content.original_password}{$attribute.content.original_password}{section-else}{section show=$attribute.content.has_stored_login}password{/section}{/section}" />
