@@ -2346,6 +2346,8 @@ class Cpdf
 
     ob_clean();
 
+    header( 'Pragma: ' );
+    header( 'Cache-Control:' );
     header( 'X-Powered-By: eZ publish' );
 
 	header( 'Content-Length: '.strlen( $tmp ) );
