@@ -36,6 +36,58 @@
 
 /*!
 
+<?xml version="1.0" encoding="utf-8" ?>
+<section>
+<header>This is a level one header</header>
+<paragraph>
+This is a <emphasize>block</emphasize> of text.
+</paragraph>
+  <section>
+  <header>This is a level two header</header>
+  <paragraph>
+  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+  </paragraph>
+  <header>This is a level two header</header>
+  <paragraph>
+  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+  </paragraph>
+  <paragraph>
+  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+  </paragraph>
+  <paragraph>
+  <ul>
+     <li>List item 1</li>
+     <li>List item 2</li>
+  </ul>
+  </paragraph>
+  <header>This is a level two header</header>
+  </section>
+</section>
+
+
+$sectionArray = array( 'paragraph', 'section', 'header' );
+
+$blockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
+$inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'foo' );
+
+$tagAliasArray = array( 'stro' => arrau( 'b', 'bold' ) );
+
+$tableTagArray = array( 'tr' );
+$trTagArray = array( 'td', 'th' );
+
+$tagAttributeArra['table'] = array( 'width' => array( 'required' => false ) );
+$tagAttributeArra['link'] = array( 'href' => array( 'required' => true ) );
+
+$paragraph = array_merge( $blockTagArray, $inlineTagArray );
+
+
+//
+function handleTag()
+{
+}
+
+Section
+
 
 */
 
@@ -280,6 +332,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $isPTag = false;
                     switch ( $tagName )
                     {
+
+                        // FIX: Need to use alias array
                         case 'i' :
                         case 'em' :
                         {
@@ -732,7 +786,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                         }break;
 
-                         case 'th' :
+                        case 'th' :
                         {
                             if ( in_array( $justName, $lastInsertedChildTag ) )
                             {
