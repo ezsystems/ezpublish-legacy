@@ -26,8 +26,11 @@ echo
 echo "Check for global variable access"
 find . -name \*.php -exec grep -n -H 'getenv' {} \;
 
-echo "Check for REQUEST_URI"
-rgrep -R '*.php' -n 'REQUEST_URI' .
+echo "Check for _SERVER, _COOKIE and _ENV access"
+find . -name \*.php -exec grep -n -H -E '_SERVER|_COOKIE|_ENV' {} \;
+
+echo "Check for GLOBALS access"
+rgrep -R '*.php' -n 'GLOBALS' . | grep -v "GLOBALS\[[\"']eZ"
 
 echo "Checking doxygen code"
 echo "Check for proper use of \return"
@@ -40,8 +43,9 @@ echo "Checking for old doc code"
 
 echo "Check for URIs which will not work with nVH setups"
 #  <a href=\"\">
-rgrep -R '*.tpl' -n -i '<a  *href="' .
-rgrep -R '*.php' -n -i 'header' .
+rgrep -R '*.tpl' -n -i '<a  *href="' . | grep -v -E 'href="(http:|mailto:)'
+rgrep -R '*.tpl' -n -i '<form .*action="' .
+rgrep -R '*.php' -n -i ' header *(' .
 
-echo "Check for bad prints"
-rgrep -R '*.php' -n -i 'print' .
+# echo "Check for bad prints"
+# rgrep -R '*.php' -n -i 'print' .
