@@ -24,7 +24,7 @@
 <tr class="{$PDFExports.sequence}">
 
     {*Remove. *}
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$PDFExports.item.id}"></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$PDFExports.item.id}" title="{'Select PDF export for removal.'|i18n( 'design/admin/pdf/list' )}" /></td>
 
     {* Name. *}
     <td>{'pdfexport'|icon( 'small', 'PDF Export'|i18n( 'design/admin/pdf/list' ) )}&nbsp;
@@ -42,7 +42,7 @@
     <td>{$PDFExports.item.modified|l10n( shortdatetime )}</td>
 
     {* Edit. *}
-    <td><a href={concat( 'pdf/edit/', $PDFExports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/pdf/list' )}" /></a></td>
+    <td><a href={concat( 'pdf/edit/', $PDFExports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/pdf/list' )}" title="{'Edit the <%pdf_export_name> PDF export.'|i18n( 'design/admin/pdf/list',, hash( '%pdf_export_name', $PDFExports.item.title ) )|wash}" /></a></td>
 
 </tr>
 {/section}
@@ -60,11 +60,12 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$pdfexport_list}
-    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" />
+    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" title="{'Remove selected PDF exports.'|i18n( 'design/admin/pdf/list' )}" />
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" disabled="disabled" />
 {/section}
-    <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" />
+
+<input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" title="{'Create a new PDF export.'|i18n( 'design/admin/pdf/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
