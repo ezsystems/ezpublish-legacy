@@ -38,6 +38,7 @@
     {/section}
     <input class="button" type="submit" value="Preview" />
     <input class="button" type="submit" value="Remove" />
+    <input type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
     </div>
 </div>
 
