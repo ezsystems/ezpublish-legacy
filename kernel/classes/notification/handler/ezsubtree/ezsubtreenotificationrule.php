@@ -60,8 +60,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-                                         "address" => array( 'name' => "Address",
-                                                             'datatype' => 'string',
+                                         "user_id" => array( 'name' => "UserID",
+                                                             'datatype' => 'integer',
                                                              'default' => '',
                                                              'required' => true ),
                                          "use_digest" => array( 'name' => "UseDigest",
@@ -97,18 +97,18 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function &create( $nodeID, $address, $useDigest = 0 )
+    function &create( $nodeID, $userID, $useDigest = 0 )
     {
-        $rule =& new eZSubtreeNotificationRule( array( 'address' => $address,
+        $rule =& new eZSubtreeNotificationRule( array( 'user_id' => $userID,
                                                         'use_digest' => $useDigest,
                                                         'node_id' => $nodeID ) );
         return $rule;
     }
 
-    function &fetchNodesForAddress( $email, $asObject = true )
+    function &fetchNodesForUserID( $userID, $asObject = true )
     {
         $nodeIDList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                            array( 'node_id' ), array( 'address' => $email ),
+                                                            array( 'node_id' ), array( 'user_id' => $userID ),
                                                             null,null,false );
         $nodes = array();
         if ( $asObject )
@@ -128,19 +128,35 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $nodes;
     }
 
-    function &fetchList( $email, $asObject = true )
+    function &fetchList( $userID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                    null, array( 'address' => $email ),
+                                                    null, array( 'user_id' => $userID ),
                                                     null,null,true );
     }
 
+    /*!
+      \return an array of arrays with user_id, address and use_digest
+    */
     function &fetchUserList( $nodeIDList )
     {
+        $db =& eZDB::instance();
+
+        $rules = array();
+        if ( count( $nodeIDList ) > 0 )
+        {
+            $nodeIDWhereString = implode( ',', $nodeIDList );
+            $rules =& $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
+                                        FROM ezsubtree_notification_rule as rule, ezuser
+                                        WHERE rule.user_id=ezuser.contentobject_id AND rule.node_id IN ( $nodeIDWhereString )" );
+        }
+
+        /*
         $rules =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                       array(), array( 'node_id' => array( $nodeIDList ) ),
-                                                      array( 'address' => 'asc' , 'use_digest' => 'desc'  ),null,
+                                                      array( 'user_id' => 'asc' , 'use_digest' => 'desc'  ),null,
                                                       false, false, array( array( 'operation' => 'distinct address,use_digest' ) )  );
+        */
         return $rules;
     }
 
@@ -153,9 +169,9 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $this->Node;
     }
 
-    function removeByNodeAndAddress( $address, $nodeID )
+    function removeByNodeAndUserID( $userID, $nodeID )
     {
-        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'address' => $address,
+        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID,
                                                                                           'node_id' => $nodeID ) );
     }
     var $Node = null;

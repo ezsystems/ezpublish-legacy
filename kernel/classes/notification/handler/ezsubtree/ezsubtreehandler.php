@@ -190,7 +190,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList );
 
-//// needs to be rebuilt
+        //// needs to be rebuilt
         $locale =& eZLocale::instance();
         $weekDayNames = $locale->attribute( 'weekday_list' );
         $weekDays = $locale->attribute( 'weekday_name_list' );
@@ -199,7 +199,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $weekDaysByName[$weekDayNames[$weekDay]] = $weekDay;
         }
-///////////
+
         foreach( $userList  as $subscriber )
         {
             $item =& $collection->addItem( $subscriber['address'] );
@@ -249,9 +249,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $user =& eZUser::currentUser();
         }
-        $email = $user->attribute( 'email' );
+        $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeList =& eZSubtreeNotificationRule::fetchNodesForAddress( $email );
+        $nodeList =& eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
         return $nodeList;
     }
 
@@ -261,9 +261,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $user =& eZUser::currentUser();
         }
-        $email = $user->attribute( 'email' );
+        $userID = $user->attribute( 'contentobject_id' );
 
-        $ruleList =& eZSubtreeNotificationRule::fetchList( $email );
+        $ruleList =& eZSubtreeNotificationRule::fetchList( $userID );
         return $ruleList;
     }
 
@@ -284,7 +284,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             {
                 eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
             }
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForAddress( $email, false );
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $email, false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
                   $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" )
@@ -293,7 +293,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $user =& eZUser::currentUser();
             $email = $user->attribute( 'email' );
 
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForAddress( $email, false );
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $email, false );
 
             foreach ( $selectedNodeIDArray as $nodeID )
             {

@@ -293,12 +293,11 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user =& eZUser::currentUser();
-        $address = $user->attribute( 'email' );
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForAddress( $user->attribute( 'email' ), false );
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         $nodeID = $http->postVariable( 'ContentNodeID' );
         if ( !in_array( $nodeID, $nodeIDList ) )
         {
-            $rule =& eZSubtreeNotificationRule::create( $nodeID, $address );
+            $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
             $rule->store();
         }
         if ( $http->hasPostVariable( 'ViewMode' ) )

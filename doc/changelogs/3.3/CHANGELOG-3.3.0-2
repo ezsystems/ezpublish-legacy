@@ -21,6 +21,8 @@
 - Fixed the forwarding of custom actions to the objects in the object relation list.
   This makes it possible to perform actions such as removing images, adding entries to
   all entries of an object relation list, it even allows nesting relation lists.
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/critical_notification_settings_lost_if_email_is_changed_security_problem
+  Notification rules are now pr user id, this fix requires database upgrade sqls to convert old rules.
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
