@@ -266,6 +266,7 @@ if ( count( $suiteList ) == 0 )
     exit( 1 );
 }
 
+$script->setIsQuiet( $isQuiet );
 $script->setUseDebugOutput( $debugOutput );
 $script->setAllowedDebugLevels( $allowedDebugLevels );
 $script->setUseDebugAccumulators( $useDebugAccumulators );

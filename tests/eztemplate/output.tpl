@@ -6,7 +6,6 @@
 
 {section show=$a}
     {section var=i loop=$c}
-    {run-once}i: {/run-once}
         {$i}
     {delimiter}
         /	

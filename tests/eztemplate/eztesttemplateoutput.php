@@ -62,6 +62,9 @@ class eZTestTemplateOutput extends eZTestCase
 
         $tpl->setIsCachingAllowed( false );
         $expected = $tpl->fetch( 'tests/eztemplate/output.tpl' );
+        $fp = fopen( 'tests/eztemplate/output.exp', 'w' );
+        fwrite( $fp, $expected );
+        fclose( $fp );
 
         $tpl->setIsCachingAllowed( true );
         $tpl->reset();
@@ -75,6 +78,9 @@ class eZTestTemplateOutput extends eZTestCase
                                                 'generate' => true,
                                                 'compilation-directory' => 'tests/eztemplate/compilation' ) );
         $actual = $tpl->fetch( 'tests/eztemplate/output.tpl' );
+        $fp = fopen( 'tests/eztemplate/output.out', 'w' );
+        fwrite( $fp, $actual );
+        fclose( $fp );
 
         $tr->assert( $actual == $expected );
     }
