@@ -56,6 +56,8 @@ content:
   content object version and content node.
 - Changed the serialize function to use namespaces and also changed the xml structure.
 - Now you can create objects from left menubar
+- content/edit.tpl has been split into multiple templates to make it easier to reuse and
+  override each part.
 
 eZ extension:
 - Added some helper functions for extension include.
