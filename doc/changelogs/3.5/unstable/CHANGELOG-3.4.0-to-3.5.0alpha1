@@ -4,6 +4,11 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added siteaccess match type 'servervar' that will use a server variable to match a siteaccess.
   Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
 
+*Scripts:
+eztc.php:
+- Added support for compiling files by filepath.
+- Added parameter --force to force compilation of template files.
+
 *DataType:
 - Supported nested list for datatype ezxmltext.
 

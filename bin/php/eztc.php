@@ -46,13 +46,16 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Template Co
 
 $script->startup();
 
-$options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:]",
+$options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:][force]",
                                 "",
-                                array( 'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory",
+                                array( 'force' => "Force compilation of template whether it has changed or not",
+                                       'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory",
                                        'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
                                        'index-file' => "The name of your index.php if you are running in non-virtualhost mode",
                                        'access-path' => "Extra access path" ) );
 $sys =& eZSys::instance();
+
+$forceCompile = false;
 
 if ( $options['www-dir'] )
 {
@@ -66,31 +69,30 @@ if ( $options['access-path'] )
 {
     $sys->AccessPath = array( $options['access-path'] );
 }
+if ( $options['force'] )
+{
+    $forceCompile = true;
+}
 
 $script->initialize();
 
-$ini =& eZINI::instance();
-$standardDesign =& $ini->variable( "DesignSettings", "StandardDesign" );
-$siteDesign =& $ini->variable( "DesignSettings", "SiteDesign" );
-$additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
-
-$designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
-
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
-
-$script->setIterationData( '.', '~' );
-
-foreach ( $designList as $design )
+if ( count( $options['arguments'] ) > 0 )
 {
-    $cli->output( "Compiling in design " . $cli->stylize( 'emphasize', $design ) );
-    $baseDir = 'design/' . $design;
-    $files = eZDir::recursiveFindRelative( $baseDir, 'templates', "\.tpl" );
-    $files = array_merge( $files, eZDir::recursiveFindRelative( $baseDir, 'override/templates', "\.tpl" ) );
-    $script->resetIteration( count( $files ) );
-    foreach ( $files as $fileRelative )
+    $ini =& eZINI::instance();
+
+    include_once( 'kernel/common/template.php' );
+    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    $tpl =& templateInit();
+
+    $files = $options['arguments'];
+
+    $script->setIterationData( '.', '~' );
+    $script->setShowVerboseOutput( true );
+    if ( $forceCompile )
+        eZTemplateCompiler::setSettings( array( 'generate' => true ) );
+
+    foreach ( $files as $file )
     {
-        $file = $baseDir . '/' . $fileRelative;
         $status = $tpl->compileTemplateFile( $file );
         $text = false;
         if ( $status )
@@ -98,6 +100,43 @@ foreach ( $designList as $design )
         else
             $text = "Compilation failed: $file";
         $script->iterate( $cli, $status, $text );
+    }
+}
+else
+{
+    $ini =& eZINI::instance();
+    $standardDesign =& $ini->variable( "DesignSettings", "StandardDesign" );
+    $siteDesign =& $ini->variable( "DesignSettings", "SiteDesign" );
+    $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+
+    $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
+
+    include_once( 'kernel/common/template.php' );
+    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    $tpl =& templateInit();
+
+    $script->setIterationData( '.', '~' );
+    if ( $forceCompile )
+        eZTemplateCompiler::setSettings( array( 'generate' => true ) );
+
+    foreach ( $designList as $design )
+    {
+        $cli->output( "Compiling in design " . $cli->stylize( 'emphasize', $design ) );
+        $baseDir = 'design/' . $design;
+        $files = eZDir::recursiveFindRelative( $baseDir, 'templates', "\.tpl" );
+        $files = array_merge( $files, eZDir::recursiveFindRelative( $baseDir, 'override/templates', "\.tpl" ) );
+        $script->resetIteration( count( $files ) );
+        foreach ( $files as $fileRelative )
+        {
+            $file = $baseDir . '/' . $fileRelative;
+            $status = $tpl->compileTemplateFile( $file );
+            $text = false;
+            if ( $status )
+                $text = "Compiled template file: $file";
+            else
+                $text = "Compilation failed: $file";
+            $script->iterate( $cli, $status, $text );
+        }
     }
 }
 
