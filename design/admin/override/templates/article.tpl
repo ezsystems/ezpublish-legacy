@@ -23,6 +23,9 @@
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
+    <div class="imageright">
+    {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
+    </div>
     {attribute_view_gui attribute=$node.object.data_map.intro}
     {attribute_view_gui attribute=$node.object.data_map.body}
 

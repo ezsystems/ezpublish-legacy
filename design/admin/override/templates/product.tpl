@@ -23,7 +23,9 @@
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <p class="small">{$node.object.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_nr}</p>
     
-    {attribute_view_gui attribute=$node.object.data_map.photo}
+    <div class="imageright">
+    {attribute_view_gui attribute=$node.object.data_map.photo image_class=medium}
+    </div>
 
     {attribute_view_gui attribute=$node.object.data_map.intro}
 

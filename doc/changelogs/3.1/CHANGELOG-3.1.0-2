@@ -21,6 +21,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Added setting in object.tpl which decides if the object should be rendered as a block tag or as inline
 - Fixed crash with object tag referencing a non existing object
 - Renamed misspelled setting AdditionalSiteDesignList in site.ini
+- Added missing information from default admin templates
 
 *Library :
 eZ xml:
