@@ -1,8 +1,11 @@
-{let policies=fetch( user, user_role, hash( user_id, $node.object.id ) )}
+{let assigned_roles=fetch( user, member_of, hash( id, $node.contentobject_id ) )
+     assigned_policies=fetch( user, user_role, hash( user_id, $node.contentobject_id ) )}
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Available policies [%policies_count]'|i18n( 'design/admin/node/view/full',, hash( '%policies_count', $policies|count ) )}</h2>
+
+<h2 class="context-title">{'Available policies [%policy_count]'|i18n( 'design/admin/node/view/full',, hash( '%policy_count', $assigned_policies|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -10,55 +13,82 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=count( $policies )}
+{section show=$assigned_policies}
+
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Module'|i18n( 'design/admin/node/view/full' )}</td>
-    <th>{'Function'|i18n( 'design/admin/node/view/full' )}</td>
-    <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</td>
+    <th>{'Role'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Module'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Function'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
-    {section var=Policy loop=$policies sequence=array( bglight, bgdark )}
-    <tr class="{$Policy.sequence}">
-        <td>
-        {section show=eq( $Policy.moduleName, '*' )}
-        <i>{'all modules'|i18n( 'design/admin/node/view/full' )}</i>
-        {section-else}
-            {$Policy.moduleName}
-        {/section}
-        </td>
-        <td>
-        {section show=eq( $Policy.functionName, '*' )}
-        <i>{'all functions'|i18n( 'design/admin/node/view/full' )}</i>
-        {section-else}
-            {$Policy.functionName}
-        {/section}
-        </td>
-        <td>
-            {section show=eq($Policy.limitation,'*')}
-                <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
-            {section-else}
-                {section var=Limitation loop=$Policy.limitation}
-                  {$Limitation.identifier|wash}(
-                      {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
-                          {$LimitationValues.Name|wash}
-                          {delimiter}, {/delimiter}
-                      {/section})
-                      {delimiter}, {/delimiter}
-                {/section}
-             {/section}
-        </td>
-    </tr>
+
+{* For all roles... *}
+{section var=AssignedRoles loop=$assigned_roles sequence=array( bglight, bgdark )}
+
+{* For each policy (if any) within a role... *}
+{section var=Policy loop=$AssignedRoles.item.policies sequence=array( bglight, bgdark )}
+
+<tr class="{$Policy.sequence}">
+
+    {* Role name + limitation (if any). *}
+    <td>
+    {$AssignedRoles.item.name|wash}
+    &nbsp;
+    {section show=$AssignedRoles.item.limit_identifier}
+        ({'limited to %limitation_identifier %limitation_value'|i18n( 'design/admin/node/view/full',, hash( '%limitation_identifier', $AssignedRoles.item.limit_identifier|downcase, '%limitation_value', $AssignedRoles.item.limit_value ) )})
     {/section}
-</table>
-{section-else}
-<table class="list" cellspacing="0">
-<tr>
-    <td>{'There are no available policies.'|i18n( 'design/admin/node/view/full' )}</td>
+    </td>
+
+    {* Module. *}
+    <td>
+    {section show=eq( $Policy.item.module_name, '*' )}
+        <i>{'all modules'|i18n( 'design/admin/node/view/full' )}</i>
+    {section-else}
+        {$Policy.item.module_name}
+    {/section}
+    </td>
+
+    {* Policy. *}
+    <td>
+    {section show=eq( $Policy.item.function_name, '*' )}
+        <i>{'all functions'|i18n( 'design/admin/node/view/full' )}</i>
+    {section-else}
+        {$Policy.item.function_name}
+    {/section}
+    </td>
+
+    {* Limitations. *}
+    <td>
+    {section show=is_set( $Policy.item.limitations )}
+        <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
+        {section-else}
+        {section var=Limitation loop=$Policy.item.limitations}
+            {$Limitation.identifier|wash}(
+            {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
+                {$LimitationValues.Name|wash}
+                {delimiter}, {/delimiter}
+        {/section})
+        {delimiter}, {/delimiter}
+        {/section}
+    {/section}
+    </td>
+
 </tr>
+{/section}
+
+{/section}
+
 </table>
+
+{section-else}
+<div class="block">
+    <p>{'There are no available policies.'|i18n( 'design/admin/node/view/full' )}</p>
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
+
 {/let}
