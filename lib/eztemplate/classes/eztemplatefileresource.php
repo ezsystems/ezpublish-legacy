@@ -279,7 +279,11 @@ class eZTemplateFileResource
                 $result = true;
                 if ( eZTemplate::isDebugEnabled() )
                 {
-                    $text = "<!-- including template $path -->\n<p class=\"small\">$path</p><br/>\n" . $text;
+                    $preText = "\n<!-- START: including template: $path ($uri) -->\n";
+                    if ( eZTemplate::isXHTMLCodeIncluded() )
+                        $preText .= "<p class=\"small\">$path</p><br/>\n";
+                    $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
+                    $text = $preText . $text . $postText;
                 }
             }
         }

@@ -2090,6 +2090,22 @@ class eZTemplate
 
     /*!
      \static
+     \return true if special XHTML code should be included before the included template file.
+             This code will display the template filename in the browser but will eventually
+             break the design.
+    */
+    function isXHTMLCodeIncluded()
+    {
+        if ( !isset( $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] ) )
+        {
+            $ini =& eZINI::instance();
+            $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
+        }
+        return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
+    }
+
+    /*!
+     \static
      \return true if debugging of internals is enabled, this will display
      which files are loaded and when cache files are created.
       Set the option with setIsDebugEnabled().
