@@ -3,29 +3,31 @@ This is an overview of all the releases and their revision numbers.
 
 2.9-3:
 - AKA 3.0-beta2
-- Revision=
+- Revision=431
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0-beta2
 - Version url=http://zev.ez.no/svn/nextgen/versions/2.9-3
-- Date
+- Date 01-Nov-2002
 
 2.9-4:
 - AKA 3.0-beta3
-- Revision=
+- Revision=643
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0-beta3
 - Version url=http://zev.ez.no/svn/nextgen/versions/2.9-4
-- Date
+- Date 20-Nov-2002
 
 2.9-5:
 - AKA 3.0-beta4
-- Revision=
+- Revision=844
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0-beta4
 - Version url=http://zev.ez.no/svn/nextgen/versions/2.9-5
-- Date
+- Date 03-Dec-2002
 
 2.9-6:
 - AKA 3.0-rc1
 - Start Revision=1159
 - Merged Revision=1159:1162
+- Merged Revision=1170:1171
+- End Revision=1173
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.0-rc1
 - Version url=http://zev.ez.no/svn/nextgen/versions/2.9-6
 - Date 13-Dec-2002

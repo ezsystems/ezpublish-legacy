@@ -11,8 +11,8 @@ Importante security
 Add "My" page
 
 - Rewrite SMTP class
-- Fix e-mail class
-- E-mails are hard coded. Must be moved to template.
+[done] jb - Fix e-mail class
+[done] jb - E-mails are hard coded. Must be moved to template.
 
 Notification:
 - Clean up database table and look over framework
@@ -81,7 +81,7 @@ Roles:
 
 Images: Make english filenames
 
-Test and clean up setup script.
+[done] jb - Test and clean up setup script.
 
 Layout:
 
