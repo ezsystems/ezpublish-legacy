@@ -71,34 +71,6 @@ define( "WEBDAV_AUTH_FAILED", "Invalid username or password!" );
 define( "WEBDAV_INVALID_SITE", "Invalid site name specified!" );
 define( "WEBDAV_DISABLED", "WebDAV functionality is disabled!" );
 
-/*!
-   Gets and returns the path to the original image directory.
- */
-function getPathToOriginalImageDir()
-{
-    // Build the path to where the original images are:
-    $sys =& eZSys::instance();
-    $storageDir = $sys->storageDirectory();
-    $originalImageDir  = $storageDir . '/' . "original/image";
-
-    // Return the path to the dir where the original images are stored.
-    return $originalImageDir ;
-}
-
-/*!
-Gets and returns the path to the reference image directory.
- */
-function getPathToReferenceImageDir()
-{
-    // Build the path to where the original images are:
-    $sys =& eZSys::instance();
-    $storageDir = $sys->storageDirectory();
-    $referenceImageDir  = $storageDir . '/' . "reference/image";
-
-    // Return the path to the dir where the reference images are stored.
-    return $referenceImageDir;
-}
-
 class eZWebDAVContentServer extends eZWebDAVServer
 {
     /*!
@@ -162,7 +134,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         // Return an array with content entries and their attributes.
-        eZDebug::writeError( $entries, 'entries' );
         return $entries;
     }
 
