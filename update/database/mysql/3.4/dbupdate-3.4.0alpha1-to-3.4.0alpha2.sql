@@ -7,7 +7,7 @@ UPDATE ezsite_data SET value='2' WHERE name='ezpublish-release';
 
 CREATE TABLE ezuser_session_link (
   user_id int(11) NOT NULL,
-  session_key varchar(32),
+  session_key varchar(32) NOT NULL,
   PRIMARY KEY( user_id, session_key )
 );
 CREATE INDEX ezuser_session_link_user_idx on ezuser_session_link ( user_id );
