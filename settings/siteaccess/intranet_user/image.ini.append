@@ -4,4 +4,4 @@ AliasList[]=logo
 
 [logo]
 Reference=reference
-Filters[]=geometry/scale=250;60
+Filters[]=geometry/scaledownonly=250;48

@@ -174,4 +174,11 @@ MatchFile=frontpageimage.tpl
 Subdir=templates
 Match[class]=2
 
+[edit_class_15]
+Source=content/edit.tpl
+MatchFile=edit_class_15.tpl
+Subdir=templates
+Match[class]=15
+
+
 */ ?>
