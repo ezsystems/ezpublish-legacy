@@ -46,37 +46,46 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {* --- Search ---*}
 <div id="search">
-<form action={'/content/search/'|ezurl} method="get">
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set($search_text)}{$search_text|wash}{/section}" />
-    <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
+<form action={'/content/search/'|ezurl} method="get" disabled="disabled" >
+    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set($search_text)}{$search_text|wash}{/section}"{section show=eq($ui_context,'edit')} disabled="disabled"{/section} />
+    <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}"{section show=eq($ui_context,'edit')} disabled="disabled"{/section} />
     <p>
     {let disabled=false()
          nd=1
          left_checked=true()
          current_loc=true()}
-    {section show=is_set($module_result.node_id)}
-        {set nd=$module_result.node_id}
+    {section show=eq($ui_context,'edit')}
+        {set disabled=true()}
     {section-else}
-        {section show=is_set($search_subtree_array)}
-            {section show=count($search_subtree_array)|eq(1)}
-                {section show=$search_subtree_array.0|ne(1)}
-                    {set nd=$search_subtree_array.0}
-                    {set left_checked=false()}
+        {section show=is_set($module_result.node_id)}
+            {set nd=$module_result.node_id}
+        {section-else}
+            {section show=is_set($search_subtree_array)}
+                {section show=count($search_subtree_array)|eq(1)}
+                    {section show=$search_subtree_array.0|ne(1)}
+                        {set nd=$search_subtree_array.0}
+                        {set left_checked=false()}
+                    {section-else}
+                        {set disabled=true()}
+                    {/section}
+                    {set current_loc=false()}
                 {section-else}
                     {set disabled=true()}
                 {/section}
-                {set current_loc=false()}
             {section-else}
                 {set disabled=true()}
             {/section}
-        {section-else}
-            {set disabled=true()}
         {/section}
     {/section}
     <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="1" checked="checked"{section show=$disabled} disabled="disabled"{/section} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
     <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="{$nd}"{section show=$disabled} disabled="disabled"{/section}{section show=not($left_checked)} checked="checked"{/section} />{section show=$current_loc}{'Current location'|i18n('design/admin/pagelayout')}{section-else}{'The same location'|i18n('design/admin/pagelayout')}{/section}</label>
     {/let}
-    <a href={'/content/advancedsearch'|ezurl}>{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
+    {section show=eq($ui_context,'edit')}
+    <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
+    {section-else}
+    <a href={'/content/advancedsearch'|ezurl}>{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
+    {/section}
+    </p>
 </form>
 </div>
 
