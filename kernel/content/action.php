@@ -289,6 +289,46 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
         return;
     }
+    else if ( $http->hasPostVariable( "ActionPreview" ) )
+    {
+        $user =& eZUser::currentUser();
+        $objectID = $http->postVariable( 'ContentObjectID' );
+        $object =& eZContentObject::fetch(  $objectID );
+        $module->redirectTo( $module->functionURI( 'versionview' ) . '/' . $objectID . '/' . $object->attribute( 'current_version' ) . '/' );
+        return;
+
+    }
+    else if ( $http->hasPostVariable( "ActionRemove" ) )
+    {
+        if ( $http->hasPostVariable( 'ViewMode' ) )
+        {
+            $viewMode = $http->postVariable( 'ViewMode' );
+        }
+        else
+        {
+            $viewMode = 'full';
+        }
+        $parentNodeID = 2;
+        $contentNodeID = null;
+        if ( $http->hasPostVariable( 'ContentNodeID' ) )
+        {
+            $contentNodeID = $http->postVariable( 'ContentNodeID' );
+            $node =& eZContentObjectTreeNode::fetch( $contentNodeID );
+            $parentNodeID =& $node->attribute( 'parent_node_id' );
+        }
+        $contentObjectID = 1;
+        if ( $http->hasPostVariable( 'ContentObjectID' ) )
+            $contentObjectID = $http->postVariable( 'ContentObjectID' );
+
+        if ( $contentNodeID != null )
+        {
+            $http->setSessionVariable( 'CurrentViewMode', $viewMode );
+            $http->setSessionVariable( 'ContentNodeID', $parentNodeID );
+            $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
+            $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
+            $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
+        }
+    }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {
         $result =& $module->run( "collectinformation", array() );
