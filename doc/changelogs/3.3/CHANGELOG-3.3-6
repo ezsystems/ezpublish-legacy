@@ -1,0 +1,31 @@
+Changes from 3.3-5 to 3.3-6
+
+*Kernel:
+
+*Setup:
+
+*DataTypes:
+
+eZAuthor
+
+
+eZINI:
+
+
+*Bugfixes:
+- Fixed bug of unable to remove node assignment when moving node or remove node assignment.
+  http://ez.no/community/bug_reports/3_4alpha4_moving_a_node_won_t_work
+
+*Library:
+
+eZ Locale:
+
+eZ MIMEType:
+
+eZ Debug:
+
+eZ Template:
+
+*Translations:
+
+*Templates:
