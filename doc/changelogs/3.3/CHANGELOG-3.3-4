@@ -56,6 +56,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/role_caching_works_for_current_user_only
 - Fixed bug, wrong css rule for setup and double / character in path for accept path info test.
   http://ez.no/community/bug_reports/design_and_a_unknown_error_in_logfile
+- Fixed bug, typos in forumtopic template
+  http://ez.no/community/bug_reports/demo_forum
 
 *Library:
 
