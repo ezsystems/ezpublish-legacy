@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title>eZPaymentObject</title>
+</head>
+
+<body>
+
+<h1>eZPaymentObject class</h1>
+<img src="images/eZPaymentObject.png" alt="[eZPaymentObject image]">
+
+<p>
+This is a helper class for processing payments for gateways which supports redirection to a 
+payment site. 
+
+<h2>Data</h2>
+
+<h2>Methods</h2>
+
+<h2>createNew(workflowProcessID: int, orderID: int, paymentType: string): eZPaymentObject</h2>
+Static.
+
+<h3>Parameters</h3>
+<i>workflowProcessID</i> - identifier of workflow process;<br>
+<i>orderID</i> - identifier of order;<br>
+<i>paymentType</i> - description of payment gateway(PayPal, PayNet, etc);
+
+<h3>Returns</h3>
+New instance of eZPaymentObject class.
+<br>
+<br>
+
+<h2>approve()</h2>
+Approves payment.
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+
+<br>
+<br>
+
+<h2>approved()</h2>
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+TRUE if payment was approved.
+<br>
+<br>
+
+<h2>fetchByID(id:int)</h2>
+Static.
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+an instance of eZPaymentObject by given <i>id</i>.
+<br>
+<br>
+
+<h2>fetchByOrderID(orderID:int)</h2>
+Static.
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+an instance of eZPaymentObject by given <i>orderID</i>.
+<br>
+<br>
+
+<h2>fetchByProcessID(processID:int)</h2>
+Static.
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+an instance of eZPaymentObject by given <i>processID</i>.
+<br>
+<br>
+
+<h2>continueWorkflow(workflowProcessID:int)</h2>
+Static. Continues workflow by given <i>workflowProcessID</i>.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>eZPaymentGatewayType</title>
+</head>
+
+<body>
+
+<h1>eZPaymentGatewayType class</h1>
+<img src="images/eZPaymentGatewayType.png" alt="[eZPaymentGatewayType image]">
+
+<h2>Data</h2>
+
+<h2>Methods</h2>
+
+<h2>execute(process: eZWorkflowProcess, event: eZWorkflowEven): EZ_WORKFLOW_TYPE_STATUS</h2>
+Creates necessary gateway and delegate execution to it. If there are multiple gateways in 
+eZPaymentGatewayType, shows template with a list of available gateways and asks user to 
+choose one.
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+EZ_WORKFLOW_TYPE_STATUS_REJECTED              - payment is rejected by some reason.<br>
+EZ_WORKFLOW_TYPE_STATUS_ACCEPTED              - payment is accepted.<br>
+EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT - fetches template specified in 
+<i>'Template'</i> member of the <i>process</i> and force to repeat call to 'execute'.<br>
+EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT       - performs redirection to the URL specified in
+<i>RedirectUrl</i> member of the <i>process</i> and force to repeat call to 'execute'.
+<br>
+<br>
+
+<h2>loadAndRegisterGateways()</h2>
+Searches available gateways( build-in or as extensions ).
+<h3>Parameters</h3>
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>loadAndRegisterBuiltInGateways()</h2>
+Searches available built-in gateways.
+<h3>Parameters</h3>
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>loadAndRegisterExtensionGateways()</h2>
+Searches available gateways among extensions.
+<h3>Parameters</h3>
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>registerGateway(gateway: string, class_name: string, description: string)</h2>
+Each gateway must call this function.
+
+<h3>Parameters</h3>
+<i>gateway</i> - indentifier of the gateway.<br>
+<i>class_name</i> - name of the gateway class.<br>
+<i>description</i> - description of the gateway.
+
+<h3>Return</h3>
+<br>
+<br>
+
+<h2>getGateways(gatewaysTypes: array(string)): array</h2>
+
+<h3>Parameters</h3>
+<i>gatewaysTypes</i> - an array of gateways identifiers.<br>
+
+<h3>Returns</h3>
+An array of gateways difinitions(class_name, description) by given <i>gatewaysTypes</i>.
+<br>
+<br>
+
+<h2>createGateway(gatewayType: string): eZPaymentGateway</h2>
+
+<h3>Parameters</h3>
+<i>gatewayType</i> - a gateway identifier.<br>
+
+<h3>Returns</h3>
+A eZPaymentGateway object by given <i>gatewayType</i>.
+<br>
+<br>
+
+<h2>getCurrentGateway(event: eZWorkflowEvent): eZPaymentGateway</h2>
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+Current gateway.
+<br>
+<br>
+
+<h2>getCurrentGatewayType(event: eZWorkflowEvent): string</h2>
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+Current gateway type(identifier).
+<br>
+<br>
+
+<h2>selectGateway(event: eZWorkflowEvent): bool</h2>
+Sets up current gateway. 
+
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+</body>
+</html>

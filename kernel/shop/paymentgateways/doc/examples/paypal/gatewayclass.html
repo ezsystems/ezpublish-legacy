@@ -1,0 +1,195 @@
+<html>
+<head>
+    <title>Step 3. Creating a gateway class</title>
+</head>
+
+<body>
+
+<h1>Step 3. Creating a gateway class</h1>
+Before creating gateway you should read documentation about paypal protocol('Buy Now Buttons, 'IPN').
+Assumes you already did that.
+<p>
+Lets create a <i>eZPaypalGateway</i> class for our gateway. Since it should redirect a customer to 
+the paypal site, our class should be inherited from <i>eZRedirectGateway</i>. Add these lines to
+<i>'ezpaypalgateway.php'</i>.
+
+<p>
+<code>
+<pre>
+    include_once( 'kernel/shop/paymentgateways/redirect/ezredirectgateway.php' );
+    
+    define( "EZ_PAYMENT_GATEWAY_TYPE_PAYPAL", "ezpaypal" );
+    
+    class eZPaypalGateway extends eZRedirectGateway
+    {
+        function eZPaypalGateway()
+        {
+        }
+    }
+</pre>
+</code>
+
+<p>
+Now we need to override <i>createRedirectionUrl</i> function. This function should return a string
+with key-value pairs for POST request. Some values are hard-coded and some are taken from ini file.
+Add these lines to <i>'ezpaypalgateway.php'</i> to <i>eZPaypalGateway</i> class.
+
+<p>
+<code>
+<pre>
+    function &createRedirectionUrl( &$process )
+    {
+        $paypalINI      =& eZINI::instance( 'paypal.ini' );
+    
+        $paypalServer   = $paypalINI->variable( 'ServerSettings', 'ServerName');
+        $requestURI     = $paypalINI->variable( 'ServerSettings', 'RequestURI');
+        $business       = urlencode( $paypalINI->variable( 'PaypalSettings', 'Business' ) );
+        
+        $processParams  =& $process->attribute( 'parameter_list' );
+        $orderID        = $processParams['order_id'];
+
+        $indexDir       = eZSys::indexDir();
+        $localHost      = eZSys::hostname();
+        $localURI       = eZSys::serverVariable( 'REQUEST_URI' );
+        
+        $order          =& eZOrder::fetch( $orderID );
+        $amount         = urlencode( $order->attribute( 'total_inc_vat' ) );
+        
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale         =& eZLocale::instance();
+        $currency       = urlencode( $locale->currencyShortName() );
+
+        $maxDescLen     = $paypalINI->variable( 'PaypalSettings', 'MaxDescriptionLength');
+        $itemName       = urlencode( $this->createShortDescription( $order, $maxDescLen ) );
+                
+        $accountInfo    = $order->attribute( 'account_information' );
+        $first_name     = urlencode( $accountInfo['first_name'] );
+        $last_name      = urlencode( $accountInfo['last_name'] );
+        $street         = urlencode( $accountInfo['street2'] );
+        $zip            = urlencode( $accountInfo['zip'] );
+        $state          = urlencode( $accountInfo['state'] );
+        $place          = urlencode( $accountInfo['place'] );
+        $image_url      = "http://$localHost" . urlencode( $paypalINI->variable( 'PaypalSettings', 'LogoURI' ) );
+        $background     = urlencode( $paypalINI->variable( 'PaypalSettings', 'BackgroundColor' ) );
+        $pageStyle      = urlencode( $paypalINI->variable( 'PaypalSettings', 'PageStyle' ) );
+        $noNote         = urlencode( $paypalINI->variable( 'PaypalSettings', 'NoNote' ) );
+        $noteLabel      = ($noNote == 1) ? '' : urlencode( $paypalINI->variable( 'PaypalSettings', 'NoteLabel' ) );
+        $noShipping     = 1;
+
+        $url =  $paypalServer  . $requestURI    .
+                "?cmd=_ext-enter"               .
+                "&redirect_cmd=_xclick"         .
+                "&business=$business"           .
+                "&item_name=$itemName"          .
+                "&custom=$orderID"              .
+                "&amount=$amount"               .
+                "&currency_code=$currency"      .
+                "&first_name=$first_name"       .
+                "&last_name=$last_name"         .
+                "&address1=$street"             .
+                "&zip=$zip"                     .
+                "&state=$state"                 .
+                "&city=$place"                  .
+                "&image_url=$image_url"         .
+                "&cs=$background"               .
+                "&page_style=$pageStyle"        .
+                "&no_shipping=$noShipping"      .
+                "&cn=$noteLabel"                .
+                "&no_note=$noNote"              .
+                "&notify_url=http://$localHost" . $indexDir . "/paypal/notify_url/".
+                "&return=http://$localHost"     . $indexDir . "/shop/checkout/" .
+                "&cancel_return=http://$localHost" . $indexDir. "/shop/basket/";
+                
+        return $url;
+    }
+
+</pre>
+</code>
+
+<p>
+And these to <i>'paypal.ini'</i>
+
+<p>
+<pre>
+<code>
+    [ServerSettings]
+    #ServerName=https://www.paypal.com
+    ServerName=https://www.sandbox.paypal.com
+    RequestURI=/cgi-bin/webscr
+    
+    [PaypalSettings]
+    # max length of description of the order
+    # everything that exceeds will be truncated 
+    MaxDescriptionLength=127
+    
+    # field: "business"
+    # e-mail of receiver
+    Business=my_business@coolmail.net
+    
+    # field: "no_note" 
+    # prompt to include a note. 0 - prompt, 1 - dont prompt
+    NoNote=0
+    
+    # field: "cn"
+    # label that will appear above the note field
+    # maximum 40 characters
+    NoteLabel=Some Label
+    
+    # field: "page_style"
+    PageStyle=
+    
+    # field: "cs" 
+    # background color if PageStyle not set. 0 - white, 1 - black.                            
+    BackgroundColor=0
+    
+    #filed: "image_url" (URI to the logo image (150 x 50 pixels))
+    LogoURI=/var/shop/images/logo.png
+</code>
+</pre>
+
+<p>
+Note that in the <i>'Business'</i> field you should point you merchant account(a test account, for
+example).<br>
+Note that for testing we are using <i>www.sandbox.paypal.com</i> site. In life you should use
+<i>www.paypal.com</i>.
+
+<p>
+When a callback will be called we need to know what order we should process and what workflow
+should continue. For these purposes <i>eZPaymentObject</i> is served. It stores in database 
+information about order and workflow.<br>
+Lets create our payment object. Add these lines to <i>'ezpaypalgateway.php'</i> to 
+<i>eZPaypalGateway</i> class.
+
+<p>
+<code>
+<pre>
+    function &createPaymentObject( &$processID, &$orderID )
+    {
+        return eZPaymentObject::createNew( $processID, $orderID, 'Paypal' );
+    }
+</pre>
+</code>
+
+<p>
+Don't forget to include to <i>'ezpaypalgateway.php'</i> necessary file:
+<p>
+<code>
+<pre>
+include_once( 'kernel/shop/paymentgateways/redirect/ezpaymentobject.php' );
+</pre>
+</code>
+
+<p>
+To make our gateway visible for eZPublish workflow system add this line somewhere in 
+<i>'ezpaypalgateway.php'</i>
+
+<p>
+<code>
+<pre>
+eZPaymentGatewayType::registerGateway( EZ_PAYMENT_GATEWAY_TYPE_PAYPAL, "ezpaypalgateway", "Paypal" );
+</pre>
+</code>
+
+<p>
+We are almost finished. Now we need to hanle callback.
+

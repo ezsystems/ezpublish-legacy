@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Step 2. Creating extension files</title>
+</head>
+
+<body>
+
+<h1>Step 2. Creating extension files</h1>
+The extension should be placed in extension directory. By default it is <i>'extension'</i>.
+The root folder for our extension is <i>'ezpaypal'</i>. So, if we need to add to our extension 
+<i>'modules/paypal/module.php'</i> it should be placed to <i>'extension/ezpaypal/modules/paypal/module.php</i>.
+In order to make our gateway work we need files listed below:<br>
+<ul>
+    <li>'classes/ezpaypalchecker.php';</li>
+    <li>'classes/ezpaypalgateway.php';</li>
+    <li>'modules/paypal/module.php';</li>
+    <li>'modules/paypal/notify_url.php';</li>
+    <li>'modules/settings/site.ini.append';</li>
+    <li>'modules/settings/module.ini.append';</li>
+    <li>'modules/settings/paypal.ini';</li>
+</ul>
+
+<p>
+Add lines below to <i>'module.ini.append'</i>.
+<p>
+<pre>
+<code>
+    [ModuleSettings]
+    ExtensionRepositories[]=ezpaypal
+</code>
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Step 5. Testing gateway</title>
+</head>
+
+<body>
+
+<h1>Step 5. Testing gateway</h1>
+
+<h2>Setting up the <i>eZPaypal</i> extension</h2>
+
+Login to your admin interface, <i>www.my.site.com/shop_admin</i> for example.<br>
+Navigate to <i>'Set up'->'Extension setup'</i>.<br>
+In the list of available extensions check <i>eZPaypal</i>.<br>
+Press <i>'Activate extensions'</i> button.
+
+
+<h2>Setting up workflow</h2>
+In admin interface navigate to <i>'Set up'->'Workflows'->'Standard'</i>.<br>
+Press <i>'New workflow'</i> button. <br>
+Enter a name for workflow, <i>'Paypal workflow'</i> for example.<br>
+In the <i>'Event'</i> section select <i>'Event/Payment gateway'</i> and press <i>'New"</i>
+button.<br>
+Enter a name for event and in the <i>'Type'</i> section select <i>'Paypal'</i>.<br>
+Press <i>'Store'</i> button.<br>
+Navigate to <i>'Set up'->'Triggers'</i>.<br>
+Select <i>'Paypal workflow'</i> for module <i>'shop'</i>, function <i>'checkout'</i>, 
+connect type <i>'before'</i>.<br>
+Press <i>'Store'</i> button.<br>
+
+<h2>Testing gateway</h2>
+Login to you shop site, <i>www.my.site.com/shop</i> for example.<br>
+Add some products to your basket.<br>
+Press <i>'Checkout'</i> button.<br>
+Confirm your order.<br>
+You will be redirected to PayPal site. Use your test customer account to pay.<br>
+After you are finished with PayPal you will be redirected back to your shop site.<br>
+Login to the admin interface.<br>
+Navigate to the <i>'Shop'</i> section. In the <i>'Order list'</i> you should see your order.<br>
+
+
+</body>
+</html>

@@ -17,3 +17,25 @@ CREATE SEQUENCE tmp_notification_rule_s
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
+
+-- the support of redirect payment gateways
+-- create table for eZPaymentObjects
+CREATE SEQUENCE ezpaymentobject_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+CREATE TABLE ezpaymentobject(
+    id integer DEFAULT nextval('ezpaymentobject_s'::text) NOT NULL PRIMARY KEY,
+    workflowprocess_id integer DEFAULT 0 NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
+    payment_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    status integer DEFAULT 0 NOT NULL
+    );
+
+ALTER TABLE ezbasket ADD COLUMN order_id integer;
+UPDATE ezbasket SET order_id=0;
+ALTER TABLE ezbasket ALTER order_id SET NOT NULL;
+ALTER TABLE ezbasket ALTER order_id SET DEFAULT 0;

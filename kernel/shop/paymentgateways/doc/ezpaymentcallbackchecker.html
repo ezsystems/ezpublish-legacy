@@ -1,0 +1,125 @@
+<html>
+<head>
+    <title>eZPaymentCallbackChecker</title>
+</head>
+
+<body>
+
+<h1>eZPaymentCallbackChecker class</h1>
+<img src="images/eZPaymentCallbackChecker.png" alt="[eZPaymentCallbackChecker image]">
+
+<p>
+This is a helper class for processing callbacks for gateways which supports redirection to a 
+payment site. 
+
+<h2>Data</h2>
+<i>ini</i> - an instance of eZINI class. Contains settings for gateway.<br>
+<i>callbackData</i> - an array of key-value pairs which were retrieved form payment site.<br>
+<i>paymentObject</i> - an instance of eZPaymentObject subclass.<br>
+<i>order</i> - an of eZOrder class.
+
+<h2>Methods</h2>
+<h2>createDataFromPOST(): bool</h2>
+Creates <i>callbackData</i> from POST callback.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>createDataFromPOST(): bool</h2>
+Creates <i>callbackData</i> from GET callback.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>sendPostRequest(server: string, port: int, serverMethod:string, request: string, timeout:int=30)</h2>
+Opens socket and sends POST <i>request</i> to <i>server:port/serverMethod</i>. For retrieving response
+<i>handleResponse</i> will be called.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>handleResponse(socket)</h2>
+Does nothing. Must be overridden in subclass.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>buildRequestString(): string</h2>
+Does nothing. Must be overridden in subclass. Usually prepares string for postback to the payment site
+to make sure that callback was called from payment site(against hacking).
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>requestValidation(): string</h2>
+Does nothing. Must be overridden in subclass. Usually certifies that callback was called from payment site
+(against hacking).
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>setupOrderAndPaymentObjcet(orderID: int)</h2>
+Initializes <i>paymentObject</i> and <i>order</i> by given <i>orderID</i>.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>approvePayment(continueWorkflow:bool = true)</h2>
+Approves payment and continues workflow.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>continueWorkflow()</h2>
+Continues workflow.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>checkServerIP(): bool</h2>
+Reads valid ip-addresses from ini file and searches among them callback's ip(against hacking).
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+TRUE if server ip is valid.
+<br>
+<br>
+
+<h2>checkAmount(): bool</h2>
+Compares amount values from callback and order.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+TRUE if amounts are equal.
+<br>
+<br>
+
+<h2>checkCurrency(): bool</h2>
+Compares currency values from callback and order.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+TRUE if currencies are equal.
+<br>
+<br>
+
+</body>
+</html>

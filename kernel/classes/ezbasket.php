@@ -75,7 +75,11 @@ class eZBasket extends eZPersistentObject
                                          "productcollection_id" => array( 'name' => "ProductCollectionID",
                                                                           'datatype' => 'integer',
                                                                           'default' => '0',
-                                                                          'required' => true ) ),
+                                                                          'required' => true ),
+                                         "order_id"             => array( 'name'     => "OrderID",
+                                                                          'datatype' => 'integer',
+                                                                          'default'  => 0,
+                                                                          'required' => false ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZBasket",
@@ -275,16 +279,27 @@ class eZBasket extends eZPersistentObject
      Will return the basket for the current session. If a basket does not exist one will be created.
      \return current eZBasket object
     */
-    function &currentBasket( $asObject=true )
+    function &currentBasket( $asObject=true, $byOrderID=-1 )
     {
-        $http =& eZHTTPTool::instance();
-        $sessionID = $http->sessionID();
+        $basketList = array();
 
-        $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
-                                                          null, array( "session_id" => $sessionID
-                                                                       ),
-                                                          null, null,
-                                                          $asObject );
+        if( $byOrderID != -1 )
+        {
+            $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+                                                                null, array( "order_id" => $byOrderID ),
+                                                                null, null,
+                                                                $asObject );
+        }
+        else
+        {
+            $http =& eZHTTPTool::instance();
+            $sessionID = $http->sessionID();
+
+            $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+                                                                null, array( "session_id" => $sessionID ),
+                                                                null, null,
+                                                                $asObject );
+        }
 
         $currentBasket = false;
         if ( count( $basketList ) == 0 )
@@ -320,6 +335,10 @@ class eZBasket extends eZPersistentObject
                                      'is_temporary' => 1,
                                      'created' => mktime() ) );
         $order->store();
+
+        $orderID = $order->attribute( 'id' );
+        $this->setAttribute( 'order_id', $orderID );
+        $this->store();
 
         return $order;
     }

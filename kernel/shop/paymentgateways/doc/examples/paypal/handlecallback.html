@@ -1,0 +1,172 @@
+<html>
+<head>
+    <title>Step 4. Handle callback</title>
+</head>
+
+<body>
+
+<h1>Step 4. Handle callback</h1>
+
+<h2>Prepare for check callback data</h2>
+We have a <i>eZPaymentCallbackChecker</i> class that can perform common checks. But we need to 
+additional checks which are specific for paypal payment system.
+Lets create our checker class <i>eZPaypalChecker</i>. Add these lines to <i>'ezpaypalchecker.php'</i>:
+
+<p>
+<pre>
+<code>
+include_once( 'kernel/shop/paymentgateways/redirect/ezpaymentcallbackchecker.php' );
+
+class eZPaypalChecker extends eZPaymentCallbackChecker
+{
+    function eZPaypalChecker( $iniFile )
+    {
+        $this->eZPaymentCallbackChecker( $iniFile );
+    }
+}
+</code>
+</pre>
+
+<p>
+Now we have to add checks specific to paypal.<br>
+<i>requestValidation</i> function ensure that callback was received from paypal site.
+
+<p>
+<pre>
+<code>
+    function requestValidation()
+    {
+        $server     = $this->ini->variable( 'ServerSettings', 'ServerName');
+        $serverPort = 80;
+        $requestURI = $this->ini->variable( 'ServerSettings', 'RequestURI');
+        $request    = $this->buildRequestString();
+        $response   = $this->sendPOSTRequest( $server, $serverPort, $requestURI, $request);
+
+        if( $response && strcasecmp( $response, 'VERIFIED' ) == 0 )
+        {
+            return true;
+        }
+        return false;
+    }
+</code>
+</pre>
+
+<p>
+<i>buildRequestString</i> prepares request string for <i>requestValidation</i>.
+
+<p>
+<pre>
+<code>
+    function &buildRequestString()
+    {
+        $request = "cmd=_notify-validate";
+        foreach( $this->callbackData as $key => $value )
+        {
+            $request .= "&$key=".urlencode( $value );
+        }
+        return $request;
+    }
+</code>
+</pre>
+
+<p>
+<i>handleResponse</i> handles response from server after <i>sendPOSTRequest</i> was called.
+
+<p>
+<pre>
+<code>
+    function &handleResponse( &$socket )
+    {
+        if( $socket )
+        {
+            while ( !feof( $socket ) )
+            {
+                $response = fgets ( $socket, 1024 );
+            }
+      
+            fclose( $socket );
+            return $response;
+        }
+        return null;
+    }
+</code>
+</pre>
+
+<p>
+<i>checkPaymentStatus</i> ensures that payment was complete.
+
+<p>
+<pre>
+<code>
+    function checkPaymentStatus()
+    {
+        if( $this->checkDataField( 'payment_status', 'Completed' ) )
+        {
+            return true;
+        }
+        return false;
+    }
+</code>
+</pre>
+
+<p>
+We are done with <i>eZPaypalChecker</i>.
+
+<h2>Handle callback</h2>
+During creation of <i>eZPaypalGateway</i> class, we specified that our callback handler will be 
+named <i>notify_url</i> (see field <i>notify_url</i> in <i>createRedirectionURL</i> function).
+Lets make a body for it. Add lines below to <i>notify_url.php</i>:
+
+<p>
+<pre>
+<code>
+    ext_activate( 'ezpaypal', 'classes/ezpaypalchecker.php' );
+    
+    $checker =& new eZPaypalChecker( 'paypal.ini' );
+    if( $checker->createDataFromPOST() )
+    {
+      unset ($_POST);                     
+      if( $checker->requestValidation() && $checker->checkPaymentStatus() )
+      {
+          $orderID = $checker->getFieldValue( 'custom' );
+          if( $checker->setupOrderAndPaymentObject( $orderID ) )
+          {
+              $amount   = $checker->getFieldValue( 'mc_gross' );
+              $currency = $checker->getFieldValue( 'mc_currency' );
+              if( $checker->checkAmount( $amount ) && $checker->checkCurrency( $currency ) )
+              {
+                  $checker->approvePayment();
+              }
+          }
+      }
+    }
+</code>
+</pre>
+
+<p>
+Also we need this in <i>module.php</i>:
+
+<p>
+<pre>
+<code>
+    $Module = array( "name" => "eZPaypal" );
+
+    $ViewList = array();
+    $ViewList["notify_url"] = array(
+        "script" => "notify_url.php" );
+</code>
+</pre>
+
+<p>
+And this in <i>site.ini.append</i> (allows anonymous user access to <i>notify_url</i>):
+
+<p>
+<pre>
+<code>
+    [RoleSettings]
+    PolicyOmitList[]=paypal/notify_url
+</code>
+</pre>
+
+That is all.
+

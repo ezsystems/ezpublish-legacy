@@ -37,6 +37,8 @@
 include_once( 'kernel/classes/ezorder.php' );
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
+include_once( 'kernel/shop/paymentgateways/redirect/ezpaymentobject.php' );
+
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
@@ -47,55 +49,116 @@ if ( get_class( $order ) == 'ezorder' )
 {
     if (  $order->attribute( 'is_temporary' ) )
     {
-        $email =& $order->accountEmail();
-        $order->setAttribute( 'email', $email );
-        $order->store();
-
-        $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
-        switch( $operationResult['status'] )
+        $paymentObj =& eZPaymentObject::fetchByOrderID( $orderID );
+        if ( $paymentObj != null )
         {
-            case EZ_MODULE_OPERATION_HALTED:
+            $startTime = time();
+            while( ( time() - $startTime ) < 29 )
             {
-                if (  isset( $operationResult['redirect_url'] ) )
+                eZDebug::writeDebug( "next iteration", "checkout" );
+                $order =& eZOrder::fetch( $orderID );
+                if ( $order->attribute( 'is_temporary' ) == 0 )
                 {
-                    $module->redirectTo( $operationResult['redirect_url'] );
-                    return;
+                    break;
                 }
-                else if ( isset( $operationResult['result'] ) )
+                else
                 {
-                    $result =& $operationResult['result'];
-                    $resultContent = false;
-                    if ( is_array( $result ) )
-                    {
-                        if ( isset( $result['content'] ) )
-                            $resultContent = $result['content'];
-                        if ( isset( $result['path'] ) )
-                            $Result['path'] = $result['path'];
-                    }
-                    else
-                        $resultContent =& $result;
-                    $Result['content'] =& $resultContent;
-                    return;
+                    sleep ( 2 );
                 }
-            }break;
-            case EZ_MODULE_OPERATION_CANCELED:
-            {
-                $Result = array();
-                include_once( "kernel/common/template.php" );
-                $tpl =& templateInit();
-                $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
-                $Result['path'] = array( array( 'url' => false,
-                                                'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+            }
+        }
+        $order =& eZOrder::fetch( $orderID );
+        if (  $order->attribute( 'is_temporary' ) == 1 && $paymentObj == null  )
+        {
+            $email =& $order->accountEmail();
+            $order->setAttribute( 'email', $email );
+            $order->store();
 
+            $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
+            switch( $operationResult['status'] )
+            {
+                case EZ_MODULE_OPERATION_HALTED:
+                {
+                    if (  isset( $operationResult['redirect_url'] ) )
+                    {
+                        $module->redirectTo( $operationResult['redirect_url'] );
+                        return;
+                    }
+                    else if ( isset( $operationResult['result'] ) )
+                    {
+                        $result =& $operationResult['result'];
+                        $resultContent = false;
+                        if ( is_array( $result ) )
+                        {
+                            if ( isset( $result['content'] ) )
+                                $resultContent = $result['content'];
+                            if ( isset( $result['path'] ) )
+                                $Result['path'] = $result['path'];
+                        }
+                        else
+                            $resultContent =& $result;
+                        $Result['content'] =& $resultContent;
+                        return;
+                    }
+                }break;
+                case EZ_MODULE_OPERATION_CANCELED:
+                {
+                    $Result = array();
+                    include_once( "kernel/common/template.php" );
+                    $tpl =& templateInit();
+                    $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
+                    $Result['path'] = array( array( 'url' => false,
+                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+
+                    return;
+                }
+
+            }
+        }
+        else
+        {
+            if ( $order->attribute( 'is_temporary' ) == 0 )
+            {
+                $module->redirectTo( '/shop/orderview/' . $orderID );
                 return;
             }
-
+            else
+            {
+                if( $http->hasPostVariable( 'Attempt' ) )
+                {
+                    $attempt = $http->postVariable( 'Attempt' );
+                }
+                else
+                {
+                    $attempt = 0;
+                }
+                if ( $attempt < 4 )
+                {
+                    $Result = array();
+                    include_once( "kernel/common/template.php" );
+                    $tpl =& templateInit();
+                    $tpl->setVariable( 'attempt', $attempt+1 );
+                    $Result['content'] =& $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
+                    $Result['path'] = array( array( 'url' => false,
+                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+                    return;
+                }
+                else
+                {
+                    $Result = array();
+                    include_once( "kernel/common/template.php" );
+                    $tpl =& templateInit();
+                    $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
+                    $Result['path'] = array( array( 'url' => false,
+                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+                    return;
+                }
+            }
         }
    }
    $module->redirectTo( '/shop/orderview/' . $orderID );
    return;
 
 }
-
 
 ?>

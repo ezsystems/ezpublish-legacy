@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>eZPaymentGateway</title>
+</head>
+
+<body>
+
+<h1>eZPaymentGateway class</h1>
+<img src="images/eZPaymentGateway.png" alt="[eZPaymentGateway image]">
+
+<p>
+This is a base class for payment gateways. Never create objects of this class. Instead you
+have to create your own class which is inherited from this class and override <i>execute</i>
+and <i>cleanup</i> functions.
+
+<h2>Data</h2>
+
+<h2>Methods</h2>
+
+<h2>execute(process: eZWorkflowProcess, event: eZWorkflowEven): EZ_WORKFLOW_TYPE_STATUS</h2>
+Does nothing.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+EZ_WORKFLOW_TYPE_STATUS_REJECTED              - payment is rejected in any case.<br>
+<br>
+<br>
+
+<h2>cleanup(process: eZWorkflowProcess, event: eZWorkflowEven): EZ_WORKFLOW_TYPE_STATUS</h2>
+Does nothing.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>createShortDescription(order: eZOrder, maxDescLen: integer )</h2>
+Creates a description of the <i>order</i>. If description string exceeds max description
+length (<i>maxDescLen</i>), then it will be truncated and padded with '...'.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+</body>
+</html>

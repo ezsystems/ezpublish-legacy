@@ -62,10 +62,13 @@ class eZShopOperationCollection
     {
         include_once( "kernel/classes/ezbasket.php" );
         include_once( 'kernel/classes/ezorder.php' );
+
         $order =& eZOrder::fetch( $orderID );
         $order->activate();
-        $basket =& eZBasket::currentBasket();
+
+        $basket =& eZBasket::currentBasket( true, $orderID);
         $basket->remove();
+
         include_once( "lib/ezutils/classes/ezhttptool.php" );
         eZHTTPTool::setSessionVariable( "UserOrderID", $orderID );
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );

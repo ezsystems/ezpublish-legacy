@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>eZRedirectGateway</title>
+</head>
+
+<body>
+
+<h1>eZRedirectGateway class</h1>
+<img src="images/eZRedirectGateway.png" alt="[eZRedirectGateway image]">
+
+<p>
+This is a base class for payment gateways which supports redirection to a payment site. Never 
+create objects of this class. Instead you have to create your own class which is inherited 
+from this class and override <i>execute</i>, <i>cleanup</i>, <i>createPaymentObject</i>,
+<i>createRedirectionURL</i> functions.
+
+<h2>Data</h2>
+
+<h2>Methods</h2>
+
+<h2>execute(process: eZWorkflowProcess, event: eZWorkflowEven): EZ_WORKFLOW_TYPE_STATUS</h2>
+Calls <i>createPaymentObject</i> function to create a object of eZPaymentObject class which 
+stores information about payment, prepares URL to redirect by calling <i>createResirectionURL</i>
+function and performs redirection to the specified URL.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT - to perform rediretion.<br>
+EZ_WORKFLOW_TYPE_STATUS_REJECTED - if some error occured.<br>
+EZ_WORKFLOW_TYPE_STATUS_ACCEPTED - if payment was done properly.
+<br>
+<br>
+
+<h2>createPaymentObject(processID: integer, orderID:integer )</h2>
+Creates instance of subclass of eZPaymentObject which stores information about payment 
+processing(orderID, workflowID). Must be overridden in subclass. 
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+A instance of eZPaymentObject subclass.
+<br>
+<br>
+
+<h2>cleanup(process: eZWorkflowProcess, event: eZWorkflowEven): EZ_WORKFLOW_TYPE_STATUS</h2>
+Removes temporary eZPaymentObject from database.
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+<h2>createRedirectionURL(process: eZWorkflowProcess): string</h2>
+Creates redirection url to a payment site. Must be overridden in subclass. 
+<h3>Parameters</h3>
+
+<h3>Returns</h3>
+<br>
+<br>
+
+</body>
+</html>
+
