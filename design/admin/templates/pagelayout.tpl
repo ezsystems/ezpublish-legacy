@@ -370,6 +370,13 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {section-else}
      <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
     {/section}
+
+</div></div></div>
+</div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-content">
+
 {/section}
 
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}
