@@ -23,6 +23,7 @@ CREATE TABLE ezbasket (
   id int(11) NOT NULL auto_increment,
   session_id varchar(255) NOT NULL default '',
   productcollection_id int(11) NOT NULL default '0',
+  order_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezbasket_session_id (session_id)
 ) TYPE=MyISAM;
@@ -244,6 +245,7 @@ CREATE TABLE ezcontentclass (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   remote_id varchar(100) NOT NULL default '',
+  is_container int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)
 ) TYPE=MyISAM;
@@ -763,6 +765,19 @@ CREATE TABLE ezorder_item (
   vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezorder_item_order_id (order_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezpaymentobject (
+  id int(11) NOT NULL auto_increment,
+  workflowprocess_id int(11) NOT NULL default '0',
+  order_id int(11) NOT NULL default '0',
+  payment_string varchar(255) default NULL,
+  status int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 

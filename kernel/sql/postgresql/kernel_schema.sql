@@ -869,7 +869,8 @@ CREATE TABLE ezapprove_items (
 CREATE TABLE ezbasket (
     id integer DEFAULT nextval('ezbasket_s'::text) NOT NULL,
     session_id character varying(255) DEFAULT ''::character varying NOT NULL,
-    productcollection_id integer DEFAULT 0 NOT NULL
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1099,7 +1100,8 @@ CREATE TABLE ezcontentclass (
     modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
-    remote_id character varying(100) DEFAULT '' NOT NULL
+    remote_id character varying(100) DEFAULT '' NOT NULL,
+    is_container integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2339,6 +2341,33 @@ CREATE TABLE ezsubtree_expiry (
 
 
 
+CREATE SEQUENCE ezpaymentobject_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE TABLE ezpaymentobject (
+    id integer DEFAULT nextval('ezpaymentobject_s'::text) NOT NULL,
+    workflowprocess_id integer DEFAULT 0 NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
+    payment_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    status integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
 
 
@@ -3541,5 +3570,14 @@ ALTER TABLE ONLY ezview_counter
 
 ALTER TABLE ONLY ezsubtree_notification_rule
     ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpaymentobject
+    ADD CONSTRAINT ezpaymentobject_pkey PRIMARY KEY (id);
 
 
