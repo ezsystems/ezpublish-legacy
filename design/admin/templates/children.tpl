@@ -142,7 +142,9 @@
 {* Else: there are no children. *}
 {section-else}
 <div class="box-ml"><div class="box-mr"><div class="box-content">
-    <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}
+<div class="block">
+    <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}</p>
+</div>
 </div></div></div>
 {/section}
 
