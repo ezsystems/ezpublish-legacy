@@ -169,7 +169,7 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     $currentUser =& eZUser::currentUser();
 
     $aviableViewsInModule = $module->attribute( 'views' );
-    $runningFunctions = $aviableViewsInModule[ $function_name ][ 'functions' ];
+    $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
     $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
 
     if ( $accessResult['accessWord'] == 'limited' )

@@ -85,6 +85,8 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
     if ( $module->isCurrentAction( 'Publish' ) )
     {
         $object->setAttribute( 'current_version', $EditVersion );
+        $object->setAttribute( 'modified', mktime() );
+        $object->setAttribute( 'published', mktime() );
         $object->store();
 
         $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
