@@ -416,32 +416,27 @@ class eZEnumType extends eZDataType
     }
 
     /*!
+     \reimp
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( $contentObjectAttribute )
-    {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
 
+    function &serializeContentObjectAttribute( &$package, &$contentObjectAttribute )
+    {
         $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $id = $contentClassAttribute->attribute( 'id' );
-        $version = $contentClassAttribute->attribute( 'version' );
-        $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
-        $isoption = $contentClassAttribute->attribute( 'data_int2' );
-
-        $enum = new eZEnum( $id, $version );
-        $enum->setIsmultipleValue( $ismultiple );
-        $enum->setIsoptionValue( $isoption );
-        $enum->setObjectEnumValue( $contentObjectAttributeID, $contentObjectAttributeVersion );
 
         $node = new eZDOMNode();
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $contentObjectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezenum' ) );
 
-        foreach ( $enum->attribute( 'enumobject_list' ) as $enumElement )
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $contentObjectAttributeID, 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $contentObjectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $contentObjectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+
+        $enumElements =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
+
+        foreach ( $enumElements as $enumElement )
         {
             unset( $elementNode );
             $elementNode = new eZDOMNode();
@@ -449,12 +444,51 @@ class eZEnumType extends eZDataType
 
             $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $enumElement->attribute( 'enumid' ) ) );
             $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $enumElement->attribute( 'enumvalue' ) ) );
+            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'element', $enumElement->attribute( 'enumelement' ) ) );
             $node->appendChild( $elementNode );
         }
 
-
         return $node;
     }
+
+
+    /*!
+     \reimp
+     Unserailize contentobject attribute
+
+     \param package
+     \param contentobject attribute object
+     \param ezdomnode object
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        if ( $attributeNode->hasChildren() )
+        {
+            $contentObjectAttributeID =& $objectAttribute->attribute( 'id' );
+            $contentObjectAttributeVersion =& $objectAttribute->attribute( 'version' );
+
+            $enumNodes =& $attributeNode->children();
+            foreach ( array_keys( $enumNodes ) as $enumNodeKey )
+            {
+                $enumNode =& $enumNodes[$enumNodeKey];
+
+                $eID      =& $enumNode->attributeValue( 'id' );
+                $eValue   =& $enumNode->attributeValue( 'value' );
+                $eElement =& $enumNode->attributeValue( 'element' );
+
+                eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
+                                                $contentObjectAttributeVersion,
+                                                $eID,
+                                                $eElement,
+                                                $eValue );
+            }
+        }
+        else
+        {
+            eZDebug::writeError( "Can't find attributes for enumeration", 'eZEnumType::unserializeContentObjectAttribute' );
+        }
+    }
+
 
     /*!
      \reimp
