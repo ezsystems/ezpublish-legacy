@@ -376,7 +376,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 {
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
-                        $parentNode = 2;
+                    {
+                        $parentNode = $node->attribute( 'node_id' );
+                    }
                     $module->redirectToView( 'view', array( 'full', $parentNode ) );
                 }
                 else

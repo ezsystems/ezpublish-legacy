@@ -327,9 +327,12 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $assignedArray = array();
         $assigned = $version->nodeAssignments();
         $publishedAssigned = $object->assignedNodes( false );
+        $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
         {
             $append = false;
+            if ( $element['parent_node_id'] == 1 )
+                $isTopLevel = true;
             foreach ( $assigned as $ass )
             {
                 if ( $ass->attribute( 'parent_node' ) == $element['parent_node_id'] )
@@ -343,22 +346,25 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 $assignedArray[] = $element['parent_node_id'];
             }
         }
-        $assignedArray = array_unique( $assignedArray );
-        $objectID = $object->attribute( 'id' );
-        eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
-                                        'description_template' => 'design:content/browse_placement.tpl',
-                                        'keys' => array( 'class' => $class->attribute( 'id' ),
-                                                         'class_id' => $class->attribute( 'identifier' ),
-                                                         'classgroup' => $class->attribute( 'ingroup_id_list' ),
-                                                         'section' => $object->attribute( 'section_id' ) ),
-                                        'ignore_nodes' => $assignedArray,
-                                        'content' => array( 'object_id' => $objectID,
-                                                            'object_version' => $editVersion,
-                                                            'object_language' => $editLanguage ),
-                                        'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
-                                 $module );
+        if ( !$isTopLevel )
+        {
+            $assignedArray = array_unique( $assignedArray );
+            $objectID = $object->attribute( 'id' );
+            eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
+                                            'description_template' => 'design:content/browse_placement.tpl',
+                                            'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                             'class_id' => $class->attribute( 'identifier' ),
+                                                             'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                             'section' => $object->attribute( 'section_id' ) ),
+                                            'ignore_nodes' => $assignedArray,
+                                            'content' => array( 'object_id' => $objectID,
+                                                                'object_version' => $editVersion,
+                                                                'object_language' => $editLanguage ),
+                                            'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
+                                     $module );
 
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
     }
     if ( $module->isCurrentAction( 'DeleteNode' ) )
     {
@@ -376,16 +382,20 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeID );
             if ( $publishedNode != null )
             {
-                $childrenCount =& $publishedNode->childrenCount();
-                if ( $childrenCount != 0 )
+                $publishParentNodeID = $publishedNode->attribute( 'parent_node_id' );
+                if ( $publishParentNodeID > 1 )
                 {
-                    $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
-                    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-                }
-                else
-                {
-                    $version->removeAssignment( $nodeID );
+                    $childrenCount =& $publishedNode->childrenCount();
+                    if ( $childrenCount != 0 )
+                    {
+                        $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
+                        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                    }
+                    else
+                    {
+                        $version->removeAssignment( $nodeID );
 
+                    }
                 }
             }
             else
@@ -416,29 +426,33 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             $fromNodeID = $http->postVariable( 'MoveNodeID' ); //$sourceNodeID[0];
             $oldAssignmentParentID = $fromNodeID;
             $fromNodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $fromNodeID );
-            if( $fromNodeAssignment->attribute( 'from_node_id' ) != 0 )
+            $publishParentNodeID = $fromNodeAssignment->attribute( 'parent_node' );
+            if ( $publishParentNodeID > 1 )
             {
-                $fromNodeID = $fromNodeAssignment->attribute( 'from_node_id' );
-                $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
+                if( $fromNodeAssignment->attribute( 'from_node_id' ) != 0 )
+                {
+                    $fromNodeID = $fromNodeAssignment->attribute( 'from_node_id' );
+                    $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
+                }
+
+                eZContentBrowse::browse( array( 'action_name' => 'MoveNodeAssignment',
+                                                'description_template' => 'design:content/browse_move_placement.tpl',
+                                                'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                                 'class_id' => $class->attribute( 'identifier' ),
+                                                                 'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                                 'section' => $object->attribute( 'section_id' ) ),
+                                                'start_node' => $fromNodeID,
+                                                'persistent_data' => array( 'FromNodeID' => $fromNodeID,
+                                                                            'OldAssignmentParentID' => $oldAssignmentParentID ),
+                                                'content' => array( 'object_id' => $objectID,
+                                                                    'previous_node_id' => $fromNodeID,
+                                                                    'object_version' => $editVersion,
+                                                                    'object_language' => $editLanguage ),
+                                                'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
+                                         $module );
+
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
-
-            eZContentBrowse::browse( array( 'action_name' => 'MoveNodeAssignment',
-                                            'description_template' => 'design:content/browse_move_placement.tpl',
-                                            'keys' => array( 'class' => $class->attribute( 'id' ),
-                                                             'class_id' => $class->attribute( 'identifier' ),
-                                                             'classgroup' => $class->attribute( 'ingroup_id_list' ),
-                                                             'section' => $object->attribute( 'section_id' ) ),
-                                            'start_node' => $fromNodeID,
-                                            'persistent_data' => array( 'FromNodeID' => $fromNodeID,
-                                                                        'OldAssignmentParentID' => $oldAssignmentParentID ),
-                                            'content' => array( 'object_id' => $objectID,
-                                                                'previous_node_id' => $fromNodeID,
-                                                                'object_version' => $editVersion,
-                                                                'object_language' => $editLanguage ),
-                                            'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
-                                     $module );
-
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
 }
