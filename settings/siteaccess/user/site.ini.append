@@ -2,20 +2,25 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-DatabaseImplementation=mysql
+DatabaseImplementation=ezmysql
 Server=localhost
-User=publish
-Password=secret
-Database=publish
+User=bf
+Password=bf
+Database=bf
+#Server=localhost
+#User=publish
+#Password=secret
+#Database=publish
 Charset=iso-8859-1
 UseBuiltinEncoding=true
-Socket=/opt/ezpublish/mysql.sock
+Socket=disabled
+#Socket=/opt/ezpublish/mysql.sock
 SQLOutput=enabled
 UsePersistentConnection=disabled
 
 [DesignSettings]
 StandardDesign=standard
-SiteDesign=standard
+SiteDesign=user
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
@@ -37,7 +42,7 @@ PreCheck=user
 [DebugSettings]
 # IP addresses which will get debug information
 # Valid are: enabled, disabled or list of IP's separated by ;
-DebugIP=disabled
+DebugIP=10.0.2.36
 # Use either disabled, inline or popup
 Debug=inline
 # Use either enabled or a an array of uris to match

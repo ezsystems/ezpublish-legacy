@@ -5,6 +5,9 @@ error_reporting ( E_ALL );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
+// Enable this line to get eZINI debug output
+// eZINI::setIsDebugEnabled( true );
+
 function eZDisplayDebug()
 {
     $ini =& eZINI::instance();
@@ -84,8 +87,19 @@ include_once( "pre_check.php" );
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
-session_start();
 
+include_once( "access.php" );
+
+$access = accessType( $uri,
+                      $GLOBALS["HTTP_SERVER_VARS"]["HTTP_HOST"],
+                      $GLOBALS["HTTP_SERVER_VARS"]["SERVER_PORT"],
+                      eZSys::indexFile() );
+if ( $access !== null )
+{
+    changeAccess( $access );
+}
+
+session_start();
 
 $nodePathString = $uri->elements();
 $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
@@ -97,17 +111,6 @@ if ( get_class( $node ) == 'ezcontentobjecttreenode' )
 {
     $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
     $uri = & eZURI::instance( $newURI );
-}
-
-include_once( "access.php" );
-
-$access = accessType( $uri,
-                      $GLOBALS["HTTP_SERVER_VARS"]["HTTP_HOST"],
-                      $GLOBALS["HTTP_SERVER_VARS"]["SERVER_PORT"],
-                      eZSys::indexFile() );
-if ( $access !== null )
-{
-    changeAccess( $access );
 }
 
 if ( !accessAllowed( $uri ) )
@@ -318,6 +321,7 @@ if ( $show_page_layout )
 
         $currentUser =& eZUser::currentUser();
         $tpl->setVariable( "current_user", $currentUser );
+        $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 
         include_once( "lib/ezutils/classes/ezexecutionstack.php" );
         $execStack =& eZExecutionStack::instance();
