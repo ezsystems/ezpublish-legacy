@@ -117,6 +117,7 @@ eZTemplate:
 - Added datetime operator which allows for custom date/time formats, it
   can read the formats from the datetime.ini file using class names or
   the format may be added directly in the template.
+- Added string support for comparison operators.
 
 eZINI:
 - Added support for override directories which are not a subdir
