@@ -2,6 +2,8 @@ Changes from 3.3-5 to 3.3-6
 
 *Kernel:
 
+- Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
+
 *Setup:
 
 *DataTypes:

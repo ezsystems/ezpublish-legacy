@@ -203,7 +203,7 @@ class eZScript
             // Check for extension
             include_once( 'lib/ezutils/classes/ezextension.php' );
             include_once( 'kernel/common/ezincludefunctions.php' );
-            eZExtension::activateExtensions();
+            eZExtension::activateExtensions( 'default' );
             // Extension check end
         }
 
@@ -224,6 +224,13 @@ class eZScript
 
         $access = changeAccess( $access );
         $GLOBALS['eZCurrentAccess'] =& $access;
+
+        if ( $this->UseExtensions )
+        {
+            // Check for siteaccess extension
+            eZExtension::activateExtensions( 'access' );
+            // Extension check end
+        }
 
         if ( $this->UseSession )
         {
