@@ -130,6 +130,9 @@ class eZScript
         $this->IterationColumn = 0;
         $this->IterationColumnMax = 70;
         $this->IterationMax = false;
+
+        $this->InitializationErrorMessage = 'unknown error';
+        $this->IsInitialized = false;
     }
 
     /*!
@@ -243,6 +246,12 @@ class eZScript
             {
                 eZSessionStart();
             }
+            else
+            {
+                $this->IsInitialized = false;
+                $this->InitializationErrorMessage = 'database error: ' . $db->errorMessage();
+                return;
+            }
         }
 
         if ( $this->User )
@@ -288,6 +297,16 @@ class eZScript
             eZModule::setGlobalPathList( $moduleRepositories );
         }
         $this->IsInitialized = true;
+    }
+
+    function isInitialized()
+    {
+        return $this->IsInitialized;
+    }
+
+    function initializationError()
+    {
+        return $this->InitializationErrorMessage;
     }
 
     /*!
@@ -341,6 +360,8 @@ class eZScript
                 $cli->output( $exitText );
             exit( $this->ExitCode );
         }
+
+        $this->IsInitialized = true;
     }
 
     /*!
@@ -1021,6 +1042,8 @@ class eZScript
     }
 
     /// \privatesection
+    var $IsInitialized;
+    var $InitializationErrorMessage;
     var $DebugMessage;
     var $UseDebugOutput;
     var $UseSession;
