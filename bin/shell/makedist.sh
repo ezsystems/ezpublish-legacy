@@ -17,6 +17,13 @@ FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings
 FILTER_FILES2="bin/modfix.sh"
 PACKAGE_DIR="packages"
 
+BUILD_NUMBER=1
+CACHE=".ezp.cache"
+
+if [ -f $CACHE ]; then
+    . $CACHE
+fi
+
 . ./bin/shell/common.sh
 . ./bin/shell/packagescommon.sh
 
@@ -128,6 +135,7 @@ for arg in $*; do
 	    echo "Options: -h"
 	    echo "         --help                     This message"
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
+	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
 #	    echo "         --skip-site-creation       Do not build sites*"
@@ -155,6 +163,12 @@ for arg in $*; do
 	    if echo $arg | grep -e "--build-root=" >/dev/null; then
 		DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
 	    fi
+	    ;;
+	--build-rc)
+	    BUILD_RC="1"
+	    ;;
+	--final)
+	    FINAL="1"
 	    ;;
 	--with-svn-server*)
 	    if echo $arg | grep -e "--with-svn-server=" >/dev/null; then
@@ -248,6 +262,15 @@ else
     echo "Unknown release"
     exit 1
 fi
+
+# We append a build number when creating RCs (release candidate)
+# The build number is also increase and stored at the end if everything was successful
+if [ "$BUILD_RC" == "1" ]; then
+    echo "Creating RC build #$BUILD_NUMBER"
+    BASE="$BASE-build$BUILD_NUMBER"
+    BUILD_NUMBER=`expr $BUILD_NUMBER + 1`
+fi
+
 DEST="$DEST_ROOT/$BASE"
 
 if [ "$SVN_SERVER" != "" ]; then
@@ -872,3 +895,6 @@ if [ -n "$FINAL" ]; then
     echo "- Revision=REV"
     echo "Where REV is the revision number"
 fi
+
+echo '' > $CACHE
+echo "BUILD_NUMBER=\"$BUILD_NUMBER\"" >> $CACHE
