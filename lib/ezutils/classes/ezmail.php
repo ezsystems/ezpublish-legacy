@@ -770,6 +770,7 @@ class eZMail
             $result = $email->send( $send );
             if ( isset( $email->errors[0] ) )
                 eZDebug::writeError( "Error sending SMTP mail: " . $email->errors[0], "eZMail::send()" );
+			$email->quit();
         }    
         else
             mail( $this->To, $this->Subject, "", $mime );
