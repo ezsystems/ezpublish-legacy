@@ -110,6 +110,11 @@ function eZSetupStep( &$tpl, &$http )
     $tpl->setVariable( "databasesArray", $databasesArray );
     $tpl->setVariable( "charsetArray", $charsetArray );
 
+	// Switch unpack demo data. Only show, if we have zlib!
+	if ( $testItems["zlib"]["pass"] == true )
+		$tpl->setVariable( "unpackDemo", true );
+	else
+		$tpl->setVariable( "unpackDemo", false );
     
 	// Show the template
     $tpl->display( "design/standard/templates/setup/step2.tpl" );        

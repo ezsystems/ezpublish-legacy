@@ -75,7 +75,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     $ini->setVariable( "DatabaseSettings", "Database", $dbName );
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    // $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
                         
 	// Set values in i18n ini
 	$i18n = eZIni::instance( "i18n.ini", "" );
@@ -121,7 +121,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		}
 
 		$email = new eZMail( "", $params );
-		$email->setTo( "ez@duebbert.de" );
+		$email->setTo( "register@ez.no" );
 		$email->setFrom( $http->postVariable( "emailAddress" ) );
 		$email->setSubject( "Registration - $siteName" );
 
@@ -131,7 +131,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		$body .= "Databasename: $dbName\n"; // see if we should use a new default name!
 		$body .= "SiteCharset: $siteCharset\n";
 		$body .= "nVH setup: true\n"; // TODO: once we can do rewrite setups change this
-		$body .= "OS: " . php_uname();
+		$body .= "OS: " . php_uname() . "\n";
 
 		foreach( array_keys( $testItems ) as $key )
 		{

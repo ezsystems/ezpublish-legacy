@@ -37,7 +37,7 @@
 
 // We will do database tests, so get the needed files
 // The file for the database type will be included later
-include_once( "lib/ezdb/classes/ezdbinterface.php" );
+require_once( "lib/ezdb/classes/ezdbinterface.php" );
 
 
 /*!
@@ -70,7 +70,7 @@ function eZSetupStep( &$tpl, &$http )
 		$dbParams["delete_tables"]= $http->postVariable( "dbDeleteTables" );
 	else
 		$dbParams["delete_tables"]= false;
-    
+
 
 	// Go back to step 2, if create_pass != create_pass2
 	if ( $dbParams["create_pass"] != $dbParams["create_pass2"] )
@@ -101,41 +101,77 @@ function eZSetupStep( &$tpl, &$http )
     $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );    
 
     // The different sections	
+	$tpl->setVariable( "unpackDemo", false );
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
     $tpl->setVariable( "createUser", false );
     $tpl->setVariable( "deleteTables", false );
 
     // Only continue, if we are successful
-    $continue = false;
+    $continue = true;
 	
-    // Include the right database file
-	$dbModule = "ez" . $dbParams["type"] . "db";
-	$dbModuleFile = "lib/ezdb/classes/" . $dbModule . ".php";
-	if ( file_exists( $dbModuleFile ) )
-		include_once( $dbModuleFile );
-	
-	// Try to get a connection to the database
-	eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
-
-	// Set the right user to use. We first need the main_user.
-	$dbParams["user"] = $dbParams["main_user"];
-	$dbParams["password"] = $dbParams["main_pass"];
-	
-	// Create a database object.
-	$dbObject = new $dbModule( $dbParams );
-	
-	// TODO: The error number thing is no goooood!
-	if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
-	{
-   		$tpl->setVariable( "dbConnect", "unsuccessful." );
-		$error = errorHandling( $testItems, $dbParams, $dbObject );
-	}
+	// Switch if should install demo data or not.
+	if ( $http->hasVariable( "unpackDemo" ) && $http->postVariable( "unpackDemo" ) == "true" )
+		$unpackDemo = true;
 	else
+		$unpackDemo = false;
+    
+	if ( $unpackDemo )
 	{
-   		$tpl->setVariable( "dbConnect", "successful." );
-		$continue = true;
-	}	
+		$tpl->setVariable( "unpackDemo", true );
+		
+		// unpack the demo data
+		$file = eZSys::siteDir() . "var.tgz";
+		
+		//require_once( "lib/ezsetup/classes/PEAR.php" );
+		require_once( "lib/ezsetup/classes/Tar.php" );
+		$tarObject = new Archive_Tar ( $file, true );
+		$tarObject->setErrorHandling(PEAR_ERROR_PRINT);
+
+		if ( $tarObject->extract( eZSys::siteDir() ) )
+		{
+			$tpl->setVariable( "unpackDemo_msg", "successful." );
+		}
+		else
+		{
+			$tpl->setVariable( "unpackDemo_msg", "unsuccessful." );
+			$error["desc"] = "Couldn't unpack demo data. ";
+			$error["suggest"] = "Check the file permissions of the directory \"var\"";
+			$continue = false;
+		}
+	}
+
+
+	if ( $continue )
+	{
+		// Include the right database file
+		$dbModule = "ez" . $dbParams["type"] . "db";
+		$dbModuleFile = "lib/ezdb/classes/" . $dbModule . ".php";
+		if ( file_exists( $dbModuleFile ) )
+			include_once( $dbModuleFile );
+		
+		// Try to get a connection to the database
+		eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
+
+		// Set the right user to use. We first need the main_user.
+		$dbParams["user"] = $dbParams["main_user"];
+		$dbParams["password"] = $dbParams["main_pass"];
+		
+		// Create a database object.
+		$dbObject = new $dbModule( $dbParams );
+		
+		// TODO: The error number thing is no goooood!
+		if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
+		{
+			$tpl->setVariable( "dbConnect", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
+		}
+		else
+		{
+			$tpl->setVariable( "dbConnect", "successful." );
+			$continue = true;
+		}	
+	}
 	 
 	//
 	// If database doesn't exist yet, try to create the database
@@ -252,44 +288,30 @@ function eZSetupStep( &$tpl, &$http )
     {
         $continue = false;
         $tpl->setVariable( "createSql", true );
-	    $sqlFile = "kernel/sql/" . $dbParams["type"] . "/kernel_clean.sql";
-		$sqlArray = prepareSqlQuery( $sqlFile );
-
-		// Turn unneccessary SQL debug output off
-		$dbObject->OutputSQL = false;
-		if ( $sqlArray && is_array( $sqlArray ) )
-		{
-	    	foreach( $sqlArray as $singleQuery )
-			{
-				if ( trim( $singleQuery ) != "" )
-				{
-					$dbObject->query( $singleQuery );
-					if ( $dbObject->errorNumber() != 0 )
-						break;
-				} 
-			}
-		}
 		
-		if ( $sqlArray && is_array( $sqlArray ) && $dbObject->errorNumber() == 0 )
+		if ( $unpackDemo && isset( $testItems[$dbParams["type"]]["sql_demo"] ) )
+			$sqlFile = $testItems[$dbParams["type"]]["sql_demo"];
+		else
+			$sqlFile = $testItems[$dbParams["type"]]["sql_core"];
+
+		$result = doQuery( $dbObject, $sqlFile );
+		
+		if ( $dbObject->errorNumber() == 0 )
 	    {
 	        $tpl->setVariable( "dbCreateSql", "successful" );
 	        $continue = true;
 	    }
 	    else
 	    {
-	        if ( $sqlArray && is_array( $sqlArray ) )
-			{
-				$tpl->setVariable( "dbCreateSql", "unsuccessful." );
-				$error = errorHandling( $testItems, $dbParams, $dbObject );
-			}
-			else
-			{
-				$tpl->setVariable( "dbCreateSql", "unsuccessful." );
-				$error["message"] = "Preparing the SQL statements was unsuccessful!";
-				$error["suggestion"] = "Check that the file \"$sqlFile\" exists and can be read!";
-			}
+			$tpl->setVariable( "dbCreateSql", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
 	    }  	
     }
+
+	//
+	// Insert database content for demo
+	//
+
 
     if ( $continue )
     {
@@ -360,6 +382,27 @@ function prepareSqlQuery( $sqlFile )
 	else
 	{
 		return false;
+	}
+}
+
+function doQuery( &$dbObject, $sqlFile )
+{
+	$sqlArray = prepareSqlQuery( $sqlFile );
+
+	// Turn unneccessary SQL debug output off
+	$dbObject->OutputSQL = false;
+	if ( $sqlArray && is_array( $sqlArray ) )
+	{
+		foreach( $sqlArray as $singleQuery )
+		{
+			if ( trim( $singleQuery ) != "" )
+			{
+				$dbObject->query( $singleQuery );
+				if ( $dbObject->errorNumber() != 0 )
+					return false;
+			} 
+		}
+		return true;
 	}
 }
 
