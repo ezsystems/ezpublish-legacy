@@ -380,7 +380,10 @@ if ( $show_page_layout )
                               10, // Profesjonsstudier
                               11, // Internasjonalt og flerkulturelt arbeid
                               12, // Kompetanseutvikling i den flerkulturelle skolen
-                              13  // Voldsofferarbeid
+                              13, // Voldsofferarbeid
+                              14, // Pedagogisk utviklingssenter
+                              15, // Høgskolebiblioteket
+                              16  // Administrasjonen
                               );
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
