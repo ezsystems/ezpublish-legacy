@@ -5,11 +5,19 @@
 <table cellspacing="0" width="100%">
 <tr><td colspan="6"><h2>Incoming</h2></td></tr>
 <tr>
-  <th>ID</th><th>Type</th><th>Status</th><th>Creator</th><th>Created</th><th colspan="2">Modified</th>
+  <th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Creator</th><th>Created</th><th colspan="2">Modified</th>
 </tr>
 {section name=Incoming loop=$incoming_task_list sequence=array('bglight','bgdark')}
 <tr>
   <td class="{$Incoming:sequence}"><a href="{$module.functions.list.uri}/{$Incoming:item.id}">{$Incoming:item.id}</a></td>
+  <td class="{$Incoming:sequence}">
+{section show=$Incoming:item.task_type|eq(1)}
+{section-else}
+  {section show=$Incoming:item.object_id|gt(0)}
+  {$Incoming:item.contentobject.name}
+  {/section}
+{/section}
+  </td>
   <td class="{$Incoming:sequence}">{$Incoming:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.creator.login}</td>
@@ -21,11 +29,16 @@
 
 <tr><td colspan="6"><h2>Outgoing</h2></td></tr>
 <tr>
-  <th>ID</th><th>Type</th><th>Status</th><th>Receiver</th><th>Created</th><th>Modified</th>
+  <th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Receiver</th><th>Created</th><th>Modified</th>
 </tr>
 {section name=Outgoing loop=$outgoing_task_list sequence=array('bglight','bgdark')}
 <tr>
   <td class="{$Outgoing:sequence}"><a href="{$module.functions.list.uri}/{$Outgoing:item.id}">{$Outgoing:item.id}</a></td>
+  <td class="{$Outgoing:sequence}">
+{section show=$Outgoing:item.object_id|gt(0)}
+{$Outgoing:item.contentobject.name}
+{/section}
+  </td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.receiver.login}</td>

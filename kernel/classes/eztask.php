@@ -157,6 +157,7 @@ class eZTask extends eZPersistentObject
     function hasAttribute( $attr )
     {
         return ( $attr == 'creator' or $attr == 'receiver' or
+                 $attr == 'contentobject' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -171,6 +172,11 @@ class eZTask extends eZPersistentObject
             case 'receiver':
             {
                 $userID = $this->ReceiverID;
+            } break;
+            case 'contentobject':
+            {
+                include_once( 'kernel/classes/ezcontentobject.php' );
+                return eZContentObject::fetch( $this->ObjectID );
             } break;
             default:
                 return eZPersistentObject::attribute( $attr );
