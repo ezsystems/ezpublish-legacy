@@ -7,6 +7,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   a view UI context is used.
 - Fixed fetching collaboration list with offset.
   Merged from stable/3.3 rev. 10112, stable/3.4 rev. 10113.
+- Made sure newly created packages have the package information set.
+  (Merged from stable/3.4 (3.4.5) rev. 10296)
 
 *Bugfixes:
 - Fixed bug with calendar not showing when not logged in (caused by double "AND" in calendar-method's SQL)

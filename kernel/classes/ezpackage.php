@@ -206,10 +206,20 @@ class eZPackage
         return $stateList;
     }
 
-    function &create( $name, $parameters = array(), $repositoryPath = false )
+    /*!
+     \param $repositoryID The id (string) of the repository to create the package in.
+                          If \c false it will use the \c local repository.
+    */
+    function &create( $name, $parameters = array(), $repositoryPath = false, $repositoryID = false )
     {
         $parameters['name'] = $name;
         $handler =& new eZPackage( $parameters, $parameters, $repositoryPath );
+
+        // New packages always use local repository
+        if ( $repositoryID === false )
+            $repositoryID = 'local';
+        $repositoryInformation = $handler->repositoryInformation( $repositoryID );
+        $handler->setCurrentRepositoryInformation( $repositoryInformation );
         return $handler;
     }
 
@@ -844,6 +854,7 @@ class eZPackage
         }
         if ( $packagePath )
             $subDirectory = $packagePath;
+
         $fileItem = array( 'name' => $file,
                            'subdirectory' => $subDirectory,
                            'type' => $type,
@@ -2698,8 +2709,6 @@ class eZPackage
                         }
                         if ( $fileItem['name'] )
                             $path .= '/' . $fileItem['name'];
-                        if ( $fileItem['path'] )
-                            $path = $fileItem['path'];
                         if ( !file_exists( $destinationPath ) )
                             eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true );
                         if ( is_dir( $path ) )

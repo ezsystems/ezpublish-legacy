@@ -524,7 +524,7 @@ class eZPackageCreationHandler
      \return \c true if the package was created or \c false if it was only re-initialized.
      \sa packageType, packageInitialState and packageInstallType
     */
-	function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles )
+	function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles, $storePackage = true )
 	{
 		$createdPackage = false;
 		if ( get_class( $package ) != 'ezpackage' )
@@ -593,9 +593,10 @@ class eZPackageCreationHandler
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   null, null, true, null,
                                   $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
+            $cleanupFiles[] = $fileItem['path'];
+
             if ( !in_array( $fileItem['collection'], $collections ) )
                 $collections[] = $fileItem['collection'];
-            $cleanupFiles[] = $fileItem['path'];
         }
 
         foreach ( $collections as $collection )
@@ -616,7 +617,8 @@ class eZPackageCreationHandler
         }
 
         $package->setAttribute( 'is_active', true );
-        $package->store();
+        if ( $storePackage )
+            $package->store();
 
         return $createdPackage;
 	}
