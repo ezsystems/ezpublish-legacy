@@ -348,14 +348,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $cahceMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
-            if ( !is_string( $cahceMap ) and trim( $cahceMap['code'] ) )
+            $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
+            if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
             {
-                eval( "\$matchFile = " . $cahceMap['code'] . ";" );
+                eval( "\$matchFile = " . $cacheMap['code'] . ";" );
             }
             else
             {
-                $matchFile =& $cahceMap;
+                $matchFile =& $cacheMap;
             }
             $match['file'] = $matchFile;
         }
