@@ -294,6 +294,18 @@ echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 (cd $DIST_SRC && scan_dir .)
 echo
 
+if [ ! -f bin/linux/ezlupdate ]; then
+    echo "You do not have the ezlupdate program compiled"
+    echo "this is required to create a distribution"
+    echo
+    echo "cd support/lupdate-ezpublish3"
+    echo "qmake ezlupdate.pro"
+    echo "make"
+    echo
+    echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
+    exit 1
+fi
+
 echo
 echo "Copying translations and locale"
 rm -rf "$DEST/share/translations"
@@ -318,6 +330,37 @@ if [ $? -ne 0 ]; then
 fi
 echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
 echo
+
+dir=`pwd`
+(cd  $DEST
+    cp -R -f share/translations share/translations.org &>/dev/null || exit 1
+    cd  $DEST/share/translations
+    echo -n "Translation: "
+    for translation in *; do
+	echo -n " `$POSITION_STORE`$translation"
+	cd  $DEST
+	$dir/bin/linux/ezlupdate "$translation" &>/dev/null || exit 1
+	echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+    done)
+echo
+
+(cd  $DEST
+    diff -U3 -r share/translations.org share/translations &>/dev/null)
+if [ $? -ne 0 ]; then
+    echo "The translations are not up to date"
+    echo "You must update the translations in the repository using the ezlupdate program"
+    exit 1
+fi
+
+rm -rf $DEST/share/translations.org
+
+(cd  $DEST/share/translations
+    for translation in share/translations/*; do
+	if [ "$translation" != "untranslated" ]; then
+	    cd  $DEST
+	    $dir/bin/linux/ezlupdate -no "$translation" &>/dev/null
+	fi
+    done)
 
 echo
 echo "Copying changelogs from earlier versions"
