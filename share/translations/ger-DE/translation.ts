@@ -1,40 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>&quot;design/standard/node/view&quot;</name>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorität</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/collaboration/approval&apos;,,
-</name>
-    <message>
-        <source>below.&apos;
-</source>
-        <translation type="obsolete">unten.&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/node/view&apos;</name>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Bearbeiten</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">Kopieren</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/notification&apos;</name>
-    <message>
-        <source>If you do not wish to continue receiving these notifications,
-change your settings at:</source>
-        <translation type="obsolete">Wenn Sie nicht weiterhin diese Benachrichtigungen erhalten wollen, änderen Sie Ihre Einstellungen unter:</translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -131,10 +96,6 @@ change your settings at:</source>
     <message>
         <source>Templates</source>
         <translation>Templates</translation>
-    </message>
-    <message>
-        <source>RAD</source>
-        <translation type="obsolete">RAD</translation>
     </message>
     <message>
         <source>Cache</source>
@@ -373,7 +334,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>Identifier</source>
-        <translation>Identifizierer</translation>
+        <translation>Identifikator</translation>
     </message>
     <message>
         <source>New Column</source>
@@ -410,6 +371,10 @@ change your settings at:</source>
     <message>
         <source>New objects will be placed in %nodename</source>
         <translation>Neue Objekte werden in %nodename platziert</translation>
+    </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Selektiere welche Klassen ein Nutzer erstellen kann</translation>
     </message>
 </context>
 <context>
@@ -555,7 +520,7 @@ change your settings at:</source>
     <name>design/standard/class/list</name>
     <message>
         <source>Remove</source>
-        <translation>Löschen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>Class groups</source>
@@ -580,10 +545,6 @@ change your settings at:</source>
     <message>
         <source>New group</source>
         <translation>Neue Gruppe</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
     </message>
 </context>
 <context>
@@ -632,6 +593,10 @@ change your settings at:</source>
     <message>
         <source>New class</source>
         <translation>Neue Klasse</translation>
+    </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation>Klick auf den &apos;Neu&apos; Button, um eine Klasse zu erstellen.</translation>
     </message>
 </context>
 <context>
@@ -699,6 +664,10 @@ change your settings at:</source>
     <message>
         <source>Summary</source>
         <translation>Zusammenfassung</translation>
+    </message>
+    <message>
+        <source>[more]</source>
+        <translation>[mehr]</translation>
     </message>
 </context>
 <context>
@@ -783,7 +752,7 @@ The approval can viewed by using the URL below.</source>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation>[%sitename] &quot;%ojectname&quot; wartet auf Bestätigung</translation>
+        <translation>[%sitename] &quot;%objectname&quot; wartet auf Bestätigung</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
@@ -936,7 +905,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     <name>design/standard/content/datatype</name>
     <message>
         <source>New author</source>
-        <translation>Neuer Autor</translation>
+        <translation>Neuer Author</translation>
     </message>
     <message>
         <source>Remove Selected</source>
@@ -1175,24 +1144,24 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Neue Zeile</translation>
     </message>
     <message>
-        <source>Create new %classname</source>
-        <translation>%classname neu erzeugen</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation>%classname hinzufügen</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation>Objekte ändern</translation>
-    </message>
-    <message>
         <source>Remove objects</source>
         <translation>Objekte löschen</translation>
     </message>
     <message>
         <source>MIME-Type</source>
         <translation>MIME-Typ</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation>Öffne Objekte zum bearbeiten</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -1223,11 +1192,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Ordering</source>
-        <translation>Reihenfolge</translation>
+        <translation>Richtung</translation>
     </message>
     <message>
         <source>Main</source>
-        <translation>Main</translation>
+        <translation>Haupt-Ort</translation>
     </message>
     <message>
         <source>Move</source>
@@ -1287,7 +1256,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Manage</source>
-        <translation>Manage</translation>
+        <translation>Verwalten</translation>
     </message>
     <message>
         <source>Translations</source>
@@ -1303,7 +1272,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Remove</source>
-        <translation>Entferne</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>New</source>
@@ -1323,7 +1292,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Collected information from %1</source>
-        <translation>Gesammlete Informationen von %1</translation>
+        <translation>Gesammelte Informationen von %1</translation>
     </message>
     <message>
         <source>Store draft</source>
@@ -1368,6 +1337,56 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>New draft</source>
         <translation>Neuer Entwurf</translation>
+    </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation>Die derzeitige veröffentlichte Version ist %version und wurde veröffendlicht am %time.</translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation>Die letzte Änderung wurde getätigt am %modified.</translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation>Das Objekt gehört %owner.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Das Objekt wird gerade von jemand anderen (oder Ihnen selbst) bearbeitet.
+Sie können entweder einen Ihrer Entwürfe weiter bearbeiten oder einen neuen erstellen.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Das Objekt wird schon von Ihnen editiert.
+Sie können entweder einen Ihrer Entwürfe weiter bearbeiten oder einen neuen erstellen.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation>Das Objekt wird schon von jemand anderen bearbeitet.
+Sie sollten entweder die Person deswegen kontaktieren oder einen neuen Entwurf zum persönlichen Bearbeiten erstellen. </translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation>Derzeitiger Entwurf</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Besitzer</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Zuletzt geändert</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation>Eingabe wurde nur teilweise gespeichert</translation>
     </message>
 </context>
 <context>
@@ -1455,10 +1474,6 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Name</source>
         <translation>Name</translation>
-    </message>
-    <message>
-        <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">Für mehr Optionen die %1erweiterte Suche%2 probieren</translation>
     </message>
     <message>
         <source>The following words were excluded from the search:</source>
@@ -1927,7 +1942,10 @@ Wählen Sie den Ort und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie a
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>Dies sind die Objekte die sie den Lesenzeichen hinzugefügt haben. </translation>
+        <translation>Dies sind die Objekte die sie den Lesenzeichen hinzugefügt haben. Klicken Sie auf ein Objekt, um es an zu sehen oder wenn Sie ausreichende Rechte haben um es zu ändern durch betätigen des ändern Buttons.
+Wenn Sie noch weitere Objekte zu der Liste hinzufügen wollen klicken Sie den %addbutton Button.
+Das löschen von Objekten wird nur Objekte dieser liste löschen.
+</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
@@ -1978,7 +1996,7 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation>Wählen der verwndten Ojekte</translation>
+        <translation>Wählen der verwndten Objekte</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -2034,7 +2052,7 @@ Wählen Sie diese aus und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation>Sie sind z.Z. nicht eingeloggt. Um Zutritt zu erhalten, legen Sie einen neuen Benutzer an oder loggen Sie sich mit einem bestehenden ein.</translation>
+        <translation>Sie sind z. Z. nicht eingeloggt. Um Zutritt zu erhalten, legen Sie einen neuen Benutzer an oder loggen Sie sich mit einem bestehenden ein.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -2175,7 +2193,7 @@ Wählen Sie diese aus und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie
     </message>
     <message>
         <source>Module load failed</source>
-        <translation>Module kann nicht geladen werden</translation>
+        <translation>Modul kann nicht geladen werden</translation>
     </message>
     <message>
         <source>Undefined module: </source>
@@ -2366,6 +2384,10 @@ Wählen Sie diese aus und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie
         <source>Click to create a custom template</source>
         <translation>Klicken Sie hier, um ein eigenes Template zu erstellen</translation>
     </message>
+    <message>
+        <source>Default object view.</source>
+        <translation>Standard Objektansicht.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -2409,21 +2431,6 @@ change your settings at:</source>
     <message>
         <source>Day of the week</source>
         <translation>Wochentag</translation>
-    </message>
-    <message>
-        <source>below.&quot;
-</source>
-        <translation type="obsolete">unten.&quot;</translation>
-    </message>
-    <message>
-        <source>system&quot;
-</source>
-        <translation type="obsolete">System&quot;</translation>
-    </message>
-    <message>
-        <source>%sitename.&quot;
-</source>
-        <translation type="obsolete">%sitename.&quot;</translation>
     </message>
     <message>
         <source>Notification admin</source>
@@ -2482,16 +2489,6 @@ Das Objekt können Sie über untenstehende URL aufrufen.</translation>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation>Diese E-Mail informiert Sie über Neuigkeiten auf %sitename .</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] %classname &quot;%itemname&quot; wurde veröffentlicht</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation>Ein neues Objekt wurde auf %sitename veröffentlicht.
-Über die nachfolgende Adresse gelangen Sie direkt zu dem Objekt.</translation>
     </message>
 </context>
 <context>
@@ -2717,7 +2714,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Module</source>
-        <translation>Module</translation>
+        <translation>Modul</translation>
     </message>
     <message>
         <source>Access</source>
@@ -2733,7 +2730,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Current policies</source>
-        <translation>Aktuelle Pläne</translation>
+        <translation>Aktuelle Richtlinien</translation>
     </message>
     <message>
         <source>Limitations</source>
@@ -2761,7 +2758,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation>Role editieren %1</translation>
+        <translation>Rolle &quot;%1&quot; editieren </translation>
     </message>
     <message>
         <source>Edit policy</source>
@@ -2773,7 +2770,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Node</source>
-        <translation>Konten</translation>
+        <translation>Knoten</translation>
     </message>
     <message>
         <source>Not specified.</source>
@@ -2781,7 +2778,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Subtree</source>
-        <translation>Untergeornete Baumstruktur</translation>
+        <translation>Teile der Baumstruktur</translation>
     </message>
     <message>
         <source>Update</source>
@@ -2798,14 +2795,6 @@ menu on the top.</source>
     <message>
         <source>Remove selected policies</source>
         <translation>Lösche ausgewählte Richtlinien</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation type="obsolete">Hilfe zu Rollen</translation>
     </message>
     <message>
         <source>Edit role</source>
@@ -2829,7 +2818,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Spezifizieren Sie Limitierungen für die Funktion %functionname in Modul %modulname. &apos;Alle&apos; heißt, dass keine Limitierung gesetzt wird </translation>
+        <translation>Spezifizieren Sie Limitierungen für die Funktion %functionname in Modul %modulename. &apos;Alle&apos; heißt, dass keine Limitierung gesetzt wird </translation>
     </message>
 </context>
 <context>
@@ -2962,14 +2951,6 @@ menu on the top.</source>
         <translation>Sektion zuweisen - %section</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation type="obsolete">Hilfe für Sektionen</translation>
-    </message>
-    <message>
         <source>Remove selected sections</source>
         <translation>Löschen der ausgewählten Sektionen</translation>
     </message>
@@ -2992,18 +2973,6 @@ menu on the top.</source>
 </context>
 <context>
     <name>design/standard/setup</name>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="obsolete">Typ</translation>
-    </message>
-    <message>
-        <source>setup</source>
-        <translation type="obsolete">Setup</translation>
-    </message>
     <message>
         <source>Cache admin</source>
         <translation>Cache Admin</translation>
@@ -3047,14 +3016,6 @@ menu on the top.</source>
     <message>
         <source>System information</source>
         <translation>Systeminformationen</translation>
-    </message>
-    <message>
-        <source>SVN revision</source>
-        <translation type="obsolete">SVN Revision</translation>
-    </message>
-    <message>
-        <source>Extensions</source>
-        <translation type="obsolete">Erweiterung</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
@@ -3105,20 +3066,12 @@ menu on the top.</source>
         <translation>Datenbank</translation>
     </message>
     <message>
-        <source>Charset</source>
-        <translation type="obsolete">Zeichensatz</translation>
-    </message>
-    <message>
         <source>Rapid Application Development Tools</source>
         <translation>Werkzeuge zur schnellen Anwendungs-Entwicklung</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
         <translation>Die RAD Werkzeuge erlauben Ihnen, einfach neue Funktionalität für eZ publish zu erstellen.</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <translation type="obsolete">Werkzeuge</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
@@ -3205,36 +3158,12 @@ menu on the top.</source>
         <translation>Komplette Templateliste</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="obsolete">Start</translation>
-    </message>
-    <message>
         <source>Basic information</source>
         <translation>Basisinformation</translation>
     </message>
     <message>
-        <source>Name of operator</source>
-        <translation type="obsolete">Name des Operators</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Einstellungen</translation>
-    </message>
-    <message>
-        <source>One operator in class</source>
-        <translation type="obsolete">Ein Operator in Klasse</translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="obsolete">Neustart</translation>
-    </message>
-    <message>
         <source>Optional information</source>
         <translation>Optionale information</translation>
-    </message>
-    <message>
-        <source>Name of class</source>
-        <translation type="obsolete">Klassenname</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -3282,35 +3211,19 @@ menu on the top.</source>
     </message>
     <message>
         <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier können Sie Ihre Erweiterungen an- und ausschalten. Dies geht nur für systemweite Erweiterungen. Site-spezifische Erweiterungen müssen in den Config-Files bearbeitet werden.</translation>
     </message>
     <message>
         <source>Available extensions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PHP Accelerator is enabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PHP Accelerator is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfügbare Erweiterungen</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es ist kein bekannter PHP-Beschleuniger aktiv.</translation>
     </message>
     <message>
         <source>&amp;percent% completed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="obsolete">Ok</translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="obsolete">Languages</translation>
+        <translation>&amp;percent% komplett</translation>
     </message>
     <message>
         <source>Help</source>
@@ -3318,7 +3231,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Summary</translation>
+        <translation>ZusammenfassungSummary</translation>
     </message>
     <message>
         <source>Site:</source>
@@ -3326,66 +3239,58 @@ menu on the top.</source>
     </message>
     <message>
         <source>System:</source>
-        <translation type="unfinished"></translation>
+        <translation>System:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Image system:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild-System:</translation>
     </message>
     <message>
         <source>Mail:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mail:</translation>
     </message>
     <message>
         <source>Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language(s):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site(s):</source>
-        <translation type="unfinished"></translation>
+        <translation>Datenbank:</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation type="unfinished">Start</translation>
+        <translation>Start</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name des Datentyps</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibender Name des Datentyps</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Eingabe auf Klassen-Ebene bearbeiten</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nächster</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation type="unfinished">Neustart</translation>
+        <translation>Neustart</translation>
     </message>
     <message>
         <source>Name of class</source>
@@ -3395,128 +3300,129 @@ menu on the top.</source>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Konstanten-Name</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Der Ersteller des Packets</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung des Datentyps</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Die erste Zeile wird genutzt as kurze Beschreibung und der Rest ist die Dokumentation des Operators.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Händelt den Datentyp %datatypename
+Wenn sie %datatypname benutzen können sie...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Wenn der Download Button geklickt wurde, wird the Quellcode generiert und der Browser wird sie aufrufen die Datei zu speichern.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">SVN Revision</translation>
+        <translation>SVN Revision</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation type="unfinished">Erweiterung</translation>
+        <translation>Erweiterungen</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation type="unfinished">Erweiterung</translation>
+        <translation>Erweiterungen</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation type="unfinished">Zeichensatz</translation>
+        <translation>Zeichensatz</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation type="unfinished">Werkzeuge</translation>
+        <translation>Werkzeuge</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation type="unfinished">Start</translation>
+        <translation>Start</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Name des Operators</translation>
+        <translation>Name des Operators</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Ein Operator in Klasse</translation>
+        <translation>Ein Operator in Klasse</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Behandelt die Operator Eingabe</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Generiert die Operator Ausgabe </translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Übergabeparameterbehandlung</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nächster</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation type="unfinished">Neustart</translation>
+        <translation>Neustart</translation>
     </message>
     <message>
         <source>Name of class</source>
@@ -3526,44 +3432,62 @@ By using %datatypename you can ...</source>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ersteller des Operators</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung des Operators</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Die erste Zeile wird als kurze Beschreibung genutzt und der Rest als Operator Dokumentation.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Behandelt den Template Operator %operatorname
+Wenn sie %operatorname nutzen können sie ...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Beispielcode</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Wenn sie wollen können sie Beispiel code hinzufügen, um zu Beschreiben wie Ihr Operator funktioniert.
+Der Beispielcode wurde aus den Paramtern erstellt, die sie gewählt haben.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Wenn der Download Button geklickt wurde, wird der Quellcode erstellt und die generierte Datei an den Browser gesand. </translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
+    </message>
+    <message>
+        <source>PHP Accelerator is enabled.</source>
+        <translation>PHP Accelerator ist aktiviert.</translation>
+    </message>
+    <message>
+        <source>PHP Accelerator is disabled.</source>
+        <translation>PHP Accelerator ist deaktiviert.</translation>
+    </message>
+    <message>
+        <source>Language(s):</source>
+        <translation>Sprache(n):</translation>
+    </message>
+    <message>
+        <source>Site(s):</source>
+        <translation>Seite(n):</translation>
     </message>
 </context>
 <context>
@@ -3851,14 +3775,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>SMTP</translation>
     </message>
     <message>
-        <source>Server name</source>
-        <translation type="obsolete">Server name</translation>
-    </message>
-    <message>
-        <source>User name</source>
-        <translation type="obsolete">User name</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Password</translation>
     </message>
@@ -3941,38 +3857,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Default</source>
         <translation>Default</translation>
-    </message>
-    <message>
-        <source>Details of your system, like OS type etc.</source>
-        <translation type="obsolete">Details of your system, like OS type etc.</translation>
-    </message>
-    <message>
-        <source>The test results for your system</source>
-        <translation type="obsolete">The test results for your system</translation>
-    </message>
-    <message>
-        <source>The database type you are using</source>
-        <translation type="obsolete">The database type you are using</translation>
-    </message>
-    <message>
-        <source>The name of your site</source>
-        <translation type="obsolete">The name of your site</translation>
-    </message>
-    <message>
-        <source>The url of your site</source>
-        <translation type="obsolete">The url of your site</translation>
-    </message>
-    <message>
-        <source>The languages you chose</source>
-        <translation type="obsolete">The languages you chose</translation>
-    </message>
-    <message>
-        <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="obsolete">If you wish you can also add some comments which will be included in the registration.</translation>
-    </message>
-    <message>
-        <source>Comments</source>
-        <translation type="obsolete">Comments</translation>
     </message>
     <message>
         <source>Send Registration</source>
@@ -4063,10 +3947,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>No problems was found with your system, you can continue by clicking the</translation>
     </message>
     <message>
-        <source>However if you wish to finetune your system you should click the</source>
-        <translation type="obsolete">However if you wish to finetune your system you should click the</translation>
-    </message>
-    <message>
         <source>Finetune System</source>
         <translation>Finetune System</translation>
     </message>
@@ -4081,10 +3961,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Type</source>
         <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Servername</source>
-        <translation type="obsolete">Servername</translation>
     </message>
     <message>
         <source>Username</source>
@@ -4180,7 +4056,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seiten Zugang</translation>
     </message>
     <message>
         <source>Site details</source>
@@ -4372,10 +4248,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4476,10 +4348,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4533,14 +4401,6 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Admin hostname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site templates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template requires a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4725,10 +4585,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>For more detailed information on site access, please refer to the %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4755,12 +4611,77 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>here</source>
+        <comment>manual installation link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Use the refresh button to update the database listing(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>here</source>
-        <comment>manual installation link</comment>
+        <source>Site templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each site template will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each site template requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;There are some important issues that have to be resolved. Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4791,7 +4712,7 @@ To fix this problem you must do one of the following:</source>
     <name>design/standard/setup/tests</name>
     <message>
         <source>Missing database handlers</source>
-        <translation>Missing database handlers</translation>
+        <translation>Fehlene Datenbank-Handler </translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ publish support.</source>
@@ -4811,7 +4732,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Missing database handler</source>
-        <translation>Missing database handler</translation>
+        <translation>Fehlener Datenbank-Handler </translation>
     </message>
     <message>
         <source>No supported database handlers were found. eZ publish requires a database to store it&apos;s data, without one the system will fail.</source>
@@ -4847,11 +4768,11 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Missing imagegd extension</source>
-        <translation>Missing imagegd extension</translation>
+        <translation type="unfinished">Missing imagegd extension</translation>
     </message>
     <message>
         <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</translation>
+        <translation type="unfinished">The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
@@ -4867,7 +4788,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</translation>
+        <translation type="unfinished">To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
@@ -5023,7 +4944,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation>Es wird empfohlen das diese option ausgeschlatet ist. Um diese aus zu schalten änderen Sie ihre %1 Konfiguration und setzen Sie %2 and %3 zu %4.</translation>
+        <translation type="unfinished">Es wird empfohlen das diese option ausgeschlatet ist. Um diese aus zu schalten änderen Sie ihre %1 Konfiguration und setzen Sie %2 and %3 zu %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
@@ -5059,7 +4980,71 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
-        <translation>eZ publish mag mit Safe mode on arbeiten, es mag dennoch einige Funktionalitäten die nicht verfügbar sind. Einige dieser Sachen die auftreten können sind:</translation>
+        <translation>eZ publish könnte evtl. mit Safe mode &quot;on&quot; arbeiten, allerdings stehen dann einige Funktionalitäten nicht zur Verfügung. Folgendes könnte z.B. geschehen:</translation>
+    </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation>Die erlaubte Ausführungszeit (Execution Time) ist zu kurz, um ezPublish zu installieren</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation>eZ publish wird nicht korrekt arbeiten mit einem Ausführungszeitlimit von %1.</translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation>Es wird empfohlen dies zu reparieren.</translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5349,10 +5334,6 @@ To fix this problem you must do one of the following:</source>
         <translation>Bestellauflistung</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
         <source>Sort Result by</source>
         <translation>Sortieren des Ergebnisses nach</translation>
     </message>
@@ -5454,10 +5435,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>Workflow</source>
         <translation>Workflow</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -5578,6 +5555,10 @@ To fix this problem you must do one of the following:</source>
         <source>No object available</source>
         <translation>Keine Objekte verfügbar</translation>
     </message>
+    <message>
+        <source>version</source>
+        <translation>Version</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
@@ -5607,10 +5588,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>A valid username and password is required to login.</source>
         <translation>Gültiger Nutzername und Passwort sind erforderlich.</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation type="obsolete">Anmelden</translation>
     </message>
     <message>
         <source>Change password for user</source>
@@ -6027,10 +6004,6 @@ your account.</source>
         <translation>Neue Gruppe</translation>
     </message>
     <message>
-        <source>Workflows in %1</source>
-        <translation type="obsolete">Workflow in %1</translation>
-    </message>
-    <message>
         <source>Modifier</source>
         <translation>Veränderer</translation>
     </message>
@@ -6053,10 +6026,6 @@ your account.</source>
     <message>
         <source>Modified by %username on %time</source>
         <translation>Modfiziert von %username am %time</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
     </message>
     <message>
         <source>Edit workflow</source>
@@ -6185,6 +6154,10 @@ your account.</source>
         <source>Load attributes</source>
         <translation>Eigenschaften laden</translation>
     </message>
+    <message>
+        <source>Modify publish date</source>
+        <translation>Ändere Datum der Veröffentlichung</translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -6257,7 +6230,7 @@ your account.</source>
     </message>
     <message>
         <source>Author</source>
-        <translation>Autor</translation>
+        <translation>Author</translation>
     </message>
     <message>
         <source>Inbox</source>
@@ -6381,12 +6354,12 @@ your account.</source>
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation>Datumfeld</translation>
+        <translation>Datumsfeld</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation>Zeitfeld</translation>
+        <translation>Datum/Zeitfeld</translation>
     </message>
     <message>
         <source>Email</source>
@@ -6461,7 +6434,7 @@ your account.</source>
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation>Schüsselwort</translation>
+        <translation>Schlagwort</translation>
     </message>
     <message>
         <source>Matrix</source>
@@ -6471,12 +6444,12 @@ your account.</source>
     <message>
         <source>Media</source>
         <comment>Datatype name</comment>
-        <translation>Medien</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation>Ojekt relation</translation>
+        <translation>Objekt Relation</translation>
     </message>
     <message>
         <source>Object relation list</source>
@@ -6557,7 +6530,7 @@ your account.</source>
     <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation>Zeitfeld</translation>
+        <translation>Uhrzeit</translation>
     </message>
     <message>
         <source>URL</source>
@@ -6631,10 +6604,6 @@ your account.</source>
     <message>
         <source>Content</source>
         <translation>Inhalt</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Bearbeiten</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -7049,24 +7018,12 @@ your account.</source>
         <translation>Multiplexer</translation>
     </message>
     <message>
-        <source>Publish</source>
-        <translation>Veröffentlichen</translation>
-    </message>
-    <message>
         <source>Publish on time</source>
         <translation>Auf Zeit veröffentlichen</translation>
     </message>
     <message>
         <source>Simple shipping</source>
         <translation>Einfacher Versand</translation>
-    </message>
-    <message>
-        <source>Timing</source>
-        <translation>Timing</translation>
-    </message>
-    <message>
-        <source>Unpublish</source>
-        <translation>Veröffentlichung zurücknehmen</translation>
     </message>
     <message>
         <source>Wait until date</source>
