@@ -441,10 +441,10 @@ class eZContentObject extends eZPersistentObject
         {
             $version =& $this->version( $copyFromVersion );
         }
-        eZDebug::writeNotice( $version , 'version' );
+//        eZDebug::writeNotice( $version , 'version' );
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
-        eZDebug::writeNotice( $nodeAssignmentList , 'nodeAssignmentList' );
+        //       eZDebug::writeNotice( $nodeAssignmentList , 'nodeAssignmentList' );
 
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
@@ -458,6 +458,7 @@ class eZContentObject extends eZPersistentObject
         $contentObjectTranslations =& $version->translations();
 
         $clonedVersion = $version->clone( $nextVersionNumber, $userID );
+
         $clonedVersion->store();
 
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
@@ -472,15 +473,17 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        $relatedObjects =& $this->relatedContentObjectArray( $version->attribute( 'version' ) );
+        $relatedObjects =& $this->relatedContentObjectArray( $currentVersionNumber );
         foreach ( array_keys( $relatedObjects ) as $key  )
         {
             $relatedObject =& $relatedObjects[$key];
             $objectID = $relatedObject->attribute( 'id' );
-            $this->addContentObjectRelation( $objectID, $editVersion );
+            $this->addContentObjectRelation( $objectID, $nextVersionNumber );
         }
 
         return $version;
+//        return $clonedVersion;
+
     }
 
     /*!
