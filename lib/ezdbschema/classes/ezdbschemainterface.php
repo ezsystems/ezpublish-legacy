@@ -619,7 +619,14 @@ class eZDBSchemaInterface
         {
             if ( !isset( $tableDef['fields'][$fieldName] ) )
                 continue;
-            if ( $entryIndex > 0 )
+            if ( $entryIndex == 0 )
+            {
+                if ( $diffFriendly )
+                {
+                    $defText .= "  ";
+                }
+            }
+            else
             {
                 if ( $diffFriendly )
                 {
@@ -661,7 +668,14 @@ class eZDBSchemaInterface
             {
                 if ( !isset( $tableDef['fields'][$fieldName] ) )
                     continue;
-                if ( $entryIndex > 0 )
+                if ( $entryIndex == 0 )
+                {
+                    if ( $diffFriendly )
+                    {
+                        $dataText .= "  ";
+                    }
+                }
+                else
                 {
                     if ( $diffFriendly )
                     {
