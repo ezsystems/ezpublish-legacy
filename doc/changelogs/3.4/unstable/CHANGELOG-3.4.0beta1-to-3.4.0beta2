@@ -49,6 +49,8 @@ Changes from 3.4.0beta1 to 3.4.0beta2
   not generate code to generate a cache file if it was deleted.
 - Fixed duplicate row entry in contentclass table when copying content classes.
   http://ez.no/community/bug_reports/class_copy_doubles_rows_in_table
+- Fixed "Undefined variable" and "Undefined index" notices in the template compiler.
+  http://ez.no/community/bug_reports/template_compile_undefined_index_result
   
 *Update:
 

@@ -274,7 +274,7 @@ class eZTemplateExecuteOperator
         }
         $code .= "\n";
 
-        $code .= '%output% = %output%[\'result\'];';
+        $code .= '%output% = isset( %output%[\'result\'] ) ? %output%[\'result\'] : null;' . "\n";
 
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }

@@ -2813,6 +2813,7 @@ else
                         $knownTypes[] = 'static';
                 }
 
+                $php->addCodePiece( "if (! isset( \$$variableAssignmentName ) ) \$$variableAssignmentName = NULL;\n", array ( 'spacing' => $spacing ) );
                 $php->addCodePiece( "\$" . $variableAssignmentName . "Data = array( 'value' => \$$variableAssignmentName );
 \$tpl->processOperator( $operatorNameText,
                        $operatorParametersText,
