@@ -235,7 +235,7 @@ class eZXMLTextType extends eZDataType
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
         if ( $timestamp < EZ_XMLTEXT_VERSION_30_TIMESTAMP )
         {
-            include_once( 'lib/ezi18n/eztextcodec.php' );
+            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
             $codec =& eZTextCodec::instance( false, $charset );
             $text =& $codec->convertString( $text );
