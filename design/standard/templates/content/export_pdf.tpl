@@ -64,7 +64,7 @@
     {include uri="design:gui/lineedit.tpl" id_name="DestinationFile" value=$pdf_export.pdf_filename|wash }
     <br/>
     <input type="radio" name="DestinationType" value="download">{"Export for direct download"|i18n("design/standard/content")}</input>
-    </br>
+    <br/>
 
     {include uri="design:gui/button.tpl" id_name=ExportPDFButton value="Export"|i18n("design/standard/content") }
 

@@ -33,6 +33,6 @@
 {pdf(footer, hash( text, "#page of #total"|i18n( "design/standard/content/pdf" )|wash(pdf),
                    align, "right",
 		   size, 10 ) ) }
-{pdf(footer, hash( line, hash( margin, 30,
+{pdf(footer, hash( line, hash( margin, 60,
 		               thicknes, 1,
 			       size, "full" ) ) ) }
