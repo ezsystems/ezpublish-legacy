@@ -81,8 +81,7 @@
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section var=Blocks loop=$settings}
         <tr>
-	    <th class="tight">
-	    </th>
+	    <th class="tight">&nbsp;</th>
             <th width="50%">
 	        {$Blocks.key} ({$Blocks.item.count})&nbsp;&nbsp;&nbsp;<a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
             </th>
@@ -92,8 +91,7 @@
             <th width="50%">
                 {'Value'|i18n( 'design/admin/settings' )}
             </th>
-            <th class="tight">
-            </th>
+            <th class="tight">&nbsp;</th>
     </tr>
     {section var=Settings loop=$Blocks.item.content sequence=array( 'bgdark', 'bglight' )}
         <tr valign="top" class="{$Settings.sequence}">
