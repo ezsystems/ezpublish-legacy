@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nextgen
 ---------------------------------------------------------
--- Server version	4.0.9-gamma
+-- Server version	4.0.7-gamma
 
 --
 -- Table structure for table 'ezapprovetasks'
@@ -126,6 +126,26 @@ CREATE TABLE ezcollab_item_group_link (
 
 
 --
+-- Table structure for table 'ezcollab_item_message_link'
+--
+
+CREATE TABLE ezcollab_item_message_link (
+  id int(11) NOT NULL auto_increment,
+  collaboration_id int(11) NOT NULL default '0',
+  participant_id int(11) NOT NULL default '0',
+  message_id int(11) NOT NULL default '0',
+  message_type int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezcollab_item_message_link'
+--
+
+
+--
 -- Table structure for table 'ezcollab_item_participant_link'
 --
 
@@ -142,6 +162,52 @@ CREATE TABLE ezcollab_item_participant_link (
 
 --
 -- Dumping data for table 'ezcollab_item_participant_link'
+--
+
+
+--
+-- Table structure for table 'ezcollab_profile'
+--
+
+CREATE TABLE ezcollab_profile (
+  id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  main_group int(11) NOT NULL default '0',
+  data_text1 text NOT NULL,
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezcollab_profile'
+--
+
+
+--
+-- Table structure for table 'ezcollab_simple_message'
+--
+
+CREATE TABLE ezcollab_simple_message (
+  id int(11) NOT NULL auto_increment,
+  message_type varchar(40) NOT NULL default '',
+  creator_id int(11) NOT NULL default '0',
+  data_text1 text NOT NULL,
+  data_text2 text NOT NULL,
+  data_text3 text NOT NULL,
+  data_int1 int(11) NOT NULL default '0',
+  data_int2 int(11) NOT NULL default '0',
+  data_int3 int(11) NOT NULL default '0',
+  data_float1 float NOT NULL default '0',
+  data_float2 float NOT NULL default '0',
+  data_float3 float NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezcollab_simple_message'
 --
 
 
@@ -301,6 +367,7 @@ CREATE TABLE ezcontentobject (
   is_published int(11) default NULL,
   published int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
+  status int(11) default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -308,13 +375,13 @@ CREATE TABLE ezcontentobject (
 -- Dumping data for table 'ezcontentobject'
 --
 
-INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596);
-INSERT INTO ezcontentobject VALUES (4,0,0,3,'Users',1,0,0,0);
-INSERT INTO ezcontentobject VALUES (10,8,0,4,'Anonymous User',1,0,1033920665,1033920665);
-INSERT INTO ezcontentobject VALUES (11,8,0,3,'Guest accounts',1,0,1033920746,1033920746);
-INSERT INTO ezcontentobject VALUES (12,8,0,3,'Administrator users',1,0,1033920775,1033920775);
-INSERT INTO ezcontentobject VALUES (13,8,0,3,'Editors',1,0,1033920794,1033920794);
-INSERT INTO ezcontentobject VALUES (14,8,0,4,'Administrator User',1,0,1033920830,1033920830);
+INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596,1);
+INSERT INTO ezcontentobject VALUES (4,0,0,3,'Users',1,0,0,0,1);
+INSERT INTO ezcontentobject VALUES (10,8,0,4,'Anonymous User',1,0,1033920665,1033920665,1);
+INSERT INTO ezcontentobject VALUES (11,8,0,3,'Guest accounts',1,0,1033920746,1033920746,1);
+INSERT INTO ezcontentobject VALUES (12,8,0,3,'Administrator users',1,0,1033920775,1033920775,1);
+INSERT INTO ezcontentobject VALUES (13,8,0,3,'Editors',1,0,1033920794,1033920794,1);
+INSERT INTO ezcontentobject VALUES (14,8,0,4,'Administrator User',1,0,1033920830,1033920830,1);
 
 --
 -- Table structure for table 'ezcontentobject_attribute'
@@ -1399,9 +1466,3 @@ CREATE TABLE ezworkflow_process (
 --
 
 
-# adding status to ezcontentobject and making correct update of it
-alter table ezcontentobject add column status int default 0;
-create temporary table ezcontentobject_temp as select distinct id,owner_id,section_id,contentclass_id,name,current_version,is_published,published,modified, 1 as status from ezcontentobject, ezcontentobject_tree  where ezcontentobject_tree.contentobject_id = ezcontentobject.id;
-insert into ezcontentobject_temp  select ezcontentobject.* from ezcontentobject left join ezcontentobject_tree on ezcontentobject.id = ezcontentobject_tree.contentobject_id where ezcontentobject_tree.contentobject_id is null;
-delete from ezcontentobject;
-insert into ezcontentobject select * from ezcontentobject_temp;
