@@ -6,7 +6,7 @@
 
 {'Digest settings'|i18n('design/standard/notification')}
 <br/>
-{'Day the week'|i18n('design/standard/notification')}
+{'Day of the week'|i18n('design/standard/notification')}
 
 <select name="Weekday_{$handler.id_string}">
 {section name=WeekDays loop=$handler.all_week_days}
