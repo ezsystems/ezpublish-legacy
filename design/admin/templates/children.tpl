@@ -1,8 +1,5 @@
 {* Generic children list for admin interface. *}
 
-
-<p>Items per page: <a href={'/user/preferences/set/items/1'|ezurl}>10</a> <a href={'/user/preferences/set/items/2'|ezurl}>25</a> <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
-
 {let number_of_items=10}
 
 {switch match=ezpreference( 'items' )}
@@ -16,8 +13,6 @@
     {set number_of_items=10}
 {/case}
 {/switch}
-
-</p>
 
 
 <form method="post" action={"content/action"|ezurl}>
@@ -33,6 +28,14 @@
 
 {* If there are children: show list and buttons that belong to the list. *}
 {section var=AvailableChildren show=$children}
+
+{* Items per page selector *}
+    <p>
+        Items per page:
+        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
+    </p>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
     {set can_copy=$node.object.can_create}
