@@ -374,9 +374,15 @@ class eZContentOperationCollection
              $object->attribute( 'current_version' ) == $versionNum )
         {
             list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
-            $newParentObject =& $newMainAssignment->getParentObject();
-            $object->setAttribute( 'section_id', $newParentObject->attribute( 'section_id' ) );
-            $object->store();
+            // we should not update section id for toplevel nodes
+            if ( $newMainAssignment->attribute( 'parent_node' ) != 1 )
+            {
+                $newParentObject =& $newMainAssignment->getParentObject();
+                $parentNodeSectionID = $newParentObject->attribute( 'section_id' );
+                $object->setAttribute( 'section_id', $parentNodeSectionID );
+                $object->store();
+            }
+
             return;
         }
 
