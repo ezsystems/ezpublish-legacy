@@ -67,6 +67,7 @@ Security fix 1:
 Datatype branch:
 - Branched from revision=2627
 - Branch ends on revision=2711
+- Merged into trunk in revision=2714
 - url=http://zev.ez.no/svn/nextgen/unstable/datatype-development-20030530 (2628)
 - Date 30-May-2003
 
