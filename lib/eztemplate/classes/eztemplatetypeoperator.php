@@ -168,15 +168,18 @@ class eZTemplateTypeOperator
                 if ( count( $operatorParameters ) > 0 )
                 {
                     if ( count( $operatorParameters ) > 1 )
-                        $tpl->extraParameters( $operatorName,
-                                               count( $operatorParameters ),
-                                               1 );
+                    {
+                        $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
+                    }
+
                     $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
-                    $value = $operand != false;
+                    $value = $operand !== null;
+
+
                 }
                 else
-                    $tpl->missingParameter( $operatorName,
-                                            'input' );
+                    $tpl->missingParameter( $operatorName, 'input' );
+
             } break;
             case $this->IsUnsetName:
             {
@@ -187,11 +190,10 @@ class eZTemplateTypeOperator
                                                count( $operatorParameters ),
                                                1 );
                     $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
-                    $value = $operand == false;
+                    $value = $operand === null;
                 }
                 else
-                    $tpl->missingParameter( $operatorName,
-                                            'input' );
+                    $tpl->missingParameter( $operatorName, 'input' );
             } break;
             case $this->GetTypeName:
             {
