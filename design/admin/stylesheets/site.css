@@ -1,4 +1,4 @@
-/* SITE CSS 20040720 */
+/* ADMIN SITE CSS 20040722 */
 
 body
 {
@@ -15,22 +15,25 @@ div#header
 
 div#header-design
 {
+    text-align: center;
 }
 
-div#header img
+div#header div#logo
 {
     float: left;
 }
 
 div#search
 {
-    float: right;
+}
+
+div#search form
+{
 }
 
 div#search div.block
 {
     margin: 0;
-    text-align: right;
 }
 
 div#search input#searchtext
@@ -48,6 +51,11 @@ div#search p
 div#search label
 {
     display: inline;
+}
+
+div#userstatus
+{
+    float: right;
 }
 
 div#topmenu
@@ -73,9 +81,9 @@ div#topmenu li, div#topmenu li div
 div#topmenu li
 {
     margin-left: 0.5em;
-    border: 1px solid #ffffff;
-    border-bottom-color: #808080;
-    border-right-color: #808080;
+    border: 1px solid #f8f8f8;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
 }
 
 div#topmenu li a
@@ -152,9 +160,9 @@ div#header-design, div#topmenu-design, div#path-design, div#leftmenu-design, div
 {
     margin: 0.5em 0 0 0;
     padding: 0.5em;
-    border: 1px solid #808080;
-    border-bottom-color: #ffffff;
-    border-right-color: #ffffff;
+    border: 1px solid #d0d0d0;
+    border-bottom-color: #f8f8f8;
+    border-right-color: #f8f8f8;
     overflow: visible;
 }
 
@@ -163,24 +171,21 @@ div#maincontent-design
     background-color: #ffffff;
     margin: 0.5em 0 0 0;
     padding: 0.5em;
-    border: 1px solid #808080;
+    border: 1px solid #d0d0d0;
     border-bottom-color: #f8f8f8;
     border-right-color: #f8f8f8;
     overflow: visible;
 }
 
+div#footer
+{
+    text-align: center;
+}
+
+/* ------------ */
+
 input#searchbutton, input.menubutton
 {
     font-weight: normal;
     background-color: #e0e0e0;
-}
-
-h1
-{
-    margin-top: 0.5em;
-}
-
-.hide
-{
-    display: none;
 }

@@ -1,94 +1,52 @@
-/* eZ2004 core CSS */
+/* CORE CSS 20040217 */
+
+/* BODY */
 
 body
 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif; /* Base font family for most elements */
+    font-size: 0.8em; /* Base size for all elements; other size definitions relates to this */
     background-color: #ffffff;
+    margin: 0;
+    padding: 1em;
 }
 
-/* GLOBAL SETTING OF FONT SIZES */
+/* HEADERS */
+
+h1, h2, h3, h4, h5, h6
+{
+    font-weight: bold;
+    margin: 1em 0 0.5em 0;
+    padding: 0;
+}
 
 h1
 {
-    font-size: 160%;
+    margin-top: 0.5em;
+    font-size: 1.8em;
 }
 
 h2
 {
-    font-size: 130%;
+    font-size: 1.4em;
 }
 
-h3, legend
+h3
 {
-    font-size: 100%;
+    font-size: 1.1em;
 }
 
 h4, h5, h6
-{
-    font-size: 100%;
+{ 
+    font-size: 1em;
 }
 
-pre
-{
-    font-size: 90%;
-    overflow: scroll;
-}
-
-p, ul, ol, dl, blockquote, address, label, div.block input, div.block select, .normal, table.list, input.button, textarea
-{
-    font-size: 80%;
-}
-
-.small, div.byline p, p.picturetext, .factbox
-{
-    font-size: 65%;
-}
-
-ul ul, ol ol, p label, div.block p input, p input, div.block p select, p select, div.block p textarea, p textarea
-{
-    font-size: 100%;
-}
-
-/* HEADINGS */
-
-h1, h2, h3, h4, h5, h6
-{
-    padding: 0em;
-}
-
-h1
-{
-    padding-top: 0.2em;
-    margin: 0 0 0.5em 0;
-}
-
-h1, h2
-{
-    font-weight: normal;
-}
-
-h2, h3, h4, h5, h6
-{
-    margin: 0.75em 0 0.75em 0;
-}
-
-h3, h4, h5, h6
-{
-    font-weight: bold;
-}
-
-/* REGULAR PARAGRAPHS */
+/* PARAGRAPHS */
 
 p
 {
-    margin: 0.25em 0 0 0;
-    padding-bottom: 0.25em;
-    line-height: 1.25em;
-}
-
-pre
-{
-    margin: 0.25em 0 0.5em 0;
+    margin: 0.5em 0 0.5em 0;
+    line-height: 1.25em; /* This is aprox. default line height in most popular browsers; set explicitly to ensure consitency. */
 }
 
 /* LINKS */
@@ -101,55 +59,85 @@ a
 
 a:hover
 {
-    color: #0000c0;
+    color: #0000ff;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 a img
 {
-    border: none;
+    border: none; /* Some browsers may display a border around a linked image without this attribute set to _none_. */
 }
 
-/* Not currently used, but may be activated if needed.
-a:visited
+/* PRE TEXT */
+
+pre, code
 {
-    color: #000000;
-    text-decoration: underline;
+    font-family: "Courier New", Courier, monospace; /* Usually defaulted to monospaced font anyway, but browwsers may vary which one is used, so giving exact alternatives helps visual consistenct */
+    font-size: 1em; /* Setting this exact size may also help visual consistency */
 }
-*/
+
+pre
+{
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    margin: 1em 0 1em 0;
+    padding: 0.2em;
+}
 
 /* TABLES */
+
+table
+{ 
+    font-size: 1em; /* Fix for size "loss" in tables in IE; redundant for most others, but does no harm */
+    margin: 0;
+    padding: 0;
+}
+
+th, td
+{
+    padding: 0;
+}
 
 table.list
 {
     width: 100%;
-    margin: 0.5em 0 1em 0;
+    margin: 1em 0 1em 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 table.list th, table.list td
 {
-    padding: 0.3em 0.5em 0.3em 0.5em;
+    padding: 0.25em;
+    text-align: left;
+    vertical-align: top;
 }
 
-th
+table.list th
 {
     font-weight: bold;
-    text-align: left;
+    white-space: nowrap;
 }
 
-td
+table.list td
 {
+    border-top: 1px solid #f0f0f0;
     font-weight: normal;
 }
 
 tr.bglight
 {
-    background-color: #f8f9fB;
+    background-color: #fcfcfc;
 }
 
 tr.bgdark
 {
-    background-color: #eef2f7;
+    background-color: #f8f8f8;
+}
+
+tr.bglight:hover, tr.bgdark:hover
+{
+    background-color: #f0f0f0;
 }
 
 /* ORDERED AND UNORDERED LISTS */
@@ -157,12 +145,17 @@ tr.bgdark
 ul, ol
 {
     padding: 0;
-    margin: 0.75em 0 1em 1.5em;
+    margin: 0.75em 0 1em 2.5em;
 }
 
-ol
+ul ul, ol ul
 {
-    margin-left: 2.5em;
+    margin: 0.3em 0 0.5em 1.3em;
+}
+
+ul ol, ol ol
+{
+    margin: 0.3em 0 0.5em 1.9em;
 }
 
 ul, ul ul
@@ -172,8 +165,8 @@ ul, ul ul
 
 li
 {
-    padding: 0em;
-    margin-bottom: 0.3em;
+    margin: 0 0 0.3em 0;
+    padding: 0;
     line-height: 1.25em;
 }
 
@@ -187,7 +180,7 @@ dl
 
 dt, dd
 {
-    font-style: italic;
+    font-style: normal;
     margin: 0 0 0.25em 0;
 }
 
@@ -198,15 +191,52 @@ dt
 
 dd
 {
-    margin: 0 1em 0 1em;
+    margin: 0 1em 0.5em 2.5em;
 }
 
-/* FORMS */
+/* FORM ELEMENTS */
 
 form
 {
     padding: 0em;
     margin: 0em;
+}
+
+label
+{
+    font-weight: bold;
+    padding-right: 0.5em;
+    display: block;
+    white-space: nowrap;
+}
+
+input, select
+{
+    font-size: 0.9em;
+}
+
+textarea
+{
+    font-family: Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
+    font-size: 1em; /* Needs to be specified for IE */
+}
+
+optgroup
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+input.button
+{
+    font-weight: normal;
+    margin: 0 0.5em 0 0;
+    background-color: #e0e0e0;
+}
+
+input.button-default
+{
+    font-weight: bold;
 }
 
 input.box, textarea.box
@@ -219,236 +249,77 @@ input.halfbox, textarea.halfbox
     width: 48%;
 }
 
-input.quarterbox, textarea.quarterbox
+td input.halfbox, td textarea.halfbox
 {
-    width: 20%;
-}
-
-input.shortbox
-{
-    width: 4em;
-}
-
-fieldset
-{
-    margin: 0.5em 0 0.5em 0;
-    border: 1px solid #000000;
-}
-
-legend
-{
-    font-weight: bold;
-}
-
-label
-{
-    font-weight: bold;
-    padding-right: 0.5em;
-    display: block;
-    white-space: nowrap;
-}
-
-input.button
-{
-    font-weight: normal;
-    margin-right: 1em;
-}
-
-input.defaultbutton
-{
-    font-weight: bold;
-    margin-right: 1em;
-}
-
-div.right input.button, div right input.defaultbutton
-{
-    margin-right: 0em;
-}
-
-optgroup
-{
-    font-weight: bold;
-    font-style: normal;
+    width: 98%;
 }
 
 /* PAGE DIVIDERS */
 
-div.left
+div.block /* Use this style around groups of objects which are connected in some way */
 {
-    float: left;
-    display: block;
-    width: 47%;
-    clear: right;
-    white-space: nowrap;
-}
-
-div.right
-{
-    float: left;
-    text-align: right;
-    display: block;
-    width: 47%;
-    clear: right;
-}
-
-div.block
-{
+    margin: 0.5em 0 0.5em 0;
     padding: 0;
-    margin: 0.25em 0 0.25em 0;
-    display: block;
-    clear: left;
+    clear: both;
 }
 
-div.buttonblock
+div.block div.element, div.buttonblock div.element /* Use this style if several objects are to be stacked horizontally within the same block */
 {
-    clear: left;
-    margin: 0;
-    padding: 0.25em 0 0.5em 0;
-}
-
-div.step div.buttonblock
-{
-    margin-bottom: 0em;
-    padding-bottom: 0.75em;
-}
-
-div.element
-{
-    float: left;
-    display: block;
     padding-right: 1em;
+    float: left;
+}
+
+div.block div.left
+{
+    width: 48%;
+    text-align: left;
+    float: left;
+    clear: left;
+}
+
+div.block div.right
+{
+    width: 48%;
+    text-align: right;
+    float: right;
     clear: right;
 }
 
-div.break
-{
-    clear: left;
-}
-
-div.breakall
+div.break /* Used this style to terminate floating elements, to clear all floating attributes */
 {
     clear: both;
 }
 
-/* ARTICLE FORMATTING */
-
-div.bodyblock
-{
-    padding: 0.25em 0 0.25em 0;
-}
-
-div.bodyblock p.body
-{
-    display: inline;
-}
-
-div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
-{
-    margin-top: 0.3em;
-    margin-bottom: 0.1em;
-    display: inline;
-}
-
-div.imagecenter, div.factboxcenter, div.centerobject
-{
-    width: 100%;
-    margin-top: 0.3em;
-    margin-bottom: 0.1em;
-    display: block;
-}
-
-div.imagecenter
-{
-    text-align: center;
-}
-
-div.factboxcenter
-{
-    text-align: left;
-}
-
-div.imageleft, div.factboxleft, div.leftobject
-{
-    float: left;
-    padding-right: 0.5em;
-}
-
-div.imageright, div.factboxright, div.rightobject
-{
-    float: right;
-    padding-right: 0.5em;
-}
-
-div.faxtboxleft, div.faxtboxright
-{
-    background-color: #f0f0f0;
-}
-
-div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
-{
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-}
-
-div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.factbox
-{
-    background-color: #f0f0f0;
-}
-
 /* MESSAGES TO THE USER */
 
-div.description
+div.message-feedback, div.message-warning, div.message-error
 {
-    background-color: #f8f8f8;
-    padding: 0.1em 0 0.1em 0;
-    margin: 0.4em 0 0.4em 0;
+    padding: 0.1em 0.5em 0.5em 0.5em;
 }
 
-div.error, div.warning, div.feedback, div.highlight
+div.message-feedback
 {
-    margin: 0.5em 0 0.5em 0;
-    padding: 0.25em 1em 0.25em 0.5;
-    border-width: 2px;
-    border-style: solid;
-    background-color: #f8f8f8;
+    background-color: #f0fff0;
 }
 
-div.error
+div.message-warning
 {
-    border-color: #c00000;
+    background-color: #ffffe0;
 }
 
-div.warning
+div.message-error
 {
-    border-color: #f0f000;
+    background-color: #fff0f0;
 }
 
-div.feedback
+/* MISC STYLES */
+
+.small
 {
-    border-color: #00a000;
+    font-size: 85%;
 }
 
-div.highlight
-{
-    border-color: #000000;
-}
-
-div.error h2, div.warning h2, div.feedback h2, div.highlight h2
-{
-    margin-top: 0.25em;
-}
-
-/* OTHER OBJECTS */
-
-hr
-{
-    height: 1px;
-    padding: 0;
-    margin: 1.5em 0 0.5em 0;
-    color: #c0c0c0;
-}
-
-.invisible
+.hide
 {
     display: none;
 }

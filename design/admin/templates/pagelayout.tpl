@@ -30,17 +30,23 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="header">
 <div id="header-design">
 
-<h1 style="float: left;">eZ publish</h1>
+<div id="logo">
+<img src={"images/ezpublish-logo-200x40.gif"|ezdesign} width="200" height="40" alt="" border="0" />
+</div>
+
+<div id="userstatus">
+{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+<p><a href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a></p>
+{section-else}
+<p><a href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash})</a></p>
+{/section}
+</div>
 
 <div id="search">
 <form action={"/content/search/"|ezurl} method="get">
-<div class="block">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
     <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-</div>
-<div class="block">
     <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/">Advanced</a></p>
-</div>
 </form>
 </div>
 
@@ -166,12 +172,6 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <h3>Right</h3>
 
-{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-<p><a class="leftmenuitem"  href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a></p>
-{section-else}
-<p><a class="leftmenuitem" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash})</a></p>
-{/section}
-
 	        {section show=fetch('content', 'can_instantiate_classes')}
 	        <form method="post" action={"content/action"|ezurl}>
                         <select name="ClassID" class="classcreate">
@@ -209,7 +209,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="footer">
 <div id="footer-design">
 
-<address><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a></address>
+{include uri="design:page_copyright.tpl"}
 
 </div>
 </div>
