@@ -3,7 +3,7 @@
 <div class="content-view-full">
     <div class="class-flash">
 
-    <h1>{$node.name}</h1>
+    <h1>{$node.name|wash}</h1>
 
     <div class="attribute-short">
         {attribute_view_gui attribute=$node.object.data_map.description}

@@ -2,7 +2,7 @@
 <div class="content-view-full">
     <div class="class-link">
 
-    <h1>{attribute_view_gui attribute=$node.data_map.name}</h1>
+    <h1>{$node.name|wash}</h1>
 
     {* Description. *}
     {section show=$node.object.data_map.description.has_content}
