@@ -126,6 +126,9 @@ Payment:
 - Fixed bug for shop/discountgroup, after clicking New Discount Group and then Cancel button it does not create new discount group now.
   http://ez.no/community/bug_reports/cancel_in_create_new_discount_group_shop_does_not_work  
 - Removed some commented code.
+- Fixed bug: Finding single related object for datatype object relation shows checkboxes.
+  (Merged from stable/3.4 rev. 8857)
+  http://ez.no/community/bug_reports/browsing_for_a_related_object_shows_checkboxes
 
 *Library:
 
