@@ -150,7 +150,7 @@ class eZTreeMenuOperator
                                                                               'ClassFilterType' => 'include',
                                                                               'ClassFilterArray' => array( 1,8 )
                                                                               ),
-                                                                       16 );
+                                                                       17 );
 
                     /// Fill objects with attributes, speed boost
                     eZContentObject::fillNodeListAttributes( $menuChildren );
