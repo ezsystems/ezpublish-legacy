@@ -210,10 +210,7 @@ class eZXHTMLOutput
         {
             case '#text' :
             {
-                //$tagText .= $tag->content();
-                $tagContent = $tag->content();
-                $tagContent = str_replace( " ", "&nbsp;" , $tagContent );
-                $tagText .= $tagContent;
+                $tagText .= $tag->content();
             }break;
 
             case 'object' :
