@@ -412,7 +412,8 @@ function changeAccess( $access )
     if ( $access !== null )
         $name = $access['name'];
 
-    if ( $name == '' )
+    // Check for a valid siteaccess
+    if ( !file_exists( "settings/siteaccess/$name" ) )
     {
         $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
         if ( is_numeric( $access['type'] ) )
@@ -443,6 +444,7 @@ function changeAccess( $access )
             eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
     }
 
+    // Fallback siteaccess, will be used if default does not exist
     if ( $access === null )
     {
         return array( 'type' => EZ_ACCESS_TYPE_DEFAULT,
