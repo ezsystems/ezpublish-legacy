@@ -193,6 +193,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type text and returns it.
 
       Text nodes are used to store text strings,
@@ -219,6 +220,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type CDATA and returns it.
 
       CDATA nodes are used to store text strings,
@@ -245,6 +247,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type element and returns it.
 
       Element nodes are the basic node type in DOM tree,
@@ -280,6 +283,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type text and add it as child of the element node.
 
@@ -311,6 +315,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type CDATA and add it as child of the element node.
 
@@ -342,6 +347,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type element with a namespace and returns it.
 
       \param $uri The namespace URI for the element
@@ -369,6 +375,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type attribute and returns it.
 
       \param $name The name of the attribute
@@ -398,6 +405,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 
       \param $prefix Namespace prefix which will be placed before the attribute name
@@ -424,6 +432,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 
       \param $uri The unique URI for the namespace
