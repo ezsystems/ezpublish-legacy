@@ -70,6 +70,9 @@ if ( is_null( $role ) )
 
 $http =& eZHTTPTool::instance();
 
+$tpl->setVariable( "module", $Module );
+$tpl->setVariable( "role", $role );
+$Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
 if ($http->hasPostVariable( 'NewName' ) && $role->attribute( 'name' ) != $http->postVariable( 'NewName' )  )
 {
@@ -109,7 +112,6 @@ if ( $http->hasPostVariable( "AddModule" )  )
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
                                                     'FunctionName' => '*',
                                                     'Limitation' => '*') );
-
 }
 if ( $http->hasPostVariable( "AddFunction" ) )
 {
@@ -170,7 +172,7 @@ if ( $http->hasPostVariable( "RemovePolicies" )  )
 }
 
 
-if ( $http->hasPostVariable( "CustomFunction" )  )
+if ( $http->hasPostVariable( "CustomFunction" ) )
 {
     $currentModule = $http->postVariable( 'Modules' );
     if ( $currentModule != '*' )
@@ -192,18 +194,27 @@ if ( $http->hasPostVariable( "CustomFunction" )  )
     }
 
 //    eZDebug::writeNotice( $functions, 'Functions' );
+    
     $tpl->setVariable( "current_module", $currentModule );
     $tpl->setVariable( "functions", $functionNames );
+    $tpl->setVariable( "no_functions", $noFunctions );
+
+    $Module->setTitle( "Edit " . $role->attribute( "name" ) );
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
+    return;
+
 
 }
 
-if ( $http->hasPostVariable( "DiscardFunction" )  )
+if ( $http->hasPostVariable( "DiscardFunction" ) )
 {
     $showModules = true;
     $showFunctions = false;
+
 }
 
-if ( $http->hasPostVariable( "Limitation" )  )
+if ( $http->hasPostVariable( "Limitation" ) )
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
     $mod = & eZModule::exists( $currentModule );
@@ -245,13 +256,19 @@ if ( $http->hasPostVariable( "Limitation" )  )
 //    eZDebug::writeNotice( $functions, 'Functions' );
     $tpl->setVariable( "current_function", $currentFunction );
     $tpl->setVariable( "function_limitations", $currentFunctionLimitations );
+    $tpl->setVariable( "no_limitations", $noLimitations );
 
     $tpl->setVariable( "current_module", $currentModule );
     $tpl->setVariable( "functions", $functionNames );
 
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
+    return;
+    
+
 }
 
-if ( $http->hasPostVariable( "DiscardLimitation" )  )
+if ( $http->hasPostVariable( "DiscardLimitation" )  || $http->hasPostVariable( "Step2")  )
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
     $mod = & eZModule::exists( $currentModule );
@@ -263,7 +280,27 @@ if ( $http->hasPostVariable( "DiscardLimitation" )  )
 //    eZDebug::writeNotice( $functions, 'Functions' );
     $tpl->setVariable( "current_module", $currentModule );
     $tpl->setVariable( "functions", $functionNames );
+    $tpl->setVariable( "no_functions", false );
+    
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
+    return;
+
 }
+
+if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( "Step1") )
+{
+    $Module->setTitle( "Edit " . $role->attribute( "name" ) );
+    $tpl->setVariable( "modules", $modules );
+    $tpl->setVariable( "role", $role );
+    $tpl->setVariable( "module", $Module );
+    
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
+    return;
+
+}
+
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( "no_functions", $noFunctions );
@@ -277,6 +314,8 @@ $tpl->setVariable( "policies", $policies );
 $tpl->setVariable( "modules", $modules );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "role", $role );
+
+$tpl->setVariable( "step", 0 );
 
 $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 

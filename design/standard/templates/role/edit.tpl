@@ -11,7 +11,7 @@
 	<th align="left">Module</th>
 	<th align="left">Function</th>
 	<th align="left">Limitation list</th>
-	<th align="left">Remove</th>
+	<th align="left">   <input type="submit" name="RemovePolicies"  value="Remove" /> </th>
 
 </tr>
 {section name=Policy loop=$policies sequence=array(bglight,bgdark) }
@@ -44,7 +44,8 @@
 {/section}  
 <tr>
 <td>
-   <input type="submit" name="RemovePolicies"  value="Remove selected policies" />
+{*   <input type="submit" name="RemovePolicies"  value="Remove selected policies" /> *}
+<input type="submit" name="CreatePolicy" value="Create Policy" />
 
 </td>
 </tr>
@@ -60,7 +61,7 @@ You are not able to give access to limited functions of module <b>{$current_modu
 You are not able to give limited access to function <b>{$current_function}</b>  of module <b>{$current_module}</b> because function list for it is not defined <br/>
 
 {/section}
-
+{*
 Give access to module:
     {section show=$show_modules}
     <select  name="Modules" size="1">
@@ -72,7 +73,7 @@ Give access to module:
 
       <input type="submit" name="AddModule" value="Allow all" /> <input type="submit" name="CustomFunction" value="Allow limited" />
     {/section}
-
+*}
 {section show=$show_functions}
     {$current_module}<br/>
     to function:
@@ -111,12 +112,10 @@ Chose limitations from lists (Any means no limitation by this parameter)
 <input type="hidden" name="CurrentFunction" value="{$current_function}" /><br />
 <input type="submit" name="AddLimitation" value="Add Limitation" /><input type="submit" name="DiscardLimitation" value="Return to functions" />
 {/section}
+
 <br/>
 <br/>
-<br/>
-Apply all changes to the role:
-<input type="submit" name="Apply" value="Apply" /> <br/>
-or discard all changes to role: 
+<input type="submit" name="Apply" value="Apply" />
 <input type="submit" name="Discard" value="Discard" />
 
 

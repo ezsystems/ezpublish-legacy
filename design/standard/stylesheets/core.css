@@ -1,4 +1,4 @@
-/* eZ publish 3 core CSS - th[eZ] 20021002                              */
+/* eZ publish 3 core CSS - th[eZ] 20021113                              */
 /* Do _not_ remove or delete this stylesheet, because some basic        */
 /* formatting methods in the system depends on it for proper display.   */
 /* Just modify and/or override styles where necessary.                  */
@@ -27,22 +27,27 @@ h1
 
 h2
 {
-    font-size: 120%;
+    font-size: 130%;
 }
 
 h3
 {
-    font-size: 100%;
+    font-size: 90%;
 }
 
-p, li, dl, label, input, .normal
+p, ul, ol, dl, label, input, .normal, table.list th, table.list td
 {
     font-size: 80%;
 }
 
-.small, .picturetext, .factbox
+.small, div.byline p, p.picturetext, .factbox
 {
-    font-size: 70%;
+    font-size: 65%;
+}
+
+td.bglight .small, td.bgdark .small
+{
+    font-size: 80%;
 }
 
 /* Headings */
@@ -50,11 +55,16 @@ p, li, dl, label, input, .normal
 h1, h2, h3
 {
     padding-top: 0.5ex;
-    padding-bottom: 0.25ex;
+    padding-bottom: 0.5ex;
     padding-left: 0px;
     padding-right: 0px;
     margin: 0px;
     clear: left;
+}
+
+h1
+{
+    padding-bottom: 1ex;
 }
 
 h1, h2
@@ -88,7 +98,7 @@ a:hover
     text-decoration: underline;
 }
 
-/*
+/* NOT USED
 a:visited
 {
     color: #000000;
@@ -107,7 +117,13 @@ table
 table.list
 {
     margin-top: 0.5ex;
-    margin-bottom: 0.5ex;
+    margin-bottom: 1ex;
+}
+
+table.list th, table.list td
+{
+    padding: 1px;
+    padding-right: 8px;
 }
 
 th
@@ -142,15 +158,25 @@ td.tight
 
 ul, ol
 {
-    margin-top: 0.5ex;
-    margin-bottom: 0.5ex;
+    padding: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+ul
+{
+    margin-left: 16px;
+}
+
+ol
+{
+    margin-left: 24px;
 }
 
 li
 {
     padding: 0px;
-    margin-top: 0.25ex;
-    margin-bottom: 0.25ex;
+    margin-bottom: 0.5ex;
 }
 
 dl
@@ -160,19 +186,20 @@ dl
     margin-bottom: 0.5ex;
 }
 
-dt
-{
-    font-style: italic;
-    font-weight: bold;
-    margin-top: 0px;
-    margin-bottom: 1ex;
-}
-
-dd
+dt, dd
 {
     font-style: italic;
     margin-top: 0px;
     margin-bottom: 0.5ex;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+dd
+{
     margin-left: 2ex;
     margin-right: 2ex;
 }
@@ -187,12 +214,12 @@ form
 
 input.box, textarea.box
 {
-    width: 80ex;
+    width: 468px;
 }
 
 input.halfbox, textarea.halfbox
 {
-    width: 39ex;
+    width: 230px;
 }
 
 label
@@ -228,15 +255,22 @@ div.break
 {
     display: block;
     clear: both;
-    margin-bottom: 1ex;
 }
 
-div.block
+div.block, div.step
 {
+    display: block;
     clear: both;
     padding: 0px;
     margin-top: 0.5ex;
     margin-bottom: 0.5ex;
+}
+
+div.step
+{
+    background-color: #f0f0f0;
+    margin: 0ex;
+	border-bottom: dashed 2px #808080;
 }
 
 div.buttonblock
@@ -254,38 +288,44 @@ div.element
     clear: right;
 }
 
-div.divider
-{
-    float: left;
-    width: 48%;
-    padding-right: 8px;
-}
+/* Article formatting */
 
-div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright
+div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
 {
-    padding: 4px;
     padding-top: 8px;
+    padding-bottom: 4px;
     display: inline;
     clear: both;
 }
 
-div.imagecenter, div.faxtboxcenter
+div.imagecenter, div.factboxcenter, div.centerobject
 {
     width: 100%;
-    padding: 4px;
     padding-top: 8px;
+    padding-bottom: 4px;
     display: block;
+}
+
+div.imagecenter
+{
     text-align: center;
 }
 
-div.imageleft, div.factboxleft
+div.factboxcenter
 {
-    float: left;
+    text-align: left;
 }
 
-div.imageright, div.factboxright
+div.imageleft, div.factboxleft, div.leftobject
+{
+    float: left;
+    padding-right: 8px;
+}
+
+div.imageright, div.factboxright, div.rightobject
 {
     float: right;
+    padding-left: 8px;
 }
 
 div.faxtboxleft, div.faxtboxright
@@ -293,19 +333,34 @@ div.faxtboxleft, div.faxtboxright
     background-color: #f0f0f0;
 }
 
+div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.factbox
+{
+    background-color: #f0f0f0;
+}
+
+div.bodyblock p.body
+{
+    display: inline;
+}
+
 /* Messages to the user */
 
-.error
+.description
 {
-    font-weight: bold;
-    color: #c00000;
+    background-color: #f8f8f8;
 }
 
 div.error, div.warning, div.feedback
 {
     width: 100%;
-    margin-top: 0px;
-    margin-bottom: 2ex;
+    margin-top: 1ex;
+    margin-bottom: 1ex;
     padding: 0.5ex;
     padding-left: 1ex;
     padding-right: 2ex;
@@ -316,17 +371,17 @@ div.error, div.warning, div.feedback
 
 div.error
 {
-    border-color: #b00000;
+    border-color: #c00000;
 }
 
 div.warning
 {
-    border-color: #e0e000;
+    border-color: #f0f000;
 }
 
 div.feedback
 {
-    border-color: #008000;
+    border-color: #00a000;
 }
 
 /* Other objects */
@@ -334,28 +389,15 @@ div.feedback
 hr
 {
     height: 1px;
-    padding-bottom: 0px;
+    padding: 0px;
+    margin-top: 2ex;
     margin-bottom: 1ex;
+    color: #c0c0c0;
 }
 
-/* Article formatting */
-
-div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+.invisible
 {
-    padding: 2px;
-    margin: 2px;
-    margin-right: 4px;
-    margin-left: 4px;
-}
-
-div.imageleft p.picturetext, div.imageright p.picturetext, span.bgcolor, p.factbox
-{
-    background-color: #f0f0f0;
-}
-
-div.bodyblock p.body
-{
-    display: inline;
+    display: none;
 }
 
 /* Special stuff */
@@ -366,7 +408,7 @@ h1.top
     padding-bottom: 1ex;
 }
 
-.invisible
+div.listicon
 {
-    display: none;
+    padding-right: 4px;
 }
