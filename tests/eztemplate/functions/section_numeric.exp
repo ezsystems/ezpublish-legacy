@@ -1,0 +1,61 @@
+Loop eight times, offset 2: 3 to 8
+3
+4
+5
+6
+7
+8
+------------------------------------
+Loop eight times negative, offset 2: -3 to -8
+-3
+-4
+-5
+-6
+-7
+-8
+------------------------------------
+Loop eight times reverse, offset 2: 8 to 3
+8
+7
+6
+5
+4
+3
+------------------------------------
+Loop eight times negative revers, offset 2: -8 to -3
+-8
+-7
+-6
+-5
+-4
+-3
+
+====================================
+
+Loop eight times, offset 2, max 5: 3 to 7
+3
+4
+5
+6
+7
+------------------------------------
+Loop eight times negative, offset 2, max 5: -3 to -7
+-3
+-4
+-5
+-6
+-7
+------------------------------------
+Loop eight times reverse, offset 2, max 5: 8 to 4
+8
+7
+6
+5
+4
+------------------------------------
+Loop eight times negative reverse, offset 2, max 5: -8 to -4
+-8
+-7
+-6
+-5
+-4
