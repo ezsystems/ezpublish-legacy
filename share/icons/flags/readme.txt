@@ -1,13 +1,16 @@
-These flags was drawed by Cedric'Zone'Grandemange  (zone@cegetel.net / www.lezone.fr.st)
-specially for Balazs Halasy   (bh@ez.no / eZ systems / ez.no / allman@online.no)
+The flags included in this directory were created by Cedric "Zone" Grandemange
+upon a special request from eZ systems (http://www.ez.no). The flags were
+created and delivered during September 2004.
 
-september 2004
+By the way of this text file, Cedric "Zone" Grandemange gives all rights
+and copyrights to eZ systems. eZ systems can use these flags within the
+upcoming releases of their main product, eZ publish. The flags can be
+used by eZ systems for both commercial and non-commercial purposes.
+However, the flags themselves (the GIF files alone) can not be sold
+to individuals or companies. Only eZ systems will have the rights to
+distribute the flags, which will only happen by the way of including
+them in the eZ publish CMS suite.
 
-by this txt file, me (Zone) gives all the rights and copyrights to Balazs Halasy
-he can use these flags for his project ez.no
-he can use these flags on his website(s), commercial purpose or not.
-he can not resell these flags to a 3th people or company
-only him and his company can use these flags.
-
-thanx
 Cedric'Zone'Grandemange
+http://www.lezone.fr.st
+zone@cegetel.net
