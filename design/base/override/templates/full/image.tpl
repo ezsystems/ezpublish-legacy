@@ -1,6 +1,6 @@
 {* Image - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-image">
 
     <h1>{$node.name}</h1>

@@ -1,6 +1,6 @@
 {* Gallery - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-gallery">
 
         <h1>{$node.name|wash()}</h1>

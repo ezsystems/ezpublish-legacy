@@ -1,6 +1,6 @@
 {* Real video - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-real_video">
 
     <h2>{$node.name}</h2>

@@ -1,6 +1,6 @@
 {* Product - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-product">
 
         <h1>{$node.name|wash()}</h1>

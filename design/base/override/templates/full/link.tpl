@@ -1,6 +1,6 @@
 {* Link - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-link">
 
     <h1>{attribute_view_gui attribute=$node.data_map.title}</h1>

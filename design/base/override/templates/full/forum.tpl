@@ -4,7 +4,7 @@
                                              sort_by, array( array( attribute, false(), 'forum_topic/sticky' ), array(published,false()))))
      topic_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-forum">
 
     <h1>{$node.name|wash}</h1>

@@ -1,6 +1,6 @@
 {* Windows media - Full view *}
 
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-windows_media">
 
     <h2>{$node.name}</h2>

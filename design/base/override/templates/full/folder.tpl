@@ -1,5 +1,5 @@
 {* Folder - Full view *}
-<div class="view-full">
+<div class="content-view-full">
     <div class="class-folder">
 
         <h1>{$node.object.data_map.name.content|wash()}</h1>
