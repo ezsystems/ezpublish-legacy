@@ -561,7 +561,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $attributeJoinCount = 0;
         $attributeFromSQL = "";
-        $attributeWereSQL = "";
+        $attributeWhereSQL = "";
         if ( $sortList !== false )
         {
             $sortingFields = '';
@@ -1121,7 +1121,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        WHERE
                           $pathStringCond
                           $extendedAttributeFilterJoins
-                          $attributeWereSQL
+                          $attributeWhereSQL
                           $attributeFilterWhereSQL
                           ezcontentclass.version=0 AND
                           $notEqParentString
@@ -1152,7 +1152,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       WHERE
                             $pathStringCond
                             $extendedAttributeFilterJoins
-                            $attributeWereSQL
+                            $attributeWhereSQL
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
                             $notEqParentString
