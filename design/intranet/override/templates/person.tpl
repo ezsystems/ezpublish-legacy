@@ -1,4 +1,4 @@
-<div class="person_line">
+<div class="person">
 
 <form method="post" action={"content/action"|ezurl}>
 

@@ -1,0 +1,7 @@
+
+[AliasSettings]
+AliasList[]=logo
+
+[logo]
+Reference=reference
+Filters[]=geometry/scale=250;60

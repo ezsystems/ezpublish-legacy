@@ -41,6 +41,18 @@ MatchFile=person_line.tpl
 Subdir=templates
 Match[class]=17
 
+[company]
+Source=node/view/full.tpl
+MatchFile=company.tpl
+Subdir=templates
+Match[class]=16
+
+[company_line]
+Source=node/view/line.tpl
+MatchFile=company_line.tpl
+Subdir=templates
+Match[class]=16
+
 [file_line]
 Source=node/view/line.tpl
 MatchFile=file_line.tpl
