@@ -947,6 +947,10 @@ class eZPackageCreationHandler
     function validatePackageThumbnail( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        // If we don't have an image we continue as normal
+        if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
+            return true;
+
         $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;
