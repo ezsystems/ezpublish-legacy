@@ -58,7 +58,8 @@ class eZImageAliasHandler
         $imageManager =& imageInit();
         $aliasList = $imageManager->aliasList();
         return array_merge( array( 'alternative_text',
-                                   'original_filename' ),
+                                   'original_filename',
+                                   'is_valid' ),
                             array_keys( $aliasList ) );
     }
 
@@ -66,7 +67,8 @@ class eZImageAliasHandler
     {
         if ( in_array( $attributeName,
                        array( 'alternative_text',
-                              'original_filename' ) ) )
+                              'original_filename',
+                              'is_valid' ) ) )
             return true;
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
@@ -79,7 +81,8 @@ class eZImageAliasHandler
     {
         if ( in_array( $attributeName,
                        array( 'alternative_text',
-                              'original_filename' ) ) )
+                              'original_filename',
+                              'is_valid' ) ) )
         {
             $originalAttribute =& $this->attributeFromOriginal( $attributeName );
             return $originalAttribute;

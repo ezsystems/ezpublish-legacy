@@ -8,6 +8,8 @@ Changes from 3.3.0-2 to 3.3-1
   The setting was also removed from site.ini.
 - Added ObjectID and NodeID to all admin full class templates.
 - Added some explaining text to the class lockout functionality.
+- Added support for is_valid attribute directly on the image datatype content, no need to
+  go through original alias.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set
