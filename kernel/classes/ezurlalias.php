@@ -615,7 +615,7 @@ WHERE
 
         if ( get_class( $uri ) == "ezuri" )
         {
-            $uri->setURIString( $uriString );
+            $uri->setURIString( $uriString, false );
         }
         else
         {
@@ -777,7 +777,7 @@ ORDER BY forward_to_id ASC";
 
         if ( get_class( $uri ) == "ezuri" )
         {
-            $uri->setURIString( $uriString );
+            $uri->setURIString( $uriString, false );
         }
         else
         {
