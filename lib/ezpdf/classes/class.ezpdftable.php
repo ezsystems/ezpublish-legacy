@@ -1574,6 +1574,11 @@ class eZPDFTable extends Cezpdf
             $this->ez['bottomMargin'] = (float)$options['bottom'];
         }
 
+        if ( isset( $options['line_space'] ) )
+        {
+            $this->ez['lineSpace'] = (float)$options['lineSpace'];
+        }
+
         if ( isset( $options['top'] ) )
         {
             $this->ez['topMargin'] = (float)$options['top'];
@@ -2519,7 +2524,8 @@ class eZPDFTable extends Cezpdf
                                'LeftMargin' => $this->ez['leftMargin'],
                                'RightMargin' => $this->ez['rightMargin'],
                                'TopMargin' => $this->ez['topMargin'],
-                               'BottomMargin' => $this->ez['BottomMargin'],
+                               'BottomMargin' => $this->ez['bottomMargin'],
+                               'LineSpace' => $this->ez['lineSpace'],
                                'Continous' => $continous,
                                'FontSize' => $this->fontSize(),
                                'Justification' => $this->justification() );
@@ -2552,6 +2558,7 @@ class eZPDFTable extends Cezpdf
         $this->ez['rightMargin'] = $stackArray['RightMargin'];
         $this->ez['topMargin'] = $stackArray['TopMargin'];
         $this->ez['bottomMargin'] = $stackArray['BottomMargin'];
+        $this->ez['lineSpace'] = $stackArray['LineSpace'];
         $this->setFontSize( $stackArray['FontSize'] );
         $this->setJustification( $stackArray['justification'] );
 

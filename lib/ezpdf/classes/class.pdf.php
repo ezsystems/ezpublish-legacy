@@ -2378,7 +2378,7 @@ class Cpdf
     {
         $size = $this->fontSize();
     }
-	return $size*$h/1000;
+	return $this->ez['lineSpace']*$size*$h/1000;
     }
 
 /**

@@ -160,6 +160,7 @@ class Cezpdf extends Cpdf
 
         // set current text justification
         $this->ez['justification'] = 'left';
+        $this->ez['lineSpace'] = 1;
         // and get the ID of the page that was created during the instancing process.
         $this->ezPages[1]=$this->getFirstPageId();
         $this->ezPageCount=1;
@@ -570,7 +571,7 @@ class Cezpdf extends Cpdf
             }
         }
     }
-
+cla
 // ------------------------------------------------------------------------------
 
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
