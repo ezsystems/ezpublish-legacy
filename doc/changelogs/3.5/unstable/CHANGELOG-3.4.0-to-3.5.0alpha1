@@ -218,8 +218,10 @@ eztc.php:
   http://ez.no/community/bug_reports/usefullurl_in_kernel_layout_set_php
 - Fixed superfluous variable and INI class instantiation. (merged from stable/3.4, rev. 7145)
   http://ez.no/community/bug_reports/unused_variable_enablecaching_in_ezrole_fetchbyuser
-  
-  
+- Fixed another bug related to the ezcontentobjectlrelationlist template.
+  (Merged from stable/3.4, rev. 7150)
+  http://ez.no/community/bug_reports/template_compiler_bug_when_class_list_is_passed_to_fetch_in_a_variable_containing_hash
+
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 
