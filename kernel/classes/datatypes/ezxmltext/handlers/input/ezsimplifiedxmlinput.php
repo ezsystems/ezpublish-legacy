@@ -34,13 +34,12 @@
 // you.
 //
 
-
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
-    function eZSimplifiedXMLInput( &$xmlData, $aliasedType )
+    function eZSimplifiedXMLInput( &$xmlData, $aliasedType, &$contentObjectAttribute )
     {
         $this->eZXMLInputHandler( $xmlData, $aliasedType );
         $this->subTagArray['section'] = $this->sectionArray;
@@ -78,9 +77,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->tagAttributeArray['header'] = array( 'level' => array( 'required' => false ),
                                                     'anchor_name' => array( 'required' => false ) );
-
-        $this->isInputValid = true;
-        $this->originalInput = "";
+        $this->IsInputValid = true;
+        $this->ContentObjectAttribute = $contentObjectAttribute;
     }
 
     /*!
@@ -89,16 +87,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttributeID ) )
         {
-            $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
 
             eZDebug::writeDebug($data, "input data");
+            // Set original input to a global variable
+            $originalInput = "originalInput_" . $contentObjectAttributeID;
+            $GLOBALS[$originalInput] = $data;
 
-            $this->originalInput = $data;
-            $http =& eZHTTPTool::instance();
-            $http->setSessionVariable( 'inputValue', $this->originalInput );
-            $http->setSessionVariable( 'isInputValid', "true" );
+            // Set input valid true to a global variable
+            $isInputValid = "isInputValid_" . $contentObjectAttributeID;
+            $GLOBALS[$isInputValid] = true;
 
             $inputData = "<section>";
             $inputData .= "<paragraph>";
@@ -108,10 +109,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $data =& $this->convertInput( $inputData );
             $message = $data[1];
-            if ( $this->isInputValid == false )
+            if ( $this->IsInputValid == false )
             {
-                // Set session variable to store input
-                $http->setSessionVariable( 'isInputValid', "false" );
+                $GLOBALS[$isInputValid] = false;
                 $errorMessage = null;
                 foreach ( $message as $line )
                 {
@@ -126,66 +126,66 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 $dom = $data[0];
                 $objects =& $dom->elementsByName( 'object' );
-                foreach ( $objects as $object )
+                if ( $objects !== null )
                 {
-                    $objectID = $object->attributeValue( 'id' );
-                    $currentObject =& eZContentObject::fetch( $objectID );
-                    $editVersion = $contentObjectAttribute->attribute('version');
-                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
-                    $editObject =& eZContentObject::fetch( $editObjectID );
-                    if (  $currentObject == null )
+                    foreach ( $objects as $object )
                     {
-                        // Set session variable to store input
-                        $http =& eZHTTPTool::instance();
-                        $http->setSessionVariable( 'inputValue', $this->originalInput );
-                        $http->setSessionVariable( 'isInputValid', "false" );
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Object '. $objectID .' does not exist.',
-                                                                             'ezXMLTextType' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
-                    else
-                    {
-                        $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
-                        $relatedObjectIDArray = array();
-                        foreach (  $relatedObjects as  $relatedObject )
+                        $objectID = $object->attributeValue( 'id' );
+                        $currentObject =& eZContentObject::fetch( $objectID );
+                        $editVersion = $contentObjectAttribute->attribute('version');
+                        $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
+                        $editObject =& eZContentObject::fetch( $editObjectID );
+                        if (  $currentObject == null )
                         {
-                            $relatedObjectID =  $relatedObject->attribute( 'id' );
-                            $relatedObjectIDArray[] =  $relatedObjectID;
+                            $GLOBALS[$isInputValid] = false;
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                 'Object '. $objectID .' does not exist.',
+                                                                                 'ezXMLTextType' ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
                         }
-                        if ( !in_array(  $objectID, $relatedObjectIDArray ) )
+                        else
                         {
-                            $editObject->addContentObjectRelation( $objectID, $editVersion );
+                            $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
+                            $relatedObjectIDArray = array();
+                            foreach (  $relatedObjects as  $relatedObject )
+                            {
+                                $relatedObjectID =  $relatedObject->attribute( 'id' );
+                                $relatedObjectIDArray[] =  $relatedObjectID;
+                            }
+                            if ( !in_array(  $objectID, $relatedObjectIDArray ) )
+                            {
+                                $editObject->addContentObjectRelation( $objectID, $editVersion );
+                            }
                         }
                     }
                 }
                 $links =& $dom->elementsByName( 'link' );
-                foreach ( array_keys( $links ) as $linkKey )
-                {
 
-                    $link =& $links[$linkKey];
-                    if ( $link->attributeValue( 'id' ) != null )
+                if ( $links !== null )
+                {
+                    foreach ( array_keys( $links ) as $linkKey )
                     {
-                        $linkID = $link->attributeValue( 'id' );
-                        $url =& eZURL::url( $linkID );
-                        if (  $url == null )
+                        $link =& $links[$linkKey];
+                        if ( $link->attributeValue( 'id' ) != null )
                         {
-                             // Set session variable to store input
-                            $http =& eZHTTPTool::instance();
-                            $http->setSessionVariable( 'inputValue', $this->originalInput );
-                            $http->setSessionVariable( 'isInputValid', "false" );
-                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'Link '. $linkID .' does not exist.',
-                                                                                 'ezXMLTextType' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            $linkID = $link->attributeValue( 'id' );
+                            $url =& eZURL::url( $linkID );
+                            if (  $url == null )
+                            {
+                                $GLOBALS[$isInputValid] = false;
+                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                     'Link '. $linkID .' does not exist.',
+                                                                                     'ezXMLTextType' ) );
+                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            }
                         }
-                    }
-                    if ( $link->attributeValue( 'href' ) != null )
-                    {
-                        $url = $link->attributeValue( 'href' );
-                        $linkID =& eZURL::registerURL( $url );
-                        $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
-                        $link->removeNamedAttribute( 'href' );
+                        if ( $link->attributeValue( 'href' ) != null )
+                        {
+                            $url = $link->attributeValue( 'href' );
+                            $linkID =& eZURL::registerURL( $url );
+                            $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                            $link->removeNamedAttribute( 'href' );
+                        }
                     }
                 }
                 $domString = $dom->toString();
@@ -408,35 +408,42 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $attr =& $this->parseAttributes( $attrPart );
             // Tag is valid Check attributes
             // parse attruibet
-            foreach ( $attr as $attrbute )
+
+            if ( $attr !== null )
             {
-                $attrName = $attrbute->Name;
-                $existAttrNameArray[] = $attrName;
-                if ( isset( $this->tagAttributeArray[$currentTag][$attrName] ) )
+                foreach ( $attr as $attrbute )
                 {
-                    $allowedAttr[] = $attrbute;
-                }
-                else
-                {
-                    // attr is not allowed
-                    $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " is not supported (removed)";
-                }
-            }
-            // Check if there should be any more attributes
-            foreach ( $this->tagAttributeArray[$currentTag] as $key => $attribute )
-            {
-                if ( $attribute['required'] == true )
-                {
-                    // Chekc if tag is already found
-                    if ( in_array( $key, $existAttrNameArray ) )
+                    $attrName = $attrbute->Name;
+                    $existAttrNameArray[] = $attrName;
+                    if ( isset( $this->tagAttributeArray[$currentTag][$attrName] ) )
                     {
-                        //do nothing
+                        $allowedAttr[] = $attrbute;
                     }
                     else
                     {
-                        //Set input invalid
-                        $this->isInputValid = false;
-                        $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)";
+                        // attr is not allowed
+                        $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " is not supported (removed)";
+                    }
+                }
+            }
+            // Check if there should be any more attributes
+            if ( isset( $this->tagAttributeArray[$currentTag] ) )
+            {
+                foreach ( $this->tagAttributeArray[$currentTag] as $key => $attribute )
+                {
+                    if ( $attribute['required'] == true )
+                    {
+                        // Check if tag is already found
+                        if ( in_array( $key, $existAttrNameArray ) )
+                        {
+                            //do nothing
+                        }
+                        else
+                        {
+                            //Set input invalid
+                            $this->IsInputValid = false;
+                            $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)";
+                        }
                     }
                 }
             }
@@ -449,7 +456,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             if ( $allowedAttr == null and $currentTag == "link" )
             {
                 //Set input invalid
-                $this->isInputValid = false;
+                $this->IsInputValid = false;
                 $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
             }
 
@@ -701,10 +708,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                         if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedInputTagArray ) )
                         {
-                            if ( $this->isInputValid == true )
+                            if ( $this->IsInputValid == true )
                                 $message[] = "Unmatched tag " . $lastInsertedNodeTag;
                             //Set input invalid
-                            $this->isInputValid = false;
+                            $this->IsInputValid = false;
                         }
                     }
                     else
@@ -1084,13 +1091,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
            $attributeString = preg_replace( "/([a-zA-Z0-9:-_#\-]+)\s*\=([a-zA-Z0-9:-_#\-]+)/e", "'\\1'.'=\"'.'\\2'.'\"'", $attributeString );
            $attrbutesNodeWithoutQuote = $this->registerAttributes( $attributeString );
 
-           foreach ( $attrbutesNodeWithQuote as $attrbutesNode )
+           if ( $attrbutesNodeWithQuote[0] !== null )
            {
-               $attrbutes[] = $attrbutesNode;
+               foreach ( $attrbutesNodeWithQuote as $attrbutesNode )
+               {
+                   $attrbutes[] = $attrbutesNode;
+               }
            }
-           foreach ( $attrbutesNodeWithoutQuote as $attrbutesNode )
+           if ( $attrbutesNodeWithoutQuote[0] != null )
            {
-               $attrbutes[] = $attrbutesNode;
+               foreach ( $attrbutesNodeWithoutQuote as $attrbutesNode )
+               {
+                   $attrbutes[] = $attrbutesNode;
+               }
            }
            return $attrbutes;
         }
@@ -1219,13 +1232,17 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \reimp
      Returns the input XML representation of the datatype.
     */
-    function &inputXML( )
+    function &inputXML()
     {
-        $http =& eZHTTPTool::instance();
-        $isInputValid = $http->sessionVariable( 'isInputValid' );
-        if ( $isInputValid == "false" )
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+
+        $originalInput = "originalInput_" . $contentObjectAttributeID;
+        $isInputValid = "isInputValid_" . $contentObjectAttributeID;
+
+        if ( $GLOBALS[$isInputValid] == false )
         {
-            $output = $http->sessionVariable( 'inputValue' );
+            $output = $GLOBALS[$originalInput];
         }
         else
         {
@@ -1240,7 +1257,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 $children =& $node[0]->children();
                 if ( count( $children ) > 0 )
+                {
                     $output .= $this->inputSectionXML( $node[0], 0 );
+                }
             }
         }
         return $output;
@@ -1280,7 +1299,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
-    function &inputSectionXML( &$section,  $currentSectionLevel )
+    function &inputSectionXML( &$section, $currentSectionLevel )
     {
         $output = "";
         foreach ( $section->children() as $sectionNode )
@@ -1302,7 +1321,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 case 'paragraph' :
                 {
-                    $output .= trim( $this->inputParagraphXML( $sectionNode, $currentSectionLevel ) ) . "\n\n";
+                    $output .= trim( $this->inputParagraphXML( $sectionNode, $sectionLevel ) ) . "\n\n";
                 }break;
 
                 case 'section' :
@@ -1345,7 +1364,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $tagChildren = $tag->children();
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->inputTagXML( $childTag );
+            $childTagText .= $this->inputTagXML( $childTag, $currentSectionLevel );
         }
 
         switch ( $tagName )
@@ -1387,7 +1406,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->inputTagXML( $itemChildNode );
+                        $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel );
                     }
                     $listContent .= "  <li>$listItemContent</li>\n";
                 }
@@ -1454,7 +1473,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $customTagContent = "";
                 foreach ( $tag->children() as $tagChild )
                 {
-                    $customTagContent .= $this->inputTdXML( $tagChild );
+                    $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel );
                 }
                 $output .= "<$tagName name='$name'>\n" .   trim( $customTagContent ) . "\n</$tagName>";
             }break;
@@ -1514,11 +1533,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
 
-    // Contains all supported tag for xml parse
+    /// Contains all supported tag for xml parse
     var $supportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
 
-    // Contains all supported input tag
+    /// Contains all supported input tag
     var $supportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' );
-}
 
+    var $ContentObjectAttribute;
+
+    var $IsInputValid;
+}
 ?>

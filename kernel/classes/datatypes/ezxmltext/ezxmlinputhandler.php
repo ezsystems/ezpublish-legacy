@@ -53,9 +53,10 @@ class eZXMLInputHandler
     /*!
      Constructor
     */
-    function eZXMLInputHandler( &$xmlData, $aliasedType )
+    function eZXMLInputHandler(  &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->XMLData =& $xmlData;
+        $this->ContentObjectAttribute =& $contentObjectAttribute;
         $this->AliasedType = $aliasedType;
         $this->AliasedHandler = null;
     }
@@ -95,7 +96,7 @@ class eZXMLInputHandler
         {
             case 'input_xml':
             {
-                return $this->inputXML();
+                return $this->inputXML( $this->XMLAttributeID );
             } break;
             case 'edit_template_name':
             {
@@ -228,6 +229,7 @@ class eZXMLInputHandler
     var $XMLData;
     var $AliasedType;
     var $AliasedHandler;
+    var $ContentObjectAttribute;
 }
 
 ?>

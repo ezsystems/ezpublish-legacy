@@ -283,7 +283,7 @@ class eZXMLTextType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
-        $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
+        $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ), $contentObjectAttribute );
         return $xmlText;
     }
 

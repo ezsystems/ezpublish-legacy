@@ -45,9 +45,10 @@
 
 class eZXMLText
 {
-    function eZXMLText( &$xmlData )
+    function eZXMLText( &$xmlData, &$contentObjectAttribute )
     {
         $this->XMLData =& $xmlData;
+        $this->ContentObjectAttribute =& $contentObjectAttribute;
         $this->XMLInputHandler = null;
         $this->XMLOutputHandler = null;
     }
@@ -121,7 +122,7 @@ class eZXMLText
         if ( $inputHandler === null )
         {
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php' );
-            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData, false );
+            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData, false, $this->ContentObjectAttribute );
         }
         return $inputHandler;
     }
@@ -172,7 +173,7 @@ class eZXMLText
                 $aliasedType = $out['original-type'];
             if( class_exists( $class ) )
             {
-                $handler = new $class( $xmlData, $aliasedType );
+                $handler = new $class( $xmlData, $aliasedType, $this->ContentObjectAttribute );
                 if ( $handler->isValid() )
                     $handlerValid = true;
             }
@@ -195,7 +196,7 @@ class eZXMLText
                     $handlerValid = false;
                     if( class_exists( $class ) )
                     {
-                        $handler = new $class( $xmlData, false );
+                        $handler = new $class( $xmlData, false, $this->ContentObjectAttribute );
                         if ( $handler->isValid() )
                             $handlerValid = true;
                     }
@@ -214,8 +215,11 @@ class eZXMLText
 
     /// Contains the XML data
     var $XMLData;
+
     var $XMLInputHandler;
     var $XMLOutputHandler;
+    var $XMLAttributeID;
+    var $ContentObjectAttribute;
 }
 
 ?>
