@@ -172,7 +172,7 @@ class eZXMLTextType extends eZDataType
     */
     function &xmlEditor( &$contentObjectAttribute )
     {
-        $editorName =& eZXMLInputType::getEditorName();
+        $editorName =& eZXMLInputType::editorName();
         return $editorName;
     }
 
@@ -299,7 +299,8 @@ class eZXMLTextType extends eZDataType
                 $view = $tag->attributeValue( 'view' );
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
-
+                if (  $view == "embed" )
+                    $view = "text_linked";
                 $object =& eZContentObject::fetch( $objectID );
 
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
