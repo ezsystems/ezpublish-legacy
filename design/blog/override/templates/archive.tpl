@@ -110,7 +110,7 @@
 <div id="archive">
   <div class="header">
     <h1><span>{$node.data_map.archive_title.content|wash}</span></h1>
-    <p>{attribute_view_gui attribute=$node.data_map.description}</p>
+    {attribute_view_gui attribute=$node.data_map.description}
   </div>
 
   <div id="itemlist">
