@@ -209,17 +209,20 @@ $removedItems = array();
 
 if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 {
-    $itemCountList = $http->postVariable( "ProductItemCountList" );
-    $itemIDList = $http->postVariable( "ProductItemIDList" );
-
-    $i = 0;
-    foreach ( $itemIDList as $id )
+    if ( $http->hasPostVariable( "ProductItemIDList" ) )
     {
-        $item = eZProductCollectionItem::fetch( $id );
-        $item->setAttribute( "item_count", $itemCountList[$i] );
-        $item->store();
+        $itemCountList = $http->postVariable( "ProductItemCountList" );
+        $itemIDList = $http->postVariable( "ProductItemIDList" );
 
-        $i++;
+        $i = 0;
+        foreach ( $itemIDList as $id )
+        {
+            $item = eZProductCollectionItem::fetch( $id );
+            $item->setAttribute( "item_count", $itemCountList[$i] );
+            $item->store();
+
+            $i++;
+        }
     }
 
     // Fetch the shop account handler
@@ -270,6 +273,7 @@ $basket = eZBasket::currentBasket();
 $tpl =& templateInit();
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
+$tpl->setVariable( "module_name", 'shop' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
