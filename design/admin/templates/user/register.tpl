@@ -5,7 +5,7 @@
 <p>{'The following information is either incorrect or missing'|i18n( 'design/admin/user/register' )}:</p>
 <ul>
 {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
-<li>{$UnvalidatedAttributes:item.name}: {$UnvalidatedAttributes:item.description}</li>
+<li>{$UnvalidatedAttributes:item.name|wash}: {$UnvalidatedAttributes:item.description}</li>
 {/section}
 </ul>
 <p>{'Please correct the inputs (marked with red labels) and try again.'|i18n( 'design/admin/user/register' )}</p>
