@@ -4,7 +4,14 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Remove object?'|i18n( 'design/admin/node/removeobject' )}</h1>
+<h1 class="context-title">
+  {section show=$DeleteResult|count|eq(1)}
+   {'Remove object'|i18n( 'design/admin/node/removeobject' )}
+  {section-else}
+   {'Remove objects'|i18n( 'design/admin/node/removeobject' )}
+  {/section}
+
+</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -14,17 +21,31 @@
 
 <div class="message-confirmation">
 
-<h2>{"Are you sure you want to remove these items?"|i18n("design/admin/node/removeobject")}</h2>
+<h2>
+{section show=$DeleteResult|count|eq(1)}
+  {"Do you really want to remove this item?"|i18n("design/admin/node/removeobject")}
+{section-else}
+  {"Do you really want to remove these %count items?"|i18n( "design/admin/node/removeobject" ,, hash( '%count', $DeleteResult|count ) )}
+{/section}
+</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
     {section show=$Result:item.childCount|gt(0)}
-        <li>{"%nodename and its %childcount children. %additionalwarning"
+       {section show=$Result:item.childCount|eq(1)}
+        <li>{"%nodename and its sub item. %additionalwarning"
              |i18n( 'design/admin/node/removeobject',,
                     hash( '%nodename', $Result:item.nodeName,
                           '%childcount', $Result:item.childCount,
                           '%additionalwarning', $Result:item.additionalWarning ) )}</li>
+       {section-else}
+        <li>{"%nodename and its %childcount sub items. %additionalwarning"
+             |i18n( 'design/admin/node/removeobject',,
+                    hash( '%nodename', $Result:item.nodeName,
+                          '%childcount', $Result:item.childCount,
+                          '%additionalwarning', $Result:item.additionalWarning ) )}</li>
+       {section}
     {section-else}
-        <li>{"%nodename %additionalwarning"
+        <li>{"%nodename. %additionalwarning"
              |i18n( 'design/admin/node/removeobject',,
                     hash( '%nodename', $Result:item.nodeName,
                           '%additionalwarning', $Result:item.additionalWarning ) )}</li>
@@ -34,12 +55,8 @@
 
 {section show=$moveToTrashAllowed}
   <input type="hidden" name="SupportsMoveToTrash" value="1" />
-  <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
-
-  <p><strong>{"Note"|i18n("design/admin/node/removeobject")}:</strong> {"If %trashname is checked you will find the removed items in the trash afterwards."
-                                                    |i18n( 'design/admin/node/removeobject',,
-                                                           hash( '%trashname', concat( '<i>', 'Move to trash' | i18n( 'design/admin/node/removeobject' ), '</i>' ) ) )}</p>
-  <br/>
+  <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" title="{'If "Move to trash" is checked you will find the removed items in the trash afterwards.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
+</p>
 {/section}
 
 </div>
