@@ -95,9 +95,6 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
     }
 }
 
-// rush: debug
-eZDebug::writeDebug( 'ZHOPA', 'rush: zhopa' );
-
 $tpl =& templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
