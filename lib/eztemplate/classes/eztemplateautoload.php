@@ -46,7 +46,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'operator_names' => array( 'fetch' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelocaleoperator.php',
                                     'class' => 'eZTemplateLocaleOperator',
-                                    'operator_names' => array( 'l10n', 'datetime', 'currentdate', 'createdate' ) );
+                                    'operator_names' => array( 'l10n', 'datetime', 'currentdate' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
                                     'class' => 'eZTemplateAttributeOperator',
                                     'operator_names' => array( 'attribute' ) );
