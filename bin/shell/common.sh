@@ -1,9 +1,8 @@
 #!/bin/bash
 
-VERSION="3.1.0-2"
-VERSION_NICK="3.1-beta2"
+VERSION="3.1-1"
+VERSION_NICK="3.1"
 
-# column to start "[  OK  ]" label in
 RES_COL=60
 # terminal sequence to move to that column. You could change this
 # to something like "tput hpa ${RES_COL}" if your terminal supports it

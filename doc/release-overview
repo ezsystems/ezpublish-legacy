@@ -68,3 +68,10 @@ Datatype branch:
 - Branched from revision=2627
 - url=http://zev.ez.no/svn/nextgen/unstable/datatype-development-20030530 (2628)
 - Date 30-May-2003
+
+3.1.0-2:
+- AKA 3.1 beta2
+- Revision=2695
+- Release url=http://zev.ez.no/svn/nextgen/releases/3.1-beta2 (2696)
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.1.0-2 (2697)
+- Date 10-June-2003
