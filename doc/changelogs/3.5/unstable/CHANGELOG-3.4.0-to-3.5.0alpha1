@@ -285,6 +285,7 @@ eztc.php:
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
+- Improved Image interface methods and GD resource handling.
 
 eZ DB:
 - Added support to MySQL driver for setting the character set on the connection
@@ -320,4 +321,7 @@ edit_placement.tpl:
   remote ID. This means that when editing an object in admin interface
   without a special override will work.
   Merged from stable/3.4 rev. 7218.
+  
+*Tests:
+- Added unit test for image system.
 

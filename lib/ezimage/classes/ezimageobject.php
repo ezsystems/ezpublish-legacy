@@ -242,6 +242,23 @@ class eZImageObject extends eZImageInterface
     }
 
     /*!
+     Cleans up the current image object if it is set.
+    */
+    function destroy()
+    {
+        if( is_array( $this->ImageLayers ) )
+        {
+            foreach( $this->ImageLayers as $item )
+            {
+                if ( get_class( $this->ImageLayerIndex[$item]['image'] ) == 'ezimagelayer' or
+                     is_subclass_of( $this->ImageLayerIndex[$item]['image'], 'ezimagelayer' ) )
+                    $this->ImageLayerIndex[$item]['image']->destroy();
+            }
+        }
+        parent::destroy();
+    }
+
+    /*!
      Removes the layer with ID \a $layerID.
      \return true if succesful
      \sa hasLayer, appendLayer
@@ -343,6 +360,7 @@ class eZImageObject extends eZImageInterface
     /// \privatesection
     var $ImageLayers;
     var $TemplateURI;
+    var $ImageLayerIndex;
 }
 
 ?>

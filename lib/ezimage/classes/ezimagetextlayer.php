@@ -73,7 +73,8 @@ class eZImageTextLayer extends eZImageLayer
         $destinationImageObject = $this->imageObjectInternal();
         $bbox = $this->textBoundingBox();
         $this->clear();
-        $this->drawText( $this->font(), $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle(),
+        $font = $this->font();
+        $this->drawText( $font, $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle(),
                          $destinationImageObject );
         return true;
     }
@@ -98,18 +99,20 @@ class eZImageTextLayer extends eZImageLayer
         {
             $destinationImageObject =& $image->imageObjectInternal();
             $bbox = $this->textBoundingBox();
-            $this->drawText( $this->font(), $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle(),
+            $font = $this->font();
+            $this->drawText( $font, $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle(),
                              $destinationImageObject );
         }
         else
         {
-            $destinationImageObject =& $image->imageObjectInternal();
+            $destinationImageObject = $image->imageObjectInternal();
             $imageObject =& $this->imageObjectInternal();
             $bbox = $this->textBoundingBox();
             $image->copyImage( $imageObject, $destinationImageObject,
                                0, 0, $this->width(), $this->height(),
                                $x, $y );
-            $this->drawText( $this->font(), $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle() );
+            $font = $this->font();
+            $this->drawText( $font, $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle() );
             $image->mergeImage( $destinationImageObject, $imageObject,
                                 $x, $y,
                                 $this->width(), $this->height(), 0, 0,

@@ -242,7 +242,7 @@ class eZTemplateImageOperator
             else
                 $md5Text = md5( $inputValue . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . $absoluteWidth . $absoluteHeight . implode( ",", $bgcol ) . implode( ",", $textcol ) );
             if ( is_string( $usecache ) or !$usecache or
-                 !$this->hasImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' ) )
+                 !$this->hasImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs ) )
             {
                 $layer =& eZImageTextLayer::createForText( $inputValue, $font,
                                                            $wadj, $hadj, $angle,
@@ -257,12 +257,12 @@ class eZTemplateImageOperator
                 $layer->setTextColor( 'textcol' );
 
                 if ( $storeImage )
-                    $this->storeImage( $layer, $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' );
+                    $this->storeImage( $layer, $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs );
                 $layer->destroy();
             }
             else
             {
-                $layer =& $this->loadImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' );
+                $layer =& $this->loadImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs );
             }
             $layer->setAlternativeText( $alternativeText );
             $inputValue = $layer;
@@ -278,19 +278,15 @@ class eZTemplateImageOperator
             $image->setAlternativeText( $alternativeText );
             $md5Text = md5( $md5Input );
             if ( !$useCache or
-                 !$this->hasImage( $this->CacheDir, 'imageobject', $md5Text, $alternativeText, 'png' ) )
+                 !$this->hasImage( $this->CacheDir, 'imageobject', $md5Text, $alternativeText, $this->StoreAs ) )
             {
-                if ( $image->flatten() )
-                {
-                    $this->storeImage( $image, $this->CacheDir, 'imageobject', $md5Text, $alternativeText, 'png' );
-                    $inputValue = $image;
-                }
-                else
-                    eZDebug::writeWarning( 'Failed to flatten image', 'eZTemplateImageOperator::image' );
+                $this->storeImage( $image, $this->CacheDir, 'imageobject', $md5Text, $alternativeText, $this->StoreAs );
+                $image->destroy();
+                $inputValue = $image;
             }
             else
             {
-                $this->setLoadImage( $image, $this->CacheDir, 'imageobject', $md5Text, $alternativeText, 'png' );
+                $this->setLoadImage( $image, $this->CacheDir, 'imageobject', $md5Text, $alternativeText, $this->StoreAs );
                 $image->load();
                 $inputValue = $image;
             }
@@ -700,7 +696,7 @@ class eZTemplateImageOperator
         $filePath = eZDir::path( array( $dirPath, $file ) );
         if ( !file_exists( $filePath ) )
             return null;
-        $layer =& eZImageLayer::createForFile( $file, $dirPath, 'png' );
+        $layer =& eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
         return $layer;
     }
 
@@ -867,6 +863,8 @@ class eZTemplateImageOperator
     var $Colors;
     /// Whether image GD is supported
     var $ImageGDSupported;
+    /// Storage Format, default is "png"
+    var $StoreAs = 'png';
 }
 
 ?>

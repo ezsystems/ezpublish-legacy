@@ -55,6 +55,36 @@ class eZTestTemplateOutput extends eZTestCase
         $this->eZTestCase( $name );
         $this->addTest( 'testOutput', 'Compiled template output' );
         $this->addTest( 'testZero', 'Handling of zero elements' );
+        $this->addTest( 'testImage', 'Testing creation of Images' );
+    }
+
+    function testImage( &$tr )
+    {
+        include_once( 'kernel/common/template.php' );
+        $tpl =& templateInit();
+
+        $expected = $tpl->fetch( 'tests/eztemplate/image.tpl' );
+        $fp = fopen( 'tests/eztemplate/image.exp', 'w' );
+        fwrite( $fp, $expected );
+        fclose( $fp );
+        
+        $tpl->reset();
+
+        eZTemplateCompiler::setSettings( array( 'compile' => true,
+                                                'comments' => false,
+                                                'accumulators' => false,
+                                                'timingpoints' => false,
+                                                'fallbackresource' => false,
+                                                'nodeplacement' => false,
+                                                'execution' => true,
+                                                'generate' => true,
+                                                'compilation-directory' => 'tests/eztemplate/compilation' ) );
+        $actual = $tpl->fetch( 'tests/eztemplate/image.tpl' );
+        $fp = fopen( 'tests/eztemplate/image.out', 'w' );
+        fwrite( $fp, $actual );
+        fclose( $fp );
+
+        $tr->assert( $actual == $expected );
     }
 
     function testOutput( &$tr )

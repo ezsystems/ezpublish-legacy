@@ -195,10 +195,12 @@ class eZImageInterface
      \protected
      Registers the GD image object \a $image for destruction upon script end.
      This makes sure that image resources are cleaned up after use.
-     \return a reference for the image which can be used in unregisterImage later on.
+     \return a reference for the image which can be used in unregisterImage later on. Returns false if resource can't be registered.
     */
     function registerImage( $image )
     {
+        if ( !is_resource( $image ) or get_resource_type( $image ) != 'gd' )
+            return false;
         $imageObjectRef = md5( microtime() );
         $createdImageArray =& $GLOBALS['eZImageCreatedArray'];
         if ( !is_array( $createdImageArray ) )
@@ -234,7 +236,8 @@ class eZImageInterface
         foreach ( array_keys( $createdImageArray ) as $createImageKey )
         {
             $createdImage = $createdImageArray[$createImageKey];
-            @ImageDestroy( $createdImage );
+            if ( is_resource( $createdImage ) and get_resource_type( $createdImage ) == 'gd' )
+                ImageDestroy( $createdImage );
         }
     }
 
@@ -338,7 +341,8 @@ class eZImageInterface
     {
         if ( $this->ImageObjectRef === null )
             return;
-        @ImageDestroy( $this->ImageObject );
+        if ( is_resource( $this->ImageObject ) and get_resource_type( $this->ImageObject ) == 'gd' )
+            ImageDestroy( $this->ImageObject );
         eZImageInterface::unregisterImage( $this->ImageObjectRef );
         unset( $this->ImageObject );
         $this->ImageObject = null;
