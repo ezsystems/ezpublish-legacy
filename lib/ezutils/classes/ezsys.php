@@ -74,16 +74,51 @@ class eZSys
         // Determine OS specific settings
         if ( substr( php_uname(), 0, 7) == "Windows" )
         {
+            $this->FileSystemType = "win32";
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
             $this->EnvSeparator = ";";
         }
         else
         {
+            $this->FileSystemType = "unix";
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
             $this->EnvSeparator = ":";
         }
+    
+        $magicQuote = get_magic_quotes_gpc();
+
+        if ( $magicQuote == 1 )
+        {
+            eZSys::removeMagicQuotes();
+        }
+    }
+    
+    function removeMagicQuotes()
+    {
+        $globalVariables = array( '_SERVER', '_ENV' );
+        foreach ( $globalVariables as $globalVariable )
+        {
+            foreach ( array_keys( $GLOBALS[$globalVariable] ) as $key )
+            {
+                if ( !is_array( $GLOBALS[$globalVariable][$key] ) )
+                {
+                    $GLOBALS[$globalVariable][$key] = stripslashes( $GLOBALS[$globalVariable][$key] );
+                }
+            }
+        }
+    }
+
+    /*!
+     \static
+     \return the filesystem type, either \c "win32" or \c "unix"
+    */
+    function filesystemType()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        return $this->FileSystemType;
     }
 
     /*!
@@ -304,6 +339,14 @@ class eZSys
     {
         global $_SERVER;
         $_SERVER[$variableName] = $variableValue;
+    }
+
+    /*!
+     \return the path string for the server.
+    */
+    function &path( $quiet = false )
+    {
+    	return eZSys::serverVariable( 'PATH', $quiet );
     }
 
     /*!
@@ -559,6 +602,8 @@ class eZSys
     var $IndexFile;
     /// The uri which is used for parsing module/view information from, may differ from $_SERVER['REQUEST_URI']
     var $RequestURI;
+    /// The type of filesystem, is either win32 or unix. This often used to determine os specific paths.
+    var $FileSystemType;
 }
 
 ?>

@@ -2,10 +2,10 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-Server=localhost##!
-User=bf##!
-Password=bf##!
-Database=bf##!
+#Server=localhost##!
+#User=bf##!
+#Password=bf##!
+#Database=bf##!
 
 [DesignSettings]
 SiteDesign=user

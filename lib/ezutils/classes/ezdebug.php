@@ -1057,12 +1057,12 @@ td.timingpoint2
             {
                 $childName = $child['name'];
                 $childElapsed = number_format( ( $child['time'] ), $this->TimingAccuracy );
-                $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, 1 );
+                $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, $this->PercentAccuracy );
                 $childCount = $child['count'];
                 $childPercent = 0.0;
                 if ( $childCount > 0 )
-                    $childPercent = $child['time'] / $child['count'];
-                $childAverage = number_format( $childPercent, $this->TimingAccuracy );
+                    $childPercent = ( $child['time'] * 100.0 ) / $child['count'];
+                $childAverage = number_format( $childPercent, $this->PercentAccuracy );
 
                 if ( $as_html )
                 {
@@ -1132,6 +1132,9 @@ td.timingpoint2
 
     /// How many places behing . should be displayed when showing times
     var $TimingAccuracy = 4;
+
+    /// How many places behing . should be displayed when showing percentages
+    var $PercentAccuracy = 4;
 
     /// Whether to use external CSS or output own CSS. True if external is to be used.
     var $UseCSS;

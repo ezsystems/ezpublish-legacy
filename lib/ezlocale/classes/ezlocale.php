@@ -464,6 +464,7 @@ class eZLocale
                       'language_code' => 'languageCode',
                       'language_comment' => 'languageComment',
                       'locale_code' => 'localeCode',
+                      'locale_full_code' => 'localeFullCode',
                       'http_locale_code' => 'httpLocaleCode',
                       'currency_symbol' => 'currencySymbol',
                       'currency_name' => 'currencyName',
@@ -531,6 +532,18 @@ class eZLocale
     function localeCode()
     {
         return $this->LocaleCode;
+    }
+
+    /*!
+     Same as localeCode() but appends the country variation if it is set.
+    */
+    function localeFullCode()
+    {
+        $locale = $this->LocaleCode;
+        $variation = $this->countryVariation();
+        if ( $variation )
+            $locale .= "@" . $variation;
+        return $locale;
     }
 
     /*!
@@ -951,7 +964,7 @@ class eZLocale
         return $name;
     }
 
-    function localeList()
+    function localeList( $asObject = false )
     {
         $locales =& $GLOBALS['eZLocaleLocaleStringList'];
         if ( !is_array( $locales ) )
@@ -967,6 +980,15 @@ class eZLocale
             }
             closedir( $dir );
             sort( $locales );
+            if ( $asObject )
+            {
+                $localeObjects = array();
+                foreach ( $locales as $locale )
+                {
+                    $localeObjects[] = eZLocale::instance( $locale );
+                }
+                $locales = $localeObjects;
+            }
         }
         return $locales;
     }

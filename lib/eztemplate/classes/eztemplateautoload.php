@@ -62,6 +62,9 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'ge', 'eq', 'null',
                                                                'not', 'true', 'false',
                                                                'or', 'and', 'choose' ) );
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetypeoperator.php',
+                                    'class' => 'eZTemplateTypeOperator',
+                                    'operator_names' => array( 'is_array' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearithmeticoperator.php',
                                     'class' => 'eZTemplateArithmeticOperator',
                                     'operator_names' => array( 'sum', 'sub', 'inc', 'dec',

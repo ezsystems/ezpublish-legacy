@@ -37,14 +37,26 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
  If CheckValidity in SiteAccessSettings is false then no check is done.
 */
 
-function eZCheckValidity()
+function eZCheckValidity( &$siteBasics )
 {
+    eZDebug::writeDebug( "Checking validity" );
     $ini =& eZINI::instance();
     $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
-    if ( $checkValidity and !file_exists( "settings/setup.ini" ) )
+    if ( $checkValidity )
     {
-        $check = array( "module" => "setup" );
+        eZDebug::writeDebug( "Setup required" );
+        $check = array( "module" => "setup",
+                        'function' => 'init' );
+        // Turn off some features that won't bee needed yet
+//        $siteBasics['policy-check-required'] = false;
+        $siteBasics['policy-check-omit-list'][] = 'setup';
+        $siteBasics['url-translator-allowed'] = false;
+        $siteBasics['show-page-layout'] = $ini->variable( 'SetupSettings', 'PageLayout' );
+        $siteBasics['validity-check-required'] = true;
+        $siteBasics['user-object-required'] = false;
+        $siteBasics['session-required'] = false;
+        $siteBasics['db-required'] = false;
     }
     return $check;
 }
@@ -53,13 +65,19 @@ function eZCheckValidity()
  Checks if user is logged in, if not and the site requires user login for access
  a module redirect is returned.
 */
-function eZCheckUser()
+function eZCheckUser( &$siteBasics )
 {
+    eZDebug::writeDebug( "Checking user" );
+    if ( !$siteBasics['user-object-required'] )
+    {
+        eZDebug::writeDebug( "Skipping user requirements" );
+        return null;
+    }
     $ini =& eZINI::instance();
-    $requireUseLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
+    $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
     $check = null;
     $http =& eZHttpTool::instance();
-    if ( $requireUseLogin and ( !$http->hasSessionVariable( "eZUserLoggedInID" ) or
+    if ( $requireUserLogin and ( !$http->hasSessionVariable( "eZUserLoggedInID" ) or
                                 $http->sessionVariable( "eZUserLoggedInID" ) == '' or
                                 $http->sessionVariable( "eZUserLoggedInID" ) == $ini->variable( 'UserSettings', 'AnonymousUserID' ) ) )
     {
@@ -83,19 +101,32 @@ function eZCheckList()
 }
 
 /*!
+ \return an array with check items in the order they should be checked.
+*/
+function eZCheckOrder()
+{
+    $checkOrder = array( 'validity', 'user' );
+    return $checkOrder;
+}
+
+/*!
  Does pre checks and returns a structure with redirection information,
  returns null if nothing should be done.
 */
-function eZHandlePreChecks()
+function eZHandlePreChecks( &$siteBasics )
 {
     $checks = eZCheckList();
     precheckAllowed( $checks );
-    foreach( $checks as $check )
+    $checkOrder = eZCheckOrder();
+    foreach( $checkOrder as $checkItem )
     {
+        if ( !isset( $checks[$checkItem] ) )
+            continue;
+        $check = $checks[$checkItem];
         if ( !isset( $check["allow"] ) or $check["allow"] )
         {
             $func = $check["function"];
-            $check = $func();
+            $check = $func( $siteBasics );
             if ( $check !== null )
                 return $check;
         }

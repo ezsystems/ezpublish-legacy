@@ -158,7 +158,11 @@ class eZHTTPTool
         if ( $attr == "get" )
             return $GLOBALS["_GET"];
         if ( $attr == "session" )
+        {
+            if ( eZSessionStart() )
+                eZDebug::writeDebug( "session start in ezhttptool::attribute" );
             return $GLOBALS["HTTP_SESSION_VARS"];
+        }
         return null;
     }
 
@@ -222,17 +226,23 @@ class eZHTTPTool
     */
     function getSessionKey()
     {
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::getsessionkey" );
         return session_id();
     }
 
     function setSessionKey( $sessionKey )
     {
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::setsessionkey" );
         return session_id( $sessionKey );
     }
 
     function setSessionVariable( $name, $value )
     {
         global $HTTP_SESSION_VARS;
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::setsessionvariable" );
         session_register( $name );
         $HTTP_SESSION_VARS[$name] =& $value;
     }
@@ -242,6 +252,8 @@ class eZHTTPTool
     */
     function removeSessionVariable( $name )
     {
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::removesessionvariable" );
         session_unregister( $name );
     }
 
@@ -251,6 +263,8 @@ class eZHTTPTool
     function hasSessionVariable( $name )
     {
         global $HTTP_SESSION_VARS;
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::hassessionvariable" );
         return isset( $HTTP_SESSION_VARS[$name] );
     }
 
@@ -260,6 +274,8 @@ class eZHTTPTool
     function &sessionVariable( $name )
     {
         global $HTTP_SESSION_VARS;
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::sessionvariable" );
         return $HTTP_SESSION_VARS[$name];
     }
 
@@ -268,6 +284,8 @@ class eZHTTPTool
     */
     function sessionID()
     {
+        if ( eZSessionStart() )
+            eZDebug::writeDebug( "session start in ezhttptool::sessionid" );
         return session_id();
     }
 }

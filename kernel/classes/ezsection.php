@@ -100,21 +100,31 @@ class eZSection extends eZPersistentObject
     */
     function initGlobalID()
     {
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $sectionArray = array();
-        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
-            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
-        if ( !isset( $sectionArray['id'] ) )
+        global $eZSiteBasics;
+        $sessionRequired = $eZSiteBasics['session-required'];
+        $sectionID = false;
+        if ( $sessionRequired )
         {
-            return false;
+            include_once( 'lib/ezutils/classes/ezhttptool.php' );
+            $sectionArray = array();
+            if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
+                $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+            if ( !isset( $sectionArray['id'] ) )
+            {
+                return false;
+            }
+            $sectionID = $sectionArray['id'];
         }
-        $sectionID = $sectionArray['id'];
 
-        include_once( 'kernel/common/eztemplatedesignresource.php' );
-        $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'section', $sectionID ) ) );
+        if ( $sectionID )
+        {
+            include_once( 'kernel/common/eztemplatedesignresource.php' );
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'section', $sectionID ) ) );
 //         eZDebug::writeNotice( $sectionID, 'eZSection::initGlobalID' );
-        return true;
+            return true;
+        }
+        return false;
     }
 
     /*!

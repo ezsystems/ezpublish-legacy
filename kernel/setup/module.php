@@ -39,5 +39,10 @@ $Module = array( "name" => "eZSetup",
                      "params" => array(  ) ) );
 
 $ViewList = array();
+$ViewList["init"] = array(
+    "script" => "ezsetup.php",
+    'single_post_actions' => array( 'ChangeStepAction' => 'ChangeStep' ),
+    'post_value_action_parameters' => array( 'ChangeStep' => array( 'Step' => 'StepButton' ) ),
+    "params" => array() );
 
 ?>

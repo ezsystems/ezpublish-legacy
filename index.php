@@ -181,8 +181,8 @@ $GLOBALS['eZRequestedURI'] =& $uri;
 include_once( "pre_check.php" );
 
 // Shall we start the eZ setup module?
-if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
-    include_once( "lib/ezsetup/classes/ezsetup.php" );
+//if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
+//    include_once( "lib/ezsetup/classes/ezsetup.php" );
 
 include_once( 'kernel/error/errors.php' );
 
@@ -208,29 +208,83 @@ if ( $access !== null )
     changeAccess( $access );
 }
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-$db =& eZDB::instance();
-if ( $db->isConnected() )
-{
-    eZRegisterSessionFunctions();
-    session_start();
-}
-
-if ( !$db->isConnected() )
-    $warningList[] = array( 'error' => array( 'type' => 'kernel',
-                                              'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
-                            'text' => 'No database connection could be made, the system might not behave properly.' );
-
 $use_external_css = true;
 $show_page_layout = true;
 $moduleRunRequired = true;
+$policyCheckRequired = true;
+$urlTranslatorAllowed = true;
+$validityCheckRequired = false;
+$userObjectRequired = true;
+$sessionRequired = true;
+$dbRequired = true;
+
+$useHIOCode = false;
+
+// List of module names which will skip policy checking
+$policyCheckOmitList = array();
+
+// List of directories to search for modules                              
+$moduleRepositories = array();
+
+$siteBasics = array();
+$siteBasics['external-css'] =& $use_external_css;
+$siteBasics['show-page-layout'] =& $show_page_layout;
+$siteBasics['module-run-required'] =& $moduleRunRequired;
+$siteBasics['policy-check-required'] =& $policyCheckRequired;
+$siteBasics['policy-check-omit-list'] =& $policyCheckOmitList;
+$siteBasics['url-translator-allowed'] =& $urlTranslatorAllowed;
+$siteBasics['validity-check-required'] =& $validityCheckRequired;
+$siteBasics['user-object-required'] =& $userObjectRequired;
+$siteBasics['session-required'] =& $sessionRequired;
+$siteBasics['db-required'] =& $dbRequired;
+
+$siteBasics['module-repositories'] =& $moduleRepositories;
+
+$GLOBALS['eZSiteBasics'] =& $siteBasics;
+
+$check = eZHandlePreChecks( $siteBasics );
+
+if ( $sessionRequired )
+    $dbRequired = true;
+
+if ( $dbRequired or
+     $sessionRequired )
+{
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    if ( $sessionRequired and
+         $db->isConnected() )
+    {
+        eZDebug::writeDebug( 'session started in index.php');
+        eZSessionStart();
+    }
+
+    if ( !$db->isConnected() )
+        $warningList[] = array( 'error' => array( 'type' => 'kernel',
+                                                  'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
+                                'text' => 'No database connection could be made, the system might not behave properly.' );
+}
+
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();
 
+// Read role settings
+$globalPolicyCheckOmitList = $ini->variableArray( 'RoleSettings', 'PolicyOmitList' );
+$policyCheckOmitList = array_merge( $policyCheckOmitList, $globalPolicyCheckOmitList );
+
+// Initialize module loading
+include_once( "lib/ezutils/classes/ezmodule.php" );
+
+$globalModuleRepositories = $ini->variableArray( 'ModuleSettings', 'ModuleRepositories' );
+$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories );
+eZModule::setGlobalPathList( $moduleRepositories );
+
+// Start the module loop
 while ( $moduleRunRequired )
 {
-    if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
+    if ( $urlTranslatorAllowed and
+         $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
         include_once( 'kernel/classes/ezurltranslator.php' );
         $urlInstance =& eZURLTranslator::instance();
@@ -247,15 +301,10 @@ while ( $moduleRunRequired )
 
     include_once( "lib/ezutils/classes/ezhttptool.php" );
     $http =& eZHTTPTool::instance();
-    $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
+/*    $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     $currentUser =& eZUser::currentUser();
-
-    $check = eZHandlePreChecks();
-
-    include_once( "lib/ezutils/classes/ezmodule.php" );
-
-    eZModule::setGlobalPathList( array( "kernel", "extension/xmleditor" ) );
+*/
 
     $displayMissingModule = false;
     if ( $uri->isEmpty() )
@@ -281,33 +330,33 @@ while ( $moduleRunRequired )
     if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     {
         // Run the module/function
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
 
-        $currentUser =& eZUser::currentUser();
-
-        $aviableViewsInModule = $module->attribute( 'views' );
-        $runningFunctions = false;
-        if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
-            $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
-        $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
-
-        if ( $accessResult['accessWord'] == 'limited' )
+        $moduleAccessAllowed = true;
+        if ( $policyCheckRequired and
+             !in_array( $module->attribute( 'name'), $policyCheckOmitList ) )
         {
-            $params['Limitation'] =& $accessResult['policies'];
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $currentUser =& eZUser::currentUser();
+
+            $aviableViewsInModule = $module->attribute( 'views' );
+            $runningFunctions = false;
+            if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
+                $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
+            $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
+
+            if ( $accessResult['accessWord'] == 'limited' )
+            {
+                $params['Limitation'] =& $accessResult['policies'];
+            }
+            
+            if ( $accessResult['accessWord'] == 'no' )
+                $moduleAccessAllowed = false;
         }
 
         $GLOBALS['eZRequestedModule'] =& $module;
 
-        if ( $accessResult['accessWord'] == 'no' &&
-//             $module->attribute( 'name' ) != 'role' &&
-//             $module->attribute( 'name' ) != 'error' &&
-             $module->attribute( 'name' ) != 'user' &&
-             $module->attribute( 'name' ) != 'layout' &&
-             $module->attribute( 'name' ) != 'dhtml' &&
-             $module->attribute( 'name' ) != 'paynet'
-//             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
-             )
+        if ( !$moduleAccessAllowed )
         {
             $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
@@ -449,12 +498,20 @@ if ( $show_page_layout )
 
     if ( $show_page_layout )
     {
-        // include user class
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        if ( $userObjectRequired )
+        {
+            // include user class
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-        $currentUser =& eZUser::currentUser();
-        $tpl->setVariable( "current_user", $currentUser );
-        $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+            $currentUser =& eZUser::currentUser();
+            $tpl->setVariable( "current_user", $currentUser );
+            $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+        }
+        else
+        {
+            $tpl->setVariable( "current_user", false );
+            $tpl->setVariable( "anonymous_user_id", false );
+        }
 
 //         include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 //         $execStack =& eZExecutionStack::instance();
@@ -479,6 +536,9 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
+        
+        if ( $useHIOCode )
+        {
              /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
@@ -658,6 +718,7 @@ if ( $show_page_layout )
 //      }
         $tpl->setVariable( 'menuitems', $pathArray );
         /// end HiO code
+        }
 
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }

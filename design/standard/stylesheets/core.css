@@ -437,7 +437,7 @@ p.description
     background-color: #f8f8f8;
 }
 
-div.error, div.warning, div.feedback
+div.error, div.warning, div.feedback, div.highlight
 {
     margin-top: 1ex;
     margin-bottom: 1ex;
@@ -462,6 +462,12 @@ div.warning
 div.feedback
 {
     border-color: #00a000;
+}
+
+div.highlight
+{
+    border-width: 0.1ex;
+    border-color: #000000;
 }
 
 /* OTHER OBJECTS */

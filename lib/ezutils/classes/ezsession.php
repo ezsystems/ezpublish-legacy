@@ -142,4 +142,21 @@ function eZRegisterSessionFunctions()
 	'ezsessiongarbagecollector' );
 }
 
+/*!
+ Makes sure that the session is started properly.
+ Multiple calls will just be ignored.
+*/
+function eZSessionStart()
+{
+    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
+    if ( isset( $hasStarted ) and
+         $hasStarted )
+         return false;
+    eZRegisterSessionFunctions();
+    session_start();
+    eZDebug::writeDebug( "Session is started" );
+    $hasStarted = true;
+    return true;
+}
+
 ?>

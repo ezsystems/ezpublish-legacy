@@ -591,6 +591,26 @@ class eZModule
                 return $http->postVariable( $postParameters[$parameterName] );
             eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
         }
+        if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
+        {
+            $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
+            if ( isset( $postParameters[$parameterName] ) )
+            {
+                $postVariables =& $http->attribute( 'post' );
+                $postVariableNameMatch = $postParameters[$parameterName];
+                $regMatch = "/^" . $postVariableNameMatch . "_(.+)$/";
+                foreach ( $postVariables as $postVariableName => $postVariableValue )
+                {
+                    if ( preg_match( $regMatch, $postVariableName, $matches ) )
+                    {
+                        $parameterValue = $matches[1];
+                        $this->ViewActionParameters[$view][$parameterName] = $parameterValue;
+                        return $parameterValue;
+                    }
+                }
+                eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+            }
+        }
         return null;
     }
 
@@ -609,6 +629,25 @@ class eZModule
             if ( isset( $postParameters[$parameterName] ) and
                  $http->hasPostVariable( $postParameters[$parameterName] ) )
                 return true;
+        }
+        if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
+        {
+            $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
+            if ( isset( $postParameters[$parameterName] ) )
+            {
+                $postVariables =& $http->attribute( 'post' );
+                $postVariableNameMatch = $postParameters[$parameterName];
+                $regMatch = "/^" . $postVariableNameMatch . "_(.+)$/";
+                foreach ( $postVariables as $postVariableName => $postVariableValue )
+                {
+                    if ( preg_match( $regMatch, $postVariableName, $matches ) )
+                    {
+                        $parameterValue = $matches[1];
+                        $this->ViewActionParameters[$view][$parameterName] = $parameterValue;
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
