@@ -5,9 +5,9 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {section show=$remove_info.can_remove_all}
-<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/content/removelocation' )}</h2>
+<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/node/removeobject' )}</h2>
 {section-else}
-<h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/content/removelocation' )}</h2>
+<h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/node/removeobject' )}</h2>
 {/section}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -19,14 +19,14 @@
 
 {section show=$total_child_count|gt( 0 )}
 <div class="block">
-    <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
+    <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
     {section show=$remove_info.can_remove_all}
-        <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
-        <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/node/removeobject' )}</p>
     {section-else}
-        <p>{'The lines marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
-        <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'The lines marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
 </div>
 {/section}
@@ -53,11 +53,11 @@
     <td>
     {section show=$remove_item.child_count|eq( 1 )}
         {'%child_count item'
-         |i18n( 'design/admin/content/removeassignment',,
+         |i18n( 'design/admin/content/removeobject',,
                 hash( '%child_count', $remove_item.child_count ) )}
      {section-else}
         {'%child_count items'
-         |i18n( 'design/admin/content/removeassignment',,
+         |i18n( 'design/admin/content/removeobject',,
                 hash( '%child_count', $remove_item.child_count ) )}
      {/section}
      </td>
@@ -83,12 +83,12 @@
 <div class="block">
 
     {section show=$remove_info.can_remove_all}
-        <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" />
+        <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/content/removelocation' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />
     {/section}
 
-    <input type="submit" class="button" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/content/removelocation' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/content/removelocation' )}" />
+    <input type="submit" class="button" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/node/removeobject' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/node/removeobject' )}" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
