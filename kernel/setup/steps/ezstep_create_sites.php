@@ -378,11 +378,59 @@ class eZStepCreateSites extends eZStepInstaller
 //             print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
 //             exit;
 
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user = eZUser::instance( 14 );
+            $ini =& eZINI::instance();
+            $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+
+            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
+            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
+                                               $typeFunctionality['required'] );
+            $extraFunctionality = array_unique( $extraFunctionality );
+            foreach ( $extraFunctionality as $packageName )
+            {
+                $package = eZPackage::fetch( $packageName, 'packages/addons' );
+                if ( is_object( $package ) )
+                {
+                    $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                              'top_nodes_map' => array( '*' => 2 ),
+                                              'design_map' => array( '*' => $userDesignName ),
+                                              'user_id' => $user->attribute( 'contentobject_id' ) ) );
+                }
+                else
+                {
+                    eZDebug::writeError( "Failed to fetch package $packageName" );
+                }
+                unset( $package );
+            }
+
+            $nodeRemoteMap = array();
+            $rows = $db->arrayQuery( "SELECT node_id, remote_id FROM ezcontentobject_tree" );
+            foreach ( $rows as $row )
+            {
+                $remoteID = $row['remote_id'];
+                if ( strlen( trim( $remoteID ) ) > 0 )
+                    $nodeRemoteMap[$remoteID] = $row['node_id'];
+            }
+
+            $classRemoteMap = array();
+            $rows = $db->arrayQuery( "SELECT id, identifier, remote_id FROM ezcontentclass" );
+            foreach ( $rows as $row )
+            {
+                $remoteID = $row['remote_id'];
+                if ( strlen( trim( $remoteID ) ) > 0 )
+                    $classRemoteMap[$remoteID] = array( 'id' => $row['id'],
+                                                        'identifier' => $row['identifier'] );
+            }
+
+            $parameters = array( 'node_remote_map' => $nodeRemoteMap,
+                                 'class_remote_map' => $classRemoteMap );
+
             $siteINIStored = false;
             $siteINIAdminStored = false;
 
-            $extraSettings = eZSetupINISettings( $siteType['identifier'] );
-            $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'] );
+            $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
+            $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
             foreach ( $extraSettings as $extraSetting )
             {
                 $iniName = $extraSetting['name'];
@@ -523,30 +571,6 @@ WHERE
                     }
                 }
             }
-        }
-
-        $user = eZUser::instance( 14 );
-        $ini =& eZINI::instance();
-        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
-
-        $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-        $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
-                                           $typeFunctionality['required'] );
-        $extraFunctionality = array_unique( $extraFunctionality );
-        foreach ( $extraFunctionality as $packageName )
-        {
-            $package = eZPackage::fetch( $packageName, 'packages/addons' );
-            if ( is_object( $package ) )
-            {
-                $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                          'top_nodes_map' => array( '*' => 2 ),
-                                          'user_id' => $user->attribute( 'contentobject_id' ) ) );
-            }
-            else
-            {
-                eZDebug::writeError( "Failed to fetch package $packageName" );
-            }
-            unset( $package );
         }
     }
 

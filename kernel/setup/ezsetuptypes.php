@@ -105,13 +105,13 @@ function eZSetupFunctionality( $siteType )
     }
 }
 
-function eZSetupForumINISettings( $siteType )
+function eZSetupForumINISettings( $siteType, $parameters )
 {
     return array( 'name' => 'forum.ini',
                   'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
 }
 
-function eZSetupSiteINISettings( $siteType )
+function eZSetupSiteINISettings( $siteType, $parameters )
 {
     $settings = array();
     if ( $siteType == 'intranet' )
@@ -122,7 +122,7 @@ function eZSetupSiteINISettings( $siteType )
                   'settings' => $settings );
 }
 
-function eZSetupMenuINISettings( $siteType )
+function eZSetupMenuINISettings( $siteType, $parameters )
 {
     $default = array( 'CurrentMenu' => 'TopOnly',
                       'TopMenu' => 'flat_top',
@@ -166,31 +166,60 @@ function eZSetupMenuINISettings( $siteType )
                                        ) );
 }
 
-function eZSetupToolbarINISettings( $siteType )
+function eZSetupToolbarINISettings( $siteType, $parameters )
 {
+    $nodeRemoteMap = $parameters['node_remote_map'];
+    $classRemoteMap = $parameters['class_remote_map'];
     if ( $siteType == 'blog' )
     {
+        $nodeSubtree = 'weblog';
+        $nodeID = 2;
+        $createTitle = 'New weblog';
+        if ( isset( $nodeRemoteMap['712e4b066aebe1431f8612bf67436d58'] ) )
+            $nodeID = $nodeRemoteMap['712e4b066aebe1431f8612bf67436d58'];
+        include_once( 'kernel/classes/ezcontentobjectreenode.php' );
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        if ( is_object( $node ) )
+        {
+            $nodeSubtree = $node->attribute( 'path_identification_string' );
+        }
+        $classIdentifier = 'weblog';
+        if ( isset( $classRemoteMap['b3492bd3cb20be996408f5c16aa68c12'] ) )
+            $classIdentifier = $classRemoteMap['b3492bd3cb20be996408f5c16aa68c12']['identifier'];
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'search', 'users' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
-                                               'Tool_right_calendar_1' => array( 'show_subtree' => 'blogs',
-                                                                                 'class_identifier' => 'weblog' ),
-                                               'Tool_right_create_object_2' => array( 'subtree' => 'blogs',
-                                                                                      'class_identifier' => 'weblog',
-                                                                                      'node_placement' => 98 ) ) );
+                                               'Tool_right_calendar_1' => array( 'show_subtree' => $nodeSubtree,
+                                                                                 'show_classidentifiers' => $classIdentifier ),
+                                               'Tool_right_create_object_2' => array( 'title' => $createTitle,
+                                                                                      'show_subtree' => $nodeSubtree,
+                                                                                      'type_classidentifier' => $classIdentifier,
+                                                                                      'placement_node' => $nodeID ) ) );
     }
     else if ( $siteType == 'shop' )
     {
+        $nodeSubtree = 'products';
+        $nodeID = 2;
+        $title = 'Latest products';
+        if ( isset( $nodeRemoteMap['1bd02326e11c6b7fb2d14324c47b5b9a'] ) )
+            $nodeID = $nodeRemoteMap['1bd02326e11c6b7fb2d14324c47b5b9a'];
+        include_once( 'kernel/classes/ezcontentobjectreenode.php' );
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        if ( is_object( $node ) )
+        {
+            $nodeSubtree = $node->attribute( 'path_identification_string' );
+        }
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
-                                               'Tool_right_node_list_1' => array( 'parent_node' => '2',
-                                                                                  'title' => 'Latest news',
-                                                                                  'subtree' => '' ) ) );
+                                               'Tool_right_node_list_1' => array( 'parent_node' => $nodeID,
+                                                                                  'title' => $title,
+                                                                                  'show_subtree' => $nodeSubtree,
+                                                                                  'limit' => 6 ) ) );
     }
     else
     {
@@ -201,12 +230,13 @@ function eZSetupToolbarINISettings( $siteType )
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_1' => array( 'parent_node' => '2',
                                                                                   'title' => 'Latest',
-                                                                                  'subtree' => '' ) ) );
+                                                                                  'show_subtree' => '',
+                                                                                  'limit' => 5 ) ) );
     }
     return $toolbar;
 }
 
-function eZSetupAdminToolbarINISettings( $siteType )
+function eZSetupAdminToolbarINISettings( $siteType, $parameters )
 {
     $toolbar = array (
         'name' => 'toolbar.ini',
@@ -285,7 +315,7 @@ function eZSetupAdminToolbarINISettings( $siteType )
     return $toolbar;
 }
 
-function eZSetupOverrideINISettings( $siteType )
+function eZSetupOverrideINISettings( $siteType, $parameters )
 {
     return array (
         'name' => 'override.ini',
@@ -1099,7 +1129,7 @@ function eZSetupOverrideINISettings( $siteType )
         );
 }
 
-function eZSetupImageINISettings( $siteType )
+function eZSetupImageINISettings( $siteType, $parameters )
 {
     $image = array( 'name' => 'image.ini',
                     'reset_arrays' => true,
@@ -1129,23 +1159,23 @@ function eZSetupImageINISettings( $siteType )
     return $image;
 }
 
-function eZSetupINISettings( $siteType )
+function eZSetupINISettings( $siteType, $parameters )
 {
     $settings = array();
-    $settings[] = eZSetupForumINISettings( $siteType );
-    $settings[] = eZSetupMenuINISettings( $siteType );
-    $settings[] = eZSetupOverrideINISettings( $siteType );
-    $settings[] = eZSetupToolbarINISettings( $siteType );
-    $settings[] = eZSetupSiteINISettings( $siteType );
-    $settings[] = eZSetupImageINISettings( $siteType );
+    $settings[] = eZSetupForumINISettings( $siteType, $parameters );
+    $settings[] = eZSetupMenuINISettings( $siteType, $parameters );
+    $settings[] = eZSetupOverrideINISettings( $siteType, $parameters );
+    $settings[] = eZSetupToolbarINISettings( $siteType, $parameters );
+    $settings[] = eZSetupSiteINISettings( $siteType, $parameters );
+    $settings[] = eZSetupImageINISettings( $siteType, $parameters );
 
     return $settings;
 }
 
-function eZSetupAdminINISettings( $siteType )
+function eZSetupAdminINISettings( $siteType, $parameters )
 {
     $settings = array();
-    $settings[] = eZSetupAdminToolbarINISettings( $siteType );
+    $settings[] = eZSetupAdminToolbarINISettings( $siteType, $parameters );
 
     return $settings;
 }

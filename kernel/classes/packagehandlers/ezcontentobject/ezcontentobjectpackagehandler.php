@@ -670,7 +670,18 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $ini->prependOverrideDir( "siteaccess/$newSiteAccess", false, 'siteaccess' );
                 $ini->loadCache();
 
-                $siteAccessDesignPathArray[$newSiteAccess] = eZTemplateDesignResource::designStartPath() . '/' . $ini->variable( "DesignSettings", "StandardDesign" );
+                if ( isset( $installParameters['design_map'] ) )
+                {
+                    $designMap = $installParameters['design_map'];
+                    if ( isset( $designMap[$originalSiteAccess] ) )
+                        $siteAccessDesignPathArray[$newSiteAccess] = eZTemplateDesignResource::designStartPath() . '/' . $designMap[$originalSiteAccess];
+                    else
+                        $siteAccessDesignPathArray[$newSiteAccess] = eZTemplateDesignResource::designStartPath() . '/' . $designMap['*'];
+                }
+                else
+                {
+                    $siteAccessDesignPathArray[$newSiteAccess] = eZTemplateDesignResource::designStartPath() . '/' . $ini->variable( "DesignSettings", "StandardDesign" );
+                }
             }
 
             $sourcePath = $templateRootPath . $fileNode->elementTextContentByName('path');
