@@ -43,7 +43,7 @@ $tpl =& templateInit();
 if ( $Module->isCurrentAction( 'MD5Check' ) )
 {
     include_once( 'lib/ezfile/classes/ezmd5.php' );
-    $checkResult = eZMD5::checkMD5Sums( 'var/storage/filelist.md5' );
+    $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
 
     if ( strlen( $checkMD5Sums ) == 0 )
     {
@@ -62,7 +62,7 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 
     $dbSchema = eZDBSchema::instance();
 
-    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'var/storage/db_schema.dat' ) );
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'share/db_schema.dat' ) );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
     if ( strlen( $sqlDiff ) == 0 )

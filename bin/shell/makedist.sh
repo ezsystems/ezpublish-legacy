@@ -675,7 +675,7 @@ if [ "$DB_PASSWORD"x == x ]; then
     mysqladmin -u "$DB_USER" -h "$DB_SERVER" create "$DB_NAME" &>/dev/null || exit 1
     mysql -u "$DB_USER" -h "$DB_SERVER" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/var/storage/db_schema.dat  &>/dev/null || exit 1
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/share/db_schema.dat  &>/dev/null || exit 1
 
     mysqladmin -u "$DB_USER" -h "$DB_SERVER" -f drop "$DB_NAME"  &>/dev/null
 else
@@ -683,7 +683,7 @@ else
     mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" create "$DB_NAME"  &>/dev/null || exit 1
     mysql -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/var/storage/db_schema.dat  &>/dev/null || exit 1
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/share/db_schema.dat  &>/dev/null || exit 1
 
     mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" -f drop "$DB_NAME" &>/dev/null
 fi
@@ -694,13 +694,13 @@ echo "Creating MD5 check sums"
     MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
     
     for MD5_FILE in $MD5_FILES; do
-        md5sum $MD5_FILE >> var/storage/filelist.md5
+        md5sum $MD5_FILE >> share/filelist.md5
     done
 
     MD5_FILES=`find design/* -name "*.tpl"`
 
     for MD5_FILE in $MD5_FILES; do
-        md5sum $MD5_FILE >> var/storage/filelist.md5
+        md5sum $MD5_FILE >> share/filelist.md5
 
     done)
 
