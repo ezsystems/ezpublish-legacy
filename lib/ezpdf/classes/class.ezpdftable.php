@@ -112,16 +112,16 @@ class eZPDFTable extends Cezpdf
     {
         $xOffset = $this->ez['xOffset'];
         if ( $xOffset == 0 ||
-             $this->ez['leftMargin'] > $this->ez['xOffset'] )
+             $this->leftMargin() > $this->ez['xOffset'] )
         {
-            $xOffset = $this->ez['leftMargin'];
+            $xOffset = $this->leftMargin();
         }
         return $xOffset;
     }
 
     function setXOffset( $xOffset )
     {
-        if ( $xOffset > $this->ez['pageWidth'] - $this->ez['rightMargin'] )
+        if ( $xOffset > $this->ez['pageWidth'] - $this->rightMargin() )
         {
             $this->ez['xOffset'] = 0;
         }
@@ -252,7 +252,7 @@ class eZPDFTable extends Cezpdf
             }
         }
         $options['gap']=2*$options['colGap'];
-        $middle = ($this->ez['pageWidth']-$this->ez['rightMargin'])/2+($this->ez['leftMargin'])/2;
+        $middle = ($this->ez['pageWidth']-$this->rightMargin())/2+($this->leftMargin)/2;
         // figure out the maximum widths of the text within each column
         $maxWidth = array();
 
@@ -390,9 +390,9 @@ class eZPDFTable extends Cezpdf
         }
 
         if ( $options['width'] == 0 &&
-             $totalTableWidth > $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'] )
+             $totalTableWidth > $this->ez['pageWidth'] - $this->leftMargin() - $this->rightMargin() )
         {
-            $options['width'] = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'];
+            $options['width'] = $this->ez['pageWidth'] - $this->leftMargin() - $this->rightMargin();
         }
 
         // calculated width as forced. Shrink or enlarge
@@ -428,10 +428,10 @@ class eZPDFTable extends Cezpdf
         // now adjust the table to the correct location across the page
         switch ($options['xPos']){
             case 'left':
-                $xref = $this->ez['leftMargin'];
+                $xref = $this->leftMargin();
             break;
             case 'right':
-                $xref = $this->ez['pageWidth'] - $this->ez['rightMargin'];
+                $xref = $this->ez['pageWidth'] - $this->rightMargin();
             break;
             case 'centre':
             case 'center':
@@ -460,7 +460,7 @@ class eZPDFTable extends Cezpdf
         $x0=$x+$dx;
         $x1=$t+$dx;
 
-        $baseLeftMargin = $this->ez['leftMargin'];
+        $baseLeftMargin = $this->leftMargin();
         $basePos = $pos;
         $baseX0 = $x0;
         $baseX1 = $x1;
@@ -516,7 +516,7 @@ class eZPDFTable extends Cezpdf
                 $y0 = $y+$headingHeight;
                 $y1 = $y;
 
-                $dm = $this->ez['leftMargin']-$baseLeftMargin;
+                $dm = $this->leftMargin()-$baseLeftMargin;
                 foreach($basePos as $k=>$v){
                     $pos[$k]=$v+$dm;
                 }
@@ -588,7 +588,7 @@ class eZPDFTable extends Cezpdf
                             // and the margins may have changed, this is due to the possibility of the columns being turned on
                             // as the columns are managed by manipulating the margins
 
-                            $dm = $this->ez['leftMargin']-$baseLeftMargin;
+                            $dm = $this->leftMargin()-$baseLeftMargin;
                             foreach($basePos as $k=>$v){
                                 $pos[$k]=$v+$dm;
                             }
@@ -832,7 +832,7 @@ class eZPDFTable extends Cezpdf
                             $y1 = $y1_orig;
                             $ok=0;
 
-                            $dm = $this->ez['leftMargin']-$baseLeftMargin;
+                            $dm = $this->leftMargin()-$baseLeftMargin;
                             foreach($basePos as $k=>$v){
                                 $pos[$k]=$v+$dm;
                             }
@@ -970,6 +970,8 @@ class eZPDFTable extends Cezpdf
     function callImage( $info )
     {
         $params = array();
+        $leftMargin = false;
+        $rightMargin = false;
 
         $this->extractParameters( $info['p'], 0, $params, true );
 
@@ -1001,13 +1003,43 @@ class eZPDFTable extends Cezpdf
             $filename = $newFilename['url'];
         }
 
-        $xOffset = $this->ez['leftMargin'];
+        switch( $params['align'] )
+        {
+            case 'right':
+            {
+                $xOffset = $this->ez['pageWidth'] - ( $this->rightMargin() + $params['width'] );
+                $rightMargin = $this->rightMargin() + $params['width'];
+            } break;
+
+            case 'center':
+            {
+                $xOffset = ( $this->ez['pageWidth'] - $this->rightMargin() - $this->leftMargin() ) / 2 + $this->leftMargin() - $params['width'] / 2;
+            } break;
+
+            case 'left':
+            default:
+            {
+                $xOffset = $this->leftMargin();
+                $leftMargin = $this->leftMargin() + $params['width'];
+            } break;
+        }
+
         if ( isset( $params['x'] ) )
         {
             $xOffset = $params['x'];
+            $leftMargin = false;
+            $rightMargin = false;
         }
 
-        $yOffset = $this->yOffset() - $params['height'];
+        $yOffset = $this->yOffset();
+        $whileCount = 0;
+        while ( $this->leftMargin( $yOffset ) > $xOffset &&
+                ++$whileCount < 100 )
+        {
+            $yOffset -= 10;
+        }
+
+        $yOffset -= $params['height'];
         if ( isset( $params['y'] ) )
         {
             $yOffset = $params['y'];
@@ -1017,6 +1049,14 @@ class eZPDFTable extends Cezpdf
         {
             case 'image/jpeg':
             {
+                if ( $leftMargin !== false )
+                {
+                    $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 2, $leftMargin + 7 );
+                }
+                if ( $rightMargin !== false )
+                {
+                    $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 2, $rightMargin + 7 );
+                }
                 $this->addJpegFromFile( $filename,
                                         $xOffset,
                                         $yOffset,
@@ -1047,7 +1087,10 @@ class eZPDFTable extends Cezpdf
 
         $this->transaction( 'commit' );
 
-        $this->y -= $params['height'];
+        if ( !$leftMargin && !$rightMargin )
+        {
+            $this->y -= $params['height'];
+        }
 
         return array( 'y' => $params['height'] );
     }
@@ -1207,7 +1250,7 @@ class eZPDFTable extends Cezpdf
         $size = substr($tmp, 0, 2);
         $thick=1;
         $lbl = substr($tmp,2);
-        $xpos = $this->ez['pageWidth'] - $this->ez['rightMargin'] - $this->ez['leftMargin'];
+        $xpos = $this->ez['pageWidth'] - $this->rightMargin() - $this->leftMargin();
 
         $this->saveState();
         $this->setLineStyle($thick,'round','',array(0,10));
@@ -2307,13 +2350,13 @@ class eZPDFTable extends Cezpdf
             $yOffset = $this->ez['pageHeight'] - $parameters['margin'];
         }
 
-        $rightMargin = $this->ez['rightMargin'];
+        $rightMargin = $this->rightMargin();
         if ( isset( $parameters['rightMargin'] ) )
         {
             $rightMargin = $parameters['rightMargin'];
         }
 
-        $leftMargin = $this->ez['leftMargin'];
+        $leftMargin = $this->leftMargin();
         if ( isset( $parameters['leftMargin'] ) )
         {
             $leftMargin = $parameters['leftMargin'];

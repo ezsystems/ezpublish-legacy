@@ -284,6 +284,11 @@ class eZPDF
                     $operatorValue .= ':dpi:' . $image['dpi'];
                 }
 
+                if ( isset( $image['align'] ) ) // left, right, center, full
+                {
+                    $operatorValue .= ':align:' . $image['align'];
+                }
+
                 $operatorValue .= '>';
 
                 eZDebug::writeNotice( 'PDF: Added Image '.$image['src'].' to PDF file', 'eZPDF::modify' );

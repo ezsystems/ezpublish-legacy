@@ -93,6 +93,9 @@ eZXML:
 eZFile:
 - Added static function to get suffix from file.
 
+eZPDF:
+- Added text wrap around images.
+
 *Unit tests:
 
 *Bugfixes:
