@@ -24,6 +24,7 @@
 
 {/let}
 
+{* generate_toc variable is only set in namespace of first instance of pdf.tpl called *}
 {section show=$generate_toc|eq(1)}
   {include uri="design:content/pdf/toc.tpl"}
 {/section}
