@@ -1096,11 +1096,15 @@ class eZLocale
     */
     function &internalNumber( $number )
     {
-        $number = str_replace( ' ', '', $number );
-        if ( $this->PositiveSymbol )
-            $number = str_replace( $this->PositiveSymbol, '', $number );
-        $number = str_replace( $this->ThousandsSeparator, '', $number );
-        $number = str_replace( $this->DecimalSymbol, '.', $number );
+        if ( preg_match( '/^(['.$this->PositiveSymbol.']|['.$this->NegativeSymbol.'])?([0-9]*|[0-9]{1,3}(['.$this->ThousandsSeparator.'][0-9]{3,3})*)(['.$this->DecimalSymbol.'][0-9]+)?$/', trim( $number ) ) )
+        {
+            $number = str_replace( ' ', '', $number );
+            if ( $this->PositiveSymbol )
+                $number = str_replace( $this->PositiveSymbol, '', $number );
+            $number = str_replace( $this->NegativeSymbol, '-', $number );
+            $number = str_replace( $this->ThousandsSeparator, '', $number );
+            $number = str_replace( $this->DecimalSymbol, '.', $number );
+        }
         return $number;
     }
 
@@ -1146,11 +1150,15 @@ class eZLocale
     */
     function &internalCurrency( $number )
     {
-        $number = str_replace( ' ', '', $number );
-        if ( $this->CurrencyPositiveSymbol )
-            $number = str_replace( $this->CurrencyPositiveSymbol, '', $number );
-        $number = str_replace( $this->CurrencyThousandsSeparator, '', $number );
-        $number = str_replace( $this->CurrencyDecimalSymbol, '.', $number );
+        if ( preg_match( '/^(['.$this->CurrencyPositiveSymbol.']|['.$this->CurrencyNegativeSymbol.'])?([0-9]*|[0-9]{1,3}(['.$this->ThousandsSeparator.'][0-9]{3,3})*)(['.$this->CurrencyDecimalSymbol.'][0-9]+)?$/', trim( $number ) ) )
+        {
+            $number = str_replace( ' ', '', $number );
+            if ( $this->CurrencyPositiveSymbol )
+                $number = str_replace( $this->CurrencyPositiveSymbol, '', $number );
+            $number = str_replace( $this->CurrencyNegativeSymbol, '-', $number );
+            $number = str_replace( $this->CurrencyThousandsSeparator, '', $number );
+            $number = str_replace( $this->CurrencyDecimalSymbol, '.', $number );
+        }
         return $number;
     }
 
