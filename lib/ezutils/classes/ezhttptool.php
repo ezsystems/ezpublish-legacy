@@ -71,8 +71,7 @@ class eZHTTPTool
     */
     function setPostVariable( $var, $value )
     {
-        $post_vars =& $_POST;
-        $post_vars[$var] =& $value;
+        $_POST[$var] = $value;
     }
 
     /*!
@@ -81,10 +80,9 @@ class eZHTTPTool
     */
     function &postVariable( $var )
     {
-        $post_vars =& $_POST;
         $ret = null;
-        if ( isset( $post_vars[$var] ) )
-            $ret =& $post_vars[$var];
+        if ( isset( $_POST[$var] ) )
+            $ret =& $_POST[$var];
         else
             eZDebug::writeWarning( "Undefined post variable: $var",
                                    "eZHTTPTool" );
@@ -97,8 +95,7 @@ class eZHTTPTool
     */
     function hasPostVariable( $var )
     {
-        $post_vars =& $_POST;
-        return isset( $post_vars[$var] );
+        return isset( $_POST[$var] );
     }
 
     /*!
@@ -107,8 +104,7 @@ class eZHTTPTool
     */
     function setGetVariable( $var, $value )
     {
-        $get_vars =& $_GET;
-        $get_vars[$var] =& $value;
+        $_GET[$var] = $value;
     }
 
     /*!
@@ -117,10 +113,9 @@ class eZHTTPTool
     */
     function &getVariable( $var )
     {
-        $get_vars =& $_GET;
         $ret = null;
-        if ( isset( $get_vars[$var] ) )
-            $ret =& $get_vars[$var];
+        if ( isset( $_GET[$var] ) )
+            $ret =& $_GET[$var];
         else
             eZDebug::writeWarning( "Undefined get variable: $var",
                                    "eZHTTPTool" );
@@ -133,19 +128,20 @@ class eZHTTPTool
     */
     function hasGetVariable( $var )
     {
-        $get_vars =& $_GET;
-        return isset( $get_vars[$var] );
+        return isset( $_GET[$var] );
     }
 
     /*!
-     \return true if the HTTP post/get variable $var exist.
+     \return true if the HTTP post/get variable $var exists.
      \sa hasPostVariable
     */
     function hasVariable( $var )
     {
 
         if ( isset( $_POST[$var] ) )
+        {
             return isset( $_POST[$var] );
+        }
         else
         {
             return isset( $_GET[$var] );
@@ -159,13 +155,19 @@ class eZHTTPTool
     function &variable( $var )
     {
         if ( isset( $_POST[$var] ) )
+        {
             return $_POST[$var];
+        }
         else
         {
             if ( isset( $_GET[$var] ) )
+            {
                 return $_GET[$var];
+            }
             else
+            {
                 return false;
+            }
         }
     }
 
