@@ -22,6 +22,15 @@
 {/section}
 </style>
 
+<noscript>
+{literal}
+<style type="text/css">
+div#contentstructure ul#content_tree_menu ul li { padding-left: 20px; }
+div#contentstructure ul#content_tree_menu ul ul { margin-left: 0; }
+</style>
+{/literal}
+</noscript>
+
 {literal}
 <!--[if IE]>
 <style type="text/css">
