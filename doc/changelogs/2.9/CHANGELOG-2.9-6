@@ -11,6 +11,11 @@ Changes from 2.9-5 to 2.9-6
 - Added functionality for adding new related objects in content edit
 - Added template for sending information collection results in mail
 - Moved drafts to content module
+- Fixed bug in eZPersistentObject which required default sorting to make override sorting work
+
+shop:
+- Added more information to order list
+- Added real order number to orders
 
 index.php:
 - Added siteBasics array which contains references to some variables

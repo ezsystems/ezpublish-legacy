@@ -38,7 +38,7 @@ include_once( "kernel/classes/ezorder.php" );
 
 $tpl =& templateInit();
 
-$orderArray =& eZOrder::fetchList();
+$orderArray =& eZOrder::fetchActive();
 
 $tpl->setVariable( "order_array", $orderArray );
 

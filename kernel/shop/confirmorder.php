@@ -51,9 +51,7 @@ if ( get_class( $order ) == 'ezorder' )
 
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
-
-        $order->setAttribute( 'is_temporary', false );
-        $order->store();
+        $order->activate();
 
         $basket =& eZBasket::currentBasket();
         $basket->remove();

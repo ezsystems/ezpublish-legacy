@@ -12640,4 +12640,5 @@ CREATE TABLE ezworkflow_process (
 # Dumping data for table 'ezworkflow_process'
 #
 
+alter table ezorder add order_nr int not null default 0;
 

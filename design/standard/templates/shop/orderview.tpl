@@ -1,5 +1,5 @@
 <div class="maincontentheader">
-<h1>{"Order view"|i18n}</h1>
+<h1>{"Order"|i18n} {$order.order_nr}</h1>
 </div>
 
 <b>Customer:</b> 

@@ -178,3 +178,4 @@ create table ezorder_item(
     vat_type_id int
     );
 
+alter table ezorder add order_nr int not null default 0;

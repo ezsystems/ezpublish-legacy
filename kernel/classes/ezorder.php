@@ -62,6 +62,7 @@ class eZOrder extends eZPersistentObject
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
+                                         "order_nr" => "OrderNr",
                                          "is_temporary" => "IsTemporary",
                                          "user_id" => "UserID",
                                          "productcollection_id" => "ProductCollectionID",
@@ -86,6 +87,14 @@ class eZOrder extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null, null,
+                                                    array( "created" => "desc" ), null,
+                                                    $asObject );
+    }
+
+    function &fetchActive( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                    null, array( 'is_temporary' => 0 ),
                                                     array( "created" => "desc" ), null,
                                                     $asObject );
     }
@@ -292,6 +301,21 @@ class eZOrder extends eZPersistentObject
     function &user()
     {
         return eZUser::fetch( $this->UserID );
+    }
+
+    /*!
+     Creates a real order from the temporary state
+    */
+    function activate()
+    {
+        $db =& eZDB::instance();
+        $db->lock( 'ezorder' );
+        $this->setAttribute( 'is_temporary', false );
+        $nextIDArray = $db->arrayQuery(  "SELECT ( max( order_nr ) + 1 ) AS next_nr FROM ezorder" );
+        $nextID = $nextIDArray[0]['next_nr'];
+        $this->setAttribute( 'order_nr', $nextID );
+        $this->store();
+        $db->unlock();
     }
 }
 

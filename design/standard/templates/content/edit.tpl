@@ -16,7 +16,7 @@
         <div class="warning">
         <h2>Input did not validate</h2>
         <ul>
-        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
+        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
         </ul>
         </div>
 
