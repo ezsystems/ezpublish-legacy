@@ -116,7 +116,7 @@ $ClassVersion = $class->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $class->setVersion( 1 );
-    $class->remove( true );
+    $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
