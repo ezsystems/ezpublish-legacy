@@ -261,6 +261,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         unset( $tag );
                         $tag = substr( $sourceText, $tagPos, $len );
                         $tag = preg_replace( "/\\\\[}]/", "}", $tag );
+                        $tagTrim = trim( $tag );
                         $isEndTag = false;
                         $isSingleTag = false;
 
@@ -269,10 +270,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $isEndTag = true;
                             $tag = substr( $tag, 1 );
                         }
-                        else if ( $tag[strlen($tag) - 1] == "/" )
+                        else if ( $tagTrim[strlen( $tagTrim ) - 1] == "/" )
                         {
                             $isSingleTag = true;
-                            $tag = substr( $tag, 0, strlen( $tag ) - 1 );
+                            $tagTrim = substr( $tagTrim, 0, strlen( $tagTrim ) - 1 );
                         }
 
                         $this->gotoEndPosition( $tag, $currentLine, $currentColumn, $endLine, $endColumn );
