@@ -1,12 +1,15 @@
 Changes from 3.3-3 to 3.3-4
 
 *Kernel:
+- Security fix: Added check when editing tempaltes if the file is actually a template. ( merged from stable/3.2 r5181 )
 - Changed rendering of literal inside XML text to block to ensure correct XHTML validation
 - Added boolean parameter 'main_node_only' in fetch function list, list_count, 
   tree and tree_count. The default is set to false to keep backwards compatibility.
 - Fixed missing include to ezinformationcollection in ezcontentfunctioncollection.php
 - Fixed wrong matchfile settings for shop templates.
 - Added CGI warning text to accept path info test, since the test will detect both.
+- Added check if basket item exists before we remove it ( merged from stable/3.2 r5177 )
+
 
 *Setup:
 
