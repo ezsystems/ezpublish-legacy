@@ -28,14 +28,21 @@
 <div class="versions">
 {section show=eq(ezpreference('versions'),'on')}
 <h4>{"Versions"|i18n("design/standard/content/edit")} <a class="showhide" href={"/user/preferences/set/versions/off"|ezurl}>[-]</a></h4>
+<div class="block">
+<div class="element">
 <p>
 <label>{"Editing"|i18n("design/standard/content/edit")}:</label>
 {$edit_version}
 </p>
+</div>
+<div class="element">
 <p>
 <label>{"Current"|i18n("design/standard/content/edit")}:</label>
 {$object.current_version}
 </p>
+</div>
+<div class="break"></div>
+</div>
 <input class="button" type="submit" name="VersionsButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
 <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
 {section-else}
