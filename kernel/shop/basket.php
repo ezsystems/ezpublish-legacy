@@ -131,8 +131,11 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     foreach ( $itemIDList as $id )
     {
         $item = eZProductCollectionItem::fetch( $id );
-        $item->setAttribute( "item_count", $itemCountList[$i] );
-        $item->store();
+        if ( is_object( $item ) )
+        {
+            $item->setAttribute( "item_count", $itemCountList[$i] );
+            $item->store();
+        }
 
         $i++;
     }
