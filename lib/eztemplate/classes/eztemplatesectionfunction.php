@@ -416,7 +416,8 @@ class eZTemplateSectionFunction
 
             // Iterator check for numeric
             $code .= ( "    else if ( is_numeric( \$loopItem ) )\n" .
-                       "    {\n" );
+                       "    {\n" .
+                       "        unset( \$item );\n" );
             if ( $reverseLoop )
                 $code .= "        \$item = \$loopCountValue - \$index - $offsetText;\n";
             else
@@ -431,7 +432,8 @@ class eZTemplateSectionFunction
 
             // Iterator check for string
             $code .= ( "    else if ( is_string( \$loopItem ) )\n" .
-                       "    {\n" );
+                       "    {\n" .
+                       "        unset( \$item );\n" );
             if ( $reverseLoop )
                 $code .= "        \$loopKey = \$loopCount - \$index - $offsetText + 1;\n";
             else
