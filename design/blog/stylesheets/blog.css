@@ -520,6 +520,11 @@ dl dt em
 
 /* Archive */
 
+#archive h2, #archive dl
+{
+    padding-left: 20px;
+}
+
 #archive .header, #category .header
 {
     padding: 20px 50px 10px 15px;
@@ -548,6 +553,29 @@ dl dt em
     display: block;
     padding-top: 5px;
     font: italic 120%/1.6em Georgia,Serif;
+}
+
+#archive h2
+{
+    color: #ffa113;
+    font-size: 85%;
+    font-weight: bold;
+}
+
+#archive em.date
+{
+    color: #ffa113;
+}
+
+#archive dl a
+{
+    font-style: normal;
+    font-size: 120%;
+}
+
+#archive dd
+{
+    font-style: normal;
 }
 
 /* Feedback */

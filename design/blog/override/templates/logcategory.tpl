@@ -1,10 +1,10 @@
 {let log_limit=10
      log_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
-                                           class_filter_type, include,
-                                           class_filter_array, array( 23 ) ) )
+                                           class_filter_type, exclude,
+                                           class_filter_array, array( 'folder' ) ) )
      log_list=fetch( content, list, hash( parent_node_id, $node.node_id,
-                                          class_filter_type, include,
-                                          class_filter_array, array( 23 ),
+                                          class_filter_type, exclude,
+                                          class_filter_array, array( 'folder' ),
                                           offset, $view_parameters.offset,
                                           limit, $log_limit,
                                           sort_by, array( 'published', false() ) ) )}
