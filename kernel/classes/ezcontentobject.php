@@ -185,17 +185,17 @@ class eZContentObject extends eZPersistentObject
             else if ( $attr == "owner" )
                 return $this->owner();
             else if ( $attr == "can_read" )
-                return $this->canRead();
+                return $this->canRead( $accessList );
             else if ( $attr == "can_create" )
-                return $this->canCreate();
+                return $this->canCreate( $accessList );
             else if ( $attr == "can_create_class_list" )
                 return $this->canCreateClassList();
             else if ( $attr == "can_edit" )
-                return $this->canEdit();
+                return $this->canEdit( $accessList );
             else if ( $attr == "can_translate" )
-                return $this->canTranslate();
+                return $this->canTranslate( $accessList );
             else if ( $attr == "can_remove" )
-                return $this->canRemove();
+                return $this->canRemove( $accessList );
             else if ( $attr == "contentobject_attributes" )
                 return $this->contentObjectAttributes();
             else if ( $attr == "related_contentobject_array" )
@@ -2142,7 +2142,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns true if the current
     */
-    function canRead( $accessList = array() )
+    function canRead( &$accessList )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
@@ -2152,7 +2152,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canCreate( )
+    function canCreate( &$accessList )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
@@ -2163,7 +2163,7 @@ class eZContentObject extends eZPersistentObject
     }
 
 
-    function canEdit( $accessList = array() )
+    function canEdit( &$accessList )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -2185,7 +2185,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canTranslate( )
+    function canTranslate( &$accessList )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
@@ -2207,7 +2207,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( )
+    function canRemove( &$accessList )
     {
 
         if ( !isset( $this->Permissions["can_remove"] ) )

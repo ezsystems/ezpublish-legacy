@@ -208,7 +208,7 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 //    if ( !$object->attribute( 'can_read' ) )
-    if ( !$object->canRead( &$accessList ) )
+    if ( !$object->canRead( $accessList ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
     }

@@ -46,7 +46,7 @@ if ( !$obj )
 
 //if ( !$obj->attribute( 'can_edit' ) )
 //    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-if ( !$obj->canEdit( &$accessList ) )
+if ( !$obj->canEdit( $accessList ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
 
 $classID = $obj->attribute( 'contentclass_id' );

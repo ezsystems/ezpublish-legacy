@@ -78,7 +78,7 @@ if ( !$userAccount )
 $userObject =& $userAccount->attribute( 'contentobject' );
 if ( !$userObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-if ( !$userObject->canEdit() )
+if ( !$userObject->canEdit( $accessList ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 include_once( "kernel/common/template.php" );
