@@ -55,12 +55,12 @@
 <div class="block">
 {section show=$allow_versions_button}
 {section show=$object.versions|count|gt( 1 )}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )} />
 {/section}
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage versions.'i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage the versions of this object.'i18n( 'design/admin/content/view/versionview' )}" />
 {/section}
 </div>
 
@@ -183,7 +183,7 @@
 <input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
 <div class="block">
-<input class="button" type="submit" name="ChangeSettingsButton" value="{'Show selected'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button" type="submit" name="ChangeSettingsButton" value="{'Update preview'|i18n( 'design/admin/content/view/versionview' )}" title="{'Preview the version that is currently being displayed using the selected language, location and design.'|i18n( 'design/admin/content/view/versionview' )}" />
 </div>
 
 </div>
@@ -247,7 +247,7 @@
 <div class="block">
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language )|ezurl}>
 {section show=and( eq( $version.status, 0 ), $is_creator, $object.can_edit )}
-<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version is not a draft and thus it can not be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
 {/section}
