@@ -146,6 +146,8 @@ Payment:
 - Fixed bug: Basket details shows for empty basket if template compile is enabled.
   (Merged from stable/3.4 rev. 8970)
   http://ez.no/community/bug_reports/basket_details_showing_when_it_s_empty
+- Fixed bug: cancel in "New workflow" went back to list of groups.
+  http://ez.no/community/bug_reports/cancel_in_new_workflow_goes_back_to_list_of_groups
 
 *Library:
 

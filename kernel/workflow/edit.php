@@ -65,8 +65,8 @@ switch ( $Params["FunctionName"] )
     {
         $event =& eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
                                           array( "workflow_id", "version", "placement" ) );
-        $event->move( $Params["FunctionName"] == "up" ? false : true );
-        $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $WorkflowID );
+        $event->mCurrentGroupNameCurrentGroupNameove( $Params["FunctionName"] == "up" ? false : true );
+        $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
         return;
     } break;
     case "edit":
@@ -117,7 +117,7 @@ else
     $WorkflowVersion = $workflow->attribute( "version" );
     $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
     $ingroup->store();
-    return $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $WorkflowID );
+    return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
 }
 
 $http =& eZHttpTool::instance();
@@ -132,6 +132,8 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $groupID = false;
     if ( count( $workflowGroups ) > 0 )
         $groupID = $workflowGroups[0]->attribute( 'group_id' );
+    if ( !$groupID )
+        $groupID = $GroupID;
     if ( $groupID )
         return $Module->redirectToView( 'workflowlist', array( $groupID ) );
     else
@@ -331,6 +333,7 @@ $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( "workflow_type_list", $type_list );
 $tpl->setVariable( "workflow_type", $cur_type );
 $tpl->setVariable( 'validation', $validation );
+$tpl->setVariable( "group_id", $GroupID );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );
