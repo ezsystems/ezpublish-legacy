@@ -397,12 +397,12 @@ fi
 
 if [ -z $SKIPUNITTESTS ]; then
     echo -n "Running unit tests"
-    ./tests/testunits.php -q eztemplate
+    ./tests/testunits.php -q eztemplate ezxml
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "Some unit tests failed"
 	echo "Run the following command to find out which one failed"
-	echo "./tests/testunits.php eztemplate"
+	echo "./tests/testunits.php eztemplate ezxml"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
