@@ -6,7 +6,7 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name>Files</name>
+  <name>files</name>
   <summary>Files</summary>
   <description>Add this package to get a file database to your site.
   </description>
