@@ -87,6 +87,7 @@ class eZScript
     {
         $settings = array_merge( array( 'debug-message' => false,
                                         'debug-output' => false,
+                                        'debug-include' => false,
                                         'debug-levels' => false,
                                         'debug-accumulator' => false,
                                         'debug-timing' => false,
@@ -101,6 +102,7 @@ class eZScript
         $this->AllowedDebugLevels = $settings['debug-levels'];
         $this->UseDebugAccumulators = $settings['debug-accumulator'];
         $this->UseDebugTimingPoints = $settings['debug-timing'];
+        $this->UseIncludeFiles = $settings['debug-include'];
         $this->UseSession = $settings['use-session'];
         $this->UseModules = $settings['use-modules'];
         $this->UseExtensions = $settings['use-extensions'];
@@ -237,7 +239,8 @@ class eZScript
             if ( $this->DebugMessage )
                 print( $this->DebugMessage );
             print( eZDebug::printReport( false, $webOutput, true,
-                                         $this->AllowedDebugLevels, $this->UseDebugAccumulators, $this->UseDebugTimingPoints ) );
+                                         $this->AllowedDebugLevels, $this->UseDebugAccumulators,
+                                         $this->UseDebugTimingPoints, $this->UseIncludeFiles ) );
         }
 
         eZExecution::cleanup();
@@ -262,6 +265,11 @@ class eZScript
     function setUseDebugTimingPoints( $useTimingPoints )
     {
         $this->UseDebugTimingPoints = $useTimingPoints;
+    }
+
+    function setUseIncludeFiles( $useIncludeFiles )
+    {
+        $this->UseIncludeFiles = $useIncludeFiles;
     }
 
     function setAllowedDebugLevels( $allowedDebugLevels )

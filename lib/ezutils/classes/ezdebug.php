@@ -853,14 +853,13 @@ class eZDebug
       Prints the debug report
     */
     function &printReport( $newWindow = false, $as_html = true, $returnReport = false,
-                           $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true )
+                           $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return null;
 
         $debug =& eZDebug::instance();
-        $report =& $debug->printReportInternal( $as_html, $allowedDebugLevels, $useAccumulators, $useTiming );
-
+        $report =& $debug->printReportInternal( $as_html, $allowedDebugLevels, $useAccumulators, $useTiming, $useIncludedFiles );
 
         if ( $newWindow == true )
         {
@@ -1041,7 +1040,7 @@ ezdebug.reload();
       Prints a full debug report with notice, warnings, errors and a timing report.
     */
     function &printReportInternal( $as_html = true, $allowedDebugLevels = false,
-                                   $useAccumulators = true, $useTiming = true )
+                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false  )
     {
         $styles = array( 'warning' => false,
                          'warning-end' => false,
@@ -1225,6 +1224,37 @@ td.timingpoint2
             $returnText .= "</table>";
 
 
+        }
+
+        if ( $useIncludedFiles )
+        {
+            if ( $as_html )
+                $returnText .= "<h2>Included files:</h2><table style='border: 1px dashed black;' cellspacing='0'><tr><th>File</th></tr>";
+            else
+                $returnText .= $styles['emphasize'] . "Includes" . $styles['emphasize-end'] . "\n";
+            $phpFiles = get_included_files();
+            $j = 0;
+            $currentPathReg = preg_quote( realpath( "." ) );
+            foreach ( $phpFiles as $phpFile )
+            {
+                if ( preg_match( "#^$currentPathReg/(.+)$#", $phpFile, $matches ) )
+                    $phpFile = $matches[1];
+                if ( $as_html )
+                {
+                    if ( $j % 2 == 0 )
+                        $class = "timingpoint1";
+                    else
+                        $class = "timingpoint2";
+                    ++$j;
+                    $returnText .= "<tr><td class=\"$class\">$phpFile</td></tr>";
+                }
+                else
+                {
+                    $returnText .= "$phpFile\n";
+                }
+            }
+            if ( $as_html )
+                $returnText .= "</table>";
         }
 
         if ( $as_html )

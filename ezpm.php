@@ -208,6 +208,7 @@ $debugOutput = false;
 $allowedDebugLevels = false;
 $useDebugAccumulators = false;
 $useDebugTimingpoints = false;
+$useIncludeFiles = false;
 $useColors = false;
 $isQuiet = false;
 $useLogFiles = false;
@@ -378,6 +379,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                         {
                             $useDebugAccumulators = true;
                             $allowedDebugLevels = false;
+                            $useDebugTimingpoints = true;
                             break;
                         }
                         if ( $level == 'accumulator' )
@@ -389,6 +391,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                         {
                             $useDebugTimingpoints = true;
                             continue;
+                        }
+                        if ( $level == 'include' )
+                        {
+                            $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
                             $level = EZ_LEVEL_ERROR;
@@ -544,6 +550,7 @@ $script->setUseDebugOutput( $debugOutput );
 $script->setAllowedDebugLevels( $allowedDebugLevels );
 $script->setUseDebugAccumulators( $useDebugAccumulators );
 $script->setUseDebugTimingPoints( $useDebugTimingpoints );
+$script->setUseIncludeFiles( $useIncludeFiles );
 
 
 appendCommandItem( $commandList, $commandItem );

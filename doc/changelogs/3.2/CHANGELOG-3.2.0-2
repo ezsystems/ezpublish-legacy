@@ -1,6 +1,7 @@
 Changes from 3.2.0-1 to 3.2.0-2
 
 *Kernel:
+- Added support for turning debug includes on and off in eZScript and ezpm.php.
 
 *Setup:
 - Made sure the password is used when connecting to database.
@@ -20,3 +21,6 @@ Changes from 3.2.0-1 to 3.2.0-2
 
 eZ ini:
 - Added check for existing settings directory, if it doesn't exist it creates the path.
+
+eZ debug:
+- Added support for listing included files (off by default).
