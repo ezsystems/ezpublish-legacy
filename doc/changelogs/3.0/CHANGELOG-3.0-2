@@ -37,6 +37,10 @@ Collaboration:
 eZ template:
 - Locale operator no longer keeps a locale instance but calls eZLocale::instance when needed.
 
+eZ mail:
+- It's now possible to exclude certain headers when fetching the headertext in the eZMail class.
+- Made sure that the sendmail transport don't generate duplicate To and Subject headers.
+
 *Missing files :
 - runcronjobs.php, required for running cronjob scripts, missing in 3.0-1 release.
 - doc/FAQ, answers to common questions, missing in 3.0-1 release.

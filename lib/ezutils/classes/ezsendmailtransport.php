@@ -39,7 +39,9 @@
 
 /*!
   \class eZSendmailTransport ezsendmailtransport.php
-  \brief The class eZSendmailTransport does
+  \brief Sends the email message to sendmail which takes care of sending the actual message.
+
+  Uses the mail() function in PHP to pass the email to the sendmail system.
 
 */
 
@@ -59,10 +61,8 @@ class eZSendmailTransport extends eZMailTransport
     */
     function sendMail( &$mail )
     {
-//         ini_set( 'SMTP', 'mail.ez.no' );
-//         ini_set( 'smtp_port', 25 );
         $message = $mail->body();
-        $extraHeaders = $mail->headerText();
+        $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
         return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
     }
 }

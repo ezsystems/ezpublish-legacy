@@ -420,46 +420,73 @@ class eZMail
 
     /*!
      \return an array with headers, each header item is an associative array with the keys \c name and \c content.
+
+     The parameter \a $parameters contains optional parameters, they can be:
+     - exclude-headers - \c Array of header names which will not be included in the result array.
     */
-    function headers()
+    function headers( $parameters = array() )
     {
+        $parameters = array_merge( array( 'exclude-headers' => false ),
+                                   $parameters );
+        $excludeHeaders = array();
+        if ( $parameters['exclude-headers'] )
+        {
+            foreach ( $parameters['exclude-headers'] as $excludeHeader )
+            {
+                $excludeHeaders[] = strtolower( $excludeHeader );
+            }
+        }
         $headers = array();
-        $headers[] = array( 'name' => 'To',
-                            'content' => $this->composeEmailItems( $this->ReceiverElements ) );
-        if ( count( $this->CcElements ) > 0 )
+        if ( !in_array( 'to', $excludeHeaders ) )
+            $headers[] = array( 'name' => 'To',
+                                'content' => $this->composeEmailItems( $this->ReceiverElements ) );
+        if ( count( $this->CcElements ) > 0 and
+             !in_array( 'cc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Cc',
                                 'content' => $this->composeEmailItems( $this->CcElements ) );
         }
-        if ( count( $this->BccElements ) > 0 )
+        if ( count( $this->BccElements ) > 0 and
+             !in_array( 'bcc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Bcc',
                                 'content' => $this->composeEmailItems( $this->BccElements ) );
         }
-        if ( $this->From !== false )
+        if ( $this->From !== false and
+             !in_array( 'from', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'From',
                                 'content' => $this->composeEmailName( $this->From ) );
         }
-        if ( $this->ReplyTo !== false )
+        if ( $this->ReplyTo !== false and
+             !in_array( 'reply-to', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Reply-To',
                                 'content' => $this->composeEmailName( $this->ReplyTo ) );
         }
-        if ( $this->Subject !== false )
+        if ( $this->Subject !== false and
+             !in_array( 'subject', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Subject',
                                 'content' => $this->Subject );
         }
         $extraHeaders = $this->ExtraHeaders;
-        $headers = array_merge( $headers, $extraHeaders );
+        foreach ( $extraHeaders as $extraHeader )
+        {
+            if ( !in_array( strtolower( $extraHeader['name'] ), $excludeHeaders ) )
+                $headers[] = $extraHeader;
+        }
         return $headers;
     }
 
-    function headerTextList()
+    /*!
+     Extracts all headers and generates a text string out of it.
+     The parameter \a $parameters will be passed to the headers() function.
+    */
+    function headerTextList( $parameters = array() )
     {
         $textElements = array();
-        $headers = $this->headers();
+        $headers = $this->headers( $parameters );
         foreach ( $headers as $header )
         {
             $textElements[] = $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] );
@@ -469,11 +496,12 @@ class eZMail
 
     /*!
      Composes a text field out of all the headers and returns it.
+     The parameter \a $parameters will be passed to the headers() function.
     */
-    function headerText()
+    function headerText( $parameters = array() )
     {
         $text = '';
-        $headers = $this->headers();
+        $headers = $this->headers( $parameters );
         foreach ( $headers as $header )
         {
             $text .= $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] ) . EZ_MAIL_LINE_SEPARATOR;
