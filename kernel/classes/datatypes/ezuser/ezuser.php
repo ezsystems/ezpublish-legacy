@@ -177,6 +177,7 @@ class eZUser extends eZPersistentObject
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->setTimestamp( 'user-groups-cache', mktime() );
+        $handler->setTimestamp( 'user-role-cache', mktime() );
         $handler->store();
         // Clear memory cache
         unset( $GLOBALS["eZUserObject_$userID"] );
@@ -547,7 +548,6 @@ class eZUser extends eZPersistentObject
 
         if ( $userArrayTimestamp > $expiredTimeStamp )
         {
-
             $userArray =& $http->sessionVariable( 'eZUserInfoCache_' . $id );
 
             if ( is_numeric( $userArray['contentobject_id'] ) )

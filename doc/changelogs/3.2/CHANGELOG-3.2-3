@@ -58,6 +58,8 @@ Changes from 3.2-2 to 3.2-3
   Fixed correct handling of odd numbers in cond operator.
 - http://ez.no/developer/ez_publish_3/bug_reports/indefined_variable_objectarray
   Added initializing of objectArray variable to remove warning when fetching non-existing object.
+- http://ez.no/developer/ez_publish_3/bug_reports/moving_a_user_to_a_new_user_group_doesnt_update_the_user_roles
+  Fixed expiry of user roles when moving/storing a user object.
 
 *Setup:
 
