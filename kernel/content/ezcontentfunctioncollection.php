@@ -130,6 +130,36 @@ class eZContentFunctionCollection
         return array( 'result' => &$object );
     }
 
+    function &fetchClass( $classID )
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        $object =& eZContentClass::fetch( $classID );
+        if ( $object === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$object );
+    }
+
+    function &fetchClassAttributeList( $classID, $versionID )
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        $objectList =& eZContentClass::fetchAttributes( $classID, true, $versionID );
+        if ( $objectList === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$objectList );
+    }
+
+    function &fetchClassAttribute( $attributeID, $versionID )
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        $attribute =& eZContentClassAttribute::fetch( $attributeID, true, $versionID );
+        if ( $attribute === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$attribute );
+    }
+
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array )
     {
         $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array" );
