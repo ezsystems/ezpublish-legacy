@@ -540,7 +540,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         return;
     }
 
-    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationNode' )
+    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationNode' && !$http->hasPostVariable( 'BrowseCancelButton' ) )
     {
         $selectedNodeIDList = $http->postVariable( 'SelectedNodeIDArray' );
 
@@ -580,7 +580,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         }
     }
 
-    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationSubtree' )
+    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationSubtree' && !$http->hasPostVariable( 'BrowseCancelButton' ) )
     {
         $selectedSubtreeIDList = $http->postVariable( 'SelectedNodeIDArray' );
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )

@@ -154,7 +154,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
                 }
             }
         }
-        else if( $http->hasPostVariable( 'SelectedNodeIDArray' ) )
+        else if( $http->hasPostVariable( 'SelectedNodeIDArray' ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
         {
             if ( $http->hasPostVariable( 'Subtree' ) &&
                  $http->hasPostVariable( 'Subtree' ) == 1 )

@@ -310,7 +310,8 @@ if ( $http->hasPostVariable( "BrowseLimitationSubtreeButton" ) )
 }
 
 if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
-     $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" )
+     $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" and
+     !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
     // Remove other limitations. When the policy is applied to node, no other constraints needed.
     foreach ( $limitationList as $limitation )
@@ -336,7 +337,8 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
     }
 }
 
-if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" )
+if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" and
+     !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
     $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
 

@@ -126,7 +126,7 @@ if ( is_numeric( $RSSExportID ) )
         case 'NodeSource':
         {
             $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-            if ( isset( $nodeIDArray ) )
+            if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
                 $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'] );
                 $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
@@ -137,7 +137,7 @@ if ( is_numeric( $RSSExportID ) )
         case 'ImageSource':
         {
             $imageNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-            if ( isset( $imageNodeIDArray ) )
+            if ( isset( $imageNodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
                 $rssExport->setAttribute( 'image_id', $imageNodeIDArray[0] );
             }

@@ -279,13 +279,16 @@ class eZObjectRelationType extends eZDataType
                           $http->postVariable( 'BrowseActionName' ) == ( 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) ) and
                           $http->hasPostVariable( "SelectedObjectIDArray" ) )
                 {
-                    $selectedObjectArray = $http->hasPostVariable( "SelectedObjectIDArray" );
-                    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+                    if ( !$http->hasPostVariable( 'BrowseCancelButton' ) )
+                    {
+                        $selectedObjectArray = $http->hasPostVariable( "SelectedObjectIDArray" );
+                        $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
 
-                    $objectID = $selectedObjectIDArray[0];
-//                     $contentObjectAttribute->setContent( $objectID );
-                    $contentObjectAttribute->setAttribute( 'data_int', $objectID );
-                    $contentObjectAttribute->store();
+                        $objectID = $selectedObjectIDArray[0];
+//                         $contentObjectAttribute->setContent( $objectID );
+                        $contentObjectAttribute->setAttribute( 'data_int', $objectID );
+                        $contentObjectAttribute->store();
+                    }
                     $http->removeSessionVariable( 'BrowseCustomAction' );
                 }
             } break;

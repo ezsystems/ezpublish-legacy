@@ -73,7 +73,7 @@ if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDF_EXPORT_
 
 $http =& eZHTTPTool::instance();
 
-if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) ) // Get Source node ID from browse
+if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) && !$http->hasPostVariable( 'BrowseCancelButton' ) ) // Get Source node ID from browse
 {
     $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
     $pdfExport->setAttribute( 'source_node_id', $selectedNodeIDArray[0] );

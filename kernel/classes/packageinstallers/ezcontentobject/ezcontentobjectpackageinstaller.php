@@ -179,7 +179,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
                                                                             'ReturnBrowse_' . $topNodeArrayKey => 1 ) ),
                                          $module );
             }
-            else if ( $http->hasPostVariable( 'ReturnBrowse_' . $topNodeArrayKey ) )
+            else if ( $http->hasPostVariable( 'ReturnBrowse_' . $topNodeArrayKey ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
                 $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
                 $persistentData['top_nodes_map'][$topNodeArrayKey]['new_node_id'] = $nodeIDArray[0];

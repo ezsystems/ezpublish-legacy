@@ -101,7 +101,7 @@ if ( is_numeric( $RSSImportID ) )
             {
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-                if ( isset( $nodeIDArray ) )
+                if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
                 {
                     $rssImport->setAttribute( 'destination_node_id', $nodeIDArray[0] );
                     $rssImport->store();
@@ -112,7 +112,7 @@ if ( is_numeric( $RSSImportID ) )
             {
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeIDArray = $http->postVariable( 'SelectedObjectIDArray' );
-                if ( isset( $nodeIDArray ) )
+                if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
                 {
                     $rssImport->setAttribute( 'object_owner_id', $nodeIDArray[0] );
                     $rssImport->store();
