@@ -577,10 +577,15 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
             return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
 
+        $existingMainNodeID = false;
         $existingMainNode =& $object->attribute( 'main_node' );
-        if ( $existingMainNode->attribute( 'node_id' ) != $mainAssignmentID )
+        if ( $existingMainNode )
+            $existingMainNodeID = $existingMainNode->attribute( 'node_id' );
+        if ( $existingMainNodeID === false or
+             $existingMainNodeID != $mainAssignmentID )
         {
-            if ( !$existingMainNode->checkAccess( 'edit' ) )
+            if ( $existingMainNode and
+                 !$existingMainNode->checkAccess( 'edit' ) )
             {
                 return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
             }
