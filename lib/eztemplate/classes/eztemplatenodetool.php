@@ -39,7 +39,7 @@
 
 /*!
   \class eZTemplateNodeTool eztemplatenodetool.php
-  \brief The class eZTemplateNodeTool does
+  \brief Various tool functions for working with template nodes
 
 */
 
@@ -52,21 +52,34 @@ class eZTemplateNodeTool
     {
     }
 
+    /*!
+     Removes the children from the function node \a $node.
+    */
     function removeFunctionNodeChildren( &$node )
     {
         $node[1] = false;
     }
 
+    /*!
+     Removes the parameters from the function node \a $node.
+    */
     function removeFunctionNodeParameters( &$node )
     {
         $node[3] = false;
     }
 
+    /*!
+     Removes the placement info from the function node \a $node.
+    */
     function removeFunctionNodePlacement( &$node )
     {
         $node[4] = false;
     }
 
+    /*!
+     Creates a new function node hook with name \a $hookName and optional parameters \a $hookParameters
+     and function data \a $hookFunction and returns it.
+    */
     function createFunctionNodeHook( &$node, $hookName, $hookParameters = array(), $hookFunction = false )
     {
         $node[5] = array( 'name' => $hookName,
@@ -74,16 +87,27 @@ class eZTemplateNodeTool
                           'function' => $hookFunction );
     }
 
+    /*!
+     \return the children of the function node \a $node.
+    */
     function extractFunctionNodeChildren( &$node )
     {
         return $node[1];
     }
 
+    /*!
+     \return the parameters of the function node \a $node.
+    */
     function extractFunctionNodeParameterNames( &$node )
     {
         return array_keys( $node[3] );
     }
 
+    /*!
+     Creates a pre and post hook for the function node \a $node
+     with the children in between the nodes. This means that a nested
+     function node will be deflated to a pre/children/post list.
+    */
     function deflateFunctionNode( &$node, $preHook, $postHook )
     {
         $newNodes = array();

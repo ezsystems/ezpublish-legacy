@@ -81,6 +81,54 @@ class eZTemplateProcessCache
 
     /*!
      \static
+     \return true if template process caching should include comments in the cache files.
+    */
+    function isCommentsEnabled()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $commentsEnabled = $ini->variable( 'TemplateSettings', 'ProcessComments' ) == 'enabled';
+        return $commentsEnabled;
+    }
+
+    /*!
+     \static
+     \return true if template process execution is enabled.
+    */
+    function isExecutionEnabled()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $execution = $ini->variable( 'TemplateSettings', 'ProcessExecution' ) == 'enabled';
+        return $execution;
+    }
+
+    /*!
+     \static
+     \return true if template process caching should always be created even if a sufficient cache already exists.
+    */
+    function alwaysGenerate()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $alwaysGenerate = $ini->variable( 'TemplateSettings', 'ProcessAlwaysGenerate' ) == 'enabled';
+        return $alwaysGenerate;
+    }
+
+    /*!
+     \static
+     \return true if template node tree named \a $treeName should be included the cache file.
+    */
+    function isTreeEnabled( $treeName )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $treeList = $ini->variable( 'TemplateSettings', 'ProcessIncludeNodeTree' );
+        return in_array( $treeName, $treeList );
+    }
+
+    /*!
+     \static
      \return the cache directory for process cache files.
     */
     function cacheDirectory()
@@ -105,7 +153,8 @@ class eZTemplateProcessCache
     {
         if ( !eZTemplateProcessCache::isCacheEnabled() )
             return false;
-//         return false;
+        if ( eZTemplateProcessCache::alwaysGenerate() )
+            return false;
 
         $internalCharset = eZTextCodec::internalCharset();
         $cacheFileKey = "$key-$internalCharset";
@@ -124,38 +173,16 @@ class eZTemplateProcessCache
     }
 
     /*!
-     Opens the template files specified in \a $placementData
-     and fetches the text portion defined by the
-     start and end position. The text is returned or \c null if the
-     text could not be fetched.
+     Tries to execute the process cache and returns \c true if succsesful.
+     Returns \c false if caching is disabled or the process cache could not be executed.
     */
-    function fetchTemplatePiece( $placementData )
-    {
-        if ( !isset( $placementData[0] ) or
-             !isset( $placementData[1] ) or
-             !isset( $placementData[2] ) )
-            return null;
-        $file = $placementData[2];
-        $startPosition = $placementData[0][2];
-        $endPosition = $placementData[1][2];
-        $length = $endPosition - $startPosition;
-        if ( file_exists( $file ) )
-        {
-            $fd = fopen( $file, 'r' );
-            fseek( $fd, $startPosition );
-            $text = fread( $fd, $length );
-            fclose( $fd );
-            return $text;
-        }
-        return null;
-    }
-
     function executeCache( &$tpl, &$textElements, $key, &$resourceData,
                            $rootNamespace, $currentNamespace )
     {
         if ( !eZTemplateProcessCache::isCacheEnabled() )
             return false;
-//         return false;
+        if ( !eZTemplateProcessCache::isExecutionEnabled() )
+            return false;
         $internalCharset = eZTextCodec::internalCharset();
         $cacheFileKey = "$key-$internalCharset";
         $cacheFileName = md5( $cacheFileKey ) . '.php';
@@ -183,15 +210,20 @@ class eZTemplateProcessCache
         return false;
     }
 
+    /*!
+     Helper function for executeCache. Will execute the script \a $phpScript and
+     set the result text in \a $text.
+     The parameters \a $tpl, \a $resourceData, \a $rootNamespace and \a $currentNamespace
+     are passed to the executed process script.
+     \return true if a text result was created.
+    */
     function executeCacheHelper( $phpScript, &$text,
                                  &$tpl, $key, &$resourceData,
                                  $rootNamespace, $currentNamespace )
     {
-//         print( "root=$rootNamespace, current=$currentNamespace<br/>" );
         include( $phpScript );
         if ( isset( $text ) )
         {
-//             print( "Text:<pre>$text</pre>Text end:" );
             return true;
         }
         return false;
@@ -199,7 +231,7 @@ class eZTemplateProcessCache
 
     /*!
      \static
-     Generates the cache will be used for handling optimized processinging using the key \a $key.
+     Generates the cache which will be used for handling optimized processinging using the key \a $key.
      \return false if the cache does not exist.
     */
     function generateCache( &$tpl, $key, &$resourceData )
@@ -216,12 +248,17 @@ class eZTemplateProcessCache
         if ( !$rootNode )
             return false;
 
+        $useComments = eZTemplateProcessCache::isCommentsEnabled();
+
         $php = new eZPHPCreator( eZTemplateProcessCache::cacheDirectory(), $cacheFileName );
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
-        $php->addComment( "Original code:\n" . $resourceData['text'] );
-        $php->addVariable( 'eZTemplateProcessCacheCodeDate', EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE );
+        if ( $useComments )
+        {
+            $php->addComment( "Original code:\n" . $resourceData['text'] );
+            $php->addVariable( 'eZTemplateProcessCacheCodeDate', EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE );
+        }
         $php->addSpace();
 
         $php->addCodePiece( "eZDebug::accumulatorStart( 'template_process_cache', 'template_total', 'Template process cache' );" );
@@ -296,20 +333,24 @@ $rbracket
         $php->addSpace();
 
         $transformedTree = array();
-        eZTemplateProcessCache::processNodeTransformation( $php, $tpl, $rootNode, $resourceData, $transformedTree );
+        eZTemplateProcessCache::processNodeTransformation( $useComments, $php, $tpl, $rootNode, $resourceData, $transformedTree );
 
         $staticTree = array();
-        eZTemplateProcessCache::processStaticOptimizations( $php, $tpl, $transformedTree, $resourceData, $staticTree );
+        eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl, $transformedTree, $resourceData, $staticTree );
 
         $combinedTree = array();
-        eZTemplateProcessCache::processNodeCombining( $php, $tpl, $staticTree, $resourceData, $combinedTree );
+        eZTemplateProcessCache::processNodeCombining( $useComments, $php, $tpl, $staticTree, $resourceData, $combinedTree );
 
-        eZTemplateProcessCache::generatePHPCode( $php, $tpl, $combinedTree, $resourceData );
+        eZTemplateProcessCache::generatePHPCode( $useComments, $php, $tpl, $combinedTree, $resourceData );
 
-//         $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-//         $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-//         $php->addVariable( 'transformedTree', $transformedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-//         $php->addVariable( 'originalTree', $rootNode, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+        if ( eZTemplateProcessCache::isTreeEnabled( 'combined' ) )
+            $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+        if ( eZTemplateProcessCache::isTreeEnabled( 'static' ) )
+            $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+        if ( eZTemplateProcessCache::isTreeEnabled( 'transformed' ) )
+            $php->addVariable( 'transformedTree', $transformedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+        if ( eZTemplateProcessCache::isTreeEnabled( 'original' ) )
+            $php->addVariable( 'originalTree', $rootNode, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
 
         $php->addCodePiece( "eZDebug::accumulatorStop( 'template_process_cache' );" );
 
@@ -351,7 +392,12 @@ $rbracket
 
     */
 
-    function generatePHPCode( &$php, &$tpl, &$node, &$resourceData )
+    /*!
+     Generates the PHP code defined in the template node tree \a $node.
+     The code is generated using the php creator specified in \a $php.
+    */
+
+    function generatePHPCode( $useComments, &$php, &$tpl, &$node, &$resourceData )
     {
         $parameters = array();
         $nodeType = $node[0];
@@ -360,7 +406,7 @@ $rbracket
             $children = $node[1];
             if ( $children )
             {
-                eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData, $parameters );
+                eZTemplateProcessCache::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
             }
         }
         else
@@ -368,120 +414,11 @@ $rbracket
         $php->addSpace();
     }
 
-    function generateTextAppendCode( &$php, &$tpl, $text )
-    {
-        $php->addVariable( 'text', $text, EZ_PHPCREATOR_VARIABLE_APPEND_TEXT );
-    }
-
-    function generateVariableCode( &$php, &$tpl, $node, $dataInspection,
-                                   $parameters )
-    {
-        $variableData = $node[2];
-        $persistence = array();
-        eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableData, $dataInspection, $persistence, $parameters );
-    }
-
-    function generateMergeNamespaceCode( &$php, &$tpl, $namespace, $namespaceScope )
-    {
-        if ( $namespace != '' )
-        {
-            if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
-            {
-                $php->addVariable( 'namespace', $namespace );
-            }
-            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
-            {
-                $php->addCodePiece( "\$namespace = \$rootNamespace;
-if ( \$namespace == '' )
-    \$namespace = \"$namespace\";
-else
-    \$namespace .= ':$namespace';
-" );
-            }
-            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
-            {
-                $php->addCodePiece( "\$namespace = \$currentNamespace;
-if ( \$namespace == '' )
-    \$namespace = \"$namespace\";
-else
-    \$namespace .= ':$namespace';
-" );
-            }
-        }
-        else
-        {
-            if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
-            {
-                $php->addVariable( 'namespace', '' );
-            }
-            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
-            {
-                $php->addCodePiece( "\$namespace = \$rootNamespace;\n" );
-            }
-            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
-            {
-                $php->addCodePiece( "\$namespace = \$currentNamespace;\n" );
-            }
-        }
-    }
-
-    function generateVariableDataCode( &$php, &$tpl, $variableData, $dataInspection, &$persistence, $parameters )
-    {
-        $variableAssignmentName = $parameters['variable'];
-        $variableAssignmentCounter = $parameters['counter'];
-        if ( $variableAssignmentCounter > 0 )
-            $variableAssignmentName .= $variableAssignmentCounter;
-        foreach ( $variableData as $variableDataItem )
-        {
-            $variableDataType = $variableDataItem[0];
-            if ( $variableDataType == EZ_TEMPLATE_TYPE_STRING or
-                 $variableDataType == EZ_TEMPLATE_TYPE_NUMERIC or
-                 $variableDataType == EZ_TEMPLATE_TYPE_IDENTIFIER )
-            {
-                $dataValue = $variableDataItem[1];
-                $dataText = $php->variableText( $dataValue, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n" );
-            }
-            else if ( $variableDataType == EZ_TEMPLATE_TYPE_VARIABLE )
-            {
-                $namespace = $variableDataItem[1][0];
-                $namespaceScope = $variableDataItem[1][1];
-                $variableName = $variableDataItem[1][2];
-                eZTemplateProcessCache::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope );
-                $variableNameText = $php->variableText( $variableName, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName =& processFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
-            }
-            else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
-            {
-                $newParameters = $parameters;
-                $newParameters['counter'] += 1;
-                eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $dataInspection,
-                                                                  $persistence, $newParameters );
-                $newVariableAssignmentName = $newParameters['variable'];
-                $newVariableAssignmentCounter = $newParameters['counter'];
-                if ( $newVariableAssignmentCounter > 0 )
-                    $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                $php->addCodePiece( "\$$variableAssignmentName = processFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
-// $php->addVariable( 'attr', $variableDataItem[1] );
-            }
-            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
-            {
-                $operatorParameters = $variableDataItem[1];
-                $operatorName = $operatorParameters[0];
-                $operatorParameters = array_splice( $operatorParameters, 1 );
-                $operatorNameText = $php->variableText( $operatorName, 0 );
-                $operatorParametersText = $php->variableText( $operatorParameters, 23, 0, false );
-                $php->addCodePiece( "\$tpl->processOperator( $operatorNameText,
-                       $operatorParametersText,
-                       \$rootNamespace, \$currentNamespace, \$$variableAssignmentName, false, false );\n" );
-            }
-            else if ( $variableDataType == EZ_TEMPLATE_TYPE_VOID )
-            {
-            }
-        }
-    }
-
-    function generatePHPCodeChildren( &$php, &$tpl, &$nodeChildren, &$resourceData, $parameters )
+    /*!
+     Generates the PHP code for all node children specified in \a $nodeChildren.
+     \sa generatePHPCode
+    */
+    function generatePHPCodeChildren( $useComments, &$php, &$tpl, &$nodeChildren, &$resourceData, $parameters )
     {
         foreach ( $nodeChildren as $node )
         {
@@ -492,7 +429,7 @@ else
                 $children = $node[1];
                 if ( $children )
                 {
-                    eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData, $parameters );
+                    eZTemplateProcessCache::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
                 }
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
@@ -500,10 +437,13 @@ else
                 $text = $node[2];
                 $variablePlacement = $node[3];
                 $originalText = eZTemplateProcessCache::fetchTemplatePiece( $variablePlacement );
-                $php->addComment( "Text start:" );
-                $php->addComment( $originalText );
-                $php->addComment( "Text end:" );
-                eZTemplateProcessCache::generateTextAppendCode( $php, $tpl, $text );
+                if ( $useComments )
+                {
+                    $php->addComment( "Text start:" );
+                    $php->addComment( $originalText );
+                    $php->addComment( "Text end:" );
+                }
+                $php->addVariable( 'text', $text, EZ_PHPCREATOR_VARIABLE_APPEND_TEXT );
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
             {
@@ -516,14 +456,17 @@ else
                                   false,
                                   $variableData,
                                   $variablePlacement );
-                $php->addComment( "Variable data: " .
-                                  "Is constant: " . ( $dataInspection['is-constant'] ? 'Yes' : 'No' ) .
-                                  " Is variable: " . ( $dataInspection['is-variable'] ? 'Yes' : 'No' ) .
-                                  " Has attributes: " . ( $dataInspection['has-attributes'] ? 'Yes' : 'No' ) .
-                                  " Has operators: " . ( $dataInspection['has-operators'] ? 'Yes' : 'No' )
-                                  );
-                $originalText = eZTemplateProcessCache::fetchTemplatePiece( $variablePlacement );
-                $php->addComment( '{' . $originalText . '}' );
+                if ( $useComments )
+                {
+                    $php->addComment( "Variable data: " .
+                                      "Is constant: " . ( $dataInspection['is-constant'] ? 'Yes' : 'No' ) .
+                                      " Is variable: " . ( $dataInspection['is-variable'] ? 'Yes' : 'No' ) .
+                                      " Has attributes: " . ( $dataInspection['has-attributes'] ? 'Yes' : 'No' ) .
+                                      " Has operators: " . ( $dataInspection['has-operators'] ? 'Yes' : 'No' )
+                                      );
+                    $originalText = eZTemplateProcessCache::fetchTemplatePiece( $variablePlacement );
+                    $php->addComment( '{' . $originalText . '}' );
+                }
                 eZTemplateProcessCache::generateVariableCode( $php, $tpl, $node, $dataInspection,
                                                               array( 'variable' => 'var',
                                                                      'counter' => 0 ) );
@@ -552,9 +495,12 @@ unset( \$var );\n" );
                 {
                     $parameterText = "Parameters: ". implode( ', ', array_keys( $functionParameters ) );
                 }
-                $php->addComment( "Function: $functionName, $parameterText" );
-                $originalText = eZTemplateProcessCache::fetchTemplatePiece( $functionPlacement );
-                $php->addComment( '{' . $originalText . '}' );
+                if ( $useComments )
+                {
+                    $php->addComment( "Function: $functionName, $parameterText" );
+                    $originalText = eZTemplateProcessCache::fetchTemplatePiece( $functionPlacement );
+                    $php->addComment( '{' . $originalText . '}' );
+                }
                 if ( isset( $node[5] ) )
                 {
                     $functionHook = $node[5];
@@ -720,7 +666,136 @@ else
         }
     }
 
-    function processNodeCombining( &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    /*!
+     Generates PHP code which will do namespace merging.
+     The namespace to merge with is specified in \a $namespace and
+     the scope of the merging is defined by \a $namespaceScope.
+    */
+    function generateMergeNamespaceCode( &$php, &$tpl, $namespace, $namespaceScope )
+    {
+        if ( $namespace != '' )
+        {
+            if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
+            {
+                $php->addVariable( 'namespace', $namespace );
+            }
+            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
+            {
+                $php->addCodePiece( "\$namespace = \$rootNamespace;
+if ( \$namespace == '' )
+    \$namespace = \"$namespace\";
+else
+    \$namespace .= ':$namespace';
+" );
+            }
+            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
+            {
+                $php->addCodePiece( "\$namespace = \$currentNamespace;
+if ( \$namespace == '' )
+    \$namespace = \"$namespace\";
+else
+    \$namespace .= ':$namespace';
+" );
+            }
+        }
+        else
+        {
+            if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
+            {
+                $php->addVariable( 'namespace', '' );
+            }
+            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
+            {
+                $php->addCodePiece( "\$namespace = \$rootNamespace;\n" );
+            }
+            else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
+            {
+                $php->addCodePiece( "\$namespace = \$currentNamespace;\n" );
+            }
+        }
+    }
+
+    /*!
+     Generates PHP code for the variable node \a $node.
+     Use generateVariableDataCode if you want to create code for arbitrary variable data structures.
+    */
+    function generateVariableCode( &$php, &$tpl, $node, $dataInspection,
+                                   $parameters )
+    {
+        $variableData = $node[2];
+        $persistence = array();
+        eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableData, $dataInspection, $persistence, $parameters );
+    }
+
+    /*!
+     Generates PHP code for the variable tree structure in \a $variableData.
+     The code will contain string, numeric and identifier assignment,
+     variable lookup, attribute lookup and operator execution.
+     Use generateVariableCode if you want to create code for a variable tree node.
+    */
+    function generateVariableDataCode( &$php, &$tpl, $variableData, $dataInspection, &$persistence, $parameters )
+    {
+        $variableAssignmentName = $parameters['variable'];
+        $variableAssignmentCounter = $parameters['counter'];
+        if ( $variableAssignmentCounter > 0 )
+            $variableAssignmentName .= $variableAssignmentCounter;
+        foreach ( $variableData as $variableDataItem )
+        {
+            $variableDataType = $variableDataItem[0];
+            if ( $variableDataType == EZ_TEMPLATE_TYPE_STRING or
+                 $variableDataType == EZ_TEMPLATE_TYPE_NUMERIC or
+                 $variableDataType == EZ_TEMPLATE_TYPE_IDENTIFIER )
+            {
+                $dataValue = $variableDataItem[1];
+                $dataText = $php->variableText( $dataValue, 0 );
+                $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n" );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_VARIABLE )
+            {
+                $namespace = $variableDataItem[1][0];
+                $namespaceScope = $variableDataItem[1][1];
+                $variableName = $variableDataItem[1][2];
+                eZTemplateProcessCache::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope );
+                $variableNameText = $php->variableText( $variableName, 0 );
+                $php->addCodePiece( "\$$variableAssignmentName =& processFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
+            {
+                $newParameters = $parameters;
+                $newParameters['counter'] += 1;
+                eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $dataInspection,
+                                                                  $persistence, $newParameters );
+                $newVariableAssignmentName = $newParameters['variable'];
+                $newVariableAssignmentCounter = $newParameters['counter'];
+                if ( $newVariableAssignmentCounter > 0 )
+                    $newVariableAssignmentName .= $newVariableAssignmentCounter;
+                $php->addCodePiece( "\$$variableAssignmentName = processFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
+// $php->addVariable( 'attr', $variableDataItem[1] );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
+            {
+                $operatorParameters = $variableDataItem[1];
+                $operatorName = $operatorParameters[0];
+                $operatorParameters = array_splice( $operatorParameters, 1 );
+                $operatorNameText = $php->variableText( $operatorName, 0 );
+                $operatorParametersText = $php->variableText( $operatorParameters, 23, 0, false );
+                $php->addCodePiece( "\$tpl->processOperator( $operatorNameText,
+                       $operatorParametersText,
+                       \$rootNamespace, \$currentNamespace, \$$variableAssignmentName, false, false );\n" );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_VOID )
+            {
+            }
+        }
+    }
+
+    /*!
+     Iterates over the template node tree and tries to combine multiple static siblings
+     into one element. The original tree is specified in \a $node and the new
+     combined tree will be present in \a $newNode.
+     \sa processNodeCombiningChildren
+    */
+    function processNodeCombining( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -730,17 +805,107 @@ else
             $newNode[1] = false;
             if ( $children )
             {
-                eZTemplateProcessCache::processNodeCombiningChildren( $php, $tpl, $children, $resourceData, $newNode );
+                eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
             }
         }
         else
             $tpl->error( 'processNodeCombining', "Unknown root type $nodeType, should be " . EZ_TEMPLATE_NODE_ROOT );
     }
 
+    /*!
+     Does node combining on the children \a $nodeChildren.
+     \sa processNodeCombining
+    */
+    function processNodeCombiningChildren( $useComments, &$php, &$tpl, &$nodeChildren, &$resourceData, &$parentNode )
+    {
+        $newNodeChildren = array();
+        $lastNode = false;
+        foreach ( $nodeChildren as $node )
+        {
+            $newNode = false;
+            $nodeType = $node[0];
+            if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+            {
+                $children = $node[1];
+                $newNode = array( $nodeType,
+                                  false );
+                if ( $children )
+                {
+                    eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
+                }
+            }
+            else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
+            {
+                $text = $node[2];
+                $placement = $node[3];
+
+                $newNode = array( $nodeType,
+                                  false,
+                                  $text,
+                                  $placement );
+                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
+            }
+            else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
+            {
+                $variableData = $node[2];
+                $variablePlacement = $node[3];
+                $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                                                                               $variableData, $variablePlacement,
+                                                                               $resourceData );
+                $newNode = array( $nodeType,
+                                  false,
+                                  $variableData,
+                                  $variablePlacement );
+                unset( $dataInspection );
+                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
+            }
+            else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
+            {
+                $functionChildren = $node[1];
+                $functionName = $node[2];
+                $functionParameters = $node[3];
+                $functionPlacement = $node[4];
+
+                $newNode = array( $nodeType,
+                                  false,
+                                  $functionName,
+                                  $functionParameters,
+                                  $functionPlacement );
+                if ( isset( $node[5] ) )
+                    $newNode[5] = $node[5];
+
+                if ( is_array( $functionChildren ) )
+                {
+                    eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl,
+                                                                          $functionChildren, $resourceData, $newNode );
+                }
+
+            }
+            if ( $lastNode != false )
+            {
+                $newNodeChildren[] = $lastNode;
+                $lastNode = false;
+            }
+            if ( $newNode != false )
+                $lastNode = $newNode;
+        }
+        if ( $lastNode != false )
+        {
+            $newNodeChildren[] = $lastNode;
+            $lastNode = false;
+        }
+        $parentNode[1] = $newNodeChildren;
+    }
+
+    /*!
+     Tries to combine the node \a $lastNode and the node \a $newNode
+     into one new text node. If possible the new node is created in \a $newNode
+     and \a $lastNode will be set to \c false.
+     Combining nodes only works for text nodes and variable nodes without
+     variable lookup, attributes and operators.
+    */
     function combineStaticNodes( &$tpl, &$resourceData, &$lastNode, &$newNode )
     {
-//         eZDebug::writeDebug( $lastNode, 'lastNode' );
-//         eZDebug::writeDebug( $newNode, 'newNode' );
         if ( $lastNode == false or
              $newNode == false )
             return false;
@@ -797,6 +962,12 @@ else
                           $newPlacement );
     }
 
+    /*!
+     \return the static data for the node \a $node or \c false if
+             no data could be fetched.
+             Will only return data from text nodes and variables nodes
+             without variable lookup, attribute lookup or operators.
+    */
     function staticNodeData( $node )
     {
         $nodeType = $node[0];
@@ -822,91 +993,12 @@ else
         return null;
     }
 
-    function processNodeCombiningChildren( &$php, &$tpl, &$nodeChildren, &$resourceData, &$parentNode )
+    /*!
+     Iterates over the items in the tree \a $node and tries to extract static data
+     from operators which supports it.
+    */
+    function processStaticOptimizations( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
     {
-        $newNodeChildren = array();
-        $lastNode = false;
-        foreach ( $nodeChildren as $node )
-        {
-            $newNode = false;
-            $nodeType = $node[0];
-            if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
-            {
-                $children = $node[1];
-                $newNode = array( $nodeType,
-                                  false );
-                if ( $children )
-                {
-                    eZTemplateProcessCache::processNodeCombiningChildren( $php, $tpl, $children, $resourceData, $newNode );
-                }
-            }
-            else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
-            {
-                $text = $node[2];
-                $placement = $node[3];
-
-                $newNode = array( $nodeType,
-                                  false,
-                                  $text,
-                                  $placement );
-                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
-            }
-            else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
-            {
-                $variableData = $node[2];
-                $variablePlacement = $node[3];
-                $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
-                                                                               $variableData, $variablePlacement,
-                                                                               $resourceData );
-                $newNode = array( $nodeType,
-                                  false,
-                                  $variableData,
-                                  $variablePlacement );
-                unset( $dataInspection );
-                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
-            }
-            else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
-            {
-                $functionChildren = $node[1];
-                $functionName = $node[2];
-                $functionParameters = $node[3];
-                $functionPlacement = $node[4];
-
-                $newNode = array( $nodeType,
-                                  false,
-                                  $functionName,
-                                  $functionParameters,
-                                  $functionPlacement );
-                if ( isset( $node[5] ) )
-                    $newNode[5] = $node[5];
-
-                if ( is_array( $functionChildren ) )
-                {
-                    eZTemplateProcessCache::processNodeCombiningChildren( $php, $tpl,
-                                                                          $functionChildren, $resourceData, $newNode );
-                }
-
-            }
-            if ( $lastNode != false )
-            {
-                $newNodeChildren[] = $lastNode;
-                $lastNode = false;
-            }
-            if ( $newNode != false )
-                $lastNode = $newNode;
-        }
-        if ( $lastNode != false )
-        {
-            $newNodeChildren[] = $lastNode;
-            $lastNode = false;
-        }
-        $parentNode[1] = $newNodeChildren;
-    }
-
-    function processStaticOptimizations( &$php, &$tpl, &$node, &$resourceData, &$newNode )
-    {
-        if ( !isset( $node[0] ) )
-            eZDebug::writeDebug( $node, 'node' );
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
@@ -919,7 +1011,7 @@ else
                 foreach ( $children as $child )
                 {
                     $newChild = array();
-                    eZTemplateProcessCache::processStaticOptimizations( $php, $tpl, $child, $resourceData, $newChild );
+                    eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl, $child, $resourceData, $newChild );
                     $newNode[1][] = $newChild;
                 }
             }
@@ -941,7 +1033,6 @@ else
             $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
                                                                            $variableData, $variablePlacement,
                                                                            $resourceData );
-//             $php->addVariable( 'dataInspection', $dataInspection, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
             if ( isset( $dataInspection['new-data'] ) )
             {
                 $variableData = $dataInspection['new-data'];
@@ -960,19 +1051,17 @@ else
             $functionPlacement = $node[4];
 
             $newFunctionChildren = array();
-//             eZDebug::writeDebug( $functionChildren, "functionChildren for $functionName" );
             if ( is_array( $functionChildren ) )
             {
                 foreach ( $functionChildren as $functionChild )
                 {
                     $newChild = array();
-                    eZTemplateProcessCache::processStaticOptimizations( $php, $tpl,
+                    eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl,
                                                                         $functionChild, $resourceData, $newChild );
                     $newFunctionChildren[] = $newChild;
                 }
                 $functionChildren = $newFunctionChildren;
             }
-//             eZDebug::writeDebug( $functionChildren, "new functionChildren for $functionName" );
 
             $newFunctionParameters = array();
             if ( $functionParameters )
@@ -1001,6 +1090,128 @@ else
         }
     }
 
+    /*!
+     Iterates over the template node tree \a $node and returns a new transformed
+     tree in \a $newNode.
+     \sa processNodeTransformationRoot, processNodeTransformationChild
+    */
+    function processNodeTransformation( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    {
+        $newNode = eZTemplateProcessCache::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
+    }
+
+    /*!
+     Iterates over the children of the root node \a $node and does transformation on them.
+     \sa processNodeTransformation, processNodeTransformationChild
+    */
+    function processNodeTransformationRoot( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    {
+        $nodeType = $node[0];
+        if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+        {
+            $children = $node[1];
+            $newNode = array( $nodeType,
+                              false );
+            if ( $children )
+            {
+                $newChildren = array();
+                foreach ( $children as $childNode )
+                {
+                    $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
+                    if ( !$newChildNode )
+                        $newChildren[] = $childNode;
+                    else if ( !is_array( $newChildNode ) )
+                        $newChildren[] = $newChildNode;
+                    else
+                        $newChildren = array_merge( $newChildren, $newChildNode );
+                }
+                if ( count( $newChildren ) > 0 )
+                    $newNode[1] = $newChildren;
+            }
+            return $newNode;
+        }
+        else
+            $tpl->error( 'processNodeTransformation', "Unknown root type $nodeType, should be " . EZ_TEMPLATE_NODE_ROOT );
+        return false;
+    }
+
+    /*!
+     Iterates over the children of the function node \a $node and transforms the tree.
+     If the node is not a function it will return \c false.
+     \sa processNodeTransformationRoot, processNodeTransformationChild
+    */
+    function processNodeTransformationChild( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    {
+        $nodeType = $node[0];
+        if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
+        {
+            $functionChildren = $node[1];
+            $functionName = $node[2];
+            $functionParameters = $node[3];
+            $functionPlacement = $node[4];
+
+            if ( is_array( $tpl->Functions[$functionName] ) )
+            {
+                $tpl->loadAndRegisterOperators( $tpl->Functions[$functionName] );
+            }
+            $functionObject =& $tpl->Functions[$functionName];
+            if ( is_object( $functionObject ) )
+            {
+                $hasTransformationSupport = false;
+                if ( method_exists( $functionObject, 'processCacheHints' ) )
+                {
+                    $hints = $functionObject->processCacheHints();
+                    if ( isset( $hints[$functionName] ) and
+                         isset( $hints[$functionName]['tree-transformation'] ) and
+                         $hints[$functionName]['tree-transformation'] )
+                        $hasTransformationSupport = true;
+                }
+                if ( $hasTransformationSupport and
+                     method_exists( $functionObject, 'templateNodeTransformation' ) )
+                {
+                    if ( $functionChildren )
+                    {
+                        $newChildren = array();
+                        foreach ( $functionChildren as $childNode )
+                        {
+                            $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
+                            if ( !$newChildNode )
+                                $newChildren[] = $childNode;
+                            else if ( !is_array( $newChildNode ) )
+                                $newChildren[] = $newChildNode;
+                            else
+                                $newChildren = array_merge( $newChildren, $newChildNode );
+                        }
+                        if ( count( $newChildren ) > 0 )
+                            $node[1] = $newChildren;
+                    }
+
+                    $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
+                                                                             $tpl, $resourceData );
+                    if ( !$newNodes )
+                        return $node;
+                    return $newNodes;
+                }
+            }
+            return false;
+        }
+        else if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+        {
+            return eZTemplateProcessCache::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
+        }
+        else
+            return false;
+    }
+
+    /*!
+     Looks over the variable data \a $variableData and returns an array with
+     information on the structure.
+     The followin entries are generated.
+     - is-constant - true if the variable data contains constant data like text and numerics
+     - is-variable - true if the variable data is a variable lookup
+     - has-operators - true if operators are present
+     - has-attributes - true if attributes are used
+    */
     function inspectVariableData( &$tpl, $variableData, $variablePlacement, &$resourceData )
     {
         $dataInspection = array( 'is-constant' => false,
@@ -1056,7 +1267,6 @@ else
                 $operatorName = $variableItemData[0];
                 $operatorHint = eZTemplateProcessCache::operatorHint( $tpl, $operatorName );
                 $newVariableItem = $variableItem;
-//                 eZDebug::writeDebug( $operatorHint, $operatorName );
                 if ( $operatorHint )
                 {
                     if ( !$operatorHint['input'] and
@@ -1080,14 +1290,12 @@ else
                     for ( $i = 1; $i < count( $tmpVariableItem ); ++$i )
                     {
                         $operatorParameter = $tmpVariableItem[$i];
-//                         eZDebug::writeDebug( $operatorParameter );
                         $newDataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
                                                                                           $operatorParameter, false,
                                                                                           $resourceData );
                         if ( isset( $newDataInspection['new-data'] ) )
                         {
                             $operatorParameter = $newDataInspection['new-data'];
-//                             eZDebug::writeDebug( $operatorParameter, "#2" );
                         }
                         $newVariableItem[1][] = $operatorParameter;
                     }
@@ -1107,6 +1315,10 @@ else
         return $dataInspection;
     }
 
+    /*!
+     \return the operator hint for the operator \a $operatorName, or \c false if
+             the operator does not exist or has no hints.
+    */
     function operatorHint( &$tpl, $operatorName )
     {
         if ( is_array( $tpl->Operators[$operatorName] ) )
@@ -1129,6 +1341,12 @@ else
         return $operatorHint;
     }
 
+    /*!
+     \return static data from operators which support returning static data,
+             or \c null if no static data could be extracted.
+             The operator is specified in \a $operatorName.
+
+    */
     function operatorStaticData( &$tpl, $operatorName )
     {
         if ( is_array( $tpl->Operators[$operatorName] ) )
@@ -1147,6 +1365,12 @@ else
         return $operatorData;
     }
 
+    /*!
+     Creates a variable data element for the data \a $staticData and returns it.
+     The type of element depends on the type of the data, strings and booleans
+     are returned as EZ_TEMPLATE_TYPE_TEXT and EZ_TEMPLATE_TYPE_NUMERIC while other
+     types are turned into text and returned as EZ_TEMPLATE_TYPE_TEXT.
+    */
     function createStaticVariableData( &$tpl, $staticData, $variableItemPlacement )
     {
         if ( is_string( $staticData ) )
@@ -1163,108 +1387,31 @@ else
                           $variableItemPlacement );
     }
 
-    function processNodeTransformation( &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    /*!
+     Opens the template files specified in \a $placementData
+     and fetches the text portion defined by the
+     start and end position. The text is returned or \c null if the
+     text could not be fetched.
+    */
+    function fetchTemplatePiece( $placementData )
     {
-        $newNode = eZTemplateProcessCache::processNodeTransformationRoot( $php, $tpl, $node, $resourceData );
-    }
-
-    function processNodeTransformationRoot( &$php, &$tpl, &$node, &$resourceData )
-    {
-        $nodeType = $node[0];
-        eZDebug::writeDebug( 'there' );
-        if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+        if ( !isset( $placementData[0] ) or
+             !isset( $placementData[1] ) or
+             !isset( $placementData[2] ) )
+            return null;
+        $file = $placementData[2];
+        $startPosition = $placementData[0][2];
+        $endPosition = $placementData[1][2];
+        $length = $endPosition - $startPosition;
+        if ( file_exists( $file ) )
         {
-            $children = $node[1];
-            $newNode = array( $nodeType,
-                              false );
-            if ( $children )
-            {
-                $newChildren = array();
-                foreach ( $children as $childNode )
-                {
-                    $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $php, $tpl, $childNode, $resourceData );
-                    if ( !$newChildNode )
-                        $newChildren[] = $childNode;
-                    else if ( !is_array( $newChildNode ) )
-                        $newChildren[] = $newChildNode;
-                    else
-                        $newChildren = array_merge( $newChildren, $newChildNode );
-                }
-                if ( count( $newChildren ) > 0 )
-                    $newNode[1] = $newChildren;
-            }
-            return $newNode;
+            $fd = fopen( $file, 'r' );
+            fseek( $fd, $startPosition );
+            $text = fread( $fd, $length );
+            fclose( $fd );
+            return $text;
         }
-        else
-            $tpl->error( 'processNodeTransformation', "Unknown root type $nodeType, should be " . EZ_TEMPLATE_NODE_ROOT );
-        return false;
-    }
-
-    function processNodeTransformationChild( &$php, &$tpl, &$node, &$resourceData )
-    {
-        $nodeType = $node[0];
-        if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
-        {
-            $functionChildren = $node[1];
-            $functionName = $node[2];
-            $functionParameters = $node[3];
-            $functionPlacement = $node[4];
-
-            if ( is_array( $tpl->Functions[$functionName] ) )
-            {
-                $tpl->loadAndRegisterOperators( $tpl->Functions[$functionName] );
-            }
-            $functionObject =& $tpl->Functions[$functionName];
-            eZDebug::writeDebug( 'here' );
-            if ( is_object( $functionObject ) )
-            {
-                $hasTransformationSupport = false;
-                if ( method_exists( $functionObject, 'processCacheHints' ) )
-                {
-                    $hints = $functionObject->processCacheHints();
-                    eZDebug::writeDebug( $hints, "Hints for $functionName" );
-                    if ( isset( $hints[$functionName] ) and
-                         isset( $hints[$functionName]['tree-transformation'] ) and
-                         $hints[$functionName]['tree-transformation'] )
-                        $hasTransformationSupport = true;
-                }
-                if ( $hasTransformationSupport and
-                     method_exists( $functionObject, 'templateNodeTransformation' ) )
-                {
-                    eZDebug::writeDebug( "Transformation for $functionName" );
-
-                    if ( $functionChildren )
-                    {
-                        $newChildren = array();
-                        foreach ( $functionChildren as $childNode )
-                        {
-                            $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $php, $tpl, $childNode, $resourceData );
-                            if ( !$newChildNode )
-                                $newChildren[] = $childNode;
-                            else if ( !is_array( $newChildNode ) )
-                                $newChildren[] = $newChildNode;
-                            else
-                                $newChildren = array_merge( $newChildren, $newChildNode );
-                        }
-                        if ( count( $newChildren ) > 0 )
-                            $node[1] = $newChildren;
-                    }
-
-                    $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
-                                                                             $tpl, $resourceData );
-                    if ( !$newNodes )
-                        return $node;
-                    return $newNodes;
-                }
-            }
-            return false;
-        }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
-        {
-            return eZTemplateProcessCache::processNodeTransformationRoot( $php, $tpl, $node, $resourceData );
-        }
-        else
-            return false;
+        return null;
     }
 
 }

@@ -47,12 +47,13 @@ eZ PHP Creator:
 
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
-- postgresql driver changed to set up correct errorMesage variables
+- postgresql driver changed to set up correct errorMessage variables.
 
 eZ template:
-- Finished the process cache system, it will now generate PHP cache files
-  than can be properly executed.
+- Finished the process cache system, it will now generate PHP cache files than can be properly executed.
+- New class eZTemplateNodeTool which has static tool functions for working on template nodes.
 
 *Settings :
 site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
+- Added more comments to the various elements.
