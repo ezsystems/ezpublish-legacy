@@ -33,9 +33,17 @@
 // you.
 //
 
+/*!
+  \class eZDBSchema ezdbschema.php
+  \ingroup eZDBSchema
+  \brief A factory for schema handlers
+
+*/
+
 class eZDbSchema
 {
     /*!
+     \static
      Create new instance of eZDBSchemaInterface. placed here for simplicity.
 
      \param eZDB instance (optional), if none provided, eZDB::instance() will be used.
@@ -97,14 +105,17 @@ class eZDbSchema
 	}
 
 	/*!
-	 * \private
-	 */
+     \static
+    /
 	function generateUpgradeFile( $differences )
 	{
 		$diff = var_export( $differences, true );
 		return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n" );
 	}
 
+    /*!
+     \static
+    */
 	function writeUpgradeFile( $differences, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );

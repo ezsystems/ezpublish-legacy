@@ -60,7 +60,7 @@
   Field structure:
   - length - A number which defines the length/size of the type or \c false
   - type - String containing the identifier of the Type, see Types below.
-  - not_null - Is 1 if the type cannot be null, otherwise it can
+  - not_null - Is 1 if the type cannot be null, if 0 or not defined it can be null
   - default - The default value, the value depends on the type, \c false means no default value.
 
   Index structure:
@@ -77,6 +77,7 @@
   - float - Float, uses \c length to define number of digits.
   - auto_increment - Integer that auto increments (uses sequence+trigger).
   - varchar - String with variable length, uses \c length for max length.
+  - char - String with fixed length, uses \c length.
   - longtext - String with 2^32 number of possible characters
   - mediumtext - String with 2^24 number of possible characters
   - shorttext - String with 2^16 number of possible characters

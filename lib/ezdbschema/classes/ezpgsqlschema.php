@@ -33,6 +33,13 @@
 // you.
 //
 
+/*!
+  \class eZPgsqlSchema ezpgsqlschema.php
+  \ingroup eZDBSchema
+  \brief Handles schemas for PostgreSQL
+
+*/
+
 define( 'SHOW_TABLES_QUERY', <<<END
 SELECT n.nspname as "Schema",
 	c.relname as "Name",

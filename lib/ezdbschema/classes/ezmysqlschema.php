@@ -33,6 +33,13 @@
 // you.
 //
 
+/*!
+  \class eZMysqlSchema ezmysqlschema.php
+  \ingroup eZDBSchema
+  \brief Handles schemas for MySQL
+
+*/
+
 include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
 class eZMysqlSchema extends eZDBSchemaInterface

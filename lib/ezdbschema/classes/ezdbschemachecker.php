@@ -33,9 +33,29 @@
 // you.
 //
 
+/*!
+  \class eZDBSchemaChecker ezdbschemachecker.php
+  \ingroup eZDBSchema
+  \brief Checks differences between schemas
+
+*/
+
 class eZDbSchemaChecker
 {
-
+    /*!
+     \static
+     Finds the difference between the scemas \a $schema1 and \a $schema2.
+     \return An array containing:
+             - new_tables - A list of new tables that have been added
+             - removed_tables - A list of tables that have been removed
+             - table_changes - Changes in table definition
+               - added_fields - A list of new fields in the table
+               - removed_fields - A list of removed fields in the table
+               - changed_fields - A list of fields that have changed definition
+               - added_indexes - A list of new indexes in the table
+               - removed_indexes - A list of removed indexes in the table
+               - changed_indexes - A list of indexes that have changed definition
+    */
 	function diff( $schema1, $schema2 = array(), $schema1Type = false, $schema2Type = false )
 	{
 		if ( !is_array( $schema1 ) )
@@ -77,6 +97,19 @@ class eZDbSchemaChecker
 		return $diff;
 	}
 
+    /*!
+     \static
+     Finds the difference between the tables \a $table1 and \a $table2 by looking
+     at the fields and indexes.
+
+     \return An array containing:
+             - added_fields - A list of new fields in the table
+             - removed_fields - A list of removed fields in the table
+             - changed_fields - A list of fields that have changed definition
+             - added_indexes - A list of new indexes in the table
+             - removed_indexes - A list of removed indexes in the table
+             - changed_indexes - A list of indexes that have changed definition
+    */
 	function diffTable( $table1, $table2, $schema1Type, $schema2Type )
 	{
 		$table_diff = array();
@@ -201,6 +234,12 @@ class eZDbSchemaChecker
 		return $table_diff;
 	}
 
+    /*!
+     \static
+     Finds the difference between the field \a $field1 and \a $field2.
+
+     \return The field definition of the changed field or \c false if there are no changes.
+    */
 	function diffField( $field1, $field2, $schema1Type, $schema2Type )
 	{
 		/* Type is always available */
@@ -231,6 +270,12 @@ class eZDbSchemaChecker
 		return false;
 	}
 
+    /*!
+     \static
+     Finds the difference between the indexes \a $index1 and \a $index2.
+
+     \return The index definition of the changed index or \c false if there are no changes.
+    */
 	function diffIndex( $index1, $index2, $schema1Type, $schema2Type )
 	{
 		if ( ( $index1['type'] != $index2['type'] ) ||
