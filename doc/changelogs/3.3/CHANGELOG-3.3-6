@@ -58,6 +58,10 @@ eZINI:
   http://ez.no/community/bug_reports/checkbox_doesn_t_remember_default_value
 - Fixed bug of sometimes "index.php" appearing in urls on virtual host setup 
   http://ez.no/community/bug_reports/virtual_host_setup_sometimes_index_php_appearing_in_urls
+- Fixed access to PDF files.
+  http://ez.no/community/bug_reports/pdf_export_to_url_fails
+- Fixed storing export PDF type.
+  http://ez.no/community/bug_reports/export_to_pdf_does_not_store_export_type
 
 *Library:
 

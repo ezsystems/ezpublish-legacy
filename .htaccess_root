@@ -7,12 +7,12 @@ order allow,deny
 deny from all
 </FilesMatch>
 
-<FilesMatch "(index\.php|\.(gif|jpe?g|png|css|js|html))$">
+<FilesMatch "(index\.php|\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf)$">
 order allow,deny
 allow from all
 </FilesMatch>
 
 RewriteEngine On
-RewriteRule !\.(gif|jpe?g|png|css|js|html)$ index.php
+RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
 
 DirectoryIndex index.php

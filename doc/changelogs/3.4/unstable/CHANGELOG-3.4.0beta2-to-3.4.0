@@ -40,6 +40,10 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/template_caching_problem_with_included_templates
 - Fixed bug of offset is not used by function fetchFilteredList() in ezcontentobject.php
   http://ez.no/community/bug_reports/ezcontentobject_attribute_plz_undo_the_changes
+- Fixed access to PDF files, merged from stable/3.3 rev. 6635.
+  http://ez.no/community/bug_reports/pdf_export_to_url_fails
+- Fixed storing export PDF type, merged from stable/3.3 rev. 6635.
+  http://ez.no/community/bug_reports/export_to_pdf_does_not_store_export_type
 
 *Library:
 
