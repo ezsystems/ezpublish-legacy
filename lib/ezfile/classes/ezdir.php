@@ -595,6 +595,33 @@ class eZDir
             $preg .= "$/";
         return $preg;
     }
+
+    /*!
+    \static
+    Check if a given directory is writeable
+
+    \return TRUE/FALSE
+    */
+    function isWriteable( $dirname )
+    {
+        if ( eZSys::osType() != 'win32' )
+            return is_writable( $dirname );
+
+        /* PHP function is_writable() doesn't work correctly on Windows NT descendants.
+         * So we have to use the following hack on those OSes.
+         * FIXME: maybe on Win9x we shouldn't do this?
+         */
+        $tmpfname = $dir . eZSys::fileSeparator() . "ezsetup_" . md5( microtime() ) . ".tmp";
+
+        // try to create temporary file
+        if ( !( $fp = @fopen( $tmpfname, "w" ) ) )
+            return FALSE;
+
+        fclose( $fp );
+        unlink( $tmpfname );
+
+        return TRUE;
+    }
 }
 
 ?>
