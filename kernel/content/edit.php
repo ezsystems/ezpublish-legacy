@@ -81,22 +81,10 @@ include( 'kernel/content/attribute_edit.php' );
 // }
 /********** Custom Action Code End ***************/
 /********** Custom Action Code Start ***************/
-//     reset( $contentObjectAttributes );
-//     while( ( $key = key( $contentObjectAttributes ) ) !== null )
-//     {
-//         $contentObjectAttribute =& $contentObjectAttributes[$key];
-//         $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" );
-
-//         //        $contentObjectAttribute->setAttribute( "id", null );
-//         //        $contentObjectAttribute->setAttribute( "version", $editVersion );
-
 //         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
 //         {
 //             $contentObjectAttribute->customHTTPAction( $http, $customAction );
 //         }
-
-//         next( $contentObjectAttributes );
-//     }
 /********** Custom Action Code End ***************/
 
 ?>

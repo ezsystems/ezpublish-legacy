@@ -40,9 +40,9 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 function eZCheckValidity()
 {
     $ini =& eZINI::instance();
-    $check_validity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
+    $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
-    if ( $check_validity and !file_exists( "settings/setup.ini" ) )
+    if ( $checkValidity and !file_exists( "settings/setup.ini" ) )
     {
         $check = array( "module" => "setup" );
     }
@@ -56,10 +56,10 @@ function eZCheckValidity()
 function eZCheckUser()
 {
     $ini =& eZINI::instance();
-    $require_user_login = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
+    $requireUseLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
     $check = null;
     $http =& eZHttpTool::instance();
-    if ( $require_user_login and !$http->hasSessionVariable( "eZUserLoggedInID" ) )
+    if ( $requireUseLogin and !$http->hasSessionVariable( "eZUserLoggedInID" ) )
     {
         $check = array( "module" => "user",
                         "function" => "login" );

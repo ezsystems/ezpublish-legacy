@@ -180,7 +180,7 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
 {
     // Run the module/function
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    eZDebug::addTimingPoint( "Module start" );
+    eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
 
     $currentUser =& eZUser::currentUser();
 
@@ -252,10 +252,13 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
     else
     {
-        print( "<form action=\"" . $module->redirectURI() . "\" method=\"post\" name=\"Redirect\">\n" );
-        print( "Redirecting to: <b>" . $module->redirectURI() . "</b><br/>\n");
-        print( "<input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>\n" );
-        print( "</form>\n" );
+        $redirectURI = $module->redirectURI();
+        print( "
+<form action=\"$redirectURI\" method=\"post\" name=\"Redirect\">
+Redirecting to: <b>$redirectURI</b><br/>
+<input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>
+</form>
+" );
         eZDebug::addTimingPoint( "End" );
 
         eZDisplayDebug();
@@ -264,7 +267,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     exit;
 }
 
-eZDebug::addTimingPoint( "Module end" );
+eZDebug::addTimingPoint( "Module end '" .$module->attribute( 'name' ) . "'" );
 if ( is_array( $result ) )
 {
     $content =& $result["content"];

@@ -125,7 +125,14 @@ if ( $storingAllowed )
         }
     }
 
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" );
+
 /********** Custom Action Code Placeholder ***************/
+
+    }
 
     if ( $inputValidated == true )
     {
