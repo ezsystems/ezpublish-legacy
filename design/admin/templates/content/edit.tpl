@@ -51,9 +51,7 @@
       {/section}
     {/section}
 
-    {'Translating from %from_lang to %to_lang'|i18n( 'design/admin/content/edit',,
-hash( '%from_lang', concat( $translation_list[$from_language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$from_language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$from_language_index].language_code, '" />' ),
-'%to_lang', concat( $translation_list[$language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$language_index].language_code, '" />' ) ) )}
+    {'Translating content from %from_lang to %to_lang'|i18n( 'design/admin/content/edit',, hash( '%from_lang', concat( $translation_list[$from_language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$from_language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$from_language_index].language_code, '" />' ), '%to_lang', concat( $translation_list[$language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$language_index].language_code, '" />' ) ) )}
 
 {section-else}
 
