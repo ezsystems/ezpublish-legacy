@@ -1,0 +1,31 @@
+* Title: Automatic loading of additional popupmenu items
+
+*Documentation:
+To load additional popup menu items used in the eZ publish
+administration interface you can use the following settings in 
+contentstructuremenu.ini:
+
+[AdditionalMenuSettings]
+ContextMenuTemplateArray[]=node/oocontextmenu.tpl
+SubitemsContextMenuTemplateArray[]=node/oosubitemscontextmenu.tpl
+
+The setting ContextMenuTemplateArray and SubitemsContextMenuTemplateArray 
+is used to load templates for the actual HTML defenition of the menu items.
+Examples follows.
+
+contextmenu.tpl:
+    <hr/>
+    <a id="menu-export-ooo" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-export-ooo' ); return false;">{"Export OpenOffice.org"|i18n("design/admin/popupmenu")}</a>
+
+{* Export to OOo document *}
+<form id="menu-form-export-ooo" method="post" action={"/oo/export/"|ezurl}>
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="ObjectID" value="%objectID%" />
+  <input type="hidden" name="CurrentURL" value="%currentURL%" />
+</form>
+
+subitemscontextmenu.tpl:
+    <hr/>
+    <a id="menu-export-ooo" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-export-ooo' ); return false;">{"Export OpenOffice.org"|i18n("design/admin/popupmenu")}</a>

@@ -93,6 +93,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
        onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/admin/popupmenu")}</a>
+
+    {* Include additional context menu items  based on .ini settings *}
+    {section var=template loop=ezini( 'AdditionalMenuSettings', 'ContextMenuTemplateArray', 'admininterface.ini' )}
+        {include uri=concat('design:', $template )}
+    {/section}
 </div>
 
 <!-- Subitems icon click popup menu -->
@@ -115,6 +120,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
        onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/admin/popupmenu")}</a>
+
+    {* Include additional subitems menu items  based on .ini settings *}
+    {section var=template loop=ezini( 'AdditionalMenuSettings', 'SubitemsContextMenuTemplateArray', 'admininterface.ini' )}
+        {include uri=concat('design:', $template )}
+    {/section}
 </div>
 
 <!-- Advanced menu -->
