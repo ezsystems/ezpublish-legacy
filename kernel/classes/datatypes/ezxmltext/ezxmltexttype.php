@@ -745,9 +745,11 @@ class eZXMLTextType extends eZDataType
                 $tagText .= implode( '', $textElements );
             }break;
 
+            // custom tags which could added for special custom needs.
             case 'custom' :
             {
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                $childContent = $this->renderXHTMLSection( $tpl, $tag, $sectionLevel );
+                $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
 
                 // Get the name of the custom tag.
                 $name = $tag->attributeValue( 'name' );
@@ -756,9 +758,7 @@ class eZXMLTextType extends eZDataType
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
-            }break;
-
+            }
             case 'link' :
             {
                 include_once( 'lib/ezutils/classes/ezmail.php' );
