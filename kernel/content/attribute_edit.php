@@ -199,6 +199,7 @@ if ( $storingAllowed && $hasObjectInput)
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
+    $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
 }
 elseif ( $storingAllowed )
 {
