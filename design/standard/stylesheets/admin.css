@@ -240,6 +240,32 @@ th a
 {
     color: #000000;
 }
+
+
+blockquote
+{
+        background-color: #ebf2f8;
+        border : 1px solid #999999;
+	padding: 6px;
+}
+
+pre.example, table.example
+{
+	font-family: Courier;
+        background-color: #ebf2f8;
+        border-top : 1px solid #999999;
+        border-bottom : 1px solid #999999;
+        border-left : 1px solid #999999;
+        border-right : 1px solid #999999;
+}
+
+p.important
+{
+        background-color: #f8f280;
+        border-top : 1px solid #999999;
+        border-bottom : 1px solid #999999;
+        border-left : 1px solid #999999;
+        border-right : 1px solid #999999;
+}
  
 
-                                                                                                                                                                                                            
