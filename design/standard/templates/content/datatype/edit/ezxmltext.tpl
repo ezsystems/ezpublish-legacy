@@ -1,6 +1,6 @@
 <input type="submit" name="CustomActionButton[{$attribute.id}_enable_editor]" value="{'Enable editor'|i18n('design/standard/content/datatype')}" /><br />
 
-<textarea class="box" name="ContentObjectAttribute_data_text_{$attribute.id}" cols="70" rows="{$attribute.contentclass_attribute.data_int1}">  {$attribute.content.input.input_xml}</textarea>
+{*<textarea class="box" name="ContentObjectAttribute_data_text_{$attribute.id}" cols="70" rows="{$attribute.contentclass_attribute.data_int1}">  {$attribute.content.input.input_xml}</textarea>*}
 
 {*
 {switch name=Sw match=$attribute.xml_editor}
@@ -26,3 +26,13 @@
 {/switch}
 
 *}
+<!-- WYSIWYG editor textarea field -->
+ <textarea class="box" name="ContentObjectAttribute_data_text_{$attribute.id}" cols="97" rows="{$attribute.contentclass_attribute.data_int1}">
+  {$attribute.content.input.input_xml}
+  </textarea>
+  <script language="javascript">
+  var Editor = new eZEditor( 'ContentObjectAttribute_data_text_{$attribute.id}', {'/extension/xmleditor/dhtml/images/'|ezroot}, 
+'', '{$attribute.contentobject_id}', '{$attribute.version}', {ezsys('indexdir')}, {ezsys('imagesize')} );
+  Editor.startEditor();
+  </script>
+<!-- End editor -->
