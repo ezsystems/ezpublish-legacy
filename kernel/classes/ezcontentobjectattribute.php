@@ -292,14 +292,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function fetchInput( &$http, $base )
     {
-//         // TMP code
-//         $column = $base . "_data_text_" . $this->attribute( 'id' );
-//         if ( $http->hasPostVariable( $column ) )
-//         {
-//             $columnValue = $http->postVariable( $column );
-//             $this->OriginalInput = $columnValue;
-//         }
-
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
         return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
