@@ -206,6 +206,21 @@ fi
 echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
 if [ -z $SKIPCHECKVERSION ]; then
+    echo "Checking db update version numbers"
+    ./bin/php/checkdbfiles.php &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo
+	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+	echo
+	echo "There are problems with the db update files"
+	echo "Run the following command to see what must be fixed"
+	echo "`$SETCOLOR_EXE`./bin/php/checkdbfiles.php`$SETCOLOR_EXE`"
+	echo
+	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+	echo
+	exit 1
+    fi
+
     echo "Checking version numbers"
     ./bin/shell/checkversionnumbers.sh --exit-at-once &>/dev/null
     if [ $? -ne 0 ]; then
