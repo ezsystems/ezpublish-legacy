@@ -15,13 +15,13 @@
       {section show=eq( $:item.2, false )}
         <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected' )} value={$:item.0}>{$:item.1|i18n( 'design/admin/pagelayout' )}</option>
       {section-else}
-       {section show=ne( $module_result.content_info.node_id, '' )}
+       {section show=is_set( $module_result.content_info )}
         <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected' )} value={$:item.0}>{$:item.1|i18n( 'design/admin/pagelayout' )}</option>
        {/section}
       {/section}
    {/section}
 </select>
-    {section show=ne( $module_result.content_info.node_id, '' )}
+    {section show=is_set( $module_result.content_info )}
       <input type='hidden' name='NodeID' value='{$module_result.content_info.node_id}'/>
       <input type='hidden' name='ObjectID' value='{$module_result.content_info.object_id}'/>
     {/section}
