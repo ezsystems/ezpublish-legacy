@@ -160,7 +160,9 @@ eZInformationCollection:
   (Merged from release/3.5.1 rev. 10896)
 - Fixed bug #6198: Date and datetime as object name pattern for a class.
   (Merged from stable/3.5 (3.5.1) rev. 10940)
-  
+- Fixed bug #6198: Time field as object name pattern for a class.
+  (Merged from stable/3.5 (3.5.1) rev. 10944)
+
 *Library:
 PDF:
 - Added support for GIF images.
