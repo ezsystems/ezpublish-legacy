@@ -167,6 +167,7 @@ class eZTreeMenuOperator
             {
                 if ( $level == 0 )
                 {
+                    $node = eZContentObjectTreeNode::fetch( 2 );
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
                                                                               'SortBy' => $node->sortArray(),
