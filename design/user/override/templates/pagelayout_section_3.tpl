@@ -134,13 +134,16 @@
   </td>
 </tr>
 <tr>
-    <td bgcolor="#000000">&nbsp;</td>
+    <td style="background-color: #000000;"><img src={"1x1.gif"|ezimage} alt="" border="0" width="1" height="16" /><br /></td>
+</tr>
+<tr>
+    <td>
+    <div class="credits">
+    <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.</p>
+    </div>
+    </td>
 </tr>
 </table>
-
-<div align="center" class="small">
-Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.
-</div>
 
 {/let}
 </body>

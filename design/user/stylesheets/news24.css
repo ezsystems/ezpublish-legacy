@@ -135,11 +135,14 @@ div.listitem
     padding-bottom: 16px;
 }
 
-td.header
+
+div.credits
 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	font-weight: bold;
-        background-color:  #663366;
-	color: #ffffff;
+    text-align: center;
+}
+
+div.credits p
+{
+    padding-top: 8px;
+    font-size: 65%;
 }
