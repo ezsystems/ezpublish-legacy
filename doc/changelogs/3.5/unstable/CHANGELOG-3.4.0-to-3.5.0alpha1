@@ -110,6 +110,9 @@ eztc.php:
 - Fixed bug in kernel/sql/postgresql/sequence.sql.
   Merged from stable/3.3 rev. 6873.
   http://ez.no/community/bug_reports/postgres_setval
+- Modified the upgrade scripts to reflect recent changes in cleandata.sql
+  fixing the following bug (merged from stable/3.4 rev. 6877, 6879):
+  http://ez.no/community/bug_reports/users_in_edit_group_can_create_new_admin_users
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
