@@ -172,6 +172,9 @@ class eZContentTranslation extends eZPersistentObject
         $nameCount =  count( $existingNamesArray );
         for ( $i=0;$i<$nameCount;++$i )
         {
+            if ( $existingNamesArray[$i]['content_translation'] == $newLanguage )
+                continue;
+
             $db->query( "INSERT INTO ezcontentobject_name(contentobject_id,
                                                           name,
                                                           content_version,
