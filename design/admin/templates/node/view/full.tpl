@@ -1,4 +1,5 @@
-{include uri="design:window_controls.tpl"}
+{include uri='design:infocollection_validation.tpl'}
+{include uri='design:window_controls.tpl'}
 
 <div class="content-navigation">
 
