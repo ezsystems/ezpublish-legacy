@@ -571,7 +571,7 @@ class Cezpdf extends Cpdf
             }
         }
     }
-cla
+
 // ------------------------------------------------------------------------------
 
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
