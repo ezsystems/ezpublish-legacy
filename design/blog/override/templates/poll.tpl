@@ -7,7 +7,7 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <div class="object_title">
-    <h1>{$node.name}</h1>
+    <h3>{$node.name}</h3>
 </div>
 
 {attribute_view_gui attribute=$node.object.data_map.option}
@@ -17,7 +17,9 @@
       <input class="button" type="submit" name="{$ContentAction:item.action}" value="Vote" />
       </div>
 {/section}
-
+<div class="block">
+    <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>Result</a>
+</div>
 </form>
 
 </div>

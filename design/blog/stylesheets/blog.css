@@ -292,6 +292,21 @@ div.advancedsearchbox
    display: none;
 }
 
+/* poll */
+
+div#poll
+{ 
+    border: 1px solid #e4eaf3;
+}
+
+#poll div.object_title h1
+{ 
+    font: italic 130%/1.6em Georgia,Serif;
+    border-bottom: 1px dotted #ccc; 
+    color: #ffa113;
+    padding-left: 0px;
+}
+
 /* General */
 
 h1
