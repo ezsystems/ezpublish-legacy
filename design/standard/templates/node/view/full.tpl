@@ -74,9 +74,6 @@
    <input class="button" type="submit" name="EditButton" value="Edit" />
    {/case}
    {case match=0}
-   <div class="warning">
-   <h2>You are not allowed to edit this object</h2>
-   </div>
    {/case}
    {/switch}
 {/section}

@@ -94,7 +94,7 @@
 </tr>
 {/section}
 <tr>
-    <td width="150" bgcolor="#ffffff" valign="top">
+    <td width="160" bgcolor="#ffffff" valign="top">
     {* Menu *}
 
 
@@ -168,16 +168,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Page setup</a></p>
-    </td>
-</tr>
-
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Changing design</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/setup/pagesetup"|ezurl}>Page setup</a></p>
     </td>
 </tr>
 
@@ -252,7 +243,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"eZ publish SDK"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href="http://sdk.ez.no"}>{"eZ publish SDK"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 </table>
@@ -275,7 +266,5 @@
 <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a></p>
 </div>
 
-<!--DEBUG_REPORT-->
-
-</body>
+ </body>
 </html>
