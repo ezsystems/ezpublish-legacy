@@ -433,7 +433,8 @@ class eZUser extends eZPersistentObject
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
-            $GLOBALS["eZUserGlobalInstance"] =& $user;
+            $userID = $user->attribute( 'contentobject_id' );
+            $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             return $user;
         }
@@ -469,7 +470,7 @@ class eZUser extends eZPersistentObject
     */
     function &instance( $id = false )
     {
-        $currentUser =& $GLOBALS["eZUserGlobalInstance"];
+        $currentUser =& $GLOBALS["eZUserGlobalInstance_$id"];
         if ( get_class( $currentUser ) == 'ezuser' )
         {
             return $currentUser;
