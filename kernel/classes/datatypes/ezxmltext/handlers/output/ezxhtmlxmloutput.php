@@ -293,7 +293,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $isBlockTag = true;
 
                     // Check if the template overrides the block flow setting
-                    if ( $tpl->hasVariable( 'is_block', 'xmltagns:ContentView' ) )
+                    if ( $tpl->hasVariable( 'is_block', 'xmltagns:ContentView:ContentAttribute' ) )
                     {
                         $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
 
@@ -472,7 +472,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $isInline = false;
                 include_once( "lib/ezutils/classes/ezini.php" );
                 $ini =& eZINI::instance( 'content.ini' );
-
+	
                 $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
                 foreach ( array_keys ( $isInlineTagList ) as $key )
                 {
