@@ -2443,7 +2443,7 @@ $rbracket
                     {
                         $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
                                             "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n" .
-                                            "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName ) : \$$generatedVariableName );\n" .
+                                            "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, false, \$$generatedVariableName ) : \$$generatedVariableName );\n" .
                                             "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
                     }
                     else
