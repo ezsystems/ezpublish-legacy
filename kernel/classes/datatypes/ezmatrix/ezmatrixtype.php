@@ -238,6 +238,10 @@ class eZMatrixType extends eZDataType
         {
             $matrix =& $contentObjectAttribute->content();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            // make sure that $matrix contains right columns
+            $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
+
             $matrix->setName( $contentClassAttribute->attribute( 'data_text1' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
             $contentObjectAttribute->setContent( $matrix );
