@@ -1651,8 +1651,7 @@ class eZContentObject extends eZPersistentObject
             $objectID = $this->ID;
         }
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( "SELECT DISTINCT
-					       ezcontentobject.*
+        $relatedObjects =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject.*
 					     FROM
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
@@ -1681,8 +1680,7 @@ class eZContentObject extends eZPersistentObject
             $objectID = $this->ID;
         }
         $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( "SELECT count( DISTINCT
-					       ezcontentobject.* ) AS count
+        $rows =& $db->arrayQuery( "SELECT count( DISTINCT ezcontentobject.id ) AS count
 					     FROM
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
