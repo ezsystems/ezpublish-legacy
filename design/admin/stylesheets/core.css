@@ -407,6 +407,14 @@ label.message-error
 
 /* MISC STYLES */
 
+hr /* General formatting for all hr's */
+{
+    color: transparent; /* Color must be set to the same as the background color to hide default formatting in IE */
+    border: none; /* All borders must be removed as they are default for Opera */
+    border-top: 1px solid #ff0000;
+    margin: 0.35em 0 0.35em 0;
+}
+
 .small
 {
     font-size: 85%;
