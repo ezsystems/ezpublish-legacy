@@ -141,9 +141,8 @@ class eZDBSchemaInterface
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-            include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $text = "\$schema = ";
-            $text .= eZPHPCreator::variableText( $this->schema(), strlen( $text ), 0, false );
+            $text .= var_export( $this->schema(), true );
             $text .= ";\n";
 			fputs( $fp, '<?' . 'php' . "\n" . $text . "\n" . '?>' );
 			fclose( $fp );
