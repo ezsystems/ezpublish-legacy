@@ -27,7 +27,9 @@
 {/section}
 </table>
 {section-else}
-
+<div class="block">
+<p>{'There are no VAT types.'|i18n( 'design/admin/shop/vattype' )}</p>
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
