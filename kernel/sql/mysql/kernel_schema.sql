@@ -1199,7 +1199,8 @@ CREATE TABLE ezuser_role (
   limit_identifier varchar(255) default '',
   limit_value varchar(255) default '',
   PRIMARY KEY  (id),
-  KEY ezuser_role_contentobject_id (contentobject_id)
+  KEY ezuser_role_contentobject_id (contentobject_id),
+  KEY ezuser_role_role_id (role_id)
 ) TYPE=MyISAM;
 
 

@@ -2718,6 +2718,14 @@ CREATE INDEX ezsession_user_id ON ezsession USING btree (user_id);
 
 
 
+CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezapprove_items
     ADD CONSTRAINT ezapprove_items12_key PRIMARY KEY (id);
 
