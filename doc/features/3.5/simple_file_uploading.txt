@@ -1,0 +1,67 @@
+*Title: Simplified way to upload files/images etc. as objects
+
+*Incentive:
+Make it much easier to add new files, images, videos to the content
+tree. Currently the user has to create a new object of a given class
+that supports files then upload that file.
+
+The system must provide a way to detect the file type and pick the
+class from that. It should also be possible to place the objects
+automatically by the file type or by specifying it in the form.
+
+*Documentation:
+
+INI settings for Action:
+The system will look for an INI group with the name of the action.
+The action group can contain these settings:
+
+- NavigationPartIdentifier
+This controls the navigation part to use for the page.
+
+- ParentNodes
+An array with locations for the new object.
+Each entry is either an alias or the node ID.
+Aliases can be defined in the AliasList variable at the top of this file
+or one of the system defined aliases can be used.
+The system defined aliases are:
+- content
+- users
+- media
+- setup
+
+
+XHTML Form:
+To start the upload process from a form you need to first set the form
+to go to content/action and then make sure you have a submit button
+with the name UploadFileAction.
+You will also have to decide on an upload action name which is configured
+in upload.ini, the action can control various things such as placement.
+
+Example:
+<input type="hidden" name="UploadActionName" value="BugFileUpload" />
+<input type="submit" name="UploadFileAction" value="Upload" />
+
+If you wish to control where the object is placed you can pass the
+UploadParentNodes post variable. This can either be single numeric
+value denoting the parent node ID or an array of node IDs.
+
+Example:
+<input type="hidden" name="UploadParentNodes" value="5" />
+
+By default the upload will redirect to the newly created object, however
+it is possible to change that.
+
+To redirect back to the current URL you can supply the UploadRedirectBack.
+If you set it to 1 it will redirect back to the last view page, if you
+set it to 2 it will redirect back to the last page no matter what type.
+Any other value will not set a redirect URL
+
+Example:
+<input type="hidden" name="UploadRedirectBack" value="1" />
+
+To redirect to a given place you can supply the UploadRedirectURI variable.
+The contents of it will be used as the redirect URL.
+
+Example:
+<input type="hidden" name="UploadRedirectURI" value="setup/cache" />
+

@@ -84,7 +84,9 @@ if ( $module->isCurrentAction( 'CancelUpload' ) )
 
 if ( $module->isCurrentAction( 'UploadFile' ) )
 {
-    $location = $module->actionParameter( 'UploadLocation' );
+    $location = false;
+    if ( $module->hasActionParameter( 'UploadLocation' ) )
+        $location = $module->actionParameter( 'UploadLocation' );
 
     if ( $upload->handleUpload( $result, 'UploadFile', $location, false ) )
     {
@@ -113,11 +115,9 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
         }
 
         // Redirect to request URI if it is set, if not view the new object in main node
-        eZDebug::writeDebug( $upload, " upload object " );
         if ( $upload->attribute( 'result_uri' ) )
         {
             $uri = $upload->attribute( 'result_uri' );
-            eZDebug::writeDebug( $uri, "redirect to result_uri " );
             return $module->redirectTo( $uri );
         }
         else if ( $upload->attribute( 'result_module' ) )
@@ -137,7 +137,6 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
                     $resultModule->setActionParameter( $actionParameterName, $actionParameter, $view );
                 }
             }
-            eZDebug::writeDebug( $moduleName, "run result module and view  $view" );
             return $resultModule->run( $view, $parameters, false, $userParameters );
         }
         else

@@ -1,8 +1,8 @@
 <form enctype="multipart/form-data" action={'content/upload'|ezurl} method="post">
 
+{section show=$ui_context|eq('edit')}
 {let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
      content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
-{section show=$ui_context|eq('edit')}
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -98,6 +98,7 @@
 
 </div>
 </div>
+{/let}
 {/section}
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
@@ -163,6 +164,7 @@
 
 <input type="hidden" name="UploadActionName" value="{$upload.action_name}" />
 
+{section show=$upload.parent_nodes|count|eq( 0 )}
 <div class="block">
 
     <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
@@ -183,6 +185,7 @@
   	</select>
 
 </div>
+{/section}
 
 <div class="block">
     <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>

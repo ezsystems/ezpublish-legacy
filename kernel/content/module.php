@@ -225,7 +225,8 @@ $ViewList['action'] = array(
                                     'MoveNodeButton' => 'MoveNodeRequest',
                                     'MoveNodeAction' => 'MoveNode',
                                     'SwapNodeButton' => 'SwapNodeRequest',
-                                    'SwapNodeAction' => 'SwapNode' ),
+                                    'SwapNodeAction' => 'SwapNode',
+                                    'UploadFileAction' => 'UploadFile' ),
     'post_action_parameters' => array( 'SelectAssignmentLocation' => array( 'AssignmentIDSelection' => 'AssignmentIDSelection',
                                                                             'NodeID' => 'ContentNodeID',
                                                                             'ObjectID' => 'ContentObjectID',
@@ -270,7 +271,10 @@ $ViewList['action'] = array(
                                        'SwapNode' => array( 'NodeID' => 'ContentNodeID',
                                                             'ViewMode' => 'ViewMode',
                                                             'NewNode' => 'NewNode',
-                                                            'LanguageCode' => 'ContentObjectLanguageCode' ) ),
+                                                            'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'UploadFile' => array( 'UploadActionName' => 'UploadActionName',
+                                                              'UploadParentNodes' => 'UploadParentNodes',
+                                                              'UploadRedirectBack' => 'UploadRedirectBack' ) ),
     'post_actions' => array( 'BrowseActionName' ) );
 
 $ViewList['collectinformation'] = array(

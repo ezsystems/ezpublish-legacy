@@ -1322,6 +1322,78 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
+else if ( $module->isCurrentAction( 'UploadFile' ) )
+{
+    if ( !$module->hasActionParameter( 'UploadActionName' ) )
+    {
+        eZDebug::writeError( "Missing UploadActionName parameter for action " . $module->currentAction(),
+                             'content/action' );
+        include_once( 'kernel/classes/ezredirectmanager.php' );
+        eZRedirectManager::redirectTo( $module, 'content/view/full/2', true );
+        return;
+    }
+
+    $user =& eZUser::currentUser();
+    $result = $user->hasAccessTo( 'content', 'create' );
+    if ( $result['accessWord'] != 'yes' )
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+
+    $uploadActionName = $module->actionParameter( 'UploadActionName' );
+    $parameters = array( 'action_name' => $uploadActionName );
+
+    // Check for locations for the new object
+    if ( $module->hasActionParameter( 'UploadParentNodes' ) )
+    {
+        $parentNodes = $module->actionParameter( 'UploadParentNodes' );
+        if ( !is_array( $parentNodes ) )
+            $parentNodes = array( $parentNodes );
+
+        foreach ( $parentNodes as $parentNodeID )
+        {
+            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+            if ( !is_object( $parentNode ) )
+            {
+                eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, the parent does not exist",
+                                     'content/action:' . $module->currentAction() );
+                return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            }
+            if ( !$parentNode->canCreate() )
+            {
+                eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, no permissions" . $module->currentAction(),
+                                     'content/action:' . $module->currentAction() );
+                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            }
+        }
+        $parameters['parent_nodes'] = $parentNodes;
+    }
+
+    // Check for redirection to current page
+    if ( $module->hasActionParameter( 'UploadRedirectBack' ) )
+    {
+        if ( $module->actionParameter( 'UploadRedirectBack' ) == 1 )
+        {
+            include_once( 'kernel/classes/ezredirectmanager.php' );
+            $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', true );
+        }
+        else if ( $module->actionParameter( 'UploadRedirectBack' ) == 2 )
+        {
+            include_once( 'kernel/classes/ezredirectmanager.php' );
+            $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', false );
+        }
+    }
+
+    // Check for redirection to specific page
+    if ( $module->hasActionParameter( 'UploadRedirectURI' ) )
+    {
+        $parameters['result_uri'] = $module->actionParameter( 'UploadRedirectURI' );
+    }
+
+    include_once( 'kernel/classes/ezcontentupload.php' );
+    eZContentUpload::upload( $parameters, $module );
+    return;
+}
 /*else if ( $http->hasPostVariable( 'RemoveObject' ) )
 {
     $removeObjectID = $http->postVariable( 'RemoveObject' );

@@ -139,6 +139,9 @@ class eZContentUpload
 
         if ( !isset( $parameters['navigation_part_identifier'] ) )
             $parameters['navigation_part_identifier'] = false;
+        if ( !$parameters['navigation_part_identifier'] and
+             $ini->hasVariable( 'UploadSettings', 'NavigationPartIdentifier' ) )
+            $parameters['navigation_part_identifier'] = $ini->variable( 'UploadSettings', 'NavigationPartIdentifier' );
 
         if ( !isset( $parameters['type'] ) )
             $parameters['type'] = $parameters['action_name'];
@@ -167,34 +170,6 @@ class eZContentUpload
             {
                 $parameters['parent_nodes'] = $ini->variable( $parameters['type'], 'ParentNodes' );
             }
-        }
-
-        if ( isset( $parameters['keys'] ) )
-        {
-            $overrideStartNode = false;
-            foreach ( $parameters['keys'] as $key => $keyValue )
-            {
-                $variableName = 'StartNode_' . $key;
-                if ( !$ini->hasVariable( $parameters['type'], $variableName ) )
-                    continue;
-                $keyData = $ini->variable( $parameters['type'], $variableName );
-                if ( is_array( $keyValue ) )
-                {
-                    foreach ( $keyValue as $keySubValue )
-                    {
-                        if ( isset( $keyData[$keySubValue] ) )
-                            $overrideStartNode = $keyData[$keySubValue];
-                    }
-                }
-                else if ( isset( $keyData[$keyValue] ) )
-                {
-                    $overrideStartNode = $keyData[$keyValue];
-                }
-                if ( $overrideStartNode )
-                    break;
-            }
-//             if ( $overrideStartNode )
-//                 $parameters['start_node'] = $overrideStartNode;
         }
 
         if ( !isset( $parameters['persistent_data'] ) )
