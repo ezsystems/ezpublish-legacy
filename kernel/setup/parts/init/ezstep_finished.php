@@ -50,20 +50,79 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $emailInfo = $persistenceList['email_info'];
     $siteInfo = $persistenceList['site_info'];
 
-    eZSetupChangeEmailSetting( $persistenceList['email_info'] );
+    $imageINI =& eZINI::instance( 'image.ini' );
+    $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
+    $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
+    if ( $persistenceList['imagemagick_program']['result'] )
+    {
+        $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'true' );
+        $imageINI->setVariable( 'ShellSettings', 'ConvertPath', $persistenceList['imagemagick_program']['path'] );
+        $imageINI->setVariable( 'ShellSettings', 'ConvertExecutable', $persistenceList['imagemagick_program']['program'] );
+    }
+    if ( $persistenceList['imagegd_extension']['result'] )
+    {
+        $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
+    }
+    $saveResult = $imageINI->save( false, '.php', false );
 
-    $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
-    $ini->setVariable( "SiteSettings", "SiteURL", $siteInfo['url'] );
-    $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
-    $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
-    $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['name'] );
-    $ini->setVariable( "DatabaseSettings", "User", $databaseInfo['user'] );
-    $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
-    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+    if ( $saveResult )
+    {
+        eZSetupChangeEmailSetting( $persistenceList['email_info'] );
 
-//     $imageINI =& eZINI::instance( 'image.ini' );
+        $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
+        $ini->setVariable( "SiteSettings", "SiteURL", $siteInfo['url'] );
 
-//    $saveResult = $ini->save( false, '.php', false );
+        $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
+        $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
+        $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['name'] );
+        $ini->setVariable( "DatabaseSettings", "User", $databaseInfo['user'] );
+        $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
+
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+
+        $primaryLanguage = null;
+        $extraLanguages = array();
+        $primaryLanguageCode = $persistenceList['regional_info']['primary_language'];
+        $extraLanguageCodes = array();
+        if ( isset( $persistenceList['regional_info']['languages'] ) )
+            $extraLanguageCodes = $persistenceList['regional_info']['languages'];
+        if ( isset( $persistenceList['regional_info']['variations'] ) )
+        {
+            $variations = $persistenceList['regional_info']['variations'];
+            foreach ( $variations as $variation )
+            {
+                $locale = eZLocale::instance( $variation );
+                if ( $locale->localeCode() == $primaryLanguageCode )
+                {
+                    $primaryLanguage = $locale;
+                }
+                else
+                {
+                    $extraLanguages[] = $locale;
+                }
+            }
+        }
+
+        if ( $primaryLanguage === null )
+            $primaryLanguage =& eZLocale::instance( $persistenceList['regional_info']['primary_language'] );
+        $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
+        $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
+        if ( $primaryLanguage->localeCode() == 'eng-GB' )
+            $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
+        else
+            $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
+
+        $languages = array( $primaryLanguage->localeFullCode() );
+        foreach ( $extraLanguages as $extraLanguage )
+        {
+            $languages[] = $extraLanguage->localeFullCode();
+        }
+        $ini->setVariable( 'ContentSettings', 'TranslationList', implode( ';', $languages ) );
+
+        $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+
+        $saveResult = $ini->save( false, '.php', false );
+    }
 
     $tpl->setVariable( 'site_info', $siteInfo );
     $tpl->setVariable( 'email_info', $emailInfo );

@@ -30,7 +30,7 @@ CheckValidity=false</pre>
 CheckValidity=true</pre>
 </p>
 <p>
-You can find your new eZ publish website <a href="{$site_info.url}">here</a>. Enjoy one of the most successful web content management systems!
+You can find your new eZ publish website <a href="http://{$site_info.url}">here</a>. Enjoy one of the most successful web content management systems!
 </p>
 
     {include uri='design:setup/persistence.tpl'}

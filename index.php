@@ -104,6 +104,8 @@ eZDebug::setScriptStart( $scriptStartTime );
 
 // Enable this line to get eZINI debug output
 // eZINI::setIsDebugEnabled( true );
+// Enable this line to turn off ini caching
+// eZINI::setIsCacheEnabled( false);
 
 function &eZDisplayDebug()
 {

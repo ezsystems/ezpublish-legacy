@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1035973879 );
+define( "EZ_INI_CACHE_CODE_DATE", 1039545462 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
@@ -325,7 +325,6 @@ class eZINI
                 eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
             $charset = null;
             $blockValues = array();
-            $orderedBlockValues = array();
             include( $cachedFile );
             if ( !isset( $eZIniCacheCodeDate ) or
                  $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
@@ -339,9 +338,7 @@ class eZINI
             {
                 $this->Charset = $charset;
                 $this->BlockValues = $blockValues;
-                $this->OrderedBlockValues = $orderedBlockValues;
                 unset( $blockValues );
-                unset( $orderedBlockValues );
             }
         }
         if ( !$useCache )
@@ -361,7 +358,7 @@ class eZINI
         // save the data to a cached file
         $buffer = "";
         $i = 0;
-        if ( is_array( $this->BlockValues ) and is_array( $this->OrderedBlockValues ) )
+        if ( is_array( $this->BlockValues )  )
         {
             $fp = @fopen( $cachedFile, "w+" );
             if ( $fp === false )
@@ -376,24 +373,37 @@ class eZINI
             while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
             {
                 reset( $groupVal );
-                fwrite( $fp, "\$groupArray = array();\n\$orderedGroupArray = array();\n" );
+//                fwrite( $fp, "\$groupArray = array();\n\$orderedGroupArray = array();\n" );
                 while ( list( $key, $val ) = each ( $groupVal ) )
                 {
-                    $tmpVal = str_replace( "\"", "\\\"", $val );
+                    if ( is_array( $val ) )
+                    {
+                        fwrite( $fp, "\$groupArray[\"$key\"] = array();\n" );
+                        foreach ( $val as $arrayKey => $arrayValue )
+                        {
+                            $tmpVal = str_replace( "\"", "\\\"", $arrayValue );
+                            fwrite( $fp, "\$groupArray[\"$key\"][] = \"$tmpVal\";\n" );
+                        }
+                    }
+                    else
+                    {
+                        $tmpVal = str_replace( "\"", "\\\"", $val );
 
-                    fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
+                        fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
+                    }
                 }
-                while ( list( $key, $val ) = each ( $this->OrderedBlockValues[$groupKey] ) )
+/*                while ( list( $key, $val ) = each ( $this->OrderedBlockValues[$groupKey] ) )
                 {
                     $tmpKey = $val[0];
                     $tmpVal = str_replace( "\"", "\\\"", $val[1] );
 
                     fwrite( $fp, "\$orderedGroupArray[] = array(\"$tmpKey\", \"$tmpVal\");\n" );
-                }
+                }*/
 
                 fwrite( $fp, "\$blockValues[\"$groupKey\"] =& \$groupArray;\n" );
-                fwrite( $fp, "\$orderedBlockValues[\"$groupKey\"] =& \$orderedGroupArray;\n" );
-                fwrite( $fp, "unset( \$groupArray );\nunset( \$orderedGroupArray );\n" );
+//                fwrite( $fp, "\$orderedBlockValues[\"$groupKey\"] =& \$orderedGroupArray;\n" );
+                fwrite( $fp, "unset( \$groupArray );\n" );
+//                 fwrite( $fp, "unset( \$orderedGroupArray );\n" );
                 $i++;
             }
             fwrite( $fp, "\n?>" );
@@ -498,24 +508,35 @@ class eZINI
             }
 
             // check for variable
-            if ( preg_match("#^(\w+)=(.*)$#", $line, $valueArray ) )
+            if ( preg_match("#^(\w+)(\\[\\])?=(.*)$#", $line, $valueArray ) )
             {
                  $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
                     eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
-                    $varValue = $codec->convertString( $valueArray[2] );
+                    $varValue = $codec->convertString( $valueArray[3] );
                     eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
                 }
                 else
                 {
-                    $varValue = $valueArray[2];
+                    $varValue = $valueArray[3];
                 }
 //                 $varValue = $codec->toUnicode( $varValue );
 
-                $this->BlockValues[$currentBlock][$varName] = $varValue;
-                $this->OrderedBlockValues[$currentBlock][] = array( $varName,
-                                                                    $varValue );
+                if ( $valueArray[2] )
+                {
+                    if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
+                         is_array( $this->BlockValues[$currentBlock][$varName] ) )
+                        $this->BlockValues[$currentBlock][$varName][] = $varValue;
+                    else
+                        $this->BlockValues[$currentBlock][$varName] = array( $varValue );
+                }
+                else
+                {
+                    $this->BlockValues[$currentBlock][$varName] = $varValue;
+                }
+//                 $this->OrderedBlockValues[$currentBlock][] = array( $varName,
+//                                                                     $varValue );
             }
         }
 
@@ -643,7 +664,7 @@ class eZINI
     function reset()
     {
         $this->BlockValues = array();
-        $this->OrderedBlockValues = array();
+//         $this->OrderedBlockValues = array();
     }
 
     /*!
@@ -724,8 +745,17 @@ class eZINI
     function &variableArray( $blockName, $varName )
     {
         $ret = $this->variable( $blockName, $varName );
-        if ( $ret !== false )
-            $ret =& explode( ";", $ret );
+        if ( is_array( $ret ) )
+        {
+            $arr = array();
+            foreach ( $ret as $retItem )
+            {
+                $arr[] = explode( ";", $retItem );
+            }
+            $ret = $arr;
+        }
+        else if ( $ret !== false )
+            $ret = explode( ";", $ret );
 
         return $ret;
     }
@@ -741,26 +771,26 @@ class eZINI
     /*!
       Fetches a variable group and returns it as an associative array.
      */
-    function &group( $blockName, $ordered = false )
+    function &group( $blockName )
     {
-        if ( $ordered )
+//         if ( $ordered )
+//         {
+//             if ( !isset( $this->OrderedBlockValues[$blockName] ) )
+//             {
+//                 eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
+//                 return null;
+//             }
+//             $ret = $this->OrderedBlockValues[$blockName];
+//         }
+//         else
+//         {
+        if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            if ( !isset( $this->OrderedBlockValues[$blockName] ) )
-            {
-                eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
-                return null;
-            }
-            $ret = $this->OrderedBlockValues[$blockName];
+            eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
+            return null;
         }
-        else
-        {
-            if ( !isset( $this->BlockValues[$blockName] ) )
-            {
-                eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
-                return null;
-            }
-            $ret = $this->BlockValues[$blockName];
-        }
+        $ret = $this->BlockValues[$blockName];
+//         }
 
         return $ret;
     }
@@ -787,9 +817,6 @@ class eZINI
 
     /// Variable to store the ini file values.
     var $BlockValues;
-
-    /// Variable to store the ini file values in ordered form.
-    var $OrderedBlockValues;
 
     /// Stores the filename
     var $FileName;
