@@ -853,6 +853,9 @@ class eZCodeMapper
             if ( !feof( $fd ) )
             {
                 $buffer .= fread( $fd, 4096 );
+
+                // Make sure we have Unix endline characters
+                $buffer = preg_replace( "#(\r\n|\r|\n)#", "\n", $buffer );
             }
             ++$i;
         }

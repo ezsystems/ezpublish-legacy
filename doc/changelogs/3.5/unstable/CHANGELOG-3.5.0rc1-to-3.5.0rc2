@@ -39,5 +39,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   Part of: http://ez.no/community/bug_reports/3_5_deleting_objects_dirty_tables_after_deleting_process
 - Fixed unincluded file required for ezCache
   http://ez.no/community/bug_reports/fatal_error_when_clearing_cache_from_shell
+- Fixed parsing of .tr files in DOS/Mac format.
+  http://ez.no/community/bug_reports/3_5_ezcodemapper_lowercase_not_working
 
 *Library:
