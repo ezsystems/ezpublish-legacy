@@ -143,7 +143,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 	                        $relatedObjectIDArray[] = $objectID;
                         }
                         else
-                        	$this->NodeObjectIDArray[$nodeID] = null;
+                        {
+                            eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                            $this->NodeObjectIDArray[$nodeID] = null;
+                        }
                     }
                 }
             }
@@ -349,12 +352,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $this->LinkParameters = array();
 
-            $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
-            $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
-
-            $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
-            $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
-
             if ( $tag->attributeValue( 'url_id' ) != null )
             {
                 $linkID = $tag->attributeValue( 'url_id' );
@@ -368,7 +365,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 $nodeID = $tag->attributeValue( 'node_id' );
                 $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                $href = $node->attribute( 'url_alias' );
+                if ( $node == null )
+                {
+                    eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                    $href = '';
+                }
+                else
+                    $href = $node->attribute( 'url_alias' );
             }
             elseif ( $tag->attributeValue( 'object_id' ) != null )
             {
@@ -402,6 +405,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
 
             $this->LinkParameters['href'] = $href;
+
+            $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
+            $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
+            
+            $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+            $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
         }
 
         // render children tags using recursion
@@ -419,7 +428,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     // we use no template for link tag, all link parameters are used
                     // inside the templates of it's children, so we update tagText directly
-                    $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, true );
+                    $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
                 }break;
                 default :
                     if ( $isChildOfLinkTag )
@@ -572,10 +581,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 break;
 
 			if ( $objectID == null )
-            {
-               	eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
 	            break;
-            }
 
             // fetch attributes
             $embedAttributes =& $tag->attributes();
