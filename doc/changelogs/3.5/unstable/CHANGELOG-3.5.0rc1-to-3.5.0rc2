@@ -83,6 +83,12 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/import_package_with_one_content_class_results_in_two_content_classes
 - Fixed a PHP warning in packagehandlers/contentclass/ezcontentclasspackagehandler.php.
   (Merged from stable/3.4 rev. 10255)
+- Fixed bug with missing class_identifier override key.
+  http://ez.no/community/bug_reports/class_identifier_and_override_problems
+  (Merged from stable/3.4 (3.4.5) rev. 10258).
+- Added missing class and section override keys for the
+  content_version_view_gui template function.
+  (Merged from stable/3.4 (3.4.5) rev. 10258).
 
 *Library:
 
