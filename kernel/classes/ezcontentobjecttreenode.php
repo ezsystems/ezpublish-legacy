@@ -1472,7 +1472,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
             $text = "$field AS groupbyfield";
         return array( 'select' => $text,
-                      'group_field' => 'groupbyfield' );
+                      'group_field' => "( $field / $divisor )" );
     }
 
     /*!
@@ -1944,6 +1944,101 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $nodeListArray[0]['count'];
     }
 
+    /*!
+      \return The date/time list when object were published
+    */
+    function calendar( $params = false, $nodeID = 0 )
+    {
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+        {
+            return array();
+        }
+
+        if ( $params === false )
+        {
+            $params = array( 'Depth'                    => false,
+                             'Offset'                   => false,
+                             'Limit'                    => false,
+                             'AttributeFilter'          => false,
+                             'ExtendedAttributeFilter'  => false,
+                             'ClassFilterType'          => false,
+                             'ClassFilterArray'         => false,
+                             'GroupBy'                  => false );
+        }
+
+        $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
+        $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
+        $depth            = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
+        $depthOperator    = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
+        $groupBy          = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
+        $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
+        $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
+        if ( !isset( $params['ClassFilterType'] ) )
+            $params['ClassFilterType'] = false;
+
+        $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
+        $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+
+        $pathStringCond     = '';
+        $notEqParentString  = '';
+        eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator );
+
+        $groupBySelectText  = '';
+        $groupByText        = '';
+        eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
+
+        $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
+        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+
+        // Determine whether we should show invisible nodes.
+        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+
+        $sqlPermissionCheckingString = preg_replace( "/AND$/i", "", $sqlPermissionCheckingString );
+
+             $query = "SELECT ( ezcontentobject.published / 86400 )  as published
+                              $groupBySelectText
+
+                   FROM
+                      ezcontentobject_tree,
+                      ezcontentobject,ezcontentclass
+                      $attributeFilter[from]
+                      $extendedAttributeFilter[tables]
+                   WHERE
+                      $pathStringCond
+                      $extendedAttributeFilter[joins]
+                      $attributeFilter[where]
+                      ezcontentclass.version=0
+                      AND
+                      $notEqParentString
+                      $mainNodeOnlyCond
+                      $classCondition
+                      $sqlPermissionCheckingString
+                      ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                      ezcontentclass.id = ezcontentobject.contentclass_id 
+                      $showInvisibleNodesCond
+                $groupByText ";
+
+
+        $db =& eZDB::instance();
+
+        if ( !$offset && !$limit )
+        {
+            $nodeListArray =& $db->arrayQuery( $query );
+        }
+        else
+        {
+            $nodeListArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                              'limit'  => $limit ) );
+        }
+
+        $retNodeList =& $nodeListArray;
+
+        return $retNodeList;
+
+    }
     /*!
      \return the children(s) of the current node as an array of eZContentObjectTreeNode objects
     */

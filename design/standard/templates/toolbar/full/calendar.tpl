@@ -4,7 +4,6 @@
                        is_set( $module_result.view_parameters ),
                        or( $module_result.content_info.url_alias|begins_with( $show_subtree ),
                            $show_classidentifiers|explode( ',' )|contains( $module_result.content_info.class_identifier ) ) )}
-
     {let today_info=false()
          class_identifier_list=$show_classidentifiers|explode( ',' )
          cache_keys=array( $module_result.view_parameters.year, $module_result.view_parameters.month, $module_result.view_parameters.day )
@@ -67,15 +66,14 @@
     {*          log_node=fetch( content, node, hash( node_id, $log_node_id ) ) *}
         {let log_node=fetch( content, node, hash( node_path, $show_subtree ) )
              show_week=false()
-             month_list=fetch( content, tree, hash( parent_node_id, $log_node.node_id,
+             month_list=fetch( content, calendar, hash( parent_node_id, $log_node.node_id,
                                                     class_filter_type, include,
                                                     class_filter_array, $class_identifier_list,
                                                     attribute_filter, array( and, array( 'published', '>=',
                                                                                           $time_start ),
                                                                                   array( 'published', '<=',
                                                                                           $time_end ) ),
-                                                    group_by, array( "published", "day" ),
-                                                    as_object, false() ) )
+                                                    group_by, array( "published", "day" ) ) )
              month=$month_list|month_overview( 'published', $time_published,
                                                hash( current, $time_current,
                                                      current_class, 'selected',
