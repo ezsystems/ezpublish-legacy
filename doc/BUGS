@@ -47,3 +47,9 @@ Binary file upload
 ------------------
 Must check if the file was too big. You should be able to
 set the max filesize in the class edit.
+
+Forms
+-----
+When pressing enter ui forms is does not work. Because the name
+of the button is checked. Workaround would be to create a hidden variable..
+Is there a way to set default action/button when enter is pushed to submit a form?
