@@ -2066,7 +2066,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $topLevelNode = $nodeList[0];
             $topLevelName = $topLevelNode->getName();
-            $topLevelName = eZURLAlias::convertToAlias( $topLevelName );
+            $topLevelName = eZURLAlias::convertToAlias( $topLevelName, 'node_' . $topLevelNode->attribute( 'node_id' ) );
 
             $pathElementArray = explode( '/', $parentNodePathString );
             if ( count( $pathElementArray ) > 0 )
@@ -2089,7 +2089,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $node->attribute( 'node_id' ) != $contentRootID )
         {
             $nodeName = $node->attribute( 'name' );
-            $nodeName = eZURLAlias::convertToAlias( $nodeName );
+            $nodeName = eZURLAlias::convertToAlias( $nodeName, 'node_' . $node->attribute( 'node_id' ) );
 
             if ( $parentNodePathString != '' )
             {

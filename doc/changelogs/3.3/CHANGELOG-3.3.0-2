@@ -29,8 +29,9 @@
 - Improved RSS 0.91, 0.92 and 2.0 import: http://ez.no/developer/ez_publish_3/bug_reports/rss_import_does_not_import_ez2_rss_092_feed
 - The admin embed template for images will now use the image alias defined in content.ini, it reads
   the variable DefaultEmbedAlias in the group ImageSettings.
-- Made sure the url created in the URL alias handler is not empty, empty urls will be replaced
-  with a _ (underscore).
+- Improved the translated URLs (URL alias), it will not contain leading or trailing underscores,
+  special characters are translated into underscore instead of being removed and empty translations
+  will use a default value from the client. (e.g node_45 from content tree nodes)
 
 *DataTypes:
 
