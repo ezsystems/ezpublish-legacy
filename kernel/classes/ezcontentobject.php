@@ -276,28 +276,44 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 \return the content object attribute
+	 \return a map with all the content object attributes where the keys are the
+             attribute identifiers.
      \todo return the correct version and language
     */
     function &dataMap()
     {
+        return $this->fetchDataMap();
+    }
+
+    /*!
+	 \return a map with all the content object attributes where the keys are the
+             attribute identifiers.
+     \sa eZContentObjectTreeNode::dataMap
+    */
+    function &fetchDataMap( $version = false, $language = false )
+    {
         // Global variable to cache datamaps
         global $DataMapCache;
 
-        if ( !isset( $DataMapCache[$this->ID] ) )
-        {
-            $data =& $this->contentObjectAttributes();
-            // Store the attributes for later use
-            $this->ContentObjectAttributeArray =& $data;
+        if ( $version == false )
+            $version = $this->attribute( 'current_version' );
+        if ( $language == false )
+            $language = $this->defaultLanguage();
 
-            $DataMapCache[$this->ID] =& $data;
+        if ( !isset( $DataMapCache[$this->ID][$version][$language] ) )
+        {
+            $data =& $this->contentObjectAttributes( true, $version, $language );
+            // Store the attributes for later use
+            $this->ContentObjectAttributeArray[$version][$language] =& $data;
+
+            $DataMapCache[$this->ID][$version][$language] =& $data;
         }
         else
         {
-            $data =& $DataMapCache[$this->ID];
+            $data =& $DataMapCache[$this->ID][$version][$language];
         }
 
-        if ( $this->DataMap == false )
+        if ( !isset( $this->DataMap[$version][$language] ) )
         {
             $ret = array();
             reset( $data );
@@ -311,19 +327,19 @@ class eZContentObject extends eZPersistentObject
 
                 next( $data );
             }
-            $this->DataMap =& $ret;
+            $this->DataMap[$version][$language] =& $ret;
         }
         else
         {
-            $ret =& $this->DataMap;
+            $ret =& $this->DataMap[$version][$language];
         }
         return $ret;
     }
 
     function resetDataMap()
     {
-        $this->ContentObjectAttributeArray = false;
-        $this->DataMap = false;
+        $this->ContentObjectAttributeArray = array();
+        $this->DataMap = array();
         return $this->DataMap;
     }
 
@@ -1286,16 +1302,18 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentActionList()
     {
-        if ( $this->ContentObjectAttributeArray == false )
+        $version = $this->attribute( 'current_version' );
+        $language = $this->defaultLanguage();
+        if ( !isset( $this->ContentObjectAttributeArray[$version][$language] ) )
         {
-            $this->ContentObjectAttributeArray =& $this->contentObjectAttributes();
+            $this->ContentObjectAttributeArray[$version][$language] =& $this->contentObjectAttributes();
         }
 
         // Fetch content actions if not already fetched
         if ( $this->ContentActionList === false )
         {
             $contentActionList = array();
-            foreach ( $this->ContentObjectAttributeArray as $attribute )
+            foreach ( $this->ContentObjectAttributeArray[$version][$language] as $attribute )
             {
                 $contentActions =& $attribute->contentActionList();
                 if ( count( $contentActions ) > 0 )
@@ -1475,13 +1493,13 @@ class eZContentObject extends eZPersistentObject
     var $ClassName;
 
     /// Contains the datamap for content object attributes
-    var $DataMap = false;
+    var $DataMap = array();
 
     /// Contains an array of the content object actions for the current object
     var $ContentActionList = false;
 
     /// Contains a cached version of the content object attributes for the given version and language
-    var $ContentObjectAttributes = false;
+    var $ContentObjectAttributes = array();
 }
 
 ?>

@@ -100,6 +100,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          ),
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
+                                                      'data_map' => 'dataMap',
                                                       "object" => "object",
                                                       "subtree" => "subTree",
                                                       "children" => "children",
@@ -144,6 +145,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->getName();
         }
+        else if ( $attr == 'data_map')
+        {
+            return $this->dataMap();
+        }
         elseif ( $attr == 'object' )
         {
             $obj = $this->object();
@@ -186,6 +191,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $this->urlAlias();
         }else
             return eZPersistentObject::attribute( $attr );
+    }
+
+    /*!
+	 \return a map with all the content object attributes where the keys are the
+             attribute identifiers.
+     \sa eZContentObject::fetchDataMap
+    */
+    function &dataMap()
+    {
+        $obj =& $this->object();
+        return $obj->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
     function &subTree( $params = false ,$nodeID = 0 )
@@ -1422,6 +1438,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
+        $this->ContentObject =& $obj;
         $this->HasContentObject = true;
         return $obj;
     }
