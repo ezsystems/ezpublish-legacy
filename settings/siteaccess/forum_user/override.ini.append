@@ -12,6 +12,18 @@ MatchFile=folder_line.tpl
 Subdir=templates
 Match[class]=1
 
+[info_page]
+Source=node/view/full.tpl
+MatchFile=infopage.tpl
+Subdir=templates
+Match[class]=10
+
+[info_page_line]
+Source=node/view/line.tpl
+MatchFile=infopage_line.tpl
+Subdir=templates
+Match[class]=10
+
 [article]
 Source=node/view/full.tpl
 MatchFile=article.tpl
@@ -36,9 +48,27 @@ MatchFile=forum_line.tpl
 Subdir=templates
 Match[class]=20
 
-[forummessage]
+[forumtopic]
 Source=node/view/full.tpl
-MatchFile=forummessage.tpl
+MatchFile=forumtopic.tpl
 Subdir=templates
 Match[class]=21
+
+[forumtopic_line]
+Source=node/view/line.tpl
+MatchFile=forumtopic_line.tpl
+Subdir=templates
+Match[class]=21
+
+[forumreply_line]
+Source=node/view/line.tpl
+MatchFile=forumreply_line.tpl
+Subdir=templates
+Match[class]=22
+
+[search]
+Source=content/search.tpl
+MatchFile=search.tpl
+Subdir=templates
+
 */ ?>
