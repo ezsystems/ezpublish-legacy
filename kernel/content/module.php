@@ -197,7 +197,6 @@ $ViewList['removeobject'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'removeobject.php',
-    'ui_context' => 'edit',
     'params' => array( ) );
 
 $ViewList['removeeditversion'] = array(
