@@ -295,6 +295,9 @@ class eZMySQLDB extends eZDBInterface
             else
             {
                 eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
+
+                // Turn of error recording while unlocking
+                $this->RecordError = false;
                 $this->unlock();
                 $this->RecordError = true;
 
