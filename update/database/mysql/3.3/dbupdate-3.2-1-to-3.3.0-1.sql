@@ -81,7 +81,7 @@ CREATE TABLE ezimagefile (
   id INTEGER AUTO_INCREMENT NOT NULL,
   contentobject_attribute_id INTEGER NOT NULL,
   filepath TEXT NOT NULL,
-  PRIMARY KEY( id )
+  PRIMARY KEY ( id )
 ) TYPE=MyISAM;
 
 CREATE INDEX ezimagefile_coid ON ezimagefile( contentobject_attribute_id );

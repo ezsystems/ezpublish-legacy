@@ -77,3 +77,23 @@ CREATE TABLE ezrss_import (
   object_owner_id integer default NULL,
   PRIMARY KEY  (id)
 );
+
+
+
+
+CREATE SEQUENCE ezimagefile_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+CREATE TABLE ezimagefile (
+  id INTEGER DEFAULT nextval('ezimagefile_s'::text) NOT NULL,
+  contentobject_attribute_id INTEGER NOT NULL,
+  filepath TEXT NOT NULL,
+  PRIMARY KEY ( id )
+);
+
+CREATE INDEX ezimagefile_coid ON ezimagefile( contentobject_attribute_id );
+CREATE INDEX ezimagefile_file ON ezimagefile( filepath );
