@@ -255,6 +255,8 @@ eZINI:
   http://ez.no/community/bug_reports/repost_crash_my_bookmarks
 - Fixed bug: undefined variable $field_filters in ezcontentobjectattribute::language().
   http://ez.no/community/bug_reports/3_5alpha1_undefined_var_field_filters_in_ezcontentobjectattribute_language
+- Fixed bug: undefined function gettime() was used.
+  http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
 
 *Library:
 
