@@ -28,7 +28,7 @@
             {/section}
             
             {* Text *}    
-            <a class="nodetext" href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+            <a href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
             
         {* Show children *}    
             {section show=$:haveChildren}

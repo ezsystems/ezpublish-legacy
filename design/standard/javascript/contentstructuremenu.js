@@ -56,7 +56,7 @@
         ezcst_setNodeText,
         ezcst_removeNodeText,
         ezcst_createChildTextNode,
-        ezcst_highlightNode,
+        ezcst_setNodeClassStyle,
         ezcst_getHTMLNodeById,
         ezcst_getHTMLChildNodeByTag,
         ezcst_getHTMLChildNodeByProperty.
@@ -142,10 +142,9 @@ function ezcst_getCookie( name )
 var gUnfoldedNodesList                          = new Array(0);
 
 /*!
-    CSS class names for text of node's label
+    CSS class names for current of node
 */
-var  EZCST_LABEL_NODE_CLASS_NAME                = "nodetext";
-var  EZCST_HIGHLIGHTED_LABEL_NODE_CLASS_NAME    = "currentnode";
+var  EZCST_HIGHLIGHTED_NODE_CLASS_NAME           = "currentnode";
 
 /*!
     \return size of \a gUnfoldedNodesList.
@@ -364,14 +363,17 @@ function ezcst_getHTMLChildNodeByTag( node, tag )
 */
 function ezcst_getHTMLChildNodeByProperty( node, propName, propValue )
 {
-    for ( var i = 0; i < node.childNodes.length; ++i )
+    if( node )
     {
-        var child   = node.childNodes[i];
-        var value   = child[propName];
-        
-        if ( value && value == propValue )
+        for ( var i = 0; i < node.childNodes.length; ++i )
         {
-            return child;
+            var child   = node.childNodes[i];
+            var value   = child[propName];
+            
+            if ( value && value == propValue )
+            {
+                return child;
+            }
         }
     }
 
@@ -474,14 +476,13 @@ function ezcst_restoreMenuState( rootNode )
 }
 
 /*!
-    Highlight text node
+    Sets 'className' property of node \a node to value \a styleClassName
 */
-
-function ezcst_highlightNode( node )
+function ezcst_setNodeClassStyle( node, styleClassName )
 {
-    if( node )
+    if ( node )
     {
-        node['className'] = EZCST_HIGHLIGHTED_LABEL_NODE_CLASS_NAME;
+        node['className'] = styleClassName;
     }
 }
 
@@ -515,10 +516,8 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID)
 
             // Highlight current node
             var currentNode = ezcst_getHTMLNodeById( currentNodeID );
-            var labelNode   = ezcst_getHTMLChildNodeByProperty( currentNode, "className", EZCST_LABEL_NODE_CLASS_NAME );
-            ezcst_highlightNode( labelNode );
+            ezcst_setNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
             
-    
             if ( ezcst_getUnfoldedNodesListSize() > 0 )
             {
                 // unfolde nodes which are stored in gUnfoldedNodesList
