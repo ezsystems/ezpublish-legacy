@@ -108,7 +108,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
             {/section}
 
             {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
-                {section show=$maincontentstyle|eq('noleftmenu')}
+                {section show=$maincontentstyle|eq('maincontent-noleftmenu')}
                     {set maincontentstyle='maincontent-nomenus'}
                 {section-else}
                     {set maincontentstyle='maincontent-norightmenu'}
