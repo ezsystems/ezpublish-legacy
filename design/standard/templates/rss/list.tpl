@@ -22,7 +22,7 @@
 
 {section name=RSSExport loop=$rssexport_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$RSSExport:sequence}"><a href={concat("rss/feed/",$RSSExport:item.access_url)|ezurl}>{$RSSExport:item.title|wash}</a></td>
+    <td class="{$RSSExport:sequence}">{section show=$RSSExport:item.active|eq(1)}<a href={concat("rss/feed/",$RSSExport:item.access_url)|ezurl}>{$RSSExport:item.title|wash}</a>{section-else}{$RSSExport:item.title|wash}{/section}</td>
     <td class="{$RSSExport:sequence}">{$RSSExport:item.rss_version|wash}</td>
     <td class="{$RSSExport:sequence}">{section show=$RSSExport:item.active|eq(1)}{"Yes"|i18n("design/standard/rss/list")}{section-else}{"No"|i18n("design/standard/rss/list")}{/section}</td>
     <td class="{$RSSExport:sequence}">{content_view_gui view=text_linked content_object=$RSSExport:item.modifier.contentobject}</td>
