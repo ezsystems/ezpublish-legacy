@@ -35,34 +35,40 @@
 /*! \file view.php
 */
 
-include_once( "kernel/classes/ezmodulemanager.php" );
-include_once( "kernel/classes/ezrole.php" );
-include_once( "kernel/classes/ezsearch.php" );
+include_once( 'kernel/classes/ezmodulemanager.php' );
+include_once( 'kernel/classes/ezrole.php' );
+include_once( 'kernel/classes/ezsearch.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+include_once( 'lib/ezutils/classes/ezmodule.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 
 $http =& eZHTTPTool::instance();
-$Module =& $Params["Module"];
-$roleID =& $Params["RoleID"];
+$Module =& $Params['Module'];
+$roleID =& $Params['RoleID'];
 
 $role =& eZRole::fetch( $roleID );
 
-// Redirect to role edit
-if ( $http->hasPostVariable( "EditRoleButton" ) )
+if ( !$role )
 {
-    $Module->redirectTo( "/role/edit/" . $roleID );
+    $Module->redirectTo( '/role/list/' );
+    return;
+}
+
+// Redirect to role edit
+if ( $http->hasPostVariable( 'EditRoleButton' ) )
+{
+    $Module->redirectTo( '/role/edit/' . $roleID );
     return;
 }
 
 // Redirect to content node browse in the user tree
-if ( $http->hasPostVariable( "AssignRoleButton" ) )
+if ( $http->hasPostVariable( 'AssignRoleButton' ) )
 {
-    include_once( "kernel/classes/ezcontentbrowse.php" );
+    include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
                                     'from_page' => '/role/assign/' . $roleID ),
                              $Module );
@@ -91,7 +97,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 }
 
 // Remove the role assignment
-if ( $http->hasPostVariable( "RemoveRoleAssignmentButton" ) )
+if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
 {
     $idArray = $http->postVariable( "IDArray" );
 
@@ -106,13 +112,13 @@ $tpl =& templateInit();
 $userArray =& $role->fetchUserByRole();
 
 $policies = $role->attribute( 'policies' );
-$tpl->setVariable( "policies", $policies );
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( "role", $role );
+$tpl->setVariable( 'policies', $policies );
+$tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'role', $role );
 
-$tpl->setVariable( "user_array", $userArray );
+$tpl->setVariable( 'user_array', $userArray );
 
-$Module->setTitle( "View role - " . $role->attribute( "name" ) );
+$Module->setTitle( 'View role - ' . $role->attribute( 'name' ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:role/view.tpl' );

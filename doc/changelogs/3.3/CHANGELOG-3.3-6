@@ -62,6 +62,8 @@ eZINI:
   http://ez.no/community/bug_reports/pdf_export_to_url_fails
 - Fixed storing export PDF type.
   http://ez.no/community/bug_reports/export_to_pdf_does_not_store_export_type
+- Fixed PHP error when trying to edit non existing role.
+  http://ez.no/community/bug_reports/error_in_role_view
 
 *Library:
 
