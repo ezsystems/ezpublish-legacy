@@ -31,7 +31,7 @@
 {* Left bar START *}
 
     <td class="setup_noborder" width="20">
-      <img src={"/design/standard/images/setup/eZ_setup_left_bar.png"|ezroot} alt="" />
+      <img src={"/design/standard/images/setup/eZ_setup_left_bar.png"|ezroot} alt="" width="20" />
     </td>
 
 {* Left bar END *}
@@ -43,7 +43,7 @@
 
         <tr>
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_top_left_corner.png"|ezroot} alt="" /></td>
+            <img src={"/design/standard/images/setup/eZ_setup_top_left_corner.png"|ezroot} alt="" width="11" /></td>
 
           <td class="setup_noborder_white" width="549">
           </td>
@@ -52,7 +52,7 @@
           </td>
 
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_top_right_corner.png"|ezroot} alt="" /></td>
+            <img src={"/design/standard/images/setup/eZ_setup_top_right_corner.png"|ezroot} alt="" width="11" /></td>
         </tr>
     
 {* Top view area END *}
@@ -85,7 +85,7 @@
 
         <tr>
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_bottom_left_corner.png"|ezroot} alt="" /></td>
+            <img src={"/design/standard/images/setup/eZ_setup_bottom_left_corner.png"|ezroot} alt="" width="11" /></td>
 
           <td class="setup_noborder_white" width="549">
           </td>
@@ -94,7 +94,7 @@
           </td>
 
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_bottom_right_corner.png"|ezroot} alt="" /></td>
+            <img src={"/design/standard/images/setup/eZ_setup_bottom_right_corner.png"|ezroot} alt="" width="11" /></td>
         </tr>
     
 {* Bottom view area END *}

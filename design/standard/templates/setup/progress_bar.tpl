@@ -5,9 +5,9 @@
 
           <td class="setup_noborder" width="11">
 	      {section show=$progress|gt(0)}
-	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left_full.png"|ezroot} alt="" width="11" /></td>
+	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left_full.png"|ezroot} alt="" width="11" height="22" /></td>
 	      {section-else}
-	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left.png"|ezroot} alt=""/></td>
+	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left.png"|ezroot} alt="" width="11" height="22" /></td>
 	      {/section}
           {section show=$progress|gt(0)}
 	    <td class="setup_progress_left" width="{mul( 549, div( $progress, 100 ) )}" /></td>
@@ -19,7 +19,7 @@
 	  <td width="209" class="setup_progress_right">
 	    <div class="setup_progress_bar_text">{"&percent% completed"|i18n("design/standard/setup",,hash('&percent',$progress))}</div>
           </td>
- 	  <td class="setup_noborder" width="11"><img src={"/design/standard/images/setup/eZ_setup_progress_bar_right.png"|ezroot} alt="" width="11" /></td>
+ 	  <td class="setup_noborder" width="11"><img src={"/design/standard/images/setup/eZ_setup_progress_bar_right.png"|ezroot} alt="" width="11" height="22" /></td>
 
 	</tr>
       </table>
