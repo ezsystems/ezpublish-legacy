@@ -558,7 +558,10 @@ class eZContentClass extends eZPersistentObject
         }
     }
 
-    function store( $store_childs = false )
+    /*!
+     \reimp
+    */
+    function store( $store_childs = false, $fieldFilters = null )
     {
         if ( is_array( $store_childs ) or $store_childs )
         {
@@ -579,7 +582,16 @@ class eZContentClass extends eZPersistentObject
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
 
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
+    }
+
+    /*!
+     \reimp
+    */
+    function sync( $fieldFilters = null )
+    {
+        if ( $this->hasDirtyData() )
+            $this->store( false, $fieldFilters );
     }
 
     function storeDefined( &$attributes )
