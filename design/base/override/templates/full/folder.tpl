@@ -44,7 +44,7 @@
                 {set list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
             {/section}
 
-            <div class="view-children">
+            <div class="content-view-children">
                 {section var=child loop=$list_items sequence=array(bglight,bgdark)}
                     {node_view_gui view=line content_node=$child}
                 {/section}

@@ -43,7 +43,7 @@
         {* Should we allow comments? *}
         {section show=$node.object.data_map.enable_comments.content}
             <h2>Comments</h2>
-                <div class="view-children">
+                <div class="content-view-children">
                     {section name=Child loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}
                         {node_view_gui view='line' content_node=$:item}
                     {/section}

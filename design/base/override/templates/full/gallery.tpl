@@ -32,7 +32,7 @@
              list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
 
         {section show=$children}
-           <div class="view-children">
+           <div class="content-view-children">
                <table>
                <tr>
                {section var=child loop=$children sequence=array(bglight,bgdark)}

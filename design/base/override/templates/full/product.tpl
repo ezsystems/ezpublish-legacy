@@ -35,7 +35,7 @@
         </div>
 
         <h2>Product reviews</h2>
-        <div class="view-children">
+        <div class="content-view-children">
             {section var=review loop=fetch_alias( reviews, hash( parent_node_id, $node.node_id ) )}
                 {node_view_gui view='line' content_node=$review}
             {/section}

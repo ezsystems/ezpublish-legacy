@@ -11,7 +11,7 @@
 
 
         {section show=$children}
-           <div class="view-children">
+           <div class="content-view-children">
                {section var=child loop=$children sequence=array(bglight,bgdark)}
                   {node_view_gui view=galleryslide content_node=$child parent_name=$node.name}
                {/section}

@@ -25,7 +25,7 @@
            </p>
         {/section}
 
-        <div class="view-children">
+        <div class="content-view-children">
             <table>
             <tr>
                 <th>

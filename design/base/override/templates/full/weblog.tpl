@@ -59,7 +59,7 @@
         {section show=$node.object.data_map.enable_comments.content}
             <h2>{"Comments"|i18n("design/weblog/layout")}</h2>
 
-            <div class="view-children">
+            <div class="content-view-children">
                {section var=comment loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}
                    {node_view_gui view='line' content_node=$comment}
                {/section}

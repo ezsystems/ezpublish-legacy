@@ -4,11 +4,11 @@
 
     {section show=$node.object.data_map.image.content}
         <div class="content-image">
-            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image} 
+            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
 
-    <a href={$node.url_alias|ezurl}><h2>{$node.object.data_map.title.content|wash}</h2></a>
+    <h2><a href={$node.url_alias|ezurl}>{$node.object.data_map.title.content|wash}</a></h2>
 
     {section show=$node.object.data_map.intro.content.is_empty|not}
     <div class="attribute-short">

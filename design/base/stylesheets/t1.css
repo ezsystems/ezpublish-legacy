@@ -895,12 +895,12 @@ div#maincontent-design div.class-gallery div.attribute-short p
     color: #036;
 }
 
-div#maincontent-design div.class-gallery div.view-children table
+div#maincontent-design div.class-gallery div.content-view-children table
 { 
     width: 100%;
 }
 
-div#maincontent-design div.class-gallery div.view-children table td
+div#maincontent-design div.class-gallery div.content-view-children table td
 { 
     border: 1px solid #666;
     text-align: center;
@@ -910,7 +910,7 @@ div#maincontent-design div.class-gallery div.view-children table td
     background-color: #efefef;
 }
 
-div#maincontent-design div.class-gallery div.view-children div.attribute-image p
+div#maincontent-design div.class-gallery div.content-view-children div.attribute-image p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -921,7 +921,7 @@ div#maincontent-design div.class-gallery div.view-children div.attribute-image p
     color: #666;
 }
 
-div#maincontent-design div.class-gallery div.view-children div.attribute-caption p
+div#maincontent-design div.class-gallery div.content-view-children div.attribute-caption p
 { 
     padding-top: 0px;
     margin-top: 0px;
