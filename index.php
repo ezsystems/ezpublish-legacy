@@ -393,18 +393,22 @@ while ( $moduleRunRequired )
     }
 
     // Store the last URI for access history for login redirection
-    $currentURI = $uri->uriString( true );
-    $lastAccessedURI = "";
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-         $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
-    if ( $currentURI != $lastAccessedURI )
+    // Only if database is connected
+    if ( $db->isConnected() )
     {
-        if ( !stristr( $currentURI, "/user/login" ) and
-             !stristr( $currentURI, "/user/logout" )
-             )
+        $currentURI = $uri->uriString( true );
+        $lastAccessedURI = "";
+        $http =& eZHTTPTool::instance();
+        if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+            $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
+        if ( $currentURI != $lastAccessedURI )
         {
-            $http->setSessionVariable( "LastAccessesURI", $currentURI );
+            if ( !stristr( $currentURI, "/user/login" ) and
+                 !stristr( $currentURI, "/user/logout" )
+                 )
+            {
+                $http->setSessionVariable( "LastAccessesURI", $currentURI );
+            }
         }
     }
 
