@@ -53,7 +53,6 @@ class eZPostgreSQLDB
             eZDebug::writeNotice( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
             $this->Database = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
             $this->IsConnected = true;
-            
             // add error checking
 //          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->Database ), "eZPostgreSQLDB" );
         }elseif ( function_exists( "pg_connect" ) )
@@ -86,7 +85,7 @@ class eZPostgreSQLDB
         if ( $this->isConnected() )
         {
             if ( $this->OutputSQL )
-                eZDebug::writeNotice( "$sql", "eZPostgreSQL::query()" );
+                eZDebug::writeNotice( "$sql", "eZPostgreSQL::query() query number per page:" . $this->NumQueries++ );
 
             $result = @pg_exec( $this->Database, $sql );
             if ( !$result )
@@ -167,7 +166,7 @@ class eZPostgreSQLDB
 
     function subString( $string, $from, $len )
     {
-        return " substring( $string from $from for $len ) "; 
+        return " substring( $string from $from for $len ) ";
     }
 
     /*!
@@ -279,6 +278,9 @@ class eZPostgreSQLDB
 
     /// Variable which stores the status of debug output
     var $OutputSQL;
+    /// Contains number of queries sended to DB
+    var $NumQueries = 0;
+
 }
 
 ?>

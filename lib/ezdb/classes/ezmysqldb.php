@@ -148,8 +148,7 @@ class eZMySQLDB
                 $diff_val *= 1000.0;
 
                 $num_rows = mysql_affected_rows( $this->Database );
-
-                eZDebug::writeNotice( "$sql", "eZMySQLDB::query($num_rows rows, " . number_format( $diff_val, 3 ) . " ms)" );
+                eZDebug::writeNotice( "$sql", "eZMySQLDB::query($num_rows rows, " . number_format( $diff_val, 3 ) . " ms) query number per page:" . $this->NumQueries++ );
             }
 
             $errorMsg = mysql_error( $this->Database );
@@ -247,7 +246,7 @@ class eZMySQLDB
 
     function subString( $string, $from, $len )
     {
-        return " substring( $string from $from for $len ) "; 
+        return " substring( $string from $from for $len ) ";
     }
     /*!
       Locks a table
@@ -366,6 +365,9 @@ class eZMySQLDB
     var $OutputSQL;
     /// Contains true if we're connected to the database backend
     var $IsConnected = false;
+    /// Contains number of queries sended to DB
+    var $NumQueries = 0;
+
 }
 
 ?>
