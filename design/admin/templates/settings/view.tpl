@@ -20,7 +20,7 @@
 {/section}
 <br />
     <div class="element">
-        <label>{'Select ini file to view'|i18n('design/admin/settings')}</label><div class="labelbreak"></div>
+        <label>{'Select ini file to view'|i18n('design/admin/settings')}:</label>
         <select name="selectedINIFile">
             {section var=Files loop=$ini_files}
                 {section show=eq( $Files.item, $ini_file )}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="element">
-        <label>{'Select siteaccess'|i18n('design/admin/settings')}</label><div class="labelbreak"></div>
+        <label>{'Select siteaccess'|i18n('design/admin/settings')}:</label>
         <select name="CurrentSiteAccess">
         {section name=SiteAccess loop=$siteaccess_list}
             {section show=eq( $current_siteaccess, $:item )}

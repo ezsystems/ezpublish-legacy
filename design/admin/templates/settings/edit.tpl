@@ -30,7 +30,7 @@
     <p>{'SiteAccess'|i18n( 'design/admin/settings' )}: {$current_siteaccess}</p>
     <div class="block">
         <div class="element">
-            <label>{'Change setting type'|i18n( 'design/admin/settings')}</label>
+            <label>{'Change setting type'|i18n( 'design/admin/settings')}:</label>
             <select name="SettingType" onchange="submit()">
             {section name=Files loop=$setting_type_array}
                 {section show=eq( $:key, $setting_type )}
@@ -71,13 +71,13 @@
     <input type="hidden" name="SettingName" value="{$setting}" />
 {section-else}
     <div class="block">
-        <label>{'Setting Name'|i18n( 'design/admin/settings' )}</label>
+        <label>{'Setting Name'|i18n( 'design/admin/settings' )}:</label>
         <input type="text" size="20" name="SettingName" value="" />
     </div>
 {/section}
 
 <div class="block">
-    <label>{'Setting value'|i18n( 'design/admin/settings' )}</label>
+    <label>{'Setting value'|i18n( 'design/admin/settings' )}:</label>
 
     {switch match=$setting_type}
     {case match='array'}
