@@ -34,7 +34,9 @@
 
 ?>
 
-<p>
-An information collector is a data type which can store 
+<h1>Information collector</h1>
 
+<p>
+An information collector is a data type that allows input. This should be used for forms.
+See the <a href="/sdk/tutorials/view/forms">Creating forms</a> tutorial for more information.
 </p>

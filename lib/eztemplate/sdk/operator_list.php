@@ -262,6 +262,7 @@ Examples:<br/>
 </dl>
 
 <h2>eZ publish kernel operators</h2>
+<p>For more information see the <a href="/sdk/kernel/view/template_operators/">Kernel template operators</a> tutorial.</p>
 <dl>
 <dt>ezurl</dt>
 <dd>Makes sure that the url works for both virtual hosts and non-virtual host setups.</dd>

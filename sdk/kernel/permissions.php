@@ -34,6 +34,8 @@
 
 ?>
 
+<h1>Permissions</h1>
+
 <p>
 The restriction of what a user can do is handled by roles in eZ publish.
 </p>

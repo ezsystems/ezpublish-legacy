@@ -34,6 +34,8 @@
 
 ?>
 
+<h1>Content objects</h1>
+
 <p>
 This is an introduction on how to use the core classes of eZ publish
 at a low level. With these classes you can create content object and

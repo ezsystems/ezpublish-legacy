@@ -21,46 +21,54 @@ $featureArray[] = array( "level" => 0,
 $featureArray[] = array( "uri" => "module_system",
                          "level" => 0,
                          "name" => "Module system" );
-
 $featureArray[] = array( "uri" => "content_classes",
                          "level" => 0,
                          "name" => "Content classes" );
-$featureArray[] = array( "uri" => "information_collector",
-                         "level" => 0,
-                         "name" => "Information collector" );
 $featureArray[] = array( "uri" => "content_objects",
                          "level" => 0,
                          "name" => "Content objects" );
+$featureArray[] = array( "uri" => "content_datatypes",
+                         "level" => 0,
+                         "name" => "Content datatypes" );
+
 $featureArray[] = array( "uri" => "permissions",
                          "level" => 0,
                          "name" => "Permissions" );
-$featureArray[] = array( "uri" => "object_workflow",
+$featureArray[] = array( "uri" => "workflows",
                          "level" => 0,
-                         "name" => "Object workflow" );
-$featureArray[] = array( "uri" => "object_version",
-                         "level" => 0,
-                         "name" => "Object version" );
-$featureArray[] = array( "uri" => "object_translation",
-                         "level" => 0,
-                         "name" => "Object translation" );
-$featureArray[] = array( "uri" => "content_datatypes",
-                         "level" => 0,
-                         "name" => "Content DataTypes" );
-$featureArray[] = array( "uri" => "content_datatype_ezstring",
-                         "level" => 1,
-                         "name" => "ezstring" );
+                         "name" => "Workflows" );
+
+// $featureArray[] = array( "uri" => "object_version",
+//                          "level" => 0,
+//                          "name" => "Object version" );
+// $featureArray[] = array( "uri" => "object_translation",
+//                          "level" => 0,
+//                          "name" => "Object translation" );
+// $featureArray[] = array( "uri" => "content_datatype_ezstring",
+//                          "level" => 1,
+//                          "name" => "ezstring" );
+// $featureArray[] = array( "uri" => "information_collector",
+//                          "level" => 0,
+//                          "name" => "Information collector" );
 
 $featureArray[] = array( "uri" => "data_storage",
                          "level" => 0,
                          "name" => "Data storage" );
-$featureArray[] = array( "level" => 0,
-                         "name" => "Templates" );
+
+// $featureArray[] = array( "level" => 0,
+//                          "name" => "Templates" );
+
 $featureArray[] = array( "uri" => "template_operators",
                          "level" => 0,
-                         "name" => "Operators" );
-$featureArray[] = array( "uri" => "template_functions",
+                         "name" => "Template operators" );
+
+// $featureArray[] = array( "uri" => "template_functions",
+//                          "level" => 0,
+//                          "name" => "Functions" );
+
+$featureArray[] = array( "uri" => "other_concepts",
                          "level" => 0,
-                         "name" => "Functions" );
+                         "name" => "Other concepts" );
 
 $infoArray["features"] =& $featureArray;
 

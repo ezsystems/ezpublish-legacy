@@ -34,22 +34,20 @@
 
 ?>
 
-<p>
+<h1>Workflows</h1>
 
-</p>
-<h2>Worflows</h2>
-
-<h4> Class diagram </h4>
+<h2> Class diagram </h2>
 <img src="/doc/design/uml/workflows.png" /><br/>
-<h4> State diagram </h4>
+
+<h2> State diagram </h2>
 <img src="/doc/design/uml/workflows_state.png" /><br/>
 
-<h4> Database diagram </h4>
+<h2> Database diagram </h2>
 <img src="/doc/images/workflows_db.png" /><br/>
 
 
-Workflows are triggerd by runTrigger function.
-The code may look like: (like I imagine in 'content/edit.php')
+Workflows are triggered by runTrigger function.
+The code may look like: (like in 'content/edit.php')
 <pre class="example">
 if ( $Module->isCurrentAction( 'publish' ) )
 {
@@ -67,14 +65,15 @@ if ( $Module->isCurrentAction( 'publish' ) )
 
 Here is how the runTrigger function should work:<br/>
 
- 1. try to look is there worflow connected to that function <br/>
+ 1. try to look is there workflow connected to that function <br/>
  2. look if there is already  started workflow process for the same event.<br/>
  3. If so start the next event<br/>
- 4. if not  create new workflow process and start it<br/>
+ 4. if not create new workflow process and start it<br/>
 
- If to look to the publish process. Multiplesor workflow looks to parameters and decide what workflow to run next if need it. And shows user a page saying that object is sended for aproval or smth. like that.
-<h4>Example of Publish workflow </h4>
+ If to look to the publish process. Multiplesor workflow looks to parameters and decide what workflow to run next if need it. And shows user a page saying for instance that the object is sent for approval.
+
+<h2>Example of Publish workflow </h2>
 <img src="/doc/images/publish.png" />
 
-<h4>Example of Checkout workflow </h4>
+<h2>Example of Checkout workflow </h2>
 <img src="/doc/images/checkout.png" />

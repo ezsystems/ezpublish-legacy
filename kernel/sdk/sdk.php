@@ -61,7 +61,7 @@ function sdkElements()
                   array( "dir" => "sdk",
                          "variable" => "kernel_items",
                          "root" => "kernel",
-                         "name" => "Kernel" ),
+                         "name" => "Kernel tutorials" ),
                   array( "dir" => "sdk",
                          "root" => "ref",
                          "variable" => "ref_items",
@@ -600,8 +600,10 @@ function process( &$module, $component, $command, $part, $rest )
                         $TemplateNonSummaryVars["baseURI"] = $baseURI;
                         $TemplateNonSummaryVars["exampleFile"] = $exampleFile;
 
-                        $content_data = "<table><tr><td><h1>%part_name%</h1></td>
-<td><a href=\"%index_path_prepend%$baseURI/source/$part\">[source]</a></td></tr></table>";
+                        // removed to avoid [source] link (gl)
+//                         $content_data = "<table><tr><td><h1>%part_name%</h1></td>
+// <td><a href=\"%index_path_prepend%$baseURI/source/$part\">[source]</a></td></tr></table>";
+
 //                        $content_data = "<table><tr><td><h1>%part_name%</h1></td>
 //<td>&nbsp;</td></tr></table>";
                         ob_start();

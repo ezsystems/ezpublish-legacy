@@ -34,6 +34,8 @@
 
 ?>
 
+<h1>Data storage</h1>
+
 <p>
 This document describes the XML format used in eZ publish. When eZ publish
 stores content objects each attribute is stored as one row in the database.
@@ -153,28 +155,32 @@ class attribute.
 <p>
 Minimal example document:
 </p>
-<pre class="example">
-&lt;?xml version="1.0" encoding="utf-8" ?>
-<ezcontentobject>
-  <title>My article</title>
-  <metadata>
-    <language iso="en_GB">English</language>
-    <created>15-06-20002</created>
-    <published>15-06-20002</published>
-    <modified>15-06-20002</modified>
-  </metadata>
-  <content>
-  <introduction>
-    <paragraph>
 
-    </paragraph>
-  </section>
-  </introduction>
-</ezcontentobject>
+<pre class="example">
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;ezcontentobject&gt;
+  &lt;title&gt;My article&lt;/title&gt;
+  &lt;metadata&gt;
+    &lt;language iso="en_GB"&gt;English&lt;/language&gt;
+    &lt;created&gt;15-06-20002&lt;/created&gt;
+    &lt;published&gt;15-06-20002&lt;/published&gt;
+    &lt;modified&gt;15-06-20002&lt;/modified&gt;
+  &lt;/metadata&gt;
+  &lt;content&gt;
+  &lt;introduction&gt;
+    &lt;paragraph&gt;
+
+    &lt;/paragraph&gt;
+  &lt;/section&gt;
+  &lt;/introduction&gt;
+&lt;/ezcontentobject&gt;
 </pre>
 
+<p>
 Sample document:
+</p>
 
-
+<p>
 Schema:
+</p>
 

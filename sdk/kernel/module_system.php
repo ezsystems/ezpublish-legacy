@@ -34,6 +34,8 @@
 
 ?>
 
+<h1>Module system</h1>
+
 <p>
 eZ publish is module based. The eZ publish kernel functionality is available
 using different interfaces. Interface implementation is plugin based and the

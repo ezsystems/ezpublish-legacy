@@ -39,10 +39,13 @@ $DocResult['title'] = 'Template Operators';
 
 ?>
 
+<h1>Template operators</h1>
+
 <p>Overview of available template operators in the kernel</p>
 
-<h1>URL operators</h1>
-<p>The URL operators takes a URL and modifies it in someway, they allow for easy change
+<h2>URL operators</h2>
+
+<p>The URL operators takes a URL and modifies it in some way, they allow for easy change
 of sitedesigns. The syntax of all the operators are similar with only their name varying.
 The nVH setup is prepended to the URL if one is used to allow seamless VH/nVH setups.
 They take one parameter, which defaults to <i>double</i>, which specifies the quotes which are wrapped
@@ -66,7 +69,8 @@ Using it with concat
 {concat("stylesheets/",$style_name,".css")|ezdesign}
 </pre>
 
-<h2>ezdesign</h2>
+<h3>ezdesign</h3>
+
 <p>
 Prepends the current sitedesign to the url, if the file does not exist in that design the
 standard sitedesign is used instead.
@@ -79,7 +83,7 @@ becomes
 "/design/mydesign/stylesheets/style.css"
 </pre>
 
-<h2>ezimage</h2>
+<h3>ezimage</h3>
 <p>
 Prepends the current sitedesign to the url with the <i>image</i> subdirectory,
 if the file does not exist in that design the standard sitedesign is used instead.
@@ -92,12 +96,12 @@ becomes
 '/design/mydesign/images/search.png'
 </pre>
 
-<h2>ezurl</h2>
+<h3>ezurl</h3>
 <p>
 Only prepends the nVH directory if one exists.
 </p>
 
-<h2>exturl</h2>
+<h3>exturl</h3>
 <p>
 Not done yet, the exact nature of this operator is not clear.
 </p>
