@@ -64,6 +64,13 @@ $ViewList["rad"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
+$ViewList["datatype"] = array(
+    "script" => "datatype.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
+                                    ),
+    "params" => array( ) );
+
 $ViewList["templateoperator"] = array(
     "script" => "templateoperator.php",
     "default_navigation_part" => 'ezsetupnavigationpart',

@@ -8,5 +8,8 @@
     <li>
         <a href={'setup/templateoperator'|ezurl}>{'Template operator wizard'|i18n('design/standard/setup')}</a>
     </li>
+    <li>
+        <a href={'setup/datatype'|ezurl}>{'Datatype wizard'|i18n('design/standard/setup')}</a>
+    </li>
 </ul>
 

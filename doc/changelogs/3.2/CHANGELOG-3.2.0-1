@@ -45,6 +45,7 @@ Changes from 3.1-1 to 3.2.0-1
   This is required for datatypes to be used in the new eZObjectRelationList.
 - Added EditDirtyObjectAction in ContentSettings, to choose wether to always edit the current version,
   or show version list as usual.
+- Added wizard for creating new datatypes.
 
 *Library :
 eZ XML:
