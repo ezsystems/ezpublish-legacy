@@ -24,9 +24,24 @@ Variable input:
      root="var/cache/images/root.png"
      design="stylesheets/core.css"
      image="uml.png"}
+Default:
 {$url|ezurl}
 {$root|ezroot}
 {$design|ezdesign}
 {$image|ezimage}
+DoubleQuoted:
+{$url|ezurl( double )}
+{$root|ezroot( double )}
+{$design|ezdesign( double )}
+{$image|ezimage( double )}
+SingleQuoted:
+{$url|ezurl( single )}
+{$root|ezroot( single )}
+{$design|ezdesign( single )}
+{$image|ezimage( single )}
+NoQuote:
+{$url|ezurl( no )}
+{$root|ezroot( no )}
+{$design|ezdesign( no )}
+{$image|ezimage( no )}
 {/let}
-
