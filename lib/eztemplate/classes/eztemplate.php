@@ -339,7 +339,7 @@ class eZTemplate
      - "text", the text.
      - "time-stamp", the timestamp.
     */
-    function &loadURI( $uri, $displayErrors = true, $extraParameters = false )
+    function &loadURI( $uri, $displayErrors = true, &$extraParameters )
     {
         $res = "";
         $template = "";

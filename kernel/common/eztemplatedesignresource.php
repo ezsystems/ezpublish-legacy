@@ -78,6 +78,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                             "type" => "normal" );
 
         $match_keys = $this->Keys;
+        $matchedKeys = array();
 
         if ( is_array( $extraParameters ) and
              isset( $extraParameters['ezdesign:keys'] ) )
@@ -132,7 +133,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                             $key = $match_keys[$key_index];
                             $key_val = $key[1];
 //                         eZDebug::writeNotice( "Matching key $key_val" . '=' . $regs[$i] );
-                            if ( is_numeric( $key_val )and
+                            if ( is_numeric( $key_val ) and
                                  is_numeric( $regs[$i] ) )
                             {
                                 if ( $regs[$i] != $key_val )
@@ -146,6 +147,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 $found = false;
                                 break;
                             }
+                            $matchedKeys[$key] = $key_val;
                             ++$key_index;
                         }
                         if ( !$found )
@@ -171,6 +173,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                             $match = $tpl_match;
                             $match["file"] = $file;
                             $foundOverrideFile = true;
+                            $matchedKeys[$match_key_name] = $match_key_val;
 //                             eZDebug::writeNotice( "Match found, using override " . $match["file"]  );
                             break;
                         }
@@ -185,6 +188,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $file = $match["file"];
 
+        $usedKeys = array();
+        foreach ( $match_keys as $match_key )
+        {
+            $usedKeys[$match_key[0]] = $match_key[1];
+        }
+        $extraParameters['ezdesign:used_keys'] = $usedKeys;
+        $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
+        $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
+        $tpl->setVariable( 'matched', $usedKeys, 'DesignKeys' );
         return eZTemplateFileResource::handleResource( $tpl, $text, $tstamp, $file, $method, $extraParameters );
     }
 

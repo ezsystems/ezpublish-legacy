@@ -148,12 +148,25 @@ class eZObjectForwarder
             $nspace = $rule["namespace"];
             $tpl->setIncludeText( $uri, $tpl_text );
             $tpl->parse( $tpl_text, $root, "", $res["resource"], $res["template_name"] );
+            $designUsedKeys = array();
+            $designMatchedKeys = array();
+            if ( isset( $extraParameters['ezdesign:used_keys'] ) )
+                $designUsedKeys = $extraParameters['ezdesign:used_keys'];
+            if ( isset( $extraParameters['ezdesign:matched_keys'] ) )
+                $designMatchedKeys = $extraParameters['ezdesign:matched_keys'];
+            if ( $current_nspace != '' )
+                $designKeyNamespace = $current_nspace . ':DesignKeys';
+            else
+                $designKeyNamespace = 'DesignKeys';
 
             $sub_text = "";
             $output_name =& $rule["output_name"];
             $setVariableArray = array();
             $tpl->setVariableRef( $output_name, $input_var, $current_nspace );
             $setVariableArray[] = $output_name;
+            // Set design keys
+            $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
+            $tpl->setVariable( 'matched', $designMatchedKeys, $designKeyNamespace );
             foreach ( array_keys( $params ) as $paramName )
             {
                 if ( $paramName == $input_name or
@@ -163,6 +176,17 @@ class eZObjectForwarder
                 $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
                 $setVariableArray[] = $paramName;
             }
+            // Set function parameters
+            foreach ( array_keys( $params ) as $paramName )
+            {
+                if ( $paramName == $input_name or
+                     $paramName == $view_var )
+                    continue;
+                $paramValue =& $tpl->elementValue( $params[$paramName], $old_nspace );
+                $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
+                $setVariableArray[] = $paramName;
+            }
+            // Set constant variables
             if ( isset( $rule['constant_template_variables'] ) )
             {
                 foreach ( $rule['constant_template_variables'] as $constantTemplateVariableKey => $constantTemplateVariableValue )
