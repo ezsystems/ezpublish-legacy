@@ -157,12 +157,12 @@
 {section show=$node.object.can_create}
 <div class="createblock">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<select name="ClassID" title="{'Use this menu to select the type of object you wish to create. The object will be created within the current location.'|i18n( 'design/admin/layout' )}">
+<select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
 {section var=CanCreateClasses loop=$node.object.can_create_class_list}
 <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
 {/section}
 </select>
-<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'Click here to create a new item within the current location.'|i18n( 'design/admin/layout' )}" />
+<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/layout' )}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
@@ -171,7 +171,7 @@
 <select name="ClassID" disabled="disabled">
 <option value="">Not available</option>
 </select>
-<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions for creating new items under the current location.'|i18n( 'design/admin/layout' )} "disabled="disabled" />
+<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
 </div>
 {/section}
 </form>
