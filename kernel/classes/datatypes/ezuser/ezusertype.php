@@ -295,6 +295,64 @@ class eZUserType extends eZDataType
         }
         return $metaString;
     }
+
+
+    /*!
+     \param package
+     \param content attribute
+
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = new eZDOMNode();
+
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+
+        $userID = $objectAttribute->attribute( "contentobject_id" );
+        $user = eZUser::fetch( $userID );
+        if ( is_object( $user ) )
+        {
+            $userNode =& eZDOMDocument::createElementNode( 'account' );
+            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'login', $user->attribute( 'login' ) ) );
+            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'email', $user->attribute( 'email' ) ) );
+            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash', $user->attribute( 'password_hash' ) ) );
+            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) ) );
+            $node->appendChild( $userNode );
+        }
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+     \param package
+     \param contentobject attribute object
+     \param ezdomnode object
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $userNode = $attributeNode->elementByName( 'account' );
+        if ( is_object( $userNode ) )
+        {
+            $userID = $objectAttribute->attribute( 'contentobject_id' );
+            $user =& eZUser::fetch( $userID );
+            if ( !is_object( $user ) )
+            {
+                $user =& eZUser::create( $userID );
+            }
+            $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
+            $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );
+            $user->setAttribute( 'password_hash', $userNode->attributeValue( 'password_hash' ) );
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->attributeValue( 'passsword_hash_type' ) ) );
+            $user->store();
+        }
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_USER, "ezusertype" );

@@ -161,6 +161,67 @@ class eZUser extends eZPersistentObject
             return eZPersistentObject::attribute( $name );
     }
 
+    /*!
+     \return a textual identifier for the hash type $id
+    */
+    function passwordHashTypeName( $id )
+    {
+        switch ( $id )
+        {
+            case EZ_USER_PASSWORD_HASH_MD5_PASSWORD:
+            {
+                return 'md5_password';
+            } break;
+            case EZ_USER_PASSWORD_HASH_MD5_USER:
+            {
+                return 'md5_user';
+            } break;
+            case EZ_USER_PASSWORD_HASH_MD5_SITE:
+            {
+                return 'md5_site';
+            } break;
+            case EZ_USER_PASSWORD_HASH_MYSQL:
+            {
+                return 'mysql';
+            } break;
+            case EZ_USER_PASSWORD_HASH_PLAINTEXT:
+            {
+                return 'plaintext';
+            } break;
+        }
+    }
+
+    /*!
+     \return the hash type for the textual identifier $identifier
+    */
+    function passwordHashTypeID( $identifier )
+    {
+        switch ( $identifier )
+        {
+            case 'md5_password':
+            {
+                return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
+            } break;
+            default:
+            case 'md5_user':
+            {
+                return EZ_USER_PASSWORD_HASH_MD5_USER;
+            } break;
+            case 'md5_site':
+            {
+                return EZ_USER_PASSWORD_HASH_MD5_SITE;
+            } break;
+            case 'mysql':
+            {
+                return EZ_USER_PASSWORD_HASH_MYSQL;
+            } break;
+            case 'plaintext':
+            {
+                return EZ_USER_PASSWORD_HASH_PLAINTEXT;
+            } break;
+        }
+    }
+
     function &create( $contentObjectID )
     {
         $row = array(

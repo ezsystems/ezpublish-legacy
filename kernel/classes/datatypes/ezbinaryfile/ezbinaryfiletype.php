@@ -433,9 +433,9 @@ class eZBinaryFileType extends eZDataType
         $fileNode =& eZDOMDocument::createElementNode( 'binary-file' );
         $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $binaryFile->attribute( 'filesize' ) ) );
         $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $binaryFile->attribute( 'filename' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime_type', $binaryFile->attribute( 'mime_type' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime_type_category', $binaryFile->attribute( 'mime_type_category' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'file_key', $fileKey ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $binaryFile->attribute( 'original_filename' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime-type', $binaryFile->attribute( 'mime_type' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filekey', $fileKey ) );
         $node->appendChild( $fileNode );
 
         return $node;
@@ -449,16 +449,18 @@ class eZBinaryFileType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
+//        $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
 
         $fileNode = $attributeNode->elementByName( 'binary-file' );
         $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
-        $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'file_key' ) );
+        $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
 
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini =& eZINI::instance();
-        $destinationPath = eZSys::storageDirectory() . '/original/' . $fileNode->attributeValue( 'mime_type_category' ) . '/';
+        $mimeType = $fileNode->attributeValue( 'mime-type' );
+        list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
+        $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
         if ( !file_exists( $destinationPath ) )
         {
             $oldumask = umask( 0 );
@@ -483,8 +485,8 @@ class eZBinaryFileType extends eZDataType
 
         $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
         $binaryFile->setAttribute( 'filename', $basename );
-        $binaryFile->setAttribute( 'original_filename', basename( $sourcePath ) );
-        $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime_type' ) );
+        $binaryFile->setAttribute( 'original_filename', $mediaNode->attributeValue( 'original-filename' ) );
+        $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime-type' ) );
 
         $binaryFile->store();
     }
