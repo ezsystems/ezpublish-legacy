@@ -8,7 +8,6 @@
 <head>
 <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
 {* <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" /> *}
-<link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {* page header start *}
 {default enable_help=true() enable_link=true()}
@@ -66,21 +65,8 @@
 {*	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a> *}
 	</div>
 	<div id="searchbox">
-	<table width="100%" cellpadding="1" cellspacing="1" border="0">
-	<tr>
-	    <td>
-	        <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
-	    </td>
-	    <td>
+	        <input type="text" size="20" name="SearchText" id="Search" value="" />
 	        <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-	    </td>
-	</tr>
-	<tr>
-	    <td rowspan="2">
-	        <a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a>
-	    </td>
-	</tr>
-	</table>
 	</div>
 	<div id="sitelogo">
 	    <img src={"06_intranet_logo.png"|ezimage} />
@@ -99,11 +85,11 @@
 				     class_filter_array, array( 'folder' ) ) ) }
 
 	{section name=item loop=$top_menu}
-	    <div class="topmenu_item">            
+	    <div class="item">
 	        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>{$:item.name|wash}</a>
 	    </div>
             {delimiter}
-	    <div class="topmenu_item_delimiter">
+	    <div class="delimiter">
             |
             </div> 
             {/delimiter}
@@ -116,7 +102,7 @@
     {* Main path START *}
     <div id="mainpath">
 	{section name=Path loop=$module_result.path}
-            <div class="mainpath_item">  
+            <div class="item">  
 	    {section show=$Path:item.url}
 	    <a href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
 	    {section-else}
@@ -124,7 +110,7 @@
 	    {/section}
             </div>   
 	    {delimiter}
-            <div class="mainpath_delimiter">  
+            <div class="delimiter">  
 	    /
             </div>   
 	    {/delimiter}
@@ -137,21 +123,22 @@
 
     {* Main menu START *}
     <div id="mainmenu">
-    {let MainMenu=treemenu($module_result.path,$module_result.node_id,0)}
-    
-        <ul>
+    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1)}
         {section name=Menu loop=$MainMenu}
-            <li class="mainmenu_item_{$:item.level}">
+            <div class="item">
 	    {section show=$:item.is_selected}
-               <div class="mainmenu_item_selected">  
+               <div class="selected">
+            {/section}
+
+            <div class="level_{$:item.level}">
                <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
-               </div>  
-            {section-else}
-                 <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
-            {/section}  
-            </li>
+            </div>
+
+	    {section show=$:item.is_selected}
+               </div>
+            {/section}
+            </div>
         {/section}
-        </ul>
     {/let}
     
     </div>
@@ -171,8 +158,8 @@
 {* Main part END *}
 
 {* Footer START *}
-<div id="footer" align="center">
-    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+<div id="footer">
+    <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </div>
 {* Footer END *}
 

@@ -2,159 +2,6 @@
 /* This is an additional stylesheet to the default core.css,   */
 /* which needs to be included for this one to be correct.      */
 
-body
-{
-    background-color: #ffffff;
-    margin: 0px;
-    padding: 0px;
-}
-
-#container 
-{ 
-  margin: 0px; 
-}
-
-#topbox
-{ 
-  background-color: #eeeeee;
-  width: 100%; 
-  height: 100px; 
-  min-width: 470px;
-}
-
-#topmenu
-{ 
-  background-color: #ddaaaa;
-  display: block;
-  clear: right;
-  padding: 6px;  
-  margin: 0px;
-}
-
-div.topmenu_item
-{ 
-  padding: 10px;  
-  display: inline;
-}
-
-div.topmenu_item_delimiter
-{ 
-  color: #eeeeee;
-  padding: 10px;  
-  display: inline;
-}
-
-#logo
-{ 
-  clear: right;
-  width: 15%;
-  float: left;
-  margin: 20px 15px 10px 10px;       
-}
-
-#searchbox
-{ 
-  width: 40%;
-  float: left;
-  margin: 20px 10px 10px 60px;
-}
-
-#sitelogo
-{  
-  width: 20%;
-  margin: 20px 0px 10px 10px;
-  float: right;
-  background: url("/design/intranet/images/06_intranet_logo.png") no-repeat;
-}
-
-#topmenu
-{ 
-  background-color: #a1cddd;
-  width: 100%; 
-  min-height: 35px; 
-}
-
-#mainpath
-{ 
-   color: #777777;
-   background-color: #ffffaa;
-   width: 100%; 
-   padding: 4px;
-}
-
-#mainpath a
-{ 
-   color: #bb6666;
-}
-
-div.mainpath_item
-{ 
-  display: inline;
-}
-
-div.mainpath_delimiter
-{ 
-  display: inline;
-}
-
-#mainframe
-{ 
-   background-color: #ffffff;	
-   min-height: 400px;
-   width: 100%;
-}
-
-#mainmenu
-{ 
-  background-color: #787878;	
-  width: 20%;
-  height: 100%;
-  float: left;
-  padding: 20px 15px 10px 10px; 
-}
-
-div.mainmenu_item_selected
-{
-  color: #ffff00;
-}
-
-li.mainmenu_item_1
-{
-  margin-left: 5px;
-}
-
-li.mainmenu_item_2
-{
-  margin-left: 15px;
-}
-
-#mainmenu a
-{ 
-   color: #eeffee;
-}
-
-
-#maincontent
-{ 
-   background-color: #eeeeee;	
-   width: 75%;
-   float: right;
-   padding: 20px 5px 10px 10px;
-   overflow: auto;
-}
-
-#footer
-{ 
-   color: #eeeeee;
-   padding: 4px;
-   background-color: #555555;
-   clear:both; 
-}
-
-#footer a
-{ 
-   color: #ffeeee;
-}
 
 h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
 {
@@ -176,4 +23,185 @@ h2
 h3
 {
     font-size: 90%;
+}
+
+body
+{
+    background-color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+}
+
+#container 
+{ 
+  margin: 0px; 
+  padding: 0px;
+}
+
+/* Top box */
+
+#topbox
+{ 
+  background-color: #FF6600;
+  width: 100%; 
+  height: 60px; 
+  margin: 0px;
+}
+
+#logo
+{ 
+  clear: right;
+  width: 15%;
+  float: left;
+  margin: 20px 15px 10px 10px;       
+}
+
+#searchbox
+{ 
+  width: 40%;
+  float: left;
+  padding-top: 10px;
+}
+
+#sitelogo
+{  
+  width: 20%;
+  margin: 0px;
+  float: right;
+  background: url("/design/intranet/images/06_intranet_logo.png") no-repeat;
+}
+
+/* Top menu */
+#topmenu
+{ 
+  background-color: #cc0000;
+  display: block;
+  clear: right;
+  padding: 6px;  
+  margin: 0px;
+}
+
+#topmenu .item
+{ 
+  padding: 10px;  
+  display: inline;
+}
+
+#topmenu .delimiter
+{ 
+  color: #e57b7b;
+  padding: 10px;  
+  display: inline;
+}
+
+
+#topmenu a
+{ 
+   color: #ffffff;
+}
+
+
+/* Path */
+#mainpath
+{ 
+   font-size: 80%;
+   color: #777777;
+   background-color: #ffffff;
+   width: 100%; 
+   padding: 4px;
+}
+
+#mainpath a
+{ 
+   color: #777777;
+}
+
+#mainpath .item
+{ 
+  display: inline;
+}
+
+#mainpath .delimiter
+{ 
+  display: inline;
+}
+
+/* Main layout */
+#mainframe
+{ 
+   background-color: #ffffff;	
+   min-height: 400px;
+   width: 100%;
+}
+
+#mainmenu
+{ 
+  font-size: 80%;
+  width: 20%;
+  height: 100%;
+  float: left;
+  padding: 0px; 
+}
+
+#mainmenu .selected
+{
+  background-color: #eeeeee;	
+  border-color: #ffffff;
+  border-top: 1px solid;
+}
+
+#mainmenu .item
+{
+  background-color: #ffffff;
+  border-color: #ffffff;
+  border-top: 1px solid;
+}
+
+#mainmenu .item:hover
+{
+  background-color: #eeeeee;
+  border-color: #ffffff;
+}
+
+#mainmenu .level_0
+{
+  padding: 4px; 
+}
+
+#mainmenu .level_1
+{
+  padding: 4px; 
+  margin-left: 15px;
+}
+
+#mainmenu a
+{ 
+   color: #777777;
+}
+
+
+#maincontent
+{ 
+   background-color: #ffffff;
+   width: 75%;
+   float: right;
+   padding: 0px 5px 10px 10px;
+   overflow: auto;
+}
+
+/* Footer */
+#footer
+{ 
+   margin-top: 20px;
+   font-size: 80%;
+   text-align: center;
+   color: #eeeeee;
+   padding: 4px;
+   background-color: #663366;
+   clear:both; 
+}
+
+#footer a
+{ 
+   color: #ffeeee;
 }
