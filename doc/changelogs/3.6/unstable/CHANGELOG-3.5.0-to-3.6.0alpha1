@@ -186,7 +186,8 @@ eZInformationCollection:
   (Merged from stable/3.4 (3.4.6) rev. 10976, stable/3.5 (3.5.2) rev. 11018)
 - Fixed bug #6276: ez.no: PreViewCache not working
   (Merged from stable/3.5 (3.5.2) rev. 11025)
-
+-Fixed bug #6280: Previous location not displayed when moving node
+  (Manually merged from stable/3.5 (3.5.2) rev. 11042)
 
 *Library:
 PDF:
