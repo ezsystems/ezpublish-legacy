@@ -70,7 +70,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
     if ( $redirectionURI == '' )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
-//     eZDebug::writeNotice( $user, 'user');
+//     eZDebug::writeDebug( $user, 'user');
     $userID = 0;
     if ( get_class( $user ) == 'ezuser' )
         $userID = $user->id();
@@ -78,7 +78,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
     {
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
-        eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), 'user' );
+        eZDebug::writeDebug( $http->sessionVariable( 'eZUserLoggedInID' ), 'userid' );
         return $Module->redirectTo( $redirectionURI );
     }
 }

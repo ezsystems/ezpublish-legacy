@@ -60,6 +60,13 @@ define( 'EZ_USER_PASSWORD_HASH_MYSQL', 4 );
 /// Passwords in plaintext, should not be used for real sites
 define( 'EZ_USER_PASSWORD_HASH_PLAINTEXT', 5 );
 
+/// Authenticate by matching the login field
+define( 'EZ_USER_AUTHENTICATE_LOGIN', 1 << 0 );
+/// Authenticate by matching the email field
+define( 'EZ_USER_AUTHENTICATE_EMAIL', 1 << 1 );
+
+define( 'EZ_USER_AUTHENTICATE_ALL', EZ_USER_AUTHENTICATE_LOGIN | EZ_USER_AUTHENTICATE_EMAIL );
+
 $GLOBALS['eZUserBuiltins'] = array( EZ_USER_ANONYMOUS_ID );
 
 class eZUser extends eZPersistentObject
@@ -227,18 +234,58 @@ class eZUser extends eZPersistentObject
     {
         return $this->ContentObjectID;
     }
+    
+    /*!
+     \return a bitfield which decides the authenticate methods.
+    */
+    function authenticationMatch()
+    {
+    	include_once( 'lib/ezutils/classes/ezini.php' );
+    	$ini =& eZINI::instance();
+    	$matchArray = $ini->variableArray( 'UserSettings', 'AuthenticateMatch' );
+    	$match = 0;
+    	foreach ( $matchArray as $matchItem )
+    	{
+    	    switch ( $matchItem )
+    	    {
+    	    	case "login":
+    	    	{
+    	    	    $match = ( $match | EZ_USER_AUTHENTICATE_LOGIN );
+    	    	} break;
+    	    	case "email":
+    	    	{
+    	    	    $match = ( $match | EZ_USER_AUTHENTICATE_EMAIL );
+    	    	} break;
+    	    }
+    	}
+    	return $match;
+    }
 
     /*!
     \static
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function &loginUser( $login, $password )
+    function &loginUser( $login, $password, $authenticationMatch = false )
     {
         $http =& eZHTTPTool::instance();
         $db =& eZDB::instance();
+        
+        if ( $authenticationMatch === false )
+            $authenticationMatch = eZUser::authenticationMatch();
+            
+        $loginEscaped = $db->escapeString( $login );
 
-        $query = "SELECT contentobject_id, password_hash, password_hash_type, email,login FROM ezuser WHERE login='$login'";
+        $loginArray = array();
+        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
+            $loginArray[] = "login='$loginEscaped'";
+        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+            $loginArray[] = "email='$loginEscaped'";
+        if ( count( $loginArray ) == 0 )
+            $loginArray[] = "login='$loginEscaped'";
+        $loginText = implode( ' OR ', $loginArray );
+
+        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login FROM ezuser WHERE $loginText";
 
         $users =& $db->arrayQuery( $query );
         $exists = false;
