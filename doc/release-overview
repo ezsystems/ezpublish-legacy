@@ -133,3 +133,10 @@ Datatype branch:
 - From revision=4647
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.3-1
 - Date 07-Jan-2003
+
+3.3-2
+- AKA 3.3 release 2
+- Revision=4785
+- From revision=4786
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.3-2
+- Date 16-Jan-2003
