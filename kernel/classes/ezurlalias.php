@@ -137,6 +137,50 @@ class eZURLAlias extends eZPersistentObject
                                                 null, array( 'source_url' => $source ), true );
     }
 
+
+
+
+    /*!
+     \static
+    */
+    function convertToAlias( $pathURL )
+    {
+
+        $pathURL = strtolower( $pathURL );
+        $pathURL = preg_replace( array( "#[^a-z0-9_ ]#" ,
+                                             "/ /",
+                                             "/__+/" ),
+                                      array( "",
+                                             "_",
+                                             "_" ),
+                                      $pathURL );
+        return $pathURL;
+    }
+
+
+
+
+    /*!
+     \static
+    */
+    function convertPathToAlias( $pathURL )
+    {
+        $result = array();
+
+        $elements = explode( '/', $pathURL );
+
+        foreach ( $elements as $element )
+        {
+            $element = eZURLAlias::convertToAlias( $element );
+            $result[] = $element;
+        }
+
+        return implode( '/', $result );
+    }
+
+
+
+
     /*!
      \static
      Transforms the URI if there exists an alias for it.
