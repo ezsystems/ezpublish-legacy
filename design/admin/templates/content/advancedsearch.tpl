@@ -39,19 +39,19 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Search for all of the following words'|i18n( 'design/admin/content/search' )}</label>
+<label>{'Search for all of the following words'|i18n( 'design/admin/content/search' )}:</label>
 <input class="halfbox" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
 </div>
 
 <div class="block">
-<label>{'Search for an exact phrase'|i18n( 'design/admin/content/search' )}</label>
+<label>{'Search for an exact phrase'|i18n( 'design/admin/content/search' )}:</label>
 <input class="halfbox" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text|wash}" />
 </div>
 
 <div class="block">
 
 <div class="element">
-<label>{'Class'|i18n( 'design/admin/content/search' )}</label>
+<label>{'Class'|i18n( 'design/admin/content/search' )}:</label>
 <select name="SearchContentClassID">
 <option value="-1">{'Any class'|i18n( 'design/admin/content/search' )}</option>
 {section name=ContentClass loop=$content_class_array }
@@ -67,7 +67,7 @@ selected="selected"
 </div>
 
 <div class="element">
-<label>{'Class attribute'|i18n( 'design/admin/content/search' )}</label>
+<label>{'Class attribute'|i18n( 'design/admin/content/search' )}:</label>
 
 {section name=Attribute show=$search_contentclass_id|gt( 0 )}
 
@@ -92,7 +92,7 @@ selected="selected"
 <div class="block">
 <div class="element">
 
-<label>{'In'|i18n( 'design/admin/content/search' )}</label>
+<label>{'In'|i18n( 'design/admin/content/search' )}:</label>
 <select name="SearchSectionID">
 <option value="-1">{'Any section'|i18n( 'design/admin/content/search' )}</option>
 {section name=Section loop=$section_array }
@@ -109,7 +109,7 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>{"Published"|i18n( 'design/admin/content/search' )}</label><div class="labelbreak"></div>
+<label>{"Published"|i18n( 'design/admin/content/search' )}:</label>
 <select name="SearchDate">
 <option value="-1" {section show=eq( $search_date, -1 )}selected="selected"{/section}>{'Any time'|i18n( 'design/admin/content/search' )}</option>
 <option value="1 " {section show=eq( $search_date,  1 )}selected="selected"{/section}>{'Last day'|i18n( 'design/admin/content/search' )}</option>
@@ -122,7 +122,7 @@ selected="selected"
 
 {section show=$use_template_search}
 <div class="element">
-<label>{'Display per page'|i18n( 'design/admin/content/search' )}</label>
+<label>{'Display per page'|i18n( 'design/admin/content/search' )}:</label>
 <select name="SearchPageLimit">
 <option value="1" {section show=eq($search_page_limit,1)}selected="selected"{/section}>{"5 items"|i18n( 'design/admin/content/search' )}</option>
 <option value="2" {section show=or(array(1,2,3,4,5)|contains($search_page_limit)|not,eq($search_page_limit,2))}selected="selected"{/section}>{"10 items"|i18n( 'design/admin/content/search' )}</option>

@@ -15,13 +15,13 @@
 
 {* ID *}
 <div class="block">
-<label>{'ID'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'ID'|i18n( 'design/admin/content/translationview' )}:</label>
 {$translation.id}
 </div>
 
 {* Locale *}
 <div class="block">
-<label>{'Locale'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Locale'|i18n( 'design/admin/content/translationview' )}:</label>
 {$translation.locale}
 </div>
 
@@ -61,7 +61,7 @@
 <div class="context-attributes">
 {* Charset *}
 <div class="block">
-<label>{'Charset'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Charset'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.charset}
     {$translation.locale_object.charset}
 {section-else}
@@ -71,7 +71,7 @@
 
 {* Allowed charsets *}
 <div class="block">
-<label>{'Allowed charsets'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Allowed charsets'|i18n( 'design/admin/content/translationview' )}:</label>
 {section var=Charsets loop=$translation.locale_object.allowed_charsets}
     {$Charsets.item}<br />
 {/section}
@@ -79,7 +79,7 @@
 
 {* Country name *}
 <div class="block">
-<label>{'Country name'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Country name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_name}
     {$translation.locale_object.country_name}
 {section-else}
@@ -89,7 +89,7 @@
 
 {* Country comment *}
 <div class="block">
-<label>{'Country comment'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Country comment'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_comment}
     {$translation.locale_object.country_comment}
 {section-else}
@@ -99,7 +99,7 @@
 
 {* Country code *}
 <div class="block">
-<label>{'Country code'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Country code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_code}
     {$translation.locale_object.country_code}
 {section-else}
@@ -109,7 +109,7 @@
 
 {* Country variation *}
 <div class="block">
-<label>{'Country variation'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Country variation'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_variation}
     {$translation.locale_object.country_variation}
 {section-else}
@@ -119,7 +119,7 @@
 
 {* Language name *}
 <div class="block">
-<label>{'Language name'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Language name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.language_name}
     {$translation.locale_object.language_name}
 {section-else}
@@ -129,7 +129,7 @@
 
 {* International language name *}
 <div class="block">
-<label>{'International language name'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'International language name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.intl_language_name}
     {$translation.locale_object.intl_language_name}
 {section-else}
@@ -139,7 +139,7 @@
 
 {* Language code *}
 <div class="block">
-<label>{'Language code'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Language code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.language_code}
     {$translation.locale_object.language_code}
 {section-else}
@@ -149,7 +149,7 @@
 
 {* Language comment *}
 <div class="block">
-<label>{'Language comment'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Language comment'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.language_comment}
     {$translation.locale_object.language_comment}
 {section-else}
@@ -159,7 +159,7 @@
 
 {* Locale code *}
 <div class="block">
-<label>{'Locale code'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Locale code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.locale_code}
     {$translation.locale_object.locale_code}
 {section-else}
@@ -169,7 +169,7 @@
 
 {* Full locale code *}
 <div class="block">
-<label>{'Full locale code'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Full locale code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.locale_full_code}
     {$translation.locale_object.locale_full_code}
 {section-else}
@@ -179,7 +179,7 @@
 
 {* HTTP locale code *}
 <div class="block">
-<label>{'HTTP locale code'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'HTTP locale code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.http_locale_code}
     {$translation.locale_object.http_locale_code}
 {section-else}
@@ -189,7 +189,7 @@
 
 {* Decimal symbol *}
 <div class="block">
-<label>{'Decimal symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Decimal symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.decimal_symbol}
     {$translation.locale_object.decimal_symbol}
 {section-else}
@@ -199,7 +199,7 @@
 
 {* Thousands separator *}
 <div class="block">
-<label>{'Thousands separator'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Thousands separator'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.thousands_separator}
     {$translation.locale_object.thousands_separator}
 {section-else}
@@ -209,7 +209,7 @@
 
 {* Decimal count *}
 <div class="block">
-<label>{'Decimal count'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Decimal count'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.decimal_count}
     {$translation.locale_object.decimal_count}
 {section-else}
@@ -219,7 +219,7 @@
 
 {* Negative symbol *}
 <div class="block">
-<label>{'Negative symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Negative symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.negative_symbol}
     {$translation.locale_object.negative_symbol}
 {section-else}
@@ -229,7 +229,7 @@
 
 {* Positive symbol *}
 <div class="block">
-<label>{'Positive symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Positive symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.positive_symbol}
     {$translation.locale_object.positive_symbol}
 {section-else}
@@ -239,7 +239,7 @@
 
 {* Currency decimal symbol *}
 <div class="block">
-<label>{'Currency decimal symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency decimal symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_decimal_symbol}
     {$translation.locale_object.currency_decimal_symbol}
 {section-else}
@@ -249,7 +249,7 @@
 
 {* Currency thousands separator *}
 <div class="block">
-<label>{'Currency thousands separator'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency thousands separator'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_thousands_separator}
     {$translation.locale_object.currency_thousands_separator}
 {section-else}
@@ -259,7 +259,7 @@
 
 {* Currency decimal count *}
 <div class="block">
-<label>{'Currency decimal count'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency decimal count'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_decimal_count}
     {$translation.locale_object.currency_decimal_count}
 {section-else}
@@ -269,7 +269,7 @@
 
 {* Currency negative symbol *}
 <div class="block">
-<label>{'Currency negative symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency negative symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_negative_symbol}
     {$translation.locale_object.currency_negative_symbol}
 {section-else}
@@ -279,7 +279,7 @@
 
 {* Currency positive symbol *}
 <div class="block">
-<label>{'Currency positive symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency positive symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_positive_symbol}
     {$translation.locale_object.currency_positive_symbol}
 {section-else}
@@ -289,7 +289,7 @@
 
 {* Currency symbol *}
 <div class="block">
-<label>{'Currency symbol'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency symbol'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_symbol}
     {$translation.locale_object.currency_symbol}
 {section-else}
@@ -299,7 +299,7 @@
 
 {* Currency name *}
 <div class="block">
-<label>{'Currency name'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_name}
     {$translation.locale_object.currency_name}
 {section-else}
@@ -309,7 +309,7 @@
 
 {* Currency short name *}
 <div class="block">
-<label>{'Currency short name'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Currency short name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.currency_short_name}
     {$translation.locale_object.currency_short_name}
 {section-else}
@@ -319,7 +319,7 @@
 
 {* First day of week *}
 <div class="block">
-<label>{'First day of week'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'First day of week'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.is_monday_first}
     {'Monday'|i18n( 'design/admin/content/translationview' )}
 {section-else}
@@ -329,7 +329,7 @@
 
 {* Weekday names *}
 <div class="block">
-<label>{'Weekday names'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Weekday names'|i18n( 'design/admin/content/translationview' )}:</label>
 {section var=Weekdays loop=$translation.locale_object.weekday_name_list}
     {$Weekdays.item}<br />
 {/section}
@@ -337,7 +337,7 @@
 
 {* Month names *}
 <div class="block">
-<label>{'Month names'|i18n( 'design/admin/content/translationview' )}</label>
+<label>{'Month names'|i18n( 'design/admin/content/translationview' )}:</label>
 {section var=Months loop=$translation.locale_object.month_name_list}
     {$Months.item}<br />
 {/section}
