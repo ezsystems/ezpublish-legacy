@@ -412,3 +412,20 @@ div.listicon
 {
     padding-right: 4px;
 }
+
+
+/* eZSetup stuff */
+.ezsetup_fatal
+{
+	color: #FF0000;
+}
+
+.ezsetup_warning
+{
+	color: #E8E800;
+}
+
+.ezsetup_ok
+{
+	color: #00FF40;
+}

@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>eZ publish Setup - Step {$step}</title>
+    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/core.css" />
+    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/admin.css" />
+    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/debug.css" />	
 </head>
 <body>
 
@@ -22,13 +25,15 @@
         <td>{$items:item.desc}</td>
         <td align="center">{$items:item.req}</td>
         <td align="center">{$items:item.exist}</td>
-        <td align="center">{$items:item.pass}</td>                
+        <td align="center" class="{$items:item.class}">{$items:item.pass}</td>                
     </tr>
 {/section}
     </table>
 <hr width="50%" />
 
 {section name=continue show=$continue}
+No critical test failed. You can continue installing eZ publish.
+<hr width="50%" />
 <form method="post" action="{$script}">
     {section name=databases loop=$databasesArray}
     <input type="hidden" name="{$continue:databases:item.name}" value="{$continue:databases:item.pass}" />
