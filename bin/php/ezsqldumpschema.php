@@ -48,7 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
-                                "[diff-friendly][meta-data]" .
+                                "[diff-friendly][meta-data][table-type:]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
@@ -60,6 +60,10 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
+                                       'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
+                                                         "MySQL: bdb, innodb and myisam\n" .
+                                                         "PostgreSQL: \n" .
+                                                         "Oracle: " ),
                                        'format' => ( "The output format (default is generic)\n" .
                                                      "generic - Format which suits all databases\n" .
                                                      "local - Format which suits only the database it was dumped from." ),
@@ -137,6 +141,7 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'data' => $includeData,
                              'format' => $options['format'] ? $options['format'] : 'generic',
                              'meta_data' => $options['meta-data'],
+                             'table_type' => $options['table-type'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
                              'diff_friendly' => $options['diff-friendly'] );
 

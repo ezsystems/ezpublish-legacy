@@ -258,6 +258,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 		}
 
         $sql .= ( $diffFriendly ? " (\n    " : " ( " );
+        $i = 0;
         foreach ( $def['fields'] as $fieldDef )
         {
             if ( $i > 0 )
@@ -296,7 +297,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
             ++$i;
         }
         $sql .= ( $diffFriendly ? "\n)" : " )" );
-        $i = 0;
 
         if ( !$isEmbedded )
         {
@@ -430,7 +430,16 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
         $sql .= join( ",\n", $sql_fields );
         // We need to add primary key in table definition
-        $sql .= "\n);\n";
+        $sql .= "\n)";
+        if ( isset( $params['table_type'] ) and $params['table_type'] )
+        {
+            $typeName = $this->tableStorageTypeName( $params['table_type'] );
+            if ( $typeName )
+            {
+                $sql .= " TYPE=" . $typeName;
+            }
+        }
+        $sql .= ";\n";
 
         foreach ( $tableDef['indexes'] as $index_name => $index_def )
         {
@@ -442,6 +451,35 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
 		return $sql;
 	}
+
+    /*!
+      \return The name of storage type \a $type or \c false if not supported.
+
+      \note Currently supports \c bdb, \c myisam and \c innodb.
+
+      See http://dev.mysql.com/doc/mysql/en/CREATE_TABLE.html for overview of the types MySQL supports
+    */
+    function tableStorageTypeName( $type )
+    {
+        switch ( $type )
+        {
+            case 'bdb':
+            {
+                return 'BDB';
+            }
+
+            case 'myisam':
+            {
+                return 'MyISAM';
+            }
+
+            case 'innodb':
+            {
+                return 'InnoDB';
+            }
+        }
+        return false;
+    }
 
     /*!
      * \private
