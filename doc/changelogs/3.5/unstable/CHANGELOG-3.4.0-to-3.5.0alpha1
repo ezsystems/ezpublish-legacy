@@ -82,6 +82,9 @@ eztc.php:
 - Fixed bug in SQL fetching user list for subtree notification handler
   resulting in very large query execution times.
   Manually merged from 3.3 rev. 6836, also in 3.4 rev. 6837.
+- Fixed inability of PostgreSQL-based installation using the setup wizard.
+  Merged from stable/3.4 rev. 6846.
+  http://ez.no/community/bug_reports/database_connection_fails_with_installation_wizard
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
