@@ -201,19 +201,22 @@ class eZStepInstaller
         $siteTypes = eZSetupTypes();
         $chosenSiteTypes = array();
         $extraList = $this->extraDataList();
-        foreach ( $this->PersistenceList['chosen_site_types'] as $siteTypeIdentifier )
+        if ( isset( $this->PersistenceList['chosen_site_types'] ) )
         {
-            if ( isset( $siteTypes[$siteTypeIdentifier] ) )
+            foreach ( $this->PersistenceList['chosen_site_types'] as $siteTypeIdentifier )
             {
-                $chosenSiteType = $siteTypes[$siteTypeIdentifier];
-                foreach ( $extraList as $extraItem )
+                if ( isset( $siteTypes[$siteTypeIdentifier] ) )
                 {
-                    if ( isset( $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier] ) )
+                    $chosenSiteType = $siteTypes[$siteTypeIdentifier];
+                    foreach ( $extraList as $extraItem )
                     {
-                        $chosenSiteType[$extraItem] = $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier];
+                        if ( isset( $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier] ) )
+                        {
+                            $chosenSiteType[$extraItem] = $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier];
+                        }
                     }
+                    $chosenSiteTypes[] = $chosenSiteType;
                 }
-                $chosenSiteTypes[] = $chosenSiteType;
             }
         }
         return $chosenSiteTypes;

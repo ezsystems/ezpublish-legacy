@@ -175,6 +175,16 @@ class eZStepSiteAccess extends eZStepInstaller
 
             return true;
         }
+
+        $siteTypes = $this->chosenSiteTypes();
+
+        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        {
+            $siteType =& $siteTypes[$siteTypeKey];
+            if ( !isset( $siteType['access_type'] ) )
+                $siteType['access_type'] = 'url';
+        }
+        $this->storeSiteTypes( $siteTypes );
         return false; // Always show site access
     }
 

@@ -78,6 +78,8 @@ class eZStepDatabaseInit extends eZStepInstaller
             $this->PersistenceList['database_info']['socket'] = $this->Http->postVariable( 'eZSetupDatabaseSocket' );
         if ( !isset( $this->PersistenceList['database_info']['socket'] ) )
             $this->PersistenceList['database_info']['socket'] = false;
+        if ( !isset( $this->PersistenceList['database_info']['database'] ) )
+            $this->PersistenceList['database_info']['database'] = false;
 
 
         $this->Error = 0;
