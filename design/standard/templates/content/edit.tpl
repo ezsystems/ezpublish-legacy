@@ -7,14 +7,14 @@
     <td valign="top">
     <!-- Left part start -->
     <div class="maincontentheader">
-    <h1>Edit {$class.name} - {$object.name}</h1>
+    <h1>{"Edit"|i18n("design/standard/content/edit")} {$class.name} - {$object.name}</h1>
     </div>
 
     {section show=$validation.processed}
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 
         <div class="warning">
-        <h2>Input did not validate</h2>
+        <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
         <ul>
         	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
         </ul>
@@ -23,20 +23,20 @@
         {section-else}
 
         <div class="feedback">
-        <h2>Input was stored successfully</h2>
+        <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
         </div>
 
         {/section}
     {/section}
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <th width="60%">{"Location"|i18n('content/object')}:</th>
-        <th colspan="1">{"Sort by"|i18n('content/object')}:</th>
-        <th colspan="2">{"Ordering"|i18n('content/object')}:</th>
-        <th colspan="1">{"Main"|i18n('content/object')}:</th>
-        <th colspan="1">{"Move"|i18n('content/object')}:</th>
+        <th width="60%">{"Location"|i18n("design/standard/content/edit")}:</th>
+        <th colspan="1">{"Sort by"|i18n("design/standard/content/edit")}:</th>
+        <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}:</th>
+        <th colspan="1">{"Main"|i18n("design/standard/content/edit")}:</th>
+        <th colspan="1">{"Move"|i18n("design/standard/content/edit")}:</th>
     </tr>
-    {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
+    {let name=Node sort_fields=hash(1,"Path"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
    {let existingParentNodes=$object.parent_nodes}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {let parent_node=$Node:item.parent_node_obj}
@@ -95,7 +95,7 @@
     {/let}
  </table>
  <div align="right" class="buttonblock">
-  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add location(s)'|i18n('content/object')}" />
+  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add location(s)'|i18n('design/standard/content/edit')}" />
  </div>
 
     {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
@@ -107,12 +107,12 @@
     {/section}
 
     <div class="buttonblock">
-    <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
+    <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
     </div>
     <div class="buttonblock">
-    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
-    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('content/object')}" />
+    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     </div>
     <!-- Left part end -->
     </td>
@@ -123,29 +123,29 @@
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
         <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Object info"|i18n('content/object')}</p>
+        <p class="menuhead">{"Object info"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
     <tr>
         <td class="menu" colspan="2">
-	    <p class="menufieldlabel">{"Created"|i18n('content/object')}:</p>
+	    <p class="menufieldlabel">{"Created"|i18n("design/standard/content/edit")}:</p>
 	    {section show=$object.published}
 	    <p class="menufield">{$object.published|l10n(date)}</p>
 	    {section-else}
 	    <p class="menufield">
-	    {"Not yet published"|i18n('content/object')}
+	    {"Not yet published"|i18n("design/standard/content/edit")}
 	    </p>
 	    {/section}
         </td>
     </tr>
     <tr>
         <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Version info"|i18n('content/object')}</p>
+        <p class="menuhead">{"Version info"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Editing"|i18n('content/object')}:</p>
+	    <p class="menufieldlabel">{"Editing"|i18n("design/standard/content/edit")}:</p>
         </td>
         <td class="menu" width="1">
 	    <p class="menufield">{$edit_version}</p>
@@ -153,7 +153,7 @@
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Current"|i18n('content/object')}:</p>
+	    <p class="menufieldlabel">{"Current"|i18n("design/standard/content/edit")}:</p>
         </td>
         <td class="menu" width="1">
 	    <p class="menufield">{$object.current_version}</p>
@@ -161,7 +161,7 @@
     </tr>
     <tr>
         <td class="menu" colspan="2" align="right">
-          <input class="menubutton" type="submit" name="VersionsButton" value="{'Manage'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="VersionsButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
         </td>
     </tr>
     <!-- Object info box end-->
@@ -175,7 +175,7 @@
 {section show=$Translation:translation_list}
     <tr>
         <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Translations"|i18n('content/object')}</p>
+        <p class="menuhead">{"Translations"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
 
@@ -203,9 +203,9 @@
 {/section}
     <tr>
         <td colspan="2" align="right">
-	  <input class="menubutton" type="submit" name="TranslateButton" value="{'Manage'|i18n('content/object')}" />
+	  <input class="menubutton" type="submit" name="TranslateButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
 {section show=$Translation:other_translation_list|gt(0)}
-          <input class="menubutton" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
 {/section}
         </td>
     </tr>
@@ -216,7 +216,7 @@
 
     <tr>
         <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Related objects"|i18n('content/object')}</p>
+        <p class="menuhead">{"Related objects"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
@@ -232,10 +232,10 @@
     {/section}
     <tr>
         <td align="left">
-          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
 	</td>
         <td align="right">
-          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
         </td>
     </tr>
     <tr>
