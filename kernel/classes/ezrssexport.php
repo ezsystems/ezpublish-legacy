@@ -310,6 +310,42 @@ class eZRSSExport extends eZPersistentObject
     }
 
     /*!
+     Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
+
+     \param
+
+     \return RSS 2.0 XML docuemnt
+    */
+    function &fetchRSS2( $id = null )
+    {
+        if ( $id != null )
+        {
+            $rssExport = eZRSSExport::fetch( $id );
+            return $rssExport->fetchRSSDocument();
+        }
+
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+
+        // Get URL Translation settings.
+        $config =& eZINI::instance( 'site.ini' );
+        if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
+        {
+            $useURLAlias = true;
+        }
+        else
+        {
+            $useURLAlias = false;
+        }
+
+        $baseItemURL = $this->attribute( 'url' ).'/'.$this->attribute( 'site_access' ).'/';
+
+        $doc = new eZDOMDocument();
+        $doc->setName( 'eZ publish RSS Export' );
+        $root =& $doc->createElementNode( 'rss' );
+        $doc->setRoot( $root );
+
+    }
+    /*!
      Get a RSS xml document based on the RSS 1.0 standard based on the RSS Export settings defined by this object
 
      \param object ID

@@ -22,7 +22,7 @@
 {section show=$tree_traverse|eq(1)}
   {section name=Child loop=$children}
     {section show=$class_array|contains($Child:item.object.contentclass_id)}
-      {include uri="design:node/view/pdf.tpl" node=$Child:item tree_traverse=$tree_traverse class_array=$class_array}
+      {node_view_gui view=pdf content_node=$Child:item tree_traverse=$tree_traverse class_array=$class_array} {* Calls node/view/pdf.tpl *}
     {/section}
   {/section}
 {/section}
@@ -31,6 +31,7 @@
 
 {* generate_toc variable is only set in namespace of first instance of pdf.tpl called *}
 {section show=$generate_toc|eq(1)}
+  {pdf(createIndex)}
   {pdf(pageNumber, hash( identifier, "main",
                          stop, 1 ) )}
   {include uri="design:content/pdf/footer.tpl"}

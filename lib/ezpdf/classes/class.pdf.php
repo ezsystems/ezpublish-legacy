@@ -3017,6 +3017,8 @@ class Cpdf
 /**
  * add a PNG image into the document, from a file
  * this should work with remote files
+ *
+ * \return true if adding image succeded
  */
     function addPngFromFile($file,$x,$y,$w=0,$h=0){
 	// read in a png file, interpret it, then add to the system
@@ -3154,11 +3156,11 @@ class Cpdf
 
 	if (!$error){
 	    if ($info['colorType']!=2 && $info['colorType']!=0 && $info['colorType']!=3){
-		$error = 1;
-		$errormsg = 'transparancey alpha channel not supported, transparency only supported for palette images.';
+            $error = 1;
+            $errormsg = 'transparancey alpha channel not supported, transparency only supported for palette images.';
 	    } else {
 		switch ($info['colorType']){
-		    case 3:
+            case 3:
 			$color = 'DeviceRGB';
 		    $ncolor=1;
 		    break;
@@ -3174,8 +3176,9 @@ class Cpdf
 	    }
 	}
 	if ($error){
+        eZDebug::writeError( 'Adding PNG file, '. $file .', to PDF failed: '.$errormsg, 'Cpdf::addPngFromFile' );
 	    $this->addMessage('PNG error - ('.$file.') '.$errormsg);
-	    return;
+	    return false;
 	}
 	if ($w==0){
 	    $w=$h/$info['height']*$info['width'];

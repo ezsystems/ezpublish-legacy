@@ -159,7 +159,7 @@ class eZPDF
                 eZDebug::writeNotice( 'PDF: New page', 'eZPDF::modify' );
             } break;
 
-            case 'image': //TODO
+            case 'image':
             {
                 $image = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -191,7 +191,7 @@ class eZPDF
                 $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 $operatorValue = '<c:alink:'. $link['url'] .'>'. $link['text'] .'</c:alink>';
-                eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'], 'eZPDF::modify' );
+                eZDebug::writeNotice( 'PDF: Added link: '. $link['text'] .', url: '.$link['url'], 'eZPDF::modify' );
             } break;
 
             case 'stream':
@@ -223,7 +223,7 @@ class eZPDF
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
 
                 $this->PDF->ezText( $text );
-                eZDebug::writeNotice( 'Execute text in PDF: "'. $text .'"', 'eZPDF::modify' );
+                eZDebug::writeNotice( 'Execute text in PDF, length: "'. strlen( $text ) .'"', 'eZPDF::modify' );
             } break;
 
             case 'pageNumber':
@@ -487,7 +487,7 @@ class eZPDF
                     $operatorValue .= '</ezCall:callText>';
                 }
 
-                eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
+//                eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
             default:

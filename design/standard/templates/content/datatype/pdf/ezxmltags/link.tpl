@@ -1,2 +1,2 @@
-{pdf(link, hash(url, $href|ezurl(no),
+{pdf(link, hash(url, $href,
                 text, $content|wash(pdf)))}

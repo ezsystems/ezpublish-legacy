@@ -83,11 +83,11 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
                 $db =& eZDB::instance();
 
-                $linkArray = $db->arrayQuery( 'SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) ' );
+                $linkArray = $db->arrayQuery( 'SELECT * FROM ezurl WHERE id IN ( '. $inIDSQL .' ) ' );
 
                 foreach ( $linkArray as $linkRow )
                 {
-                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    $this->LinkArray[(string)$linkRow['id']] = $linkRow['url'];
                 }
             }
 
@@ -263,7 +263,6 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $childTagText .= $this->renderPDFTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
         }
 
-
         switch ( $tagName )
         {
             case '#text' :
@@ -280,7 +279,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $objectID = $tag->attributeValue( 'id' );
                 // fetch attributes
                 $objectAttributes =& $tag->attributes();
-                $object =& $this->ObjectArray['$objectID'];
+                $object =& $this->ObjectArray[(string)$objectID];
                 // Fetch from cache
                 if ( get_class( $object ) == 'ezcontentobject' )
                 {
@@ -438,7 +437,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $listItemContent = '';
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->renderPDFTag( $tpl, $itemChildNode, 0 );
+                        $listItemContent .= $this->renderPDFTag( $tpl, $itemChildNode, $currentSectionLevel, $isBlockTag );
                     }
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = 'design:content/datatype/pdf/ezxmltags/li.tpl';
@@ -558,7 +557,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $target = false;
                 if ( $linkID != null )
                 {
-                    $href = $this->LinkArray[$linkID];
+                    $href = $this->LinkArray[(string)$linkID];
                 }
                 else
                     $href = $tag->attributeValue( 'href' );

@@ -180,7 +180,7 @@ class eZPDFTable extends Cezpdf
         }
 
         $defaults = array(
-            'shaded'=>1,'showLines'=>1,'shadeCol'=>array(0.8,0.8,0.8),'shadeCol2'=>array(0.7,0.7,0.7),'fontSize'=>10,'titleFontSize'=>12
+            'shaded'=>0,'showLines'=>1,'shadeCol'=>array(0.8,0.8,0.8),'shadeCol2'=>array(0.7,0.7,0.7),'fontSize'=>10,'titleFontSize'=>12
             ,'titleGap'=>5,'lineCol'=>array(0,0,0),'gap'=>5,'xPos'=>'centre','xOrientation'=>'centre'
             ,'showHeadings'=>1,'textCol'=>array(0,0,0),'width'=>0,'maxWidth'=>0,'cols'=>array(),'minRowSpace'=>-100,'rowGap'=>2,'colGap'=>5
             ,'innerLineThickness'=>1,'outerLineThickness'=>1,'splitRows'=>0,'protectRows'=>1
@@ -227,6 +227,10 @@ class eZPDFTable extends Cezpdf
                 }
                 else
                 {
+                    if ( !isset( $maxWidth[$colSpan] ) )
+                    {
+                        $maxWidth[$colSpan] = array();
+                    }
                     $maxWidth[$colSpan][$realColCount] = $w;
                 }
 
@@ -318,6 +322,18 @@ class eZPDFTable extends Cezpdf
             $options['width']=$options['maxWidth'];
         }
 
+        // calculate total table width before limiting
+        $totalTableWidth = 0;
+        foreach ( array_keys( $columnWidths ) as $idx ){
+            $totalTableWidth += $columnWidths[$idx];
+        }
+
+        if ( $options['width'] == 0 &&
+             $totalTableWidth > $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'] )
+        {
+            $options['width'] = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'];
+        }
+
         // calculated width as forced. Shrink or enlarge
         if ( $options['width'] && $adjustmentWidth>0 ){
             $newCleanWidth = $options['width'] - $setWidth;
@@ -329,6 +345,19 @@ class eZPDFTable extends Cezpdf
                 $t += $columnWidths[$count] + $options['gap'];
             }
             $pos['_end_']=$t;
+        }
+
+        /* Calculate max column widths */
+        foreach ( array_keys ( $maxWidth ) as $colspan )
+        {
+            foreach ( array_keys( $maxWidth[$colspan] ) as $offset )
+            {
+                $maxWidth[$colspan][$offset] = 0;
+                for ( $columnCount = $offset; $columnCount < $offset + $colspan; $columnCount ++ )
+                {
+                    $maxWidth[$colspan][$offset] += $columnWidths[$columnCount];
+                }
+            }
         }
 
         // now adjust the table to the correct location across the page
@@ -836,17 +865,57 @@ class eZPDFTable extends Cezpdf
 
         $this->extractParameters( $info['p'], 0, $params, true );
 
+        $filename = rawurldecode( $params['src'] );
+
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        $mimetype = eZMimeType::findByFileContents( $filename );
+
+        $this->transaction( 'start' );
+
+        if ( $this->offsetY()-$params['height'] < $this->ez['bottomMargin'] )
+        {
+            $this->ezNewPage();
+        }
+
         $xOffset = $this->ez['leftMargin'];
         if ( isset( $params['xOffset'] ) )
         {
             $xOffset = $params['xOffset'];
         }
 
-        $this->addJpegFromFile( rawurldecode( $params['src'] ),
-                                $xOffset,
-                                $this->offsetY()-$params['height'],
-                                $params['width'],
-                                $params['height'] );
+        switch( $mimetype['name'] )
+        {
+            case 'image/jpeg':
+            {
+                $this->addJpegFromFile( $filename,
+                                        $xOffset,
+                                        $this->offsetY()-$params['height'],
+                                        $params['width'],
+                                        $params['height'] );
+            } break;
+
+            case 'image/png':
+            {
+                if ( $this->addPngFromFile( $filename,
+                                            $xOffset,
+                                            $this->offsetY()-$params['height'],
+                                            $params['width'],
+                                            $params['height'] ) === false )
+                {
+                    $this->transaction('abort');
+                    return;
+                }
+            } break;
+
+            default:
+            {
+                eZDebug::writeError( 'Unsupported image file type, '. $mimetype['name'], 'eZPDFTable::callImage' );
+                $this->transaction( 'abort' );
+                return;
+            } break;
+        }
+
+        $this->transaction( 'commit' );
     }
 
 
@@ -886,7 +955,7 @@ class eZPDFTable extends Cezpdf
 
         $tocCount = count( $this->TOC );
         $this->TOC[] = array( 'label' => $this->fixWhitespace( rawurldecode( $label ) ),
-                              'localPageNumber' => $this->ezWhatPageNumber($this->ezGetCurrentPageNumber()),
+                              'localPageNumber' => $this->ezWhatPageNumber( $this->ezGetCurrentPageNumber() ),
                               'level' => $level,
                               'pageNumber' => $this->ezGetCurrentPageNumber() );
         $this->addDestination( 'toc'. $tocCount,
@@ -992,7 +1061,7 @@ class eZPDFTable extends Cezpdf
         $size = substr($tmp, 0, 2);
         $thick=1;
         $lbl = substr($tmp,2);
-        $xpos = $this->ez['pageWidth'] - $this->ez['rightMargin'];
+        $xpos = $this->ez['pageWidth'] - $this->ez['rightMargin'] - $this->ez['leftMargin'];
 
         $this->saveState();
         $this->setLineStyle($thick,'round','',array(0,10));
@@ -1662,8 +1731,9 @@ class eZPDFTable extends Cezpdf
         {
             foreach ( array_keys( $this->PageCounter ) as $identifier )
             {
-                if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
-                     $this->PageCounter[$identifier]['stop'] >= $pageNum )
+                if ( isset( $this->PageCounter[$identifier]['start'] ) &&
+                     $this->PageCounter[$identifier]['start'] <= $pageNum &&
+                     ( !isset( $this->PageCounter[$identifier]['stop'] ) || $this->PageCounter[$identifier]['stop'] >= $pageNum ) )
                     return $pageNum - $this->PageCounter[$identifier]['start'] + 1;
             }
         }
