@@ -252,6 +252,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11232)
 - Fixed bug #6078: Wrong RSS rights to anonymous users.
   (Manually merged from stable/3.5 (3.5.2) rev. 11261) 
+- Fixed bug #6446: eZPreferences::values() always assumes the current user.
+  (Manually merged from stable/3.5 (3.5.2) rev. 11264)
   
 *Library:
 PDF:
