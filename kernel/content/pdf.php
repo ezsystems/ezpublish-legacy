@@ -135,17 +135,6 @@ if ( $viewCacheEnabled && ( $useTriggers == false ) )
     }
 }
 
-$limitationList = array();
-
-if ( array_key_exists( 'Limitation', $Params ) )
-{
-    $Limitation =& $Params['Limitation'];
-    foreach ( $Limitation as $policy )
-    {
-        $limitationList[] =& $policy->attribute( 'limitations' );
-    }
-}
-
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
