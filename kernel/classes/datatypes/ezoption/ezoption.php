@@ -62,7 +62,7 @@ class eZOption
     function eZOption( $name )
     {
         $this->Name = $name;
-        $Options = array();
+        $this->Options = array();
         $this->OptionCount = 0;
     }
 

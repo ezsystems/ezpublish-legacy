@@ -79,7 +79,7 @@ class eZEnumType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        if ( $currentVersion !== false )
+        if ( $currentVersion != false )
         {
             $originalContentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
             $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
