@@ -150,14 +150,17 @@ function ezjslib_createHTMLChildTextNode( node, text )
 
 /*!
 */
-function  ezjslib_createHTMLChildImageNode( node, imageSource )
+function  ezjslib_createHTMLChildImageNode( node, imageSource, imageWidth, imageHeight )
 {
     if ( node != null )
     {
         var imageNode = document.createElement( 'img' );
         imageNode.src = imageSource;
-        imageNode.height = 16;
-        imageNode.width = 16;
+        if ( imageWidth )
+            imageNode.width = imageWidth;
+        if ( imageHeight )
+            imageNode.height = imageHeight;
+
         node.appendChild( imageNode );
     }
 }

@@ -57,6 +57,8 @@
         ezcst_unfoldNode.
 
     Functions which initializes menu:
+        ezcst_createUnfoldedLabel,
+        ezcst_createEmptyLabel,
         ezcst_setFoldUnfoldIcons,
         ezcst_initializeMenuState,
         ezcst_resetMenuState,
@@ -79,6 +81,9 @@ var gUnfoldedNodesList                          = new Array(0);
 var gUseFoldUnfoldIcons                         = false;
 var gFoldIcon                                   = '';
 var gUnfoldIcon                                 = '';
+var gEmptyIcon                                  = '';
+var gFoldUnfoldIconsWidth                       = 16;
+var gFoldUnfoldIconsHeight                      = 16;
 
 /*!
     Global identifier of the Root Node
@@ -313,12 +318,10 @@ function ezcst_foldUnfold( node, bUpdateCookie, bInitFoldUnfoldLabels, bForceFol
             ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
             break;
         }
-/*!
         else if ( bInitFoldUnfoldLabels && child["tagName"] && child.tagName.toLowerCase() == "span" )
         {
-            ezjslib_createHTMLChildTextNode( child, "" );
+            ezcst_createEmptyLabel( child );
         }
-*/
     }
 }
 
@@ -437,22 +440,40 @@ function ezcst_restoreMenuState( rootNode )
 */
 function ezcst_createUnfoldedLabel( node )
 {
-    if ( gUseFoldUnfoldIcons )
-        ezjslib_createHTMLChildImageNode( node, gUnfoldIcon );
-    else
-        ezjslib_createHTMLChildTextNode( node, "[-]" );
+    if ( node )
+    {
+        if ( gUseFoldUnfoldIcons )
+            ezjslib_createHTMLChildImageNode( node, gUnfoldIcon, gFoldUnfoldIconsWidth, gFoldUnfoldIconsHeight );
+        else
+            ezjslib_createHTMLChildTextNode( node, "[-]" );
+    }
 }
 
+/*!
+    Create an empty text( '[ ]' ) label
+*/
+function ezcst_createEmptyLabel( node )
+{
+    if ( node )
+    {
+        if ( gUseFoldUnfoldIcons )
+            ezjslib_createHTMLChildImageNode( node, gEmptyIcon, gFoldUnfoldIconsWidth, gFoldUnfoldIconsHeight );
+        else
+            ezjslib_createHTMLChildTextNode( node, "[ ]" );
+        //ezjslib_createHTMLChildTextNode( node, "" );
+    }
+}
 
 /*!
-    Sets icons instead of text labels [-]/[+]
+    Sets icons instead of text labels [-]/[+]/[ ]
 */
-function ezcst_setFoldUnfoldIcons( foldIcon, unfoldIcon )
+function ezcst_setFoldUnfoldIcons( foldIcon, unfoldIcon, emptyIcon )
 {
     if ( foldIcon && unfoldIcon )
     {
         gFoldIcon = foldIcon;
         gUnfoldIcon = unfoldIcon;
+        gEmptyIcon = emptyIcon;
         gUseFoldUnfoldIcons = true;
     }
 }

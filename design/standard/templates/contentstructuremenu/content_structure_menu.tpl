@@ -107,7 +107,7 @@
         {/section}
 
 
-        ezcst_setFoldUnfoldIcons( {"images/content_tree-open.gif"|ezdesign}, {"images/content_tree-close.gif"|ezdesign} );
+        ezcst_setFoldUnfoldIcons( {"images/content_tree-open.gif"|ezdesign}, {"images/content_tree-close.gif"|ezdesign}, {"images/1x1.gif"|ezdesign} );
         ezcst_initializeMenuState( nodesList, "{$:menuID}", "{$:autoopenCurrentNode}" );
     // -->
     </script>
