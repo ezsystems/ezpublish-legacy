@@ -117,6 +117,8 @@ links to clickable links.
 - If email can be used as login, now validation checks if email is unique
 - If we update basket with 0 amount, then product is deleted from basket
 - Added optional view mode for advanced search
+- Added script for probing if server is alive. /ezinfo/is_alive
+- Added next/previous navigation to advanced search template
 - Texttoimage operator can now set absolute size for the resulting image in texttoimage.ini.
 
 *SDK :
