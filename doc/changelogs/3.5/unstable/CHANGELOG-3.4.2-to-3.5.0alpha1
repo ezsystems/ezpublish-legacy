@@ -622,6 +622,9 @@ Workflow:
 - Fixed bug: when deleting objects smart cache isn't used
   (Merged from stable/3.4 rev.8356)
   http://ez.no/community/bug_reports/deleting_nodes_objects_smart_cache_isn_t_used
+- Fixed bug: undefined variable $field_filters in ezcontentobjectattribute::language().
+  (Merged from stable/3.3 rev. 8384, also in stable/3.4 rev. 8385)
+  http://ez.no/community/bug_reports/3_5alpha1_undefined_var_field_filters_in_ezcontentobjectattribute_language
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

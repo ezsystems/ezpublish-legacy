@@ -340,7 +340,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $languageCode = eZContentObject::defaultLanguage();
         }
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
-                                                $field_filters,
+                                                null,
                                                 array( "contentclassattribute_id" => $this->ContentClassAttributeID,
                                                        "contentobject_id" => $this->ContentObjectID,
                                                        "version" => $this->Version,
