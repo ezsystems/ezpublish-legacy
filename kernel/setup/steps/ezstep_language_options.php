@@ -62,12 +62,6 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function processPostData()
     {
-//         if( !$this->Http->hasPostVariable( 'eZSetupLanguages' ) or
-//             !$this->Http->hasPostVariable( 'eZSetupDefaultLanguage' ) )
-//         {
-//             return false;
-//         }
-
         $regionalInfo = array();
         $regionalInfo['language_type'] = 1 ;
         $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
@@ -77,6 +71,52 @@ class eZStepLanguageOptions extends eZStepInstaller
         $regionalInfo['primary_language'] = $primaryLanguage;
         $regionalInfo['languages'] = $languages;
         $this->PersistenceList['regional_info'] = $regionalInfo;
+
+        if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
+             $this->PersistenceList['database_info']['use_unicode'] == false )
+        {
+            $primaryLanguage = null;
+            $allLanguages = array();
+            $allLanguageCodes = array();
+            $extraLanguages = array();
+            $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+            $extraLanguageCodes = array();
+            if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
+                $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+            $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+            if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+            {
+                $variations = $this->PersistenceList['regional_info']['variations'];
+                foreach ( $variations as $variation )
+                {
+                    $locale = eZLocale::create( $variation );
+                    if ( $locale->localeCode() == $primaryLanguageCode )
+                    {
+                        $primaryLanguage = $locale;
+                    }
+                    else
+                    {
+                        $extraLanguages[] = $locale;
+                    }
+                }
+            }
+            $allLanguages[] =& $primaryLanguage;
+            foreach ( $extraLanguageCodes as $extraLanguageCode )
+            {
+                $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                $allLanguageCodes[] = $extraLanguageCode;
+            }
+
+            if ( $primaryLanguage === null )
+                $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
+
+            $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
+            if ( !$charset )
+            {
+                $this->Error = 1;
+                return false;
+            }
+        }
 
         return true;
     }
@@ -105,7 +145,7 @@ class eZStepLanguageOptions extends eZStepInstaller
 
         $this->Tpl->setVariable( 'language_list', $languages );
         $showUnicodeError = false;
-        if ( isset( $this->PersistenceList['database_info']['use_unicode'] ) )
+        if ( isset( $this->Error ) )
         {
             $showUnicodeError = !$this->PersistenceList['database_info']['use_unicode'];
             unset( $this->PersistenceList['database_info']['use_unicode'] );
@@ -122,6 +162,8 @@ class eZStepLanguageOptions extends eZStepInstaller
         return $result;
     }
 
+
+    var $Error;
 }
 
 ?>
