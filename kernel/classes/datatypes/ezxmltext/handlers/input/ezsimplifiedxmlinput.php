@@ -1963,6 +1963,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'literal' :
             {
                 $className = $tag->attributeValue( 'class' );
+				$literalText = '';
                 foreach ( $tagChildren as $childTag )
                 {
                     $literalText .= $childTag->content();
