@@ -3,12 +3,12 @@
 {section show=$rule_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>ID:</th>
-    <th>Rule Type:</th>
-    <th>Class Name:</th>
-    <th>Path:</th>
-    <th>Keyword:</th>
-    <th>Additional constraint:</th>
+    <th>{"ID:"|i18n("design/standard/notification")}</th>
+    <th>{"Rule Type:"|i18n("design/standard/notification")}</th>
+    <th>{"Class Name:"|i18n("design/standard/notification")}</th>
+    <th>{"Path:"|i18n("design/standard/notification")}</th>
+    <th>{"Keyword:"|i18n("design/standard/notification")}</th>
+    <th>{"Additional constraint:"|i18n("design/standard/notification")}</th>
 </tr>
 
 {section name=Rule loop=$rule_list sequence=array(bglight,bgdark)}
@@ -32,8 +32,8 @@
 <option value="{$Rules:item.information.name}">{$Rules:item.information.name}</option>
 {/section}
 </select>
-{include uri="design:gui/button.tpl" name=new id_name=NewRuleButton value="New Rule"}
-{include uri="design:gui/button.tpl" name=delete id_name=DeleteRuleButton value="Delete"}
-{include uri="design:gui/button.tpl" name=send id_name=SendButton value="Send Message"}
+{include uri="design:gui/button.tpl" name=new id_name=NewRuleButton value="New Rule"|i18n("design/standard/notification")}
+{include uri="design:gui/button.tpl" name=delete id_name=DeleteRuleButton value="Delete"|i18n("design/standard/notification")}
+{include uri="design:gui/button.tpl" name=send id_name=SendButton value="Send Message"|i18n("design/standard/notification")}
 </div>
 </form>

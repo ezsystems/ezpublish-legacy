@@ -11,7 +11,7 @@
 <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-<table  cellspacing="5" cellpadding="0" border="0">
+<table cellspacing="5" cellpadding="0" border="0">
 <tr>
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
@@ -71,7 +71,7 @@
    {switch match=$content_object.can_edit}
    {case match=1}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input class="button" type="submit" name="EditButton" value="Edit" />
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    {/case}
    {case match=0}
    {/case}
@@ -90,16 +90,16 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
-    Name:
+    {"Name:"|i18n("design/standard/node/view")}
     </th>
     <th>
-    Class:
+    {"Class:"|i18n("design/standard/node/view")}
     </th>
     <th>
-    Sorting:
+    {"Sorting:"|i18n("design/standard/node/view")}
     </th>
     <th colspan="2" align="right">
-    Remove:
+    {"Remove:"|i18n("design/standard/node/view")}
     </th>
 </tr>
 {section name=Child loop=$children  sequence=array(bglight,bgdark)}
@@ -149,7 +149,7 @@
     {switch match=$content_object.can_edit}
         {case match=1}
         {section show=eq($node.sort_array[0][0],'priority')}
-         <input class="button" type="submit"  name="UpdatePriorityButton" value="Update" />
+         <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
         {/section}
         {/case}
         {case match=0}
@@ -158,7 +158,7 @@
     </td>
     <td colspan="2" align="right">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    <input class="button" type="submit" name="RemoveButton" value="Remove" />
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
     {/section}
     </td>
 </tr>
@@ -184,7 +184,7 @@
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="New" />
+         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
 {/case}
 {case match=0}
 

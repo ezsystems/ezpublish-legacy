@@ -1,10 +1,10 @@
 <tr>
 <td>
-Content Class Name:
+{"Content Class Name:"|i18n("design/standard/notification/rules")}
 </td>
 <td>
 <select name="contentClassName">
-<option value="All">All</option>
+<option value="All">{"All"|i18n("design/standard/notification/rules")}</option>
 {section name=ClassList loop=$class_list}
 <option value="{$ClassList:item.name}" {switch name=sw match=$ClassList:item.name}{case match=$rule_list.contentclass_name}selected{/case}{case/}{/switch}>{$ClassList:item.name}</option>
 {/section}
@@ -13,7 +13,7 @@ Content Class Name:
 </tr>
 <tr>
 <td>
-Path:
+{"Path:"|i18n("design/standard/notification/rules")}
 </td>
 <td>
 <input type="text" name="path" value="{section show=$rule_list}{$rule_list.path}{/section}" size="50">
@@ -21,7 +21,7 @@ Path:
 </tr>
 <tr>
 <td>
-Keyword:
+{"Keyword:"|i18n("design/standard/notification/rules")}
 </td>
 <td>
 <input type="text" name="keyword" value="{section show=$rule_list}{$rule_list.keyword}{/section}" size="50">
@@ -42,6 +42,3 @@ Keyword:
 {/section}
 </tr>
 {/section}
-
-
-

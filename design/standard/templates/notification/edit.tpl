@@ -1,6 +1,6 @@
 <form action={concat($module.functions.edit.uri,"/",$rule_type,"/",$rule_id)|ezurl} method="post" name="Edit">
 <div class="maincontentheader">
-<h1>Notification registration form</h1>
+<h1>{"Notification registration form"|i18n("design/standard/notification")}</h1>
 </div>
 
 {switch match=$rule_type}
@@ -17,28 +17,28 @@
 
 <div class="block">
 <div class="element">
-<label>Send Method:</label><div class="labelbreak"></div>
+<label>{"Send Method:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendMethod">
-<option value="email" {section show=eq($userlink_list.send_method,'email')}selected{/section}>Email</option>
-<option value="sms" {section show=eq($userlink_list.send_method,'sms')}selected{/section}>SMS</option>
-<option value="internal message" {section show=eq($userlink_list.send_method,'internal message')}selected{/section}>Internal message</option>
+<option value="email" {section show=eq($userlink_list.send_method,'email')}selected{/section}>{"Email"|i18n("design/standard/notification")}</option>
+<option value="sms" {section show=eq($userlink_list.send_method,'sms')}selected{/section}>{"SMS"|i18n("design/standard/notification")}</option>
+<option value="internal message" {section show=eq($userlink_list.send_method,'internal message')}selected{/section}>{"Internal message"|i18n("design/standard/notification")}</option>
 </select>
 </div>
 <div class="element">
-<label>Send day:</label><div class="labelbreak"></div>
+<label>{"Send day:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendTime_week">
-<option value="-1" {section show=eq($userlink_list.send_weekday,-1)}selected{/section}>Immediately</option>
-<option value="1" {section show=eq($userlink_list.send_weekday,1)}selected{/section}>monday</option>
-<option value="2" {section show=eq($userlink_list.send_weekday,2)}selected{/section}>tuesday</option>
-<option value="3" {section show=eq($userlink_list.send_weekday,3)}selected{/section}>wednesday</option>
-<option value="4" {section show=eq($userlink_list.send_weekday,4)}selected{/section}>thursday</option>
-<option value="5" {section show=eq($userlink_list.send_weekday,5)}selected{/section}>friday</option>
-<option value="6" {section show=eq($userlink_list.send_weekday,6)}selected{/section}>saturday</option>
-<option value="7" {section show=eq($userlink_list.send_weekday,7)}selected{/section}>sunday</option>
+<option value="-1" {section show=eq($userlink_list.send_weekday,-1)}selected{/section}>{"Immediately"|i18n("design/standard/notification")}</option>
+<option value="1" {section show=eq($userlink_list.send_weekday,1)}selected{/section}>{"Monday"|i18n("design/standard/notification")}</option>
+<option value="2" {section show=eq($userlink_list.send_weekday,2)}selected{/section}>{"Tuesday"|i18n("design/standard/notification")}</option>
+<option value="3" {section show=eq($userlink_list.send_weekday,3)}selected{/section}>{"Wednesday"|i18n("design/standard/notification")}</option>
+<option value="4" {section show=eq($userlink_list.send_weekday,4)}selected{/section}>{"Thursday"|i18n("design/standard/notification")}</option>
+<option value="5" {section show=eq($userlink_list.send_weekday,5)}selected{/section}>{"Friday"|i18n("design/standard/notification")}</option>
+<option value="6" {section show=eq($userlink_list.send_weekday,6)}selected{/section}>{"Saturday"|i18n("design/standard/notification")}</option>
+<option value="7" {section show=eq($userlink_list.send_weekday,7)}selected{/section}>{"Sunday"|i18n("design/standard/notification")}</option>
 </select>
 </div>
 <div class="element">
-<label>Send time:</label><div class="labelbreak"></div>
+<label>{"Send time:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendTime_hour">
 <option value="-1" {section show=eq($userlink_list.send_time,-1)}selected{/section}>x:00</option>
 <option value="1" {section show=eq($userlink_list.send_time,1)}selected{/section}>1:00</option>
@@ -73,10 +73,8 @@
 <input type="hidden" name="CurrentRuleID" value="{$rule_id}">
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=Store id_name=StoreRuleButton value=Register}
-{include uri="design:gui/button.tpl" name=Discard id_name=DiscardRuleButton value=Discard}
+{include uri="design:gui/button.tpl" name=Store id_name=StoreRuleButton value="Register"|i18n("design/standard/notification")}
+{include uri="design:gui/button.tpl" name=Discard id_name=DiscardRuleButton value="Discard"|i18n("design/standard/notification")}
 </div>
 
 </form>
-
-

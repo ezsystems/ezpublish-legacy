@@ -13,7 +13,7 @@
 {/section}
 
 <div class="maincontentheader">
-<h1>{"Site map"|i18n('content/object')}</h1>
+<h1>{"Site map"|i18n("design/standard/node/view")}</h1>
 </div>
 
 <h1>{$node_name}</h1>
@@ -29,12 +29,12 @@
 
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
-	<th>Object:</th>
-	<th>Section ID:</th>
-	<th>Class:</th>
-	<th>Edit:</th>
+	<th>{"Object:"|i18n("design/standard/node/view")}</th>
+	<th>{"Section ID:"|i18n("design/standard/node/view")}</th>
+	<th>{"Class:"|i18n("design/standard/node/view")}</th>
+	<th>{"Edit:"|i18n("design/standard/node/view")}</th>
 	<th align="right">
-	Remove:
+	{"Remove:"|i18n("design/standard/node/view")}
 	</th>
 </tr>
 
@@ -51,10 +51,10 @@
         {case match=1}  
 	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0"></a>
+	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/node/view')}" border="0"></a>
 	    {/case}
 	    {case}
-            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0"></a>
+            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/node/view')}" border="0"></a>
 	    {/case}
         {/switch}
         {/case}
@@ -100,11 +100,11 @@
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="New" />
+         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
 {/case}
 {case match=0}
 <div class="warning">
-<h2>You are not allowed to create child objects</h2>
+<h2>{"You are not allowed to create child objects"|i18n("design/standard/node/view")}</h2>
 </div>
 {/case}
 {/switch}
