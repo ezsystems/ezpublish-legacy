@@ -1148,3 +1148,22 @@ alter table ezcontentobject_attribute add index ( sort_key );
 
 alter table ezcontentclass_attribute add can_translate int default 1;
 alter table ezcontentobject_attribute add attribute_original_id int default 0;
+
+
+
+create table ezurlalias
+(
+  id int(11) auto_increment NOT NULL,
+  source_url text not null,
+  source_md5 char(32),
+  destination_url text not null,
+  is_internal int not null default 1,
+  forward_to_id int not null,  
+  PRIMARY KEY (id)
+);
+
+create index ezurlalias_source_md5 on ezurlalias( source_md5 );
+
+# Drop unneeded columns
+alter table ezcontentobject_tree drop md5_path;
+alter table ezcontentobject_tree drop crc32_path;
