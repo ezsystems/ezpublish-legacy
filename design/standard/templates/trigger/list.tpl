@@ -10,7 +10,6 @@
 
 <table width="100%" cellspacing="0">
 <tr>
-	<th align="left">ID</th>
 	<th align="left">Module Name</th>
 	<th align="left">Function Name</th>
 	<th align="left">Connect Type</th>
@@ -20,7 +19,6 @@
 
 {section name=Trigger loop=$possible_triggers sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Trigger:sequence}">{$Trigger:item.module}</td>
 	<td class="{$Trigger:sequence}">{$Trigger:item.module}</td>
 	<td class="{$Trigger:sequence}">{$Trigger:item.operation}</td>
 	<td class="{$Trigger:sequence}">{$Trigger:item.connect_type}</td>
