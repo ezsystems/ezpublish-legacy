@@ -19,7 +19,7 @@
 {/section}
 
 {section show=$current_user.is_logged_in}
-    <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href="/notification/settings">notifications</a></span>
+    <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href={"/notification/settings"|ezurl}>notifications</a></span>
 {/section}
 
 <div id="mainlayout">
