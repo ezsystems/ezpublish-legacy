@@ -90,13 +90,13 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
-    function &fetchObjectTree( $parentNodeID, $offset, $limit, $publishSorting, $classID  )
+    function &fetchObjectTree( $parentNodeID, $offset, $limit, $sortBy, $classID  )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $children =& eZContentObjectTreeNode::subTree( array( 'Offset' => $offset,
                                                               'Limit' => $limit,
                                                               'Limitation' => null,
-                                                              'publish_sorting' => $publishSorting,
+                                                              'sort_by' => $sortBy,
                                                               'class_id' => $classID ),
                                                        $parentNodeID );
         if ( $children === null )

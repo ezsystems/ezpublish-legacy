@@ -255,7 +255,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &subTree( $params = array( 'Depth' => false,
                                         'Offset' => false,
                                         'Limit' => false,
-                                        'publish_sorting' => false,
+                                        'sort_by' => array(),
                                         'class_id' => false) ,$nodeID = 0)
     {
         $depth = false;
@@ -280,21 +280,70 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $limitationList =& $params['Limitation'];
         }
 
-        if ( isset( $params['publish_sorting'] ) && $params['publish_sorting']  )
+        $sortCount = 0;
+        if ( isset( $params['sort_by'] ) and
+             is_array( $params['sort_by'] ) and
+             count( $params['sort_by'] ) > 0 )
         {
-            if ( $params['publish_sorting'] == 1 )
+            $sortingFields = '';
+            foreach ( $params['sort_by'] as $sortBy )
             {
-                $sortingFields = " ezcontentobject.published DESC ";
-            }
-            else
-            {
-                $sortingFields = " ezcontentobject.published ASC ";
-
+                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                {
+                    if ( $sortCount > 0 )
+                        $sortingFields .= ', ';
+                    $sortField = $sortBy[0];
+                    switch ( $sortField )
+                    {
+                        case 'published':
+                        {
+                            $sortingFields .= 'ezcontentobject.published';
+                        } break;
+                        case 'modified':
+                        {
+                            $sortingFields .= 'ezcontentobject.modified';
+                        } break;
+                        case 'path':
+                        {
+                            $sortingFields .= 'path_string';
+                        } break;
+                        case 'section':
+                        {
+                            $sortingFields .= 'ezcontentobject.section';
+                        } break;
+                        case 'path':
+                        {
+                            $sortingFields .= 'path_string';
+                        } break;
+                        case 'depth':
+                        {
+                            $sortingFields .= 'depth';
+                        } break;
+                        case 'class_identifier':
+                        {
+                            $sortingFields .= 'ezcontententclass.identifier';
+                        } break;
+                        case 'class_name':
+                        {
+                            $sortingFields .= 'ezcontentclass.name';
+                        } break;
+                        default:
+                        {
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
+                            continue;
+                        };
+                    }
+                    $sortOrder = true; // true is ascending
+                    if ( isset( $sortBy[1] ) )
+                        $sortOrder = $sortBy[1];
+                    $sortingFields .= $sortOrder ? " ASC" : " DESC";
+                    ++$sortCount;
+                }
             }
         }
-        else
+        if ( $sortCount == 0 )
         {
-            $sortingFields = " path_string ";
+            $sortingFields = " path_string ASC";
         }
 
         if ( isset( $params['class_id'] ) && $params['class_id'] )

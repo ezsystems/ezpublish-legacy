@@ -61,25 +61,24 @@
 {section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
-    <span class="normal">
-	<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
-	{node_view_gui view=line content_node=$Child:item}
-	</a>
-
-	<a href={concat('content/edit/',$Child:item.object.id)|ezurl}>[ edit ]</a>
-        - {$Child:item.object.class_name}
-    </span>
+        <span class="normal">
+        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
+        </span>
 	</td>
-	<td class="{$Child:sequence}" align="right">
+        <td class="{$Child:sequence}"><span class="normal">{$Child:item.object.class_name}</span></td>
+        <td width="1%">
+        <a class="normal" href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+        </td>
+	<td class="{$Child:sequence}" align="right" width="1%">
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
-             <img src={"editdelete.png"|ezimage} border="0">
 	{/case}
         {case} 
         {/case}
         {/switch} 
 	</td>
+        <td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} border="0"></td>
 </tr>
 {/section}
 </table>

@@ -54,7 +54,7 @@
 </table>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24))}
-{let news_list=fetch(content,tree,hash(parent_node_id,24,limit,3,publish_sorting,1,class_id,2))}
+{let news_list=fetch(content,tree,hash(parent_node_id,24,limit,3,sort_by,array(array(published)),class_id,2))}
 
 <table width="700" height="482" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
   <tr> 
