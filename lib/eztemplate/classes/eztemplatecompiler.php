@@ -438,6 +438,9 @@ class eZTemplateCompiler
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
 
+        $php->addCodePiece('$oldSetArray_'. md5( $resourceData['template-filename'] ). " = isset( \$setArray ) ? \$setArray : array();\n".
+                           "\$setArray = array();\n");
+
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $php->addComment( 'Locales:   ' . join( ', ', $resourceData['locales'] ) );
@@ -524,6 +527,7 @@ class eZTemplateCompiler
                 'setlocale( LC_CTYPE, $oldLocale_'. md5( $resourceData['template-filename'] ). ' );'. "\n"
             );
         }
+        $php->addCodePiece('$setArray = $oldSetArray_'. md5( $resourceData['template-filename'] ). ";\n");
 
         $php->store();
 
@@ -2059,6 +2063,7 @@ $rbracket
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
+                            
                     if ( is_array( $variableName ) )
                     {
                         $namespace = $variableName[0];
@@ -2068,8 +2073,19 @@ $rbracket
                         if ( !is_string( $namespaceText ) )
                             $namespaceText = "\$namespace";
                         $variableNameText = $php->variableText( $variableName, 0 );
+                        if ( isset( $node[2]['remember_set'] ) )
+                        {
+                            $php->addCodePiece( "if ( isset( \$setArray[$namespaceText][$variableNameText] ) )\n".
+                                                "{\n" );
+                            $spacing += 4;
+                        }
                         $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
                                             array( 'spacing' => $spacing ) );
+                        if ( isset( $node[2]['remember_set'] ) )
+                        {
+                            $php->addCodePiece( "\n}\n" );
+                            $spacing -= 4;
+                        }
                     }
                     else
                     {
@@ -2322,6 +2338,7 @@ $rbracket
                     $variableParameters = $node[4];
                 $variableOnlyExisting = isset( $node[5] ) ? $node[5] : false;
                 $variableOverWrite = isset( $node[6] ) ? $node[6] : false;
+                $rememberSet = isset( $node[7] ) ? $node[7] : false;
 
                 $spacing = $currentParameters['spacing'];
                 if ( isset( $variableParameters['spacing'] ) )
@@ -2424,6 +2441,17 @@ $rbracket
                         if ( !$isStaticElement )
                             $unsetVariableText = "\nunset( $variableText );";
                         $php->addCodePiece( "\$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText",
+                                            array( 'spacing' => $spacing ) );
+                    }
+                    else if ( $rememberSet )
+                    {
+                        if ( !$isStaticElement )
+                            $unsetVariableText = "\n    unset( $variableText );";
+                        $php->addCodePiece( "if ( !isset( \$vars[$namespaceText][$variableNameText] ) )\n".
+                                            "{\n".
+                                            "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
+                                            "    \$setArray[$namespaceText][$variableNameText] = true;\n".
+                                            "}\n",
                                             array( 'spacing' => $spacing ) );
                     }
                     else

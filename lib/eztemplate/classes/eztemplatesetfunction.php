@@ -203,7 +203,8 @@ class eZTemplateSetFunction
 
                     $setVarNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ), array(),
                                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
-                                                                             ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ) );
+                                                                             ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ),
+                                                                             false, ( $functionName == $this->DefaultName ) );
 
                     if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                     {
@@ -236,7 +237,10 @@ class eZTemplateSetFunction
                 {
                     foreach( $variableList as $parameterName )
                     {
-                        $unsetVarNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                        $unsetVarNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue,
+                                                                                               EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE,
+                                                                                               $parameterName ),
+                                                                                        array( 'remember_set' => $functionName == $this->DefaultName ) );
                     }
                 }
 

@@ -35,7 +35,9 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug of sometimes "index.php" appearing in urls on virtual host setup.
   Added checking for ForceVirtualHost setting. Merged from  3.3 rev. 6618.
   http://ez.no/community/bug_reports/virtual_host_setup_sometimes_index_php_appearing_in_urls
-
+- Fixed bug with the default template function where it would unset variables
+  getting out of scope.
+  http://ez.no/community/bug_reports/template_caching_problem_with_included_templates
 
 *Library:
 

@@ -62,7 +62,7 @@ $myobj = new MyObject();
 
 $tpl->setVariable( 'obj', $myobj );
 
-print( $tpl->fetch( 'scrap/templatecompile_a.tpl' ) . "\n" );
+print( $tpl->fetch( 'scrap/templatecompile_derick.tpl' ) . "\n" );
 
 // include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 // $php = new eZPHPCreator( '.', 'test.php' );
