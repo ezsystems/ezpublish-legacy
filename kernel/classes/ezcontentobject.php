@@ -52,9 +52,7 @@ include_once( "kernel/classes/ezcontentobjectversion.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "kernel/classes/eznodeassignment.php" );
 include_once( "kernel/classes/ezcontenttranslation.php" );
-include_once( "kernel/classes/ezsearch.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
@@ -1038,6 +1036,7 @@ class eZContentObject extends eZPersistentObject
 
         $nodes = $contentobject->attribute( 'assigned_nodes' );
 
+        include_once( "kernel/classes/ezsearch.php" );
         if ( $nodeID === null  or count( $nodes ) <= 1 )
         {
             foreach ( $nodes as $node )
@@ -1733,6 +1732,7 @@ class eZContentObject extends eZPersistentObject
         $retNodes = array();
         if ( $version )
         {
+            include_once( "kernel/classes/eznodeassignment.php" );
             if( is_numeric( $version ) )
             {
                 $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );

@@ -42,9 +42,7 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezrole.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 
 $ini =& eZINI::instance();
@@ -572,6 +570,7 @@ class eZUser extends eZPersistentObject
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                 if ( $exists )
                 {
+                    include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
                     $userSetting = eZUserSetting::fetch( $userID );
                     $isEnabled = $userSetting->attribute( "is_enabled" );
                     if ( $hashType != eZUser::hashType() and
@@ -755,6 +754,7 @@ class eZUser extends eZPersistentObject
             return true;
         }
 
+        include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
         {
@@ -903,7 +903,32 @@ class eZUser extends eZPersistentObject
 
     function &hasAccessTo( $module, $function )
     {
-        $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $this->attribute( 'contentobject_id' ) ) ) ); // todo : optimize this fetching.
+        $accessArray = null;
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' )
+        {
+            $http =& eZHTTPTool::instance();
+            if ( $http->hasSessionVariable( 'AccessArray' ) )
+            {
+                $expiredTimeStamp = 0;
+                $handler =& eZExpiryHandler::instance();
+                if ( $handler->hasTimestamp( 'user-access-cache' ) )
+                {
+                    $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
+                }
+                $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
+                if ( $userAccessTimestamp > $expiredTimeStamp )
+                {
+                    $accessArray = $http->sessionVariable( 'AccessArray' );
+                }
+            }
+        }
+
+        if ( $accessArray == null )
+        {
+            include_once( 'kernel/classes/ezrole.php' );
+            $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $this->attribute( 'contentobject_id' ) ) ) );
+        }
 
         $access = 'no';
 
@@ -946,6 +971,7 @@ class eZUser extends eZPersistentObject
     */
     function &roles()
     {
+        include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         return eZRole::fetchByUser( $groups );
@@ -974,6 +1000,7 @@ class eZUser extends eZPersistentObject
             }
         }
 
+        include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         $roleList = eZRole::fetchIDListByUser( $groups );
@@ -1018,7 +1045,7 @@ class eZUser extends eZPersistentObject
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups =& $db->arrayQuery( "SELECT d.*,c.path_string
+				$userGroups =& $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
@@ -1027,41 +1054,30 @@ class eZUser extends eZPersistentObject
                                                       d.id = c.contentobject_id
                                                 ORDER BY c.contentobject_id  ");
                 $userGroupArray = array();
-                $ini =& eZINI::instance();
-				if ( $ini->variable( 'RoleSettings', 'InheritRoles' ) == 'enabled' )
-				{	
-					$pathArray = array();                      
-                    foreach ( $userGroups as $group )
-                	{
-                		$pathItems = explode( '/', $group["path_string"] );
-        				array_pop($pathItems);
-        				array_pop($pathItems);
-       	 				foreach ( $pathItems as $pathItem )
-        				{
-            				if ( $pathItem != '' && $pathItem > 1 )
-                				$pathArray[] = $pathItem;
-        				}
-                    	$userGroupArray[] = new eZContentObject( $group );
-                	}
-                	$pathArray = array_unique ($pathArray);
-                	$extraGroups =& $db->arrayQuery( "SELECT d.*
+                $pathArray = array();
+                foreach ( $userGroups as $group )
+                {
+                    $pathItems = explode( '/', $group["path_string"] );
+                    array_pop( $pathItems );
+                    array_pop( $pathItems );
+                    foreach ( $pathItems as $pathItem )
+                    {
+                        if ( $pathItem != '' && $pathItem > 1 )
+                            $pathArray[] = $pathItem;
+                    }
+                    $userGroupArray[] = new eZContentObject( $group );
+                }
+                $pathArray = array_unique( $pathArray );
+                $extraGroups =& $db->arrayQuery( "SELECT d.*
                                                 FROM ezcontentobject_tree  c,
                                                      ezcontentobject d
-                                                WHERE c.node_id in ( ".implode (", ", $pathArray)." ) AND
+                                                WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
                                                       d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  "); 
-                	foreach ( $extraGroups as $group )
-                	{
-                		$userGroupArray[] = new eZContentObject( $group );
-                	}                       
-				}
-				else
-				{
-					foreach ( $userGroups as $group )
-                	{
-                    	$userGroupArray[] = new eZContentObject( $group );
-                	}
-				}
+                                                ORDER BY c.contentobject_id  ");
+                foreach ( $extraGroups as $group )
+                {
+                    $userGroupArray[] = new eZContentObject( $group );
+                }
 
                 $this->GroupsAsObjects =& $userGroupArray;
             }
@@ -1071,6 +1087,24 @@ class eZUser extends eZPersistentObject
         {
             if ( !isset( $this->Groups ) )
             {
+                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
+
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                $handler =& eZExpiryHandler::instance();
+                $expiredTimeStamp = 0;
+                if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+                if ( $userGroupTimestamp > $expiredTimeStamp )
+                {
+                    $userGroupsInfo = array();
+                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
+                    {
+                        $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
+                        return $this->Groups;
+                    }
+                }
+
                 if ( $userID )
                 {
                     $contentobjectID = $userID;
@@ -1082,25 +1116,6 @@ class eZUser extends eZPersistentObject
 
                 $userGroups = false;
 
-                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
-
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler =& eZExpiryHandler::instance();
-                $expiredTimeStamp = 0;
-                if ( $handler->hasTimestamp( 'user-info-cache' ) )
-                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
-
-                // check for cached version
-                if ( $userGroupTimestamp > $expiredTimeStamp )
-                {
-                    $userGroupsInfo = array();
-                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
-                    {
-                        $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
-                        return $this->Groups;
-                    }
-                }
-
                 $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id,c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
@@ -1108,44 +1123,34 @@ class eZUser extends eZPersistentObject
                                                       b.parent_node_id = c.node_id
                                                 ORDER BY c.contentobject_id  ");
                 $userGroupArray = array();
-                $ini =& eZINI::instance();
-				if ( $ini->variable( 'RoleSettings', 'InheritRoles' ) == 'enabled' )
-				{	
-					$pathArray = array();                      
-                    foreach ( $userGroups as $group )
-                	{
-                		$pathItems = explode( '/', $group["path_string"] );
-        				array_pop($pathItems);
-        				array_pop($pathItems);
-       	 				foreach ( $pathItems as $pathItem )
-        				{
-            				if ( $pathItem != '' && $pathItem > 1 )
-                				$pathArray[] = $pathItem;
-        				}
-                    	$userGroupArray[] = $group['id'];
-                	}
-                	$pathArray = array_unique ($pathArray);
-                	$extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
+
+                $pathArray = array();
+                foreach ( $userGroups as $group )
+                {
+                    $pathItems = explode( '/', $group["path_string"] );
+                    array_pop( $pathItems );
+                    array_pop( $pathItems );
+                    foreach ( $pathItems as $pathItem )
+                    {
+                        if ( $pathItem != '' && $pathItem > 1 )
+                            $pathArray[] = $pathItem;
+                    }
+                    $userGroupArray[] = $group['id'];
+                }
+                $pathArray = array_unique ($pathArray);
+                $extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
                                                 FROM ezcontentobject_tree  c,
                                                      ezcontentobject d
-                                                WHERE c.node_id in ( ".implode (", ", $pathArray)." ) AND
+                                                WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
                                                       d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  "); 
-                	foreach ( $extraGroups as $group )
-                	{
-                		$userGroupArray[] = $group['id'];
-                	}                  
-				}
-				else
-				{
-                	foreach ( $userGroups as $group )
-                	{
-                    	$userGroupArray[] = $group['id'];
-                	}
-				}
+                                                ORDER BY c.contentobject_id  ");
+                foreach ( $extraGroups as $group )
+                {
+                    $userGroupArray[] = $group['id'];
+                }
+
                 $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
                 $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
-
                 $this->Groups =& $userGroupArray;
             }
             return $this->Groups;

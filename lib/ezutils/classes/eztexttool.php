@@ -90,7 +90,6 @@ class eZTextTool
 
     function arrayFlatten( $array )
     {
-//        return array_reduce( $array, "eztexttool_array_flatten_helper", array() );
         $flatArray = array();
         $expandItems = $array;
         $done = false;
@@ -123,63 +122,5 @@ class eZTextTool
         }
         return $flatArray;
     }
-
-//     function &arrayElevateKeys( $array, $pre, $mid, $post )
-//     {
-//         $out = array();
-//         foreach( $array as $key => $value )
-//         {
-//             if ( is_array( $value ) )
-//             {
-//                 $tmp = array();
-//                 foreach( $value as $valueItem )
-//                 {
-//                     $tmp[] = array( $pre,
-//                                     $key,
-//                                     $mid,
-//                                     $valueItem,
-//                                     $post );
-//                 }
-//                 $out[] = $tmp;
-//                 unset( $tmp );
-//             }
-//             else
-//                 $out[] = array( $pre,
-//                                 $key,
-//                                 $mid,
-//                                 $value,
-//                                 $post );
-//         }
-//         return $out;
-//     }
-
-//     function arrayAddDelimiter( $array, $delimiter, $pre = false, $post = false )
-//     {
-//         $out = array();
-//         $i = 0;
-//         foreach( $array as $value )
-//         {
-//             if ( $i > 0 )
-//                 $out[] = $delimiter;
-//             if ( $pre !== false )
-//                 $out[] = $pre;
-//             $out[] = $value;
-//             if ( $post !== false )
-//                 $out[] = $post;
-//             ++$i;
-//         }
-//         return $out;
-//     }
 }
-
-/*
-function eZTextTool_array_flatten_helper( $flattened, $input )
-{
-    if ( is_array( $input ) )
-        return array_merge( $flattened, array_reduce( $input, "eZTextTool_array_flatten_helper", array() ) );
-    $flattened[] = $input;
-    return $flattened;
-}
-*/
-
 ?>
