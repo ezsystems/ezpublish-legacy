@@ -194,6 +194,47 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'class' => 'eZTemplateMenuFunction',
                                     'function_names' => array( 'menu' ) );
 
+// should we add 'break', 'continue' and 'skip' to the {if} attribute list?
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateiffunction.php',
+                                    'class' => 'eZTemplateIfFunction',
+                                    'function_names' => array( 'if' ),
+                                    'function_attributes' => array( 'elseif',
+                                                                    'else' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatewhilefunction.php',
+                                    'class' => 'eZTemplateWhileFunction',
+                                    'function_names' => array( 'while' ),
+                                    'function_attributes' => array( 'delimiter',
+                                                                    'break',
+                                                                    'continue',
+                                                                    'skip' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateforfunction.php',
+                                    'class' => 'eZTemplateForFunction',
+                                    'function_names' => array( 'for' ),
+                                    'function_attributes' => array( 'delimiter',
+                                                                    'break',
+                                                                    'continue',
+                                                                    'skip' ) );
+
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateforeachfunction.php',
+                                    'class' => 'eZTemplateForeachFunction',
+                                    'function_names' => array( 'foreach' ),
+                                    'function_attributes' => array( 'delimiter',
+                                                                    'break',
+                                                                    'continue',
+                                                                    'skip' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedofunction.php',
+                                    'class' => 'eZTemplateDoFunction',
+                                    'function_names' => array( 'do' ),
+                                    'function_attributes' => array( 'delimiter',
+                                                                    'break',
+                                                                    'continue',
+                                                                    'skip' ) );
+
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedeffunction.php',
+                                    'class' => 'eZTemplateDefFunction',
+                                    'function_names' => array( 'def', 'undef' ) );
+
+
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage
 // for this operator class.

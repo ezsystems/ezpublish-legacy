@@ -2491,6 +2491,9 @@ END;
                                                                            $resourceData );
                 $newNode = $node;
                 $newNode[1] = false;
+
+                $treatVariableDataAsNonObject = isset( $variableParameters['treat-value-as-non-object'] ) && $variableParameters['treat-value-as-non-object'];
+
                 if ( $useComments )
                 {
                     $php->addComment( "Variable data: " .
@@ -2540,6 +2543,7 @@ END;
                     eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $knownTypes, $dataInspection,
                                                               array( 'spacing' => $spacing,
                                                                      'variable' => $generatedVariableName,
+                                                                     'treat-value-as-non-object' => $treatVariableDataAsNonObject,
                                                                      'counter' => 0 ),
                                                               $resourceData );
                 }
@@ -2611,7 +2615,7 @@ END;
                 {
                     $php->addCodePiece( "\$$generatedVariableName = $variableText;", array( 'spacing' => $spacing ) );
                 }
-                else if ( $variableAssignmentName !== false and !$isStaticElement )
+                else if ( $variableAssignmentName !== false and !$isStaticElement and !$treatVariableDataAsNonObject )
                 {
                     if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
                     {
@@ -3181,7 +3185,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                 $tmpKnownTypes = array();
                                 eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters, $resourceData );
-                                if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
+                                if ( !$parameters['treat-value-as-non-object'] and ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) ) )
                                 {
                                     $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
                                                         "    \$$newVariableAssignmentName = \$$newVariableAssignmentName" . "->templateValue();\n",

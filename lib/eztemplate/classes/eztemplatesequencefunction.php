@@ -82,7 +82,7 @@ class eZTemplateSequenceFunction
     {
         return array( $this->SequenceName => array( 'parameters' => true,
                                                     'static' => false,
-                                                    'parameter-transformation' => true,
+                                                    'transform-parameters' => true,
                                                     'tree-transformation' => true ) );
     }
 

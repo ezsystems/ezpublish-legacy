@@ -522,7 +522,30 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $tag = substr( $text, 0, $ident_pos - 0 );
                     $attr_pos = $ident_pos;
                     unset( $args );
+
                     $args = array();
+
+                    if ( $type == EZ_ELEMENT_NORMAL_TAG && in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef' ) ) )
+                    {
+                        $attr_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_pos, $text_len );
+
+                        if ( $tag == 'if' || $tag == 'elseif' )
+                            $this->parseUnnamedCondition( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        elseif ( $tag == 'while' )
+                            $this->parseWhileFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        elseif ( $tag == 'for' )
+                            $this->parseForFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        elseif ( $tag == 'foreach' )
+                            $this->parseForeachFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        elseif ( $tag == 'def' || $tag == 'undef' )
+                            $this->parseDefFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+
+                    }
+                    elseif ( $type == EZ_ELEMENT_END_TAG && $tag == 'do' )
+                    {
+                        $this->parseDoFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                    }
+
                     $lastPosition = false;
                     while ( $attr_pos < $text_len )
                     {
@@ -592,13 +615,16 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                     if ( $type == EZ_ELEMENT_END_TAG and count( $args ) > 0 )
                     {
-                        $placement = $element['placement'];
-                        $startLine = $placement['start']['line'];
-                        $startColumn = $placement['start']['column'];
-                        $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
-                                     "End tag \"$tag\" cannot have attributes\n$leftDelimiter/" . $text . $rightDelimiter,
-                                     $element['placement'] );
-                        $args = array();
+                        if ( $tag != 'do' )
+                        {
+                            $placement = $element['placement'];
+                            $startLine = $placement['start']['line'];
+                            $startColumn = $placement['start']['column'];
+                            $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                         "End tag \"$tag\" cannot have attributes\n$tpl->LDelim/" . $text . $tpl->RDelim,
+                                         $element['placement'] );
+                            $args = array();
+                        }
                     }
 
                     if ( $type == EZ_ELEMENT_NORMAL_TAG )
@@ -674,6 +700,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                              "Unterminated tag \"$oldTagName\" does not match tag \"$tag\"",
                                              $element['placement'] );
                             }
+
+                            // a dirty hack to pass arguments specified in {/do} to the corresponding function.
+                            if ( $tag == 'do' )
+                            {
+                                $doOpenTag =& $currentRoot[1][count( $currentRoot[1] ) - 1];
+                                $doOpenTag[3] =& $args;
+                            }
                         }
                     }
                     else // EZ_ELEMENT_SINGLE_TAG
@@ -696,6 +729,371 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         if ( $tpl->ShowDetails )
             eZDebug::addTimingPoint( "Parse pass 3 done" );
     }
+
+    /*!
+     * parse 'sequence' loop parameter: "sequence <array> as <$seqVar>"
+     */
+    function parseSequenceParameter( $parseSequenceKeyword, $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        if ( $parseSequenceKeyword )
+        {
+            // parse 'sequence' keyword
+            $sequenceEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+            $sequence = substr( $text, $cur_pos, $sequenceEndPos-$cur_pos );
+            if ( $sequence != 'sequence' )
+            {
+                $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                             "Expected keyword 'sequence' not found" );
+                $cur_pos = $text_len;
+                return false;
+            }
+            $cur_pos = $sequenceEndPos;
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+        }
+
+        // parse sequence array
+        $seqArray =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $args['sequence_array'] =& $seqArray;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse 'as' keyword
+        $asEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+        $word = substr( $text, $cur_pos, $asEndPos-$cur_pos );
+        if ( $word != 'as' )
+        {
+            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                         "Expected keyword 'as' not found" );
+            $cur_pos = $text_len;
+            return false;
+        }
+        $cur_pos = $asEndPos;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse sequence variable
+        $seqVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        if ( !$seqVar )
+        {
+            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                         "Sequence variable name cannot be empty." );
+            $cur_pos = $text_len;
+            return false;
+        }
+        $args['sequence_var'] = $seqVar;
+
+        return true;
+    }
+
+    /*!
+    Parse {for} function.
+    Syntax:
+    \code
+    // for <firstValue> to <lastValue> as <$loopVar> [sequence <array> as <$var>]
+    \endcode
+    */
+    function parseForFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        $firstValStartPos = $cur_pos;
+
+        // parse first value
+        $firstVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace );
+        $args['first_val'] = $firstVal;
+
+        $toStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $firstValEndPos, $text_len );
+
+        // parse 'to'
+        $toEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $toStartPos, $text_len );
+        $to = substr( $text, $toStartPos, $toEndPos-$toStartPos );
+        if ( $to != 'to' )
+        {
+            $tpl->error( "", "parser error @ $relatedTemplateName\n" .
+                         "Expected keyword 'to' not found" );
+        }
+
+
+        $lastValStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $toEndPos, $text_len );
+
+        // parse last value
+        $lastVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $lastValStartPos, $lastValEndPos, $text_len, $rootNamespace );
+        $args['last_val'] = $lastVal;
+
+        $asStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $lastValEndPos, $text_len );
+
+        // parse 'as'
+        $asEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $asStartPos, $text_len );
+        $as = substr( $text, $asStartPos, $asEndPos-$asStartPos );
+        if ( $as != 'as' )
+        {
+            $tpl->error( "", "parser error @ $relatedTemplateName\n" .
+                         "Expected keyword 'as' not found" );
+        }
+
+        $loopVarStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $asEndPos, $text_len );
+
+        // parse loop variable
+        $loopVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $loopVarStartPos, $loopVarEndPos, $text_len, $rootNamespace );
+        $args['loop_var'] = $loopVar;
+
+        if ( $loopVarEndPos == $text_len  ) // no more parameters
+            $cur_pos = $loopVarEndPos;
+        else
+        {
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $loopVarEndPos, $text_len );
+
+            if ( ! $this->parseSequenceParameter( true, 'for',
+                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace ) )
+                return;
+        }
+    }
+
+    /*!
+    Parse {foreach} function.
+    Syntax:
+    \code
+    {foreach <array> as [$keyVar =>] $itemVar
+             [sequence <array> as $sequenceVar]
+             [offset <offset>]
+             [max <max>]
+             [reverse]
+    }
+    \endcode
+    */
+    function parseForeachFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        // parse array
+        $array =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $args['array'] =& $array;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse 'as' keyword
+        $asEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+        $word = substr( $text, $cur_pos, $asEndPos-$cur_pos );
+        if ( $word != 'as' )
+        {
+            $tpl->error( 'foreach', "parser error @ $relatedTemplateName\n" .
+                         "Expected keyword 'as' not found in 'foreach' parameters" );
+        }
+        $cur_pos = $asEndPos;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse variable name
+        $var1 =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+
+        $nextTokenPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse itemVar (if specified)
+        if ( $nextTokenPos <= ( $text_len-2 ) && $text[$nextTokenPos] == '=' && $text[$nextTokenPos+1] == '>' )
+        {
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $nextTokenPos+2, $text_len );
+
+            // parse item variable name
+            $itemVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+
+            $args['key_var']  =& $var1;
+            $args['item_var'] =& $itemVar;
+        }
+        else
+            $args['item_var'] =& $var1;
+
+        /*
+         * parse optional parameters
+         */
+
+        while ( $cur_pos < $text_len )
+        {
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+            $paramNameEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+            $paramName = substr( $text, $cur_pos, $paramNameEndPos-$cur_pos );
+            $cur_pos = $paramNameEndPos;
+
+            if ( $paramName == 'sequence' )
+            {
+                if ( ! $this->parseSequenceParameter( false, 'foreach',
+                                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace ) )
+                    return;
+            }
+            elseif ( $paramName == 'offset' )
+            {
+                $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+                $offset =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+                $args['offset'] =& $offset;
+            }
+            elseif ( $paramName == 'max' )
+            {
+                $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+                $max =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+                $args['max'] =& $max;
+            }
+            elseif ( $paramName == 'reverse' )
+            {
+                $reverseValText = '1';
+                $args['reverse'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $reverseValText, 0, $reverseValPos, 1, $rootNamespace );
+            }
+            else
+            {
+                $tpl->error( 'foreach', "parser error @ $relatedTemplateName\n" .
+                             "Unknown parameter '$paramName'" );
+                $cur_pos = $text_len;
+                return;
+            }
+        }
+    }
+
+    /*!
+    Parse do..while function
+    Syntax:
+    \code
+
+    {do}
+        [{delimiter}...{/delimiter}]
+        [{break}]
+        [{continue}]
+        [{skip}]
+    {/do while <condition> [sequence <array> as $seqVar]}
+    */
+    function parseDoFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        // parse while keyword
+        $wordEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+        $word = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
+        if ( $word != 'while' )
+        {
+            $tpl->error( 'do', "parser error @ $relatedTemplateName\n" .
+                         "Expected keyword 'while' not found in parameters" );
+            $cur_pos = $text_len;
+            return;
+
+        }
+        $cur_pos = $wordEndPos;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        //eZDebug::writeDebug( $cond, 'do condition' );
+        $args['condition'] =& $cond;
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        if ( $cur_pos == $text_len ) // no more arguments
+            return;
+
+        $this->parseSequenceParameter( true, 'do',
+                                       $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
+    }
+
+
+    /*!
+    Parse def/undef functions
+    Syntax:
+    \code
+        {def $var1=<value1> [$var2=<value2> ...]}
+        {undef [$var1 [$var2] ...]}
+    \endcode
+    */
+
+    function parseDefFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        if ( $cur_pos == $text_len && $funcName == 'def' ) // no more arguments
+        {
+            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                         "Not enough arguments passed." );
+            return;
+        }
+
+        while ( $cur_pos < $text_len )
+        {
+            // parse variable name
+            if ( $text[$cur_pos] != '$' )
+            {
+                $tpl->error( $funcName, '($) expected' );
+                $cur_pos = $text_len;
+                return;
+
+            }
+            $cur_pos++;
+            $wordEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+            $varName = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
+            $cur_pos = $wordEndPos;
+
+            if ( !$varName )
+            {
+                $tpl->error( $funcName, 'Empty variable name.' );
+                $cur_pos = $text_len;
+                return;
+            }
+
+            if ( $funcName == 'def' )
+            {
+                // parse variable value
+
+                if ( $text[$cur_pos] != '=' )
+                {
+                    $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                                 "(=) expected." );
+                    $cur_pos = $text_len;
+                    return;
+                }
+                $cur_pos++;
+                $varValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+                $args[$varName] =& $varValue;
+            }
+            else
+            {
+                $varValueText = '1';
+                $args[$varName] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $varValueText, 0, $varValPos, 1, $rootNamespace );
+            }
+
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        }
+    }
+
+    /*!
+        Parses arguments for if/elseif
+    */
+    function parseUnnamedCondition( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        $args['condition'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+    }
+
+    /*!
+        Parses arguments for {while}
+    */
+    function parseWhileFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        $args['condition'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+
+        // skip whitespaces
+        $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+        if ( $cur_pos == $text_len ) // no more arguments
+            return;
+
+        $this->parseSequenceParameter( true, 'do',
+                                       $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
+    }
+
 
     function &instance()
     {

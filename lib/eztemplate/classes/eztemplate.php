@@ -368,6 +368,7 @@ class eZTemplate
 
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
+        $this->RootVariablesStack = array();
         $this->Functions = array();
         $this->FunctionAttributes = array();
 
@@ -380,6 +381,12 @@ class eZTemplate
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
 
         $this->TemplatesUsageStatistics = array();
+
+        $this->ForeachCounter = 0;
+        $this->ForCounter     = 0;
+        $this->WhileCounter   = 0;
+        $this->DoCounter      = 0;
+        $this->ElseifCounter  = 0;
     }
 
     /*!
@@ -458,6 +465,18 @@ class eZTemplate
         }
     }
 
+    function pushRootVariables()
+    {
+        if ( !isset( $this->Variables[''] ) )
+            $this->Variables[''] = array();
+        $this->RootVariablesStack[] = $this->Variables[''];
+    }
+
+    function popRootVariables()
+    {
+        $this->Variables[''] = array_pop( $this->RootVariablesStack );
+    }
+
     /*!
      Tries to fetch the result of the template file and returns it.
      If $template is supplied it will load this template file first.
@@ -510,7 +529,11 @@ class eZTemplate
                     $fname = $resourceData['template-filename'];
                     eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
                 }
+
+                $this->pushRootVariables();
                 $this->process( $root, $text, "", "" );
+                $this->popRootVariables();
+
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
@@ -547,6 +570,7 @@ class eZTemplate
 
     function processNode( &$node, &$textElements, $rootNamespace, $currentNamespace )
     {
+        $rslt = null;
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
@@ -570,7 +594,7 @@ class eZTemplate
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            $rslt =& $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
@@ -581,12 +605,13 @@ class eZTemplate
             $functionName = $node[2];
             $functionParameters = $node[3];
             $functionPlacement = $node[4];
-            $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            $rslt =& $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
         }
 
+        return $rslt;
     }
 
     function processVariable( &$textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace )
@@ -1534,7 +1559,7 @@ class eZTemplate
         if ( array_key_exists( $namespace, $this->Variables ) and
              array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
-        $this->Variables[$namespace][$var] =& $val;
+        $this->Variables["$namespace"]["$var"] =& $val;
     }
 
     /*!
@@ -2327,6 +2352,7 @@ class eZTemplate
         {
             $tpl = new eZTemplate();
         }
+
         return $tpl;
     }
 
@@ -2520,6 +2546,11 @@ class eZTemplate
     var $Tree;
     /// An associative array of template variables
     var $Variables;
+    /*!
+     The stack that is used to destroy all variables defined in the root namespace
+     after the template execution finishes (in processed mode)
+     */
+    var $RootVariablesStack;
     /// An associative array of operators
     var $Operators;
     /// An associative array of functions
@@ -2545,6 +2576,13 @@ class eZTemplate
 
     /// A list of templates used by a rendered page
     var $TemplatesUsageStatistics;
+
+    // counter to make unique names for {foreach} loop variables in com
+    var $ForeachCounter;
+    var $ForCounter;
+    var $WhileCounter;
+    var $DoCounter;
+    var $ElseifCounter;
 
 //     var $CurrentRelatedResource;
 //     var $CurrentRelatedTemplateName;
