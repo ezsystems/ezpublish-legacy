@@ -1,14 +1,28 @@
 Changes from 3.5.0 to 3.5.1
 
-NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.0 and merged
-      to 3.5.1 should not be present
-
 *Kernel:
 - Added support for user parameters in layout/set/ URLs.
 - Added pdf view mode to CachedViewModes, merged from stable/3.4 rev. 10621.
 - Modified: It is now possible to include additional PHP files for the
   simpletags operator.
 - Fixed enhancement #5754: Fetch objects by translation
+- Fixed: canCreateClassList() sometimes returns incomplete eZContentClass objects.
+- Fixed problem with anonymous user having access to other peoples drafts in
+  content/draft.
+  (Merged from release/3.4.5 rev. 10928)
+
+eZPersistentObject:
+- Fixed: $fieldFilters parameter to storeObject() were not used to filter.
+  (Merged from release/3.4-5 rev. 10898)
+- Fixed: attributes() functions can return duplicate attributes in some cases.
+  (Merged from release/3.4.5 rev. 10901)
+
+Webdav:
+- Made sure extensions are enabled in webdav handler.
+  (Merged from release/3.4.5 rev. 10888)
+- Made sure site.ini and template.ini reloads its cache after extension
+  enabling.
+  (Merged from release/3.4.5 erv. 10890)
 
 *Datatypes:
 
@@ -86,6 +100,16 @@ eZ Identifier:
   (Merged from stable/3.4 (3.4.5) rev. 10784)
 - Fixed bug #6204: lib/compat.php missing by client code.
   (Manually merged from release/3.4.5 (3.4.5) rev. 10865)
+- Fixed bug #6204: lib/compat.php missing by client code.
+  (Manually merged from release/3.4.5 (3.4.5) rev. 10865)
+- Fixed bug: Registering new user while being logged in causes troubles for the
+  currently logged in user.
+  (Merged from release/3.4.5 (3.4.5) rev. 10869)
+- Fixed: SQL errors in ezkeyword and ezenum datatypes when running
+  on PostgreSQL.
+- Fixed bug: template cache is not cleaning when template compiler is enabled
+- Fixed bug #6217: Wrong package version.
+  (Merged from release/3.4.5 (3.4.5) rev. 10919)
 
 *Templates:
 - Added nl2br operator to eztext view output to keep newlines in textfield datatype.

@@ -176,8 +176,7 @@ class eZTemplateCacheFunction
             $filedirText = "\$cacheDir";
             $filepathText = "\$cachePath";
 
-//            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )\n" .
-              $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) )\n" .
+            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) )\n" .
                                    "{\n" .
                                    "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
                                    "    \$db =& eZDB::instance();\n" .
