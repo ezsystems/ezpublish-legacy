@@ -19,6 +19,10 @@
     {/section}
 </style>
 
+{section name=JavaScript loop=ezini( 'DesignSettings', 'JavaScriptList' ) }
+    <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+{/section}
+
 {literal}
 <!--[if lt IE 6.0]>
 <style>

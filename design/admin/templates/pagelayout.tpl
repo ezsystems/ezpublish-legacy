@@ -12,7 +12,16 @@
     <link rel="stylesheet" type="text/css" href={'stylesheets/site.css'|ezdesign} />
     <link rel="stylesheet" type="text/css" href={'stylesheets/debug.css'|ezdesign} />
 
+    {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
+    <link rel="stylesheet" type="text/css" href={concat( 'stylesheets/',$css_file )|ezdesign} />
+    {/section}
+
     <script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
+
+{section name=JavaScript loop=ezini( 'DesignSettings', 'JavaScriptList' ) }
+    <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+{/section}
+
 {literal}
 <!--[if IE]>
 <style>

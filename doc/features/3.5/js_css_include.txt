@@ -1,0 +1,16 @@
+*Title: INI setting for javascripts/css to include on page.
+
+Incentive:
+Add a new setting to the DesignSettings section of site.ini
+- JavaScriptList
+
+*Documentation:
+1.
+JavaScriptList - Array of js files which are included in the pagelayout file.
+
+When you add a new file to this variable it will be automaticaly included in the pagelayout 
+file of admin and base designs. For you own design you can look 
+to the design/admin/templates/pagelayout.tpl how it is done there and implement the same 
+in your pagelayout.
+
+
