@@ -323,19 +323,15 @@ class eZContentOperationCollection
 
     /*!
         \a static
-        Returns in \a $outNodesInfo information about nodes of \a $contentObject for which
+        Returns in \a $nodesList information about nodes of \a $contentObject for which
         viewcache should cleared. This function is recursive.
         if \a $objectVersionNum current version of object will be used.
         Use \a $clearCacheType to include different kind of nodes( parent, relating, etc ).
+        If \a $versionNum is true, then current version will be used.
     */
-    function viewCacheGetNodesOfObject( &$contentObject, $objectVersionNum, $clearCacheType, &$outNodesInfo )
+    function viewCacheGetNodesOfObject( &$contentObject, $objectVersionNum, $clearCacheType, &$nodesList )
     {
-        $nodesList =& $outNodesInfo['nodes_id_list'];
-
         $assignedNodes =& $contentObject->assignedNodes();
-
-        if ( $objectVersionNum == false )
-            $objectVersionNum = $contentObject->attribute( 'current_version' );
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_NODE_CACHE )
         {
@@ -395,14 +391,14 @@ class eZContentOperationCollection
                             {
                                 if ( $dependentObjectID == $object->attribute( 'id' ) )
                                 {
-                                    eZContentOperationCollection::viewCacheGetNodesOfObject( $object, false, $smartClearType, $outNodesInfo );
+                                    eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodesList );
                                     break;
                                 }
                             }
                         }
                         else
                         {
-                            eZContentOperationCollection::viewCacheGetNodesOfObject( $object, false, $smartClearType, $outNodesInfo );
+                            eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodesList );
                         }
                     }
 
@@ -418,29 +414,37 @@ class eZContentOperationCollection
 
     /*!
         \a static
-        Returns in \a $nodesInfo information about nodes of object with \a $objectID for which
+        Returns in \a $nodesList information about nodes of object with \a $objectID for which
         viewcache should be cleared.
+        If \a $versionNum is true, then current version will be used.
     */
     function &viewCacheGetNodes( $objectID, $versionNum )
     {
-        $nodesInfo = array( 'nodes_id_list' => array() );
+        $nodesList = array();
 
         $object =& eZContentObject::fetch( $objectID );
 
-        eZContentOperationCollection::viewCacheGetNodesOfObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodesInfo );
+        eZContentOperationCollection::viewCacheGetNodesOfObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodesList );
 
-        return $nodesInfo;
+        return $nodesList;
     }
 
     /*!
         \a static
         Clears view cache of nodes, parent nodes and relating nodes of content objects with id \a $objectID.
         To determine additional nodes use 'viewcache.ini'.
+        If \a $versionNum is true, then current version will be used.
     */
-    function viewCacheDoSmartCacheClear( $objectID, $versionNum )
+    function viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodesIDList = false )
     {
-        $nodesInfo =& eZContentOperationCollection::viewCacheGetNodes( $objectID, $versionNum );
-        $nodeList =& $nodesInfo['nodes_id_list'];
+        $nodeList =& eZContentOperationCollection::viewCacheGetNodes( $objectID, $versionNum );
+        if ( is_array( $additionalNodesIDList ) )
+        {
+            eZDebug::writeDebug( 'doing concattanation', 'lazy.' );
+            array_splice( $nodeList, count( $nodeList ), 0, $additionalNodesIDList );
+        }
+
+        eZDebug::writeDebug( $nodeList, 'lazy. $nodesList' );
 
         eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
 
@@ -469,8 +473,9 @@ class eZContentOperationCollection
 
     /*!
         \a static
+        If \a $versionNum is true, then current version will be used.
     */
-    function clearObjectViewCache( $objectID, $versionNum )
+    function clearObjectViewCache( $objectID, $versionNum, $additionalNodesIDList = false )
     {
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
@@ -482,7 +487,7 @@ class eZContentOperationCollection
             $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
             if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
             {
-                eZContentOperationCollection::viewCacheDoSmartCacheClear( $objectID, $versionNum );
+                eZContentOperationCollection::viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodesIDList );
             }
             else
             {
@@ -497,6 +502,7 @@ class eZContentOperationCollection
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
         $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
+        eZDebug::writeDebug( $nodeAssignment, 'lazy. $nodeAssignment 1' );
         $object->setAttribute( 'current_version', $versionNum );
         if ( $object->attribute( 'published' ) == 0 )
         {
@@ -555,6 +561,10 @@ class eZContentOperationCollection
             }
             else
             {
+                // clear cache for old placement.
+                $additionalNodeIDList = array( $fromNodeID );
+                eZContentOperationCollection::clearObjectViewCache( $originalObjectID, $versionNum, $additionalNodeIDList );
+
                 $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
                 if ( $originalNode->attribute( 'main_node_id' ) == $originalNode->attribute( 'node_id' ) )
                 {
@@ -565,6 +575,7 @@ class eZContentOperationCollection
             }
         }
 
+        eZDebug::writeDebug( $nodeAssignment, 'lazy. $nodeAssignment 2' );
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
             $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
@@ -608,7 +619,6 @@ class eZContentOperationCollection
 
         // Clear cache after publish
         $ini =& eZINI::instance();
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
         $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
 
         if ( $templateBlockCacheEnabled )

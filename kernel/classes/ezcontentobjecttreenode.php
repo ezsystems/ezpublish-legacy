@@ -2123,26 +2123,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchPathByPathString( $nodePath, $fetchLastNodeInThePath = false, $asObjects = true )
     {
         $nodesListArray = array();
-        
+
         $pathString     = false;
         $pathArray      = explode( '/', trim($nodePath,'/') );
 
         if ( $fetchLastNodeInThePath == false )
             $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
-        
+
         if ( count( $pathArray ) > 0 )
         {
             foreach ( $pathArray as $node )
             {
                 $pathString .= 'or node_id = ' . $node . ' ';
-    
+
             }
             if ( strlen( $pathString) > 0 )
             {
                 $pathString = '('. substr( $pathString, 2 ) . ') and ';
             }
         }
-        
+
         if ( $pathString  )
         {
             $useVersionName     = true;
@@ -2156,7 +2156,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                     ezcontentobject_name.content_translation = '$lang' ";
             }
-            
+
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name,
@@ -2172,12 +2172,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.id = ezcontentobject.contentclass_id
                           $versionNameJoins
                     ORDER BY path_string";
-    
+
             $db =& eZDB::instance();
             $nodesListArray = $db->arrayQuery( $query );
         }
-        
-        if ( $asObjects )          
+
+        if ( $asObjects )
             $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
         else
             $retNodes =& $nodesListArray;
@@ -2187,7 +2187,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
-        Extracts each node that in the path from db and returns an array of class identifiers 
+        Extracts each node that in the path from db and returns an array of class identifiers
     */
     function &getClassIdentifiersListByPath( $nodePath, $includingLastNodeInThePath )
     {
@@ -2698,13 +2698,9 @@ WHERE
 
                 $db->query( $query );
 
-                eZContentObject::expireAllCache();
                 eZRole::expireCache();
             }
-
-
         }
-
     }
 
     function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
