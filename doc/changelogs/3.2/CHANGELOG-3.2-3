@@ -22,10 +22,6 @@ Changes from 3.2-2 to 3.2-3
 - Improved the treemenu template operator to accept class_filter,
   depth_skip, max_level and string_limit as parameters, all optional.
 
-*DataType:
-
-*Optimizations:
-
 *Bugfixes:
 - http://ez.no/developer/ez_publish_3/bug_reports/sum_operator
   Removed the sum operator from the array operator collection. Implemented support
@@ -89,14 +85,6 @@ Changes from 3.2-2 to 3.2-3
   The maximum value now only applies to used elements, some sanity checks were added to the
   'max' and 'offset' parameter.
 
-*Setup:
-
-*WebDAV:
-
-*Templates:
-
-*Package system:
-
 *Library :
 
 eZ template:
@@ -116,5 +104,3 @@ eZ soap:
 *Translations:
 - Updated Portuguese translation, thanks to Miguel Angelo Gouveia Saturnino.
 - Fixed correct HTTP content language to zh-CH for Chinese.
-
-*Miscellaneous:

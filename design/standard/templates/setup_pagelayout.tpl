@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/setup.css"|ezdesign} />
 
 {include uri="design:page_head.tpl" enable_link=false()}
+    <link rel="Shortcut icon" href={"favicon.ico"|ezimage} type="image/x-icon" />
 
 </head>
 
