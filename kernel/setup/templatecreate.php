@@ -78,7 +78,8 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 {
     $templateName = trim( $http->postVariable( 'TemplateName' ) );
 
-    if ( trim( $templateName ) != "" )
+    $error = false;
+    if ( preg_match( "#^[0-9a-z_]+$#", $templateName ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
         $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
@@ -150,17 +151,19 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         }
         else
         {
+            $error = "permission_denied";
             eZDebug::writeError( "Could not create override template, check permissions on $fileName", "Template override" );
         }
-
-
-
-        $module->redirectTo( '/setup/templateview'. $template );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
     else
     {
-        print( "Empty name" );
+        $error = "invalid_name";
+    }
+
+    if ( $error == false )
+    {
+        $module->redirectTo( '/setup/templateview'. $template );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 
@@ -403,6 +406,7 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
 }
 
 
+$tpl->setVariable( 'error', $error );
 $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_type', $templateType );
 $tpl->setVariable( 'template_name', $templateName );

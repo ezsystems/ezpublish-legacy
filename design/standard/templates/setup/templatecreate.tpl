@@ -1,6 +1,18 @@
 <form method="post" action={concat('/setup/templatecreate',$template)|ezurl}>
 <h1>{"Create new template override for"|i18n("design/standard/setup")} {$template}</h1>
 
+{section show=eq($error,'permission_denied')}
+<div class="error">
+<h2>{"Could not create template, permission denied."|i18n("design/standard/setup")}</h2>
+</div>
+{/section}
+
+{section show=eq($error,'invalid_name')}
+<div class="error">
+<h2>{"Invalid name. You can only use the characters a-z, numbers and _."|i18n("design/standard/setup")}</h2>
+</div>
+{/section}
+
 <p>
 {"Template will be placed in"|i18n("design/standard/setup")} design/{$site_base}/override/templates/
 </p>

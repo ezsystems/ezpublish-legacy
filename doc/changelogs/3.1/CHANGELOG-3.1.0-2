@@ -11,7 +11,12 @@ Changes from 3.1.0-1 to 3.1
 - Fixed override by classification ( class attribute on tags )
 - Fixed bug in override system which would cause override files to not be used if no
   design keys were set (for instance from shop/basket).
+<<<<<<< .mine
+- Added correct permission checking in template creation admin and proper error messages.
+
+=======
 - Fixed bug with phrase search, fixed problem with combining phrases with usual words in one search query.
+>>>>>>> .r2651
 *Library :
 eZ xml:
 - Fixed bug in attribute parsing with the - character, e.g. SOAP-ENV
