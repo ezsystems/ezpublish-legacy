@@ -46,6 +46,10 @@ $Module =& $Params['Module'];
 $LanguageCode = $Params['LanguageCode'];
 $EditVersion = $Params['EditVersion'];
 
+eZDebug::writeDebug( 'HiO specific code on versionview, generalize' );
+$ini =& eZINI::instance();
+$ini->setVariable( 'DesignSettings', 'SiteDesign', 'hio' );
+
 $contentObject =& eZContentObject::fetch( $ObjectID );
 $versionObject =& $contentObject->version( $EditVersion );
 $versionAttributes = $versionObject->contentObjectAttributes();
