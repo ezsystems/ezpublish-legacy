@@ -1308,6 +1308,10 @@
         <source>Comment by &quot;%1 &lt;%2&gt;&quot;:</source>
         <translation>Kommentar fra &quot;%1 &lt;%2&gt;&quot;:</translation>
     </message>
+    <message>
+        <source>Click here to return to the original page.</source>
+        <translation>Klikk her for å gå tilbake til den aktuelle siden.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/translate</name>

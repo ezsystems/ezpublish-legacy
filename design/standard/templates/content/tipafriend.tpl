@@ -6,14 +6,14 @@
   {case match="confirm"}
     <div class="feedback">
       <h2>{"The message was sent."|i18n("design/standard/content/tipafriend")}</h2>
-      <p><a href={concat("/content/view/full/",$node_id)|ezurl}>Click here to return to the original page.</a></p>
+      <p><a href={concat("/content/view/full/",$node_id)|ezurl}>{"Click here to return to the original page."|i18n("design/standard/content/tipafriend")}</a></p>
     </div>
   {/case}
   {case match="error"}
     <div class="warning">
       <h2>{"The message was not sent."|i18n("design/standard/content/tipafriend")}</h2>
       <p>{"The message was not sent due to an unknown error. Please notify the site administrator about this error."|i18n("design/standard/content/tipafriend")}</p>
-      <p><a href={concat("/content/view/full/",$node_id)|ezurl}>Click here to return to the original page.</a></p>
+      <p><a href={concat("/content/view/full/",$node_id)|ezurl}>{"Click here to return to the original page."|i18n("design/standard/content/tipafriend")}</a></p>
     </div>
   {/case}
   {case}
