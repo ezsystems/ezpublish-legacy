@@ -10,6 +10,7 @@
 </tr>
 {section var=Roles loop=$member_groups sequence=array( bglight, bgdark )}
     <tr class="{$Roles.sequence}">
+        {* Role name. *}
         <td><a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name|wash}</a></td>
         <td><a href={concat( '/role/edit/', $Roles.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" title="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" /</a></td>
     </tr>

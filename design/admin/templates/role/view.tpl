@@ -40,10 +40,18 @@ function toggleCheckboxes( formname, checkboxname )
 {section var=Policies loop=$policies sequence=array( bglight, bgdark )}
 <tr class="{$Policies.sequence}">
     <td>
-        {$Policies.item.module_name}
+         {section show=eq( $Policies.item.module_name, '*' )}
+             <i>{'all modules'|i18n( 'design/admin/role/view' )} </i>
+             {section-else}
+             {$Policies.item.module_name}
+        {/section}
     </td>
     <td>
-        {$Policies.item.function_name}
+         {section show=eq( $Policies.item.function_name, '*' )}
+             <i>{'all functions'|i18n( 'design/admin/role/view' )} </i>
+             {section-else}
+             {$Policies.item.function_name}
+        {/section}
     </td>
     <td>
         {section show=$Policies.item.limitations}
@@ -56,7 +64,7 @@ function toggleCheckboxes( formname, checkboxname )
               {delimiter}, {/delimiter}
           {/section}
         {section-else}
-        *
+        <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
         {/section}
     </td>
 </tr>

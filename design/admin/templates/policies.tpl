@@ -13,18 +13,22 @@
     {section var=Policy loop=$policies sequence=array( bglight, bgdark )}
     <tr class="{$Policy.sequence}">
         <td>
+        {section show=eq( $Policy.moduleName, '*' )}
+        <i>{'all modules'|i18n( 'design/admin/node/view/full' )}</i>
+        {section-else}
             {$Policy.moduleName}
+        {/section}
         </td>
         <td>
         {section show=eq( $Policy.functionName, '*' )}
-        <i>{'all'|i18n( 'design/admin/node/view/full' )}</i>
+        <i>{'all functions'|i18n( 'design/admin/node/view/full' )}</i>
         {section-else}
             {$Policy.functionName}
         {/section}
         </td>
         <td>
             {section show=eq($Policy.limitation,'*')}
-                <i>{'None'|i18n('')}</i>
+                <i>{'No limitations'|i18n('')}</i>
             {section-else}
                 {section var=Limitation loop=$Policy.limitation}
                   {$Limitation.identifier|wash}(
