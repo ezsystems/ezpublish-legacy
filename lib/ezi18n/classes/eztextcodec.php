@@ -443,12 +443,28 @@ class eZTextCodec
     function &instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
         if ( $inputCharsetCode === false or $outputCharsetCode === false )
-            $internalCharset = eZTextCodec::internalCharset();
+        {
+            if ( isset( $GLOBALS['eZTextCodecInternalCharsetReal'] ) )
+                $internalCharset = $GLOBALS['eZTextCodecInternalCharsetReal'];
+            else
+                $internalCharset = eZTextCodec::internalCharset();
+        }
         $realInputCharsetCode = $realOutputCharsetCode = false;
         if ( $inputCharsetCode === false )
             $realInputCharsetCode = $inputCharsetCode = $internalCharset;
         if ( $outputCharsetCode === false )
             $realOutputCharsetCode = $outputCharsetCode = $internalCharset;
+
+        $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realOutputCharsetCode-$realOutputCharsetCode"];
+        if ( isset( $check ) and !$check )
+        {
+            return null;
+        }
+        if ( isset( $check ) and is_object( $check ) )
+        {
+            return $check;
+        }
+
         if ( !$realInputCharsetCode )
         {
             include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
@@ -466,8 +482,8 @@ class eZTextCodec
              $inputEncoding == $outputEncoding and
              $realInputCharsetCode == $realOutputCharsetCode )
         {
-            $codec = null;
-            return $codec;
+            $check = false;
+            return null;
         }
         $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
         if ( get_class( $codec ) != "eztextcodec" )
@@ -476,6 +492,7 @@ class eZTextCodec
                                       $realInputCharsetCode, $realOutputCharsetCode,
                                       $inputEncoding, $outputEncoding );
         }
+        $check =& $codec;
         return $codec;
     }
 
@@ -488,6 +505,7 @@ class eZTextCodec
     {
         unset( $GLOBALS['eZTextCodecInternalCharsetReal'] );
         unset( $GLOBALS['eZTextCodecHTTPCharsetReal'] );
+        unset( $GLOBALS['eZTextCodecCharsetCheck'] );
         $GLOBALS['eZTextCodecInternalCharset'] = $settings['internal-charset'];
         $GLOBALS['eZTextCodecHTTPCharset'] = $settings['http-charset'];
         $GLOBALS['eZTextCodecMBStringExtension'] = $settings['mbstring-extension'];
