@@ -31,6 +31,7 @@ Changes from 2.9-3 to 2.9-4
 - Fixed bug for uncorrected attribute order when editing an object whose attribute order may have been changed.
 - Fixed bug for class discard function.
 - Added total price function to basket.
+- Added new template operator ezsys which can return attributes from the ezsys global object.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
@@ -61,3 +62,6 @@ eZ http:
 
 eZ image:
 - Added support for exec path for eZImageShell.
+
+eZ sys:
+- Improved the attribute support.
