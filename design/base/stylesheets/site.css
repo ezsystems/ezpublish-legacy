@@ -1,0 +1,136 @@
+/* SITE CSS 20040217 */
+
+body
+{
+    background-color: #f8f8f8;
+}
+
+div#allcontent
+{
+}
+
+div#header
+{
+}
+
+div#header-design
+{
+}
+
+div#header h1
+{
+    font-size: 4em;
+    font-style: italic;
+    margin: 0;
+    padding-left: 85px;
+    height: 60px;
+    background-image: url(../images/top-logo.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+    white-space: nowrap;
+}
+
+div#topmenu
+{
+}
+
+div#topmenu-design
+{
+    text-align: center;
+}
+
+div#topmenu ul
+{
+    margin: 0 -0.5em 0 -0.5em;
+    padding: 0;
+}
+
+div#topmenu li, div#topmenu li div
+{
+    display: inline;
+}
+
+div#topmenu li
+{
+}
+
+div#topmenu li a
+{
+    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
+}
+
+div#path
+{
+}
+
+div#path-design
+{
+}
+
+div#path p
+{
+    margin: 0;
+}
+
+div#columns
+{
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div#leftmenu ul, div#rightmenu ul
+{
+    margin-left: 1.5em;
+}
+
+div#leftmenu
+{
+    float: left;
+    width: 10em;
+}
+
+div#leftmenu-design
+{
+}
+
+div#rightmenu 
+{
+    float: right;
+    width: 10em;
+}
+
+div#rightmenu-design
+{
+}
+
+div#maincontent
+{
+    margin-left: 11em;
+    margin-right: 11em;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div#maincontent-design
+{
+}
+
+div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
+{
+    float: left;
+    width: 100%;
+}
+
+/* COMMON STYLES SET JUST AS AN EXAMPLE */
+/* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
+div#header-design, div#topmenu-design, div#path-design, div#leftmenu-design, div#rightmenu-design, div#maincontent-design, div#footer-design 
+{
+    background-color: #ffffff;
+    margin: 1em 0 0 0;
+    padding: 0.5em;
+    border: 1px dashed #a0a0a0;
+    overflow: visible;
+}
+
+div#header-design
+{
+    margin: 0;
+}

@@ -1,0 +1,25 @@
+#?ini charset="iso-8859-1"?
+
+# Fetch article comments
+[comments]
+Module=content
+FunctionName=list
+Constant[sort_by]=published;0
+Parameter[parent_node_id]=parent_node_id
+Constant[class_filter_type]=include
+Constant[class_filter_array]=comment
+
+# Fetch children
+[children]
+Module=content
+FunctionName=list
+Constant[sort_by]=priority;0
+Parameter[parent_node_id]=parent_node_id
+Parameter[offset]=offset
+Parameter[limit]=limit
+
+# Count children
+[children_count]
+Module=content
+FunctionName=list_count
+Parameter[parent_node_id]=parent_node_id

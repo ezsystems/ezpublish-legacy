@@ -1,0 +1,350 @@
+/* CORE CSS 20040217 */
+
+/* BODY */
+
+body
+{
+    font-family: Arial, Helvetica, sans-serif; /* Base font family for most elements */
+    font-size: 0.8em; /* Base size for all elements; other size definitions relates to this */
+    background-color: #ffffff;
+    margin: 0;
+    padding: 1em;
+}
+
+/* HEADERS */
+
+h1, h2, h3, h4, h5, h6
+{
+    font-weight: bold;
+    margin: 1em 0 0.5em 0;
+    padding: 0;
+}
+
+h1
+{
+    font-size: 1.8em;
+}
+
+h2
+{
+    font-size: 1.4em;
+}
+
+h3
+{
+    font-size: 1.1em;
+}
+
+h4, h5, h6
+{ 
+    font-size: 1em;
+}
+
+/* PARAGRAPHS */
+
+p
+{
+    margin: 0.5em 0 0.5em 0;
+    line-height: 1.25em; /* This is aprox. default line height in most popular browsers; set explicitly to ensure consitency. */
+}
+
+/* LINKS */
+
+a
+{
+    color: #0000a0;
+    text-decoration: underline;
+}
+
+a:hover
+{
+    color: #0000ff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a img
+{
+    border: none; /* Some browsers may display a border around a linked image without this attribute set to _none_. */
+}
+
+/* PRE TEXT */
+
+pre, code
+{
+    font-family: "Courier New", Courier, monospace; /* Usually defaulted to monospaced font anyway, but browwsers may vary which one is used, so giving exact alternatives helps visual consistenct */
+    font-size: 1em; /* Setting this exact size may also help visual consistency */
+}
+
+pre
+{
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    margin: 1em 0 1em 0;
+    padding: 0.2em;
+}
+
+/* TABLES */
+
+table
+{ 
+    font-size: 1em; /* Fix for size "loss" in tables in IE; redundant for most others, but does no harm */
+    margin: 0;
+    padding: 0;
+}
+
+th, td
+{
+    padding: 0;
+}
+
+table.list
+{
+    width: 100%;
+    margin: 1em 0 1em 0;
+}
+
+table.list th, table.list td
+{
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    text-align: left;
+    vertical-align: top;
+}
+
+table.list th
+{
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+table.list td
+{
+    font-weight: normal;
+}
+
+tr.bglight
+{
+    background-color: #fcfcfc;
+}
+
+tr.bgdark
+{
+    background-color: #f8f8f8;
+}
+
+/* ORDERED AND UNORDERED LISTS */
+
+ul, ol
+{
+    padding: 0;
+    margin: 0.75em 0 1em 2.5em;
+}
+
+ul ul, ol ul
+{
+    margin: 0.3em 0 0.5em 1.3em;
+}
+
+ul ol, ol ol
+{
+    margin: 0.3em 0 0.5em 1.9em;
+}
+
+ul, ul ul
+{
+    list-style-type: disc;
+}
+
+li
+{
+    margin: 0 0 0.3em 0;
+    padding: 0;
+    line-height: 1.25em;
+}
+
+/* DEFINITION LISTS */
+
+dl
+{
+    padding: 0em;
+    margin: 0.25em 0 0.25em 0;
+}
+
+dt, dd
+{
+    font-style: normal;
+    margin: 0 0 0.25em 0;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+dd
+{
+    margin: 0 1em 0.5em 2.5em;
+}
+
+/* FORM ELEMENTS */
+
+form
+{
+    padding: 0em;
+    margin: 0em;
+}
+
+label
+{
+    font-weight: bold;
+    padding-right: 0.5em;
+    display: block;
+    white-space: nowrap;
+}
+
+textarea
+{
+    font-family: Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
+    font-size: 1em; /* Needs to be specified for IE */
+}
+
+optgroup
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+input.button
+{
+    font-weight: normal;
+    margin: 1em 1em 0 0;
+}
+
+input.button-default
+{
+    font-weight: bold;
+}
+
+/* PAGE DIVIDERS */
+
+div.block /* Use this style around groups of objects which are connected in some way */
+{
+    margin: 0.5em 0 0.5em 0;
+    padding: 0;
+    clear: both;
+}
+
+div.block div.element, div.buttonblock div.element /* Use this style if several objects are to be stacked horizontally within the same block */
+{
+    padding-right: 1em;
+    float: left;
+}
+
+div.block div.left
+{
+    width: 48%;
+    text-align: left;
+    float: left;
+    clear: left;
+}
+
+div.block div.right
+{
+    width: 48%;
+    text-align: right;
+    float: right;
+    clear: right;
+}
+
+div.break /* Used this style to terminate floating elements, to clear all floating attributes */
+{
+    clear: both;
+}
+
+/* MESSAGES TO THE USER */
+
+div.message-feedback, div.message-warning, div.message-error
+{
+    padding: 0.1em 0.5em 0.5em 0.5em;
+}
+
+div.message-feedback
+{
+    background-color: #f0fff0;
+}
+
+div.message-warning
+{
+    background-color: #ffffe0;
+}
+
+div.message-error
+{
+    background-color: #fff0f0;
+}
+
+/* MISC STYLES */
+
+.small
+{
+    font-size: 85%;
+}
+
+.hide
+{
+    display: none;
+}
+
+
+div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
+{
+    margin-top: 0.3em;
+    margin-bottom: 0.1em;
+    display: inline;
+}
+
+div.imagecenter, div.factboxcenter, div.centerobject
+{
+    width: 100%;
+    margin-top: 0.3em;
+    margin-bottom: 0.1em;
+    display: block;
+}
+
+div.imagecenter
+{
+    text-align: center;
+}
+
+div.factboxcenter
+{
+    text-align: left;
+}
+
+div.imageleft, div.factboxleft, div.leftobject
+{
+    float: left;
+    padding-right: 0.5em;
+}
+
+div.imageright, div.factboxright, div.rightobject
+{
+    float: right;
+    padding-right: 0.5em;
+}
+
+div.faxtboxleft, div.faxtboxright
+{
+    background-color: #f0f0f0;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+{
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.factbox
+{
+    background-color: #f0f0f0;
+}
