@@ -3895,7 +3895,7 @@ INSERT INTO ezcontentobject_attribute VALUES (1117, 'eng-GB', 2, 324, 222, '<?xm
 </ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (1132, 'eng-GB', 1, 329, 223, '', 2, 0, 0, 2, '', 'ezinteger');
 INSERT INTO ezcontentobject_attribute VALUES (1100, 'eng-GB', 1, 319, 223, '', 2, 0, 0, 2, '', 'ezinteger');
-INSERT INTO ezcontentobject_attribute VALUES (1161, 'eng-GB', 61, 56, 224, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1161, 'eng-GB', 61, 56, 224, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1162, 'eng-GB', 1, 336, 6, 'Anonymous Users', 0, 0, 0, 0, 'anonymous users', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1163, 'eng-GB', 1, 336, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'user group for the anonymous user', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 2, 10, 8, 'Anonymous', 0, 0, 0, 0, 'anonymous', 'ezstring');

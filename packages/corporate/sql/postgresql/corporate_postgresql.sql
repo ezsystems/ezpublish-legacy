@@ -3273,7 +3273,7 @@ INSERT INTO ezcontentobject_attribute VALUES (442, 'eng-GB', 4, 137, 182, '<?xml
 INSERT INTO ezcontentobject_attribute VALUES (444, 'eng-GB', 4, 137, 184, '', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (445, 'eng-GB', 4, 137, 185, '', 0, 0, 0, 0, '', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (461, 'eng-GB', 62, 56, 187, 'ez.no', 0, 0, 0, 0, '', 'ezinisetting');
-INSERT INTO ezcontentobject_attribute VALUES (468, 'eng-GB', 62, 56, 188, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (468, 'eng-GB', 62, 56, 188, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 
 
 

@@ -3349,7 +3349,7 @@ INSERT INTO ezcontentobject_attribute VALUES (645, 'eng-GB', 1, 172, 179, '<?xml
 </section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (466, 'eng-GB', 16, 136, 180, 'nospam@ez.no', 0, 0, 0, 0, '', 'ezinisetting');
 INSERT INTO ezcontentobject_attribute VALUES (467, 'eng-GB', 16, 136, 181, 'ez.no', 0, 0, 0, 0, '', 'ezinisetting');
-INSERT INTO ezcontentobject_attribute VALUES (530, 'eng-GB', 16, 136, 182, 'Copyright &copy; eZ systems as 1999-2003', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2003', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (530, 'eng-GB', 16, 136, 182, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (668, 'eng-GB', 1, 177, 6, 'Anonymous Users', 0, 0, 0, 0, 'anonymous users', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (669, 'eng-GB', 1, 177, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'user group for the anonymous user', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 2, 10, 8, 'Anonymous', 0, 0, 0, 0, 'anonymous', 'ezstring');
