@@ -14,39 +14,39 @@
 
 {* Object ID *}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'ID'|i18n( 'design/admin/content/translate' )}:</label>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/translate' )}
 {/section}
 </p>
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/translate' )}
 {/section}
 </p>
 
 {* Published version *}
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Published version'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.published}
 {$object.current_version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/translate' )}
 {/section}
 </p>
 
@@ -155,14 +155,13 @@
 
     <td>
     {section show=ne( $Translations.item.language_code, $object.default_language )}
-        <input class="button" type="submit" name="TranslateArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="Translate" />
+        <input class="button" type="submit" name="TranslateArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="{'Translate'|i18n( 'design/admin/content/translate' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="" value="Translate" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="" value="{'Translate'|i18n( 'design/admin/content/translate' )}" disabled="disabled" />
     {/section}
     </td>
 
-
-    <td><input class="button" type="submit" name="EditArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="Edit" /></td></td>
+    <td><input class="button" type="submit" name="EditArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="{'Edit'|i18n( 'design/admin/content/translate' )}" /></td>
 
 </tr>
 {/section}
@@ -181,7 +180,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n('design/admin/content/translate')}" {section show=$content_version.language_list|count|eq(1)}disabled="disabled"{/section} />
+<input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/content/translate' )}" {section show=$content_version.language_list|count|eq(1)}disabled="disabled"{/section} />
 </div>
 <div class="block">
 {section show=$trans_list}
@@ -264,6 +263,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
+<input class="button" type="submit" name="EditArray[{$object.id}][{$edit_version}][{$translation_locale.locale_code}]" value="{'Edit'|i18n( 'design/admin/content/translate' )}" />
 <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/translate' )}" />
 </div>
 
