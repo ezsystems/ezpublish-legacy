@@ -106,6 +106,8 @@ class eZBenchmarkUnit
 
     function addEntry( $entry )
     {
+        if ( isset( $entry['parameter']['repeat_count'] ) )
+            $entry['repeat_count'] = $entry['parameter']['repeat_count'];
         $this->MarkList[] = $entry;
     }
 
