@@ -61,9 +61,9 @@
         </span>
         </td>
         <td class="{$Node:sequence}">
-        <img src={"move-up.gif"|ezimage} alt="Ascending" />
+        <img src={"move-down.gif"|ezimage} alt="Ascending" />
 	<input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} />
-        <img src={"move-down.gif"|ezimage} alt="Descending" />
+        <img src={"move-up.gif"|ezimage} alt="Descending" />
 	<input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} />
         </td>
         <td class="{$Node:sequence}" align="right">
