@@ -52,7 +52,14 @@ function checkAll()
 <h2>{"Sessions"|i18n("design/standard/setup")}</h2>
 </div>
 <div class="object">
-    <p>{"Number of active sessions"|i18n("design/standard/setup")}: {$sessions_active}</p><br />
+    <p>{"Number of active sessions"|i18n("design/standard/setup")}: {$sessions_active}</p>
+<p>
+        {let logged_in_count=fetch( user, logged_in_count )
+             anonymous_count=fetch( user, anonymous_count )}
+        {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/standard/toolbar',,
+          hash( '%logged_in_count', $logged_in_count, '%anonymous_count', $anonymous_count ) )}
+        {/let}
+</p><br />
     <p>{"Use the buttons below to delete the session entries that are present in the database."|i18n("design/standard/setup")}<br />
        {"WARNING! When removing sessions, users that are logged in will be thrown out from the system."|i18n("design/standard/setup")}</p>
 <br />
@@ -61,6 +68,7 @@ function checkAll()
 <br />
 <input type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n("design/standard/setup")}" />
 </div>
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <th>
 &nbsp;
@@ -73,6 +81,9 @@ function checkAll()
 </th>
 <th>
 <a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/name')|ezurl}>{"Full name"|i18n("design/standard/setup")}</a>
+</th>
+<th>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/idle')|ezurl}>{"Idle time"|i18n("design/standard/setup")}</a>
 </th>
 <th>
 <a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/idle')|ezurl}>{"Idle since"|i18n("design/standard/setup")}</a>
@@ -89,8 +100,11 @@ function checkAll()
             <td width="20%">
              <a href="mailto:{$session.email}">{$session.email}</a>
             </td>
-            <td width="40%">
+            <td width="30%">
             {$session_user.name}
+            </td>
+            <td width="10%">
+            {$session.idle.hour}:{$session.idle.minute}:{$session.idle.second}
             </td>
             <td width="19%">
             {$session.idle_time|l10n(shortdatetime)}

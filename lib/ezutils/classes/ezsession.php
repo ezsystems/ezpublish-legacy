@@ -210,6 +210,23 @@ function &eZSessionGetActive( $params = array() )
         $session['expiration_time'] = $row['expiration_time'];
         $session['session_key'] = $row['session_key'];
         $session['idle_time'] = $row['expiration_time'] - $sessionTimeout;
+        $idleTime = $time - $row['expiration_time'] + $sessionTimeout;
+        $minute = abs( $time % 60 );
+        $hour = (int)($time / 60);
+        $session['idle']['hour'] = (int)($idleTime / 3600);
+        $session['idle']['minute'] = (int)(($idleTime / 60) % 60);
+        $session['idle']['second'] = abs($idleTime % 60);
+
+        if ( $session['idle']['minute'] < 10 )
+        {
+            $session['idle']['minute'] = "0" . $session['idle']['minute'];
+        }
+
+        if ( $session['idle']['second'] < 10 )
+        {
+            $session['idle']['second'] = "0" . $session['idle']['second'];
+        }
+
         $session['email'] = $sessionUser->attribute( 'email' );
         $session['login'] = $sessionUser->attribute( 'login' );
         $resultArray[] = $session;
