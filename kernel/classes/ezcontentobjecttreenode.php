@@ -3052,7 +3052,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( $pathItems as $pathItem )
         {
             if ( $pathItem != '' )
-                $pathArray[] = $pathItem;
+                $pathArray[] = (int) $pathItem;
         }
         return $pathArray;
     }

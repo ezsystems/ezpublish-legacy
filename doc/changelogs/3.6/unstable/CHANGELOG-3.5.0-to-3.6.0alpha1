@@ -241,7 +241,10 @@ eZInformationCollection:
 - Fixed bug #6391: Editing of eZURL results in transaction error.
 - Fixed bug #6175: Subtree_expiry not expiry
   (Merged from stable/3.5 (3.5.2) rev. 11213)
-
+- Fixed bug #6359: Fatal error (and PHP warning) when adding source to an
+  RSS export.
+  (Merged from stable/3.5 (3.5.2) rev. 11224)
+  
 *Library:
 PDF:
 - Added support for GIF images.
