@@ -92,6 +92,7 @@ class eZPDF
 
                     $operatorValue .= isset( $params['size'] ) ? ':size:'. implode(',', $params['size'] ) : '';
                     $operatorValue .= isset( $params['dots'] ) ? ':dots:'. $params['dots'] : '';
+                    $operatorValue .= isset( $params['contentText'] ) ? ':contentText:'. $params['contentText'] : '';
                     $operatorValue .= isset( $params['indent'] ) ? ':indent:'. implode(',', $params['indent'] ) : '';
 
                 }

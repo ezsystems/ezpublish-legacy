@@ -991,8 +991,9 @@ class eZPDFTable extends Cezpdf
         $sizes = isset( $params['size'] ) ? explode( ',', $params['size'] ) : '';
         $indents = isset( $params['indent'] ) ? explode( ',', $params['indent'] ) : '';
         $dots = isset( $params['dots'] ) ? $params['dots'] : '';
+        $contentText = isset( $params['contentText'] ) ? $params['contentText'] : ezi18n( 'lib/ezpdf/classes', 'Contents', 'Table of contents' );
 
-        $this->insertTOC( $sizes, $indents, $dots );
+        $this->insertTOC( $sizes, $indents, $dots, $contentText );
     }
 
     /**
@@ -1041,11 +1042,13 @@ class eZPDFTable extends Cezpdf
      \param size array, element 0 define size of header level 1, etc.
      \param indent, element 0 define indent of header level 1, etc.
      \param dots, if true, generate dots between name and pagenumber
+     \param content text
      \param level, how many header levels to generate toc form
     */
     function insertTOC( $sizeArray = array( 20, 18, 16, 14, 12 ),
                         $indentArray = array( 0, 4, 6, 8, 10 ),
                         $dots = true,
+                        $contentText = '',
                         $level = 2 )
     {
         $fontSize = $this->fontSize();
@@ -1053,7 +1056,7 @@ class eZPDFTable extends Cezpdf
 
         $this->ezInsertMode(1,1,'before');
         $this->ezNewPage();
-        Cezpdf::ezText( ezi18n( 'lib/ezpdf/classes', 'Contents', 'Table of contents' ) ."\n", 26, array('justification'=>'centre'));
+        Cezpdf::ezText( $contentText ."\n", 26, array('justification'=>'centre'));
 
         foreach($this->TOC as $k=>$v){
             if ( $v['level'] <= $level )
