@@ -186,6 +186,9 @@ function ez_cleanup_db
 }
 
 if [ "$USE_MYSQL" != "" ]; then
+    [ -z "$SQLDUMP" ] && SQLDUMP="all"
+    [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
+    [ -n "$SQLDUMP" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
     [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
     [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
     [ -n "$DB_PWD" ] && PWDARG="-p$DB_PWD"
@@ -214,21 +217,45 @@ if [ "$USE_MYSQL" != "" ]; then
 	return $status
     }
 
+    function ez_mysql_loadfile
+    {
+	local file
+	local status
+	file="$1"
+	case $file in
+	    *.dba)
+		# Create SQL from generic schema and dump them to mysql
+		./bin/php/ezsqldumpschema.php --type=mysql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | mysql $USERARG $HOSTARG $PWDARG "$DBNAME"
+		status=$?
+		;;
+	    *.sql)
+		# Import SQL directly to mysql
+		mysql $USERARG $HOSTARG $PWDARG "$DBNAME" < "$file"
+		status=$?
+		;;
+	    *)
+		echo "Unknown file type '$file'" >/dev/stderr
+		status=1
+		;;
+	esac
+	return $status
+    }
+
     mysqladmin $USERARG $HOSTARG $PWDARG -f drop "$DBNAME" &>/dev/null
     echo -n "Creating database `$SETCOLOR_EMPHASIZE`$DBNAME`$SETCOLOR_NORMAL`"
-    mysqladmin $USERARG $HOSTARG $PWDARG create "$DBNAME" &>.mysql.log
+    mysqladmin $USERARG $HOSTARG $PWDARG create "$DBNAME" 2>.mysql.log
     ez_result_file $? .mysql.log || exit 1
     for sql in $SCHEMAFILES; do
 	echo -n "Importing schema SQL file `ez_color_file $sql`"
-	ez_mysql_loadschema "$sql" &>.mysql.log
+	ez_mysql_loadschema "$sql" 2>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     done
     echo -n "Importing SQL file `ez_color_file $SQLFILE`"
-    ez_mysql_loadschema "$SQLFILE" &>.mysql.log
+    ez_mysql_loadfile "$SQLFILE" 2>.mysql.log
     ez_result_file $? .mysql.log || exit 1
     for sql in $SQLFILES; do
 	echo -n "Importing SQL file `ez_color_file $sql`"
-	ez_mysql_loadschema "$sql" &>.mysql.log
+	ez_mysql_loadfile "$sql" 2>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     done
 
@@ -241,17 +268,22 @@ if [ "$USE_MYSQL" != "" ]; then
 
     if [ -n "$SQL_SCHEMA_FILE" ]; then
 	[ -z "$SQLDUMP" ] && SQLDUMP="all"
+	[ -n "$SQLDUMP" ] && DB_OUTPUT_TYPES="--output-types=$SQLDUMP"
 	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=mysql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
+	./bin/php/ezsqldumpschema.php --type=mysql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
 else
+    [ -z "$SQLDUMP" ] && SQLDUMP="all"
+    [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
+    [ -n "$SQLDUMP" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
     [ -n "$DB_USER" ] && USERARG="--username $DB_USER"
     [ -n "$DB_HOST" ] && HOSTARG="--host $DB_HOST"
+    [ -n "$DB_PWD" ] && PWDARG="--password $DB_PWD"
 
     function ez_postgresql_loadschema
     {
@@ -261,6 +293,29 @@ else
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
 		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql "$file" | psql $USERARG $HOSTARG "$DBNAME"
+		status=$?
+		;;
+	    *.sql)
+		# Import SQL directly to mysql
+		psql $USERARG $HOSTARG "$DBNAME" < "$file"
+		status=$?
+		;;
+	    *)
+		echo "Unknown file type '$file'" >/dev/stderr
+		status=1
+		;;
+	esac
+	return $status
+    }
+
+    function ez_postgresql_loadschema
+    {
+	local file, status
+	file="$1"
+	case $file in
+	    *.dba)
+		# Create SQL from generic schema and dump them to mysql
+		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | psql $USERARG $HOSTARG "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
@@ -294,13 +349,13 @@ else
 	rm .psql.log
     done
     echo -n "Importing SQL file `ez_color_file $SQLFILE`"
-    ez_postgresql_loadschema "$SQLFILE" &>.psql.log || exit 1
+    ez_postgresql_loadfile "$SQLFILE" &>.psql.log || exit 1
     pg_error_code ".psql.log"
     ez_result_file $? .psql.log || exit 1
     rm .psql.log
     for sql in $SQLFILES; do
 	echo -n "Importing SQL file `ez_color_file $sql`"
-	ez_postgresql_loadschema "$sql" &>.psql.log || exit 1
+	ez_postgresql_loadfile "$sql" &>.psql.log || exit 1
 	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
         rm .psql.log
@@ -315,12 +370,13 @@ else
 
     if [ -n "$SQL_SCHEMA_FILE" ]; then
 	[ -z "$SQLDUMP" ] && SQLDUMP="all"
+	[ -n "$SQLDUMP" ] && DB_OUTPUT_TYPES="--output-types=$SQLDUMP"
 	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
+	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
 	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
     fi

@@ -38,7 +38,7 @@ GENERIC_SCHEMA="share/db_schema.dba"
 # Temporary schema files
 TEMP_MYSQL_SCHEMA_FILE="mysql_schema.dba"
 TEMP_POSTGRESQL_SCHEMA_FILE="postgresql_schema.dba"
-
+TEMP_DATA_FILE="data_schema.dba"
 
 # Check parameters
 for arg in $*; do
@@ -243,25 +243,55 @@ if [ -n "$DUMP_SCHEMA" ]; then
     # Update SQL files
     #
 
+    # MySQL
     echo -n "Updating MySQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
     ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=myisam "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
+
+    # PostgreSQL
     echo -n "Updating PostgreSQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
     ./bin/php/ezsqldumpschema.php --type=postgresql --output-sql --compatible-sql "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_POSTGRESQL_SCHEMA_FILE" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
-    if [ ! -f $DATA_UPDATES ]; then
+    if [ ! -f "$DATA_UPDATES" ]; then
 	echo "Missing `ez_color_file $DATA_UPDATES`"
 	helpUpdateData
 	exit 1
     fi
 
+    #
+    # Handle database data
+    #
+
     [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $DB_USER_OPT --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    echo "Handling database data"
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $DB_USER_OPT --sql-schema-file="$TEMP_DATA_FILE" --sql-data-only "$DBNAME" --schema-sql="$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_GENERIC_DATA_FILE" "$DATA_UPDATES"
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_SQL_DATA_FILE`"
+	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_GENERIC_DATA_FILE`"
 	exit 1
     fi
+
+    #
+    # Copy temp schema to standard and cleanup
+    #
+
+    echo -n "Copying temp data to standard"
+    cp -f "$TEMP_DATA_FILE" "$KERNEL_GENERIC_DATA_FILE" 2>.dump.log
+    ez_result_file $? .dump.log
+
+    echo -n "Cleaning up temporary files"
+    rm -f "$DATA_UPDATES".done 2>.dump.log
+    mv "$DATA_UPDATES" "$DATA_UPDATES".done 2>.dump.log
+    rm -f "$TEMP_DATA_FILE" 2>.dump.log
+    ez_result_file 0 .dump.log
+
+    #
+    # Update SQL files
+    #
+
+    echo -n "Updating data file `ez_color_file $KERNEL_SQL_DATA_FILE`"
+    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --output-types=data --compatible-sql --diff-friendly --schema-file="$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_GENERIC_DATA_FILE" "$KERNEL_SQL_DATA_FILE" 2>.dump.log
+    ez_result_file $? .dump.log || exit 1
 fi
