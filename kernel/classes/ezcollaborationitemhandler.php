@@ -171,6 +171,7 @@ class eZCollaborationItemHandler
             include_once( 'kernel/classes/notification/eznotificationcollection.php' );
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
+            $tpl->resetVariables();
             $tpl->setVariable( 'collaboration_item', $item );
             $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
             $subject = $tpl->variable( 'subject' );
@@ -214,6 +215,7 @@ class eZCollaborationItemHandler
 
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
+            $tpl->resetVariables();
             foreach( $userCollection as $participantRole => $collectionItems )
             {
                 print( "part. role id: $participantRole\n" );
