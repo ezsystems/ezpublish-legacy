@@ -347,6 +347,17 @@ class eZTime
         return $str;
     }
 
+    /*!
+     \static
+     Get number of seconds per day
+
+     \return number of seconds per day
+    */
+    function secondsPerDay()
+    {
+        return EZTIME_SECONDS_A_DAY;
+    }
+
     /// Locale object, is just a reference to minimize memory usage.
     var $Locale;
     /// The current time as a clamped timestamp
