@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.4.0alpha1"
+VERSION="3.4.0alpha2"
 VERSION_ONLY="3.4.0"
 VERSION_NICK="$VERSION"
 

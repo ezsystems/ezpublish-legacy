@@ -4,17 +4,23 @@
 . ./bin/shell/sqlcommon.sh
 
 LAST_STABLE="3.3-3"
+LAST_DEVEL="3.4.0alpha1"
 
 MAJOR=3
 MINOR=4
 RELEASE=0
-REAL_RELEASE=1
-STATE="alpha1"
+REAL_RELEASE=2
+STATE="alpha2"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR"."$RELEASE
 MAJMIN=$MAJOR"."$MINOR
 DEVELOPMENT="false"
 [ -n $STATE ] && DEVELOPMENT="true"
+
+LAST_VERSION=$LAST_STABLE
+if [ $REAL_RELEASE -gt 1 ]; then
+    LAST_VERSION=$LAST_DEVEL
+fi
 
 # Check parameters
 for arg in $*; do
@@ -152,7 +158,7 @@ done
 if [ -n "$SQL_ERROR" ]; then
 
     echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo -n "Wrong version number in "
+    echo -n "Wrong/missing version number in "
     for sql in $SQL_ERROR_LIST; do
 	echo -n "`$SETCOLOR_FILE`$sql`$SETCOLOR_NORMAL` "
     done
@@ -179,7 +185,7 @@ fi
 
 if ! grep -E "static QString version = \"$VERSION\";" support/lupdate-ezpublish3/main.cpp &>/dev/null; then
     echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`support/lupdate-ezpublish3/main.cpp`$SETCOLOR_NORMAL` for variable version"
+    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/lupdate-ezpublish3/main.cpp`$SETCOLOR_NORMAL` for variable version"
     echo "Should be:"
     echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
     echo
@@ -191,10 +197,10 @@ fi
 
 for driver in $DRIVERS; do
 
-    file="update/database/$driver/$MAJMIN/dbupdate-$LAST_STABLE-to-$VERSION.sql"
+    file="update/database/$driver/$MAJMIN/dbupdate-$LAST_VERSION-to-$VERSION.sql"
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
-	echo "The databse update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+	echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
 	echo "This file is required for a valid release"
 	echo
 	MAIN_ERROR="1"
@@ -202,7 +208,7 @@ for driver in $DRIVERS; do
     else
 	if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
 	    echo "Should be:"
 	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
 	    echo
@@ -211,7 +217,7 @@ for driver in $DRIVERS; do
 	fi
 	if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
 	    echo "Should be:"
 	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`' WHERE name='ezpublish-release';"
 	    echo
