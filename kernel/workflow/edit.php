@@ -49,7 +49,7 @@ else
 if ( isset( $Params["GroupID"] ) )
 {
     $GroupID = $Params["GroupID"];
-    eZDebug::writeDebug( $GroupID, "GroupID" );
+    //eZDebug::writeDebug( $GroupID, "GroupID" );
 }
 else
 {
@@ -321,8 +321,8 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ), // Workflow ID
-                      array( "workflow_type", $workflow->attribute( "type" ) ) ) ); // Workflow Type
+
+$res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "can_store", $canStore );
