@@ -234,7 +234,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
   data_text4 varchar(50) default NULL,
-  data_text4 text,
+  data_text5 text,
   is_information_collector int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
@@ -1124,5 +1124,3 @@ create table ezkeyword_attribute_link(
     objectattribute_id  int not null,
     PRIMARY KEY  (id)
 );
-
-alter table ezcontentclass_attribute ADD data_text5 text;
