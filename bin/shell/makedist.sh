@@ -163,7 +163,7 @@ BASE="$NAME-$DIST_TYPE-$VERSION"
 if [ "$DIST_TYPE" == "sdk" ]; then
     echo "Creating SDK release"
 elif [ "$DIST_TYPE" == "full" ]; then
-    echo "Creating full release"
+    echo "`$SETCOLOR_EMPHASIZE`Creating full release`$SETCOLOR_NORMAL`"
     BASE="$NAME-$VERSION"
 else
     echo "Unknown release"
@@ -292,8 +292,9 @@ if [ "$BAD_SQL_FILES" != "" ]; then
     case "$FIX_SQL" in
 	Y|y|Yes|yes|YES)
 	    for bad_sql_file in $BAD_SQL_FILES; do
-		echo "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
+		echo -n "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
  		cleanup_sql_file $DEST/$bad_sql_file
+		echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`"
 	    done
 	    ;;
 	*)
@@ -316,7 +317,7 @@ echo "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
     find . -name '*[~#]' -print)
 
 if [ -f $DEST/bin/modfix.sh ]; then
-    echo "Applying `$SETCOLOR_EXE`executable`SETCOLOR_NORMAL` properties"
+    echo "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
     (cd $DEST/bin
 	chmod a+x modfix.sh)
 fi
@@ -342,7 +343,7 @@ fi
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cfz $BASE.tar.gz $BASE
-    echo ", done")
+    echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
 
 echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
@@ -351,13 +352,13 @@ echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 	rm -f $BASE.tar.bz2
     fi
     bzip2 $BASE.tar
-    echo ", done")
+    echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
 
 if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
     (cd $DEST_ROOT
 	zip -9 -r -q $BASE.zip $BASE
-	echo ", done")
+	echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi

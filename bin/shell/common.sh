@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="3.1.0-1"
-VERSION_NICK="3.1 beta1"
+VERSION_NICK="3.1-beta1"
 
 # column to start "[  OK  ]" label in
 RES_COL=60
@@ -15,8 +15,8 @@ SETCOLOR_FAILURE="echo -en \\033[1;31m"
 # terminal sequence to set color to a 'warning' color (currently: magenta)
 SETCOLOR_WARNING="echo -en \\033[1;35m"
 
-# terminal sequence to set color to a 'file' color (currently: green)
-SETCOLOR_FILE="echo -en \\033[1;39m"
+# terminal sequence to set color to a 'file' color (currently: default)
+SETCOLOR_FILE="echo -en \\033[1;30m"
 # terminal sequence to set color to a 'directory' color (currently: blue)
 SETCOLOR_DIR="echo -en \\033[1;34m"
 # terminal sequence to set color to a 'executable' color (currently: green)
