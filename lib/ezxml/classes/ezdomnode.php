@@ -248,6 +248,32 @@ class eZDOMNode
     }
 
     /*!
+     \returns the children of first element that is named \a $name.
+     \note If multiple elements with that name is found \c false is returned.
+     \sa elementByName, children
+    */
+    function &elementChildrenByName( $name )
+    {
+        $element =& $this->elementByName( $name );
+        if ( !$element )
+            return false;
+        return $element->children();
+    }
+
+    /*!
+     \returns the first child of first element that is named \a $name.
+     \note If multiple elements with that name is found \c false is returned.
+     \sa elementByName, firstChild
+    */
+    function &elementFirstChildByName( $name )
+    {
+        $element =& $this->elementByName( $name );
+        if ( !$element )
+            return false;
+        return $element->firstChild();
+    }
+
+    /*!
      \returns the first element that is named \a $name.
               If multiple elements with that name is found \c false is returned.
      \sa elementsByName
