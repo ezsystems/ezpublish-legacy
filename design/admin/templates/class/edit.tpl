@@ -57,26 +57,26 @@
     {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="box" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Identifier. *}
     <div class="block">
     <label>{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters: letters, numbers and underscore.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="box" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters: letters, numbers and underscore.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Object name pattern. *}
     <div class="block">
     <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated (also applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated (also applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Container. *}
     <div class="block">
     <label>{'Container'|i18n( 'design/admin/class/edit' )}:</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
-    <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}"/>
+    <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
 {section show=$attributes}
@@ -85,7 +85,7 @@
 {section var=Attributes loop=$attributes}
 
 <tr>
-    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}"/></th>
+    <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
     <th class="tight">
       <div class="listbutton">
@@ -96,7 +96,7 @@
 </tr>
 
 <tr>
-<td></td>
+<td>&nbsp;</td>
 <!-- Attribute input Start -->
 <td colspan="2">
 <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
@@ -190,7 +190,7 @@
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}"/>
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 </div>

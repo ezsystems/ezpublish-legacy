@@ -28,7 +28,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <ul>
-    <li>{'Locations'}:
+    <li class="nobullet">{'Locations'}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
         <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={concat( '/user/preferences/set/admin_edit_show_locations/0/', $uri_string )|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
     {section-else}

@@ -317,7 +317,7 @@ div#leftmenu li span.disabled, div#rightmenu li span.disabled
     padding-left: 18px;
 }
 
-div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled
+div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled, div#leftmenu li.nobullet a
 {
     background-image: none;
     padding-left: 0;
