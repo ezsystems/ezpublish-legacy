@@ -43,6 +43,10 @@ $http =& eZHTTPTool::instance();
 $user =& eZUser::currentUser();
 $access = false;
 $order = eZOrder::fetch( $OrderID );
+if ( !$order )
+{
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
 
 $accessToAdministrate =& $user->hasAccessTo( 'shop', 'administrate' );
 $accessToAdministrateWord = $accessToAdministrate['accessWord'];
