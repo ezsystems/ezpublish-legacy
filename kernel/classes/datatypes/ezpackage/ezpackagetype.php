@@ -100,20 +100,20 @@ class eZPackageType extends eZDataType
                     {
                         $file =& $fileList[$key];
                         $fileIdentifier = $file["variable-name"];
-                        if ( $fileIdentifier == 'site-colors' )
+                        if ( $fileIdentifier == 'sitecssfile' )
                         {
-                            $siteColorsCSS = $package->fileItemPath( $file, 'default' );
+                            $siteCSS = $package->fileItemPath( $file, 'default' );
                         }
-                        else if ( $fileIdentifier == 'classes-colors' )
+                        else if ( $fileIdentifier == 'classescssfile' )
                         {
-                            $classesColorsCSS = $package->fileItemPath( $file, 'default' );
+                            $classesCSS = $package->fileItemPath( $file, 'default' );
                         }
                     }
 
                     $iniPath = 'settings/override';
                     $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
-                    $designINI->setVariable( 'StylesheetSettings', 'SiteColorsCSS', $siteColorsCSS );
-                    $designINI->setVariable( 'StylesheetSettings', 'ClassesColorsCSS', $classesColorsCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                     $designINI->save();
                 }
             }
