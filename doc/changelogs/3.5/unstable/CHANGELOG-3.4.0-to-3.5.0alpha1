@@ -87,6 +87,8 @@ eztc.php:
 - Fixed inability of PostgreSQL-based installation using the setup wizard.
   Merged from stable/3.4 rev. 6846.
   http://ez.no/community/bug_reports/database_connection_fails_with_installation_wizard
+- Fixed bug in indent template operator, only the first line was indented.
+  (merged from stable/3.4 rev. 6848)
 - Fixed bug with excess space between link and punctuation.
   Merged from stable/3.4 rev. 6851.
   http://ez.no/community/bug_reports/excess_space_between_link_and_punctuation
