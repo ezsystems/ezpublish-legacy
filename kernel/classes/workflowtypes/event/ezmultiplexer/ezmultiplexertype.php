@@ -312,9 +312,17 @@ class eZMultiplexerType extends eZWorkflowEventType
         }
 
         $usersVar = $base . "_event_ezmultiplexer_not_run_ids_" . $event->attribute( "id" );
-        $usersArray = $http->postVariable( $usersVar );
-        $usersString = implode( ',', $usersArray );
-        $event->setAttribute( "data_text2", $usersString );
+        if ( $http->hasPostVariable( $usersVar ) )
+        {
+            $usersArray = $http->postVariable( $usersVar );
+            if ( in_array( '-1', $usersArray ) )
+            {
+                $usersArray = array( -1 );
+            }
+            $usersString = implode( ',', $usersArray );
+            eZDebug::writeDebug( $usersString, 'lazy.$usersString' );
+            $event->setAttribute( "data_text2", $usersString );
+        }
 
         $classesVar = $base . "_event_ezmultiplexer_class_ids_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $classesVar ) )
