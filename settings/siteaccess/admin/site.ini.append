@@ -15,7 +15,12 @@ LoginPage=custom
 [SiteAccessSettings]
 RequireUserLogin=true
 
+[ExtensionSettings]
+XMLEditor=dhtml
+
+
 [DebugSettings]##!
 DebugIP=disabled##!
 Debug=inline##!
 DebugRedirection=disabled##!
+

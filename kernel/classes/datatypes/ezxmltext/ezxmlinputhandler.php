@@ -297,6 +297,11 @@ class eZXMLInputHandler
                 $output .= "<table border='$border' width='$width'>\n$tableRows</table>\n";
             }break;
 
+            case 'literal' :
+            {
+                $output .= "<$tagName>" . $childTagText . "</$tagName>";
+            }break;
+
             // normal content tags
             case 'emphasize' :
             case 'strong' :

@@ -246,19 +246,29 @@ class eZXMLTextType extends eZDataType
             $char = $data[$pos];
             if ( $char == "<" )
             {
-                 $lastInsertedNodeArray = array_pop( $TagStack );
-                 if ( $lastInsertedNodeArray !== null )
-                 {
-                     $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                     $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                     array_push( $TagStack,
-                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode ) );
-                 }
+                $lastInsertedNodeArray = array_pop( $TagStack );
+                if ( $lastInsertedNodeArray !== null )
+                {
+                    $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
+                    $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
+                    array_push( $TagStack,
+                                array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode ) );
+                }
                 // find tag name
                 $endTagPos = strpos( $data, ">", $pos );
 
                 // tag name with attributes
                 $tagName = substr( $data, $pos + 1, $endTagPos - ( $pos + 1 ) );
+
+                $overrideContent = false;
+                if ( $tagName == 'literal' )
+                {
+                    // If pre tag, find the end tag and create override contents
+                    $preEndTagPos = strpos( $data, "</literal>", $pos );
+                    $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
+                    $pos = $preEndTagPos -1;
+                }
+
                 // check if it's an endtag </tagname>
                 if ( $tagName[0] == "/" )
                 {
@@ -669,12 +679,37 @@ class eZXMLTextType extends eZDataType
                 $tagText .= implode( '', $textElements );
             }break;
 
+            // Literal text which allows xml specific caracters < >
+            case 'literal' :
+            {
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
+            }break;
+
             // normal content tags
             case 'emphasize' :
             case 'strong' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
+            }break;
+
+            case 'custom' :
+            {
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+
+                // Get the name of the custom tag.
+                $name = $tag->attributeValue( 'name' );
+
+                $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
