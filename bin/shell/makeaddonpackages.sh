@@ -179,7 +179,7 @@ if [[ -z $ADDON || $ADDON = 'poll' ]]; then
     site='poll'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	create $site "Polls" "$VERSION" -- \
-	set $site description "dds functionality for handling simple user-surveys/polls." -- \
+	set $site description "Adds functionality for handling simple user-surveys/polls." -- \
 	set $site type 'contentobject' -- \
 	add $site contentobject --siteaccess=base 'polls/*' \
 	|| exit 1
