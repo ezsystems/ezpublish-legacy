@@ -1,7 +1,7 @@
 {let product_node=fetch( content, node, hash( node_id, $main_node_id ) )}
 <div class="review">
 
-<h1>Write your own review</h1>
+<h1>{"Write your own review"|i18n("design/shop/layout")}</h1>
 
 <div class="product">
     <h2>{$product_node.name}</h2>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="reviewinfo">
-    <p>Write a review and share your opinion. Please make sure your comments are devoted to the product.</p>
+    <p>{"Write a review and share your opinion. Please make sure your comments are devoted to the product."|i18n("design/shop/layout")}</p>
 </div>
 
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
@@ -24,7 +24,7 @@
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 
     <div class="rating">
-        <label>How do you rate the product?</label>
+        <label>{"How do you rate the product?"|i18n("design/shop/layout")}</label>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes.2.id}" />
         <p>I dislike it
         <input type="radio" name="{$attribute_base}_data_integer_{$content_attributes.2.id}" value="1"
@@ -42,7 +42,7 @@
 
     <div class="block">
     <div class="topic">
-        <label>Title of your review:</label>
+        <label>{"Title of your review:"|i18n("design/shop/layout")}</label>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes.0.id}" />
         {attribute_edit_gui attribute_base=$attribute_base attribute=$content_attributes.0}
     </div>
@@ -50,7 +50,7 @@
     
     <div class="block">
     <div class="description">
-        <label>Your review:</label>
+        <label>{"Your review:"|i18n("design/shop/layout")}</label>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes.1.id}" />
         {attribute_edit_gui attribute_base=$attribute_base attribute=$content_attributes.1}
     </div>

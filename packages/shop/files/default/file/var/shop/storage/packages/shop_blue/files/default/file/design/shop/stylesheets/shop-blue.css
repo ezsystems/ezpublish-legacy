@@ -18,13 +18,13 @@ div#header
 
 div#header div.design
 {
-    height: 100px;
+    height: 50px;
 }
 
 div#logo img
 {
     margin-top: 20px;
-    margin-left: 150px;
+    margin-left: 20px;
 }
 
 div#subheader

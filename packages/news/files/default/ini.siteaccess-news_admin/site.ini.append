@@ -14,3 +14,6 @@ SiteDesign=admin
 
 [FileSettings]
 VarDir=var/news
+
+[SiteAccessSettings]
+RequireUserLogin=true

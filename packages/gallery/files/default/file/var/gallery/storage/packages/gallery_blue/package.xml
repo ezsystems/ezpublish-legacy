@@ -4,22 +4,22 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1069691542">gallery_blue</name>
-  <summary modified="1069691542">Blue CSS design for gallery</summary>
-  <type value="css"
-        modified="1069691543" />
+  <name modified="1069864013">gallery_blue</name>
+  <summary modified="1069864013">Blue CSS design for gallery</summary>
+  <type value="sitestyle"
+        modified="1069864014" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.3.0-1</version>
-    <named-version>3.3 alpha</named-version>
+    <named-version>3.3 beta 1</named-version>
   </ezpublish>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1069691542</timestamp>
+    <timestamp>1069864013</timestamp>
     <host>jb.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1069691542" />
+              modified="1069864013" />
   </documents>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
@@ -29,29 +29,29 @@
               sub-directory="design/gallery/stylesheets"
               path="design/gallery/stylesheets/gallery_blue.css"
               md5sum="54217b9b1fd60108a985023646ab166a"
-              modified="1069691543" />
+              modified="1069864014" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.jpg"
               path="design/gallery/images/gallery_blue.jpg"
-              md5sum="c1c87e38d2336888ecacb9e86bb4d12a"
-              modified="1069691544" />
+              md5sum="bb8140dc9574f5082c369a5e4506b7cd"
+              modified="1069864014" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1069691542">1.0</number>
-    <release modified="1069691542">1</release>
+    <number modified="1069864013">1.0</number>
+    <release modified="1069864013">1</release>
   </version>
-  <licence modified="1069691542">GPL</licence>
-  <state modified="1069691542">alpha</state>
+  <licence modified="1069864013">GPL</licence>
+  <state modified="1069864013">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1069691543" />
+               modified="1069864014" />
     </provides>
     <requires />
     <obsoletes />
@@ -59,12 +59,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1069691543"
+          modified="1069864014"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1069691543"
+          modified="1069864014"
           collection="default" />
   </uninstall>
 </package>

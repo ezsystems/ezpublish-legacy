@@ -7,7 +7,7 @@
                                        class_filter_type, include, 
                                        class_filter_array, array( 'gallery' ) ) )}
 
-        <h3><a href={"/"|ezurl}>Gallery list</a></h3>
+        <h3><a href={"/"|ezurl}>{"Gallery list"|i18n("design/gallery/layout")}</a></h3>
         <ul>
             {section name=Gallery loop=$gallery_list}
             <li>
@@ -24,7 +24,7 @@
                                      class_filter_type, include, 
                                      class_filter_array, array( 'image' ) ) )}
 
-        <h3>Latest images</h3>
+        <h3>{"Latest images"|i18n("design/gallery/layout")}</h3>
         <ul>
             {section var=image loop=$image_list}
             <li>
@@ -42,7 +42,7 @@
                                     class_filter_type, include, 
                                     class_filter_array, array( 'article' ) ) )}
 
-        <h3>Latest news</h3>
+        <h3>{"Latest news"|i18n("design/gallery/layout")}</h3>
         <ul>
             {section var=news loop=$news_list}
             <li>
@@ -62,7 +62,7 @@
                                         class_filter_type, include, 
                                         class_filter_array, array( 'comment' ) ) )}
 
-        <h3>Latest comments</h3>
+        <h3>{"Latest comments"|i18n("design/gallery/layout")}</h3>
         <ul>
             {section var=comment loop=$comments_list}
             <li>

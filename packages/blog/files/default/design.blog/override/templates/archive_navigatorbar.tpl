@@ -26,7 +26,7 @@
                                               month_link, true(), year_link, true(), day_link, true(),
                                               next, hash( link, concat( "content/view/full/", $item_node_id ) ),
                                               previous, hash( link, concat( "content/view/full/", $item_node_id ) )  ) )}
-    <h2>Log entries</h2>
+    <h2>{"Log entries"|i18n("design/blog/layout")}</h2>
     {include uri="design:navigator/monthview.tpl"}
 {/let}
 

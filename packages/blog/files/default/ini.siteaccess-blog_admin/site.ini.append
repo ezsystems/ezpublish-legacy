@@ -9,13 +9,13 @@ Password=mofser
 Database=blog
 
 
+[SiteAccessSettings]
+RequireUserLogin=true
+
+
 [DesignSettings]
 StandardDesign=standard
 SiteDesign=admin
 
 [FileSettings]
 VarDir=var/blog
-
-[SiteAccessSettings]
-AvailableSiteAccessList[]=blog_admin
-AvailableSiteAccessList[]=blog_user

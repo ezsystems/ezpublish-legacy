@@ -32,7 +32,7 @@
 {let related_objects=$node.object.related_contentobject_array}
     {section show=$related_objects} 
 <div class="relatedarticles">
-       <h2>Related stories</h2>	 
+       <h2>{"Related stories"|i18n("design/news/layout")}</h2>	 
        <ul>
            {section name=ContentObject loop=$related_objects show=$related_objects} 
                <li><a href={$ContentObject:item.url_alias|ezurl}>{$ContentObject:item.name}</a></li>
@@ -43,7 +43,7 @@
 {/let}
 
 <div class="tipafriend">
-   <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>Tip a friend</a>
+   <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>{"Tip a friend"|i18n("design/news/layout")}</a>
 </div>
 
 
@@ -57,13 +57,13 @@
                                                 class_filter_array,array( 'comment' ) ) )}
 
     {section show=$message_list}
-        <h2>Comments</h2>
+        <h2>{"Comments"|i18n("design/news/layout")}</h2>
         {section name=Comment loop=$message_list}
             {node_view_gui view=line content_node=$:item}
         {/section}
     {/section}
 
-    <h2>Comment this article!</h2>
+    <h2>{"Comment this article!"|i18n("design/news/layout")}</h2>
 
     <div class="buttonblock">
         <form method="post" action={"content/action"|ezurl}>

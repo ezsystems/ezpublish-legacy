@@ -14,7 +14,7 @@
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
  {*    @import url({"stylesheets/intranet.css"|ezdesign});*}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); 
+    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot}); 
 </style>
 </head>
 
@@ -92,9 +92,9 @@
     {* Login box START *}
     <div id="login">
     {section show=eq($current_user.is_logged_in)}
-    <a href={"/user/login"|ezurl}>login</a>
+    <a href={"/user/login"|ezurl}>{"login"|i18n("design/shop/layout")}</a>
     {section-else}
-    <a href={"/user/logout"|ezurl}>logout</a> ( {$current_user.contentobject.name} )
+    <a href={"/user/logout"|ezurl}>{"logout"|i18n("design/shop/layout")}</a> ( {$current_user.contentobject.name} )
     {/section}
     </div>
     {* Login box END *}
@@ -141,7 +141,7 @@
 						       class_filter_array, array( 'article' ) ) )}
                                                           
             <div id="latestnews">
-            <h3>Latest news</h3>
+            <h3>{"Latest news"|i18n("design/intranet/layout")}</h3>
             <ul>
                    {section var=news loop=$news_list sequence=array(bglight,bgdark)}
                        <li class="{$news.sequence}">
@@ -170,7 +170,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>

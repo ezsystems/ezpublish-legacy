@@ -1,5 +1,5 @@
 <div id="frontpage">
-<h1>Latest news</h1>
+<h1>{"Latest news"|i18n("design/news/layout")}</h1>
 
 
 {let news_list=fetch( content, tree, hash( parent_node_id, 2,

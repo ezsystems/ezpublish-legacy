@@ -20,7 +20,7 @@
     <div class="intro">
         {attribute_view_gui attribute=$content_version.data_map.intro}
     </div>
-    <p class="readmore"><a href={$node.url_alias|ezurl}>Read more...</a></p>
+    <p class="readmore"><a href={$node.url_alias|ezurl}>{"Read more"|i18n("design/intranet/layout")}</a></p>
 </div>
 
 {/default}

@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{cache-block keys=$uri_string}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,shop_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
@@ -9,8 +10,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
- {*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-     @import url("/design/shop/stylesheets/shop-blue.css");
+    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
+   {*   @import url("/design/shop/stylesheets/shop-blue.css");*}
 </style>
 
 {literal}
@@ -38,6 +39,7 @@ div#maincontent div.design { width: 100%; }
                   
         </div>
     </div>
+{/let}
 
     <div id="mainmenu">
         <div class="design">
@@ -50,7 +52,7 @@ div#maincontent div.design { width: 100%; }
             </ul>
         
         </div>
-    </div>      
+    </div>
         
     <div id="subheader">
         <div class="design">
@@ -63,6 +65,7 @@ div#maincontent div.design { width: 100%; }
                 </form>
             </div>
         </div>
+{/cache-block}
 
         <div id="shoppingmenu">
             <div class="design">
@@ -90,10 +93,11 @@ div#maincontent div.design { width: 100%; }
 
     <div id="maincolumns">
     <div id="leftmenu">
-    
+
+    {cache-block}
     <div id="productmenu">
         <div class="design">
-        <h3>Products</h3>
+        <h3>{"Products"|i18n("design/shop/layout")}</h3>
             {let path=$module_result.path
                  node_id=$module_result.node_id}
 
@@ -125,7 +129,7 @@ div#maincontent div.design { width: 100%; }
 
    <div id="latestproducts">
         <div class="design">
-            <h3>Latest products</h3>  
+            <h3>{"Latest products"|i18n("design/shop/layout")}</h3>  
             {let new_product_list=fetch( content, tree, hash( parent_node_id, 2,
                                                                     limit, 6, 
                                                                     sort_by, array( published, false() ),
@@ -148,6 +152,8 @@ div#maincontent div.design { width: 100%; }
     </div>
     
     </div>
+
+    {/cache-block}
     
     <div id="rightmenu">
 
@@ -170,12 +176,13 @@ div#maincontent div.design { width: 100%; }
             <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
             <p><a href={"/shop/basket"|ezurl}>View all details</a></p>
             {section-else}
-                <p>Your basket is empty</p>
+                <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
             {/section}
             {/let}
 
         </div>
     </div>
+    {cache-block}
     <div id="infobox">
         <div class="design">
             {let bestseller_list=false()}
@@ -201,7 +208,7 @@ div#maincontent div.design { width: 100%; }
                                                           limit, 5 ) )}
                 {/case}
             {/switch}
-            <h3>Best sellers</h3>
+            <h3>{"Best sellers"|i18n("design/shop/layout")}</h3>
             <ul>
                    {section name=Products loop=$bestseller_list}
                        <li>
@@ -223,7 +230,7 @@ div#maincontent div.design { width: 100%; }
                                                   sort_by, array( published, false() ),
                                                   class_filter_type, include, 
                                                   class_filter_array, array( 2 ) ) )}
-        <h3>Latest news</h3>
+        <h3>{"Latest news"|i18n("design/shop/layout")}</h3>
         <ul>
                {section name=News loop=$news_list}
                    <li>
@@ -240,7 +247,7 @@ div#maincontent div.design { width: 100%; }
     </div>
 
     </div>
-    
+    {/cache-block}    
     <div id="maincontent">
         <div class="design">
         
@@ -261,7 +268,7 @@ div#maincontent div.design { width: 100%; }
            </p>
 
     </div>
-{/let}
+
             {$module_result.content}
         
             <div class="break"></div>
@@ -274,7 +281,7 @@ div#maincontent div.design { width: 100%; }
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish E-Commerce Engine</a>
             </address>   
         </div>

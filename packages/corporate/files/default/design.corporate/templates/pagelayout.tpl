@@ -9,15 +9,14 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
 
-    {*  @import url("/design/corporate/stylesheets/corporate.css");*}
+  {*  @import url("/design/corporate/stylesheets/corporate-green.css"); *}
 </style>
 
 </head>
 
 <body>
-
 <div id="background">
 
     <div id="header">
@@ -67,7 +66,7 @@
         
             <h3 class="invisible">Sub menu</h3>
             <ul>
-                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1)}
+                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1 )}
                     {section name=Menu loop=$mainMenu}
             	    {section show=$:item.is_selected}
             
@@ -96,7 +95,7 @@
                                                           class_filter_type, include, 
                                                           class_filter_array, array( 2 ) ) )}
                                                           
-            <h3>Latest news</h3>
+            <h3>{"Latest news"|i18n("design/corporate/layout")}</h3>
             <ul>
                    {section name=News loop=$news_list}
                        <li>
@@ -143,7 +142,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>

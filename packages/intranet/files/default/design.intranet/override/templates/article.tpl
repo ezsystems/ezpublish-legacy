@@ -48,7 +48,7 @@
         {/section}
     {/section}
 
-    <h2>Comment this article!</h2>
+    <h2>{"Comment this article!"|i18n("design/intranet/layout")}</h2>
 
     <div class="buttonblock">
         <form method="post" action={"content/action"|ezurl}>

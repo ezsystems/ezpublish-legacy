@@ -13,7 +13,7 @@
 
             {section name=Mitem1 loop=$top_menu_level1}
                     <td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
-                        <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
+                        <a href={$Mitem1:item.url_alias|ezurl}>{$Mitem1:item.name|wash}</a>
 	            </td>
             {/section}
 	    {/let}
@@ -29,7 +29,7 @@
 
             {section name=Mitem1 loop=$top_menu_level2}
                     <td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
-                        <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
+                        <a href={$Mitem1:item.node_id|ezurl}>{$Mitem1:item.name|wash}</a>
 	            </td>
             {/section}
 	    {/let}

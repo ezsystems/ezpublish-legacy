@@ -3,6 +3,9 @@
 [ContentSettings]
 TranslationList=
 
+[SiteAccessSettings]
+RequireUserLogin=true
+
 [SiteSettings]
 SiteName=Plain
 SiteURL=intranet.wy.dvh1.ez.no

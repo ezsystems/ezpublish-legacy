@@ -22,7 +22,7 @@
 
 {let related_objects=$node.object.related_contentobject_array}
     {section show=$related_objects} 
-       <h2>Related products</h2>  
+       <h2>{"Related products"|i18n("design/shop/layout")}</h2>  
            {section name=ContentObject  loop=$related_objects show=$related_objects} 
               {content_view_gui view=text_linked content_object=$ContentObject:item}
            {/section}
@@ -42,7 +42,7 @@
 </div>
 
 
-<h2>People who bought this also bought</h2>
+<h2>{"People who bought this also bought"|i18n("design/shop/layout")}</h2>
 
 <div class="relatedorders">
     {let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
@@ -59,12 +59,12 @@
                                              limit, $review_limit ) )}
 
 <div class="reviews">
-    <h2>Reviews</h2>
+    <h2>{"Reviews"|i18n("design/shop/layout")}</h2>
 
     <form method="post" action={"content/action"|ezurl}> 
         <input type="hidden" name="ClassID" value="25" />
         <input type="hidden" name="NodeID" value="{$node.node_id}" />
-        <input class="reviewbutton" type="submit" name="NewButton" value="Write a review" />
+        <input class="reviewbutton" type="submit" name="NewButton" value="{"Write a review"|i18n("design/shop/layout")}" />
     </form>
 
     {section show=$review_list}

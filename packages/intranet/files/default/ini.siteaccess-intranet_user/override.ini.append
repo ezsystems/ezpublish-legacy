@@ -133,4 +133,9 @@ Subdir=templates
 Source=content/advancedsearch.tpl
 MatchFile=advancedsearch.tpl
 Subdir=templates
+
+[login]
+Source=user/login.tpl
+MatchFile=login.tpl
+Subdir=templates
 */ ?>

@@ -26,7 +26,7 @@
                                           limit, $page_limit,
                                           offset, $view_parameters.offset,
                                           class_filter_type, 'exclude',
-                                          class_filter_array, array( 'folder', 'info_page' ) ))
+                                          class_filter_array, array( 'folder', 'info_page', 'feedback_form' ) ))
     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 {section name=Child loop=$children sequence=array(bglight,bgdark)}

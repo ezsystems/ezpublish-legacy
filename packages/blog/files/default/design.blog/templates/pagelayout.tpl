@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{cache-block keys=$uri_string}
 {* fetch object by attribute_id, see definition in settings/fetchalias.ini *}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,blog_package))}
 <head>
@@ -10,8 +11,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-  {*  @import url({"stylesheets/blog_red.css"|ezdesign}); *}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+  {*   @import url({"stylesheets/blog_red.css"|ezdesign}); *}
+   @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
 </style>
 </head>
 
@@ -53,7 +54,7 @@
                 {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
                 {section name=Folder loop=$folder_list}
 		    {section show=ne($Folder:item.node_id,173)}
-                        <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+                        <li><a href={$Folder:item.url_alias|ezurl}>{$Folder:item.name|wash}</a></li>
 		    {/section}
                 {/section}
                 {/let}
@@ -98,19 +99,22 @@
 
 	    </div>
 	</div>
+{/let}
+{/cache-block}
         <div class="design">
 
             {$module_result.content}
         </div>
     </div>
 
+    {cache-block keys=$uri_string}
+
     <div id="navigationcol">
         <div class="design">
             {include uri="design:navigationbar.tpl"}
 
-         {cache-block}
          <div id="poll">
-             <h2>Poll</h2>
+             <h2>{"Poll"|i18n("design/blog/layout")}</h2>
              <p>
             {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
             {section name=poll loop=$poll_list}
@@ -121,7 +125,7 @@
          </div>
 
          <div id="links">
-             <h2>Recent links</h2>
+             <h2>{"Recent links"|i18n("design/blog/layout")}</h2>
              {let link_limit=10
                   link_list=fetch( content, tree, hash( parent_node_id, 2,
                                                         limit, $link_limit,
@@ -137,7 +141,6 @@
                  </ul> 
              {/let}
          </div>
-         {/cache-block}
 
         </div>
     </div>
@@ -145,11 +148,10 @@
         </div>
     </div>
 
-    {cache-block}
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
@@ -157,6 +159,5 @@
     {/cache-block}
 </div>
 </body>
-{/let}
 </html>
 
