@@ -217,8 +217,8 @@ class eZURLOperator
                         $tpl->warning( 'eZURLOperator' . $operatorName, "No such attribute '$sysAttribute' for eZSys" );
                     else
                         $operatorValue = $this->Sys->attribute( $sysAttribute );
-                    return;
                 }
+                return;
             } break;
 
             case $this->ImageName:
