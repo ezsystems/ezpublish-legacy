@@ -4766,6 +4766,46 @@ $schema = array (
       ),
     ),
   ),
+  'eztipafriend_request' => 
+  array (
+    'name' => 'eztipafriend_request',
+    'fields' => 
+    array (
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'email_receiver' => 
+      array (
+        'length' => 100,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'created' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'created',
+        ),
+      ),
+      'email_receiver' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'email_receiver',
+        ),
+      ),
+    ),
+  ),
   'eztrigger' => 
   array (
     'name' => 'eztrigger',

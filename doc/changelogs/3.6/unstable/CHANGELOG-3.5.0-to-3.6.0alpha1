@@ -38,6 +38,7 @@ Changes from 3.5.0 to 3.6.0alpha1
   (Merged from stable/3.4, rev. 10502 and stable/3.5, rev. 10503)
 - Fixed bug #6057: calendar toolbox with only 1. and last week of Jan 2005
   (Merged from stable/3.4, rev. 10522, also in stable/3.5 rev. 10523)
+- Fixed bug #5965: Partially broken tipafriend functionality.
 - Fixed bug using template caching, and not viewcache. Template cache is now cleared properly.
   Example : {cache-block} would not expire properly earlier when content cache was disabled. 
   Merged from stable/3.4 rev. 10531, stable/3.5 rev. 10532.
