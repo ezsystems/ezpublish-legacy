@@ -196,3 +196,4 @@ create table ezpublishontimevalue(
 # After RC1
 
 alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
+alter table ezsession add cache_mask_1 int default 0 not null;
