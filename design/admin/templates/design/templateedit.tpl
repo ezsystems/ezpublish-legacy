@@ -24,9 +24,10 @@
 <div class="controlbar">
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-
-<input class="button" type="submit" value="{"Save"|i18n("design/standard/design/templateadmin")}" name="SaveButton" />
-<input class="button" type="submit" value="{"Discard"|i18n("design/standard/design/templateadmin")}" name="DiscardButton" />
+<div class="block">
+<input class="button" type="submit" name="SaveButton" value="{"Save"|i18n("design/standard/design/templateadmin")}" title="{'Save the contents of the text field above to the template file.'|i18n( 'design/admin/design/templateedit' )}" />
+<input class="button" type="submit" name="DiscardButton" value="{"Cancel"|i18n("design/standard/design/templateadmin")}" title="{'Back to override overview.'|i18n( 'design/admin/design/templateedit' )}" />
+</div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 

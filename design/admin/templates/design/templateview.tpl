@@ -65,7 +65,7 @@
 	{/section}
     </td>
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
-    <td><a href={concat( '/design/templateedit/', $CustomMatch.item.match_file)|ezurl}><img src={'edit.png'|ezimage} alt="Edit" /></a></td>
+    <td><a href={concat( '/design/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/admin/design/templateview' )}"><img src={'edit.png'|ezimage} alt="Edit" /></a></td>
 </tr>
 {/section}
 </table>
