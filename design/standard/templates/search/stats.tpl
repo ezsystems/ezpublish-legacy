@@ -19,7 +19,7 @@
 {section name=Phrase loop=$most_frequent_phrase_array sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Phrase:sequence}">
-	{$Phrase:item.phrase}
+	{$Phrase:item.phrase|wash}
 	</td>
 	<td class="{$Phrase:sequence}">
 	{$Phrase:item.phrase_count}

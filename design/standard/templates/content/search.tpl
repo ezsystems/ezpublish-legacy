@@ -23,12 +23,12 @@
 {switch name=Sw match=$search_count}
   {case match=0}
   <div class="warning">
-  <h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text))}</h2>
+  <h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text|wash))}</h2>
   </div>
   {/case}
   {case}
   <div class="feedback">
-  <h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text,$search_count))}</h2>
+  <h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text|wash,$search_count))}</h2>
   </div>
   {/case}
 {/switch}

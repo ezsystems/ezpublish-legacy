@@ -30,6 +30,10 @@ Collaboration:
 - Denied and deferred items now displays an edit link for the author.
 - Changed display name for deferred to Pushback.
 
+Security:
+- Made sure that the text string is washed before being presented in the HTML code.
+  Fixed search, advanced search and search stats.
+
 *SDK :
 
 *Library :

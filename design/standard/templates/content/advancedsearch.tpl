@@ -5,11 +5,11 @@
 
 <div class="block">
 <label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="SearchText" value="{$full_search_text}" />
+<input class="box" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
 </div>
 <div class="block">
 <label>{"Search the exact phrase"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text}" />
+<input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text|wash}" />
 </div>
 {*<div class="block">
 <label>{"Search with at least one of the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
@@ -98,12 +98,12 @@ selected="selected"
 {switch name=Sw match=$search_count}
   {case match=0}
 <div class="warning">
-<h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text))}</h2>
+<h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text|wash))}</h2>
 </div>
   {/case}
   {case}
 <div class="feedback">
-<h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text,$search_count))}</h2>
+<h2>{'Search for "%1" returned %2 matches'|i18n("design/standard/content/search",,array($search_text|wash,$search_count))}</h2>
 </div>
   {/case}
 {/switch}
