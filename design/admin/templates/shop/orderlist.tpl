@@ -61,7 +61,9 @@
 {/section}
 </table>
 {section-else}
-<p>{'The order list is empty'|i18n( 'design/admin/shop/orderlist' )}</p>
+<div class="block">
+<p>{'The order list is empty.'|i18n( 'design/admin/shop/orderlist' )}</p>
+</div>
 {/section}
 
 <div class="context-toolbar">
