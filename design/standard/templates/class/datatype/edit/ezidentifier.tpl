@@ -9,7 +9,7 @@
 <input type="text" name="ContentClass_ezidentifier_posttext_value_{$class_attribute.id}" value="{$class_attribute.data_text2}" size="8" maxlength="20" />
 </div>
 <div class="element">
-<label>{"Current value: "|i18n("design/standard/class/datatype")}{$class_attribute.temporary_object_attribute.contentclass_attribute.data_int3}{" (This value are the current identifier)"|i18n("design/standard/class/datatype")}</label>
+<label>{"Current value: "|i18n("design/standard/class/datatype")}{section show=is_set($class_attribute.temporary_object_attribute.contentclass_attribute.data_int3)}{$class_attribute.temporary_object_attribute.contentclass_attribute.data_int3}{/section}{" (This value is the current identifier)"|i18n("design/standard/class/datatype")}</label>
 <label>{"Current temporary value: "|i18n("design/standard/class/datatype")}{$class_attribute.data_int3}{" (This value is a copy of the original identifier)"|i18n("design/standard/class/datatype")}</label>
 </div>
 <div class="break"></div>
