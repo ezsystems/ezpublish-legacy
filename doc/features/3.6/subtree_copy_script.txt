@@ -1,0 +1,20 @@
+Subtree Copy Script.
+
+Copy subtree of nodes given by the parent node of subtree under the given node.
+
+Files:
+  bin/php/ezsubtreecopy.php
+
+Input parameters:
+  --src-node-id   - (required) source node ID, parent node of subtree being copied.
+  --dst-node-id   - (required) destination node ID, node under which you are trying to copy subtree.
+  --allversions   - (optinal) if this option defined all versions of contentobjects will be copied.
+                    Otherwise only published versions of source contentobjects will be copied.
+  --siteaccess    - siteaccess for which you want to do copy operation.
+
+Script must be run using admin privileges. You have to input your admin siteaccess for that (use
+"--siteaccess" input parameter). Run script from the root directory of your eZPublish.
+
+Example:
+
+  $php bin/php/ezsubtreecopy.php --siteaccess=gallery_admin --src-node-id=74 --dst-node-id=87
