@@ -43,6 +43,7 @@ include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 define( "EZ_DATATYPESTRING_DATETIME", "ezdatetime" );
+define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT', 'data_int1' );
 
 
 class eZDateTimeType extends eZDataType
@@ -114,6 +115,34 @@ class eZDateTimeType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+    }
+
+    /*!
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT ) == null )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, 0 );
+        $classAttribute->store();
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $default = $base . "_ezdatetime_default_" . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $default ) )
+        {
+            $defaultValue = $http->postVariable( $default );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
+        }
     }
 
     /*!
