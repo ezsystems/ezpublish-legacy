@@ -39,3 +39,6 @@ Changes from 3.3-2 to 3.3-3
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
+
+*Translations:
+- Added Finnish locale
