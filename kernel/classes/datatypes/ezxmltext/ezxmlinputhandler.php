@@ -388,21 +388,25 @@ class eZXMLInputHandler
     function &inputXML( &$contentObjectAttribute )
     {
         $xml = new eZXML();
-        $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+        $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
 
+//        print( htmlspecialchars( $contentObjectAttribute->attribute( "data_text" ) ) );
         if ( $dom )
-            $node = $dom->elementsByName( "section" );
+            $node =& $dom->elementsByName( "section" );
+
         eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
+
+        $output = "";
         if ( count( $node ) > 0 )
         {
-            $output = "";
             $children =& $node[0]->children();
-            $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
+            if ( count( $children ) > 0 )
+                $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
         }
         return $output;
     }
 
-        /*!
+    /*!
      \private
      \return the user input format for the given section
     */
@@ -411,10 +415,8 @@ class eZXMLInputHandler
         $output = "";
         foreach ( $section->children() as $sectionNode )
         {
-            if ( get_class( $sectionNode ) == "ezdomnode" )
-                $tagName = $sectionNode->name();
-            else
-                $tagName = "";
+            $tagName = $sectionNode->name();
+
             switch ( $tagName )
             {
                 case 'header' :

@@ -126,11 +126,26 @@ represents our class. This can be found in the class list under "Set up -> class
 
 <p>
 To make eZ publish understand that you want to have a custom template for your newly created class you must
-create an override template for this. You can do this by creating a file in:
+create an override template for this. You can do this by creating a file in the eZ publish root. The eZ publish
+root is the main folder of your eZ publish installation. There you will see the sub folders, lib, kernel, design etc.
+The file should be created under the design folder:
 </p>
 <pre class="example">
-/design/standard/override/templates/node/view/full_class_26.tpl
+Unix:
+design/standard/override/templates/node/view/full_class_26.tpl
+Windows:
+design\standard\override\templates\node\view\full_class_26.tpl
 </pre>
+
+<p>
+<i>Note:</i> If you don't have the subfolders override/templates/node/view, these must be created under your design folder
+( which is design/standard/ as default ).
+</p>
+
+<p>
+This file is a plain text file which you can edit with your favourite text editor, e.g. vi, emacs and notepad.
+It must be a plain text editor with no formatting, so you cannot use word processors like word or open office.
+</p>
 
 <p>
 Replace standard with your current design folder and 26 with the ID of your class.

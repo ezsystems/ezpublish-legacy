@@ -191,7 +191,7 @@ class eZXMLTextType extends eZDataType
     function &inputXML( &$contentObjectAttribute )
     {
         // TMP hack
-        if ( !$contentObjectAttribute->isValid() == 1)
+        if ( !$contentObjectAttribute->isValid() == 1 )
         {
             $inputType =& eZXMLInputType::instance();
             $output =& $inputType->inputXML( $contentObjectAttribute );
@@ -200,6 +200,8 @@ class eZXMLTextType extends eZDataType
         {
             $output =& $contentObjectAttribute->originalInput();
         }
+        if ( trim( $output ) == "" )
+            $output = " ";
         return $output;
     }
 

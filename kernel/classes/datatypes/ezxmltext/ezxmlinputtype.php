@@ -60,7 +60,7 @@ class eZXMLInputType
 
         $isMSIE = false;
         $userAgent = getenv( 'HTTP_USER_AGENT' );
-        if (eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
+        if ( eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
         {
             $version = $browserInfo[1];
             if ( $version >= 5.5 )
@@ -76,13 +76,15 @@ class eZXMLInputType
                 include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
             }
-        }elseif ( $inputHandler == "dhtml" )
+        }
+        elseif ( $inputHandler == "dhtml" )
         {
             if ( $isMSIE and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" ) ) )
             {
                 include_once( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
-            }else
+            }
+            else
             {
                 if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
                 {
@@ -90,7 +92,8 @@ class eZXMLInputType
                     $impl = new eZXMLInputHandler();
                 }
             }
-        }else
+        }
+        else
         {
             eZDebug::writeError("No XML editor available." );
         }
@@ -104,7 +107,7 @@ class eZXMLInputType
 
         $isMSIE = false;
         $userAgent = getenv( 'HTTP_USER_AGENT' );
-        if (eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
+        if ( eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
         {
             $version = $browserInfo[1];
             if ( $version >= 5.5 )
@@ -119,19 +122,22 @@ class eZXMLInputType
             {
                 $editorName = "standard";
             }
-        }elseif ( $inputHandler == "dhtml" )
+        }
+        elseif ( $inputHandler == "dhtml" )
         {
             if ( $isMSIE and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" ) ) )
             {
                 $editorName = "dhtml";
-            }else
+            }
+            else
             {
                 if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
                 {
                     $editorName = "standard";
                 }
             }
-        }else
+        }
+        else
         {
             eZDebug::writeError("No XML editor available." );
         }

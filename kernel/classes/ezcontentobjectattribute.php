@@ -144,7 +144,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "contentclass_attribute" )
             return $this->contentClassAttribute();
