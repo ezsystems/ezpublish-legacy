@@ -40,7 +40,7 @@ $DocResult["title"] = "XHTML Coding Standard";
 All HTML should be written in XHTML 1.0 (or higher). It should also be written with no
 browser specific tags, this is to ensure that the application works in as many browsers
 as possible. Java/ECMA script should be avoided. Frames are not recommended,
-eZ publish is designed to work without frames.
+eZ publish is designed to work without frames, however it is fully possible to do so.
 </p>
 <p>
 Reasons for not using frames are:
