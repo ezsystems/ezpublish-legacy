@@ -90,5 +90,7 @@ eZXML:
 - Fixed misuse of in_array() function (Merged from 3.3, rev. 5894)
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.3 rev. 5903)
+- Fixed typo
+  http://ez.no/community/bug_reports/typo_in_ezcontentoperationcollection_php
 
 *Update

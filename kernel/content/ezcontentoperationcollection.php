@@ -128,7 +128,7 @@ class eZContentOperationCollection
             $parameters[$i]['main_node_id'] = $mainNodeID;
         }
 
-        return array( 'param eters' => $parameters );
+        return array( 'parameters' => $parameters );
     }
 
     function setVersionStatus( $objectID, $versionNum, $status )
