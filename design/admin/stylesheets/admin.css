@@ -100,6 +100,12 @@ td.menuheadselectedrightline
     border-right: solid 1px #89a7d6;
 }
 
+td.menuheadselectedtopline
+{
+    background-color: #638ecf;
+    border-top: solid 1px #89a7d6;
+}
+
 td.menuheadselected
 {
     background-color: #638ecf;
@@ -127,6 +133,12 @@ td.menuheadgrayrightline
     background-color: #3963ad;
     border-bottom: solid 1px #89a7d6;
     border-right: solid 1px #89a7d6;
+}
+
+td.menuheadgraytopline
+{
+    background-color: #3963ad;
+    border-top: solid 1px #89a7d6;
 }
 
 td.menuheadgray
@@ -171,7 +183,6 @@ input.searchbox
   width: 100px; 
   font-size: 9px; 
   margin: 0px; 
-  border-style: solid;
 }
 
 input.searchbutton
@@ -193,6 +204,27 @@ input.classbutton
     font-weight: none;
     font-size: 70%;
     margin: 4px;
+}
+
+table.menuboxleft
+{
+	border-top: solid 1px #000000;
+	border-right: solid 1px #000000;
+	border-bottom: solid 1px #000000;
+	margin-top: 12px;
+}
+
+table.menuboxright
+{
+	border-top: solid 1px #000000;
+	border-left: solid 1px #000000;
+	border-bottom: solid 1px #000000;
+	margin-top: 12px;
+}
+
+th.menuheaddark
+{
+	background-color: #4272b4;
 }
 
 th.menuheaddark p.menuhead
@@ -268,7 +300,7 @@ td.mainarea
 
 td.bglight, td.bgdark
 {
-	border-top: solid 1px #e0f4ff;
+	border-top: solid 1px #ffffff;
 }
 
 td.bglightextra, td.bgdarkextra
@@ -283,22 +315,12 @@ table.list, table.layoutlist
 
 td.bglight, td.bglightextra
 {
-	background-color: #f8fdff;
+	background-color: #dce5f1;
 }
 
 td.bgdark, td.bgdarkextra
 {
-	background-color: #f0faff;
-}
-
-td.bglight, td.bglightextra
-{
-	background-color: #f8fdff;
-}
-
-td.bgdark, td.bgdarkextra
-{
-	background-color: #f0faff;
+	background-color: #cedbf0;
 }
 
 div.selectbar

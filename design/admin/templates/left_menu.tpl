@@ -5,7 +5,7 @@
          menu_enable_users=true()}
 
 {section show=$:menu_enable_content}
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
+<table width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
@@ -52,12 +52,7 @@
 
 
 {section show=$:menu_enable_shop}
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Shop"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
+<table  width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
@@ -86,12 +81,7 @@
 {/section}
 
 {section show=$:menu_enable_users}
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Users"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
+<table width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
@@ -128,12 +118,7 @@
 {/section}
 
 {section show=$:menu_enable_setup}
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Set up"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
+<table  width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />

@@ -3,8 +3,8 @@
 <tr>
     <td class="menuheadselectedgfx">
     <img src={"light-left-corner.gif"|ezimage} alt=""/></td>
-    <td class="menuheadselectedgfx" background={"light-top.gif"|ezimage}>
-    <img src={"light-top.gif"|ezimage} alt=""/></td>
+    <td class="menuheadselectedtopline">
+    <img src={"1x1.gif"|ezimage} alt="" width="60" height="1" /></td>
     <td class="menuheadselectedgfx">
     <img src={"light-right-corner.gif"|ezimage} alt=""/></td>
 </tr>
