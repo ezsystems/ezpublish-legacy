@@ -3,8 +3,6 @@
      list_count=fetch( content, pending_count )
      pending_list=fetch( content, pending_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) )}
 
-<form name="pendinglistaction" action={concat( 'content/pendinglist/' )|ezurl} method="post" >
-
 <div class="context-block">
 <h2 class="context-title">{'My pending list [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $pending_list|count ) )}</h2>
 
