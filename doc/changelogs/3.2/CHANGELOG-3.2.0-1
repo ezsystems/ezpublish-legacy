@@ -38,7 +38,8 @@ Changes from 3.1-1 to 3.2.0-1
   when a new version is created 
 - Added version remove function.
 - Added url management function. All links can be edited and will be checked by cronjob. Dead link will be moved to invalid list. 
-  A link has a list of all objects ( verions ) which use this link. 
+  A link has a list of all objects ( verions ) which use this link.
+- Added settings for DefaultPreviewDesign in coontent.ini.
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
   This is required for datatypes to be used in the new eZObjectRelationList.
