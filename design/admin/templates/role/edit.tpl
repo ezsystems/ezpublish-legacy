@@ -28,7 +28,7 @@ function toggleCheckboxes( formname, checkboxname )
 <form name="roleedit" action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl} method="post" >
 <div class="context-block">
 
-<h2 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( '/design/admin/role/edit' ))}&nbsp;{'Edit'|i18n( 'design/admin/role/edit' )}&nbsp;<i>{$role.name|wash}</i>&nbsp;[{'Role'|i18n( 'design/admin/role/edit' )}]</h2>
+<h2 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( '/design/admin/role/edit' ) )}&nbsp;{'Edit <%role_name> [Role]'|i18n( 'design/admin/role/edit',, hash( '%role_name', $role.name ) )|wash}</h2>
 
 <div class="context-attributes">
 
