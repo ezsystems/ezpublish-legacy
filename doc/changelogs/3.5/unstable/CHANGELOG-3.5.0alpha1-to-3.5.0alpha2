@@ -174,6 +174,7 @@ eZTemplate:
 - Improved error handling for function and operators, the file placement will now
   be included on more of the errors and warnings. (Only for processed mode)
 - Added template operator 'flag_icon' to get the correct path of flag icon.
+- Added bool as a valid input for gt, lt, ge and le operators.
 
 eZWebDAV:
 - The URL that is passed to the various operations is now first handled to processURL()
