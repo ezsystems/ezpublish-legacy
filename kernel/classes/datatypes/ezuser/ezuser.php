@@ -386,7 +386,7 @@ class eZUser extends eZPersistentObject
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == 4 and $databaseImplementation == "ezmysql" )
+                if ( $hashType == EZ_USER_PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                               FROM ezuser, ezcontentobject
@@ -639,7 +639,7 @@ class eZUser extends eZPersistentObject
         {
             $str = md5( $password );
         }
-//         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
+        eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
     }
 
