@@ -69,7 +69,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="header-design">
 
 <div id="logo">
-<a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
+<a href={'/'|ezurl}><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
 <p>version {fetch(setup,version)}</p>
 </div>
 
