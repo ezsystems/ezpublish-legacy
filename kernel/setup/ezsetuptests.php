@@ -603,7 +603,7 @@ function eZSetupCheckRegisterGlobals( $type, &$arguments )
 function eZSetupTestExecutionTime( $type, &$arguments )
 {
     $minExecutionTime = eZSetupConfigVariable( $type, 'MinExecutionTime' );
-    $execTimeLimit = get_cfg_var( 'max_execution_time' );
+    $execTimeLimit = ini_get( 'max_execution_time' );
 
     if ( $execTimeLimit === false )
     {
@@ -627,7 +627,7 @@ function eZSetupTestExecutionTime( $type, &$arguments )
 function eZSetupTestMemLimit( $type, &$arguments )
 {
     $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
-    $memoryLimit = get_cfg_var( 'memory_limit' );
+    $memoryLimit = ini_get( 'memory_limit' );
     if ( $memoryLimit  === false )
     {
         return array( 'result' => true,
