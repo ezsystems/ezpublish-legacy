@@ -222,7 +222,7 @@ class eZPHPCreator
                     $variableName = $variables[$parameter];
                     $variableValue = $value->$variableName;
                     $keyText = " ";
-                    $text .= $keyText . $this->variableText( $variableValue, $column + strlen( $keyText  ) );
+                    $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ) );
                     ++$i;
                 }
                 if ( $i > 0 )
@@ -254,7 +254,7 @@ class eZPHPCreator
                                                           "\\n" ),
                                                    $key ) . "\"";
                 $keyText = " $keyText => ";
-                $text .= $keyText . $this->variableText( $element, $column + strlen( $keyText  ) );
+                $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ) );
                 ++$i;
             }
             if ( $i > 0 )
