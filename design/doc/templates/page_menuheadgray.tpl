@@ -13,7 +13,7 @@
     <img src={"1x1.gif"|ezimage} alt="" width="1" height="15" /></td>
     <td class="menuheadgray">
     <p class="menuheadgray">
-    <a class="menuheadlink" href={$menu_url|ezurl}>{$menu_text}</a>
+    <a class="menuheadlink" href={$menu_url|ezurl}>{$menu_text|wash}</a>
     </p>
     </td>
     <td class="menuheadgrayrightline" width="3">
