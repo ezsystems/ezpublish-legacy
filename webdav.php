@@ -81,14 +81,17 @@ if ( $enable == true )
     // Else: need to login with username/password:
     else
     {
+        // Create & initialize a new instance of the content server.
+        $server = new eZWebDAVContentServer();
+
         // Get the name of the site that is being browsed.
-        $currentSite = currentSiteFromPath( $_SERVER['REQUEST_URI'] );
+        $currentSite = $server->currentSiteFromPath( $_SERVER['REQUEST_URI'] );
 
         // Proceed only if the current site is valid:
         if ( $currentSite )
         {
             // Change site to the site being browsed:
-            setSiteAccess( $currentSite );
+            $server->setSiteAccess( $currentSite );
 
             $loginUsername = "";
             // Get the username and the password.
@@ -113,9 +116,6 @@ if ( $enable == true )
             else
             {
                 append_to_log( "Logged in!" );
-
-                // Create & initialize a new instance of the content server.
-                $server = new eZWebDAVContentServer();
 
                 // Process the request.
                 $server->processClientRequest();
