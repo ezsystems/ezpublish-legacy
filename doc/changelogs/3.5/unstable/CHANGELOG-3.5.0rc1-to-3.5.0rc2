@@ -106,6 +106,11 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Added check to class/edit for it to ensure that two different classes cannot have equal identifiers.
 - Fixed bug: Day name is not translated with operator l10n(datetime).
   http://ez.no/community/bug_reports/operator_l10n_day_name_translation_and_datetime
+- Fixed fatal error in subtree() when viewing a newly created node which doesn't
+  have sorting rule for its subitems.
+- Fixed bug: Incorrectly handled fetchalias.ini file which resulted in wrong function parameters' values were
+  set when using fetch aliases.
+
 *Library:
 
 eZURI:

@@ -142,7 +142,7 @@ class eZFunctionHandler
                             $constantParameter = str_replace( '\\\\', '\\', $constantParameter );
 
                             // Return the result.
-                            $functionArray[$constKey] =& $constantParameter;
+                            $functionArray[$constKey] = $constantParameter;
                         }
                     }
                     else
