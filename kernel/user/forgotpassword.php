@@ -53,45 +53,48 @@ $hashKey =& $Params["HashKey"];
 if ( strlen( $hashKey ) == 32 )
 {
     $forgotPasswdObj =& eZForgotPassword::fetchByKey( $hashKey );
-    $user =& eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
-    $email = $user->attribute( 'email' );
-
-    $ini =& eZINI::instance();
-    $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
-    $password = eZUser::createPassword( $passwordLength );
-    $passwordConfirm = $password;
-
-    $userToSendEmail =& $user;
-    $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
-    $user->store();
-
-    include_once( "kernel/common/template.php" );
-    include_once( 'lib/ezutils/classes/ezmail.php' );
-    include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
-    $receiver = $email;
-    $mail = new eZMail();
-    if ( !$mail->validate( $receiver ) )
+    if ( $forgotPasswdObj )
     {
+        $user =& eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
+        $email = $user->attribute( 'email' );
+
+        $ini =& eZINI::instance();
+        $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
+        $password = eZUser::createPassword( $passwordLength );
+        $passwordConfirm = $password;
+
+        $userToSendEmail =& $user;
+        $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
+        $user->store();
+
+        include_once( "kernel/common/template.php" );
+        include_once( 'lib/ezutils/classes/ezmail.php' );
+        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+
+        $receiver = $email;
+        $mail = new eZMail();
+        if ( !$mail->validate( $receiver ) )
+        {
+        }
+        $tpl =& templateInit();
+
+        $tpl->setVariable( 'user', $userToSendEmail );
+        $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
+        $tpl->setVariable( 'password', $password );
+
+        eZDebug::writeDebug( $password, "New Password" );
+        $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+        $mail->setReceiver( $receiver );
+        $subject = ezi18n( 'kernel/user/register', 'Registration info' );
+        if ( $tpl->hasVariable( 'subject' ) )
+            $subject = $tpl->variable( 'subject' );
+        $mail->setSubject( $subject );
+        $mail->setBody( $templateResult );
+        $mailResult = eZMailTransport::send( $mail );
+        $tpl->setVariable( 'generated', true );
+        $tpl->setVariable( 'email', $email );
+        $forgotPasswdObj->remove();
     }
-    $tpl =& templateInit();
-
-    $tpl->setVariable( 'user', $userToSendEmail );
-    $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
-    $tpl->setVariable( 'password', $password );
-
-    eZDebug::writeDebug( $password, "New Password" );
-    $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
-    $mail->setReceiver( $receiver );
-    $subject = ezi18n( 'kernel/user/register', 'Registration info' );
-    if ( $tpl->hasVariable( 'subject' ) )
-        $subject = $tpl->variable( 'subject' );
-    $mail->setSubject( $subject );
-    $mail->setBody( $templateResult );
-    $mailResult = eZMailTransport::send( $mail );
-    $tpl->setVariable( 'generated', true );
-    $tpl->setVariable( 'email', $email );
-    $forgotPasswdObj->remove();
 }
 
 if ( $module->isCurrentAction( "Generate" ) )
