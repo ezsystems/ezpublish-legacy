@@ -229,9 +229,9 @@
 <tr class="{$Overrides.sequence}">
     <td>{$Overrides.item.siteaccess}</td>
     <td>{$Overrides.item.block}</td>
-    <td><a href={concat( '/design/templateview', $Overrides.item.source )|ezurl} title="{'View the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" >{$Overrides.item.source}</td>
+    <td><a href={concat( '/visual/templateview', $Overrides.item.source )|ezurl} title="{'View the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" >{$Overrides.item.source}</td>
     <td>{$Overrides.item.target}</td>
-    <td><a href={concat( '/design/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
+    <td><a href={concat( '/visual/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>
