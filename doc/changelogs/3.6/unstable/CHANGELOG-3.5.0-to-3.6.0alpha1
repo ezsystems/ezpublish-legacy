@@ -153,3 +153,8 @@ eZDebug:
 
 eZDateTime:
 -  Fixed bug with missing array in function setHMS().
+
+eZMail:
+- Fixed bug with extractEmail() in eZMail.
+  (Also fixed in stable/3.4 (3.4.5) rev. 10777 and
+   stable/3.5 (3.5.1) rev. 10778 ).
