@@ -1,5 +1,5 @@
 {* Generic children list for admin interface. *}
-<form method="post" action={"content/action"|ezurl}>
+<form name="childList" method="post" action={"content/action"|ezurl}>
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      can_remove=false()

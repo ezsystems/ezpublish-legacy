@@ -1,3 +1,33 @@
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function selectAll()
+{
+    with (document.childList)
+	{
+        for (var i=0; i < elements.length; i++)
+        {
+            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
+            elements[i].checked = true;
+	    }
+    }
+}
+
+function deSelectAll()
+{
+    with (document.childList)
+	{
+        for (var i=0; i < elements.length; i++)
+	    {
+            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
+            elements[i].checked = false;
+	    }
+    }
+}
+//-->
+</script>
+{/literal}
+
 <div class="content-navigation-childlist">
     <table class="list" cellspacing="0">
     <tr>
@@ -5,26 +35,29 @@
         <th class="remove"> &nbsp; </th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
+        <th class="name">{'Name'|i18n( 'design/admin/layout ')}</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/layout ')}:</th>
+        <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
+
+        {* Creator column *}
+        {* <th class="creator">{'Creator'|i18n( 'design/admin/layout' )}</th> *}
 
         {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/layout ')}:</th>
+        <th class="section">{'Section'|i18n( 'design/admin/layout ')}</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}:</th>
+            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
         {/section}
 
         {* Copy column *}
         {* section show=$can_copy *}
-            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}:</th>
+            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}</th>
         {* /section *}
 
         {* Edit column *}
-        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}:</th>
+        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}</th>
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
@@ -42,10 +75,14 @@
         {/section}
         </td>
 
+        {* Name *}
         <td>{node_view_gui view=line content_node=$Nodes.item}</td>
 
         {* Class type *}
         <td>{$Nodes.item.object.class_name|wash()}</td>
+
+        {* Creator *}
+{*        <td>{$Nodes.item.creator.name|wash()}</td> *}
 
         {* Section *}
         <td>{$Nodes.item.object.section_id}</td>
@@ -87,4 +124,8 @@
 {/section}
 
 </table>
+
+<a href="" onclick="selectAll(); return false;">[ Select all ]</a> <a href="" onclick="deSelectAll(); return false;">[ Deselect all ]</a>
+
 </div>
+
