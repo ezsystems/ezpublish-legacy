@@ -59,17 +59,20 @@ if ( isset( $Module ) )
 $ObjectID =& $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];
-if ( !isset( $EditLanguage ) )
+
+if ( !isset( $EditLanguage ) and
+     isset( $Params['EditLanguage'] ) )
     $EditLanguage = $Params['EditLanguage'];
-if ( !isset( $EditLanguage ) )
-    $EditLanguage = false;
-if ( !is_string( $EditLanguage ) or
+if ( !isset( $EditLanguage ) or
+     !is_string( $EditLanguage ) or
      strlen( $EditLanguage ) == 0 )
     $EditLanguage = false;
+
 if ( !isset( $FromLanguage ) and
      isset( $Params['FromLanguage'] ) )
     $FromLanguage = $Params['FromLanguage'];
-if ( !is_string( $FromLanguage ) or
+if ( !isset( $FromLanguage ) or
+     !is_string( $FromLanguage ) or
      strlen( $FromLanguage ) == 0 )
     $FromLanguage = false;
 
