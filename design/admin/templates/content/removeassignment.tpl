@@ -14,43 +14,43 @@
 {let content_object=fetch( content, object, hash( object_id, $assignment_data.object_id  ) )
      content_version=fetch( content, version, hash( object_id, $assignment_data.object_id, version_id, $assignment_data.object_version ) )}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'ID'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_object.id}
 </p>
 
 <p>
-<label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {section show=$content_object.published}
 {$content_object.published|l10n( shortdatetime )}<br />
 {$content_object.current.creator.name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/upload' )}
+{'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
 {/section}
 </p>
 
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {section show=$content_object.modified}
 {$content_object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/upload' )}
+{'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
 {/section}
 </p>
 
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Published version'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {section show=$content_object.published}
 {$content_object.current.version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/upload ' )}
+{'Not yet published'|i18n( 'design/admin/content/removeassignment ' )}
 {/section}
 </p>
 
 
 {* Manage versions. *}
 <div class="block">
-<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/upload' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/removeassignment' )}" disabled="disabled" />
 </div>
 
 </div></div></div></div></div></div>
@@ -63,7 +63,7 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Current draft'|i18n( 'design/admin/content/upload' )}</h4>
+<h4>{'Current draft'|i18n( 'design/admin/content/removeassignment' )}</h4>
 
 </div></div></div></div></div></div>
 
@@ -71,21 +71,21 @@
 
 {* Created. *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_version.created|l10n( shortdatetime )}<br />
 {$content_version.creator.name}
 </p>
 
 {* Modified. *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_version.modified|l10n( shortdatetime )}<br />
 {$content_version.creator.name}
 </p>
 
 {* Version. *}
 <p>
-<label>{'Version'|i18n( 'design/admin/content/upload' )}:</label>
+<label>{'Version'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_version.version}
 </p>
 
@@ -115,7 +115,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="block">
+<div class="message-confirmation">
 
 <p>{'Some of the locations that are about to be removed have sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
 <p>{'Removing the locations will also result in the removal of their sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
