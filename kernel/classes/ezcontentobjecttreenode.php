@@ -750,7 +750,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'section':
                         {
-                            $filterField = 'ezcontentobject.section';
+                            $filterField = 'ezcontentobject.section_id';
                         } break;
                         case 'depth':
                         {
@@ -1342,7 +1342,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'section':
                         {
-                            $filterField = 'ezcontentobject.section';
+                            $filterField = 'ezcontentobject.section_id';
                         } break;
                         case 'depth':
                         {
