@@ -387,6 +387,7 @@ class eZTemplateCompiler
         if ( !eZTemplateCompiler::isExecutionEnabled() )
             return false;
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
+        $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 
         $directory = eZTemplateCompiler::compilationDirectory();
         $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
@@ -2216,6 +2217,7 @@ $rbracket
                             unset( $tmpResourceData );
                             $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
                             $tmpResourceData['compiled-template'] = true;
+                            $tmpResourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
                             $hasResourceData = true;
                             $hasCompiledCode = true;
                         }
