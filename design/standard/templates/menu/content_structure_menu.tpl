@@ -22,7 +22,7 @@
                                                             $:fetchHidden ) }
     
         {* Show menu tree. All container nodes are unfolded. *}
-        <ul id="{$:menuID}" style="display: none">
+        <ul id="{$:menuID}">
             {include uri="design:menu/show_content_structure.tpl" contentStructureTree=$contentStructureTree}                                                
         </ul>
 
