@@ -2423,7 +2423,7 @@ WHERE
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->setTimestamp( 'content-cache', time() );
         $handler->store();
 
         if ( $nodeID == 0 )
@@ -2461,6 +2461,10 @@ WHERE
             $urlObject->cleanup();
         }
 
+        // Clean up subtree expiry blocks
+        include_once( 'kernel/classes/ezcontentcache.php' );
+        eZContentCache::subtreeCleanup( array ( $urlAlias ) );
+
         // Clean up recent items
         $nodeID = $node->attribute( 'node_id' );
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
@@ -2481,6 +2485,11 @@ WHERE
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
+
+        // Clean up subtree expiry blocks
+        include_once( 'kernel/classes/ezcontentcache.php' );
+        $urlAlias = $node->attribute( 'url_alias' );
+        eZContentCache::subtreeCleanup( array ( $urlAlias ) );
 
         $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
         $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];

@@ -336,7 +336,7 @@ class eZContentCache
             $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
             foreach ( $entries as $entry )
             {
-                unlink( $entry['cache_file'] );
+                @unlink( $entry['cache_file'] );
             }
             $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
         }
