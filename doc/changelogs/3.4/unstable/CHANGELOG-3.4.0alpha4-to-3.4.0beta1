@@ -32,7 +32,7 @@ Changes from 3.4.0alpha4 to 3.4.0beta1
 - Updated setup wizard to set modified_subnode when installing forum.
 
 *Design:
--  Made sure the base templates hides some elements when in version view mode.
+- Made sure the base templates hides some elements when in version view mode.
 
 *DataType:
 
