@@ -30,5 +30,9 @@ eZPersistentObject:
   this is set the locale will be changed and strtoupper and strtolower will
   take this into account.
   http://ez.no/community/bug_reports/upcase_with_international_charakters_here_german
+- Added default setting for UserSettings: UseSpecialCharacters to site.ini
+  (Merged from 3.3, rev 5840)
+  http://ez.no/community/bug_reports/site_ini_missing_entry
+  
 
 *Update
