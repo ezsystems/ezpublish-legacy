@@ -70,9 +70,10 @@
         <tr> 
             <td bgcolor="#E2DCC0"> 
             <form action={"/content/search/"|ezurl} method="get">
-            <input type="hidden" name="SectionID" value="5">
+            <input type="hidden" name="SectionID" value="5" />
 	    &nbsp;<input  type="text" size="10" name="SearchText" id="Search" value="" />
             <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
+	    </form>
 	    <br />
 	    <br />
 	    <center>

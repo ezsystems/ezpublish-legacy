@@ -1,35 +1,34 @@
 <form method="post" action="/content/action/">
 
-<h1>{$node.name}</h1>
-
 <table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
-    <th width="70%" valign="top">
+    <th bgcolor="#FF9900" width="70%" valign="top">
     {attribute_view_gui attribute=$node.object.data_map.topic}
     </th>
-    <th align="rigtht" width="30%" valign="top">
-    {$node.object.published|l10n(datetime)}
-    </th>
+    <td bgcolor="#FF9900" align="rigtht" width="30%" valign="top">
+    <span class="small">{$node.object.published|l10n(datetime)}</span>
+    </td>
 </tr>
 <tr>
-    <td colspan="2">
+    <td bgcolor="#FFFFFF" colspan="2">
     {attribute_view_gui attribute=$node.object.data_map.message}
     </td>
 </tr>
 </table>
+<br />
 
 {section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))  sequence=array(FDF4D9,FDF1CE)}
-<table bgcolor="#{$Child:sequence}" width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
-    <th width="70%" valign="top">
+    <th bgcolor="#{$Child:sequence}"  width="70%" valign="top">
     {attribute_view_gui attribute=$Child:item.object.data_map.topic}
     </th>
-    <th align="rigtht" width="30%" valign="top">
-    {$Child:item.object.published|l10n(datetime)}
-    </th>
+    <td bgcolor="#{$Child:sequence}" align="rigtht" width="30%" valign="top">
+    <span class="small">{$Child:item.object.published|l10n(datetime)}</span>
+    </td>
 </tr>
 <tr>
-    <td colspan="2">
+    <td bgcolor="#{$Child:sequence}" colspan="2">
     {attribute_view_gui attribute=$Child:item.object.data_map.message}
     </td>
 </tr>
