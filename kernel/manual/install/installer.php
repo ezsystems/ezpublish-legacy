@@ -89,7 +89,7 @@
 	<li>Become root by running: <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for the root user.</p></li>
 	<li>Unpack the downloaded file <pre class="example"> # tar xvfz ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386.tar.gz</pre> Replace ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386.tar.gz with your current version.</li>
 	<li>Enter the extracted directory <pre class="example"> # cd ezpublish-3.0-xxx-x-FreeBSD-STABLE.i386</pre></li>
-	<li>Run the installation program: <pre class="example"> # ./install.sh</pre></li>
+	<li>Run the installation program: <pre class="example"> # ./install.sh</pre><p class="important"><b>Note:</b>The FreeBSD Installer requires bash to be located under /usr/local/bin. If you do not have bash installed please refer to the <a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/index.html">FreeBSD Handbook</a> for more help on installing bash.</li>
 	<li>Choose "install eZ publish 3" and press Enter</li>
 	<li>Enter the device name of your network card. You can find the name of your network card by running "ldconfig". </li>
 	<li>Enter port number for the user demo site, press enter for default port (1337).</li>
