@@ -15,7 +15,7 @@
 <div class="context-attributes">
 
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/workflow/groupedit' )}</label>
+    <label>{'Name'|i18n( 'design/admin/workflow/groupedit' )}:</label>
     <input class="box" type="text" name="WorkflowGroup_name" value="{$workflow_group.name}" />
 </div>
 
