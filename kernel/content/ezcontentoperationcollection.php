@@ -202,7 +202,7 @@ class eZContentOperationCollection
         $objectName = $class->contentObjectName( $object );
 
         $object->setName( $objectName, $versionNum );
-        $object->store();
+//        $object->store();  // removed to reduce sql calls. restore if publish bugs occur, by kk
 
         $existingTranslations =& $version->translations( false );
         foreach( array_keys( $existingTranslations ) as $key )
@@ -218,6 +218,8 @@ class eZContentOperationCollection
         $nodeID = $nodeAssignment->attribute( 'parent_node' );
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
+        $existingNode = null;
+
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
             $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );

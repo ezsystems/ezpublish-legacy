@@ -44,6 +44,10 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
   http://ez.no/community/bug_reports/url_alias_pathprefix
 - Fixed bug
   http://ez.no/community/bug_reports/change_priority_of_nodes_don_t_delete_whole_cache
+- Fixed calling store when fetching remote_id.
+  http://ez.no/community/bug_reports/remoteid
+- Fixed duplicate entry in ezcontentobject_tree table.
+  http://ez.no/community/bug_reports/strange_temp_node_created
 - Fixed bug no feedback when using the wishlist without beeing logged in ( Merged from stable/3.3 r6298 )
   http://ez.no/community/bug_reports/wishlist
 

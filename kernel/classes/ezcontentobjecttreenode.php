@@ -163,8 +163,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "name" => "ezcontentobject_tree" );
     }
 
-    function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
-                     $sortField = 0, $sortOrder = true )
+    function &create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
+                      $sortField = 0, $sortOrder = true )
     {
         $row = array( 'node_id' => null,
                       'main_node_id' => null,
@@ -176,6 +176,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'sort_field' => $sortField,
                       'sort_order' => $sortOrder,
                       'modified_subnode' => 0,
+                      'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
                       'priority' => 0 );
         $node =& new eZContentObjectTreeNode( $row );
         return $node;
@@ -273,7 +274,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->store();
+            $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id' );
         }
 
@@ -2120,10 +2121,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodeDepth = $parentDepth + 1 ;
 
-
-        $insertedNode =& new eZContentObjectTreeNode();
-        $insertedNode->setAttribute( 'parent_node_id', $parentMainNodeID );
-        $insertedNode->setAttribute( 'contentobject_id', $contentobjectID );
+        $insertedNode =& eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
         $insertedNode->store();
@@ -2734,17 +2732,19 @@ WHERE
         $sql = '';
 
         $sqlParts = '/';
-        for( $pathCount = 1; $pathCount < count( $pathArray ) - 1; $pathCount++ )
+        for( $pathCount = 1; $pathCount < count( $pathArray ) - 1; ++$pathCount )
         {
             $sqlParts .= $pathArray[$pathCount] . '/' ;
-            $sql .= ( $pathCount != 1 ? ' OR' : '' ) . ' path_string=\'' . $sqlParts . '\' ';
+            $sql .= ( $pathCount != 1 ? 'OR ' : '' ) . 'path_string=\'' . $sqlParts . '\' ';
         }
 
-        $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
-             ' WHERE ' . $sql;
-
-        $db =& eZDB::instance();
-        $db->query( $sql );
+        if ( $sql != '' )
+        {
+            $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
+                 ' WHERE ' . $sql;
+            $db =& eZDB::instance();
+            $db->query( $sql );
+        }
     }
 
     function store()

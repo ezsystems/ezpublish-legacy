@@ -522,7 +522,7 @@ class eZContentObject extends eZPersistentObject
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->store();
+            $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id' );
         }
 
@@ -878,7 +878,8 @@ class eZContentObject extends eZPersistentObject
             "parent_id" => 0,
             "main_node_id" => 0,
             "owner_id" => $userID,
-            "section_id" => $sectionID );
+            "section_id" => $sectionID,
+            'remote_id' => md5( (string)mt_rand() . (string)mktime() ) );
         return new eZContentObject( $row );
     }
 

@@ -147,6 +147,7 @@ class eZContentClass extends eZPersistentObject
             "creator_id" => $userID,
             "modifier_id" => $userID,
             "created" => $dateTime,
+            'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
             "modified" => $dateTime );
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
@@ -460,7 +461,7 @@ class eZContentClass extends eZPersistentObject
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->store();
+            $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id' );
         }
 
