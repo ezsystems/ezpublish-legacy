@@ -91,14 +91,15 @@
            &gt;
            {section name=Path loop=$module_result.path }
                {section show=$Path:item.url}
-                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+                        {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
+                            {section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
+                                <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+                            {/section}
+                        {/let}
                {section-else}
     	      {$Path:item.text|wash}
                {/section}
     
-               {delimiter}
-                 /
-               {/delimiter}
             {/section}
            </p>
 

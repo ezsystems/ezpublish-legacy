@@ -1,13 +1,13 @@
 <div class="folder_line">
 
 <tr>
-    <td class="maintopics" colspan="2">
+    <th class="maintopics" colspan="2">
     {$node.name}
     </td>
-    <td class="maintopics">
+    <th class="maintopics">
     &nbsp;
     </td>
-    <td class="maintopics">
+    <th class="maintopics">
     &nbsp;
     </td>
 </tr>
@@ -19,7 +19,8 @@
     {attribute_view_gui attribute=$Child:item.object.data_map.image image_class=original}
     </td>
     <td class="forumtopics">
-    <a href={concat( "/content/view/full/", $Child:item..node_id, "/")|ezurl}>{$Child:item.name}</a>
+    <p><a href={concat( "/content/view/full/", $Child:item..node_id, "/")|ezurl}>{$Child:item.name}</a></p>
+    {$Child:item.object.data_map.description.content.output.output_text}
     </td>
     <td class="topiccount">
     {fetch('content','list_count',hash(parent_node_id,$Child:item.node_id))}

@@ -43,7 +43,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <table class="forum" cellspacing="0">
 <tr class="topheader">
     <th class="forumtopic">
-    Topics
+    Post
     </th>
     <th class="forumauthor">
     Author
