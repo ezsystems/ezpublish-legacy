@@ -695,13 +695,27 @@ div#maincontent-design div.class-product div.content-link p
     background-repeat: no-repeat;
 }
 
-div.class-product div.view-line div.class-review p.author
+/* Author and date for all full objects */
+div.view-full div.content-byline p.author
 { 
     display: inline;
     color: #666;
 }
 
-div.class-product div.view-line div.class-review p.date
+div.view-full div.content-byline p.date
+{ 
+    display: inline;
+    color: #666;
+}
+
+/* Author and date for all children objects */
+div.view-full div.view-line div.content-byline p.author
+{ 
+    display: inline;
+    color: #666;
+}
+
+div.view-full div.view-line div.content-byline p.date
 { 
     display: inline;
     color: #666;
@@ -783,23 +797,6 @@ div#maincontent-design div.content-long p
     font: 9pt regular;
     color: #036;
 }
-
-div.content-byline p.author
-{
-    font: 8pt;
-    color: #036;
-    padding: 0px;
-    margin: 0px;
-}
-
-div.content-byline p.date
-{
-    font: 8pt;
-    color: #036;
-    padding: 0px;
-    margin: 0px;
-}
-
 
 div.content-file
 { 

@@ -55,9 +55,7 @@
                     <input class="button" type="submit" name="NewButton" value="New Comment" />
                     </form>
                 {section-else}
-                    <div class="message-warning">
                     <h3>You are not allowed to create comments.</h3>
-                    </div>
                 {/section}
         {/section}
 

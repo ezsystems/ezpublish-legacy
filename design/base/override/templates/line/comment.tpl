@@ -12,7 +12,7 @@
     </div>
 
     <div class="content-message">
-        {$node.object.data_map.message.content|wash(xhtml)|break|wordtoimage|autolink}
+        {$node.object.data_map.message.content|wash(xhtml)|break}
     </div>
 
     </div>
