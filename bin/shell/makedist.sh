@@ -423,23 +423,39 @@ fi
 
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
-    ./bin/shell/checkdbupdate.sh --mysql "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --mysql "$DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --mysql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $DB_NAME"
+	exit 1
+    fi
+    ./bin/shell/checkdbupdate.sh --check-previous --mysql "$DB_NAME" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "The database update check for MySQL failed"
+	echo "Run the following command to find out what is wrong"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking PostgreSQL database updates"
-    ./bin/shell/checkdbupdate.sh --postgresql "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --postgresql "$DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for Postgresql failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --postgresql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $DB_NAME"
+	exit 1
+    fi
+     ./bin/shell/checkdbupdate.sh --check-previous --postgresql "$DB_NAME" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "The database update check for Postgresql failed"
+	echo "Run the following command to find out what is wrong"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
