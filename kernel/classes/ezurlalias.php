@@ -798,7 +798,7 @@ ORDER BY forward_to_id ASC";
     */
     function cleanURL( $url )
     {
-        return trim( $url, '/' );
+        return trim( $url, '/ ' );
     }
 }
 

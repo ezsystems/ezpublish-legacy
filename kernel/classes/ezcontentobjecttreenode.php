@@ -2592,20 +2592,20 @@ WHERE
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
                 if ( substr( $this->PathIdentificationString, 0, strlen( $prepend ) ) )
                 {
-                    return substr( $this->PathIdentificationString, strlen( $prepend ) );
+                    return eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
                 }
                 else
                 {
-                    return $this->PathIdentificationString;
+                    return eZUrlAlias::cleanURL( $this->PathIdentificationString );
                 }
             }
             else
             {
-                return $this->PathIdentificationString;
+                return eZUrlAlias::cleanURL( $this->PathIdentificationString );
             }
         }
         else
-            return '/content/view/full/' . $this->NodeID;
+            return eZUrlAlias::cleanURL( 'content/view/full/' . $this->NodeID );
     }
 
     function &url()

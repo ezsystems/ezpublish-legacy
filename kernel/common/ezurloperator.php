@@ -190,7 +190,8 @@ class eZURLOperator
                     $operatorValue = '/';
                 else if ( $operatorValue[0] == '#' )
                 {
-                    return htmlspecialchars( $operatorValue[0] );
+                    $operatorValue = htmlspecialchars( $operatorValue );
+                    break;
                 }
                 else if ( $operatorValue[0] != '/' )
                 {
