@@ -130,7 +130,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
                                                       "can_edit" => "canEdit",
-                                                      "can_edit" => "canTranslate",
+                                                      "can_translate" => "canTranslate",
                                                       "can_remove" => "canRemove",
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
