@@ -1,6 +1,6 @@
 <div class="message-warning">
 
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The temple can not be edited.'|i18n( 'design/admin/visual/templateedit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The template can not be edited.'|i18n( 'design/admin/visual/templateedit' )}</h2>
 
 {section show=$template_exists}
     {section show=$is_readable}
