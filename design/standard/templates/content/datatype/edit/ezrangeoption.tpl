@@ -3,7 +3,7 @@
 <div class="block">
 
 <label>{'Name'|i18n( 'design/standard/content/datatype' )}</label>
-<input type="text" name="{$attribute_base}_data_rangeoption_name_{$attribute.id}" value="{$attribute.content.name}" />
+<input class="box" type="text" name="{$attribute_base}_data_rangeoption_name_{$attribute.id}" value="{$attribute.content.name}" />
 </div>
 
 <div class="block">
