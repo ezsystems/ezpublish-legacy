@@ -1,5 +1,5 @@
 [SiteSettings]
-LoginPage=embeded
+LoginPage=custom
 SiteURL=intranet.wy.dvh1.ez.no
 
 [SiteAccessSettings]
