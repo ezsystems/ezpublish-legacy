@@ -31,6 +31,7 @@
 - Fixed fetch( content, tree_count ... operator bug, http://ez.no/developer/ez_publish_3/bug_reports/missing_depth_operator_in_function_definition
 - Sending objects to trash no longer removes the node assignments (location) of the current version.
   http://ez.no/developer/ez_publish_3/bug_reports/restore_from_trash_returns_error
+- Fixed cleanup bug in workflows http://ez.no/developer/ez_publish_3/bug_reports/deleted_workflow_shows_up_in_triggers ( merged from stable 4336 )
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable

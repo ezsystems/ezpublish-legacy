@@ -326,6 +326,14 @@ class eZTrigger extends eZPersistentObject
         return $trigger;
     }
 
+    /*!
+     Removes triggers which uses the given workflowID.
+    */
+    function removeTriggerForWorkflow( $workFlowID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM eztrigger WHERE workflow_id=$workFlowID" );
+    }
 }
 
 ?>
