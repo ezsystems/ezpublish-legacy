@@ -127,7 +127,7 @@ Database=&lt;name_of_database&gt;
 	Below is a sample configuration for virtualhost setup. Include this in your apache config file and restart apache when you are done.
 </p>
 <pre class="example">&lt;Virtualhost &lt;you_ip_address&gt;&gt;
-  &lt;Directory&gt; &lt;httproot&gt;/ezpublish-xxx/&gt;
+  &lt;Directory &lt;httproot&gt;/ezpublish-xxx/&gt;
     Options FollowSymLinks Indexes ExecCGI
     AllowOverride None
   &lt;/Directory&gt;
