@@ -105,14 +105,14 @@ The object is owned by {content_view_gui view=text_linked content_object=$object
 
 {section show=and($has_own_drafts,$has_other_drafts)}
     <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="NewButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
 {section-else}
     {section show=$has_own_drafts}
         <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
-        <input class="button" type="submit" name="NewButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
+        <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
     {/section}
     {section show=$has_other_drafts}
-        <input class="defaultbutton" type="submit" name="NewButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
+        <input class="defaultbutton" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
     {/section}
 {/section}
 

@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
         return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
-else if ( $http->hasPostVariable( 'NewButton' ) )
+else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
