@@ -60,6 +60,13 @@ function eZUpdateDebugSettings()
     eZDebug::updateSettings( $debugSettings );
 }
 
+// Check for extension
+include_once( 'lib/ezutils/classes/ezextension.php' );
+include_once( 'kernel/common/ezincludefunctions.php' );
+eZExtension::activateExtensions( 'default' );
+// Extension check end
+
+
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
 $ini =& eZINI::instance( 'webdav.ini' );
 $enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
