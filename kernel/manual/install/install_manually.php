@@ -34,7 +34,7 @@
 	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
 	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
 	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
-	<li> ImageMagick and/or GD compiled in PHP for image conversion (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
+	<li> ImageMagick and/or GD compiled in PHP for image conversion and scaling (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
 <p>
