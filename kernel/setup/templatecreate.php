@@ -111,10 +111,11 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
         if ( !file_exists( $filePath ) )
         {
-              $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-	      eZDir::mkdir( $filePath, $dirPermission );
-//            eZDir::mkdir( $filePath, 0777 );
+            $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+
+            eZDir::mkdir( $filePath, eZDir::directoryPermission(), true );
         }
+
 
         $fp = fopen( $fileName, "w+" );
         if ( $fp )
@@ -125,8 +126,6 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             fclose( $fp );
             chmod( $fileName, octdec( $filePermission ) );
             umask( $oldumask );
-
-            
 
             // Store override.ini.append file
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
@@ -155,7 +154,6 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
             chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
             umask( $oldumask );
-	    
 
             // Expire content cache
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );

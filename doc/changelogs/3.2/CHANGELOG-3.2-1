@@ -22,6 +22,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed bug with phrase search
   http://ez.no/developer/ez_publish_3/bug_reports/problem_with_phrase_search
 - Fixed storing SMTP settings during setup, http://ez.no/developer/ez_publish_3/bug_reports/setup_does_not_store_smtp_settings
+- Fixed problem with new template creation
+  http://ez.no/developer/ez_publish_3/bug_reports/template_creation_does_not_create_missing_dirs
 
 *Setup:
 
