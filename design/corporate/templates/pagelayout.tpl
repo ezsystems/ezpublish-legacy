@@ -67,7 +67,7 @@
             <ul>
                 {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1 )}
                     {section name=Menu loop=$mainMenu}
-            	    {section show=$:item.is_selected}
+                        {section show=$:item.is_selected}
             
                         {/section}
             
@@ -75,7 +75,7 @@
                            <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
                         </li>
             
-            	    {section show=$:item.is_selected}
+                        {section show=$:item.is_selected}
             
                         {/section}
                     {/section}
@@ -120,9 +120,9 @@
            &gt;
            {section name=Path loop=$module_result.path }
                {section show=$Path:item.url}
-                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+                   <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
                {section-else}
-    	      {$Path:item.text|wash}
+                   {$Path:item.text|wash}
                {/section}
     
                {delimiter}
@@ -144,8 +144,8 @@
     <div id="footer">
         <div class="design">
             <address>
-		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
-		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
+                {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+                <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
     </div>
