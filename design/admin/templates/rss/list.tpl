@@ -1,4 +1,8 @@
+{* Export window. *}
+<form name="rssexportslist" method="post" action={'rss/list'|ezurl}>
+
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title">{'RSS exports [%exports_count]'|i18n( 'design/admin/rss/list',, hash( '%exports_count', $rssexport_list|count ) )}</h2>
@@ -9,12 +13,10 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<form name="rssexportslist" action={'rss/list'|ezurl} method="post" name="RSSExport">
-
 {section show=$rssexport_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssexportslist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssexportslist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/rss/list' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/rss/list' )}</th>
     <th>{'Version'|i18n( 'design/admin/rss/list' )}</th>
     <th>{'Status'|i18n( 'design/admin/rss/list' )}</th>
@@ -22,38 +24,50 @@
     <th>{'Modified'|i18n( 'design/admin/rss/list' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
-
 {section var=RSSExports loop=$rssexport_list sequence=array( bglight, bgdark )}
 <tr class="{$RSSExports.sequence}">
+
+    {* Remove. *}
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$RSSExports.item.id}"></td>
-    <td><a href={concat("rss/feed/",$RSSExports.item.access_url)|ezurl}>{$RSSExports.item.title|wash}</a></td>
+
+    {* Name. *}
+    <td><a href={concat( 'rss/feed/', $RSSExports.item.access_url )|ezurl}>{$RSSExports.item.title|wash}</a></td>
+
+    {* Version. *}
     <td>{$RSSExports.item.rss_version|wash}</td>
-    <td>{section show=$RSSExports.item.active|eq(1)}{"Active"|i18n( 'design/admin/rss/list' )}{section-else}{"Inactive"|i18n( 'design/admin/rss/list' )}{/section}</td>
-    <td>{content_view_gui view=text_linked content_object=$RSSExports.item.modifier.contentobject}</td>
+
+    {* Status. *}
+    <td>{section show=$RSSExports.item.active|eq( 1 )}{'Active'|i18n( 'design/admin/rss/list' )}{section-else}{'Inactive'|i18n( 'design/admin/rss/list' )}{/section}</td>
+
+    {* Modifier. *}
+    <td><a href={$RSSExports.item.modifier.contentobject.main_node.url_alias|ezurl}>{$RSSExports.item.modifier.contentobject.name|wash}</a></td>
+
+    {* Modified. *}
     <td>{$RSSExports.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat("rss/edit_export/",$RSSExports.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></td>
+
+    {* Edit. *}
+    <td><a href={concat( 'rss/edit_export/', $RSSExports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
+
 </tr>
 {/section}
 </table>
 {section-else}
 <div class="block">
-<p>{'The RSS export list is empty.'|i18n( 'design/admin/rss/list' )}</p>
+    <p>{'The RSS export list is empty.'|i18n( 'design/admin/rss/list' )}</p>
 </div>
 {/section}
-
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$rssexport_list|count}
-<input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" />
-{section-else}
-<input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" disabled="disabled" />
-{/section}
-
-<input class="button" type="submit" name="NewExportButton" value="{'New export'|i18n( 'design/admin/rss/list' )}" />
+    {section show=$rssexport_list}
+    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" disabled="disabled" />
+    {/section}
+    <input class="button" type="submit" name="NewExportButton" value="{'New export'|i18n( 'design/admin/rss/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -63,10 +77,14 @@
 </form>
 
 
-<form name="rssimportslist" action={'rss/list'|ezurl} method="post" name="RSSImport">
+
+{* Import window. *}
+<form name="rssimportslist" method="post" action={'rss/list'|ezurl}>
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'RSS imports [%imports_count]'|i18n( 'design/admin/rss/list',, hash( '%imports_count', $rssimport_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
@@ -78,44 +96,54 @@
 {section show=$rssimport_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssimportslist, 'DeleteIDArrayImport[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
-    <th>{"Name"|i18n( 'design/admin/rss/list' )}</th>
-    <th>{"Status"|i18n( 'design/admin/rss/list' )}</th>
-    <th>{"Modifier"|i18n( 'design/admin/rss/list' )}</th>
-    <th>{"Modified"|i18n( 'design/admin/rss/list' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssimportslist, 'DeleteIDArrayImport[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/rss/list' )}" /></th>
+    <th>{'Name'|i18n( 'design/admin/rss/list' )}</th>
+    <th>{'Status'|i18n( 'design/admin/rss/list' )}</th>
+    <th>{'Modifier'|i18n( 'design/admin/rss/list' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/rss/list' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
-
 {section var=RSSImports loop=$rssimport_list sequence=array( bglight, bgdark )}
 <tr class="{$RSSImports.sequence}">
+
+    {* Remove. *}
     <td><input type="checkbox" name="DeleteIDArrayImport[]" value="{$RSSImports.item.id}"></td>
+
+    {* Name. *}
     <td>{$RSSImports.item.name|wash}</td>
-    <td>{section show=$RSSImports.item.active|eq(1)}{"Active"|i18n( 'design/admin/rss/list' )}{section-else}{"Inactive"|i18n( 'design/admin/rss/list' )}{/section}</td>
-    <td>{content_view_gui view=text_linked content_object=$RSSImports.item.modifier.contentobject}</td>
+
+    {* Status. *}
+    <td>{section show=$RSSImports.item.active|eq(1)}{'Active'|i18n( 'design/admin/rss/list' )}{section-else}{'Inactive'|i18n( 'design/admin/rss/list' )}{/section}</td>
+
+    {* Modifier. *}
+    <td><a href={$RSSImports.item.modifier.contentobject.main_node.url_alias|ezurl}>{$RSSImports.item.modifier.contentobject.name|wash}</a></td>
+
+    {* Modified. *}
     <td>{$RSSImports.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( 'rss/edit_import/', $RSSImports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
+
+    {* Edit. *}
+    <td><a href={concat( 'rss/edit_import/', $RSSImports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/rss/list' )}" /></a></td>
+
 </tr>
 {/section}
 </table>
 {section-else}
 <div class="block">
-<p>{'The RSS import list is empty.'|i18n( 'design/admin/rss/list' )}</p>
+    <p>{'The RSS import list is empty.'|i18n( 'design/admin/rss/list' )}</p>
 </div>
 {/section}
-
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$rssimport_list|count}
-<input class="button" type="submit" name="RemoveImportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" />
-{section-else}
-<input class="button" type="submit" name="RemoveImportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" disabled="disabled" />
-{/section}
-
-<input class="button" type="submit" name="NewImportButton" value="{'New import'|i18n( 'design/admin/rss/list' )}" />
+    {section show=$rssimport_list|count}
+    <input class="button" type="submit" name="RemoveImportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveImportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" disabled="disabled" />
+    {/section}
+    <input class="button" type="submit" name="NewImportButton" value="{'New import'|i18n( 'design/admin/rss/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
