@@ -439,6 +439,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $isBlockTag = true;
 
                 $listContent = '';
+                $listCount = 0;
                 // find all list elements
                 foreach ( $tag->children() as $listItemNode )
                 {
@@ -447,6 +448,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     {
                         $listItemContent .= $this->renderPDFTag( $tpl, $itemChildNode, $currentSectionLevel, $isBlockTag );
                     }
+                    $tpl->setVariable( 'list_count', ++$listCount, 'xmltagns' );
+                    $tpl->setVariable( 'tag_name', $tagName, 'xmltagns' );
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = 'design:content/datatype/pdf/ezxmltags/li.tpl';
 
