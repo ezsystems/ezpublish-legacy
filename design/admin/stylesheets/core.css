@@ -343,26 +343,35 @@ div.button-right
 
 /* MESSAGES TO THE USER */
 
-div.message-feedback, div.message-warning, div.message-error
+div.message-confirmation, div.message-feedback, div.message-warning, div.message-error
 {
-    margin: 0.5em 0 2em 0;
-    padding: 0 1em 0.5em 1em;
-    border: 1px solid #000000;
+    margin: 0.5em 0 1em 0;
+    padding: 0.25em 1em 0.5em 1em;
+    border: 6px solid #000000;
+    background-color: #f8f8f4;
+}
+
+div.box-content div.message-confirmation, div.box-content div.message-feedback, div.box-content  div.message-warning, div.box-content  div.message-error
+{
+    margin-top: 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    border: none;
+    background-color: transparent;
 }
 
 div.message-feedback
 {
-    background-color: #f0fff0;
+    border-color: #7ed376;
 }
 
 div.message-warning
 {
-    background-color: #ffffe0;
+    border-color: #d9d978;
 }
 
 div.message-error
 {
-    background-color: #fff0f0;
+    border-color: #d98078;
 }
 
 div.message-feedback span.time, div.message-warning span.time, div.message-error span.time
