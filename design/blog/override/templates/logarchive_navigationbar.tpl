@@ -21,8 +21,8 @@
                                             class_filter_array, array( 'log' ),
                                             group_by, array( "published", "day" ),
                                             as_object, false() ) )
-     month=$month_list|month_overview( 'published', maketime( 0, 0, 0, 11, 1, 2003 ),
-                                  hash( current, maketime( 0, 0, 0, 11, 13, 2003 ),
+     month=$month_list|month_overview( 'published', maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year ),
+                                  hash( current, maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year ),
                                         current_class, 'selected',
                                         link, concat( "content/view/full/", $log_node_id ),
                                         month_link, true(), year_link, true(), day_link, true(),
