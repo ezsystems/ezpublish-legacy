@@ -697,20 +697,19 @@ class eZModule
             $hookEntries = array();
         $entry = array( 'function' => $function,
                         'expand_parameters' => $expandParameters );
+
+        $position = $priority;
         if ( $append )
         {
-            $position = $priority;
             while ( isset( $hookEntries[$position] ) )
                 ++$position;
-            $hookEntries[$position] = $entry;
         }
         else
         {
-            $position = $priority;
             while ( isset( $hookEntries[$position] ) )
                 --$position;
-            $hookEntries[$position] = $entry;
         }
+        $hookEntries[$position] = $entry;
     }
 
     /*!
