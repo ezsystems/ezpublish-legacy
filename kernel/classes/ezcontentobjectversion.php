@@ -527,6 +527,8 @@ class eZContentObjectVersion extends eZPersistentObject
     function &assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null,
                             $remoteID = 0 )
     {
+        if ( $fromNodeID == 0 && $this->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT )
+            $fromNodeID = -1;
         $nodeRow = array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                           'contentobject_version' => $this->attribute( 'version' ),
                           'parent_node' => $nodeID,

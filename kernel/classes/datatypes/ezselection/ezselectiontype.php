@@ -172,7 +172,7 @@ class eZSelectionType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
 
     /*!

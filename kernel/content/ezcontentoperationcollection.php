@@ -223,7 +223,7 @@ class eZContentOperationCollection
         $updateSectionID = false;
         if ( $existingNode  == null )
         {
-            if ( $fromNodeID == 0 )
+            if ( $fromNodeID == 0 || $fromNodeID == -1)
             {
                 $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
 /* Adds parent node to recent used content */
@@ -235,6 +235,11 @@ class eZContentOperationCollection
 //                eZContentBrowseBookmark::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ), EZ_CONTENTBROWSE_BOOKMARK_TYPE_RECENT );
 //code end
                 $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+
+                if ( $fromNodeID == -1 )
+                {
+                    $updateSectionID = true;
+                }
             }
             else
             {
