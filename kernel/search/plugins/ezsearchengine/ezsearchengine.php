@@ -161,7 +161,8 @@ class eZSearchEngine
                 }
             }
             $wordIDArray = $wordArray;
-        }else
+        }
+        else
         {
             foreach ( $indexArray as $indexWord )
             {
@@ -220,10 +221,36 @@ class eZSearchEngine
             $prevWordID = $wordID;
             $placement++;
         }
-        $valuesString = implode( ',', $valuesStringList );
-        $db->query( "INSERT DELAYED INTO
-                       ezsearch_object_word_link ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
+        if ( $dbName == 'mysql' )
+        {
+            $valuesString = implode( ',', $valuesStringList );
+            $db->query( "INSERT DELAYED INTO
+                           ezsearch_object_word_link
+                        ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
                      VALUES $valuesString" );
+        }
+        else
+        {
+            $db->begin();
+            foreach( array_keys( $valuesStringList ) as $key )
+            {
+                $valuesString =& $valuesStringList[$key];
+                $db->query("INSERT INTO
+                           ezsearch_object_word_link
+                           ( word_id,
+                             contentobject_id,
+                             frequency,
+                             placement,
+                             next_word_id,
+                             prev_word_id,
+                             contentclass_id,
+                             contentclass_attribute_id,
+                             published,
+                             section_id )
+                             VALUES $valuesString"  );
+            }
+            $db->commit();
+        }
 
     }
 

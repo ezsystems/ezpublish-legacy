@@ -69,6 +69,7 @@ Enter node_id,new_parent_id
 
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 
 class eZContentObjectTreeNode extends eZPersistentObject
@@ -1178,7 +1179,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( count( $nodeList ) > 0 )
         {
-
             $nodeName = $node->attribute( 'name' );
             $nodeName = strtolower( $nodeName );
             $nodeName = preg_replace( array( "/[^a-z0-9_ ]/" ,
@@ -1188,7 +1188,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                              "_",
                                              "_" ),
                                       $nodeName );
-
             if ( $parentNodePathString != '' )
             {
                 $nodePath = $parentNodePathString . '/' . $nodeName ;
@@ -1202,8 +1201,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $nodePath = '';
         }
-
+        eZDebugSetting::writeDebug( 'nice-urls', $nodePath, "path for node before checking");
         $nodePath = $node->checkPath( $nodePath );
+        eZDebugSetting::writeDebug( 'nice-urls', $nodePath, "path for node after checking");
         return $nodePath;
 /*
         $nodeList = array_merge( $nodeList, array( &$node ) );
@@ -1238,8 +1238,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlToCheckCurrentName = 'select path_identification_string
                                   from ezcontentobject_tree
-                                  where ( path_identification_string = "' . $path . '" or
-                                          path_identification_string like "' . $path . '\_\_%" )
+                                  where ( path_identification_string = \'' . $path . '\' or
+                                          path_identification_string like \'' . $path . '\\\_\\\_%\' )
                                           and node_id = ' . $nodeID ;
         $db =& eZDb::instance();
         $retNode = $db->arrayQuery( $sqlToCheckCurrentName );
@@ -1251,7 +1251,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 from ezcontentobject_tree
                 where parent_node_id = ' . $parentNodeID . ' and
                       depth = ' . $depth . ' and
-                      ( path_identification_string = "' . $path . '" or path_identification_string like "' . $path . '\_\_%" ) and
+                      ( path_identification_string = \'' . $path . '\' or path_identification_string like \'' . $path . '\\\_\\\_%\' ) and
                       node_id != ' . $nodeID ;
 
         $retNodes = $db->arrayQuery( $sql );
@@ -1299,11 +1299,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDb::instance();
         $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
         $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
+        $md5QueryPart = $db->md5( $newPathStringQueryPart );
         $query = "UPDATE
                          ezcontentobject_tree
                   SET
                          path_identification_string = $newPathStringQueryPart,
-                         md5_path = MD5( path_identification_string )
+                         md5_path = $md5QueryPart
                   WHERE
                          path_string like '$childrensPath%'";
 //        eZDebugSetting::writeDebug( 'kernel-content-treenode', $query, "nice_urls" );

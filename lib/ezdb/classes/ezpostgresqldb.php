@@ -203,6 +203,11 @@ class eZPostgreSQLDB extends eZDBInterface
         return "  $str   ";
     }
 
+    function md5( $str )
+    {
+        return " encode(digest( $str, 'md5' ), 'hex' ) ";
+    }
+
     /*!
      \reimp
     */

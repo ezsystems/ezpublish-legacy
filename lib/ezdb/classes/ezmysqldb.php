@@ -105,6 +105,7 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
+            eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             $orig_sql = $sql;
             // The converted sql should not be output
             if ( $this->UseBuiltinEncoding and
@@ -118,7 +119,6 @@ class eZMySQLDB extends eZDBInterface
             if ( $this->OutputSQL )
             {
                 $this->startTimer();
-                eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             }
             $result =& mysql_query( $sql, $this->DBConnection );
             if ( $this->RecordError )
@@ -127,12 +127,11 @@ class eZMySQLDB extends eZDBInterface
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
-                eZDebug::accumulatorStop( 'mysql_query' );
 
                 $num_rows = mysql_affected_rows( $this->DBConnection );
                 $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
             }
-
+            eZDebug::accumulatorStop( 'mysql_query' );
             if ( $result )
             {
                 return $result;
@@ -152,6 +151,8 @@ class eZMySQLDB extends eZDBInterface
         {
             eZDebug::writeError( "Trying to do a query without being connected to a database!", "eZMySQLDB"  );
         }
+
+
     }
 
     /*!
@@ -194,6 +195,7 @@ class eZMySQLDB extends eZDBInterface
             {
                 if ( !is_string( $column ) )
                 {
+                    eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
                     for ( $i=0; $i < mysql_num_rows($result); $i++ )
                     {
                         if ( $this->UseBuiltinEncoding and
@@ -215,9 +217,12 @@ class eZMySQLDB extends eZDBInterface
                         else
                             $retArray[$i + $offset] =& mysql_fetch_array( $result, MYSQL_ASSOC );
                     }
+                    eZDebug::accumulatorStop( 'mysql_loop' );
+
                 }
                 else
                 {
+                    eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
                     for ( $i=0; $i < mysql_num_rows($result); $i++ )
                     {
                         $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
@@ -231,6 +236,7 @@ class eZMySQLDB extends eZDBInterface
                         else
                             $retArray[$i + $offset] =& $tmp_row[$column];
                     }
+                    eZDebug::accumulatorStop( 'mysql_loop' );
                 }
             }
         }
@@ -255,6 +261,11 @@ class eZMySQLDB extends eZDBInterface
     {
         $str = implode( "," , $strings );
         return " concat( $str  ) ";
+    }
+
+    function md5( $str )
+    {
+        return " MD5( $str ) ";
     }
 
     /*!

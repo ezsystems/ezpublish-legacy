@@ -54,6 +54,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $rootNode->setAttribute( 'path_identification_string', $rootNode->pathWithNames() );
     eZDebug::writeDebug( $rootNode->pathWithNames() );
     $rootNode->setAttribute( 'crc32_path', crc32 ( $rootNode->attribute( 'path_identification_string' ) ) );
+    $rootNode->setAttribute( 'md5_path', md5 ( $rootNode->attribute( 'path_identification_string' ) ) );
     $rootNode->store();
     $nodes =& $rootNode->subTree();
     foreach( array_keys( $nodes ) as $key )

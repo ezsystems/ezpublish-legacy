@@ -10634,7 +10634,6 @@ CREATE TABLE ezsearch_word (
 #
 # Dumping data for table 'ezsearch_word'
 #
-
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (988,'those',6);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (1659,'strong',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (5,'gallery',3);

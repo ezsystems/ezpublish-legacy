@@ -233,7 +233,6 @@ CREATE SEQUENCE "ezcontentobject_s" start 15 increment 1 maxvalue 92233720368547
 
 CREATE TABLE "ezcontentobject" (
 	"id" integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
-	"parent_id" integer NOT NULL,
 	"owner_id" integer DEFAULT '0' NOT NULL,
 	"section_id" integer DEFAULT '0' NOT NULL,
 	"contentclass_id" integer NOT NULL,
@@ -245,13 +244,13 @@ CREATE TABLE "ezcontentobject" (
 	Constraint "ezcontentobject_pkey" Primary Key ("id")
 );
 
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (1,0,0,2,1,1,'Frontpage',1,0,1,1033917596,1033917596);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (4,0,0,5,0,3,'Users',1,0,1,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (10,8,0,11,0,4,'Anonymous User',1,0,1,1033920665,1033920665);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (11,8,0,12,0,3,'Guest accounts',1,0,1,1033920746,1033920746);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (12,8,0,13,0,3,'Administrator users',1,0,1,1033920775,1033920775);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (13,8,0,14,0,3,'Editors',1,0,1,1033920794,1033920794);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, main_node_id, section_id, contentclass_id, name, current_version, is_published, permission_id, published, modified) VALUES (14,8,0,15,0,4,'Administrator User',1,0,1,1033920830,1033920830);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (1,0,1,1,'Frontpage',1,0,1033917596,1033917596);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (4,0,0,3,'Users',1,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (10,8,0,4,'Anonymous User',1,0,1033920665,1033920665);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (11,8,0,3,'Guest accounts',1,0,1033920746,1033920746);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (12,8,0,3,'Administrator users',1,0,1033920775,1033920775);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (13,8,0,3,'Editors',1,0,1033920794,1033920794);
+INSERT INTO ezcontentobject (id, owner_id,  section_id, contentclass_id, name, current_version, is_published,  published, modified) VALUES (14,8,0,4,'Administrator User',1,0,1033920830,1033920830);
 -- Name: ezcontentobject_s Type: SEQUENCE SET Owner: sp
 SELECT setval ('"ezcontentobject_s"', 15, true);
 
@@ -338,6 +337,7 @@ CREATE SEQUENCE "ezcontentobject_tree_s" start 16 increment 1 maxvalue 922337203
 
 CREATE TABLE "ezcontentobject_tree" (
 	"node_id" integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
+    "main_node_id" integer,
 	"parent_node_id" integer NOT NULL,
 	"contentobject_id" integer,
 	"contentobject_version" integer,
@@ -349,17 +349,18 @@ CREATE TABLE "ezcontentobject_tree" (
     "sort_field" integer default 1,
     sort_order smallint default 1,
     priority integer  default 0,
+    md5_path varchar(32),
 	Constraint "ezcontentobject_tree_pkey" Primary Key ("node_id")
 );
 
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (1,1,0,1,1,NULL,0,'/1/',NULL,1,16,NULL);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (2,1,1,1,1,1360594808,1,'/1/2/','',2,7,'frontpage');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (5,1,4,1,NULL,NULL,1,'/1/5/',NULL,8,15,NULL);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (11,5,10,1,1,-1609495635,2,'/1/5/11/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (12,5,11,1,1,-1609495635,2,'/1/5/12/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (13,5,12,1,1,-1609495635,2,'/1/5/13/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (14,5,13,1,1,-1609495635,2,'/1/5/14/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path, left_margin, right_margin, path_identification_string) VALUES (15,13,14,1,1,934329528,3,'/1/5/13/15/','',0,0,'users/administrator_users/');
+INSERT INTO ezcontentobject_tree (node_id, main_node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (1,1,1,0,1,1,NULL,0,'/1/',NULL,NULL);
+INSERT INTO ezcontentobject_tree (node_id,  main_node_id,parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (2,2,1,1,1,1,1360594808,1,'/1/2/','','frontpage');
+INSERT INTO ezcontentobject_tree (node_id,  main_node_id,parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (5,5,1,4,1,NULL,NULL,1,'/1/5/',NULL,NULL);
+INSERT INTO ezcontentobject_tree (node_id,  main_node_id,parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (11,11,5,10,1,1,-1609495635,2,'/1/5/11/','','users/');
+INSERT INTO ezcontentobject_tree (node_id,  main_node_id,parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (12,12,5,11,1,1,-1609495635,2,'/1/5/12/','','users/');
+INSERT INTO ezcontentobject_tree (node_id,  main_node_id,parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (13,13,5,12,1,1,-1609495635,2,'/1/5/13/','','users/');
+INSERT INTO ezcontentobject_tree (node_id, main_node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (14,14,5,13,1,1,-1609495635,2,'/1/5/14/','','users/');
+INSERT INTO ezcontentobject_tree (node_id, main_node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, md5_path,  path_identification_string) VALUES (15,15,13,14,1,1,934329528,3,'/1/5/13/15/','','users/administrator_users/');
 
 -- Name: ezcontentobject_tree_s Type: SEQUENCE SET Owner: sp
 SELECT setval ('"ezcontentobject_tree_s"', 16, true);
@@ -592,8 +593,8 @@ CREATE TABLE "ezorder" (
 	"user_id" integer NOT NULL,
 	"productcollection_id" integer NOT NULL,
 	"created" integer NOT NULL,
-    "is_temporary" integer not null default '1'
-    "order_nr" integer not null default '0';
+    "is_temporary" integer not null default '1',
+    "order_nr" integer not null default '0',
 	Constraint "ezorder_pkey" Primary Key ("id")
 );
 
@@ -1361,14 +1362,6 @@ CREATE INDEX ezcontentclass_id ON ezcontentclass USING btree (id);
 CREATE UNIQUE INDEX ezcontentobject_id ON ezcontentobject USING btree (id);
 
 --
--- TOC Entry ID 133 (OID 360691)
---
--- Name: "ezcontentobject_parent_id" Type: INDEX Owner: sp
---
-
-CREATE INDEX ezcontentobject_parent_id ON ezcontentobject USING btree (parent_id);
-
---
 -- TOC Entry ID 134 (OID 360692)
 --
 -- Name: "ezsearch_object_word_link_word" Type: INDEX Owner: sp
@@ -1464,3 +1457,32 @@ create index ezcontentclass_version on ezcontentclass(version);
 create index ezenumvalue_co_cl_attr_id_co_class_att_ver on ezenumvalue(contentclass_attribute_id,contentclass_attribute_version);
 create index ezenumobjectvalue_co_attr_id_co_attr_ver on ezenumobjectvalue(contentobject_attribute_id,contentobject_attribute_version);
 
+create table ezcontentobject_name(
+    contentobject_id int not null,
+    name varchar(255),
+    content_version int not null,
+    content_translation varchar(20) not null,
+    real_translation varchar(20),
+    primary key (contentobject_id,content_version, content_translation )
+    );
+insert into ezcontentobject_name select id,name,current_version,  'eng-GB', 'eng-GB' from ezcontentobject, ezcontentobject_tree where ezcontentobject.id = ezcontentobject_tree.contentobject_id;
+insert into ezcontentobject_name select id,name,current_version,  'nor-NO', 'eng-GB' from ezcontentobject, ezcontentobject_tree where ezcontentobject.id = ezcontentobject_tree.contentobject_id;
+
+alter table eznode_assignment add remote_id int;
+alter table ezsession add cache_mask_1 int;
+-- alter table ezcontentobject_tree add column md5_path varchar(32);
+-- update ezcontentobject_tree set md5_path = md5( path_identification_string );
+
+CREATE SEQUENCE "ezwaituntildatevalue_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+create table ezwaituntildatevalue(
+    id int DEFAULT nextval('ezwaituntildatevalue_s'::text) NOT NULL,
+    workflow_event_id int NOT NULL default '0',
+    workflow_event_version int NOT NULL default '0',
+    contentclass_id int NOT NULL default '0',
+    contentclass_attribute_id int NOT NULL default '0',
+    PRIMARY KEY  (id,workflow_event_id,workflow_event_version)
+    );
+create index ezwaituntildatevalue_wf_ev_id_wf_ver on ezwaituntildatevalue( workflow_event_id,workflow_event_version);
+alter table ezinformationcollection_attribute add contentclass_attribute_id int ;
+alter table eznode_assignment rename column main to is_main;
