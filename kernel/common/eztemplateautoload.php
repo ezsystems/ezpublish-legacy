@@ -62,6 +62,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiosortoperator
                                     'class' => 'eZHiOSortOperator',
                                     'operator_names' => array( 'hiosort' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
+                                    'class' => 'eZWordToImageOperator',
+                                    'operator_names' => array( 'wordtoimage' ) );
+
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'class' => 'eZTemplatePHPOperator',
