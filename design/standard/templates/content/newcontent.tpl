@@ -11,12 +11,12 @@
          time_filter=array( array( 'modified', '>=', $last_visit_timestamp ) )}
 
         {set list_items=fetch( content, tree, hash( parent_node_id, 2,
-                                                    offset, $view_parameters.offset,
+                                                    offset, first_set( $view_parameters.offset, 0),
                                                     attribute_filter, $time_filter,
                                                     sort_by, array( array( 'modified', false() ) ),
                                                     limit, $page_limit ) )
              list_count=fetch( content, tree_count, hash( parent_node_id, 2,
-                                                          offset, $view_parameters.offset,
+                                                          offset, first_set( $view_parameters.offset, 0),
                                                           attribute_filter, $time_filter ) )}
 
             <div class="content-view-children">

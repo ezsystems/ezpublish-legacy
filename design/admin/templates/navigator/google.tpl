@@ -9,7 +9,7 @@
 
 {let page_count=int( ceil( div( $item_count,$item_limit ) ) )
       current_page=min($:page_count,
-                       int( ceil( div( $view_parameters.offset,
+                       int( ceil( div( first_set( $view_parameters.offset, 0),
                                        $item_limit ) ) ) )
       item_previous=sub( mul( $:current_page, $item_limit ),
                          $item_limit )
