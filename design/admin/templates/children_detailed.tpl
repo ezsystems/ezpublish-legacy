@@ -10,12 +10,6 @@
         {* Class type column *}
         <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
 
-        {* Creator column *}
-        <th class="creator">{'Creator'|i18n( 'design/admin/layout' )}</th>
-
-        {* Created column *}
-        <th class="creator">{'Created'|i18n( 'design/admin/layout' )}</th>
-
         {* Modifier column *}
         <th class="creator">{'Last modifier'|i18n( 'design/admin/layout' )}</th>
 
@@ -59,12 +53,6 @@
 
         {* Class type *}
         <td>{$Nodes.item.object.class_name|wash()}</td>
-
-        {* Creator *}
-        <td>{$Nodes.item.object.owner.name|wash()}</td>
-
-        {* Created *}
-        <td>{$Node.item.published|l10n( shortdatetime )}</td>
 
         {* Modifier *}
         <td>{$Nodes.item.object.current.creator.name|wash()}</td>
