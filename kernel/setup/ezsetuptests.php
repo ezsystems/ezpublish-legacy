@@ -143,7 +143,7 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
     $testList = eZSetupConfigVariableArray( $type, 'TestList' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
 
-    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy=null );
+    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy = null );
     $testResults = $runResult['results'];
     $testResult = $runResult['result'];
     $successCount = $runResult['success_count'];
@@ -420,12 +420,12 @@ function eZSetupCheckExecutable( $type, &$arguments )
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
 
     /*
-     * We save once entered extra path in the persistent data list
-     * to keep it within setup steps.
-     *
-     * This treek is needed, for example, in "registration" step,
-     * where user has no chance to enter extra path again
-     * due to missing input field for this purpose.
+     We save once entered extra path in the persistent data list
+     to keep it within setup steps.
+
+     This trick is needed, for example, in "registration" step,
+     where user has no chance to enter extra path again
+     due to missing input field for this purpose.
      */
 
     // compute extra path
