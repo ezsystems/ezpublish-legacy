@@ -157,7 +157,7 @@ class eZTask extends eZPersistentObject
     function hasAttribute( $attr )
     {
         return ( $attr == 'creator' or $attr == 'receiver' or
-                 $attr == 'contentobject' or
+                 $attr == 'contentobject' or $attr == 'messages' or $attr == 'first_message' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -177,6 +177,22 @@ class eZTask extends eZPersistentObject
             {
                 include_once( 'kernel/classes/ezcontentobject.php' );
                 return eZContentObject::fetch( $this->ObjectID );
+            } break;
+            case 'messages':
+            {
+                include_once( 'kernel/classes/ezcontentobject.php' );
+                return eZContentObject::fetch( $this->ObjectID );
+            } break;
+            case 'first_message':
+            {
+                $db =& eZDB::instance();
+                $rows =& $db->arrayQuery( 'SELECT contentobject_id FROM eztask_message WHERE task_id=' . $this->ID . ' AND creator_type=1 ORDER BY created',
+                                          array( 'Limit' => 1 ) );
+                if ( count( $rows ) == 0 )
+                    return null;
+//                 return $rows[0]['contentobject_id'];
+                include_once( 'kernel/classes/ezcontentobject.php' );
+                return eZContentObject::fetch( $rows[0]['contentobject_id'] );
             } break;
             default:
                 return eZPersistentObject::attribute( $attr );

@@ -96,14 +96,14 @@ if ( $http->hasPostVariable( 'SendTaskButton' ) )
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $task->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $task->store();
-        return $Module->redirectTo( $Module->functionURI( 'list' ) );
+        return $Module->redirectTo( $Module->functionURI( 'view' ) );
     }
 }
 
 if ( $http->hasPostVariable( 'DiscardTaskButton' ) )
 {
     $task->remove();
-    return $Module->redirectTo( $Module->functionURI( 'list' ) );
+    return $Module->redirectTo( $Module->functionURI( 'view' ) );
 }
 
 $storeTask = false;

@@ -66,20 +66,26 @@ if ( $http->hasPostVariable( 'NewAssignmentButton' ) )
     return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_ASSIGNMENT ) );
 }
 
-$parentTaskID = 0;
-if ( isset( $Params['ParentTaskID'] ) )
-    $parentTaskID =& $Params['ParentTaskID'];
+$TaskID = 0;
+if ( isset( $Params['TaskID'] ) )
+    $TaskID =& $Params['TaskID'];
 
-$incomingTaskList =& eZTask::fetchList( $currentUserID, $parentTaskID, true );
-$outgoingTaskList =& eZTask::fetchList( $currentUserID, $parentTaskID, false );
+$incomingTaskList =& eZTask::fetchList( $currentUserID, $TaskID, true );
+$outgoingTaskList =& eZTask::fetchList( $currentUserID, $TaskID, false );
+
+$task = null;
+if ( is_numeric( $TaskID ) and $TaskID > 0 )
+    $task = eZTask::fetch( $TaskID );
 
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 $tpl->setVariable( "incoming_task_list", $incomingTaskList );
 $tpl->setVariable( "outgoing_task_list", $outgoingTaskList );
+$tpl->setVariable( 'task', $task );
+$tpl->setVariable( 'task_id', $TaskID );
 $tpl->setVariable( 'module', $Module );
 
-$Result =& $tpl->fetch( "design:task/list.tpl" );
+$Result =& $tpl->fetch( "design:task/view.tpl" );
 
 ?>

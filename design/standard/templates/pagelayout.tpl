@@ -72,7 +72,7 @@
 <tr><td><a href="/search/stats/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Search stats</nobr></a></td></tr>
 <tr><td><a href="/role/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Roles </nobr></a></td></tr>
 <tr><td><a href="/section/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Sections </nobr></a></td></tr>
-<tr><td><a href="/task/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Tasks </nobr></a></td></tr>
+<tr><td><a href="/task/view/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Tasks </nobr></a></td></tr>
 <tr><td><b>Current user:</b>{$current_user.login}</td></tr>
 <tr><td><b>Member of groups</b> 
 {section name=groups loop=$current_user.groups}

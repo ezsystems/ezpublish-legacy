@@ -1,6 +1,10 @@
-<form action="{$module.functions.list.uri}" method="post" name="TaskList">
+<form action="{$module.functions.view.uri}" method="post" name="TaskList">
 
+{section show=$task_id|gt(1)}
+<h1>Task view</h1>
+{section-else}
 <h1>Task list</h1>
+{/section}
 
 <table cellspacing="0" width="100%">
 <tr><td colspan="6"><h2>Incoming</h2></td></tr>
@@ -9,12 +13,17 @@
 </tr>
 {section name=Incoming loop=$incoming_task_list sequence=array('bglight','bgdark')}
 <tr>
-  <td class="{$Incoming:sequence}"><a href="{$module.functions.list.uri}/{$Incoming:item.id}">{$Incoming:item.id}</a></td>
+  <td class="{$Incoming:sequence}"><a href="{$module.functions.view.uri}/{$Incoming:item.id}">{$Incoming:item.id}</a></td>
   <td class="{$Incoming:sequence}">
 {section show=$Incoming:item.task_type|eq(1)}
+{let message=$Incoming:item.first_message}
+  {section show=$Incoming:message}
+  {$Incoming:message.name}
+  {/section}
+{/let}
 {section-else}
   {section show=$Incoming:item.object_id|gt(0)}
-  {$Incoming:item.contentobject.name}
+  Assigned object '{$Incoming:item.contentobject.name}'
   {/section}
 {/section}
   </td>
@@ -33,10 +42,18 @@
 </tr>
 {section name=Outgoing loop=$outgoing_task_list sequence=array('bglight','bgdark')}
 <tr>
-  <td class="{$Outgoing:sequence}"><a href="{$module.functions.list.uri}/{$Outgoing:item.id}">{$Outgoing:item.id}</a></td>
+  <td class="{$Outgoing:sequence}"><a href="{$module.functions.view.uri}/{$Outgoing:item.id}">{$Outgoing:item.id}</a></td>
   <td class="{$Outgoing:sequence}">
-{section show=$Outgoing:item.object_id|gt(0)}
-{$Outgoing:item.contentobject.name}
+{section show=$Outgoing:item.task_type|eq(1)}
+{let message=$Outgoing:item.first_message}
+  {section show=$Outgoing:message}
+  {$Outgoing:message.name}
+  {/section}
+{/let}
+{section-else}
+  {section show=$Outgoing:item.object_id|gt(0)}
+  Assigned object '{$Outgoing:item.contentobject.name}'
+  {/section}
 {/section}
   </td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.task_type|choose('None','Task','Assignment')}</td>

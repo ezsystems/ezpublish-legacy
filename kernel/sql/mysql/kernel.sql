@@ -567,3 +567,15 @@ PRIMARY KEY(id) );
 --              VALUES(3,  1,         2,      1,               92,         155,         1031216781, 1031216781);
 -- INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
 --              VALUES(4,  1,         2,      1,               11,         92,         1031217781, 1031217781);
+
+DROP TABLE IF EXISTS eztask_message;
+CREATE TABLE eztask_message (
+id int AUTO_INCREMENT NOT NULL,
+task_id int NOT NULL,
+contentobject_id int NOT NULL,
+created int NOT NULL,
+creator_type int NOT NULL,
+PRIMARY KEY(id) );
+
+-- INSERT INTO eztask_message (id, task_id, contentobject_id, created,    creator_type)
+--                      VALUES(1,  16,      24,               1031214781, 1);

@@ -38,7 +38,7 @@ $ViewList = array();
 $ViewList["edit"] = array(
     "script" => "edit.php",
     "params" => array( "TaskID" ) );
-$ViewList["list"] = array(
-    "script" => "list.php",
-    "params" => array( 'ParentTaskID' ) );
+$ViewList["view"] = array(
+    "script" => "view.php",
+    "params" => array( 'TaskID' ) );
 ?>
