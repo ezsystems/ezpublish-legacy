@@ -637,6 +637,10 @@ class eZDOMNode
                     $attrStr = " xmlns" . $attrPrefix . "=\"" . $this->namespaceURI() . "\"";
                 }
 
+                $prefix = "";
+                if ( $this->Prefix != false )
+                    $prefix = $this->Prefix. ":";
+
                 // generate attributes string
                 if ( count( $this->Attributes ) > 0 )
                 {
@@ -648,7 +652,7 @@ class eZDOMNode
                             $attrPrefix = $attr->prefix(). ":";
 
                         if ( $i > 0 )
-                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $this->Name ) + 1 + 1  );
+                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $prefix . $this->Name ) + 1 + 1  );
                         else
                             $attrStr .= ' ';
 
@@ -668,11 +672,6 @@ class eZDOMNode
                     $oneLinerEnd = " /";
                 else
                     $oneLinerEnd = "";
-
-
-                $prefix = "";
-                if ( $this->Prefix != false )
-                    $prefix = $this->Prefix. ":";
 
                 $ret = '';
                 if ( $level > 0 )

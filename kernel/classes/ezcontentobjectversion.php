@@ -1035,7 +1035,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentNodeArray = eZContentObjectTreeNode::fetchByContentObjectID( $this->ContentObjectID, true, $this->Version );
         foreach( $contentNodeArray as $contentNode )
         {
-            $contentNodeDOMNode = $contentNode->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
+            $contentNodeDOMNode =& $contentNode->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
             if ( $contentNodeDOMNode !== false )
             {
                 $nodeAssignmentListNode->appendChild( $contentNodeDOMNode );
