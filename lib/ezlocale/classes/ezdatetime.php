@@ -89,7 +89,6 @@ print( $dt1->isEqualTo( $dt3 ) ? 'true' : 'false' ); // Prints 'true'
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 include_once( 'lib/ezlocale/classes/ezdate.php' );
 include_once( 'lib/ezlocale/classes/eztime.php' );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZDateTime
 {
