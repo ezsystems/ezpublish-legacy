@@ -17,10 +17,8 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="headlogo" width="560">
-    {* Admin logo area *}
     <img src={"ezpublish_logo_blue.gif"|ezimage} alt="" /></td>
     <td class="headlink" width="66">
-    {* Content menu *}
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
