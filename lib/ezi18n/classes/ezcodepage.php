@@ -498,7 +498,8 @@ $str
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
 
-            if ( ! @mkdir( $cache_dir, $permissionArray['dir_permission'] ) )
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
                 eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
 
             // Restore the old umask.
