@@ -94,6 +94,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
 //                 $canCreate = $newNodeObject->attribute( 'can_create' );
                 $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
+                eZDebug::writeDebug( array( $canCreate ), "canCreate");
                 if ( !$canCreate )
                     $isPermitted = false;
                 else
@@ -110,6 +111,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 }
                 if ( !$isPermitted )
                 {
+                    eZDebug::writeError( $newNode->attribute( 'path_identification_string' ), "You are not allowed to place this object under:" );
                     // Error message.
                 }
                 else
@@ -182,6 +184,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     }
                     if ( !$isPermitted )
                     {
+                        eZDebug::writeError( $newNode->attribute( 'path_identification_string' ), "You are not allowed to place this object under:" );
                         // Error message.
                     }
                     else
