@@ -34,8 +34,10 @@
             </div>
         {/section}
 
-        <div class="tipafriend">
-          <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>{"Tip a friend"|i18n("design/news/layout")}</a>
+        <div class="content-tipafriend">
+          <p>
+             <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>{"Tip a friend"|i18n("design/news/layout")}</a>
+          </p>
         </div>
 
         {* Should we allow comments? *}
