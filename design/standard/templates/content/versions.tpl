@@ -1,3 +1,6 @@
+{let page_limit=30
+     list_count=fetch('content','version_count', hash(contentobject, $object))}
+
 <form action={concat("/content/versions/",$object.id,"/")|ezurl} method="post">
 
 <div class="maincontentheader">
@@ -27,6 +30,8 @@
 {/case}
 {/switch}
 
+{let version_list=fetch('content','version_list',hash(contentobject, $object,limit,$page_limit,offset,$view_parameters.offset))}
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
@@ -45,7 +50,7 @@
 	{"Modified:"|i18n("design/standard/content/version")}
 	</th>
 </tr>
-{section name=Version loop=$versions sequence=array(bglight,bgdark)}
+{section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$edit_language|not|choose(array($edit_language,"/"),""))|ezurl}>{$Version:item.version}</a>
@@ -73,6 +78,12 @@
 {/section}
 <tr>
 </table>
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/versions/', $object.id, '///', )
+         item_count=$list_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 <div class="buttonblock" align="right">
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/version')}" />
@@ -82,3 +93,6 @@
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 
 </form>
+
+{/let}
+{/let}

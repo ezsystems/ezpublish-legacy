@@ -169,7 +169,8 @@ $ViewList["versions"] = array(
                                                                'EditLanguage' => 'EditLanguage' ),
                                        'Edit' => array( 'VersionID' => 'RevertToVersionID',
                                                         'EditLanguage' => 'EditLanguage' ) ),
-    "params" => array( "ObjectID" ,'EditVersion', 'EditLanguage' ) );
+    "params" => array( "ObjectID" ,'EditVersion', 'EditLanguage' ),
+    "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["translate"] = array(
     "functions" => array( 'edit' ),

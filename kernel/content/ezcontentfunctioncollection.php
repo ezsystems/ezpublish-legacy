@@ -247,6 +247,29 @@ class eZContentFunctionCollection
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
+
+    function fetchVersionList( $contentObject, $offset, $limit )
+    {
+        $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                              null, array(  'contentobject_id' => $contentObject->attribute("id") ),
+                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                   true );
+        return array( 'result' => &$versionList );
+
+    }
+
+    function fetchVersionCount( $contentObject )
+    {
+        $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                   array(), array( 'contentobject_id' => $contentObject->attribute("id") ),
+                                                                   array(), null,
+                                                                   false,false,
+                                                                   array( array( 'operation' => 'count( * )',
+                                                                                 'name' => 'count' ) ) );
+        return array( 'result' => $versionList[0]['count'] );
+    }
+
+    
     function canInstantiateClassList( $groupID, $parentNode )
     {
         eZDebug::writeDebug( $parentNode, "parent node" );

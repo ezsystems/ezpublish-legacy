@@ -47,6 +47,9 @@ $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
 $EditLanguage = $Params['EditLanguage'];
 
+$Offset = $Params['Offset'];
+$viewParameters = array( 'offset' => $Offset );
+
 $object =& eZContentObject::fetch( $ObjectID );
 $editWarning = false;
 
@@ -122,6 +125,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
+$tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );

@@ -302,6 +302,34 @@ $FunctionList['draft_version_list'] = array( 'name' => 'draft_version_list',
                                                                            'required' => false,
                                                                            'default' => false ) ) );
 
+$FunctionList['version_count'] = array( 'name' => 'version_count',
+                                      'operation_types' => array( 'read' ),
+                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                              'class' => 'eZContentFunctionCollection',
+                                                              'method' => 'fetchVersionCount' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array( array( 'name' => 'contentobject',
+                                                                           'type' => 'object',
+                                                                           'required' => true) ) );
+
+$FunctionList['version_list'] = array( 'name' => 'version_list',
+                                             'operation_types' => array( 'read' ),
+                                             'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                     'class' => 'eZContentFunctionCollection',
+                                                                     'method' => 'fetchVersionList' ),
+                                             'parameter_type' => 'standard',
+                                             'parameters' => array( array( 'name' => 'contentobject',
+                                                                           'type' => 'object',
+                                                                           'required' => true),
+                                                                    array( 'name' => 'offset',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ),
+                                                                    array( 'name' => 'limit',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ) ) );
+
 
 
 $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_class_list',

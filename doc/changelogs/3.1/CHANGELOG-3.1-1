@@ -25,6 +25,7 @@ Changes from 3.0-? to 3.1
 - Added support for specifying optional conditions when fetching version list in ezcontentobject.
 - Added version_name attribute to ezcontentobjectversion.php which returns the calculated name for the version.
 - Added support for draft checking in content/edit, if drafts exists the user is warned and given some options before continuing.
+- Added google navigator in versions management.
 
 Binary file:
 - Added support for resuming downloads.
