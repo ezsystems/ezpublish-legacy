@@ -256,9 +256,11 @@ $ViewList['versions'] = array(
     'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
                                     'EditButton' => 'Edit' ),
     'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID',
-                                                               'EditLanguage' => 'EditLanguage' ),
+                                                               'EditLanguage' => 'EditLanguage',
+                                                               'VersionKeyArray' => 'CopyVersionButton' ),
                                        'Edit' => array( 'VersionID' => 'RevertToVersionID',
-                                                        'EditLanguage' => 'EditLanguage' ) ),
+                                                        'EditLanguage' => 'EditLanguage',
+                                                        'VersionKeyArray' => 'EditButton' ) ),
     'params' => array( 'ObjectID' ,'EditVersion', 'EditLanguage' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 

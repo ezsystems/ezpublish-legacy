@@ -51,6 +51,7 @@
 	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
     <th class="tight">&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Versions loop=$version_list sequence=array( bglight, bgdark )}
@@ -88,11 +89,15 @@
 
     <td>
     {section show=$can_edit}
-        <input type="radio" name="RevertToVersionID" value="{$Versions.item.version}" {section show=eq( $Versions.item.version, $edit_version )}checked="checked"{/section} />
-	{section-else}
-        <input type="radio" name="" value="" disabled="disabled" />
+        <input type="image" name="CopyVersionButton[{$Versions.item.version}]" src={"copy.gif"|ezimage} alt="{'Copy and edit'|i18n( 'design/admin/content/versions' )}" />
+    </td>
+
+    <td>
+        {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ) ) }
+            <input type="image" name="EditButton[{$Versions.item.version}]" src={"edit.png"|ezimage} alt="{'Edit'|i18n( 'design/admin/content/versions' )}" />
+        {/section}
     {/section}
-	</td>
+    </td>
 </tr>
 {/section}
 
@@ -110,13 +115,6 @@
 <div class="controlbar">
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" {section show=$can_remove|not}disabled="disabled"{/section} />
-
-{section show=$can_edit}
-<div class="right">
-<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/versions' )}" />
-<input class="button" type="submit" name="CopyVersionButton" value="{'Copy and edit'|i18n( 'design/admin/content/versions' )}" />
-</div>
-{/section}
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 </div>

@@ -95,13 +95,21 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
+$user =& eZUser::currentUser();
+
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
     if ( !$canEdit )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
     $versionID = false;
-    if ( $Module->hasActionParameter( 'VersionID' ) )
+
+    if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
+    {
+        $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+        $versionID = $versionID[0];
+    }
+    else if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
     if ( $Module->hasActionParameter( 'EditLanguage' ) and
          $Module->actionParameter( 'EditLanguage' ) )
@@ -109,8 +117,6 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     $version =& $object->version( $versionID );
     if ( $version === null )
         $versionID = false;
-
-    $user =& eZUser::currentUser();
 
     if ( $versionID !== false and
          $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT )
@@ -154,7 +160,14 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     $versionCount = $object->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        $versionID = $Module->actionParameter( 'VersionID' );
+        if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
+        {
+            $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+            $versionID = $versionID[0];
+        }
+        else
+            $versionID = $Module->actionParameter( 'VersionID' );
+
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
@@ -195,7 +208,14 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 }
             }
             $removeVersion->remove();
-            $versionID = $Module->actionParameter( 'VersionID' );
+
+            if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
+            {
+                $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+                $versionID = $versionID[0];
+            }
+            else
+                $versionID = $Module->actionParameter( 'VersionID' );
 
             $versions =& $object->versions();
             foreach ( array_keys( $versions ) as $versionKey )
@@ -239,6 +259,7 @@ $tpl->setVariable( 'versions', $versions );
 $tpl->setVariable( 'edit_warning', $editWarning );
 $tpl->setVariable( 'can_edit', $canEdit );
 $tpl->setVariable( 'can_remove', $canRemove );
+$tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
