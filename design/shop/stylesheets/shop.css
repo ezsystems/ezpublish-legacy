@@ -401,7 +401,7 @@ div.readmore a
 
 div.articleline
 {
-    clear: both;
+    clear: none;
 }
 
 div.articleline h2 a
@@ -431,7 +431,7 @@ div.listimage
 
 div.productline
 {
-    clear: both;
+    clear: none;
 }
 
 div.productnumber p
