@@ -30,11 +30,10 @@ The admin user face in eZ publish 3 is where you do all the work on your content
 
 <h2 id="Sections">Sections</h2>
 <p>
-You will use sections to name the different parts of your site. These are the main folders where all the content is stored and published. In our demo the sections are Standard, Whitebox, News, Crossroads, Bookcorner, My company, Intranet and MySite. for a newspaper typical sections can be News, Sports, Economy, Weather etc.  
-Endre Design og sette rettigheter
-
-Wenyue forklar videre. Hvordan fungerer dette og hvordan fungerer det i forhold til folders?
-
+You will use sections to name the different parts of your site. These are the main folders where all the content is stored and published. In our demo the sections are Standard, Whitebox, News, Crossroads, Bookcorner, My company, Intranet and MySite. for a newspaper typical sections can be News, Sports, Economy, Weather etc.
+The section information are basically used for two things, permissions and layout. You make different
+people access different parts of your site based on the section information. You normally also use
+the section information to create different layout on the different parts of your site.
 </p>
 
 <h2 id="Create">How to create a folder</h2>
