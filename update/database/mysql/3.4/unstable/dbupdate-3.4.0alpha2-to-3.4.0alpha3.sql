@@ -14,7 +14,7 @@ ALTER TABLE ezcontentclass ADD COLUMN remote_id varchar(100) NOT NULL default ''
 ALTER TABLE ezcontentobject_tree ADD COLUMN remote_id varchar(100) NOT NULL default '';
 
 ---
---- Add node_remote_id to eznode_assigment
+--- Add parent_remote_id to eznode_assigment
 ---
 
-ALTER TABLE eznode_assignment ADD COLUMN node_remote_id varchar(100) NOT NULL default '';
+ALTER TABLE eznode_assignment ADD COLUMN parent_remote_id varchar(100) NOT NULL default '';

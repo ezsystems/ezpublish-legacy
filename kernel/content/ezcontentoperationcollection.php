@@ -218,9 +218,9 @@ class eZContentOperationCollection
         $nodeID = $nodeAssignment->attribute( 'parent_node' );
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
-        if ( strlen( $nodeAssignment->attribute( 'node_remote_id' ) ) > 0 )
+        if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
-            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'node_remote_id' ) );
+            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
         }
         if ( !$existingNode );
         {
@@ -256,9 +256,9 @@ class eZContentOperationCollection
             }
         }
 
-        if ( strlen( $nodeAssignment->attribute( 'node_remote_id' ) ) > 0 )
+        if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
-            $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'node_remote_id' ) );
+            $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
         }
         $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );

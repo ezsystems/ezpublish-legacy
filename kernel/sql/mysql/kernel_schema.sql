@@ -667,7 +667,7 @@ CREATE TABLE eznode_assignment (
   is_main int(11) NOT NULL default '0',
   from_node_id int(11) default '0',
   remote_id int(11) NOT NULL default '0',
-  node_remote_id varchar(100) NOT NULL default '',
+  parent_remote_id varchar(100) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

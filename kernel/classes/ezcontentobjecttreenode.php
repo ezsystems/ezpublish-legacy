@@ -2616,7 +2616,7 @@ WHERE
                                                             'contentobject_version' => $version,
                                                             'is_main' => $isMain,
                                                             'parent_node' => $parentNodeID,
-                                                            'node_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
+                                                            'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
                                                             'sort_field' => $contentNodeDOMNode->attributeValue( 'sort-field' ),
                                                             'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
                                                             'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) ) );

@@ -9,6 +9,6 @@ ALTER TABLE ezcontentobject_tree ADD COLUMN remote_id varchar(100);
 ALTER TABLE ezcontentobject_tree ALTER remote_id SET NOT NULL;
 ALTER TABLE ezcontentobject_tree ALTER remote_id SET default '';
 
-ALTER TABLE eznode_assignment ADD COLUMN node_remote_id varchar(100);
-ALTER TABLE eznode_assignment ALTER node_remote_id NOT NULL;
-ALTER TABLE eznode_assignment ALTER node_remote_id SET default '';
+ALTER TABLE eznode_assignment ADD COLUMN parent_remote_id varchar(100);
+ALTER TABLE eznode_assignment ALTER parent_remote_id NOT NULL;
+ALTER TABLE eznode_assignment ALTER parent_remote_id SET default '';
