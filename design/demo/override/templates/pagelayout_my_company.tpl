@@ -2,7 +2,6 @@
 {let gallery_limit=8
      gallery_pre_items=2
      gallery_post_items=2}
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -34,24 +33,14 @@ function OpenWindow ( URL, WinName, Features ) {
 
 {* Top box START *}
 
-<img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" /><br /><br />
-
-<map name="map">
-<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-</map>
+{include uri="design:top_menu.tpl"}
 
 {* FIX ME PARENT NODE ID IN FETCH *}
 {let folder_list=fetch( content, list, hash(
-                                       parent_node_id, 158,
+                                       parent_node_id, 20,
                                        sort_by, array( array( priority ) ) ) )
 news_list=fetch( content, list, hash(
-                                parent_node_id, 159, 
+                                parent_node_id, 33, 
                                 limit, 5, 
                                 sort_by, array( published, false() ),
                                 class_filter_type, include, 
@@ -120,7 +109,7 @@ news_list=fetch( content, list, hash(
 	    {section name=Menu show=eq( $DesignKeys:used.viewmode, 'full' ) loop=fetch( content, list, hash(
                                                                                  parent_node_id, $DesignKeys:used.node,
 		    							         class_filter_type, include,
-									         class_filter_array, array( 1, 24 ) ) )}
+									         class_filter_array, array( 1, 10 ) ) )}
 	        <p class="leftmenuitem"><a href={concat('content/view/full/', $Menu:item.node_id)|ezurl}>{$Menu:item.name|wash}</a></p>
 	        {delimiter}
 	        {/delimiter}

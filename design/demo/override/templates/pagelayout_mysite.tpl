@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/mysite.css"|ezdesign} />
+<link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+<link rel="stylesheet" type="text/css" href={"stylesheets/mysite.css"|ezdesign} />
 
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
@@ -13,19 +13,12 @@
 
 <body>
 
-<img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" />
+{include uri="design:top_menu.tpl"}
 
-<map name="map">
-<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-</map>
-
-{let page_list=fetch(content,list,hash(parent_node_id,210,sort_by,array(array(published,false())),limit,10))}
+{let page_list=fetch( content, list, hash( 
+                                     parent_node_id, 22,
+                                     sort_by,array( array( published, false() ) ),
+                                     limit, 10 ) )}
 
 <table class="mainlayout" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,5 +1,5 @@
 {*?template charset=utf8?*}
-
+STANDAR
 {let gallery_limit=8
      gallery_pre_items=2
      gallery_post_items=2}
@@ -52,18 +52,13 @@ function OpenWindow ( URL, WinName, Features ) {
 {* FIX ME NODE ID IN FETCH *}
 {let folder_list=fetch( content, list, hash(
 				       parent_node_id, 158, 
-				       sort_by, array( array( priority ) )
-				       )
-		      )
+				       sort_by, array( array( priority ) ) ) )
      news_list=fetch( content, list, hash( 
      				     parent_node_id, 159, 
 				     limit, 5,
 				     sort_by, array( published, false() ),
 				     class_filter_type, include,
-				     class_filter_array, array( 2 )
-				     )
-		     )
-}
+				     class_filter_array, array( 2 ) ) )}
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>

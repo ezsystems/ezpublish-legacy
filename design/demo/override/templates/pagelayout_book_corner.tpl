@@ -10,26 +10,15 @@
 
 <body>
 
-<img src={"topmenu.gif"|ezimage} alt="" border="" USEMAP="#map" />
+{include uri="design:top_menu.tpl"}
 
-<MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/211/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/FIXME_PAGELAYOUT_SECTION_5"|ezurl}>
-</MAP>
-
-{* FIX ME PARENT NODE AND CLASS ID IN FETCH *}
-{let folder_list=fetch( content, list, hash( parent_node_id, 60 ) )
+{let folder_list=fetch( content, list, hash( parent_node_id, 19 ) )
      product_list=fetch( content, tree, hash( 
-                                        parent_node_id, 60, 
+                                        parent_node_id, 19, 
                                         limit, 20, 
                                         sort_by, array( array( published ) ),
                                         class_filter_type, include,
-                                        class_filter_array, array( 22 ) ) ) }
+                                        class_filter_array, array( 8 ) ) ) }
 
 <br clear="all" />
 <br />

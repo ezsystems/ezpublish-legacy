@@ -1,5 +1,5 @@
 {*?template charset=utf8?*}
-
+FORUM
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -11,17 +11,7 @@
 
 <body>
 
-<img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" />
-
-<map name="map">
-<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/FIXME_PAGELAYOUT_SECTION_4"|ezurl}>
-</map>
+{include uri="design:top_menu.tpl"}
 
 <table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>

@@ -3,7 +3,6 @@
      gallery_pre_items=2
      gallery_post_items=2
 }
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -37,21 +36,9 @@ function OpenWindow ( URL, WinName, Features ) {
     
 {* Top box START *}
 
-<img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" />
-
-<map name="map">
-<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-<area shape="rect" coords="450,1,523,24" target="_blank" href={"content/view/full/82/"|ezurl}>
-</map>
+{include uri="design:top_menu.tpl"}
 
 <br />
-
 <img src={"images/whiteboxlogo.png"|ezdesign} alt="White box - contemporary art gallery" />
 
 <!-- Top box END -->
@@ -66,9 +53,9 @@ function OpenWindow ( URL, WinName, Features ) {
 <table class="layout" width="700" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td bgcolor="#cccccc">
-        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>About</a><br /> 
-        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>Links</a><br /> 
-        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>About</a><br /> 
+        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/60"|ezurl}>About</a><br /> 
+        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/60"|ezurl}>Links</a><br /> 
+        &nbsp;&nbsp;:: <a class="small" href={"content/view/full/60"|ezurl}>About</a><br /> 
     </td>
     <td bgcolor="#e8e8e8">
     {section name=Gallery loop=$gallery_list}
