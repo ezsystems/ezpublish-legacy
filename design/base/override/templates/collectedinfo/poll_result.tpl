@@ -1,4 +1,5 @@
 {set-block scope=global variable=title}{'Poll %pollname'|i18n('design/standard/content/poll',,hash('%pollname',$node.name))}{/set-block}
+<div id="poll_result">
 
 <h1>{'Results'|i18n( 'design/standard/content/poll' )}</h1>
 
@@ -18,7 +19,6 @@
 
 {/section}
 
-<div id="poll_result">
 {section loop=$object.contentobject_attributes}
     {section show=$:item.contentclass_attribute.is_information_collector}
 	{let  attribute=$:item
@@ -29,60 +29,57 @@
      total_count=fetch('content','collected_info_count', hash( 'object_attribute_id', $contentobject_attribute_id ) )
      item_counts=fetch('content','collected_info_count_list', hash( 'object_attribute_id', $contentobject_attribute_id  ) ) }
 
-<h3>{$contentobject_attribute.content.name}</h3>
+        <h3>{$contentobject_attribute.content.name}</h3>
 
-<table cellspacing="0">
-<tr>
+        <table cellspacing="0">
+        <tr>
 
-{section name=Option loop=$contentobject_attribute.content.option_list}
-    {let item_count=0}
-    {section show=is_set($item_counts[$:item.id])}
-        {set item_count=$item_counts[$:item.id]}
-    {/section}
-    <td>
-        {$:item.value}
-    </td>
-    <td>
-        <table width="300">
-	    <tr>
-            <td class="small" align="left">
-                <i>{round(div(mul($:item_count,100),$total_count))}%</i>
+        {section name=Option loop=$contentobject_attribute.content.option_list}
+            {let item_count=0}
+            {section show=is_set($item_counts[$:item.id])}
+                {set item_count=$item_counts[$:item.id]}
+            {/section}
+            <td>
+            <div class="attribute-byline">
+                {$:item.value}
+            </div>
             </td>
-            <td class="small" align="right">
-                Votes: {$:item_count}
+            <td>
+                <table width="300">
+                <tr>
+                    <td class="small" align="left">
+                        <i>{round(div(mul($:item_count,100),$total_count))}%</i>
+                    </td>
+                    <td class="small" align="right">
+                        {'Votes:'|i18n('design/standard/content/poll')} {$:item_count}
+                    </td>
+                </tr>
+                <tr>
+                    {section show=$:item_count}
+                    <td class="voted-area" width="{div(mul($:item_count,300),$total_count)}">&nbsp;</td>
+                    <td class="empty-area" width="{sub(300,div(mul($:item_count,300),$total_count))}">&nbsp;</td>
+                    {section-else}
+                    <td colspan="2" class="empty-area" width="300">&nbsp;</td>
+                    {/section}
+                </tr>
+                </table>
             </td>
+            {/let}
+
+            {delimiter}
         </tr>
         <tr>
-            {section show=$:item_count}
-            <td bgcolor="#003366" width="{div(mul($:item_count,300),$total_count)}">&nbsp;</td>
-            <td bgcolor="#eeeeee" width="{sub(300,div(mul($:item_count,300),$total_count))}">&nbsp;</td>
-            {section-else}
-            <td colspan="2" bgcolor="#eeeeee" width="300">&nbsp;</td>
-            {/section}
+            {/delimiter}
+
+        {/section}
         </tr>
         </table>
-    </td>
     {/let}
-
-    {delimiter}
-</tr>
-<tr>
-    {/delimiter}
-
-{/section}
-</tr>
-</table>
-
-{/let}
-
     {section-else}
-
         {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
-            <div class="object_title">{attribute_view_gui attribute=$:item}</div>
+            <div class="attribute-short">{attribute_view_gui attribute=$:item}</div>
         {/section}
-
     {/section}
-
 {/section}
 
 <br/>
