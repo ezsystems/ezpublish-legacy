@@ -109,7 +109,7 @@ This is the desc..This is the desc..This is the desc..This is the desc..This is 
 //$db->commit();
 $db->rollback();
 
-$ret =& $db->arrayQuery( "SELECT id, name, description, rownum FROM sql_test WHERE id>100", array( "Offset" => 0, "Limit" => 2 ) );
+$ret =& $db->arrayQuery( "SELECT id, name, description, rownum FROM sql_test WHERE id>100", array( "offset" => 0, "limit" => 2 ) );
 
 eZDebug::writeNotice( $ret );
 

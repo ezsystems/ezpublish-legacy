@@ -44,36 +44,43 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "lib/ezdb/classes/ezdbinterface.php" );
 
-class eZOracleDB
+class eZOracleDB extends eZDBInterface
 {
     /*!
       Creates a new eZOracleDB object and connects to the database.
     */
-    function eZOracleDB( $server, $user, $password, $db )
+    function eZOracleDB( $parameters )
     {
+        $this->eZDBInterface( $parameters );
+
+        $server = $this->Server;
+        $user = $this->User;
+        $password = $this->Password;
+        $db = $this->DB;
+
         putenv( "ORACLE_SID=oracl" );
         putenv( "ORACLE_HOME=/usr/oracle" );
         $ini =& eZINI::instance();
-        $this->OutputSQL = $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
 
-//        $this->Database = ora_logon( $user, $password );
+//        $this->DBConnection = ora_logon( $user, $password );
 
-//             $this->Database = OCILogon( $user, $password, $db );
-        
+//             $this->DBConnection = OCILogon( $user, $password, $db );
+
         if ( function_exists( "OCILogon" ) )
         {
 
-            $this->Database = OCILogon( $user, $password);//, $db );
-//            OCIInternalDebug(1); 
+            $this->DBConnection = OCILogon( $user, $password);//, $db );
+//            OCIInternalDebug(1);
 
 //            print( $user . ' ' . $password . '<br/>' ) ;
-            if ( $this->Database === false )
+            if ( $this->DBConnection === false )
                 $this->IsConnected = false;
             else
                 $this->IsConnected = true;
 
-            if ( $this->Database === false )
+            if ( $this->DBConnection === false )
             {
                 $error =& OCIError();
                 eZDebug::writeError( "Connection error(" . $error["code"] . "):\n". $error["message"] .  " ", "eZOracleDB" );
@@ -87,29 +94,34 @@ class eZOracleDB
     }
 
     /*!
-      Returns the driver type.
+      \reimp
     */
-    function isA()
+    function databaseName()
     {
-        return "oracle";
+        return 'oracle';
     }
 
     /*!
-      Runs a query to the Oracle database.
+      \reimp
     */
     function &query( $sql )
     {
         if ( $this->isConnected() )
         {
             if ( $this->OutputSQL )
-                eZDebug::writeNotice( "$sql", "eZOracle::query()" );
+                $this->startTimer();
 
-            $statement = OCIParse( $this->Database, $sql );
+            $statement = OCIParse( $this->DBConnection, $sql );
             if ( $statement )
             {
                OCIExecute( $statement, OCI_DEFAULT );
-               OCICommit ( $this->Database );
+               OCICommit ( $this->DBConnection );
 
+               if ( $this->OutputSQL )
+               {
+                   $this->endTimer();
+                   $this->reportQuery( 'eZOracleDB', $sql, false, $this->timeTaken() );
+               }
             }
             else
             {
@@ -120,9 +132,9 @@ class eZOracleDB
     }
 
     /*!
-      Returns the result from the SQL query as a PHP array.
+      \reimp
     */
-    function arrayQuery( $sql, $params=array() )
+    function arrayQuery( $sql, $params = array() )
     {
         $resultArray = array();
 
@@ -138,31 +150,37 @@ class eZOracleDB
 
 
                 $column = false;
-                if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
+                if ( isset( $params["limit"] ) and is_numeric( $params["limit"] ) )
                 {
-                    $limit = $params["Limit"];
+                    $limit = $params["limit"];
                 }
 
-                if ( isset( $params["Offset"] ) and is_numeric( $params["Offset"] ) )
+                if ( isset( $params["offset"] ) and is_numeric( $params["offset"] ) )
                 {
-                    $offset = $params["Offset"];
+                    $offset = $params["offset"];
                 }
-                if ( isset( $params["Column"] ) and is_numeric( $params["Column"] ) )
-                    $column = $params["Column"];
+                if ( isset( $params["column"] ) and is_numeric( $params["column"] ) )
+                    $column = $params["column"];
             }
-
-
 
             if ( $limit != -1 )
             {
                  $sql = ' select * from ( ' . $sql . ' ) where ROWNUM BETWEEN ' . $offset .' AND ' . ( $limit + $offset ) ;
             }
-            $statement =& OCIParse( $this->Database, $sql );
+
             if ( $this->OutputSQL )
-                eZDebug::writeNotice( "$sql", "eZOracle::query()" );
+                $this->startTimer();
+
+            $statement =& OCIParse( $this->DBConnection, $sql );
 //            print( "<br/> $sql <br> eZOracle::query()" );
-            flush(); 
+            flush();
             OCIExecute( $statement );
+
+            if ( $this->OutputSQL )
+            {
+                $this->endTimer();
+                $this->reportQuery( 'eZOracleDB', $sql, false, $this->timeTaken() );
+            }
 
             $numCols = OCINumcols( $statement );
             $resultArray = array();
@@ -174,7 +192,6 @@ class eZOracleDB
                 while ( ( $key = key( $row ) ) !== null )
                 {
                     $row[strtolower( $key )] =& $row[$key];
-                          
                     next( $row );
                 }
 
@@ -183,48 +200,49 @@ class eZOracleDB
         }
         unset($statement);
         unset($row);
-        
+
         return $resultArray;
     }
 
+    /*!
+     \private
+    */
     function subString( $string, $from, $len )
     {
-        return " substr( $string, $from, $len ) "; 
+        return " substr( $string, $from, $len ) ";
     }
 
     /*!
-      Starts a new transaction. Dummy function, not needed in oracle.
+      \reimp
     */
     function begin()
     {
-
     }
 
     /*!
-      Commits the transaction.
+      \reimp
     */
     function commit()
     {
         if ( $this->isConnected() )
         {
-            OCICommit( $this->Database );
+            OCICommit( $this->DBConnection );
         }
     }
 
     /*!
-      Does a transaction rollback.
+      \reimp
     */
     function rollback()
     {
         if ( $this->isConnected() )
         {
-            OCIRollback( $this->Database );
+            OCIRollback( $this->DBConnection );
         }
     }
 
     /*!
-      Returns the last serial id, null is returned it does not
-      exist.
+      \reimp
     */
     function &lastSerialID( $table, $column )
     {
@@ -240,7 +258,7 @@ class eZOracleDB
     }
 
     /*!
-      Will escape a string so it's ready to be inserted in the database.
+      \reimp
     */
     function &escapeString( $str )
     {
@@ -250,27 +268,16 @@ class eZOracleDB
     }
 
     /*!
-      Closes the database connection.
+      \reimp
     */
     function close()
     {
-        OCILogOff( $this->Database );
-    }
-
-    /*!
-      \private
-      Returns true if we're connected to the database backed.
-    */
-    function isConnected()
-    {
-        return $this->IsConnected;
+        OCILogOff( $this->DBConnection );
     }
 
     /// Database connection
-    var $Database;
-
-    /// Contains true if we're connected to the database backend
-    var $IsConnected = false;
+    var $DBConnection;
 
 }
+
 ?>

@@ -49,15 +49,19 @@ $message =& eZTaskMessage::fetch( $MessageID );
 if ( get_class( $message ) != 'eztaskmessage' or
      $message->attribute( 'task_id' ) != $TaskID )
 {
-    $classID = $Params['ClassID'];
     include_once( 'kernel/classes/ezcontentobject.php' );
-    $contentObject =& eZContentObject::createNew( $classID, 2 );
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+
+    $classID = $Params['ClassID'];
+    $contentObject =& eZContentObject::createNew( $classID, 2 );
+
     $currentUser =& eZUser::currentUser();
     $currentUserID =& $currentUser->attribute( 'contentobject_id' );
+
     $creatorType = EZ_TASK_MESSAGE_CREATOR_SENDER;
     if ( $currentUserID == $task->attribute( 'receiver_id' ) )
         $creatorType = EZ_TASK_MESSAGE_CREATOR_RECEIVER;
+
     $message =& eZTaskMessage::create( $TaskID, $creatorType, $currentUserID, $contentObject->attribute( 'id' ) );
     $message->store();
     return $Module->redirectToView( '', array( $TaskID, $message->attribute( 'id' ) ) );

@@ -30,24 +30,27 @@
   \ingroup eZDB
   \brief The eZNullDB class provides a interface which does nothing
 
-  This class is returned when the a proper implementation could not be found.
+  This class is returned when a proper implementation could not be found.
 */
 
-class eZNullDB
+include_once( 'lib/ezdb/classes/ezdbinterface.php' );
+
+class eZNullDB extends eZDBInterface
 {
     /*!
       Does nothing.
     */
-    function eZNullDB( $server, $db, $user, $password )
+    function eZNullDB( $parameters )
     {
+        $this->eZDBInterface( $parameters );
     }
 
     /*!
       Does nothing.
     */
-    function isA()
+    function databaseName()
     {
-        return "null";
+        return 'null';
     }
 
     /*!
@@ -61,7 +64,7 @@ class eZNullDB
     /*!
       Returns false.
     */
-    function &arrayQuery( $sql, $params=array() )
+    function &arrayQuery( $sql, $params = array() )
     {
         return false;
     }

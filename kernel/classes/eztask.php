@@ -186,7 +186,7 @@ class eZTask extends eZPersistentObject
             {
                 $db =& eZDB::instance();
                 $rows =& $db->arrayQuery( 'SELECT contentobject_id FROM eztask_message WHERE task_id=' . $this->ID . ' AND creator_type=1 ORDER BY created',
-                                          array( 'Limit' => 1 ) );
+                                          array( 'limit' => 1 ) );
                 if ( count( $rows ) == 0 )
                     return null;
 //                 return $rows[0]['contentobject_id'];

@@ -59,7 +59,7 @@
 
   \code
   // include the library
-  include_once( "lib/ezdb/classes/ezdb.php" );
+  include_once( 'lib/ezdb/classes/ezdb.php' );
 
   // Get the current database instance
   // will create a new database object and connect to the database backend
@@ -69,27 +69,27 @@
   $db =& eZDB::instance();
 
   // Run a simple query
-  $db->query( "DELETE FROM sql_test" );
+  $db->query( 'DELETE FROM sql_test' );
 
   // insert some data
   $str = $db->escapeString( "Testing escaping'\"" );
   $db->query( "INSERT INTO sql_test ( name, description ) VALUES ( 'New test', '$str' )" );
 
   // Get the last serial value for the sql_test table
-  $rowID = $db->lastSerialID( "sql_test", "id" );
+  $rowID = $db->lastSerialID( 'sql_test', 'id' );
 
   // fetch some data into an array of associative arrays
-  $rows =& $db->arrayQuery( "SELECT * FROM sql_test" );
+  $rows =& $db->arrayQuery( 'SELECT * FROM sql_test' );
 
   foreach ( $rows as $row )
   {
-     print( $row["name"] );
+     print( $row['name'] );
   }
 
   // fetch some data with a limit
   // will return the 10 first rows in the result
-  $ret =& $db->arrayQuery( "SELECT id, name, description, rownum FROM sql_test",
-                           array( "Offset" => 0, "Limit" => 10 ) );
+  $ret =& $db->arrayQuery( 'SELECT id, name, description, rownum FROM sql_test',
+                           array( 'offset' => 0, 'limit' => 10 ) );
 
   // check which implementation we're running
   print( $db->isA() );
@@ -99,7 +99,7 @@
   \sa eZLocale eZINI
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZDB
 {
@@ -109,7 +109,7 @@ class eZDB
     */
     function eZDB()
     {
-        eZDB::writeError( "This class should not be instantiated.", "eZDB::eZDB" );
+        eZDebug::writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
     }
 
     /*!
@@ -118,48 +118,53 @@ class eZDB
     */
     function &instance( )
     {
-        $impl =& $GLOBALS["eZDBGlobalInstance"];
+        $impl =& $GLOBALS['eZDBGlobalInstance'];
 
         $class =& get_class( $impl );
-        if ( !preg_match( "/ez.*?db/", $class ) )
+        if ( !preg_match( '/.*?db/', $class ) )
         {
-            include_once( "lib/ezutils/classes/ezini.php" );
+            include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
-            $databaseImplementation = $ini->variable( "DatabaseSettings", "DatabaseImplementation" );
+            $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
-            $server = $ini->variable( "DatabaseSettings", "Server" );
-            $user = $ini->variable( "DatabaseSettings", "User" );
-            $pwd = $ini->variable( "DatabaseSettings", "Password" );
-            $db = $ini->variable( "DatabaseSettings", "Database" );
-            $charset = $ini->variable( "DatabaseSettings", "Charset" );
-            $builtinEncoding = ( $ini->variable( "DatabaseSettings", "UseBuiltinEncoding" ) == "true" );
+            $server = $ini->variable( 'DatabaseSettings', 'Server' );
+            $user = $ini->variable( 'DatabaseSettings', 'User' );
+            $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
+            $db = $ini->variable( 'DatabaseSettings', 'Database' );
+            $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
+            $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
 
-            switch ( $databaseImplementation )
+            $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );
+            $pluginPathArray = array_merge( array( 'lib/ezdb/classes/' ),
+                                            $extraPluginPathArray );
+            eZDebug::writeNotice( $pluginPathArray, 'pluginPath' );
+            $imp = null;
+            foreach( $pluginPathArray as $pluginPath )
             {
-                case "mysql" :
+                $dbFile = $pluginPath . $databaseImplementation . 'db.php';
+                if ( file_exists( $dbFile ) )
                 {
-                    include_once( "lib/ezdb/classes/ezmysqldb.php" );
-                    $impl = new eZMySQLDB( $server, $user, $pwd, $db, $charset, $builtinEncoding );
-                }break;
-
-                case "postgresql" :
-                {
-                    include_once( "lib/ezdb/classes/ezpostgresqldb.php" );
-                    $impl = new eZPostgreSQLDB( $server, $user, $pwd, $db );
-                }break;
-                case "oracle" :
-                {
-
-                    include_once( "lib/ezdb/classes/ezoracledb.php" );
-                    $impl = new eZOracleDB( $server, $user, $pwd, $db );
-                }break;
-
-                default:
-                {
-                    include_once( "lib/ezdb/classes/eznulldb.php" );
-                    $impl = new eZNullDB( $server, $user, $pwd, $db );
-                    eZDebug::writeError( "Database implementation : " . $databaseImplementation . " is not supported" );
-                };
+                    include_once( $dbFile );
+                    $className = $databaseImplementation . 'db';
+                    $impl = new $className( array( 'server' => $server,
+                                                   'user' => $user,
+                                                   'password' => $pwd,
+                                                   'database' => $db,
+                                                   'charset' => $charset,
+                                                   'builtin_encoding' => $builtinEncoding ) );
+                    break;
+                }
+            }
+            if ( $impl === null )
+            {
+                include_once( 'lib/ezdb/classes/eznulldb.php' );
+                $impl = new eZNullDB( array( 'server' => $server,
+                                             'user' => $user,
+                                             'password' => $pwd,
+                                             'database' => $db,
+                                             'charset' => $charset,
+                                             'builtin_encoding' => $builtinEncoding ) );
+                eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
             }
 
         }

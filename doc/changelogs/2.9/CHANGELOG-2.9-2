@@ -73,6 +73,11 @@ eZ db :
 - Added SQL output debug in PostgreSQL implementation.
 - All sql queries and rows returned are now converted to and from the internal charset. (only mysql for the moment)
   This behaviour is controlled by a site.ini option.
+- Created an eZDBInterface class which all implementations inherit from, this takes care of general initialization
+  and has some helper functions.
+- Changed the way each implementation is instantiated, instead of harcoding the available implemenations
+  it is search for in a default path and a path set in site.ini.
+
 
 eZ uri :
 - Added support for changing the current URI string

@@ -367,8 +367,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeListArray = $db->arrayQuery( $query );
         }else
         {
-            $nodeListArray = $db->arrayQuery( $query, array( "Offset" => $offset,
-                                                             "Limit" => $limit ) );
+            $nodeListArray = $db->arrayQuery( $query, array( "offset" => $offset,
+                                                             "limit" => $limit ) );
         }
         $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         return $retNodeList;

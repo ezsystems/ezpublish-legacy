@@ -89,6 +89,7 @@ if ( $Module->isCurrentAction( 'NewTask' ) )
 {
     return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_TASK ) );
 }
+
 if ( $Module->isCurrentAction( 'NewAssignment' ) )
 {
     return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_ASSIGNMENT ) );

@@ -36,94 +36,62 @@
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezdb/classes/ezdbinterface.php" );
 
-class eZMySQLDB
+class eZMySQLDB extends eZDBInterface
 {
     /*!
       Create a new eZMySQLDB object and connects to the database backend.
     */
-    function eZMySQLDB( $server, $user, $password, $db, $charset, $builtinEncoding )
+    function eZMySQLDB( $parameters )
     {
-        $this->DB = $db;
-        $this->Server = $server;
-        $this->User = $user;
-        $this->Password = $password;
-        $this->Charset = $charset;
-        $this->UseBuiltinEncoding = $builtinEncoding;
-
-        if ( $this->UseBuiltinEncoding )
-        {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec =& eZTextCodec::instance( $charset );
-            $this->InputTextCodec =& eZTextCodec::instance( eZTextCodec::internalCharset(), $charset );
-        }
+        $this->eZDBInterface( $parameters );
 
         $ini =& eZINI::instance();
         $socketPath =& $ini->variable( "DatabaseSettings", "Socket" );
-        $this->OutputSQL = $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
 
         if ( trim( $socketPath != "" ) && $socketPath != "disabled" )
         {
             ini_set( "mysql.default_socket", $socketPath );
         }
 
-        $this->Database = @mysql_pconnect( $server, $user, $password );
+        $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
         $numAttempts = 1;
-        while ( $this->Database == false && $numAttempts < 5 )
+        while ( $this->DBConnection == false && $numAttempts < 5 )
         {
             usleep( 50 );
-            $this->Database = @mysql_pconnect( $server, $user, $password );
+            $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
             $numAttempts++;
         }
 
         $this->IsConnected = true;
 
-        if ( $this->Database == false )
+        if ( $this->DBConnection == false )
         {
             eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.", "eZMySQLDB" );
             $this->IsConnected = false;
         }
 
-        $ret = @mysql_select_db( $db, $this->Database );
+        $ret = @mysql_select_db( $this->DB, $this->DBConnection );
 
         if ( !$ret )
         {
-            eZDebug::writeError( "Connection error: " . @mysql_errno( $this->Database ) . ": " . @mysql_error( $this->Database ), "eZMySQLDB" );
+            eZDebug::writeError( "Connection error: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
 
             $this->IsConnected = false;
         }
     }
 
     /*!
-      Returns the driver type.
+     \reimp
     */
-    function isA()
+    function databaseName()
     {
-        return "mysql";
+        return 'mysql';
     }
 
     /*!
-     Returns the charset which the database is encoded in.
-     \sa usesBuiltinEncoding
-    */
-    function charset()
-    {
-        return $this->Charset;
-    }
-
-    /*!
-     Returns true if the database handles encoding itself, if not
-     all queries and returned data must be decoded yourselves.
-     \note This functionality might be removed in the future
-    */
-    function usesBuiltinEncoding()
-    {
-        return $this->UseBuiltinEncoding;
-    }
-
-    /*!
-      Execute a query on the global MySQL database link.  If it returns an error,
-      the script is halted and the attempted SQL query and MySQL error message are printed.
+     \reimp
     */
     function &query( $sql )
     {
@@ -133,26 +101,21 @@ class eZMySQLDB
             // The converted sql should not be output
             if ( $this->UseBuiltinEncoding )
                 $sql = $this->InputTextCodec->convertString( $sql );
+
             if ( $this->OutputSQL )
-                $start_time = microtime();
-            $result =& mysql_query( $sql, $this->Database );
+                $this->startTimer();
+
+            $result =& mysql_query( $sql, $this->DBConnection );
             if ( $this->OutputSQL )
             {
-                $end_time = microtime();
-                // Calculate time taken in ms
-                list($usec, $sec) = explode( " ", $start_time );
-                $start_val = ((float)$usec + (float)$sec);
-                list($usec, $sec) = explode( " ", $end_time );
-                $end_val = ((float)$usec + (float)$sec);
-                $diff_val = $end_val - $start_val;
-                $diff_val *= 1000.0;
+                $this->endTimer();
 
-                $num_rows = mysql_affected_rows( $this->Database );
-                eZDebug::writeNotice( "$sql", "eZMySQLDB::query($num_rows rows, " . number_format( $diff_val, 3 ) . " ms) query number per page:" . $this->NumQueries++ );
+                $num_rows = mysql_affected_rows( $this->DBConnection );
+                $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
             }
 
-            $errorMsg = mysql_error( $this->Database );
-            $errorNum = mysql_errno( $this->Database );
+            $errorMsg = mysql_error( $this->DBConnection );
+            $errorNum = mysql_errno( $this->DBConnection );
 
             if ( $result )
             {
@@ -160,7 +123,7 @@ class eZMySQLDB
             }
             else
             {
-                eZDebug::writeError( "Query error: " . mysql_error( $this->Database ) . ". Query: ". $sql, "eZMySQLDB"  );
+                eZDebug::writeError( "Query error: " . mysql_error( $this->DBConnection ) . ". Query: ". $sql, "eZMySQLDB"  );
                 $this->unlock();
 
                 return false;
@@ -170,9 +133,9 @@ class eZMySQLDB
     }
 
     /*!
-      Executes an SQL query and returns the result as an array of accociative arrays.
+     \reimp
     */
-    function &arrayQuery( $sql, $params=array() )
+    function &arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
         if ( $this->isConnected() )
@@ -183,14 +146,14 @@ class eZMySQLDB
             // check for array parameters
             if ( is_array( $params ) )
             {
-                if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
-                    $limit = $params["Limit"];
+                if ( isset( $params["limit"] ) and is_numeric( $params["limit"] ) )
+                    $limit = $params["limit"];
 
-                if ( isset( $params["Offset"] ) and is_numeric( $params["Offset"] ) )
-                    $offset = $params["Offset"];
+                if ( isset( $params["offset"] ) and is_numeric( $params["offset"] ) )
+                    $offset = $params["offset"];
 
-                if ( isset( $params["Column"] ) and is_numeric( $params["Column"] ) )
-                    $column = $params["Column"];
+                if ( isset( $params["column"] ) and is_numeric( $params["column"] ) )
+                    $column = $params["column"];
             }
 
             if ( $limit !== false and is_numeric( $limit ) )
@@ -244,12 +207,16 @@ class eZMySQLDB
         return $retArray;
     }
 
+    /*!
+     \private
+    */
     function subString( $string, $from, $len )
     {
         return " substring( $string from $from for $len ) ";
     }
+
     /*!
-      Locks a table
+     \reimp
     */
     function lock( $table )
     {
@@ -260,7 +227,7 @@ class eZMySQLDB
     }
 
     /*!
-      Releases table locks.
+     \reimp
     */
     function unlock()
     {
@@ -271,7 +238,7 @@ class eZMySQLDB
     }
 
     /*!
-      Starts a new transaction.
+     \reimp
     */
     function begin()
     {
@@ -282,7 +249,7 @@ class eZMySQLDB
     }
 
     /*!
-      Commits the transaction.
+     \reimp
     */
     function commit()
     {
@@ -293,7 +260,7 @@ class eZMySQLDB
     }
 
     /*!
-      Cancels the transaction.
+     \reimp
     */
     function rollback()
     {
@@ -304,20 +271,20 @@ class eZMySQLDB
     }
 
     /*!
-      Returns the last serial ID generated with an auto increment field.
+     \reimp
     */
     function lastSerialID( $table, $column )
     {
         if ( $this->isConnected() )
         {
-            return mysql_insert_id( $this->Database );
+            return mysql_insert_id( $this->DBConnection );
         }
         else
             return false;
     }
 
     /*!
-      Will escape a string so it's ready to be inserted in the database.
+     \reimp
     */
     function &escapeString( $str )
     {
@@ -325,49 +292,19 @@ class eZMySQLDB
     }
 
     /*!
-      Will close the database connection.
+     \reimp
     */
     function close()
     {
         if ( $this->isConnected() )
         {
-            @mysql_close( $this->Database );
+            @mysql_close( $this->DBConnection );
         }
     }
 
-    /*!
-      \private
-      Returns true if we're connected to the database backed.
-    */
-    function isConnected()
-    {
-        return $this->IsConnected;
-    }
-
-
-    /// Contains the current server
-    var $Server;
-    /// The current database name
-    var $DB;
-    /// Stores the database connection user
-    var $User;
-    /// Stores the database connection password
-    var $Password;
+    /// \privatesection
     /// Contains the current database connection
-    var $Database;
-    /// The charset used for the current database
-    var $Charset;
-    /// Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
-    var $OutputTextCodec;
-    /// True if a builtin encoder is to be used, this means that all input/output text is converted
-    var $UseBuiltinEncoding;
-    /// Setting if SQL queries should be sent to debug output
-    var $OutputSQL;
-    /// Contains true if we're connected to the database backend
-    var $IsConnected = false;
-    /// Contains number of queries sended to DB
-    var $NumQueries = 0;
-
+    var $DBConnection;
 }
 
 ?>

@@ -37,28 +37,36 @@
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezdb/classes/ezdbinterface.php" );
 
-class eZPostgreSQLDB
+class eZPostgreSQLDB extends eZDBInterface
 {
     /*!
       Creates a new eZPostgreSQLDB object and connects to the database.
     */
-    function eZPostgreSQLDB( $server,  $user, $password, $db )
+    function eZPostgreSQLDB( $parameters )
     {
+        $this->eZDBInterface( $parameters );
+
         $ini =& eZINI::instance();
-        $this->OutputSQL = $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
+
+        $server = $this->Server;
+        $db = $this->Database;
+        $user = $this->User;
+        $password = $this->Password;
 
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))
         {
             eZDebug::writeNotice( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
-            $this->Database = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
+            $this->DBConnection = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
             $this->IsConnected = true;
             // add error checking
-//          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->Database ), "eZPostgreSQLDB" );
-        }elseif ( function_exists( "pg_connect" ) )
+//          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
+        }
+        else if ( function_exists( "pg_connect" ) )
         {
             eZDebug::writeNotice( "using real connection",  "using real connection" );
-            $this->Database = pg_connect( "host=$server dbname=$db user=$user password=$password" );
+            $this->DBConnection = pg_connect( "host=$server dbname=$db user=$user password=$password" );
             $this->IsConnected = true;
         }
         else
@@ -70,27 +78,34 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Returns the driver type.
+     \reimp
     */
-    function isA()
+    function databaseName()
     {
-        return "postgresql";
+        return 'postgresql';
     }
 
     /*!
-      Runs a query to the PostgreSQL database.
+     \reimp
     */
     function &query( $sql )
     {
         if ( $this->isConnected() )
         {
             if ( $this->OutputSQL )
-                eZDebug::writeNotice( "$sql", "eZPostgreSQL::query() query number per page:" . $this->NumQueries++ );
+                $this->startTimer();
 
-            $result = @pg_exec( $this->Database, $sql );
+            $result = @pg_exec( $this->DBConnection, $sql );
+
+            if ( $this->OutputSQL )
+            {
+                $this->endTimer();
+                $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
+            }
+
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage ( $this->Database ), "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage ( $this->DBConnection ), "eZPostgreSQLDB" );
             }
         }
         return $result;
@@ -98,10 +113,9 @@ class eZPostgreSQLDB
 
 
     /*!
-      Runs a query to the PostgreSQL database and returns the result as an
-      associative array.
+     \reimp
     */
-    function &arrayQuery( $sql, $params=array() )
+    function &arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
         if ( $this->isConnected() )
@@ -115,17 +129,17 @@ class eZPostgreSQLDB
 
 
                 $column = false;
-                if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
+                if ( isset( $params["limit"] ) and is_numeric( $params["limit"] ) )
                 {
-                    $limit = $params["Limit"];
+                    $limit = $params["limit"];
                 }
 
-                if ( isset( $params["Offset"] ) and is_numeric( $params["Offset"] ) )
+                if ( isset( $params["offset"] ) and is_numeric( $params["offset"] ) )
                 {
-                    $offset = $params["Offset"];
+                    $offset = $params["offset"];
                 }
-                if ( isset( $params["Column"] ) and is_numeric( $params["Column"] ) )
-                    $column = $params["Column"];
+                if ( isset( $params["column"] ) and is_numeric( $params["column"] ) )
+                    $column = $params["column"];
             }
 
             if ( $limit != -1 )
@@ -164,13 +178,16 @@ class eZPostgreSQLDB
         return $retArray;
     }
 
+    /*!
+     \private
+    */
     function subString( $string, $from, $len )
     {
         return " substring( $string from $from for $len ) ";
     }
 
     /*!
-      Locks a table
+     \reimp
     */
     function lock( $table )
     {
@@ -181,14 +198,14 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Releases table locks. Not needed for PostgreSQL.
+     \reimp
     */
     function unlock()
     {
     }
 
     /*!
-      Starts a new transaction.
+     \reimp
     */
     function begin()
     {
@@ -199,7 +216,7 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Commits the transaction.
+     \reimp
     */
     function commit()
     {
@@ -210,7 +227,7 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Cancels the transaction.
+     \reimp
     */
     function rollback()
     {
@@ -221,17 +238,17 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Returns the next value which can be used as a unique index value.
+     \reimp
     */
-    function lastSerialID( $table, $column='id' )
+    function lastSerialID( $table, $column = 'id' )
     {
         if ( $this->isConnected() )
         {
             $sql = "SELECT currval( '" . $table . "_s')";
-            $result = @pg_exec( $this->Database, $sql );
+            $result = @pg_exec( $this->DBConnection, $sql );
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->Database ), "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
             }
 
             if ( $result )
@@ -244,7 +261,7 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Will escape a string so it's ready to be inserted in the database.
+     \reimp
     */
     function &escapeString( $str )
     {
@@ -254,32 +271,16 @@ class eZPostgreSQLDB
     }
 
     /*!
-      Closes the database connection.
+     \reimp
     */
     function close()
     {
         @pg_close();
     }
 
-    /*!
-      \private
-      Returns true if we're connected to the database backed.
-    */
-    function isConnected()
-    {
-        return $this->IsConnected;
-    }
-
+    /// \privatesection
     /// database connection
-    var $Database;
-
-    /// Contains true if we're connected to the database backend
-    var $IsConnected = false;
-
-    /// Variable which stores the status of debug output
-    var $OutputSQL;
-    /// Contains number of queries sended to DB
-    var $NumQueries = 0;
+    var $DBConnection;
 
 }
 
