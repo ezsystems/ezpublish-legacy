@@ -248,7 +248,13 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 function eZSetupTestAcceptPathInfo( $type, &$arguments )
 {
     $testPath = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test';
-    $testPath = 'http://' . str_replace( '//', '/', $testPath );
+    $protocol = 'http';
+    /* We attempt to use the https protocol when the https port is used */
+    if ( $_SERVER['SERVER_PORT'] == 443 )
+    {
+        $protocol = 'https';
+    }
+    $testPath = "{$protocol}://" . str_replace( '//', '/', $testPath );
     $fp = fopen( $testPath, 'r' );
 
     return array( 'result' => ( $fp !== false ),

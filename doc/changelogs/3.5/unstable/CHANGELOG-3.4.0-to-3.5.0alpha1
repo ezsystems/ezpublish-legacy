@@ -438,7 +438,9 @@ Workflow:
 - Removed unused file kernel/classes/datatypes/ezuser/ezaccounthash.php
   http://ez.no/community/bug_reports/wrong_user_class
   (Merged from stable/3.3 rev. 7860, also in stable/3.4 rev. 7862)
-
+- Fixed bug where we relied on http being available in the AcceptPathInfo
+  set-up test. (Merged from stable/3.4, rev. 7865)
+  http://ez.no/community/bug_reports/acceptpathinfo_and_https
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
