@@ -471,7 +471,7 @@ function getSiteListContent()
     foreach( $sites as $site )
     {
         // Set up attributes for the virtual site-list folder:
-        $contentEntry["name"]     = '/'.$site;
+        $contentEntry["name"]     = $_SERVER['SCRIPT_URI'].$site;
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
         $contentEntry["ctime"]    = filectime( 'var' );
@@ -490,6 +490,16 @@ function getSiteListContent()
         //
         $siteListFolderEntries[] = $contentEntry;
     }
+
+    // Set up attributes for the virtual site-list folder:
+    $contentEntry["name"]     = '/';
+    $contentEntry["href"]     = $_SERVER['SCRIPT_URI'];
+    $contentEntry["size"]     = 0;
+    $contentEntry["mimetype"] = 'httpd/unix-directory';
+    $contentEntry["ctime"]    = filectime( 'var' );
+    $contentEntry["mtime"]    = filemtime( 'var' );
+
+    $siteListFolderEntries[] = $contentEntry;
 
     // Return the content of the virtual start folder.
     return $siteListFolderEntries;
