@@ -1890,7 +1890,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
          return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
                                                  null,
-                                                 array( "path_identification_string" => $pathString ),
+                                                 array( "path_identification_string" => $pathString,
+                                                        'contentobject_id' => array( '!=', 0 ) ),
                                                  $asObject );
     }
 
