@@ -49,6 +49,7 @@ div#toolbar-top ul
 
 div#toolbar-bottom
 { 
+    margin-top: 8px;
     text-align: center;
 }
 
