@@ -615,7 +615,7 @@ class eZINI
         }
         foreach ( $lines as $line )
         {
-            if ( preg_match( "/^#.*/", $line, $regs ) )
+            if ( $line == '' or $line[0] == '#' )
                 continue;
             if ( preg_match( "/^(.+)##.*/", $line, $regs ) )
                 $line = $regs[1];

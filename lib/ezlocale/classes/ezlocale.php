@@ -264,10 +264,10 @@ class eZLocale
 
         if ( $this->MondayFirst )
         {
-            array_push( $this->DayNames, array_shift( $this->DayNames ) );
-            array_push( $this->WeekDays, array_shift( $this->WeekDays ) );
-            array_push( $this->LongWeekDayNames, array_shift( $this->LongWeekDayNames ) );
-            array_push( $this->ShortWeekDayNames, array_shift( $this->ShortWeekDayNames ) );
+            $this->DayNames[] = array_shift( $this->DayNames );
+            $this->WeekDays[] = array_shift( $this->WeekDays );
+            $this->LongWeekDayNames[] = array_shift( $this->LongWeekDayNames );
+            $this->ShortWeekDayNames[] = array_shift( $this->ShortWeekDayNames );
         }
 
         $this->AM = 'am';
