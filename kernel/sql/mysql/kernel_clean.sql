@@ -394,12 +394,12 @@ CREATE TABLE ezcontentobject (
 --
 
 INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596,1);
-INSERT INTO ezcontentobject VALUES (4,0,0,3,'Users',1,0,0,0,1);
-INSERT INTO ezcontentobject VALUES (10,8,0,4,'Anonymous User',1,0,1033920665,1033920665,1);
-INSERT INTO ezcontentobject VALUES (11,8,0,3,'Guest accounts',1,0,1033920746,1033920746,1);
-INSERT INTO ezcontentobject VALUES (12,8,0,3,'Administrator users',1,0,1033920775,1033920775,1);
-INSERT INTO ezcontentobject VALUES (13,8,0,3,'Editors',1,0,1033920794,1033920794,1);
-INSERT INTO ezcontentobject VALUES (14,8,0,4,'Administrator User',1,0,1033920830,1033920830,1);
+INSERT INTO ezcontentobject VALUES (4,0,2,3,'Users',1,0,0,0,1);
+INSERT INTO ezcontentobject VALUES (10,8,2,4,'Anonymous User',1,0,1033920665,1033920665,1);
+INSERT INTO ezcontentobject VALUES (11,8,2,3,'Guest accounts',1,0,1033920746,1033920746,1);
+INSERT INTO ezcontentobject VALUES (12,8,2,3,'Administrator users',1,0,1033920775,1033920775,1);
+INSERT INTO ezcontentobject VALUES (13,8,2,3,'Editors',1,0,1033920794,1033920794,1);
+INSERT INTO ezcontentobject VALUES (14,8,2,4,'Administrator User',1,0,1033920830,1033920830,1);
 
 --
 -- Table structure for table 'ezcontentobject_attribute'
@@ -1137,7 +1137,7 @@ CREATE TABLE ezsection (
   id int(11) NOT NULL auto_increment,
   name varchar(255) default NULL,
   locale varchar(255) default NULL,
-  navigation_part_idenfifier varchar(100) default 'ezcontentnavigationpart',
+  navigation_part_identifier varchar(100) default 'ezcontentnavigationpart',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1146,6 +1146,7 @@ CREATE TABLE ezsection (
 --
 
 INSERT INTO ezsection VALUES (1,'Standard section','nor-NO','ezcontentnavigationpart');
+INSERT INTO ezsection VALUES (2,'Users','','ezusernavigationpart');
 
 --
 -- Table structure for table 'ezsession'
@@ -1270,7 +1271,7 @@ CREATE TABLE ezuser (
 --
 
 INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
-INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',1,'9b6d0bb3102b87fae57bc4a39149518e');
+INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 
 --
 -- Table structure for table 'ezuser_discountrule'
@@ -1341,6 +1342,7 @@ CREATE TABLE ezvattype (
 -- Dumping data for table 'ezvattype'
 --
 
+INSERT INTO ezvattype VALUES (1,'Std',0);
 
 --
 -- Table structure for table 'ezwaituntildatevalue'
