@@ -50,8 +50,8 @@ include_once( 'lib/ezutils/classes/ezfile.php' );
 include_once( 'lib/ezutils/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-define( 'EZ_PACKAGE_VERSION', '3.3.0-1' );
-define( 'EZ_PACKAGE_DEVELOPMENT', false );
+define( 'EZ_PACKAGE_VERSION', '3.4.0alpha1' );
+define( 'EZ_PACKAGE_DEVELOPMENT', true );
 define( 'EZ_PACKAGE_USE_CACHE', true );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
 
@@ -686,8 +686,7 @@ class eZPackage
         if ( $type == 'file' )
         {
             $pathArray = array( $path, $fileItem['subdirectory'] );
-            if ( $fileItem['file-type'] != 'dir' )
-                $pathArray[] = $fileItem['name'];
+            $pathArray[] = $fileItem['name'];
             $path = eZDir::path( $pathArray );
         }
         else if ( $type == 'design' )
@@ -2540,16 +2539,26 @@ class eZPackage
                                     $copiedFileName = $matches[2];
                                 }
                                 $copiedFileAttributes = array( 'name' => $copiedFileName );
-                                if ( $copiedSubdirectory )
-                                    $copiedFileAttributes['sub-directory'] = $copiedSubdirectory;
+                                if ( $copiedSubdirectory and $fileItem['name'] )
+                                    $copiedSubdirectory = $fileItem['name'] . '/' . $copiedSubdirectory;
+                                else if ( $fileItem['name'] )
+                                    $copiedSubdirectory = $fileItem['name'];
+                                if ( is_dir( $destinationPath . '/' . $copiedFile ) )
+                                {
+                                    $copiedFileAttributes = array_merge( $copiedFileAttributes,
+                                                                         array( 'type' => 'dir' ) );
+                                }
+
+                                if ( $fileItem['subdirectory'] and $copiedSubdirectory )
+                                    $copiedSubdirectory = $fileItem['subdirectory'] . '/' . $copiedSubdirectory;
+                                else if ( $fileItem['subdirectory'] )
+                                    $copiedSubdirectory = $fileItem['subdirectory'];
                                 $copiedMD5Sum = $this->md5sum( $destinationPath . '/' . $copiedFile );
                                 if ( $copiedMD5Sum )
                                     $copiedFileAttributes['md5sum'] = $copiedMD5Sum;
-                                if ( is_dir( $destinationPath . '/' . $copiedFile ) )
-                                    $fileListNode->appendChild( $dom->createElementNode( 'file', array_merge( $copiedFileAttributes,
-                                                                                                              array( 'type' => 'dir' ) ) ) );
-                                else
-                                    $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
+                                if ( $copiedSubdirectory )
+                                    $copiedFileAttributes['sub-directory'] = $copiedSubdirectory;
+                                $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
                             }
                         }
                         else

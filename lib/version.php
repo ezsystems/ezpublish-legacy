@@ -39,7 +39,7 @@
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 4 );
 define( "EZ_SDK_VERSION_RELEASE", 0 );
-define( "EZ_SDK_VERSION_STATE", 'alpha' );
+define( "EZ_SDK_VERSION_STATE", 'alpha1' );
 define( "EZ_SDK_VERSION_DEVELOPMENT", false );
 define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
 define( "EZ_SDK_VERSION_ALIAS", '3.4' );
@@ -128,7 +128,7 @@ class eZPublishSDK
     */
     function alias()
     {
-        return EZ_SDK_VERSION_ALIAS;
+        return eZPublishSDK::version();
     }
 
     /*!

@@ -252,14 +252,12 @@ for site in $PACKAGES; do
 	set $site type site -- \
 	add $site design -n design $site -- \
  	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user" -- \
+ 	add $site ini -r siteaccess -v admin -n admin_siteaccess "settings/siteaccess/"$site"_admin" -- \
 	add $site sql -d mysql kernel/sql/mysql/kernel_schema.sql -- \
 	add $site sql -d mysql packages/sql/data/$site.sql -- \
 	add $site sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
 	add $site sql -d postgresql packages/sql/data/$site.sql || exit 1
 
-#	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user/site.ini.append" -- \
-# 	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user" -- \
-# 	add $site ini -r siteaccess -v admin -n admin_siteaccess "settings/siteaccess/"$site"_admin" -- \
     if [ -f "$PACKAGE_FILES/$site/thumbnail.png" ]; then
 	[ -z $QUIET ] && echo "Adding PNG thumbnail to $site"
 	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
@@ -272,10 +270,10 @@ for site in $PACKAGES; do
 	[ -z $QUIET ] && echo "No thumbnail for $site"
     fi
 
-    if [ -d "$PACKAGE_FILES/$site/storage/images" ]; then
-	[ -z $QUIET ] && echo "Adding images to $site"
-	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
-	    add $site file -p "var/$site/storage/images" "$PACKAGE_FILES/$site/storage/images" || exit 1
+     if [ -d "$PACKAGE_FILES/$site/storage/images" ]; then
+ 	[ -z $QUIET ] && echo "Adding images to $site"
+ 	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
+ 	    add $site file -p "var/$site/storage" "$PACKAGE_FILES/$site/storage/images" || exit 1
     fi
 
     if [ -f "$PACKAGE_FILES/$site/cache/expiry.php" ]; then

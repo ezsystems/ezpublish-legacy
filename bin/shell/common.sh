@@ -2,7 +2,7 @@
 
 VERSION="3.4.0alpha1"
 VERSION_ONLY="3.4.0"
-VERSION_NICK="3.4 alpha1"
+VERSION_NICK="$VERSION"
 
 RES_COL=60
 # terminal sequence to move to that column. You could change this

@@ -478,7 +478,7 @@ class eZDir
     /*!
      Copies a directory (and optionally all it's subitems) to another directory.
     */
-    function copy( $sourceDirectory, $destinationDirectory,
+    function copy( $sourceDirectory, &$destinationDirectory,
                    $asChild = true, $recursive = true, $includeHidden = false, $excludeItems = false )
     {
         if ( !is_dir( $sourceDirectory ) )
