@@ -1,4 +1,4 @@
-<h1>eZ publish installation using the setup gude</h1>
+<h1>eZ publish installation using the setup guide</h1>
 
 
 <ul>
@@ -12,7 +12,7 @@
 	<li><a href="#Windows">Installation on Windows</a></li>
 	<ul>
 		<li><a href="#Windows_Database">Database setup</a></li>
-		<li><a href="#Windows_Starting">Staritn the setup guide</a></li>
+		<li><a href="#Windows_Starting">Starting the setup guide</a></li>
 	</ul>
 </ul>
 
