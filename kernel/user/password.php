@@ -43,6 +43,7 @@ $Module =& $Params["Module"];
 $message = 0;
 $oldPasswordNotValid = 0;
 $newPasswordNotMatch = 0;
+$newPasswordTooShort = 0;
 
 if ( is_numeric( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
@@ -80,13 +81,21 @@ if ( $http->hasPostVariable( "OKButton" ) )
     {
         if (  $newPassword ==  $confirmPassword )
         {
+            if ( strlen( $newPassword ) < 3 )
+            {
+                $newPasswordTooShort = 1;
+            }
+            else
+            {
+                $newHash = $user->createHash( $login, $newPassword, $site, $type );
+                $user->setAttribute( "password_hash", $newHash );
+                $user->store();
+            }
             $message = true;
-            $newHash = $user->createHash( $login, $newPassword, $site, $type );
-            $user->setAttribute( "password_hash", $newHash );
-            $user->store();
-            $oldPassword = "";
-            $newPassword = "";
-            $confirmPassword = "";
+            $newPassword = '';
+            $oldPassword = '';
+            $confirmPassword = '';
+
         }
         else
         {
@@ -134,6 +143,7 @@ $tpl->setVariable( "newPassword", $newPassword );
 $tpl->setVariable( "confirmPassword", $confirmPassword );
 $tpl->setVariable( "oldPasswordNotValid", $oldPasswordNotValid );
 $tpl->setVariable( "newPasswordNotMatch", $newPasswordNotMatch );
+$tpl->setVariable( "newPasswordTooShort", $newPasswordTooShort );
 $tpl->setVariable( "message", $message );
 
 $Result = array();

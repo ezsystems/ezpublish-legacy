@@ -1,7 +1,7 @@
 {* Feedbacks. *}
 {section show=$message}
 
-{section show=or( $oldPasswordNotValid, $newPasswordNotMatch )}
+{section show=or( $oldPasswordNotValid, $newPasswordNotMatch, $newPasswordTooShort )}
     <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The password could not be changed.'|i18n( 'design/admin/user/password' )}</h2>
     {section show=$oldPasswordNotValid}
@@ -13,6 +13,12 @@
     {section show=$newPasswordNotMatch}
         <ul>
             <li>{'The new passwords did not match.'|i18n( 'design/admin/user/password' )}</li>
+            <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
+        </ul>
+    {/section}
+    {section show=$newPasswordTooShort}
+        <ul>
+            <li>{'The password must be at least 3 characters long.'|i18n( 'design/admin/user/password' )}</li>
             <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
         </ul>
     {/section}
