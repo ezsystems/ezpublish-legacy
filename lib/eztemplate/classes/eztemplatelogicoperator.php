@@ -65,8 +65,14 @@
   - eq\n
     Returns true if all the input parameters match. Matching is casual meaning
     that an integer of value 0 will match a boolean of type false.
+  - ne\n
+    Returns true if one or more of the input parameters does not match.
+    Matching is casual meaning that an integer of value 0 will match a boolean
+    of type false.
   - null\n
     Returns true if the data is null, false otherwise
+  - not\n
+    Returns true if the data is false or false if data is true
   - true
   - false\n
     Creates a true/false boolean
@@ -99,6 +105,8 @@ class eZTemplateLogicOperator
                                       $ge_name = "ge",
                                       /*! The name for the "equal" operator */
                                       $eq_name = "eq",
+                                      /*! The name for the "not equal" operator */
+                                      $ne_name = "ne",
                                       /*! The name for the "is null" operator */
                                       $null_name = "null",
                                       /*! The name for the "not" operator */
@@ -114,7 +122,7 @@ class eZTemplateLogicOperator
                                       /*! The name for the "choose" operator */
                                       $choose_name = "choose" )
     {
-        $this->Operators = array( $lt_name, $gt_name, $le_name, $ge_name, $eq_name,
+        $this->Operators = array( $lt_name, $gt_name, $le_name, $ge_name, $eq_name, $ne_name,
                                   $null_name, $not_name,
                                   $or_name, $and_name,
                                   $true_name, $false_name, $choose_name );
@@ -123,6 +131,7 @@ class eZTemplateLogicOperator
         $this->LEName = $le_name;
         $this->GEName = $ge_name;
         $this->EQName = $eq_name;
+        $this->NEName = $ne_name;
         $this->NullName = $null_name;
         $this->OrName = $or_name;
         $this->AndName = $and_name;
@@ -195,6 +204,39 @@ class eZTemplateLogicOperator
             case $this->FalseName:
             {
                 $value = ( $op_name == $this->TrueName );
+            } break;
+            case $this->NEName:
+            {
+                if ( count( $op_params ) >= 1 )
+                {
+                    if ( count( $op_params ) == 1 )
+                    {
+                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        $value = ( $lastOperand != $value );
+                    }
+                    else
+                    {
+                        $similar = false;
+                        $value = false;
+                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        for ( $i = 1; $i < count( $op_params ); ++$i )
+                        {
+                            $operand =& $tpl->elementValue( $op_params[$i], $namespace );
+                            if ( $operand != $lastOperand )
+                            {
+                                $value = true;
+                                break;
+                            }
+                            unset( $lastOperand );
+                            $lastOperand =& $operand;
+                        }
+                    }
+                }
+                else
+                {
+                    $value = false;
+                    $tpl->warning( $op_name, "Requires one parameter for input checking or two or more for parameter checking" );
+                }
             } break;
             case $this->EQName:
             {
@@ -340,6 +382,8 @@ class eZTemplateLogicOperator
                 else if ( is_object( $value ) and
                           method_exists( $value, "attributes" ) )
                     $value = ( count( $value->attributes() ) == 0 );
+                else if ( is_string( $value ) )
+                    $value = ( strlen( $value ) == 0 );
                 else if ( is_numeric( $value ) )
                     $value = ( $value == 0 );
                 else
@@ -360,6 +404,8 @@ class eZTemplateLogicOperator
     var $GEName;
     /// The "equal" name
     var $EQName;
+    /// The "not equal" name
+    var $NEName;
     /// The "null" name
     var $NullName;
     /// The "not" name

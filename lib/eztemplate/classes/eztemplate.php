@@ -1269,6 +1269,13 @@ class eZTemplate
     function &elementValue( &$data, $nspace )
     {
         $value = null;
+        if ( !is_array( $data ) or
+             !isset( $data['type'] ) )
+        {
+            $this->error( "elementValue",
+                          "Missing data structure" );
+            return null;
+        }
         switch ( $data["type"] )
         {
             case "text":
@@ -1278,6 +1285,10 @@ class eZTemplate
             case "numerical":
             {
                 $value =& $data["content"];
+            } break;
+            case "null":
+            {
+                $value = null;
             } break;
             case "operators":
             {
@@ -1289,8 +1300,8 @@ class eZTemplate
             } break;
             default:
             {
-                $this->error( "",
-                              "Unknown variable type: " . $data["type"] );
+                $this->error( "elementValue",
+                              "Unknown variable type: '" . $data["type"] . "'" );
                 return null;
             }
         }
