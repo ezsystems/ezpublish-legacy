@@ -51,6 +51,7 @@ links to clickable links.
 - Now element works for host matching as well.
 - Siteaccess matching can now be debugged with DebugAccess and DebugExtraAccess in
   site.ini under SiteAccessSettings.
+- Fixed setting published date only when initial version is published
 - Added article comments to demo site.
 - Made sure the session is not started if the DB is not connected, avoids PHP
   core dumps.
