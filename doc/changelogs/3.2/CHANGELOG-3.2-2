@@ -70,6 +70,7 @@ eZURL:
   http://ez.no/developer/ez_publish_3/bug_reports/empty_search_causes_slowdown_of_site
 
 *Setup:
+- Added memory limit check
 
 *WebDAV:
 
