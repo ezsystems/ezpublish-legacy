@@ -138,6 +138,7 @@ else
 
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                              array( 'class_identifier', $class->attribute( 'identifier' ) ),
                               array( 'class', $class->attribute( 'id' ) ) ) );
 
         $tpl->setVariable( 'object', $obj );
