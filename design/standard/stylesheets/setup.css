@@ -156,6 +156,12 @@ p.disabled
 	color: #cccccc;
 }
 
+div.setup_progress_bar_text
+{ 
+  color: #ffffff;
+  font-size: xx-small;
+}
+
 div.setup_help
 { 
   margin-top: 0px;
