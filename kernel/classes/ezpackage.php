@@ -2111,7 +2111,8 @@ class eZPackage
             for ( $i = 0; $i < count( $installDataList ); ++$i )
             {
                 $installDataNode =& $installDataList[$i];
-                if ( $installDataNode->attribute( 'name' ) == 'data' )
+                if ( is_object( $installDataNode ) &&
+                     $installDataNode->attribute( 'name' ) == 'data' )
                 {
                     $installDataType = $installDataNode->attributeValue( 'type' );
                     $installDataElements = $installDataNode->children();
