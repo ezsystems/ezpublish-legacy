@@ -67,7 +67,7 @@ foreach ( array_keys( $overrideArray ) as $overrideKey )
 
 $tpl->setVariable( 'template_array', $overrideArray );
 $tpl->setVariable( 'most_used_template_array', $mostUsedOverrideArray );
-$viewParameters = array( 'offset' => $Offset );
+$viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'template_count', count( $overrideArray ) );
 
