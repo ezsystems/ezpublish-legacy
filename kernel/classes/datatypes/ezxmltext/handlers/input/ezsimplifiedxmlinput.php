@@ -794,6 +794,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Convert headers
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
 
+        // Make sure & is turned into &amp;, this ensures that if you write
+        // text like & &#200; the text is kept when its output again
+        $text =& preg_replace( "/&/", "&amp;", $text );
         // Convert the < character followed by anything but a character that tags start with (letter, :, _, /) into &lt;
         $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&lt;$1", $text );
 
@@ -1640,7 +1643,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         else
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
+            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => true ) );
             $links = array();
             $node = array();
 
