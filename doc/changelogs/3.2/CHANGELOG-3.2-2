@@ -31,6 +31,9 @@ Changes from 3.2-1 to 3.2-2
   and logging out.
 - Made sure the shopping orders get their own product collections before the checkout is started.
 - Fixed a bug in runcronjobs.php that caused cronjob parts to not be handled anymore.
+- Made sure the correct override cache dir is cleared when new template overrides are created
+  or overrides are removed.
+- Fixed the color for the 'Click to create a custom template'.
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.

@@ -167,7 +167,8 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             $handler->store();
 
             // Clear override cache
-            $cachedDir = "var/cache/override/";
+            $cachedDir = eZSys::cacheDirectory();
+            $cachedDir .= "/override/";
             eZDir::recursiveDelete( $cachedDir );
         }
         else
