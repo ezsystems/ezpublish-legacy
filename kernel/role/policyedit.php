@@ -181,6 +181,8 @@ if ( $subtreeLimitation != null )
         if ( $subtreeObject )
         {
             $subtreeID = $subtreeObject->attribute( 'node_id' );
+            if ( !isset( $subtreeIDList ) )
+                $subtreeIDList = array();
             $subtreeIDList[] = $subtreeID;
             $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
             $subtreeList[] = $subtree;
@@ -217,8 +219,11 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
         if ( $limitationIdentifier == "Subtree" )
         {
             $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
-            if ( $nodeLimitationValues == null )
+            if ( $nodeLimitationValues != null )
+                $hasLimitation = true;
+            else
                 eZPolicyLimitation::remove( $limitationID );
+
         }
     }
 
