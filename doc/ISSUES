@@ -5,8 +5,6 @@ A list of issues:
 FEATURES
 --------
 
-- Implement copy functionality object/class ( JB )
-
 - Oracle support.
 
 module.php:
@@ -448,3 +446,7 @@ eZ Setup System
 - See if it's possible to implement array_key_exists with pure PHP and see if we can lower
   the min requirements because of this.
 
+Classes
+-----------
+- Group names should not be cached in the group/class link table, it should be taken from the
+  group list.
