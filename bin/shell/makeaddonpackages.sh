@@ -213,7 +213,7 @@ if [[ -z $ADDON || $ADDON = 'weblog' ]]; then
 	create $site "Weblog" "$VERSION" -- \
 	set $site description "Adds blogging/weblog functionality." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject --siteaccess=base 'products/*' \
+	add $site contentobject --siteaccess=base 'weblog/*' \
 	|| exit 1
 fi
 
