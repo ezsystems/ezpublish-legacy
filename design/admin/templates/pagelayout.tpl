@@ -341,11 +341,11 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <li><a href={'shop/basket'|ezurl}>{'Shopping basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
 {/section}
 
-        <li><a href={'/user/logout'|ezurl} title="{'Log out from the system.'|i18n( 'design/admin/pagelayout' )}">{'Log out'|i18n( 'design/admin/pagelayout' )}</a></li>
+        <li><a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a></li>
 {section-else}
     <li><span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span></li>
     <li><span class="disabled">{'Change password'|i18n( 'design/admin/pagelayout' )}</span></li>
-    <li><span class="disabled">{'Log out'|i18n( 'design/admin/pagelayout' )}</span></li>
+    <li><span class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span></li>
 {/section}
 {/let}
 </ul>
