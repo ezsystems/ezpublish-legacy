@@ -76,7 +76,7 @@
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
-define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1074607178 );
+define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1074698103 );
 
 class eZTemplateCompiler
 {
@@ -414,13 +414,13 @@ class eZTemplateCompiler
         $rbracket = '}';
         $initText = "if ( !function_exists( 'compiledfetchvariable' ) )
 $lbracket
-    function &compiledFetchVariable( &\$vars, \$namespace, \$name )
+    function compiledFetchVariable( &\$vars, \$namespace, \$name )
     $lbracket
         \$exists = ( array_key_exists( \$namespace, \$vars ) and
                     array_key_exists( \$name, \$vars[\$namespace] ) );
         if ( \$exists )
         $lbracket
-            \$var =& \$vars[\$namespace][\$name];
+            \$var = \$vars[\$namespace][\$name];
         $rbracket
         else
             \$var = null;
@@ -438,7 +438,7 @@ $lbracket
 $rbracket
 if ( !function_exists( 'compiledfetchattribute' ) )
 $lbracket
-    function &compiledFetchAttribute( &\$value, \$attributeValue )
+    function compiledFetchAttribute( &\$value, \$attributeValue )
     $lbracket
         if ( !is_null( \$attributeValue ) )
         $lbracket
@@ -913,7 +913,7 @@ else
                 $variableName = $variableDataItem[1][2];
                 eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope );
                 $variableNameText = $php->variableText( $variableName, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName =& compiledFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
+                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {
@@ -925,7 +925,7 @@ else
                 $newVariableAssignmentCounter = $newParameters['counter'];
                 if ( $newVariableAssignmentCounter > 0 )
                     $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                $php->addCodePiece( "\$$variableAssignmentName =& compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
+                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
 // $php->addVariable( 'attr', $variableDataItem[1] );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
