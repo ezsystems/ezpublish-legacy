@@ -250,6 +250,17 @@ class eZStepCreateSites extends eZStepInstaller
                                 &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
                                 &$admin)
     {
+        // Time limit #3:
+        // We set the time limit to 5 minutes to ensure we have enough time
+        // to initialize the site. However we only set if the current limit
+        // is too small
+        $maxTime = ini_get( 'max_execution_time' );
+        if ( $maxTime != 0 and
+             $maxTime < 5*60 )
+        {
+            @set_time_limit( 5*60 );
+        }
+
         switch ( $siteType['access_type'] )
         {
             case 'port':

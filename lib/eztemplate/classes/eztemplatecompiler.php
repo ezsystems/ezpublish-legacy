@@ -414,6 +414,7 @@ class eZTemplateCompiler
     /*!
      \static
      Generates the cache which will be used for handling optimized processing using the key \a $key.
+     \note Each call to this will set the PHP time limit to 30
      \return false if the cache does not exist.
     */
     function compileTemplate( &$tpl, $key, &$resourceData )
@@ -421,6 +422,16 @@ class eZTemplateCompiler
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
+
+        // Time limit #1:
+        // We reset the time limit to 30 seconds to ensure that templates
+        // have enough time to compile
+        // However if time limit is unlimited (0) we leave it be
+        // Time limit will also be reset after subtemplates are compiled
+        if ( ini_get( 'max_execution_time' ) != 0  )
+        {
+            @set_time_limit( 30 );
+        }
 
         include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
@@ -2174,6 +2185,16 @@ $rbracket
                                      $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
                                 {
                                     $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
+
+                                    // Time limit #2:
+                                    // We reset the time limit to 20 seconds to ensure that remaining
+                                    // template has enough time to compile.
+                                    // However if time limit is unlimited (0) we leave it be
+                                    if ( ini_get( 'max_execution_time' ) != 0  )
+                                    {
+                                        @set_time_limit( 30 );
+                                    }
+
                                     if ( $generateStatus )
                                         $tmpResourceData['compiled-template'] = true;
                                 }
