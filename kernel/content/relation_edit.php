@@ -116,22 +116,29 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
-            $sectionID = 0;
+            $sectionID = 0; /* Will be changed later */
             $contentClassID = $http->postVariable( 'ClassID' );
             $class =& eZContentClass::fetch( $contentClassID );
             $relatedContentObject =& $class->instantiate( $userID, $sectionID );
+            $newObjectID = $relatedContentObject->attribute( 'id' );
             $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
 
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
-                $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
-                                                             'default-variable-name' => 'DefaultAssignment',
-                                                             'specific-variable-name' => 'ClassSpecificAssignment',
-                                                             'fallback-node-id' => $object->attribute( 'main_node_id' ) ) );
+                $sectionID = $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
+                                                                   'default-variable-name' => 'DefaultAssignment',
+                                                                   'specific-variable-name' => 'ClassSpecificAssignment',
+                                                                   'section-id-wanted' => true,
+                                                                   'fallback-node-id' => $object->attribute( 'main_node_id' ) ) );
 
                 $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
-                $http->setSessionVariable( 'NewObjectID', $relatedContentObject->attribute( 'id' ) );
+                $http->setSessionVariable( 'NewObjectID', $newObjectID );
+
+                /* Change session ID to the same one as the main node placement */
+                $db =& eZDB::instance();
+                $db->query("UPDATE ezcontentobject SET section_id = {$sectionID} WHERE id = {$newObjectID}");
+
                 $module->redirectToView( 'edit', array( $relatedContentObject->attribute( 'id' ),
                                                         $relatedContentObject->attribute( 'current_version' ),
                                                         false ) );

@@ -118,7 +118,8 @@ class eZContentObjectAssignmentHandler
         $parameters = array_merge( array( 'group-name' => false,
                                           'default-variable-name' => false,
                                           'specific-variable-name' => false,
-                                          'fallback-node-id' => false ),
+                                          'fallback-node-id' => false,
+                                          'section-id-wanted' => false ),
                                    $parameters );
         if ( !$parameters['group-name'] and
              !$parameters['default-variable-name'] and
@@ -129,6 +130,8 @@ class eZContentObjectAssignmentHandler
         $specificAssignments = $contentINI->variable( $parameters['group-name'], $parameters['specific-variable-name'] );
         $hasAssignment = false;
         $assignments = false;
+        $sectionIDWanted = $parameters['section-id-wanted'];
+        $sectionID = 0;
         $contentClass =& $this->CurrentObject->attribute( 'content_class' );
         $contentClassIdentifier = $contentClass->attribute( 'identifier' );
         $contentClassID = $contentClass->attribute( 'id' );
@@ -204,6 +207,20 @@ class eZContentObjectAssignmentHandler
                     }
                     else
                         $isMain = ( $mainID == $nodeID );
+
+                    /* Here we figure out the section ID in case it is needed
+                     * to assign a newly created object to. */
+                    if ( $sectionIDWanted and $isMain )
+                    {
+                        $db =& eZDB::instance();
+                        $query = "SELECT section_id
+                                  FROM ezcontentobject c, ezcontentobject_tree t
+                                  WHERE t.node_id = 109
+                                      AND t.contentobject_id = c.id";
+                        $result = $db->arrayQuery( $query );
+                        $sectionID = $result[0]['section_id'];
+                    }
+
                     $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
                                                                         'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
                                                                         'parent_node' => $node->attribute( 'node_id' ),
@@ -211,6 +228,7 @@ class eZContentObjectAssignmentHandler
                     $nodeAssignment->store();
                     ++$assignmentCount;
                 }
+                return $sectionID;
             }
 
             if ( $assignmentCount == 0 &&

@@ -212,7 +212,8 @@ eztc.php:
   http://ez.no/community/bug_reports/alt_image_text_for_company_logo_is_hardcoded
 - Fixed problems with overwritten uploaded files. (Merged from stable/3.4, rev 7211)
   http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
-
+- Fixed problem with section placements for new related objects. (Merged from stable/3.4, rev. 7139)
+  http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
   
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
