@@ -17,3 +17,5 @@ Payment:
   http://ez.no/community/bug_reports/roles_limit_on_section
 - Fixed bug: Class edit - wrong redirect.
   http://ez.no/community/bug_reports/class_edit_wrong_redirect
+- Fixed bug: /class/view - wrong class group.
+  http://ez.no/community/bug_reports/3_5alpha1_class_view_wrong_class_group
