@@ -131,7 +131,10 @@ class eZHTTPFile
             $suffixString = ".$suffix";
 
 //        $dest_name = tempnam( $dir, $this->MimePart . "-" );
-        $dest_name = tempnam( $dir , '');
+//        $dest_name = tempnam( $dir , '');
+        // the above code does not work on windows.
+        $dest_name = $dir .  "/". basename( $this->Filename );
+
         eZDebug::writeNotice( $this->Filename . " " . $dest_name . $suffixString );
         if ( !copy( $this->Filename, $dest_name . $suffixString ) )
         {
