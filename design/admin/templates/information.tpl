@@ -1,15 +1,15 @@
 {* Additional information window. *}
 <div class="context-block">
-<h2 class="context-title">{'Additional information'|i18n( 'design/admin/content/view')}</h2>
+<h2 class="context-title">{'Additional information'|i18n( 'design/admin/node/view/full')}</h2>
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Creator'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Created'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Versions'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Translations'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Section'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Node ID'|i18n( 'design/admin/content/view' )}</th>
-    <th>{'Object ID'|i18n( 'design/admin/content/view' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Created'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Versions'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Translations'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Section'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Node ID'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Object ID'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
 <tr class="bglight">
     <td>{$node.object.owner.name}</td>
