@@ -310,6 +310,8 @@ class eZXML
                     $subNode->Content = $tagContent;
 //                    $subNode->Content = trim( $tagContent );
 
+                    $domDocument->registerElement( &$subNode );
+
                     $currentNode->appendChild( $subNode );
                 }
             }
