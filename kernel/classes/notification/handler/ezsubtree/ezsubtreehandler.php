@@ -135,10 +135,13 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         foreach( array_keys( $assignedNodes ) as $key )
         {
             $node =& $assignedNodes[$key];
-            $pathString = $node->attribute( 'path_string' );
-            $pathString = ltrim( rtrim( $pathString, '/' ), '/' );
-            $nodeIDListPart = explode( '/', $pathString );
-            $nodeIDList = array_merge( $nodeIDList, $nodeIDListPart );
+            if ( $node )
+            {
+                $pathString = $node->attribute( 'path_string' );
+                $pathString = ltrim( rtrim( $pathString, '/' ), '/' );
+                $nodeIDListPart = explode( '/', $pathString );
+                $nodeIDList = array_merge( $nodeIDList, $nodeIDListPart );
+            }
         }
         $nodeIDList = array_unique( $nodeIDList );
 
