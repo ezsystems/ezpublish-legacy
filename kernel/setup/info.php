@@ -66,6 +66,15 @@ if ( extension_loaded( "Turck MMCache" ) )
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
 }
+if ( extension_loaded( "apc" ) )
+{
+    $phpAcceleratorInfo = array();
+    $phpAcceleratorInfo['name'] = "APC";
+    $phpAcceleratorInfo['url'] = "http://pecl.php.net/package/APC";
+    $phpAcceleratorInfo['enabled'] = ini_get( 'apc.enabled' ) != 0;
+    $phpAcceleratorInfo['version_integer'] = false;
+    $phpAcceleratorInfo['version_string'] = false;
+}
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
