@@ -971,7 +971,12 @@ div.context-toolbar a:hover
 div.context-attributes
 {
     background-color: #f8f8f8;
-    padding: 0.5em;
+    padding: 0.5em 0.5em 1em 0.5em;
+}
+
+div.context-attributes h2, div.context-attributes h3
+{
+    margin-top: 0.25em;
 }
 
 div.controlbar div.block

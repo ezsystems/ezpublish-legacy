@@ -13,7 +13,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="block">
+<div class="context-attributes">
 
 <label>{'SiteAccess'|i18n( 'design/standard/setup' )}:</label>
 
