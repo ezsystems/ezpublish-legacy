@@ -133,10 +133,15 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchItemCount( $parentGroupID )
+    function &fetchItemCount( $isRead, $isActive, $parentGroupID )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
-        $itemParameters = array( 'parent_group_id' => $parentGroupID );
+
+        $itemParameters = array( 'is_read' => $isRead,
+                                 'is_active' => $isActive,
+                                 'parent_group_id' => $parentGroupID
+                                 );
+
         $count =& eZCollaborationItem::fetchListCount( $itemParameters );
         return array( 'result' => $count );
     }
