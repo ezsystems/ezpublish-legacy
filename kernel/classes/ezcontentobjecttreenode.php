@@ -1041,7 +1041,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
-                $hasNodeLimitation = false;
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -1066,7 +1065,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'Node':
                         {
                             $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            $hasNodeLimitation = true;
                         } break;
 
                         case 'Subtree':
@@ -1081,10 +1079,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                     }
                 }
-                if ( $hasNodeLimitation )
-                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
             $query = "SELECT ezcontentobject.*,
@@ -1570,7 +1565,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
-                $hasNodeLimitation = false;
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -1595,7 +1589,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'Node':
                         {
                             $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            $hasNodeLimitation = true;
                         } break;
 
                         case 'Subtree':
@@ -1610,10 +1603,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                     }
                 }
-                if ( $hasNodeLimitation )
-                     $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
 
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
