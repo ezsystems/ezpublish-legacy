@@ -48,6 +48,7 @@ include_once( "kernel/classes/eznodeassignment.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentobjecttranslation.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "kernel/classes/ezcontentclassattribute.php" );
 
 
 define( "EZ_VERSION_STATUS_DRAFT", 0 );
@@ -436,14 +437,27 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
+        $db =& eZDB::instance();
 
-        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                    null, array( "version" => $version,
-                                                                 "contentobject_id" => $contentObjectID,
-                                                                 "language_code" => $language
-                                                                 ),
-                                                    null, null,
-                                                    $asObject );
+        $query = "SELECT ezcontentobject_attribute.* from ezcontentobject_attribute, ezcontentclass_attribute
+                  WHERE
+                    ezcontentclass_attribute.version = '0' AND
+                    ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                    ezcontentobject_attribute.version = '$version' AND
+                    ezcontentobject_attribute.contentobject_id = '$contentObjectID' AND
+                    ezcontentobject_attribute.language_code = '$language'
+                  ORDER by
+                    ezcontentclass_attribute.placement ASC";
+
+        $attributeArray =& $db->arrayQuery( $query );
+
+        $returnAttributeArray = array();
+        foreach ( $attributeArray as $attribute )
+        {
+            $attr = new eZContentObjectAttribute( $attribute );
+            $returnAttributeArray[] = $attr;
+        }
+        return $returnAttributeArray;
     }
 
     /*!
