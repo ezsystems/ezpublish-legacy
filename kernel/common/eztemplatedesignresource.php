@@ -322,7 +322,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$onlyStandard )
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
-        $overrideKey = md5( $siteBase . $standardBase );
+        $overrideKeys = eZTemplateDesignResource::overrideKeys();
+        $overrideKey = md5( implode( ',', $overrideKeys ) );
         $cacheDir = eZSys::cacheDirectory();
         $overrideCacheFile = "$cacheDir/override/override_$overrideKey.php";
         // Build matching cache only of it does not already exists,
@@ -405,6 +406,55 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         }
 
         return $overrideCacheFile;
+    }
+
+    /*!
+     \static
+     \return an array with keys that define the current override.
+    */
+    function &overrideKeys( $siteAccess = false )
+    {
+        $keys = array();
+        $onlyStandard = $this->OnlyStandard;
+
+        // fetch the override array from a specific siteacces
+        if ( $siteAccess )
+        {
+            // Get the design resources
+            $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
+            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            $ini->loadCache();
+
+            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+            $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            $overrideINI->loadCache();
+        }
+        else
+        {
+            $ini =& eZINI::instance();
+            $overrideINI =& eZINI::instance( 'override.ini' );
+        }
+
+        $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
+        $keys[] = $standardBase;
+        if ( !$onlyStandard )
+        {
+            $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
+            $keys[] = $siteBase;
+        }
+
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+        $keys = array_merge( $keys, $additionalSiteDesignList );
+
+        // Add extension paths
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $extensionDirectory = eZExtension::baseDirectory();
+
+        $designINI =& eZINI::instance( 'design.ini' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+        $keys = array_merge( $keys, $extensions );
+
+        return $keys;
     }
 
     /*!
