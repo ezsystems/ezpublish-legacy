@@ -227,16 +227,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
         eZDebug::writeDebug( $http->attribute( 'post' ), "post vars in edit" );
         eZDebug::writeDebug( $module->currentAction(), "Action Name" );
-
-/*        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
-        {
-            $nodesID = $http->postVariable( 'DeleteParentIDArray' );
-        }
-        else
-        {
-            $nodesID = array();
-        }
-*/
         if ( $http->hasPostVariable( 'RemoveNodeID' ) )
         {
             $nodeID = $http->postVariable( 'RemoveNodeID' );
@@ -265,7 +255,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 }
             }else
             {
-                
                 $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $nodeID );
 //                eZDebug::printReport();
 //                die();
@@ -279,7 +268,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
                     }
                 }
-                $version->removeAssignment( $node );
+                $version->removeAssignment( $nodeID );
             }
         }
     }
