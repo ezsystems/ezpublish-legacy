@@ -43,6 +43,7 @@ $ViewList['edit'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ExportPDFBrowse' => 'BrowseSource',
                                     'ExportPDFButton' => 'Export',
+                                    'DiscardButton'   => 'Discard',
                                     'CreateExport' => 'CreateExport' ),
     'post_action_parameters' => array( 'Export' => array( 'Title' => 'Title',
                                                           'DisplayFrontpage' => 'DisplayFrontpage',

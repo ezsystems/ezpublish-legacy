@@ -124,6 +124,11 @@ else if ( $Module->isCurrentAction( 'Export' ) )
         return $Module->redirect( 'pdf', 'list' );
     }
 }
+else if ( $Module->isCurrentAction( 'Discard' ) )
+{
+    $pdfExport->remove();
+    return $Module->redirect( 'pdf', 'list' );
+}
 
 $tpl =& templateInit();
 

@@ -64,6 +64,8 @@ Payment:
 - Fixed bug: Administrator user got "Access denied" in content/versionview.
   (Merged from stable/3.4 rev. 8597)
   http://ez.no/community/bug_reports/3_5alpha1_undefined_attribute_can_versionread_cannot_get
+- Fixed bug: cancel button did not work when editing a PDF export.
+  http://ez.no/community/bug_reports/cancel_button_in_pdf_export
 
 *Library:
 
