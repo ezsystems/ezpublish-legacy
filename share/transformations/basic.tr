@@ -2,6 +2,10 @@
 # CF = CF...        : Map from one char to one or more chars  (map)
 # CF - CF = CF...   : Map range of chars to one or more chars (replace)
 # CF - CF +- xx     : Transpose several chars by value        (transpose)
+# TI[,TI...]        :
+#
+# CF = Character Format
+# TI = Transform Identifier
 #
 # Character formats:
 # U+xxxx : Unicode value in hexadecimal
@@ -13,12 +17,12 @@
 #
 #
 
-space:
+space_normalize:
 U+00A0 = U+0020 # Turn non-breaking-space into normal space
 #U+00BC - U+00B = U+0020 # test of parser error detection
 #U+0041 - U+005G + 20 # test of parser error detection
 
-hyphen:
+hyphen_normalize:
 U+007E = U+002D # tilde/swung dash into hyphen-minus
 U+00AD = remove # Soft hyphens are only meant for helping with wordbreaking
 
@@ -58,7 +62,6 @@ U+00B7 = U+0020  # Middle dot
 U+00B8 = U+0020  # Cedilla
 U+00BA = U+0020  # Masculine ordinal indicator
 
-
 special_decompose:
 U+00A8 = "(C)" # Copyright sign
 U+00AE = "(R)" # Registered sign
@@ -69,127 +72,4 @@ U+00B9 = "1"   # Superscript one
 U+00BC = "1/4"   # Vulgar fraction one quarter
 U+00BC = "1/2"   # Vulgar fraction one half
 U+00BC = "3/4"   # Vulgar fraction three quarter
-
-ascii_lowercase:
-U+0041 - U+005A + 20
-
-ascii_uppercase:
-U+0061 - U+007A - 20
-
-cyrillic_transliterate:
-U+0402 = "D%"
-U+0403 = "G%"
-U+0404 = "IE"
-U+0405 = "DS"
-U+0406 = "II"
-U+0407 = "YI"
-U+0408 = "J%"
-U+0409 = "LJ"
-U+040a = "NJ"
-U+040b = "Ts"
-U+040c = "KJ"
-U+040e = "V%"
-U+040f = "DZ"
-
-U+0401 = "IO"
-
-U+0410 = "A"
-U+0411 = "B"
-U+0412 = "V"
-U+0413 = "G"
-U+0414 = "D"
-U+0415 = "E"
-U+0416 = "ZH"
-U+0417 = "Z"
-U+0418 = "I"
-U+0419 = "J"
-U+041a = "K"
-U+041b = "L"
-U+041c = "M"
-U+041d = "N"
-U+041e = "O"
-U+041f = "P"
-U+0420 = "R"
-U+0421 = "S"
-U+0422 = "T"
-U+0423 = "U"
-U+0424 = "F"
-U+0425 = "H"
-U+0426 = "C"
-U+0427 = "CH"
-U+0428 = "SH"
-U+0429 = "SCH"
-U+042a = "\""
-U+042b = "Y"
-U+042c = "\""
-U+042d = "`E"
-U+042e = "YU"
-U+042f = "YA"
-
-U+0430 = "a"
-U+0431 = "b"
-U+0432 = "v"
-U+0433 = "g"
-U+0434 = "d"
-U+0435 = "e"
-U+0436 = "zh"
-U+0437 = "z"
-U+0438 = "i"
-U+0439 = "j"
-U+043a = "k"
-U+043b = "l"
-U+043c = "m"
-U+043d = "n"
-U+043e = "o"
-U+043f = "p"
-U+0440 = "r"
-U+0441 = "s"
-U+0442 = "t"
-U+0443 = "u"
-U+0444 = "f"
-U+0445 = "h"
-U+0446 = "c"
-U+0447 = "ch"
-U+0448 = "sh"
-U+0449 = "sch"
-U+044a = "\""
-U+044b = "y"
-U+044c = "\""
-U+044d = "`e"
-U+044e = "yu"
-U+044f = "ya"
-
-U+0451 = "io"
-
-latin1_transliterate:
-U+00E6 = "ae" # æ => ae
-U+00C6 = "AE" # Æ => AE
-U+00E5 = "aa" # å => aa
-U+00C5 = "AA" # Å => AA
-U+00F8 = "oe" # ø => oe
-U+00D8 = "OE" # Ø => OE
-U+009C = "oe" # oe ligature
-U+008C = "OE" # OE ligature
-
-diacritical_remove:
-# Remove diacriticals from several latin characters
-U+00C0 - U+00C4 = U+0041  # A
-U+00E0 - U+00E4 = U+0061  # a
-U+00C8 - U+00CB = U+0045  # E
-U+00E8 - U+00EB = U+0065  # e
-U+00CC - U+00CF = U+0049  # I
-U+00EC - U+00EF = U+0069  # i
-U+00D2 - U+00D6 = U+004F  # O
-U+00F2 - U+00F6 = U+006F  # o
-U+00D9 - U+00DC = U+0055  # U
-U+00F9 - U+00FC = U+0075  # u
-
-U+00DD = U+0059           # Y
-U+009F = U+0059           # Y
-U+00FD = U+0079           # y
-U+00FF = U+0079           # y
-U+00C7 = U+0043           # C
-U+00E7 = U+0064           # c
-U+00D1 = U+004E           # N
-U+00F1 = U+006E           # n
 

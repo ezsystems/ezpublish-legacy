@@ -671,7 +671,7 @@ class eZCodeMapper
 
         fclose( $fd );
 
-        $this->TransformationTables = $tbl;
+        $this->TransformationTables = array_merge( $this->TransformationTables, $tbl );
 //        var_dump( $this->TransformationTables );
     }
 

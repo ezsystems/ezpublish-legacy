@@ -121,7 +121,26 @@ class eZCharTransform
             $this->Mapper = new eZCodeMapper();
         }
 
-        $this->Mapper->parseTransformationFile( "share/transformations/basic.tr" );
+        $ini =& eZINI::instance( 'transform.ini' );
+        $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
+        $files = $ini->variable( 'Transformation', 'Files' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $extensions = $ini->variable( 'Transformation', 'Extensions' );
+        $repositoryList = array_merge( $repositoryList,
+                                       eZExtension::expandedPathList( $extensions, 'transformations' ) );
+
+        foreach ( $files as $file )
+        {
+            foreach ( $repositoryList as $repository )
+            {
+                $trFile = $repository . '/' . $file;
+                if ( file_exists( $trFile ) )
+                {
+                    $this->Mapper->parseTransformationFile( $trFile );
+                }
+            }
+        }
+
         $unicodeTable = $this->Mapper->generateMappingCode( $rule );
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
         unset( $unicodeTable );

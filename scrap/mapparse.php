@@ -16,12 +16,19 @@ $options = $script->getOptions( "", "", array() );
 $script->initialize();
 
 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
 
-$map = new eZCodeMapper();
+$tr = new eZCharTransform();
 
-$map->parseTransformationFile( "share/transformations/basic.tr" );
-// var_dump( $map->TransformationTables['ascii_uppercase'] );
+$in = 'A space';
+$out = $tr->transform( $in, 'ascii_lowercase' );
+
+print( $in . "\n" );
+print( $out . "\n" );
+
+//$map = new eZCodeMapper();
+
+//$map->parseTransformationFile( "share/transformations/basic.tr" );
+var_dump( $tr->Mapper->TransformationTables );
 // var_dump( $map->mappingTable( 'ascii_uppercase' ) );
 
 $script->shutdown();
