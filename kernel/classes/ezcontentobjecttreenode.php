@@ -732,7 +732,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'class_name';
             case 8:
                 return 'priority';
-            case 8:
+            case 9:
                 return 'name';
         }
     }
