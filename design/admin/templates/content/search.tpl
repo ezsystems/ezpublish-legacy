@@ -27,6 +27,13 @@
     <input class="button"  name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/content/search' )}" />
 </div>
 
+{section show=and(count($search_subtree_array)|eq(1),$search_subtree_array.0|ne(1))}
+<div class="block">
+<label><input type="radio" name="SubTreeArray" value="1" />{'All content'|i18n('design/admin/content/search')}</label>
+<label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')}</label>
+</div>
+{/section}
+
 <div class="block">
     {let adv_url=concat( '/content/advancedsearch/', $search_text|count|gt( 0 )|choose('', concat( '?SearchText=', $search_text|urlencode ) ) )|ezurl}
     {'For more options try the %1Advanced search%2.'|i18n( 'design/admin/content/search', 'The parameters are link start and end tags.', array( concat( '<a href=', $adv_url, '>' ), '</a>' ) )}
