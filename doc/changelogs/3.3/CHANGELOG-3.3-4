@@ -120,6 +120,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 - Fixed bug in permissions for versionview. (Merged from 3.2 rev. 5501)
   http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
+- Fixed bug in shorten template operator.
+  http://ez.no/community/bug_reports/bug_in_template_operator_shorten
   
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
