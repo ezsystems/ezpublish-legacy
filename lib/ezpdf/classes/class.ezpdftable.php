@@ -694,18 +694,20 @@ class eZPDFTable extends Cezpdf
                             $row[$columnCount] = $this->fixWhitespace( $row[$columnCount] );
                             $lines = explode("\n",$row[$columnCount]);
                             $this->y -= $options['rowGap'] + $options['cellPadding'];
-			    $this->setXOffset( $pos[$realColumnCount] );
-			    $leftMargin = $this->ez['leftMargin'];
-			    $this->ez['leftMargin'] = $pos[$realColumnCount];
-                            foreach ($lines as $line){
+                            $this->setXOffset( $pos[$realColumnCount] );
+                            $leftMargin = $this->ez['leftMargin'];
+                            $this->ez['leftMargin'] = $pos[$realColumnCount];
+
+                            foreach ($lines as $line)
+                            {
                                 $line = $this->ezProcessText($line);
                                 $start=1;
 
                                 while (strlen($line) || $start){
                                     $start=0;
-				    if (!$colNewPage){
+                                    if (!$colNewPage){
                                         $this->y-=$height;
-				    }
+                                    }
                                     if ($this->y < $this->ez['bottomMargin']){
                                         $newPage=1;
                                         $newPageLine = 1;
@@ -746,7 +748,7 @@ class eZPDFTable extends Cezpdf
                                                                         0,
                                                                         $options['test'] );
 
-					$this->y = $storeY;
+                                        $this->y = $storeY;
                                         $line=$textInfo['text'];
                                         if ( $line == '' )
                                         {
@@ -755,7 +757,7 @@ class eZPDFTable extends Cezpdf
                                     }
                                 }
                             }
-			    $this->ez['leftMargin'] = $leftMargin;
+                            $this->ez['leftMargin'] = $leftMargin;
 
                             $dy=$y-$this->y+$options['rowGap']+$options['cellPadding'];
                             if ($dy>$maxRowHeight)

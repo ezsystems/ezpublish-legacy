@@ -2886,9 +2886,9 @@ class Cpdf
 			$this->setCurrentFont();
 			if (!$test){
 			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
-                if ( $addTextArray['height'] != -1 )
+                if ( $addTextArray['height'] != -1 &&
+                     $returnArray['height'] < $addTextArray['height'] )
                 {
-		  if( $returnArray['height'] < $addTextArray['height'] )
                     $returnArray['height'] = $addTextArray['height'];
                 }
 			}
@@ -2909,9 +2909,9 @@ class Cpdf
 			$this->setCurrentFont();
 			if (!$test){
 			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
-                if ( $addTextArray['height'] != -1 )
+                if ( $addTextArray['height'] != -1 &&
+                     $returnArray['height'] < $addTextArray['height'] )
                 {
-		  if( $returnArray['height'] < $addTextArray['height'] )
                     $returnArray['height'] = $addTextArray['height'];
                 }
 			}
@@ -2927,11 +2927,11 @@ class Cpdf
 		    $break=$i;
 		    $ctmp=ord($text[$i]);
 		    if (isset($this->fonts[$cf]['differences'][$ctmp])){
-			$ctmp=$this->fonts[$cf]['differences'][$ctmp];
+                $ctmp=$this->fonts[$cf]['differences'][$ctmp];
 		    }
 		    $breakWidth = ($w-$this->fonts[$cf]['C'][$ctmp]['WX'])*$size/1000;
 		}
-	    }
+        }
 	}
 	// then there was no need to break this line
 	if ($justification=='full'){
@@ -2950,9 +2950,9 @@ class Cpdf
             return array( 'only_directive' => true );
         }
 
-        if ( $addTextArray['height'] != -1 )
+        if ( $addTextArray['height'] != -1 &&
+             $returnArray['height'] < $addTextArray['height'] )
         {
-	  if( $returnArray['height'] < $addTextArray['height'] )
             $returnArray['height'] = $addTextArray['height'];
         }
 	}
