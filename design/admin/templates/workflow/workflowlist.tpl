@@ -1,5 +1,7 @@
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'%group_name [Workflow group]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%group_name', $group.name ) )} </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -27,7 +29,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<form action={'workflow/grouplist'|ezurl} method="post" name="GroupList">
+<form name="GroupList" method="post" action={'workflow/grouplist'|ezurl}>
     <input type="hidden" name="ContentClass_id_checked[]" value="{$group.id}" />
     <input type="hidden" name="EditGroupID" value="{$group.id}" />
     <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit this workflow group.'|i18n( 'design/admin/workflow/workflowlist' )}" />
@@ -39,11 +41,13 @@
 
 </div>
 
-<form name="workflowlistform" action={concat( $module.functions.workflowlist.uri, '/', $group_id )|ezurl} method="post" name="WorkflowList">
+<form name="workflowlistform" method="post" action={concat( $module.functions.workflowlist.uri, '/', $group_id )|ezurl}> 
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl} {'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows [%workflow_count]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
+
+<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows [%workflow_count]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 

@@ -1,7 +1,9 @@
-<form name="grouplistform" action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
+<form name="grouplistform" action={concat($module.functions.grouplist.uri)|ezurl} method="post">
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'Workflow groups [%groups_count]'|i18n( 'design/admin/workflow/grouplist',, hash( '%groups_count', $groups|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>

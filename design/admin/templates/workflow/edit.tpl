@@ -1,4 +1,4 @@
-<form action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl} method="post" name="WorkflowEdit">
+<form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}> 
 
 {* Feedback *}
 {section show=and( $validation.processed, $validation.groups )}

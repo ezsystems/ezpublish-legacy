@@ -14,8 +14,11 @@
 
 
 {* Workflow *}
+
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'%workflow_name [Workflow]'|i18n( 'design/admin/workflow/view' ,, hash( '%workflow_name', $workflow.name ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -60,9 +63,12 @@
 
 
 {* Groups *}
-<form name="workflowgroups" action={concat( '/workflow/view/', $workflow.id )|ezurl} method="post">
+<form name="workflowgroups" method="post" action={concat( '/workflow/view/', $workflow.id )|ezurl}>
+
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
@@ -111,7 +117,7 @@
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-</div>
+
 </form>
 
 
