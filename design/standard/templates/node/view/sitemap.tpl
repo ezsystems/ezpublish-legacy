@@ -43,7 +43,7 @@
 	<td class="{$Tree:sequence}"><a href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></td>
 	<td class="{$Tree:sequence}">
        	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
-	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
+	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.owner_id}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.current_version}</td>
@@ -54,10 +54,10 @@
         {case match=1}  
 	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="edit" border="0"></a>
+	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0"></a>
 	    {/case}
 	    {case}
-            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="edit" border="0"></a>
+            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0"></a>
 	    {/case}
         {/switch}
         {/case}
@@ -69,7 +69,7 @@
 	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
              <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.node_id}" align="top" />
-             <input type="image" src={"editdelete.png"|ezimage} border="0" name="RemoveObject" value="{$Tree:item.node_id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
+             <input type="image" src={"editdelete.png"|ezimage} border="0" alt="Delete" name="RemoveObject" value="{$Tree:item.node_id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
 	{/case}
         {case} 
         {/case}
