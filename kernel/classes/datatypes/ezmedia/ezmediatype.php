@@ -402,7 +402,7 @@ class eZMediaType extends eZDataType
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $type = $attributeParametersNode->elementTextContentByName( 'type' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
-        $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
     }
 
     /*!
