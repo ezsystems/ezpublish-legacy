@@ -724,8 +724,8 @@ class eZPackageCreationHandler
                 $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
                 {
-                    $errorList[] = array( 'field' => 'Package name',
-                                          'description' => "The package name $packageName is not valid, we recommend using $validPackageName." );
+                    $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
+                                          'description' => ezi18n( 'kernel/package', "The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.", false, array( '%packagename' => $packageName ) ) );
                     $result = false;
                 }
             }
