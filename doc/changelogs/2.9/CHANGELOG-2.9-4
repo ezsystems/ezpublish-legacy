@@ -29,6 +29,7 @@ Changes from 2.9-3 to 2.9-4
   object in one place will not remove the object, only the specified placement will be removed.
 - Fixed bug for uncorrected attribute order when editing an object whose attribute order may have been changed.
 - Fixed bug for class discard function.
+- Added total price function to basket.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
