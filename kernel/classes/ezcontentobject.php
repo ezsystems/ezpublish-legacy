@@ -1031,8 +1031,6 @@ class eZContentObject extends eZPersistentObject
         }
         $db =& eZDB::instance();
 
-//         $contentobjectAttributes =& $contentobject->attribute( 'contentobject_attributes' );
-//         $contentobjectAttributes =& $contentobject->contentObjectAttributes( true, null, null, false, true );
         $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
 
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
@@ -1088,9 +1086,25 @@ class eZContentObject extends eZPersistentObject
         {
             foreach ( $nodes as $node )
             {
+                // Clean up role assignments with limitations related to this object
+                $db =& eZDB::instance();
+                $pathString = $node->attribute( 'path_string' );
+                $db->query( "DELETE FROM ezuser_role
+                        WHERE limit_value LIKE '$pathString%' AND limit_identifier='Subtree'" );
+
+                // Clean up subtree limitations related to this object
+                $limitationArray = $db->arrayQuery( "SELECT l.id AS limitation_id, v.id AS value_id
+                                                     FROM ezpolicy_limitation AS l, ezpolicy_limitation_value AS v
+                                                     WHERE v.limitation_id=l.id AND l.identifier='Subtree' AND v.value LIKE '$pathString%'" );
+
+                foreach ( $limitationArray as $limitation )
+                {
+                    $db->query( "DELETE FROM ezpolicy_limitation WHERE id=" . $limitation['limitation_id'] );
+                    $db->query( "DELETE FROM ezpolicy_limitation_value WHERE id=" . $limitation['value_id'] );
+                }
+
                 $node->remove();
             }
-//            $db =& eZDB::instance();
 
             $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
             eZSearch::removeObject( $contentobject );
@@ -1106,6 +1120,25 @@ class eZContentObject extends eZPersistentObject
                 foreach ( array_keys( $nodes ) as $key )
                 {
                     $node =& $nodes[$key];
+
+                    // Clean up role assignments with limitations related to this object
+                    $db =& eZDB::instance();
+                    $pathString = $node->attribute( 'path_string' );
+                    $db->query( "DELETE FROM ezuser_role
+                        WHERE limit_value LIKE '$pathString%' AND limit_identifier='Subtree'" );
+
+                    // Clean up subtree limitations related to this object
+                    $limitationArray = $db->arrayQuery( "SELECT l.id AS limitation_id, v.id AS value_id
+                                                     FROM ezpolicy_limitation AS l, ezpolicy_limitation_value AS v
+                                                     WHERE v.limitation_id=l.id AND l.identifier='Subtree' AND v.value LIKE '$pathString%'" );
+
+                    foreach ( $limitationArray as $limitation )
+                    {
+                        $db->query( "DELETE FROM ezpolicy_limitation WHERE id=" . $limitation['limitation_id'] );
+                        $db->query( "DELETE FROM ezpolicy_limitation_value WHERE id=" . $limitation['value_id'] );
+                    }
+
+
                     $node->remove();
                 }
                 $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
