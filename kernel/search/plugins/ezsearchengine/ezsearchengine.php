@@ -912,7 +912,7 @@ class eZSearchEngine
                 }
                 else
                 {
-                    $stopWordArray[] = array( 'word' => $searchPart['word'] );
+                    $stopWordArray[] = array( 'word' => $searchPart['text'] );
                 }
             }
 
