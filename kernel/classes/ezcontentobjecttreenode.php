@@ -1320,16 +1320,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDb::instance();
         $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
         $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
-        $md5QueryPart = $db->md5( $newPathStringQueryPart );
+//        $md5QueryPart = $db->md5( $newPathStringQueryPart );
+          $md5QueryPart = $db->md5( 'path_identification_string' );
         $query = "UPDATE
                          ezcontentobject_tree
                   SET
-                         path_identification_string = $newPathStringQueryPart,
+                         path_identification_string = $newPathStringQueryPart
+                  WHERE
+                         path_string like '$childrensPath%'";
+
+        $query1 = "UPDATE
+                         ezcontentobject_tree
+                  SET
                          md5_path = $md5QueryPart
                   WHERE
                          path_string like '$childrensPath%'";
 //        eZDebugSetting::writeDebug( 'kernel-content-treenode', $query, "nice_urls" );
         $db->query( $query );
+        $db->query( $query1 );
 /*
              $subTree = & $this->subTree();
          reset( $subTree );
