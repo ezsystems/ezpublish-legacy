@@ -159,6 +159,7 @@ class eZDateTimeType extends eZDataType
 
     function &parseXML( $xmlText )
     {
+        include_once( 'lib/ezxml/classes/ezxml.php' );
         $xml = new eZXML();
         $dom =& $xml->domTree( $xmlText );
         return $dom;
