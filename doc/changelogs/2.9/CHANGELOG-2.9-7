@@ -105,6 +105,7 @@ contentclass:
   considered complete.
 - Fixed a major problem with mementos fetchin in runcronworkflows, before
   the wrong memento data would be fetched in some occasions.
+- Error view will set 404 HTTP status for some error numbers.
 
 
 persistentobject:
@@ -199,6 +200,8 @@ eZXML:
 - New function firstChild() which returns the first child of all the children
   or null if no children.
 - Added support for cloning DOM nodes.
+- XML domtree will return null for invalid xml text.
+- Attributes can be removed by passing the name.
 
 eZSys:
 - Added storageDirectory() which returns the path to the storage directory

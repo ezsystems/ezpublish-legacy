@@ -93,7 +93,6 @@ class eZSimplifiedXMLInput
             else
             {
                 $dom = $data[0];
-                $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
                 $objects =& $dom->elementsByName( 'object' );
                 foreach ( $objects as $object )
                 {
@@ -108,7 +107,8 @@ class eZSimplifiedXMLInput
                                                                              'Object '. $objectID .' does not exist.',
                                                                              'ezXMLTextType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }else
+                    }
+                    else
                     {
                         $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
                         $relatedObjectIDArray = array();
@@ -124,8 +124,11 @@ class eZSimplifiedXMLInput
                     }
                 }
                 $links =& $dom->elementsByName( 'link' );
-                foreach ( $links as $link )
+//                 foreach ( $links as $link )
+                foreach ( array_keys( $links ) as $linkKey )
                 {
+
+                    $link =& $links[$linkKey];
                     if ( $link->attributeValue( 'id' ) != null )
                     {
                         $linkID = $link->attributeValue( 'id' );
@@ -142,8 +145,15 @@ class eZSimplifiedXMLInput
                     {
                         $url = $link->attributeValue( 'href' );
                         $linkID =& eZURL::registerURL( $url );
+                        $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                        $link->removeNamedAttribute( 'href' );
                     }
                 }
+                $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
+//                 print( "<pre>" );
+//                 print( htmlspecialchars( $contentObjectAttribute->attribute( "data_text" ) ) . "<br/>" );
+//                 print_r( $dom );
+//                 print( "</pre>" );
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
         }
@@ -670,16 +680,24 @@ class eZSimplifiedXMLInput
             case 'link' :
             {
                 $linkID = $tag->attributeValue( 'id' );
+                $target = false;
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID );
                 else
                 {
                     $href = $tag->attributeValue( 'href' );
                     $target = $tag->attributeValue( 'target' );
-                    if ( strlen( $target ) == 0 )
-                        $target = "self_";
+//                     if ( strlen( $target ) == 0 )
+//                         $target = "self_";
                 }
-                $output .= "<$tagName href='$href' target='$target'>" . $childTagText . "</$tagName>";
+                $attributes = array();
+                $attributes[] = "href='$href'";
+                if ( $target != '' )
+                    $attributes[] = "target='$target'";
+                $attributeText = '';
+                if ( count( $attributes ) > 0 )
+                    $attributeText = ' ' . implode( ' ', $attributes );
+                $output .= "<$tagName$attributeText>" . $childTagText . "</$tagName>";
             }break;
 
             case 'anchor' :

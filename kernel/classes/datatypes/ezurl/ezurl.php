@@ -51,8 +51,19 @@ class eZURL extends eZPersistentObject
 {
     /*!
     */
-    function eZURL()
+    function eZURL( $row )
     {
+        $this->eZPersistentObject( $row );
+    }
+
+    function &definition()
+    {
+        return array( 'fields' => array( 'id' => 'ID',
+                                         'url' => 'URL' ),
+                      'keys' => array( 'id' ),
+                      'increment_key' => 'id',
+                      'class_name' => 'eZURL',
+                      'name' => 'ezurl' );
     }
 
     /*!
@@ -82,6 +93,53 @@ class eZURL extends eZPersistentObject
             $urlID = $urlArray[0]['id'];
         }
         return $urlID;
+    }
+
+    /*!
+     \return the number of registered URLs.
+    */
+    function &fetchListCount( $parameters = array() )
+    {
+        return eZURL::handleList( $parameters, true );
+    }
+
+    /*!
+     \return all registered URLs.
+    */
+    function &fetchList( $parameters = array() )
+    {
+        return eZURL::handleList( $parameters, false );
+    }
+
+    /*!
+     \return all registered URLs.
+    */
+    function &handleList( $parameters = array(), $asCount = false )
+    {
+        $parameters = array_merge( array( 'as_object' => true,
+                                          'offset' => false,
+                                          'limit' => false ),
+                                   $parameters );
+        $asObject = $parameters['as_object'];
+        $offset = $parameters['offset'];
+        $limit = $parameters['limit'];
+        $limitArray = null;
+        if ( !$asCount and $offset !== false and $limit !== false )
+            $limitArray = array( 'offset' => $offset,
+                                 'length' => $limit );
+        if ( $asCount )
+        {
+            $rows = eZPersistentObject::fetchObjectList( eZURL::definition(),
+                                                         array(), null, null, null,
+                                                         false, null,
+                                                         array( array( 'operation' => 'count( id )',
+                                                                       'name' => 'count' ) ) );
+            return $rows[0]['count'];
+        }
+        else
+            return eZPersistentObject::fetchObjectList( eZURL::definition(),
+                                                        null, null, null, $limitArray,
+                                                        $asObject );
     }
 
     /*!

@@ -695,11 +695,15 @@ class eZDebug
     }
 
     /*!
+     \static
      Enables or disables logging to file for a given message type.
      If \a $types is not supplied it will do the operation for all types.
     */
     function setLogFileEnabled( $enabled, $types = false )
     {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
         if ( $types === false )
             $types =& $this->messageTypes();
         if ( !is_array( $types ) )

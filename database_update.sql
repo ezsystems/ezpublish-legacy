@@ -199,7 +199,7 @@ create table ezwaituntildatevalue(
 alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
 alter table ezsession add cache_mask_1 int default 0 not null;
 alter table ezcontentobject_tree add column md5_path varchar(32);
-# remember to run scrap/updateniceurls.php to update path_identification strings
+# remember to run update/common/scripts/updateniceurls.php to update path_identification strings
 update ezcontentobject_tree set md5_path = md5( path_identification_string );
 alter table ezcontentobject drop column parent_id;
 
