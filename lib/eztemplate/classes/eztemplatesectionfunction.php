@@ -318,7 +318,7 @@ class eZTemplateSectionFunction
         {
             $variableIteratorValue = false;
             $showMainBody = true;
-            if ( $showItem !== null )
+            if ( $showSet )
             {
                 if( !$canShowBlock )
                     $showMainBody = false;
