@@ -513,7 +513,7 @@ class eZCLI
         return $optionConfig;
     }
 
-    function getOptions( $config, $arguments = false )
+    function getOptions( $config, $argumentConfig, $arguments = false )
     {
         if ( $arguments === false )
         {
@@ -529,6 +529,8 @@ class eZCLI
 
         if ( is_string( $config ) )
             $config = eZCLI::parseOptionString( $config, $optionConfig );
+        if ( is_string( $argumentConfig ) )
+            $argumentConfig = eZCLI::parseOptionString( $argumentConfig, $tmpArgumentConfig );
 
         $options = array();
 
@@ -540,6 +542,8 @@ class eZCLI
             $helpOption = '--help';
         if ( $helpOption )
             $helpText = "\n" . "Try `$program $helpOption' for more information.";
+
+        $options['arguments'] = array();
 
         $argumentCount = count( $arguments );
         for ( $i = 0; $i < $argumentCount; ++$i )
@@ -637,6 +641,7 @@ class eZCLI
             }
             else
             {
+                $options['arguments'][] = $argument;
             }
         }
         foreach ( $config['list'] as $configItem )

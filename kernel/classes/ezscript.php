@@ -115,6 +115,11 @@ class eZScript
         $this->IsQuiet = false;
         $this->ShowVerbose = false;
         $this->IsInitialized = false;
+        $this->CurrentOptions = false;
+        $this->CurrentOptionConfig = false;
+        $this->CurrentStandardOptions = false;
+        $this->CurrentExcludeOptions = false;;
+        $this->CurrentOptionHelp = false;
 
         $this->IterationTrueString = '.';
         $this->IterationFalseString = '~';
@@ -252,7 +257,7 @@ class eZScript
         $this->IsInitialized = true;
     }
 
-    function shutdown()
+    function shutdown( $exitCode = false )
     {
         $db =& eZDB::instance();
 
@@ -281,6 +286,8 @@ class eZScript
         eZExecution::cleanup();
         eZExecution::setCleanExit();
         $this->IsInitialized = false;
+        if ( $exitCode !== false )
+            $this->ExitCode = $exitCode;
         if ( $this->ExitCode !== false )
             exit( $this->ExitCode );
     }
@@ -360,6 +367,22 @@ class eZScript
     function verboseOutputLevel()
     {
         return $this->ShowVerbose;
+    }
+
+    /*!
+     \return the currently set options if getOptions() has been run or \c false if no options are set.
+    */
+    function currentOptions()
+    {
+        return $this->CurrentOptions;
+    }
+
+    /*!
+     \return the current option configuration, this will be a mix of the standard options and script specified.
+    */
+    function currentOptionConfig()
+    {
+        return $this->CurrentOptionConfig;
     }
 
     /*!
@@ -499,8 +522,45 @@ class eZScript
         }
     }
 
-    function showHelp( $useStandardOptions, $optionList, $arguments = false )
+    function showHelp( $useStandardOptions = false, $optionConfig = false, $optionHelp = false, $argumentConfig = false, $arguments = false )
     {
+        if ( $useStandardOptions === false )
+        {
+            $useStandardOptions = $this->CurrentStandardOptions;
+        }
+        if ( $optionConfig === false )
+        {
+            $optionConfig = $this->CurrentOptionConfig;
+        }
+        if ( $optionHelp === false )
+        {
+            $optionHelp = $this->CurrentOptionHelp;
+        }
+        if ( $argumentConfig === false )
+        {
+            $argumentConfig = $this->ArgumentConfig;
+        }
+        $optionList = array();
+        foreach ( $optionConfig['list'] as $configItem )
+        {
+            if ( in_array( $configItem['name'], $this->CurrentExcludeOptions ) )
+                continue;
+            $optionText = '-';
+            if ( $configItem['is-long-option'] )
+                $optionText .= '-';
+            $optionText .= $configItem['name'];
+            if ( $configItem['has-value'] and $configItem['is-long-option'] )
+                $optionText .= "=VALUE";
+            $hasMultipleValues = ( $configItem['quantifier']['min'] > 1 or
+                                   $configItem['quantifier']['max'] === false or
+                                   $configItem['quantifier']['max'] > 1 );
+            if ( $hasMultipleValues )
+                $optionText .= "...";
+            $optionDescription = '';
+            if ( isset( $optionHelp[$configItem['name']] ) )
+                $optionDescription = $optionHelp[$configItem['name']];
+            $optionList[] = array( $optionText, $optionDescription );
+        }
         if ( $arguments === false )
         {
             $arguments = $_SERVER['argv'];
@@ -540,10 +600,22 @@ class eZScript
             }
         }
         $description = $this->Description;
-        $helpText =  "Usage: " . $argv[0];
+        $helpText =  "Usage: " . $program;
         if ( count( $optionList ) > 0 or count( $generalOptionList ) > 0 )
         {
             $helpText .= " [OPTION]...";
+        }
+        if ( $argumentConfig )
+        {
+            foreach ( $argumentConfig['list'] as $argumentItem )
+            {
+                $argumentName = strtoupper( $argumentItem['name'] );
+                $quantifier = $argumentItem['quantifier'];
+                if ( $quantifier['min'] > 1 or $quantifier['max'] === false or $quantifier['max'] > 1 )
+                    $helpText .= " [$argumentName]...";
+                else
+                    $helpText .= " [$argumentName]";
+            }
         }
         if ( $description )
             $helpText .= "\n" . $description . "\n";
@@ -627,6 +699,8 @@ class eZScript
     {
         if ( is_string( $config ) )
             $config = eZCLI::parseOptionString( $config, $optionConfig );
+        if ( is_string( $argumentConfig ) )
+            $argumentConfig = eZCLI::parseOptionString( $argumentConfig, $tmpArgumentConfig );
 
         if ( $useStandardOptions )
         {
@@ -692,7 +766,13 @@ class eZScript
             $config = eZCLI::parseOptionString( $optionString, $optionConfig );
         }
         $cli =& eZCLI::instance();
-        $options = $cli->getOptions( $config, $arguments );
+        $options = $cli->getOptions( $config, $argumentConfig, $arguments );
+        $this->CurrentOptionConfig = $config;
+        $this->CurrentOptions = $options;
+        $this->CurrentStandardOptions = $useStandardOptions;
+        $this->CurrentExcludeOptions = $excludeOptions;
+        $this->CurrentOptionHelp = $optionHelp;
+        $this->ArgumentConfig = $argumentConfig;
         if ( !$options )
         {
             if ( !$this->IsInitialized )
@@ -772,23 +852,7 @@ class eZScript
             {
                 if ( !$this->IsInitialized )
                     $this->initialize();
-                $options = array();
-                foreach ( $config['list'] as $configItem )
-                {
-                    if ( in_array( $configItem['name'], $excludeOptions ) )
-                        continue;
-                    $optionText = '-';
-                    if ( $configItem['is-long-option'] )
-                        $optionText .= '-';
-                    $optionText .= $configItem['name'];
-                    if ( $configItem['has-value'] and $configItem['is-long-option'] )
-                        $optionText .= "=VALUE";
-                    $optionDescription = '';
-                    if ( isset( $optionHelp[$configItem['name']] ) )
-                        $optionDescription = $optionHelp[$configItem['name']];
-                    $options[] = array( $optionText, $optionDescription );
-                }
-                $this->showHelp( $useStandardOptions, $options );
+                $this->showHelp();
                 $this->shutdown();
                 exit;
             }
