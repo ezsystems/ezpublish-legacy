@@ -210,7 +210,19 @@ class eZDBSchemaInterface
         $resultArray = array();
         foreach ( $rows as $row )
         {
-            $resultArray[] = array_values( $row );
+            $rowData = array();
+            foreach ( $tableInfo['fields'] as $fieldName => $field )
+            {
+                if ( $field['type'] == 'char' )
+                {
+                    $rowData[$fieldName] = str_pad( $row[$fieldName], $field['length'], ' ' );
+                }
+                else
+                {
+                    $rowData[$fieldName] = $row[$fieldName];
+                }
+            }
+            $resultArray[] = array_values( $rowData );
         }
         return array( 'fields' => $fields,
                       'rows' => $resultArray );
