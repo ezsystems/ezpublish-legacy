@@ -55,6 +55,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         $this->eZTemplateFileResource( $name, true );
         $this->Keys = array();
+        $this->KeyStack = array();
         $this->OnlyStandard = $onlyStandard;
     }
 
@@ -313,6 +314,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
         }
+        $this->KeyStack[] = $this->Keys;
+        $this->Keys = $matchKeys;
 
         eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
 
@@ -412,6 +415,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
         $resourceData['template-filename'] = $file;
         $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
+        $oldKeys = array_pop( $this->KeyStack );
+        $this->Keys = $oldKeys;
         return $result;
     }
 
