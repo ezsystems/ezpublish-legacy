@@ -1130,7 +1130,9 @@ CREATE TABLE ezurl_object_link (
   url_id int(11) NOT NULL default '0',
   contentobject_attribute_id int(11) NOT NULL default '0',
   contentobject_attribute_version int(11) NOT NULL default '0',
-  PRIMARY KEY  (url_id,contentobject_attribute_id,contentobject_attribute_version)
+  KEY ezurl_ol_url_id (url_id),
+  KEY ezurl_ol_coa_id (contentobject_attribute_id),
+  KEY ezurl_ol_coa_version (contentobject_attribute_version)
 ) TYPE=MyISAM;
 
 
