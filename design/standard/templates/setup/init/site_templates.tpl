@@ -9,7 +9,7 @@
   <p>
     {"Please choose one or more of the demo sites you would like to test or base your sites on. Use Plain if you wish to start from scratch."i18n("design/standard/setup/init")}
   </p>
-
+  
   <table border="0" cellspacing="2" cellpadding="0">
     
     <tr>
@@ -25,51 +25,53 @@
               <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="" />
             {/section}
       </td>
-
-      {section show=eq( mod( $:index, 4 ), 3 )}
-
-	</tr>
-	<tr>
-
-	{section name=SiteTemplateInner loop=$site_templates offset=sub($SiteTemplate:index,3) max=4}
-	  <td align="bottom" class="normal">
-	    <input type="checkbox" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
-            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][identifier]" value="{$:item.identifier}" />
-            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][name]" value="{$:item.name}" />
-	  </td>
-        {/section}
-
-      {/section}
-
-      {section show=eq( mod( $:index, 4 ), 3 )}
-        </tr>
+    {delimiter modulo=4}
+      </tr>
+      <tr>
+      </tr>
 	  <td colspan="4">
 	    &nbsp;
 	  </td>
-        <tr>
-      {/section}
-
-      {section show=and( le(count($site_templates), 3 ), eq( count($site_templates),sum($:index,1)) ) }
-       </tr>
-	  <td colspan="4">
-	    &nbsp;
-	  </td>
-       <tr>
-       </tr>
-       <tr>
-       {section name=SiteTemplateInner loop=$site_templates offset=sub($SiteTemplate:index,3) max=4}
+      <tr>
+      {section name=SiteTemplateInner loop=$site_templates max=4}
 	  <td align="bottom" class="normal">
-	    <input type="checkbox" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
-            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][identifier]" value="{$:item.identifier}" />
-            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][name]" value="{$:item.name}" />
+	    <input type="checkbox" name="eZSetup_site_templates[{$:index}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}" />
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][name]" value="{$:item.name}" />
 	  </td>
-       {/section}
       {/section}
+      </tr>
+      <tr>   
+    {/delimiter}
     {/section}
     </tr>
 
-  </table>      
+    {section show=count($site_templates)|gt(4)}
+    <tr>
+        {section name=SiteTemplateInner loop=$site_templates offset=4 max=4}
+	  <td align="bottom" class="normal">
+	    <input type="checkbox" name="eZSetup_site_templates[{sum(4, $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+            <input type="hidden" name="eZSetup_site_templates[{sum(4, $:index)}][identifier]" value="{$:item.identifier}" />
+            <input type="hidden" name="eZSetup_site_templates[{sum(4, $:index)}][name]" value="{$:item.name}" />
+	  </td>
+        {/section}
+    </tr>
+    {/section}
 
+    {section show=count($site_templates)|le(4)}
+    <tr>
+        {section name=SiteTemplateInner loop=$site_templates max=4}
+	  <td align="bottom" class="normal">
+	    <input type="checkbox" name="eZSetup_site_templates[{$:index}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}" />
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][name]" value="{$:item.name}" />
+	  </td>
+        {/section}
+    </tr>
+    {/section}
+
+  </table>      
+  
   {include uri="design:setup/persistence.tpl"}
 
   {include uri='design:setup/init/navigation.tpl'}
