@@ -19,11 +19,8 @@
 </tr>
 <tr>
 {/delimiter}
-
-
   {section-else}
   {/section}
 {/section}
 </tr>
-
 </table>

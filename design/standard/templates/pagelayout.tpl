@@ -65,6 +65,7 @@ _editor_url = "";
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
     <td class="topbox" width="20%" valign="bottom">
+        <input type="hidden" name="SectionID" value="3">
 	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
