@@ -115,9 +115,12 @@ function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
 
-    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-ip-list'] ) =
-        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugIPList' ), array ( 'enabled', 'enabled' ) );
-    eZDebug::updateSettings( $debugSettings );
+    $settings = array();
+    list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['log-only'], $settings['debug-ip-list'] ) =
+        $ini->variableMulti( 'DebugSettings', 
+                             array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugIPList' ),
+                             array( 'enabled', 'enabled', 'disabled' ) );
+    eZDebug::updateSettings( $settings );
 }
 
 /*!
@@ -217,33 +220,36 @@ function &eZDisplayDebug()
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
     {
-        $text =& eZDebug::printReport( $type == "popup", true, true );
-        return $text;
+        return eZDebug::printReport( $type == "popup", true, false );
     }
     return null;
 }
 
-function eZDisplayResult( &$templateResult, &$debugReport )
+/*!
+  \private
+*/
+function eZDisplayResult( $templateResult )
 {
-    if ( $debugReport !== null )
+    if ( $templateResult !== null )
     {
-        if ( $templateResult !== null )
+        $debugMarker = '<!--DEBUG_REPORT-->';
+        $pos = strpos( $templateResult, $debugMarker );
+        if ( $pos !== false )
         {
-            $debugMarker = '<!--DEBUG_REPORT-->';
-            $pos = strpos( $templateResult, $debugMarker );
-            if ( $pos !== false )
-            {
-                $debugMarkerLength = strlen( $debugMarker );
-                $templateResult = substr_replace( $templateResult, $debugReport, $pos, $debugMarkerLength );
-            }
-            else
-                $templateResult = implode( '', array( $templateResult, $debugReport ) );
+            $debugMarkerLength = strlen( $debugMarker );
+            echo substr( $templateResult, 0, $pos );
+            eZDisplayDebug();
+            echo substr( $templateResult, $pos + $debugMarkerLength );
         }
         else
-            $templateResult = $debugReport;
+        {
+            echo $templateResult, eZDisplayDebug();
+        }
     }
-
-    print( $templateResult );
+    else
+    {
+        eZDisplayDebug();
+    }
 }
 
 function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
@@ -1059,9 +1065,9 @@ else
 
 eZDebug::addTimingPoint( "End" );
 
-eZDisplayResult( $templateResult, eZDisplayDebug() );
-
 ob_end_flush();
+
+eZDisplayResult( $templateResult );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();

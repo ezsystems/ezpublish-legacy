@@ -57,9 +57,11 @@ $tpl =& eZTemplate::instance();
 
 include_once( 'kernel/common/eztemplatedesignresource.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( "lib/ezutils/classes/ezdebug.php" );
 $ini =& eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
+eZDebug::setLogOnly( true );
 
 $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
 
