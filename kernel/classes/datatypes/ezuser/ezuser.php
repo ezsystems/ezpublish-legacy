@@ -396,6 +396,7 @@ class eZUser extends eZPersistentObject
             $authenticationMatch = eZUser::authenticationMatch();
 
         $loginEscaped = $db->escapeString( $login );
+        $passwordEscaped = $db->escapeString( $password );
 
         $loginArray = array();
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
@@ -417,7 +418,9 @@ class eZUser extends eZPersistentObject
                       FROM ezuser, ezcontentobject
                       WHERE ( $loginText ) AND
                         ezcontentobject.status='$contentObjectStatus' AND
-                        ( ezcontentobject.id=contentobject_id OR ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ) )";
+                        ezcontentobject.id=contentobject_id AND
+                        ( ( password_hash_type!=4 ) OR
+                          ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
