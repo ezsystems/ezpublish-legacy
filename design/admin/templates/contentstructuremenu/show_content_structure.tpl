@@ -27,7 +27,7 @@
                 {set toolTip = ''}
             {/section}
 
-        {* Text *}
+            {* Text *}
             {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
                 <a class="nodetext" href="#" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
             {/let}

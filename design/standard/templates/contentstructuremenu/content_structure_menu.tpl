@@ -30,12 +30,6 @@
         {set itemClickAction = $:itemClickAction|ezurl(no)}
     {/section}
     
-    <br>                                                  
-    action = {$csm_menu_item_click_action}
-    <br>
-    real = {$:itemClickAction}
-    <br>
-    
     {* create menu *}                                                   
     {cache-block keys=array($rootNodeID)}     
         {* Fetch content structure. *}
