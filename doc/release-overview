@@ -200,3 +200,10 @@ Datatype branch:
 - Revision=6425
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.3-5/
 - Date 7-May-2004
+
+3.4.0beta1:
+- AKA 3.4.0 beta 1
+- Revision=6441
+- From revision=6440
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.4.0beta1
+- Date 10-May-2004
