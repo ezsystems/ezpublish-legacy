@@ -12,15 +12,15 @@
 
 <div class="message-confirmation">
 
-<h2>{"Are you sure you want to remove %1 from node %2?"|i18n("design/admin/node/removenode",,hash("%1",$object.name,"%2",$node.object.name))}</h2>
+<h2>{'Are you sure you want to remove %1 from node %2?'|i18n( 'design/admin/node/removenode',,hash( '%1', $object.name, '%2', $node.object.name ) )}</h2>
 <ul>
-    <li>{"Removing this assignment will also remove its %1 children."|i18n("design/admin/node/removenode",,hash("%1",$ChildObjectsCount))}</li>
+    <li>{'Removing this assignment will also remove its %1 children.'|i18n( 'design/admin/node/removenode',, hash( '%1', $ChildObjectsCount ) )}</li>
 </ul>
 
-<p><b>{"Note"|i18n("design/admin/node/removenode")}:</b> {"Removed nodes can be retrieved later. You will find them in the trash."|i18n("design/admin/node/removenode")}</p>
+<p><b>{'Note'|i18n( 'design/admin/node/removenode' )}:</b> {'Removed nodes can be retrieved later. You will find them in the trash.'|i18n( 'design/admin/node/removenode' )}</p>
 <br/>
 
-<h1>{"Removing node assignment of %1"|i18n("design/admin/node/removenode",,array($object.name))}</h1>
+<h1>{'Removing node assignment of %1'|i18n( 'design/admin/node/removenode',, array( $object.name ) )}</h1>
 
 </div>
 
@@ -32,10 +32,10 @@
 
 <div class="block">
 
-<form enctype="multipart/form-data" method="post" action={concat("/content/removenode/",$object.id,"/",$edit_version,"/",$node.node_id,"/")|ezurl}>
+<form enctype="multipart/form-data" method="post" action={concat( '/content/removenode/', $object.id, '/', $edit_version, '/', $node.node_id, '/' )|ezurl}>
     <input type="hidden" name=RemoveNodeID value={$node.node_id} />
-    {include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="OK"|i18n("design/admin/node/removenode")}
-    {include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value="Cancel"|i18n("design/admin/node/removenode")}
+    <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removenode' )}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/node/removenode' )} />
 </form>
 
 </div>

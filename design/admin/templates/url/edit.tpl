@@ -13,7 +13,7 @@
     <div class="context-attributes">
         <div class="block">
             <label>{'Address'|i18n( 'design/admin/url/edit' )}</label>
-            {include uri="design:gui/lineedit.tpl" name=link id_name=link value=$url.url}
+            <input class="box" type="text" name="link" value="{$url.url}" />
         </div>
     </div>
 
