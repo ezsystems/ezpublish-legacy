@@ -485,7 +485,7 @@ class eZBinaryFileType extends eZDataType
 
         $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
         $binaryFile->setAttribute( 'filename', $basename );
-        $binaryFile->setAttribute( 'original_filename', $mediaNode->attributeValue( 'original-filename' ) );
+        $binaryFile->setAttribute( 'original_filename', $fileNode->attributeValue( 'original-filename' ) );
         $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime-type' ) );
 
         $binaryFile->store();
