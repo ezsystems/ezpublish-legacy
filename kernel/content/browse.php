@@ -72,9 +72,13 @@ if ( !$contentObject->attribute( 'can_read' ) )
 
 $res =& eZTemplateDesignResource::instance();
 $keyArray = array();
-foreach ( $browse->attribute( 'keys' ) as $attributeKey => $attributeValue )
+$attributeKeys = $browse->attribute( 'keys' );
+if ( is_array( $attributeKeys ) )
 {
-    $keyArray[] = array( $attributeKey, $attributeValue );
+    foreach ( $attributeKeys as $attributeKey => $attributeValue )
+    {
+        $keyArray[] = array( $attributeKey, $attributeValue );
+    }
 }
 $res->setKeys( $keyArray );
 

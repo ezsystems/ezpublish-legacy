@@ -22,6 +22,8 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 - Fixed bug with pre and post text for the 'text' tag in the simpletags operator.
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
+- Fixed a warning in content/browse.php
+  http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
 
 *Setup:
 
