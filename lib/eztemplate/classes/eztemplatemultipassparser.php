@@ -1126,25 +1126,33 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 return;
             }
 
-            // 'name' parameter for {let} (and {default} ?) cannot not be preceded by dollar sign
-            if ( $varName == 'name' and $funcName != 'set' and $dollarSignFound )
-            {
-                $tpl->error( $funcName, "'name' parameter to function \{$funcName} cannot be preceded by dollar sign" );
-                $cur_pos = $text_len; // skip processing the rest of the parameters
-                return;
-            }
+            /*
+             * If parameter 'name' or 'scope' was passed without dollar sign
+             * change its name to '-name' or '-scope', respectively.
+             * In this case it is treated specially in the {set}/{let}/{default} functions.
+             */
+            if ( !$dollarSignFound && ( $varName == 'name' || $varName == 'scope' ) )
+                $varName = "-$varName";
 
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
-            // parse variable value
-            if ( $text[$cur_pos] != '=' )
+            // if no value, assume boolean true
+            if ( $cur_pos >= $text_len or
+                 ( $text[$cur_pos] != '=' /*and preg_match( "/[ \t\r\n]/", $text[$cur_pos] )*/ ) )
             {
-                $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                             "(=) expected." );
-                $cur_pos = $text_len;
-                return;
+                unset( $var_data );
+                $var_data = array();
+                $args[$varName] = array( array( EZ_TEMPLATE_TYPE_NUMERIC, // type
+                                                true, // content
+                                                false // debug
+                                                ) );
+                continue;
             }
+
+            if ( $cur_pos >= $text_len )
+                break;
+
             $cur_pos++;
 
             // skip whitespaces
