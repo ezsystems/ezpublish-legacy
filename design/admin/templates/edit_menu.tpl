@@ -51,7 +51,7 @@
 {section show=$object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being edited).'|i18n( 'design/admin/content/edit' )}/>
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being edited).'|i18n( 'design/admin/content/edit' )} />
 {/section}
 </div>
 
@@ -177,4 +177,3 @@
 <!-- Translation box end-->
 
 {/section}
-
