@@ -206,9 +206,10 @@ fi
 echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
 if [ -z $SKIPCHECKVERSION ]; then
-    echo "Checking db update version numbers"
+    echo -n "Checking db update version numbers"
     ./bin/php/checkdbfiles.php &>/dev/null
     if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo
 	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
 	echo
@@ -220,10 +221,12 @@ if [ -z $SKIPCHECKVERSION ]; then
 	echo
 	exit 1
     fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
-    echo "Checking version numbers"
+    echo -n "Checking version numbers"
     ./bin/shell/checkversionnumbers.sh --exit-at-once &>/dev/null
     if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo
 	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
 	echo
@@ -235,12 +238,14 @@ if [ -z $SKIPCHECKVERSION ]; then
 	echo
 	exit 1
     fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
 
 if [ -z $SKIPCHECKPHP ]; then
-    echo "Checking syntax of PHP files"
+    echo -n "Checking syntax of PHP files"
     ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests/classes benchmarks/classes
     if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "Some PHP files have syntax errors"
 	echo "Run the following command to find the files"
 	echo "./bin/shell/phpcheck.sh --errors-only bin/php cronjobs kernel lib support update tests/classes benchmarks/classes"
@@ -249,22 +254,26 @@ if [ -z $SKIPCHECKPHP ]; then
 
     ./bin/php/ezcheckphptag.php -q --no-print cronjobs kernel lib support update tests/classes benchmarks/classes
     if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "Some PHP files have bad PHP starting and ending tag usage"
 	echo "Run the following command to find the files"
 	echo "./bin/php/ezcheckphptag.php cronjobs bin/php kernel lib support update tests/classes benchmarks/classes"
 	exit 1
     fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
 
 if [ -z $SKIPUNITTESTS ]; then
-    echo "Running unit tests"
+    echo -n "Running unit tests"
     ./tests/testunits.php -q eztemplate
     if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "Some unit tests failed"
 	echo "Run the following command to find out which one failed"
 	echo "./tests/testunits.php eztemplate"
 	exit 1
     fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
 
 echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
@@ -278,12 +287,56 @@ else
     mkdir -p $DEST
 fi
 
+echo
 echo "Copying directories and files"
 echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 
 (cd $DIST_SRC && scan_dir .)
 echo
 
+echo
+echo "Copying translations and locale"
+rm -rf "$DEST/share/translations"
+echo -n "`$POSITION_STORE`translations"
+svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+if [ $? -ne 0 ]; then
+    echo
+    echo "svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null"
+    echo "Failed to check out translations from trunk"
+    exit 1
+fi
+echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`translations`$SETCOLOR_NORMAL`"
+
+rm -rf "$DEST/share/locale"
+echo -n " `$POSITION_STORE`locale"
+svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+if [ $? -ne 0 ]; then
+    echo
+    echo "svn export $LOCALE_URL $DEST/share/locale &>/dev/null"
+    echo "Failed to check out locale from trunk"
+    exit 1
+fi
+echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
+echo
+
+echo
+echo "Copying changelogs from earlier versions"
+echo -n "Version: "
+for version in $STABLE_VERSIONS; do
+    changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+    rm -rf "$DEST/doc/changelogs/$version"
+    echo -n " `$POSITION_STORE`$version"
+    svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo
+	echo "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+	exit 1
+    fi
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+done
+echo
+
+echo
 echo "Copying `$SETCOLOR_FILE`kernel/sql/common/cleandata.sql`$SETCOLOR_NORMAL` to MySQL and PostgreSQL"
 cat kernel/sql/common/cleandata.sql >$DEST/kernel/sql/mysql/cleandata.sql || exit 1
 cat kernel/sql/common/cleandata.sql kernel/sql/postgresql/setval.sql >$DEST/kernel/sql/postgresql/cleandata.sql || exit 1
@@ -300,11 +353,13 @@ for file in $EXTRA_DIRS; do
 done
 
 if [ -z $SKIPSITECREATION ]; then
+    echo
     echo "Creating and exporting sites"
     rm -rf "$DEST/kernel/setup/packages"
     mkdir -p "$DEST/kernel/setup/packages" || exit 1
     echo -n "Site:"
     for site in $ALL_PACKAGES; do
+	echo -n " `$POSITION_STORE`$site"
 	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
 	if [ $? -ne 0 ]; then
 	    echo
@@ -313,34 +368,11 @@ if [ -z $SKIPSITECREATION ]; then
 	    echo "./bin/shell/makesitepackages.sh --site=$site"
 	    exit 1
 	else
-	    echo -n " `$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
+	    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
 	fi
     done
 fi
 echo
-
-# if [ -d "$PACKAGE_DIR" ]; then *}
-#     echo "Fetching packages from `$SETCOLOR_EMPHASIZE`$PACKAGE_DIR`$SETCOLOR_NORMAL`" *}
-#     echo -n "Export packages:" *}
-#     mkdir -p $DEST/kernel/setup/packages *}
-#     for package in $PACKAGE_DIR/*; do *}
-# 	if [ -d "$package" ]; then *}
-# 	    PACKAGE_NAME=`basename $package` *}
-# 	    echo -n " `$SETCOLOR_EMPHASIZE`$PACKAGE_NAME`$SETCOLOR_NORMAL`" *}
-# 	    ./ezpm.php -q -r "$PACKAGE_DIR" export "$PACKAGE_NAME" -d "$DEST/kernel/setup/packages" *}
-# 	fi *}
-#     done *}
-#     echo *}
-# else *}
-#     echo "No packages to export" *}
-# fi *}
-
-# if [ "$DIST_TYPE" == "sdk" ]; then
-# if [ -d "doc/generated/html" ]; then *}
-#     echo "Copying generated documentation" *}
-#     mkdir -p $DEST/doc/generated/html *}
-#     cp -f "doc/generated/html"/* $DEST/doc/generated/html *}
-# fi *}
 
 echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
 for filter in $FILTER_FILES; do
