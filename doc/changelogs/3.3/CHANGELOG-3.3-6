@@ -67,6 +67,15 @@ eZINI:
 - Fixed bug (suggestion) of  Remove object should also remove bookmark
   Also added cleaning up existing bookmarks and recent items for corrupted nodes
   http://ez.no/community/bug_reports/remove_object_should_also_remove_bookmark
+- Fixed comment in source that wrongly said that eZXML should not be instantiated.
+  http://ez.no/community/bug_reports/ezxml_domtree_call_to_undefined_function_parseattributes
+- Fixed problem in eZDebug when running cronjobs. (Merged from 3.4, rev. 5858)
+  http://ez.no/community/bug_reports/cronjob_debugger_broken
+- Fixed void "recompile options" field of "Missing database handlers" issue 
+  when setting up site without PostgreSQL support in PHP.  
+  http://ez.no/community/bug_reports/fine_tune_database_message
+- Fixed bug of datatype ezselection may generate wrong search index.
+  
 *Library:
 
 eZ Locale:

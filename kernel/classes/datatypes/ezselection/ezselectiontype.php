@@ -238,14 +238,18 @@ class eZSelectionType extends eZDataType
         }
 
         $count = 0;
+        $optionArray = $classContent['options'];
         foreach ( $selected as $id )
         {
-            if ( $count != 0 )
+            if ( $count++ != 0 )
                 $return .= ' ';
-            $return .= $classContent['options'][$id]['name'];
-            $count++;
+            foreach ( $optionArray as $option )
+            {
+                $optionID = $option['id'];
+                if ( $optionID == $id )
+                    $return .= $option['name'];
+            }
         }
-
         return $return;
     }
 
