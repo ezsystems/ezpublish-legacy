@@ -714,6 +714,15 @@ div#contentstructure span.openclose
     visibility: hidden;
 }
 
+div.extramenuitems
+{
+    text-align: center;
+}
+
+div.extramenuitems ul, div.extramenuitems li
+{
+}
+
 div#trash ul
 {
     margin-left: 0.25em;
