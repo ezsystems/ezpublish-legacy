@@ -12,9 +12,17 @@ MatchFile=view.tpl
 Subdir=templates
 Match[class]=2
 
+[folder_contact]
+Source=node/view/full.tpl
+MatchFile=folder_contact.tpl
+Subdir=templates
+Match[class]=1
+Match[section]=5
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
 Subdir=templates
 Match[class]=1
+
 */ ?>
