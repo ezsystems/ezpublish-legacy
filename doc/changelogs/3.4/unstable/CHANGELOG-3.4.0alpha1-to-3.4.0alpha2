@@ -38,8 +38,6 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made sure eZImage, eZMedia and eZENUM only copies attribute data when
   supplied version is non-false.
 - Added attribute is_enabled to eZUser.
-- Link tags in ezxml fields with empty href values are now handled properly, empty links
-  will signal a validation error. (Merged from stable/3.3 rev. 5582)
 
 *Shop:
 - Added list of customers.
@@ -120,7 +118,9 @@ eZ PHP creator:
   and not child processes. (Merged from stable/3.3 rev. 5534)
 - Made sure the multiplexer workflow handler stores the current user ID and restores
   it if it was previously deferred. (Merged from stable/3.3 rev. 5534)
-
+- Link tags in ezxml fields with empty href values are now handled properly, empty links
+  will signal a validation error. (Merged from stable/3.3 rev. 5582)
+  http://ez.no/community/bug_reports/xml_field_one_empty_link_causes_all_other_links_to_disappear
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
