@@ -232,7 +232,12 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         return;
 
     if ( $http->hasPostVariable( 'MainNodeID' ) )
-        $mainNodeID = $http->postVariable( 'MainNodeID' );
+    {
+        $mainNodeID = trim( $http->postVariable( 'MainNodeID' ) );
+        if ( strlen( $mainNodeID ) == 0 )
+            return;
+    }
+
     // Check if dropdown placement is used
     if ( $http->hasPostVariable( 'MainAssignmentElementNumber' ) )
     {
