@@ -3,4 +3,6 @@ Changes from 3.5.0beta1 to 3.5.0beta2
 *Kernel:
 
 *Bugfixes:
-
+- Fixed bug: Workflow multiplexer doesn't store Users without workflow ID's
+  http://ez.no/community/bug_reports/workflow_multiplexer_doesn_t_store_users_without_workflow_id_s
+  (Merged from stable/3.4 rev.9172)
