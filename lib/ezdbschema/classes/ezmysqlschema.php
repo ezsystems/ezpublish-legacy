@@ -79,8 +79,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
                 $schema[$table_name] = $schema_table;
             }
-            ksort( $schema );
             $this->transformSchema( $schema, $params['format'] == 'local' );
+            ksort( $schema );
         }
         else
         {
@@ -367,9 +367,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateFieldDef( $field_name, $def, &$skip_primary, $params )
+	function generateFieldDef( $field_name, $def, &$skip_primary, $params = null )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         // If the output should compatible with existing MySQL dumps
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
@@ -429,7 +429,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function generateAddFieldSql( $table_name, $field_name, $def, $params )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy, $params );
+		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
 
 		return $sql . ";\n";
 	}
@@ -440,7 +440,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function generateAlterFieldSql( $table_name, $field_name, $def = array() )
 	{
 		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy, $params );
+		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
 
 		return $sql . ";\n";
 	}
