@@ -41,6 +41,13 @@ Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
 
+[product_print]
+Source=node/view/full.tpl
+MatchFile=product_print.tpl
+Subdir=templates
+Match[class]=23
+Match[layout]=print
+
 [product]
 Source=node/view/full.tpl
 MatchFile=product.tpl
@@ -58,6 +65,7 @@ Source=content/view/text_linked.tpl
 MatchFile=embedded_product.tpl
 Subdir=templates
 Match[class]=23
+
 
 [search]
 Source=content/search.tpl
