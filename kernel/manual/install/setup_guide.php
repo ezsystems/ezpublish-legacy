@@ -9,7 +9,7 @@
 		<li><a href="#Linux_FreeBSD_Macos_Starting">Starting the setup guide</a></li>
 	</ul>
 
-	<li><a href="#Windows_Installation">Installation on Windows</a></li>
+	<li><a href="#Windows">Installation on Windows</a></li>
 	<ul>
 		<li><a href="#Windows_Database">Database setup</a></li>
 		<li><a href="#Windows_Starting">Staritn the setup guide</a></li>
