@@ -66,7 +66,7 @@ if ( $versionHandling == 'user-defined' )
         if ( $Module->actionParameter( 'VersionChoice' ) == 1 )
             $allVersions = true;
         $newObject =& copyObject( $object, $allVersions );
-        return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ) ) );
+        return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ), $newObject->attribute( 'current_version' ) ) );
     }
     else
     {
@@ -83,12 +83,12 @@ if ( $versionHandling == 'user-defined' )
 else if ( $versionHandling == 'last-published' )
 {
     $newObject =& copyObject( $object, false );
-    return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ) ) );
+    return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ), $newObject->attribute( 'current_version' ) ) );
 }
 else
 {
     $newObject =& copyObject( $object, true );
-    return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ) ) );
+    return $Module->redirectToView( 'edit', array( $newObject->attribute( 'id' ), $newObject->attribute( 'current_version' ) ) );
 }
 
 ?>
