@@ -289,6 +289,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $width === null )
                     $width = "100%";
 
+                $rowCount = 0;
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -306,14 +307,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                         $textElements = array();
                         $tpl->setVariable( 'border', $border, 'xmltagns' );
+                        $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
                     }
                     $tpl->setVariable( 'content', $tableData, 'xmltagns' );
+                    $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                     $tableRows .= implode( '', $textElements );
+                    $rowCount++;
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
