@@ -106,7 +106,6 @@ class eZContentOperationCollection
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
-//        var_dump( $nodeAssignmentList );
 
         $parameters = array();
         foreach ( array_keys( $nodeAssignmentList ) as $key )
@@ -129,12 +128,13 @@ class eZContentOperationCollection
             $parameters[$i]['main_node_id'] = $mainNodeID;
         }
 
-        return array( 'parameters' => $parameters );
+        return array( 'param eters' => $parameters );
     }
 
     function setVersionStatus( $objectID, $versionNum, $status )
     {
-        $object =& eZContentObject::fetch( $objectID );
+        $object =& eZContentObject::fetch( $objectID ); 
+
         if ( !$versionNum )
         {
             $versionNum = $object->attribute( 'current_version' );
@@ -202,7 +202,6 @@ class eZContentOperationCollection
         $objectName = $class->contentObjectName( $object );
 
         $object->setName( $objectName, $versionNum );
-//        $object->setAttribute( 'name', $objectName );
         $object->store();
 
         $existingTranslations =& $version->translations( false );
@@ -219,22 +218,26 @@ class eZContentOperationCollection
         $nodeID = $nodeAssignment->attribute( 'parent_node' );
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
-        $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
+        if ( strlen( $nodeAssignment->attribute( 'node_remote_id' ) ) > 0 )
+        {
+            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'node_remote_id' ) );
+        }
+        if ( !$existingNode );
+        {
+            $existingNode =& eZContentObjectTreeNode::findNode( $nodeID , $object->attribute( 'id' ), true );
+        }
         $updateSectionID = false;
         if ( $existingNode  == null )
         {
             if ( $fromNodeID == 0 || $fromNodeID == -1)
             {
                 $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-/* Adds parent node to recent used content */
-//code start
+
                 include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                 $user =& eZUser::currentUser();
                 eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
 
-//                eZContentBrowseBookmark::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ), EZ_CONTENTBROWSE_BOOKMARK_TYPE_RECENT );
-//code end
-                $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                $existingNode =& $parentNode->addChild( $object->attribute( 'id' ), 0, true );
 
                 if ( $fromNodeID == -1 )
                 {
@@ -253,6 +256,10 @@ class eZContentOperationCollection
             }
         }
 
+        if ( strlen( $nodeAssignment->attribute( 'node_remote_id' ) ) > 0 )
+        {
+            $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'node_remote_id' ) );
+        }
         $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
@@ -332,7 +339,6 @@ class eZContentOperationCollection
         $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
 
         $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
-        //    var_dump( $curentVersionNodeAssignments );
         $versionParentIDList = array();
         foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
         {

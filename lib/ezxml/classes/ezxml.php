@@ -35,7 +35,7 @@
   \ingroup eZXML
   \brief eZXML handles parsing of well formed XML documents.
 
-  eZXML will create a DOM tree from well formed XML documents.
+1  eZXML will create a DOM tree from well formed XML documents.
 
  \sa eZDOMDocument eZDOMNode
 */
@@ -52,7 +52,7 @@ define( "EZ_NODE_TYPE_CDATASECTION", 4 );
 class eZXML
 {
     /*!
-      Constructor, should not be used all functions are static.
+      Constructor
     */
     function eZXML( )
     {

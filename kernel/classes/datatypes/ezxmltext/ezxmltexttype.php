@@ -401,35 +401,6 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( $objectAttribute )
-    {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
-
-        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
-//         $node = new eZDOMNode();
-//         $node->setName( 'attribute' );
-//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-        $xml = new eZXML();
-        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $objectAttribute ) );
-
-        $contentNode = new eZDOMNode();
-        $contentNode->setPrefix( 'ezobject' );
-        $contentNode->setName( 'content' );
-        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
-
-        $contentNode->appendChild( $dom->root() );
-        $node->appendChild( $contentNode );
-
-        return $node;
-    }
-
-    /*!
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {

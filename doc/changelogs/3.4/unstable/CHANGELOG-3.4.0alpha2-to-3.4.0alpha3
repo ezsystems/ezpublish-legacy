@@ -18,8 +18,12 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - Added fetch functions for counting logged-in and anonymous users.
 - Added fetch function for listing logged-in users (just name or as eZUser)
 - Added fetch function for checking if a specific user is logged-in.
+- Added remote id field to content class.
+- Added remote id field to content tree node.
+- Added package install handler.
+- Added support for content object package creation and import.
 
-*Updates:
+Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
   cleaning session.
 - New script called updatetoplevel.php to create any missing top level objects/nodes.
@@ -46,11 +50,13 @@ eZDebug
   http://ez.no/community/bug_reports/ezdebug_trigger_error
 eZImage
 - Added GIF support to the eZImageInterface
-eZUtils:
+eZUtils
 - Added functions for creating an ANSI string which stores and restores the
   position in eZCLI.
 - Added function for creating an ANSI string which moves the text to a
   specific column in eZCLI.
+eZXML
+- Added array to XML to array support.
 
 *Unit tests:
 

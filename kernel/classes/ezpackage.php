@@ -1156,6 +1156,7 @@ class eZPackage
             $export = array( 'path' => $path );
         }
         $result = $this->storeString( $filePath, $this->toString( $export ) );
+
         $this->cleanup();
         if ( $storeCache )
             $this->storeCache( $path . '/' . $this->cacheDirectory() );
@@ -1189,9 +1190,11 @@ class eZPackage
         if ( $destinationPath )
             $archivePath = $destinationPath . '/' . $archiveName;
         $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archivePath );
+
         $packageBaseDirectory = $tempPath;
         $fileList = array();
         $fileList[] = $packageBaseDirectory;
+
         $archive->createModify( $fileList, '', $packageBaseDirectory );
 
 //         $this->removePackageFiles( $tempPath );
@@ -1554,7 +1557,7 @@ class eZPackage
     {
         $path = eZDir::path( array( eZSys::cacheDirectory(),
                                     'packages',
-                                    'export' ) );
+                                    'export' . eZUser::currentUserID() ) );
         return $path;
     }
 
@@ -1579,6 +1582,14 @@ class eZPackage
         $path = eZDir::path( array( eZSys::storageDirectory(),
                                     eZPackage::repositoryDirectory() ) );
         return $path;
+    }
+
+    /*!
+     \return package repository path
+    */
+    function packageRepositoryPath()
+    {
+        return eZDir::path( array( eZPackage::repositoryPath(), $this->attribute( 'name' ) ) );
     }
 
     /*!
@@ -1782,6 +1793,58 @@ class eZPackage
         }
     }
 
+    /*!
+     Install specified install item in package
+
+     \param Item index
+     \param parameters
+    */
+    function installItem( $install, $installParameters = array() )
+    {
+        $type = $install['type'];
+        $name = $install['name'];
+        $os = $install['os'];
+        $filename = $install['filename'];
+        $subdirectory = $install['sub-directory'];
+        $parameters = $install;
+        $content = false;
+        if ( isset( $parameters['content'] ) )
+            $content = $parameters['content'];
+        $handler =& $this->packageHandler( $type );
+        if ( $handler )
+        {
+            if ( $handler->extractInstallContent() )
+            {
+                if ( !$content and
+                     $filename )
+                {
+                    if ( $subdirectory )
+                        $filepath = $subdirectory . '/' . $filename . '.xml';
+                    else
+                        $filepath = $filename . '.xml';
+
+                    $filepath = $this->path() . '/' . $filepath;
+
+                    $dom =& $this->fetchDOMFromFile( $filepath );
+                    if ( $dom )
+                        $content =& $dom->root();
+                    else
+                        eZDebug::writeError( "Failed fetching dom from file $filepath" );
+                }
+            }
+            $installData =& $this->InstallData[$type];
+            if ( !isset( $installData ) )
+                $installData = array();
+            $installResult = $handler->install( $this, $type, $parameters,
+                                                $name, $os, $filename, $subdirectory,
+                                                $content, $installParameters,
+                                                $installData );
+        }
+    }
+
+    /*!
+     Install all install items in package
+    */
     function install( $installParameters = array() )
     {
         if ( $this->Parameters['install_type'] != 'install' )
@@ -1791,45 +1854,7 @@ class eZPackage
             $installParameters['path'] = false;
         foreach ( $installs as $install )
         {
-            $type = $install['type'];
-            $name = $install['name'];
-            $os = $install['os'];
-            $filename = $install['filename'];
-            $subdirectory = $install['sub-directory'];
-            $parameters = $install;
-            $content = false;
-            if ( isset( $parameters['content'] ) )
-                $content = $parameters['content'];
-            $handler =& $this->packageHandler( $type );
-            if ( $handler )
-            {
-                if ( $handler->extractInstallContent() )
-                {
-                    if ( !$content and
-                         $filename )
-                    {
-                        if ( $subdirectory )
-                            $filepath = $subdirectory . '/' . $filename . '.xml';
-                        else
-                            $filepath = $filename . '.xml';
-
-                        $filepath = $this->path() . '/' . $filepath;
-
-                        $dom =& $this->fetchDOMFromFile( $filepath );
-                        if ( $dom )
-                            $content =& $dom->root();
-                        else
-                            eZDebug::writeError( "Failed fetching dom from file $filepath" );
-                    }
-                }
-                $installData =& $this->InstallData[$type];
-                if ( !isset( $installData ) )
-                    $installData = array();
-                $installResult = $handler->install( $this, $type, $parameters,
-                                                    $name, $os, $filename, $subdirectory,
-                                                    $content, $installParameters,
-                                                    $installData );
-            }
+            $this->installItem( $install, $installParameters );
         }
         $this->Parameters['is_installed'] = true;
         $this->store();
@@ -2007,24 +2032,6 @@ class eZPackage
                     $fileRole = $fileListNode->attributeValue( 'role' );
                     $fileVariableName = $fileListNode->attributeValue( 'variable-name' );
                     $fileRoleValue = $fileListNode->attributeValue( 'role-value' );
-//                     $dirs =& $fileListNode->elementsByName( 'dir' );
-//                     {
-//                         if ( count( $dirs ) > 0 )
-//                         {
-//                             foreach ( array_keys( $dirs ) as $dirKey )
-//                             {
-//                                 $dirNode =& $dirs[$dirKey];
-//                                 $dirName = $dirNode->attributeValue( 'name' );
-//                                 $dirSubDirectory = $dirNode->attributeValue( 'sub-directory' );
-//                                 $dirPath = $dirNode->attributeValue( 'path' );
-//                                 $dirModified = $dirNode->attributeValue( 'modified' );
-//                                 $this->appendFile( $dirName, $fileType, $fileRole,
-//                                                    $fileDesign, $dirPath, $fileCollectionName,
-//                                                    $dirSubDirectory, false, false, $dirModified );
-//                             }
-//                         }
-//                     }
-//                     unset( $dirs );
                     $files =& $fileListNode->elementsByName( 'file' );
                     if ( count( $files ) > 0 )
                     {
@@ -2826,10 +2833,6 @@ class eZPackage
                                                     'alias-variable' => 'HandlerAlias' ),
                                              $result ) )
         {
-//         $ini =& eZINI::instance( 'package.ini' );
-//         $repository = $ini->variable( 'PackageSettings', 'PackageHandlerRepository' );
-//         $handlerFile = $repository . '/' . $handlerName . '/' . $handlerName . 'packagehandler.php';
-//         $handler = false;
             $handlerFile = $result['found-file-path'];
             if ( file_exists( $handlerFile ) )
             {

@@ -106,6 +106,32 @@ class eZFile
         return false;
     }
 
+    /*!
+     \static
+     Read all content of file.
+
+     \param filename
+
+     \return file contents, false if error
+    */
+    function getContents( $filename )
+    {
+        if ( function_exists( 'file_get_contents' ) )
+        {
+            return file_get_contents( $filename );
+        }
+        else
+        {
+            $fp = fopen( $filename, 'r' );
+            if ( !$fp )
+            {
+                eZDebug::writeError( 'Could not read contents of ' . $filename, 'eZFile::getContents()' );
+                return false;
+            }
+
+            return fread( $fp, filesize( $filename ) );
+        }
+    }
 }
 
 ?>

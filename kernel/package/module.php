@@ -89,7 +89,14 @@ $ViewList['install'] = array(
     'script' => 'install.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
+                                    'PackageStep' => 'PackageStep',
                                     'SkipPackageButton' => 'SkipPackage' ),
+    'post_action_parameters' => array( 'InstallPackage' => array( 'InstallItemID' => 'InstallItemID' ),
+                                       'PackageStep' => array( 'InstallItemID' => 'InstallItemID',
+                                                               'InstallStepID' => 'InstallStepID',
+                                                               'PreviousStep' => 'PreviousStepButton',
+                                                               'NextStep' => 'NextStepButton' ) ),
+
     'params' => array( 'PackageName' ) );
 
 $ViewList['uninstall'] = array(

@@ -59,6 +59,7 @@ class eZPackageCreationHandler
         $this->InitializeStepMethodMap = array();
         $this->ValidateStepMethodMap = array();
         $this->CommitStepMethodMap = array();
+        $this->LoadStepMethodMap = array();
     }
 
 	/*!
@@ -93,6 +94,8 @@ class eZPackageCreationHandler
             }
 			if ( isset( $step['methods']['initialize'] ) )
 			    $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
+            if( isset( $step['methods']['load'] ) )
+                $this->LoadStepMethodMap[$step['id']] = $step['methods']['load'];
 			if ( isset( $step['methods']['validate'] ) )
 			    $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
 			if ( isset( $step['methods']['commit'] ) )
@@ -137,6 +140,11 @@ class eZPackageCreationHandler
     function initializeStepMethodMap()
     {
         return $this->InitializeStepMethodMap;
+    }
+
+    function loadStepMethodMap()
+    {
+        return $this->LoadStepMethodMap;
     }
 
     function validateStepMethodMap()
@@ -188,6 +196,23 @@ class eZPackageCreationHandler
             {
                 $method = $methodMap[$step['id']];
                 return $this->$method( $package, $http, $step, $persistentData, $tpl );
+            }
+        }
+    }
+
+    /*!
+     \virtual
+     Called each time a step is loaded, and can be used to fetch and process input data in each step.
+    */
+    function loadStep( &$package, &$http, $currentStepID, &$persistentData, &$tpl, &$module )
+    {
+        $methodMap = $this->loadStepMethodMap();
+        if ( count( $methodMap ) > 0 )
+        {
+            if ( isset( $methodMap[$currentStepID] ) )
+            {
+                $method = $methodMap[$currentStepID];
+                return $this->$method( $package, $http, $currentStepID, $persistentData, $tpl, $module );
             }
         }
     }
@@ -298,14 +323,8 @@ class eZPackageCreationHandler
 		    return array();
 		if ( $accessResult['accessWord'] == 'limited' )
 		{
-		    $limitation =& $accessResult['policies'];
-		    $limitationList = array();
-		    foreach ( array_keys( $limitation ) as $key )
-		    {
-		        $policy =& $limitation[$key];
-		        $limitationList[] =& $policy->attribute( 'limitations' );
-		    }
-            foreach( $limitationList as $limitationArray )
+		    $limitationList =& $accessResult['policies'];
+            foreach( $limitationList as $limitationArray ) // TODO : fix this
             {
                 foreach ( $limitationArray as $limitation )
                 {
@@ -348,9 +367,9 @@ class eZPackageCreationHandler
             $handlers = array();
         $handler = false;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
-                                                    'repository-group' => 'CreationSettings',
+                                                    'repository-group' => 'PackageSettings',
                                                     'repository-variable' => 'RepositoryDirectories',
-                                                    'extension-group' => 'CreationSettings',
+                                                    'extension-group' => 'PackageSettings',
                                                     'extension-variable' => 'ExtensionDirectories',
                                                     'subdir' => 'packagecreators',
                                                     'extension-subdir' => 'packagecreators',
@@ -936,6 +955,7 @@ class eZPackageCreationHandler
     */
     function validatePackageThumbnail( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
+        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;

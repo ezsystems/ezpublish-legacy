@@ -129,6 +129,7 @@ for arg in $*; do
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
+	    echo "         --skip-transation          Do not run translation chech"
 	    echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
@@ -166,6 +167,9 @@ for arg in $*; do
 	    ;;
 	--skip-unit-tests)
 	    SKIPUNITTESTS="1"
+	    ;;
+	--skip-translation)
+	    SKIPTRANSLATION="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -331,6 +335,8 @@ if [ ! -f bin/linux/ezlupdate ]; then
     exit 1
 fi
 
+
+
 echo
 echo "Copying translations and locale"
 rm -rf "$DEST/share/translations"
@@ -366,19 +372,22 @@ echo -n "Processing:"
 cd $DEST/share/translations
 for translation in *; do
     echo -n " `$POSITION_STORE`$translation"
-    if [ "$translation" == "untranslated" ]; then
-	(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
-	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Error updating translations"
-	    exit 1
-	fi
-    else
-	(cd  $DEST && $dir/bin/linux/ezlupdate -d "$dir/design" "$translation" &>/dev/null )
-	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Error updating translations"
-	    exit 1
+    
+    if [ -z $SKIPTRANSLATION ]; then
+	if [ "$translation" == "untranslated" ]; then
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
+	    if [ $? -ne 0 ]; then
+		echo
+		echo "Error updating translations"
+		exit 1
+	    fi
+	else
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -d "$dir/design" "$translation" &>/dev/null )
+	    if [ $? -ne 0 ]; then
+		echo
+		echo "Error updating translations"
+		exit 1
+	    fi
 	fi
     fi
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
@@ -398,17 +407,19 @@ rm -rf $DEST/share/translations.org
 echo "Removing obsoletes"
 cd $DEST/share/translations
 for translation in *; do
-    if [ "$translation" == "untranslated" ]; then
-	(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
-	if [ $? -ne 0 ]; then
-	    echo "Error removing obsolete entries"
-	    exit 1
-	fi
-    else
-	(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
-	if [ $? -ne 0 ]; then
-	    echo "Error removing obsolete entries"
-	    exit 1
+    if [ -z $SKIPTRANSLATION ]; then
+	if [ "$translation" == "untranslated" ]; then
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
+	    if [ $? -ne 0 ]; then
+		echo "Error removing obsolete entries"
+		exit 1
+	    fi
+	else
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
+	    if [ $? -ne 0 ]; then
+		echo "Error removing obsolete entries"
+		exit 1
+	    fi
 	fi
     fi
 done

@@ -93,7 +93,11 @@ class eZNodeAssignment extends eZPersistentObject
                                          'from_node_id' => array( 'name' => 'FromNodeID',
                                                                   'datatype' => 'integer',
                                                                   'default' => 0,
-                                                                  'required' => true ) ),
+                                                                  'required' => true ),
+                                         'node_remote_id' => array( 'name' => 'NodeRemoteID',
+                                                                    'datatype' => 'string',
+                                                                    'default' => '',
+                                                                    'required' => false ) ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode",
                                                       'temp_node' => 'tempNode' ),
@@ -161,6 +165,10 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['from_node_id'] = 0;
         }
+        if ( !isset( $parameters['node_remote_id'] ) )
+        {
+            $parameters['node_remote_id'] = '';
+        }
         return new eZNodeAssignment( $parameters );
     }
 
@@ -208,7 +216,8 @@ class eZNodeAssignment extends eZPersistentObject
                                 'parent_node' => $this->attribute( 'parent_node' ),
                                 'sort_field' => $this->attribute( 'sort_field' ),
                                 'sort_order' => $this->attribute( 'sort_order' ),
-                                'is_main' => $this->attribute( 'is_main' ) );
+                                'is_main' => $this->attribute( 'is_main' ),
+                                'node_remote_id' => $this->attribute( 'node_remote_id' ) );
         if ( $contentObjectID !== false )
             $assignmentRow['contentobject_id'] = $contentObjectID;
         return eZNodeAssignment::create( $assignmentRow );

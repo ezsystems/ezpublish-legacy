@@ -229,20 +229,6 @@ class eZPackageType extends eZDataType
         $type = $attributeParametersNode->elementTextContentByName( 'type' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
     }
-
-    /*!
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( $objectAttribute )
-    {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
-
-        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
-
-        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
-        return $node;
-    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_EZ_PACKAGE, 'ezpackagetype' );

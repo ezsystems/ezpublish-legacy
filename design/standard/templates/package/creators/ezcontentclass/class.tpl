@@ -8,14 +8,6 @@
 
     {include uri="design:package/header.tpl"}
 
-{*    <div class="objectheader">
-        <h2>Package {$package.name|wash}-{$package.version-number|wash}-{$package.release-number|wash} ({$package.licence|wash})</h2>
-    </div>
-    <div class="object">
-        <p class="summary">{$package.summary|wash}</p>
-        <p class="description">{$package.description|wash}</p>
-    </div>*}
-
     <p>{'Please choose the content classes you wish to be included in the package.'|i18n('design/standard/package')}</p>
 
     <div class="block">

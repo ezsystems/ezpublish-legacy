@@ -834,6 +834,12 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $dataType->serializeContentObjectAttribute( $this );
     }
 
+    function unserialize( $attributeDOMNode )
+    {
+        $dataType =& $this->dataType();
+        $dataType->unserializeContentObjectAttribute( $this, $attributeDOMNode );
+    }
+
     /*!
     */
     function &isA()

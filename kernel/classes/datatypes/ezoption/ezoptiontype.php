@@ -241,22 +241,6 @@ class eZOptionType extends eZDataType
     }
 
     /*!
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( $objectAttribute )
-    {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
-
-        $node = new eZDOMNode();
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
-
-        return $node;
-    }
-
-    /*!
      Sets the default value.
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )

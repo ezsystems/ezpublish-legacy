@@ -110,7 +110,7 @@ class eZContentObject extends eZPersistentObject
                                                             'datatype' => 'integer',
                                                             'default' => 0,
                                                             'required' => true ),
-                                         "remote_id" => array( 'name' => "RemoteID",
+                                         'remote_id' => array( 'name' => "RemoteID",
                                                                'datatype' => 'string',
                                                                'default' => '',
                                                                'required' => true ) ),
@@ -518,6 +518,21 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Fetches contentobject by remote ID, returns null if none exist
+    */
+    function fetchByRemoteID( $remoteID, $asObject = true )
+    {
+        $db =& eZDB::instance();
+        $resultArray = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $remoteID . '\'' );
+        if ( count( $resultArray ) != 1 )
+        {
+            return null;
+        }
+
+        return eZContentObject::fetch( $resultArray[0]['id'], $asObject );
+    }
+
+    /*!
      Fetches the content object with the given ID
     */
     function &fetch( $id, $asObject = true )
@@ -552,7 +567,7 @@ class eZContentObject extends eZPersistentObject
             $resArray =& $db->arrayQuery( $query );
 
             $objectArray = array();
-            if ( count( $resArray ) == 1 )
+            if ( count( $resArray ) == 1 && $resArray !== false )
             {
                 $objectArray =& $resArray[0];
             }
@@ -1755,29 +1770,6 @@ class eZContentObject extends eZPersistentObject
             }
             return $retNodes;
         }
-        /*
-        $nodes = $this->attribute( 'assigned_nodes' );
-        //  $retNodes = array();
-        if ( $asObject )
-        {
-            foreach ( $nodes as $node )
-            {
-                if ( $node->attribute( 'parent_node_id' ) != 1 )
-                {
-                    $retNodes[] =& eZContentObjectTreeNode::fetch( $node->attribute( 'parent_node_id' ) );
-                }
-            }
-        }
-        else
-        {
-            foreach ( $nodes as $node )
-            {
-                $retNodes[] = $node->attribute( 'parent_node_id' );
-            }
-        }
-//        var_dump($retNodes);
-        return $retNodes;
-        */
     }
 
     /*!
@@ -2340,10 +2332,99 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \return a DOM structure of the content object and it's attributes.
+     \static
+     Unserialize xml structure. Create object from xml input.
+
+     \param XML DOM Node
+     \param parent node object.
+     \param Options
+     \param owner ID, override owner ID, null to use XML owner id (optional)
+
+     \returns created object, false if could not create object/xml invalid
     */
-    function &serialize( $specificVersion = false )
+    function &unserialize( &$domNode, $options, $ownerID = false )
     {
+        if ( $domNode->prefix() != 'ez' || $domNode->name() != 'object' )
+        {
+            return false;
+        }
+
+        $sectionID =& $domNode->attributeValue( 'section_id' );
+        if ( $ownerID === false )
+        {
+            $ownerID =& $domNode->attributeValue( 'owner_id' );
+        }
+        $remoteID =& $domNode->attributeValue( 'remote_id' );
+        $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
+        $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
+
+        $contentClass =& eZContentClass::fetchByRemoteID( $classRemoteID );
+        if ( !$contentClass )
+        {
+            $contentClass =& eZContentClass::fetchByIdentifier( $classIdentifier );
+        }
+
+        if ( !$contentClass )
+        {
+            eZDebug::writeError( 'Could not fetch class ' . $classIdentifier . ', remote_id: ' . $classRemoteID, 'eZContentObject::unserialize()' );
+            return false;
+        }
+
+        $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
+        if ( !$contentObject )
+        {
+            $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
+        }
+
+        $versionListNode =& $domNode->elementByName( 'version-list' );
+        $contentObject->store();
+        $activeVersion = 1;
+        $firstVersion = true;
+
+        foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
+        {
+            $contentObjectVersion = eZContentObjectVersion::unserialize( $versionDOMNode,
+                                                                         $contentObject,
+                                                                         $ownerID,
+                                                                         $sectionID,
+                                                                         $versionListNode->attributeValue( 'active_version' ),
+                                                                         $firstVersion,
+                                                                         $options );
+
+            $firstVersion = false;
+            if ( $versionDOMNode->attributeValue( 'version' ) == $versionListNode->attributeValue( 'active_version' ) )
+            {
+                $activeVersion = $contentObjectVersion->attribute( 'version' );
+            }
+        }
+        $contentObject->setAttribute( 'remote_id', $remoteID );
+        $contentObject->setAttribute( 'current_version', $activeVersion );
+        $contentObject->store();
+
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
+                                                                  'version' => $activeVersion ) );
+        return $contentObject;
+    }
+
+    /*!
+     \return a DOM structure of the content object and it's attributes.
+
+     \param Content object version, true for current version, false for all, else array containing specific versions.
+     \param package options ( optianal )
+     \param array of allowed nodes ( optional )
+     \param array of top nodes in current package export (optional )
+    */
+    function &serialize( $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    {
+        if ( $options['node_assignment'] == 'main' )
+        {
+            if ( !in_array( $this->attribute( 'main_node_id' ), $contentNodeIDArray ) )
+            {
+                return false;
+            }
+        }
+
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $objectNode = new eZDOMNode();
@@ -2353,6 +2434,16 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
+        if ( !$this->attribute( 'remote_id' ) )
+        {
+            $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)mktime() );
+            $this->store();
+        }
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ), 'ezremote' ) );
+        $contentClass =& $this->attribute( 'content_class' );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_identifier', $contentClass->attribute( 'identifier' ), 'ezremote' ) );
 
         $versions = array();
         if ( $specificVersion === false )
@@ -2378,13 +2469,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
-            $versionNode =& $version->serialize();
-//             $attributes =& $this->contentObjectAttributes( true, $version );
-
-//             foreach ( $attributes as $attribute )
-//             {
-//                 $objectNode->appendChild( $attribute->serialize() );
-//             }
+            $versionNode =& $version->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );

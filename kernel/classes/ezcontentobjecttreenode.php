@@ -136,7 +136,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          "path_identification_string" => array( 'name' => "PathIdentificationString",
                                                                                 'datatype' => 'text',
                                                                                 'default' => '',
-                                                                                'required' => true ) ),
+                                                                                'required' => true ),
+                                         'remote_id' => array( 'name' => 'RemoteID',
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => true ) ),
+
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
                                                       'data_map' => 'dataMap',
@@ -200,6 +205,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->subTree();
         }
+        else if ( $attr == 'remote_id' )
+        {
+            return $this->remoteID();
+        }
         else if ( $attr == 'contentobject_version_object' )
         {
             return $this->contentObjectVersionObject();
@@ -255,6 +264,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $obj->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
+    /*!
+     Get remote id of content node
+    */
+    function remoteID()
+    {
+        $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        if ( !$remoteID )
+        {
+            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+            $this->store();
+            $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        }
+
+        return $remoteID;
+    }
 
     /*!
      \return the ID of the class attribute with the given ID.
@@ -1699,14 +1723,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZDebug::writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
     }
 
-    function &fetchByContentObjectID( $contentObjectID, $asObject = true )
+    function &fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
     {
-         return eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                     null,
-                                                     array( "contentobject_id" => $contentObjectID ),
-                                                     null,
-                                                     null,
-                                                     $asObject );
+        $conds = array( 'contentobject_id' => $contentObjectID );
+        if ( $contentObjectVersion !== false )
+        {
+            $conds['contentobject_version'] = $contentObjectVersion;
+        }
+        return eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                    null,
+                                                    $conds,
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
+    function &fetchByRemoteID( $remoteID, $asObject = true )
+    {
+         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
+                                                 null,
+                                                 array( "remote_id" => $remoteID ),
+                                                 $asObject );
     }
 
     function &fetchByPath( $pathString, $asObject = true )
@@ -2429,7 +2466,7 @@ WHERE
 
     }
 
-    function findNode( $parentNode, $id, $asObject = false )
+    function findNode( $parentNode, $id, $asObject = false, $remoteID = false )
     {
         if ( !isset( $parentNode) || $parentNode == NULL  )
         {
@@ -2439,7 +2476,9 @@ WHERE
         $db =& eZDB::instance();
         if( $asObject )
         {
-            $query="SELECT ezcontentobject.*,
+            if ( $remoteID )
+            {
+                $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
                     FROM ezcontentobject_tree,
@@ -2450,7 +2489,21 @@ WHERE
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id ";
-
+            }
+            else
+            {
+                $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE parent_node_id = $parentNode AND
+                          contentobject_id = $id AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id ";
+            }
 
             $nodeListArray = $db->arrayQuery( $query );
             $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
@@ -2487,6 +2540,89 @@ WHERE
     function setName( $name )
     {
         $this->Name = $name;
+    }
+
+    /*!
+     \static
+     Creates propper nodeassigment from contentNodeDOMNode specification
+
+     \param contentobjecttreenode DOMNode
+     \param contentobject.
+     \param version
+     \param isMain
+     \param options
+    */
+    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, $options )
+    {
+        $parentNodeID = -1;
+        if ( $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' ) !== false )
+        {
+            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' ) );
+            $parentNodeID = $parentNode->attribute( 'node_id' );
+        }
+        else
+        {
+            if ( !isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
+            {
+                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->attributeValue( 'name' ),
+                                     'eZContentObjectTreeNode::unserialize()' );
+            }
+            else
+            {
+                $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'];
+                eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
+                                      'eZContentObjectTreeNode::unserialize()' );
+            }
+        }
+
+        $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                            'contentobject_version' => $version,
+                                                            'is_main' => $isMain,
+                                                            'parent_node' => $parentNodeID,
+                                                            'node_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
+                                                            'sort_field' => $contentNodeDOMNode->attributeValue( 'sort-field' ),
+                                                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
+                                                            'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) ) );
+        $nodeAssignment->store();
+    }
+
+    /*!
+     Serialize ContentObjectTreeNode
+
+     \params $options
+     \params contentNodeIDArray
+     \params topNodeIDArray
+    */
+    function serialize( $options, $contentNodeIDArray, $topNodeIDArray )
+    {
+        if ( $options['node_assignment'] == 'main' &&
+             $this->attribute( 'main_node_id' ) != $this->attribute( 'node_id' ) )
+        {
+            return false;
+        }
+        if ( ! in_array( $this->attribute( 'node_id' ), array_keys( $contentNodeIDArray ) ) )
+        {
+            return false;
+        }
+
+        $nodeAssignmentNode = new eZDOMNode();
+        $nodeAssignmentNode->setName( 'node-assignment' );
+        if ( $this->attribute( 'main_node_id' ) == $this->attribute( 'node_id' ) )
+        {
+            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'main-node', 1 ) );
+        }
+        if( !in_array( $this->attribute( 'node_id'), $topNodeIDArray ) )
+        {
+            $parentNode = $this->attribute( 'parent' );
+            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'parent-node-remote-id', $parentNode->attribute( 'remote_id' ) ) );
+        }
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->attribute( 'name' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'node-id', $this->attribute( 'node_id' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote-id', $this->attribute( 'remote_id' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-field', $this->attribute( 'sort_field' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-order', $this->attribute( 'sort_order' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'priority', $this->attribute( 'priority' ) ) );
+        return $nodeAssignmentNode;
     }
 
     /*!

@@ -107,13 +107,16 @@ foreach ( $deleteIDArray as $deleteID )
                     if ( $assignedNodeID != $nodeID )
                     {
                         $additionalNode =& eZContentObjectTreeNode::fetch( $assignedNodeID );
-                        $additionalChildrenCount = $additionalNode->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
-                        if (  $additionalChildrenCount == 0 )
-                            $additionalNodeIDList[] = $assignedNodeID;
-                        else if (  $additionalChildrenCount == 1 )
-                            $additionalNodeIDList[] = $assignedNodeID . " and its 1 child";
-                        else
-                            $additionalNodeIDList[] = $assignedNodeID . " and its " . $additionalChildrenCount . " children";
+                        if ( $additionalNode )
+                        {
+                            $additionalChildrenCount = $additionalNode->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
+                            if (  $additionalChildrenCount == 0 )
+                                $additionalNodeIDList[] = $assignedNodeID;
+                            else if (  $additionalChildrenCount == 1 )
+                                $additionalNodeIDList[] = $assignedNodeID . " and its 1 child";
+                            else
+                                $additionalNodeIDList[] = $assignedNodeID . " and its " . $additionalChildrenCount . " children";
+                        }
                     }
                 }
                 $additionalWarning .= implode( ', ',  $additionalNodeIDList );

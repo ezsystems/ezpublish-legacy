@@ -308,6 +308,25 @@ class eZDOMNode
     }
 
     /*!
+     \param attribute name
+     \param attribute value
+
+     \return element by attribute value
+    */
+    function &elementByAttributeValue( $attr, $value )
+    {
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->attributeValue( $attr ) == $value )
+            {
+                return $child;
+            }
+        }
+        return false;
+    }
+
+    /*!
      \return an array with elements that is named \a $name.
      \sa elementByName
     */

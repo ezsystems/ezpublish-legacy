@@ -238,6 +238,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     }
 
     /*!
+     \static
      Adds the content class with ID \a $classID to the package.
      If \a $classIdentifier is \c false then it will be fetched from the class.
     */
@@ -248,7 +249,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $class =& eZContentClass::fetch( $classID );
         if ( !$class )
             continue;
-        $classNode =& $this->classDOMTree( $class );
+        $classNode =& eZContentClassPackageHandler::classDOMTree( $class );
         if ( !$classNode )
             continue;
         if ( !$classIdentifier )
@@ -256,12 +257,15 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $package->appendInstall( 'ezcontentclass', false, false, true,
                                  'class-' . $classIdentifier, 'ezcontentclass',
                                  array( 'content' => $classNode ) );
-        $package->appendProvides( $this->handlerType(), 'contentclass', $class->attribute( 'identifier' ) );
+        $package->appendProvides( 'ezcontentclass', 'contentclass', $class->attribute( 'identifier' ) );
         $package->appendInstall( 'ezcontentclass', false, false, false,
                                  'class-' . $classIdentifier, 'ezcontentclass',
                                  array( 'content' => false ) );
     }
 
+    /*!
+     \reimp
+    */
     function handleAddParameters( $packageType, &$package, &$cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
@@ -343,37 +347,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
         return array( 'class-list' => $classList );
     }
 
-//     function handle( &$package, $parameters )
-//     {
-//         print( "Handling content classes\n" );
-//         print_r( $parameters );
-//         $classList = array();
-//         for ( $i = 0; $i < count( $parameters ); ++$i )
-//         {
-//             $parameter = $parameters[$i];
-//             if ( $parameter == '-class' )
-//             {
-//                 $classList = explode( ',', $parameters[$i+1] );
-//                 ++$i;
-//             }
-//         }
-//         print_r( $classList );
-//         if ( count( $classList ) > 0 )
-//         {
-//             foreach ( $classList as $classID )
-//             {
-//                 $classNode =& $this->classDOMTree( $classID );
-//                 if ( !$classNode )
-//                     continue;
-//                 $package->appendInstall( 'part', false, false, true,
-//                                          'class-' . $classID, 'contentclass',
-//                                          array( 'type' => 'ezcontentclass',
-//                                                 'content' => $classNode ) );
-//             }
-//         }
-//     }
-
     /*!
+     \static
      Creates the DOM tree for the content class \a $class and returns the root node.
     */
     function &classDOMTree( &$class )
@@ -424,6 +399,11 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                         $class->attribute( 'created' ) ) );
         $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'modified',
                                                                         $class->attribute( 'modified' ) ) );
+        if ( !$class->attribute( 'remote_id' ) )
+        {
+            $class->setAttribute( 'remote_id',  md5( mt_rand() ) . md5( mktime() ) );
+            $class->store();
+        }
 
         $creatorNode =& eZDOMDocument::createElementNode( 'creator' );
         $remoteNode->appendChild( $creatorNode );
@@ -486,6 +466,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         return 'ezcontentclass';
     }
 
+    /*!
+     \reimp
+    */
     function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
     {
         if ( $installNode->attributeValue( 'type' ) == 'ezcontentclass' )

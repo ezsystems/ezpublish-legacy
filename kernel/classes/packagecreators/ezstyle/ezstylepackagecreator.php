@@ -186,6 +186,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
+        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
 
         $result = true;
@@ -206,6 +207,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
     function commitCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
     {
+        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
@@ -225,6 +227,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateImageFiles( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
+        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;

@@ -102,6 +102,10 @@ class eZContentClass extends eZPersistentObject
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
+                                         "remote_id" => array( 'name' => "RemoteID",
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => true ),
                                          "modified" => array( 'name' => "Modified",
                                                               'datatype' => 'integer',
                                                               'default' => 0,
@@ -152,8 +156,12 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      Creates a new content object instance and stores it.
+
+     \param user ID (optional), current user if not set
+     \param section ID (optional), 0 if not set
+     \param version number, create initial version if not set
     */
-    function &instantiate( $userID = false, $sectionID = 0 )
+    function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false )
     {
         $attributes =& $this->fetchAttributes();
 
@@ -171,7 +179,15 @@ class eZContentClass extends eZPersistentObject
         //  $object->setName( "New " . $this->attribute( "name" ) );
         $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
 
-        $version = $object->createInitialVersion( $userID );
+        if ( !$versionNumber )
+        {
+            $version =& $object->createInitialVersion( $userID );
+        }
+        else
+        {
+            $version =& eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
+        }
+
         $version->store();
 
         foreach ( array_keys( $attributes ) as $attributeKey )
@@ -609,6 +625,27 @@ class eZContentClass extends eZPersistentObject
     function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "id" => $id,
+                        "version" => $version );
+        if ( $user_id !== false and is_numeric( $user_id ) )
+            $conds["creator_id"] = $user_id;
+        $version_sort = "desc";
+        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+            $version_sort = "asc";
+        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+                                                      null,
+                                                      $conds,
+                                                      array( "version" => $version_sort ),
+                                                      array( "offset" => 0,
+                                                             "length" => 2 ),
+                                                      false );
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+        return new eZContentClass( $row );
+    }
+
+    function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    {
+        $conds = array( "remote_id" => $remoteID,
                         "version" => $version );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
