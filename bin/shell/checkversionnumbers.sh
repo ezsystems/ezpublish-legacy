@@ -186,7 +186,7 @@ if [ -n "$SQL_ERROR" ]; then
     echo "--------------------------------------8<----------------------------------------"
     echo
     echo "rm -f data.sql"
-    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > data.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > data.sql"
     echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`\" >> data.sql"
     echo
     echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`"

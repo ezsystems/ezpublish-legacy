@@ -1197,6 +1197,11 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 
 
 
+
+
+
+
+
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (308,2,'*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (404,10,'edit','content');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (403,10,'create','content');
@@ -5547,8 +5552,13 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (11,
 
 
 
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.0alpha2');
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','2');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.0alpha3');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','3');
+
+
+
+
+
 
 
 
@@ -5752,6 +5762,11 @@ INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (35,1,291,'','');
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (36,12,291,'','');
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (37,10,13,'','');
+
+
+
+
+
 
 
 
