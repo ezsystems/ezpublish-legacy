@@ -587,6 +587,12 @@ class eZUser extends eZPersistentObject
         }
         // Remove some characters that are too similar visually
         $table = array_diff( $table, array( 'I', 'l', 'o', 'O', '0' ) );
+        $tableTmp = $table;
+        $table = array();
+        foreach ( $tableTmp as $item )
+        {
+            $table[] = $item;
+        }
         return $table;
     }
 
@@ -604,6 +610,7 @@ class eZUser extends eZPersistentObject
         $password = '';
         if ( $passwordLength < 1 )
             $passwordLength = 1;
+        $decimal = 0;
         while ( $chars < $passwordLength )
         {
             if ( $seed == false )
@@ -613,10 +620,9 @@ class eZUser extends eZPersistentObject
             $tableCount = count( $characterTable );
             for ( $i = 0; ( $chars < $passwordLength ) and $i < 32; ++$chars, $i += 2 )
             {
-                $decimal = hexdec( substr( $text, $i, 2 ) );
-                while ( $decimal + 1 > $tableCount )
-                    $decimal -= $tableCount;
-                $character = $characterTable[$decimal];
+                $decimal += hexdec( substr( $text, $i, 2 ) );
+                $index = ( $decimal % $tableCount );
+                $character = $characterTable[$index];
                 $password .= $character;
             }
             $seed = false;
