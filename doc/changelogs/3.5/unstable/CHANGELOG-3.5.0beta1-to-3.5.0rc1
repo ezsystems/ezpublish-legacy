@@ -19,3 +19,5 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - Fixed bug: New password was not checked for validity when changing a user's password.
   (Manually merged from stable/3.3 rev. 9192, also in stable/3.4 rev. 9193)
   http://ez.no/community/bug_reports/password_change_blank_passwords_allowed
+- Fixed bug: ActionAddToBasket crash.
+  http://ez.no/community/bug_reports/actionaddtobasket_crash

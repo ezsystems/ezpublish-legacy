@@ -64,6 +64,9 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $price = 0.0;
     $isVATIncluded = true;
     $attributes = $object->contentObjectAttributes();
+
+    $priceFound = false;
+
     foreach ( $attributes as $attribute )
     {
         $dataType =& $attribute->dataType();
@@ -74,6 +77,12 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
         }
     }
 
+    if ( !$priceFound )
+    {
+        eZDebug::writeError( 'Attempted to add object without price to basket.' );
+        $module->redirectTo(  "/shop/basket/error/" . 1  );
+        return;
+    }
     $basket =& eZBasket::currentBasket();
     $sessionID = $http->sessionID();
     $item =& eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
@@ -300,6 +309,10 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 $basket =& eZBasket::currentBasket();
 
 $tpl =& templateInit();
+
+if ( isset( $Params['Error'] ) )
+    $tpl->setVariable( 'error', $Params['Error'] );
+
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 $tpl->setVariable( "module_name", 'shop' );

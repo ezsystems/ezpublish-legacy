@@ -365,6 +365,8 @@ class eZBasket extends eZPersistentObject
                     break;
                 }
             }
+            if ( $priceObj == null )
+                return;
             $optionsPrice = $item->calculatePriceWithOptions();
 
             $price += $optionsPrice;

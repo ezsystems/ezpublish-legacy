@@ -47,6 +47,7 @@ $ViewList["basket"] = array(
     "functions" => array( 'buy' ),
     "script" => "basket.php",
     "default_navigation_part" => 'ezmynavigationpart',
+    'unordered_params' => array( 'error' => 'Error' ),
     "params" => array(  ) );
 
 $ViewList["register"] = array(

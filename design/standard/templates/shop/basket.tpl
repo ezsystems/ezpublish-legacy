@@ -2,20 +2,28 @@
 <form method="post" action={"/shop/basket/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Basket"|i18n("design/standard/shop")}</h1>
+    <h1>{"Basket"|i18n("design/standard/shop")}</h1>
 </div>
 {section show=$removed_items}
 <div class="warning">
-<h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/shop",,)}</h2>
-<ul>
-{section name=RemovedItem loop=$removed_items}
-    <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name}</a></li>
-{/section}
-</ul>
+    <h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/shop",,)}</h2>
+    <ul>
+    {section name=RemovedItem loop=$removed_items}
+        <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name}</a></li>
+    {/section}
+    </ul>
 </div>
 {/section}
 
-{section name=Basket show=$basket.items}
+{section show=$error}
+<div class="error">
+{section show=$error|eq(1)}
+<h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
+{/section}
+</div>
+{/section}
+
+    {section name=Basket show=$basket.items}
 
 <table class="list"  width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
