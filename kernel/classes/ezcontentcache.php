@@ -91,11 +91,19 @@ class eZContentCache
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
         $values =& $php->restore( array( 'content_info' => 'contentInfo',
                                          'content_path' => 'contentPath',
-                                         'content_data' => 'contentData' ) );
+                                         'content_data' => 'contentData',
+                                         'node_id' => 'nodeID',
+                                         ) );
 
         $result['content'] = $values['content_data'];
         if ( isset( $values['content_path'] ) )
             $result['path'] = $values['content_path'];
+
+        if ( isset( $values['node_id'] ) )
+        {
+            $result['node_id'] = $values['node_id'];
+        }
+
         return $result;
     }
 
@@ -120,6 +128,12 @@ class eZContentCache
         {
             $php->addVariable( 'contentPath', $result['path'] );
         }
+
+        if ( isset( $result['node_id'] ) )
+        {
+            $php->addVariable( 'nodeID', $result['node_id'] );
+        }
+
         $php->addSpace();
         $php->addCodePiece( "ob_start();\n" );
         $php->addText( $result['content'] );

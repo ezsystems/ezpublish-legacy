@@ -1,14 +1,8 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
 
-[DatabaseSettings]
-Server=localhost##!
-User=bf##!
-Password=bf##!
-Database=bf##!
-
 [DesignSettings]
-SiteDesign=user
+SiteDesign=demo
 
 [SiteSettings]
 IndexPage=/content/view/full/26

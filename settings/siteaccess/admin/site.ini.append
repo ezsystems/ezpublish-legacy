@@ -1,11 +1,6 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
 
-[DatabaseSettings]
-Server=localhost##!
-User=bf##!
-Password=bf##!
-Database=bf##!
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
@@ -15,8 +10,8 @@ LoginPage=custom
 [SiteAccessSettings]
 RequireUserLogin=true
 
-[ExtensionSettings]
-XMLEditor=dhtml
+[DesignSettings]
+SiteDesign=admin
 
 
 [DebugSettings]##!

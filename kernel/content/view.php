@@ -144,7 +144,7 @@ switch( $operationResult['status'] )
             }
             $path[] = array( 'text' => $object->attribute( 'name' ),
                              'url' => false,
-                             'url_alias' => false);
+                             'url_alias' => false );
 
             $Result = array();
             $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
@@ -165,7 +165,6 @@ switch( $operationResult['status'] )
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }
             }
-
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:
