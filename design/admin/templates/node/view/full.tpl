@@ -41,7 +41,7 @@
 
 {* Content window. *}
 <div class="context-block">
-<h2 class="context-title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
+<h2 class="context-title">{$node.class_identifier|class_icon( normal, $node.class_name )} {$node.name} [{$node.class_name}]</h2>
 
 <div class="context-information">
 <p>{'Last modified:'|i18n( 'design/admin/content/view' )} {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</p>
@@ -92,6 +92,7 @@
 
 </div>
 
+
 {* Information window. *}
 {section show=ezpreference( 'admin_navigation_information'  )}
     {include uri='design:information.tpl'}
@@ -108,6 +109,7 @@
 {/section}
 
 {* Children window.*}
+
 {section show=$node.object.content_class.is_container}
     {include uri='design:children.tpl'}
 {section-else}
@@ -115,3 +117,4 @@
         <h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/content/view' )}" title="{'Up one level'|i18n( 'design/admin/content/view' )}" /></a> {'This type of item can not contain any sub items.'|i18n( 'design/admin/layout' )}</h2>
     </div>
 {/section}
+

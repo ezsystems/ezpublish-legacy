@@ -47,7 +47,8 @@ function toggleCheckboxes( formname, checkboxname )
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
-<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{$node.object.content_class.identifier|class_icon( small, $node.object.content_class.name )}&nbsp;{$node.name|wash}&nbsp;[{$children_count}]</h2>
+<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/standard/node/view' )}" title="{'Up one level'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{$node.class_identifier|class_icon( small, $node.class_name )}&nbsp;{$node.name|wash}&nbsp;[{$children_count}]</h2>
+
 
 {* If there are children: show list and buttons that belong to the list. *}
 {section show=$children}
@@ -181,7 +182,6 @@ function toggleCheckboxes( formname, checkboxname )
 </div>
 
 {* Else: there are no children, but we still need to start the controlbar div. *}
-{section-else}
 <div class="controlbar">
 {/section}
 

@@ -162,7 +162,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'path_array' => 'pathArray',
                                                       "parent" => "fetchParent",
                                                       'url' => 'url',
-                                                      'url_alias' => 'urlAlias'
+                                                      'url_alias' => 'urlAlias',
+                                                      'class_identifier' => 'classIdentifier',
+                                                      'class_name' => 'className'
                                                       ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
@@ -1136,7 +1138,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
             $query = "SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
+                           ezcontentclass.name as class_name,
+                           ezcontentclass.identifier as class_identifier
                            $groupBySelectText
                            $versionNameTargets
                     FROM
@@ -1167,7 +1170,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
-                             ezcontentclass.name as class_name
+                             ezcontentclass.name as class_name,
+                             ezcontentclass.identifier as class_identifier
                              $groupBySelectText
                              $versionNameTargets
                       FROM
@@ -2859,6 +2863,11 @@ WHERE
 
             $object =& new eZContentObjectTreeNode( $node );
             $object->setName($node['name']);
+
+            if ( isset( $node['class_name'] ) )
+                $object->ClassName = $node['class_name'];
+            if ( isset( $node['class_identifier'] ) )
+                $object->ClassIdentifier = $node['class_identifier'];
             if ( $with_contentobject )
             {
                 if ( array_key_exists( 'class_name', $node ) )
@@ -2868,6 +2877,9 @@ WHERE
                     $permissions = array();
                     $contentObject->setPermissions( $permissions );
                     $contentObject->setClassName( $node['class_name'] );
+                    if ( isset( $node['class_identifier'] ) )
+                        $contentObject->ClassIdentifier = $node['class_identifier'];
+
                 }
                 else
                 {
@@ -3192,11 +3204,56 @@ WHERE
             return 'content/view/full/' . $this->NodeID;
     }
 
+
+    /*!
+     \return the cached value of the class identifier if it exists, it not it's fetched dynamically
+    */
+    function &classIdentifier()
+    {
+        $identifier = "";
+        if ( $this->ClassIdentifier !== null )
+        {
+            $identifier = $this->ClassIdentifier;
+        }
+        else
+        {
+            $object =& $this->object();
+            $class =& $object->contentClass();
+            $identifier = $class->attribute( 'identifier' );
+        }
+
+        return $identifier;
+    }
+
+    /*!
+     \return the cached value of the class name if it exists, it not it's fetched dynamically
+    */
+    function &className()
+    {
+        $name = "";
+        if ( $this->ClassName !== null )
+        {
+            $name = $this->ClassName;
+        }
+        else
+        {
+            $object =& $this->object();
+            $class =& $object->contentClass();
+            $name = $class->attribute( 'name' );
+        }
+
+        return $name;
+    }
+
     /// The current language for the node
     var $CurrentLanguage = false;
 
     /// Name of the node
     var $Name;
+
+    /// Contains the cached value of the class identifier
+    var $ClassIdentifier = null;
+    var $ClassName = null;
 }
 
 ?>

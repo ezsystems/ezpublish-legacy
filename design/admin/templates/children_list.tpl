@@ -38,7 +38,7 @@
         <td>{node_view_gui view=line content_node=$Nodes.item}</td>
 
         {* Class type *}
-        <td>{$Nodes.item.object.class_name|wash()}</td>
+        <td>{$Nodes.item.class_name|wash()}</td>
 
         {* Priority *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}

@@ -1,6 +1,7 @@
 Changes from 3.4.0 to 3.5.0alpha1
 
 *Kernel:
+- Added attributes to fetch cache values of class_identifier and class_name in eZContentObjectTreeNode objects and eZContentObject objects
 - Added cache for contentclass attribute name, identifier and can translate value to minimize the number of SQL  queries.
 - Added memory cache for content object version objects.
 - Added function to store the users last visit and to list the content from the users last visit, url to list is /content/new.

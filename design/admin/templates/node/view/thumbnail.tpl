@@ -1,3 +1,3 @@
 <div class="content-view-thumbnail">
-<a href={$node.url_alias|ezurl}>{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )}</a>
+<a href={$node.url_alias|ezurl}>{$node.class_identifier|class_icon( normal, $node.class_name )}</a>
 </div>
