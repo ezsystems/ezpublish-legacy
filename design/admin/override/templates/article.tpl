@@ -37,6 +37,10 @@
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+    <input type="hidden" name="ViewMode" value="full" />
+
     </div>
 </div>
 
@@ -71,9 +75,6 @@
     {case match=0}
     {/case}
     {/switch}
-    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-    <input type="hidden" name="ViewMode" value="full" />
 </div>
 *}
 

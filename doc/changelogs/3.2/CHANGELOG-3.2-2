@@ -60,6 +60,7 @@ eZURL:
 *WebDAV:
 
 *Templates:
+- Made sure ContentNodeID was set as a hidden variable in the article template for admin.
 
 *Package system:
 
