@@ -310,7 +310,7 @@ class eZContentFunctionCollection
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
-     function fetchPendingList( $offset, $limit )
+    function fetchPendingList( $offset, $limit )
     {
         $userID = eZUser::currentUserID();
         $pendingList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
@@ -446,12 +446,12 @@ class eZContentFunctionCollection
         }
     }
 
-    function fetchBookmarks()
+    function fetchBookmarks( $offset, $limit )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
         include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
-        return array( 'result' => eZContentBrowseBookmark::fetchListForUser( $user->id() ) );
+        return array( 'result' => eZContentBrowseBookmark::fetchListForUser( $user->id(), $offset, $limit ) );
     }
 
     function fetchRecent()

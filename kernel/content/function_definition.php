@@ -521,7 +521,14 @@ $FunctionList['bookmarks'] = array( 'name' => 'bookmarks',
                                                             'class' => 'eZContentFunctionCollection',
                                                             'method' => 'fetchBookmarks' ),
                                     'parameter_type' => 'standard',
-                                    'parameters' => array( ) );
+                                    'parameters' => array( array( 'name' => 'offset',
+                                                                  'type' => 'integer',
+                                                                  'required' => false,
+                                                                  'default' => false ),
+                                                           array( 'name' => 'limit',
+                                                                  'type' => 'integer',
+                                                                  'required' => false,
+                                                                  'default' => false ) ) );
 
 $FunctionList['recent'] = array( 'name' => 'recent',
                                  'operation_types' => array( 'read' ),

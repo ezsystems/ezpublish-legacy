@@ -158,10 +158,13 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \static
      \return the bookmark list for user \a $userID.
     */
-    function fetchListForUser( $userID )
+    function fetchListForUser( $userID, $offset = false, $limit = false )
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
-                                                    null, array( 'user_id' => $userID ), null,null,
+                                                    null,
+                                                    array( 'user_id' => $userID ), 
+                                                    array( 'id' => 'desc' ),
+                                                    array( 'offset' => $offset, 'length' => $limit ),
                                                     true );
     }
 
