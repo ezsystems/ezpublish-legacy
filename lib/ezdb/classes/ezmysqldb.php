@@ -107,8 +107,10 @@ class eZMySQLDB extends eZDBInterface
                 $sql = $this->InputTextCodec->convertString( $sql );
 
             if ( $this->OutputSQL )
+            {
                 $this->startTimer();
-
+                eZDebug::accumulatorStart( 'Mysql_queries' );
+            }
             $result =& mysql_query( $sql, $this->DBConnection );
             if ( $this->RecordError )
                 $this->setError();
@@ -116,6 +118,7 @@ class eZMySQLDB extends eZDBInterface
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
+                eZDebug::accumulatorStop( 'Mysql_queries' );
 
                 $num_rows = mysql_affected_rows( $this->DBConnection );
                 $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
@@ -334,7 +337,7 @@ class eZMySQLDB extends eZDBInterface
             $this->setError();
         }
     }
-        
+
     /*!
      \reimp
     */
@@ -351,6 +354,7 @@ class eZMySQLDB extends eZDBInterface
             $this->ErrorNumber = mysql_errno();
         }
     }
+
 
     /// \privatesection
     /// Contains the current database connection

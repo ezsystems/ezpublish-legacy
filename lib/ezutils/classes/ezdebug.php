@@ -100,6 +100,7 @@ define( "EZ_HANDLE_TO_PHP", 2 );
 define( "EZ_OUTPUT_MESSAGE_SCREEN", 1 );
 define( "EZ_OUTPUT_MESSAGE_STORE", 2 );
 
+
 class eZDebug
 {
     /*!
@@ -572,6 +573,7 @@ ezdebug.reload();
         return null;
     }
 
+
     /*!
       Adds a new timing point for the benchmark report.
     */
@@ -614,6 +616,38 @@ ezdebug.reload();
         return $time;
     }
 
+    function createAccumulator( $key, $name = '' )
+    {
+        if ( $name == '' )
+            $name = $key;
+        $debug =& eZDebug::instance();
+        $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0 );
+    }
+    function accumulatorStart( $key )
+    {
+        $debug =& eZDebug::instance();
+        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
+        {
+            $debug->createAccumulator( $key );
+        }
+
+        $accumulator =& $debug->TimeAccumulatorList[$key];
+        $accumulator['temp_time'] = $debug->timeToFloat(  microtime() );
+    }
+    function accumulatorStop( $key )
+    {
+        $debug =& eZDebug::instance();
+        $stopTime = $debug->timeToFloat( microtime() );
+        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
+        {
+            $debug->createAccumulator( $key );
+        }
+        $accumulator =& $debug->TimeAccumulatorList[$key];
+        $diffTime = $stopTime - $accumulator['temp_time'];
+        $accumulator['time'] = $accumulator['time'] + $diffTime;
+    }
+
+
     /*!
       \private
       Prints a full debug report with notice, warnings, errors and a timing report.
@@ -631,14 +665,14 @@ ezdebug.reload();
             if ( !$this->UseCSS )
             {
                 $returnText .= "<STYLE TYPE='text/css'>
- <!--
+                <!--
 td.debugheader
 {
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color : #eeeeee;
+    border-top : 1px solid #444488;
+    border-bottom : 1px solid #444488;
+    font-size : 65%;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
 td.timingpoint1
@@ -660,9 +694,9 @@ td.timingpoint2
 -->
 </STYLE>";
             }
-
-            $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
+         $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
         }
+
         foreach ( $this->DebugStrings as $debug )
         {
             $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );
@@ -760,11 +794,45 @@ td.timingpoint2
         {
             $returnText .= "</table>";
 
-            $returnText .= "</td></tr></table>";
+
         }
 
+        if ( $as_html )
+        {
+            $returnText .= "<h2>Time accumulators:</h2>";
+            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Accumulator</th><th>Elapsed</th></tr>";
+            $i = 0;
+        }
+
+        foreach ( $this->TimeAccumulatorList as $accumulator )
+        {
+            if ( $as_html )
+            {
+                if ( $i % 2 == 0 )
+                     $class = "timingpoint1";
+                else
+                     $class = "timingpoint2";
+                ++$i;
+
+                $returnText .= "<tr><td class='$class'>" . $accumulator['name'] . "</td><td class='$class'>" .
+                               number_format( ( $accumulator['time'] ), $this->TimingAccuracy ) . " sec</td> "
+                               . "</tr>";
+            }
+            else
+            {
+                $returnText .= $accumulator['name'] .
+                               number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec". "\n";
+            }
+        }
+        if ( $as_html )
+        {
+            $returnText .= "</table>";
+            $returnText .= "</td></tr></table>";
+        }
         return $returnText;
     }
+
+
 
     /// \privatesection
     /// String array containing the debug information
@@ -775,6 +843,9 @@ td.timingpoint2
 
     /// Array which contains the temporary time points
     var $TmpTimePoints;
+
+    /// Array wich contains time accumulators
+    var $TimeAccumulatorList = array();
 
     /// Determines which debug messages should be shown
     var $ShowTypes;
