@@ -1,5 +1,5 @@
 <div class="context-block">
-<h2 class="context-title">{'Class <%1>'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h2>
+<h2 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%1 [Class]'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h2>
 
 <div class="context-information">
     <p>{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )}</p>
