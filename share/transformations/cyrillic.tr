@@ -8,28 +8,28 @@
 # Transliteration of cyrillic, is used in URLs and identifiers
 
 cyrillic_uppercase:
-U+0450 - U+045F  -= U+0050
-U+0430 - U+044F  -= U+0020
+U+0450 - U+045F      - U+0050
+U+0430 - U+044F      - U+0020
 
-U+0461 - U+0481 % 02 - 01
-U+048B - U+04BF % 02 - 01
-U+04C2 - U+04CC % 02 - 01
-U+04D1 - U+04F5 % 02 - 01
+U+0461 - U+0481 % 02 - U+0001
+U+048B - U+04BF % 02 - U+0001
+U+04C2 - U+04CC % 02 - U+0001
+U+04D1 - U+04F5 % 02 - U+0001
 
 # Cyrillic Supplementary
-U+0501 - U+050F % 02 - 01
+U+0501 - U+050F % 02 - U+0001
 
 cyrillic_lowercase:
-U+0400 - U+040F += U+0050
-U+0410 - U+042F += U+0020
+U+0400 - U+040F      + U+0050
+U+0410 - U+042F      + U+0020
 
-U+0460 - U+0480 % 02 += 01
-U+048A - U+04BE % 02 += 01
-U+04C1 - U+04CD % 02 += 01
-U+04D0 - U+04F4 % 02 += 01
+U+0460 - U+0480 % 02 + U+0001
+U+048A - U+04BE % 02 + U+0001
+U+04C1 - U+04CD % 02 + U+0001
+U+04D0 - U+04F4 % 02 + U+0001
 
 # Cyrillic Supplementary
-U+0500 - U+050E % 02 += 01
+U+0500 - U+050E % 02 + U+0001
 
 cyrillic_diacritical:
 # Cyrillic extension
