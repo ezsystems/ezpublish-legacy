@@ -30,6 +30,9 @@
 
 #include <metatranslator.h>
 
+#include <ctype.h>
+#include <errno.h>
+
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -97,15 +100,6 @@ static int getCharFromFile()
     if ( c == '\n' )
         yyCurLineNo++;
     return c;
-}
-
-static int getCharFromString()
-{
-    if ( yyInPos == (int) yyInStr.length() ) {
-        return EOF;
-    } else {
-        return yyInStr[yyInPos++].latin1();
-    }
 }
 
 static void startTokenizer( const char *fileName, int (*getCharFunc)() )
@@ -370,22 +364,6 @@ static bool matchSString( QCString *s )
         yyTok = getToken();
     }
     return matches;
-}
-
-static bool matchEncoding( bool *utf8 )
-{
-    if ( yyTok == Tok_Ident ) {
-        if ( strcmp(yyIdent, "QApplication") == 0 ) {
-            yyTok = getToken();
-            if ( yyTok == Tok_Gulbrandsen )
-                yyTok = getToken();
-        }
-        *utf8 = QString( yyIdent ).endsWith( QString("UTF8") );
-        yyTok = getToken();
-        return TRUE;
-    } else {
-        return FALSE;
-    }
 }
 
 static void parse( MetaTranslator *tor, const char *initialContext,
