@@ -12,5 +12,9 @@
         <p>{attribute_view_gui attribute=$node.object.data_map.file icon_size='small' icon_title=$node.name}</p>
     </div>
 
+    <div class="attribute-link">
+        <p><a href={$node.url_alias|ezurl}>{'Details...'|i18n( 'design/base' )}</a></p>
+    </div>
+
     </div>
 </div>
