@@ -46,6 +46,7 @@ class Cezpdf extends Cpdf
     var $ezPages=array(); // keep an array of the ids of the pages, making it easy to go back and add page numbers etc.
     var $ezPageCount=0;
 
+
 // ------------------------------------------------------------------------------
 
     function Cezpdf($paper='a4',$orientation='portrait'){
@@ -162,7 +163,24 @@ class Cezpdf extends Cpdf
         $this->ezSetMargins($top,$bottom,$left,$right);
     }
 // ------------------------------------------------------------------------------
+// 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
+// Set fontsize
 
+    function setFontSize( $size )
+    {
+        $this->ez['fontSize'] = $size;
+    }
+
+// ------------------------------------------------------------------------------
+// 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
+// Get fontsize
+
+    function fontSize( )
+    {
+        return $this->ez['fontSize'];
+    }
+
+// ------------------------------------------------------------------------------
 
     function ezColumnsStart($options=array()){
         // start from the current y-position, make the set number of columne
@@ -1596,6 +1614,45 @@ class Cezpdf extends Cpdf
             break;
         }
     }
+
+// ------------------------------------------------------------------------------
+// 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
+// Set fontsize
+
+    function strike($info){
+        // a callback function to support underlining
+        $lineFactor=0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
+        switch($info['status']){
+            case 'start':
+            case 'sol':
+
+                // the beginning of the underline zone
+                if (!isset($this->ez['links'])){
+                    $this->ez['links']=array();
+                }
+                $i = $info['nCallback'];
+                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height']);
+                $this->saveState();
+                $thick = $info['height']*$lineFactor;
+                $this->setLineStyle($thick);
+                break;
+            case 'end':
+            case 'eol':
+                // the end of the link
+                // assume that it is the most recent opening which has closed
+                $i = $info['nCallback'];
+            $start = $this->ez['links'][$i];
+            // add underlining
+            $a = deg2rad((float)$start['angle']-90.0);
+            $drop = $start['height']/2;
+            $dropx = cos($a)*$drop;
+            $dropy = -sin($a)*$drop;
+            $this->line($start['x']-$dropx,$start['y']+$dropy,$info['x']-$dropx,$info['y']+$dropy);
+            $this->restoreState();
+            break;
+        }
+    }
+
 }
 
 // ------------------------------------------------------------------------------

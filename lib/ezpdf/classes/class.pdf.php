@@ -1645,13 +1645,14 @@ class Cpdf
 	    $name=substr($font,$pos+1);
 	}
 
-	if (substr($name,-4)=='.afm'){
-	    $name=substr($name,0,strlen($name)-4);
-	}
+    if (substr($name,-5)=='.font'){
+        $name=substr($name,0,strlen($name)-5);
+    }
+
 	$this->addMessage('openFont: '.$font.' - '.$name);
-	if (file_exists($dir.'php_'.$name.'.afm')){
-	    $this->addMessage('openFont: php file exists '.$dir.'php_'.$name.'.afm');
-	    $tmp = file($dir.'php_'.$name.'.afm');
+	if (file_exists($dir.'php_'.$name.'.font')){
+	    $this->addMessage('openFont: php file exists '.$dir.'php_'.$name.'.font');
+	    $tmp = file($dir.'php_'.$name.'.font');
 	    $this->fonts[$font]=unserialize($tmp[0]);
 	    if (!isset($this->fonts[$font]['_version_']) || $this->fonts[$font]['_version_']<1){
 		// if the font file is old, then clear it out and prepare for re-creation
@@ -1728,7 +1729,7 @@ class Cpdf
 	    }
 	    $data['_version_']=1;
 	    $this->fonts[$font]=$data;
-	    $fp = fopen($dir.'php_'.$name.'.afm','w');
+	    $fp = fopen($dir.'php_'.$name.'.font','w');
 	    fwrite($fp,serialize($data));
 	    fclose($fp);
 	} else if (!isset($this->fonts[$font])){
@@ -1755,8 +1756,8 @@ class Cpdf
 		$pos=strrpos($fontName,'/');
 //      $dir=substr($fontName,0,$pos+1);
 		$name=substr($fontName,$pos+1);
-		if (substr($name,-4)=='.afm'){
-		    $name=substr($name,0,strlen($name)-4);
+		if (substr($name,-5)=='.font'){
+		    $name=substr($name,0,strlen($name)-5);
 		}
 		$options=array('name'=>$name);
 		if (is_array($encoding)){
@@ -3187,7 +3188,7 @@ class Cpdf
 	// note that this function is unable to operate on a remote file.
 
 	if (!file_exists($img)){
-        echo "FILE NOT EXISTS: $img";
+//        echo "FILE NOT EXISTS: $img";
 	    return;
 	}
 
@@ -3349,23 +3350,23 @@ class Cpdf
 		// set the known family groups
 		// these font families will be used to enable bold and italic markers to be included
 		// within text streams. html forms will be used... <b></b> <i></i>
-		$this->fontFamilies['Helvetica.afm']=array(
-		    'b'=>'Helvetica-Bold.afm'
-		    ,'i'=>'Helvetica-Oblique.afm'
-		    ,'bi'=>'Helvetica-BoldOblique.afm'
-		    ,'ib'=>'Helvetica-BoldOblique.afm'
+		$this->fontFamilies['Helvetica']=array(
+		    'b'=>'Helvetica-Bold'
+		    ,'i'=>'Helvetica-Oblique'
+		    ,'bi'=>'Helvetica-BoldOblique'
+		    ,'ib'=>'Helvetica-BoldOblique'
 		    );
-		$this->fontFamilies['Courier.afm']=array(
-		    'b'=>'Courier-Bold.afm'
-		    ,'i'=>'Courier-Oblique.afm'
-		    ,'bi'=>'Courier-BoldOblique.afm'
-		    ,'ib'=>'Courier-BoldOblique.afm'
+		$this->fontFamilies['Courier']=array(
+		    'b'=>'Courier-Bold'
+		    ,'i'=>'Courier-Oblique'
+		    ,'bi'=>'Courier-BoldOblique'
+		    ,'ib'=>'Courier-BoldOblique'
 		    );
-		$this->fontFamilies['Times-Roman.afm']=array(
-		    'b'=>'Times-Bold.afm'
-		    ,'i'=>'Times-Italic.afm'
-		    ,'bi'=>'Times-BoldItalic.afm'
-		    ,'ib'=>'Times-BoldItalic.afm'
+		$this->fontFamilies['Times-Roman']=array(
+		    'b'=>'Times-Bold'
+		    ,'i'=>'Times-Italic'
+		    ,'bi'=>'Times-BoldItalic'
+		    ,'ib'=>'Times-BoldItalic'
 		    );
 	    }
 	} else {

@@ -1,1 +1,1 @@
-{$attribute.data_text|pdf}
+{pdf(text, $attribute.data_text)}
