@@ -82,7 +82,7 @@ class eZImageVariation extends eZPersistentObject
 
     function &attribute( $attr )
     {
-        if( $attr == "full_path" )
+        if ( $attr == "full_path" )
             return $this->fullPath();
 
         return eZPersistentObject::attribute( $attr );
@@ -90,7 +90,7 @@ class eZImageVariation extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        if( $attr == "full_path" )
+        if ( $attr == "full_path" )
             return true;
 
         return eZPersistentObject::hasAttribute( $attr );
