@@ -29,7 +29,7 @@ function toggleCheckboxes( formname, checkboxname )
 {section show=$class_count}
 
 <div class="context-block">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Classes inside'|i18n( 'design/admin/class/classlist' )} {$group_name|wash} [{$class_count}]</h2>
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Classes inside'|i18n( 'design/admin/class/classlist' )}&nbsp;<i>{$group_name|wash}</i>&nbsp;[{$class_count}]</h2>
 
 <form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
 <table class="list" cellspacing="0">
