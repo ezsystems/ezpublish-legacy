@@ -65,6 +65,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
 <AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
 <AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))

@@ -34,186 +34,122 @@
 
 <body>
 
+<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+
+<map name="map">
+<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
+</map>
+
+{let file_list=fetch(content,list,hash(parent_node_id,201,sort_by,array(array(published,false())),limit,5,))
+     news_list=fetch(content,tree,hash(parent_node_id,200,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
+
 <form action={"/content/search/"|ezurl} method="get">
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="700" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="tight" colspan="2"><img class="toplogo" src={"intranet-top-logo.gif"|ezimage} width="142" height="32" alt="Intranet" /></td>
 </tr>
 <tr>
-    <td class="topline" width="1%">
+    <td class="topline" background={"intranet-top-background-repeat.gif"|ezimage} width="1%">
     <input type="hidden" name="SectionID" value="7" />
     <input class="searchbox" type="text" size="10" name="SearchText" id="Search" value="" />
     </td>
-    <td class="topline" width="1%">
+    <td class="topline" width="1%" background={"intranet-top-background-repeat.gif"|ezimage} >
     <input name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
-    <td class="topline" width="98%" align="right"><img src={"intranet-top-background-image.gif"|ezimage} width="160" height="48" alt="" /></td>
+    <td class="topline" width="98%" align="right" background={"intranet-top-background-repeat.gif"|ezimage} ><img src={"intranet-top-background-image.gif"|ezimage} width="160" height="48" alt="" /></td>
 </tr>
 </table>
 </form>
 
 <div class="path">
-<p class="path">&gt; <a href="/">Top</a> / <a href="/">submenu</a> / <a href="/">subsubmenu</a> / current page</p>
+&gt;
+     {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
+        {section show=$Path:item.url}
+        <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
+        {section-else}
+	<span class="small">{$Path:item.text}</span>
+        {/section}
+
+        {delimiter}
+        <span class="small">/</span>
+        {/delimiter}
+    {section-else}
+     {section name=Path loop=$module_result.path}
+        {section show=$Path:Path:item.url}
+        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        {section-else}
+	<span class="small">{$Path:Path:item.text}</span>
+        {/section}
+
+        {delimiter}
+        <span class="small">/</span>
+        {/delimiter}
+     {/section}
+    {/section}
 </div>
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="700" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="leftmenu">
 
-<!-- Menubox START -->
-
+{* Menubox start *}
     <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <table class="menubox"width="120" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>News</th>
+        <th background={"intranet-menubox-corner.gif"|ezimage} width="100%">News</th>
     </tr>
+    {section name=News loop=$news_list}
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Latest news</a></td>
+        <td class="menuchoice" colspan="2">
+        &nbsp;<a class="small" href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
+	</td>
     </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Internal archive</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">External archive</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Full archive</a></td>
-    </tr>
+    {/section}
     </table>
     </div>
-    
-<!-- Menubox END -->
-
-<!-- Menubox START -->
-
-    <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-        <th>Files</th>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Internal files</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">External files</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Profile and marketing material</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Upload new file</a></td>
-    </tr>
-    </table>
-    </div>
-    
-<!-- Menubox END -->
-
-<!-- Menubox START -->
-
-    <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-        <th>Contacts</th>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">All contacts</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">User contacts</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">New contact</a></td>
-    </tr>
-    </table>
-    </div>
-    
-<!-- Menubox END -->
+{* Menubox stop *}    
 
     </td>
 
     <td class="divider"><img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
     <td class="maincontent" valign="top">
 
-<!-- Main area START -->
+{* Main area start *}
 
 {$module_result.content}
 
-<!-- Main area END -->
+{* Main area end *}
 
     </td>
     <td class="divider"><img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
     <td class="rightmenu">
-
-<!-- Menubox START -->
-
+{* Menubox start *}
     <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <table class="menubox"width="120" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>User</th>
+        <th background={"intranet-menubox-corner.gif"|ezimage} width="100%">Files</th>
     </tr>
+    {section name=File loop=$file_list}
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Change user info</a></td>
+        <td class="menuchoice" colspan="2">
+        &nbsp;<a class="small" href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name}</a>
+	</td>
     </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Change password</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">View all user data</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Log out</a></td>
-    </tr>
+    {/section}
     </table>
     </div>
-    
-<!-- Menubox END -->
-
-<!-- Menubox START -->
-
-    <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-        <th>Calendar</th>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">View calendar</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">User appointments</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">All appointments</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">New appointment</a></td>
-    </tr>
-    </table>
-    </div>
-    
-<!-- Menubox END -->
-
-<!-- Menubox START -->
-
-    <div class="menubox">
-    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-        <th>Employees</th>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">View employees</a></td>
-    </tr>
-    <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Send message</a></td>
-    </tr>
-    </table>
-    </div>
-    
-<!-- Menubox END -->
+{* Menubox stop *} 
 
     </td>
 </tr>    
 </table>
 
+{/let}
 </body>
 </html>

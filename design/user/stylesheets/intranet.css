@@ -50,7 +50,6 @@ img.toplogo
 
 td.topline
 {
-    background-image: url(images/intranet-top-background-repeat.gif);
     background-repeat: repeat-x;
 }
 
@@ -139,7 +138,6 @@ table.menubox th
 
 table.menubox th
 {
-    background-image: url(images/intranet-menubox-corner.gif);
     background-repeat: no-repeat;
     background-position: top right;
 }

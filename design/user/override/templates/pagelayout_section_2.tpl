@@ -58,11 +58,12 @@ function OpenWindow ( URL, WinName, Features ) {
 <img src={"toppmeny.gif"|ezimage} alt="" border="" usemap="#map" />
 
 <map name="map">
-<area shape="rect" coords="2,1,103,27" href={"content/view/full/159/"|ezurl} />
-<area shape="rect" coords="104,0,175,24" href={"content/view/full/32/"|ezurl} />
-<area shape="rect" coords="177,2,245,23" href={"content/view/full/26/"|ezurl} />
-<area shape="rect" coords="248,3,317,24" href={"content/view/full/82/"|ezurl} />
-<area shape="rect" coords="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
 </map>
 
 <br />
