@@ -139,8 +139,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
                 $schema[$table_name] = $schema_table;
             }
-            ksort( $schema );
             $this->transformSchema( $schema, $params['format'] == 'local' );
+            ksort( $schema );
         }
         else
         {
