@@ -312,6 +312,9 @@ Workflow:
 - Fixed problem with eZSubTree datatype, it used the method call
   eZSubtreeNotificationRule::removeByNodeAndAddress which did not exist.
   (Merged from stable/3.4 rev. 7251)
+- Fixed division by zero in poll results template (base)
+  http://ez.no/community/bug_reports/tc_division_by_zero_poll
+  (Merged from stable/3.4 rev. 7266)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
@@ -320,6 +323,7 @@ Workflow:
 - Fixed logical problem in eZLocale attributes:
   'weekday_list' changed to 'weekday_name_list'
   'weekday_name_list' changed to 'weekday_number_list'
+
 eZ DB:
 - Added support to MySQL driver for setting the character set on the connection
   if the server is running MySQL 4.1.1 or higher.
