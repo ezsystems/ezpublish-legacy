@@ -15,11 +15,7 @@
 </head>
 
 <body>
-
-
-
 {* Top box START *}
-
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
 <tr>
@@ -181,23 +177,20 @@
     {/section}
 
     </td>
-   <td class="headlogo" width="50%">
+   <td class="headlogo" width="500">
    &nbsp;</td>
 </tr>
 <tr>
     <td colspan="13" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="1" height="8" /></td>
 </tr>
-</table>
 
 {/cache-block}
 
 {* Top box END *}
 {cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
-
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
+    <td rowspan="3" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
 {* Left menu START *}
 
@@ -230,16 +223,15 @@
     <br />
     <img src={"1x1.gif"|ezimage} alt="" width="120" height="1" /></td>
     </td>
-    <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
-    <img src={"1x1.gif"|ezimage} alt="" width="23" height="1" /></td>
-    <td class="pathline">
-    {include uri="design:page_toppath.tpl"}
-    </td>
-</tr>
-<tr>
-    <td class="mainarea" width="99%" valign="top">
+    <td class="mainarea" colspan="12"  valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
 
 {/cache-block}
+
+{cache-block keys=$uri_string}
+    {include uri="design:page_toppath.tpl"}
+
+{/cache-block}
+
 
 {* Main area START *}
 
@@ -249,9 +241,13 @@
 
     </td>
 </tr>
+<tr>
+    <td bgcolor="#ffffff" colspan="12">
+    {include uri="design:page_copyright.tpl"}
+    </td>
+</tr>
 </table>
 
-{include uri="design:page_copyright.tpl"}
 
 <!--DEBUG_REPORT-->
 

@@ -43,6 +43,7 @@ td.pathline
 {
     padding-top: 4px;
     color: #000000; 
+    background-color: #ffffff; 
 }
 
 table.path td.bullet
@@ -307,6 +308,8 @@ td.mainarea
 {
         background-color: #ffffff;
         padding: 12px;
+        padding-left: 20px;
+        padding-top: 10px;
 }
 
 td.bglightextra, td.bgdarkextra
