@@ -41,8 +41,14 @@
 </p>
 
 <div class="block">
+{section show=$object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+{/section}
 </div>
+
+
 
 </div></div></div></div></div></div>
 
@@ -65,7 +71,7 @@
 {/section}
 
 <p>
-<label>{'Editing version'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Version'|i18n( 'design/admin/content/edit' )}:</label>
 {$edit_version}
 </p>
 
@@ -128,10 +134,10 @@
 <p>
 <label>
 {section show=$Translation:other_translation_list|gt(0)}
-          <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+    <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {/section}
 {section show=$Translation:item.locale.is_valid}
-<img src={$Translation:item.language_code|flag_icon} alt="($Translation:item.language_code)" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten(16)}
+<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten( 16 )}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
 {/section}

@@ -39,12 +39,16 @@
 {$version.creator.name}
 </p>
 
-<div class="block">
 {* Manage versions *}
+<div class="block">
 {section show=$allow_versions_button}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" />
+{section show=$object.versions|count|gt( 1 )}
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
 {section-else}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage versions.'i18n( 'design/admin/content/view/versionview' )}" />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+{/section}
+{section-else}
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage versions.'i18n( 'design/admin/content/view/versionview' )}" />
 {/section}
 </div>
 
