@@ -5,14 +5,14 @@
         <th class="remove"><a href="" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></a></th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/node/view/full ')}:</th>
+        <th class="name">{'Name'|i18n( 'design/admin/node/view/full ')}</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/node/view/full ')}:</th>
+        <th class="class">{'Type'|i18n( 'design/admin/node/view/full ')}</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/admin/node/view/full' )}:</th>
+            <th class="priority">{'Priority'|i18n( 'design/admin/node/view/full' )}</th>
         {/section}
 
         {* Edit column *}

@@ -5,23 +5,23 @@
         <th class="remove"><a href="" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></a></th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/node/view/full ')}:</th>
+        <th class="name">{'Name'|i18n( 'design/admin/node/view/full ')}</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/node/view/full ')}:</th>
+        <th class="class">{'Type'|i18n( 'design/admin/node/view/full ')}</th>
 
         {* Modifier column *}
-        <th class="creator">{'Last modifier'|i18n( 'design/admin/node/view/full' )}:</th>
+        <th class="creator">{'Modifier'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Modified column *}
-        <th class="creator">{'Last modified'|i18n( 'design/admin/node/view/full' )}:</th>
+        <th class="creator">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/node/view/full ')}:</th>
+        <th class="section">{'Section'|i18n( 'design/admin/node/view/full ')}</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}:</th>
+            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
         {/section}
 
         {* Copy column *}
