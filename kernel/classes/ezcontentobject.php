@@ -2259,7 +2259,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( $accessWord == 'yes' )
         {
-            return eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+            return eZContentClass::fetchList( 0, false,false, array( 'name' => 'asc' ), array( 'id', 'name' ) );
         }
         elseif ( $accessWord == 'no' )
         {
