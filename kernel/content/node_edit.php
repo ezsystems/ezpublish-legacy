@@ -76,7 +76,35 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
         {
             if ( !in_array( $nodeID, $assignedIDArray ) )
             {
-                $version->assignToNode( $nodeID );
+                $isPermitted = true;
+                // Check access
+                $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $newNodeObject = $newNode->attribute( 'object' );
+
+                $canCreate = $newNodeObject->attribute( 'can_create' );
+                eZDebug::writeDebug( $canCreate,"can create");
+                if ( !$canCreate )
+                    $isPermitted = false;
+                else
+                {
+                    $canCreateClassList = $newNodeObject->attribute( 'can_create_class_list' );
+                    $objectClassID = $object->attribute( 'contentclass_id' );
+                    $canCreateClassIDList = array();
+                    foreach ( array_keys( $canCreateClassList ) as $key )
+                    {
+                        $canCreateClassIDList[] = $canCreateClassList[$key]['id'];
+                    }
+                    if ( !in_array( $objectClassID, $canCreateClassIDList ) )
+                        $isPermitted = false;
+                }
+                if ( !$isPermitted )
+                {
+                    // Error message.
+                }
+                else
+                {
+                    $version->assignToNode( $nodeID );
+                }
             }
         }
     }
@@ -106,32 +134,60 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
             {
                 if ( !in_array( $nodeID, $assignedIDArray ) )
                 {
-                    $oldAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                                       null,
-                                                                       array( 'contentobject_id' => $object->attribute( 'id' ),
-                                                                              'parent_node' => $oldAssignmentParentID,
-                                                                              'contentobject_version' => $version->attribute( 'version' )
-                                                                              ),
-                                                                       true );
-//                    var_dump( $oldAssignment );
-                    $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+                    $isPermitted = true;
+                    // Check access
+                    $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                    $newNodeObject = $newNode->attribute( 'object' );
 
-                    $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
-
-                    if ( is_null( $realNode ) )
+                    $canCreate = $newNodeObject->attribute( 'can_create' );
+                    eZDebug::writeDebug( $canCreate,"can create");
+                    if ( !$canCreate )
+                        $isPermitted = false;
+                    else
                     {
-                        $fromNodeID = 0;
+                        $canCreateClassList = $newNodeObject->attribute( 'can_create_class_list' );
+                        $canCreateClassIDList = array();
+                        foreach ( array_keys( $canCreateClassList ) as $key )
+                        {
+                            $canCreateClassIDList[] = $canCreateClassList[$key]['id'];
+                        }
+                        $objectClassID = $object->attribute( 'contentclass_id' );
+                        if ( !in_array( $objectClassID, $canCreateClassIDList ) )
+                             $isPermitted = false;
                     }
-                    if ( $oldAssignment->attribute( 'is_main' ) == '1' )
+                    if ( !$isPermitted )
                     {
-                        $version->assignToNode( $nodeID, 1, $fromNodeID );
+                        // Error message.
                     }
                     else
                     {
-                        $version->assignToNode( $nodeID, 0, $fromNodeID );
-                    }
+                        $oldAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                                           null,
+                                                                           array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                                  'parent_node' => $oldAssignmentParentID,
+                                                                                  'contentobject_version' => $version->attribute( 'version' )
+                                                                                  ),
+                                                                           true );
+//                    var_dump( $oldAssignment );
+//                                               $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
 
-                    $version->removeAssignment( $oldAssignmentParentID );
+                        $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
+
+                        if ( is_null( $realNode ) )
+                        {
+                            $fromNodeID = 0;
+                        }
+                        if ( $oldAssignment->attribute( 'is_main' ) == '1' )
+                        {
+                            $version->assignToNode( $nodeID, 1, $fromNodeID );
+                        }
+                        else
+                        {
+                            $version->assignToNode( $nodeID, 0, $fromNodeID );
+                        }
+
+                        $version->removeAssignment( $oldAssignmentParentID );
+                    }
                 }
             }
         }
