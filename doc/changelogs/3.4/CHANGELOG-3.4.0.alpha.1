@@ -25,6 +25,10 @@ Changes from 3.3 to 3.4.0-alpha-1
 - Added support for sending the class identifier as a string to the content/class fetch function.
 - Added content/pdf for on the fly generation of PDF based on current node. Utilizes normal content caching.
 
+*Unit testing:
+- Created a new system for doing automated unit testing. It has a basic framework
+  and a plugin based structure to handle the test cases.
+
 *DataType:
 - New function hasObjectAttributeContent (attribute.has_content in template)
   which returns true if the attribute is to be considered to have any content.
@@ -46,6 +50,12 @@ eZ template:
   Removed the references when accessing attributes which fixed some of the problems with the image system.
   Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
   Merged in from 3.3 stable (Rev. 4815).
+- Added automated unit tests for eztemplate functionality.
+- Added the option to turn off all caching and compilation when fetching templates.
+  This is currently used to test if template compilation works as expected.
+- Added reset() and resetElements() function which calls a reset function
+  on all functions and operators. This ensures that the run-once function
+  can be reused for automated testing.
 
 *Bugs:
 - Fixed several minor bugs with url prefix.

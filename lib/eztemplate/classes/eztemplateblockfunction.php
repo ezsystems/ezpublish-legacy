@@ -196,6 +196,14 @@ class eZTemplateBlockFunction
         }
     }
 
+    function resetFunction( $functionName )
+    {
+        if ( $functionName == $this->OnceName )
+        {
+            unset( $GLOBALS['eZTemplateRunOnceKeys'] );
+        }
+    }
+
     /*!
      Generates an md5 key from the start, stop and file of the template function and returns it.
      \return false if the key could not be made.

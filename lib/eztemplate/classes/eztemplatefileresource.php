@@ -199,6 +199,8 @@ class eZTemplateFileResource
         $templateRoot = null;
         if ( !$handler->servesStaticData() )
             $canCache = false;
+        if ( !$tpl->isCachingAllowed() )
+            $canCache = false;
         $keyData = 'file:' . $path;
         if ( $method == EZ_RESOURCE_FETCH )
         {

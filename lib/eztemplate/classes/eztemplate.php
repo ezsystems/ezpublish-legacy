@@ -321,6 +321,8 @@ class eZTemplate
         $this->Resources = array();
         $this->Text = null;
 
+        $this->IsCachingAllowed = true;
+
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
         $this->Functions = array();
@@ -611,6 +613,8 @@ class eZTemplate
         }
         $canCache = true;
         if ( !$resobj->servesStaticData() )
+            $canCache = false;
+        if ( !$this->isCachingAllowed() )
             $canCache = false;
 
         $resourceData = null;
@@ -1968,6 +1972,42 @@ class eZTemplate
     }
 
     /*!
+     Resets all template functions and operators by calling the resetFunction and resetOperator
+     on all elements that supports it.
+    */
+    function resetElements()
+    {
+        foreach ( array_keys( $this->Functions ) as $functionName )
+        {
+            $functionObject =& $this->Functions[$functionName];
+            if ( is_object( $functionObject ) and
+                 method_exists( $functionObject, 'resetFunction' ) )
+            {
+                $functionObject->resetFunction( $functionName );
+            }
+        }
+
+        foreach ( array_keys( $this->Operators ) as $operatorName )
+        {
+            $operatorObject =& $this->Operators[$operatorName];
+            if ( is_object( $operatorObject ) and
+                 method_exists( $operatorObject, 'resetOperator' ) )
+            {
+                $operatorObject->resetOperator( $operatorName );
+            }
+        }
+    }
+
+    /*!
+     Resets all template variables, functions and operators.
+    */
+    function reset()
+    {
+        $this->resetVariables();
+        $this->resetElements();
+    }
+
+    /*!
      Returns the globale template instance, creating it if it does not exist.
     */
     function &instance()
@@ -2012,6 +2052,29 @@ class eZTemplate
         $GLOBALS['eZTemplateDebugInternalsEnabled'] = $debug;
     }
 
+    /*!
+      \return \c true if caching is allowed (default) or \c false otherwise.
+              This also affects template compiling.
+      \sa setIsCachingAllowed
+    */
+    function isCachingAllowed()
+    {
+        return $this->IsCachingAllowed;
+    }
+
+    /*!
+      Sets whether caching/compiling is allowed or not. This is useful
+      if you need to make sure templates are parsed and processed
+      without any caching mechanisms.
+      \note The default is to allow caching.
+      \sa isCachingAllowed
+    */
+    function setIsCachingAllowed( $allowed )
+    {
+        $this->IsCachingAllowed = $allowed;
+    }
+
+    /// \privatesection
     /// Associative array of resource objects
     var $Resources;
     /// Reference to the default resource object
@@ -2043,6 +2106,8 @@ class eZTemplate
     var $Literals;
     /// True if output details is to be shown
     var $ShowDetails = false;
+    /// \c true if caching is allowed
+    var $IsCachingAllowed;
 
     var $AutoloadPathList;
 
