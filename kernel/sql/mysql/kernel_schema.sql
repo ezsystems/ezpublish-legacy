@@ -1108,6 +1108,17 @@ CREATE TABLE eztipafriend_counter (
 
 
 
+CREATE TABLE eztipafriend_request (
+  created int(11) NOT NULL default '0',
+  email_receiver varchar(100) NOT NULL default '',
+  KEY created (created),
+  KEY email_receiver (email_receiver)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE eztrigger (
   connect_type char(1) NOT NULL default '',
   function_name varchar(200) NOT NULL default '',

@@ -2075,6 +2075,17 @@ CREATE TABLE eztipafriend_counter (
 
 
 
+CREATE TABLE eztipafriend_request (
+    created integer DEFAULT 0 NOT NULL,
+    email_receiver character varying(100) DEFAULT ''::character varying NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE eztrigger (
     connect_type character(1) DEFAULT ''::bpchar NOT NULL,
     function_name character varying(200) DEFAULT ''::character varying NOT NULL,
@@ -2703,6 +2714,22 @@ CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
+
+
+
+
+
+
+
+CREATE INDEX created ON eztipafriend_request USING btree (created);
+
+
+
+
+
+
+
+CREATE INDEX email_receiver ON eztipafriend_request USING btree (email_receiver);
 
 
 

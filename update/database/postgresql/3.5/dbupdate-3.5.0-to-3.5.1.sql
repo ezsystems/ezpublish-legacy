@@ -49,3 +49,11 @@ UPDATE ezurlalias SET source_url='design/ez_publish' where id=32;
 UPDATE ezurlalias SET source_md5='2dd3db5dc7122ea5f3ee539bb18fe97d' where id=32;
 
 UPDATE ezcontentobject SET section_id=5 where id=54;
+
+-- Fix for tipafriend request functionality
+CREATE TABLE eztipafriend_request (
+        email_receiver varchar(100) not null,
+        created int not null
+);
+create index eztipafriend_request_email_receiver on eztipafriend_request(email_receiver);
+create index eztipafriend_request_created on eztipafriend_request(created);
