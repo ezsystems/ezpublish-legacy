@@ -240,10 +240,9 @@ class eZTemplateFileResource
             if ( $templateRoot !== null )
                 return true;
 
-            $fd = fopen( $path, "rb" );
-            if ( $fd )
+            if ( is_readable( $path ) )
             {
-                $text = fread( $fd, filesize( $path ) );
+                $text = file_get_contents( $path );
                 $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
                 $tplINI =& $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
