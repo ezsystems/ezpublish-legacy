@@ -147,6 +147,9 @@ eZ template:
 - Added the possibility to fetch the number of errors and warnings from
   the last fetch.
 - Created function for doing validation on a given template file.
+- Fixed problem with fetch() and fetch_alias() operators when the parameter
+  hash was a dynamic expression (e.g. cond).
+  (Merged from trunk (3.5) rev. 7562)
 
 eZPDF:
 - Fixed margins using ul operator.

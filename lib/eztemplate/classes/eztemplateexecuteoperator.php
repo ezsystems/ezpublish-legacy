@@ -192,7 +192,7 @@ class eZTemplateExecuteOperator
             $dynamicParameters = eZTemplateNodeTool::elementDynamicArray( $fetchParameters );
             $functionKeys = eZTemplateNodeTool::elementDynamicArrayKeys( $fetchParameters );
         }
-        else if ( eZTemplateNodeTool::isVariableElement( $fetchParameters ) or 
+        else if ( eZTemplateNodeTool::isVariableElement( $fetchParameters ) or
                   eZTemplateNodeTool::isInternalCodePiece( $fetchParameters ) )
         {
             $isVariable = true;
@@ -208,7 +208,32 @@ class eZTemplateExecuteOperator
         if ( $isVariable )
         {
             $values[] = $fetchParameters;
-            $parametersCode = '%1%';
+
+            $parametersCode = 'array( ';
+            foreach( $functionDefinition['parameters'] as $parameterDefinition )
+            {
+                if ( $paramCount != 0 )
+                {
+                    $parametersCode .= ',' . "\n";
+                }
+                ++$paramCount;
+
+                $parameterName = $parameterDefinition['name'];
+
+                if ( $parameterTranslation )
+                {
+                    if ( in_array( $parameterName, array_keys( $parameterTranslation ) ) )
+                    {
+                        $parameterName = $parameterTranslation[$parameterName];
+                    }
+                }
+
+                $parametersSelection = '%1%[\'' . $parameterName . '\']';
+                $parametersCode .= '( isset( ' . $parametersSelection . ' ) ? ' . $parametersSelection . ' : false )';
+            }
+
+            $parametersCode .= ' )';
+
         }
         else
         {
