@@ -173,12 +173,14 @@ if ( $http->hasPostVariable( "RemovePolicies" )  )
 if ( $http->hasPostVariable( "CustomFunction" )  )
 {
     $currentModule = $http->postVariable( 'Modules' );
-    $mod = & eZModule::exists( $currentModule );
+    if ( $currentModule != '*' )
+    {
+        $mod = & eZModule::exists( $currentModule );
 //    var_dump( $currentModule );
-    flush();
-    $functions =& $mod->attribute( 'aviable_functions' );
-    $functionNames = array_keys( $functions );
-
+        flush();
+        $functions =& $mod->attribute( 'aviable_functions' );
+        $functionNames = array_keys( $functions );
+    }
     $showModules = false;
     $showFunctions = true;
     if ( count( $functionNames ) < 1 )

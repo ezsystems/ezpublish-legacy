@@ -426,15 +426,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sqlPartPart = array();
                 foreach ( $limitationArray as $limitation )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
                     {
                         $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
                     {
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif( $limitation->attribute( 'name' ) == 'Assigned' )
+                    elseif( $limitation->attribute( 'name' ) == 'Owner' )
                     {
                         eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in  objects' );
                     }
@@ -553,15 +553,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sqlPartPart = array();
                 foreach ( $limitationArray as $limitation )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
                     {
                         $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
                     {
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif( $limitation->attribute( 'name' ) == 'Assigned' )
+                    elseif( $limitation->attribute( 'name' ) == 'Owner' )
                     {
                         eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in  objects' );
                     }

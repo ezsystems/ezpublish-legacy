@@ -93,6 +93,7 @@ class eZPolicyLimitationValue  extends eZPersistentObject
     {
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );
     }
+
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )
@@ -108,12 +109,9 @@ class eZPolicyLimitationValue  extends eZPersistentObject
 
         $db =& eZDB::instance();
 
-        $db->query( "DELETE FROM ezpolicy_limitation_value 
+        $db->query( "DELETE FROM ezpolicy_limitation_value
                      WHERE ezpolicy_limitation_value.id = '$delID'" );
-
     }
-
-   
 
 }
 

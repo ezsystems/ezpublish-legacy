@@ -743,7 +743,7 @@ class eZContentObject extends eZPersistentObject
 //                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
 //                        }
 
-                        if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
                         {
                             if ( $functionName == 'create' )
                             {
@@ -759,7 +759,7 @@ class eZContentObject extends eZPersistentObject
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'ParentClassID' )
+                        elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
                         {
 
                             if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
@@ -772,7 +772,7 @@ class eZContentObject extends eZPersistentObject
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
                         {
                             if (  in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
                             {
@@ -796,19 +796,7 @@ class eZContentObject extends eZPersistentObject
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Assigned' )
-                        {
-                            if ( $this->attribute( 'owner_id' ) == $user->attribute( 'contentobject_id' )  )
-                            {
-                                $access = 'allowed';
-                            }
-                            else
-                            {
-                                $access = 'denied';
-                                break;
-                            }
 
-                        }
                     }
                 }
                 if ( $access == 'denied' )
@@ -828,19 +816,19 @@ class eZContentObject extends eZPersistentObject
         $canCreateClassIDListPart = array();
         foreach ( $limitationList as $limitation )
         {
-            if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
+            if ( $limitation->attribute( 'identifier' ) == 'Class' )
             {
                 $canCreateClassIDListPart =& $limitation->attribute( 'values_as_array' );
                 $hasClassIDLimitation = true;
             }
-            elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
+            elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
             {
                 if ( !in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
                 {
                     return array();
                 }
             }
-            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClassID' )
+            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
             {
                 if ( !in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
                 {

@@ -53,52 +53,6 @@ $ViewList["assign"] = array(
 
 
 
-$ClassID = array(
-    'name'=> 'ClassID',
-    'values'=> array(),
-    "path" => "classes/",
-    "file" => "ezcontentclass.php",
-    "class" => 'eZContentClass',
-    "function" => "fetchAll",
-    "parameter" => array( 0, false )
-    );
-
-$SectionID = array(
-    'name'=> 'SectionID',
-    'values'=> array(
-        array(
-            'Name' => 'Frontpage',
-            'value' => '1'),
-        array(
-            'Name' => 'Sports',
-            'value' => '2'),
-        array(
-            'Name' => 'Music',
-            'value' => '3')
-        )
-    );
-$Assigned = array(
-    'name'=> 'Assigned',
-    'values'=> array(
-        array(
-            'Name' => 'Self',
-            'value' => '1')
-        )
-    );
-
-
-$FunctionList['read'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
-$FunctionList['create'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID
-                                );
-$FunctionList['edit'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
-$FunctionList['remove'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
 
 
 

@@ -127,7 +127,7 @@ $ViewList["translate"] = array(
 
 
 $ClassID = array(
-    'name'=> 'ClassID',
+    'name'=> 'Class',
     'values'=> array(),
     "path" => "classes/",
     "file" => "ezcontentclass.php",
@@ -137,7 +137,7 @@ $ClassID = array(
     );
 
 $ParentClassID = array(
-    'name'=> 'ParentClassID',
+    'name'=> 'ParentClass',
     'values'=> array(),
     "path" => "classes/",
     "file" => "ezcontentclass.php",
@@ -147,7 +147,7 @@ $ParentClassID = array(
     );
 
 $SectionID = array(
-    'name'=> 'SectionID',
+    'name'=> 'Section',
     'values'=> array(),
     "path" => "classes/",
     "file" => "ezsection.php",
@@ -176,18 +176,18 @@ $Assigned = array(
  */
 
 
-$FunctionList['read'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
+$FunctionList['read'] = array( 'Class' => $ClassID,
+                                 'Section' => $SectionID,
                                  'Owner' => $Assigned );
-$FunctionList['create'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
-                                 'ParentClassID' => $ParentClassID
+$FunctionList['create'] = array( 'Class' => $ClassID,
+                                 'Section' => $SectionID,
+                                 'ParentClass' => $ParentClassID
                                 );
-$FunctionList['edit'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
+$FunctionList['edit'] = array( 'Class' => $ClassID,
+                                 'Section' => $SectionID,
                                  'Owner' => $Assigned );
-$FunctionList['remove'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID,
+$FunctionList['remove'] = array( 'Class' => $ClassID,
+                                 'Section' => $SectionID,
                                  'Owner' => $Assigned );
 
 $FunctionList['publish'] = array();
