@@ -175,7 +175,7 @@ if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
 {
     $availableToolArray =  $ini->variable( "Tool", "AvailableToolArray" );
 }
-print_r( $availableToolArray );
+
 $toolList = array();
 foreach ( array_keys( $toolArray ) as $toolKey )
 {
