@@ -115,12 +115,22 @@ class eZi18nOperator
     function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
+        foreach ( $parameters as $parameter )
+        {
+            if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
+            {
+                return false;
+            }
+        }
+
         include_once( 'kernel/common/i18n.php' );
         $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-        $context = ( count ( $parameters ) > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
-        $comment = ( count ( $parameters ) > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
 
-        if ( count ( $parameters ) < 4 )
+        $numParameters = count ( $parameters );
+        $context = ( $numParameters > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
+        $comment = ( $numParameters > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
+
+        if ( $numParameters < 4 )
         {
             return array ( eZTemplateNodeTool::createStringElement( ezi18n( $context, $value, $comment, null ) ) );
         }

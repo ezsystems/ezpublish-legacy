@@ -3,5 +3,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 *Kernel:
 
 *Bugfixes:
+- Fixed bug with non-static parameters to the i18n operator with use of the
+  template compiler.
+  http://ez.no/community/bug_reports/3_5_i18n_operator_doesn_t_take_variables_as_input_anymore
 
 *Library:
