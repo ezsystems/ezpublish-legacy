@@ -24,12 +24,10 @@
         {attribute_view_gui attribute=$node.object.data_map.contact_information}
     </div>
 
-    {section show=$node.object.data_map.comment.content.is_empty|not}
-    <h2>Comments</h2>
-        <div class="attribute-long">
-            {attribute_view_gui attribute=$node.object.data_map.comment}
-        </div>
-    {/section}
+    <h2>{'Comments'|i18n( 'design/base' )}</h2>
+    <div class="attribute-long">
+        {attribute_view_gui attribute=$node.object.data_map.comment}
+    </div>
 
     </form>
     </div>
