@@ -8,15 +8,15 @@
 -- Table structure for table 'ezapprove_items'
 --
 
-create table ezapprove_items(
-    id int NOT NULL auto_increment,
-    workflow_process_id int NOT NULL DEFAULT '0',
-    collaboration_id int NOT NULL DEFAULT '0',
-    PRIMARY KEY  (id)
-    );
+CREATE TABLE ezapprove_items (
+  id int(11) NOT NULL auto_increment,
+  workflow_process_id int(11) NOT NULL default '0',
+  collaboration_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
 
 --
--- Dumping data for table 'ezapprovetasks'
+-- Dumping data for table 'ezapprove_items'
 --
 
 
@@ -162,6 +162,24 @@ CREATE TABLE ezcollab_item_participant_link (
 
 --
 -- Dumping data for table 'ezcollab_item_participant_link'
+--
+
+
+--
+-- Table structure for table 'ezcollab_item_status'
+--
+
+CREATE TABLE ezcollab_item_status (
+  collaboration_id int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0',
+  is_read int(11) NOT NULL default '0',
+  is_active int(11) NOT NULL default '1',
+  last_read int(11) NOT NULL default '0',
+  PRIMARY KEY  (collaboration_id,user_id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezcollab_item_status'
 --
 
 
@@ -843,10 +861,10 @@ CREATE TABLE eznotification_user_link (
 
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
-  main_key varchar(32) NOT NULL default '',,
   memento_key varchar(32) NOT NULL default '',
   memento_data text NOT NULL,
   main int(11) NOT NULL default '0',
+  main_key varchar(32) NOT NULL default '',
   PRIMARY KEY  (id,memento_key)
 ) TYPE=MyISAM;
 
@@ -1192,6 +1210,11 @@ CREATE TABLE eztrigger (
 CREATE TABLE ezurl (
   id int(11) NOT NULL auto_increment,
   url varchar(255) default NULL,
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  is_valid int(11) NOT NULL default '1',
+  last_checked int(11) NOT NULL default '0',
+  original_url_md5 varchar(32) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1467,14 +1490,3 @@ CREATE TABLE ezworkflow_process (
 --
 
 
-
-
-
-create table ezcollab_item_status(
-    collaboration_id int NOT NULL DEFAULT '0',
-    user_id int NOT NULL default '0',
-    is_read int NOT NULL default '0',
-    is_active int NOT NULL default '1',
-    last_read int NOT NULL default '0',
-    PRIMARY KEY  (collaboration_id, user_id)
-    );
