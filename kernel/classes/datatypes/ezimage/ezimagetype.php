@@ -248,12 +248,23 @@ class eZImageType extends eZDataType
 
     /*!
      \reimp
+     Will return one of the following items from the original alias.
+     - alternative_text - If it's not empty
+     - Default paramater in \a $name if it exists
+     - original_filename, this is the default fallback.
     */
-    function title( &$contentObjectAttribute, $name = "filename" )
+    function title( &$contentObjectAttribute, $name = 'original_filename' )
     {
         $content =& $this->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
+        if ( trim( $value ) == '' )
+        {
+            if ( array_key_exists( $name, $original ) )
+                $value = $original[$name];
+            else
+                $value = $original['original_filename'];
+        }
 
         return $value;
     }
