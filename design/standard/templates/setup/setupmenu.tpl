@@ -14,10 +14,10 @@
     </div>
   </div>
 
-  {section show=eq( mod( $:index, 4 ), 3 )}
+  {delimiter modulo=4}
     </div>
     <div class="block">
-  {/section}
+  {/delimiter}
 
 {/section}
 </div>
