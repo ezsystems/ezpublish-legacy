@@ -281,6 +281,31 @@ class eZContentFunctionCollection
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
+     function fetchPendingList( $offset, $limit )
+    {
+        $userID = eZUser::currentUserID();
+        $pendingList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                   null, array(  'creator_id' => $userID,
+                                                                                 'status' => EZ_VERSION_STATUS_PENDING ),
+                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                   true );
+        return array( 'result' => &$pendingList );
+
+    }
+
+    function fetchPendingCount()
+    {
+        $userID = eZUser::currentUserID();
+        $pendingList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                   array(), array( 'creator_id' => $userID,
+                                                                                   'status' => EZ_VERSION_STATUS_PENDING ),
+                                                                   array(), null,
+                                                                   false,false,
+                                                                   array( array( 'operation' => 'count( * )',
+                                                                                 'name' => 'count' ) ) );
+        return array( 'result' => $pendingList[0]['count'] );
+    }
+
 
     function fetchVersionList( $contentObject, $offset, $limit )
     {

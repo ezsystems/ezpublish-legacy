@@ -45,6 +45,7 @@ $tpl =& templateInit();
 $tpl->setVariable( 'generated', false );
 $tpl->setVariable( 'wrong_email', false );
 $tpl->setVariable( 'link', false );
+$tpl->setVariable( 'wrong_key', false );
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
@@ -95,6 +96,14 @@ if ( strlen( $hashKey ) == 32 )
         $tpl->setVariable( 'email', $email );
         $forgotPasswdObj->remove();
     }
+    else
+    {
+        $tpl->setVariable( 'wrong_key', true );
+    }
+}
+else if ( strlen( $hashKey ) > 4 )
+{
+    $tpl->setVariable( 'wrong_key', true );
 }
 
 if ( $module->isCurrentAction( "Generate" ) )
@@ -117,12 +126,15 @@ if ( $module->isCurrentAction( "Generate" ) )
     if ( $module->hasActionParameter( "Email" ) )
     {
         $email = $module->actionParameter( "Email" );
-        $users =& eZPersistentObject::fetchObjectList( eZUser::definition(),
+        if ( trim( $email ) != "" )
+        {
+            $users =& eZPersistentObject::fetchObjectList( eZUser::definition(),
                                                        null,
                                                        array( 'email' => $email ),
                                                        null,
                                                        null,
                                                        true );
+        }
         if ( count($users) > 0 )
         {
             $user =& $users[0];

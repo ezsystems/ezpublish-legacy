@@ -138,13 +138,17 @@ Changes from 3.1-1 to 3.2.0-1
 - Fixed variable name typo in ezextension class.
 - Created new class eZScript which takes care of starting, initializing and shutting down
   common things in scripts.
+- Added pending list in personal
+- Add content cache expiry variable in template which makes it possible to set cache limit or disable
+  cache depending on template file.
+- Added feedback message for forgot password if user use an invalid key to confirm.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.
 - Added support for class export in all kernel datatypes.
 
 *Templates:
-- Made default size ofe textarea fields like text line fields.
+- Made default size of textarea fields like text line fields.
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
   This is required for datatypes to be used in the new eZObjectRelationList.
 - Added EditDirtyObjectAction in ContentSettings, to choose wether to always edit the current version,

@@ -59,7 +59,7 @@ class eZContentCache
     {
     }
 
-    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
+    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false )
     {
         $md5Input = array( $nodeID );
         $md5Input[] = $offset;
@@ -68,6 +68,8 @@ class eZContentCache
         $md5Input = array_merge( $md5Input, $roleList );
         sort( $discountList );
         $md5Input = array_merge( $md5Input, $discountList );
+        if ( $cacheTTL == true )
+            $md5Input = array_merge( $md5Input, "cache_ttl" );
         $md5Text = md5( implode( '-', $md5Input ) );
         $cacheFile = $nodeID . '-' . $md5Text . '.php';
         $extraPath = eZDir::filenamePath( "$nodeID" );
@@ -111,6 +113,7 @@ class eZContentCache
         $cacheFile = $cachePathInfo['file'];
         $timestamp = false;
         $cachePath = $cachePathInfo['path'];
+
         if ( file_exists( $cachePath ) )
         {
             $timestamp = filemtime( $cachePath );
@@ -126,10 +129,30 @@ class eZContentCache
                 eZDebug::writeDebug( "viewmode '$viewMode' cache expired #2" );
                 return false;
             }
+
+            $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, true );
+            $ttlCacheDir = $ttlCachePathInfo['dir'];
+            $ttlCacheFile = $ttlCachePathInfo['file'];
+            $ttlCachePath = $cachePathInfo['path'];
+
+            if ( file_exists( $ttlCachePath ) )
+            {
+                $ttlCachePhp = new eZPHPCreator( $ttlCacheDir, $ttlCacheFile );
+
+                $ttlValueArray =& $ttlCachePhp->restore( array ( 'cache_ttl' => 'cache_ttl' ) );
+
+                $ttlValue = $ttlValueArray['cache_ttl'];
+
+                $currentTime = mktime();
+                $expireTime = $timestamp + $ttlValue;
+                if ( $currentTime > $expireTime )
+                    return false;
+            }
         }
         eZDebug::writeDebug( 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
+
         $values =& $php->restore( array( 'content_info' => 'contentInfo',
                                          'content_path' => 'contentPath',
                                          'content_data' => 'contentData',
@@ -140,6 +163,7 @@ class eZContentCache
                                                                      'default' => false ),
                                          'navigation_part_identifier' => 'navigationPartIdentifier'
                                          ) );
+
         $cacheCodeDate = $values['cache_code_date'];
         if ( $cacheCodeDate != EZ_CONTENT_CACHE_CODE_DATE )
             return false;
@@ -177,7 +201,7 @@ class eZContentCache
     function store( $siteDesign, $objectID, $classID,
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
-                    $result )
+                    $result, $cacheTTL = 0 )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
         $cacheDir = $cachePathInfo['dir'];
@@ -230,6 +254,16 @@ class eZContentCache
         $php->addSpace();
         $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
                             "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
+
+        if ( $cacheTTL != 0 and $cacheTTL != -1 )
+        {
+            $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL );
+            $ttlCacheDir = $ttlCachePathInfo['dir'];
+            $ttlCacheFile = $ttlCachePathInfo['file'];
+            $ttlCachePhp  = new eZPHPCreator( $ttlCacheDir, $ttlCacheFile );
+            $ttlCachePhp->addVariable( 'cache_ttl', $cacheTTL );
+            $ttlCachePhp->store();
+        }
         return $php->store();
     }
 

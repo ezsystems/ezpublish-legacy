@@ -238,6 +238,13 @@ $ViewList["bookmark"] = array(
     'post_action_parameters' => array( 'Remove' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
+$ViewList["pendinglist"] = array(
+    "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezmynavigationpart',
+    "script" => "pendinglist.php",
+    "params" => array(),
+    "unordered_params" => array( "offset" => "Offset" ) );
+
 
 $ClassID = array(
     'name'=> 'Class',

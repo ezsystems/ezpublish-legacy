@@ -75,6 +75,7 @@ if ( isset( $keys['layout'] ) )
 else
     $layout = false;
 
+/*$templateResult =& $tpl->fetch( 'design:content/view/full.tpl' );*/
 
 // Should we load the cache now, or check operation
 if ( $viewCacheEnabled and ( $useTriggers == false ) )
@@ -213,7 +214,6 @@ switch( $operationResult['status'] )
                                   array( 'url_alias', $node->attribute( 'url_alias' ) )
                                   ) );
 
-
             $tpl->setVariable( 'node', $node );
             $tpl->setVariable( 'language_code', $LanguageCode );
             $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -258,8 +258,14 @@ switch( $operationResult['status'] )
             $Result['node_id'] =& $NodeID;
             $Result['navigation_part'] = $navigationPartIdentifier;
 
+            $cacheTTL =& $tpl->variable( 'cache_ttl' );
 
-            if ( $viewCacheEnabled )
+            if ( !isset( $cacheTTL ) )
+                $cacheTTL = -1;
+
+            settype( $cacheTTL, "integer");
+
+            if ( $viewCacheEnabled and $cacheTTL != 0 )
             {
                 include_once( 'kernel/classes/ezcontentcache.php' );
                 $cacheInfo = eZContentObject::cacheInfo( $Params );
@@ -272,9 +278,10 @@ switch( $operationResult['status'] )
                 $classID = $object->attribute( 'contentclass_id' );
                 $nodeDepth = $node->attribute( 'depth' );
                 $urlAlias = $node->attribute( 'url_alias' );
+
                 if ( eZContentCache::store( $designSetting, $objectID, $classID,
                                             $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
-                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result ) )
+                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result, $cacheTTL ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }

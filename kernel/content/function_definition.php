@@ -368,6 +368,29 @@ $FunctionList['draft_version_list'] = array( 'name' => 'draft_version_list',
                                                                            'required' => false,
                                                                            'default' => false ) ) );
 
+$FunctionList['pending_count'] = array( 'name' => 'pending_count',
+                                      'operation_types' => array( 'read' ),
+                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                              'class' => 'eZContentFunctionCollection',
+                                                              'method' => 'fetchPendingCount' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array(  ) );
+
+$FunctionList['pending_list'] = array( 'name' => 'draft_version_list',
+                                             'operation_types' => array( 'read' ),
+                                             'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                     'class' => 'eZContentFunctionCollection',
+                                                                     'method' => 'fetchPendingList' ),
+                                             'parameter_type' => 'standard',
+                                             'parameters' => array( array( 'name' => 'offset',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ),
+                                                                    array( 'name' => 'limit',
+                                                                           'type' => 'integer',
+                                                                           'required' => false,
+                                                                           'default' => false ) ) );
+
 $FunctionList['version_count'] = array( 'name' => 'version_count',
                                       'operation_types' => array( 'read' ),
                                       'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
