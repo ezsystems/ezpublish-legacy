@@ -1,0 +1,190 @@
+CHANGELOG
+
+Changes from 2.9-5 to 2.9-6
+
+*Kernel :
+- Added correct calculations for complex discount rules
+- Added shopping confirmation step
+- Added order dynamic order items to handle shipping, gift certificates, wrapping etc in a general way.
+- Added force user login check on checkout
+- Changed user registration so that it reuses the attribute edit
+- Added functionality for adding new related objects in content edit
+- Added template for sending information collection results in mail
+- Moved drafts to content module
+- Fixed bug in eZPersistentObject which required default sorting to make override sorting work
+- Fixed bug with publishing from preview
+- Fixed bug with related objects when creat new version by copying from another version
+- Fixed bug with viewing related objects in view full
+- Added support for custom tags in xml text
+- Fixed bug for group deleting which only delete one group when multiple groups were selected
+- Fixed bug for class deleteing which only delete one class when multiple clasese were selected
+- Added warning when discard a editing object
+- Fixed bug with xmltext input validation and conversion
+- Supported more tags in xml input such as <bold>, <em> and table width specification
+- Changed the return url when editing or creating a class, the new return url will be the class list page
+  where the class belongs to.
+- Added limit to search stats page.
+
+eZ contentcache:
+- New cache system for content views. For clearing cache use bin/shell/clearcache.sh
+
+shop:
+- Added more information to order list
+- Added real order number to orders
+
+index.php:
+- Added /siteBasics/ array which contains references to some variables
+  which controls the index script. This array can be modified by code
+  like precheck and access to turn off/on features or otherwise modify
+  basic settings before the actual module handling is started.
+- Policy check omit list was moved to site.ini under RoleSettings and added support
+  for setting a module/view pair.
+- Module repository list was moved to site.ini under ModuleSettings.
+- URL translator is now only run if $urlTranslatorAllowed is true.
+- Policy checking is now only run if $policyCheckRequired is true.
+- Moved ezsetup include to pre_check.php where it belongs.
+- Moved precheck function call to before the module loop.
+- Added flags for user-object, session and database object.
+- Made sure the database object weren't used unless it was included and initialized when cleaning up.
+
+pre_check.php:
+- Fixed the code to make sure prechecks are run in a specific order
+   and fixed the validity check.
+- Validity check will now turn off policy checking, url translation, user objects, session and database.
+
+access.php:
+- Siteaccess has been changed to prepend as an override dir instead of overwriting,
+  that way personal overrides will always work.
+
+access.php:
+- Added support for map type in hostmatching, it allows one to map a hostname to a specific
+  access type. Multiple entries are allowed.
+
+site.ini:
+- HashType is now set to md5_user instead of md5_site as default.
+
+sql files:
+- Password hashes for users in the kernel_clean.sql and demokernel.sql has been update to use the user/password
+  hash type.
+
+texttoimage operator:
+- The directory where cache files are stored has been moved to var/cache/texttoimage,
+  old files should be removed, unix users can do rm var/cache/image-*.png.
+
+*SDK :
+- Added main concepts tutorial
+- Some UI cleanups and better styles.
+- Improved changelog viewing code.
+
+
+*eZ setup:
+- Moved the setup code as a module, overriding the already existing setup module.
+- Added the notion of part and started work on the 'init' part which is the
+  first and mandatory part.
+- Redone the checking and info collection code.
+- Lot's of fixes to make it all more user friendly.
+- Some fixes to the program file detection.
+
+eZ section:
+- Section init will not fetch section from session if session is disabled.
+
+admin.css:
+- Added p.enabled, p.disabled and p.current classes used for the setup program.
+
+share/locale/*:
+- Added more comments on the variations.
+
+core.css:
+- Added pre style and some other styles used in the setup.
+
+*Library :
+
+eZ template:
+- New template parser created, and all related template functions and operators have been updated.
+  The new internal structure is lighter and should give faster processing.
+- The line and column of all elements in a template file are remembedered with the filename, this
+  makes it much easier to track down errors.
+- Whitespace handling is improved, it's now possible to have whitespaces inbetween variable, operator
+  and attribute elements.
+- Better namespace handling, it's now possible to specify a global namespace by adding a # to the start
+  of the namespace or a relative one by adding a : to the start of the namespace.
+- Attribute lookup of operator result are now possible.
+- Reworked the template loading functions to make it easier to support caching.
+- Finished the template tree caching and add site.ini setting for turning it on and off.
+- New operator is_array which returns true if either the input or all of the parameters are arrays.
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.
+- New function set-block which renders all it's children as text and sets it in a template variable.
+- Function parameters can now be set without a type, this means that the parameter is set to true.
+
+eZ executionstack:
+- Removed. It no longer had any use as it was.
+
+eZ file:
+- Removed mkdir function from file, it's available from eZDir.
+
+eZ debug:
+- Made sure percentage and average is calculated correctly.
+
+eZ module:
+- New action parameter type called post_value_action_parameters, it's similar to
+  post_action_parameters but will check for post variables looking like $name_$value
+  and will use $value as the value instead of the real value. This is useful for buttons
+  which should also send a value.
+
+eZ sys:
+- Added filesystemType() function which either returns "win32" or "unix".
+- Added removeMagicQuotes() function to fix the _ENV and _SERVER global variables.
+
+eZ httptool:
+- Fixed removeMagicQuotes() function to use stripslashes() instead of preg_replace.
+- Made sure session is started when a session function is used if not already started.
+
+eZ session:
+- Added function eZSessionStart() which will take care of starting the session properly.
+  Calling it multiple times will just return false.
+
+eZ locale:
+- New function localeFullCode which returns the locale code with the variation.
+- localeList() will now be able to return a list of languages as locale objects.
+- Preferred charset is now read from locale file if no charset was set in locale string.
+
+eZ ini:
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.
+- New feature, the ini files now supports real arrays.
+  They are input with a [] after the keyname. An empty entry will create an
+  empty array, like Item[]
+- Some changes to the way override dir is handled, it now supports multiple override
+  dirs each being parsed in order.
+- Added filename() function.
+
+eZ codepage:
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.
+
+eZ db:
+- New function hasInstance() which returns true if there is an eZDB instance active.
+
+eZ dbinterface:
+- Added some functionality for handling different relation types, handlers can
+  now return which relation types they support and get counts and lists, and remove
+  them.
+
+eZ dbtool:
+- New class which handles common database tools, such as cleanup and finding out if
+  a database is empty. MySQL and PostgreSQL handlers were updates as well.
+
+eZ mail:
+- Lots of changes to the mail class, it now only takes care of storing header information
+  and body text and returns it when requested.
+
+eZ mailtransporter:
+- New class which defines an interface for sending email, has a static function send() which
+  figures out the transporter to use from site.ini.
+
+eZ SendmailTransporter:
+- Sends mail with sendmail.
+
+eZ SMTPTransport:
+- Sends mail with SMTP.
+
+eZ texttool:
+- Changed arrayFlatten to be non-recursive (ie. iterative).

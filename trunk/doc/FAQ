@@ -1,0 +1,16 @@
+Q: I just pasted in some javascript in my template, and suddenly nothing is
+   shown correctly. What happened?
+
+A: This is because our template engine treat the { and } characters as special
+   characters and expects template specific code. You need to use the {literal}
+   function to make sure the javascripts are parsed correctly. Place {literal}
+   before the javascripts and {/literal} after.
+
+
+Q: I get errormessages like : 
+   Warning: Failed to write session data (user). Please verify that the
+   current setting of session.save_path is correct (/tmp/) in Unknown on line 0
+
+A: Try to apply the following in your php.ini file:
+   session.auto_start = 0
+   

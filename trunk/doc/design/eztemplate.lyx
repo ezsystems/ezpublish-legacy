@@ -1,0 +1,2207 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\language english
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\float_placement !htbp
+\paperfontsize 10
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+
+\layout Title
+
+eZ publish 3.0 design for eZ template
+\layout Date
+
+Version 1.0 - 18.2.2002
+\layout Author
+
+eZ publish core team ( bf@ez.no, jb@ez.no )
+\layout Chapter
+
+Introduction
+\layout Chapter
+
+Goals
+\layout Itemize
+
+The eZ template library handles content and code separation.
+ You will be able to define blocks in XHTML files which can be used to display
+ variables and other dynamic content.
+ It should be possible to do most of the page layout within the template
+ files with the aid of pluggable functions and operators.
+\layout Itemize
+
+The template class itself handles only simple text management with template
+ caching.
+ Internationalization (i18n) and localization (l10n) is handled by plugging
+ in extra functionality externally.
+\layout Itemize
+
+Templates should be safe, this means that they cannot access files or other
+ resources directly.
+ All access is done trough the template class which may restrict the templates
+ usage of resources.
+ Secondly templates should allow for page designers to perform 
+\begin_inset Quotes eld
+\end_inset 
+
+code
+\begin_inset Quotes erd
+\end_inset 
+
+ pieces, this does not mean that they can embed PHP code when they want
+ special features, instead the focus is to use user-defined functions and
+ operators.
+\layout Itemize
+
+Templates must be fast, therefore they must be compiled.
+ The compilation is done by transforming the template into a php script
+ which is included.
+ This allows for the template class to create highly optimized results and
+ also aids from the use of PHP accellerators such as Zend and APC.
+\layout Itemize
+
+Altough alot of the data processing is done in the templates we will still
+ allow PHP code parse parts of the template, this allows PHP code using
+ templates to perform more advanced processing than template code can handle.
+\layout Chapter
+
+Design
+\layout Section
+
+Syntax
+\layout Standard
+
+Templates consists of text and special constructs or tags.
+ The tags starts with a 
+\emph on 
+{
+\emph default 
+ and ends with a 
+\emph on 
+}
+\emph default 
+ which is configurable.
+ Inside the tags you'll find variables, constants, functions and operators.
+\layout Itemize
+
+Comments are defined by a * and may end with a *, any text inside the comment
+ is ignored in the output.
+\layout Itemize
+
+Variables are defined by $ and contain characters in the range of a-z, A-Z,
+ 0-9 and _.
+ See 
+\begin_inset LatexCommand \ref{Variables}
+
+\end_inset 
+
+.
+\layout Itemize
+
+Constants are either numerical values such as 1.0, 42 or strings 
+\begin_inset Quotes eld
+\end_inset 
+
+this is a test
+\begin_inset Quotes erd
+\end_inset 
+
+
+\layout Itemize
+
+Functions are the default type and can contain characters in the range a-z,
+ A-Z, 0-9 and _.
+ See 
+\begin_inset LatexCommand \ref{Functions}
+
+\end_inset 
+
+.
+\layout Itemize
+
+Operators are defined by a | and can contain characters in the range a-z,
+ A-Z, 0-9 and _.
+ Operators are only available for variables and constants.
+ See 
+\begin_inset LatexCommand \ref{Operators}
+
+\end_inset 
+
+.
+\layout Section
+
+Template instance
+\layout Standard
+
+To create a new template instance you need to create a new template object.
+\layout LyX-Code
+
+$tpl = new eZTemplate();
+\layout LyX-Code
+
+$tpl->load( 
+\begin_inset Quotes eld
+\end_inset 
+
+templates/standard/ezarticle/user/articleview.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Standard
+
+The template engine supports different kinds of 
+\begin_inset Quotes eld
+\end_inset 
+
+file
+\begin_inset Quotes erd
+\end_inset 
+
+ access where normal filesystem access is the default, other access types
+ may be defined externally and used, for instance if one wanted to store
+ the templates in a database one could use.
+\layout LyX-Code
+
+$tpl->load( 
+\begin_inset Quotes eld
+\end_inset 
+
+db:ezarticle/user/articleview.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+);
+\layout Section
+
+Internationalization/Localization
+\layout Standard
+
+Internationalization is not handled directly in the template class but is
+ accessible with the use of user-definable operators (See 
+\begin_inset LatexCommand \ref{Operators}
+
+\end_inset 
+
+).
+ To enable language translation one would do.
+\layout LyX-Code
+
+$lang_op = eZLanguageOperator();
+\layout LyX-Code
+
+$lang_op->setLanguage( new eZLanguageFile( 
+\begin_inset Quotes eld
+\end_inset 
+
+ezarticle/user
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+articleview.ini
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+en_GB
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+$tpl->registerOperators( $lang_op );
+\layout Standard
+
+Localization is handled with.
+\layout LyX-Code
+
+$loc_op = eZLocaleOperator( 
+\begin_inset Quotes eld
+\end_inset 
+
+no
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+$tpl->registerOperators( $loc_op );
+\layout Section
+
+Template output
+\layout Standard
+
+To get the template output you need to use the parse function:
+\layout LyX-Code
+
+$output =& $tpl->parse();
+\layout Standard
+
+Or you can output the data directly with the display function:
+\layout LyX-Code
+
+$tpl->display();
+\layout Section
+
+
+\begin_inset LatexCommand \label{Variables}
+
+\end_inset 
+
+Template variables
+\layout Standard
+
+To get dynamic variables in templates you need to set a template variable.
+ You set a template variable with the following syntax:
+\layout LyX-Code
+
+$tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+article_title
+\begin_inset Quotes erd
+\end_inset 
+
+, $articleTitle );
+\layout Standard
+
+The corresponding template code would be:
+\layout LyX-Code
+
+<h1>{$article_title}</h1>
+\layout Standard
+
+You can also assign a number of variables at the same time using an array:
+\layout LyX-Code
+
+$tpl->setVariable( array( 
+\begin_inset Quotes eld
+\end_inset 
+
+article_title
+\begin_inset Quotes erd
+\end_inset 
+
+ => $articleTitle,
+\layout LyX-Code
+
+                        
+\begin_inset Quotes eld
+\end_inset 
+
+article_date
+\begin_inset Quotes erd
+\end_inset 
+
+ => $date ) );
+\layout Standard
+
+The contents of the variable may either be a numerical value, a string,
+ boolean type or an array.
+\layout LyX-Code
+
+$tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+person
+\begin_inset Quotes erd
+\end_inset 
+
+, array( 
+\begin_inset Quotes eld
+\end_inset 
+
+first_name
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+John
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                                      
+\begin_inset Quotes eld
+\end_inset 
+
+last_name
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+Smith
+\begin_inset Quotes erd
+\end_inset 
+
+ ) );
+\layout Standard
+
+If the content is an array you can access the data with the 
+\emph on 
+.
+
+\emph default 
+ operator or by using looping (See 
+\begin_inset LatexCommand \ref{section}
+
+\end_inset 
+
+).
+ This is called properties and can be nested
+\layout LyX-Code
+
+<b>{$person.first_name}</b> {$person.last_name}
+\layout LyX-Code
+
+{$person.address.city}
+\layout Standard
+
+Properties of objects is no different from array keys we can do
+\layout LyX-Code
+
+$tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+person
+\begin_inset Quotes erd
+\end_inset 
+
+, new eZPerson( 
+\begin_inset Quotes eld
+\end_inset 
+
+John
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+Smith
+\begin_inset Quotes erd
+\end_inset 
+
+ ) );
+\layout LyX-Code
+
+or
+\layout LyX-Code
+
+$tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+person
+\begin_inset Quotes erd
+\end_inset 
+
+, array( 
+\begin_inset Quotes eld
+\end_inset 
+
+first_name
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+John
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                                    
+\begin_inset Quotes eld
+\end_inset 
+
+last_name
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+Smith
+\begin_inset Quotes erd
+\end_inset 
+
+ ) );
+\layout LyX-Code
+
+\layout LyX-Code
+
+Welcome {$person.first_name} {$person.last_name}.
+\layout Standard
+
+The result of a variable or property can also be used to lookup a new property,
+ for that use the [ and ] brackets.
+\layout LyX-Code
+
+{$consultation[$person.id]}
+\layout Section
+
+
+\begin_inset LatexCommand \label{Operators}
+
+\end_inset 
+
+Template operators
+\layout Standard
+
+Operators are functions which are run on template variables or constants.
+ Typical operators are string formatting functions like convert to lower/upper
+ case.
+ The syntax for operators are:
+\layout LyX-Code
+
+{$article_title|my_oper}
+\layout Standard
+
+A special operator called default is used to insert a default text if the
+ variable is not set.
+\layout LyX-Code
+
+{$article_title|i18n|lowercase|default(
+\begin_inset Quotes eld
+\end_inset 
+
+No title
+\begin_inset Quotes erd
+\end_inset 
+
+)}
+\layout Standard
+
+Localization operators
+\layout LyX-Code
+
+{$price|l10n(number)}
+\layout LyX-Code
+
+{$price|l10n(currency)}
+\layout LyX-Code
+
+{$date|l10n(date)}
+\layout LyX-Code
+
+{$date|l10n(shortdate)}
+\layout LyX-Code
+
+{$date|l10n(time)}
+\layout LyX-Code
+
+{date|l10n(date,
+\begin_inset Quotes erd
+\end_inset 
+
+%d %y %m
+\begin_inset Quotes erd
+\end_inset 
+
+)}
+\layout Standard
+
+Symbol and unit operators, see 
+\begin_inset LatexCommand \htmlurl[International System of Units]{http://physics.nist.gov/cuu/Units/prefixes.html}
+
+\end_inset 
+
+
+\layout LyX-Code
+
+{$size|symbol(byte,binary)} // Display size as KiB, MiB etc..
+\layout LyX-Code
+
+{$size|symbol(byte,prefix)} // Display size as KB, MB etc..
+\layout LyX-Code
+
+{$size|symbol(byte,mebi)}
+\layout LyX-Code
+
+\layout LyX-Code
+
+{$data|si(length)}
+\layout LyX-Code
+
+{$data|si(mass)}
+\layout LyX-Code
+
+{$data|si(time)}
+\layout LyX-Code
+
+{$data|si(electric current)}
+\layout LyX-Code
+
+{$data|si(thermodynamic temperature)}
+\layout LyX-Code
+
+{$data|si(amount of substance)}
+\layout LyX-Code
+
+{$data|si(lumionous intensity)}
+\layout Subparagraph
+
+Text operators
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="2" rows="8" columns="2">
+<features rotate="false" islongtable="false" endhead="0" endfirsthead="0" endfoot="0" endlastfoot="0">
+<column alignment="center" valignment="top" leftline="true" rightline="false" width="" special="">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="" special="">
+<row topline="true" bottomline="true" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Name
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Description
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+upcase
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Converts all characters to uppercase
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+downcase
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Converts all characters to lowercase
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+capitalize
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Makes the first character in the text uppercase and the rest lowercase
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+i18n
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Internationalization see
+\begin_inset LatexCommand \ref{i18n}
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subparagraph
+
+Numerical operators
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="2" rows="4" columns="2">
+<features rotate="false" islongtable="false" endhead="0" endfirsthead="0" endfoot="0" endlastfoot="0">
+<column alignment="center" valignment="top" leftline="true" rightline="false" width="" special="">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="" special="">
+<row topline="true" bottomline="true" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Name
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Description
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+l10n
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Localization see 
+\begin_inset LatexCommand \ref{l10n}
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="false" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+symbol
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+Symbols and units
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true" newpage="false">
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="false" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell multicolumn="0" alignment="center" valignment="top" topline="true" bottomline="false" leftline="true" rightline="true" rotate="false" usebox="none" width="" special="">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subparagraph
+
+
+\begin_inset LatexCommand \label{i18n}
+
+\end_inset 
+
+Internationalization (i18n)
+\layout Subparagraph
+
+
+\begin_inset LatexCommand \label{l10n}
+
+\end_inset 
+
+Localization (l10n)
+\layout Subparagraph
+
+Symbols/Units
+\layout Section
+
+
+\begin_inset LatexCommand \label{Functions}
+
+\end_inset 
+
+Functions
+\layout Standard
+
+Functions may either be runtime executable or compilable.
+ Compilable functions will be replaced with the PHP code for it when compiling
+ the templates while runtime executable functions will simply be executed
+ on demand.
+\layout Subsection
+
+Include
+\layout Standard
+
+Include imports another template to be used together with this one.
+\layout LyX-Code
+
+{include file=
+\begin_inset Quotes erd
+\end_inset 
+
+button.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\layout Standard
+
+Extra parameters can be passed to the included template incase it has template
+ variables which needs to be set.
+\layout LyX-Code
+
+{include file=
+\begin_inset Quotes erd
+\end_inset 
+
+button.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+ text=
+\begin_inset Quotes erd
+\end_inset 
+
+Click me
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\layout LyX-Code
+
+\layout LyX-Code
+
+button.tpl
+\layout LyX-Code
+
+{$text}
+\layout Standard
+
+Another way to set variables in the included template is to assign it a
+ name and use the name as the namespace to setVariable().
+\layout LyX-Code
+
+{include file=
+\begin_inset Quotes erd
+\end_inset 
+
+button.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+ name=
+\begin_inset Quotes erd
+\end_inset 
+
+shop
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\layout LyX-Code
+
+$tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+text
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+Buy
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+shop
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Standard
+
+Template includes can be used to include standard elements to speed up the
+ development and customisation of templates.
+ Examples of commonly used objects are; search boxes, list elements, rulers,
+ headers, next/previous buttons etc.
+\layout Subsection
+
+ldelim/rdelim
+\layout Standard
+
+Outputs the left and right delimiter which is normally 
+\emph on 
+{
+\emph default 
+ and 
+\emph on 
+}
+\emph default 
+.
+ This is useful for including these character which is normally treated
+ as special characters.
+\layout Subsection
+
+literal
+\layout Standard
+
+Inserts the contents of the block as it is, this means that template constructs
+ cease to exist for the duration of the block.
+ The literal block is not recursive so you cannot embed a literal inside
+ a literal, ie you'll just get the {literal}...{/literal} text directly output.
+\layout Subsection
+
+html_hidden
+\layout Standard
+
+Inserts a html tag for inserting a hidden variable.
+\layout Standard
+
+Note: This might be done another way, possibly with postfilters.
+\layout LyX-Code
+
+<form>
+\layout LyX-Code
+
+// next line should automatically be inserted
+\layout LyX-Code
+
+{html_hidden name=$SessionID value=3458dfsdf234}
+\layout LyX-Code
+
+</form>
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{section}
+
+\end_inset 
+
+section
+\layout Standard
+
+The section is the most versatile function in the template system.
+ The most used feature is to loop over a set of data and create some content
+ with each element.
+\layout Standard
+
+The section uses the parameter 
+\emph on 
+loop
+\emph default 
+ to determine what to loop over.
+ The values which can be sent to 
+\emph on 
+loop
+\emph default 
+ is
+\layout Itemize
+
+Numerical
+\layout Itemize
+
+Array
+\layout Standard
+
+Any other value will result in the section not being shown.
+ If the value is a variable which does not exist it will count as an empty
+ array, see below.
+\layout Standard
+
+The 
+\emph on 
+name
+\emph default 
+ parameter specifies the namespace for the section and can be omitted.
+\layout Standard
+
+The 
+\emph on 
+sequence
+\emph default 
+ parameter specifies a sequence which is iterated over as the loop parameter
+ but will restart the loop when the end is reached.
+ This is useful for creating alternating colors in lists.
+ The sequence must be an array and may be omitted.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+{section loop=$list sequence=array(odd,even)}
+\layout LyX-Code
+
+<td class=
+\begin_inset Quotes erd
+\end_inset 
+
+{$sequence}>{$item}</td>
+\layout LyX-Code
+
+{/section}
+\layout Standard
+
+The 
+\emph on 
+show
+\emph default 
+ parameter is used for determing whether a section is shown or not.
+ If true it is shown, if false it is not shown.
+ If the parameter is omitted the section is shown.
+\layout Standard
+
+The sub tag 
+\emph on 
+section-else
+\emph default 
+ is used to specify content which is shown when the loop is empty or not
+ shown.
+ This is useful for showing text which is present only when the list is
+ empty.
+ If this is not present no data will be shown for empty lists.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+{section loop=$list}
+\layout LyX-Code
+
+<td>{$item}</td>
+\layout LyX-Code
+
+{section-else}
+\layout LyX-Code
+
+No items in list
+\layout LyX-Code
+
+{/section}
+\layout Standard
+
+The sub tag 
+\emph on 
+delimit
+\emph default 
+ specifies text which is shown in between each loop.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+{section loop=$list}
+\layout LyX-Code
+
+{$item}
+\layout LyX-Code
+
+{delimit}::{/delimit}
+\layout LyX-Code
+
+{/section}
+\layout Subsubsection
+
+Numerical
+\layout Standard
+
+Specifies how many times the section will be looped, the counter starts
+ at 0 and goes up to the numerical value minus one.
+ 
+\emph on 
+key
+\emph default 
+ is set to the counter value while 
+\emph on 
+item
+\emph default 
+ is set to the counter value plus one.
+ A negative value means looping from 0 downto the value plus one, the 
+\emph on 
+item
+\emph default 
+ value will be the counter minus one.
+\layout Standard
+
+If the value is 0 the data in 
+\emph on 
+section-else
+\emph default 
+ is used.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+{section loop=5}
+\layout LyX-Code
+
+{$item}.<br>
+\layout LyX-Code
+
+{/section}
+\layout Subsubsection
+
+Array
+\layout Standard
+
+Each item is iterated over, 
+\emph on 
+key
+\emph default 
+ is set the current key in the array while 
+\emph on 
+item
+\emph default 
+ is set to the current item.
+\layout Standard
+
+If the array is empty the data in 
+\emph on 
+section-else
+\emph default 
+ is used.
+\layout LyX-Code
+
+{section loop=$list}
+\layout LyX-Code
+
+<td>{$key}</td><td>{$item}</td>
+\layout LyX-Code
+
+{/section}
+\layout Section
+
+
+\begin_inset LatexCommand \label{Template blocks}
+
+\end_inset 
+
+Template blocks
+\layout Standard
+
+You can define blocks or repeating elements in a template.
+ This is done with:
+\layout LyX-Code
+
+{block name=
+\begin_inset Quotes erd
+\end_inset 
+
+list
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\layout LyX-Code
+
+{$filepath}
+\layout LyX-Code
+
+{/block}
+\layout Standard
+
+The php code for looping a section would look like:
+\layout LyX-Code
+
+$files = array( 
+\begin_inset Quotes eld
+\end_inset 
+
+file/1
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+somefile
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+non-existing
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+$tpl->startRecord( 
+\begin_inset Quotes eld
+\end_inset 
+
+list
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+foreach ( $files as $file )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  if ( file_exists( $file ) )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    $tpl->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+filepath
+\begin_inset Quotes erd
+\end_inset 
+
+, $file, 
+\begin_inset Quotes eld
+\end_inset 
+
+list
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+    $tpl->parseBlock( 
+\begin_inset Quotes eld
+\end_inset 
+
+list
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->endRecord( 
+\begin_inset Quotes eld
+\end_inset 
+
+list
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Section
+
+Comments
+\layout Standard
+
+Comments can be embedded in the template and is removed from the output.
+ Comments start with a * and may end with a *.
+\layout LyX-Code
+
+{* This is a comment *}
+\layout LyX-Code
+
+{*This is another comment}
+\layout Section
+
+User definables
+\layout Standard
+
+It's possible to extend the functions and operators available to the template
+ system by plugging in extra functions.
+\layout Subsection
+
+Functions
+\layout LyX-Code
+
+function stripIt( &$tpl, &$node, &$params )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  foreach ( $node->children() as $child )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    if ( $child->isTextNode() )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+      $child->setText( preg_replace( 
+\begin_inset Quotes eld
+\end_inset 
+
+/ +/
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+ 
+\begin_inset Quotes eld
+\end_inset 
+
+, $child->text() ) );
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerFunction( 
+\begin_inset Quotes eld
+\end_inset 
+
+strip
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+stripIt
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Standard
+
+You can also use classes to register multiple operators, this is useful
+ for grouping related functions.
+\layout LyX-Code
+
+class MyFunctions
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  function stripIt( &$tpl, &$node, &$params )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    foreach ( $node->children() as $child )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+      if ( $child->isTextNode() )
+\layout LyX-Code
+
+      {
+\layout LyX-Code
+
+        $child->setText( preg_replace( 
+\begin_inset Quotes eld
+\end_inset 
+
+/ +/
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+ 
+\begin_inset Quotes eld
+\end_inset 
+
+, $child->text() ) );
+\layout LyX-Code
+
+      }
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+\layout LyX-Code
+
+  function &functionList()
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    return array( array( 
+\begin_inset Quotes eld
+\end_inset 
+
+function
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+strip
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+method
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+stripIt
+\begin_inset Quotes erd
+\end_inset 
+
+ ) );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerFunction( new MyFunctions() );
+\layout Subsection
+
+Operators
+\layout LyX-Code
+
+function reverse( &$tpl, &$variable, &$var_name )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  if ( !is_string( $variable ) )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    $tpl->writeError( 
+\begin_inset Quotes eld
+\end_inset 
+
+Operator reverse cannot handle type 
+\begin_inset Quotes erd
+\end_inset 
+
+ .
+ gettype( $variable ) );
+\layout LyX-Code
+
+    return;
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+  $variable = strrev( $variable );
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerOperator( 
+\begin_inset Quotes eld
+\end_inset 
+
+reverse
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+reverse
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Standard
+
+As with function you can use classes to register multiple operators.
+\layout LyX-Code
+
+class MyOperators
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  function &operatorList()
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    return array( array( 
+\begin_inset Quotes eld
+\end_inset 
+
+operator
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+reverse
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+method
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+opReverse
+\begin_inset Quotes erd
+\end_inset 
+
+ )
+\layout LyX-Code
+
+                  array( 
+\begin_inset Quotes eld
+\end_inset 
+
+operator
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+trim
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+method
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+opTrim
+\begin_inset Quotes erd
+\end_inset 
+
+ ) );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+\layout LyX-Code
+
+  function opReverse( &$tpl, &$variable, &$var_name )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    if ( !is_string( $variable ) )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+      $tpl->writeError( 
+\begin_inset Quotes eld
+\end_inset 
+
+Operator reverse cannot handle type 
+\begin_inset Quotes erd
+\end_inset 
+
+ .
+ gettype( $variable ) );
+\layout LyX-Code
+
+      return;
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+    $variable = strrev( $variable );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+\layout LyX-Code
+
+  function opTrim( &$tpl, &$variable, &$var_name )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    if ( !is_string( $variable ) )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+      $tpl->writeError( 
+\begin_inset Quotes eld
+\end_inset 
+
+Operator trim cannot handle type 
+\begin_inset Quotes erd
+\end_inset 
+
+ .
+ gettype( $variable ) );
+\layout LyX-Code
+
+      return;
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+    $variable = trim( $variable );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerOperator( new MyOperators() );
+\layout Subsection
+
+Pre/post filter
+\layout Standard
+
+A pre and post filter is a function which is run before and after the template
+ class has handled the template text.
+ You can add as many filters as you like.
+\layout Standard
+
+The addition of a filter is to pass the name of the function to registerFilter().
+\layout LyX-Code
+
+function myPreFilter( &$tpl, &$text )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  $text = preg_replace( 
+\begin_inset Quotes eld
+\end_inset 
+
+/<br/>/
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\begin_inset Quotes erd
+\end_inset 
+
+, $text );
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+function myPostFilter( &$tpl, &$text )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  $text = nltobr( $text );
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerFilter( FILTER_PRE, 
+\begin_inset Quotes eld
+\end_inset 
+
+myPreFilter
+\begin_inset Quotes erd
+\end_inset 
+
+, FILTER_AFTER );
+\layout LyX-Code
+
+$tpl->registerFilter( FILTER_POST, 
+\begin_inset Quotes eld
+\end_inset 
+
+myPostFilter
+\begin_inset Quotes erd
+\end_inset 
+
+, FILTER_AFTER );
+\layout Standard
+
+The 
+\emph on 
+FILTER_PRE
+\emph default 
+ and 
+\emph on 
+FILTER_POST
+\emph default 
+ constants tell whether the function is registered as a pre or post filter.
+ The 
+\emph on 
+FILTER_AFTER
+\emph default 
+ tells that the function is added after all existing filter functions, you
+ can also supply 
+\emph on 
+FILTER_BEFORE
+\emph default 
+ or omit the parameter and use the default which is 
+\emph on 
+FILTER_AFTER
+\emph default 
+.
+\layout Standard
+
+And as most other register functions you can use a class.
+\layout LyX-Code
+
+class MyFilter
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  function &filterList()
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    return array( array( 
+\begin_inset Quotes eld
+\end_inset 
+
+type
+\begin_inset Quotes erd
+\end_inset 
+
+ => FILTER_PRE,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+method
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+myPreFilter
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+position
+\begin_inset Quotes erd
+\end_inset 
+
+ => FILTER_AFTER ),
+\layout LyX-Code
+
+                  array( 
+\begin_inset Quotes eld
+\end_inset 
+
+type
+\begin_inset Quotes erd
+\end_inset 
+
+ => FILTER_POST,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+method
+\begin_inset Quotes erd
+\end_inset 
+
+ => 
+\begin_inset Quotes eld
+\end_inset 
+
+myPostFilter
+\begin_inset Quotes erd
+\end_inset 
+
+,
+\layout LyX-Code
+
+                         
+\begin_inset Quotes eld
+\end_inset 
+
+position
+\begin_inset Quotes erd
+\end_inset 
+
+ => FILTER_AFTER ) );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+\layout LyX-Code
+
+  function myPreFilter( &$tpl, &$text )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    $text = preg_replace( 
+\begin_inset Quotes eld
+\end_inset 
+
+/<br/>/
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\begin_inset Quotes erd
+\end_inset 
+
+, $text );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+  
+\layout LyX-Code
+
+  function myPostFilter( &$tpl, &$text )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    $text = nltobr( $text );
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerFilter( new MyFilter() );
+\layout Subparagraph
+
+Prefilter
+\layout Standard
+
+The prefilter functions are run on the template text before the template
+ parsing is done, this means that you can add extra text elements you like
+ or do search/replace.
+\layout Subparagraph
+
+Postfilter
+\layout Standard
+
+The postfilter functions are run on the resulting text after the template
+ has parsed and processed the template.
+ You can then change the text in any way you like before it is displayed
+ or returned to the PHP script.
+ A good example is to add hidden parameters to a form after the text has
+ been processed.
+\layout Subsection
+
+Resource
+\layout Standard
+
+The template engine uses resources for fetching the templates, the default
+ is filesystem access and has the name 
+\emph on 
+file
+\emph default 
+, for ease of use all template includes without a speficic resource name
+ uses the default.
+\layout Standard
+
+To allow the template system to use a new resource create a new function
+ and register it.
+\layout LyX-Code
+
+function generate( &$tpl, &$text, &$tstamp, $path, $method )
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  if ( $method == RESOURCE_FETCH )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    $text = 
+\begin_inset Quotes eld
+\end_inset 
+
+<title>This was automaticly generated for $path</title>
+\begin_inset Quotes erd
+\end_inset 
+
+;
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+  $tstamp = mktime();
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+$tpl->registerResource( 
+\begin_inset Quotes eld
+\end_inset 
+
+gen
+\begin_inset Quotes erd
+\end_inset 
+
+, 
+\begin_inset Quotes eld
+\end_inset 
+
+generate
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+$tpl->load( 
+\begin_inset Quotes eld
+\end_inset 
+
+gen:test.tpl
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Standard
+
+Classes can also be used
+\layout LyX-Code
+
+class MyResource
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  function resourceName()
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    return 
+\begin_inset Quotes eld
+\end_inset 
+
+gen
+\begin_inset Quotes erd
+\end_inset 
+
+;
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+\layout LyX-Code
+
+  function handleResource( &$tpl, &$text, &$tstamp, $path, $method )
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    if ( $method == RESOURCE_FETCH )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+      $text = 
+\begin_inset Quotes eld
+\end_inset 
+
+<title>This was automaticly generated for $path</title>
+\begin_inset Quotes erd
+\end_inset 
+
+;
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+    $tstamp = mktime();
+\layout LyX-Code
+
+    return true;
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+};
+\layout LyX-Code
+
+$tpl->registerResource( new MyResource() );
+\layout Subsection
+
+Compiler function
+\layout Standard
+
+...
+\layout Subsection
+
+Cache handler
+\the_end

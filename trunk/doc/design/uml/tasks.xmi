@@ -1,0 +1,120 @@
+<XMI xmi.version="1.1" >
+<XMI.header>
+<XMI.metamodel href="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" version="1" name="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" /> </XMI.header>
+ <XMI.content>
+<docsettings viewid="16" documentation="" uniqueid="45" />
+  <umlobjects>
+<UML:Class stereotype="" package="" xmi.id="2" abstract="0" documentation="" name="eZTask" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="3" value="" type="int" abstract="0" documentation="" name="Status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="4" value="" type="int" abstract="0" documentation="" name="ConnectionType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="44" value="" type="int" abstract="0" documentation="" name="SessionHash" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="5" value="" type="int" abstract="0" documentation="" name="Creator" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="6" value="" type="int" abstract="0" documentation="" name="Receiver" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="7" value="" type="int" abstract="0" documentation="" name="ParentType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="8" value="" type="int" abstract="0" documentation="" name="Parent" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="9" value="" type="int" abstract="0" documentation="" name="Messages" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="42" value="" type="int" abstract="0" documentation="" name="Created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="43" value="" type="int" abstract="0" documentation="" name="Modified" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="12" abstract="0" documentation="" name="eZAssignment" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="13" value="" type="int" abstract="0" documentation="" name="AccessType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="14" value="" type="int" abstract="0" documentation="" name="ObjectType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="15" value="" type="int" abstract="0" documentation="" name="Object" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="17" abstract="0" documentation="" name="eztask" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="38" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="37" value="" type="int" abstract="0" documentation="" name="task_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="23" value="" type="int" abstract="0" documentation="" name="status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="24" value="" type="int" abstract="0" documentation="" name="connection_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="45" value="" type="varchar(80)" abstract="0" documentation="" name="session_hash" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="25" value="" type="int" abstract="0" documentation="" name="creator_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="26" value="" type="int" abstract="0" documentation="" name="receiver_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="27" value="" type="int" abstract="0" documentation="" name="parent_task_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="28" value="" type="int" abstract="0" documentation="" name="parent_task_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="29" value="" type="int" abstract="0" documentation="" name="access_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="30" value="" type="int" abstract="0" documentation="" name="object_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="31" value="" type="int" abstract="0" documentation="" name="object_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="40" value="" type="int" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="41" value="" type="int" abstract="0" documentation="" name="modified" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="18" abstract="0" documentation="" name="eztask_message" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="39" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="19" value="" type="int" abstract="0" documentation="" name="task_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="20" value="" type="int" abstract="0" documentation="" name="contentobject_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="21" value="" type="int" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="22" value="" type="int" abstract="0" documentation="" name="creator_type" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="32" abstract="0" documentation="" name="eZTaskMessage" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="34" value="" type="int" abstract="0" documentation="" name="Task" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="33" value="" type="int" abstract="0" documentation="" name="ContentObject" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="35" value="" type="int" abstract="0" documentation="" name="CreatorType" scope="200" />   </UML:Class>  </umlobjects>
+  <diagrams>
+<diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="1" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="603" x="23" y="34" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="2" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="199" y="36" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="12" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="118" y="277" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="32" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="2" widgetaid="12" documentation="" type="500" >
+<linepath>
+<startpoint startx="199" starty="74" />
+       <endpoint endx="137" endy="131" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="2" widgetaid="32" documentation="" type="501" >
+<UML:FloatingTextWidget x="160" y="254" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="175" starty="277" />
+       <endpoint endx="80" endy="229" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="16" documentation="" type="402" showops="1" showpackage="0" name="database" localid="30000" showstereotype="0" showscope="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="602" x="27" y="34" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="17" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="602" x="255" y="32" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="18" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="18" widgetaid="17" documentation="" type="503" >
+<linepath>
+<startpoint startx="202" starty="161" />
+       <endpoint endx="255" endy="83" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>  </diagrams>
+  <listview>
+<listitem open="1" type="800" id="-1" label="Views" >
+<listitem open="1" type="801" id="-1" label="Logical View" >
+<listitem open="0" type="807" id="1" label="class diagram" />
+     <listitem open="1" type="807" id="16" label="database" />
+     <listitem open="1" type="812" id="12" label="eZAssignment" >
+<listitem open="0" type="813" id="13" label="AccessType" />
+      <listitem open="0" type="813" id="15" label="Object" />
+      <listitem open="0" type="813" id="14" label="ObjectType" />     </listitem>
+     <listitem open="1" type="812" id="17" label="eztask" >
+<listitem open="0" type="813" id="29" label="access_type" />
+      <listitem open="0" type="813" id="24" label="connection_type" />
+      <listitem open="0" type="813" id="40" label="created" />
+      <listitem open="0" type="813" id="25" label="creator_id" />
+      <listitem open="0" type="813" id="38" label="id" />
+      <listitem open="0" type="813" id="41" label="modified" />
+      <listitem open="0" type="813" id="31" label="object_id" />
+      <listitem open="0" type="813" id="30" label="object_type" />
+      <listitem open="0" type="813" id="28" label="parent_task_id" />
+      <listitem open="0" type="813" id="27" label="parent_task_type" />
+      <listitem open="0" type="813" id="26" label="receiver_id" />
+      <listitem open="0" type="813" id="45" label="session_hash" />
+      <listitem open="0" type="813" id="23" label="status" />
+      <listitem open="0" type="813" id="37" label="task_type" />     </listitem>
+     <listitem open="1" type="812" id="2" label="eZTask" >
+<listitem open="0" type="813" id="4" label="ConnectionType" />
+      <listitem open="0" type="813" id="42" label="Created" />
+      <listitem open="0" type="813" id="5" label="Creator" />
+      <listitem open="0" type="813" id="9" label="Messages" />
+      <listitem open="0" type="813" id="43" label="Modified" />
+      <listitem open="0" type="813" id="8" label="Parent" />
+      <listitem open="0" type="813" id="7" label="ParentType" />
+      <listitem open="0" type="813" id="6" label="Receiver" />
+      <listitem open="0" type="813" id="44" label="SessionHash" />
+      <listitem open="0" type="813" id="3" label="Status" />     </listitem>
+     <listitem open="1" type="812" id="18" label="eztask_message" >
+<listitem open="0" type="813" id="20" label="contentobject_id" />
+      <listitem open="0" type="813" id="21" label="created" />
+      <listitem open="0" type="813" id="22" label="creator_type" />
+      <listitem open="0" type="813" id="39" label="id" />
+      <listitem open="0" type="813" id="19" label="task_id" />     </listitem>
+     <listitem open="1" type="812" id="32" label="eZTaskMessage" >
+<listitem open="0" type="813" id="33" label="ContentObject" />
+      <listitem open="0" type="813" id="35" label="CreatorType" />
+      <listitem open="0" type="813" id="34" label="Task" />     </listitem>    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />   </listitem>  </listview> </XMI.content></XMI>

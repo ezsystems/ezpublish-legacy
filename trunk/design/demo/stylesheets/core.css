@@ -1,0 +1,504 @@
+/* eZ publish 3 core CSS - th[eZ] 20021129                              */
+
+/* Do not remove or delete this stylesheet, because some basic          */
+/* formatting methods in the system depends on it for proper display.   */
+/* Just modify and/or override styles where necessary, and remove all   */
+/* comments when they're not needed anymore (minimizes the file size).  */
+
+/* MAIN WINDOW SETTINGS */
+
+body
+{
+    background-color: #ffffff;
+    margin: 8px;
+    padding: 8px;
+}
+
+/* GLOBAL SETTING OF FONT TYPES */
+
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* GLOBAL SETTING OF FONT SIZES */
+
+/* All font sizes are set in % and most margins and paddings in em's, this is to make them all dynamic. */
+
+h1
+{
+    font-size: 160%;
+}
+
+h2
+{
+    font-size: 120%;
+}
+
+h3
+{
+    font-size: 90%;
+}
+
+p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td
+/* This is the "regular" font size. */
+{
+    font-size: 80%;
+}
+
+.small, div.byline p, p.picturetext, .factbox
+/* Be careful not to make this size unreadable (blurred) by making it too small. */
+{
+    font-size: 65%;
+}
+
+td.bglight .small, td.bgdark .small
+/* This is a trick to make the smaller size appear correct when using preformatted % sizes in the table lists. */
+{
+    font-size: 80%;
+}
+
+/* HEADINGS */
+
+h1, h2, h3
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px;
+    clear: left;
+}
+
+h1
+{
+    padding-bottom: 1ex;
+}
+
+h1, h2
+{
+    font-weight: normal;
+}
+
+h3
+{
+    font-weight: bold;
+}
+
+/* REGULAR PARAGRAPHS */
+
+p
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+    margin: 0px;
+}
+
+/* LINKS */
+
+a
+/* This is the standard formatting of all links if no other style is used. */
+{
+    color: #0000a0;
+    text-decoration: underline;
+}
+
+a:hover
+{
+    color: #0000c0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a img
+/* Some browsers may display a border around a linked image without this attribute set to _none_. */
+{
+    border: none;
+}
+
+/* NOT USED
+a:visited
+{
+    color: #000000;
+    text-decoration: underline;
+}
+*/
+
+/* TABLES */
+
+table
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+table.layout
+/* This style is defined for the use of marking tables only used for general layout. */
+{
+    /* Not to be formatted; only used as an identifier. */
+}
+
+table.list
+/* Used on all "proper" data lists presented by tables; i.e. not on tables use for general layout. */
+{
+    margin-top: 0.5ex;
+    margin-bottom: 1ex;
+}
+
+table.list th, table.list td
+{
+    padding: 1px;
+    padding-right: 8px;
+}
+
+th
+{
+    padding-top: 0px;
+    margin-top: 0px;
+    font-weight: bold;
+    text-align: left;
+}
+
+td
+{
+    font-weight: normal;
+}
+
+td.bglight, td.bglightextra
+/* Light background color used on alternating lines in a table list */
+{
+    background-color: #f8f8f8;
+}
+
+td.bgdark, td.bgdarkextra
+/* Dark background color used on alternating lines in a table list */
+{
+    background-color: #f0f0f0;
+}
+
+td.tight
+/* Special style used for forcing a tabel cell to wrap tight around an image in an layout table. */
+{
+    font-size: 1px;
+}
+
+/* ORDERED AND UNORDERED LISTS */
+
+ul, ol
+{
+    padding: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+ul
+{
+    margin-left: 16px;
+}
+
+ol
+{
+    margin-left: 24px;
+}
+
+li
+{
+    padding: 0px;
+    margin-bottom: 0.5ex;
+}
+
+/* DEFINITION LISTS */
+
+dl
+{
+    padding: 0px;
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+dt, dd
+{
+    font-style: italic;
+    margin-top: 0px;
+    margin-bottom: 0.5ex;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+dd
+{
+    margin-left: 2ex;
+    margin-right: 2ex;
+}
+
+/* FORMS */
+
+form
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+input.box, textarea.box
+{
+    width: 468px;
+}
+
+input.halfbox, textarea.halfbox
+{
+    width: 230px;
+}
+
+label
+{
+    font-weight: bold;
+    padding-right: 1ex;
+    white-space: nowrap;
+}
+
+div.labelbreak
+/* Used on an empty tag set after the label tag, to make it possible to change the label positioning in a instant. */
+/* Standard display is _block_, but if set to _inline_ the labels will appear to the left of the input fields. */
+{
+    display: block;
+}
+
+input.button
+{
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+input.button:hover
+{
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+p.box
+/* Used on text (i.e. data other than form elements) shown under a label. */
+/* Pads the distance to the label properly so it looks visually at the same height as a text in an input line. */
+{
+    padding-top: 0.25ex;
+}
+
+optgroup
+/* Newer browsers usually supports this tag; may come in handy to visually divide a select dropdown into several parts. */
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* PAGE DIVIDERS */
+
+div.left
+/* To be used with the div.right class, to align a left hand element to the left edge. */
+{
+    float: left;
+    display: block;
+    width: 50%;
+    clear: right;
+}
+
+div.right
+/* To be used with the div.left class, to align a right hand element to the right edge. */
+/* Should be followed by the div.break class for proper float/break termination */
+{
+    float: left;
+    text-align: right;
+    display: block;
+    width: 50%;
+    clear: right;
+}
+
+div.block, div.step
+{
+    display: block;
+    clear: both;
+    padding: 0px;
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+div.step
+{
+    background-color: #f0f0f0;
+    margin: 0ex;
+	border-bottom: dashed 2px #808080;
+}
+
+div.buttonblock
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+div.element
+/* Used to position several elements next to each other horizontally. NOT on regular buttons. */
+{
+    float: left;
+    display: block;
+    padding-right: 1ex;
+    padding-left: 0px;
+    clear: right;
+}
+
+div.break
+/* Used on an empty tag set after one or more div.element has been used, to ensure proper floating and breaking of the elements. */
+{
+    display: block;
+    clear: both;
+}
+
+/* ARTICLE FORMATTING */
+
+div.maincontentheader
+{
+    /* No special formatting yet! */
+}
+
+div.byline
+{
+    margin-bottom: 8px;
+}
+
+div.bodyblock
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+}
+
+div.bodyblock p.body
+{
+    display: inline;
+}
+
+div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
+{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: inline;
+    clear: both;
+}
+
+div.imagecenter, div.factboxcenter, div.centerobject
+{
+    width: 100%;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: block;
+}
+
+div.imagecenter
+{
+    text-align: center;
+}
+
+div.factboxcenter
+{
+    text-align: left;
+}
+
+div.imageleft, div.factboxleft, div.leftobject
+{
+    float: left;
+    padding-right: 8px;
+}
+
+div.imageright, div.factboxright, div.rightobject
+{
+    float: right;
+    padding-left: 8px;
+}
+
+div.faxtboxleft, div.faxtboxright
+{
+    background-color: #f0f0f0;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.factbox
+{
+    background-color: #f0f0f0;
+}
+
+/* MESSAGES TO THE USER */
+
+p.description
+{
+    background-color: #f8f8f8;
+}
+
+div.error, div.warning, div.feedback, div.highlight
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+    padding: 0.5ex;
+    padding-left: 1ex;
+    padding-right: 2ex;
+    border-width: 0.5ex;
+    border-style: solid;
+    background-color: #f8f8f8;
+}
+
+div.error
+{
+    border-color: #c00000;
+}
+
+div.warning
+{
+    border-color: #f0f000;
+}
+
+div.feedback
+{
+    border-color: #00a000;
+}
+
+div.highlight
+{
+    border-width: 0.1ex;
+    border-color: #000000;
+}
+
+/* OTHER OBJECTS */
+
+hr
+{
+    height: 1px;
+    padding: 0px;
+    margin-top: 2ex;
+    margin-bottom: 1ex;
+    color: #c0c0c0;
+}
+
+.invisible
+{
+    display: none;
+}
+
+/* SPECIAL FEATURES */
+
+div.listicon
+{
+    padding-right: 4px;
+}
+
+div.listbutton
+{
+    padding-right: 4px;
+}
+
+div.listitem
+{
+    padding-bottom: 16px;
+}

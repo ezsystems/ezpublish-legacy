@@ -1,0 +1,177 @@
+<XMI xmi.version="1.1" >
+<XMI.header>
+<XMI.metamodel href="/home/sp/projects/php/ezPublish3/doc/design/uml/workflow.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/sp/projects/php/ezPublish3/doc/design/uml/workflow.xmi" version="1" name="/home/sp/projects/php/ezPublish3/doc/design/uml/workflow.xmi" /> </XMI.header>
+ <XMI.content>
+<docsettings viewid="1" documentation="" uniqueid="43" />
+  <umlobjects>
+<UML:Class stereotype="" package="" xmi.id="2" abstract="0" documentation="" name="eZWorkflow" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="4" type="void" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="5" type="void" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="6" type="void" abstract="0" documentation="" name="workflowType" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="7" type="void" abstract="0" documentation="" name="name" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="8" type="void" abstract="0" documentation="" name="creator" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="9" type="void" abstract="0" documentation="" name="modifier" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="10" type="void" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="11" type="void" abstract="0" documentation="" name="modified" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="3" abstract="0" documentation="" name="eZWorkflowEvent" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="12" type="void" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="13" type="void" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="14" type="void" abstract="0" documentation="" name="workflow" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="15" type="void" abstract="0" documentation="" name="eventType" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="16" type="void" abstract="0" documentation="" name="position" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="17" abstract="0" documentation="" name="eZWorkflowType" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="23" type="void" abstract="0" documentation="" name="execute" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="35" value="" type="int" abstract="0" documentation="" name="GroupName" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="36" value="" type="int" abstract="0" documentation="" name="TypeName" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="18" abstract="0" documentation="" name="eZApproveType" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="19" abstract="0" documentation="" name="eZPublishType" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="20" abstract="0" documentation="" name="eZMessageType" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="21" abstract="0" documentation="" name="eZSerialGroup" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="22" abstract="0" documentation="" name="eZWorkflowGroup" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="24" abstract="0" documentation="" name="eZWorkflowEventType" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="25" abstract="0" documentation="" name="eZWorkflowProcess" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="33" type="void" abstract="0" documentation="" name="currentEvent" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="34" type="void" abstract="0" documentation="" name="advanceToNext" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="27" value="" type="eZWorkflow" abstract="0" documentation="" name="WorkflowID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="32" value="" type="int" abstract="0" documentation="" name="UserID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="29" value="" type="int" abstract="0" documentation="" name="ContentID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="38" value="" type="int" abstract="0" documentation="" name="ContentVersion" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="30" value="" type="int" abstract="0" documentation="" name="ContentParentID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="39" value="" type="int" abstract="0" documentation="" name="EventID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="28" value="" type="int" abstract="0" documentation="" name="EventPosition" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="40" value="" type="int" abstract="0" documentation="" name="LastEventID" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="41" value="" type="int" abstract="0" documentation="" name="LastEventPosition" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="43" value="" type="int" abstract="0" documentation="" name="LastEventStatus" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="31" value="" type="int" abstract="0" documentation="" name="Status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="37" value="" type="int" abstract="0" documentation="" name="Created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="42" value="" type="int" abstract="0" documentation="" name="Modified" scope="200" />   </UML:Class>  </umlobjects>
+  <diagrams>
+<diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="1" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="Arial,11,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="603" x="493" y="33" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="2" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="188" y="60" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="3" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="194" y="207" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="17" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="288" y="432" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="18" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="169" y="476" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="19" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="105" y="407" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="20" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="430" y="393" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="21" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="418" y="265" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="22" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="145" y="337" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="24" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="690" y="65" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="25" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="3" widgetaid="17" documentation="" type="501" >
+<UML:FloatingTextWidget x="243" y="183" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="252" y="179" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="251" y="192" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="253" starty="207" />
+       <endpoint endx="250" endy="177" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="17" widgetaid="22" documentation="" type="500" >
+<linepath>
+<startpoint startx="418" starty="283" />
+       <endpoint endx="313" endy="243" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="22" widgetaid="21" documentation="" type="500" >
+<linepath>
+<startpoint startx="481" starty="393" />
+       <endpoint endx="481" endy="301" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="3" indexb="1" widgetbid="3" widgetaid="2" documentation="" type="503" >
+<UML:FloatingTextWidget x="483" y="92" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="314" y="75" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="402" y="94" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="493" starty="90" />
+       <endpoint endx="312" endy="99" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="3" indexb="1" widgetbid="22" widgetaid="3" documentation="" type="501" >
+<UML:FloatingTextWidget x="314" y="140" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="442" y="241" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="1" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="386" y="201" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="312" starty="138" />
+       <endpoint endx="460" endy="265" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="3" indexb="2" widgetbid="2" widgetaid="22" documentation="" type="501" >
+<UML:FloatingTextWidget x="492" y="241" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="495" y="149" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="497" y="206" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="502" starty="265" />
+       <endpoint endx="493" endy="147" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="4" indexb="1" widgetbid="24" widgetaid="18" documentation="" type="500" >
+<linepath>
+<startpoint startx="343" starty="432" />
+       <endpoint endx="184" endy="373" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="4" indexb="2" widgetbid="24" widgetaid="20" documentation="" type="500" >
+<linepath>
+<startpoint startx="163" starty="407" />
+       <endpoint endx="223" endy="373" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="4" indexb="3" widgetbid="24" widgetaid="19" documentation="" type="500" >
+<linepath>
+<startpoint startx="222" starty="476" />
+       <endpoint endx="262" endy="373" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="17" widgetaid="24" documentation="" type="500" >
+<linepath>
+<startpoint startx="223" starty="337" />
+       <endpoint endx="253" endy="279" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="2" widgetaid="25" documentation="" type="503" >
+<UML:FloatingTextWidget x="680" y="185" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="604" y="120" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="646" y="163" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="690" starty="209" />
+       <endpoint endx="602" endy="118" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="3" widgetaid="25" documentation="" type="503" >
+<UML:FloatingTextWidget x="751" y="41" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="240" y="36" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="761" y="44" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="761" starty="65" />
+       <endpoint endx="250" endy="60" />
+       <point x="761" y="23" />
+       <point x="250" y="23" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>  </diagrams>
+  <listview>
+<listitem open="1" type="800" id="-1" label="Views" >
+<listitem open="1" type="801" id="-1" label="Logical View" >
+<listitem open="0" type="807" id="1" label="class diagram" />
+     <listitem open="1" type="812" id="18" label="eZApproveType" />
+     <listitem open="1" type="812" id="20" label="eZMessageType" />
+     <listitem open="1" type="812" id="19" label="eZPublishType" />
+     <listitem open="1" type="812" id="21" label="eZSerialGroup" />
+     <listitem open="0" type="812" id="2" label="eZWorkflow" >
+<listitem open="0" type="814" id="10" label="created" />
+      <listitem open="0" type="814" id="8" label="creator" />
+      <listitem open="0" type="814" id="4" label="id" />
+      <listitem open="0" type="814" id="11" label="modified" />
+      <listitem open="0" type="814" id="9" label="modifier" />
+      <listitem open="0" type="814" id="7" label="name" />
+      <listitem open="0" type="814" id="5" label="version" />
+      <listitem open="0" type="814" id="6" label="workflowType" />     </listitem>
+     <listitem open="0" type="812" id="3" label="eZWorkflowEvent" >
+<listitem open="0" type="814" id="15" label="eventType" />
+      <listitem open="0" type="814" id="12" label="id" />
+      <listitem open="0" type="814" id="16" label="position" />
+      <listitem open="0" type="814" id="13" label="version" />
+      <listitem open="0" type="814" id="14" label="workflow" />     </listitem>
+     <listitem open="1" type="812" id="24" label="eZWorkflowEventType" />
+     <listitem open="1" type="812" id="22" label="eZWorkflowGroup" />
+     <listitem open="1" type="812" id="25" label="eZWorkflowProcess" >
+<listitem open="0" type="814" id="34" label="advanceToNext" />
+      <listitem open="0" type="813" id="29" label="ContentID" />
+      <listitem open="0" type="813" id="30" label="ContentParentID" />
+      <listitem open="0" type="813" id="38" label="ContentVersion" />
+      <listitem open="0" type="813" id="37" label="Created" />
+      <listitem open="0" type="814" id="33" label="currentEvent" />
+      <listitem open="0" type="813" id="39" label="EventID" />
+      <listitem open="0" type="813" id="28" label="EventPosition" />
+      <listitem open="0" type="813" id="40" label="LastEventID" />
+      <listitem open="0" type="813" id="41" label="LastEventPosition" />
+      <listitem open="0" type="813" id="43" label="LastEventStatus" />
+      <listitem open="0" type="813" id="42" label="Modified" />
+      <listitem open="0" type="813" id="31" label="Status" />
+      <listitem open="0" type="813" id="32" label="UserID" />
+      <listitem open="0" type="813" id="27" label="WorkflowID" />     </listitem>
+     <listitem open="1" type="812" id="17" label="eZWorkflowType" >
+<listitem open="0" type="814" id="23" label="execute" />
+      <listitem open="0" type="813" id="35" label="GroupName" />
+      <listitem open="0" type="813" id="36" label="TypeName" />     </listitem>    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />   </listitem>  </listview> </XMI.content></XMI>

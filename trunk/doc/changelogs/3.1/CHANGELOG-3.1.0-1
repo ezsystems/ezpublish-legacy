@@ -1,0 +1,148 @@
+Changes from 3.0-2 to 3.1.0-1
+
+* Security:
+- Fixed a security exploit in user edit which would allow
+  anyone to edit the user content of a specific user.
+  Now the only users who have content/edit permission on
+  the user object can change the settings and profile.
+- Fixed proper escaping of PHP session id keys, fixes possible security problem.
+- Fixed security bug which user could move or add object to anywhere if he could edit the object.
+
+*Kernel :
+- Fixed cache bug in eZ user. instance() returned a common user object for all instances.
+- Fixed bug of unable to deselect all enum elements in datatype enum.
+- Fixed bug with next and previous in sitemap and full view.
+- Fixed problem with not being able to unset the information collector setting in class edit.
+- Fixed missing error type in kernel/content/copy.php when no object was found.
+- Fixed bug in ezsearch. Not all word was indexed if contentobject contained some special chars.
+- Fixed bug of image cleanup in image variation directory and file cleanup.
+- Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of image cleanup in image variation directory and file cleanup.
+- Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of object published in multiple places where node assignment was not updated when 
+  one of its none main location is deleted.
+- Fixed bug in datatype object relation which causes can not move or add locations for object. 
+- Fixed bug in node deletion which does not remove children in noen main node locations when 
+  a main node is deleted.
+- Added cache admin page for cache status and manual clearing
+- Added system information page under setup
+- Added new template override system. Template overrides are defined in override.ini
+- Added admin GUI for template management. Template editing and override creation can now be done in the admin interface.
+- eZPersistentObject class changed to support postgresql 7.3.x. Also all persistent classes definitions have been changed to support new syntax.
+- Added support for searching in multiple sections, classes and content class attributes
+- kernel sql files has been devided in two parts, one for schema and another for data
+- Added possibility to switch off operations.
+- Optimized reading of view cache, operations and triggers are skipped resulting in less memory and speed improvements
+- Removed overhead checking in database handler when DebugOutput was disabled and SQLOutPut was enabled.
+- Made eZHTTPFile use move_uploaded_file instead of copy when moving an uploaded file
+- Made object preview compatible with simple view templates, the $node object will be available in the same manner as the in the node view
+- Added function for permission policy editing.
+- Added options "Node" and "Subtree" when creating permission policy for content module.
+- Fixed proper HTTP 404 header error on unrecogniced url's
+- Added support for viewmodes on attribute_view_gui, the viewmodes are placed in directories under the normal datatype templates.
+  The viewmode is optional for backwards compatability.
+- Added template-block and template override to clearcache script.
+- Added support for disabling specific views in modules as well as whole modules.
+  The views are specified with a / in the Rules array in group SiteAccessRules.
+- New error code kernel/22 which is used for disabled modules and views.
+- Added support for specifying optional conditions when fetching version list in ezcontentobject.
+- Added version_name attribute to ezcontentobjectversion.php which returns the calculated name for the version.
+- Added support for draft checking in content/edit, if drafts exists the user is warned and given some options before continuing.
+- Added google navigator in versions management.
+- Added new notification system.
+- Added new browse system which makes it easier to use for developers and users. The new browse pages will
+  show relevant information and also have quick access to top-level nodes, bookmark and recent nodes.
+- New functionality for automatically creating template operators using a wizard. Part of the new RAD functionality
+  and available at setup/templateoperator.
+- Added a new template operator, WordToImage. Replaces any given string with a link to an image.
+- Added template fetch function section_list which returns all available sections
+- Added fetch function for section objects.
+- Added upgrade script from old to new override system
+- Fixed database update files, to a new naming structure.
+- Fixed bug with role assignment cleanup after user is deleted.
+- Fixed proper indexing of . characters
+
+Binary file:
+- Added support for resuming downloads.
+
+Search:
+- Fixed for compatibility with Oracle driver
+
+Setup tool:
+- Separate ( for schema and for data ) kernel sql files are now supported.
+
+Shop:
+- Added support for choosing objects ( products ) to discount rule editing.
+- Added support for sorting of order list.
+
+Admin:
+- Used cache-block operator to speed up the admin interface
+
+*Doc :
+- Added document describing authentication and authorization handling in eZ publish
+
+*SDK :
+- Swapped the last two images in the main concepts tutorial.
+
+*Library :
+eZ Utils:
+- Added function to remove a group in eZINI
+- Added groups() function to eZINI which returns all the defined group as an accociative array
+- Added the possibility to have local override dir settings in .ini objects
+- Added functions to eZDir::recursiveFind() and eZDir::recursiveFindRelative() which will return files matched within a subdir
+- Added memory usage to debug timing points.
+- Added debug labels to output when displaying plain text debug.
+- Added support for recursive accumulator calls in debug, the caller must specify this for it to work.
+- Made sure sendmail transport sent out correct mails when safe_mode is on.
+- Made sure header list does not return duplicate standard headers.
+- Added function create() to eZINI which works like instance() but doesn't keep a global instance.
+- The handleChecked function in eZHTTPPersistence is now deprecated.
+- Added check for error type in eZModule::handleError, if no type is specified
+  kernel is assumed and a warning is issued.
+
+eZ Locale:
+- Added function create() which works like instance() but doesn't keep a global instance.
+
+
+eZ PHP Creator:
+- Added optional whitespacehandling on comments
+- Added optional support for displaying arrays without using intermediate variables.
+- Added support for reference assignment when creating variables.
+- Made sure $ was escaped in strings.
+- Added support for creating include statements.
+- Added support for adding variable unset statements.
+- Added return value to store()
+- Made sure errors are detected and reported.
+
+eZ DB:
+- Driver for postgresql has been changed to support 7.3.x version. Fixed problem with limit and offset.
+- Driver for postgresql has been changed to set up correct errorMessage variables.
+
+eZ template:
+- Finished the template compiling system, it will now generate PHP template files that can be properly executed.
+- New class eZTemplateNodeTool which has static tool functions for working on template nodes.
+- Renamed the process cache system to template compiling which is a better name. Updated classes, functions and files.
+- Compiled templates are now created in var/cache/compiled instead of var/cache/process.
+- Added node transformation support for let, default and section functions.
+- Added support for internal template nodes which can be generated in the node transformation process.
+- New template operator for indenting text, it will indent each line in a text according the specified options.
+  The operator is called indent.
+
+eZ XML:
+- Fixed bug of unable to save prefix "xmlns" for attributes.
+
+eZ I18N:
+- The charset conversion from UTF8 to codepage has been optimized by inlining some UTF8 code.
+
+*Settings :
+site.ini:
+- Fixed wrong spelling of NodeTranslation in site.ini.
+- Added more comments to the various elements.
+- Changed names of process cache settings and added new development settings for template compilation.
+
+siteaccess/admin/site.ini.append:
+- Removed errorhandler setting.
+
+*Changed files:
+- All sql update files in update/database/ has been given the suffix .sql and
+  the name now reflects the from and to version.

@@ -1,0 +1,101 @@
+CHANGELOG
+
+Changes from 2.9-4 to 2.9-5
+
+*Shell:
+
+modfix:
+- Safer file and directory modes.
+- Added var/log to checking.
+
+*SDK :
+
+*Kernel :
+- Debug report can now be place anywhere inside the resulting HTML, it must contain a marker which
+  is a HTML comment, it is <!--DEBUG_REPORT-->.
+- Fixed bug with duplicating node on publishing
+- Added feature for searching one or more subtrees on the site
+- New fetch function layout/sitedesign_list which fetches the used sitedesign for a site, used
+  in versionview.
+- Change versionview to use node view for attributes, some changes node view templates were
+  required.
+- Added new function createPassword in eZUser which can be used for creating random passwords which are sent to users.
+- The eZObjectForwarder class can now use different template roots depending on values from the input.
+- New class eZURLTranslator which handles all types of url translations.
+- Moved url nodepath matching to the new urltranslator class.
+- Added general XML serialization framework for content objects
+- Added function to fetch node children by name in eZContentObjectTreeNode
+- Added function of calculating price with real VAT value for module shop
+- Added function of discount for module shop
+- index.php now uses the execution system, this means that controlled exits should be done with the
+  /cleanExit/ function in /eZExecution/.
+- Implemented basic framework for generic information collection ( forms/polls etc )
+- Changed browse page. Now the path is shown like on other eZ Publish pages
+- Change section assignments. Removed page before browse.
+- Changed node views to use the version for attribute lists, related objects and attribute maps
+  instead of taking it directly from the object (which is always the last published version).
+
+DateType :
+- Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
+
+*Library :
+
+eZ utils:
+- Added function for automatically remove escaped ' and " characters done by magic quote
+
+eZ locale:
+- Added function for returning the timestamp of a date
+
+eZ text codec:
+- A new function /conversionRequired/ can be used to detect if it's necessary to call
+  the conversion functions in text codec. This improves speed for code which handles
+  lots of strings.
+
+eZ session:
+- Made sure db is not included or initialized before actually needed, before there were some problems
+  with ini files and siteaccess.
+
+eZ debug:
+- Made sure debug messages are ignored when debug is off.
+- New feature: Accumulators, they can be used for profiling how much time
+  a part the program takes.
+- Added support for total script time.
+- No string conversion is run if it is not required, this means sql queries are much faster.
+- Missing directories will be created.
+- If log file could not be opened for writing it will disable file logging and issue an error.
+- Made sure serverVariable access does not issue an error.
+- Added @s to some file functions, to avoid that they create error messages.
+
+eZ db:
+- New function /setIsSQLOutputEnabled/ which can enable or disable sql output at runtime,
+  sql output is always disabled at the end of the script to avoid crashes with session.
+
+eZ mysqldb:
+- If a connect fails the error will be present in the error output.
+
+eZ template:
+- Moved template parser code into separate classes, that way it should be fairly easy to change the
+  parser engine.
+- Made some changes to bring back the element tree caching.
+- Added simple element tree caching, it will store the cache in /var/cache/template/tree/
+
+eZPHPCreator
+- New class for generating PHP cache files.
+
+eZ setup:
+- setup tool for eZ publish. Set the setting CheckValidity in site.ini to true and install eZ
+  publish.
+- tests if eZ publish can work: PHP version, DB modules, PHP modules, ImageMagick, File
+  permissions
+- helps with suggestions what to do if any steps fail
+- installs the database: DB type, DB server, DB name, DB charset, creates new DB user if wanted
+- installs demo data: unpacks it (if zlib module is available) and install database content
+- sets some initial configuration settings (title, domain, charset)
+- sends (if wanted) register email to eZ szstems. Can use SMTP server (w/ login) to send email.
+
+eZ sys:
+- The functions serverVariable and enviromentVariable now takes an optional second parameter called
+  quiet, if true no debug error is shown, default is false.
+
+eZ execution:
+- New class which helps in detecting fatal errors and does proper end of execution cleanups.

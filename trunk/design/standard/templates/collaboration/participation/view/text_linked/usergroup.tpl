@@ -1,0 +1,1 @@
+{content_view_gui view=text_linked content_object=$item.participant}
