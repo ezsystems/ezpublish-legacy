@@ -243,7 +243,7 @@ class eZCache
     {
         $cachePath = eZSys::cacheDirectory();
 
-        $files[] = array();
+        $files = array();
         if ( $dh = opendir( $cachePath ) )
         {
             while ( false !== ( $file = readdir( $dh ) ) )
@@ -259,7 +259,7 @@ class eZCache
         foreach ( $files as $file )
         {
             if ( strpos( $file, 'classidentifiers_' ) === 0 )
-                unlink( $file );
+                unlink( "$cachePath/$file" );
         }
     }
 
@@ -269,7 +269,7 @@ class eZCache
     {
         $cachePath = eZSys::cacheDirectory();
 
-        $files[] = array();
+        $files = array();
         if ( $dh = opendir( $cachePath ) )
         {
             while ( false !== ( $file = readdir( $dh ) ) )
@@ -285,7 +285,7 @@ class eZCache
         foreach ( $files as $file )
         {
             if ( strpos( $file, 'sortkey_' ) === 0 )
-                unlink( $file );
+                unlink( "$cachePath/$file" );
         }
     }
 
