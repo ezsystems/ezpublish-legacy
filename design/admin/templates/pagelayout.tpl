@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href={'stylesheets/site.css'|ezdesign} />
     <link rel="stylesheet" type="text/css" href={'stylesheets/debug.css'|ezdesign} />
 
-    <script language="JavaScript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
+    <script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
 {literal}
 <!--[if IE]>
 <style>
