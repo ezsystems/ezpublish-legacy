@@ -2578,8 +2578,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( isset( \$vars[$namespaceText][$variableNameText] ) or\n".
-                                            "( \$vars[$namespaceText][$variableNameText] === null ) )\n".
+                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( array_key_exists( $variableNameText, \$vars[$namespaceText] ) )\n".
                                             "{\n".
                                             "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
                                             "}",
