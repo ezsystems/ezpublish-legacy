@@ -83,7 +83,11 @@ foreach( array_keys( $workflowProcessList ) as $key )
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
+        {
             ++$removedProcessCount;
+            $process->remove();
+            continue;
+        }
         $process->store();
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
         {
