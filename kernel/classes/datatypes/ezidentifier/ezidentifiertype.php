@@ -77,7 +77,6 @@ class eZIdentifierType extends eZDataType
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'identifier',
                                                                    'data_int' => 'number' ) ) );
-
         $this->IntegerValidator = new eZIntegerValidator( 1 );
     }
 
@@ -123,8 +122,14 @@ class eZIdentifierType extends eZDataType
 
     function initializeClassAttribute( &$classAttribute )
     {
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, 1 );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD, 1 );
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) == null
+          && $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD ) == null 
+          && $classAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) == null )
+        {
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, 1 );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD, 1 );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD, 1 );
+        }
     }
 
     /*!
@@ -150,11 +155,10 @@ class eZIdentifierType extends eZDataType
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
+            return EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
         }
-
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
-
 
 	/*!
 	 \reimp
@@ -172,28 +176,41 @@ class eZIdentifierType extends eZDataType
              $http->hasPostVariable( $postTextName ) )
         {
             $startValueValue = str_replace( " ", "", $http->postVariable( $startValueName ) );
+            $startValueValue = ( int ) $startValueValue;
+            if ( $startValueValue < 1 )
+            {
+                $startValueValue = 1;
+            }
             $digitsValue = str_replace( " ", "", $http->postVariable( $digitsName ) );
+            $digitsValue = ( int ) $digitsValue;
+            if ( $digitsValue < 1 )
+            {
+                $digitsValue = 1;
+            }
+
             $preTextValue =  $http->postVariable( $preTextName );
             $postTextValue = $http->postVariable( $postTextName );
 
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, $startValueValue );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD, $digitsValue );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_PRETEXT_FIELD, $preTextValue );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_POSTTEXT_FIELD, $postTextValue );
 
-            $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
-            if ( ( $classAttribute->attribute( 'data_int4' ) == 0 ) and
-                 ( get_class( $originalClassAttribute ) == 'ezcontentclassattribute' ) )
-            {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
-                                               $originalClassAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) );
-            }
-            else
-            {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
-                                               $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) );
-            }
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, $startValueValue );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
+                                           $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) );
 
+            $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
+            if ( $originalClassAttribute )
+            {
+                if ( $originalClassAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD ) == $digitsValue
+                  && $originalClassAttribute->attribute( EZ_DATATYPESTRING_PRETEXT_FIELD ) == $preTextValue
+                  && $originalClassAttribute->attribute( EZ_DATATYPESTRING_POSTTEXT_FIELD ) == $postTextValue
+                  && $originalClassAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) >= $startValueValue )
+                {
+                    $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, $originalClassAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) );
+                    $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD, $originalClassAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) );
+                }
+            }
         }
         return true;
     }
@@ -259,23 +276,14 @@ class eZIdentifierType extends eZDataType
             $db->lock( array( array( "table" => "ezcontentobject_attribute" ),
                               array( "table" => "ezcontentclass_attribute" ) ) );
 
-            $selectQuery = "SELECT data_int3, data_int4 FROM ezcontentclass_attribute WHERE " .
+            $selectQuery = "SELECT data_int3 FROM ezcontentclass_attribute WHERE " .
                  "id='$contentClassID' AND version='0'";
             $result = $db->arrayQuery( $selectQuery );
             $identifierValue = $result[0]['data_int3'];
 
             // should only increment when we don't have the first version
-            if ( $result[0]['data_int4'] == 0 )
-            {
-                $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
-                     "id='$contentClassID' AND version='0'";
-                $identifierValue++;
-            }
-            else
-            {
-                $updateQuery = "UPDATE ezcontentclass_attribute SET data_int4='0' WHERE " .
-                     "id='$contentClassID' AND version='0'";
-            }
+            $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
+                  "id='$contentClassID' AND version='0'";
 
             $ret[] = $db->query( $updateQuery );
             $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
@@ -329,22 +337,8 @@ class eZIdentifierType extends eZDataType
         return $value;
     }
 
-    /*!
-      Update the startvalue for the identifier!
-     */
     function customClassAttributeHTTPAction( &$http, $action, &$contentClassAttribute )
     {
-        switch ( $action )
-        {
-            case 'update_start_value':
-            {
-                $startValue = $http->postVariable( "ContentClass" . EZ_DATATYPESTRING_START_VALUE_VARIABLE .
-                                                   $contentClassAttribute->attribute( 'id' ) );
-
-                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD, $startValue );
-                $contentClassAttribute->setAttribute( 'data_int4', '1' );
-            }break;
-        }
     }
 
     function preStoreClassAttribute( &$classAttribute, $version )
@@ -353,7 +347,6 @@ class eZIdentifierType extends eZDataType
 
     function preStoreDefinedClassAttribute( &$classAttribute )
     {
-//        $classAttribute->setAttribute( 'data_int4', '0' );
     }
 
     var $IntegerValidator;
