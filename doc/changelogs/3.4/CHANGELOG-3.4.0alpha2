@@ -36,6 +36,10 @@ eZ PHP creator:
 *Bugs:
 - Made sure eZRoleIDList session variable is cleaned up in eZUser::cleanup().
   http://ez.no/community/bug_reports/security_risk_caching_problems_session_problems
+- Made sure shop/confirmorder does not crash when order ID is missing or wrong.
+  http://ez.no/community/bug_reports/error_in_confirmorder_php
+- Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
+  http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 
 
 *Update
