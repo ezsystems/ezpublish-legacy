@@ -699,7 +699,18 @@ class eZTemplateImageOperator
                 $image->addLayer( $layer1 );
 
                 // Create label image
-                $font =& new eZTemplateImageFont( $family, $size, $this->FontDir );
+                $fontDir = false;
+                foreach ( $this->FontDir as $fontPath )
+                {
+                    if ( eZTemplateImageFont::exists( $family, $fontPath ) )
+                    {
+                        $fontDir = $fontPath;
+                        break;
+                    }
+                }
+                if ( !$fontDir )
+                    return;
+                $font =& new eZTemplateImageFont( $family, $size, $fontDir );
 
                 if ( is_string( $usecache ) )
                     $cnt = $usecache;
