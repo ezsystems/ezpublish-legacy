@@ -1,0 +1,22 @@
+*Title: Checking of class removal
+
+Incentive:
+Add some checking to the removal of classes, if the class is
+considered a system critical class it should not be allowed to
+be removed.
+
+*Documentation:
+Reasons for a class to be system critical:
+- It is being used by a top-level node, removing it will result
+  in the removal of the top-level node which will cause the system
+  to malfunction. The only way to remove this class then is to
+  first to swap the top-level node with another node which uses
+  a different class.
+- One of the attributes cannot be removed, possible reasons:
+  ezuser:
+    - The current user, admin user or anon user is made with this class,
+      removing the class or attribute will remove the user or make them
+      invalid as a user.
+    - There are no more classes with this datatype, if no classes
+      has this it will not be possible to login or access the site anymore.
+      The only way then is to add some fields manually to the database.

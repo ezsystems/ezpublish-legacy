@@ -87,7 +87,7 @@ $user =& eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
-    
+
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
 
     if( !$groupInfo )
@@ -104,6 +104,8 @@ foreach( $TemplateData as $tpldata )
     $tpl->setVariable( "group_modifier", $groupModifier );
 }
 
+$group =& eZContentClassGroup::fetch( $GroupID );
+$groupName = $group->attribute( 'name' );
 
 
 $tpl->setVariable( "module", $Module );
@@ -111,7 +113,7 @@ $tpl->setVariable( "module", $Module );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/classlist.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Class group list' ) ),
+                                'text' => ezi18n( 'kernel/class', 'Classes' ) ),
                          array( 'url' => false,
-                                'text' => $GroupName ) );
+                                'text' => $groupName ) );
 ?>

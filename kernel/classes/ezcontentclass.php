@@ -495,6 +495,10 @@ class eZContentClass extends eZPersistentObject
 
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
+        // If we are not allowed to remove just return false
+        if ( !$this->isRemovable() )
+            return false;
+
         if ( is_array( $remove_childs ) or $remove_childs )
         {
             if ( is_array( $remove_childs ) )
@@ -527,7 +531,8 @@ class eZContentClass extends eZPersistentObject
                     eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
                                                       array( "contentclass_id" => $contentClassID,
                                                              "version" => $version ) );
-                }else
+                }
+                else
                 {
                     $contentClassID = $this->ID;
                     $version = $this->Version;
@@ -545,6 +550,80 @@ class eZContentClass extends eZPersistentObject
             }
         }
         eZPersistentObject::remove();
+    }
+
+    /*!
+     Checks if the class can be removed and returns \c true if it can, \c false otherwise.
+     \sa removableInformation()
+    */
+    function isRemovable()
+    {
+        $db =& eZDB::instance();
+
+        // We can only remove classes which are not used for a top-level node
+        $rows =& $db->arrayQuery( "SELECT ezcot.node_id
+FROM ezcontentobject_tree ezcot, ezcontentobject ezco
+WHERE ezcot.depth = 1 AND
+      ezco.contentclass_id = $this->ID AND
+      ezco.id=ezcot.contentobject_id" );
+        if ( count( $rows ) > 0 )
+            return false;
+
+        // We can only remove classes which are not used for a top-level node
+        // We can only remove classes when all attributes are allowed to be removed
+        $attributes =& $this->fetchAttributes();
+        foreach ( $attributes as $key => $attribute )
+        {
+            $dataType = $attribute->dataType();
+            if ( !$dataType->isClassAttributeRemovable( $attribute ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    /*!
+     Returns information on why the class cannot be removed,
+     it does the same checks as in isRemovable() but generates
+     some text in the return array.
+     \return An array which contains:
+             - text - Plain text description why this cannot be removed
+             - list - An array with reasons why this failed, each entry contains:
+                      - text - Plain text description of the reason.
+                      - list - A sublist of reason (e.g from an attribute), is optional.
+    */
+    function removableInformation()
+    {
+        $reasons = array();
+        $db =& eZDB::instance();
+
+        // Check top-level nodes
+        $rows =& $db->arrayQuery( "SELECT ezcot.node_id
+FROM ezcontentobject_tree ezcot, ezcontentobject ezco
+WHERE ezcot.depth = 1 AND
+      ezco.contentclass_id = $this->ID AND
+      ezco.id=ezcot.contentobject_id" );
+        if ( count( $rows ) > 0 )
+        {
+            $reasons[] = array( 'text' => ezi18n( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
+You will need to change the class of the node by using the swap functionality.' ) );
+        }
+
+        // Check class attributes
+        $attributes =& $this->fetchAttributes();
+        foreach ( $attributes as $key => $attribute )
+        {
+            $dataType = $attribute->dataType();
+            if ( !$dataType->isClassAttributeRemovable( $attribute ) )
+            {
+                $info = $dataType->classAttributeRemovableInformation( $attribute );
+                $reasons[] = $info;
+            }
+        }
+
+        return array( 'text' => ezi18n( 'kernel/contentclass', "Cannot remove class '%class_name':",
+                                        null, array( '%class_name' => $this->Name ) ),
+                      'list' => $reasons );
     }
 
     function removeAttributes( $attributes = false, $id = false, $version = false )

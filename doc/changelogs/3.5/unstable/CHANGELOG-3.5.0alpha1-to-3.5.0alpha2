@@ -23,8 +23,8 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 
   function is used to check whether or not a datatype can be removed from a class. Function 
   returns true in default.
-- Added/reimplemented function canRemovable() in datatype ezuser, disallowed deletion of this 
-  datatype if it belongs to the class of login user.
+- Added/reimplemented function isClassAttributeRemovable() in datatype ezuser,
+  disallowed deletion of this  datatype if it belongs to the class of login user.
 - Improved handling for lower-case input of ISBN Datatype.
 - Removed parameter $mimeData from eZContentObjectAttribute::insertRegularFile()
   which were not supposed to be there.
