@@ -263,7 +263,7 @@ eZInformationCollection:
   (Manually merged from stable/3.5 (3.5.2) rev. 11272)
 - Fixed bug #6443: New bug: Cached view preference list is not used when user
   does not have any preferences set.
-  (Manually merged from stable/3.5 (3.5.2) rev .11276)
+  (Manually merged from stable/3.5 (3.5.2) rev. 11276)
   
 *Library:
 PDF:
