@@ -6,3 +6,4 @@
 
 *Kernel:
 - Fixed editing PDF exports
+- Added function setGroups to eZINI

@@ -1034,6 +1034,14 @@ class eZINI
     }
 
     /*!
+     Sets all groups overwriting the current values
+    */
+    function setGroups( $groupArray )
+    {
+        $this->BlockValues = $groupArray;
+    }
+
+    /*!
      Sets multiple variables from the array \a $variables.
      \param $variables Contains an associative array with groups as first key,
                        variable names as second key and variable values as values.
