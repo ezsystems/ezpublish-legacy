@@ -38,6 +38,7 @@ CREATE TABLE ezbinaryfile (
   filename varchar(255) NOT NULL default '',
   original_filename varchar(255) NOT NULL default '',
   mime_type varchar(50) NOT NULL default '',
+  download_count int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
@@ -401,7 +402,8 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
   KEY ezcontentobject_tree_depth (depth),
-  KEY modified_subnode (modified_subnode)
+  KEY modified_subnode (modified_subnode),
+  KEY ezcontentobject_tree_path_ident (path_identification_string(50))
 ) TYPE=MyISAM;
 
 
@@ -1078,7 +1080,7 @@ CREATE TABLE ezsite_data (
 
 
 CREATE TABLE ezsubtree_expiry (
-  subtree varchar(255) NOT NULL default '',
+  subtree int(11) default NULL,
   cache_file varchar(255) NOT NULL default '',
   KEY ezsubtree_expiry_subtree (subtree)
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;

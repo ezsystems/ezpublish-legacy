@@ -2331,8 +2331,8 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 CREATE TABLE ezsubtree_expiry (
-    subtree character varying(255) NOT NULL,
-    cache_file character varying(255) NOT NULL
+    cache_file character varying(255) NOT NULL,
+    subtree integer
 );
 
 
@@ -2748,14 +2748,6 @@ CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action"
 
 
 
-CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
-
-
-
-
-
-
-
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
@@ -2797,6 +2789,22 @@ CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
 
 
 CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree (path_identification_string);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 
