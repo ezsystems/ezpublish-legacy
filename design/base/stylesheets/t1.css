@@ -138,11 +138,12 @@ div#topmenu
 {
     padding: 0;
     margin: 0;
-    border-bottom: 1px solid #ffffff;
+    /*border-bottom: 1px solid #ffffff;*/
 }
 
 div#topmenu-design
 {
+    height: 21px;
     background-color: #336699;
     padding: 0;
     margin: 0;
@@ -216,12 +217,14 @@ div#topmenu li a:hover
 
 div#submenu
 {
-    height: 22px;
-    background-color: #7b92bc;
+    padding: 0;
+    margin: 0;
 }
 
 div#submenu-design
 {
+    height: 22px;
+    background-color: #7b92bc;
     padding: 0;
     margin: 0;
     text-align: left;
