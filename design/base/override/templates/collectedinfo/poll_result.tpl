@@ -46,11 +46,14 @@
                             {$:item.value}
                         </p>
                     </td>
+
+                    {let percentage = cond( $total_count|gt( 0 ), round( div( mul( $:item_count, 100 ), $total_count ) ), 0 )
+                         tenth      = cond( $total_count|gt( 0 ), round( div( mul( $:item_count, 10 ), $total_count ) ), 0 )}
                     <td class="poll-resultbar">
                         <table class="poll-resultbar">
                         <tr>
                             <td class="poll-percentage">
-                                <i>{round(div(mul($:item_count,100),$total_count))}%</i>
+                                <i>{$:percentage}%</i>
                             </td>
                             <td class="poll-votecount">
                                 {'Votes:'|i18n('design/standard/content/poll')} {$:item_count}
@@ -60,7 +63,7 @@
                             <div class="chart-bar-edge-start">
                                 <div class="chart-bar-edge-end">
                                     <div class="chart-bar-resultbox">
-                                        <div class="chart-bar-resultbar" class="chart-bar-{round(div(mul($:item_count,100),$total_count))}-of-10" class="chart-bar-{round(div(mul($:item_count,10),$total_count))}-of-10" style="width: {round(div(mul($:item_count,100),$total_count))}%;">
+                                        <div class="chart-bar-resultbar chart-bar-{$:percentage}-of-100 chart-bar-{$:tenth}-of-10" style="width: {$:percentage}%;">
                                             <div class="chart-bar-result-divider"></div>
                                         </div>
                                     </div>
@@ -69,6 +72,7 @@
                         </tr>
                         </table>
                     </td>
+                    {/let}
                     {/let}
 
                     {delimiter}
