@@ -53,6 +53,8 @@ Changes from 3.1-1 to 3.2.0-1
 - Changed the behaviour of approval denying and removed the Defer/Pushback button. Now denying
   changes the object version as a draft and stops the workflow process.
 - Fixed workflow status id to name function, now all status ids are converted.
+- Improved google and simple navigator to allow url suffix data (eg. ?Search=)
+- Improved search templates to use google navigator.
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.

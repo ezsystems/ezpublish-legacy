@@ -44,9 +44,14 @@ selected="selected"
 <select name="SearchContentClassAttributeID">
 <option value="-1">Any attribute</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
-<option value="{$Attribute:ClassAttribute:item.id}">{$Attribute:ClassAttribute:item.name|wash}</option>
+<option value="{$Attribute:ClassAttribute:item.id}" 
+        {section show=eq($search_contentclass_attribute_id,$Attribute:ClassAttribute:item.id)}
+            selected="selected"
+        {/section}>{$Attribute:ClassAttribute:item.name|wash}</option>
 {/section}
 </select>
+
+&nbsp;
 
 {/section}
 <input class="smallbutton" type="submit" name="SelectClass" value="{'Update attributes'|i18n('design/standard/content/search')}"/>
@@ -126,56 +131,12 @@ selected="selected"
 </table>
 {/section}
 
-{let item_previous=sub($offset,$page_limit) item_next=sum($offset,$page_limit)
-     page_count=int(ceil(div($search_count,$page_limit))) current_page=int(ceil(div($offset,$page_limit)))}
-<div class="selectbar">
-<table class="selectbar" width="100%" cellpadding="0" cellspacing="2" border="0">
-<tr>
-     {switch match=$item_previous|lt(0) }
-       {case match=0}
-         <td class="selectbar" width="1%">
-         <a class="selectbar" href={concat('/content/advancedsearch/',$item_previous|gt(0)|choose('',concat('offset/',$item_previous)),'?SearchText=',$search_text_enc)|ezurl}><<&nbsp;{"Previous"|i18n("design/standard/navigator")}</a>
-         </td>
-       {/case}
-       {case match=1}
-       {/case}
-     {/switch}
-
-    <td width="35%">
-    &nbsp;
-    </td>
-
-    <td width="10%">
-    {section name=Quick loop=$page_count max=10 show=$page_count|gt(1)}
-    {switch match=$Quick:index}
-      {case match=$current_page}
-        <b>{$Quick:number}</b>
-      {/case}
-      {case}
-        {let page_offset=mul($Quick:index,$page_limit)}
-          <a href={concat('/content/advancedsearch/',$Quick:page_offset|gt(0)|choose('',concat('offset/',$Quick:page_offset)),'?SearchText=',$search_text_enc)|ezurl}>{$Quick:number}</a>
-        {/let}
-      {/case}
-    {/switch}
-    {/section}
-    </td>
-    <td width="35%">
-    &nbsp;
-    </td>
-
-    {switch match=$item_next|lt($search_count) }
-      {case match=1}
-        <td class="selectbar" width="1%">
-         <a class="selectbar" href={concat('/content/advancedsearch/',$item_next|gt(0)|choose('',concat('offset/',$item_next)),'?SearchText=',$search_text_enc)|ezurl}>{"Next"|i18n("design/standard/navigator")}&nbsp;&gt;&gt;</a>
-        </td>
-      {/case}
-      {case}
-      {/case}
-    {/switch}
-</tr>
-</table>
-</div>
-{/let}
-
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/advancedsearch')
+         page_uri_suffix=concat('?SearchText=',$search_text_enc,'&PhraseSearchText=',$phrase_search_text_enc,'&SearchContentClassID=',$search_contentclass_id,'&SearchContentClassAttributeID=',$search_contentclass_attribute_id,'&SearchSectionID=',$search_section_id,'&SearchDate=',$search_date)
+         item_count=$search_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 </form>

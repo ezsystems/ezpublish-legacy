@@ -1,4 +1,6 @@
+{default page_uri_suffix=false()}
 {default name=ViewParameter
+         page_uri_suffix=false()
          left_max=10
          right_max=9}
  {let item_previous=sub( $view_parameters.offset,
@@ -27,7 +29,7 @@
      {switch match=$:item_previous|lt(0) }
        {case match=0}
      <td class="selectbar" width="1%">
-      <a class="selectbar" href={concat($page_uri,$:item_previous|gt(0)|choose('',concat('/offset/',$:item_previous)),$:view_parameter_text)|ezurl}><<&nbsp;{"Previous"|i18n("design/standard/navigator")}</a>
+      <a class="selectbar" href={concat($page_uri,$:item_previous|gt(0)|choose('',concat('/offset/',$:item_previous)),$:view_parameter_text,$page_uri_suffix)|ezurl}><<&nbsp;{"Previous"|i18n("design/standard/navigator")}</a>
      </td>
        {/case}
        {case match=1}
@@ -41,7 +43,7 @@
 
 {section show=$:current_page|gt($:left_max)}
 <td>
- <a href={concat($page_uri,$:view_parameter_text)|ezurl}>1</a>
+ <a href={concat($page_uri,$:view_parameter_text,$page_uri_suffix)|ezurl}>1</a>
 </td>
 {section show=sub($:current_page,$:left_length)|gt(1)}
 <td>...
@@ -52,7 +54,7 @@
     {section name=Quick loop=$:left_length}
 <td>
         {let page_offset=sum(sub($ViewParameter:current_page,$ViewParameter:left_length),$:index)}
-          <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat('/offset/',mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text)|ezurl}>{$:page_offset|inc}</a>
+          <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat('/offset/',mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_offset|inc}</a>
         {/let}
 </td>
     {/section}
@@ -64,7 +66,7 @@
     {section name=Quick loop=$:right_length}
 <td>
         {let page_offset=sum($ViewParameter:current_page,1,$:index)}
-          <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat('/offset/',mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text)|ezurl}>{$:page_offset|inc}</a>
+          <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat('/offset/',mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_offset|inc}</a>
         {/let}
 </td>
     {/section}
@@ -76,7 +78,7 @@
 </td>
 {/section}
 <td>
- <a href={concat($page_uri,$:page_count|dec|gt(0)|choose('',concat('/offset/',mul($:page_count|dec,$item_limit))),$:view_parameter_text)|ezurl}>{$:page_count}</a>
+ <a href={concat($page_uri,$:page_count|dec|gt(0)|choose('',concat('/offset/',mul($:page_count|dec,$item_limit))),$:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_count}</a>
 </td>
 {/section}
 
@@ -88,7 +90,7 @@
     {switch match=$:item_next|lt($item_count)}
       {case match=1}
         <td class="selectbar" width="1%">
-        <a class="selectbar" href={concat($page_uri,'/offset/',$:item_next,$:view_parameter_text)|ezurl}>{"Next"|i18n("design/standard/navigator")}&nbsp;>></a>
+        <a class="selectbar" href={concat($page_uri,'/offset/',$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}>{"Next"|i18n("design/standard/navigator")}&nbsp;>></a>
         </td>
       {/case}
       {case}
@@ -101,4 +103,5 @@
 {/section}
 
  {/let}
+{/default}
 {/default}
