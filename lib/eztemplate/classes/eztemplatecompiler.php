@@ -1879,7 +1879,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n",
                         $subSpacing = 4;
                     }
 
-                    $php->addCodePiece( "\$textElements = array();\n$spacer\$tpl->processURI( $uriText, true, \$textElements, \$rootNamespace, \$currentNamespace );\n$spacer\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
+                    $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n$spacer\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n$spacer\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
 
                     if ( $resourceData['compiled-template'] )
                     {

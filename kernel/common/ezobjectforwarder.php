@@ -156,7 +156,7 @@ class eZObjectForwarder
 //         print( "matchList\n" );
 //         print_r( $matchList );
         $designKeysName = 'dKeys';
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceFor( 'design' );\n    \$$designKeysName =& \$resH->Keys;\n}" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceHandler( 'design' );\n    \$$designKeysName =& \$resH->Keys;\n}" );
 
         $attributeAccess =& $rule["attribute_access"];
 

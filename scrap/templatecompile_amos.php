@@ -22,7 +22,7 @@ class MyObject
 
     function hasAttribute( $name )
     {
-        return in_array( array( 'edit_template', 'view_template', 'name', 'sub' ), $name );
+        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'sub' ) );
     }
 
     function attribute( $name )
@@ -61,6 +61,10 @@ class MySubObject
 $myobj = new MyObject();
 
 $tpl->setVariable( 'obj', $myobj );
+
+$designResource =& eZTemplateDesignResource::instance();
+$designResource->setKeys( array( array( 'section', 2 ),
+                                 array( 'node' , 42 ) ) );
 
 print( $tpl->fetch( 'scrap/templatecompile_amos.tpl' ) . "\n" );
 
