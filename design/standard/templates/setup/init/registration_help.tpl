@@ -1,4 +1,4 @@
-{"By sending resgistration the following data will be sent to eZ systems"|i18n("design/standard/setup/init")}
+{"By sending registration the following data will be sent to eZ systems"|i18n("design/standard/setup/init")}
 <ul>
   <li>{"Details of your system, like OS type etc."|i18n("design/standard/setup/init")}</li>
   <li>{"The test results for your system"|i18n("design/standard/setup/init")}</li>

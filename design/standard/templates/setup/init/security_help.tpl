@@ -1,1 +1,1 @@
-{"This security measure is to ensure that your settings are not accessable for other users."|i18n("design/standard/setup/init")}
+{"This security measure is to ensure that your settings are not accessible for other users."|i18n("design/standard/setup/init")}
