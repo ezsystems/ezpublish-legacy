@@ -431,13 +431,26 @@ class eZMysqlSchema extends eZDBSchemaInterface
         $sql .= join( ",\n", $sql_fields );
         // We need to add primary key in table definition
         $sql .= "\n)";
+        $extraOptions = array();
         if ( isset( $params['table_type'] ) and $params['table_type'] )
         {
             $typeName = $this->tableStorageTypeName( $params['table_type'] );
             if ( $typeName )
             {
-                $sql .= " TYPE=" . $typeName;
+                $extraOptions[] = "TYPE=" . $typeName;
             }
+        }
+        if ( isset( $params['table_charset'] ) and $params['table_charset'] )
+        {
+            $charsetName = $this->tableCharsetName( $params['table_charset'] );
+            if ( $charsetName )
+            {
+                $extraOptions[] = "DEFAULT CHARACTER SET " . $charsetName;
+            }
+        }
+        if ( count( $extraOptions ) > 0 )
+        {
+            $sql .= " " . implode( $diffFriendly ? "\n" : " ", $extraOptions );
         }
         $sql .= ";\n";
 
@@ -453,6 +466,32 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	}
 
     /*!
+      \return The name of the charset \a $charset in a format MySQL understands.
+    */
+    function tableCharsetName( $charset )
+    {
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $charset = eZCharsetInfo::realCharsetCode( $charset );
+        // Convert charset names into something MySQL will understand
+        $charsetMapping = array( 'iso-8859-1' => 'latin1',
+                                 'iso-8859-2' => 'latin2',
+                                 'iso-8859-8' => 'hebrew',
+                                 'iso-8859-7' => 'greek',
+                                 'iso-8859-9' => 'latin5',
+                                 'iso-8859-13' => 'latin7',
+                                 'windows-1250' => 'cp1250',
+                                 'windows-1251' => 'cp1251',
+                                 'windows-1256' => 'cp1256',
+                                 'windows-1257' => 'cp1257',
+                                 'utf-8' => 'utf8',
+                                 'koi8-r' => 'koi8r' );
+        $charset = strtolower( $charset );
+        if ( isset( $charsetMapping ) )
+            return $charsetMapping[$charset];
+        return $charset;
+    }
+
+    /*!
       \return The name of storage type \a $type or \c false if not supported.
 
       \note Currently supports \c bdb, \c myisam and \c innodb.
@@ -461,6 +500,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     */
     function tableStorageTypeName( $type )
     {
+        $type = strtolower( $type );
         switch ( $type )
         {
             case 'bdb':

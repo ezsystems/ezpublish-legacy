@@ -48,7 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
-                                "[diff-friendly][meta-data][table-type:]" .
+                                "[diff-friendly][meta-data][table-type:][table-charset:]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
@@ -64,6 +64,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                                          "MySQL: bdb, innodb and myisam\n" .
                                                          "PostgreSQL: \n" .
                                                          "Oracle: " ),
+                                       'table-charset' => 'Defines the charset to use on tables, the names of the charset depends on database type',
                                        'format' => ( "The output format (default is generic)\n" .
                                                      "generic - Format which suits all databases\n" .
                                                      "local - Format which suits only the database it was dumped from." ),
@@ -142,6 +143,7 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'format' => $options['format'] ? $options['format'] : 'generic',
                              'meta_data' => $options['meta-data'],
                              'table_type' => $options['table-type'],
+                             'table_charset' => $options['table-charset'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
                              'diff_friendly' => $options['diff-friendly'] );
 
