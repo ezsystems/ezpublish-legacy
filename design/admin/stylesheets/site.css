@@ -230,6 +230,11 @@ div#topmenu li.selected a
     text-decoration: none;
 }
 
+div#topmenu li.selected a:hover
+{
+   color: #ffffff;
+}
+
 div#topmenu div.break
 {
     height: 2px;

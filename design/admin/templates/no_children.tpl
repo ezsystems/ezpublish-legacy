@@ -12,7 +12,7 @@
 
 <div class="block">
     <p>{'The <%class_name> class is not configured to contain any sub items.'|i18n( 'design/admin/node/view/full',, hash( '%class_name', $node.object.class_name ) )|wash}</p>
-<div class="block">
+</div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
