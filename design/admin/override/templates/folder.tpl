@@ -1,4 +1,76 @@
 {* Folder admin view template *}
+<html>
+<head>
+<script language="JavaScript">
+function copyImageURL( imageUrl )
+{ldelim}
+    if ( document.all )
+    {literal}{{/literal}
+        var urlField =  window.opener.document.getElementById("ContentObjectAttribute_data_urlimagename");
+        urlField.value = imageUrl;
+    {literal}}{/literal}
+    else if ( document.layers )
+    {literal}{{/literal}
+        urlField = window.opener.document.layers["ContentObjectAttribute_data_urlimagename"];
+        urlField.value = imageUrl;
+    {literal}}{/literal}
+    else
+    {literal}{{/literal}
+        var urlField =  window.opener.document.getElementById("ContentObjectAttribute_data_urlimagename");
+        urlField.value = imageUrl;
+    {literal}}{/literal}
+    window.opener.focus();
+{rdelim}
+
+function findParentWindow( )
+{ldelim}
+if ( !window.opener )
+{literal}{{/literal}
+    var parentWindowLoction = String( window.opener.location );
+    var iseZ =  parentWindowLoction.match(/content\/edit/g);
+    if ( !iseZ )
+    {literal}{{/literal}
+        if ( document.all )
+        {literal}{{/literal}
+            document.getElementById('GeteZURL').style.display = 'none';
+        {literal}}{/literal}
+        else if ( document.layers )
+        {literal}{{/literal}
+            document.layers["GeteZURL"].style.display = 'none';
+        {literal}}{/literal}
+        else
+        {literal}{{/literal}
+            document.getElementById('GeteZURL').style.display = 'none';
+        {literal}}{/literal}
+    {literal}}{/literal}
+{literal}}{/literal}
+else
+{literal}{{/literal}
+alert("111");
+    if ( document.all )
+    {literal}{{/literal}
+alert("333");
+      totalEmployees=document.getElementsByName('GeteZURL');
+for (var i=0; i<totalEmployees.length; i++)
+ {literal}{{/literal}
+alert( "find" );
+     totalEmployees[i].style.display = 'none';
+ {literal}}{/literal}
+    {literal}}{/literal}
+    else if ( document.layers )
+    {literal}{{/literal}
+        document.layers["GeteZURL"].style.display = 'none';
+    {literal}}{/literal}
+    else
+    {literal}{{/literal}
+        document.getElementsByName('GeteZURL').style.display = 'none';
+    {literal}}{/literal}
+{literal}}{/literal}
+{rdelim}
+
+</script>
+</head>
+<body onload=findParentWindow();>
 
 {default with_children=true()
          is_editable=true()
@@ -18,6 +90,14 @@
 </div>
 
 <div class="object">
+
+<input type="button" name="GeteZURL" value="{'Test'|i18n( 'design/standard/node/view' )}" onclick="copyImageURL( 'http://a840.g.akamai.net/7/840/614/9965dd4bb86b11/www.overture.com/images/ays/pn.gif' );" />
+
+<input type="button" name="GeteZURL" value="{'Test2'|i18n( 'design/standard/node/view' )}" onclick="copyImageURL( 'http://a840.g.akamai.net/7/840/614/9965dd4bb86b11/www.overture.com/images/ays/pn.gif' );" />
+
+<input type="button" name="GeteZURL" value="{'Test3'|i18n( 'design/standard/node/view' )}" onclick="copyImageURL( 'http://a840.g.akamai.net/7/840/614/9965dd4bb86b11/www.overture.com/images/ays/pn.gif' );" />
+
+<input type="button" name="CheckButton" value="{'Check'|i18n( 'design/standard/node/view' )}" onclick="findParentWindow();" />
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
@@ -190,7 +270,7 @@
         {/section}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
-                 <input class="button" align="right" type="submit" name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
+                 <input class="button" align="right" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
     {/section}

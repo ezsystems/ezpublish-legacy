@@ -95,7 +95,6 @@
 </tr>
 
 <tr>
-
 <!-- Attribute input Start -->
 
 <td class="{$Attributes:sequence}">

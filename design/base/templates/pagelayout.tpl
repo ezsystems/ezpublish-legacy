@@ -41,7 +41,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
                 {section show=$pagedesign.data_map.image.content.is_valid|not()}
                     <h1>{ezini('SiteSettings','SiteName')}</h1>
                 {section-else}
-                    <a href={"/"|ezurl}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="Company logo" /></a>
+                    <a href={"/"}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="Company logo" /></a>
                 {/section}
             </div>{* id="header-design" *}
         </div>{* id="header" *}
@@ -84,7 +84,6 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
         <hr class="hide" />
     {/cache-block}
-
         {section show=ezini( 'Toolbar_right', 'Tool', 'toolbar.ini' )|count}
             <div id="rightmenu">
                 <div id="rightmenu-design">

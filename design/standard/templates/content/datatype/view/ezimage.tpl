@@ -19,6 +19,7 @@ Input:
          target=false()
          hspace=false()
          border_size=0}
+
 {let image_content=$attribute.content}
 
 {section show=$image_content.is_valid}
