@@ -525,7 +525,7 @@ if ( $show_page_layout )
                          'Content-language' => $languageCode );
 
     $site = array(
-        "title" => "eZ publish 3.0",
+        "title" => $ini->variable( 'SiteSettings', 'SiteName' ),
         "page_title" => $module->title(),
         "redirect" => false,
         "design" => "standard",
