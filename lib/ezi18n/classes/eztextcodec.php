@@ -206,7 +206,7 @@ class eZTextCodec
         return $this->OutputCharsetCode;
     }
 
-    function &convertString( &$str )
+    function &convertString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
@@ -215,19 +215,19 @@ class eZTextCodec
         return $tmp;
     }
 
-    function strlen( &$str )
+    function strlen( $str )
     {
         $strlenFunction = $this->StrlenFunction;
         return $this->$strlenFunction( $str );
     }
 
 
-    function &convertNone( &$str )
+    function &convertNone( $str )
     {
         return $str;
     }
 
-    function &convertCodepage( &$str )
+    function &convertCodepage( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         $tmp =& $this->Codepage->convertString( $str );
@@ -235,7 +235,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertCodepageRev( &$str )
+    function &convertCodepageRev( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         $tmp =& $this->Codepage->convertStringFromUTF8( $str );
@@ -243,7 +243,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertCodepageMapper( &$str )
+    function &convertCodepageMapper( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         $tmp =& $this->CodepageMapper->convertString( $str );
@@ -251,7 +251,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertMBString( &$str )
+    function &convertMBString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         $tmp =& $this->MBStringMapper->convertString( $str );
@@ -259,27 +259,27 @@ class eZTextCodec
         return $tmp;
     }
 
-    function strlenNone( &$str )
+    function strlenNone( $str )
     {
         return strlen( $str );
     }
 
-    function strlenCodepage( &$str )
+    function strlenCodepage( $str )
     {
         return $this->Codepage->strlen( $str );
     }
 
-    function strlenCodepageRev( &$str )
+    function strlenCodepageRev( $str )
     {
         return $this->Codepage->strlenFromUTF8( $str );
     }
 
-    function strlenCodepageMapper( &$str )
+    function strlenCodepageMapper( $str )
     {
         return $this->CodepageMapper->strlen( $str );
     }
 
-    function strlenMBString( &$str )
+    function strlenMBString( $str )
     {
         return $this->MBStringMapper->strlen( $str );
     }

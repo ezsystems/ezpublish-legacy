@@ -77,6 +77,7 @@ links to clickable links.
 - The bug with the original size not working on images has been fixed.
 - Fixed a problem with the eZXMLText datatype not initializing correctly from older versions.
 - Moved eZExtension class into eZUtils library.
+- Added support for storing XML format in native charset, this makes it a lot faster.
 
 *SDK :
 

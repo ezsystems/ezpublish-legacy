@@ -37,12 +37,15 @@
  instead of a HREF.
  Will also fix all /content/download links to use the new format if any
  is found.
+ Also if $fixAllAttributes is set to true it will make sure that all XML data
+ is stored in correct charset according to site settings.
 */
 
 set_time_limit( 0 );
 
 $showDebug = false;
 $fixErrors = true;
+$fixAllAttributes = true;
 
 $fixAttribute = true;
 $fixURL = true;
@@ -282,15 +285,23 @@ if ( $fixAttribute )
                 if ( $doc )
                 {
                     if ( findAndReplaceLinks( $doc, $doc->root() ) or
-                         $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP )
+                         $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP or
+                         $fixAllAttributes )
                     {
                         if ( $showDebug )
                             print( "Links found and replaced\n" );
 //                 print( $doc->toString() . "\n" );
-                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $docString = eZXMLTextType::domString( $doc );
+                        $objectAttribute->setAttribute( 'data_text', $docString );
                         $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
-                        ++$wrongLinkCount;
-                        print( '*' );
+                        if ( findAndReplaceLinks( $doc, $doc->root() ) or
+                             $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP )
+                        {
+                            ++$wrongLinkCount;
+                            print( '*' );
+                        }
+                        else
+                            print( '@' );
                     }
                     else
                         print( '.' );
@@ -304,7 +315,8 @@ if ( $fixAttribute )
                         unset( $doc );
                         $doc = new eZDOMDocument();
                         $doc->setRoot( $doc->createElementNode( 'section' ) );
-                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $docString = eZXMLTextType::domString( $doc );
+                        $objectAttribute->setAttribute( 'data_text', $docString );
                         $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '0' );
@@ -314,7 +326,8 @@ if ( $fixAttribute )
                         unset( $doc );
                         $doc = new eZDOMDocument();
                         $doc->setRoot( $doc->createElementNode( 'section' ) );
-                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        $docString = eZXMLTextType::domString( $doc );
+                        $objectAttribute->setAttribute( 'data_text', $docString );
                         $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
@@ -351,6 +364,7 @@ if ( $fixAttribute )
     }
     print( "\n" );
     print( ". Ignored\n" );
+    print( "@ XML data upgrade\n" );
     print( "* Fixed url usage\n" );
     print( "- Invalid XML data\n" );
     print( "0 Empty XML data\n" );
