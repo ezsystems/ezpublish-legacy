@@ -229,11 +229,12 @@ class eZModuleOperationInfo
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
 
-//                 eZDebug::writeDebug( $resultArray, 'ezmodule operationr result array' );
+//                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
             if ( is_array( $resultArray ) and
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
+//                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
                 if ( $this->Memento !== null )
                 {
                     $this->Memento->store();
@@ -242,6 +243,7 @@ class eZModuleOperationInfo
             else if ( $this->Memento !== null and
                       $this->Memento->attribute( 'id' ) !== null )
             {
+//                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result not halted' );
                 $this->Memento->remove();
             }
 //            if ( $resultArray['status'] == EZ_MODULE_OPERATION_CANCELED )
@@ -471,6 +473,7 @@ class eZModuleOperationInfo
                                                           $operationParameterDefinitions, $operationParameters,
                                                           $bodyCallCount, $currentLoopData,
                                                           $triggerRestored, $operationName, $operationKeys );
+//                         eZDebug::writeDebug( $status, 'trigger execute status' );
                         switch( $status )
                         {
                             case EZ_MODULE_OPERATION_CONTINUE:
@@ -588,11 +591,11 @@ class eZModuleOperationInfo
             }
             return EZ_MODULE_OPERATION_HALTED;
         }
-        else if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_CANCELED )
+        else if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_CANCELED or
+                  $status['Status'] == EZ_TRIGGER_WORKFLOW_RESET )
         {
              return EZ_MODULE_OPERATION_CANCELED;
              $bodyReturnValue['result'] =& $status['Result'];
-
         }
     }
 

@@ -83,6 +83,33 @@ class eZCollaborationItemHandler
     }
 
     /*!
+     \return true if the attribute \a $attribute exists in the content data.
+    */
+    function hasContentAttribute( &$collaborationItem, $attribute )
+    {
+        $content =& $collaborationItem->content();
+        if ( is_array( $content ) )
+        {
+            return array_key_exists( $attribute, $content );
+        }
+        return false;
+    }
+
+    /*!
+     \return the attribute \a $attribute if it exists in the content data or \c null.
+    */
+    function &contentAttribute( &$collaborationItem, $attribute )
+    {
+        $content =& $collaborationItem->content();
+        if ( is_array( $content ) )
+        {
+            if ( array_key_exists( $attribute, $content ) )
+                return $content[$attribute];
+        }
+        return null;
+    }
+
+    /*!
      \return a list of classes this handler supports.
     */
     function classes()

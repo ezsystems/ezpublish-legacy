@@ -25,7 +25,7 @@
   <td class="{$:sequence}">
     {collaboration_view_gui view=line item_class=$:item_class collaboration_item=$:item}
     {section show=and($:item.use_messages,$:item.unread_message_count)}
-    <p><b><a href={concat("collaboration/item/full/",$:item.id,"#messages")|ezurl}>({$:item.unread_message_count})</a></b></p>
+    <p><b><a href={concat("collaboration/item/full/",$:item.id)|ezurl}>({$:item.unread_message_count})</a></b></p>
     {section-else}
     &nbsp;
     {/section}

@@ -12,6 +12,9 @@
   {case match=2}
    {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
+  {case match=3}
+   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+  {/case}
   {case/}
   {/switch}
 
@@ -26,6 +29,9 @@
   {/case}
   {case match=2}
    {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+  {/case}
+  {case match=3}
+   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case/}
   {/switch}

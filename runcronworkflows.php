@@ -77,25 +77,38 @@ foreach( array_keys( $workflowProcessList ) as $key )
     $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
 
+//     eZDebug::writeDebug( $process->attribute( 'status' ),  '$process->attribute( \'status\' )' );
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
         $process->store();
+        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
+        {
+//             eZDebug::writeDebug( 'Removing mementos' );
+            $bodyMemento =& eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
+            $mementoList =& eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
+            $bodyMemento->remove();
+            for ( $i = 0; $i < count( $mementoList ); ++$i )
+            {
+                $memento =& $mementoList[$i];
+                $memento->remove();
+            }
+        }
     }
     else
     {   //restore memento and run it
-        eZDebug::writeDebug( $process, '$process' );
-        $bodyMemento =& eZOperationMemento::fetch( $process->attribute( 'memento_key' ) );
+//         eZDebug::writeDebug( $process, '$process' );
+        $bodyMemento =& eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
         if ( is_null( $bodyMemento ) )
         {
-            eZDebug::writeDebug( 'bodyMemento is null' );
+//             eZDebug::writeDebug( 'bodyMemento is null' );
             printReport();
         }
         $bodyMementoData = $bodyMemento->data();
-        eZDebug::writeDebug( $bodyMementoData, '$bodyMementoData' );
+//         eZDebug::writeDebug( $bodyMementoData, '$bodyMementoData' );
         $mainMemento =& $bodyMemento->attribute( 'main_memento' );
         if ( !$mainMemento )
             continue;
-        eZDebug::writeDebug( $mainMemento->data(), '$mainMementoData' );
+//         eZDebug::writeDebug( $mainMemento->data(), '$mainMementoData' );
 
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
@@ -106,7 +119,8 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $operationParameters = array();
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
-        eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
+        $operationResult =& eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
+//         eZDebug::writeDebug( $operationResult, '$operationResult' );
         $process->remove();
     }
 

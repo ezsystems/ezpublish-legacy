@@ -171,17 +171,33 @@ class eZApproveType extends eZWorkflowEventType
              $correctSection )
         {
 
-            if( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
+            $collaborationID = false;
+            $db = & eZDb::instance();
+            $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
+            if ( count( $taskResult ) > 0 )
+                $collaborationID = $taskResult[0]['collaboration_id'];
+//             if( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $collaborationID, 'approve collaborationID' );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process->attribute( 'event_state'), 'approve $process->attribute( \'event_state\')' );
+            if ( $collaborationID === false )
             {
                 $this->createApproveCollaboration( $process, $event, $user->id(), $object->attribute( 'id' ), $versionID, $editor );
                 $this->setInformation( "We are going to create approval" );
                 $process->setAttribute( 'event_state', EZ_APPROVE_COLLABORATION_CREATED );
                 $process->store();
-                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $this, 'aprove execute' );
+                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $this, 'approve execute' );
                 return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
-
             }
-            else if ( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_CREATED )
+            else if ( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
+            {
+                eZApproveCollaborationHandler::activateApproval( $collaborationID );
+                $process->setAttribute( 'event_state', EZ_APPROVE_COLLABORATION_CREATED );
+                $process->store();
+                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $this, 'approve re-execute' );
+                return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+            }
+//             else if ( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_CREATED )
+            else
             {
                 $this->setInformation( "we are checking approval now" );
                 eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'check approval' );
@@ -265,8 +281,9 @@ class eZApproveType extends eZWorkflowEventType
         $db = & eZDb::instance();
         $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
         $collaborationID = $taskResult[0]['collaboration_id'];
-
 //         $task =& eZTask::fetch( $taskID );
+        $collaborationItem =& eZCollaborationItem::fetch( $collaborationID );
+        $contentObjectVersion =& eZApproveCollaborationHandler::contentObjectVersion( $collaborationItem );
         $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );
         if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_WAITING )
         {
@@ -281,14 +298,24 @@ class eZApproveType extends eZWorkflowEventType
         else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DENIED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
+            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_REJECTED );
             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }
+        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
+        {
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was deferred' );
+            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+            $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET;
         }
         else
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, "approval unknown status '$approvalStatus'" );
+            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_REJECTED );
             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
-        $db->query( 'DELETE FROM ezapprove_items WHERE workflow_process_id = ' . $process->attribute( 'id' )  );
+        $contentObjectVersion->sync();
+        if ( $approvalStatus != EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
+            $db->query( 'DELETE FROM ezapprove_items WHERE workflow_process_id = ' . $process->attribute( 'id' )  );
         return $status;
     }
 }

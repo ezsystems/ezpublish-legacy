@@ -52,6 +52,7 @@ define( "EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON", 4 );
 define( "EZ_WORKFLOW_STATUS_CANCELLED", 5 );
 define( "EZ_WORKFLOW_STATUS_FETCH_TEMPLATE", 6 );
 define( "EZ_WORKFLOW_STATUS_REDIRECT", 7 );
+define( "EZ_WORKFLOW_STATUS_RESET", 8 );
 
 class eZWorkflow extends eZPersistentObject
 {
@@ -83,12 +84,13 @@ class eZWorkflow extends eZPersistentObject
         $statusNames =& $GLOBAL["eZWorkflowStatusNames"];
         if ( !is_array( $statusNames ) )
         {
-            $statusNames = array( EZ_WORKFLOW_STATUS_NONE => "No state yet",
-                                  EZ_WORKFLOW_STATUS_BUSY => "Workflow running",
-                                  EZ_WORKFLOW_STATUS_DONE => "Workflow done",
-                                  EZ_WORKFLOW_STATUS_FAILED => "Workflow failed an event",
-                                  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON => "Workflow event deferred to cron job",
-                                  EZ_WORKFLOW_STATUS_WORKFLOW_CANCELLED => "Workflow was cancelled" );
+            $statusNames = array( EZ_WORKFLOW_STATUS_NONE => ezi18n( 'kernel/workflow', 'No state yet' ),
+                                  EZ_WORKFLOW_STATUS_BUSY => ezi18n( 'kernel/workflow', 'Workflow running' ),
+                                  EZ_WORKFLOW_STATUS_DONE => ezi18n( 'kernel/workflow', 'Workflow done' ),
+                                  EZ_WORKFLOW_STATUS_FAILED => ezi18n( 'kernel/workflow', 'Workflow failed an event' ),
+                                  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/workflow', 'Workflow event deferred to cron job' ),
+                                  EZ_WORKFLOW_STATUS_WORKFLOW_CANCELLED => ezi18n( 'kernel/workflow', 'Workflow was cancelled' ),
+                                  EZ_WORKFLOW_STATUS_RESET => ezi18n( 'kernel/workflow', 'Workflow was reset for reuse' ) );
         }
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];

@@ -213,6 +213,18 @@ class eZCollaborationItem extends eZPersistentObject
         return $handler->unreadMessageCount( $this );
     }
 
+    function hasContentAttribute( $attribute )
+    {
+        $handler =& $this->handler();
+        return $handler->hasContentAttribute( $this, $attribute );
+    }
+
+    function &contentAttribute( $attribute )
+    {
+        $handler =& $this->handler();
+        return $handler->contentAttribute( $this, $attribute );
+    }
+
     function content()
     {
         $handler =& $this->handler();
@@ -232,9 +244,12 @@ class eZCollaborationItem extends eZPersistentObject
         return $handler;
     }
 
-    function setIsActive( $active )
+    /*!
+     \static
+    */
+    function setIsActive( $active, $userID = false )
     {
-        eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), false, array( 'is_active' => $active ) );
+        eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), $userID, array( 'is_active' => $active ) );
     }
 
     function fetchListCount( $parameters = array() )

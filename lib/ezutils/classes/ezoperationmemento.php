@@ -96,6 +96,7 @@ class eZOperationMemento extends eZPersistentObject
         }
         return $this->MainMemento;
     }
+
     function &fetch( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
@@ -106,6 +107,20 @@ class eZOperationMemento extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
                                                 null,
                                                 array( 'memento_key' => $mementoKey ),
+                                                $asObject );
+    }
+
+    function &fetchChild( $mementoKey, $asObject = true )
+    {
+        if ( is_array( $mementoKey ) )
+        {
+            $mementoKey = eZOperationMemento::createKey( $mementoKey );
+        }
+
+        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                null,
+                                                array( 'memento_key' => $mementoKey,
+                                                       'main' => 0 ),
                                                 $asObject );
     }
 

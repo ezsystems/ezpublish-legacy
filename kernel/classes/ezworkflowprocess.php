@@ -117,6 +117,7 @@ class eZWorkflowProcess extends eZPersistentObject
         $this->LastEventStatus = 0;
         $this->ActivationDate = 0;
         $this->EventStatus = 0;
+        $this->EventState = 0;
     }
 
     function advance( $next_event_id = 0, $next_event_pos = 0, $status = 0 )
@@ -156,6 +157,7 @@ class eZWorkflowProcess extends eZPersistentObject
             case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT:
             case EZ_WORKFLOW_TYPE_STATUS_REDIRECT:
             case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
+            case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET:
             {
                 $activationDate = $this->attribute( "activation_date" );
                 eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
@@ -288,6 +290,12 @@ class eZWorkflowProcess extends eZPersistentObject
                             $done = true;
                             $this->advance();
                             $workflowStatus = EZ_WORKFLOW_STATUS_CANCELLED;
+                        } break;
+                        case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET:
+                        {
+                            $done = true;
+                            $this->reset();
+                            $workflowStatus = EZ_WORKFLOW_STATUS_RESET;
                         } break;
                         default:
                         {

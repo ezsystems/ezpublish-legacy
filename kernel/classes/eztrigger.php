@@ -45,12 +45,14 @@
 include_once( 'kernel/classes/ezworkflowprocess.php' );
 include_once( 'kernel/classes/ezworkflow.php' );
 include_once( 'kernel/classes/ezmodulerun.php' );
+
 define( "EZ_TRIGGER_STATUS_CRON_JOB", 0 );
 define( "EZ_TRIGGER_WORKFLOW_DONE", 1 );
 define( "EZ_TRIGGER_WORKFLOW_CANCELED", 2 );
 define( "EZ_TRIGGER_NO_CONNECTED_WORKFLOWS", 3 );
 define( "EZ_TRIGGER_FETCH_TEMPLATE", 4 );
 define( "EZ_TRIGGER_REDIRECT", 5 );
+define( "EZ_TRIGGER_WORKFLOW_RESET", 6 );
 
 
 class eZTrigger extends eZPersistentObject
@@ -125,7 +127,7 @@ class eZTrigger extends eZPersistentObject
                                                     array( 'name' => $name,
                                                            'module_name' => $moduleName,
                                                            'function_name' => $function ),
-                                                    true);
+                                                    true );
         if ( $trigger !== NULL )
         {
             $workflowID = $trigger->attribute( 'workflow_id' );
@@ -161,6 +163,7 @@ class eZTrigger extends eZPersistentObject
                     } break;
                     case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
                     case EZ_WORKFLOW_STATUS_REDIRECT:
+                    case EZ_WORKFLOW_STATUS_RESET:
                     {
                         return eZTrigger::runWorkflow( $existingWorkflowProcess );
 //                        return EZ_TRIGGER_FETCH_TEMPLATE;
@@ -256,6 +259,14 @@ class eZTrigger extends eZPersistentObject
                 return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
                               'Result' => $workflowProcess->attribute( 'id') );
 */
+            } break;
+            case EZ_WORKFLOW_STATUS_RESET:
+            {
+                return array( 'Status' => EZ_TRIGGER_WORKFLOW_RESET,
+                              'WorkflowProcess' => &$workflowProcess,
+                              'Result' => array( 'content' => 'Workflow was reset',
+                                                 'path' => array( array( 'text' => 'Operation halt',
+                                                                         'url' => false ) ) ) );
             } break;
             case EZ_WORKFLOW_STATUS_DONE:
             {

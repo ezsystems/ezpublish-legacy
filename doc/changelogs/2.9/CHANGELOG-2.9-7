@@ -1,7 +1,4 @@
-
 Changes from 2.9-6 to 2.9-7
-
-
 
 *Kernel :
 - NB!. Added possibility to limit user login per siteaccesses, it's defined by roles. Since that you need
@@ -102,6 +99,12 @@ contentclass:
 - Added unpublish function to ezcontenobjectversion
 - Image datatype can now return info on the original image.
 - Fixed field main_key in ezoperation_memento table for MySQL to be varchar.
+- Workflow processes now has a new status called reset which tells the system
+  that the process is no longer in use but may be reused later on.
+  This allows the process ID to be used througout the system until it is
+  considered complete.
+- Fixed a major problem with mementos fetchin in runcronworkflows, before
+  the wrong memento data would be fetched in some occasions.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
