@@ -2,14 +2,15 @@
 {section show=$validation.processed}
 {section var=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 <div class="message-warning">
-<h2>{'Input did not validate'|i18n( 'design/admin/class/edit' )}</h2>
+<h2>{'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
+<p>{'The following information is either missing or invalid'|i18n( 'design/admin/class/edit' )}:</p>
 <ul>
     <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
 </ul>
 </div>
 {section-else}
 <div class="message-feedback">
-<h2>{'Input was stored successfully'|i18n( 'design/admin/class/edit' )}</h2>
+<h2>{'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
 </div>
 {/section}
 
@@ -36,32 +37,35 @@
 </div>
 
 <div class="context-attributes">
+
+    {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="box" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" />
     </div>
 
+    {* Identifier. *}
     <div class="block">
     <label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="box" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" />
     </div>
 
+    {* Object name pattern. *}
     <div class="block">
     <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
+    <input class="halfbox" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
     </div>
 
+    {* Container. *}
     <div class="block">
-    <label>
+    <label>{'Container'|i18n( 'design/admin/class/edit' )}</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
     {section show=$class.is_container|eq( 1 )}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
     {section-else}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />
     {/section}
-    {'Container'|i18n( 'design/admin/class/edit' )}</label>
     </div>
-
 
 {section show=$attributes}
 <hr />
@@ -82,44 +86,53 @@
 <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
 <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
+
+{* Attribute name. *}
 <div class="block">
-
-<div class="element">
 <label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
-<input class="halfbox" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" />
+<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" />
 </div>
 
-<div class="element">
+{* Attribute identifier. *}
+<div class="block">
 <label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
-<input class="halfbox" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" />
+<input class="box" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" />
 </div>
 
-<div class="break"></div>
-
-</div>
 <!-- Attribute input End -->
 
 <!-- Attribute flags Start -->
 <div class="block inline">
+
+{* Required. *}
 <label>
 <input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_required}checked="checked"{/section} />
 {'Required'|i18n( 'design/admin/class/edit' )}
 </label>
 
-{section show=$Attributes.item.data_type.is_indexable}
+{* Searchable. *}
+
 <label>
+{section show=$Attributes.item.data_type.is_indexable}
 <input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_searchable}checked="checked"{/section} />
+{section-else}
+<input type="checkbox" name="" value="" disabled="disabled" />
+{/section}
 {'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
-{/section}
 
-{section show=$Attributes.item.data_type.is_information_collector}
+{* Information collector. *}
 <label>
+{section show=$Attributes.item.data_type.is_information_collector}
 <input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_information_collector}checked="checked"{/section} />
+{section-else}
+<input type="checkbox" name="" value="" disabled="disabled" />
+{/section}
 {'Information collector'|i18n( 'design/admin/class/edit' )}
 </label>
-{/section}
 
+
+{* Disable translation. *}
 <label>
 <input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=$Attributes.item.can_translate|eq(0)}checked="checked"{/section} />
 {'Disable translation'|i18n( 'design/admin/class/edit' )}
@@ -144,7 +157,7 @@
 {section-else}
 
 <div class="block">
-<p>{'There are no attributes within this class.'|i18n( 'design/admin/class/edit' )}</p>
+<p>{'This class does not have any attributes.'|i18n( 'design/admin/class/edit' )}</p>
 </div>
 {/section}
 
@@ -153,7 +166,11 @@
 
 {* Remove selected attributes button *}
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" {section show=$attributes|not}disabled="disabled"{/section} />
+{section show=$attributes}
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
+{/section}
 </div>
 
 <div class="block">
