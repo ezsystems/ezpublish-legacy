@@ -50,8 +50,10 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
 
 static int verbose = 0;
-static QString version = "3.0-1"; // eZ publish version plus local version
+static QString version = "3.1-1"; // eZ publish version plus local version
 static QStringList dirs;          // Additional scan directories
+static bool extension = false;    // Extension mode
+static QDir extension_dir;        // Extension directory
 static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}$" );
 
 static void printUsage()
@@ -62,6 +64,8 @@ static void printUsage()
               "Options:\n"
               "    --help | -h\n"
               "           Display this information and exit\n"
+              "    --extension | -e extension/myextension\n"
+              "           Extension mode. Scans extension instead of kernel, lib and design\n"
               "    --dirs | -d dir1 dir2 ...\n"
               "           Directories to scan in addition to kernel, lib and design\n"
               "    --noobsolete | -no\n"
@@ -90,6 +94,29 @@ int main( int argc, char **argv )
         {
             printUsage();
             return 0;
+        }
+        else if ( qstrcmp( argv[i], "--extension" ) == 0 ||
+                  qstrcmp( argv[i], "-e" ) == 0 )
+        {
+            if ( i < argc - 1 )
+            {
+                i++;
+                QString arg( argv[i] );
+                extension_dir.setPath( arg );
+                if ( !arg.startsWith( "-" ) && extension_dir.exists() )
+                {
+                    qWarning( "Extension mode, directory: " + arg );
+                    extension = true;
+                }
+                else
+                {
+                    qFatal( "ERROR: Directory does not exist: " + arg );
+                }
+            }
+            else
+            {
+                qFatal( "ERROR: Extension directory missing" );
+            }
         }
         else if ( qstrcmp( argv[i], "--dirs" ) == 0 ||
                   qstrcmp( argv[i], "-d" ) == 0 )
@@ -139,14 +166,16 @@ int main( int argc, char **argv )
             language = argv[i];
             if ( localeRE.match( language ) == -1 )
             {
-                qWarning( "ERROR - Locale should be on the form aaa-AA" );
-                return 1;
+                qFatal( "ERROR - Locale should be on the form aaa-AA" );
             }
         }
     }
 
     // Create/verify translation directory
     QDir tfdir( "share/translations" );
+    if ( extension )
+        tfdir.setPath( extension_dir.path() + QDir::separator() + "translations" );
+
     if ( !tfdir.exists() )
     {
         if ( QDir::current().mkdir( tfdir.path() ) )
@@ -155,9 +184,7 @@ int main( int argc, char **argv )
         }
         else
         {
-            qWarning( "ERROR - "
-                      "eZ publish translations directory could not be created: " + tfdir.path() );
-            return 1;
+            qFatal( "ERROR - eZ publish translations directory could not be created: " + tfdir.path() );
         }
     }
     tfdir.setPath( tfdir.path() + QDir::separator() + language );
@@ -169,20 +196,27 @@ int main( int argc, char **argv )
         }
         else
         {
-            qWarning( "ERROR - "
-                      "eZ publish translations directory could not be created: " + tfdir.path() );
-            return 1;
+            qFatal( "ERROR - eZ publish translations directory could not be created: " + tfdir.path() );
         }
     }
 
     // Start the real job
     MetaTranslator fetchedTor;
-    QDir dir;
-    if ( verbose )
-        qWarning( "Checking eZ publish directory: '%s'", dir.absPath().latin1() );
-    traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
-    traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
-    traverse( dir.path() + QDir::separator() + "design", fetchedTor );
+    if ( extension )
+    {
+        if ( verbose )
+            qWarning( "Checking eZ publish extension directory: '%s'", extension_dir.absPath().latin1() );
+        traverse( extension_dir.path(), fetchedTor );
+    }
+    else
+    {
+        QDir dir;
+        if ( verbose )
+            qWarning( "Checking eZ publish directory: '%s'", dir.absPath().latin1() );
+        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
+        traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
+        traverse( dir.path() + QDir::separator() + "design", fetchedTor );
+    }
 
     // Additional directories
     for ( QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it )

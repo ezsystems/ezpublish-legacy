@@ -20,7 +20,7 @@ unix {
         }
     }
     !macx {
-        !exists( $(QTDIR)/lib/libqt.so* ) {
+        !exists( $(QTDIR)/lib/libqt.* ) {
             message( "Single-threaded Qt not found." )
             message( "Configuring for multi-threaded Qt..." )
             CONFIG += thread
