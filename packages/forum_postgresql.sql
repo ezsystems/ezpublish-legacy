@@ -7,13 +7,23 @@
 
 
 
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+
+
+
+
+
 
 
 CREATE SEQUENCE ezapprove_items_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -23,10 +33,10 @@ CREATE SEQUENCE ezapprove_items_s
 
 
 CREATE SEQUENCE ezbasket_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -36,10 +46,10 @@ CREATE SEQUENCE ezbasket_s
 
 
 CREATE SEQUENCE ezcollab_group_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -49,10 +59,10 @@ CREATE SEQUENCE ezcollab_group_s
 
 
 CREATE SEQUENCE ezcollab_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -62,10 +72,10 @@ CREATE SEQUENCE ezcollab_item_s
 
 
 CREATE SEQUENCE ezcollab_item_message_link_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -75,10 +85,10 @@ CREATE SEQUENCE ezcollab_item_message_link_s
 
 
 CREATE SEQUENCE ezcollab_notification_rule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -88,10 +98,10 @@ CREATE SEQUENCE ezcollab_notification_rule_s
 
 
 CREATE SEQUENCE ezcollab_profile_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -101,10 +111,10 @@ CREATE SEQUENCE ezcollab_profile_s
 
 
 CREATE SEQUENCE ezcollab_simple_message_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -114,10 +124,9 @@ CREATE SEQUENCE ezcollab_simple_message_s
 
 
 CREATE SEQUENCE ezcontent_translation_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -127,10 +136,10 @@ CREATE SEQUENCE ezcontent_translation_s
 
 
 CREATE SEQUENCE ezcontentbrowsebookmark_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -140,10 +149,9 @@ CREATE SEQUENCE ezcontentbrowsebookmark_s
 
 
 CREATE SEQUENCE ezcontentbrowserecent_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -153,10 +161,10 @@ CREATE SEQUENCE ezcontentbrowserecent_s
 
 
 CREATE SEQUENCE ezcontentclass_s
-    START 23
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 23
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -166,10 +174,9 @@ CREATE SEQUENCE ezcontentclass_s
 
 
 CREATE SEQUENCE ezcontentclass_attribute_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -179,10 +186,9 @@ CREATE SEQUENCE ezcontentclass_attribute_s
 
 
 CREATE SEQUENCE ezcontentclassgroup_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -192,10 +198,9 @@ CREATE SEQUENCE ezcontentclassgroup_s
 
 
 CREATE SEQUENCE ezcontentobject_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -205,10 +210,9 @@ CREATE SEQUENCE ezcontentobject_s
 
 
 CREATE SEQUENCE ezcontentobject_attribute_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -218,10 +222,9 @@ CREATE SEQUENCE ezcontentobject_attribute_s
 
 
 CREATE SEQUENCE ezcontentobject_link_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -231,10 +234,9 @@ CREATE SEQUENCE ezcontentobject_link_s
 
 
 CREATE SEQUENCE ezcontentobject_tree_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -244,10 +246,9 @@ CREATE SEQUENCE ezcontentobject_tree_s
 
 
 CREATE SEQUENCE ezcontentobject_version_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -257,10 +258,10 @@ CREATE SEQUENCE ezcontentobject_version_s
 
 
 CREATE SEQUENCE ezdiscountrule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -270,10 +271,10 @@ CREATE SEQUENCE ezdiscountrule_s
 
 
 CREATE SEQUENCE ezdiscountsubrule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -283,10 +284,10 @@ CREATE SEQUENCE ezdiscountsubrule_s
 
 
 CREATE SEQUENCE ezenumvalue_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -296,10 +297,10 @@ CREATE SEQUENCE ezenumvalue_s
 
 
 CREATE SEQUENCE ezforgot_password_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -309,10 +310,10 @@ CREATE SEQUENCE ezforgot_password_s
 
 
 CREATE SEQUENCE ezgeneral_digest_user_settings_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -322,10 +323,9 @@ CREATE SEQUENCE ezgeneral_digest_user_settings_s
 
 
 CREATE SEQUENCE ezinfocollection_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -335,10 +335,9 @@ CREATE SEQUENCE ezinfocollection_s
 
 
 CREATE SEQUENCE ezinfocollection_attribute_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -348,10 +347,10 @@ CREATE SEQUENCE ezinfocollection_attribute_s
 
 
 CREATE SEQUENCE ezkeyword_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -361,10 +360,10 @@ CREATE SEQUENCE ezkeyword_s
 
 
 CREATE SEQUENCE ezkeyword_attribute_link_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -374,10 +373,10 @@ CREATE SEQUENCE ezkeyword_attribute_link_s
 
 
 CREATE SEQUENCE ezmessage_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -387,10 +386,10 @@ CREATE SEQUENCE ezmessage_s
 
 
 CREATE SEQUENCE ezmodule_run_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -400,10 +399,9 @@ CREATE SEQUENCE ezmodule_run_s
 
 
 CREATE SEQUENCE eznode_assignment_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -413,10 +411,10 @@ CREATE SEQUENCE eznode_assignment_s
 
 
 CREATE SEQUENCE eznotificationcollection_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -426,10 +424,10 @@ CREATE SEQUENCE eznotificationcollection_s
 
 
 CREATE SEQUENCE eznotificationcollection_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -439,10 +437,9 @@ CREATE SEQUENCE eznotificationcollection_item_s
 
 
 CREATE SEQUENCE eznotificationevent_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -452,10 +449,10 @@ CREATE SEQUENCE eznotificationevent_s
 
 
 CREATE SEQUENCE ezoperation_memento_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -465,10 +462,10 @@ CREATE SEQUENCE ezoperation_memento_s
 
 
 CREATE SEQUENCE ezorder_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -478,10 +475,10 @@ CREATE SEQUENCE ezorder_s
 
 
 CREATE SEQUENCE ezorder_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -491,10 +488,9 @@ CREATE SEQUENCE ezorder_item_s
 
 
 CREATE SEQUENCE ezpolicy_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -504,10 +500,9 @@ CREATE SEQUENCE ezpolicy_s
 
 
 CREATE SEQUENCE ezpolicy_limitation_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -517,10 +512,9 @@ CREATE SEQUENCE ezpolicy_limitation_s
 
 
 CREATE SEQUENCE ezpolicy_limitation_value_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -530,10 +524,10 @@ CREATE SEQUENCE ezpolicy_limitation_value_s
 
 
 CREATE SEQUENCE ezpreferences_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -543,10 +537,10 @@ CREATE SEQUENCE ezpreferences_s
 
 
 CREATE SEQUENCE ezproductcollection_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -556,10 +550,10 @@ CREATE SEQUENCE ezproductcollection_s
 
 
 CREATE SEQUENCE ezproductcollection_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -569,10 +563,10 @@ CREATE SEQUENCE ezproductcollection_item_s
 
 
 CREATE SEQUENCE ezproductcollection_item_opt_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -582,10 +576,9 @@ CREATE SEQUENCE ezproductcollection_item_opt_s
 
 
 CREATE SEQUENCE ezrole_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -595,10 +588,9 @@ CREATE SEQUENCE ezrole_s
 
 
 CREATE SEQUENCE ezsearch_object_word_link_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -608,10 +600,10 @@ CREATE SEQUENCE ezsearch_object_word_link_s
 
 
 CREATE SEQUENCE ezsearch_return_count_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -621,10 +613,10 @@ CREATE SEQUENCE ezsearch_return_count_s
 
 
 CREATE SEQUENCE ezsearch_search_phrase_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -634,10 +626,9 @@ CREATE SEQUENCE ezsearch_search_phrase_s
 
 
 CREATE SEQUENCE ezsearch_word_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -647,10 +638,9 @@ CREATE SEQUENCE ezsearch_word_s
 
 
 CREATE SEQUENCE ezsection_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -660,10 +650,9 @@ CREATE SEQUENCE ezsection_s
 
 
 CREATE SEQUENCE ezsubtree_notification_rule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -673,10 +662,10 @@ CREATE SEQUENCE ezsubtree_notification_rule_s
 
 
 CREATE SEQUENCE eztrigger_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -686,10 +675,10 @@ CREATE SEQUENCE eztrigger_s
 
 
 CREATE SEQUENCE ezurl_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -699,10 +688,9 @@ CREATE SEQUENCE ezurl_s
 
 
 CREATE SEQUENCE ezurlalias_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -712,10 +700,9 @@ CREATE SEQUENCE ezurlalias_s
 
 
 CREATE SEQUENCE ezuser_accountkey_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -725,10 +712,10 @@ CREATE SEQUENCE ezuser_accountkey_s
 
 
 CREATE SEQUENCE ezuser_discountrule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -738,10 +725,9 @@ CREATE SEQUENCE ezuser_discountrule_s
 
 
 CREATE SEQUENCE ezuser_role_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -751,10 +737,9 @@ CREATE SEQUENCE ezuser_role_s
 
 
 CREATE SEQUENCE ezvattype_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -764,10 +749,10 @@ CREATE SEQUENCE ezvattype_s
 
 
 CREATE SEQUENCE ezwaituntildatevalue_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -777,10 +762,10 @@ CREATE SEQUENCE ezwaituntildatevalue_s
 
 
 CREATE SEQUENCE ezwishlist_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -790,10 +775,10 @@ CREATE SEQUENCE ezwishlist_s
 
 
 CREATE SEQUENCE ezworkflow_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -803,10 +788,10 @@ CREATE SEQUENCE ezworkflow_s
 
 
 CREATE SEQUENCE ezworkflow_assign_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -816,10 +801,10 @@ CREATE SEQUENCE ezworkflow_assign_s
 
 
 CREATE SEQUENCE ezworkflow_event_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -829,10 +814,9 @@ CREATE SEQUENCE ezworkflow_event_s
 
 
 CREATE SEQUENCE ezworkflow_group_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -842,10 +826,10 @@ CREATE SEQUENCE ezworkflow_group_s
 
 
 CREATE SEQUENCE ezworkflow_process_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -856,8 +840,8 @@ CREATE SEQUENCE ezworkflow_process_s
 
 CREATE TABLE ezapprove_items (
     id integer DEFAULT nextval('ezapprove_items_s'::text) NOT NULL,
-    workflow_process_id integer DEFAULT '0' NOT NULL,
-    collaboration_id integer DEFAULT '0' NOT NULL
+    workflow_process_id integer DEFAULT 0 NOT NULL,
+    collaboration_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -868,8 +852,8 @@ CREATE TABLE ezapprove_items (
 
 CREATE TABLE ezbasket (
     id integer DEFAULT nextval('ezbasket_s'::text) NOT NULL,
-    session_id character varying(255) DEFAULT '' NOT NULL,
-    productcollection_id integer DEFAULT '0' NOT NULL
+    session_id character varying(255) DEFAULT ''::character varying NOT NULL,
+    productcollection_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -879,11 +863,11 @@ CREATE TABLE ezbasket (
 
 
 CREATE TABLE ezbinaryfile (
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    filename character varying(255) DEFAULT '' NOT NULL,
-    original_filename character varying(255) DEFAULT '' NOT NULL,
-    mime_type character varying(50) DEFAULT '' NOT NULL
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    mime_type character varying(50) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -894,15 +878,15 @@ CREATE TABLE ezbinaryfile (
 
 CREATE TABLE ezcollab_group (
     id integer DEFAULT nextval('ezcollab_group_s'::text) NOT NULL,
-    parent_group_id integer DEFAULT '0' NOT NULL,
-    depth integer DEFAULT '0' NOT NULL,
-    path_string character varying(255) DEFAULT '' NOT NULL,
-    is_open integer DEFAULT '1' NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    title character varying(255) DEFAULT '' NOT NULL,
-    priority integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    parent_group_id integer DEFAULT 0 NOT NULL,
+    depth integer DEFAULT 0 NOT NULL,
+    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    is_open integer DEFAULT 1 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    title character varying(255) DEFAULT ''::character varying NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -913,20 +897,20 @@ CREATE TABLE ezcollab_group (
 
 CREATE TABLE ezcollab_item (
     id integer DEFAULT nextval('ezcollab_item_s'::text) NOT NULL,
-    type_identifier character varying(40) DEFAULT '' NOT NULL,
-    creator_id integer DEFAULT '0' NOT NULL,
-    status integer DEFAULT '1' NOT NULL,
+    type_identifier character varying(40) DEFAULT ''::character varying NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    status integer DEFAULT 1 NOT NULL,
     data_text1 text NOT NULL,
     data_text2 text NOT NULL,
     data_text3 text NOT NULL,
-    data_int1 integer DEFAULT '0' NOT NULL,
-    data_int2 integer DEFAULT '0' NOT NULL,
-    data_int3 integer DEFAULT '0' NOT NULL,
-    data_float1 double precision DEFAULT '0' NOT NULL,
-    data_float2 double precision DEFAULT '0' NOT NULL,
-    data_float3 double precision DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    data_int1 integer DEFAULT 0 NOT NULL,
+    data_int2 integer DEFAULT 0 NOT NULL,
+    data_int3 integer DEFAULT 0 NOT NULL,
+    data_float1 double precision DEFAULT 0::double precision NOT NULL,
+    data_float2 double precision DEFAULT 0::double precision NOT NULL,
+    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -936,14 +920,14 @@ CREATE TABLE ezcollab_item (
 
 
 CREATE TABLE ezcollab_item_group_link (
-    collaboration_id integer DEFAULT '0' NOT NULL,
-    group_id integer DEFAULT '0' NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    is_read integer DEFAULT '0' NOT NULL,
-    is_active integer DEFAULT '1' NOT NULL,
-    last_read integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    collaboration_id integer DEFAULT 0 NOT NULL,
+    group_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    is_read integer DEFAULT 0 NOT NULL,
+    is_active integer DEFAULT 1 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -954,12 +938,12 @@ CREATE TABLE ezcollab_item_group_link (
 
 CREATE TABLE ezcollab_item_message_link (
     id integer DEFAULT nextval('ezcollab_item_message_link_s'::text) NOT NULL,
-    collaboration_id integer DEFAULT '0' NOT NULL,
-    participant_id integer DEFAULT '0' NOT NULL,
-    message_id integer DEFAULT '0' NOT NULL,
-    message_type integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    collaboration_id integer DEFAULT 0 NOT NULL,
+    participant_id integer DEFAULT 0 NOT NULL,
+    message_id integer DEFAULT 0 NOT NULL,
+    message_type integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -969,15 +953,15 @@ CREATE TABLE ezcollab_item_message_link (
 
 
 CREATE TABLE ezcollab_item_participant_link (
-    collaboration_id integer DEFAULT '0' NOT NULL,
-    participant_id integer DEFAULT '0' NOT NULL,
-    participant_type integer DEFAULT '1' NOT NULL,
-    participant_role integer DEFAULT '1' NOT NULL,
-    is_read integer DEFAULT '0' NOT NULL,
-    is_active integer DEFAULT '1' NOT NULL,
-    last_read integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    collaboration_id integer DEFAULT 0 NOT NULL,
+    participant_id integer DEFAULT 0 NOT NULL,
+    participant_type integer DEFAULT 1 NOT NULL,
+    participant_role integer DEFAULT 1 NOT NULL,
+    is_read integer DEFAULT 0 NOT NULL,
+    is_active integer DEFAULT 1 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -987,11 +971,11 @@ CREATE TABLE ezcollab_item_participant_link (
 
 
 CREATE TABLE ezcollab_item_status (
-    collaboration_id integer DEFAULT '0' NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    is_read integer DEFAULT '0' NOT NULL,
-    is_active integer DEFAULT '1' NOT NULL,
-    last_read integer DEFAULT '0' NOT NULL
+    collaboration_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    is_read integer DEFAULT 0 NOT NULL,
+    is_active integer DEFAULT 1 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1002,8 +986,8 @@ CREATE TABLE ezcollab_item_status (
 
 CREATE TABLE ezcollab_notification_rule (
     id integer DEFAULT nextval('ezcollab_notification_rule_s'::text) NOT NULL,
-    user_id character varying(255) DEFAULT '' NOT NULL,
-    collab_identifier character varying(255) DEFAULT '' NOT NULL
+    user_id character varying(255) DEFAULT ''::character varying NOT NULL,
+    collab_identifier character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1014,11 +998,11 @@ CREATE TABLE ezcollab_notification_rule (
 
 CREATE TABLE ezcollab_profile (
     id integer DEFAULT nextval('ezcollab_profile_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    main_group integer DEFAULT '0' NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    main_group integer DEFAULT 0 NOT NULL,
     data_text1 text NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1029,19 +1013,19 @@ CREATE TABLE ezcollab_profile (
 
 CREATE TABLE ezcollab_simple_message (
     id integer DEFAULT nextval('ezcollab_simple_message_s'::text) NOT NULL,
-    message_type character varying(40) DEFAULT '' NOT NULL,
-    creator_id integer DEFAULT '0' NOT NULL,
+    message_type character varying(40) DEFAULT ''::character varying NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
     data_text1 text NOT NULL,
     data_text2 text NOT NULL,
     data_text3 text NOT NULL,
-    data_int1 integer DEFAULT '0' NOT NULL,
-    data_int2 integer DEFAULT '0' NOT NULL,
-    data_int3 integer DEFAULT '0' NOT NULL,
-    data_float1 double precision DEFAULT '0' NOT NULL,
-    data_float2 double precision DEFAULT '0' NOT NULL,
-    data_float3 double precision DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    data_int1 integer DEFAULT 0 NOT NULL,
+    data_int2 integer DEFAULT 0 NOT NULL,
+    data_int3 integer DEFAULT 0 NOT NULL,
+    data_float1 double precision DEFAULT 0::double precision NOT NULL,
+    data_float2 double precision DEFAULT 0::double precision NOT NULL,
+    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1052,8 +1036,8 @@ CREATE TABLE ezcollab_simple_message (
 
 CREATE TABLE ezcontent_translation (
     id integer DEFAULT nextval('ezcontent_translation_s'::text) NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    locale character varying(255) DEFAULT '' NOT NULL
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    locale character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1064,9 +1048,9 @@ CREATE TABLE ezcontent_translation (
 
 CREATE TABLE ezcontentbrowsebookmark (
     id integer DEFAULT nextval('ezcontentbrowsebookmark_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1077,10 +1061,10 @@ CREATE TABLE ezcontentbrowsebookmark (
 
 CREATE TABLE ezcontentbrowserecent (
     id integer DEFAULT nextval('ezcontentbrowserecent_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1091,14 +1075,14 @@ CREATE TABLE ezcontentbrowserecent (
 
 CREATE TABLE ezcontentclass (
     id integer DEFAULT nextval('ezcontentclass_s'::text) NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
     name character varying(255),
-    identifier character varying(50) DEFAULT '' NOT NULL,
+    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
     contentobject_name character varying(255),
-    creator_id integer DEFAULT '0' NOT NULL,
-    modifier_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    creator_id integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1109,14 +1093,14 @@ CREATE TABLE ezcontentclass (
 
 CREATE TABLE ezcontentclass_attribute (
     id integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    contentclass_id integer DEFAULT '0' NOT NULL,
-    identifier character varying(50) DEFAULT '' NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    data_type_string character varying(50) DEFAULT '' NOT NULL,
-    is_searchable integer DEFAULT '0' NOT NULL,
-    is_required integer DEFAULT '0' NOT NULL,
-    placement integer DEFAULT '0' NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
+    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    data_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
+    is_searchable integer DEFAULT 0 NOT NULL,
+    is_required integer DEFAULT 0 NOT NULL,
+    placement integer DEFAULT 0 NOT NULL,
     data_int1 integer,
     data_int2 integer,
     data_int3 integer,
@@ -1130,8 +1114,8 @@ CREATE TABLE ezcontentclass_attribute (
     data_text3 character varying(50),
     data_text4 character varying(255),
     data_text5 text,
-    is_information_collector integer DEFAULT '0' NOT NULL,
-    can_translate integer DEFAULT '1'
+    is_information_collector integer DEFAULT 0 NOT NULL,
+    can_translate integer DEFAULT 1
 );
 
 
@@ -1141,9 +1125,9 @@ CREATE TABLE ezcontentclass_attribute (
 
 
 CREATE TABLE ezcontentclass_classgroup (
-    contentclass_id integer DEFAULT '0' NOT NULL,
-    contentclass_version integer DEFAULT '0' NOT NULL,
-    group_id integer DEFAULT '0' NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
+    contentclass_version integer DEFAULT 0 NOT NULL,
+    group_id integer DEFAULT 0 NOT NULL,
     group_name character varying(255)
 );
 
@@ -1156,10 +1140,10 @@ CREATE TABLE ezcontentclass_classgroup (
 CREATE TABLE ezcontentclassgroup (
     id integer DEFAULT nextval('ezcontentclassgroup_s'::text) NOT NULL,
     name character varying(255),
-    creator_id integer DEFAULT '0' NOT NULL,
-    modifier_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    creator_id integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1170,15 +1154,15 @@ CREATE TABLE ezcontentclassgroup (
 
 CREATE TABLE ezcontentobject (
     id integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
-    owner_id integer DEFAULT '0' NOT NULL,
-    section_id integer DEFAULT '0' NOT NULL,
-    contentclass_id integer DEFAULT '0' NOT NULL,
+    owner_id integer DEFAULT 0 NOT NULL,
+    section_id integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
     current_version integer,
     is_published integer,
-    published integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL,
-    status integer DEFAULT '0',
+    published integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    status integer DEFAULT 0,
     remote_id character varying(100)
 );
 
@@ -1190,16 +1174,16 @@ CREATE TABLE ezcontentobject (
 
 CREATE TABLE ezcontentobject_attribute (
     id integer DEFAULT nextval('ezcontentobject_attribute_s'::text) NOT NULL,
-    language_code character varying(20) DEFAULT '' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    contentobject_id integer DEFAULT '0' NOT NULL,
-    contentclassattribute_id integer DEFAULT '0' NOT NULL,
+    language_code character varying(20) DEFAULT ''::character varying NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    contentclassattribute_id integer DEFAULT 0 NOT NULL,
     data_text text,
     data_int integer,
     data_float double precision,
-    attribute_original_id integer DEFAULT '0',
-    sort_key_int integer DEFAULT '0' NOT NULL,
-    sort_key_string character varying(50) DEFAULT '',
+    attribute_original_id integer DEFAULT 0,
+    sort_key_int integer DEFAULT 0 NOT NULL,
+    sort_key_string character varying(50) DEFAULT ''::character varying,
     data_type_string character varying(50)
 );
 
@@ -1211,9 +1195,9 @@ CREATE TABLE ezcontentobject_attribute (
 
 CREATE TABLE ezcontentobject_link (
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
-    from_contentobject_id integer DEFAULT '0' NOT NULL,
-    from_contentobject_version integer DEFAULT '0' NOT NULL,
-    to_contentobject_id integer DEFAULT '0' NOT NULL
+    from_contentobject_id integer DEFAULT 0 NOT NULL,
+    from_contentobject_version integer DEFAULT 0 NOT NULL,
+    to_contentobject_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1223,10 +1207,10 @@ CREATE TABLE ezcontentobject_link (
 
 
 CREATE TABLE ezcontentobject_name (
-    contentobject_id integer DEFAULT '0' NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
-    content_version integer DEFAULT '0' NOT NULL,
-    content_translation character varying(20) DEFAULT '' NOT NULL,
+    content_version integer DEFAULT 0 NOT NULL,
+    content_translation character varying(20) DEFAULT ''::character varying NOT NULL,
     real_translation character varying(20)
 );
 
@@ -1238,15 +1222,15 @@ CREATE TABLE ezcontentobject_name (
 
 CREATE TABLE ezcontentobject_tree (
     node_id integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
-    parent_node_id integer DEFAULT '0' NOT NULL,
+    parent_node_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer,
     contentobject_version integer,
     contentobject_is_published integer,
-    depth integer DEFAULT '0' NOT NULL,
-    path_string character varying(255) DEFAULT '' NOT NULL,
-    sort_field integer DEFAULT '1',
-    sort_order integer DEFAULT '1',
-    priority integer DEFAULT '0' NOT NULL,
+    depth integer DEFAULT 0 NOT NULL,
+    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1,
+    priority integer DEFAULT 0 NOT NULL,
     path_identification_string text,
     main_node_id integer
 );
@@ -1260,12 +1244,12 @@ CREATE TABLE ezcontentobject_tree (
 CREATE TABLE ezcontentobject_version (
     id integer DEFAULT nextval('ezcontentobject_version_s'::text) NOT NULL,
     contentobject_id integer,
-    creator_id integer DEFAULT '0' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL,
-    status integer DEFAULT '0' NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    status integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
     workflow_event_pos integer DEFAULT 0
 );
 
@@ -1277,7 +1261,7 @@ CREATE TABLE ezcontentobject_version (
 
 CREATE TABLE ezdiscountrule (
     id integer DEFAULT nextval('ezdiscountrule_s'::text) NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1288,8 +1272,8 @@ CREATE TABLE ezdiscountrule (
 
 CREATE TABLE ezdiscountsubrule (
     id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    discountrule_id integer DEFAULT '0' NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    discountrule_id integer DEFAULT 0 NOT NULL,
     discount_percent double precision,
     limitation character(1)
 );
@@ -1301,9 +1285,9 @@ CREATE TABLE ezdiscountsubrule (
 
 
 CREATE TABLE ezdiscountsubrule_value (
-    discountsubrule_id integer DEFAULT '0' NOT NULL,
-    value integer DEFAULT '0' NOT NULL,
-    issection integer DEFAULT '0' NOT NULL
+    discountsubrule_id integer DEFAULT 0 NOT NULL,
+    value integer DEFAULT 0 NOT NULL,
+    issection integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1313,11 +1297,11 @@ CREATE TABLE ezdiscountsubrule_value (
 
 
 CREATE TABLE ezenumobjectvalue (
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    contentobject_attribute_version integer DEFAULT '0' NOT NULL,
-    enumid integer DEFAULT '0' NOT NULL,
-    enumelement character varying(255) DEFAULT '' NOT NULL,
-    enumvalue character varying(255) DEFAULT '' NOT NULL
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    contentobject_attribute_version integer DEFAULT 0 NOT NULL,
+    enumid integer DEFAULT 0 NOT NULL,
+    enumelement character varying(255) DEFAULT ''::character varying NOT NULL,
+    enumvalue character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1328,11 +1312,11 @@ CREATE TABLE ezenumobjectvalue (
 
 CREATE TABLE ezenumvalue (
     id integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
-    contentclass_attribute_id integer DEFAULT '0' NOT NULL,
-    contentclass_attribute_version integer DEFAULT '0' NOT NULL,
-    enumelement character varying(255) DEFAULT '' NOT NULL,
-    enumvalue character varying(255) DEFAULT '' NOT NULL,
-    placement integer DEFAULT '0' NOT NULL
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
+    contentclass_attribute_version integer DEFAULT 0 NOT NULL,
+    enumelement character varying(255) DEFAULT ''::character varying NOT NULL,
+    enumvalue character varying(255) DEFAULT ''::character varying NOT NULL,
+    placement integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1343,9 +1327,9 @@ CREATE TABLE ezenumvalue (
 
 CREATE TABLE ezforgot_password (
     id integer DEFAULT nextval('ezforgot_password_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    hash_key character varying(32) DEFAULT '' NOT NULL,
-    "time" integer DEFAULT '0' NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    hash_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    "time" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1356,11 +1340,11 @@ CREATE TABLE ezforgot_password (
 
 CREATE TABLE ezgeneral_digest_user_settings (
     id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
-    address character varying(255) DEFAULT '' NOT NULL,
-    receive_digest integer DEFAULT '0' NOT NULL,
-    digest_type integer DEFAULT '0' NOT NULL,
-    "day" character varying(255) DEFAULT '' NOT NULL,
-    "time" character varying(255) DEFAULT '' NOT NULL
+    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    receive_digest integer DEFAULT 0 NOT NULL,
+    digest_type integer DEFAULT 0 NOT NULL,
+    "day" character varying(255) DEFAULT ''::character varying NOT NULL,
+    "time" character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1370,12 +1354,12 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 
 CREATE TABLE ezimage (
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    filename character varying(255) DEFAULT '' NOT NULL,
-    original_filename character varying(255) DEFAULT '' NOT NULL,
-    mime_type character varying(50) DEFAULT '' NOT NULL,
-    alternative_text character varying(255) DEFAULT '' NOT NULL
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
+    alternative_text character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1385,14 +1369,14 @@ CREATE TABLE ezimage (
 
 
 CREATE TABLE ezimagevariation (
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    filename character varying(255) DEFAULT '' NOT NULL,
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
     additional_path character varying(255),
-    requested_width integer DEFAULT '0' NOT NULL,
-    requested_height integer DEFAULT '0' NOT NULL,
-    width integer DEFAULT '0' NOT NULL,
-    height integer DEFAULT '0' NOT NULL
+    requested_width integer DEFAULT 0 NOT NULL,
+    requested_height integer DEFAULT 0 NOT NULL,
+    width integer DEFAULT 0 NOT NULL,
+    height integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1403,8 +1387,8 @@ CREATE TABLE ezimagevariation (
 
 CREATE TABLE ezinfocollection (
     id integer DEFAULT nextval('ezinfocollection_s'::text) NOT NULL,
-    contentobject_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
     user_identifier character varying(34),
     modified integer DEFAULT 0
 );
@@ -1417,11 +1401,11 @@ CREATE TABLE ezinfocollection (
 
 CREATE TABLE ezinfocollection_attribute (
     id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
-    informationcollection_id integer DEFAULT '0' NOT NULL,
+    informationcollection_id integer DEFAULT 0 NOT NULL,
     data_text text,
     data_int integer,
     data_float double precision,
-    contentclass_attribute_id integer DEFAULT '0' NOT NULL,
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_id integer,
     contentobject_id integer
 );
@@ -1435,7 +1419,7 @@ CREATE TABLE ezinfocollection_attribute (
 CREATE TABLE ezkeyword (
     id integer DEFAULT nextval('ezkeyword_s'::text) NOT NULL,
     keyword character varying(255),
-    class_id integer DEFAULT '0' NOT NULL
+    class_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1446,8 +1430,8 @@ CREATE TABLE ezkeyword (
 
 CREATE TABLE ezkeyword_attribute_link (
     id integer DEFAULT nextval('ezkeyword_attribute_link_s'::text) NOT NULL,
-    keyword_id integer DEFAULT '0' NOT NULL,
-    objectattribute_id integer DEFAULT '0' NOT NULL
+    keyword_id integer DEFAULT 0 NOT NULL,
+    objectattribute_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1457,11 +1441,11 @@ CREATE TABLE ezkeyword_attribute_link (
 
 
 CREATE TABLE ezmedia (
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    filename character varying(255) DEFAULT '' NOT NULL,
-    original_filename character varying(255) DEFAULT '' NOT NULL,
-    mime_type character varying(50) DEFAULT '' NOT NULL,
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
     width integer,
     height integer,
     has_controller integer,
@@ -1480,13 +1464,13 @@ CREATE TABLE ezmedia (
 
 CREATE TABLE ezmessage (
     id integer DEFAULT nextval('ezmessage_s'::text) NOT NULL,
-    send_method character varying(50) DEFAULT '' NOT NULL,
-    send_weekday character varying(50) DEFAULT '' NOT NULL,
-    send_time character varying(50) DEFAULT '' NOT NULL,
-    destination_address character varying(50) DEFAULT '' NOT NULL,
-    title character varying(255) DEFAULT '' NOT NULL,
+    send_method character varying(50) DEFAULT ''::character varying NOT NULL,
+    send_weekday character varying(50) DEFAULT ''::character varying NOT NULL,
+    send_time character varying(50) DEFAULT ''::character varying NOT NULL,
+    destination_address character varying(50) DEFAULT ''::character varying NOT NULL,
+    title character varying(255) DEFAULT ''::character varying NOT NULL,
     body text,
-    is_sent integer DEFAULT '0' NOT NULL
+    is_sent integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1514,11 +1498,11 @@ CREATE TABLE eznode_assignment (
     contentobject_id integer,
     contentobject_version integer,
     parent_node integer,
-    sort_field integer DEFAULT '1',
-    sort_order integer DEFAULT '1',
-    is_main integer DEFAULT '0' NOT NULL,
-    from_node_id integer DEFAULT '0',
-    remote_id integer DEFAULT '0' NOT NULL
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1,
+    is_main integer DEFAULT 0 NOT NULL,
+    from_node_id integer DEFAULT 0,
+    remote_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1529,9 +1513,9 @@ CREATE TABLE eznode_assignment (
 
 CREATE TABLE eznotificationcollection (
     id integer DEFAULT nextval('eznotificationcollection_s'::text) NOT NULL,
-    event_id integer DEFAULT '0' NOT NULL,
-    "handler" character varying(255) DEFAULT '' NOT NULL,
-    transport character varying(255) DEFAULT '' NOT NULL,
+    event_id integer DEFAULT 0 NOT NULL,
+    "handler" character varying(255) DEFAULT ''::character varying NOT NULL,
+    transport character varying(255) DEFAULT ''::character varying NOT NULL,
     data_subject text NOT NULL,
     data_text text NOT NULL
 );
@@ -1544,10 +1528,10 @@ CREATE TABLE eznotificationcollection (
 
 CREATE TABLE eznotificationcollection_item (
     id integer DEFAULT nextval('eznotificationcollection_item_s'::text) NOT NULL,
-    collection_id integer DEFAULT '0' NOT NULL,
-    event_id integer DEFAULT '0' NOT NULL,
-    address character varying(255) DEFAULT '' NOT NULL,
-    send_date integer DEFAULT '0' NOT NULL
+    collection_id integer DEFAULT 0 NOT NULL,
+    event_id integer DEFAULT 0 NOT NULL,
+    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    send_date integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1558,12 +1542,12 @@ CREATE TABLE eznotificationcollection_item (
 
 CREATE TABLE eznotificationevent (
     id integer DEFAULT nextval('eznotificationevent_s'::text) NOT NULL,
-    status integer DEFAULT '0' NOT NULL,
-    event_type_string character varying(255) DEFAULT '' NOT NULL,
-    data_int1 integer DEFAULT '0' NOT NULL,
-    data_int2 integer DEFAULT '0' NOT NULL,
-    data_int3 integer DEFAULT '0' NOT NULL,
-    data_int4 integer DEFAULT '0' NOT NULL,
+    status integer DEFAULT 0 NOT NULL,
+    event_type_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    data_int1 integer DEFAULT 0 NOT NULL,
+    data_int2 integer DEFAULT 0 NOT NULL,
+    data_int3 integer DEFAULT 0 NOT NULL,
+    data_int4 integer DEFAULT 0 NOT NULL,
     data_text1 text NOT NULL,
     data_text2 text NOT NULL,
     data_text3 text NOT NULL,
@@ -1578,10 +1562,10 @@ CREATE TABLE eznotificationevent (
 
 CREATE TABLE ezoperation_memento (
     id integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
-    memento_key character varying(32) DEFAULT '' NOT NULL,
+    memento_key character varying(32) DEFAULT ''::character varying NOT NULL,
     memento_data text NOT NULL,
-    main integer DEFAULT '0' NOT NULL,
-    main_key character varying(32) DEFAULT '' NOT NULL
+    main integer DEFAULT 0 NOT NULL,
+    main_key character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1592,15 +1576,15 @@ CREATE TABLE ezoperation_memento (
 
 CREATE TABLE ezorder (
     id integer DEFAULT nextval('ezorder_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    productcollection_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    is_temporary integer DEFAULT '1' NOT NULL,
-    order_nr integer DEFAULT '0' NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    is_temporary integer DEFAULT 1 NOT NULL,
+    order_nr integer DEFAULT 0 NOT NULL,
     data_text_2 text,
     data_text_1 text,
-    account_identifier character varying(100) DEFAULT 'default' NOT NULL,
-    ignore_vat integer DEFAULT '0' NOT NULL
+    account_identifier character varying(100) DEFAULT 'default'::character varying NOT NULL,
+    ignore_vat integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1611,10 +1595,10 @@ CREATE TABLE ezorder (
 
 CREATE TABLE ezorder_item (
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
-    order_id integer DEFAULT '0' NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
     description character varying(255),
     price double precision,
-    vat_value integer DEFAULT '0' NOT NULL
+    vat_value integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1640,7 +1624,7 @@ CREATE TABLE ezpolicy (
 CREATE TABLE ezpolicy_limitation (
     id integer DEFAULT nextval('ezpolicy_limitation_s'::text) NOT NULL,
     policy_id integer,
-    identifier character varying(255) DEFAULT '' NOT NULL,
+    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
     role_id integer,
     function_name character varying(255),
     module_name character varying(255)
@@ -1666,7 +1650,7 @@ CREATE TABLE ezpolicy_limitation_value (
 
 CREATE TABLE ezpreferences (
     id integer DEFAULT nextval('ezpreferences_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
     name character varying(100),
     value character varying(100)
 );
@@ -1690,9 +1674,9 @@ CREATE TABLE ezproductcollection (
 
 CREATE TABLE ezproductcollection_item (
     id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
-    productcollection_id integer DEFAULT '0' NOT NULL,
-    contentobject_id integer DEFAULT '0' NOT NULL,
-    item_count integer DEFAULT '0' NOT NULL,
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    item_count integer DEFAULT 0 NOT NULL,
     price double precision,
     is_vat_inc integer,
     vat_value double precision,
@@ -1707,11 +1691,11 @@ CREATE TABLE ezproductcollection_item (
 
 CREATE TABLE ezproductcollection_item_opt (
     id integer DEFAULT nextval('ezproductcollection_item_opt_s'::text) NOT NULL,
-    item_id integer DEFAULT '0' NOT NULL,
-    option_item_id integer DEFAULT '0' NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    value character varying(255) DEFAULT '' NOT NULL,
-    price double precision DEFAULT '0' NOT NULL,
+    item_id integer DEFAULT 0 NOT NULL,
+    option_item_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    value character varying(255) DEFAULT ''::character varying NOT NULL,
+    price double precision DEFAULT 0::double precision NOT NULL,
     object_attribute_id integer
 );
 
@@ -1723,8 +1707,8 @@ CREATE TABLE ezproductcollection_item_opt (
 
 CREATE TABLE ezrole (
     id integer DEFAULT nextval('ezrole_s'::text) NOT NULL,
-    "version" integer DEFAULT '0',
-    name character varying(255) DEFAULT '' NOT NULL,
+    "version" integer DEFAULT 0,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
     value character(1)
 );
 
@@ -1736,18 +1720,18 @@ CREATE TABLE ezrole (
 
 CREATE TABLE ezsearch_object_word_link (
     id integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
-    contentobject_id integer DEFAULT '0' NOT NULL,
-    word_id integer DEFAULT '0' NOT NULL,
-    frequency double precision DEFAULT '0' NOT NULL,
-    placement integer DEFAULT '0' NOT NULL,
-    prev_word_id integer DEFAULT '0' NOT NULL,
-    next_word_id integer DEFAULT '0' NOT NULL,
-    contentclass_id integer DEFAULT '0' NOT NULL,
-    published integer DEFAULT '0' NOT NULL,
-    section_id integer DEFAULT '0' NOT NULL,
-    contentclass_attribute_id integer DEFAULT '0' NOT NULL,
-    identifier character varying(255) DEFAULT '' NOT NULL,
-    integer_value integer DEFAULT '0' NOT NULL
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    word_id integer DEFAULT 0 NOT NULL,
+    frequency double precision DEFAULT 0::double precision NOT NULL,
+    placement integer DEFAULT 0 NOT NULL,
+    prev_word_id integer DEFAULT 0 NOT NULL,
+    next_word_id integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
+    published integer DEFAULT 0 NOT NULL,
+    section_id integer DEFAULT 0 NOT NULL,
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
+    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
+    integer_value integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1758,9 +1742,9 @@ CREATE TABLE ezsearch_object_word_link (
 
 CREATE TABLE ezsearch_return_count (
     id integer DEFAULT nextval('ezsearch_return_count_s'::text) NOT NULL,
-    phrase_id integer DEFAULT '0' NOT NULL,
-    "time" integer DEFAULT '0' NOT NULL,
-    count integer DEFAULT '0' NOT NULL
+    phrase_id integer DEFAULT 0 NOT NULL,
+    "time" integer DEFAULT 0 NOT NULL,
+    count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1783,7 +1767,7 @@ CREATE TABLE ezsearch_search_phrase (
 CREATE TABLE ezsearch_word (
     id integer DEFAULT nextval('ezsearch_word_s'::text) NOT NULL,
     word character varying(150),
-    object_count integer DEFAULT '0' NOT NULL
+    object_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1796,7 +1780,7 @@ CREATE TABLE ezsection (
     id integer DEFAULT nextval('ezsection_s'::text) NOT NULL,
     name character varying(255),
     locale character varying(255),
-    navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'
+    navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'::character varying
 );
 
 
@@ -1806,8 +1790,8 @@ CREATE TABLE ezsection (
 
 
 CREATE TABLE ezsession (
-    session_key character varying(32) DEFAULT '' NOT NULL,
-    expiration_time bigint DEFAULT '0' NOT NULL,
+    session_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    expiration_time bigint DEFAULT 0::bigint NOT NULL,
     data text NOT NULL,
     CONSTRAINT ezsession_expiration_time CHECK ((expiration_time >= 0))
 );
@@ -1821,9 +1805,9 @@ CREATE TABLE ezsession (
 CREATE TABLE eztrigger (
     id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
     name character varying(255),
-    module_name character varying(200) DEFAULT '' NOT NULL,
-    function_name character varying(200) DEFAULT '' NOT NULL,
-    connect_type character(1) DEFAULT '' NOT NULL,
+    module_name character varying(200) DEFAULT ''::character varying NOT NULL,
+    function_name character varying(200) DEFAULT ''::character varying NOT NULL,
+    connect_type character(1) DEFAULT ''::bpchar NOT NULL,
     workflow_id integer
 );
 
@@ -1836,11 +1820,11 @@ CREATE TABLE eztrigger (
 CREATE TABLE ezurl (
     id integer DEFAULT nextval('ezurl_s'::text) NOT NULL,
     url character varying(255),
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL,
-    is_valid integer DEFAULT '1' NOT NULL,
-    last_checked integer DEFAULT '0' NOT NULL,
-    original_url_md5 character varying(32) DEFAULT '' NOT NULL
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    is_valid integer DEFAULT 1 NOT NULL,
+    last_checked integer DEFAULT 0 NOT NULL,
+    original_url_md5 character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1850,9 +1834,9 @@ CREATE TABLE ezurl (
 
 
 CREATE TABLE ezurl_object_link (
-    url_id integer DEFAULT '0' NOT NULL,
-    contentobject_attribute_id integer DEFAULT '0' NOT NULL,
-    contentobject_attribute_version integer DEFAULT '0' NOT NULL
+    url_id integer DEFAULT 0 NOT NULL,
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    contentobject_attribute_version integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1866,8 +1850,8 @@ CREATE TABLE ezurlalias (
     source_url text NOT NULL,
     source_md5 character varying(32),
     destination_url text NOT NULL,
-    is_internal integer DEFAULT '1' NOT NULL,
-    forward_to_id integer DEFAULT '0' NOT NULL,
+    is_internal integer DEFAULT 1 NOT NULL,
+    forward_to_id integer DEFAULT 0 NOT NULL,
     is_wildcard integer DEFAULT 0 NOT NULL
 );
 
@@ -1878,10 +1862,10 @@ CREATE TABLE ezurlalias (
 
 
 CREATE TABLE ezuser (
-    contentobject_id integer DEFAULT '0' NOT NULL,
-    login character varying(150) DEFAULT '' NOT NULL,
-    email character varying(150) DEFAULT '' NOT NULL,
-    password_hash_type integer DEFAULT '1' NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    login character varying(150) DEFAULT ''::character varying NOT NULL,
+    email character varying(150) DEFAULT ''::character varying NOT NULL,
+    password_hash_type integer DEFAULT 1 NOT NULL,
     password_hash character varying(50)
 );
 
@@ -1893,9 +1877,9 @@ CREATE TABLE ezuser (
 
 CREATE TABLE ezuser_accountkey (
     id integer DEFAULT nextval('ezuser_accountkey_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    hash_key character varying(32) DEFAULT '' NOT NULL,
-    "time" integer DEFAULT '0' NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    hash_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    "time" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1908,7 +1892,7 @@ CREATE TABLE ezuser_discountrule (
     id integer DEFAULT nextval('ezuser_discountrule_s'::text) NOT NULL,
     discountrule_id integer,
     contentobject_id integer,
-    name character varying(255) DEFAULT '' NOT NULL
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1930,8 +1914,8 @@ CREATE TABLE ezuser_role (
 
 
 CREATE TABLE ezuser_setting (
-    user_id integer DEFAULT '0' NOT NULL,
-    is_enabled integer DEFAULT '0' NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    is_enabled integer DEFAULT 0 NOT NULL,
     max_login integer
 );
 
@@ -1943,7 +1927,7 @@ CREATE TABLE ezuser_setting (
 
 CREATE TABLE ezvattype (
     id integer DEFAULT nextval('ezvattype_s'::text) NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
     percentage double precision
 );
 
@@ -1955,10 +1939,10 @@ CREATE TABLE ezvattype (
 
 CREATE TABLE ezwaituntildatevalue (
     id integer DEFAULT nextval('ezwaituntildatevalue_s'::text) NOT NULL,
-    workflow_event_id integer DEFAULT '0' NOT NULL,
-    workflow_event_version integer DEFAULT '0' NOT NULL,
-    contentclass_id integer DEFAULT '0' NOT NULL,
-    contentclass_attribute_id integer DEFAULT '0' NOT NULL
+    workflow_event_id integer DEFAULT 0 NOT NULL,
+    workflow_event_version integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1969,8 +1953,8 @@ CREATE TABLE ezwaituntildatevalue (
 
 CREATE TABLE ezwishlist (
     id integer DEFAULT nextval('ezwishlist_s'::text) NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    productcollection_id integer DEFAULT '0' NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    productcollection_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1981,14 +1965,14 @@ CREATE TABLE ezwishlist (
 
 CREATE TABLE ezworkflow (
     id integer DEFAULT nextval('ezworkflow_s'::text) NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    is_enabled integer DEFAULT '0' NOT NULL,
-    workflow_type_string character varying(50) DEFAULT '' NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    creator_id integer DEFAULT '0' NOT NULL,
-    modifier_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    "version" integer DEFAULT 0 NOT NULL,
+    is_enabled integer DEFAULT 0 NOT NULL,
+    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1999,10 +1983,10 @@ CREATE TABLE ezworkflow (
 
 CREATE TABLE ezworkflow_assign (
     id integer DEFAULT nextval('ezworkflow_assign_s'::text) NOT NULL,
-    workflow_id integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL,
-    access_type integer DEFAULT '0' NOT NULL,
-    as_tree integer DEFAULT '0' NOT NULL
+    workflow_id integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    access_type integer DEFAULT 0 NOT NULL,
+    as_tree integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2013,10 +1997,10 @@ CREATE TABLE ezworkflow_assign (
 
 CREATE TABLE ezworkflow_event (
     id integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,
-    "version" integer DEFAULT '0' NOT NULL,
-    workflow_id integer DEFAULT '0' NOT NULL,
-    workflow_type_string character varying(50) DEFAULT '' NOT NULL,
-    description character varying(50) DEFAULT '' NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL,
+    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
+    description character varying(50) DEFAULT ''::character varying NOT NULL,
     data_int1 integer,
     data_int2 integer,
     data_int3 integer,
@@ -2025,7 +2009,7 @@ CREATE TABLE ezworkflow_event (
     data_text2 character varying(50),
     data_text3 character varying(50),
     data_text4 character varying(50),
-    placement integer DEFAULT '0' NOT NULL
+    placement integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2036,11 +2020,11 @@ CREATE TABLE ezworkflow_event (
 
 CREATE TABLE ezworkflow_group (
     id integer DEFAULT nextval('ezworkflow_group_s'::text) NOT NULL,
-    name character varying(255) DEFAULT '' NOT NULL,
-    creator_id integer DEFAULT '0' NOT NULL,
-    modifier_id integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2050,9 +2034,9 @@ CREATE TABLE ezworkflow_group (
 
 
 CREATE TABLE ezworkflow_group_link (
-    workflow_id integer DEFAULT '0' NOT NULL,
-    group_id integer DEFAULT '0' NOT NULL,
-    workflow_version integer DEFAULT '0' NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL,
+    group_id integer DEFAULT 0 NOT NULL,
+    workflow_version integer DEFAULT 0 NOT NULL,
     group_name character varying(255)
 );
 
@@ -2064,21 +2048,21 @@ CREATE TABLE ezworkflow_group_link (
 
 CREATE TABLE ezworkflow_process (
     id integer DEFAULT nextval('ezworkflow_process_s'::text) NOT NULL,
-    process_key character varying(32) DEFAULT '' NOT NULL,
-    workflow_id integer DEFAULT '0' NOT NULL,
-    user_id integer DEFAULT '0' NOT NULL,
-    content_id integer DEFAULT '0' NOT NULL,
-    content_version integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL,
-    session_key character varying(32) DEFAULT '0' NOT NULL,
-    event_id integer DEFAULT '0' NOT NULL,
-    event_position integer DEFAULT '0' NOT NULL,
-    last_event_id integer DEFAULT '0' NOT NULL,
-    last_event_position integer DEFAULT '0' NOT NULL,
-    last_event_status integer DEFAULT '0' NOT NULL,
-    event_status integer DEFAULT '0' NOT NULL,
-    created integer DEFAULT '0' NOT NULL,
-    modified integer DEFAULT '0' NOT NULL,
+    process_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    content_id integer DEFAULT 0 NOT NULL,
+    content_version integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    session_key character varying(32) DEFAULT '0'::character varying NOT NULL,
+    event_id integer DEFAULT 0 NOT NULL,
+    event_position integer DEFAULT 0 NOT NULL,
+    last_event_id integer DEFAULT 0 NOT NULL,
+    last_event_position integer DEFAULT 0 NOT NULL,
+    last_event_status integer DEFAULT 0 NOT NULL,
+    event_status integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
     activation_date integer,
     event_state integer,
     status integer,
@@ -2093,8 +2077,8 @@ CREATE TABLE ezworkflow_process (
 
 
 CREATE TABLE ezsite_data (
-    name character varying(60) DEFAULT '' NOT NULL,
-    value text DEFAULT '' NOT NULL
+    name character varying(60) DEFAULT ''::character varying NOT NULL,
+    value text DEFAULT ''::text NOT NULL
 );
 
 
@@ -2104,10 +2088,10 @@ CREATE TABLE ezsite_data (
 
 
 CREATE SEQUENCE ezpdf_export_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -2141,10 +2125,10 @@ CREATE TABLE ezpdf_export (
 
 
 CREATE SEQUENCE ezrss_export_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -2177,10 +2161,10 @@ CREATE TABLE ezrss_export (
 
 
 CREATE SEQUENCE ezrss_export_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -2205,10 +2189,10 @@ CREATE TABLE ezrss_export_item (
 
 
 CREATE SEQUENCE ezrss_import_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -2242,10 +2226,9 @@ CREATE TABLE ezrss_import (
 
 
 CREATE SEQUENCE ezimagefile_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -2267,8 +2250,8 @@ CREATE TABLE ezimagefile (
 
 
 CREATE TABLE eztipafriend_counter (
-    node_id integer DEFAULT '0' NOT NULL,
-    count integer DEFAULT '0' NOT NULL
+    node_id integer DEFAULT 0 NOT NULL,
+    count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2278,8 +2261,8 @@ CREATE TABLE eztipafriend_counter (
 
 
 CREATE TABLE ezview_counter (
-    node_id integer DEFAULT '0' NOT NULL,
-    count integer DEFAULT '0' NOT NULL
+    node_id integer DEFAULT 0 NOT NULL,
+    count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3916,3346 +3899,3346 @@ INSERT INTO ezrole VALUES (8, 0, 'Guest', NULL);
 
 
 
-INSERT INTO ezsearch_object_word_link VALUES (16589, 138, 3633, 0, 0, 0, 3633, 1, 1068036060, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16590, 138, 3633, 0, 1, 3633, 3634, 1, 1068036060, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16591, 138, 3634, 0, 2, 3633, 3635, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16592, 138, 3635, 0, 3, 3634, 3636, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16593, 138, 3636, 0, 4, 3635, 3637, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16594, 138, 3637, 0, 5, 3636, 3638, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16595, 138, 3638, 0, 6, 3637, 3639, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16596, 138, 3639, 0, 7, 3638, 3640, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16597, 138, 3640, 0, 8, 3639, 3634, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16598, 138, 3634, 0, 9, 3640, 3635, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16599, 138, 3635, 0, 10, 3634, 3636, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16600, 138, 3636, 0, 11, 3635, 3637, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16601, 138, 3637, 0, 12, 3636, 3638, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16602, 138, 3638, 0, 13, 3637, 3639, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16603, 138, 3639, 0, 14, 3638, 3640, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16604, 138, 3640, 0, 15, 3639, 0, 1, 1068036060, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16605, 211, 3641, 0, 0, 0, 3642, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16606, 211, 3642, 0, 1, 3641, 3643, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16607, 211, 3643, 0, 2, 3642, 3641, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16608, 211, 3641, 0, 3, 3643, 3642, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16609, 211, 3642, 0, 4, 3641, 3643, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16610, 211, 3643, 0, 5, 3642, 3644, 1, 1068640085, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16611, 211, 3644, 0, 6, 3643, 3645, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16612, 211, 3645, 0, 7, 3644, 3646, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16613, 211, 3646, 0, 8, 3645, 3647, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16614, 211, 3647, 0, 9, 3646, 3648, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16615, 211, 3648, 0, 10, 3647, 3649, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16616, 211, 3649, 0, 11, 3648, 3650, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16617, 211, 3650, 0, 12, 3649, 3651, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16618, 211, 3651, 0, 13, 3650, 3644, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16619, 211, 3644, 0, 14, 3651, 3645, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16620, 211, 3645, 0, 15, 3644, 3646, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16621, 211, 3646, 0, 16, 3645, 3647, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16622, 211, 3647, 0, 17, 3646, 3648, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16623, 211, 3648, 0, 18, 3647, 3649, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16624, 211, 3649, 0, 19, 3648, 3650, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16625, 211, 3650, 0, 20, 3649, 3651, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16626, 211, 3651, 0, 21, 3650, 0, 1, 1068640085, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16627, 141, 3652, 0, 0, 0, 3639, 20, 1068036586, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16628, 141, 3639, 0, 1, 3652, 3652, 20, 1068036586, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16629, 141, 3652, 0, 2, 3639, 3639, 20, 1068036586, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16630, 141, 3639, 0, 3, 3652, 3653, 20, 1068036586, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16631, 141, 3653, 0, 4, 3639, 3652, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16632, 141, 3652, 0, 5, 3653, 3634, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16633, 141, 3634, 0, 6, 3652, 3653, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16634, 141, 3653, 0, 7, 3634, 3652, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16635, 141, 3652, 0, 8, 3653, 3634, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16636, 141, 3634, 0, 9, 3652, 0, 20, 1068036586, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16637, 224, 3654, 0, 0, 0, 3655, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16638, 224, 3655, 0, 1, 3654, 3656, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16639, 224, 3656, 0, 2, 3655, 3657, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16640, 224, 3657, 0, 3, 3656, 3658, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16641, 224, 3658, 0, 4, 3657, 3654, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16642, 224, 3654, 0, 5, 3658, 3655, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16643, 224, 3655, 0, 6, 3654, 3656, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16644, 224, 3656, 0, 7, 3655, 3657, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16645, 224, 3657, 0, 8, 3656, 3658, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16646, 224, 3658, 0, 9, 3657, 3658, 21, 1069766105, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16647, 224, 3658, 0, 10, 3658, 3655, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16648, 224, 3655, 0, 11, 3658, 3644, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16649, 224, 3644, 0, 12, 3655, 3659, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16650, 224, 3659, 0, 13, 3644, 3660, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16651, 224, 3660, 0, 14, 3659, 3661, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16652, 224, 3661, 0, 15, 3660, 3662, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16653, 224, 3662, 0, 16, 3661, 3663, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16654, 224, 3663, 0, 17, 3662, 3654, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16655, 224, 3654, 0, 18, 3663, 3664, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16656, 224, 3664, 0, 19, 3654, 3665, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16657, 224, 3665, 0, 20, 3664, 3666, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16658, 224, 3666, 0, 21, 3665, 3667, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16659, 224, 3667, 0, 22, 3666, 3668, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16660, 224, 3668, 0, 23, 3667, 3669, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16661, 224, 3669, 0, 24, 3668, 3652, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16662, 224, 3652, 0, 25, 3669, 3670, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16663, 224, 3670, 0, 26, 3652, 3671, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16664, 224, 3671, 0, 27, 3670, 3672, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16665, 224, 3672, 0, 28, 3671, 3673, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16666, 224, 3673, 0, 29, 3672, 3674, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16667, 224, 3674, 0, 30, 3673, 3675, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16668, 224, 3675, 0, 31, 3674, 3671, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16669, 224, 3671, 0, 32, 3675, 3658, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16670, 224, 3658, 0, 33, 3671, 3655, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16671, 224, 3655, 0, 34, 3658, 3644, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16672, 224, 3644, 0, 35, 3655, 3659, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16673, 224, 3659, 0, 36, 3644, 3660, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16674, 224, 3660, 0, 37, 3659, 3661, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16675, 224, 3661, 0, 38, 3660, 3662, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16676, 224, 3662, 0, 39, 3661, 3663, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16677, 224, 3663, 0, 40, 3662, 3654, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16678, 224, 3654, 0, 41, 3663, 3664, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16679, 224, 3664, 0, 42, 3654, 3665, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16680, 224, 3665, 0, 43, 3664, 3666, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16681, 224, 3666, 0, 44, 3665, 3667, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16682, 224, 3667, 0, 45, 3666, 3668, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16683, 224, 3668, 0, 46, 3667, 3669, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16684, 224, 3669, 0, 47, 3668, 3652, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16685, 224, 3652, 0, 48, 3669, 3670, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16686, 224, 3670, 0, 49, 3652, 3671, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16687, 224, 3671, 0, 50, 3670, 3672, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16688, 224, 3672, 0, 51, 3671, 3673, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16689, 224, 3673, 0, 52, 3672, 3674, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16690, 224, 3674, 0, 53, 3673, 3675, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16691, 224, 3675, 0, 54, 3674, 3671, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16692, 224, 3671, 0, 55, 3675, 3676, 21, 1069766105, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16693, 224, 3676, 0, 56, 3671, 3676, 21, 1069766105, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16694, 224, 3676, 0, 57, 3676, 0, 21, 1069766105, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16695, 225, 3667, 0, 0, 0, 3655, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16696, 225, 3655, 0, 1, 3667, 3677, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16697, 225, 3677, 0, 2, 3655, 3678, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16698, 225, 3678, 0, 3, 3677, 3679, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16699, 225, 3679, 0, 4, 3678, 3680, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16700, 225, 3680, 0, 5, 3679, 3667, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16701, 225, 3667, 0, 6, 3680, 3655, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16702, 225, 3655, 0, 7, 3667, 3677, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16703, 225, 3677, 0, 8, 3655, 3678, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16704, 225, 3678, 0, 9, 3677, 3679, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16705, 225, 3679, 0, 10, 3678, 3680, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16706, 225, 3680, 0, 11, 3679, 3666, 22, 1069766473, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16707, 225, 3666, 0, 12, 3680, 3681, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16708, 225, 3681, 0, 13, 3666, 3682, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16709, 225, 3682, 0, 14, 3681, 3644, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16710, 225, 3644, 0, 15, 3682, 3683, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16711, 225, 3683, 0, 16, 3644, 3684, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16712, 225, 3684, 0, 17, 3683, 3685, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16713, 225, 3685, 0, 18, 3684, 3686, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16714, 225, 3686, 0, 19, 3685, 3687, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16715, 225, 3687, 0, 20, 3686, 3678, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16716, 225, 3678, 0, 21, 3687, 3688, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16717, 225, 3688, 0, 22, 3678, 3689, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16718, 225, 3689, 0, 23, 3688, 3690, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16719, 225, 3690, 0, 24, 3689, 3691, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16720, 225, 3691, 0, 25, 3690, 3666, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16721, 225, 3666, 0, 26, 3691, 3681, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16722, 225, 3681, 0, 27, 3666, 3682, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16723, 225, 3682, 0, 28, 3681, 3644, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16724, 225, 3644, 0, 29, 3682, 3683, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16725, 225, 3683, 0, 30, 3644, 3684, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16726, 225, 3684, 0, 31, 3683, 3685, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16727, 225, 3685, 0, 32, 3684, 3686, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16728, 225, 3686, 0, 33, 3685, 3687, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16729, 225, 3687, 0, 34, 3686, 3678, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16730, 225, 3678, 0, 35, 3687, 3688, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16731, 225, 3688, 0, 36, 3678, 3689, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16732, 225, 3689, 0, 37, 3688, 3690, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16733, 225, 3690, 0, 38, 3689, 3691, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16734, 225, 3691, 0, 39, 3690, 0, 22, 1069766473, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16735, 220, 3692, 0, 0, 0, 3692, 20, 1069763952, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16736, 220, 3692, 0, 1, 3692, 3654, 20, 1069763952, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16737, 220, 3654, 0, 2, 3692, 3655, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16738, 220, 3655, 0, 3, 3654, 3693, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16739, 220, 3693, 0, 4, 3655, 3694, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16740, 220, 3694, 0, 5, 3693, 3695, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16741, 220, 3695, 0, 6, 3694, 3696, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16742, 220, 3696, 0, 7, 3695, 3697, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16743, 220, 3697, 0, 8, 3696, 3698, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16744, 220, 3698, 0, 9, 3697, 3654, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16745, 220, 3654, 0, 10, 3698, 3655, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16746, 220, 3655, 0, 11, 3654, 3693, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16747, 220, 3693, 0, 12, 3655, 3694, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16748, 220, 3694, 0, 13, 3693, 3695, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16749, 220, 3695, 0, 14, 3694, 3696, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16750, 220, 3696, 0, 15, 3695, 3697, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16751, 220, 3697, 0, 16, 3696, 3698, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16752, 220, 3698, 0, 17, 3697, 0, 20, 1069763952, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16753, 221, 3699, 0, 0, 0, 3655, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16754, 221, 3655, 0, 1, 3699, 3679, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16755, 221, 3679, 0, 2, 3655, 3700, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16756, 221, 3700, 0, 3, 3679, 3699, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16757, 221, 3699, 0, 4, 3700, 3655, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16758, 221, 3655, 0, 5, 3699, 3679, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16759, 221, 3679, 0, 6, 3655, 3700, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16760, 221, 3700, 0, 7, 3679, 3701, 21, 1069765267, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16761, 221, 3701, 0, 8, 3700, 3702, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16762, 221, 3702, 0, 9, 3701, 3669, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16763, 221, 3669, 0, 10, 3702, 3703, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16764, 221, 3703, 0, 11, 3669, 3677, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16765, 221, 3677, 0, 12, 3703, 3704, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16766, 221, 3704, 0, 13, 3677, 3705, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16767, 221, 3705, 0, 14, 3704, 3706, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16768, 221, 3706, 0, 15, 3705, 3661, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16769, 221, 3661, 0, 16, 3706, 3693, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16770, 221, 3693, 0, 17, 3661, 3707, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16771, 221, 3707, 0, 18, 3693, 3681, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16772, 221, 3681, 0, 19, 3707, 3708, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16773, 221, 3708, 0, 20, 3681, 3650, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16774, 221, 3650, 0, 21, 3708, 3679, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16775, 221, 3679, 0, 22, 3650, 3709, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16776, 221, 3709, 0, 23, 3679, 3710, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16777, 221, 3710, 0, 24, 3709, 3711, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16778, 221, 3711, 0, 25, 3710, 3712, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16779, 221, 3712, 0, 26, 3711, 3701, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16780, 221, 3701, 0, 27, 3712, 3702, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16781, 221, 3702, 0, 28, 3701, 3669, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16782, 221, 3669, 0, 29, 3702, 3703, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16783, 221, 3703, 0, 30, 3669, 3677, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16784, 221, 3677, 0, 31, 3703, 3704, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16785, 221, 3704, 0, 32, 3677, 3705, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16786, 221, 3705, 0, 33, 3704, 3706, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16787, 221, 3706, 0, 34, 3705, 3661, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16788, 221, 3661, 0, 35, 3706, 3693, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16789, 221, 3693, 0, 36, 3661, 3707, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16790, 221, 3707, 0, 37, 3693, 3681, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16791, 221, 3681, 0, 38, 3707, 3708, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16792, 221, 3708, 0, 39, 3681, 3650, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16793, 221, 3650, 0, 40, 3708, 3679, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16794, 221, 3679, 0, 41, 3650, 3709, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16795, 221, 3709, 0, 42, 3679, 3710, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16796, 221, 3710, 0, 43, 3709, 3711, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16797, 221, 3711, 0, 44, 3710, 3712, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16798, 221, 3712, 0, 45, 3711, 3676, 21, 1069765267, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16799, 221, 3676, 0, 46, 3712, 3676, 21, 1069765267, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16800, 221, 3676, 0, 47, 3676, 0, 21, 1069765267, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16801, 223, 3713, 0, 0, 0, 3655, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16802, 223, 3655, 0, 1, 3713, 3679, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16803, 223, 3679, 0, 2, 3655, 3714, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16804, 223, 3714, 0, 3, 3679, 3713, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16805, 223, 3713, 0, 4, 3714, 3655, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16806, 223, 3655, 0, 5, 3713, 3679, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16807, 223, 3679, 0, 6, 3655, 3714, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16808, 223, 3714, 0, 7, 3679, 3674, 22, 1069765640, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16809, 223, 3674, 0, 8, 3714, 3701, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16810, 223, 3701, 0, 9, 3674, 3703, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16811, 223, 3703, 0, 10, 3701, 3669, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16812, 223, 3669, 0, 11, 3703, 3675, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16813, 223, 3675, 0, 12, 3669, 3681, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16814, 223, 3681, 0, 13, 3675, 3715, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16815, 223, 3715, 0, 14, 3681, 3716, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16816, 223, 3716, 0, 15, 3715, 3689, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16817, 223, 3689, 0, 16, 3716, 3644, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16818, 223, 3644, 0, 17, 3689, 3711, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16819, 223, 3711, 0, 18, 3644, 3717, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16820, 223, 3717, 0, 19, 3711, 3718, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16821, 223, 3718, 0, 20, 3717, 3669, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16822, 223, 3669, 0, 21, 3718, 3646, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16823, 223, 3646, 0, 22, 3669, 3674, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16824, 223, 3674, 0, 23, 3646, 3701, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16825, 223, 3701, 0, 24, 3674, 3703, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16826, 223, 3703, 0, 25, 3701, 3669, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16827, 223, 3669, 0, 26, 3703, 3675, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16828, 223, 3675, 0, 27, 3669, 3681, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16829, 223, 3681, 0, 28, 3675, 3715, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16830, 223, 3715, 0, 29, 3681, 3716, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16831, 223, 3716, 0, 30, 3715, 3689, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16832, 223, 3689, 0, 31, 3716, 3644, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16833, 223, 3644, 0, 32, 3689, 3711, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16834, 223, 3711, 0, 33, 3644, 3717, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16835, 223, 3717, 0, 34, 3711, 3718, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16836, 223, 3718, 0, 35, 3717, 3669, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16837, 223, 3669, 0, 36, 3718, 3646, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16838, 223, 3646, 0, 37, 3669, 0, 22, 1069765640, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16839, 222, 3719, 0, 0, 0, 3720, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16840, 222, 3720, 0, 1, 3719, 3721, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16841, 222, 3721, 0, 2, 3720, 3695, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16842, 222, 3695, 0, 3, 3721, 3722, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16843, 222, 3722, 0, 4, 3695, 3723, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16844, 222, 3723, 0, 5, 3722, 3678, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16845, 222, 3678, 0, 6, 3723, 3681, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16846, 222, 3681, 0, 7, 3678, 3719, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16847, 222, 3719, 0, 8, 3681, 3720, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16848, 222, 3720, 0, 9, 3719, 3721, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16849, 222, 3721, 0, 10, 3720, 3695, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16850, 222, 3695, 0, 11, 3721, 3722, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16851, 222, 3722, 0, 12, 3695, 3723, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16852, 222, 3723, 0, 13, 3722, 3678, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16853, 222, 3678, 0, 14, 3723, 3681, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16854, 222, 3681, 0, 15, 3678, 3646, 21, 1069765545, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16855, 222, 3646, 0, 16, 3681, 3655, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16856, 222, 3655, 0, 17, 3646, 3679, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16857, 222, 3679, 0, 18, 3655, 3724, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16858, 222, 3724, 0, 19, 3679, 3694, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16859, 222, 3694, 0, 20, 3724, 3646, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16860, 222, 3646, 0, 21, 3694, 3655, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16861, 222, 3655, 0, 22, 3646, 3679, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16862, 222, 3679, 0, 23, 3655, 3724, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16863, 222, 3724, 0, 24, 3679, 3694, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16864, 222, 3694, 0, 25, 3724, 3676, 21, 1069765545, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16865, 222, 3676, 0, 26, 3694, 3676, 21, 1069765545, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16866, 222, 3676, 0, 27, 3676, 0, 21, 1069765545, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16867, 226, 3725, 0, 0, 0, 3641, 20, 1069766830, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16868, 226, 3641, 0, 1, 3725, 3725, 20, 1069766830, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16869, 226, 3725, 0, 2, 3641, 3641, 20, 1069766830, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16870, 226, 3641, 0, 3, 3725, 3726, 20, 1069766830, 1, 186, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16871, 226, 3726, 0, 4, 3641, 3727, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16872, 226, 3727, 0, 5, 3726, 3728, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16873, 226, 3728, 0, 6, 3727, 3729, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16874, 226, 3729, 0, 7, 3728, 3684, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16875, 226, 3684, 0, 8, 3729, 3725, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16876, 226, 3725, 0, 9, 3684, 3674, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16877, 226, 3674, 0, 10, 3725, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16878, 226, 3719, 0, 11, 3674, 3720, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16879, 226, 3720, 0, 12, 3719, 3730, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16880, 226, 3730, 0, 13, 3720, 3731, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16881, 226, 3731, 0, 14, 3730, 3732, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16882, 226, 3732, 0, 15, 3731, 3666, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16883, 226, 3666, 0, 16, 3732, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16884, 226, 3719, 0, 17, 3666, 3649, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16885, 226, 3649, 0, 18, 3719, 3733, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16886, 226, 3733, 0, 19, 3649, 3734, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16887, 226, 3734, 0, 20, 3733, 3735, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16888, 226, 3735, 0, 21, 3734, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16889, 226, 3719, 0, 22, 3735, 3736, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16890, 226, 3736, 0, 23, 3719, 3635, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16891, 226, 3635, 0, 24, 3736, 3737, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16892, 226, 3737, 0, 25, 3635, 3738, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16893, 226, 3738, 0, 26, 3737, 3684, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16894, 226, 3684, 0, 27, 3738, 3681, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16895, 226, 3681, 0, 28, 3684, 3726, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16896, 226, 3726, 0, 29, 3681, 3727, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16897, 226, 3727, 0, 30, 3726, 3728, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16898, 226, 3728, 0, 31, 3727, 3729, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16899, 226, 3729, 0, 32, 3728, 3684, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16900, 226, 3684, 0, 33, 3729, 3725, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16901, 226, 3725, 0, 34, 3684, 3674, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16902, 226, 3674, 0, 35, 3725, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16903, 226, 3719, 0, 36, 3674, 3720, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16904, 226, 3720, 0, 37, 3719, 3730, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16905, 226, 3730, 0, 38, 3720, 3731, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16906, 226, 3731, 0, 39, 3730, 3732, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16907, 226, 3732, 0, 40, 3731, 3666, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16908, 226, 3666, 0, 41, 3732, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16909, 226, 3719, 0, 42, 3666, 3649, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16910, 226, 3649, 0, 43, 3719, 3733, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16911, 226, 3733, 0, 44, 3649, 3734, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16912, 226, 3734, 0, 45, 3733, 3735, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16913, 226, 3735, 0, 46, 3734, 3719, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16914, 226, 3719, 0, 47, 3735, 3736, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16915, 226, 3736, 0, 48, 3719, 3635, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16916, 226, 3635, 0, 49, 3736, 3737, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16917, 226, 3737, 0, 50, 3635, 3738, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16918, 226, 3738, 0, 51, 3737, 3684, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16919, 226, 3684, 0, 52, 3738, 3681, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16920, 226, 3681, 0, 53, 3684, 0, 20, 1069766830, 1, 187, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16921, 227, 3654, 0, 0, 0, 3655, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16922, 227, 3655, 0, 1, 3654, 3679, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16923, 227, 3679, 0, 2, 3655, 3714, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16924, 227, 3714, 0, 3, 3679, 3739, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16925, 227, 3739, 0, 4, 3714, 3740, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16926, 227, 3740, 0, 5, 3739, 3661, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16927, 227, 3661, 0, 6, 3740, 3741, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16928, 227, 3741, 0, 7, 3661, 3654, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16929, 227, 3654, 0, 8, 3741, 3655, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16930, 227, 3655, 0, 9, 3654, 3679, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16931, 227, 3679, 0, 10, 3655, 3714, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16932, 227, 3714, 0, 11, 3679, 3739, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16933, 227, 3739, 0, 12, 3714, 3740, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16934, 227, 3740, 0, 13, 3739, 3661, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16935, 227, 3661, 0, 14, 3740, 3741, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16936, 227, 3741, 0, 15, 3661, 3681, 21, 1069766947, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16937, 227, 3681, 0, 16, 3741, 3655, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16938, 227, 3655, 0, 17, 3681, 3742, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16939, 227, 3742, 0, 18, 3655, 3743, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16940, 227, 3743, 0, 19, 3742, 3744, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16941, 227, 3744, 0, 20, 3743, 3745, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16942, 227, 3745, 0, 21, 3744, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16943, 227, 3666, 0, 22, 3745, 3746, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16944, 227, 3746, 0, 23, 3666, 3747, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16945, 227, 3747, 0, 24, 3746, 3679, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16946, 227, 3679, 0, 25, 3747, 3740, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16947, 227, 3740, 0, 26, 3679, 3748, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16948, 227, 3748, 0, 27, 3740, 3749, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16949, 227, 3749, 0, 28, 3748, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16950, 227, 3666, 0, 29, 3749, 3750, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16951, 227, 3750, 0, 30, 3666, 3636, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16952, 227, 3636, 0, 31, 3750, 3751, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16953, 227, 3751, 0, 32, 3636, 3750, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16954, 227, 3750, 0, 33, 3751, 3703, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16955, 227, 3703, 0, 34, 3750, 3752, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16956, 227, 3752, 0, 35, 3703, 3753, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16957, 227, 3753, 0, 36, 3752, 3754, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16958, 227, 3754, 0, 37, 3753, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16959, 227, 3666, 0, 38, 3754, 3689, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16960, 227, 3689, 0, 39, 3666, 3673, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16961, 227, 3673, 0, 40, 3689, 3755, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16962, 227, 3755, 0, 41, 3673, 3756, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16963, 227, 3756, 0, 42, 3755, 3681, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16964, 227, 3681, 0, 43, 3756, 3655, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16965, 227, 3655, 0, 44, 3681, 3742, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16966, 227, 3742, 0, 45, 3655, 3743, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16967, 227, 3743, 0, 46, 3742, 3744, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16968, 227, 3744, 0, 47, 3743, 3745, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16969, 227, 3745, 0, 48, 3744, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16970, 227, 3666, 0, 49, 3745, 3746, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16971, 227, 3746, 0, 50, 3666, 3747, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16972, 227, 3747, 0, 51, 3746, 3679, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16973, 227, 3679, 0, 52, 3747, 3740, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16974, 227, 3740, 0, 53, 3679, 3748, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16975, 227, 3748, 0, 54, 3740, 3749, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16976, 227, 3749, 0, 55, 3748, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16977, 227, 3666, 0, 56, 3749, 3750, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16978, 227, 3750, 0, 57, 3666, 3636, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16979, 227, 3636, 0, 58, 3750, 3751, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16980, 227, 3751, 0, 59, 3636, 3750, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16981, 227, 3750, 0, 60, 3751, 3703, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16982, 227, 3703, 0, 61, 3750, 3752, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16983, 227, 3752, 0, 62, 3703, 3753, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16984, 227, 3753, 0, 63, 3752, 3754, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16985, 227, 3754, 0, 64, 3753, 3666, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16986, 227, 3666, 0, 65, 3754, 3689, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16987, 227, 3689, 0, 66, 3666, 3673, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16988, 227, 3673, 0, 67, 3689, 3755, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16989, 227, 3755, 0, 68, 3673, 3756, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16990, 227, 3756, 0, 69, 3755, 3676, 21, 1069766947, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16991, 227, 3676, 0, 70, 3756, 3676, 21, 1069766947, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16992, 227, 3676, 0, 71, 3676, 0, 21, 1069766947, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16993, 228, 3735, 0, 0, 0, 3655, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16994, 228, 3655, 0, 1, 3735, 3742, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16995, 228, 3742, 0, 2, 3655, 3735, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16996, 228, 3735, 0, 3, 3742, 3655, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16997, 228, 3655, 0, 4, 3735, 3742, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16998, 228, 3742, 0, 5, 3655, 3654, 22, 1069767050, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (16999, 228, 3654, 0, 6, 3742, 3655, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17000, 228, 3655, 0, 7, 3654, 3742, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17001, 228, 3742, 0, 8, 3655, 3743, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17002, 228, 3743, 0, 9, 3742, 3674, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17003, 228, 3674, 0, 10, 3743, 3703, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17004, 228, 3703, 0, 11, 3674, 3757, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17005, 228, 3757, 0, 12, 3703, 3758, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17006, 228, 3758, 0, 13, 3757, 3678, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17007, 228, 3678, 0, 14, 3758, 3759, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17008, 228, 3759, 0, 15, 3678, 3760, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17009, 228, 3760, 0, 16, 3759, 3761, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17010, 228, 3761, 0, 17, 3760, 3674, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17011, 228, 3674, 0, 18, 3761, 3636, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17012, 228, 3636, 0, 19, 3674, 3661, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17013, 228, 3661, 0, 20, 3636, 3748, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17014, 228, 3748, 0, 21, 3661, 3749, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17015, 228, 3749, 0, 22, 3748, 3762, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17016, 228, 3762, 0, 23, 3749, 3763, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17017, 228, 3763, 0, 24, 3762, 3655, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17018, 228, 3655, 0, 25, 3763, 3679, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17019, 228, 3679, 0, 26, 3655, 3764, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17020, 228, 3764, 0, 27, 3679, 3678, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17021, 228, 3678, 0, 28, 3764, 3741, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17022, 228, 3741, 0, 29, 3678, 3654, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17023, 228, 3654, 0, 30, 3741, 3655, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17024, 228, 3655, 0, 31, 3654, 3742, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17025, 228, 3742, 0, 32, 3655, 3743, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17026, 228, 3743, 0, 33, 3742, 3674, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17027, 228, 3674, 0, 34, 3743, 3703, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17028, 228, 3703, 0, 35, 3674, 3757, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17029, 228, 3757, 0, 36, 3703, 3758, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17030, 228, 3758, 0, 37, 3757, 3678, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17031, 228, 3678, 0, 38, 3758, 3759, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17032, 228, 3759, 0, 39, 3678, 3760, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17033, 228, 3760, 0, 40, 3759, 3761, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17034, 228, 3761, 0, 41, 3760, 3674, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17035, 228, 3674, 0, 42, 3761, 3636, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17036, 228, 3636, 0, 43, 3674, 3661, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17037, 228, 3661, 0, 44, 3636, 3748, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17038, 228, 3748, 0, 45, 3661, 3749, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17039, 228, 3749, 0, 46, 3748, 3762, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17040, 228, 3762, 0, 47, 3749, 3763, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17041, 228, 3763, 0, 48, 3762, 3655, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17042, 228, 3655, 0, 49, 3763, 3679, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17043, 228, 3679, 0, 50, 3655, 3764, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17044, 228, 3764, 0, 51, 3679, 3678, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17045, 228, 3678, 0, 52, 3764, 3741, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17046, 228, 3741, 0, 53, 3678, 0, 22, 1069767050, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17047, 229, 3765, 0, 0, 0, 3689, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17048, 229, 3689, 0, 1, 3765, 3766, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17049, 229, 3766, 0, 2, 3689, 3767, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17050, 229, 3767, 0, 3, 3766, 3742, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17051, 229, 3742, 0, 4, 3767, 3765, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17052, 229, 3765, 0, 5, 3742, 3689, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17053, 229, 3689, 0, 6, 3765, 3766, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17054, 229, 3766, 0, 7, 3689, 3767, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17055, 229, 3767, 0, 8, 3766, 3742, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17056, 229, 3742, 0, 9, 3767, 3765, 22, 1069768552, 1, 191, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17057, 229, 3765, 0, 10, 3742, 3768, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17058, 229, 3768, 0, 11, 3765, 3742, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17059, 229, 3742, 0, 12, 3768, 3769, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17060, 229, 3769, 0, 13, 3742, 3770, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17061, 229, 3770, 0, 14, 3769, 3678, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17062, 229, 3678, 0, 15, 3770, 3749, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17063, 229, 3749, 0, 16, 3678, 3771, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17064, 229, 3771, 0, 17, 3749, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17065, 229, 3661, 0, 18, 3771, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17066, 229, 3679, 0, 19, 3661, 3772, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17067, 229, 3772, 0, 20, 3679, 3666, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17068, 229, 3666, 0, 21, 3772, 3773, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17069, 229, 3773, 0, 22, 3666, 3762, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17070, 229, 3762, 0, 23, 3773, 3750, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17071, 229, 3750, 0, 24, 3762, 3774, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17072, 229, 3774, 0, 25, 3750, 3720, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17073, 229, 3720, 0, 26, 3774, 3775, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17074, 229, 3775, 0, 27, 3720, 3776, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17075, 229, 3776, 0, 28, 3775, 3765, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17076, 229, 3765, 0, 29, 3776, 3655, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17077, 229, 3655, 0, 30, 3765, 3766, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17078, 229, 3766, 0, 31, 3655, 3767, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17079, 229, 3767, 0, 32, 3766, 3742, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17080, 229, 3742, 0, 33, 3767, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17081, 229, 3661, 0, 34, 3742, 3777, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17082, 229, 3777, 0, 35, 3661, 3765, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17083, 229, 3765, 0, 36, 3777, 3655, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17084, 229, 3655, 0, 37, 3765, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17085, 229, 3679, 0, 38, 3655, 3714, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17086, 229, 3714, 0, 39, 3679, 3740, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17087, 229, 3740, 0, 40, 3714, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17088, 229, 3661, 0, 41, 3740, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17089, 229, 3679, 0, 42, 3661, 3778, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17090, 229, 3778, 0, 43, 3679, 3765, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17091, 229, 3765, 0, 44, 3778, 3768, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17092, 229, 3768, 0, 45, 3765, 3742, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17093, 229, 3742, 0, 46, 3768, 3769, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17094, 229, 3769, 0, 47, 3742, 3770, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17095, 229, 3770, 0, 48, 3769, 3678, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17096, 229, 3678, 0, 49, 3770, 3749, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17097, 229, 3749, 0, 50, 3678, 3771, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17098, 229, 3771, 0, 51, 3749, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17099, 229, 3661, 0, 52, 3771, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17100, 229, 3679, 0, 53, 3661, 3772, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17101, 229, 3772, 0, 54, 3679, 3666, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17102, 229, 3666, 0, 55, 3772, 3773, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17103, 229, 3773, 0, 56, 3666, 3762, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17104, 229, 3762, 0, 57, 3773, 3750, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17105, 229, 3750, 0, 58, 3762, 3774, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17106, 229, 3774, 0, 59, 3750, 3720, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17107, 229, 3720, 0, 60, 3774, 3775, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17108, 229, 3775, 0, 61, 3720, 3776, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17109, 229, 3776, 0, 62, 3775, 3765, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17110, 229, 3765, 0, 63, 3776, 3655, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17111, 229, 3655, 0, 64, 3765, 3766, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17112, 229, 3766, 0, 65, 3655, 3767, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17113, 229, 3767, 0, 66, 3766, 3742, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17114, 229, 3742, 0, 67, 3767, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17115, 229, 3661, 0, 68, 3742, 3777, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17116, 229, 3777, 0, 69, 3661, 3765, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17117, 229, 3765, 0, 70, 3777, 3655, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17118, 229, 3655, 0, 71, 3765, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17119, 229, 3679, 0, 72, 3655, 3714, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17120, 229, 3714, 0, 73, 3679, 3740, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17121, 229, 3740, 0, 74, 3714, 3661, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17122, 229, 3661, 0, 75, 3740, 3679, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17123, 229, 3679, 0, 76, 3661, 3778, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17124, 229, 3778, 0, 77, 3679, 0, 22, 1069768552, 1, 193, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17125, 230, 3641, 0, 0, 0, 3779, 1, 1069768639, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17126, 230, 3779, 0, 1, 3641, 3641, 1, 1069768639, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17127, 230, 3641, 0, 2, 3779, 3779, 1, 1069768639, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17128, 230, 3779, 0, 3, 3641, 3716, 1, 1069768639, 1, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17129, 230, 3716, 0, 4, 3779, 3689, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17130, 230, 3689, 0, 5, 3716, 3780, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17131, 230, 3780, 0, 6, 3689, 3779, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17132, 230, 3779, 0, 7, 3780, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17133, 230, 3635, 0, 8, 3779, 3708, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17134, 230, 3708, 0, 9, 3635, 3781, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17135, 230, 3781, 0, 10, 3708, 3661, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17136, 230, 3661, 0, 11, 3781, 3646, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17137, 230, 3646, 0, 12, 3661, 3641, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17138, 230, 3641, 0, 13, 3646, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17139, 230, 3635, 0, 14, 3641, 3708, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17140, 230, 3708, 0, 15, 3635, 3781, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17141, 230, 3781, 0, 16, 3708, 3705, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17142, 230, 3705, 0, 17, 3781, 3779, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17143, 230, 3779, 0, 18, 3705, 3697, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17144, 230, 3697, 0, 19, 3779, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17145, 230, 3635, 0, 20, 3697, 3719, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17146, 230, 3719, 0, 21, 3635, 3650, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17147, 230, 3650, 0, 22, 3719, 3782, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17148, 230, 3782, 0, 23, 3650, 3716, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17149, 230, 3716, 0, 24, 3782, 3689, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17150, 230, 3689, 0, 25, 3716, 3780, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17151, 230, 3780, 0, 26, 3689, 3779, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17152, 230, 3779, 0, 27, 3780, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17153, 230, 3635, 0, 28, 3779, 3708, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17154, 230, 3708, 0, 29, 3635, 3781, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17155, 230, 3781, 0, 30, 3708, 3661, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17156, 230, 3661, 0, 31, 3781, 3646, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17157, 230, 3646, 0, 32, 3661, 3641, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17158, 230, 3641, 0, 33, 3646, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17159, 230, 3635, 0, 34, 3641, 3708, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17160, 230, 3708, 0, 35, 3635, 3781, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17161, 230, 3781, 0, 36, 3708, 3705, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17162, 230, 3705, 0, 37, 3781, 3779, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17163, 230, 3779, 0, 38, 3705, 3697, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17164, 230, 3697, 0, 39, 3779, 3635, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17165, 230, 3635, 0, 40, 3697, 3719, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17166, 230, 3719, 0, 41, 3635, 3650, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17167, 230, 3650, 0, 42, 3719, 3782, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17168, 230, 3782, 0, 43, 3650, 0, 1, 1069768639, 1, 119, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17169, 231, 3783, 0, 0, 0, 3669, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17170, 231, 3669, 0, 1, 3783, 3784, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17171, 231, 3784, 0, 2, 3669, 3769, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17172, 231, 3769, 0, 3, 3784, 3785, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17173, 231, 3785, 0, 4, 3769, 3786, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17174, 231, 3786, 0, 5, 3785, 3783, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17175, 231, 3783, 0, 6, 3786, 3669, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17176, 231, 3669, 0, 7, 3783, 3784, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17177, 231, 3784, 0, 8, 3669, 3769, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17178, 231, 3769, 0, 9, 3784, 3785, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17179, 231, 3785, 0, 10, 3769, 3786, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17180, 231, 3786, 0, 11, 3785, 3635, 21, 1069768747, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17181, 231, 3635, 0, 12, 3786, 3719, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17182, 231, 3719, 0, 13, 3635, 3784, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17183, 231, 3784, 0, 14, 3719, 3769, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17184, 231, 3769, 0, 15, 3784, 3785, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17185, 231, 3785, 0, 16, 3769, 3786, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17186, 231, 3786, 0, 17, 3785, 3787, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17187, 231, 3787, 0, 18, 3786, 3788, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17188, 231, 3788, 0, 19, 3787, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17189, 231, 3679, 0, 20, 3788, 3789, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17190, 231, 3789, 0, 21, 3679, 3790, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17191, 231, 3790, 0, 22, 3789, 3634, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17192, 231, 3634, 0, 23, 3790, 3791, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17193, 231, 3791, 0, 24, 3634, 3792, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17194, 231, 3792, 0, 25, 3791, 3791, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17195, 231, 3791, 0, 26, 3792, 3635, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17196, 231, 3635, 0, 27, 3791, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17197, 231, 3703, 0, 28, 3635, 3793, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17198, 231, 3793, 0, 29, 3703, 3661, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17199, 231, 3661, 0, 30, 3793, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17200, 231, 3679, 0, 31, 3661, 3794, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17201, 231, 3794, 0, 32, 3679, 3635, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17202, 231, 3635, 0, 33, 3794, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17203, 231, 3703, 0, 34, 3635, 3795, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17204, 231, 3795, 0, 35, 3703, 3728, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17205, 231, 3728, 0, 36, 3795, 3796, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17206, 231, 3796, 0, 37, 3728, 3666, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17207, 231, 3666, 0, 38, 3796, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17208, 231, 3703, 0, 39, 3666, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17209, 231, 3679, 0, 40, 3703, 3797, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17210, 231, 3797, 0, 41, 3679, 3685, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17211, 231, 3685, 0, 42, 3797, 3798, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17212, 231, 3798, 0, 43, 3685, 3657, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17213, 231, 3657, 0, 44, 3798, 3685, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17214, 231, 3685, 0, 45, 3657, 3635, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17215, 231, 3635, 0, 46, 3685, 3719, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17216, 231, 3719, 0, 47, 3635, 3784, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17217, 231, 3784, 0, 48, 3719, 3769, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17218, 231, 3769, 0, 49, 3784, 3785, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17219, 231, 3785, 0, 50, 3769, 3786, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17220, 231, 3786, 0, 51, 3785, 3787, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17221, 231, 3787, 0, 52, 3786, 3788, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17222, 231, 3788, 0, 53, 3787, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17223, 231, 3679, 0, 54, 3788, 3789, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17224, 231, 3789, 0, 55, 3679, 3790, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17225, 231, 3790, 0, 56, 3789, 3634, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17226, 231, 3634, 0, 57, 3790, 3791, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17227, 231, 3791, 0, 58, 3634, 3792, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17228, 231, 3792, 0, 59, 3791, 3791, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17229, 231, 3791, 0, 60, 3792, 3635, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17230, 231, 3635, 0, 61, 3791, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17231, 231, 3703, 0, 62, 3635, 3793, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17232, 231, 3793, 0, 63, 3703, 3661, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17233, 231, 3661, 0, 64, 3793, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17234, 231, 3679, 0, 65, 3661, 3794, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17235, 231, 3794, 0, 66, 3679, 3635, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17236, 231, 3635, 0, 67, 3794, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17237, 231, 3703, 0, 68, 3635, 3795, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17238, 231, 3795, 0, 69, 3703, 3728, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17239, 231, 3728, 0, 70, 3795, 3796, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17240, 231, 3796, 0, 71, 3728, 3666, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17241, 231, 3666, 0, 72, 3796, 3703, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17242, 231, 3703, 0, 73, 3666, 3679, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17243, 231, 3679, 0, 74, 3703, 3797, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17244, 231, 3797, 0, 75, 3679, 3685, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17245, 231, 3685, 0, 76, 3797, 3798, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17246, 231, 3798, 0, 77, 3685, 3657, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17247, 231, 3657, 0, 78, 3798, 3685, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17248, 231, 3685, 0, 79, 3657, 3676, 21, 1069768747, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17249, 231, 3676, 0, 80, 3685, 3676, 21, 1069768747, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17250, 231, 3676, 0, 81, 3676, 0, 21, 1069768747, 1, 190, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17251, 232, 3799, 0, 0, 0, 3679, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17252, 232, 3679, 0, 1, 3799, 3800, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17253, 232, 3800, 0, 2, 3679, 3641, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17254, 232, 3641, 0, 3, 3800, 3799, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17255, 232, 3799, 0, 4, 3641, 3679, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17256, 232, 3679, 0, 5, 3799, 3800, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17257, 232, 3800, 0, 6, 3679, 3641, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17258, 232, 3641, 0, 7, 3800, 3801, 21, 1069768853, 1, 188, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17259, 232, 3801, 0, 8, 3641, 3769, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17260, 232, 3769, 0, 9, 3801, 3802, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17261, 232, 3802, 0, 10, 3769, 3803, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17262, 232, 3803, 0, 11, 3802, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17263, 232, 3669, 0, 12, 3803, 3804, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17264, 232, 3804, 0, 13, 3669, 3805, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17265, 232, 3805, 0, 14, 3804, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17266, 232, 3641, 0, 15, 3805, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17267, 232, 3635, 0, 16, 3641, 3806, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17268, 232, 3806, 0, 17, 3635, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17269, 232, 3807, 0, 18, 3806, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17270, 232, 3669, 0, 19, 3807, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17271, 232, 3808, 0, 20, 3669, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17272, 232, 3681, 0, 21, 3808, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17273, 232, 3669, 0, 22, 3681, 3769, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17274, 232, 3769, 0, 23, 3669, 3809, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17275, 232, 3809, 0, 24, 3769, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17276, 232, 3641, 0, 25, 3809, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17277, 232, 3655, 0, 26, 3641, 3649, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17278, 232, 3649, 0, 27, 3655, 3791, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17279, 232, 3791, 0, 28, 3649, 3810, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17280, 232, 3810, 0, 29, 3791, 3791, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17281, 232, 3791, 0, 30, 3810, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17282, 232, 3808, 0, 31, 3791, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17283, 232, 3669, 0, 32, 3808, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17284, 232, 3679, 0, 33, 3669, 3811, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17285, 232, 3811, 0, 34, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17286, 232, 3641, 0, 35, 3811, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17287, 232, 3704, 0, 36, 3641, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17288, 232, 3635, 0, 37, 3704, 3812, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17289, 232, 3812, 0, 38, 3635, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17290, 232, 3655, 0, 39, 3812, 3684, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17291, 232, 3684, 0, 40, 3655, 3813, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17292, 232, 3813, 0, 41, 3684, 3814, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17293, 232, 3814, 0, 42, 3813, 3815, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17294, 232, 3815, 0, 43, 3814, 3816, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17295, 232, 3816, 0, 44, 3815, 3720, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17296, 232, 3720, 0, 45, 3816, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17297, 232, 3807, 0, 46, 3720, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17298, 232, 3661, 0, 47, 3807, 3817, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17299, 232, 3817, 0, 48, 3661, 3638, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17300, 232, 3638, 0, 49, 3817, 3640, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17301, 232, 3640, 0, 50, 3638, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17302, 232, 3704, 0, 51, 3640, 3693, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17303, 232, 3693, 0, 52, 3704, 3812, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17304, 232, 3812, 0, 53, 3693, 3818, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17305, 232, 3818, 0, 54, 3812, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17306, 232, 3661, 0, 55, 3818, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17307, 232, 3679, 0, 56, 3661, 3811, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17308, 232, 3811, 0, 57, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17309, 232, 3641, 0, 58, 3811, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17310, 232, 3808, 0, 59, 3641, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17311, 232, 3681, 0, 60, 3808, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17312, 232, 3661, 0, 61, 3681, 3809, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17313, 232, 3809, 0, 62, 3661, 3697, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17314, 232, 3697, 0, 63, 3809, 3819, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17315, 232, 3819, 0, 64, 3697, 3820, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17316, 232, 3820, 0, 65, 3819, 3720, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17317, 232, 3720, 0, 66, 3820, 3755, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17318, 232, 3755, 0, 67, 3720, 3821, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17319, 232, 3821, 0, 68, 3755, 3804, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17320, 232, 3804, 0, 69, 3821, 3646, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17321, 232, 3646, 0, 70, 3804, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17322, 232, 3704, 0, 71, 3646, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17323, 232, 3635, 0, 72, 3704, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17324, 232, 3807, 0, 73, 3635, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17325, 232, 3669, 0, 74, 3807, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17326, 232, 3679, 0, 75, 3669, 3656, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17327, 232, 3656, 0, 76, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17328, 232, 3641, 0, 77, 3656, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17329, 232, 3679, 0, 78, 3641, 3822, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17330, 232, 3822, 0, 79, 3679, 3823, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17331, 232, 3823, 0, 80, 3822, 3824, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17332, 232, 3824, 0, 81, 3823, 3825, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17333, 232, 3825, 0, 82, 3824, 3826, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17334, 232, 3826, 0, 83, 3825, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17335, 232, 3681, 0, 84, 3826, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17336, 232, 3655, 0, 85, 3681, 3827, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17337, 232, 3827, 0, 86, 3655, 3767, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17338, 232, 3767, 0, 87, 3827, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17339, 232, 3704, 0, 88, 3767, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17340, 232, 3635, 0, 89, 3704, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17341, 232, 3807, 0, 90, 3635, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17342, 232, 3681, 0, 91, 3807, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17343, 232, 3661, 0, 92, 3681, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17344, 232, 3679, 0, 93, 3661, 3800, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17345, 232, 3800, 0, 94, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17346, 232, 3641, 0, 95, 3800, 3828, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17347, 232, 3828, 0, 96, 3641, 3693, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17348, 232, 3693, 0, 97, 3828, 3829, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17349, 232, 3829, 0, 98, 3693, 3830, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17350, 232, 3830, 0, 99, 3829, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17351, 232, 3807, 0, 100, 3830, 3636, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17352, 232, 3636, 0, 101, 3807, 3701, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17353, 232, 3701, 0, 102, 3636, 3831, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17354, 232, 3831, 0, 103, 3701, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17355, 232, 3681, 0, 104, 3831, 3832, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17356, 232, 3832, 0, 105, 3681, 3823, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17357, 232, 3823, 0, 106, 3832, 3833, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17358, 232, 3833, 0, 107, 3823, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17359, 232, 3808, 0, 108, 3833, 3834, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17360, 232, 3834, 0, 109, 3808, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17361, 232, 3669, 0, 110, 3834, 3650, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17362, 232, 3650, 0, 111, 3669, 3835, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17363, 232, 3835, 0, 112, 3650, 3836, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17364, 232, 3836, 0, 113, 3835, 3833, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17365, 232, 3833, 0, 114, 3836, 3735, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17366, 232, 3735, 0, 115, 3833, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17367, 232, 3807, 0, 116, 3735, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17368, 232, 3661, 0, 117, 3807, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17369, 232, 3679, 0, 118, 3661, 3656, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17370, 232, 3656, 0, 119, 3679, 3640, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17371, 232, 3640, 0, 120, 3656, 3801, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17372, 232, 3801, 0, 121, 3640, 3769, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17373, 232, 3769, 0, 122, 3801, 3802, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17374, 232, 3802, 0, 123, 3769, 3803, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17375, 232, 3803, 0, 124, 3802, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17376, 232, 3669, 0, 125, 3803, 3804, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17377, 232, 3804, 0, 126, 3669, 3805, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17378, 232, 3805, 0, 127, 3804, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17379, 232, 3641, 0, 128, 3805, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17380, 232, 3635, 0, 129, 3641, 3806, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17381, 232, 3806, 0, 130, 3635, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17382, 232, 3807, 0, 131, 3806, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17383, 232, 3669, 0, 132, 3807, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17384, 232, 3808, 0, 133, 3669, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17385, 232, 3681, 0, 134, 3808, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17386, 232, 3669, 0, 135, 3681, 3769, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17387, 232, 3769, 0, 136, 3669, 3809, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17388, 232, 3809, 0, 137, 3769, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17389, 232, 3641, 0, 138, 3809, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17390, 232, 3655, 0, 139, 3641, 3649, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17391, 232, 3649, 0, 140, 3655, 3791, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17392, 232, 3791, 0, 141, 3649, 3810, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17393, 232, 3810, 0, 142, 3791, 3791, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17394, 232, 3791, 0, 143, 3810, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17395, 232, 3808, 0, 144, 3791, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17396, 232, 3669, 0, 145, 3808, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17397, 232, 3679, 0, 146, 3669, 3811, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17398, 232, 3811, 0, 147, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17399, 232, 3641, 0, 148, 3811, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17400, 232, 3704, 0, 149, 3641, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17401, 232, 3635, 0, 150, 3704, 3812, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17402, 232, 3812, 0, 151, 3635, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17403, 232, 3655, 0, 152, 3812, 3684, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17404, 232, 3684, 0, 153, 3655, 3813, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17405, 232, 3813, 0, 154, 3684, 3814, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17406, 232, 3814, 0, 155, 3813, 3815, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17407, 232, 3815, 0, 156, 3814, 3816, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17408, 232, 3816, 0, 157, 3815, 3720, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17409, 232, 3720, 0, 158, 3816, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17410, 232, 3807, 0, 159, 3720, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17411, 232, 3661, 0, 160, 3807, 3817, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17412, 232, 3817, 0, 161, 3661, 3638, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17413, 232, 3638, 0, 162, 3817, 3640, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17414, 232, 3640, 0, 163, 3638, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17415, 232, 3704, 0, 164, 3640, 3693, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17416, 232, 3693, 0, 165, 3704, 3812, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17417, 232, 3812, 0, 166, 3693, 3818, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17418, 232, 3818, 0, 167, 3812, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17419, 232, 3661, 0, 168, 3818, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17420, 232, 3679, 0, 169, 3661, 3811, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17421, 232, 3811, 0, 170, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17422, 232, 3641, 0, 171, 3811, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17423, 232, 3808, 0, 172, 3641, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17424, 232, 3681, 0, 173, 3808, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17425, 232, 3661, 0, 174, 3681, 3809, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17426, 232, 3809, 0, 175, 3661, 3697, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17427, 232, 3697, 0, 176, 3809, 3819, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17428, 232, 3819, 0, 177, 3697, 3820, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17429, 232, 3820, 0, 178, 3819, 3720, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17430, 232, 3720, 0, 179, 3820, 3755, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17431, 232, 3755, 0, 180, 3720, 3821, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17432, 232, 3821, 0, 181, 3755, 3804, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17433, 232, 3804, 0, 182, 3821, 3646, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17434, 232, 3646, 0, 183, 3804, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17435, 232, 3704, 0, 184, 3646, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17436, 232, 3635, 0, 185, 3704, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17437, 232, 3807, 0, 186, 3635, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17438, 232, 3669, 0, 187, 3807, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17439, 232, 3679, 0, 188, 3669, 3656, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17440, 232, 3656, 0, 189, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17441, 232, 3641, 0, 190, 3656, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17442, 232, 3679, 0, 191, 3641, 3822, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17443, 232, 3822, 0, 192, 3679, 3823, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17444, 232, 3823, 0, 193, 3822, 3824, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17445, 232, 3824, 0, 194, 3823, 3825, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17446, 232, 3825, 0, 195, 3824, 3826, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17447, 232, 3826, 0, 196, 3825, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17448, 232, 3681, 0, 197, 3826, 3655, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17449, 232, 3655, 0, 198, 3681, 3827, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17450, 232, 3827, 0, 199, 3655, 3767, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17451, 232, 3767, 0, 200, 3827, 3704, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17452, 232, 3704, 0, 201, 3767, 3635, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17453, 232, 3635, 0, 202, 3704, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17454, 232, 3807, 0, 203, 3635, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17455, 232, 3681, 0, 204, 3807, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17456, 232, 3661, 0, 205, 3681, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17457, 232, 3679, 0, 206, 3661, 3800, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17458, 232, 3800, 0, 207, 3679, 3641, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17459, 232, 3641, 0, 208, 3800, 3828, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17460, 232, 3828, 0, 209, 3641, 3693, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17461, 232, 3693, 0, 210, 3828, 3829, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17462, 232, 3829, 0, 211, 3693, 3830, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17463, 232, 3830, 0, 212, 3829, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17464, 232, 3807, 0, 213, 3830, 3636, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17465, 232, 3636, 0, 214, 3807, 3701, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17466, 232, 3701, 0, 215, 3636, 3831, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17467, 232, 3831, 0, 216, 3701, 3681, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17468, 232, 3681, 0, 217, 3831, 3832, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17469, 232, 3832, 0, 218, 3681, 3823, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17470, 232, 3823, 0, 219, 3832, 3833, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17471, 232, 3833, 0, 220, 3823, 3808, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17472, 232, 3808, 0, 221, 3833, 3834, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17473, 232, 3834, 0, 222, 3808, 3669, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17474, 232, 3669, 0, 223, 3834, 3650, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17475, 232, 3650, 0, 224, 3669, 3835, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17476, 232, 3835, 0, 225, 3650, 3836, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17477, 232, 3836, 0, 226, 3835, 3833, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17478, 232, 3833, 0, 227, 3836, 3735, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17479, 232, 3735, 0, 228, 3833, 3807, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17480, 232, 3807, 0, 229, 3735, 3661, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17481, 232, 3661, 0, 230, 3807, 3679, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17482, 232, 3679, 0, 231, 3661, 3656, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17483, 232, 3656, 0, 232, 3679, 3640, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17484, 232, 3640, 0, 233, 3656, 3837, 21, 1069768853, 1, 189, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17485, 232, 3837, 0, 234, 3640, 3837, 21, 1069768853, 1, 190, '', 1);
-INSERT INTO ezsearch_object_word_link VALUES (17486, 232, 3837, 0, 235, 3837, 0, 21, 1069768853, 1, 190, '', 1);
-INSERT INTO ezsearch_object_word_link VALUES (17487, 161, 3684, 0, 0, 0, 3646, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17488, 161, 3646, 0, 1, 3684, 3641, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17489, 161, 3641, 0, 2, 3646, 3684, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17490, 161, 3684, 0, 3, 3641, 3646, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17491, 161, 3646, 0, 4, 3684, 3641, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17492, 161, 3641, 0, 5, 3646, 3705, 10, 1068047603, 1, 140, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17493, 161, 3705, 0, 6, 3641, 3838, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17494, 161, 3838, 0, 7, 3705, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17495, 161, 3839, 0, 8, 3838, 3840, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17496, 161, 3840, 0, 9, 3839, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17497, 161, 3669, 0, 10, 3840, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17498, 161, 3841, 0, 11, 3669, 3842, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17499, 161, 3842, 0, 12, 3841, 3843, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17500, 161, 3843, 0, 13, 3842, 3844, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17501, 161, 3844, 0, 14, 3843, 3845, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17502, 161, 3845, 0, 15, 3844, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17503, 161, 3697, 0, 16, 3845, 3846, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17504, 161, 3846, 0, 17, 3697, 3847, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17505, 161, 3847, 0, 18, 3846, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17506, 161, 3640, 0, 19, 3847, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17507, 161, 3635, 0, 20, 3640, 3848, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17508, 161, 3848, 0, 21, 3635, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17509, 161, 3704, 0, 22, 3848, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17510, 161, 3635, 0, 23, 3704, 3781, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17511, 161, 3781, 0, 24, 3635, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17512, 161, 3679, 0, 25, 3781, 3838, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17513, 161, 3838, 0, 26, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17514, 161, 3635, 0, 27, 3838, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17515, 161, 3636, 0, 28, 3635, 3637, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17516, 161, 3637, 0, 29, 3636, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17517, 161, 3685, 0, 30, 3637, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17518, 161, 3693, 0, 31, 3685, 3849, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17519, 161, 3849, 0, 32, 3693, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17520, 161, 3850, 0, 33, 3849, 3851, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17521, 161, 3851, 0, 34, 3850, 3852, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17522, 161, 3852, 0, 35, 3851, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17523, 161, 3744, 0, 36, 3852, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17524, 161, 3853, 0, 37, 3744, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17525, 161, 3666, 0, 38, 3853, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17526, 161, 3685, 0, 39, 3666, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17527, 161, 3693, 0, 40, 3685, 3849, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17528, 161, 3849, 0, 41, 3693, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17529, 161, 3854, 0, 42, 3849, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17530, 161, 3825, 0, 43, 3854, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17531, 161, 3850, 0, 44, 3825, 3855, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17532, 161, 3855, 0, 45, 3850, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17533, 161, 3783, 0, 46, 3855, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17534, 161, 3669, 0, 47, 3783, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17535, 161, 3856, 0, 48, 3669, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17536, 161, 3661, 0, 49, 3856, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17537, 161, 3635, 0, 50, 3661, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17538, 161, 3719, 0, 51, 3635, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17539, 161, 3856, 0, 52, 3719, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17540, 161, 3661, 0, 53, 3856, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17541, 161, 3787, 0, 54, 3661, 3857, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17542, 161, 3857, 0, 55, 3787, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17543, 161, 3693, 0, 56, 3857, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17544, 161, 3786, 0, 57, 3693, 3858, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17545, 161, 3858, 0, 58, 3786, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17546, 161, 3666, 0, 59, 3858, 3859, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17547, 161, 3859, 0, 60, 3666, 3634, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17548, 161, 3634, 0, 61, 3859, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17549, 161, 3783, 0, 62, 3634, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17550, 161, 3669, 0, 63, 3783, 3784, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17551, 161, 3784, 0, 64, 3669, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17552, 161, 3769, 0, 65, 3784, 3785, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17553, 161, 3785, 0, 66, 3769, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17554, 161, 3786, 0, 67, 3785, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17555, 161, 3635, 0, 68, 3786, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17556, 161, 3719, 0, 69, 3635, 3784, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17557, 161, 3784, 0, 70, 3719, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17558, 161, 3769, 0, 71, 3784, 3785, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17559, 161, 3785, 0, 72, 3769, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17560, 161, 3786, 0, 73, 3785, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17561, 161, 3787, 0, 74, 3786, 3788, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17562, 161, 3788, 0, 75, 3787, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17563, 161, 3679, 0, 76, 3788, 3860, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17564, 161, 3860, 0, 77, 3679, 3861, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17565, 161, 3861, 0, 78, 3860, 3790, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17566, 161, 3790, 0, 79, 3861, 3634, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17567, 161, 3634, 0, 80, 3790, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17568, 161, 3791, 0, 81, 3634, 3792, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17569, 161, 3792, 0, 82, 3791, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17570, 161, 3791, 0, 83, 3792, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17571, 161, 3635, 0, 84, 3791, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17572, 161, 3703, 0, 85, 3635, 3793, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17573, 161, 3793, 0, 86, 3703, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17574, 161, 3661, 0, 87, 3793, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17575, 161, 3679, 0, 88, 3661, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17576, 161, 3794, 0, 89, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17577, 161, 3635, 0, 90, 3794, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17578, 161, 3703, 0, 91, 3635, 3795, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17579, 161, 3795, 0, 92, 3703, 3728, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17580, 161, 3728, 0, 93, 3795, 3796, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17581, 161, 3796, 0, 94, 3728, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17582, 161, 3666, 0, 95, 3796, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17583, 161, 3703, 0, 96, 3666, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17584, 161, 3679, 0, 97, 3703, 3797, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17585, 161, 3797, 0, 98, 3679, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17586, 161, 3685, 0, 99, 3797, 3798, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17587, 161, 3798, 0, 100, 3685, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17588, 161, 3657, 0, 101, 3798, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17589, 161, 3685, 0, 102, 3657, 3799, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17590, 161, 3799, 0, 103, 3685, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17591, 161, 3679, 0, 104, 3799, 3800, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17592, 161, 3800, 0, 105, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17593, 161, 3641, 0, 106, 3800, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17594, 161, 3801, 0, 107, 3641, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17595, 161, 3769, 0, 108, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17596, 161, 3802, 0, 109, 3769, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17597, 161, 3803, 0, 110, 3802, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17598, 161, 3669, 0, 111, 3803, 3804, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17599, 161, 3804, 0, 112, 3669, 3805, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17600, 161, 3805, 0, 113, 3804, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17601, 161, 3641, 0, 114, 3805, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17602, 161, 3635, 0, 115, 3641, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17603, 161, 3806, 0, 116, 3635, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17604, 161, 3807, 0, 117, 3806, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17605, 161, 3669, 0, 118, 3807, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17606, 161, 3808, 0, 119, 3669, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17607, 161, 3681, 0, 120, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17608, 161, 3669, 0, 121, 3681, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17609, 161, 3769, 0, 122, 3669, 3809, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17610, 161, 3809, 0, 123, 3769, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17611, 161, 3641, 0, 124, 3809, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17612, 161, 3655, 0, 125, 3641, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17613, 161, 3649, 0, 126, 3655, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17614, 161, 3791, 0, 127, 3649, 3810, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17615, 161, 3810, 0, 128, 3791, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17616, 161, 3791, 0, 129, 3810, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17617, 161, 3808, 0, 130, 3791, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17618, 161, 3669, 0, 131, 3808, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17619, 161, 3679, 0, 132, 3669, 3811, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17620, 161, 3811, 0, 133, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17621, 161, 3641, 0, 134, 3811, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17622, 161, 3704, 0, 135, 3641, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17623, 161, 3635, 0, 136, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17624, 161, 3812, 0, 137, 3635, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17625, 161, 3655, 0, 138, 3812, 3684, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17626, 161, 3684, 0, 139, 3655, 3813, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17627, 161, 3813, 0, 140, 3684, 3814, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17628, 161, 3814, 0, 141, 3813, 3815, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17629, 161, 3815, 0, 142, 3814, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17630, 161, 3816, 0, 143, 3815, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17631, 161, 3720, 0, 144, 3816, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17632, 161, 3807, 0, 145, 3720, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17633, 161, 3661, 0, 146, 3807, 3817, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17634, 161, 3817, 0, 147, 3661, 3638, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17635, 161, 3638, 0, 148, 3817, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17636, 161, 3640, 0, 149, 3638, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17637, 161, 3704, 0, 150, 3640, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17638, 161, 3693, 0, 151, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17639, 161, 3812, 0, 152, 3693, 3818, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17640, 161, 3818, 0, 153, 3812, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17641, 161, 3661, 0, 154, 3818, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17642, 161, 3679, 0, 155, 3661, 3811, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17643, 161, 3811, 0, 156, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17644, 161, 3641, 0, 157, 3811, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17645, 161, 3808, 0, 158, 3641, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17646, 161, 3681, 0, 159, 3808, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17647, 161, 3661, 0, 160, 3681, 3809, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17648, 161, 3809, 0, 161, 3661, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17649, 161, 3697, 0, 162, 3809, 3819, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17650, 161, 3819, 0, 163, 3697, 3820, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17651, 161, 3820, 0, 164, 3819, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17652, 161, 3720, 0, 165, 3820, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17653, 161, 3755, 0, 166, 3720, 3821, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17654, 161, 3821, 0, 167, 3755, 3804, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17655, 161, 3804, 0, 168, 3821, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17656, 161, 3646, 0, 169, 3804, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17657, 161, 3704, 0, 170, 3646, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17658, 161, 3635, 0, 171, 3704, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17659, 161, 3807, 0, 172, 3635, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17660, 161, 3669, 0, 173, 3807, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17661, 161, 3679, 0, 174, 3669, 3656, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17662, 161, 3656, 0, 175, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17663, 161, 3641, 0, 176, 3656, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17664, 161, 3679, 0, 177, 3641, 3822, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17665, 161, 3822, 0, 178, 3679, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17666, 161, 3823, 0, 179, 3822, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17667, 161, 3824, 0, 180, 3823, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17668, 161, 3825, 0, 181, 3824, 3826, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17669, 161, 3826, 0, 182, 3825, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17670, 161, 3681, 0, 183, 3826, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17671, 161, 3655, 0, 184, 3681, 3827, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17672, 161, 3827, 0, 185, 3655, 3767, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17673, 161, 3767, 0, 186, 3827, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17674, 161, 3704, 0, 187, 3767, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17675, 161, 3635, 0, 188, 3704, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17676, 161, 3807, 0, 189, 3635, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17677, 161, 3681, 0, 190, 3807, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17678, 161, 3661, 0, 191, 3681, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17679, 161, 3679, 0, 192, 3661, 3800, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17680, 161, 3800, 0, 193, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17681, 161, 3641, 0, 194, 3800, 3828, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17682, 161, 3828, 0, 195, 3641, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17683, 161, 3693, 0, 196, 3828, 3829, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17684, 161, 3829, 0, 197, 3693, 3830, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17685, 161, 3830, 0, 198, 3829, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17686, 161, 3807, 0, 199, 3830, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17687, 161, 3636, 0, 200, 3807, 3701, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17688, 161, 3701, 0, 201, 3636, 3831, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17689, 161, 3831, 0, 202, 3701, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17690, 161, 3681, 0, 203, 3831, 3832, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17691, 161, 3832, 0, 204, 3681, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17692, 161, 3823, 0, 205, 3832, 3833, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17693, 161, 3833, 0, 206, 3823, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17694, 161, 3808, 0, 207, 3833, 3834, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17695, 161, 3834, 0, 208, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17696, 161, 3669, 0, 209, 3834, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17697, 161, 3650, 0, 210, 3669, 3835, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17698, 161, 3835, 0, 211, 3650, 3836, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17699, 161, 3836, 0, 212, 3835, 3833, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17700, 161, 3833, 0, 213, 3836, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17701, 161, 3735, 0, 214, 3833, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17702, 161, 3807, 0, 215, 3735, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17703, 161, 3661, 0, 216, 3807, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17704, 161, 3679, 0, 217, 3661, 3656, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17705, 161, 3656, 0, 218, 3679, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17706, 161, 3640, 0, 219, 3656, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17707, 161, 3862, 0, 220, 3640, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17708, 161, 3679, 0, 221, 3862, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17709, 161, 3640, 0, 222, 3679, 3863, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17710, 161, 3863, 0, 223, 3640, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17711, 161, 3635, 0, 224, 3863, 3864, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17712, 161, 3864, 0, 225, 3635, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17713, 161, 3693, 0, 226, 3864, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17714, 161, 3812, 0, 227, 3693, 3865, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17715, 161, 3865, 0, 228, 3812, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17716, 161, 3669, 0, 229, 3865, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17717, 161, 3862, 0, 230, 3669, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17718, 161, 3679, 0, 231, 3862, 3866, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17719, 161, 3866, 0, 232, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17720, 161, 3678, 0, 233, 3866, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17721, 161, 3679, 0, 234, 3678, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17722, 161, 3641, 0, 235, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17723, 161, 3635, 0, 236, 3641, 3867, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17724, 161, 3867, 0, 237, 3635, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17725, 161, 3650, 0, 238, 3867, 3868, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17726, 161, 3868, 0, 239, 3650, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17727, 161, 3669, 0, 240, 3868, 3869, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17728, 161, 3869, 0, 241, 3669, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17729, 161, 3783, 0, 242, 3869, 3870, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17730, 161, 3870, 0, 243, 3783, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17731, 161, 3693, 0, 244, 3870, 3871, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17732, 161, 3871, 0, 245, 3693, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17733, 161, 3872, 0, 246, 3871, 3727, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17734, 161, 3727, 0, 247, 3872, 3873, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17735, 161, 3873, 0, 248, 3727, 3855, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17736, 161, 3855, 0, 249, 3873, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17737, 161, 3635, 0, 250, 3855, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17738, 161, 3806, 0, 251, 3635, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17739, 161, 3839, 0, 252, 3806, 3874, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17740, 161, 3874, 0, 253, 3839, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17741, 161, 3841, 0, 254, 3874, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17742, 161, 3666, 0, 255, 3841, 3673, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17743, 161, 3673, 0, 256, 3666, 3875, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17744, 161, 3875, 0, 257, 3673, 3876, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17745, 161, 3876, 0, 258, 3875, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17746, 161, 3666, 0, 259, 3876, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17747, 161, 3862, 0, 260, 3666, 3759, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17748, 161, 3759, 0, 261, 3862, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17749, 161, 3823, 0, 262, 3759, 3877, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17750, 161, 3877, 0, 263, 3823, 3878, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17751, 161, 3878, 0, 264, 3877, 3879, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17752, 161, 3879, 0, 265, 3878, 3673, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17753, 161, 3673, 0, 266, 3879, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17754, 161, 3704, 0, 267, 3673, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17755, 161, 3681, 0, 268, 3704, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17756, 161, 3655, 0, 269, 3681, 3880, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17757, 161, 3880, 0, 270, 3655, 3881, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17758, 161, 3881, 0, 271, 3880, 3882, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17759, 161, 3882, 0, 272, 3881, 3883, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17760, 161, 3883, 0, 273, 3882, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17761, 161, 3806, 0, 274, 3883, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17762, 161, 3824, 0, 275, 3806, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17763, 161, 3703, 0, 276, 3824, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17764, 161, 3669, 0, 277, 3703, 3884, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17765, 161, 3884, 0, 278, 3669, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17766, 161, 3681, 0, 279, 3884, 3885, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17767, 161, 3885, 0, 280, 3681, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17768, 161, 3769, 0, 281, 3885, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17769, 161, 3641, 0, 282, 3769, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17770, 161, 3669, 0, 283, 3641, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17771, 161, 3886, 0, 284, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17772, 161, 3693, 0, 285, 3886, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17773, 161, 3812, 0, 286, 3693, 3799, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17774, 161, 3799, 0, 287, 3812, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17775, 161, 3769, 0, 288, 3799, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17776, 161, 3887, 0, 289, 3769, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17777, 161, 3888, 0, 290, 3887, 3889, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17778, 161, 3889, 0, 291, 3888, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17779, 161, 3769, 0, 292, 3889, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17780, 161, 3887, 0, 293, 3769, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17781, 161, 3666, 0, 294, 3887, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17782, 161, 3890, 0, 295, 3666, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17783, 161, 3888, 0, 296, 3890, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17784, 161, 3655, 0, 297, 3888, 3891, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17785, 161, 3891, 0, 298, 3655, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17786, 161, 3681, 0, 299, 3891, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17787, 161, 3655, 0, 300, 3681, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17788, 161, 3679, 0, 301, 3655, 3892, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17789, 161, 3892, 0, 302, 3679, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17790, 161, 3794, 0, 303, 3892, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17791, 161, 3824, 0, 304, 3794, 3893, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17792, 161, 3893, 0, 305, 3824, 3826, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17793, 161, 3826, 0, 306, 3893, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17794, 161, 3693, 0, 307, 3826, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17795, 161, 3812, 0, 308, 3693, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17796, 161, 3636, 0, 309, 3812, 3874, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17797, 161, 3874, 0, 310, 3636, 3894, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17798, 161, 3894, 0, 311, 3874, 3895, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17799, 161, 3895, 0, 312, 3894, 3896, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17800, 161, 3896, 0, 313, 3895, 3897, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17801, 161, 3897, 0, 314, 3896, 3898, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17802, 161, 3898, 0, 315, 3897, 3899, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17803, 161, 3899, 0, 316, 3898, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17804, 161, 3697, 0, 317, 3899, 3900, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17805, 161, 3900, 0, 318, 3697, 3899, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17806, 161, 3899, 0, 319, 3900, 3901, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17807, 161, 3901, 0, 320, 3899, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17808, 161, 3720, 0, 321, 3901, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17809, 161, 3902, 0, 322, 3720, 3734, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17810, 161, 3734, 0, 323, 3902, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17811, 161, 3735, 0, 324, 3734, 3903, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17812, 161, 3903, 0, 325, 3735, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17813, 161, 3679, 0, 326, 3903, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17814, 161, 3888, 0, 327, 3679, 3904, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17815, 161, 3904, 0, 328, 3888, 3905, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17816, 161, 3905, 0, 329, 3904, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17817, 161, 3902, 0, 330, 3905, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17818, 161, 3666, 0, 331, 3902, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17819, 161, 3704, 0, 332, 3666, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17820, 161, 3635, 0, 333, 3704, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17821, 161, 3906, 0, 334, 3635, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17822, 161, 3808, 0, 335, 3906, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17823, 161, 3661, 0, 336, 3808, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17824, 161, 3679, 0, 337, 3661, 3907, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17825, 161, 3907, 0, 338, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17826, 161, 3641, 0, 339, 3907, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17827, 161, 3816, 0, 340, 3641, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17828, 161, 3720, 0, 341, 3816, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17829, 161, 3635, 0, 342, 3720, 3908, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17830, 161, 3908, 0, 343, 3635, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17831, 161, 3685, 0, 344, 3908, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17832, 161, 3853, 0, 345, 3685, 3909, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17833, 161, 3909, 0, 346, 3853, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17834, 161, 3681, 0, 347, 3909, 3682, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17835, 161, 3682, 0, 348, 3681, 3684, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17836, 161, 3684, 0, 349, 3682, 3907, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17837, 161, 3907, 0, 350, 3684, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17838, 161, 3839, 0, 351, 3907, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17839, 161, 3693, 0, 352, 3839, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17840, 161, 3888, 0, 353, 3693, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17841, 161, 3636, 0, 354, 3888, 3910, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17842, 161, 3910, 0, 355, 3636, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17843, 161, 3769, 0, 356, 3910, 3911, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17844, 161, 3911, 0, 357, 3769, 3912, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17845, 161, 3912, 0, 358, 3911, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17846, 161, 3704, 0, 359, 3912, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17847, 161, 3679, 0, 360, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17848, 161, 3812, 0, 361, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17849, 161, 3635, 0, 362, 3812, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17850, 161, 3689, 0, 363, 3635, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17851, 161, 3808, 0, 364, 3689, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17852, 161, 3655, 0, 365, 3808, 3913, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17853, 161, 3913, 0, 366, 3655, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17854, 161, 3750, 0, 367, 3913, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17855, 161, 3719, 0, 368, 3750, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17856, 161, 3886, 0, 369, 3719, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17857, 161, 3704, 0, 370, 3886, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17858, 161, 3750, 0, 371, 3704, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17859, 161, 3744, 0, 372, 3750, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17860, 161, 3693, 0, 373, 3744, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17861, 161, 3888, 0, 374, 3693, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17862, 161, 3719, 0, 375, 3888, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17863, 161, 3914, 0, 376, 3719, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17864, 161, 3685, 0, 377, 3914, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17865, 161, 3679, 0, 378, 3685, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17866, 161, 3812, 0, 379, 3679, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17867, 161, 3655, 0, 380, 3812, 3915, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17868, 161, 3915, 0, 381, 3655, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17869, 161, 3916, 0, 382, 3915, 3917, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17870, 161, 3917, 0, 383, 3916, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17871, 161, 3750, 0, 384, 3917, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17872, 161, 3719, 0, 385, 3750, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17873, 161, 3801, 0, 386, 3719, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17874, 161, 3916, 0, 387, 3801, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17875, 161, 3918, 0, 388, 3916, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17876, 161, 3669, 0, 389, 3918, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17877, 161, 3886, 0, 390, 3669, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17878, 161, 3824, 0, 391, 3886, 3919, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17879, 161, 3919, 0, 392, 3824, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17880, 161, 3750, 0, 393, 3919, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17881, 161, 3854, 0, 394, 3750, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17882, 161, 3825, 0, 395, 3854, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17883, 161, 3650, 0, 396, 3825, 3920, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17884, 161, 3920, 0, 397, 3650, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17885, 161, 3669, 0, 398, 3920, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17886, 161, 3902, 0, 399, 3669, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17887, 161, 3921, 0, 400, 3902, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17888, 161, 3693, 0, 401, 3921, 3922, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17889, 161, 3922, 0, 402, 3693, 3923, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17890, 161, 3923, 0, 403, 3922, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17891, 161, 3769, 0, 404, 3923, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17892, 161, 3887, 0, 405, 3769, 3924, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17893, 161, 3924, 0, 406, 3887, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17894, 161, 3678, 0, 407, 3924, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17895, 161, 3654, 0, 408, 3678, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17896, 161, 3635, 0, 409, 3654, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17897, 161, 3906, 0, 410, 3635, 3925, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17898, 161, 3925, 0, 411, 3906, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17899, 161, 3669, 0, 412, 3925, 3926, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17900, 161, 3926, 0, 413, 3669, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17901, 161, 3655, 0, 414, 3926, 3877, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17902, 161, 3877, 0, 415, 3655, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17903, 161, 3669, 0, 416, 3877, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17904, 161, 3679, 0, 417, 3669, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17905, 161, 3812, 0, 418, 3679, 3927, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17906, 161, 3927, 0, 419, 3812, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17907, 161, 3801, 0, 420, 3927, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17908, 161, 3769, 0, 421, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17909, 161, 3802, 0, 422, 3769, 3928, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17910, 161, 3928, 0, 423, 3802, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17911, 161, 3890, 0, 424, 3928, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17912, 161, 3654, 0, 425, 3890, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17913, 161, 3635, 0, 426, 3654, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17914, 161, 3906, 0, 427, 3635, 3925, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17915, 161, 3925, 0, 428, 3906, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17916, 161, 3669, 0, 429, 3925, 3929, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17917, 161, 3929, 0, 430, 3669, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17918, 161, 3650, 0, 431, 3929, 3930, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17919, 161, 3930, 0, 432, 3650, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17920, 161, 3666, 0, 433, 3930, 3931, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17921, 161, 3931, 0, 434, 3666, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17922, 161, 3921, 0, 435, 3931, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17923, 161, 3693, 0, 436, 3921, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17924, 161, 3872, 0, 437, 3693, 3900, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17925, 161, 3900, 0, 438, 3872, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17926, 161, 3816, 0, 439, 3900, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17927, 161, 3720, 0, 440, 3816, 3932, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17928, 161, 3932, 0, 441, 3720, 3933, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17929, 161, 3933, 0, 442, 3932, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17930, 161, 3720, 0, 443, 3933, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17931, 161, 3755, 0, 444, 3720, 3934, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17932, 161, 3934, 0, 445, 3755, 3851, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17933, 161, 3851, 0, 446, 3934, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17934, 161, 3794, 0, 447, 3851, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17935, 161, 3655, 0, 448, 3794, 3935, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17936, 161, 3935, 0, 449, 3655, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17937, 161, 3783, 0, 450, 3935, 3936, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17938, 161, 3936, 0, 451, 3783, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17939, 161, 3703, 0, 452, 3936, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17940, 161, 3635, 0, 453, 3703, 3937, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17941, 161, 3937, 0, 454, 3635, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17942, 161, 3654, 0, 455, 3937, 3664, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17943, 161, 3664, 0, 456, 3654, 3938, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17944, 161, 3938, 0, 457, 3664, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17945, 161, 3654, 0, 458, 3938, 3939, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17946, 161, 3939, 0, 459, 3654, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17947, 161, 3703, 0, 460, 3939, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17948, 161, 3635, 0, 461, 3703, 3940, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17949, 161, 3940, 0, 462, 3635, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17950, 161, 3654, 0, 463, 3940, 3941, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17951, 161, 3941, 0, 464, 3654, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17952, 161, 3689, 0, 465, 3941, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17953, 161, 3635, 0, 466, 3689, 3942, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17954, 161, 3942, 0, 467, 3635, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17955, 161, 3943, 0, 468, 3942, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17956, 161, 3635, 0, 469, 3943, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17957, 161, 3806, 0, 470, 3635, 3944, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17958, 161, 3944, 0, 471, 3806, 3672, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17959, 161, 3672, 0, 472, 3944, 3945, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17960, 161, 3945, 0, 473, 3672, 3748, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17961, 161, 3748, 0, 474, 3945, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17962, 161, 3803, 0, 475, 3748, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17963, 161, 3669, 0, 476, 3803, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17964, 161, 3921, 0, 477, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17965, 161, 3693, 0, 478, 3921, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17966, 161, 3872, 0, 479, 3693, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17967, 161, 3704, 0, 480, 3872, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17968, 161, 3635, 0, 481, 3704, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17969, 161, 3850, 0, 482, 3635, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17970, 161, 3841, 0, 483, 3850, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17971, 161, 3946, 0, 484, 3841, 3947, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17972, 161, 3947, 0, 485, 3946, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17973, 161, 3661, 0, 486, 3947, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17974, 161, 3693, 0, 487, 3661, 3948, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17975, 161, 3948, 0, 488, 3693, 3949, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17976, 161, 3949, 0, 489, 3948, 3950, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17977, 161, 3950, 0, 490, 3949, 3759, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17978, 161, 3759, 0, 491, 3950, 3885, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17979, 161, 3885, 0, 492, 3759, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17980, 161, 3635, 0, 493, 3885, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17981, 161, 3808, 0, 494, 3635, 3951, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17982, 161, 3951, 0, 495, 3808, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17983, 161, 3661, 0, 496, 3951, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17984, 161, 3693, 0, 497, 3661, 3952, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17985, 161, 3952, 0, 498, 3693, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17986, 161, 3946, 0, 499, 3952, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17987, 161, 3856, 0, 500, 3946, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17988, 161, 3661, 0, 501, 3856, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17989, 161, 3693, 0, 502, 3661, 3953, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17990, 161, 3953, 0, 503, 3693, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17991, 161, 3946, 0, 504, 3953, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17992, 161, 3856, 0, 505, 3946, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17993, 161, 3666, 0, 506, 3856, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17994, 161, 3841, 0, 507, 3666, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17995, 161, 3946, 0, 508, 3841, 3947, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17996, 161, 3947, 0, 509, 3946, 3954, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17997, 161, 3954, 0, 510, 3947, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17998, 161, 3661, 0, 511, 3954, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (17999, 161, 3693, 0, 512, 3661, 3955, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18000, 161, 3955, 0, 513, 3693, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18001, 161, 3679, 0, 514, 3955, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18002, 161, 3956, 0, 515, 3679, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18003, 161, 3803, 0, 516, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18004, 161, 3635, 0, 517, 3803, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18005, 161, 3801, 0, 518, 3635, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18006, 161, 3669, 0, 519, 3801, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18007, 161, 3850, 0, 520, 3669, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18008, 161, 3646, 0, 521, 3850, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18009, 161, 3794, 0, 522, 3646, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18010, 161, 3666, 0, 523, 3794, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18011, 161, 3890, 0, 524, 3666, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18012, 161, 3693, 0, 525, 3890, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18013, 161, 3872, 0, 526, 3693, 3957, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18014, 161, 3957, 0, 527, 3872, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18015, 161, 3655, 0, 528, 3957, 3958, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18016, 161, 3958, 0, 529, 3655, 3959, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18017, 161, 3959, 0, 530, 3958, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18018, 161, 3679, 0, 531, 3959, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18019, 161, 3918, 0, 532, 3679, 3773, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18020, 161, 3773, 0, 533, 3918, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18021, 161, 3681, 0, 534, 3773, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18022, 161, 3854, 0, 535, 3681, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18023, 161, 3902, 0, 536, 3854, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18024, 161, 3824, 0, 537, 3902, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18025, 161, 3886, 0, 538, 3824, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18026, 161, 3693, 0, 539, 3886, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18027, 161, 3812, 0, 540, 3693, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18028, 161, 3661, 0, 541, 3812, 3777, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18029, 161, 3777, 0, 542, 3661, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18030, 161, 3679, 0, 543, 3777, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18031, 161, 3802, 0, 544, 3679, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18032, 161, 3956, 0, 545, 3802, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18033, 161, 3803, 0, 546, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18034, 161, 3635, 0, 547, 3803, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18035, 161, 3801, 0, 548, 3635, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18036, 161, 3943, 0, 549, 3801, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18037, 161, 3693, 0, 550, 3943, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18038, 161, 3812, 0, 551, 3693, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18039, 161, 3655, 0, 552, 3812, 3958, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18040, 161, 3958, 0, 553, 3655, 3960, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18041, 161, 3960, 0, 554, 3958, 3879, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18042, 161, 3879, 0, 555, 3960, 3961, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18043, 161, 3961, 0, 556, 3879, 3817, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18044, 161, 3817, 0, 557, 3961, 3962, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18045, 161, 3962, 0, 558, 3817, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18046, 161, 3943, 0, 559, 3962, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18047, 161, 3693, 0, 560, 3943, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18048, 161, 3872, 0, 561, 3693, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18049, 161, 3735, 0, 562, 3872, 3963, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18050, 161, 3963, 0, 563, 3735, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18051, 161, 3635, 0, 564, 3963, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18052, 161, 3854, 0, 565, 3635, 3717, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18053, 161, 3717, 0, 566, 3854, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18054, 161, 3914, 0, 567, 3717, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18055, 161, 3679, 0, 568, 3914, 3964, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18056, 161, 3964, 0, 569, 3679, 3883, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18057, 161, 3883, 0, 570, 3964, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18058, 161, 3635, 0, 571, 3883, 3944, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18059, 161, 3944, 0, 572, 3635, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18060, 161, 3679, 0, 573, 3944, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18061, 161, 3918, 0, 574, 3679, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18062, 161, 3669, 0, 575, 3918, 3965, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18063, 161, 3965, 0, 576, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18064, 161, 3693, 0, 577, 3965, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18065, 161, 3872, 0, 578, 3693, 3966, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18066, 161, 3966, 0, 579, 3872, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18067, 161, 3669, 0, 580, 3966, 3967, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18068, 161, 3967, 0, 581, 3669, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18069, 161, 3679, 0, 582, 3967, 3858, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18070, 161, 3858, 0, 583, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18071, 161, 3678, 0, 584, 3858, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18072, 161, 3679, 0, 585, 3678, 3968, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18073, 161, 3968, 0, 586, 3679, 3969, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18074, 161, 3969, 0, 587, 3968, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18075, 161, 3697, 0, 588, 3969, 3970, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18076, 161, 3970, 0, 589, 3697, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18077, 161, 3661, 0, 590, 3970, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18078, 161, 3635, 0, 591, 3661, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18079, 161, 3703, 0, 592, 3635, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18080, 161, 3769, 0, 593, 3703, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18081, 161, 3872, 0, 594, 3769, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18082, 161, 3657, 0, 595, 3872, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18083, 161, 3839, 0, 596, 3657, 3966, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18084, 161, 3966, 0, 597, 3839, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18085, 161, 3916, 0, 598, 3966, 3971, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18086, 161, 3971, 0, 599, 3916, 3972, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18087, 161, 3972, 0, 600, 3971, 3973, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18088, 161, 3973, 0, 601, 3972, 3863, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18089, 161, 3863, 0, 602, 3973, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18090, 161, 3635, 0, 603, 3863, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18091, 161, 3807, 0, 604, 3635, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18092, 161, 3801, 0, 605, 3807, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18093, 161, 3769, 0, 606, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18094, 161, 3802, 0, 607, 3769, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18095, 161, 3803, 0, 608, 3802, 3974, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18096, 161, 3974, 0, 609, 3803, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18097, 161, 3693, 0, 610, 3974, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18098, 161, 3808, 0, 611, 3693, 3865, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18099, 161, 3865, 0, 612, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18100, 161, 3669, 0, 613, 3865, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18101, 161, 3914, 0, 614, 3669, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18102, 161, 3704, 0, 615, 3914, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18103, 161, 3635, 0, 616, 3704, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18104, 161, 3703, 0, 617, 3635, 3975, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18105, 161, 3975, 0, 618, 3703, 3723, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18106, 161, 3723, 0, 619, 3975, 3891, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18107, 161, 3891, 0, 620, 3723, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18108, 161, 3794, 0, 621, 3891, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18109, 161, 3697, 0, 622, 3794, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18110, 161, 3704, 0, 623, 3697, 3716, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18111, 161, 3716, 0, 624, 3704, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18112, 161, 3689, 0, 625, 3716, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18113, 161, 3956, 0, 626, 3689, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18114, 161, 3794, 0, 627, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18115, 161, 3635, 0, 628, 3794, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18116, 161, 3719, 0, 629, 3635, 3976, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18117, 161, 3976, 0, 630, 3719, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18118, 161, 3816, 0, 631, 3976, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18119, 161, 3720, 0, 632, 3816, 3977, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18120, 161, 3977, 0, 633, 3720, 3728, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18121, 161, 3728, 0, 634, 3977, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18122, 161, 3886, 0, 635, 3728, 3978, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18123, 161, 3978, 0, 636, 3886, 3979, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18124, 161, 3979, 0, 637, 3978, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18125, 161, 3679, 0, 638, 3979, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18126, 161, 3640, 0, 639, 3679, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18127, 161, 3689, 0, 640, 3640, 3980, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18128, 161, 3980, 0, 641, 3689, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18129, 161, 3787, 0, 642, 3980, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18130, 161, 3679, 0, 643, 3787, 3981, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18131, 161, 3981, 0, 644, 3679, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18132, 161, 3853, 0, 645, 3981, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18133, 161, 3886, 0, 646, 3853, 3672, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18134, 161, 3672, 0, 647, 3886, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18135, 161, 3916, 0, 648, 3672, 3982, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18136, 161, 3982, 0, 649, 3916, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18137, 161, 3666, 0, 650, 3982, 3983, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18138, 161, 3983, 0, 651, 3666, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18139, 161, 3678, 0, 652, 3983, 3917, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18140, 161, 3917, 0, 653, 3678, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18141, 161, 3635, 0, 654, 3917, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18142, 161, 3636, 0, 655, 3635, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18143, 161, 3839, 0, 656, 3636, 3637, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18144, 161, 3637, 0, 657, 3839, 3984, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18145, 161, 3984, 0, 658, 3637, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18146, 161, 3744, 0, 659, 3984, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18147, 161, 3679, 0, 660, 3744, 3985, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18148, 161, 3985, 0, 661, 3679, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18149, 161, 3666, 0, 662, 3985, 3986, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18150, 161, 3986, 0, 663, 3666, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18151, 161, 3657, 0, 664, 3986, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18152, 161, 3679, 0, 665, 3657, 3981, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18153, 161, 3981, 0, 666, 3679, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18154, 161, 3646, 0, 667, 3981, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18155, 161, 3636, 0, 668, 3646, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18156, 161, 3650, 0, 669, 3636, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18157, 161, 3769, 0, 670, 3650, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18158, 161, 3755, 0, 671, 3769, 3987, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18159, 161, 3987, 0, 672, 3755, 3988, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18160, 161, 3988, 0, 673, 3987, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18161, 161, 3678, 0, 674, 3988, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18162, 161, 3679, 0, 675, 3678, 3875, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18163, 161, 3875, 0, 676, 3679, 3929, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18164, 161, 3929, 0, 677, 3875, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18165, 161, 3649, 0, 678, 3929, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18166, 161, 3801, 0, 679, 3649, 3989, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18167, 161, 3989, 0, 680, 3801, 3990, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18168, 161, 3990, 0, 681, 3989, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18169, 161, 3769, 0, 682, 3990, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18170, 161, 3807, 0, 683, 3769, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18171, 161, 3685, 0, 684, 3807, 3991, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18172, 161, 3991, 0, 685, 3685, 3989, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18173, 161, 3989, 0, 686, 3991, 3990, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18174, 161, 3990, 0, 687, 3989, 3992, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18175, 161, 3992, 0, 688, 3990, 3993, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18176, 161, 3993, 0, 689, 3992, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18177, 161, 3666, 0, 690, 3993, 3994, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18178, 161, 3994, 0, 691, 3666, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18179, 161, 3636, 0, 692, 3994, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18180, 161, 3650, 0, 693, 3636, 3782, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18181, 161, 3782, 0, 694, 3650, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18182, 161, 3744, 0, 695, 3782, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18183, 161, 3679, 0, 696, 3744, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18184, 161, 3640, 0, 697, 3679, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18185, 161, 3681, 0, 698, 3640, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18186, 161, 3636, 0, 699, 3681, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18187, 161, 3649, 0, 700, 3636, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18188, 161, 3650, 0, 701, 3649, 3995, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18189, 161, 3995, 0, 702, 3650, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18190, 161, 3661, 0, 703, 3995, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18191, 161, 3841, 0, 704, 3661, 3996, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18192, 161, 3996, 0, 705, 3841, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18193, 161, 3666, 0, 706, 3996, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18194, 161, 3636, 0, 707, 3666, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18195, 161, 3650, 0, 708, 3636, 3782, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18196, 161, 3782, 0, 709, 3650, 3731, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18197, 161, 3731, 0, 710, 3782, 3997, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18198, 161, 3997, 0, 711, 3731, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18199, 161, 3787, 0, 712, 3997, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18200, 161, 3679, 0, 713, 3787, 3998, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18201, 161, 3998, 0, 714, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18202, 161, 3678, 0, 715, 3998, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18203, 161, 3679, 0, 716, 3678, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18204, 161, 3641, 0, 717, 3679, 3999, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18205, 161, 3999, 0, 718, 3641, 4000, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18206, 161, 4000, 0, 719, 3999, 4001, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18207, 161, 4001, 0, 720, 4000, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18208, 161, 3655, 0, 721, 4001, 4002, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18209, 161, 4002, 0, 722, 3655, 3705, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18210, 161, 3705, 0, 723, 4002, 3838, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18211, 161, 3838, 0, 724, 3705, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18212, 161, 3839, 0, 725, 3838, 3840, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18213, 161, 3840, 0, 726, 3839, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18214, 161, 3669, 0, 727, 3840, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18215, 161, 3841, 0, 728, 3669, 3842, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18216, 161, 3842, 0, 729, 3841, 3843, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18217, 161, 3843, 0, 730, 3842, 3844, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18218, 161, 3844, 0, 731, 3843, 3845, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18219, 161, 3845, 0, 732, 3844, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18220, 161, 3697, 0, 733, 3845, 3846, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18221, 161, 3846, 0, 734, 3697, 3847, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18222, 161, 3847, 0, 735, 3846, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18223, 161, 3640, 0, 736, 3847, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18224, 161, 3635, 0, 737, 3640, 3848, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18225, 161, 3848, 0, 738, 3635, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18226, 161, 3704, 0, 739, 3848, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18227, 161, 3635, 0, 740, 3704, 3781, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18228, 161, 3781, 0, 741, 3635, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18229, 161, 3679, 0, 742, 3781, 3838, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18230, 161, 3838, 0, 743, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18231, 161, 3635, 0, 744, 3838, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18232, 161, 3636, 0, 745, 3635, 3637, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18233, 161, 3637, 0, 746, 3636, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18234, 161, 3685, 0, 747, 3637, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18235, 161, 3693, 0, 748, 3685, 3849, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18236, 161, 3849, 0, 749, 3693, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18237, 161, 3850, 0, 750, 3849, 3851, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18238, 161, 3851, 0, 751, 3850, 3852, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18239, 161, 3852, 0, 752, 3851, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18240, 161, 3744, 0, 753, 3852, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18241, 161, 3853, 0, 754, 3744, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18242, 161, 3666, 0, 755, 3853, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18243, 161, 3685, 0, 756, 3666, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18244, 161, 3693, 0, 757, 3685, 3849, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18245, 161, 3849, 0, 758, 3693, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18246, 161, 3854, 0, 759, 3849, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18247, 161, 3825, 0, 760, 3854, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18248, 161, 3850, 0, 761, 3825, 3855, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18249, 161, 3855, 0, 762, 3850, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18250, 161, 3783, 0, 763, 3855, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18251, 161, 3669, 0, 764, 3783, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18252, 161, 3856, 0, 765, 3669, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18253, 161, 3661, 0, 766, 3856, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18254, 161, 3635, 0, 767, 3661, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18255, 161, 3719, 0, 768, 3635, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18256, 161, 3856, 0, 769, 3719, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18257, 161, 3661, 0, 770, 3856, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18258, 161, 3787, 0, 771, 3661, 3857, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18259, 161, 3857, 0, 772, 3787, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18260, 161, 3693, 0, 773, 3857, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18261, 161, 3786, 0, 774, 3693, 3858, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18262, 161, 3858, 0, 775, 3786, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18263, 161, 3666, 0, 776, 3858, 3859, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18264, 161, 3859, 0, 777, 3666, 3634, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18265, 161, 3634, 0, 778, 3859, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18266, 161, 3783, 0, 779, 3634, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18267, 161, 3669, 0, 780, 3783, 3784, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18268, 161, 3784, 0, 781, 3669, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18269, 161, 3769, 0, 782, 3784, 3785, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18270, 161, 3785, 0, 783, 3769, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18271, 161, 3786, 0, 784, 3785, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18272, 161, 3635, 0, 785, 3786, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18273, 161, 3719, 0, 786, 3635, 3784, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18274, 161, 3784, 0, 787, 3719, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18275, 161, 3769, 0, 788, 3784, 3785, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18276, 161, 3785, 0, 789, 3769, 3786, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18277, 161, 3786, 0, 790, 3785, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18278, 161, 3787, 0, 791, 3786, 3788, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18279, 161, 3788, 0, 792, 3787, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18280, 161, 3679, 0, 793, 3788, 3860, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18281, 161, 3860, 0, 794, 3679, 3861, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18282, 161, 3861, 0, 795, 3860, 3790, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18283, 161, 3790, 0, 796, 3861, 3634, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18284, 161, 3634, 0, 797, 3790, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18285, 161, 3791, 0, 798, 3634, 3792, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18286, 161, 3792, 0, 799, 3791, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18287, 161, 3791, 0, 800, 3792, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18288, 161, 3635, 0, 801, 3791, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18289, 161, 3703, 0, 802, 3635, 3793, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18290, 161, 3793, 0, 803, 3703, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18291, 161, 3661, 0, 804, 3793, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18292, 161, 3679, 0, 805, 3661, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18293, 161, 3794, 0, 806, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18294, 161, 3635, 0, 807, 3794, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18295, 161, 3703, 0, 808, 3635, 3795, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18296, 161, 3795, 0, 809, 3703, 3728, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18297, 161, 3728, 0, 810, 3795, 3796, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18298, 161, 3796, 0, 811, 3728, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18299, 161, 3666, 0, 812, 3796, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18300, 161, 3703, 0, 813, 3666, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18301, 161, 3679, 0, 814, 3703, 3797, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18302, 161, 3797, 0, 815, 3679, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18303, 161, 3685, 0, 816, 3797, 3798, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18304, 161, 3798, 0, 817, 3685, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18305, 161, 3657, 0, 818, 3798, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18306, 161, 3685, 0, 819, 3657, 3799, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18307, 161, 3799, 0, 820, 3685, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18308, 161, 3679, 0, 821, 3799, 3800, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18309, 161, 3800, 0, 822, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18310, 161, 3641, 0, 823, 3800, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18311, 161, 3801, 0, 824, 3641, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18312, 161, 3769, 0, 825, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18313, 161, 3802, 0, 826, 3769, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18314, 161, 3803, 0, 827, 3802, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18315, 161, 3669, 0, 828, 3803, 3804, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18316, 161, 3804, 0, 829, 3669, 3805, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18317, 161, 3805, 0, 830, 3804, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18318, 161, 3641, 0, 831, 3805, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18319, 161, 3635, 0, 832, 3641, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18320, 161, 3806, 0, 833, 3635, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18321, 161, 3807, 0, 834, 3806, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18322, 161, 3669, 0, 835, 3807, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18323, 161, 3808, 0, 836, 3669, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18324, 161, 3681, 0, 837, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18325, 161, 3669, 0, 838, 3681, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18326, 161, 3769, 0, 839, 3669, 3809, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18327, 161, 3809, 0, 840, 3769, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18328, 161, 3641, 0, 841, 3809, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18329, 161, 3655, 0, 842, 3641, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18330, 161, 3649, 0, 843, 3655, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18331, 161, 3791, 0, 844, 3649, 3810, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18332, 161, 3810, 0, 845, 3791, 3791, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18333, 161, 3791, 0, 846, 3810, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18334, 161, 3808, 0, 847, 3791, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18335, 161, 3669, 0, 848, 3808, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18336, 161, 3679, 0, 849, 3669, 3811, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18337, 161, 3811, 0, 850, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18338, 161, 3641, 0, 851, 3811, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18339, 161, 3704, 0, 852, 3641, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18340, 161, 3635, 0, 853, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18341, 161, 3812, 0, 854, 3635, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18342, 161, 3655, 0, 855, 3812, 3684, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18343, 161, 3684, 0, 856, 3655, 3813, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18344, 161, 3813, 0, 857, 3684, 3814, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18345, 161, 3814, 0, 858, 3813, 3815, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18346, 161, 3815, 0, 859, 3814, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18347, 161, 3816, 0, 860, 3815, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18348, 161, 3720, 0, 861, 3816, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18349, 161, 3807, 0, 862, 3720, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18350, 161, 3661, 0, 863, 3807, 3817, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18351, 161, 3817, 0, 864, 3661, 3638, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18352, 161, 3638, 0, 865, 3817, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18353, 161, 3640, 0, 866, 3638, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18354, 161, 3704, 0, 867, 3640, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18355, 161, 3693, 0, 868, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18356, 161, 3812, 0, 869, 3693, 3818, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18357, 161, 3818, 0, 870, 3812, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18358, 161, 3661, 0, 871, 3818, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18359, 161, 3679, 0, 872, 3661, 3811, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18360, 161, 3811, 0, 873, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18361, 161, 3641, 0, 874, 3811, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18362, 161, 3808, 0, 875, 3641, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18363, 161, 3681, 0, 876, 3808, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18364, 161, 3661, 0, 877, 3681, 3809, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18365, 161, 3809, 0, 878, 3661, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18366, 161, 3697, 0, 879, 3809, 3819, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18367, 161, 3819, 0, 880, 3697, 3820, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18368, 161, 3820, 0, 881, 3819, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18369, 161, 3720, 0, 882, 3820, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18370, 161, 3755, 0, 883, 3720, 3821, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18371, 161, 3821, 0, 884, 3755, 3804, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18372, 161, 3804, 0, 885, 3821, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18373, 161, 3646, 0, 886, 3804, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18374, 161, 3704, 0, 887, 3646, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18375, 161, 3635, 0, 888, 3704, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18376, 161, 3807, 0, 889, 3635, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18377, 161, 3669, 0, 890, 3807, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18378, 161, 3679, 0, 891, 3669, 3656, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18379, 161, 3656, 0, 892, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18380, 161, 3641, 0, 893, 3656, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18381, 161, 3679, 0, 894, 3641, 3822, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18382, 161, 3822, 0, 895, 3679, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18383, 161, 3823, 0, 896, 3822, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18384, 161, 3824, 0, 897, 3823, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18385, 161, 3825, 0, 898, 3824, 3826, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18386, 161, 3826, 0, 899, 3825, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18387, 161, 3681, 0, 900, 3826, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18388, 161, 3655, 0, 901, 3681, 3827, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18389, 161, 3827, 0, 902, 3655, 3767, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18390, 161, 3767, 0, 903, 3827, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18391, 161, 3704, 0, 904, 3767, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18392, 161, 3635, 0, 905, 3704, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18393, 161, 3807, 0, 906, 3635, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18394, 161, 3681, 0, 907, 3807, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18395, 161, 3661, 0, 908, 3681, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18396, 161, 3679, 0, 909, 3661, 3800, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18397, 161, 3800, 0, 910, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18398, 161, 3641, 0, 911, 3800, 3828, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18399, 161, 3828, 0, 912, 3641, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18400, 161, 3693, 0, 913, 3828, 3829, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18401, 161, 3829, 0, 914, 3693, 3830, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18402, 161, 3830, 0, 915, 3829, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18403, 161, 3807, 0, 916, 3830, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18404, 161, 3636, 0, 917, 3807, 3701, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18405, 161, 3701, 0, 918, 3636, 3831, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18406, 161, 3831, 0, 919, 3701, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18407, 161, 3681, 0, 920, 3831, 3832, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18408, 161, 3832, 0, 921, 3681, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18409, 161, 3823, 0, 922, 3832, 3833, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18410, 161, 3833, 0, 923, 3823, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18411, 161, 3808, 0, 924, 3833, 3834, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18412, 161, 3834, 0, 925, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18413, 161, 3669, 0, 926, 3834, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18414, 161, 3650, 0, 927, 3669, 3835, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18415, 161, 3835, 0, 928, 3650, 3836, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18416, 161, 3836, 0, 929, 3835, 3833, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18417, 161, 3833, 0, 930, 3836, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18418, 161, 3735, 0, 931, 3833, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18419, 161, 3807, 0, 932, 3735, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18420, 161, 3661, 0, 933, 3807, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18421, 161, 3679, 0, 934, 3661, 3656, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18422, 161, 3656, 0, 935, 3679, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18423, 161, 3640, 0, 936, 3656, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18424, 161, 3862, 0, 937, 3640, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18425, 161, 3679, 0, 938, 3862, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18426, 161, 3640, 0, 939, 3679, 3863, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18427, 161, 3863, 0, 940, 3640, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18428, 161, 3635, 0, 941, 3863, 3864, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18429, 161, 3864, 0, 942, 3635, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18430, 161, 3693, 0, 943, 3864, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18431, 161, 3812, 0, 944, 3693, 3865, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18432, 161, 3865, 0, 945, 3812, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18433, 161, 3669, 0, 946, 3865, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18434, 161, 3862, 0, 947, 3669, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18435, 161, 3679, 0, 948, 3862, 3866, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18436, 161, 3866, 0, 949, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18437, 161, 3678, 0, 950, 3866, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18438, 161, 3679, 0, 951, 3678, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18439, 161, 3641, 0, 952, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18440, 161, 3635, 0, 953, 3641, 3867, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18441, 161, 3867, 0, 954, 3635, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18442, 161, 3650, 0, 955, 3867, 3868, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18443, 161, 3868, 0, 956, 3650, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18444, 161, 3669, 0, 957, 3868, 3869, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18445, 161, 3869, 0, 958, 3669, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18446, 161, 3783, 0, 959, 3869, 3870, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18447, 161, 3870, 0, 960, 3783, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18448, 161, 3693, 0, 961, 3870, 3871, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18449, 161, 3871, 0, 962, 3693, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18450, 161, 3872, 0, 963, 3871, 3727, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18451, 161, 3727, 0, 964, 3872, 3873, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18452, 161, 3873, 0, 965, 3727, 3855, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18453, 161, 3855, 0, 966, 3873, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18454, 161, 3635, 0, 967, 3855, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18455, 161, 3806, 0, 968, 3635, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18456, 161, 3839, 0, 969, 3806, 3874, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18457, 161, 3874, 0, 970, 3839, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18458, 161, 3841, 0, 971, 3874, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18459, 161, 3666, 0, 972, 3841, 3673, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18460, 161, 3673, 0, 973, 3666, 3875, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18461, 161, 3875, 0, 974, 3673, 3876, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18462, 161, 3876, 0, 975, 3875, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18463, 161, 3666, 0, 976, 3876, 3862, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18464, 161, 3862, 0, 977, 3666, 3759, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18465, 161, 3759, 0, 978, 3862, 3823, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18466, 161, 3823, 0, 979, 3759, 3877, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18467, 161, 3877, 0, 980, 3823, 3878, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18468, 161, 3878, 0, 981, 3877, 3879, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18469, 161, 3879, 0, 982, 3878, 3673, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18470, 161, 3673, 0, 983, 3879, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18471, 161, 3704, 0, 984, 3673, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18472, 161, 3681, 0, 985, 3704, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18473, 161, 3655, 0, 986, 3681, 3880, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18474, 161, 3880, 0, 987, 3655, 3881, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18475, 161, 3881, 0, 988, 3880, 3882, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18476, 161, 3882, 0, 989, 3881, 3883, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18477, 161, 3883, 0, 990, 3882, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18478, 161, 3806, 0, 991, 3883, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18479, 161, 3824, 0, 992, 3806, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18480, 161, 3703, 0, 993, 3824, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18481, 161, 3669, 0, 994, 3703, 3884, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18482, 161, 3884, 0, 995, 3669, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18483, 161, 3681, 0, 996, 3884, 3885, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18484, 161, 3885, 0, 997, 3681, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18485, 161, 3769, 0, 998, 3885, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18486, 161, 3641, 0, 999, 3769, 0, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18487, 161, 3669, 0, 1000, 0, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18488, 161, 3886, 0, 1001, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18489, 161, 3693, 0, 1002, 3886, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18490, 161, 3812, 0, 1003, 3693, 3799, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18491, 161, 3799, 0, 1004, 3812, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18492, 161, 3769, 0, 1005, 3799, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18493, 161, 3887, 0, 1006, 3769, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18494, 161, 3888, 0, 1007, 3887, 3889, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18495, 161, 3889, 0, 1008, 3888, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18496, 161, 3769, 0, 1009, 3889, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18497, 161, 3887, 0, 1010, 3769, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18498, 161, 3666, 0, 1011, 3887, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18499, 161, 3890, 0, 1012, 3666, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18500, 161, 3888, 0, 1013, 3890, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18501, 161, 3655, 0, 1014, 3888, 3891, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18502, 161, 3891, 0, 1015, 3655, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18503, 161, 3681, 0, 1016, 3891, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18504, 161, 3655, 0, 1017, 3681, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18505, 161, 3679, 0, 1018, 3655, 3892, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18506, 161, 3892, 0, 1019, 3679, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18507, 161, 3794, 0, 1020, 3892, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18508, 161, 3824, 0, 1021, 3794, 3893, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18509, 161, 3893, 0, 1022, 3824, 3826, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18510, 161, 3826, 0, 1023, 3893, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18511, 161, 3693, 0, 1024, 3826, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18512, 161, 3812, 0, 1025, 3693, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18513, 161, 3636, 0, 1026, 3812, 3874, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18514, 161, 3874, 0, 1027, 3636, 3894, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18515, 161, 3894, 0, 1028, 3874, 3895, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18516, 161, 3895, 0, 1029, 3894, 3896, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18517, 161, 3896, 0, 1030, 3895, 3897, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18518, 161, 3897, 0, 1031, 3896, 3898, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18519, 161, 3898, 0, 1032, 3897, 3899, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18520, 161, 3899, 0, 1033, 3898, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18521, 161, 3697, 0, 1034, 3899, 3900, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18522, 161, 3900, 0, 1035, 3697, 3899, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18523, 161, 3899, 0, 1036, 3900, 3901, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18524, 161, 3901, 0, 1037, 3899, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18525, 161, 3720, 0, 1038, 3901, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18526, 161, 3902, 0, 1039, 3720, 3734, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18527, 161, 3734, 0, 1040, 3902, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18528, 161, 3735, 0, 1041, 3734, 3903, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18529, 161, 3903, 0, 1042, 3735, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18530, 161, 3679, 0, 1043, 3903, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18531, 161, 3888, 0, 1044, 3679, 3904, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18532, 161, 3904, 0, 1045, 3888, 3905, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18533, 161, 3905, 0, 1046, 3904, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18534, 161, 3902, 0, 1047, 3905, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18535, 161, 3666, 0, 1048, 3902, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18536, 161, 3704, 0, 1049, 3666, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18537, 161, 3635, 0, 1050, 3704, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18538, 161, 3906, 0, 1051, 3635, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18539, 161, 3808, 0, 1052, 3906, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18540, 161, 3661, 0, 1053, 3808, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18541, 161, 3679, 0, 1054, 3661, 3907, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18542, 161, 3907, 0, 1055, 3679, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18543, 161, 3641, 0, 1056, 3907, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18544, 161, 3816, 0, 1057, 3641, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18545, 161, 3720, 0, 1058, 3816, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18546, 161, 3635, 0, 1059, 3720, 3908, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18547, 161, 3908, 0, 1060, 3635, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18548, 161, 3685, 0, 1061, 3908, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18549, 161, 3853, 0, 1062, 3685, 3909, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18550, 161, 3909, 0, 1063, 3853, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18551, 161, 3681, 0, 1064, 3909, 3682, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18552, 161, 3682, 0, 1065, 3681, 3684, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18553, 161, 3684, 0, 1066, 3682, 3907, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18554, 161, 3907, 0, 1067, 3684, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18555, 161, 3839, 0, 1068, 3907, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18556, 161, 3693, 0, 1069, 3839, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18557, 161, 3888, 0, 1070, 3693, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18558, 161, 3636, 0, 1071, 3888, 3910, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18559, 161, 3910, 0, 1072, 3636, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18560, 161, 3769, 0, 1073, 3910, 3911, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18561, 161, 3911, 0, 1074, 3769, 3912, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18562, 161, 3912, 0, 1075, 3911, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18563, 161, 3704, 0, 1076, 3912, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18564, 161, 3679, 0, 1077, 3704, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18565, 161, 3812, 0, 1078, 3679, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18566, 161, 3635, 0, 1079, 3812, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18567, 161, 3689, 0, 1080, 3635, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18568, 161, 3808, 0, 1081, 3689, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18569, 161, 3655, 0, 1082, 3808, 3913, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18570, 161, 3913, 0, 1083, 3655, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18571, 161, 3750, 0, 1084, 3913, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18572, 161, 3719, 0, 1085, 3750, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18573, 161, 3886, 0, 1086, 3719, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18574, 161, 3704, 0, 1087, 3886, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18575, 161, 3750, 0, 1088, 3704, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18576, 161, 3744, 0, 1089, 3750, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18577, 161, 3693, 0, 1090, 3744, 3888, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18578, 161, 3888, 0, 1091, 3693, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18579, 161, 3719, 0, 1092, 3888, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18580, 161, 3914, 0, 1093, 3719, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18581, 161, 3685, 0, 1094, 3914, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18582, 161, 3679, 0, 1095, 3685, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18583, 161, 3812, 0, 1096, 3679, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18584, 161, 3655, 0, 1097, 3812, 3915, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18585, 161, 3915, 0, 1098, 3655, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18586, 161, 3916, 0, 1099, 3915, 3917, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18587, 161, 3917, 0, 1100, 3916, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18588, 161, 3750, 0, 1101, 3917, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18589, 161, 3719, 0, 1102, 3750, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18590, 161, 3801, 0, 1103, 3719, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18591, 161, 3916, 0, 1104, 3801, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18592, 161, 3918, 0, 1105, 3916, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18593, 161, 3669, 0, 1106, 3918, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18594, 161, 3886, 0, 1107, 3669, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18595, 161, 3824, 0, 1108, 3886, 3919, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18596, 161, 3919, 0, 1109, 3824, 3750, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18597, 161, 3750, 0, 1110, 3919, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18598, 161, 3854, 0, 1111, 3750, 3825, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18599, 161, 3825, 0, 1112, 3854, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18600, 161, 3650, 0, 1113, 3825, 3920, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18601, 161, 3920, 0, 1114, 3650, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18602, 161, 3669, 0, 1115, 3920, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18603, 161, 3902, 0, 1116, 3669, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18604, 161, 3921, 0, 1117, 3902, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18605, 161, 3693, 0, 1118, 3921, 3922, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18606, 161, 3922, 0, 1119, 3693, 3923, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18607, 161, 3923, 0, 1120, 3922, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18608, 161, 3769, 0, 1121, 3923, 3887, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18609, 161, 3887, 0, 1122, 3769, 3924, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18610, 161, 3924, 0, 1123, 3887, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18611, 161, 3678, 0, 1124, 3924, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18612, 161, 3654, 0, 1125, 3678, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18613, 161, 3635, 0, 1126, 3654, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18614, 161, 3906, 0, 1127, 3635, 3925, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18615, 161, 3925, 0, 1128, 3906, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18616, 161, 3669, 0, 1129, 3925, 3926, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18617, 161, 3926, 0, 1130, 3669, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18618, 161, 3655, 0, 1131, 3926, 3877, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18619, 161, 3877, 0, 1132, 3655, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18620, 161, 3669, 0, 1133, 3877, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18621, 161, 3679, 0, 1134, 3669, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18622, 161, 3812, 0, 1135, 3679, 3927, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18623, 161, 3927, 0, 1136, 3812, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18624, 161, 3801, 0, 1137, 3927, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18625, 161, 3769, 0, 1138, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18626, 161, 3802, 0, 1139, 3769, 3928, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18627, 161, 3928, 0, 1140, 3802, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18628, 161, 3890, 0, 1141, 3928, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18629, 161, 3654, 0, 1142, 3890, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18630, 161, 3635, 0, 1143, 3654, 3906, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18631, 161, 3906, 0, 1144, 3635, 3925, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18632, 161, 3925, 0, 1145, 3906, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18633, 161, 3669, 0, 1146, 3925, 3929, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18634, 161, 3929, 0, 1147, 3669, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18635, 161, 3650, 0, 1148, 3929, 3930, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18636, 161, 3930, 0, 1149, 3650, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18637, 161, 3666, 0, 1150, 3930, 3931, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18638, 161, 3931, 0, 1151, 3666, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18639, 161, 3921, 0, 1152, 3931, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18640, 161, 3693, 0, 1153, 3921, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18641, 161, 3872, 0, 1154, 3693, 3900, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18642, 161, 3900, 0, 1155, 3872, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18643, 161, 3816, 0, 1156, 3900, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18644, 161, 3720, 0, 1157, 3816, 3932, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18645, 161, 3932, 0, 1158, 3720, 3933, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18646, 161, 3933, 0, 1159, 3932, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18647, 161, 3720, 0, 1160, 3933, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18648, 161, 3755, 0, 1161, 3720, 3934, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18649, 161, 3934, 0, 1162, 3755, 3851, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18650, 161, 3851, 0, 1163, 3934, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18651, 161, 3794, 0, 1164, 3851, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18652, 161, 3655, 0, 1165, 3794, 3935, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18653, 161, 3935, 0, 1166, 3655, 3783, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18654, 161, 3783, 0, 1167, 3935, 3936, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18655, 161, 3936, 0, 1168, 3783, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18656, 161, 3703, 0, 1169, 3936, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18657, 161, 3635, 0, 1170, 3703, 3937, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18658, 161, 3937, 0, 1171, 3635, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18659, 161, 3654, 0, 1172, 3937, 3664, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18660, 161, 3664, 0, 1173, 3654, 3938, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18661, 161, 3938, 0, 1174, 3664, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18662, 161, 3654, 0, 1175, 3938, 3939, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18663, 161, 3939, 0, 1176, 3654, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18664, 161, 3703, 0, 1177, 3939, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18665, 161, 3635, 0, 1178, 3703, 3940, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18666, 161, 3940, 0, 1179, 3635, 3654, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18667, 161, 3654, 0, 1180, 3940, 3941, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18668, 161, 3941, 0, 1181, 3654, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18669, 161, 3689, 0, 1182, 3941, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18670, 161, 3635, 0, 1183, 3689, 3942, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18671, 161, 3942, 0, 1184, 3635, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18672, 161, 3943, 0, 1185, 3942, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18673, 161, 3635, 0, 1186, 3943, 3806, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18674, 161, 3806, 0, 1187, 3635, 3944, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18675, 161, 3944, 0, 1188, 3806, 3672, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18676, 161, 3672, 0, 1189, 3944, 3945, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18677, 161, 3945, 0, 1190, 3672, 3748, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18678, 161, 3748, 0, 1191, 3945, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18679, 161, 3803, 0, 1192, 3748, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18680, 161, 3669, 0, 1193, 3803, 3921, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18681, 161, 3921, 0, 1194, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18682, 161, 3693, 0, 1195, 3921, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18683, 161, 3872, 0, 1196, 3693, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18684, 161, 3704, 0, 1197, 3872, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18685, 161, 3635, 0, 1198, 3704, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18686, 161, 3850, 0, 1199, 3635, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18687, 161, 3841, 0, 1200, 3850, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18688, 161, 3946, 0, 1201, 3841, 3947, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18689, 161, 3947, 0, 1202, 3946, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18690, 161, 3661, 0, 1203, 3947, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18691, 161, 3693, 0, 1204, 3661, 3948, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18692, 161, 3948, 0, 1205, 3693, 3949, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18693, 161, 3949, 0, 1206, 3948, 3950, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18694, 161, 3950, 0, 1207, 3949, 3759, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18695, 161, 3759, 0, 1208, 3950, 3885, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18696, 161, 3885, 0, 1209, 3759, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18697, 161, 3635, 0, 1210, 3885, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18698, 161, 3808, 0, 1211, 3635, 3951, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18699, 161, 3951, 0, 1212, 3808, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18700, 161, 3661, 0, 1213, 3951, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18701, 161, 3693, 0, 1214, 3661, 3952, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18702, 161, 3952, 0, 1215, 3693, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18703, 161, 3946, 0, 1216, 3952, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18704, 161, 3856, 0, 1217, 3946, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18705, 161, 3661, 0, 1218, 3856, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18706, 161, 3693, 0, 1219, 3661, 3953, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18707, 161, 3953, 0, 1220, 3693, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18708, 161, 3946, 0, 1221, 3953, 3856, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18709, 161, 3856, 0, 1222, 3946, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18710, 161, 3666, 0, 1223, 3856, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18711, 161, 3841, 0, 1224, 3666, 3946, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18712, 161, 3946, 0, 1225, 3841, 3947, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18713, 161, 3947, 0, 1226, 3946, 3954, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18714, 161, 3954, 0, 1227, 3947, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18715, 161, 3661, 0, 1228, 3954, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18716, 161, 3693, 0, 1229, 3661, 3955, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18717, 161, 3955, 0, 1230, 3693, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18718, 161, 3679, 0, 1231, 3955, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18719, 161, 3956, 0, 1232, 3679, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18720, 161, 3803, 0, 1233, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18721, 161, 3635, 0, 1234, 3803, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18722, 161, 3801, 0, 1235, 3635, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18723, 161, 3669, 0, 1236, 3801, 3850, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18724, 161, 3850, 0, 1237, 3669, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18725, 161, 3646, 0, 1238, 3850, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18726, 161, 3794, 0, 1239, 3646, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18727, 161, 3666, 0, 1240, 3794, 3890, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18728, 161, 3890, 0, 1241, 3666, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18729, 161, 3693, 0, 1242, 3890, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18730, 161, 3872, 0, 1243, 3693, 3957, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18731, 161, 3957, 0, 1244, 3872, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18732, 161, 3655, 0, 1245, 3957, 3958, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18733, 161, 3958, 0, 1246, 3655, 3959, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18734, 161, 3959, 0, 1247, 3958, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18735, 161, 3679, 0, 1248, 3959, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18736, 161, 3918, 0, 1249, 3679, 3773, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18737, 161, 3773, 0, 1250, 3918, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18738, 161, 3681, 0, 1251, 3773, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18739, 161, 3854, 0, 1252, 3681, 3902, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18740, 161, 3902, 0, 1253, 3854, 3824, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18741, 161, 3824, 0, 1254, 3902, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18742, 161, 3886, 0, 1255, 3824, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18743, 161, 3693, 0, 1256, 3886, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18744, 161, 3812, 0, 1257, 3693, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18745, 161, 3661, 0, 1258, 3812, 3777, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18746, 161, 3777, 0, 1259, 3661, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18747, 161, 3679, 0, 1260, 3777, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18748, 161, 3802, 0, 1261, 3679, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18749, 161, 3956, 0, 1262, 3802, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18750, 161, 3803, 0, 1263, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18751, 161, 3635, 0, 1264, 3803, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18752, 161, 3801, 0, 1265, 3635, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18753, 161, 3943, 0, 1266, 3801, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18754, 161, 3693, 0, 1267, 3943, 3812, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18755, 161, 3812, 0, 1268, 3693, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18756, 161, 3655, 0, 1269, 3812, 3958, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18757, 161, 3958, 0, 1270, 3655, 3960, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18758, 161, 3960, 0, 1271, 3958, 3879, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18759, 161, 3879, 0, 1272, 3960, 3961, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18760, 161, 3961, 0, 1273, 3879, 3817, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18761, 161, 3817, 0, 1274, 3961, 3962, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18762, 161, 3962, 0, 1275, 3817, 3943, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18763, 161, 3943, 0, 1276, 3962, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18764, 161, 3693, 0, 1277, 3943, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18765, 161, 3872, 0, 1278, 3693, 3735, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18766, 161, 3735, 0, 1279, 3872, 3963, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18767, 161, 3963, 0, 1280, 3735, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18768, 161, 3635, 0, 1281, 3963, 3854, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18769, 161, 3854, 0, 1282, 3635, 3717, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18770, 161, 3717, 0, 1283, 3854, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18771, 161, 3914, 0, 1284, 3717, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18772, 161, 3679, 0, 1285, 3914, 3964, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18773, 161, 3964, 0, 1286, 3679, 3883, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18774, 161, 3883, 0, 1287, 3964, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18775, 161, 3635, 0, 1288, 3883, 3944, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18776, 161, 3944, 0, 1289, 3635, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18777, 161, 3679, 0, 1290, 3944, 3918, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18778, 161, 3918, 0, 1291, 3679, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18779, 161, 3669, 0, 1292, 3918, 3965, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18780, 161, 3965, 0, 1293, 3669, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18781, 161, 3693, 0, 1294, 3965, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18782, 161, 3872, 0, 1295, 3693, 3966, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18783, 161, 3966, 0, 1296, 3872, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18784, 161, 3669, 0, 1297, 3966, 3967, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18785, 161, 3967, 0, 1298, 3669, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18786, 161, 3679, 0, 1299, 3967, 3858, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18787, 161, 3858, 0, 1300, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18788, 161, 3678, 0, 1301, 3858, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18789, 161, 3679, 0, 1302, 3678, 3968, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18790, 161, 3968, 0, 1303, 3679, 3969, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18791, 161, 3969, 0, 1304, 3968, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18792, 161, 3697, 0, 1305, 3969, 3970, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18793, 161, 3970, 0, 1306, 3697, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18794, 161, 3661, 0, 1307, 3970, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18795, 161, 3635, 0, 1308, 3661, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18796, 161, 3703, 0, 1309, 3635, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18797, 161, 3769, 0, 1310, 3703, 3872, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18798, 161, 3872, 0, 1311, 3769, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18799, 161, 3657, 0, 1312, 3872, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18800, 161, 3839, 0, 1313, 3657, 3966, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18801, 161, 3966, 0, 1314, 3839, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18802, 161, 3916, 0, 1315, 3966, 3971, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18803, 161, 3971, 0, 1316, 3916, 3972, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18804, 161, 3972, 0, 1317, 3971, 3973, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18805, 161, 3973, 0, 1318, 3972, 3863, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18806, 161, 3863, 0, 1319, 3973, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18807, 161, 3635, 0, 1320, 3863, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18808, 161, 3807, 0, 1321, 3635, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18809, 161, 3801, 0, 1322, 3807, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18810, 161, 3769, 0, 1323, 3801, 3802, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18811, 161, 3802, 0, 1324, 3769, 3803, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18812, 161, 3803, 0, 1325, 3802, 3974, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18813, 161, 3974, 0, 1326, 3803, 3693, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18814, 161, 3693, 0, 1327, 3974, 3808, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18815, 161, 3808, 0, 1328, 3693, 3865, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18816, 161, 3865, 0, 1329, 3808, 3669, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18817, 161, 3669, 0, 1330, 3865, 3914, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18818, 161, 3914, 0, 1331, 3669, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18819, 161, 3704, 0, 1332, 3914, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18820, 161, 3635, 0, 1333, 3704, 3703, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18821, 161, 3703, 0, 1334, 3635, 3975, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18822, 161, 3975, 0, 1335, 3703, 3723, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18823, 161, 3723, 0, 1336, 3975, 3891, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18824, 161, 3891, 0, 1337, 3723, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18825, 161, 3794, 0, 1338, 3891, 3697, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18826, 161, 3697, 0, 1339, 3794, 3704, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18827, 161, 3704, 0, 1340, 3697, 3716, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18828, 161, 3716, 0, 1341, 3704, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18829, 161, 3689, 0, 1342, 3716, 3956, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18830, 161, 3956, 0, 1343, 3689, 3794, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18831, 161, 3794, 0, 1344, 3956, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18832, 161, 3635, 0, 1345, 3794, 3719, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18833, 161, 3719, 0, 1346, 3635, 3976, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18834, 161, 3976, 0, 1347, 3719, 3816, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18835, 161, 3816, 0, 1348, 3976, 3720, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18836, 161, 3720, 0, 1349, 3816, 3977, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18837, 161, 3977, 0, 1350, 3720, 3728, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18838, 161, 3728, 0, 1351, 3977, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18839, 161, 3886, 0, 1352, 3728, 3978, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18840, 161, 3978, 0, 1353, 3886, 3979, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18841, 161, 3979, 0, 1354, 3978, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18842, 161, 3679, 0, 1355, 3979, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18843, 161, 3640, 0, 1356, 3679, 3689, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18844, 161, 3689, 0, 1357, 3640, 3980, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18845, 161, 3980, 0, 1358, 3689, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18846, 161, 3787, 0, 1359, 3980, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18847, 161, 3679, 0, 1360, 3787, 3981, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18848, 161, 3981, 0, 1361, 3679, 3853, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18849, 161, 3853, 0, 1362, 3981, 3886, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18850, 161, 3886, 0, 1363, 3853, 3672, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18851, 161, 3672, 0, 1364, 3886, 3916, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18852, 161, 3916, 0, 1365, 3672, 3982, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18853, 161, 3982, 0, 1366, 3916, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18854, 161, 3666, 0, 1367, 3982, 3983, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18855, 161, 3983, 0, 1368, 3666, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18856, 161, 3678, 0, 1369, 3983, 3917, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18857, 161, 3917, 0, 1370, 3678, 3635, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18858, 161, 3635, 0, 1371, 3917, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18859, 161, 3636, 0, 1372, 3635, 3839, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18860, 161, 3839, 0, 1373, 3636, 3637, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18861, 161, 3637, 0, 1374, 3839, 3984, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18862, 161, 3984, 0, 1375, 3637, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18863, 161, 3744, 0, 1376, 3984, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18864, 161, 3679, 0, 1377, 3744, 3985, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18865, 161, 3985, 0, 1378, 3679, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18866, 161, 3666, 0, 1379, 3985, 3986, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18867, 161, 3986, 0, 1380, 3666, 3657, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18868, 161, 3657, 0, 1381, 3986, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18869, 161, 3679, 0, 1382, 3657, 3981, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18870, 161, 3981, 0, 1383, 3679, 3646, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18871, 161, 3646, 0, 1384, 3981, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18872, 161, 3636, 0, 1385, 3646, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18873, 161, 3650, 0, 1386, 3636, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18874, 161, 3769, 0, 1387, 3650, 3755, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18875, 161, 3755, 0, 1388, 3769, 3987, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18876, 161, 3987, 0, 1389, 3755, 3988, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18877, 161, 3988, 0, 1390, 3987, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18878, 161, 3678, 0, 1391, 3988, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18879, 161, 3679, 0, 1392, 3678, 3875, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18880, 161, 3875, 0, 1393, 3679, 3929, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18881, 161, 3929, 0, 1394, 3875, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18882, 161, 3649, 0, 1395, 3929, 3801, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18883, 161, 3801, 0, 1396, 3649, 3989, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18884, 161, 3989, 0, 1397, 3801, 3990, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18885, 161, 3990, 0, 1398, 3989, 3769, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18886, 161, 3769, 0, 1399, 3990, 3807, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18887, 161, 3807, 0, 1400, 3769, 3685, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18888, 161, 3685, 0, 1401, 3807, 3991, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18889, 161, 3991, 0, 1402, 3685, 3989, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18890, 161, 3989, 0, 1403, 3991, 3990, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18891, 161, 3990, 0, 1404, 3989, 3992, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18892, 161, 3992, 0, 1405, 3990, 3993, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18893, 161, 3993, 0, 1406, 3992, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18894, 161, 3666, 0, 1407, 3993, 3994, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18895, 161, 3994, 0, 1408, 3666, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18896, 161, 3636, 0, 1409, 3994, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18897, 161, 3650, 0, 1410, 3636, 3782, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18898, 161, 3782, 0, 1411, 3650, 3744, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18899, 161, 3744, 0, 1412, 3782, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18900, 161, 3679, 0, 1413, 3744, 3640, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18901, 161, 3640, 0, 1414, 3679, 3681, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18902, 161, 3681, 0, 1415, 3640, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18903, 161, 3636, 0, 1416, 3681, 3649, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18904, 161, 3649, 0, 1417, 3636, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18905, 161, 3650, 0, 1418, 3649, 3995, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18906, 161, 3995, 0, 1419, 3650, 3661, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18907, 161, 3661, 0, 1420, 3995, 3841, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18908, 161, 3841, 0, 1421, 3661, 3996, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18909, 161, 3996, 0, 1422, 3841, 3666, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18910, 161, 3666, 0, 1423, 3996, 3636, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18911, 161, 3636, 0, 1424, 3666, 3650, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18912, 161, 3650, 0, 1425, 3636, 3782, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18913, 161, 3782, 0, 1426, 3650, 3731, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18914, 161, 3731, 0, 1427, 3782, 3997, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18915, 161, 3997, 0, 1428, 3731, 3787, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18916, 161, 3787, 0, 1429, 3997, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18917, 161, 3679, 0, 1430, 3787, 3998, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18918, 161, 3998, 0, 1431, 3679, 3678, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18919, 161, 3678, 0, 1432, 3998, 3679, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18920, 161, 3679, 0, 1433, 3678, 3641, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18921, 161, 3641, 0, 1434, 3679, 3999, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18922, 161, 3999, 0, 1435, 3641, 4000, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18923, 161, 4000, 0, 1436, 3999, 4001, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18924, 161, 4001, 0, 1437, 4000, 3655, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18925, 161, 3655, 0, 1438, 4001, 4002, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18926, 161, 4002, 0, 1439, 3655, 0, 10, 1068047603, 1, 141, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18927, 49, 3842, 0, 0, 0, 3842, 1, 1066398020, 4, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18928, 49, 3842, 0, 1, 3842, 0, 1, 1066398020, 4, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18929, 160, 3842, 0, 0, 0, 4003, 2, 1068047455, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18930, 160, 4003, 0, 1, 3842, 3842, 2, 1068047455, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18931, 160, 3842, 0, 2, 4003, 4003, 2, 1068047455, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18932, 160, 4003, 0, 3, 3842, 3646, 2, 1068047455, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18933, 160, 3646, 0, 4, 4003, 3655, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18934, 160, 3655, 0, 5, 3646, 3679, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18935, 160, 3679, 0, 6, 3655, 4004, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18936, 160, 4004, 0, 7, 3679, 3842, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18937, 160, 3842, 0, 8, 4004, 3744, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18938, 160, 3744, 0, 9, 3842, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18939, 160, 4005, 0, 10, 3744, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18940, 160, 4006, 0, 11, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18941, 160, 4007, 0, 12, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18942, 160, 4008, 0, 13, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18943, 160, 4005, 0, 14, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18944, 160, 4006, 0, 15, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18945, 160, 4007, 0, 16, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18946, 160, 4008, 0, 17, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18947, 160, 4005, 0, 18, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18948, 160, 4006, 0, 19, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18949, 160, 4007, 0, 20, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18950, 160, 4008, 0, 21, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18951, 160, 4005, 0, 22, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18952, 160, 4006, 0, 23, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18953, 160, 4007, 0, 24, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18954, 160, 4008, 0, 25, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18955, 160, 4005, 0, 26, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18956, 160, 4006, 0, 27, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18957, 160, 4007, 0, 28, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18958, 160, 4008, 0, 29, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18959, 160, 4005, 0, 30, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18960, 160, 4006, 0, 31, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18961, 160, 4007, 0, 32, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18962, 160, 4008, 0, 33, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18963, 160, 4005, 0, 34, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18964, 160, 4006, 0, 35, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18965, 160, 4007, 0, 36, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18966, 160, 4008, 0, 37, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18967, 160, 4005, 0, 38, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18968, 160, 4006, 0, 39, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18969, 160, 4007, 0, 40, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18970, 160, 4008, 0, 41, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18971, 160, 4005, 0, 42, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18972, 160, 4006, 0, 43, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18973, 160, 4007, 0, 44, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18974, 160, 4008, 0, 45, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18975, 160, 4005, 0, 46, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18976, 160, 4006, 0, 47, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18977, 160, 4007, 0, 48, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18978, 160, 4008, 0, 49, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18979, 160, 4005, 0, 50, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18980, 160, 4006, 0, 51, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18981, 160, 4007, 0, 52, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18982, 160, 4008, 0, 53, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18983, 160, 4005, 0, 54, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18984, 160, 4006, 0, 55, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18985, 160, 4007, 0, 56, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18986, 160, 4008, 0, 57, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18987, 160, 4005, 0, 58, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18988, 160, 4006, 0, 59, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18989, 160, 4007, 0, 60, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18990, 160, 4008, 0, 61, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18991, 160, 4005, 0, 62, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18992, 160, 4006, 0, 63, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18993, 160, 4007, 0, 64, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18994, 160, 4008, 0, 65, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18995, 160, 4005, 0, 66, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18996, 160, 4006, 0, 67, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18997, 160, 4007, 0, 68, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18998, 160, 4008, 0, 69, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (18999, 160, 4005, 0, 70, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19000, 160, 4006, 0, 71, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19001, 160, 4007, 0, 72, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19002, 160, 4008, 0, 73, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19003, 160, 4005, 0, 74, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19004, 160, 4006, 0, 75, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19005, 160, 4007, 0, 76, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19006, 160, 4008, 0, 77, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19007, 160, 4005, 0, 78, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19008, 160, 4006, 0, 79, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19009, 160, 4007, 0, 80, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19010, 160, 4008, 0, 81, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19011, 160, 4005, 0, 82, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19012, 160, 4006, 0, 83, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19013, 160, 4007, 0, 84, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19014, 160, 4008, 0, 85, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19015, 160, 4005, 0, 86, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19016, 160, 4006, 0, 87, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19017, 160, 4007, 0, 88, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19018, 160, 4008, 0, 89, 4007, 3646, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19019, 160, 3646, 0, 90, 4008, 3655, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19020, 160, 3655, 0, 91, 3646, 3679, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19021, 160, 3679, 0, 92, 3655, 4004, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19022, 160, 4004, 0, 93, 3679, 3842, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19023, 160, 3842, 0, 94, 4004, 3744, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19024, 160, 3744, 0, 95, 3842, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19025, 160, 4005, 0, 96, 3744, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19026, 160, 4006, 0, 97, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19027, 160, 4007, 0, 98, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19028, 160, 4008, 0, 99, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19029, 160, 4005, 0, 100, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19030, 160, 4006, 0, 101, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19031, 160, 4007, 0, 102, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19032, 160, 4008, 0, 103, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19033, 160, 4005, 0, 104, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19034, 160, 4006, 0, 105, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19035, 160, 4007, 0, 106, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19036, 160, 4008, 0, 107, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19037, 160, 4005, 0, 108, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19038, 160, 4006, 0, 109, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19039, 160, 4007, 0, 110, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19040, 160, 4008, 0, 111, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19041, 160, 4005, 0, 112, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19042, 160, 4006, 0, 113, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19043, 160, 4007, 0, 114, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19044, 160, 4008, 0, 115, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19045, 160, 4005, 0, 116, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19046, 160, 4006, 0, 117, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19047, 160, 4007, 0, 118, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19048, 160, 4008, 0, 119, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19049, 160, 4005, 0, 120, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19050, 160, 4006, 0, 121, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19051, 160, 4007, 0, 122, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19052, 160, 4008, 0, 123, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19053, 160, 4005, 0, 124, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19054, 160, 4006, 0, 125, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19055, 160, 4007, 0, 126, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19056, 160, 4008, 0, 127, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19057, 160, 4005, 0, 128, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19058, 160, 4006, 0, 129, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19059, 160, 4007, 0, 130, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19060, 160, 4008, 0, 131, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19061, 160, 4005, 0, 132, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19062, 160, 4006, 0, 133, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19063, 160, 4007, 0, 134, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19064, 160, 4008, 0, 135, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19065, 160, 4005, 0, 136, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19066, 160, 4006, 0, 137, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19067, 160, 4007, 0, 138, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19068, 160, 4008, 0, 139, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19069, 160, 4005, 0, 140, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19070, 160, 4006, 0, 141, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19071, 160, 4007, 0, 142, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19072, 160, 4008, 0, 143, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19073, 160, 4005, 0, 144, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19074, 160, 4006, 0, 145, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19075, 160, 4007, 0, 146, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19076, 160, 4008, 0, 147, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19077, 160, 4005, 0, 148, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19078, 160, 4006, 0, 149, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19079, 160, 4007, 0, 150, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19080, 160, 4008, 0, 151, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19081, 160, 4005, 0, 152, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19082, 160, 4006, 0, 153, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19083, 160, 4007, 0, 154, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19084, 160, 4008, 0, 155, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19085, 160, 4005, 0, 156, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19086, 160, 4006, 0, 157, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19087, 160, 4007, 0, 158, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19088, 160, 4008, 0, 159, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19089, 160, 4005, 0, 160, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19090, 160, 4006, 0, 161, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19091, 160, 4007, 0, 162, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19092, 160, 4008, 0, 163, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19093, 160, 4005, 0, 164, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19094, 160, 4006, 0, 165, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19095, 160, 4007, 0, 166, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19096, 160, 4008, 0, 167, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19097, 160, 4005, 0, 168, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19098, 160, 4006, 0, 169, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19099, 160, 4007, 0, 170, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19100, 160, 4008, 0, 171, 4007, 4005, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19101, 160, 4005, 0, 172, 4008, 4006, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19102, 160, 4006, 0, 173, 4005, 4007, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19103, 160, 4007, 0, 174, 4006, 4008, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19104, 160, 4008, 0, 175, 4007, 3646, 2, 1068047455, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19105, 160, 3646, 0, 176, 4008, 3655, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19106, 160, 3655, 0, 177, 3646, 3679, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19107, 160, 3679, 0, 178, 3655, 4004, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19108, 160, 4004, 0, 179, 3679, 3842, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19109, 160, 3842, 0, 180, 4004, 3744, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19110, 160, 3744, 0, 181, 3842, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19111, 160, 4005, 0, 182, 3744, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19112, 160, 4006, 0, 183, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19113, 160, 4007, 0, 184, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19114, 160, 4008, 0, 185, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19115, 160, 4005, 0, 186, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19116, 160, 4006, 0, 187, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19117, 160, 4007, 0, 188, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19118, 160, 4008, 0, 189, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19119, 160, 4005, 0, 190, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19120, 160, 4006, 0, 191, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19121, 160, 4007, 0, 192, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19122, 160, 4008, 0, 193, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19123, 160, 4005, 0, 194, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19124, 160, 4006, 0, 195, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19125, 160, 4007, 0, 196, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19126, 160, 4008, 0, 197, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19127, 160, 4005, 0, 198, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19128, 160, 4006, 0, 199, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19129, 160, 4007, 0, 200, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19130, 160, 4008, 0, 201, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19131, 160, 4005, 0, 202, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19132, 160, 4006, 0, 203, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19133, 160, 4007, 0, 204, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19134, 160, 4008, 0, 205, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19135, 160, 4005, 0, 206, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19136, 160, 4006, 0, 207, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19137, 160, 4007, 0, 208, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19138, 160, 4008, 0, 209, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19139, 160, 4005, 0, 210, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19140, 160, 4006, 0, 211, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19141, 160, 4007, 0, 212, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19142, 160, 4008, 0, 213, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19143, 160, 4005, 0, 214, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19144, 160, 4006, 0, 215, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19145, 160, 4007, 0, 216, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19146, 160, 4008, 0, 217, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19147, 160, 4005, 0, 218, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19148, 160, 4006, 0, 219, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19149, 160, 4007, 0, 220, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19150, 160, 4008, 0, 221, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19151, 160, 4005, 0, 222, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19152, 160, 4006, 0, 223, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19153, 160, 4007, 0, 224, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19154, 160, 4008, 0, 225, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19155, 160, 4005, 0, 226, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19156, 160, 4006, 0, 227, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19157, 160, 4007, 0, 228, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19158, 160, 4008, 0, 229, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19159, 160, 4005, 0, 230, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19160, 160, 4006, 0, 231, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19161, 160, 4007, 0, 232, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19162, 160, 4008, 0, 233, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19163, 160, 4005, 0, 234, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19164, 160, 4006, 0, 235, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19165, 160, 4007, 0, 236, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19166, 160, 4008, 0, 237, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19167, 160, 4005, 0, 238, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19168, 160, 4006, 0, 239, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19169, 160, 4007, 0, 240, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19170, 160, 4008, 0, 241, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19171, 160, 4005, 0, 242, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19172, 160, 4006, 0, 243, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19173, 160, 4007, 0, 244, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19174, 160, 4008, 0, 245, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19175, 160, 4005, 0, 246, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19176, 160, 4006, 0, 247, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19177, 160, 4007, 0, 248, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19178, 160, 4008, 0, 249, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19179, 160, 4005, 0, 250, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19180, 160, 4006, 0, 251, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19181, 160, 4007, 0, 252, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19182, 160, 4008, 0, 253, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19183, 160, 4005, 0, 254, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19184, 160, 4006, 0, 255, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19185, 160, 4007, 0, 256, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19186, 160, 4008, 0, 257, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19187, 160, 4005, 0, 258, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19188, 160, 4006, 0, 259, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19189, 160, 4007, 0, 260, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19190, 160, 4008, 0, 261, 4007, 3646, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19191, 160, 3646, 0, 262, 4008, 3655, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19192, 160, 3655, 0, 263, 3646, 3679, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19193, 160, 3679, 0, 264, 3655, 4004, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19194, 160, 4004, 0, 265, 3679, 3842, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19195, 160, 3842, 0, 266, 4004, 3744, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19196, 160, 3744, 0, 267, 3842, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19197, 160, 4005, 0, 268, 3744, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19198, 160, 4006, 0, 269, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19199, 160, 4007, 0, 270, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19200, 160, 4008, 0, 271, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19201, 160, 4005, 0, 272, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19202, 160, 4006, 0, 273, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19203, 160, 4007, 0, 274, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19204, 160, 4008, 0, 275, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19205, 160, 4005, 0, 276, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19206, 160, 4006, 0, 277, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19207, 160, 4007, 0, 278, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19208, 160, 4008, 0, 279, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19209, 160, 4005, 0, 280, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19210, 160, 4006, 0, 281, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19211, 160, 4007, 0, 282, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19212, 160, 4008, 0, 283, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19213, 160, 4005, 0, 284, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19214, 160, 4006, 0, 285, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19215, 160, 4007, 0, 286, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19216, 160, 4008, 0, 287, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19217, 160, 4005, 0, 288, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19218, 160, 4006, 0, 289, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19219, 160, 4007, 0, 290, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19220, 160, 4008, 0, 291, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19221, 160, 4005, 0, 292, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19222, 160, 4006, 0, 293, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19223, 160, 4007, 0, 294, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19224, 160, 4008, 0, 295, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19225, 160, 4005, 0, 296, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19226, 160, 4006, 0, 297, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19227, 160, 4007, 0, 298, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19228, 160, 4008, 0, 299, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19229, 160, 4005, 0, 300, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19230, 160, 4006, 0, 301, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19231, 160, 4007, 0, 302, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19232, 160, 4008, 0, 303, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19233, 160, 4005, 0, 304, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19234, 160, 4006, 0, 305, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19235, 160, 4007, 0, 306, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19236, 160, 4008, 0, 307, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19237, 160, 4005, 0, 308, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19238, 160, 4006, 0, 309, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19239, 160, 4007, 0, 310, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19240, 160, 4008, 0, 311, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19241, 160, 4005, 0, 312, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19242, 160, 4006, 0, 313, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19243, 160, 4007, 0, 314, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19244, 160, 4008, 0, 315, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19245, 160, 4005, 0, 316, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19246, 160, 4006, 0, 317, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19247, 160, 4007, 0, 318, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19248, 160, 4008, 0, 319, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19249, 160, 4005, 0, 320, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19250, 160, 4006, 0, 321, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19251, 160, 4007, 0, 322, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19252, 160, 4008, 0, 323, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19253, 160, 4005, 0, 324, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19254, 160, 4006, 0, 325, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19255, 160, 4007, 0, 326, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19256, 160, 4008, 0, 327, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19257, 160, 4005, 0, 328, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19258, 160, 4006, 0, 329, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19259, 160, 4007, 0, 330, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19260, 160, 4008, 0, 331, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19261, 160, 4005, 0, 332, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19262, 160, 4006, 0, 333, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19263, 160, 4007, 0, 334, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19264, 160, 4008, 0, 335, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19265, 160, 4005, 0, 336, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19266, 160, 4006, 0, 337, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19267, 160, 4007, 0, 338, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19268, 160, 4008, 0, 339, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19269, 160, 4005, 0, 340, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19270, 160, 4006, 0, 341, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19271, 160, 4007, 0, 342, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19272, 160, 4008, 0, 343, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19273, 160, 4005, 0, 344, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19274, 160, 4006, 0, 345, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19275, 160, 4007, 0, 346, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19276, 160, 4008, 0, 347, 4007, 3646, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19277, 160, 3646, 0, 348, 4008, 3655, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19278, 160, 3655, 0, 349, 3646, 3679, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19279, 160, 3679, 0, 350, 3655, 4004, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19280, 160, 4004, 0, 351, 3679, 3842, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19281, 160, 3842, 0, 352, 4004, 3744, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19282, 160, 3744, 0, 353, 3842, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19283, 160, 4005, 0, 354, 3744, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19284, 160, 4006, 0, 355, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19285, 160, 4007, 0, 356, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19286, 160, 4008, 0, 357, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19287, 160, 4005, 0, 358, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19288, 160, 4006, 0, 359, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19289, 160, 4007, 0, 360, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19290, 160, 4008, 0, 361, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19291, 160, 4005, 0, 362, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19292, 160, 4006, 0, 363, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19293, 160, 4007, 0, 364, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19294, 160, 4008, 0, 365, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19295, 160, 4005, 0, 366, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19296, 160, 4006, 0, 367, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19297, 160, 4007, 0, 368, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19298, 160, 4008, 0, 369, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19299, 160, 4005, 0, 370, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19300, 160, 4006, 0, 371, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19301, 160, 4007, 0, 372, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19302, 160, 4008, 0, 373, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19303, 160, 4005, 0, 374, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19304, 160, 4006, 0, 375, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19305, 160, 4007, 0, 376, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19306, 160, 4008, 0, 377, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19307, 160, 4005, 0, 378, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19308, 160, 4006, 0, 379, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19309, 160, 4007, 0, 380, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19310, 160, 4008, 0, 381, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19311, 160, 4005, 0, 382, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19312, 160, 4006, 0, 383, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19313, 160, 4007, 0, 384, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19314, 160, 4008, 0, 385, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19315, 160, 4005, 0, 386, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19316, 160, 4006, 0, 387, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19317, 160, 4007, 0, 388, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19318, 160, 4008, 0, 389, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19319, 160, 4005, 0, 390, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19320, 160, 4006, 0, 391, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19321, 160, 4007, 0, 392, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19322, 160, 4008, 0, 393, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19323, 160, 4005, 0, 394, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19324, 160, 4006, 0, 395, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19325, 160, 4007, 0, 396, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19326, 160, 4008, 0, 397, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19327, 160, 4005, 0, 398, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19328, 160, 4006, 0, 399, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19329, 160, 4007, 0, 400, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19330, 160, 4008, 0, 401, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19331, 160, 4005, 0, 402, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19332, 160, 4006, 0, 403, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19333, 160, 4007, 0, 404, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19334, 160, 4008, 0, 405, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19335, 160, 4005, 0, 406, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19336, 160, 4006, 0, 407, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19337, 160, 4007, 0, 408, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19338, 160, 4008, 0, 409, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19339, 160, 4005, 0, 410, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19340, 160, 4006, 0, 411, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19341, 160, 4007, 0, 412, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19342, 160, 4008, 0, 413, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19343, 160, 4005, 0, 414, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19344, 160, 4006, 0, 415, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19345, 160, 4007, 0, 416, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19346, 160, 4008, 0, 417, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19347, 160, 4005, 0, 418, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19348, 160, 4006, 0, 419, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19349, 160, 4007, 0, 420, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19350, 160, 4008, 0, 421, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19351, 160, 4005, 0, 422, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19352, 160, 4006, 0, 423, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19353, 160, 4007, 0, 424, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19354, 160, 4008, 0, 425, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19355, 160, 4005, 0, 426, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19356, 160, 4006, 0, 427, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19357, 160, 4007, 0, 428, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19358, 160, 4008, 0, 429, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19359, 160, 4005, 0, 430, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19360, 160, 4006, 0, 431, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19361, 160, 4007, 0, 432, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19362, 160, 4008, 0, 433, 4007, 3646, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19363, 160, 3646, 0, 434, 4008, 3655, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19364, 160, 3655, 0, 435, 3646, 3679, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19365, 160, 3679, 0, 436, 3655, 4004, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19366, 160, 4004, 0, 437, 3679, 3842, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19367, 160, 3842, 0, 438, 4004, 3744, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19368, 160, 3744, 0, 439, 3842, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19369, 160, 4005, 0, 440, 3744, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19370, 160, 4006, 0, 441, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19371, 160, 4007, 0, 442, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19372, 160, 4008, 0, 443, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19373, 160, 4005, 0, 444, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19374, 160, 4006, 0, 445, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19375, 160, 4007, 0, 446, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19376, 160, 4008, 0, 447, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19377, 160, 4005, 0, 448, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19378, 160, 4006, 0, 449, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19379, 160, 4007, 0, 450, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19380, 160, 4008, 0, 451, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19381, 160, 4005, 0, 452, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19382, 160, 4006, 0, 453, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19383, 160, 4007, 0, 454, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19384, 160, 4008, 0, 455, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19385, 160, 4005, 0, 456, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19386, 160, 4006, 0, 457, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19387, 160, 4007, 0, 458, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19388, 160, 4008, 0, 459, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19389, 160, 4005, 0, 460, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19390, 160, 4006, 0, 461, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19391, 160, 4007, 0, 462, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19392, 160, 4008, 0, 463, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19393, 160, 4005, 0, 464, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19394, 160, 4006, 0, 465, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19395, 160, 4007, 0, 466, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19396, 160, 4008, 0, 467, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19397, 160, 4005, 0, 468, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19398, 160, 4006, 0, 469, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19399, 160, 4007, 0, 470, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19400, 160, 4008, 0, 471, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19401, 160, 4005, 0, 472, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19402, 160, 4006, 0, 473, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19403, 160, 4007, 0, 474, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19404, 160, 4008, 0, 475, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19405, 160, 4005, 0, 476, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19406, 160, 4006, 0, 477, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19407, 160, 4007, 0, 478, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19408, 160, 4008, 0, 479, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19409, 160, 4005, 0, 480, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19410, 160, 4006, 0, 481, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19411, 160, 4007, 0, 482, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19412, 160, 4008, 0, 483, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19413, 160, 4005, 0, 484, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19414, 160, 4006, 0, 485, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19415, 160, 4007, 0, 486, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19416, 160, 4008, 0, 487, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19417, 160, 4005, 0, 488, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19418, 160, 4006, 0, 489, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19419, 160, 4007, 0, 490, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19420, 160, 4008, 0, 491, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19421, 160, 4005, 0, 492, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19422, 160, 4006, 0, 493, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19423, 160, 4007, 0, 494, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19424, 160, 4008, 0, 495, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19425, 160, 4005, 0, 496, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19426, 160, 4006, 0, 497, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19427, 160, 4007, 0, 498, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19428, 160, 4008, 0, 499, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19429, 160, 4005, 0, 500, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19430, 160, 4006, 0, 501, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19431, 160, 4007, 0, 502, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19432, 160, 4008, 0, 503, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19433, 160, 4005, 0, 504, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19434, 160, 4006, 0, 505, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19435, 160, 4007, 0, 506, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19436, 160, 4008, 0, 507, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19437, 160, 4005, 0, 508, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19438, 160, 4006, 0, 509, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19439, 160, 4007, 0, 510, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19440, 160, 4008, 0, 511, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19441, 160, 4005, 0, 512, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19442, 160, 4006, 0, 513, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19443, 160, 4007, 0, 514, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19444, 160, 4008, 0, 515, 4007, 4005, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19445, 160, 4005, 0, 516, 4008, 4006, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19446, 160, 4006, 0, 517, 4005, 4007, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19447, 160, 4007, 0, 518, 4006, 4008, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19448, 160, 4008, 0, 519, 4007, 0, 2, 1068047455, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19449, 218, 3799, 0, 0, 0, 3679, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19450, 218, 3679, 0, 1, 3799, 3800, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19451, 218, 3800, 0, 2, 3679, 3641, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19452, 218, 3641, 0, 3, 3800, 3799, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19453, 218, 3799, 0, 4, 3641, 3679, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19454, 218, 3679, 0, 5, 3799, 3800, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19455, 218, 3800, 0, 6, 3679, 3641, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19456, 218, 3641, 0, 7, 3800, 3801, 2, 1069763601, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19457, 218, 3801, 0, 8, 3641, 3769, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19458, 218, 3769, 0, 9, 3801, 3802, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19459, 218, 3802, 0, 10, 3769, 3803, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19460, 218, 3803, 0, 11, 3802, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19461, 218, 3669, 0, 12, 3803, 3804, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19462, 218, 3804, 0, 13, 3669, 3805, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19463, 218, 3805, 0, 14, 3804, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19464, 218, 3641, 0, 15, 3805, 3635, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19465, 218, 3635, 0, 16, 3641, 3806, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19466, 218, 3806, 0, 17, 3635, 3807, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19467, 218, 3807, 0, 18, 3806, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19468, 218, 3669, 0, 19, 3807, 3808, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19469, 218, 3808, 0, 20, 3669, 3681, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19470, 218, 3681, 0, 21, 3808, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19471, 218, 3669, 0, 22, 3681, 3769, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19472, 218, 3769, 0, 23, 3669, 3809, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19473, 218, 3809, 0, 24, 3769, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19474, 218, 3641, 0, 25, 3809, 3655, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19475, 218, 3655, 0, 26, 3641, 3649, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19476, 218, 3649, 0, 27, 3655, 3791, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19477, 218, 3791, 0, 28, 3649, 3810, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19478, 218, 3810, 0, 29, 3791, 3791, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19479, 218, 3791, 0, 30, 3810, 3808, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19480, 218, 3808, 0, 31, 3791, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19481, 218, 3669, 0, 32, 3808, 3679, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19482, 218, 3679, 0, 33, 3669, 3811, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19483, 218, 3811, 0, 34, 3679, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19484, 218, 3641, 0, 35, 3811, 3704, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19485, 218, 3704, 0, 36, 3641, 3635, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19486, 218, 3635, 0, 37, 3704, 3812, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19487, 218, 3812, 0, 38, 3635, 3655, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19488, 218, 3655, 0, 39, 3812, 3684, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19489, 218, 3684, 0, 40, 3655, 3813, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19490, 218, 3813, 0, 41, 3684, 3814, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19491, 218, 3814, 0, 42, 3813, 3815, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19492, 218, 3815, 0, 43, 3814, 3801, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19493, 218, 3801, 0, 44, 3815, 3769, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19494, 218, 3769, 0, 45, 3801, 3802, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19495, 218, 3802, 0, 46, 3769, 3803, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19496, 218, 3803, 0, 47, 3802, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19497, 218, 3669, 0, 48, 3803, 3804, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19498, 218, 3804, 0, 49, 3669, 3805, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19499, 218, 3805, 0, 50, 3804, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19500, 218, 3641, 0, 51, 3805, 3635, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19501, 218, 3635, 0, 52, 3641, 3806, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19502, 218, 3806, 0, 53, 3635, 3807, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19503, 218, 3807, 0, 54, 3806, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19504, 218, 3669, 0, 55, 3807, 3808, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19505, 218, 3808, 0, 56, 3669, 3681, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19506, 218, 3681, 0, 57, 3808, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19507, 218, 3669, 0, 58, 3681, 3769, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19508, 218, 3769, 0, 59, 3669, 3809, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19509, 218, 3809, 0, 60, 3769, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19510, 218, 3641, 0, 61, 3809, 3655, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19511, 218, 3655, 0, 62, 3641, 3649, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19512, 218, 3649, 0, 63, 3655, 3791, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19513, 218, 3791, 0, 64, 3649, 3810, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19514, 218, 3810, 0, 65, 3791, 3791, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19515, 218, 3791, 0, 66, 3810, 3808, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19516, 218, 3808, 0, 67, 3791, 3669, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19517, 218, 3669, 0, 68, 3808, 3679, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19518, 218, 3679, 0, 69, 3669, 3811, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19519, 218, 3811, 0, 70, 3679, 3641, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19520, 218, 3641, 0, 71, 3811, 3704, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19521, 218, 3704, 0, 72, 3641, 3635, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19522, 218, 3635, 0, 73, 3704, 3812, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19523, 218, 3812, 0, 74, 3635, 3655, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19524, 218, 3655, 0, 75, 3812, 3684, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19525, 218, 3684, 0, 76, 3655, 3813, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19526, 218, 3813, 0, 77, 3684, 3814, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19527, 218, 3814, 0, 78, 3813, 3815, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19528, 218, 3815, 0, 79, 3814, 3816, 2, 1069763601, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19529, 218, 3816, 0, 80, 3815, 3720, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19530, 218, 3720, 0, 81, 3816, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19531, 218, 3807, 0, 82, 3720, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19532, 218, 3661, 0, 83, 3807, 3817, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19533, 218, 3817, 0, 84, 3661, 3638, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19534, 218, 3638, 0, 85, 3817, 3640, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19535, 218, 3640, 0, 86, 3638, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19536, 218, 3704, 0, 87, 3640, 3693, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19537, 218, 3693, 0, 88, 3704, 3812, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19538, 218, 3812, 0, 89, 3693, 3818, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19539, 218, 3818, 0, 90, 3812, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19540, 218, 3661, 0, 91, 3818, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19541, 218, 3679, 0, 92, 3661, 3811, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19542, 218, 3811, 0, 93, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19543, 218, 3641, 0, 94, 3811, 3808, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19544, 218, 3808, 0, 95, 3641, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19545, 218, 3681, 0, 96, 3808, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19546, 218, 3661, 0, 97, 3681, 3809, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19547, 218, 3809, 0, 98, 3661, 3697, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19548, 218, 3697, 0, 99, 3809, 3819, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19549, 218, 3819, 0, 100, 3697, 3820, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19550, 218, 3820, 0, 101, 3819, 3720, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19551, 218, 3720, 0, 102, 3820, 3755, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19552, 218, 3755, 0, 103, 3720, 3821, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19553, 218, 3821, 0, 104, 3755, 3804, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19554, 218, 3804, 0, 105, 3821, 3646, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19555, 218, 3646, 0, 106, 3804, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19556, 218, 3704, 0, 107, 3646, 3635, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19557, 218, 3635, 0, 108, 3704, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19558, 218, 3807, 0, 109, 3635, 3669, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19559, 218, 3669, 0, 110, 3807, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19560, 218, 3679, 0, 111, 3669, 3656, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19561, 218, 3656, 0, 112, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19562, 218, 3641, 0, 113, 3656, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19563, 218, 3679, 0, 114, 3641, 3822, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19564, 218, 3822, 0, 115, 3679, 3823, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19565, 218, 3823, 0, 116, 3822, 3824, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19566, 218, 3824, 0, 117, 3823, 3825, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19567, 218, 3825, 0, 118, 3824, 3826, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19568, 218, 3826, 0, 119, 3825, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19569, 218, 3681, 0, 120, 3826, 3655, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19570, 218, 3655, 0, 121, 3681, 3827, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19571, 218, 3827, 0, 122, 3655, 3767, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19572, 218, 3767, 0, 123, 3827, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19573, 218, 3704, 0, 124, 3767, 3635, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19574, 218, 3635, 0, 125, 3704, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19575, 218, 3807, 0, 126, 3635, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19576, 218, 3681, 0, 127, 3807, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19577, 218, 3661, 0, 128, 3681, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19578, 218, 3679, 0, 129, 3661, 3800, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19579, 218, 3800, 0, 130, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19580, 218, 3641, 0, 131, 3800, 3828, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19581, 218, 3828, 0, 132, 3641, 3693, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19582, 218, 3693, 0, 133, 3828, 3829, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19583, 218, 3829, 0, 134, 3693, 3830, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19584, 218, 3830, 0, 135, 3829, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19585, 218, 3807, 0, 136, 3830, 3636, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19586, 218, 3636, 0, 137, 3807, 3701, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19587, 218, 3701, 0, 138, 3636, 3831, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19588, 218, 3831, 0, 139, 3701, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19589, 218, 3681, 0, 140, 3831, 3832, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19590, 218, 3832, 0, 141, 3681, 3823, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19591, 218, 3823, 0, 142, 3832, 3833, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19592, 218, 3833, 0, 143, 3823, 3808, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19593, 218, 3808, 0, 144, 3833, 3834, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19594, 218, 3834, 0, 145, 3808, 3669, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19595, 218, 3669, 0, 146, 3834, 3650, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19596, 218, 3650, 0, 147, 3669, 3835, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19597, 218, 3835, 0, 148, 3650, 3836, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19598, 218, 3836, 0, 149, 3835, 3833, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19599, 218, 3833, 0, 150, 3836, 3735, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19600, 218, 3735, 0, 151, 3833, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19601, 218, 3807, 0, 152, 3735, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19602, 218, 3661, 0, 153, 3807, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19603, 218, 3679, 0, 154, 3661, 3656, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19604, 218, 3656, 0, 155, 3679, 3640, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19605, 218, 3640, 0, 156, 3656, 3816, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19606, 218, 3816, 0, 157, 3640, 3720, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19607, 218, 3720, 0, 158, 3816, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19608, 218, 3807, 0, 159, 3720, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19609, 218, 3661, 0, 160, 3807, 3817, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19610, 218, 3817, 0, 161, 3661, 3638, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19611, 218, 3638, 0, 162, 3817, 3640, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19612, 218, 3640, 0, 163, 3638, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19613, 218, 3704, 0, 164, 3640, 3693, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19614, 218, 3693, 0, 165, 3704, 3812, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19615, 218, 3812, 0, 166, 3693, 3818, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19616, 218, 3818, 0, 167, 3812, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19617, 218, 3661, 0, 168, 3818, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19618, 218, 3679, 0, 169, 3661, 3811, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19619, 218, 3811, 0, 170, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19620, 218, 3641, 0, 171, 3811, 3808, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19621, 218, 3808, 0, 172, 3641, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19622, 218, 3681, 0, 173, 3808, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19623, 218, 3661, 0, 174, 3681, 3809, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19624, 218, 3809, 0, 175, 3661, 3697, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19625, 218, 3697, 0, 176, 3809, 3819, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19626, 218, 3819, 0, 177, 3697, 3820, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19627, 218, 3820, 0, 178, 3819, 3720, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19628, 218, 3720, 0, 179, 3820, 3755, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19629, 218, 3755, 0, 180, 3720, 3821, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19630, 218, 3821, 0, 181, 3755, 3804, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19631, 218, 3804, 0, 182, 3821, 3646, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19632, 218, 3646, 0, 183, 3804, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19633, 218, 3704, 0, 184, 3646, 3635, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19634, 218, 3635, 0, 185, 3704, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19635, 218, 3807, 0, 186, 3635, 3669, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19636, 218, 3669, 0, 187, 3807, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19637, 218, 3679, 0, 188, 3669, 3656, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19638, 218, 3656, 0, 189, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19639, 218, 3641, 0, 190, 3656, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19640, 218, 3679, 0, 191, 3641, 3822, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19641, 218, 3822, 0, 192, 3679, 3823, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19642, 218, 3823, 0, 193, 3822, 3824, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19643, 218, 3824, 0, 194, 3823, 3825, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19644, 218, 3825, 0, 195, 3824, 3826, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19645, 218, 3826, 0, 196, 3825, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19646, 218, 3681, 0, 197, 3826, 3655, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19647, 218, 3655, 0, 198, 3681, 3827, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19648, 218, 3827, 0, 199, 3655, 3767, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19649, 218, 3767, 0, 200, 3827, 3704, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19650, 218, 3704, 0, 201, 3767, 3635, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19651, 218, 3635, 0, 202, 3704, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19652, 218, 3807, 0, 203, 3635, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19653, 218, 3681, 0, 204, 3807, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19654, 218, 3661, 0, 205, 3681, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19655, 218, 3679, 0, 206, 3661, 3800, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19656, 218, 3800, 0, 207, 3679, 3641, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19657, 218, 3641, 0, 208, 3800, 3828, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19658, 218, 3828, 0, 209, 3641, 3693, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19659, 218, 3693, 0, 210, 3828, 3829, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19660, 218, 3829, 0, 211, 3693, 3830, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19661, 218, 3830, 0, 212, 3829, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19662, 218, 3807, 0, 213, 3830, 3636, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19663, 218, 3636, 0, 214, 3807, 3701, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19664, 218, 3701, 0, 215, 3636, 3831, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19665, 218, 3831, 0, 216, 3701, 3681, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19666, 218, 3681, 0, 217, 3831, 3832, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19667, 218, 3832, 0, 218, 3681, 3823, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19668, 218, 3823, 0, 219, 3832, 3833, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19669, 218, 3833, 0, 220, 3823, 3808, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19670, 218, 3808, 0, 221, 3833, 3834, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19671, 218, 3834, 0, 222, 3808, 3669, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19672, 218, 3669, 0, 223, 3834, 3650, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19673, 218, 3650, 0, 224, 3669, 3835, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19674, 218, 3835, 0, 225, 3650, 3836, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19675, 218, 3836, 0, 226, 3835, 3833, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19676, 218, 3833, 0, 227, 3836, 3735, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19677, 218, 3735, 0, 228, 3833, 3807, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19678, 218, 3807, 0, 229, 3735, 3661, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19679, 218, 3661, 0, 230, 3807, 3679, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19680, 218, 3679, 0, 231, 3661, 3656, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19681, 218, 3656, 0, 232, 3679, 3640, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19682, 218, 3640, 0, 233, 3656, 0, 2, 1069763601, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19683, 219, 4004, 0, 0, 0, 3641, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19684, 219, 3641, 0, 1, 4004, 3692, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19685, 219, 3692, 0, 2, 3641, 4004, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19686, 219, 4004, 0, 3, 3692, 3641, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19687, 219, 3641, 0, 4, 4004, 3692, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19688, 219, 3692, 0, 5, 3641, 3679, 2, 1069763878, 4, 1, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19689, 219, 3679, 0, 6, 3692, 4004, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19690, 219, 4004, 0, 7, 3679, 3641, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19691, 219, 3641, 0, 8, 4004, 3669, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19692, 219, 3669, 0, 9, 3641, 3650, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19693, 219, 3650, 0, 10, 3669, 4009, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19694, 219, 4009, 0, 11, 3650, 3655, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19695, 219, 3655, 0, 12, 4009, 3684, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19696, 219, 3684, 0, 13, 3655, 3692, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19697, 219, 3692, 0, 14, 3684, 3654, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19698, 219, 3654, 0, 15, 3692, 3682, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19699, 219, 3682, 0, 16, 3654, 3693, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19700, 219, 3693, 0, 17, 3682, 4010, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19701, 219, 4010, 0, 18, 3693, 3694, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19702, 219, 3694, 0, 19, 4010, 3679, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19703, 219, 3679, 0, 20, 3694, 4004, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19704, 219, 4004, 0, 21, 3679, 3641, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19705, 219, 3641, 0, 22, 4004, 3669, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19706, 219, 3669, 0, 23, 3641, 3650, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19707, 219, 3650, 0, 24, 3669, 4009, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19708, 219, 4009, 0, 25, 3650, 3655, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19709, 219, 3655, 0, 26, 4009, 3684, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19710, 219, 3684, 0, 27, 3655, 3692, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19711, 219, 3692, 0, 28, 3684, 3654, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19712, 219, 3654, 0, 29, 3692, 3682, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19713, 219, 3682, 0, 30, 3654, 3693, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19714, 219, 3693, 0, 31, 3682, 4010, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19715, 219, 4010, 0, 32, 3693, 3694, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19716, 219, 3694, 0, 33, 4010, 3752, 2, 1069763878, 4, 120, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19717, 219, 3752, 0, 34, 3694, 3678, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19718, 219, 3678, 0, 35, 3752, 4011, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19719, 219, 4011, 0, 36, 3678, 3949, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19720, 219, 3949, 0, 37, 4011, 4012, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19721, 219, 4012, 0, 38, 3949, 3684, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19722, 219, 3684, 0, 39, 4012, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19723, 219, 3769, 0, 40, 3684, 4013, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19724, 219, 4013, 0, 41, 3769, 3695, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19725, 219, 3695, 0, 42, 4013, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19726, 219, 3697, 0, 43, 3695, 3728, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19727, 219, 3728, 0, 44, 3697, 4014, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19728, 219, 4014, 0, 45, 3728, 3696, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19729, 219, 3696, 0, 46, 4014, 3910, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19730, 219, 3910, 0, 47, 3696, 4015, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19731, 219, 4015, 0, 48, 3910, 3909, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19732, 219, 3909, 0, 49, 4015, 3684, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19733, 219, 3684, 0, 50, 3909, 3679, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19734, 219, 3679, 0, 51, 3684, 3711, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19735, 219, 3711, 0, 52, 3679, 3678, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19736, 219, 3678, 0, 53, 3711, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19737, 219, 3693, 0, 54, 3678, 4016, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19738, 219, 4016, 0, 55, 3693, 4017, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19739, 219, 4017, 0, 56, 4016, 3635, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19740, 219, 3635, 0, 57, 4017, 3703, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19741, 219, 3703, 0, 58, 3635, 4018, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19742, 219, 4018, 0, 59, 3703, 3681, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19743, 219, 3681, 0, 60, 4018, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19744, 219, 3697, 0, 61, 3681, 3717, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19745, 219, 3717, 0, 62, 3697, 4019, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19746, 219, 4019, 0, 63, 3717, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19747, 219, 3693, 0, 64, 4019, 3694, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19748, 219, 3694, 0, 65, 3693, 4017, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19749, 219, 4017, 0, 66, 3694, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19750, 219, 3693, 0, 67, 4017, 3694, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19751, 219, 3694, 0, 68, 3693, 3655, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19752, 219, 3655, 0, 69, 3694, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19753, 219, 3769, 0, 70, 3655, 4020, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19754, 219, 4020, 0, 71, 3769, 4021, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19755, 219, 4021, 0, 72, 4020, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19756, 219, 3769, 0, 73, 4021, 4022, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19757, 219, 4022, 0, 74, 3769, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19758, 219, 3769, 0, 75, 4022, 4023, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19759, 219, 4023, 0, 76, 3769, 4024, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19760, 219, 4024, 0, 77, 4023, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19761, 219, 3697, 0, 78, 4024, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19762, 219, 3769, 0, 79, 3697, 3698, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19763, 219, 3698, 0, 80, 3769, 4025, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19764, 219, 4025, 0, 81, 3698, 3673, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19765, 219, 3673, 0, 82, 4025, 3703, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19766, 219, 3703, 0, 83, 3673, 3638, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19767, 219, 3638, 0, 84, 3703, 4026, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19768, 219, 4026, 0, 85, 3638, 3666, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19769, 219, 3666, 0, 86, 4026, 4016, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19770, 219, 4016, 0, 87, 3666, 3752, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19771, 219, 3752, 0, 88, 4016, 3678, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19772, 219, 3678, 0, 89, 3752, 4011, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19773, 219, 4011, 0, 90, 3678, 3949, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19774, 219, 3949, 0, 91, 4011, 4012, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19775, 219, 4012, 0, 92, 3949, 3684, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19776, 219, 3684, 0, 93, 4012, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19777, 219, 3769, 0, 94, 3684, 4013, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19778, 219, 4013, 0, 95, 3769, 3695, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19779, 219, 3695, 0, 96, 4013, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19780, 219, 3697, 0, 97, 3695, 3728, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19781, 219, 3728, 0, 98, 3697, 4014, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19782, 219, 4014, 0, 99, 3728, 3696, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19783, 219, 3696, 0, 100, 4014, 3910, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19784, 219, 3910, 0, 101, 3696, 4015, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19785, 219, 4015, 0, 102, 3910, 3909, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19786, 219, 3909, 0, 103, 4015, 3684, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19787, 219, 3684, 0, 104, 3909, 3679, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19788, 219, 3679, 0, 105, 3684, 3711, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19789, 219, 3711, 0, 106, 3679, 3678, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19790, 219, 3678, 0, 107, 3711, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19791, 219, 3693, 0, 108, 3678, 4016, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19792, 219, 4016, 0, 109, 3693, 4017, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19793, 219, 4017, 0, 110, 4016, 3635, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19794, 219, 3635, 0, 111, 4017, 3703, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19795, 219, 3703, 0, 112, 3635, 4018, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19796, 219, 4018, 0, 113, 3703, 3681, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19797, 219, 3681, 0, 114, 4018, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19798, 219, 3697, 0, 115, 3681, 3717, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19799, 219, 3717, 0, 116, 3697, 4019, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19800, 219, 4019, 0, 117, 3717, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19801, 219, 3693, 0, 118, 4019, 3694, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19802, 219, 3694, 0, 119, 3693, 4017, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19803, 219, 4017, 0, 120, 3694, 3693, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19804, 219, 3693, 0, 121, 4017, 3694, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19805, 219, 3694, 0, 122, 3693, 3655, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19806, 219, 3655, 0, 123, 3694, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19807, 219, 3769, 0, 124, 3655, 4020, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19808, 219, 4020, 0, 125, 3769, 4021, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19809, 219, 4021, 0, 126, 4020, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19810, 219, 3769, 0, 127, 4021, 4022, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19811, 219, 4022, 0, 128, 3769, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19812, 219, 3769, 0, 129, 4022, 4023, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19813, 219, 4023, 0, 130, 3769, 4024, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19814, 219, 4024, 0, 131, 4023, 3697, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19815, 219, 3697, 0, 132, 4024, 3769, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19816, 219, 3769, 0, 133, 3697, 3698, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19817, 219, 3698, 0, 134, 3769, 4025, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19818, 219, 4025, 0, 135, 3698, 3673, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19819, 219, 3673, 0, 136, 4025, 3703, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19820, 219, 3703, 0, 137, 3673, 3638, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19821, 219, 3638, 0, 138, 3703, 4026, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19822, 219, 4026, 0, 139, 3638, 3666, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19823, 219, 3666, 0, 140, 4026, 4016, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19824, 219, 4016, 0, 141, 3666, 0, 2, 1069763878, 4, 121, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19825, 11, 4027, 0, 0, 0, 4028, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19826, 11, 4028, 0, 1, 4027, 4027, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19827, 11, 4027, 0, 2, 4028, 4028, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19828, 11, 4028, 0, 3, 4027, 0, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19829, 12, 4029, 0, 0, 0, 4030, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19830, 12, 4030, 0, 1, 4029, 4029, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19831, 12, 4029, 0, 2, 4030, 4030, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19832, 12, 4030, 0, 3, 4029, 0, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19833, 14, 4029, 0, 0, 0, 4029, 4, 1033920830, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19834, 14, 4029, 0, 1, 4029, 3786, 4, 1033920830, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19835, 14, 3786, 0, 2, 4029, 3786, 4, 1033920830, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19836, 14, 3786, 0, 3, 3786, 4031, 4, 1033920830, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19837, 14, 4031, 0, 4, 3786, 4032, 4, 1033920830, 2, 197, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19838, 14, 4032, 0, 5, 4031, 4031, 4, 1033920830, 2, 197, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19839, 14, 4031, 0, 6, 4032, 4032, 4, 1033920830, 2, 197, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19840, 14, 4032, 0, 7, 4031, 3745, 4, 1033920830, 2, 197, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19841, 14, 3745, 0, 8, 4032, 3746, 4, 1033920830, 2, 198, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19842, 14, 3746, 0, 9, 3745, 3745, 4, 1033920830, 2, 198, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19843, 14, 3745, 0, 10, 3746, 3746, 4, 1033920830, 2, 198, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19844, 14, 3746, 0, 11, 3745, 4033, 4, 1033920830, 2, 198, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19845, 14, 4033, 0, 12, 3746, 4033, 4, 1033920830, 2, 199, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19846, 14, 4033, 0, 13, 4033, 4033, 4, 1033920830, 2, 199, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19847, 14, 4033, 0, 14, 4033, 4033, 4, 1033920830, 2, 199, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19848, 14, 4033, 0, 15, 4033, 0, 4, 1033920830, 2, 199, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19849, 13, 4034, 0, 0, 0, 4034, 3, 1033920794, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19850, 13, 4034, 0, 1, 4034, 0, 3, 1033920794, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19851, 233, 4035, 0, 0, 0, 4030, 3, 1072186699, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19852, 233, 4030, 0, 1, 4035, 4035, 3, 1072186699, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19853, 233, 4035, 0, 2, 4030, 4030, 3, 1072186699, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19854, 233, 4030, 0, 3, 4035, 3786, 3, 1072186699, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19855, 233, 3786, 0, 4, 4030, 3643, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19856, 233, 3643, 0, 5, 3786, 3823, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19857, 233, 3823, 0, 6, 3643, 3679, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19858, 233, 3679, 0, 7, 3823, 4035, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19859, 233, 4035, 0, 8, 3679, 3786, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19860, 233, 3786, 0, 9, 4035, 3786, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19861, 233, 3786, 0, 10, 3786, 3643, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19862, 233, 3643, 0, 11, 3786, 3823, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19863, 233, 3823, 0, 12, 3643, 3679, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19864, 233, 3679, 0, 13, 3823, 4035, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19865, 233, 4035, 0, 14, 3679, 3786, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19866, 233, 3786, 0, 15, 4035, 0, 3, 1072186699, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19867, 10, 4035, 0, 0, 0, 4035, 4, 1033920665, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19868, 10, 4035, 0, 1, 4035, 3786, 4, 1033920665, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19869, 10, 3786, 0, 2, 4035, 3786, 4, 1033920665, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19870, 10, 3786, 0, 3, 3786, 0, 4, 1033920665, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19871, 44, 4036, 0, 0, 0, 4037, 1, 1066384457, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19872, 44, 4037, 0, 1, 4036, 4036, 1, 1066384457, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19873, 44, 4036, 0, 2, 4037, 4037, 1, 1066384457, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19874, 44, 4037, 0, 3, 4036, 0, 1, 1066384457, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19875, 43, 4038, 0, 0, 0, 4038, 14, 1066384365, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19876, 43, 4038, 0, 1, 4038, 4039, 14, 1066384365, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19877, 43, 4039, 0, 2, 4038, 4040, 14, 1066384365, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19878, 43, 4040, 0, 3, 4039, 4039, 14, 1066384365, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19879, 43, 4039, 0, 4, 4040, 4040, 14, 1066384365, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19880, 43, 4040, 0, 5, 4039, 0, 14, 1066384365, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19881, 45, 3951, 0, 0, 0, 3666, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19882, 45, 3666, 0, 1, 3951, 4041, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19883, 45, 4041, 0, 2, 3666, 3951, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19884, 45, 3951, 0, 3, 4041, 3666, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19885, 45, 3666, 0, 4, 3951, 4041, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19886, 45, 4041, 0, 5, 3666, 4042, 14, 1066388816, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19887, 45, 4042, 0, 6, 4041, 4043, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19888, 45, 4043, 0, 7, 4042, 4044, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19889, 45, 4044, 0, 8, 4043, 4042, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19890, 45, 4042, 0, 9, 4044, 4043, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19891, 45, 4043, 0, 10, 4042, 4044, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19892, 45, 4044, 0, 11, 4043, 0, 14, 1066388816, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19893, 115, 4045, 0, 0, 0, 4045, 14, 1066991725, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19894, 115, 4045, 0, 1, 4045, 4036, 14, 1066991725, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19895, 115, 4036, 0, 2, 4045, 4045, 14, 1066991725, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19896, 115, 4045, 0, 3, 4036, 4036, 14, 1066991725, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19897, 115, 4036, 0, 4, 4045, 4045, 14, 1066991725, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19898, 115, 4045, 0, 5, 4036, 0, 14, 1066991725, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19899, 116, 4046, 0, 0, 0, 4047, 14, 1066992054, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19900, 116, 4047, 0, 1, 4046, 4046, 14, 1066992054, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19901, 116, 4046, 0, 2, 4047, 4047, 14, 1066992054, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19902, 116, 4047, 0, 3, 4046, 4042, 14, 1066992054, 11, 152, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19903, 116, 4042, 0, 4, 4047, 4048, 14, 1066992054, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19904, 116, 4048, 0, 5, 4042, 4042, 14, 1066992054, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19905, 116, 4042, 0, 6, 4048, 4048, 14, 1066992054, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19906, 116, 4048, 0, 7, 4042, 0, 14, 1066992054, 11, 155, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19907, 46, 3951, 0, 0, 0, 3666, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19908, 46, 3666, 0, 1, 3951, 4041, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19909, 46, 4041, 0, 2, 3666, 3951, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19910, 46, 3951, 0, 3, 4041, 3666, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19911, 46, 3666, 0, 4, 3951, 4041, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19912, 46, 4041, 0, 5, 3666, 0, 1, 1066389805, 11, 4, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19913, 56, 4049, 0, 0, 0, 4049, 15, 1066643397, 11, 161, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19914, 56, 4049, 0, 1, 4049, 4050, 15, 1066643397, 11, 161, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19915, 56, 4050, 0, 2, 4049, 4051, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19916, 56, 4051, 0, 3, 4050, 4052, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19917, 56, 4052, 0, 4, 4051, 4053, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19918, 56, 4053, 0, 5, 4052, 3791, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19919, 56, 3791, 0, 6, 4053, 4054, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19920, 56, 4054, 0, 7, 3791, 4055, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19921, 56, 4055, 0, 8, 4054, 4050, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19922, 56, 4050, 0, 9, 4055, 4051, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19923, 56, 4051, 0, 10, 4050, 4052, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19924, 56, 4052, 0, 11, 4051, 4053, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19925, 56, 4053, 0, 12, 4052, 3791, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19926, 56, 3791, 0, 13, 4053, 4054, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19927, 56, 4054, 0, 14, 3791, 4055, 15, 1066643397, 11, 202, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (19928, 56, 4055, 0, 15, 4054, 0, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19929, 138, 4056, 0, 0, 0, 4056, 1, 1068036060, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19930, 138, 4056, 0, 1, 4056, 4057, 1, 1068036060, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19931, 138, 4057, 0, 2, 4056, 4058, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19932, 138, 4058, 0, 3, 4057, 4059, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19933, 138, 4059, 0, 4, 4058, 4060, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19934, 138, 4060, 0, 5, 4059, 4061, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19935, 138, 4061, 0, 6, 4060, 4062, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19936, 138, 4062, 0, 7, 4061, 4063, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19937, 138, 4063, 0, 8, 4062, 4057, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19938, 138, 4057, 0, 9, 4063, 4058, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19939, 138, 4058, 0, 10, 4057, 4059, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19940, 138, 4059, 0, 11, 4058, 4060, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19941, 138, 4060, 0, 12, 4059, 4061, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19942, 138, 4061, 0, 13, 4060, 4062, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19943, 138, 4062, 0, 14, 4061, 4063, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19944, 138, 4063, 0, 15, 4062, 0, 1, 1068036060, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19945, 211, 4064, 0, 0, 0, 4065, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19946, 211, 4065, 0, 1, 4064, 4066, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19947, 211, 4066, 0, 2, 4065, 4064, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19948, 211, 4064, 0, 3, 4066, 4065, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19949, 211, 4065, 0, 4, 4064, 4066, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19950, 211, 4066, 0, 5, 4065, 4067, 1, 1068640085, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19951, 211, 4067, 0, 6, 4066, 4068, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19952, 211, 4068, 0, 7, 4067, 4069, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19953, 211, 4069, 0, 8, 4068, 4070, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19954, 211, 4070, 0, 9, 4069, 4071, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19955, 211, 4071, 0, 10, 4070, 4072, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19956, 211, 4072, 0, 11, 4071, 4073, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19957, 211, 4073, 0, 12, 4072, 4074, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19958, 211, 4074, 0, 13, 4073, 4067, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19959, 211, 4067, 0, 14, 4074, 4068, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19960, 211, 4068, 0, 15, 4067, 4069, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19961, 211, 4069, 0, 16, 4068, 4070, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19962, 211, 4070, 0, 17, 4069, 4071, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19963, 211, 4071, 0, 18, 4070, 4072, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19964, 211, 4072, 0, 19, 4071, 4073, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19965, 211, 4073, 0, 20, 4072, 4074, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19966, 211, 4074, 0, 21, 4073, 0, 1, 1068640085, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19967, 141, 4075, 0, 0, 0, 4062, 20, 1068036586, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19968, 141, 4062, 0, 1, 4075, 4075, 20, 1068036586, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19969, 141, 4075, 0, 2, 4062, 4062, 20, 1068036586, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19970, 141, 4062, 0, 3, 4075, 4076, 20, 1068036586, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19971, 141, 4076, 0, 4, 4062, 4075, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19972, 141, 4075, 0, 5, 4076, 4057, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19973, 141, 4057, 0, 6, 4075, 4076, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19974, 141, 4076, 0, 7, 4057, 4075, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19975, 141, 4075, 0, 8, 4076, 4057, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19976, 141, 4057, 0, 9, 4075, 0, 20, 1068036586, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19977, 224, 4077, 0, 0, 0, 4078, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19978, 224, 4078, 0, 1, 4077, 4079, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19979, 224, 4079, 0, 2, 4078, 4080, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19980, 224, 4080, 0, 3, 4079, 4081, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19981, 224, 4081, 0, 4, 4080, 4077, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19982, 224, 4077, 0, 5, 4081, 4078, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19983, 224, 4078, 0, 6, 4077, 4079, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19984, 224, 4079, 0, 7, 4078, 4080, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19985, 224, 4080, 0, 8, 4079, 4081, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19986, 224, 4081, 0, 9, 4080, 4081, 21, 1069766105, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19987, 224, 4081, 0, 10, 4081, 4078, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19988, 224, 4078, 0, 11, 4081, 4067, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19989, 224, 4067, 0, 12, 4078, 4082, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19990, 224, 4082, 0, 13, 4067, 4083, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19991, 224, 4083, 0, 14, 4082, 4084, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19992, 224, 4084, 0, 15, 4083, 4085, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19993, 224, 4085, 0, 16, 4084, 4086, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19994, 224, 4086, 0, 17, 4085, 4077, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19995, 224, 4077, 0, 18, 4086, 4087, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19996, 224, 4087, 0, 19, 4077, 4088, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19997, 224, 4088, 0, 20, 4087, 4089, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19998, 224, 4089, 0, 21, 4088, 4090, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (19999, 224, 4090, 0, 22, 4089, 4091, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20000, 224, 4091, 0, 23, 4090, 4092, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20001, 224, 4092, 0, 24, 4091, 4075, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20002, 224, 4075, 0, 25, 4092, 4093, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20003, 224, 4093, 0, 26, 4075, 4094, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20004, 224, 4094, 0, 27, 4093, 4095, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20005, 224, 4095, 0, 28, 4094, 4096, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20006, 224, 4096, 0, 29, 4095, 4097, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20007, 224, 4097, 0, 30, 4096, 4098, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20008, 224, 4098, 0, 31, 4097, 4094, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20009, 224, 4094, 0, 32, 4098, 4081, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20010, 224, 4081, 0, 33, 4094, 4078, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20011, 224, 4078, 0, 34, 4081, 4067, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20012, 224, 4067, 0, 35, 4078, 4082, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20013, 224, 4082, 0, 36, 4067, 4083, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20014, 224, 4083, 0, 37, 4082, 4084, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20015, 224, 4084, 0, 38, 4083, 4085, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20016, 224, 4085, 0, 39, 4084, 4086, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20017, 224, 4086, 0, 40, 4085, 4077, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20018, 224, 4077, 0, 41, 4086, 4087, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20019, 224, 4087, 0, 42, 4077, 4088, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20020, 224, 4088, 0, 43, 4087, 4089, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20021, 224, 4089, 0, 44, 4088, 4090, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20022, 224, 4090, 0, 45, 4089, 4091, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20023, 224, 4091, 0, 46, 4090, 4092, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20024, 224, 4092, 0, 47, 4091, 4075, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20025, 224, 4075, 0, 48, 4092, 4093, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20026, 224, 4093, 0, 49, 4075, 4094, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20027, 224, 4094, 0, 50, 4093, 4095, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20028, 224, 4095, 0, 51, 4094, 4096, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20029, 224, 4096, 0, 52, 4095, 4097, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20030, 224, 4097, 0, 53, 4096, 4098, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20031, 224, 4098, 0, 54, 4097, 4094, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20032, 224, 4094, 0, 55, 4098, 4099, 21, 1069766105, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20033, 224, 4099, 0, 56, 4094, 4099, 21, 1069766105, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20034, 224, 4099, 0, 57, 4099, 0, 21, 1069766105, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20035, 225, 4090, 0, 0, 0, 4078, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20036, 225, 4078, 0, 1, 4090, 4100, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20037, 225, 4100, 0, 2, 4078, 4101, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20038, 225, 4101, 0, 3, 4100, 4102, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20039, 225, 4102, 0, 4, 4101, 4103, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20040, 225, 4103, 0, 5, 4102, 4090, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20041, 225, 4090, 0, 6, 4103, 4078, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20042, 225, 4078, 0, 7, 4090, 4100, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20043, 225, 4100, 0, 8, 4078, 4101, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20044, 225, 4101, 0, 9, 4100, 4102, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20045, 225, 4102, 0, 10, 4101, 4103, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20046, 225, 4103, 0, 11, 4102, 4089, 22, 1069766473, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20047, 225, 4089, 0, 12, 4103, 4104, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20048, 225, 4104, 0, 13, 4089, 4105, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20049, 225, 4105, 0, 14, 4104, 4067, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20050, 225, 4067, 0, 15, 4105, 4106, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20051, 225, 4106, 0, 16, 4067, 4107, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20052, 225, 4107, 0, 17, 4106, 4108, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20053, 225, 4108, 0, 18, 4107, 4109, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20054, 225, 4109, 0, 19, 4108, 4110, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20055, 225, 4110, 0, 20, 4109, 4101, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20056, 225, 4101, 0, 21, 4110, 4111, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20057, 225, 4111, 0, 22, 4101, 4112, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20058, 225, 4112, 0, 23, 4111, 4113, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20059, 225, 4113, 0, 24, 4112, 4114, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20060, 225, 4114, 0, 25, 4113, 4089, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20061, 225, 4089, 0, 26, 4114, 4104, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20062, 225, 4104, 0, 27, 4089, 4105, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20063, 225, 4105, 0, 28, 4104, 4067, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20064, 225, 4067, 0, 29, 4105, 4106, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20065, 225, 4106, 0, 30, 4067, 4107, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20066, 225, 4107, 0, 31, 4106, 4108, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20067, 225, 4108, 0, 32, 4107, 4109, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20068, 225, 4109, 0, 33, 4108, 4110, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20069, 225, 4110, 0, 34, 4109, 4101, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20070, 225, 4101, 0, 35, 4110, 4111, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20071, 225, 4111, 0, 36, 4101, 4112, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20072, 225, 4112, 0, 37, 4111, 4113, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20073, 225, 4113, 0, 38, 4112, 4114, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20074, 225, 4114, 0, 39, 4113, 0, 22, 1069766473, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20075, 220, 4115, 0, 0, 0, 4115, 20, 1069763952, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20076, 220, 4115, 0, 1, 4115, 4077, 20, 1069763952, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20077, 220, 4077, 0, 2, 4115, 4078, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20078, 220, 4078, 0, 3, 4077, 4116, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20079, 220, 4116, 0, 4, 4078, 4117, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20080, 220, 4117, 0, 5, 4116, 4118, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20081, 220, 4118, 0, 6, 4117, 4119, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20082, 220, 4119, 0, 7, 4118, 4120, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20083, 220, 4120, 0, 8, 4119, 4121, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20084, 220, 4121, 0, 9, 4120, 4077, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20085, 220, 4077, 0, 10, 4121, 4078, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20086, 220, 4078, 0, 11, 4077, 4116, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20087, 220, 4116, 0, 12, 4078, 4117, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20088, 220, 4117, 0, 13, 4116, 4118, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20089, 220, 4118, 0, 14, 4117, 4119, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20090, 220, 4119, 0, 15, 4118, 4120, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20091, 220, 4120, 0, 16, 4119, 4121, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20092, 220, 4121, 0, 17, 4120, 0, 20, 1069763952, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20093, 221, 4122, 0, 0, 0, 4078, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20094, 221, 4078, 0, 1, 4122, 4102, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20095, 221, 4102, 0, 2, 4078, 4123, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20096, 221, 4123, 0, 3, 4102, 4122, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20097, 221, 4122, 0, 4, 4123, 4078, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20098, 221, 4078, 0, 5, 4122, 4102, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20099, 221, 4102, 0, 6, 4078, 4123, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20100, 221, 4123, 0, 7, 4102, 4124, 21, 1069765267, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20101, 221, 4124, 0, 8, 4123, 4125, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20102, 221, 4125, 0, 9, 4124, 4092, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20103, 221, 4092, 0, 10, 4125, 4126, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20104, 221, 4126, 0, 11, 4092, 4100, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20105, 221, 4100, 0, 12, 4126, 4127, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20106, 221, 4127, 0, 13, 4100, 4128, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20107, 221, 4128, 0, 14, 4127, 4129, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20108, 221, 4129, 0, 15, 4128, 4084, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20109, 221, 4084, 0, 16, 4129, 4116, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20110, 221, 4116, 0, 17, 4084, 4130, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20111, 221, 4130, 0, 18, 4116, 4104, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20112, 221, 4104, 0, 19, 4130, 4131, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20113, 221, 4131, 0, 20, 4104, 4073, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20114, 221, 4073, 0, 21, 4131, 4102, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20115, 221, 4102, 0, 22, 4073, 4132, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20116, 221, 4132, 0, 23, 4102, 4133, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20117, 221, 4133, 0, 24, 4132, 4134, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20118, 221, 4134, 0, 25, 4133, 4135, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20119, 221, 4135, 0, 26, 4134, 4124, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20120, 221, 4124, 0, 27, 4135, 4125, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20121, 221, 4125, 0, 28, 4124, 4092, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20122, 221, 4092, 0, 29, 4125, 4126, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20123, 221, 4126, 0, 30, 4092, 4100, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20124, 221, 4100, 0, 31, 4126, 4127, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20125, 221, 4127, 0, 32, 4100, 4128, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20126, 221, 4128, 0, 33, 4127, 4129, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20127, 221, 4129, 0, 34, 4128, 4084, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20128, 221, 4084, 0, 35, 4129, 4116, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20129, 221, 4116, 0, 36, 4084, 4130, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20130, 221, 4130, 0, 37, 4116, 4104, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20131, 221, 4104, 0, 38, 4130, 4131, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20132, 221, 4131, 0, 39, 4104, 4073, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20133, 221, 4073, 0, 40, 4131, 4102, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20134, 221, 4102, 0, 41, 4073, 4132, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20135, 221, 4132, 0, 42, 4102, 4133, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20136, 221, 4133, 0, 43, 4132, 4134, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20137, 221, 4134, 0, 44, 4133, 4135, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20138, 221, 4135, 0, 45, 4134, 4099, 21, 1069765267, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20139, 221, 4099, 0, 46, 4135, 4099, 21, 1069765267, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20140, 221, 4099, 0, 47, 4099, 0, 21, 1069765267, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20141, 223, 4136, 0, 0, 0, 4078, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20142, 223, 4078, 0, 1, 4136, 4102, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20143, 223, 4102, 0, 2, 4078, 4137, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20144, 223, 4137, 0, 3, 4102, 4136, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20145, 223, 4136, 0, 4, 4137, 4078, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20146, 223, 4078, 0, 5, 4136, 4102, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20147, 223, 4102, 0, 6, 4078, 4137, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20148, 223, 4137, 0, 7, 4102, 4097, 22, 1069765640, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20149, 223, 4097, 0, 8, 4137, 4124, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20150, 223, 4124, 0, 9, 4097, 4126, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20151, 223, 4126, 0, 10, 4124, 4092, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20152, 223, 4092, 0, 11, 4126, 4098, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20153, 223, 4098, 0, 12, 4092, 4104, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20154, 223, 4104, 0, 13, 4098, 4138, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20155, 223, 4138, 0, 14, 4104, 4139, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20156, 223, 4139, 0, 15, 4138, 4112, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20157, 223, 4112, 0, 16, 4139, 4067, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20158, 223, 4067, 0, 17, 4112, 4134, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20159, 223, 4134, 0, 18, 4067, 4140, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20160, 223, 4140, 0, 19, 4134, 4141, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20161, 223, 4141, 0, 20, 4140, 4092, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20162, 223, 4092, 0, 21, 4141, 4069, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20163, 223, 4069, 0, 22, 4092, 4097, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20164, 223, 4097, 0, 23, 4069, 4124, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20165, 223, 4124, 0, 24, 4097, 4126, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20166, 223, 4126, 0, 25, 4124, 4092, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20167, 223, 4092, 0, 26, 4126, 4098, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20168, 223, 4098, 0, 27, 4092, 4104, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20169, 223, 4104, 0, 28, 4098, 4138, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20170, 223, 4138, 0, 29, 4104, 4139, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20171, 223, 4139, 0, 30, 4138, 4112, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20172, 223, 4112, 0, 31, 4139, 4067, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20173, 223, 4067, 0, 32, 4112, 4134, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20174, 223, 4134, 0, 33, 4067, 4140, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20175, 223, 4140, 0, 34, 4134, 4141, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20176, 223, 4141, 0, 35, 4140, 4092, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20177, 223, 4092, 0, 36, 4141, 4069, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20178, 223, 4069, 0, 37, 4092, 0, 22, 1069765640, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20179, 222, 4142, 0, 0, 0, 4143, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20180, 222, 4143, 0, 1, 4142, 4144, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20181, 222, 4144, 0, 2, 4143, 4118, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20182, 222, 4118, 0, 3, 4144, 4145, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20183, 222, 4145, 0, 4, 4118, 4146, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20184, 222, 4146, 0, 5, 4145, 4101, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20185, 222, 4101, 0, 6, 4146, 4104, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20186, 222, 4104, 0, 7, 4101, 4142, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20187, 222, 4142, 0, 8, 4104, 4143, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20188, 222, 4143, 0, 9, 4142, 4144, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20189, 222, 4144, 0, 10, 4143, 4118, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20190, 222, 4118, 0, 11, 4144, 4145, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20191, 222, 4145, 0, 12, 4118, 4146, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20192, 222, 4146, 0, 13, 4145, 4101, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20193, 222, 4101, 0, 14, 4146, 4104, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20194, 222, 4104, 0, 15, 4101, 4069, 21, 1069765545, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20195, 222, 4069, 0, 16, 4104, 4078, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20196, 222, 4078, 0, 17, 4069, 4102, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20197, 222, 4102, 0, 18, 4078, 4147, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20198, 222, 4147, 0, 19, 4102, 4117, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20199, 222, 4117, 0, 20, 4147, 4069, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20200, 222, 4069, 0, 21, 4117, 4078, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20201, 222, 4078, 0, 22, 4069, 4102, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20202, 222, 4102, 0, 23, 4078, 4147, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20203, 222, 4147, 0, 24, 4102, 4117, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20204, 222, 4117, 0, 25, 4147, 4099, 21, 1069765545, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20205, 222, 4099, 0, 26, 4117, 4099, 21, 1069765545, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20206, 222, 4099, 0, 27, 4099, 0, 21, 1069765545, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20207, 226, 4148, 0, 0, 0, 4064, 20, 1069766830, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20208, 226, 4064, 0, 1, 4148, 4148, 20, 1069766830, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20209, 226, 4148, 0, 2, 4064, 4064, 20, 1069766830, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20210, 226, 4064, 0, 3, 4148, 4149, 20, 1069766830, 1, 186, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20211, 226, 4149, 0, 4, 4064, 4150, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20212, 226, 4150, 0, 5, 4149, 4151, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20213, 226, 4151, 0, 6, 4150, 4152, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20214, 226, 4152, 0, 7, 4151, 4107, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20215, 226, 4107, 0, 8, 4152, 4148, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20216, 226, 4148, 0, 9, 4107, 4097, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20217, 226, 4097, 0, 10, 4148, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20218, 226, 4142, 0, 11, 4097, 4143, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20219, 226, 4143, 0, 12, 4142, 4153, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20220, 226, 4153, 0, 13, 4143, 4154, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20221, 226, 4154, 0, 14, 4153, 4155, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20222, 226, 4155, 0, 15, 4154, 4089, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20223, 226, 4089, 0, 16, 4155, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20224, 226, 4142, 0, 17, 4089, 4072, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20225, 226, 4072, 0, 18, 4142, 4156, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20226, 226, 4156, 0, 19, 4072, 4157, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20227, 226, 4157, 0, 20, 4156, 4158, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20228, 226, 4158, 0, 21, 4157, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20229, 226, 4142, 0, 22, 4158, 4159, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20230, 226, 4159, 0, 23, 4142, 4058, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20231, 226, 4058, 0, 24, 4159, 4160, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20232, 226, 4160, 0, 25, 4058, 4161, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20233, 226, 4161, 0, 26, 4160, 4107, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20234, 226, 4107, 0, 27, 4161, 4104, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20235, 226, 4104, 0, 28, 4107, 4149, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20236, 226, 4149, 0, 29, 4104, 4150, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20237, 226, 4150, 0, 30, 4149, 4151, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20238, 226, 4151, 0, 31, 4150, 4152, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20239, 226, 4152, 0, 32, 4151, 4107, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20240, 226, 4107, 0, 33, 4152, 4148, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20241, 226, 4148, 0, 34, 4107, 4097, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20242, 226, 4097, 0, 35, 4148, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20243, 226, 4142, 0, 36, 4097, 4143, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20244, 226, 4143, 0, 37, 4142, 4153, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20245, 226, 4153, 0, 38, 4143, 4154, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20246, 226, 4154, 0, 39, 4153, 4155, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20247, 226, 4155, 0, 40, 4154, 4089, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20248, 226, 4089, 0, 41, 4155, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20249, 226, 4142, 0, 42, 4089, 4072, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20250, 226, 4072, 0, 43, 4142, 4156, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20251, 226, 4156, 0, 44, 4072, 4157, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20252, 226, 4157, 0, 45, 4156, 4158, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20253, 226, 4158, 0, 46, 4157, 4142, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20254, 226, 4142, 0, 47, 4158, 4159, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20255, 226, 4159, 0, 48, 4142, 4058, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20256, 226, 4058, 0, 49, 4159, 4160, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20257, 226, 4160, 0, 50, 4058, 4161, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20258, 226, 4161, 0, 51, 4160, 4107, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20259, 226, 4107, 0, 52, 4161, 4104, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20260, 226, 4104, 0, 53, 4107, 0, 20, 1069766830, 1, 187, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20261, 227, 4077, 0, 0, 0, 4078, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20262, 227, 4078, 0, 1, 4077, 4102, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20263, 227, 4102, 0, 2, 4078, 4137, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20264, 227, 4137, 0, 3, 4102, 4162, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20265, 227, 4162, 0, 4, 4137, 4163, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20266, 227, 4163, 0, 5, 4162, 4084, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20267, 227, 4084, 0, 6, 4163, 4164, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20268, 227, 4164, 0, 7, 4084, 4077, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20269, 227, 4077, 0, 8, 4164, 4078, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20270, 227, 4078, 0, 9, 4077, 4102, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20271, 227, 4102, 0, 10, 4078, 4137, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20272, 227, 4137, 0, 11, 4102, 4162, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20273, 227, 4162, 0, 12, 4137, 4163, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20274, 227, 4163, 0, 13, 4162, 4084, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20275, 227, 4084, 0, 14, 4163, 4164, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20276, 227, 4164, 0, 15, 4084, 4104, 21, 1069766947, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20277, 227, 4104, 0, 16, 4164, 4078, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20278, 227, 4078, 0, 17, 4104, 4165, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20279, 227, 4165, 0, 18, 4078, 4166, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20280, 227, 4166, 0, 19, 4165, 4167, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20281, 227, 4167, 0, 20, 4166, 4168, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20282, 227, 4168, 0, 21, 4167, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20283, 227, 4089, 0, 22, 4168, 4169, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20284, 227, 4169, 0, 23, 4089, 4170, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20285, 227, 4170, 0, 24, 4169, 4102, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20286, 227, 4102, 0, 25, 4170, 4163, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20287, 227, 4163, 0, 26, 4102, 4171, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20288, 227, 4171, 0, 27, 4163, 4172, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20289, 227, 4172, 0, 28, 4171, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20290, 227, 4089, 0, 29, 4172, 4173, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20291, 227, 4173, 0, 30, 4089, 4059, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20292, 227, 4059, 0, 31, 4173, 4174, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20293, 227, 4174, 0, 32, 4059, 4173, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20294, 227, 4173, 0, 33, 4174, 4126, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20295, 227, 4126, 0, 34, 4173, 4175, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20296, 227, 4175, 0, 35, 4126, 4176, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20297, 227, 4176, 0, 36, 4175, 4177, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20298, 227, 4177, 0, 37, 4176, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20299, 227, 4089, 0, 38, 4177, 4112, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20300, 227, 4112, 0, 39, 4089, 4096, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20301, 227, 4096, 0, 40, 4112, 4178, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20302, 227, 4178, 0, 41, 4096, 4179, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20303, 227, 4179, 0, 42, 4178, 4104, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20304, 227, 4104, 0, 43, 4179, 4078, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20305, 227, 4078, 0, 44, 4104, 4165, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20306, 227, 4165, 0, 45, 4078, 4166, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20307, 227, 4166, 0, 46, 4165, 4167, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20308, 227, 4167, 0, 47, 4166, 4168, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20309, 227, 4168, 0, 48, 4167, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20310, 227, 4089, 0, 49, 4168, 4169, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20311, 227, 4169, 0, 50, 4089, 4170, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20312, 227, 4170, 0, 51, 4169, 4102, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20313, 227, 4102, 0, 52, 4170, 4163, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20314, 227, 4163, 0, 53, 4102, 4171, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20315, 227, 4171, 0, 54, 4163, 4172, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20316, 227, 4172, 0, 55, 4171, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20317, 227, 4089, 0, 56, 4172, 4173, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20318, 227, 4173, 0, 57, 4089, 4059, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20319, 227, 4059, 0, 58, 4173, 4174, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20320, 227, 4174, 0, 59, 4059, 4173, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20321, 227, 4173, 0, 60, 4174, 4126, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20322, 227, 4126, 0, 61, 4173, 4175, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20323, 227, 4175, 0, 62, 4126, 4176, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20324, 227, 4176, 0, 63, 4175, 4177, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20325, 227, 4177, 0, 64, 4176, 4089, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20326, 227, 4089, 0, 65, 4177, 4112, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20327, 227, 4112, 0, 66, 4089, 4096, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20328, 227, 4096, 0, 67, 4112, 4178, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20329, 227, 4178, 0, 68, 4096, 4179, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20330, 227, 4179, 0, 69, 4178, 4099, 21, 1069766947, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20331, 227, 4099, 0, 70, 4179, 4099, 21, 1069766947, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20332, 227, 4099, 0, 71, 4099, 0, 21, 1069766947, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20333, 228, 4158, 0, 0, 0, 4078, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20334, 228, 4078, 0, 1, 4158, 4165, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20335, 228, 4165, 0, 2, 4078, 4158, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20336, 228, 4158, 0, 3, 4165, 4078, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20337, 228, 4078, 0, 4, 4158, 4165, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20338, 228, 4165, 0, 5, 4078, 4077, 22, 1069767050, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20339, 228, 4077, 0, 6, 4165, 4078, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20340, 228, 4078, 0, 7, 4077, 4165, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20341, 228, 4165, 0, 8, 4078, 4166, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20342, 228, 4166, 0, 9, 4165, 4097, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20343, 228, 4097, 0, 10, 4166, 4126, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20344, 228, 4126, 0, 11, 4097, 4180, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20345, 228, 4180, 0, 12, 4126, 4181, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20346, 228, 4181, 0, 13, 4180, 4101, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20347, 228, 4101, 0, 14, 4181, 4182, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20348, 228, 4182, 0, 15, 4101, 4183, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20349, 228, 4183, 0, 16, 4182, 4184, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20350, 228, 4184, 0, 17, 4183, 4097, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20351, 228, 4097, 0, 18, 4184, 4059, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20352, 228, 4059, 0, 19, 4097, 4084, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20353, 228, 4084, 0, 20, 4059, 4171, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20354, 228, 4171, 0, 21, 4084, 4172, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20355, 228, 4172, 0, 22, 4171, 4185, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20356, 228, 4185, 0, 23, 4172, 4186, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20357, 228, 4186, 0, 24, 4185, 4078, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20358, 228, 4078, 0, 25, 4186, 4102, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20359, 228, 4102, 0, 26, 4078, 4187, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20360, 228, 4187, 0, 27, 4102, 4101, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20361, 228, 4101, 0, 28, 4187, 4164, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20362, 228, 4164, 0, 29, 4101, 4077, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20363, 228, 4077, 0, 30, 4164, 4078, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20364, 228, 4078, 0, 31, 4077, 4165, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20365, 228, 4165, 0, 32, 4078, 4166, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20366, 228, 4166, 0, 33, 4165, 4097, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20367, 228, 4097, 0, 34, 4166, 4126, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20368, 228, 4126, 0, 35, 4097, 4180, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20369, 228, 4180, 0, 36, 4126, 4181, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20370, 228, 4181, 0, 37, 4180, 4101, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20371, 228, 4101, 0, 38, 4181, 4182, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20372, 228, 4182, 0, 39, 4101, 4183, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20373, 228, 4183, 0, 40, 4182, 4184, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20374, 228, 4184, 0, 41, 4183, 4097, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20375, 228, 4097, 0, 42, 4184, 4059, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20376, 228, 4059, 0, 43, 4097, 4084, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20377, 228, 4084, 0, 44, 4059, 4171, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20378, 228, 4171, 0, 45, 4084, 4172, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20379, 228, 4172, 0, 46, 4171, 4185, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20380, 228, 4185, 0, 47, 4172, 4186, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20381, 228, 4186, 0, 48, 4185, 4078, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20382, 228, 4078, 0, 49, 4186, 4102, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20383, 228, 4102, 0, 50, 4078, 4187, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20384, 228, 4187, 0, 51, 4102, 4101, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20385, 228, 4101, 0, 52, 4187, 4164, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20386, 228, 4164, 0, 53, 4101, 0, 22, 1069767050, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20387, 229, 4188, 0, 0, 0, 4112, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20388, 229, 4112, 0, 1, 4188, 4189, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20389, 229, 4189, 0, 2, 4112, 4190, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20390, 229, 4190, 0, 3, 4189, 4165, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20391, 229, 4165, 0, 4, 4190, 4188, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20392, 229, 4188, 0, 5, 4165, 4112, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20393, 229, 4112, 0, 6, 4188, 4189, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20394, 229, 4189, 0, 7, 4112, 4190, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20395, 229, 4190, 0, 8, 4189, 4165, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20396, 229, 4165, 0, 9, 4190, 4188, 22, 1069768552, 1, 191, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20397, 229, 4188, 0, 10, 4165, 4191, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20398, 229, 4191, 0, 11, 4188, 4165, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20399, 229, 4165, 0, 12, 4191, 4192, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20400, 229, 4192, 0, 13, 4165, 4193, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20401, 229, 4193, 0, 14, 4192, 4101, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20402, 229, 4101, 0, 15, 4193, 4172, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20403, 229, 4172, 0, 16, 4101, 4194, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20404, 229, 4194, 0, 17, 4172, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20405, 229, 4084, 0, 18, 4194, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20406, 229, 4102, 0, 19, 4084, 4195, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20407, 229, 4195, 0, 20, 4102, 4089, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20408, 229, 4089, 0, 21, 4195, 4196, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20409, 229, 4196, 0, 22, 4089, 4185, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20410, 229, 4185, 0, 23, 4196, 4173, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20411, 229, 4173, 0, 24, 4185, 4197, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20412, 229, 4197, 0, 25, 4173, 4143, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20413, 229, 4143, 0, 26, 4197, 4198, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20414, 229, 4198, 0, 27, 4143, 4199, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20415, 229, 4199, 0, 28, 4198, 4188, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20416, 229, 4188, 0, 29, 4199, 4078, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20417, 229, 4078, 0, 30, 4188, 4189, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20418, 229, 4189, 0, 31, 4078, 4190, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20419, 229, 4190, 0, 32, 4189, 4165, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20420, 229, 4165, 0, 33, 4190, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20421, 229, 4084, 0, 34, 4165, 4200, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20422, 229, 4200, 0, 35, 4084, 4188, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20423, 229, 4188, 0, 36, 4200, 4078, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20424, 229, 4078, 0, 37, 4188, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20425, 229, 4102, 0, 38, 4078, 4137, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20426, 229, 4137, 0, 39, 4102, 4163, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20427, 229, 4163, 0, 40, 4137, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20428, 229, 4084, 0, 41, 4163, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20429, 229, 4102, 0, 42, 4084, 4201, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20430, 229, 4201, 0, 43, 4102, 4188, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20431, 229, 4188, 0, 44, 4201, 4191, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20432, 229, 4191, 0, 45, 4188, 4165, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20433, 229, 4165, 0, 46, 4191, 4192, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20434, 229, 4192, 0, 47, 4165, 4193, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20435, 229, 4193, 0, 48, 4192, 4101, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20436, 229, 4101, 0, 49, 4193, 4172, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20437, 229, 4172, 0, 50, 4101, 4194, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20438, 229, 4194, 0, 51, 4172, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20439, 229, 4084, 0, 52, 4194, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20440, 229, 4102, 0, 53, 4084, 4195, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20441, 229, 4195, 0, 54, 4102, 4089, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20442, 229, 4089, 0, 55, 4195, 4196, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20443, 229, 4196, 0, 56, 4089, 4185, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20444, 229, 4185, 0, 57, 4196, 4173, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20445, 229, 4173, 0, 58, 4185, 4197, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20446, 229, 4197, 0, 59, 4173, 4143, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20447, 229, 4143, 0, 60, 4197, 4198, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20448, 229, 4198, 0, 61, 4143, 4199, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20449, 229, 4199, 0, 62, 4198, 4188, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20450, 229, 4188, 0, 63, 4199, 4078, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20451, 229, 4078, 0, 64, 4188, 4189, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20452, 229, 4189, 0, 65, 4078, 4190, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20453, 229, 4190, 0, 66, 4189, 4165, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20454, 229, 4165, 0, 67, 4190, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20455, 229, 4084, 0, 68, 4165, 4200, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20456, 229, 4200, 0, 69, 4084, 4188, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20457, 229, 4188, 0, 70, 4200, 4078, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20458, 229, 4078, 0, 71, 4188, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20459, 229, 4102, 0, 72, 4078, 4137, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20460, 229, 4137, 0, 73, 4102, 4163, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20461, 229, 4163, 0, 74, 4137, 4084, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20462, 229, 4084, 0, 75, 4163, 4102, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20463, 229, 4102, 0, 76, 4084, 4201, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20464, 229, 4201, 0, 77, 4102, 0, 22, 1069768552, 1, 193, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20465, 230, 4064, 0, 0, 0, 4202, 1, 1069768639, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20466, 230, 4202, 0, 1, 4064, 4064, 1, 1069768639, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20467, 230, 4064, 0, 2, 4202, 4202, 1, 1069768639, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20468, 230, 4202, 0, 3, 4064, 4139, 1, 1069768639, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20469, 230, 4139, 0, 4, 4202, 4112, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20470, 230, 4112, 0, 5, 4139, 4203, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20471, 230, 4203, 0, 6, 4112, 4202, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20472, 230, 4202, 0, 7, 4203, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20473, 230, 4058, 0, 8, 4202, 4131, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20474, 230, 4131, 0, 9, 4058, 4204, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20475, 230, 4204, 0, 10, 4131, 4084, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20476, 230, 4084, 0, 11, 4204, 4069, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20477, 230, 4069, 0, 12, 4084, 4064, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20478, 230, 4064, 0, 13, 4069, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20479, 230, 4058, 0, 14, 4064, 4131, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20480, 230, 4131, 0, 15, 4058, 4204, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20481, 230, 4204, 0, 16, 4131, 4128, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20482, 230, 4128, 0, 17, 4204, 4202, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20483, 230, 4202, 0, 18, 4128, 4120, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20484, 230, 4120, 0, 19, 4202, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20485, 230, 4058, 0, 20, 4120, 4142, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20486, 230, 4142, 0, 21, 4058, 4073, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20487, 230, 4073, 0, 22, 4142, 4205, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20488, 230, 4205, 0, 23, 4073, 4139, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20489, 230, 4139, 0, 24, 4205, 4112, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20490, 230, 4112, 0, 25, 4139, 4203, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20491, 230, 4203, 0, 26, 4112, 4202, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20492, 230, 4202, 0, 27, 4203, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20493, 230, 4058, 0, 28, 4202, 4131, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20494, 230, 4131, 0, 29, 4058, 4204, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20495, 230, 4204, 0, 30, 4131, 4084, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20496, 230, 4084, 0, 31, 4204, 4069, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20497, 230, 4069, 0, 32, 4084, 4064, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20498, 230, 4064, 0, 33, 4069, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20499, 230, 4058, 0, 34, 4064, 4131, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20500, 230, 4131, 0, 35, 4058, 4204, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20501, 230, 4204, 0, 36, 4131, 4128, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20502, 230, 4128, 0, 37, 4204, 4202, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20503, 230, 4202, 0, 38, 4128, 4120, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20504, 230, 4120, 0, 39, 4202, 4058, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20505, 230, 4058, 0, 40, 4120, 4142, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20506, 230, 4142, 0, 41, 4058, 4073, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20507, 230, 4073, 0, 42, 4142, 4205, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20508, 230, 4205, 0, 43, 4073, 0, 1, 1069768639, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20509, 231, 4206, 0, 0, 0, 4092, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20510, 231, 4092, 0, 1, 4206, 4207, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20511, 231, 4207, 0, 2, 4092, 4192, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20512, 231, 4192, 0, 3, 4207, 4208, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20513, 231, 4208, 0, 4, 4192, 4209, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20514, 231, 4209, 0, 5, 4208, 4206, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20515, 231, 4206, 0, 6, 4209, 4092, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20516, 231, 4092, 0, 7, 4206, 4207, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20517, 231, 4207, 0, 8, 4092, 4192, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20518, 231, 4192, 0, 9, 4207, 4208, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20519, 231, 4208, 0, 10, 4192, 4209, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20520, 231, 4209, 0, 11, 4208, 4058, 21, 1069768747, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20521, 231, 4058, 0, 12, 4209, 4142, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20522, 231, 4142, 0, 13, 4058, 4207, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20523, 231, 4207, 0, 14, 4142, 4192, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20524, 231, 4192, 0, 15, 4207, 4208, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20525, 231, 4208, 0, 16, 4192, 4209, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20526, 231, 4209, 0, 17, 4208, 4210, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20527, 231, 4210, 0, 18, 4209, 4211, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20528, 231, 4211, 0, 19, 4210, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20529, 231, 4102, 0, 20, 4211, 4212, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20530, 231, 4212, 0, 21, 4102, 4213, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20531, 231, 4213, 0, 22, 4212, 4057, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20532, 231, 4057, 0, 23, 4213, 4214, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20533, 231, 4214, 0, 24, 4057, 4215, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20534, 231, 4215, 0, 25, 4214, 4214, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20535, 231, 4214, 0, 26, 4215, 4058, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20536, 231, 4058, 0, 27, 4214, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20537, 231, 4126, 0, 28, 4058, 4216, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20538, 231, 4216, 0, 29, 4126, 4084, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20539, 231, 4084, 0, 30, 4216, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20540, 231, 4102, 0, 31, 4084, 4217, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20541, 231, 4217, 0, 32, 4102, 4058, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20542, 231, 4058, 0, 33, 4217, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20543, 231, 4126, 0, 34, 4058, 4218, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20544, 231, 4218, 0, 35, 4126, 4151, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20545, 231, 4151, 0, 36, 4218, 4219, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20546, 231, 4219, 0, 37, 4151, 4089, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20547, 231, 4089, 0, 38, 4219, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20548, 231, 4126, 0, 39, 4089, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20549, 231, 4102, 0, 40, 4126, 4220, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20550, 231, 4220, 0, 41, 4102, 4108, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20551, 231, 4108, 0, 42, 4220, 4221, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20552, 231, 4221, 0, 43, 4108, 4080, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20553, 231, 4080, 0, 44, 4221, 4108, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20554, 231, 4108, 0, 45, 4080, 4058, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20555, 231, 4058, 0, 46, 4108, 4142, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20556, 231, 4142, 0, 47, 4058, 4207, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20557, 231, 4207, 0, 48, 4142, 4192, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20558, 231, 4192, 0, 49, 4207, 4208, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20559, 231, 4208, 0, 50, 4192, 4209, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20560, 231, 4209, 0, 51, 4208, 4210, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20561, 231, 4210, 0, 52, 4209, 4211, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20562, 231, 4211, 0, 53, 4210, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20563, 231, 4102, 0, 54, 4211, 4212, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20564, 231, 4212, 0, 55, 4102, 4213, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20565, 231, 4213, 0, 56, 4212, 4057, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20566, 231, 4057, 0, 57, 4213, 4214, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20567, 231, 4214, 0, 58, 4057, 4215, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20568, 231, 4215, 0, 59, 4214, 4214, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20569, 231, 4214, 0, 60, 4215, 4058, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20570, 231, 4058, 0, 61, 4214, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20571, 231, 4126, 0, 62, 4058, 4216, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20572, 231, 4216, 0, 63, 4126, 4084, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20573, 231, 4084, 0, 64, 4216, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20574, 231, 4102, 0, 65, 4084, 4217, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20575, 231, 4217, 0, 66, 4102, 4058, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20576, 231, 4058, 0, 67, 4217, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20577, 231, 4126, 0, 68, 4058, 4218, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20578, 231, 4218, 0, 69, 4126, 4151, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20579, 231, 4151, 0, 70, 4218, 4219, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20580, 231, 4219, 0, 71, 4151, 4089, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20581, 231, 4089, 0, 72, 4219, 4126, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20582, 231, 4126, 0, 73, 4089, 4102, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20583, 231, 4102, 0, 74, 4126, 4220, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20584, 231, 4220, 0, 75, 4102, 4108, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20585, 231, 4108, 0, 76, 4220, 4221, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20586, 231, 4221, 0, 77, 4108, 4080, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20587, 231, 4080, 0, 78, 4221, 4108, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20588, 231, 4108, 0, 79, 4080, 4099, 21, 1069768747, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20589, 231, 4099, 0, 80, 4108, 4099, 21, 1069768747, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20590, 231, 4099, 0, 81, 4099, 0, 21, 1069768747, 1, 190, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20591, 232, 4222, 0, 0, 0, 4102, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20592, 232, 4102, 0, 1, 4222, 4223, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20593, 232, 4223, 0, 2, 4102, 4064, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20594, 232, 4064, 0, 3, 4223, 4222, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20595, 232, 4222, 0, 4, 4064, 4102, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20596, 232, 4102, 0, 5, 4222, 4223, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20597, 232, 4223, 0, 6, 4102, 4064, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20598, 232, 4064, 0, 7, 4223, 4224, 21, 1069768853, 1, 188, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20599, 232, 4224, 0, 8, 4064, 4192, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20600, 232, 4192, 0, 9, 4224, 4225, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20601, 232, 4225, 0, 10, 4192, 4226, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20602, 232, 4226, 0, 11, 4225, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20603, 232, 4092, 0, 12, 4226, 4227, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20604, 232, 4227, 0, 13, 4092, 4228, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20605, 232, 4228, 0, 14, 4227, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20606, 232, 4064, 0, 15, 4228, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20607, 232, 4058, 0, 16, 4064, 4229, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20608, 232, 4229, 0, 17, 4058, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20609, 232, 4230, 0, 18, 4229, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20610, 232, 4092, 0, 19, 4230, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20611, 232, 4231, 0, 20, 4092, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20612, 232, 4104, 0, 21, 4231, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20613, 232, 4092, 0, 22, 4104, 4192, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20614, 232, 4192, 0, 23, 4092, 4232, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20615, 232, 4232, 0, 24, 4192, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20616, 232, 4064, 0, 25, 4232, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20617, 232, 4078, 0, 26, 4064, 4072, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20618, 232, 4072, 0, 27, 4078, 4214, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20619, 232, 4214, 0, 28, 4072, 4233, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20620, 232, 4233, 0, 29, 4214, 4214, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20621, 232, 4214, 0, 30, 4233, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20622, 232, 4231, 0, 31, 4214, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20623, 232, 4092, 0, 32, 4231, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20624, 232, 4102, 0, 33, 4092, 4234, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20625, 232, 4234, 0, 34, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20626, 232, 4064, 0, 35, 4234, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20627, 232, 4127, 0, 36, 4064, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20628, 232, 4058, 0, 37, 4127, 4235, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20629, 232, 4235, 0, 38, 4058, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20630, 232, 4078, 0, 39, 4235, 4107, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20631, 232, 4107, 0, 40, 4078, 4236, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20632, 232, 4236, 0, 41, 4107, 4237, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20633, 232, 4237, 0, 42, 4236, 4238, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20634, 232, 4238, 0, 43, 4237, 4239, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20635, 232, 4239, 0, 44, 4238, 4143, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20636, 232, 4143, 0, 45, 4239, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20637, 232, 4230, 0, 46, 4143, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20638, 232, 4084, 0, 47, 4230, 4240, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20639, 232, 4240, 0, 48, 4084, 4061, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20640, 232, 4061, 0, 49, 4240, 4063, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20641, 232, 4063, 0, 50, 4061, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20642, 232, 4127, 0, 51, 4063, 4116, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20643, 232, 4116, 0, 52, 4127, 4235, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20644, 232, 4235, 0, 53, 4116, 4241, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20645, 232, 4241, 0, 54, 4235, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20646, 232, 4084, 0, 55, 4241, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20647, 232, 4102, 0, 56, 4084, 4234, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20648, 232, 4234, 0, 57, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20649, 232, 4064, 0, 58, 4234, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20650, 232, 4231, 0, 59, 4064, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20651, 232, 4104, 0, 60, 4231, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20652, 232, 4084, 0, 61, 4104, 4232, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20653, 232, 4232, 0, 62, 4084, 4120, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20654, 232, 4120, 0, 63, 4232, 4242, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20655, 232, 4242, 0, 64, 4120, 4243, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20656, 232, 4243, 0, 65, 4242, 4143, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20657, 232, 4143, 0, 66, 4243, 4178, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20658, 232, 4178, 0, 67, 4143, 4244, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20659, 232, 4244, 0, 68, 4178, 4227, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20660, 232, 4227, 0, 69, 4244, 4069, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20661, 232, 4069, 0, 70, 4227, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20662, 232, 4127, 0, 71, 4069, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20663, 232, 4058, 0, 72, 4127, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20664, 232, 4230, 0, 73, 4058, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20665, 232, 4092, 0, 74, 4230, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20666, 232, 4102, 0, 75, 4092, 4079, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20667, 232, 4079, 0, 76, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20668, 232, 4064, 0, 77, 4079, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20669, 232, 4102, 0, 78, 4064, 4245, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20670, 232, 4245, 0, 79, 4102, 4246, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20671, 232, 4246, 0, 80, 4245, 4247, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20672, 232, 4247, 0, 81, 4246, 4248, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20673, 232, 4248, 0, 82, 4247, 4249, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20674, 232, 4249, 0, 83, 4248, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20675, 232, 4104, 0, 84, 4249, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20676, 232, 4078, 0, 85, 4104, 4250, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20677, 232, 4250, 0, 86, 4078, 4190, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20678, 232, 4190, 0, 87, 4250, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20679, 232, 4127, 0, 88, 4190, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20680, 232, 4058, 0, 89, 4127, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20681, 232, 4230, 0, 90, 4058, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20682, 232, 4104, 0, 91, 4230, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20683, 232, 4084, 0, 92, 4104, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20684, 232, 4102, 0, 93, 4084, 4223, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20685, 232, 4223, 0, 94, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20686, 232, 4064, 0, 95, 4223, 4251, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20687, 232, 4251, 0, 96, 4064, 4116, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20688, 232, 4116, 0, 97, 4251, 4252, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20689, 232, 4252, 0, 98, 4116, 4253, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20690, 232, 4253, 0, 99, 4252, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20691, 232, 4230, 0, 100, 4253, 4059, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20692, 232, 4059, 0, 101, 4230, 4124, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20693, 232, 4124, 0, 102, 4059, 4254, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20694, 232, 4254, 0, 103, 4124, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20695, 232, 4104, 0, 104, 4254, 4255, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20696, 232, 4255, 0, 105, 4104, 4246, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20697, 232, 4246, 0, 106, 4255, 4256, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20698, 232, 4256, 0, 107, 4246, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20699, 232, 4231, 0, 108, 4256, 4257, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20700, 232, 4257, 0, 109, 4231, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20701, 232, 4092, 0, 110, 4257, 4073, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20702, 232, 4073, 0, 111, 4092, 4258, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20703, 232, 4258, 0, 112, 4073, 4259, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20704, 232, 4259, 0, 113, 4258, 4256, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20705, 232, 4256, 0, 114, 4259, 4158, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20706, 232, 4158, 0, 115, 4256, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20707, 232, 4230, 0, 116, 4158, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20708, 232, 4084, 0, 117, 4230, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20709, 232, 4102, 0, 118, 4084, 4079, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20710, 232, 4079, 0, 119, 4102, 4063, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20711, 232, 4063, 0, 120, 4079, 4224, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20712, 232, 4224, 0, 121, 4063, 4192, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20713, 232, 4192, 0, 122, 4224, 4225, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20714, 232, 4225, 0, 123, 4192, 4226, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20715, 232, 4226, 0, 124, 4225, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20716, 232, 4092, 0, 125, 4226, 4227, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20717, 232, 4227, 0, 126, 4092, 4228, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20718, 232, 4228, 0, 127, 4227, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20719, 232, 4064, 0, 128, 4228, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20720, 232, 4058, 0, 129, 4064, 4229, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20721, 232, 4229, 0, 130, 4058, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20722, 232, 4230, 0, 131, 4229, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20723, 232, 4092, 0, 132, 4230, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20724, 232, 4231, 0, 133, 4092, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20725, 232, 4104, 0, 134, 4231, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20726, 232, 4092, 0, 135, 4104, 4192, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20727, 232, 4192, 0, 136, 4092, 4232, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20728, 232, 4232, 0, 137, 4192, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20729, 232, 4064, 0, 138, 4232, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20730, 232, 4078, 0, 139, 4064, 4072, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20731, 232, 4072, 0, 140, 4078, 4214, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20732, 232, 4214, 0, 141, 4072, 4233, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20733, 232, 4233, 0, 142, 4214, 4214, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20734, 232, 4214, 0, 143, 4233, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20735, 232, 4231, 0, 144, 4214, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20736, 232, 4092, 0, 145, 4231, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20737, 232, 4102, 0, 146, 4092, 4234, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20738, 232, 4234, 0, 147, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20739, 232, 4064, 0, 148, 4234, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20740, 232, 4127, 0, 149, 4064, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20741, 232, 4058, 0, 150, 4127, 4235, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20742, 232, 4235, 0, 151, 4058, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20743, 232, 4078, 0, 152, 4235, 4107, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20744, 232, 4107, 0, 153, 4078, 4236, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20745, 232, 4236, 0, 154, 4107, 4237, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20746, 232, 4237, 0, 155, 4236, 4238, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20747, 232, 4238, 0, 156, 4237, 4239, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20748, 232, 4239, 0, 157, 4238, 4143, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20749, 232, 4143, 0, 158, 4239, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20750, 232, 4230, 0, 159, 4143, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20751, 232, 4084, 0, 160, 4230, 4240, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20752, 232, 4240, 0, 161, 4084, 4061, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20753, 232, 4061, 0, 162, 4240, 4063, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20754, 232, 4063, 0, 163, 4061, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20755, 232, 4127, 0, 164, 4063, 4116, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20756, 232, 4116, 0, 165, 4127, 4235, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20757, 232, 4235, 0, 166, 4116, 4241, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20758, 232, 4241, 0, 167, 4235, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20759, 232, 4084, 0, 168, 4241, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20760, 232, 4102, 0, 169, 4084, 4234, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20761, 232, 4234, 0, 170, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20762, 232, 4064, 0, 171, 4234, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20763, 232, 4231, 0, 172, 4064, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20764, 232, 4104, 0, 173, 4231, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20765, 232, 4084, 0, 174, 4104, 4232, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20766, 232, 4232, 0, 175, 4084, 4120, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20767, 232, 4120, 0, 176, 4232, 4242, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20768, 232, 4242, 0, 177, 4120, 4243, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20769, 232, 4243, 0, 178, 4242, 4143, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20770, 232, 4143, 0, 179, 4243, 4178, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20771, 232, 4178, 0, 180, 4143, 4244, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20772, 232, 4244, 0, 181, 4178, 4227, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20773, 232, 4227, 0, 182, 4244, 4069, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20774, 232, 4069, 0, 183, 4227, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20775, 232, 4127, 0, 184, 4069, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20776, 232, 4058, 0, 185, 4127, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20777, 232, 4230, 0, 186, 4058, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20778, 232, 4092, 0, 187, 4230, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20779, 232, 4102, 0, 188, 4092, 4079, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20780, 232, 4079, 0, 189, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20781, 232, 4064, 0, 190, 4079, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20782, 232, 4102, 0, 191, 4064, 4245, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20783, 232, 4245, 0, 192, 4102, 4246, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20784, 232, 4246, 0, 193, 4245, 4247, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20785, 232, 4247, 0, 194, 4246, 4248, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20786, 232, 4248, 0, 195, 4247, 4249, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20787, 232, 4249, 0, 196, 4248, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20788, 232, 4104, 0, 197, 4249, 4078, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20789, 232, 4078, 0, 198, 4104, 4250, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20790, 232, 4250, 0, 199, 4078, 4190, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20791, 232, 4190, 0, 200, 4250, 4127, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20792, 232, 4127, 0, 201, 4190, 4058, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20793, 232, 4058, 0, 202, 4127, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20794, 232, 4230, 0, 203, 4058, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20795, 232, 4104, 0, 204, 4230, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20796, 232, 4084, 0, 205, 4104, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20797, 232, 4102, 0, 206, 4084, 4223, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20798, 232, 4223, 0, 207, 4102, 4064, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20799, 232, 4064, 0, 208, 4223, 4251, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20800, 232, 4251, 0, 209, 4064, 4116, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20801, 232, 4116, 0, 210, 4251, 4252, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20802, 232, 4252, 0, 211, 4116, 4253, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20803, 232, 4253, 0, 212, 4252, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20804, 232, 4230, 0, 213, 4253, 4059, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20805, 232, 4059, 0, 214, 4230, 4124, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20806, 232, 4124, 0, 215, 4059, 4254, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20807, 232, 4254, 0, 216, 4124, 4104, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20808, 232, 4104, 0, 217, 4254, 4255, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20809, 232, 4255, 0, 218, 4104, 4246, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20810, 232, 4246, 0, 219, 4255, 4256, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20811, 232, 4256, 0, 220, 4246, 4231, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20812, 232, 4231, 0, 221, 4256, 4257, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20813, 232, 4257, 0, 222, 4231, 4092, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20814, 232, 4092, 0, 223, 4257, 4073, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20815, 232, 4073, 0, 224, 4092, 4258, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20816, 232, 4258, 0, 225, 4073, 4259, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20817, 232, 4259, 0, 226, 4258, 4256, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20818, 232, 4256, 0, 227, 4259, 4158, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20819, 232, 4158, 0, 228, 4256, 4230, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20820, 232, 4230, 0, 229, 4158, 4084, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20821, 232, 4084, 0, 230, 4230, 4102, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20822, 232, 4102, 0, 231, 4084, 4079, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20823, 232, 4079, 0, 232, 4102, 4063, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20824, 232, 4063, 0, 233, 4079, 4260, 21, 1069768853, 1, 189, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20825, 232, 4260, 0, 234, 4063, 4260, 21, 1069768853, 1, 190, '', 1);
+INSERT INTO ezsearch_object_word_link VALUES (20826, 232, 4260, 0, 235, 4260, 0, 21, 1069768853, 1, 190, '', 1);
+INSERT INTO ezsearch_object_word_link VALUES (20827, 161, 4107, 0, 0, 0, 4069, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20828, 161, 4069, 0, 1, 4107, 4064, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20829, 161, 4064, 0, 2, 4069, 4107, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20830, 161, 4107, 0, 3, 4064, 4069, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20831, 161, 4069, 0, 4, 4107, 4064, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20832, 161, 4064, 0, 5, 4069, 4128, 10, 1068047603, 1, 140, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20833, 161, 4128, 0, 6, 4064, 4261, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20834, 161, 4261, 0, 7, 4128, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20835, 161, 4262, 0, 8, 4261, 4263, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20836, 161, 4263, 0, 9, 4262, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20837, 161, 4092, 0, 10, 4263, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20838, 161, 4264, 0, 11, 4092, 4265, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20839, 161, 4265, 0, 12, 4264, 4266, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20840, 161, 4266, 0, 13, 4265, 4267, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20841, 161, 4267, 0, 14, 4266, 4268, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20842, 161, 4268, 0, 15, 4267, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20843, 161, 4120, 0, 16, 4268, 4269, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20844, 161, 4269, 0, 17, 4120, 4270, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20845, 161, 4270, 0, 18, 4269, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20846, 161, 4063, 0, 19, 4270, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20847, 161, 4058, 0, 20, 4063, 4271, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20848, 161, 4271, 0, 21, 4058, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20849, 161, 4127, 0, 22, 4271, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20850, 161, 4058, 0, 23, 4127, 4204, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20851, 161, 4204, 0, 24, 4058, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20852, 161, 4102, 0, 25, 4204, 4261, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20853, 161, 4261, 0, 26, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20854, 161, 4058, 0, 27, 4261, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20855, 161, 4059, 0, 28, 4058, 4060, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20856, 161, 4060, 0, 29, 4059, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20857, 161, 4108, 0, 30, 4060, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20858, 161, 4116, 0, 31, 4108, 4272, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20859, 161, 4272, 0, 32, 4116, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20860, 161, 4273, 0, 33, 4272, 4274, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20861, 161, 4274, 0, 34, 4273, 4275, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20862, 161, 4275, 0, 35, 4274, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20863, 161, 4167, 0, 36, 4275, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20864, 161, 4276, 0, 37, 4167, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20865, 161, 4089, 0, 38, 4276, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20866, 161, 4108, 0, 39, 4089, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20867, 161, 4116, 0, 40, 4108, 4272, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20868, 161, 4272, 0, 41, 4116, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20869, 161, 4277, 0, 42, 4272, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20870, 161, 4248, 0, 43, 4277, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20871, 161, 4273, 0, 44, 4248, 4278, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20872, 161, 4278, 0, 45, 4273, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20873, 161, 4206, 0, 46, 4278, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20874, 161, 4092, 0, 47, 4206, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20875, 161, 4279, 0, 48, 4092, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20876, 161, 4084, 0, 49, 4279, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20877, 161, 4058, 0, 50, 4084, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20878, 161, 4142, 0, 51, 4058, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20879, 161, 4279, 0, 52, 4142, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20880, 161, 4084, 0, 53, 4279, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20881, 161, 4210, 0, 54, 4084, 4280, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20882, 161, 4280, 0, 55, 4210, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20883, 161, 4116, 0, 56, 4280, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20884, 161, 4209, 0, 57, 4116, 4281, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20885, 161, 4281, 0, 58, 4209, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20886, 161, 4089, 0, 59, 4281, 4282, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20887, 161, 4282, 0, 60, 4089, 4057, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20888, 161, 4057, 0, 61, 4282, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20889, 161, 4206, 0, 62, 4057, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20890, 161, 4092, 0, 63, 4206, 4207, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20891, 161, 4207, 0, 64, 4092, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20892, 161, 4192, 0, 65, 4207, 4208, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20893, 161, 4208, 0, 66, 4192, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20894, 161, 4209, 0, 67, 4208, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20895, 161, 4058, 0, 68, 4209, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20896, 161, 4142, 0, 69, 4058, 4207, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20897, 161, 4207, 0, 70, 4142, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20898, 161, 4192, 0, 71, 4207, 4208, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20899, 161, 4208, 0, 72, 4192, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20900, 161, 4209, 0, 73, 4208, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20901, 161, 4210, 0, 74, 4209, 4211, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20902, 161, 4211, 0, 75, 4210, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20903, 161, 4102, 0, 76, 4211, 4283, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20904, 161, 4283, 0, 77, 4102, 4284, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20905, 161, 4284, 0, 78, 4283, 4213, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20906, 161, 4213, 0, 79, 4284, 4057, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20907, 161, 4057, 0, 80, 4213, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20908, 161, 4214, 0, 81, 4057, 4215, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20909, 161, 4215, 0, 82, 4214, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20910, 161, 4214, 0, 83, 4215, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20911, 161, 4058, 0, 84, 4214, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20912, 161, 4126, 0, 85, 4058, 4216, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20913, 161, 4216, 0, 86, 4126, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20914, 161, 4084, 0, 87, 4216, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20915, 161, 4102, 0, 88, 4084, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20916, 161, 4217, 0, 89, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20917, 161, 4058, 0, 90, 4217, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20918, 161, 4126, 0, 91, 4058, 4218, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20919, 161, 4218, 0, 92, 4126, 4151, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20920, 161, 4151, 0, 93, 4218, 4219, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20921, 161, 4219, 0, 94, 4151, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20922, 161, 4089, 0, 95, 4219, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20923, 161, 4126, 0, 96, 4089, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20924, 161, 4102, 0, 97, 4126, 4220, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20925, 161, 4220, 0, 98, 4102, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20926, 161, 4108, 0, 99, 4220, 4221, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20927, 161, 4221, 0, 100, 4108, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20928, 161, 4080, 0, 101, 4221, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20929, 161, 4108, 0, 102, 4080, 4222, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20930, 161, 4222, 0, 103, 4108, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20931, 161, 4102, 0, 104, 4222, 4223, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20932, 161, 4223, 0, 105, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20933, 161, 4064, 0, 106, 4223, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20934, 161, 4224, 0, 107, 4064, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20935, 161, 4192, 0, 108, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20936, 161, 4225, 0, 109, 4192, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20937, 161, 4226, 0, 110, 4225, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20938, 161, 4092, 0, 111, 4226, 4227, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20939, 161, 4227, 0, 112, 4092, 4228, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20940, 161, 4228, 0, 113, 4227, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20941, 161, 4064, 0, 114, 4228, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20942, 161, 4058, 0, 115, 4064, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20943, 161, 4229, 0, 116, 4058, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20944, 161, 4230, 0, 117, 4229, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20945, 161, 4092, 0, 118, 4230, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20946, 161, 4231, 0, 119, 4092, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20947, 161, 4104, 0, 120, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20948, 161, 4092, 0, 121, 4104, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20949, 161, 4192, 0, 122, 4092, 4232, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20950, 161, 4232, 0, 123, 4192, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20951, 161, 4064, 0, 124, 4232, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20952, 161, 4078, 0, 125, 4064, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20953, 161, 4072, 0, 126, 4078, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20954, 161, 4214, 0, 127, 4072, 4233, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20955, 161, 4233, 0, 128, 4214, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20956, 161, 4214, 0, 129, 4233, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20957, 161, 4231, 0, 130, 4214, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20958, 161, 4092, 0, 131, 4231, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20959, 161, 4102, 0, 132, 4092, 4234, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20960, 161, 4234, 0, 133, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20961, 161, 4064, 0, 134, 4234, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20962, 161, 4127, 0, 135, 4064, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20963, 161, 4058, 0, 136, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20964, 161, 4235, 0, 137, 4058, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20965, 161, 4078, 0, 138, 4235, 4107, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20966, 161, 4107, 0, 139, 4078, 4236, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20967, 161, 4236, 0, 140, 4107, 4237, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20968, 161, 4237, 0, 141, 4236, 4238, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20969, 161, 4238, 0, 142, 4237, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20970, 161, 4239, 0, 143, 4238, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20971, 161, 4143, 0, 144, 4239, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20972, 161, 4230, 0, 145, 4143, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20973, 161, 4084, 0, 146, 4230, 4240, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20974, 161, 4240, 0, 147, 4084, 4061, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20975, 161, 4061, 0, 148, 4240, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20976, 161, 4063, 0, 149, 4061, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20977, 161, 4127, 0, 150, 4063, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20978, 161, 4116, 0, 151, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20979, 161, 4235, 0, 152, 4116, 4241, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20980, 161, 4241, 0, 153, 4235, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20981, 161, 4084, 0, 154, 4241, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20982, 161, 4102, 0, 155, 4084, 4234, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20983, 161, 4234, 0, 156, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20984, 161, 4064, 0, 157, 4234, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20985, 161, 4231, 0, 158, 4064, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20986, 161, 4104, 0, 159, 4231, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20987, 161, 4084, 0, 160, 4104, 4232, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20988, 161, 4232, 0, 161, 4084, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20989, 161, 4120, 0, 162, 4232, 4242, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20990, 161, 4242, 0, 163, 4120, 4243, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20991, 161, 4243, 0, 164, 4242, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20992, 161, 4143, 0, 165, 4243, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20993, 161, 4178, 0, 166, 4143, 4244, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20994, 161, 4244, 0, 167, 4178, 4227, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20995, 161, 4227, 0, 168, 4244, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20996, 161, 4069, 0, 169, 4227, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20997, 161, 4127, 0, 170, 4069, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20998, 161, 4058, 0, 171, 4127, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (20999, 161, 4230, 0, 172, 4058, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21000, 161, 4092, 0, 173, 4230, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21001, 161, 4102, 0, 174, 4092, 4079, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21002, 161, 4079, 0, 175, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21003, 161, 4064, 0, 176, 4079, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21004, 161, 4102, 0, 177, 4064, 4245, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21005, 161, 4245, 0, 178, 4102, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21006, 161, 4246, 0, 179, 4245, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21007, 161, 4247, 0, 180, 4246, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21008, 161, 4248, 0, 181, 4247, 4249, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21009, 161, 4249, 0, 182, 4248, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21010, 161, 4104, 0, 183, 4249, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21011, 161, 4078, 0, 184, 4104, 4250, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21012, 161, 4250, 0, 185, 4078, 4190, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21013, 161, 4190, 0, 186, 4250, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21014, 161, 4127, 0, 187, 4190, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21015, 161, 4058, 0, 188, 4127, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21016, 161, 4230, 0, 189, 4058, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21017, 161, 4104, 0, 190, 4230, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21018, 161, 4084, 0, 191, 4104, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21019, 161, 4102, 0, 192, 4084, 4223, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21020, 161, 4223, 0, 193, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21021, 161, 4064, 0, 194, 4223, 4251, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21022, 161, 4251, 0, 195, 4064, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21023, 161, 4116, 0, 196, 4251, 4252, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21024, 161, 4252, 0, 197, 4116, 4253, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21025, 161, 4253, 0, 198, 4252, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21026, 161, 4230, 0, 199, 4253, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21027, 161, 4059, 0, 200, 4230, 4124, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21028, 161, 4124, 0, 201, 4059, 4254, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21029, 161, 4254, 0, 202, 4124, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21030, 161, 4104, 0, 203, 4254, 4255, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21031, 161, 4255, 0, 204, 4104, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21032, 161, 4246, 0, 205, 4255, 4256, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21033, 161, 4256, 0, 206, 4246, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21034, 161, 4231, 0, 207, 4256, 4257, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21035, 161, 4257, 0, 208, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21036, 161, 4092, 0, 209, 4257, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21037, 161, 4073, 0, 210, 4092, 4258, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21038, 161, 4258, 0, 211, 4073, 4259, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21039, 161, 4259, 0, 212, 4258, 4256, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21040, 161, 4256, 0, 213, 4259, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21041, 161, 4158, 0, 214, 4256, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21042, 161, 4230, 0, 215, 4158, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21043, 161, 4084, 0, 216, 4230, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21044, 161, 4102, 0, 217, 4084, 4079, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21045, 161, 4079, 0, 218, 4102, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21046, 161, 4063, 0, 219, 4079, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21047, 161, 4285, 0, 220, 4063, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21048, 161, 4102, 0, 221, 4285, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21049, 161, 4063, 0, 222, 4102, 4286, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21050, 161, 4286, 0, 223, 4063, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21051, 161, 4058, 0, 224, 4286, 4287, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21052, 161, 4287, 0, 225, 4058, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21053, 161, 4116, 0, 226, 4287, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21054, 161, 4235, 0, 227, 4116, 4288, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21055, 161, 4288, 0, 228, 4235, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21056, 161, 4092, 0, 229, 4288, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21057, 161, 4285, 0, 230, 4092, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21058, 161, 4102, 0, 231, 4285, 4289, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21059, 161, 4289, 0, 232, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21060, 161, 4101, 0, 233, 4289, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21061, 161, 4102, 0, 234, 4101, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21062, 161, 4064, 0, 235, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21063, 161, 4058, 0, 236, 4064, 4290, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21064, 161, 4290, 0, 237, 4058, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21065, 161, 4073, 0, 238, 4290, 4291, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21066, 161, 4291, 0, 239, 4073, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21067, 161, 4092, 0, 240, 4291, 4292, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21068, 161, 4292, 0, 241, 4092, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21069, 161, 4206, 0, 242, 4292, 4293, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21070, 161, 4293, 0, 243, 4206, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21071, 161, 4116, 0, 244, 4293, 4294, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21072, 161, 4294, 0, 245, 4116, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21073, 161, 4295, 0, 246, 4294, 4150, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21074, 161, 4150, 0, 247, 4295, 4296, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21075, 161, 4296, 0, 248, 4150, 4278, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21076, 161, 4278, 0, 249, 4296, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21077, 161, 4058, 0, 250, 4278, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21078, 161, 4229, 0, 251, 4058, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21079, 161, 4262, 0, 252, 4229, 4297, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21080, 161, 4297, 0, 253, 4262, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21081, 161, 4264, 0, 254, 4297, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21082, 161, 4089, 0, 255, 4264, 4096, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21083, 161, 4096, 0, 256, 4089, 4298, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21084, 161, 4298, 0, 257, 4096, 4299, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21085, 161, 4299, 0, 258, 4298, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21086, 161, 4089, 0, 259, 4299, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21087, 161, 4285, 0, 260, 4089, 4182, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21088, 161, 4182, 0, 261, 4285, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21089, 161, 4246, 0, 262, 4182, 4300, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21090, 161, 4300, 0, 263, 4246, 4301, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21091, 161, 4301, 0, 264, 4300, 4302, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21092, 161, 4302, 0, 265, 4301, 4096, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21093, 161, 4096, 0, 266, 4302, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21094, 161, 4127, 0, 267, 4096, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21095, 161, 4104, 0, 268, 4127, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21096, 161, 4078, 0, 269, 4104, 4303, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21097, 161, 4303, 0, 270, 4078, 4304, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21098, 161, 4304, 0, 271, 4303, 4305, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21099, 161, 4305, 0, 272, 4304, 4306, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21100, 161, 4306, 0, 273, 4305, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21101, 161, 4229, 0, 274, 4306, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21102, 161, 4247, 0, 275, 4229, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21103, 161, 4126, 0, 276, 4247, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21104, 161, 4092, 0, 277, 4126, 4307, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21105, 161, 4307, 0, 278, 4092, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21106, 161, 4104, 0, 279, 4307, 4308, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21107, 161, 4308, 0, 280, 4104, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21108, 161, 4192, 0, 281, 4308, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21109, 161, 4064, 0, 282, 4192, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21110, 161, 4092, 0, 283, 4064, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21111, 161, 4309, 0, 284, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21112, 161, 4116, 0, 285, 4309, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21113, 161, 4235, 0, 286, 4116, 4222, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21114, 161, 4222, 0, 287, 4235, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21115, 161, 4192, 0, 288, 4222, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21116, 161, 4310, 0, 289, 4192, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21117, 161, 4311, 0, 290, 4310, 4312, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21118, 161, 4312, 0, 291, 4311, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21119, 161, 4192, 0, 292, 4312, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21120, 161, 4310, 0, 293, 4192, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21121, 161, 4089, 0, 294, 4310, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21122, 161, 4313, 0, 295, 4089, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21123, 161, 4311, 0, 296, 4313, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21124, 161, 4078, 0, 297, 4311, 4314, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21125, 161, 4314, 0, 298, 4078, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21126, 161, 4104, 0, 299, 4314, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21127, 161, 4078, 0, 300, 4104, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21128, 161, 4102, 0, 301, 4078, 4315, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21129, 161, 4315, 0, 302, 4102, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21130, 161, 4217, 0, 303, 4315, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21131, 161, 4247, 0, 304, 4217, 4316, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21132, 161, 4316, 0, 305, 4247, 4249, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21133, 161, 4249, 0, 306, 4316, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21134, 161, 4116, 0, 307, 4249, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21135, 161, 4235, 0, 308, 4116, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21136, 161, 4059, 0, 309, 4235, 4297, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21137, 161, 4297, 0, 310, 4059, 4317, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21138, 161, 4317, 0, 311, 4297, 4318, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21139, 161, 4318, 0, 312, 4317, 4319, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21140, 161, 4319, 0, 313, 4318, 4320, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21141, 161, 4320, 0, 314, 4319, 4321, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21142, 161, 4321, 0, 315, 4320, 4322, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21143, 161, 4322, 0, 316, 4321, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21144, 161, 4120, 0, 317, 4322, 4323, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21145, 161, 4323, 0, 318, 4120, 4322, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21146, 161, 4322, 0, 319, 4323, 4324, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21147, 161, 4324, 0, 320, 4322, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21148, 161, 4143, 0, 321, 4324, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21149, 161, 4325, 0, 322, 4143, 4157, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21150, 161, 4157, 0, 323, 4325, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21151, 161, 4158, 0, 324, 4157, 4326, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21152, 161, 4326, 0, 325, 4158, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21153, 161, 4102, 0, 326, 4326, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21154, 161, 4311, 0, 327, 4102, 4327, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21155, 161, 4327, 0, 328, 4311, 4328, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21156, 161, 4328, 0, 329, 4327, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21157, 161, 4325, 0, 330, 4328, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21158, 161, 4089, 0, 331, 4325, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21159, 161, 4127, 0, 332, 4089, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21160, 161, 4058, 0, 333, 4127, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21161, 161, 4329, 0, 334, 4058, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21162, 161, 4231, 0, 335, 4329, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21163, 161, 4084, 0, 336, 4231, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21164, 161, 4102, 0, 337, 4084, 4330, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21165, 161, 4330, 0, 338, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21166, 161, 4064, 0, 339, 4330, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21167, 161, 4239, 0, 340, 4064, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21168, 161, 4143, 0, 341, 4239, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21169, 161, 4058, 0, 342, 4143, 4331, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21170, 161, 4331, 0, 343, 4058, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21171, 161, 4108, 0, 344, 4331, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21172, 161, 4276, 0, 345, 4108, 4332, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21173, 161, 4332, 0, 346, 4276, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21174, 161, 4104, 0, 347, 4332, 4105, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21175, 161, 4105, 0, 348, 4104, 4107, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21176, 161, 4107, 0, 349, 4105, 4330, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21177, 161, 4330, 0, 350, 4107, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21178, 161, 4262, 0, 351, 4330, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21179, 161, 4116, 0, 352, 4262, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21180, 161, 4311, 0, 353, 4116, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21181, 161, 4059, 0, 354, 4311, 4333, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21182, 161, 4333, 0, 355, 4059, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21183, 161, 4192, 0, 356, 4333, 4334, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21184, 161, 4334, 0, 357, 4192, 4335, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21185, 161, 4335, 0, 358, 4334, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21186, 161, 4127, 0, 359, 4335, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21187, 161, 4102, 0, 360, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21188, 161, 4235, 0, 361, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21189, 161, 4058, 0, 362, 4235, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21190, 161, 4112, 0, 363, 4058, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21191, 161, 4231, 0, 364, 4112, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21192, 161, 4078, 0, 365, 4231, 4336, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21193, 161, 4336, 0, 366, 4078, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21194, 161, 4173, 0, 367, 4336, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21195, 161, 4142, 0, 368, 4173, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21196, 161, 4309, 0, 369, 4142, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21197, 161, 4127, 0, 370, 4309, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21198, 161, 4173, 0, 371, 4127, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21199, 161, 4167, 0, 372, 4173, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21200, 161, 4116, 0, 373, 4167, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21201, 161, 4311, 0, 374, 4116, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21202, 161, 4142, 0, 375, 4311, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21203, 161, 4337, 0, 376, 4142, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21204, 161, 4108, 0, 377, 4337, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21205, 161, 4102, 0, 378, 4108, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21206, 161, 4235, 0, 379, 4102, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21207, 161, 4078, 0, 380, 4235, 4338, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21208, 161, 4338, 0, 381, 4078, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21209, 161, 4339, 0, 382, 4338, 4340, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21210, 161, 4340, 0, 383, 4339, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21211, 161, 4173, 0, 384, 4340, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21212, 161, 4142, 0, 385, 4173, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21213, 161, 4224, 0, 386, 4142, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21214, 161, 4339, 0, 387, 4224, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21215, 161, 4341, 0, 388, 4339, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21216, 161, 4092, 0, 389, 4341, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21217, 161, 4309, 0, 390, 4092, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21218, 161, 4247, 0, 391, 4309, 4342, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21219, 161, 4342, 0, 392, 4247, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21220, 161, 4173, 0, 393, 4342, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21221, 161, 4277, 0, 394, 4173, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21222, 161, 4248, 0, 395, 4277, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21223, 161, 4073, 0, 396, 4248, 4343, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21224, 161, 4343, 0, 397, 4073, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21225, 161, 4092, 0, 398, 4343, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21226, 161, 4325, 0, 399, 4092, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21227, 161, 4344, 0, 400, 4325, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21228, 161, 4116, 0, 401, 4344, 4345, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21229, 161, 4345, 0, 402, 4116, 4346, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21230, 161, 4346, 0, 403, 4345, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21231, 161, 4192, 0, 404, 4346, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21232, 161, 4310, 0, 405, 4192, 4347, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21233, 161, 4347, 0, 406, 4310, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21234, 161, 4101, 0, 407, 4347, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21235, 161, 4077, 0, 408, 4101, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21236, 161, 4058, 0, 409, 4077, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21237, 161, 4329, 0, 410, 4058, 4348, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21238, 161, 4348, 0, 411, 4329, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21239, 161, 4092, 0, 412, 4348, 4349, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21240, 161, 4349, 0, 413, 4092, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21241, 161, 4078, 0, 414, 4349, 4300, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21242, 161, 4300, 0, 415, 4078, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21243, 161, 4092, 0, 416, 4300, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21244, 161, 4102, 0, 417, 4092, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21245, 161, 4235, 0, 418, 4102, 4350, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21246, 161, 4350, 0, 419, 4235, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21247, 161, 4224, 0, 420, 4350, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21248, 161, 4192, 0, 421, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21249, 161, 4225, 0, 422, 4192, 4351, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21250, 161, 4351, 0, 423, 4225, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21251, 161, 4313, 0, 424, 4351, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21252, 161, 4077, 0, 425, 4313, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21253, 161, 4058, 0, 426, 4077, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21254, 161, 4329, 0, 427, 4058, 4348, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21255, 161, 4348, 0, 428, 4329, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21256, 161, 4092, 0, 429, 4348, 4352, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21257, 161, 4352, 0, 430, 4092, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21258, 161, 4073, 0, 431, 4352, 4353, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21259, 161, 4353, 0, 432, 4073, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21260, 161, 4089, 0, 433, 4353, 4354, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21261, 161, 4354, 0, 434, 4089, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21262, 161, 4344, 0, 435, 4354, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21263, 161, 4116, 0, 436, 4344, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21264, 161, 4295, 0, 437, 4116, 4323, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21265, 161, 4323, 0, 438, 4295, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21266, 161, 4239, 0, 439, 4323, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21267, 161, 4143, 0, 440, 4239, 4355, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21268, 161, 4355, 0, 441, 4143, 4356, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21269, 161, 4356, 0, 442, 4355, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21270, 161, 4143, 0, 443, 4356, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21271, 161, 4178, 0, 444, 4143, 4357, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21272, 161, 4357, 0, 445, 4178, 4274, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21273, 161, 4274, 0, 446, 4357, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21274, 161, 4217, 0, 447, 4274, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21275, 161, 4078, 0, 448, 4217, 4358, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21276, 161, 4358, 0, 449, 4078, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21277, 161, 4206, 0, 450, 4358, 4359, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21278, 161, 4359, 0, 451, 4206, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21279, 161, 4126, 0, 452, 4359, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21280, 161, 4058, 0, 453, 4126, 4360, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21281, 161, 4360, 0, 454, 4058, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21282, 161, 4077, 0, 455, 4360, 4087, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21283, 161, 4087, 0, 456, 4077, 4361, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21284, 161, 4361, 0, 457, 4087, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21285, 161, 4077, 0, 458, 4361, 4362, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21286, 161, 4362, 0, 459, 4077, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21287, 161, 4126, 0, 460, 4362, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21288, 161, 4058, 0, 461, 4126, 4363, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21289, 161, 4363, 0, 462, 4058, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21290, 161, 4077, 0, 463, 4363, 4364, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21291, 161, 4364, 0, 464, 4077, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21292, 161, 4112, 0, 465, 4364, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21293, 161, 4058, 0, 466, 4112, 4365, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21294, 161, 4365, 0, 467, 4058, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21295, 161, 4366, 0, 468, 4365, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21296, 161, 4058, 0, 469, 4366, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21297, 161, 4229, 0, 470, 4058, 4367, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21298, 161, 4367, 0, 471, 4229, 4095, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21299, 161, 4095, 0, 472, 4367, 4368, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21300, 161, 4368, 0, 473, 4095, 4171, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21301, 161, 4171, 0, 474, 4368, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21302, 161, 4226, 0, 475, 4171, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21303, 161, 4092, 0, 476, 4226, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21304, 161, 4344, 0, 477, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21305, 161, 4116, 0, 478, 4344, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21306, 161, 4295, 0, 479, 4116, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21307, 161, 4127, 0, 480, 4295, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21308, 161, 4058, 0, 481, 4127, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21309, 161, 4273, 0, 482, 4058, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21310, 161, 4264, 0, 483, 4273, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21311, 161, 4369, 0, 484, 4264, 4370, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21312, 161, 4370, 0, 485, 4369, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21313, 161, 4084, 0, 486, 4370, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21314, 161, 4116, 0, 487, 4084, 4371, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21315, 161, 4371, 0, 488, 4116, 4372, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21316, 161, 4372, 0, 489, 4371, 4373, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21317, 161, 4373, 0, 490, 4372, 4182, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21318, 161, 4182, 0, 491, 4373, 4308, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21319, 161, 4308, 0, 492, 4182, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21320, 161, 4058, 0, 493, 4308, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21321, 161, 4231, 0, 494, 4058, 4374, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21322, 161, 4374, 0, 495, 4231, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21323, 161, 4084, 0, 496, 4374, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21324, 161, 4116, 0, 497, 4084, 4375, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21325, 161, 4375, 0, 498, 4116, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21326, 161, 4369, 0, 499, 4375, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21327, 161, 4279, 0, 500, 4369, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21328, 161, 4084, 0, 501, 4279, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21329, 161, 4116, 0, 502, 4084, 4376, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21330, 161, 4376, 0, 503, 4116, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21331, 161, 4369, 0, 504, 4376, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21332, 161, 4279, 0, 505, 4369, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21333, 161, 4089, 0, 506, 4279, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21334, 161, 4264, 0, 507, 4089, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21335, 161, 4369, 0, 508, 4264, 4370, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21336, 161, 4370, 0, 509, 4369, 4377, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21337, 161, 4377, 0, 510, 4370, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21338, 161, 4084, 0, 511, 4377, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21339, 161, 4116, 0, 512, 4084, 4378, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21340, 161, 4378, 0, 513, 4116, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21341, 161, 4102, 0, 514, 4378, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21342, 161, 4379, 0, 515, 4102, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21343, 161, 4226, 0, 516, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21344, 161, 4058, 0, 517, 4226, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21345, 161, 4224, 0, 518, 4058, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21346, 161, 4092, 0, 519, 4224, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21347, 161, 4273, 0, 520, 4092, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21348, 161, 4069, 0, 521, 4273, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21349, 161, 4217, 0, 522, 4069, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21350, 161, 4089, 0, 523, 4217, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21351, 161, 4313, 0, 524, 4089, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21352, 161, 4116, 0, 525, 4313, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21353, 161, 4295, 0, 526, 4116, 4380, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21354, 161, 4380, 0, 527, 4295, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21355, 161, 4078, 0, 528, 4380, 4381, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21356, 161, 4381, 0, 529, 4078, 4382, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21357, 161, 4382, 0, 530, 4381, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21358, 161, 4102, 0, 531, 4382, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21359, 161, 4341, 0, 532, 4102, 4196, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21360, 161, 4196, 0, 533, 4341, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21361, 161, 4104, 0, 534, 4196, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21362, 161, 4277, 0, 535, 4104, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21363, 161, 4325, 0, 536, 4277, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21364, 161, 4247, 0, 537, 4325, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21365, 161, 4309, 0, 538, 4247, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21366, 161, 4116, 0, 539, 4309, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21367, 161, 4235, 0, 540, 4116, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21368, 161, 4084, 0, 541, 4235, 4200, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21369, 161, 4200, 0, 542, 4084, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21370, 161, 4102, 0, 543, 4200, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21371, 161, 4225, 0, 544, 4102, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21372, 161, 4379, 0, 545, 4225, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21373, 161, 4226, 0, 546, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21374, 161, 4058, 0, 547, 4226, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21375, 161, 4224, 0, 548, 4058, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21376, 161, 4366, 0, 549, 4224, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21377, 161, 4116, 0, 550, 4366, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21378, 161, 4235, 0, 551, 4116, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21379, 161, 4078, 0, 552, 4235, 4381, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21380, 161, 4381, 0, 553, 4078, 4383, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21381, 161, 4383, 0, 554, 4381, 4302, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21382, 161, 4302, 0, 555, 4383, 4384, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21383, 161, 4384, 0, 556, 4302, 4240, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21384, 161, 4240, 0, 557, 4384, 4385, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21385, 161, 4385, 0, 558, 4240, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21386, 161, 4366, 0, 559, 4385, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21387, 161, 4116, 0, 560, 4366, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21388, 161, 4295, 0, 561, 4116, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21389, 161, 4158, 0, 562, 4295, 4386, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21390, 161, 4386, 0, 563, 4158, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21391, 161, 4058, 0, 564, 4386, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21392, 161, 4277, 0, 565, 4058, 4140, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21393, 161, 4140, 0, 566, 4277, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21394, 161, 4337, 0, 567, 4140, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21395, 161, 4102, 0, 568, 4337, 4387, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21396, 161, 4387, 0, 569, 4102, 4306, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21397, 161, 4306, 0, 570, 4387, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21398, 161, 4058, 0, 571, 4306, 4367, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21399, 161, 4367, 0, 572, 4058, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21400, 161, 4102, 0, 573, 4367, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21401, 161, 4341, 0, 574, 4102, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21402, 161, 4092, 0, 575, 4341, 4388, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21403, 161, 4388, 0, 576, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21404, 161, 4116, 0, 577, 4388, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21405, 161, 4295, 0, 578, 4116, 4389, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21406, 161, 4389, 0, 579, 4295, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21407, 161, 4092, 0, 580, 4389, 4390, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21408, 161, 4390, 0, 581, 4092, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21409, 161, 4102, 0, 582, 4390, 4281, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21410, 161, 4281, 0, 583, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21411, 161, 4101, 0, 584, 4281, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21412, 161, 4102, 0, 585, 4101, 4391, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21413, 161, 4391, 0, 586, 4102, 4392, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21414, 161, 4392, 0, 587, 4391, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21415, 161, 4120, 0, 588, 4392, 4393, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21416, 161, 4393, 0, 589, 4120, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21417, 161, 4084, 0, 590, 4393, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21418, 161, 4058, 0, 591, 4084, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21419, 161, 4126, 0, 592, 4058, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21420, 161, 4192, 0, 593, 4126, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21421, 161, 4295, 0, 594, 4192, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21422, 161, 4080, 0, 595, 4295, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21423, 161, 4262, 0, 596, 4080, 4389, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21424, 161, 4389, 0, 597, 4262, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21425, 161, 4339, 0, 598, 4389, 4394, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21426, 161, 4394, 0, 599, 4339, 4395, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21427, 161, 4395, 0, 600, 4394, 4396, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21428, 161, 4396, 0, 601, 4395, 4286, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21429, 161, 4286, 0, 602, 4396, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21430, 161, 4058, 0, 603, 4286, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21431, 161, 4230, 0, 604, 4058, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21432, 161, 4224, 0, 605, 4230, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21433, 161, 4192, 0, 606, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21434, 161, 4225, 0, 607, 4192, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21435, 161, 4226, 0, 608, 4225, 4397, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21436, 161, 4397, 0, 609, 4226, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21437, 161, 4116, 0, 610, 4397, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21438, 161, 4231, 0, 611, 4116, 4288, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21439, 161, 4288, 0, 612, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21440, 161, 4092, 0, 613, 4288, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21441, 161, 4337, 0, 614, 4092, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21442, 161, 4127, 0, 615, 4337, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21443, 161, 4058, 0, 616, 4127, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21444, 161, 4126, 0, 617, 4058, 4398, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21445, 161, 4398, 0, 618, 4126, 4146, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21446, 161, 4146, 0, 619, 4398, 4314, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21447, 161, 4314, 0, 620, 4146, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21448, 161, 4217, 0, 621, 4314, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21449, 161, 4120, 0, 622, 4217, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21450, 161, 4127, 0, 623, 4120, 4139, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21451, 161, 4139, 0, 624, 4127, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21452, 161, 4112, 0, 625, 4139, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21453, 161, 4379, 0, 626, 4112, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21454, 161, 4217, 0, 627, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21455, 161, 4058, 0, 628, 4217, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21456, 161, 4142, 0, 629, 4058, 4399, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21457, 161, 4399, 0, 630, 4142, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21458, 161, 4239, 0, 631, 4399, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21459, 161, 4143, 0, 632, 4239, 4400, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21460, 161, 4400, 0, 633, 4143, 4151, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21461, 161, 4151, 0, 634, 4400, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21462, 161, 4309, 0, 635, 4151, 4401, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21463, 161, 4401, 0, 636, 4309, 4402, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21464, 161, 4402, 0, 637, 4401, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21465, 161, 4102, 0, 638, 4402, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21466, 161, 4063, 0, 639, 4102, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21467, 161, 4112, 0, 640, 4063, 4403, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21468, 161, 4403, 0, 641, 4112, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21469, 161, 4210, 0, 642, 4403, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21470, 161, 4102, 0, 643, 4210, 4404, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21471, 161, 4404, 0, 644, 4102, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21472, 161, 4276, 0, 645, 4404, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21473, 161, 4309, 0, 646, 4276, 4095, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21474, 161, 4095, 0, 647, 4309, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21475, 161, 4339, 0, 648, 4095, 4405, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21476, 161, 4405, 0, 649, 4339, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21477, 161, 4089, 0, 650, 4405, 4406, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21478, 161, 4406, 0, 651, 4089, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21479, 161, 4101, 0, 652, 4406, 4340, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21480, 161, 4340, 0, 653, 4101, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21481, 161, 4058, 0, 654, 4340, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21482, 161, 4059, 0, 655, 4058, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21483, 161, 4262, 0, 656, 4059, 4060, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21484, 161, 4060, 0, 657, 4262, 4407, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21485, 161, 4407, 0, 658, 4060, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21486, 161, 4167, 0, 659, 4407, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21487, 161, 4102, 0, 660, 4167, 4408, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21488, 161, 4408, 0, 661, 4102, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21489, 161, 4089, 0, 662, 4408, 4409, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21490, 161, 4409, 0, 663, 4089, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21491, 161, 4080, 0, 664, 4409, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21492, 161, 4102, 0, 665, 4080, 4404, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21493, 161, 4404, 0, 666, 4102, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21494, 161, 4069, 0, 667, 4404, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21495, 161, 4059, 0, 668, 4069, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21496, 161, 4073, 0, 669, 4059, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21497, 161, 4192, 0, 670, 4073, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21498, 161, 4178, 0, 671, 4192, 4410, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21499, 161, 4410, 0, 672, 4178, 4411, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21500, 161, 4411, 0, 673, 4410, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21501, 161, 4101, 0, 674, 4411, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21502, 161, 4102, 0, 675, 4101, 4298, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21503, 161, 4298, 0, 676, 4102, 4352, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21504, 161, 4352, 0, 677, 4298, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21505, 161, 4072, 0, 678, 4352, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21506, 161, 4224, 0, 679, 4072, 4412, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21507, 161, 4412, 0, 680, 4224, 4413, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21508, 161, 4413, 0, 681, 4412, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21509, 161, 4192, 0, 682, 4413, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21510, 161, 4230, 0, 683, 4192, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21511, 161, 4108, 0, 684, 4230, 4414, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21512, 161, 4414, 0, 685, 4108, 4412, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21513, 161, 4412, 0, 686, 4414, 4413, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21514, 161, 4413, 0, 687, 4412, 4415, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21515, 161, 4415, 0, 688, 4413, 4416, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21516, 161, 4416, 0, 689, 4415, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21517, 161, 4089, 0, 690, 4416, 4417, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21518, 161, 4417, 0, 691, 4089, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21519, 161, 4059, 0, 692, 4417, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21520, 161, 4073, 0, 693, 4059, 4205, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21521, 161, 4205, 0, 694, 4073, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21522, 161, 4167, 0, 695, 4205, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21523, 161, 4102, 0, 696, 4167, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21524, 161, 4063, 0, 697, 4102, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21525, 161, 4104, 0, 698, 4063, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21526, 161, 4059, 0, 699, 4104, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21527, 161, 4072, 0, 700, 4059, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21528, 161, 4073, 0, 701, 4072, 4418, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21529, 161, 4418, 0, 702, 4073, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21530, 161, 4084, 0, 703, 4418, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21531, 161, 4264, 0, 704, 4084, 4419, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21532, 161, 4419, 0, 705, 4264, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21533, 161, 4089, 0, 706, 4419, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21534, 161, 4059, 0, 707, 4089, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21535, 161, 4073, 0, 708, 4059, 4205, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21536, 161, 4205, 0, 709, 4073, 4154, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21537, 161, 4154, 0, 710, 4205, 4420, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21538, 161, 4420, 0, 711, 4154, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21539, 161, 4210, 0, 712, 4420, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21540, 161, 4102, 0, 713, 4210, 4421, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21541, 161, 4421, 0, 714, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21542, 161, 4101, 0, 715, 4421, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21543, 161, 4102, 0, 716, 4101, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21544, 161, 4064, 0, 717, 4102, 4422, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21545, 161, 4422, 0, 718, 4064, 4423, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21546, 161, 4423, 0, 719, 4422, 4424, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21547, 161, 4424, 0, 720, 4423, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21548, 161, 4078, 0, 721, 4424, 4425, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21549, 161, 4425, 0, 722, 4078, 4128, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21550, 161, 4128, 0, 723, 4425, 4261, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21551, 161, 4261, 0, 724, 4128, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21552, 161, 4262, 0, 725, 4261, 4263, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21553, 161, 4263, 0, 726, 4262, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21554, 161, 4092, 0, 727, 4263, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21555, 161, 4264, 0, 728, 4092, 4265, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21556, 161, 4265, 0, 729, 4264, 4266, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21557, 161, 4266, 0, 730, 4265, 4267, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21558, 161, 4267, 0, 731, 4266, 4268, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21559, 161, 4268, 0, 732, 4267, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21560, 161, 4120, 0, 733, 4268, 4269, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21561, 161, 4269, 0, 734, 4120, 4270, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21562, 161, 4270, 0, 735, 4269, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21563, 161, 4063, 0, 736, 4270, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21564, 161, 4058, 0, 737, 4063, 4271, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21565, 161, 4271, 0, 738, 4058, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21566, 161, 4127, 0, 739, 4271, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21567, 161, 4058, 0, 740, 4127, 4204, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21568, 161, 4204, 0, 741, 4058, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21569, 161, 4102, 0, 742, 4204, 4261, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21570, 161, 4261, 0, 743, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21571, 161, 4058, 0, 744, 4261, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21572, 161, 4059, 0, 745, 4058, 4060, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21573, 161, 4060, 0, 746, 4059, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21574, 161, 4108, 0, 747, 4060, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21575, 161, 4116, 0, 748, 4108, 4272, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21576, 161, 4272, 0, 749, 4116, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21577, 161, 4273, 0, 750, 4272, 4274, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21578, 161, 4274, 0, 751, 4273, 4275, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21579, 161, 4275, 0, 752, 4274, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21580, 161, 4167, 0, 753, 4275, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21581, 161, 4276, 0, 754, 4167, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21582, 161, 4089, 0, 755, 4276, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21583, 161, 4108, 0, 756, 4089, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21584, 161, 4116, 0, 757, 4108, 4272, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21585, 161, 4272, 0, 758, 4116, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21586, 161, 4277, 0, 759, 4272, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21587, 161, 4248, 0, 760, 4277, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21588, 161, 4273, 0, 761, 4248, 4278, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21589, 161, 4278, 0, 762, 4273, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21590, 161, 4206, 0, 763, 4278, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21591, 161, 4092, 0, 764, 4206, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21592, 161, 4279, 0, 765, 4092, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21593, 161, 4084, 0, 766, 4279, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21594, 161, 4058, 0, 767, 4084, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21595, 161, 4142, 0, 768, 4058, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21596, 161, 4279, 0, 769, 4142, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21597, 161, 4084, 0, 770, 4279, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21598, 161, 4210, 0, 771, 4084, 4280, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21599, 161, 4280, 0, 772, 4210, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21600, 161, 4116, 0, 773, 4280, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21601, 161, 4209, 0, 774, 4116, 4281, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21602, 161, 4281, 0, 775, 4209, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21603, 161, 4089, 0, 776, 4281, 4282, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21604, 161, 4282, 0, 777, 4089, 4057, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21605, 161, 4057, 0, 778, 4282, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21606, 161, 4206, 0, 779, 4057, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21607, 161, 4092, 0, 780, 4206, 4207, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21608, 161, 4207, 0, 781, 4092, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21609, 161, 4192, 0, 782, 4207, 4208, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21610, 161, 4208, 0, 783, 4192, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21611, 161, 4209, 0, 784, 4208, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21612, 161, 4058, 0, 785, 4209, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21613, 161, 4142, 0, 786, 4058, 4207, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21614, 161, 4207, 0, 787, 4142, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21615, 161, 4192, 0, 788, 4207, 4208, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21616, 161, 4208, 0, 789, 4192, 4209, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21617, 161, 4209, 0, 790, 4208, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21618, 161, 4210, 0, 791, 4209, 4211, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21619, 161, 4211, 0, 792, 4210, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21620, 161, 4102, 0, 793, 4211, 4283, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21621, 161, 4283, 0, 794, 4102, 4284, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21622, 161, 4284, 0, 795, 4283, 4213, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21623, 161, 4213, 0, 796, 4284, 4057, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21624, 161, 4057, 0, 797, 4213, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21625, 161, 4214, 0, 798, 4057, 4215, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21626, 161, 4215, 0, 799, 4214, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21627, 161, 4214, 0, 800, 4215, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21628, 161, 4058, 0, 801, 4214, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21629, 161, 4126, 0, 802, 4058, 4216, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21630, 161, 4216, 0, 803, 4126, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21631, 161, 4084, 0, 804, 4216, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21632, 161, 4102, 0, 805, 4084, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21633, 161, 4217, 0, 806, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21634, 161, 4058, 0, 807, 4217, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21635, 161, 4126, 0, 808, 4058, 4218, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21636, 161, 4218, 0, 809, 4126, 4151, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21637, 161, 4151, 0, 810, 4218, 4219, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21638, 161, 4219, 0, 811, 4151, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21639, 161, 4089, 0, 812, 4219, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21640, 161, 4126, 0, 813, 4089, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21641, 161, 4102, 0, 814, 4126, 4220, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21642, 161, 4220, 0, 815, 4102, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21643, 161, 4108, 0, 816, 4220, 4221, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21644, 161, 4221, 0, 817, 4108, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21645, 161, 4080, 0, 818, 4221, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21646, 161, 4108, 0, 819, 4080, 4222, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21647, 161, 4222, 0, 820, 4108, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21648, 161, 4102, 0, 821, 4222, 4223, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21649, 161, 4223, 0, 822, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21650, 161, 4064, 0, 823, 4223, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21651, 161, 4224, 0, 824, 4064, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21652, 161, 4192, 0, 825, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21653, 161, 4225, 0, 826, 4192, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21654, 161, 4226, 0, 827, 4225, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21655, 161, 4092, 0, 828, 4226, 4227, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21656, 161, 4227, 0, 829, 4092, 4228, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21657, 161, 4228, 0, 830, 4227, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21658, 161, 4064, 0, 831, 4228, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21659, 161, 4058, 0, 832, 4064, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21660, 161, 4229, 0, 833, 4058, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21661, 161, 4230, 0, 834, 4229, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21662, 161, 4092, 0, 835, 4230, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21663, 161, 4231, 0, 836, 4092, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21664, 161, 4104, 0, 837, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21665, 161, 4092, 0, 838, 4104, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21666, 161, 4192, 0, 839, 4092, 4232, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21667, 161, 4232, 0, 840, 4192, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21668, 161, 4064, 0, 841, 4232, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21669, 161, 4078, 0, 842, 4064, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21670, 161, 4072, 0, 843, 4078, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21671, 161, 4214, 0, 844, 4072, 4233, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21672, 161, 4233, 0, 845, 4214, 4214, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21673, 161, 4214, 0, 846, 4233, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21674, 161, 4231, 0, 847, 4214, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21675, 161, 4092, 0, 848, 4231, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21676, 161, 4102, 0, 849, 4092, 4234, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21677, 161, 4234, 0, 850, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21678, 161, 4064, 0, 851, 4234, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21679, 161, 4127, 0, 852, 4064, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21680, 161, 4058, 0, 853, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21681, 161, 4235, 0, 854, 4058, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21682, 161, 4078, 0, 855, 4235, 4107, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21683, 161, 4107, 0, 856, 4078, 4236, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21684, 161, 4236, 0, 857, 4107, 4237, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21685, 161, 4237, 0, 858, 4236, 4238, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21686, 161, 4238, 0, 859, 4237, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21687, 161, 4239, 0, 860, 4238, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21688, 161, 4143, 0, 861, 4239, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21689, 161, 4230, 0, 862, 4143, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21690, 161, 4084, 0, 863, 4230, 4240, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21691, 161, 4240, 0, 864, 4084, 4061, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21692, 161, 4061, 0, 865, 4240, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21693, 161, 4063, 0, 866, 4061, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21694, 161, 4127, 0, 867, 4063, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21695, 161, 4116, 0, 868, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21696, 161, 4235, 0, 869, 4116, 4241, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21697, 161, 4241, 0, 870, 4235, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21698, 161, 4084, 0, 871, 4241, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21699, 161, 4102, 0, 872, 4084, 4234, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21700, 161, 4234, 0, 873, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21701, 161, 4064, 0, 874, 4234, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21702, 161, 4231, 0, 875, 4064, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21703, 161, 4104, 0, 876, 4231, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21704, 161, 4084, 0, 877, 4104, 4232, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21705, 161, 4232, 0, 878, 4084, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21706, 161, 4120, 0, 879, 4232, 4242, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21707, 161, 4242, 0, 880, 4120, 4243, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21708, 161, 4243, 0, 881, 4242, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21709, 161, 4143, 0, 882, 4243, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21710, 161, 4178, 0, 883, 4143, 4244, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21711, 161, 4244, 0, 884, 4178, 4227, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21712, 161, 4227, 0, 885, 4244, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21713, 161, 4069, 0, 886, 4227, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21714, 161, 4127, 0, 887, 4069, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21715, 161, 4058, 0, 888, 4127, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21716, 161, 4230, 0, 889, 4058, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21717, 161, 4092, 0, 890, 4230, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21718, 161, 4102, 0, 891, 4092, 4079, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21719, 161, 4079, 0, 892, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21720, 161, 4064, 0, 893, 4079, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21721, 161, 4102, 0, 894, 4064, 4245, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21722, 161, 4245, 0, 895, 4102, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21723, 161, 4246, 0, 896, 4245, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21724, 161, 4247, 0, 897, 4246, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21725, 161, 4248, 0, 898, 4247, 4249, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21726, 161, 4249, 0, 899, 4248, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21727, 161, 4104, 0, 900, 4249, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21728, 161, 4078, 0, 901, 4104, 4250, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21729, 161, 4250, 0, 902, 4078, 4190, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21730, 161, 4190, 0, 903, 4250, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21731, 161, 4127, 0, 904, 4190, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21732, 161, 4058, 0, 905, 4127, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21733, 161, 4230, 0, 906, 4058, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21734, 161, 4104, 0, 907, 4230, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21735, 161, 4084, 0, 908, 4104, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21736, 161, 4102, 0, 909, 4084, 4223, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21737, 161, 4223, 0, 910, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21738, 161, 4064, 0, 911, 4223, 4251, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21739, 161, 4251, 0, 912, 4064, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21740, 161, 4116, 0, 913, 4251, 4252, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21741, 161, 4252, 0, 914, 4116, 4253, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21742, 161, 4253, 0, 915, 4252, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21743, 161, 4230, 0, 916, 4253, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21744, 161, 4059, 0, 917, 4230, 4124, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21745, 161, 4124, 0, 918, 4059, 4254, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21746, 161, 4254, 0, 919, 4124, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21747, 161, 4104, 0, 920, 4254, 4255, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21748, 161, 4255, 0, 921, 4104, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21749, 161, 4246, 0, 922, 4255, 4256, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21750, 161, 4256, 0, 923, 4246, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21751, 161, 4231, 0, 924, 4256, 4257, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21752, 161, 4257, 0, 925, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21753, 161, 4092, 0, 926, 4257, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21754, 161, 4073, 0, 927, 4092, 4258, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21755, 161, 4258, 0, 928, 4073, 4259, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21756, 161, 4259, 0, 929, 4258, 4256, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21757, 161, 4256, 0, 930, 4259, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21758, 161, 4158, 0, 931, 4256, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21759, 161, 4230, 0, 932, 4158, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21760, 161, 4084, 0, 933, 4230, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21761, 161, 4102, 0, 934, 4084, 4079, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21762, 161, 4079, 0, 935, 4102, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21763, 161, 4063, 0, 936, 4079, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21764, 161, 4285, 0, 937, 4063, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21765, 161, 4102, 0, 938, 4285, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21766, 161, 4063, 0, 939, 4102, 4286, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21767, 161, 4286, 0, 940, 4063, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21768, 161, 4058, 0, 941, 4286, 4287, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21769, 161, 4287, 0, 942, 4058, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21770, 161, 4116, 0, 943, 4287, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21771, 161, 4235, 0, 944, 4116, 4288, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21772, 161, 4288, 0, 945, 4235, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21773, 161, 4092, 0, 946, 4288, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21774, 161, 4285, 0, 947, 4092, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21775, 161, 4102, 0, 948, 4285, 4289, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21776, 161, 4289, 0, 949, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21777, 161, 4101, 0, 950, 4289, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21778, 161, 4102, 0, 951, 4101, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21779, 161, 4064, 0, 952, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21780, 161, 4058, 0, 953, 4064, 4290, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21781, 161, 4290, 0, 954, 4058, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21782, 161, 4073, 0, 955, 4290, 4291, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21783, 161, 4291, 0, 956, 4073, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21784, 161, 4092, 0, 957, 4291, 4292, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21785, 161, 4292, 0, 958, 4092, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21786, 161, 4206, 0, 959, 4292, 4293, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21787, 161, 4293, 0, 960, 4206, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21788, 161, 4116, 0, 961, 4293, 4294, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21789, 161, 4294, 0, 962, 4116, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21790, 161, 4295, 0, 963, 4294, 4150, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21791, 161, 4150, 0, 964, 4295, 4296, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21792, 161, 4296, 0, 965, 4150, 4278, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21793, 161, 4278, 0, 966, 4296, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21794, 161, 4058, 0, 967, 4278, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21795, 161, 4229, 0, 968, 4058, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21796, 161, 4262, 0, 969, 4229, 4297, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21797, 161, 4297, 0, 970, 4262, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21798, 161, 4264, 0, 971, 4297, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21799, 161, 4089, 0, 972, 4264, 4096, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21800, 161, 4096, 0, 973, 4089, 4298, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21801, 161, 4298, 0, 974, 4096, 4299, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21802, 161, 4299, 0, 975, 4298, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21803, 161, 4089, 0, 976, 4299, 4285, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21804, 161, 4285, 0, 977, 4089, 4182, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21805, 161, 4182, 0, 978, 4285, 4246, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21806, 161, 4246, 0, 979, 4182, 4300, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21807, 161, 4300, 0, 980, 4246, 4301, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21808, 161, 4301, 0, 981, 4300, 4302, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21809, 161, 4302, 0, 982, 4301, 4096, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21810, 161, 4096, 0, 983, 4302, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21811, 161, 4127, 0, 984, 4096, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21812, 161, 4104, 0, 985, 4127, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21813, 161, 4078, 0, 986, 4104, 4303, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21814, 161, 4303, 0, 987, 4078, 4304, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21815, 161, 4304, 0, 988, 4303, 4305, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21816, 161, 4305, 0, 989, 4304, 4306, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21817, 161, 4306, 0, 990, 4305, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21818, 161, 4229, 0, 991, 4306, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21819, 161, 4247, 0, 992, 4229, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21820, 161, 4126, 0, 993, 4247, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21821, 161, 4092, 0, 994, 4126, 4307, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21822, 161, 4307, 0, 995, 4092, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21823, 161, 4104, 0, 996, 4307, 4308, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21824, 161, 4308, 0, 997, 4104, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21825, 161, 4192, 0, 998, 4308, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21826, 161, 4064, 0, 999, 4192, 0, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21827, 161, 4092, 0, 1000, 0, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21828, 161, 4309, 0, 1001, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21829, 161, 4116, 0, 1002, 4309, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21830, 161, 4235, 0, 1003, 4116, 4222, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21831, 161, 4222, 0, 1004, 4235, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21832, 161, 4192, 0, 1005, 4222, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21833, 161, 4310, 0, 1006, 4192, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21834, 161, 4311, 0, 1007, 4310, 4312, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21835, 161, 4312, 0, 1008, 4311, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21836, 161, 4192, 0, 1009, 4312, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21837, 161, 4310, 0, 1010, 4192, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21838, 161, 4089, 0, 1011, 4310, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21839, 161, 4313, 0, 1012, 4089, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21840, 161, 4311, 0, 1013, 4313, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21841, 161, 4078, 0, 1014, 4311, 4314, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21842, 161, 4314, 0, 1015, 4078, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21843, 161, 4104, 0, 1016, 4314, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21844, 161, 4078, 0, 1017, 4104, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21845, 161, 4102, 0, 1018, 4078, 4315, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21846, 161, 4315, 0, 1019, 4102, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21847, 161, 4217, 0, 1020, 4315, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21848, 161, 4247, 0, 1021, 4217, 4316, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21849, 161, 4316, 0, 1022, 4247, 4249, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21850, 161, 4249, 0, 1023, 4316, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21851, 161, 4116, 0, 1024, 4249, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21852, 161, 4235, 0, 1025, 4116, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21853, 161, 4059, 0, 1026, 4235, 4297, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21854, 161, 4297, 0, 1027, 4059, 4317, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21855, 161, 4317, 0, 1028, 4297, 4318, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21856, 161, 4318, 0, 1029, 4317, 4319, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21857, 161, 4319, 0, 1030, 4318, 4320, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21858, 161, 4320, 0, 1031, 4319, 4321, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21859, 161, 4321, 0, 1032, 4320, 4322, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21860, 161, 4322, 0, 1033, 4321, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21861, 161, 4120, 0, 1034, 4322, 4323, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21862, 161, 4323, 0, 1035, 4120, 4322, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21863, 161, 4322, 0, 1036, 4323, 4324, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21864, 161, 4324, 0, 1037, 4322, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21865, 161, 4143, 0, 1038, 4324, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21866, 161, 4325, 0, 1039, 4143, 4157, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21867, 161, 4157, 0, 1040, 4325, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21868, 161, 4158, 0, 1041, 4157, 4326, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21869, 161, 4326, 0, 1042, 4158, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21870, 161, 4102, 0, 1043, 4326, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21871, 161, 4311, 0, 1044, 4102, 4327, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21872, 161, 4327, 0, 1045, 4311, 4328, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21873, 161, 4328, 0, 1046, 4327, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21874, 161, 4325, 0, 1047, 4328, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21875, 161, 4089, 0, 1048, 4325, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21876, 161, 4127, 0, 1049, 4089, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21877, 161, 4058, 0, 1050, 4127, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21878, 161, 4329, 0, 1051, 4058, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21879, 161, 4231, 0, 1052, 4329, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21880, 161, 4084, 0, 1053, 4231, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21881, 161, 4102, 0, 1054, 4084, 4330, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21882, 161, 4330, 0, 1055, 4102, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21883, 161, 4064, 0, 1056, 4330, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21884, 161, 4239, 0, 1057, 4064, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21885, 161, 4143, 0, 1058, 4239, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21886, 161, 4058, 0, 1059, 4143, 4331, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21887, 161, 4331, 0, 1060, 4058, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21888, 161, 4108, 0, 1061, 4331, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21889, 161, 4276, 0, 1062, 4108, 4332, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21890, 161, 4332, 0, 1063, 4276, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21891, 161, 4104, 0, 1064, 4332, 4105, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21892, 161, 4105, 0, 1065, 4104, 4107, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21893, 161, 4107, 0, 1066, 4105, 4330, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21894, 161, 4330, 0, 1067, 4107, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21895, 161, 4262, 0, 1068, 4330, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21896, 161, 4116, 0, 1069, 4262, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21897, 161, 4311, 0, 1070, 4116, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21898, 161, 4059, 0, 1071, 4311, 4333, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21899, 161, 4333, 0, 1072, 4059, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21900, 161, 4192, 0, 1073, 4333, 4334, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21901, 161, 4334, 0, 1074, 4192, 4335, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21902, 161, 4335, 0, 1075, 4334, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21903, 161, 4127, 0, 1076, 4335, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21904, 161, 4102, 0, 1077, 4127, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21905, 161, 4235, 0, 1078, 4102, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21906, 161, 4058, 0, 1079, 4235, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21907, 161, 4112, 0, 1080, 4058, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21908, 161, 4231, 0, 1081, 4112, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21909, 161, 4078, 0, 1082, 4231, 4336, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21910, 161, 4336, 0, 1083, 4078, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21911, 161, 4173, 0, 1084, 4336, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21912, 161, 4142, 0, 1085, 4173, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21913, 161, 4309, 0, 1086, 4142, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21914, 161, 4127, 0, 1087, 4309, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21915, 161, 4173, 0, 1088, 4127, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21916, 161, 4167, 0, 1089, 4173, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21917, 161, 4116, 0, 1090, 4167, 4311, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21918, 161, 4311, 0, 1091, 4116, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21919, 161, 4142, 0, 1092, 4311, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21920, 161, 4337, 0, 1093, 4142, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21921, 161, 4108, 0, 1094, 4337, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21922, 161, 4102, 0, 1095, 4108, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21923, 161, 4235, 0, 1096, 4102, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21924, 161, 4078, 0, 1097, 4235, 4338, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21925, 161, 4338, 0, 1098, 4078, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21926, 161, 4339, 0, 1099, 4338, 4340, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21927, 161, 4340, 0, 1100, 4339, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21928, 161, 4173, 0, 1101, 4340, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21929, 161, 4142, 0, 1102, 4173, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21930, 161, 4224, 0, 1103, 4142, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21931, 161, 4339, 0, 1104, 4224, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21932, 161, 4341, 0, 1105, 4339, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21933, 161, 4092, 0, 1106, 4341, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21934, 161, 4309, 0, 1107, 4092, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21935, 161, 4247, 0, 1108, 4309, 4342, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21936, 161, 4342, 0, 1109, 4247, 4173, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21937, 161, 4173, 0, 1110, 4342, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21938, 161, 4277, 0, 1111, 4173, 4248, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21939, 161, 4248, 0, 1112, 4277, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21940, 161, 4073, 0, 1113, 4248, 4343, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21941, 161, 4343, 0, 1114, 4073, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21942, 161, 4092, 0, 1115, 4343, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21943, 161, 4325, 0, 1116, 4092, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21944, 161, 4344, 0, 1117, 4325, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21945, 161, 4116, 0, 1118, 4344, 4345, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21946, 161, 4345, 0, 1119, 4116, 4346, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21947, 161, 4346, 0, 1120, 4345, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21948, 161, 4192, 0, 1121, 4346, 4310, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21949, 161, 4310, 0, 1122, 4192, 4347, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21950, 161, 4347, 0, 1123, 4310, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21951, 161, 4101, 0, 1124, 4347, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21952, 161, 4077, 0, 1125, 4101, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21953, 161, 4058, 0, 1126, 4077, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21954, 161, 4329, 0, 1127, 4058, 4348, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21955, 161, 4348, 0, 1128, 4329, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21956, 161, 4092, 0, 1129, 4348, 4349, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21957, 161, 4349, 0, 1130, 4092, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21958, 161, 4078, 0, 1131, 4349, 4300, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21959, 161, 4300, 0, 1132, 4078, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21960, 161, 4092, 0, 1133, 4300, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21961, 161, 4102, 0, 1134, 4092, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21962, 161, 4235, 0, 1135, 4102, 4350, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21963, 161, 4350, 0, 1136, 4235, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21964, 161, 4224, 0, 1137, 4350, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21965, 161, 4192, 0, 1138, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21966, 161, 4225, 0, 1139, 4192, 4351, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21967, 161, 4351, 0, 1140, 4225, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21968, 161, 4313, 0, 1141, 4351, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21969, 161, 4077, 0, 1142, 4313, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21970, 161, 4058, 0, 1143, 4077, 4329, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21971, 161, 4329, 0, 1144, 4058, 4348, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21972, 161, 4348, 0, 1145, 4329, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21973, 161, 4092, 0, 1146, 4348, 4352, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21974, 161, 4352, 0, 1147, 4092, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21975, 161, 4073, 0, 1148, 4352, 4353, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21976, 161, 4353, 0, 1149, 4073, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21977, 161, 4089, 0, 1150, 4353, 4354, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21978, 161, 4354, 0, 1151, 4089, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21979, 161, 4344, 0, 1152, 4354, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21980, 161, 4116, 0, 1153, 4344, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21981, 161, 4295, 0, 1154, 4116, 4323, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21982, 161, 4323, 0, 1155, 4295, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21983, 161, 4239, 0, 1156, 4323, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21984, 161, 4143, 0, 1157, 4239, 4355, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21985, 161, 4355, 0, 1158, 4143, 4356, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21986, 161, 4356, 0, 1159, 4355, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21987, 161, 4143, 0, 1160, 4356, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21988, 161, 4178, 0, 1161, 4143, 4357, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21989, 161, 4357, 0, 1162, 4178, 4274, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21990, 161, 4274, 0, 1163, 4357, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21991, 161, 4217, 0, 1164, 4274, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21992, 161, 4078, 0, 1165, 4217, 4358, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21993, 161, 4358, 0, 1166, 4078, 4206, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21994, 161, 4206, 0, 1167, 4358, 4359, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21995, 161, 4359, 0, 1168, 4206, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21996, 161, 4126, 0, 1169, 4359, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21997, 161, 4058, 0, 1170, 4126, 4360, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21998, 161, 4360, 0, 1171, 4058, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (21999, 161, 4077, 0, 1172, 4360, 4087, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22000, 161, 4087, 0, 1173, 4077, 4361, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22001, 161, 4361, 0, 1174, 4087, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22002, 161, 4077, 0, 1175, 4361, 4362, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22003, 161, 4362, 0, 1176, 4077, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22004, 161, 4126, 0, 1177, 4362, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22005, 161, 4058, 0, 1178, 4126, 4363, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22006, 161, 4363, 0, 1179, 4058, 4077, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22007, 161, 4077, 0, 1180, 4363, 4364, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22008, 161, 4364, 0, 1181, 4077, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22009, 161, 4112, 0, 1182, 4364, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22010, 161, 4058, 0, 1183, 4112, 4365, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22011, 161, 4365, 0, 1184, 4058, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22012, 161, 4366, 0, 1185, 4365, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22013, 161, 4058, 0, 1186, 4366, 4229, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22014, 161, 4229, 0, 1187, 4058, 4367, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22015, 161, 4367, 0, 1188, 4229, 4095, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22016, 161, 4095, 0, 1189, 4367, 4368, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22017, 161, 4368, 0, 1190, 4095, 4171, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22018, 161, 4171, 0, 1191, 4368, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22019, 161, 4226, 0, 1192, 4171, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22020, 161, 4092, 0, 1193, 4226, 4344, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22021, 161, 4344, 0, 1194, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22022, 161, 4116, 0, 1195, 4344, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22023, 161, 4295, 0, 1196, 4116, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22024, 161, 4127, 0, 1197, 4295, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22025, 161, 4058, 0, 1198, 4127, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22026, 161, 4273, 0, 1199, 4058, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22027, 161, 4264, 0, 1200, 4273, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22028, 161, 4369, 0, 1201, 4264, 4370, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22029, 161, 4370, 0, 1202, 4369, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22030, 161, 4084, 0, 1203, 4370, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22031, 161, 4116, 0, 1204, 4084, 4371, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22032, 161, 4371, 0, 1205, 4116, 4372, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22033, 161, 4372, 0, 1206, 4371, 4373, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22034, 161, 4373, 0, 1207, 4372, 4182, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22035, 161, 4182, 0, 1208, 4373, 4308, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22036, 161, 4308, 0, 1209, 4182, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22037, 161, 4058, 0, 1210, 4308, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22038, 161, 4231, 0, 1211, 4058, 4374, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22039, 161, 4374, 0, 1212, 4231, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22040, 161, 4084, 0, 1213, 4374, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22041, 161, 4116, 0, 1214, 4084, 4375, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22042, 161, 4375, 0, 1215, 4116, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22043, 161, 4369, 0, 1216, 4375, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22044, 161, 4279, 0, 1217, 4369, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22045, 161, 4084, 0, 1218, 4279, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22046, 161, 4116, 0, 1219, 4084, 4376, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22047, 161, 4376, 0, 1220, 4116, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22048, 161, 4369, 0, 1221, 4376, 4279, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22049, 161, 4279, 0, 1222, 4369, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22050, 161, 4089, 0, 1223, 4279, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22051, 161, 4264, 0, 1224, 4089, 4369, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22052, 161, 4369, 0, 1225, 4264, 4370, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22053, 161, 4370, 0, 1226, 4369, 4377, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22054, 161, 4377, 0, 1227, 4370, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22055, 161, 4084, 0, 1228, 4377, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22056, 161, 4116, 0, 1229, 4084, 4378, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22057, 161, 4378, 0, 1230, 4116, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22058, 161, 4102, 0, 1231, 4378, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22059, 161, 4379, 0, 1232, 4102, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22060, 161, 4226, 0, 1233, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22061, 161, 4058, 0, 1234, 4226, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22062, 161, 4224, 0, 1235, 4058, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22063, 161, 4092, 0, 1236, 4224, 4273, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22064, 161, 4273, 0, 1237, 4092, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22065, 161, 4069, 0, 1238, 4273, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22066, 161, 4217, 0, 1239, 4069, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22067, 161, 4089, 0, 1240, 4217, 4313, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22068, 161, 4313, 0, 1241, 4089, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22069, 161, 4116, 0, 1242, 4313, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22070, 161, 4295, 0, 1243, 4116, 4380, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22071, 161, 4380, 0, 1244, 4295, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22072, 161, 4078, 0, 1245, 4380, 4381, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22073, 161, 4381, 0, 1246, 4078, 4382, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22074, 161, 4382, 0, 1247, 4381, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22075, 161, 4102, 0, 1248, 4382, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22076, 161, 4341, 0, 1249, 4102, 4196, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22077, 161, 4196, 0, 1250, 4341, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22078, 161, 4104, 0, 1251, 4196, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22079, 161, 4277, 0, 1252, 4104, 4325, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22080, 161, 4325, 0, 1253, 4277, 4247, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22081, 161, 4247, 0, 1254, 4325, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22082, 161, 4309, 0, 1255, 4247, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22083, 161, 4116, 0, 1256, 4309, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22084, 161, 4235, 0, 1257, 4116, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22085, 161, 4084, 0, 1258, 4235, 4200, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22086, 161, 4200, 0, 1259, 4084, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22087, 161, 4102, 0, 1260, 4200, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22088, 161, 4225, 0, 1261, 4102, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22089, 161, 4379, 0, 1262, 4225, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22090, 161, 4226, 0, 1263, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22091, 161, 4058, 0, 1264, 4226, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22092, 161, 4224, 0, 1265, 4058, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22093, 161, 4366, 0, 1266, 4224, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22094, 161, 4116, 0, 1267, 4366, 4235, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22095, 161, 4235, 0, 1268, 4116, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22096, 161, 4078, 0, 1269, 4235, 4381, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22097, 161, 4381, 0, 1270, 4078, 4383, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22098, 161, 4383, 0, 1271, 4381, 4302, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22099, 161, 4302, 0, 1272, 4383, 4384, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22100, 161, 4384, 0, 1273, 4302, 4240, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22101, 161, 4240, 0, 1274, 4384, 4385, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22102, 161, 4385, 0, 1275, 4240, 4366, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22103, 161, 4366, 0, 1276, 4385, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22104, 161, 4116, 0, 1277, 4366, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22105, 161, 4295, 0, 1278, 4116, 4158, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22106, 161, 4158, 0, 1279, 4295, 4386, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22107, 161, 4386, 0, 1280, 4158, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22108, 161, 4058, 0, 1281, 4386, 4277, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22109, 161, 4277, 0, 1282, 4058, 4140, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22110, 161, 4140, 0, 1283, 4277, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22111, 161, 4337, 0, 1284, 4140, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22112, 161, 4102, 0, 1285, 4337, 4387, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22113, 161, 4387, 0, 1286, 4102, 4306, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22114, 161, 4306, 0, 1287, 4387, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22115, 161, 4058, 0, 1288, 4306, 4367, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22116, 161, 4367, 0, 1289, 4058, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22117, 161, 4102, 0, 1290, 4367, 4341, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22118, 161, 4341, 0, 1291, 4102, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22119, 161, 4092, 0, 1292, 4341, 4388, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22120, 161, 4388, 0, 1293, 4092, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22121, 161, 4116, 0, 1294, 4388, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22122, 161, 4295, 0, 1295, 4116, 4389, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22123, 161, 4389, 0, 1296, 4295, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22124, 161, 4092, 0, 1297, 4389, 4390, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22125, 161, 4390, 0, 1298, 4092, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22126, 161, 4102, 0, 1299, 4390, 4281, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22127, 161, 4281, 0, 1300, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22128, 161, 4101, 0, 1301, 4281, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22129, 161, 4102, 0, 1302, 4101, 4391, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22130, 161, 4391, 0, 1303, 4102, 4392, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22131, 161, 4392, 0, 1304, 4391, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22132, 161, 4120, 0, 1305, 4392, 4393, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22133, 161, 4393, 0, 1306, 4120, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22134, 161, 4084, 0, 1307, 4393, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22135, 161, 4058, 0, 1308, 4084, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22136, 161, 4126, 0, 1309, 4058, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22137, 161, 4192, 0, 1310, 4126, 4295, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22138, 161, 4295, 0, 1311, 4192, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22139, 161, 4080, 0, 1312, 4295, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22140, 161, 4262, 0, 1313, 4080, 4389, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22141, 161, 4389, 0, 1314, 4262, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22142, 161, 4339, 0, 1315, 4389, 4394, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22143, 161, 4394, 0, 1316, 4339, 4395, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22144, 161, 4395, 0, 1317, 4394, 4396, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22145, 161, 4396, 0, 1318, 4395, 4286, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22146, 161, 4286, 0, 1319, 4396, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22147, 161, 4058, 0, 1320, 4286, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22148, 161, 4230, 0, 1321, 4058, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22149, 161, 4224, 0, 1322, 4230, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22150, 161, 4192, 0, 1323, 4224, 4225, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22151, 161, 4225, 0, 1324, 4192, 4226, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22152, 161, 4226, 0, 1325, 4225, 4397, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22153, 161, 4397, 0, 1326, 4226, 4116, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22154, 161, 4116, 0, 1327, 4397, 4231, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22155, 161, 4231, 0, 1328, 4116, 4288, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22156, 161, 4288, 0, 1329, 4231, 4092, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22157, 161, 4092, 0, 1330, 4288, 4337, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22158, 161, 4337, 0, 1331, 4092, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22159, 161, 4127, 0, 1332, 4337, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22160, 161, 4058, 0, 1333, 4127, 4126, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22161, 161, 4126, 0, 1334, 4058, 4398, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22162, 161, 4398, 0, 1335, 4126, 4146, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22163, 161, 4146, 0, 1336, 4398, 4314, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22164, 161, 4314, 0, 1337, 4146, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22165, 161, 4217, 0, 1338, 4314, 4120, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22166, 161, 4120, 0, 1339, 4217, 4127, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22167, 161, 4127, 0, 1340, 4120, 4139, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22168, 161, 4139, 0, 1341, 4127, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22169, 161, 4112, 0, 1342, 4139, 4379, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22170, 161, 4379, 0, 1343, 4112, 4217, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22171, 161, 4217, 0, 1344, 4379, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22172, 161, 4058, 0, 1345, 4217, 4142, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22173, 161, 4142, 0, 1346, 4058, 4399, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22174, 161, 4399, 0, 1347, 4142, 4239, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22175, 161, 4239, 0, 1348, 4399, 4143, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22176, 161, 4143, 0, 1349, 4239, 4400, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22177, 161, 4400, 0, 1350, 4143, 4151, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22178, 161, 4151, 0, 1351, 4400, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22179, 161, 4309, 0, 1352, 4151, 4401, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22180, 161, 4401, 0, 1353, 4309, 4402, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22181, 161, 4402, 0, 1354, 4401, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22182, 161, 4102, 0, 1355, 4402, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22183, 161, 4063, 0, 1356, 4102, 4112, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22184, 161, 4112, 0, 1357, 4063, 4403, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22185, 161, 4403, 0, 1358, 4112, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22186, 161, 4210, 0, 1359, 4403, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22187, 161, 4102, 0, 1360, 4210, 4404, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22188, 161, 4404, 0, 1361, 4102, 4276, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22189, 161, 4276, 0, 1362, 4404, 4309, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22190, 161, 4309, 0, 1363, 4276, 4095, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22191, 161, 4095, 0, 1364, 4309, 4339, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22192, 161, 4339, 0, 1365, 4095, 4405, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22193, 161, 4405, 0, 1366, 4339, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22194, 161, 4089, 0, 1367, 4405, 4406, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22195, 161, 4406, 0, 1368, 4089, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22196, 161, 4101, 0, 1369, 4406, 4340, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22197, 161, 4340, 0, 1370, 4101, 4058, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22198, 161, 4058, 0, 1371, 4340, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22199, 161, 4059, 0, 1372, 4058, 4262, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22200, 161, 4262, 0, 1373, 4059, 4060, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22201, 161, 4060, 0, 1374, 4262, 4407, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22202, 161, 4407, 0, 1375, 4060, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22203, 161, 4167, 0, 1376, 4407, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22204, 161, 4102, 0, 1377, 4167, 4408, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22205, 161, 4408, 0, 1378, 4102, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22206, 161, 4089, 0, 1379, 4408, 4409, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22207, 161, 4409, 0, 1380, 4089, 4080, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22208, 161, 4080, 0, 1381, 4409, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22209, 161, 4102, 0, 1382, 4080, 4404, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22210, 161, 4404, 0, 1383, 4102, 4069, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22211, 161, 4069, 0, 1384, 4404, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22212, 161, 4059, 0, 1385, 4069, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22213, 161, 4073, 0, 1386, 4059, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22214, 161, 4192, 0, 1387, 4073, 4178, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22215, 161, 4178, 0, 1388, 4192, 4410, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22216, 161, 4410, 0, 1389, 4178, 4411, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22217, 161, 4411, 0, 1390, 4410, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22218, 161, 4101, 0, 1391, 4411, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22219, 161, 4102, 0, 1392, 4101, 4298, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22220, 161, 4298, 0, 1393, 4102, 4352, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22221, 161, 4352, 0, 1394, 4298, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22222, 161, 4072, 0, 1395, 4352, 4224, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22223, 161, 4224, 0, 1396, 4072, 4412, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22224, 161, 4412, 0, 1397, 4224, 4413, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22225, 161, 4413, 0, 1398, 4412, 4192, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22226, 161, 4192, 0, 1399, 4413, 4230, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22227, 161, 4230, 0, 1400, 4192, 4108, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22228, 161, 4108, 0, 1401, 4230, 4414, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22229, 161, 4414, 0, 1402, 4108, 4412, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22230, 161, 4412, 0, 1403, 4414, 4413, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22231, 161, 4413, 0, 1404, 4412, 4415, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22232, 161, 4415, 0, 1405, 4413, 4416, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22233, 161, 4416, 0, 1406, 4415, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22234, 161, 4089, 0, 1407, 4416, 4417, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22235, 161, 4417, 0, 1408, 4089, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22236, 161, 4059, 0, 1409, 4417, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22237, 161, 4073, 0, 1410, 4059, 4205, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22238, 161, 4205, 0, 1411, 4073, 4167, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22239, 161, 4167, 0, 1412, 4205, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22240, 161, 4102, 0, 1413, 4167, 4063, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22241, 161, 4063, 0, 1414, 4102, 4104, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22242, 161, 4104, 0, 1415, 4063, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22243, 161, 4059, 0, 1416, 4104, 4072, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22244, 161, 4072, 0, 1417, 4059, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22245, 161, 4073, 0, 1418, 4072, 4418, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22246, 161, 4418, 0, 1419, 4073, 4084, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22247, 161, 4084, 0, 1420, 4418, 4264, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22248, 161, 4264, 0, 1421, 4084, 4419, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22249, 161, 4419, 0, 1422, 4264, 4089, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22250, 161, 4089, 0, 1423, 4419, 4059, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22251, 161, 4059, 0, 1424, 4089, 4073, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22252, 161, 4073, 0, 1425, 4059, 4205, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22253, 161, 4205, 0, 1426, 4073, 4154, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22254, 161, 4154, 0, 1427, 4205, 4420, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22255, 161, 4420, 0, 1428, 4154, 4210, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22256, 161, 4210, 0, 1429, 4420, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22257, 161, 4102, 0, 1430, 4210, 4421, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22258, 161, 4421, 0, 1431, 4102, 4101, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22259, 161, 4101, 0, 1432, 4421, 4102, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22260, 161, 4102, 0, 1433, 4101, 4064, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22261, 161, 4064, 0, 1434, 4102, 4422, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22262, 161, 4422, 0, 1435, 4064, 4423, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22263, 161, 4423, 0, 1436, 4422, 4424, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22264, 161, 4424, 0, 1437, 4423, 4078, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22265, 161, 4078, 0, 1438, 4424, 4425, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22266, 161, 4425, 0, 1439, 4078, 0, 10, 1068047603, 1, 141, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22267, 49, 4265, 0, 0, 0, 4265, 1, 1066398020, 4, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22268, 49, 4265, 0, 1, 4265, 0, 1, 1066398020, 4, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22269, 160, 4265, 0, 0, 0, 4426, 2, 1068047455, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22270, 160, 4426, 0, 1, 4265, 4265, 2, 1068047455, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22271, 160, 4265, 0, 2, 4426, 4426, 2, 1068047455, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22272, 160, 4426, 0, 3, 4265, 4069, 2, 1068047455, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22273, 160, 4069, 0, 4, 4426, 4078, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22274, 160, 4078, 0, 5, 4069, 4102, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22275, 160, 4102, 0, 6, 4078, 4427, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22276, 160, 4427, 0, 7, 4102, 4265, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22277, 160, 4265, 0, 8, 4427, 4167, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22278, 160, 4167, 0, 9, 4265, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22279, 160, 4428, 0, 10, 4167, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22280, 160, 4429, 0, 11, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22281, 160, 4430, 0, 12, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22282, 160, 4431, 0, 13, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22283, 160, 4428, 0, 14, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22284, 160, 4429, 0, 15, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22285, 160, 4430, 0, 16, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22286, 160, 4431, 0, 17, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22287, 160, 4428, 0, 18, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22288, 160, 4429, 0, 19, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22289, 160, 4430, 0, 20, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22290, 160, 4431, 0, 21, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22291, 160, 4428, 0, 22, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22292, 160, 4429, 0, 23, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22293, 160, 4430, 0, 24, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22294, 160, 4431, 0, 25, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22295, 160, 4428, 0, 26, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22296, 160, 4429, 0, 27, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22297, 160, 4430, 0, 28, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22298, 160, 4431, 0, 29, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22299, 160, 4428, 0, 30, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22300, 160, 4429, 0, 31, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22301, 160, 4430, 0, 32, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22302, 160, 4431, 0, 33, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22303, 160, 4428, 0, 34, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22304, 160, 4429, 0, 35, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22305, 160, 4430, 0, 36, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22306, 160, 4431, 0, 37, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22307, 160, 4428, 0, 38, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22308, 160, 4429, 0, 39, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22309, 160, 4430, 0, 40, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22310, 160, 4431, 0, 41, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22311, 160, 4428, 0, 42, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22312, 160, 4429, 0, 43, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22313, 160, 4430, 0, 44, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22314, 160, 4431, 0, 45, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22315, 160, 4428, 0, 46, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22316, 160, 4429, 0, 47, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22317, 160, 4430, 0, 48, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22318, 160, 4431, 0, 49, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22319, 160, 4428, 0, 50, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22320, 160, 4429, 0, 51, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22321, 160, 4430, 0, 52, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22322, 160, 4431, 0, 53, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22323, 160, 4428, 0, 54, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22324, 160, 4429, 0, 55, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22325, 160, 4430, 0, 56, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22326, 160, 4431, 0, 57, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22327, 160, 4428, 0, 58, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22328, 160, 4429, 0, 59, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22329, 160, 4430, 0, 60, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22330, 160, 4431, 0, 61, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22331, 160, 4428, 0, 62, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22332, 160, 4429, 0, 63, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22333, 160, 4430, 0, 64, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22334, 160, 4431, 0, 65, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22335, 160, 4428, 0, 66, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22336, 160, 4429, 0, 67, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22337, 160, 4430, 0, 68, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22338, 160, 4431, 0, 69, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22339, 160, 4428, 0, 70, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22340, 160, 4429, 0, 71, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22341, 160, 4430, 0, 72, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22342, 160, 4431, 0, 73, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22343, 160, 4428, 0, 74, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22344, 160, 4429, 0, 75, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22345, 160, 4430, 0, 76, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22346, 160, 4431, 0, 77, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22347, 160, 4428, 0, 78, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22348, 160, 4429, 0, 79, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22349, 160, 4430, 0, 80, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22350, 160, 4431, 0, 81, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22351, 160, 4428, 0, 82, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22352, 160, 4429, 0, 83, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22353, 160, 4430, 0, 84, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22354, 160, 4431, 0, 85, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22355, 160, 4428, 0, 86, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22356, 160, 4429, 0, 87, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22357, 160, 4430, 0, 88, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22358, 160, 4431, 0, 89, 4430, 4069, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22359, 160, 4069, 0, 90, 4431, 4078, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22360, 160, 4078, 0, 91, 4069, 4102, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22361, 160, 4102, 0, 92, 4078, 4427, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22362, 160, 4427, 0, 93, 4102, 4265, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22363, 160, 4265, 0, 94, 4427, 4167, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22364, 160, 4167, 0, 95, 4265, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22365, 160, 4428, 0, 96, 4167, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22366, 160, 4429, 0, 97, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22367, 160, 4430, 0, 98, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22368, 160, 4431, 0, 99, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22369, 160, 4428, 0, 100, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22370, 160, 4429, 0, 101, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22371, 160, 4430, 0, 102, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22372, 160, 4431, 0, 103, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22373, 160, 4428, 0, 104, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22374, 160, 4429, 0, 105, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22375, 160, 4430, 0, 106, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22376, 160, 4431, 0, 107, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22377, 160, 4428, 0, 108, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22378, 160, 4429, 0, 109, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22379, 160, 4430, 0, 110, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22380, 160, 4431, 0, 111, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22381, 160, 4428, 0, 112, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22382, 160, 4429, 0, 113, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22383, 160, 4430, 0, 114, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22384, 160, 4431, 0, 115, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22385, 160, 4428, 0, 116, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22386, 160, 4429, 0, 117, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22387, 160, 4430, 0, 118, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22388, 160, 4431, 0, 119, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22389, 160, 4428, 0, 120, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22390, 160, 4429, 0, 121, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22391, 160, 4430, 0, 122, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22392, 160, 4431, 0, 123, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22393, 160, 4428, 0, 124, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22394, 160, 4429, 0, 125, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22395, 160, 4430, 0, 126, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22396, 160, 4431, 0, 127, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22397, 160, 4428, 0, 128, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22398, 160, 4429, 0, 129, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22399, 160, 4430, 0, 130, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22400, 160, 4431, 0, 131, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22401, 160, 4428, 0, 132, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22402, 160, 4429, 0, 133, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22403, 160, 4430, 0, 134, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22404, 160, 4431, 0, 135, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22405, 160, 4428, 0, 136, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22406, 160, 4429, 0, 137, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22407, 160, 4430, 0, 138, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22408, 160, 4431, 0, 139, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22409, 160, 4428, 0, 140, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22410, 160, 4429, 0, 141, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22411, 160, 4430, 0, 142, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22412, 160, 4431, 0, 143, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22413, 160, 4428, 0, 144, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22414, 160, 4429, 0, 145, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22415, 160, 4430, 0, 146, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22416, 160, 4431, 0, 147, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22417, 160, 4428, 0, 148, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22418, 160, 4429, 0, 149, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22419, 160, 4430, 0, 150, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22420, 160, 4431, 0, 151, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22421, 160, 4428, 0, 152, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22422, 160, 4429, 0, 153, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22423, 160, 4430, 0, 154, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22424, 160, 4431, 0, 155, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22425, 160, 4428, 0, 156, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22426, 160, 4429, 0, 157, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22427, 160, 4430, 0, 158, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22428, 160, 4431, 0, 159, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22429, 160, 4428, 0, 160, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22430, 160, 4429, 0, 161, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22431, 160, 4430, 0, 162, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22432, 160, 4431, 0, 163, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22433, 160, 4428, 0, 164, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22434, 160, 4429, 0, 165, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22435, 160, 4430, 0, 166, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22436, 160, 4431, 0, 167, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22437, 160, 4428, 0, 168, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22438, 160, 4429, 0, 169, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22439, 160, 4430, 0, 170, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22440, 160, 4431, 0, 171, 4430, 4428, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22441, 160, 4428, 0, 172, 4431, 4429, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22442, 160, 4429, 0, 173, 4428, 4430, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22443, 160, 4430, 0, 174, 4429, 4431, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22444, 160, 4431, 0, 175, 4430, 4069, 2, 1068047455, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22445, 160, 4069, 0, 176, 4431, 4078, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22446, 160, 4078, 0, 177, 4069, 4102, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22447, 160, 4102, 0, 178, 4078, 4427, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22448, 160, 4427, 0, 179, 4102, 4265, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22449, 160, 4265, 0, 180, 4427, 4167, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22450, 160, 4167, 0, 181, 4265, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22451, 160, 4428, 0, 182, 4167, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22452, 160, 4429, 0, 183, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22453, 160, 4430, 0, 184, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22454, 160, 4431, 0, 185, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22455, 160, 4428, 0, 186, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22456, 160, 4429, 0, 187, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22457, 160, 4430, 0, 188, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22458, 160, 4431, 0, 189, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22459, 160, 4428, 0, 190, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22460, 160, 4429, 0, 191, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22461, 160, 4430, 0, 192, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22462, 160, 4431, 0, 193, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22463, 160, 4428, 0, 194, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22464, 160, 4429, 0, 195, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22465, 160, 4430, 0, 196, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22466, 160, 4431, 0, 197, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22467, 160, 4428, 0, 198, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22468, 160, 4429, 0, 199, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22469, 160, 4430, 0, 200, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22470, 160, 4431, 0, 201, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22471, 160, 4428, 0, 202, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22472, 160, 4429, 0, 203, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22473, 160, 4430, 0, 204, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22474, 160, 4431, 0, 205, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22475, 160, 4428, 0, 206, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22476, 160, 4429, 0, 207, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22477, 160, 4430, 0, 208, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22478, 160, 4431, 0, 209, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22479, 160, 4428, 0, 210, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22480, 160, 4429, 0, 211, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22481, 160, 4430, 0, 212, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22482, 160, 4431, 0, 213, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22483, 160, 4428, 0, 214, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22484, 160, 4429, 0, 215, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22485, 160, 4430, 0, 216, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22486, 160, 4431, 0, 217, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22487, 160, 4428, 0, 218, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22488, 160, 4429, 0, 219, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22489, 160, 4430, 0, 220, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22490, 160, 4431, 0, 221, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22491, 160, 4428, 0, 222, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22492, 160, 4429, 0, 223, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22493, 160, 4430, 0, 224, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22494, 160, 4431, 0, 225, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22495, 160, 4428, 0, 226, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22496, 160, 4429, 0, 227, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22497, 160, 4430, 0, 228, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22498, 160, 4431, 0, 229, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22499, 160, 4428, 0, 230, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22500, 160, 4429, 0, 231, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22501, 160, 4430, 0, 232, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22502, 160, 4431, 0, 233, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22503, 160, 4428, 0, 234, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22504, 160, 4429, 0, 235, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22505, 160, 4430, 0, 236, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22506, 160, 4431, 0, 237, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22507, 160, 4428, 0, 238, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22508, 160, 4429, 0, 239, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22509, 160, 4430, 0, 240, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22510, 160, 4431, 0, 241, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22511, 160, 4428, 0, 242, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22512, 160, 4429, 0, 243, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22513, 160, 4430, 0, 244, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22514, 160, 4431, 0, 245, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22515, 160, 4428, 0, 246, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22516, 160, 4429, 0, 247, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22517, 160, 4430, 0, 248, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22518, 160, 4431, 0, 249, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22519, 160, 4428, 0, 250, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22520, 160, 4429, 0, 251, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22521, 160, 4430, 0, 252, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22522, 160, 4431, 0, 253, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22523, 160, 4428, 0, 254, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22524, 160, 4429, 0, 255, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22525, 160, 4430, 0, 256, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22526, 160, 4431, 0, 257, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22527, 160, 4428, 0, 258, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22528, 160, 4429, 0, 259, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22529, 160, 4430, 0, 260, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22530, 160, 4431, 0, 261, 4430, 4069, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22531, 160, 4069, 0, 262, 4431, 4078, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22532, 160, 4078, 0, 263, 4069, 4102, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22533, 160, 4102, 0, 264, 4078, 4427, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22534, 160, 4427, 0, 265, 4102, 4265, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22535, 160, 4265, 0, 266, 4427, 4167, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22536, 160, 4167, 0, 267, 4265, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22537, 160, 4428, 0, 268, 4167, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22538, 160, 4429, 0, 269, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22539, 160, 4430, 0, 270, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22540, 160, 4431, 0, 271, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22541, 160, 4428, 0, 272, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22542, 160, 4429, 0, 273, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22543, 160, 4430, 0, 274, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22544, 160, 4431, 0, 275, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22545, 160, 4428, 0, 276, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22546, 160, 4429, 0, 277, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22547, 160, 4430, 0, 278, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22548, 160, 4431, 0, 279, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22549, 160, 4428, 0, 280, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22550, 160, 4429, 0, 281, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22551, 160, 4430, 0, 282, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22552, 160, 4431, 0, 283, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22553, 160, 4428, 0, 284, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22554, 160, 4429, 0, 285, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22555, 160, 4430, 0, 286, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22556, 160, 4431, 0, 287, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22557, 160, 4428, 0, 288, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22558, 160, 4429, 0, 289, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22559, 160, 4430, 0, 290, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22560, 160, 4431, 0, 291, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22561, 160, 4428, 0, 292, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22562, 160, 4429, 0, 293, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22563, 160, 4430, 0, 294, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22564, 160, 4431, 0, 295, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22565, 160, 4428, 0, 296, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22566, 160, 4429, 0, 297, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22567, 160, 4430, 0, 298, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22568, 160, 4431, 0, 299, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22569, 160, 4428, 0, 300, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22570, 160, 4429, 0, 301, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22571, 160, 4430, 0, 302, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22572, 160, 4431, 0, 303, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22573, 160, 4428, 0, 304, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22574, 160, 4429, 0, 305, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22575, 160, 4430, 0, 306, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22576, 160, 4431, 0, 307, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22577, 160, 4428, 0, 308, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22578, 160, 4429, 0, 309, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22579, 160, 4430, 0, 310, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22580, 160, 4431, 0, 311, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22581, 160, 4428, 0, 312, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22582, 160, 4429, 0, 313, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22583, 160, 4430, 0, 314, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22584, 160, 4431, 0, 315, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22585, 160, 4428, 0, 316, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22586, 160, 4429, 0, 317, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22587, 160, 4430, 0, 318, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22588, 160, 4431, 0, 319, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22589, 160, 4428, 0, 320, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22590, 160, 4429, 0, 321, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22591, 160, 4430, 0, 322, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22592, 160, 4431, 0, 323, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22593, 160, 4428, 0, 324, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22594, 160, 4429, 0, 325, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22595, 160, 4430, 0, 326, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22596, 160, 4431, 0, 327, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22597, 160, 4428, 0, 328, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22598, 160, 4429, 0, 329, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22599, 160, 4430, 0, 330, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22600, 160, 4431, 0, 331, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22601, 160, 4428, 0, 332, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22602, 160, 4429, 0, 333, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22603, 160, 4430, 0, 334, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22604, 160, 4431, 0, 335, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22605, 160, 4428, 0, 336, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22606, 160, 4429, 0, 337, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22607, 160, 4430, 0, 338, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22608, 160, 4431, 0, 339, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22609, 160, 4428, 0, 340, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22610, 160, 4429, 0, 341, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22611, 160, 4430, 0, 342, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22612, 160, 4431, 0, 343, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22613, 160, 4428, 0, 344, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22614, 160, 4429, 0, 345, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22615, 160, 4430, 0, 346, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22616, 160, 4431, 0, 347, 4430, 4069, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22617, 160, 4069, 0, 348, 4431, 4078, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22618, 160, 4078, 0, 349, 4069, 4102, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22619, 160, 4102, 0, 350, 4078, 4427, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22620, 160, 4427, 0, 351, 4102, 4265, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22621, 160, 4265, 0, 352, 4427, 4167, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22622, 160, 4167, 0, 353, 4265, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22623, 160, 4428, 0, 354, 4167, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22624, 160, 4429, 0, 355, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22625, 160, 4430, 0, 356, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22626, 160, 4431, 0, 357, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22627, 160, 4428, 0, 358, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22628, 160, 4429, 0, 359, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22629, 160, 4430, 0, 360, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22630, 160, 4431, 0, 361, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22631, 160, 4428, 0, 362, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22632, 160, 4429, 0, 363, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22633, 160, 4430, 0, 364, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22634, 160, 4431, 0, 365, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22635, 160, 4428, 0, 366, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22636, 160, 4429, 0, 367, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22637, 160, 4430, 0, 368, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22638, 160, 4431, 0, 369, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22639, 160, 4428, 0, 370, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22640, 160, 4429, 0, 371, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22641, 160, 4430, 0, 372, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22642, 160, 4431, 0, 373, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22643, 160, 4428, 0, 374, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22644, 160, 4429, 0, 375, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22645, 160, 4430, 0, 376, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22646, 160, 4431, 0, 377, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22647, 160, 4428, 0, 378, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22648, 160, 4429, 0, 379, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22649, 160, 4430, 0, 380, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22650, 160, 4431, 0, 381, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22651, 160, 4428, 0, 382, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22652, 160, 4429, 0, 383, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22653, 160, 4430, 0, 384, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22654, 160, 4431, 0, 385, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22655, 160, 4428, 0, 386, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22656, 160, 4429, 0, 387, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22657, 160, 4430, 0, 388, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22658, 160, 4431, 0, 389, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22659, 160, 4428, 0, 390, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22660, 160, 4429, 0, 391, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22661, 160, 4430, 0, 392, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22662, 160, 4431, 0, 393, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22663, 160, 4428, 0, 394, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22664, 160, 4429, 0, 395, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22665, 160, 4430, 0, 396, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22666, 160, 4431, 0, 397, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22667, 160, 4428, 0, 398, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22668, 160, 4429, 0, 399, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22669, 160, 4430, 0, 400, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22670, 160, 4431, 0, 401, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22671, 160, 4428, 0, 402, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22672, 160, 4429, 0, 403, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22673, 160, 4430, 0, 404, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22674, 160, 4431, 0, 405, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22675, 160, 4428, 0, 406, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22676, 160, 4429, 0, 407, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22677, 160, 4430, 0, 408, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22678, 160, 4431, 0, 409, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22679, 160, 4428, 0, 410, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22680, 160, 4429, 0, 411, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22681, 160, 4430, 0, 412, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22682, 160, 4431, 0, 413, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22683, 160, 4428, 0, 414, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22684, 160, 4429, 0, 415, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22685, 160, 4430, 0, 416, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22686, 160, 4431, 0, 417, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22687, 160, 4428, 0, 418, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22688, 160, 4429, 0, 419, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22689, 160, 4430, 0, 420, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22690, 160, 4431, 0, 421, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22691, 160, 4428, 0, 422, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22692, 160, 4429, 0, 423, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22693, 160, 4430, 0, 424, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22694, 160, 4431, 0, 425, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22695, 160, 4428, 0, 426, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22696, 160, 4429, 0, 427, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22697, 160, 4430, 0, 428, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22698, 160, 4431, 0, 429, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22699, 160, 4428, 0, 430, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22700, 160, 4429, 0, 431, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22701, 160, 4430, 0, 432, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22702, 160, 4431, 0, 433, 4430, 4069, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22703, 160, 4069, 0, 434, 4431, 4078, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22704, 160, 4078, 0, 435, 4069, 4102, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22705, 160, 4102, 0, 436, 4078, 4427, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22706, 160, 4427, 0, 437, 4102, 4265, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22707, 160, 4265, 0, 438, 4427, 4167, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22708, 160, 4167, 0, 439, 4265, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22709, 160, 4428, 0, 440, 4167, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22710, 160, 4429, 0, 441, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22711, 160, 4430, 0, 442, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22712, 160, 4431, 0, 443, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22713, 160, 4428, 0, 444, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22714, 160, 4429, 0, 445, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22715, 160, 4430, 0, 446, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22716, 160, 4431, 0, 447, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22717, 160, 4428, 0, 448, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22718, 160, 4429, 0, 449, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22719, 160, 4430, 0, 450, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22720, 160, 4431, 0, 451, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22721, 160, 4428, 0, 452, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22722, 160, 4429, 0, 453, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22723, 160, 4430, 0, 454, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22724, 160, 4431, 0, 455, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22725, 160, 4428, 0, 456, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22726, 160, 4429, 0, 457, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22727, 160, 4430, 0, 458, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22728, 160, 4431, 0, 459, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22729, 160, 4428, 0, 460, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22730, 160, 4429, 0, 461, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22731, 160, 4430, 0, 462, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22732, 160, 4431, 0, 463, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22733, 160, 4428, 0, 464, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22734, 160, 4429, 0, 465, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22735, 160, 4430, 0, 466, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22736, 160, 4431, 0, 467, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22737, 160, 4428, 0, 468, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22738, 160, 4429, 0, 469, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22739, 160, 4430, 0, 470, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22740, 160, 4431, 0, 471, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22741, 160, 4428, 0, 472, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22742, 160, 4429, 0, 473, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22743, 160, 4430, 0, 474, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22744, 160, 4431, 0, 475, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22745, 160, 4428, 0, 476, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22746, 160, 4429, 0, 477, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22747, 160, 4430, 0, 478, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22748, 160, 4431, 0, 479, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22749, 160, 4428, 0, 480, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22750, 160, 4429, 0, 481, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22751, 160, 4430, 0, 482, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22752, 160, 4431, 0, 483, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22753, 160, 4428, 0, 484, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22754, 160, 4429, 0, 485, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22755, 160, 4430, 0, 486, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22756, 160, 4431, 0, 487, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22757, 160, 4428, 0, 488, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22758, 160, 4429, 0, 489, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22759, 160, 4430, 0, 490, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22760, 160, 4431, 0, 491, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22761, 160, 4428, 0, 492, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22762, 160, 4429, 0, 493, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22763, 160, 4430, 0, 494, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22764, 160, 4431, 0, 495, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22765, 160, 4428, 0, 496, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22766, 160, 4429, 0, 497, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22767, 160, 4430, 0, 498, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22768, 160, 4431, 0, 499, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22769, 160, 4428, 0, 500, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22770, 160, 4429, 0, 501, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22771, 160, 4430, 0, 502, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22772, 160, 4431, 0, 503, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22773, 160, 4428, 0, 504, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22774, 160, 4429, 0, 505, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22775, 160, 4430, 0, 506, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22776, 160, 4431, 0, 507, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22777, 160, 4428, 0, 508, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22778, 160, 4429, 0, 509, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22779, 160, 4430, 0, 510, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22780, 160, 4431, 0, 511, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22781, 160, 4428, 0, 512, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22782, 160, 4429, 0, 513, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22783, 160, 4430, 0, 514, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22784, 160, 4431, 0, 515, 4430, 4428, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22785, 160, 4428, 0, 516, 4431, 4429, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22786, 160, 4429, 0, 517, 4428, 4430, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22787, 160, 4430, 0, 518, 4429, 4431, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22788, 160, 4431, 0, 519, 4430, 0, 2, 1068047455, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22789, 218, 4222, 0, 0, 0, 4102, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22790, 218, 4102, 0, 1, 4222, 4223, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22791, 218, 4223, 0, 2, 4102, 4064, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22792, 218, 4064, 0, 3, 4223, 4222, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22793, 218, 4222, 0, 4, 4064, 4102, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22794, 218, 4102, 0, 5, 4222, 4223, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22795, 218, 4223, 0, 6, 4102, 4064, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22796, 218, 4064, 0, 7, 4223, 4224, 2, 1069763601, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22797, 218, 4224, 0, 8, 4064, 4192, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22798, 218, 4192, 0, 9, 4224, 4225, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22799, 218, 4225, 0, 10, 4192, 4226, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22800, 218, 4226, 0, 11, 4225, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22801, 218, 4092, 0, 12, 4226, 4227, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22802, 218, 4227, 0, 13, 4092, 4228, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22803, 218, 4228, 0, 14, 4227, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22804, 218, 4064, 0, 15, 4228, 4058, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22805, 218, 4058, 0, 16, 4064, 4229, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22806, 218, 4229, 0, 17, 4058, 4230, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22807, 218, 4230, 0, 18, 4229, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22808, 218, 4092, 0, 19, 4230, 4231, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22809, 218, 4231, 0, 20, 4092, 4104, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22810, 218, 4104, 0, 21, 4231, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22811, 218, 4092, 0, 22, 4104, 4192, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22812, 218, 4192, 0, 23, 4092, 4232, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22813, 218, 4232, 0, 24, 4192, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22814, 218, 4064, 0, 25, 4232, 4078, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22815, 218, 4078, 0, 26, 4064, 4072, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22816, 218, 4072, 0, 27, 4078, 4214, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22817, 218, 4214, 0, 28, 4072, 4233, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22818, 218, 4233, 0, 29, 4214, 4214, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22819, 218, 4214, 0, 30, 4233, 4231, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22820, 218, 4231, 0, 31, 4214, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22821, 218, 4092, 0, 32, 4231, 4102, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22822, 218, 4102, 0, 33, 4092, 4234, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22823, 218, 4234, 0, 34, 4102, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22824, 218, 4064, 0, 35, 4234, 4127, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22825, 218, 4127, 0, 36, 4064, 4058, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22826, 218, 4058, 0, 37, 4127, 4235, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22827, 218, 4235, 0, 38, 4058, 4078, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22828, 218, 4078, 0, 39, 4235, 4107, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22829, 218, 4107, 0, 40, 4078, 4236, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22830, 218, 4236, 0, 41, 4107, 4237, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22831, 218, 4237, 0, 42, 4236, 4238, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22832, 218, 4238, 0, 43, 4237, 4224, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22833, 218, 4224, 0, 44, 4238, 4192, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22834, 218, 4192, 0, 45, 4224, 4225, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22835, 218, 4225, 0, 46, 4192, 4226, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22836, 218, 4226, 0, 47, 4225, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22837, 218, 4092, 0, 48, 4226, 4227, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22838, 218, 4227, 0, 49, 4092, 4228, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22839, 218, 4228, 0, 50, 4227, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22840, 218, 4064, 0, 51, 4228, 4058, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22841, 218, 4058, 0, 52, 4064, 4229, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22842, 218, 4229, 0, 53, 4058, 4230, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22843, 218, 4230, 0, 54, 4229, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22844, 218, 4092, 0, 55, 4230, 4231, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22845, 218, 4231, 0, 56, 4092, 4104, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22846, 218, 4104, 0, 57, 4231, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22847, 218, 4092, 0, 58, 4104, 4192, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22848, 218, 4192, 0, 59, 4092, 4232, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22849, 218, 4232, 0, 60, 4192, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22850, 218, 4064, 0, 61, 4232, 4078, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22851, 218, 4078, 0, 62, 4064, 4072, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22852, 218, 4072, 0, 63, 4078, 4214, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22853, 218, 4214, 0, 64, 4072, 4233, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22854, 218, 4233, 0, 65, 4214, 4214, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22855, 218, 4214, 0, 66, 4233, 4231, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22856, 218, 4231, 0, 67, 4214, 4092, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22857, 218, 4092, 0, 68, 4231, 4102, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22858, 218, 4102, 0, 69, 4092, 4234, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22859, 218, 4234, 0, 70, 4102, 4064, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22860, 218, 4064, 0, 71, 4234, 4127, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22861, 218, 4127, 0, 72, 4064, 4058, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22862, 218, 4058, 0, 73, 4127, 4235, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22863, 218, 4235, 0, 74, 4058, 4078, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22864, 218, 4078, 0, 75, 4235, 4107, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22865, 218, 4107, 0, 76, 4078, 4236, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22866, 218, 4236, 0, 77, 4107, 4237, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22867, 218, 4237, 0, 78, 4236, 4238, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22868, 218, 4238, 0, 79, 4237, 4239, 2, 1069763601, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22869, 218, 4239, 0, 80, 4238, 4143, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22870, 218, 4143, 0, 81, 4239, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22871, 218, 4230, 0, 82, 4143, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22872, 218, 4084, 0, 83, 4230, 4240, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22873, 218, 4240, 0, 84, 4084, 4061, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22874, 218, 4061, 0, 85, 4240, 4063, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22875, 218, 4063, 0, 86, 4061, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22876, 218, 4127, 0, 87, 4063, 4116, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22877, 218, 4116, 0, 88, 4127, 4235, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22878, 218, 4235, 0, 89, 4116, 4241, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22879, 218, 4241, 0, 90, 4235, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22880, 218, 4084, 0, 91, 4241, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22881, 218, 4102, 0, 92, 4084, 4234, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22882, 218, 4234, 0, 93, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22883, 218, 4064, 0, 94, 4234, 4231, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22884, 218, 4231, 0, 95, 4064, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22885, 218, 4104, 0, 96, 4231, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22886, 218, 4084, 0, 97, 4104, 4232, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22887, 218, 4232, 0, 98, 4084, 4120, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22888, 218, 4120, 0, 99, 4232, 4242, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22889, 218, 4242, 0, 100, 4120, 4243, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22890, 218, 4243, 0, 101, 4242, 4143, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22891, 218, 4143, 0, 102, 4243, 4178, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22892, 218, 4178, 0, 103, 4143, 4244, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22893, 218, 4244, 0, 104, 4178, 4227, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22894, 218, 4227, 0, 105, 4244, 4069, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22895, 218, 4069, 0, 106, 4227, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22896, 218, 4127, 0, 107, 4069, 4058, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22897, 218, 4058, 0, 108, 4127, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22898, 218, 4230, 0, 109, 4058, 4092, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22899, 218, 4092, 0, 110, 4230, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22900, 218, 4102, 0, 111, 4092, 4079, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22901, 218, 4079, 0, 112, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22902, 218, 4064, 0, 113, 4079, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22903, 218, 4102, 0, 114, 4064, 4245, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22904, 218, 4245, 0, 115, 4102, 4246, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22905, 218, 4246, 0, 116, 4245, 4247, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22906, 218, 4247, 0, 117, 4246, 4248, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22907, 218, 4248, 0, 118, 4247, 4249, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22908, 218, 4249, 0, 119, 4248, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22909, 218, 4104, 0, 120, 4249, 4078, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22910, 218, 4078, 0, 121, 4104, 4250, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22911, 218, 4250, 0, 122, 4078, 4190, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22912, 218, 4190, 0, 123, 4250, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22913, 218, 4127, 0, 124, 4190, 4058, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22914, 218, 4058, 0, 125, 4127, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22915, 218, 4230, 0, 126, 4058, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22916, 218, 4104, 0, 127, 4230, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22917, 218, 4084, 0, 128, 4104, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22918, 218, 4102, 0, 129, 4084, 4223, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22919, 218, 4223, 0, 130, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22920, 218, 4064, 0, 131, 4223, 4251, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22921, 218, 4251, 0, 132, 4064, 4116, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22922, 218, 4116, 0, 133, 4251, 4252, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22923, 218, 4252, 0, 134, 4116, 4253, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22924, 218, 4253, 0, 135, 4252, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22925, 218, 4230, 0, 136, 4253, 4059, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22926, 218, 4059, 0, 137, 4230, 4124, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22927, 218, 4124, 0, 138, 4059, 4254, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22928, 218, 4254, 0, 139, 4124, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22929, 218, 4104, 0, 140, 4254, 4255, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22930, 218, 4255, 0, 141, 4104, 4246, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22931, 218, 4246, 0, 142, 4255, 4256, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22932, 218, 4256, 0, 143, 4246, 4231, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22933, 218, 4231, 0, 144, 4256, 4257, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22934, 218, 4257, 0, 145, 4231, 4092, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22935, 218, 4092, 0, 146, 4257, 4073, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22936, 218, 4073, 0, 147, 4092, 4258, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22937, 218, 4258, 0, 148, 4073, 4259, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22938, 218, 4259, 0, 149, 4258, 4256, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22939, 218, 4256, 0, 150, 4259, 4158, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22940, 218, 4158, 0, 151, 4256, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22941, 218, 4230, 0, 152, 4158, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22942, 218, 4084, 0, 153, 4230, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22943, 218, 4102, 0, 154, 4084, 4079, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22944, 218, 4079, 0, 155, 4102, 4063, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22945, 218, 4063, 0, 156, 4079, 4239, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22946, 218, 4239, 0, 157, 4063, 4143, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22947, 218, 4143, 0, 158, 4239, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22948, 218, 4230, 0, 159, 4143, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22949, 218, 4084, 0, 160, 4230, 4240, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22950, 218, 4240, 0, 161, 4084, 4061, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22951, 218, 4061, 0, 162, 4240, 4063, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22952, 218, 4063, 0, 163, 4061, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22953, 218, 4127, 0, 164, 4063, 4116, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22954, 218, 4116, 0, 165, 4127, 4235, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22955, 218, 4235, 0, 166, 4116, 4241, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22956, 218, 4241, 0, 167, 4235, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22957, 218, 4084, 0, 168, 4241, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22958, 218, 4102, 0, 169, 4084, 4234, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22959, 218, 4234, 0, 170, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22960, 218, 4064, 0, 171, 4234, 4231, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22961, 218, 4231, 0, 172, 4064, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22962, 218, 4104, 0, 173, 4231, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22963, 218, 4084, 0, 174, 4104, 4232, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22964, 218, 4232, 0, 175, 4084, 4120, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22965, 218, 4120, 0, 176, 4232, 4242, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22966, 218, 4242, 0, 177, 4120, 4243, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22967, 218, 4243, 0, 178, 4242, 4143, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22968, 218, 4143, 0, 179, 4243, 4178, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22969, 218, 4178, 0, 180, 4143, 4244, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22970, 218, 4244, 0, 181, 4178, 4227, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22971, 218, 4227, 0, 182, 4244, 4069, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22972, 218, 4069, 0, 183, 4227, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22973, 218, 4127, 0, 184, 4069, 4058, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22974, 218, 4058, 0, 185, 4127, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22975, 218, 4230, 0, 186, 4058, 4092, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22976, 218, 4092, 0, 187, 4230, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22977, 218, 4102, 0, 188, 4092, 4079, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22978, 218, 4079, 0, 189, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22979, 218, 4064, 0, 190, 4079, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22980, 218, 4102, 0, 191, 4064, 4245, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22981, 218, 4245, 0, 192, 4102, 4246, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22982, 218, 4246, 0, 193, 4245, 4247, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22983, 218, 4247, 0, 194, 4246, 4248, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22984, 218, 4248, 0, 195, 4247, 4249, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22985, 218, 4249, 0, 196, 4248, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22986, 218, 4104, 0, 197, 4249, 4078, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22987, 218, 4078, 0, 198, 4104, 4250, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22988, 218, 4250, 0, 199, 4078, 4190, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22989, 218, 4190, 0, 200, 4250, 4127, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22990, 218, 4127, 0, 201, 4190, 4058, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22991, 218, 4058, 0, 202, 4127, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22992, 218, 4230, 0, 203, 4058, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22993, 218, 4104, 0, 204, 4230, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22994, 218, 4084, 0, 205, 4104, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22995, 218, 4102, 0, 206, 4084, 4223, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22996, 218, 4223, 0, 207, 4102, 4064, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22997, 218, 4064, 0, 208, 4223, 4251, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22998, 218, 4251, 0, 209, 4064, 4116, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (22999, 218, 4116, 0, 210, 4251, 4252, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23000, 218, 4252, 0, 211, 4116, 4253, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23001, 218, 4253, 0, 212, 4252, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23002, 218, 4230, 0, 213, 4253, 4059, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23003, 218, 4059, 0, 214, 4230, 4124, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23004, 218, 4124, 0, 215, 4059, 4254, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23005, 218, 4254, 0, 216, 4124, 4104, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23006, 218, 4104, 0, 217, 4254, 4255, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23007, 218, 4255, 0, 218, 4104, 4246, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23008, 218, 4246, 0, 219, 4255, 4256, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23009, 218, 4256, 0, 220, 4246, 4231, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23010, 218, 4231, 0, 221, 4256, 4257, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23011, 218, 4257, 0, 222, 4231, 4092, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23012, 218, 4092, 0, 223, 4257, 4073, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23013, 218, 4073, 0, 224, 4092, 4258, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23014, 218, 4258, 0, 225, 4073, 4259, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23015, 218, 4259, 0, 226, 4258, 4256, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23016, 218, 4256, 0, 227, 4259, 4158, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23017, 218, 4158, 0, 228, 4256, 4230, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23018, 218, 4230, 0, 229, 4158, 4084, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23019, 218, 4084, 0, 230, 4230, 4102, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23020, 218, 4102, 0, 231, 4084, 4079, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23021, 218, 4079, 0, 232, 4102, 4063, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23022, 218, 4063, 0, 233, 4079, 0, 2, 1069763601, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23023, 219, 4427, 0, 0, 0, 4064, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23024, 219, 4064, 0, 1, 4427, 4115, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23025, 219, 4115, 0, 2, 4064, 4427, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23026, 219, 4427, 0, 3, 4115, 4064, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23027, 219, 4064, 0, 4, 4427, 4115, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23028, 219, 4115, 0, 5, 4064, 4102, 2, 1069763878, 4, 1, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23029, 219, 4102, 0, 6, 4115, 4427, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23030, 219, 4427, 0, 7, 4102, 4064, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23031, 219, 4064, 0, 8, 4427, 4092, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23032, 219, 4092, 0, 9, 4064, 4073, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23033, 219, 4073, 0, 10, 4092, 4432, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23034, 219, 4432, 0, 11, 4073, 4078, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23035, 219, 4078, 0, 12, 4432, 4107, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23036, 219, 4107, 0, 13, 4078, 4115, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23037, 219, 4115, 0, 14, 4107, 4077, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23038, 219, 4077, 0, 15, 4115, 4105, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23039, 219, 4105, 0, 16, 4077, 4116, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23040, 219, 4116, 0, 17, 4105, 4433, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23041, 219, 4433, 0, 18, 4116, 4117, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23042, 219, 4117, 0, 19, 4433, 4102, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23043, 219, 4102, 0, 20, 4117, 4427, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23044, 219, 4427, 0, 21, 4102, 4064, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23045, 219, 4064, 0, 22, 4427, 4092, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23046, 219, 4092, 0, 23, 4064, 4073, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23047, 219, 4073, 0, 24, 4092, 4432, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23048, 219, 4432, 0, 25, 4073, 4078, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23049, 219, 4078, 0, 26, 4432, 4107, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23050, 219, 4107, 0, 27, 4078, 4115, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23051, 219, 4115, 0, 28, 4107, 4077, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23052, 219, 4077, 0, 29, 4115, 4105, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23053, 219, 4105, 0, 30, 4077, 4116, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23054, 219, 4116, 0, 31, 4105, 4433, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23055, 219, 4433, 0, 32, 4116, 4117, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23056, 219, 4117, 0, 33, 4433, 4175, 2, 1069763878, 4, 120, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23057, 219, 4175, 0, 34, 4117, 4101, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23058, 219, 4101, 0, 35, 4175, 4434, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23059, 219, 4434, 0, 36, 4101, 4372, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23060, 219, 4372, 0, 37, 4434, 4435, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23061, 219, 4435, 0, 38, 4372, 4107, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23062, 219, 4107, 0, 39, 4435, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23063, 219, 4192, 0, 40, 4107, 4436, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23064, 219, 4436, 0, 41, 4192, 4118, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23065, 219, 4118, 0, 42, 4436, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23066, 219, 4120, 0, 43, 4118, 4151, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23067, 219, 4151, 0, 44, 4120, 4437, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23068, 219, 4437, 0, 45, 4151, 4119, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23069, 219, 4119, 0, 46, 4437, 4333, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23070, 219, 4333, 0, 47, 4119, 4438, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23071, 219, 4438, 0, 48, 4333, 4332, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23072, 219, 4332, 0, 49, 4438, 4107, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23073, 219, 4107, 0, 50, 4332, 4102, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23074, 219, 4102, 0, 51, 4107, 4134, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23075, 219, 4134, 0, 52, 4102, 4101, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23076, 219, 4101, 0, 53, 4134, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23077, 219, 4116, 0, 54, 4101, 4439, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23078, 219, 4439, 0, 55, 4116, 4440, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23079, 219, 4440, 0, 56, 4439, 4058, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23080, 219, 4058, 0, 57, 4440, 4126, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23081, 219, 4126, 0, 58, 4058, 4441, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23082, 219, 4441, 0, 59, 4126, 4104, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23083, 219, 4104, 0, 60, 4441, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23084, 219, 4120, 0, 61, 4104, 4140, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23085, 219, 4140, 0, 62, 4120, 4442, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23086, 219, 4442, 0, 63, 4140, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23087, 219, 4116, 0, 64, 4442, 4117, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23088, 219, 4117, 0, 65, 4116, 4440, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23089, 219, 4440, 0, 66, 4117, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23090, 219, 4116, 0, 67, 4440, 4117, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23091, 219, 4117, 0, 68, 4116, 4078, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23092, 219, 4078, 0, 69, 4117, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23093, 219, 4192, 0, 70, 4078, 4443, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23094, 219, 4443, 0, 71, 4192, 4444, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23095, 219, 4444, 0, 72, 4443, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23096, 219, 4192, 0, 73, 4444, 4445, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23097, 219, 4445, 0, 74, 4192, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23098, 219, 4192, 0, 75, 4445, 4446, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23099, 219, 4446, 0, 76, 4192, 4447, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23100, 219, 4447, 0, 77, 4446, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23101, 219, 4120, 0, 78, 4447, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23102, 219, 4192, 0, 79, 4120, 4121, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23103, 219, 4121, 0, 80, 4192, 4448, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23104, 219, 4448, 0, 81, 4121, 4096, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23105, 219, 4096, 0, 82, 4448, 4126, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23106, 219, 4126, 0, 83, 4096, 4061, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23107, 219, 4061, 0, 84, 4126, 4449, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23108, 219, 4449, 0, 85, 4061, 4089, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23109, 219, 4089, 0, 86, 4449, 4439, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23110, 219, 4439, 0, 87, 4089, 4175, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23111, 219, 4175, 0, 88, 4439, 4101, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23112, 219, 4101, 0, 89, 4175, 4434, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23113, 219, 4434, 0, 90, 4101, 4372, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23114, 219, 4372, 0, 91, 4434, 4435, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23115, 219, 4435, 0, 92, 4372, 4107, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23116, 219, 4107, 0, 93, 4435, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23117, 219, 4192, 0, 94, 4107, 4436, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23118, 219, 4436, 0, 95, 4192, 4118, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23119, 219, 4118, 0, 96, 4436, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23120, 219, 4120, 0, 97, 4118, 4151, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23121, 219, 4151, 0, 98, 4120, 4437, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23122, 219, 4437, 0, 99, 4151, 4119, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23123, 219, 4119, 0, 100, 4437, 4333, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23124, 219, 4333, 0, 101, 4119, 4438, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23125, 219, 4438, 0, 102, 4333, 4332, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23126, 219, 4332, 0, 103, 4438, 4107, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23127, 219, 4107, 0, 104, 4332, 4102, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23128, 219, 4102, 0, 105, 4107, 4134, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23129, 219, 4134, 0, 106, 4102, 4101, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23130, 219, 4101, 0, 107, 4134, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23131, 219, 4116, 0, 108, 4101, 4439, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23132, 219, 4439, 0, 109, 4116, 4440, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23133, 219, 4440, 0, 110, 4439, 4058, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23134, 219, 4058, 0, 111, 4440, 4126, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23135, 219, 4126, 0, 112, 4058, 4441, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23136, 219, 4441, 0, 113, 4126, 4104, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23137, 219, 4104, 0, 114, 4441, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23138, 219, 4120, 0, 115, 4104, 4140, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23139, 219, 4140, 0, 116, 4120, 4442, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23140, 219, 4442, 0, 117, 4140, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23141, 219, 4116, 0, 118, 4442, 4117, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23142, 219, 4117, 0, 119, 4116, 4440, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23143, 219, 4440, 0, 120, 4117, 4116, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23144, 219, 4116, 0, 121, 4440, 4117, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23145, 219, 4117, 0, 122, 4116, 4078, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23146, 219, 4078, 0, 123, 4117, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23147, 219, 4192, 0, 124, 4078, 4443, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23148, 219, 4443, 0, 125, 4192, 4444, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23149, 219, 4444, 0, 126, 4443, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23150, 219, 4192, 0, 127, 4444, 4445, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23151, 219, 4445, 0, 128, 4192, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23152, 219, 4192, 0, 129, 4445, 4446, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23153, 219, 4446, 0, 130, 4192, 4447, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23154, 219, 4447, 0, 131, 4446, 4120, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23155, 219, 4120, 0, 132, 4447, 4192, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23156, 219, 4192, 0, 133, 4120, 4121, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23157, 219, 4121, 0, 134, 4192, 4448, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23158, 219, 4448, 0, 135, 4121, 4096, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23159, 219, 4096, 0, 136, 4448, 4126, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23160, 219, 4126, 0, 137, 4096, 4061, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23161, 219, 4061, 0, 138, 4126, 4449, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23162, 219, 4449, 0, 139, 4061, 4089, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23163, 219, 4089, 0, 140, 4449, 4439, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23164, 219, 4439, 0, 141, 4089, 0, 2, 1069763878, 4, 121, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23165, 11, 4450, 0, 0, 0, 4451, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23166, 11, 4451, 0, 1, 4450, 4450, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23167, 11, 4450, 0, 2, 4451, 4451, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23168, 11, 4451, 0, 3, 4450, 0, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23169, 12, 4452, 0, 0, 0, 4453, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23170, 12, 4453, 0, 1, 4452, 4452, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23171, 12, 4452, 0, 2, 4453, 4453, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23172, 12, 4453, 0, 3, 4452, 0, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23173, 14, 4452, 0, 0, 0, 4452, 4, 1033920830, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23174, 14, 4452, 0, 1, 4452, 4209, 4, 1033920830, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23175, 14, 4209, 0, 2, 4452, 4209, 4, 1033920830, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23176, 14, 4209, 0, 3, 4209, 4454, 4, 1033920830, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23177, 14, 4454, 0, 4, 4209, 4455, 4, 1033920830, 2, 197, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23178, 14, 4455, 0, 5, 4454, 4454, 4, 1033920830, 2, 197, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23179, 14, 4454, 0, 6, 4455, 4455, 4, 1033920830, 2, 197, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23180, 14, 4455, 0, 7, 4454, 4168, 4, 1033920830, 2, 197, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23181, 14, 4168, 0, 8, 4455, 4169, 4, 1033920830, 2, 198, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23182, 14, 4169, 0, 9, 4168, 4168, 4, 1033920830, 2, 198, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23183, 14, 4168, 0, 10, 4169, 4169, 4, 1033920830, 2, 198, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23184, 14, 4169, 0, 11, 4168, 4456, 4, 1033920830, 2, 198, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23185, 14, 4456, 0, 12, 4169, 4456, 4, 1033920830, 2, 199, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23186, 14, 4456, 0, 13, 4456, 4456, 4, 1033920830, 2, 199, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23187, 14, 4456, 0, 14, 4456, 4456, 4, 1033920830, 2, 199, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23188, 14, 4456, 0, 15, 4456, 0, 4, 1033920830, 2, 199, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23189, 13, 4457, 0, 0, 0, 4457, 3, 1033920794, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23190, 13, 4457, 0, 1, 4457, 0, 3, 1033920794, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23191, 233, 4458, 0, 0, 0, 4453, 3, 1072186699, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23192, 233, 4453, 0, 1, 4458, 4458, 3, 1072186699, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23193, 233, 4458, 0, 2, 4453, 4453, 3, 1072186699, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23194, 233, 4453, 0, 3, 4458, 4209, 3, 1072186699, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23195, 233, 4209, 0, 4, 4453, 4066, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23196, 233, 4066, 0, 5, 4209, 4246, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23197, 233, 4246, 0, 6, 4066, 4102, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23198, 233, 4102, 0, 7, 4246, 4458, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23199, 233, 4458, 0, 8, 4102, 4209, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23200, 233, 4209, 0, 9, 4458, 4209, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23201, 233, 4209, 0, 10, 4209, 4066, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23202, 233, 4066, 0, 11, 4209, 4246, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23203, 233, 4246, 0, 12, 4066, 4102, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23204, 233, 4102, 0, 13, 4246, 4458, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23205, 233, 4458, 0, 14, 4102, 4209, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23206, 233, 4209, 0, 15, 4458, 0, 3, 1072186699, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23207, 10, 4458, 0, 0, 0, 4458, 4, 1033920665, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23208, 10, 4458, 0, 1, 4458, 4209, 4, 1033920665, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23209, 10, 4209, 0, 2, 4458, 4209, 4, 1033920665, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23210, 10, 4209, 0, 3, 4209, 0, 4, 1033920665, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23211, 44, 4459, 0, 0, 0, 4460, 1, 1066384457, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23212, 44, 4460, 0, 1, 4459, 4459, 1, 1066384457, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23213, 44, 4459, 0, 2, 4460, 4460, 1, 1066384457, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23214, 44, 4460, 0, 3, 4459, 0, 1, 1066384457, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23215, 43, 4461, 0, 0, 0, 4461, 14, 1066384365, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23216, 43, 4461, 0, 1, 4461, 4462, 14, 1066384365, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23217, 43, 4462, 0, 2, 4461, 4463, 14, 1066384365, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23218, 43, 4463, 0, 3, 4462, 4462, 14, 1066384365, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23219, 43, 4462, 0, 4, 4463, 4463, 14, 1066384365, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23220, 43, 4463, 0, 5, 4462, 0, 14, 1066384365, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23221, 45, 4374, 0, 0, 0, 4089, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23222, 45, 4089, 0, 1, 4374, 4464, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23223, 45, 4464, 0, 2, 4089, 4374, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23224, 45, 4374, 0, 3, 4464, 4089, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23225, 45, 4089, 0, 4, 4374, 4464, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23226, 45, 4464, 0, 5, 4089, 4465, 14, 1066388816, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23227, 45, 4465, 0, 6, 4464, 4466, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23228, 45, 4466, 0, 7, 4465, 4467, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23229, 45, 4467, 0, 8, 4466, 4465, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23230, 45, 4465, 0, 9, 4467, 4466, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23231, 45, 4466, 0, 10, 4465, 4467, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23232, 45, 4467, 0, 11, 4466, 0, 14, 1066388816, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23233, 115, 4468, 0, 0, 0, 4468, 14, 1066991725, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23234, 115, 4468, 0, 1, 4468, 4459, 14, 1066991725, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23235, 115, 4459, 0, 2, 4468, 4468, 14, 1066991725, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23236, 115, 4468, 0, 3, 4459, 4459, 14, 1066991725, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23237, 115, 4459, 0, 4, 4468, 4468, 14, 1066991725, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23238, 115, 4468, 0, 5, 4459, 0, 14, 1066991725, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23239, 116, 4469, 0, 0, 0, 4470, 14, 1066992054, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23240, 116, 4470, 0, 1, 4469, 4469, 14, 1066992054, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23241, 116, 4469, 0, 2, 4470, 4470, 14, 1066992054, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23242, 116, 4470, 0, 3, 4469, 4465, 14, 1066992054, 11, 152, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23243, 116, 4465, 0, 4, 4470, 4471, 14, 1066992054, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23244, 116, 4471, 0, 5, 4465, 4465, 14, 1066992054, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23245, 116, 4465, 0, 6, 4471, 4471, 14, 1066992054, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23246, 116, 4471, 0, 7, 4465, 0, 14, 1066992054, 11, 155, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23247, 46, 4374, 0, 0, 0, 4089, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23248, 46, 4089, 0, 1, 4374, 4464, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23249, 46, 4464, 0, 2, 4089, 4374, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23250, 46, 4374, 0, 3, 4464, 4089, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23251, 46, 4089, 0, 4, 4374, 4464, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23252, 46, 4464, 0, 5, 4089, 0, 1, 1066389805, 11, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23253, 56, 4472, 0, 0, 0, 4472, 15, 1066643397, 11, 161, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23254, 56, 4472, 0, 1, 4472, 4473, 15, 1066643397, 11, 161, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23255, 56, 4473, 0, 2, 4472, 4474, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23256, 56, 4474, 0, 3, 4473, 4475, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23257, 56, 4475, 0, 4, 4474, 4476, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23258, 56, 4476, 0, 5, 4475, 4214, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23259, 56, 4214, 0, 6, 4476, 4477, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23260, 56, 4477, 0, 7, 4214, 4478, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23261, 56, 4478, 0, 8, 4477, 4473, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23262, 56, 4473, 0, 9, 4478, 4474, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23263, 56, 4474, 0, 10, 4473, 4475, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23264, 56, 4475, 0, 11, 4474, 4476, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23265, 56, 4476, 0, 12, 4475, 4214, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23266, 56, 4214, 0, 13, 4476, 4477, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23267, 56, 4477, 0, 14, 4214, 4478, 15, 1066643397, 11, 202, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (23268, 56, 4478, 0, 15, 4477, 0, 15, 1066643397, 11, 202, '', 0);
 
 
 
@@ -7277,429 +7260,429 @@ INSERT INTO ezsearch_object_word_link VALUES (19928, 56, 4055, 0, 15, 4054, 0, 1
 
 
 
-INSERT INTO ezsearch_word VALUES (3633, 'discussions', 1);
-INSERT INTO ezsearch_word VALUES (3642, 'main', 1);
-INSERT INTO ezsearch_word VALUES (3645, 'description', 1);
-INSERT INTO ezsearch_word VALUES (3647, 'text', 1);
-INSERT INTO ezsearch_word VALUES (3648, 'may', 1);
-INSERT INTO ezsearch_word VALUES (3651, 'shown', 1);
-INSERT INTO ezsearch_word VALUES (3639, 'discussion', 2);
-INSERT INTO ezsearch_word VALUES (3653, 'discuss', 1);
-INSERT INTO ezsearch_word VALUES (3658, 'pop', 1);
-INSERT INTO ezsearch_word VALUES (3659, 'longer', 1);
-INSERT INTO ezsearch_word VALUES (3660, 'misic', 1);
-INSERT INTO ezsearch_word VALUES (3662, 'my', 1);
-INSERT INTO ezsearch_word VALUES (3663, 'eyes', 1);
-INSERT INTO ezsearch_word VALUES (3665, 'spears', 1);
-INSERT INTO ezsearch_word VALUES (3668, 'ad', 1);
-INSERT INTO ezsearch_word VALUES (3652, 'music', 2);
-INSERT INTO ezsearch_word VALUES (3670, 'history', 1);
-INSERT INTO ezsearch_word VALUES (3671, 'nothing', 1);
-INSERT INTO ezsearch_word VALUES (3667, 'madonna', 2);
-INSERT INTO ezsearch_word VALUES (3680, 'greats', 1);
-INSERT INTO ezsearch_word VALUES (3683, 'doubt', 1);
-INSERT INTO ezsearch_word VALUES (3686, 'her', 1);
-INSERT INTO ezsearch_word VALUES (3687, 'list', 1);
-INSERT INTO ezsearch_word VALUES (3688, 'hits', 1);
-INSERT INTO ezsearch_word VALUES (3690, 'proof', 1);
-INSERT INTO ezsearch_word VALUES (3691, 'enough', 1);
-INSERT INTO ezsearch_word VALUES (3699, 'koenigsegg', 1);
-INSERT INTO ezsearch_word VALUES (3700, 'master', 1);
-INSERT INTO ezsearch_word VALUES (3702, 'imagine', 1);
-INSERT INTO ezsearch_word VALUES (3677, 'one', 2);
-INSERT INTO ezsearch_word VALUES (3706, 'parked', 1);
-INSERT INTO ezsearch_word VALUES (3707, 'garrage', 1);
-INSERT INTO ezsearch_word VALUES (3709, 'most', 1);
-INSERT INTO ezsearch_word VALUES (3710, 'awsome', 1);
-INSERT INTO ezsearch_word VALUES (3712, 'ever', 1);
-INSERT INTO ezsearch_word VALUES (3713, 'königsegg', 1);
-INSERT INTO ezsearch_word VALUES (3675, 'say', 2);
-INSERT INTO ezsearch_word VALUES (3715, 'again', 1);
-INSERT INTO ezsearch_word VALUES (3644, 'no', 4);
-INSERT INTO ezsearch_word VALUES (3718, 'close', 1);
-INSERT INTO ezsearch_word VALUES (3721, 'leave', 1);
-INSERT INTO ezsearch_word VALUES (3722, 'f40', 1);
-INSERT INTO ezsearch_word VALUES (3724, 'ulitmate', 1);
-INSERT INTO ezsearch_word VALUES (3725, 'sport', 1);
-INSERT INTO ezsearch_word VALUES (3726, 'everybody', 1);
-INSERT INTO ezsearch_word VALUES (3729, 'opinion', 1);
-INSERT INTO ezsearch_word VALUES (3730, 'live', 1);
-INSERT INTO ezsearch_word VALUES (3732, 'sports', 1);
-INSERT INTO ezsearch_word VALUES (3733, 'understand', 1);
-INSERT INTO ezsearch_word VALUES (3736, 'while', 1);
-INSERT INTO ezsearch_word VALUES (3737, 'hate', 1);
-INSERT INTO ezsearch_word VALUES (3738, 'everything', 1);
-INSERT INTO ezsearch_word VALUES (3739, 'football', 1);
-INSERT INTO ezsearch_word VALUES (3747, 'give', 1);
-INSERT INTO ezsearch_word VALUES (3751, 'rule', 1);
-INSERT INTO ezsearch_word VALUES (3753, 'good', 1);
-INSERT INTO ezsearch_word VALUES (3754, 'players', 1);
-INSERT INTO ezsearch_word VALUES (3756, 'young', 1);
-INSERT INTO ezsearch_word VALUES (3743, 'grenland', 2);
-INSERT INTO ezsearch_word VALUES (3674, 'i', 4);
-INSERT INTO ezsearch_word VALUES (3757, 'never', 1);
-INSERT INTO ezsearch_word VALUES (3758, 'heard', 1);
-INSERT INTO ezsearch_word VALUES (3760, 'but', 1);
-INSERT INTO ezsearch_word VALUES (3761, 'maybe', 1);
-INSERT INTO ezsearch_word VALUES (3763, 'tranmere', 1);
-INSERT INTO ezsearch_word VALUES (3764, 'kings', 1);
-INSERT INTO ezsearch_word VALUES (3741, 'europe', 2);
-INSERT INTO ezsearch_word VALUES (3765, 'gulset', 1);
-INSERT INTO ezsearch_word VALUES (3766, 'better', 1);
-INSERT INTO ezsearch_word VALUES (3742, 'odd', 3);
-INSERT INTO ezsearch_word VALUES (3768, 'beat', 1);
-INSERT INTO ezsearch_word VALUES (3770, 'couple', 1);
-INSERT INTO ezsearch_word VALUES (3749, 'years', 3);
-INSERT INTO ezsearch_word VALUES (3771, 'ago', 1);
-INSERT INTO ezsearch_word VALUES (3772, 'cup', 1);
-INSERT INTO ezsearch_word VALUES (3762, 'then', 2);
-INSERT INTO ezsearch_word VALUES (3774, 'haven', 1);
-INSERT INTO ezsearch_word VALUES (3775, 'played', 1);
-INSERT INTO ezsearch_word VALUES (3776, 'so', 1);
-INSERT INTO ezsearch_word VALUES (3714, 'best', 3);
-INSERT INTO ezsearch_word VALUES (3740, 'team', 2);
-INSERT INTO ezsearch_word VALUES (3778, 'world', 1);
-INSERT INTO ezsearch_word VALUES (3779, 'rules', 1);
-INSERT INTO ezsearch_word VALUES (3780, 'certain', 1);
-INSERT INTO ezsearch_word VALUES (3708, 'must', 2);
-INSERT INTO ezsearch_word VALUES (3789, '"login"', 1);
-INSERT INTO ezsearch_word VALUES (3676, '0', 5);
-INSERT INTO ezsearch_word VALUES (3837, '1', 1);
-INSERT INTO ezsearch_word VALUES (3705, 'these', 3);
-INSERT INTO ezsearch_word VALUES (3838, 'guidelines', 1);
-INSERT INTO ezsearch_word VALUES (3839, 'also', 1);
-INSERT INTO ezsearch_word VALUES (3840, 'apply', 1);
-INSERT INTO ezsearch_word VALUES (3841, 'any', 1);
-INSERT INTO ezsearch_word VALUES (3843, 'groups', 1);
-INSERT INTO ezsearch_word VALUES (3844, 'mailing', 1);
-INSERT INTO ezsearch_word VALUES (3845, 'lists', 1);
-INSERT INTO ezsearch_word VALUES (3846, 'other', 1);
-INSERT INTO ezsearch_word VALUES (3847, 'web', 1);
-INSERT INTO ezsearch_word VALUES (3848, 'frequent', 1);
-INSERT INTO ezsearch_word VALUES (3781, 'follow', 2);
-INSERT INTO ezsearch_word VALUES (3637, 'find', 2);
-INSERT INTO ezsearch_word VALUES (3685, 'that', 3);
-INSERT INTO ezsearch_word VALUES (3849, 'problems', 1);
-INSERT INTO ezsearch_word VALUES (3850, 'get', 1);
-INSERT INTO ezsearch_word VALUES (3851, 'more', 1);
-INSERT INTO ezsearch_word VALUES (3852, 'attention', 1);
-INSERT INTO ezsearch_word VALUES (3853, 'people', 1);
-INSERT INTO ezsearch_word VALUES (3854, 'might', 1);
-INSERT INTO ezsearch_word VALUES (3855, 'solved', 1);
-INSERT INTO ezsearch_word VALUES (3783, 'how', 2);
-INSERT INTO ezsearch_word VALUES (3856, 'log', 1);
-INSERT INTO ezsearch_word VALUES (3719, 'can', 5);
-INSERT INTO ezsearch_word VALUES (3787, 'by', 2);
-INSERT INTO ezsearch_word VALUES (3857, 'entering', 1);
-INSERT INTO ezsearch_word VALUES (3858, 'name', 1);
-INSERT INTO ezsearch_word VALUES (3634, 'here', 4);
-INSERT INTO ezsearch_word VALUES (3859, 'password', 1);
-INSERT INTO ezsearch_word VALUES (3784, 'register', 2);
-INSERT INTO ezsearch_word VALUES (3785, 'new', 2);
-INSERT INTO ezsearch_word VALUES (3788, 'pressing', 2);
-INSERT INTO ezsearch_word VALUES (3860, '"sign', 1);
-INSERT INTO ezsearch_word VALUES (3861, 'up"', 1);
-INSERT INTO ezsearch_word VALUES (3790, 'button', 2);
-INSERT INTO ezsearch_word VALUES (3792, 'soon', 2);
-INSERT INTO ezsearch_word VALUES (3793, 'filled', 2);
-INSERT INTO ezsearch_word VALUES (3794, 'information', 2);
-INSERT INTO ezsearch_word VALUES (3795, 'created', 2);
-INSERT INTO ezsearch_word VALUES (3796, 'account', 2);
-INSERT INTO ezsearch_word VALUES (3797, 'privileges', 2);
-INSERT INTO ezsearch_word VALUES (3798, 'comes', 2);
-INSERT INTO ezsearch_word VALUES (3657, 'with', 3);
-INSERT INTO ezsearch_word VALUES (3862, 'search', 1);
-INSERT INTO ezsearch_word VALUES (3863, 'before', 1);
-INSERT INTO ezsearch_word VALUES (3864, 'ask', 1);
-INSERT INTO ezsearch_word VALUES (3865, 'try', 1);
-INSERT INTO ezsearch_word VALUES (3866, 'archives', 1);
-INSERT INTO ezsearch_word VALUES (3867, 'd', 1);
-INSERT INTO ezsearch_word VALUES (3868, 'surprised', 1);
-INSERT INTO ezsearch_word VALUES (3869, 'notice', 1);
-INSERT INTO ezsearch_word VALUES (3870, 'often', 1);
-INSERT INTO ezsearch_word VALUES (3871, 'exact', 1);
-INSERT INTO ezsearch_word VALUES (3872, 'problem', 1);
-INSERT INTO ezsearch_word VALUES (3727, 'has', 2);
-INSERT INTO ezsearch_word VALUES (3873, 'been', 1);
-INSERT INTO ezsearch_word VALUES (3874, 'read', 1);
-INSERT INTO ezsearch_word VALUES (3875, 'documentation', 1);
-INSERT INTO ezsearch_word VALUES (3876, 'available', 1);
-INSERT INTO ezsearch_word VALUES (3759, 'them', 2);
-INSERT INTO ezsearch_word VALUES (3877, 'relevant', 1);
-INSERT INTO ezsearch_word VALUES (3878, 'info', 1);
-INSERT INTO ezsearch_word VALUES (3879, 'after', 1);
-INSERT INTO ezsearch_word VALUES (3880, 'allready', 1);
-INSERT INTO ezsearch_word VALUES (3881, 'written', 1);
-INSERT INTO ezsearch_word VALUES (3882, 'somewhere', 1);
-INSERT INTO ezsearch_word VALUES (3883, 'why', 1);
-INSERT INTO ezsearch_word VALUES (3884, 'rewrite', 1);
-INSERT INTO ezsearch_word VALUES (3885, 'into', 1);
-INSERT INTO ezsearch_word VALUES (3886, 'answer', 1);
-INSERT INTO ezsearch_word VALUES (3887, 'clear', 1);
-INSERT INTO ezsearch_word VALUES (3888, 'title', 1);
-INSERT INTO ezsearch_word VALUES (3889, 'choosing', 1);
-INSERT INTO ezsearch_word VALUES (3890, 'describing', 1);
-INSERT INTO ezsearch_word VALUES (3891, 'important', 1);
-INSERT INTO ezsearch_word VALUES (3892, 'first', 1);
-INSERT INTO ezsearch_word VALUES (3893, 'considering', 1);
-INSERT INTO ezsearch_word VALUES (3894, 'saying', 1);
-INSERT INTO ezsearch_word VALUES (3895, '"i', 1);
-INSERT INTO ezsearch_word VALUES (3896, 'need', 1);
-INSERT INTO ezsearch_word VALUES (3897, 'help"', 1);
-INSERT INTO ezsearch_word VALUES (3898, '"newbie', 1);
-INSERT INTO ezsearch_word VALUES (3899, 'question"', 1);
-INSERT INTO ezsearch_word VALUES (3900, '"installation', 1);
-INSERT INTO ezsearch_word VALUES (3901, 'doesn', 1);
-INSERT INTO ezsearch_word VALUES (3902, 'help', 1);
-INSERT INTO ezsearch_word VALUES (3734, 'anyone', 2);
-INSERT INTO ezsearch_word VALUES (3903, 'reads', 1);
-INSERT INTO ezsearch_word VALUES (3904, 'everyone', 1);
-INSERT INTO ezsearch_word VALUES (3905, 'needs', 1);
-INSERT INTO ezsearch_word VALUES (3906, 're', 1);
-INSERT INTO ezsearch_word VALUES (3907, 'installation', 1);
-INSERT INTO ezsearch_word VALUES (3908, 'think', 1);
-INSERT INTO ezsearch_word VALUES (3911, 'reader', 1);
-INSERT INTO ezsearch_word VALUES (3912, 'decide', 1);
-INSERT INTO ezsearch_word VALUES (3689, 'are', 6);
-INSERT INTO ezsearch_word VALUES (3913, 'something', 1);
-INSERT INTO ezsearch_word VALUES (3750, 'they', 3);
-INSERT INTO ezsearch_word VALUES (3914, 'see', 1);
-INSERT INTO ezsearch_word VALUES (3915, 'outside', 1);
-INSERT INTO ezsearch_word VALUES (3916, 'their', 1);
-INSERT INTO ezsearch_word VALUES (3917, 'knowledge', 1);
-INSERT INTO ezsearch_word VALUES (3918, 'time', 1);
-INSERT INTO ezsearch_word VALUES (3919, 'whom', 1);
-INSERT INTO ezsearch_word VALUES (3920, 'able', 1);
-INSERT INTO ezsearch_word VALUES (3921, 'describe', 1);
-INSERT INTO ezsearch_word VALUES (3922, 'goal', 1);
-INSERT INTO ezsearch_word VALUES (3923, 'sometimes', 1);
-INSERT INTO ezsearch_word VALUES (3924, 'idea', 1);
-INSERT INTO ezsearch_word VALUES (3925, 'trying', 1);
-INSERT INTO ezsearch_word VALUES (3926, 'achieve', 1);
-INSERT INTO ezsearch_word VALUES (3927, 'asked', 1);
-INSERT INTO ezsearch_word VALUES (3928, 'sentences', 1);
-INSERT INTO ezsearch_word VALUES (3929, 'do', 1);
-INSERT INTO ezsearch_word VALUES (3930, 'brief', 1);
-INSERT INTO ezsearch_word VALUES (3931, 'precise', 1);
-INSERT INTO ezsearch_word VALUES (3932, 'work"', 1);
-INSERT INTO ezsearch_word VALUES (3933, 'isn', 1);
-INSERT INTO ezsearch_word VALUES (3934, 'descriptive', 1);
-INSERT INTO ezsearch_word VALUES (3935, 'needed', 1);
-INSERT INTO ezsearch_word VALUES (3936, 'far', 1);
-INSERT INTO ezsearch_word VALUES (3937, 'got', 1);
-INSERT INTO ezsearch_word VALUES (3664, 'does', 2);
-INSERT INTO ezsearch_word VALUES (3938, 'work', 1);
-INSERT INTO ezsearch_word VALUES (3939, 'testing', 1);
-INSERT INTO ezsearch_word VALUES (3940, 'done', 1);
-INSERT INTO ezsearch_word VALUES (3941, 'system', 1);
-INSERT INTO ezsearch_word VALUES (3942, 'running', 1);
-INSERT INTO ezsearch_word VALUES (3943, 'on', 1);
-INSERT INTO ezsearch_word VALUES (3944, 'take', 1);
-INSERT INTO ezsearch_word VALUES (3672, 'at', 2);
-INSERT INTO ezsearch_word VALUES (3945, 'least', 1);
-INSERT INTO ezsearch_word VALUES (3748, 'five', 3);
-INSERT INTO ezsearch_word VALUES (3946, 'error', 1);
-INSERT INTO ezsearch_word VALUES (3947, 'messages', 1);
-INSERT INTO ezsearch_word VALUES (3948, 'logs', 1);
-INSERT INTO ezsearch_word VALUES (3950, 'paste', 1);
-INSERT INTO ezsearch_word VALUES (3952, 'apache', 1);
-INSERT INTO ezsearch_word VALUES (3953, 'php', 1);
-INSERT INTO ezsearch_word VALUES (3954, 'encountered', 1);
-INSERT INTO ezsearch_word VALUES (3955, 'browser', 1);
-INSERT INTO ezsearch_word VALUES (3956, 'extra', 1);
-INSERT INTO ezsearch_word VALUES (3957, 'clearly', 1);
-INSERT INTO ezsearch_word VALUES (3958, 'well', 1);
-INSERT INTO ezsearch_word VALUES (3959, 'worth', 1);
-INSERT INTO ezsearch_word VALUES (3773, 'since', 2);
-INSERT INTO ezsearch_word VALUES (3777, 'fact', 2);
-INSERT INTO ezsearch_word VALUES (3960, 'spent', 1);
-INSERT INTO ezsearch_word VALUES (3961, 'using', 1);
-INSERT INTO ezsearch_word VALUES (3962, 'hours', 1);
-INSERT INTO ezsearch_word VALUES (3963, 'knows', 1);
-INSERT INTO ezsearch_word VALUES (3964, 'solution', 1);
-INSERT INTO ezsearch_word VALUES (3965, 'rethink', 1);
-INSERT INTO ezsearch_word VALUES (3966, 'remember', 1);
-INSERT INTO ezsearch_word VALUES (3967, 'include', 1);
-INSERT INTO ezsearch_word VALUES (3968, 'program', 1);
-INSERT INTO ezsearch_word VALUES (3969, 'module', 1);
-INSERT INTO ezsearch_word VALUES (3970, 'plug', 1);
-INSERT INTO ezsearch_word VALUES (3971, 'version', 1);
-INSERT INTO ezsearch_word VALUES (3972, 'numbers', 1);
-INSERT INTO ezsearch_word VALUES (3973, 'reread', 1);
-INSERT INTO ezsearch_word VALUES (3974, 'reading', 1);
-INSERT INTO ezsearch_word VALUES (3975, 'left', 1);
-INSERT INTO ezsearch_word VALUES (3723, 'out', 2);
-INSERT INTO ezsearch_word VALUES (3716, 'there', 3);
-INSERT INTO ezsearch_word VALUES (3976, 'supply', 1);
-INSERT INTO ezsearch_word VALUES (3977, 'expect', 1);
-INSERT INTO ezsearch_word VALUES (3978, 'right', 1);
-INSERT INTO ezsearch_word VALUES (3979, 'away', 1);
-INSERT INTO ezsearch_word VALUES (3980, 'supported', 1);
-INSERT INTO ezsearch_word VALUES (3981, 'community', 1);
-INSERT INTO ezsearch_word VALUES (3982, 'leisure', 1);
-INSERT INTO ezsearch_word VALUES (3983, 'level', 1);
-INSERT INTO ezsearch_word VALUES (3984, 'answers', 1);
-INSERT INTO ezsearch_word VALUES (3985, 'crew', 1);
-INSERT INTO ezsearch_word VALUES (3986, 'together', 1);
-INSERT INTO ezsearch_word VALUES (3987, 'valuable', 1);
-INSERT INTO ezsearch_word VALUES (3988, 'part', 1);
-INSERT INTO ezsearch_word VALUES (3989, 'improper', 1);
-INSERT INTO ezsearch_word VALUES (3990, 'language', 1);
-INSERT INTO ezsearch_word VALUES (3991, 'contains', 1);
-INSERT INTO ezsearch_word VALUES (3992, 'like', 1);
-INSERT INTO ezsearch_word VALUES (3993, 'cursing', 1);
-INSERT INTO ezsearch_word VALUES (3994, 'swearing', 1);
-INSERT INTO ezsearch_word VALUES (3782, 'removed', 2);
-INSERT INTO ezsearch_word VALUES (3995, 'answered', 1);
-INSERT INTO ezsearch_word VALUES (3996, 'way', 1);
-INSERT INTO ezsearch_word VALUES (3731, 'without', 2);
-INSERT INTO ezsearch_word VALUES (3997, 'warning', 1);
-INSERT INTO ezsearch_word VALUES (3998, 'administrators', 1);
-INSERT INTO ezsearch_word VALUES (3999, 'otherwise', 1);
-INSERT INTO ezsearch_word VALUES (4000, 'normal', 1);
-INSERT INTO ezsearch_word VALUES (4001, 'behavior', 1);
-INSERT INTO ezsearch_word VALUES (4002, 'expected', 1);
-INSERT INTO ezsearch_word VALUES (3842, 'news', 3);
-INSERT INTO ezsearch_word VALUES (4003, 'bulletin', 1);
-INSERT INTO ezsearch_word VALUES (3744, 'from', 3);
-INSERT INTO ezsearch_word VALUES (4005, 'lorem', 1);
-INSERT INTO ezsearch_word VALUES (4006, 'ipsum', 1);
-INSERT INTO ezsearch_word VALUES (4007, 'dill', 1);
-INSERT INTO ezsearch_word VALUES (4008, 'dall', 1);
-INSERT INTO ezsearch_word VALUES (3799, 'choose', 3);
-INSERT INTO ezsearch_word VALUES (3800, 'correct', 3);
-INSERT INTO ezsearch_word VALUES (3801, 'use', 3);
-INSERT INTO ezsearch_word VALUES (3802, 'few', 3);
-INSERT INTO ezsearch_word VALUES (3803, 'minutes', 3);
-INSERT INTO ezsearch_word VALUES (3804, 'consider', 3);
-INSERT INTO ezsearch_word VALUES (3805, 'which', 3);
-INSERT INTO ezsearch_word VALUES (3806, 'should', 3);
-INSERT INTO ezsearch_word VALUES (3807, 'post', 3);
-INSERT INTO ezsearch_word VALUES (3808, 'posting', 3);
-INSERT INTO ezsearch_word VALUES (3809, '"general"', 3);
-INSERT INTO ezsearch_word VALUES (3649, 'not', 5);
-INSERT INTO ezsearch_word VALUES (3810, 'effective', 3);
-INSERT INTO ezsearch_word VALUES (3811, '"install"', 3);
-INSERT INTO ezsearch_word VALUES (3704, 'if', 4);
-INSERT INTO ezsearch_word VALUES (3812, 'question', 3);
-INSERT INTO ezsearch_word VALUES (3813, 'install', 3);
-INSERT INTO ezsearch_word VALUES (3814, 'related', 3);
-INSERT INTO ezsearch_word VALUES (3815, 'questions', 3);
-INSERT INTO ezsearch_word VALUES (3816, 'don', 3);
-INSERT INTO ezsearch_word VALUES (3720, 't', 6);
-INSERT INTO ezsearch_word VALUES (3661, 'in', 10);
-INSERT INTO ezsearch_word VALUES (3817, 'several', 3);
-INSERT INTO ezsearch_word VALUES (3640, 'forums', 4);
-INSERT INTO ezsearch_word VALUES (3818, 'belongs', 3);
-INSERT INTO ezsearch_word VALUES (3819, '"developer"', 3);
-INSERT INTO ezsearch_word VALUES (3820, 'aren', 3);
-INSERT INTO ezsearch_word VALUES (3755, 'very', 4);
-INSERT INTO ezsearch_word VALUES (3821, 'helpful', 3);
-INSERT INTO ezsearch_word VALUES (3646, 'this', 8);
-INSERT INTO ezsearch_word VALUES (3656, 'wrong', 4);
-INSERT INTO ezsearch_word VALUES (3822, 'chances', 3);
-INSERT INTO ezsearch_word VALUES (3824, 'someone', 3);
-INSERT INTO ezsearch_word VALUES (3825, 'actually', 3);
-INSERT INTO ezsearch_word VALUES (3826, 'answering', 3);
-INSERT INTO ezsearch_word VALUES (3827, 'lower', 3);
-INSERT INTO ezsearch_word VALUES (3767, 'than', 4);
-INSERT INTO ezsearch_word VALUES (3828, 'furthermore', 3);
-INSERT INTO ezsearch_word VALUES (3829, 'off', 3);
-INSERT INTO ezsearch_word VALUES (3830, 'topic', 3);
-INSERT INTO ezsearch_word VALUES (3636, 'will', 6);
-INSERT INTO ezsearch_word VALUES (3701, 'just', 5);
-INSERT INTO ezsearch_word VALUES (3831, 'make', 3);
-INSERT INTO ezsearch_word VALUES (3832, 'harder', 3);
-INSERT INTO ezsearch_word VALUES (3833, 'those', 3);
-INSERT INTO ezsearch_word VALUES (3834, 'correctly', 3);
-INSERT INTO ezsearch_word VALUES (3835, 'noticed', 3);
-INSERT INTO ezsearch_word VALUES (3836, 'among', 3);
-INSERT INTO ezsearch_word VALUES (3735, 'who', 5);
-INSERT INTO ezsearch_word VALUES (4004, 'latest', 2);
-INSERT INTO ezsearch_word VALUES (3641, 'forum', 7);
-INSERT INTO ezsearch_word VALUES (3692, 'dreamcars', 2);
-INSERT INTO ezsearch_word VALUES (3669, 'to', 8);
-INSERT INTO ezsearch_word VALUES (3650, 'be', 7);
-INSERT INTO ezsearch_word VALUES (4009, 'added', 1);
-INSERT INTO ezsearch_word VALUES (3655, 'is', 14);
-INSERT INTO ezsearch_word VALUES (3684, 'about', 6);
-INSERT INTO ezsearch_word VALUES (3654, 'what', 6);
-INSERT INTO ezsearch_word VALUES (3682, 's', 3);
-INSERT INTO ezsearch_word VALUES (3693, 'your', 6);
-INSERT INTO ezsearch_word VALUES (4010, 'favorite', 1);
-INSERT INTO ezsearch_word VALUES (3694, 'dreamcar', 3);
-INSERT INTO ezsearch_word VALUES (3752, 'many', 2);
-INSERT INTO ezsearch_word VALUES (3678, 'of', 6);
-INSERT INTO ezsearch_word VALUES (4011, 'us', 1);
-INSERT INTO ezsearch_word VALUES (3949, 'always', 2);
-INSERT INTO ezsearch_word VALUES (4012, 'dream', 1);
-INSERT INTO ezsearch_word VALUES (3769, 'a', 6);
-INSERT INTO ezsearch_word VALUES (4013, 'red', 1);
-INSERT INTO ezsearch_word VALUES (3695, 'ferrari', 3);
-INSERT INTO ezsearch_word VALUES (3697, 'or', 6);
-INSERT INTO ezsearch_word VALUES (3728, 'an', 4);
-INSERT INTO ezsearch_word VALUES (4014, 'angry', 1);
-INSERT INTO ezsearch_word VALUES (3696, 'diablo', 2);
-INSERT INTO ezsearch_word VALUES (3910, 'let', 2);
-INSERT INTO ezsearch_word VALUES (4015, 'others', 1);
-INSERT INTO ezsearch_word VALUES (3909, 'know', 2);
-INSERT INTO ezsearch_word VALUES (3711, 'car', 3);
-INSERT INTO ezsearch_word VALUES (4016, 'dreams', 1);
-INSERT INTO ezsearch_word VALUES (4017, 'perhaps', 1);
-INSERT INTO ezsearch_word VALUES (3635, 'you', 8);
-INSERT INTO ezsearch_word VALUES (3703, 'have', 7);
-INSERT INTO ezsearch_word VALUES (4018, 'tested', 1);
-INSERT INTO ezsearch_word VALUES (3681, 'it', 10);
-INSERT INTO ezsearch_word VALUES (3717, 'even', 3);
-INSERT INTO ezsearch_word VALUES (4019, 'own', 1);
-INSERT INTO ezsearch_word VALUES (4020, 'volvo', 1);
-INSERT INTO ezsearch_word VALUES (4021, 'c70', 1);
-INSERT INTO ezsearch_word VALUES (4022, 'jaguar', 1);
-INSERT INTO ezsearch_word VALUES (4023, '79', 1);
-INSERT INTO ezsearch_word VALUES (4024, 'mustang', 1);
-INSERT INTO ezsearch_word VALUES (3698, 'beetle', 2);
-INSERT INTO ezsearch_word VALUES (4025, 'we', 1);
-INSERT INTO ezsearch_word VALUES (3673, 'all', 4);
-INSERT INTO ezsearch_word VALUES (3638, 'different', 5);
-INSERT INTO ezsearch_word VALUES (4026, 'choices', 1);
-INSERT INTO ezsearch_word VALUES (4027, 'guest', 1);
-INSERT INTO ezsearch_word VALUES (4028, 'accounts', 1);
-INSERT INTO ezsearch_word VALUES (4029, 'administrator', 2);
-INSERT INTO ezsearch_word VALUES (4031, 'site', 1);
-INSERT INTO ezsearch_word VALUES (4032, 'boss', 1);
-INSERT INTO ezsearch_word VALUES (3745, 'skien', 2);
-INSERT INTO ezsearch_word VALUES (3746, 'norway', 2);
-INSERT INTO ezsearch_word VALUES (4033, 'tim', 1);
-INSERT INTO ezsearch_word VALUES (4034, 'editors', 1);
-INSERT INTO ezsearch_word VALUES (4030, 'users', 2);
-INSERT INTO ezsearch_word VALUES (3643, 'group', 2);
-INSERT INTO ezsearch_word VALUES (3823, 'for', 4);
-INSERT INTO ezsearch_word VALUES (3679, 'the', 14);
-INSERT INTO ezsearch_word VALUES (4035, 'anonymous', 2);
-INSERT INTO ezsearch_word VALUES (3786, 'user', 5);
-INSERT INTO ezsearch_word VALUES (4037, 'links', 1);
-INSERT INTO ezsearch_word VALUES (4038, 'classes', 1);
-INSERT INTO ezsearch_word VALUES (4039, 'class', 1);
-INSERT INTO ezsearch_word VALUES (4040, 'grouplist', 1);
-INSERT INTO ezsearch_word VALUES (4043, 'edit', 1);
-INSERT INTO ezsearch_word VALUES (4044, '56', 1);
-INSERT INTO ezsearch_word VALUES (4045, 'cache', 1);
-INSERT INTO ezsearch_word VALUES (4036, 'setup', 2);
-INSERT INTO ezsearch_word VALUES (4046, 'url', 1);
-INSERT INTO ezsearch_word VALUES (4047, 'translator', 1);
-INSERT INTO ezsearch_word VALUES (4042, 'content', 2);
-INSERT INTO ezsearch_word VALUES (4048, 'urltranslator', 1);
-INSERT INTO ezsearch_word VALUES (3951, 'look', 3);
-INSERT INTO ezsearch_word VALUES (3666, 'and', 10);
-INSERT INTO ezsearch_word VALUES (4041, 'feel', 2);
-INSERT INTO ezsearch_word VALUES (4049, 'forum_package', 1);
-INSERT INTO ezsearch_word VALUES (4050, 'copyright', 1);
-INSERT INTO ezsearch_word VALUES (4051, '&copy', 1);
-INSERT INTO ezsearch_word VALUES (4052, 'ez', 1);
-INSERT INTO ezsearch_word VALUES (4053, 'systems', 1);
-INSERT INTO ezsearch_word VALUES (3791, 'as', 5);
-INSERT INTO ezsearch_word VALUES (4054, '1999', 1);
-INSERT INTO ezsearch_word VALUES (4055, '2004', 1);
+INSERT INTO ezsearch_word VALUES (4056, 'discussions', 1);
+INSERT INTO ezsearch_word VALUES (4065, 'main', 1);
+INSERT INTO ezsearch_word VALUES (4068, 'description', 1);
+INSERT INTO ezsearch_word VALUES (4070, 'text', 1);
+INSERT INTO ezsearch_word VALUES (4071, 'may', 1);
+INSERT INTO ezsearch_word VALUES (4074, 'shown', 1);
+INSERT INTO ezsearch_word VALUES (4062, 'discussion', 2);
+INSERT INTO ezsearch_word VALUES (4076, 'discuss', 1);
+INSERT INTO ezsearch_word VALUES (4081, 'pop', 1);
+INSERT INTO ezsearch_word VALUES (4082, 'longer', 1);
+INSERT INTO ezsearch_word VALUES (4083, 'misic', 1);
+INSERT INTO ezsearch_word VALUES (4085, 'my', 1);
+INSERT INTO ezsearch_word VALUES (4086, 'eyes', 1);
+INSERT INTO ezsearch_word VALUES (4088, 'spears', 1);
+INSERT INTO ezsearch_word VALUES (4091, 'ad', 1);
+INSERT INTO ezsearch_word VALUES (4075, 'music', 2);
+INSERT INTO ezsearch_word VALUES (4093, 'history', 1);
+INSERT INTO ezsearch_word VALUES (4094, 'nothing', 1);
+INSERT INTO ezsearch_word VALUES (4090, 'madonna', 2);
+INSERT INTO ezsearch_word VALUES (4103, 'greats', 1);
+INSERT INTO ezsearch_word VALUES (4106, 'doubt', 1);
+INSERT INTO ezsearch_word VALUES (4109, 'her', 1);
+INSERT INTO ezsearch_word VALUES (4110, 'list', 1);
+INSERT INTO ezsearch_word VALUES (4111, 'hits', 1);
+INSERT INTO ezsearch_word VALUES (4113, 'proof', 1);
+INSERT INTO ezsearch_word VALUES (4114, 'enough', 1);
+INSERT INTO ezsearch_word VALUES (4122, 'koenigsegg', 1);
+INSERT INTO ezsearch_word VALUES (4123, 'master', 1);
+INSERT INTO ezsearch_word VALUES (4125, 'imagine', 1);
+INSERT INTO ezsearch_word VALUES (4100, 'one', 2);
+INSERT INTO ezsearch_word VALUES (4129, 'parked', 1);
+INSERT INTO ezsearch_word VALUES (4130, 'garrage', 1);
+INSERT INTO ezsearch_word VALUES (4132, 'most', 1);
+INSERT INTO ezsearch_word VALUES (4133, 'awsome', 1);
+INSERT INTO ezsearch_word VALUES (4135, 'ever', 1);
+INSERT INTO ezsearch_word VALUES (4136, 'königsegg', 1);
+INSERT INTO ezsearch_word VALUES (4098, 'say', 2);
+INSERT INTO ezsearch_word VALUES (4138, 'again', 1);
+INSERT INTO ezsearch_word VALUES (4067, 'no', 4);
+INSERT INTO ezsearch_word VALUES (4141, 'close', 1);
+INSERT INTO ezsearch_word VALUES (4144, 'leave', 1);
+INSERT INTO ezsearch_word VALUES (4145, 'f40', 1);
+INSERT INTO ezsearch_word VALUES (4147, 'ulitmate', 1);
+INSERT INTO ezsearch_word VALUES (4148, 'sport', 1);
+INSERT INTO ezsearch_word VALUES (4149, 'everybody', 1);
+INSERT INTO ezsearch_word VALUES (4152, 'opinion', 1);
+INSERT INTO ezsearch_word VALUES (4153, 'live', 1);
+INSERT INTO ezsearch_word VALUES (4155, 'sports', 1);
+INSERT INTO ezsearch_word VALUES (4156, 'understand', 1);
+INSERT INTO ezsearch_word VALUES (4159, 'while', 1);
+INSERT INTO ezsearch_word VALUES (4160, 'hate', 1);
+INSERT INTO ezsearch_word VALUES (4161, 'everything', 1);
+INSERT INTO ezsearch_word VALUES (4162, 'football', 1);
+INSERT INTO ezsearch_word VALUES (4170, 'give', 1);
+INSERT INTO ezsearch_word VALUES (4174, 'rule', 1);
+INSERT INTO ezsearch_word VALUES (4176, 'good', 1);
+INSERT INTO ezsearch_word VALUES (4177, 'players', 1);
+INSERT INTO ezsearch_word VALUES (4179, 'young', 1);
+INSERT INTO ezsearch_word VALUES (4166, 'grenland', 2);
+INSERT INTO ezsearch_word VALUES (4097, 'i', 4);
+INSERT INTO ezsearch_word VALUES (4180, 'never', 1);
+INSERT INTO ezsearch_word VALUES (4181, 'heard', 1);
+INSERT INTO ezsearch_word VALUES (4183, 'but', 1);
+INSERT INTO ezsearch_word VALUES (4184, 'maybe', 1);
+INSERT INTO ezsearch_word VALUES (4186, 'tranmere', 1);
+INSERT INTO ezsearch_word VALUES (4187, 'kings', 1);
+INSERT INTO ezsearch_word VALUES (4164, 'europe', 2);
+INSERT INTO ezsearch_word VALUES (4188, 'gulset', 1);
+INSERT INTO ezsearch_word VALUES (4189, 'better', 1);
+INSERT INTO ezsearch_word VALUES (4165, 'odd', 3);
+INSERT INTO ezsearch_word VALUES (4191, 'beat', 1);
+INSERT INTO ezsearch_word VALUES (4193, 'couple', 1);
+INSERT INTO ezsearch_word VALUES (4172, 'years', 3);
+INSERT INTO ezsearch_word VALUES (4194, 'ago', 1);
+INSERT INTO ezsearch_word VALUES (4195, 'cup', 1);
+INSERT INTO ezsearch_word VALUES (4185, 'then', 2);
+INSERT INTO ezsearch_word VALUES (4197, 'haven', 1);
+INSERT INTO ezsearch_word VALUES (4198, 'played', 1);
+INSERT INTO ezsearch_word VALUES (4199, 'so', 1);
+INSERT INTO ezsearch_word VALUES (4137, 'best', 3);
+INSERT INTO ezsearch_word VALUES (4163, 'team', 2);
+INSERT INTO ezsearch_word VALUES (4201, 'world', 1);
+INSERT INTO ezsearch_word VALUES (4202, 'rules', 1);
+INSERT INTO ezsearch_word VALUES (4203, 'certain', 1);
+INSERT INTO ezsearch_word VALUES (4131, 'must', 2);
+INSERT INTO ezsearch_word VALUES (4212, '"login"', 1);
+INSERT INTO ezsearch_word VALUES (4099, '0', 5);
+INSERT INTO ezsearch_word VALUES (4260, '1', 1);
+INSERT INTO ezsearch_word VALUES (4128, 'these', 3);
+INSERT INTO ezsearch_word VALUES (4261, 'guidelines', 1);
+INSERT INTO ezsearch_word VALUES (4262, 'also', 1);
+INSERT INTO ezsearch_word VALUES (4263, 'apply', 1);
+INSERT INTO ezsearch_word VALUES (4264, 'any', 1);
+INSERT INTO ezsearch_word VALUES (4266, 'groups', 1);
+INSERT INTO ezsearch_word VALUES (4267, 'mailing', 1);
+INSERT INTO ezsearch_word VALUES (4268, 'lists', 1);
+INSERT INTO ezsearch_word VALUES (4269, 'other', 1);
+INSERT INTO ezsearch_word VALUES (4270, 'web', 1);
+INSERT INTO ezsearch_word VALUES (4271, 'frequent', 1);
+INSERT INTO ezsearch_word VALUES (4204, 'follow', 2);
+INSERT INTO ezsearch_word VALUES (4060, 'find', 2);
+INSERT INTO ezsearch_word VALUES (4108, 'that', 3);
+INSERT INTO ezsearch_word VALUES (4272, 'problems', 1);
+INSERT INTO ezsearch_word VALUES (4273, 'get', 1);
+INSERT INTO ezsearch_word VALUES (4274, 'more', 1);
+INSERT INTO ezsearch_word VALUES (4275, 'attention', 1);
+INSERT INTO ezsearch_word VALUES (4276, 'people', 1);
+INSERT INTO ezsearch_word VALUES (4277, 'might', 1);
+INSERT INTO ezsearch_word VALUES (4278, 'solved', 1);
+INSERT INTO ezsearch_word VALUES (4206, 'how', 2);
+INSERT INTO ezsearch_word VALUES (4279, 'log', 1);
+INSERT INTO ezsearch_word VALUES (4142, 'can', 5);
+INSERT INTO ezsearch_word VALUES (4210, 'by', 2);
+INSERT INTO ezsearch_word VALUES (4280, 'entering', 1);
+INSERT INTO ezsearch_word VALUES (4281, 'name', 1);
+INSERT INTO ezsearch_word VALUES (4057, 'here', 4);
+INSERT INTO ezsearch_word VALUES (4282, 'password', 1);
+INSERT INTO ezsearch_word VALUES (4207, 'register', 2);
+INSERT INTO ezsearch_word VALUES (4208, 'new', 2);
+INSERT INTO ezsearch_word VALUES (4211, 'pressing', 2);
+INSERT INTO ezsearch_word VALUES (4283, '"sign', 1);
+INSERT INTO ezsearch_word VALUES (4284, 'up"', 1);
+INSERT INTO ezsearch_word VALUES (4213, 'button', 2);
+INSERT INTO ezsearch_word VALUES (4215, 'soon', 2);
+INSERT INTO ezsearch_word VALUES (4216, 'filled', 2);
+INSERT INTO ezsearch_word VALUES (4217, 'information', 2);
+INSERT INTO ezsearch_word VALUES (4218, 'created', 2);
+INSERT INTO ezsearch_word VALUES (4219, 'account', 2);
+INSERT INTO ezsearch_word VALUES (4220, 'privileges', 2);
+INSERT INTO ezsearch_word VALUES (4221, 'comes', 2);
+INSERT INTO ezsearch_word VALUES (4080, 'with', 3);
+INSERT INTO ezsearch_word VALUES (4285, 'search', 1);
+INSERT INTO ezsearch_word VALUES (4286, 'before', 1);
+INSERT INTO ezsearch_word VALUES (4287, 'ask', 1);
+INSERT INTO ezsearch_word VALUES (4288, 'try', 1);
+INSERT INTO ezsearch_word VALUES (4289, 'archives', 1);
+INSERT INTO ezsearch_word VALUES (4290, 'd', 1);
+INSERT INTO ezsearch_word VALUES (4291, 'surprised', 1);
+INSERT INTO ezsearch_word VALUES (4292, 'notice', 1);
+INSERT INTO ezsearch_word VALUES (4293, 'often', 1);
+INSERT INTO ezsearch_word VALUES (4294, 'exact', 1);
+INSERT INTO ezsearch_word VALUES (4295, 'problem', 1);
+INSERT INTO ezsearch_word VALUES (4150, 'has', 2);
+INSERT INTO ezsearch_word VALUES (4296, 'been', 1);
+INSERT INTO ezsearch_word VALUES (4297, 'read', 1);
+INSERT INTO ezsearch_word VALUES (4298, 'documentation', 1);
+INSERT INTO ezsearch_word VALUES (4299, 'available', 1);
+INSERT INTO ezsearch_word VALUES (4182, 'them', 2);
+INSERT INTO ezsearch_word VALUES (4300, 'relevant', 1);
+INSERT INTO ezsearch_word VALUES (4301, 'info', 1);
+INSERT INTO ezsearch_word VALUES (4302, 'after', 1);
+INSERT INTO ezsearch_word VALUES (4303, 'allready', 1);
+INSERT INTO ezsearch_word VALUES (4304, 'written', 1);
+INSERT INTO ezsearch_word VALUES (4305, 'somewhere', 1);
+INSERT INTO ezsearch_word VALUES (4306, 'why', 1);
+INSERT INTO ezsearch_word VALUES (4307, 'rewrite', 1);
+INSERT INTO ezsearch_word VALUES (4308, 'into', 1);
+INSERT INTO ezsearch_word VALUES (4309, 'answer', 1);
+INSERT INTO ezsearch_word VALUES (4310, 'clear', 1);
+INSERT INTO ezsearch_word VALUES (4311, 'title', 1);
+INSERT INTO ezsearch_word VALUES (4312, 'choosing', 1);
+INSERT INTO ezsearch_word VALUES (4313, 'describing', 1);
+INSERT INTO ezsearch_word VALUES (4314, 'important', 1);
+INSERT INTO ezsearch_word VALUES (4315, 'first', 1);
+INSERT INTO ezsearch_word VALUES (4316, 'considering', 1);
+INSERT INTO ezsearch_word VALUES (4317, 'saying', 1);
+INSERT INTO ezsearch_word VALUES (4318, '"i', 1);
+INSERT INTO ezsearch_word VALUES (4319, 'need', 1);
+INSERT INTO ezsearch_word VALUES (4320, 'help"', 1);
+INSERT INTO ezsearch_word VALUES (4321, '"newbie', 1);
+INSERT INTO ezsearch_word VALUES (4322, 'question"', 1);
+INSERT INTO ezsearch_word VALUES (4323, '"installation', 1);
+INSERT INTO ezsearch_word VALUES (4324, 'doesn', 1);
+INSERT INTO ezsearch_word VALUES (4325, 'help', 1);
+INSERT INTO ezsearch_word VALUES (4157, 'anyone', 2);
+INSERT INTO ezsearch_word VALUES (4326, 'reads', 1);
+INSERT INTO ezsearch_word VALUES (4327, 'everyone', 1);
+INSERT INTO ezsearch_word VALUES (4328, 'needs', 1);
+INSERT INTO ezsearch_word VALUES (4329, 're', 1);
+INSERT INTO ezsearch_word VALUES (4330, 'installation', 1);
+INSERT INTO ezsearch_word VALUES (4331, 'think', 1);
+INSERT INTO ezsearch_word VALUES (4334, 'reader', 1);
+INSERT INTO ezsearch_word VALUES (4335, 'decide', 1);
+INSERT INTO ezsearch_word VALUES (4112, 'are', 6);
+INSERT INTO ezsearch_word VALUES (4336, 'something', 1);
+INSERT INTO ezsearch_word VALUES (4173, 'they', 3);
+INSERT INTO ezsearch_word VALUES (4337, 'see', 1);
+INSERT INTO ezsearch_word VALUES (4338, 'outside', 1);
+INSERT INTO ezsearch_word VALUES (4339, 'their', 1);
+INSERT INTO ezsearch_word VALUES (4340, 'knowledge', 1);
+INSERT INTO ezsearch_word VALUES (4341, 'time', 1);
+INSERT INTO ezsearch_word VALUES (4342, 'whom', 1);
+INSERT INTO ezsearch_word VALUES (4343, 'able', 1);
+INSERT INTO ezsearch_word VALUES (4344, 'describe', 1);
+INSERT INTO ezsearch_word VALUES (4345, 'goal', 1);
+INSERT INTO ezsearch_word VALUES (4346, 'sometimes', 1);
+INSERT INTO ezsearch_word VALUES (4347, 'idea', 1);
+INSERT INTO ezsearch_word VALUES (4348, 'trying', 1);
+INSERT INTO ezsearch_word VALUES (4349, 'achieve', 1);
+INSERT INTO ezsearch_word VALUES (4350, 'asked', 1);
+INSERT INTO ezsearch_word VALUES (4351, 'sentences', 1);
+INSERT INTO ezsearch_word VALUES (4352, 'do', 1);
+INSERT INTO ezsearch_word VALUES (4353, 'brief', 1);
+INSERT INTO ezsearch_word VALUES (4354, 'precise', 1);
+INSERT INTO ezsearch_word VALUES (4355, 'work"', 1);
+INSERT INTO ezsearch_word VALUES (4356, 'isn', 1);
+INSERT INTO ezsearch_word VALUES (4357, 'descriptive', 1);
+INSERT INTO ezsearch_word VALUES (4358, 'needed', 1);
+INSERT INTO ezsearch_word VALUES (4359, 'far', 1);
+INSERT INTO ezsearch_word VALUES (4360, 'got', 1);
+INSERT INTO ezsearch_word VALUES (4087, 'does', 2);
+INSERT INTO ezsearch_word VALUES (4361, 'work', 1);
+INSERT INTO ezsearch_word VALUES (4362, 'testing', 1);
+INSERT INTO ezsearch_word VALUES (4363, 'done', 1);
+INSERT INTO ezsearch_word VALUES (4364, 'system', 1);
+INSERT INTO ezsearch_word VALUES (4365, 'running', 1);
+INSERT INTO ezsearch_word VALUES (4366, 'on', 1);
+INSERT INTO ezsearch_word VALUES (4367, 'take', 1);
+INSERT INTO ezsearch_word VALUES (4095, 'at', 2);
+INSERT INTO ezsearch_word VALUES (4368, 'least', 1);
+INSERT INTO ezsearch_word VALUES (4171, 'five', 3);
+INSERT INTO ezsearch_word VALUES (4369, 'error', 1);
+INSERT INTO ezsearch_word VALUES (4370, 'messages', 1);
+INSERT INTO ezsearch_word VALUES (4371, 'logs', 1);
+INSERT INTO ezsearch_word VALUES (4373, 'paste', 1);
+INSERT INTO ezsearch_word VALUES (4375, 'apache', 1);
+INSERT INTO ezsearch_word VALUES (4376, 'php', 1);
+INSERT INTO ezsearch_word VALUES (4377, 'encountered', 1);
+INSERT INTO ezsearch_word VALUES (4378, 'browser', 1);
+INSERT INTO ezsearch_word VALUES (4379, 'extra', 1);
+INSERT INTO ezsearch_word VALUES (4380, 'clearly', 1);
+INSERT INTO ezsearch_word VALUES (4381, 'well', 1);
+INSERT INTO ezsearch_word VALUES (4382, 'worth', 1);
+INSERT INTO ezsearch_word VALUES (4196, 'since', 2);
+INSERT INTO ezsearch_word VALUES (4200, 'fact', 2);
+INSERT INTO ezsearch_word VALUES (4383, 'spent', 1);
+INSERT INTO ezsearch_word VALUES (4384, 'using', 1);
+INSERT INTO ezsearch_word VALUES (4385, 'hours', 1);
+INSERT INTO ezsearch_word VALUES (4386, 'knows', 1);
+INSERT INTO ezsearch_word VALUES (4387, 'solution', 1);
+INSERT INTO ezsearch_word VALUES (4388, 'rethink', 1);
+INSERT INTO ezsearch_word VALUES (4389, 'remember', 1);
+INSERT INTO ezsearch_word VALUES (4390, 'include', 1);
+INSERT INTO ezsearch_word VALUES (4391, 'program', 1);
+INSERT INTO ezsearch_word VALUES (4392, 'module', 1);
+INSERT INTO ezsearch_word VALUES (4393, 'plug', 1);
+INSERT INTO ezsearch_word VALUES (4394, 'version', 1);
+INSERT INTO ezsearch_word VALUES (4395, 'numbers', 1);
+INSERT INTO ezsearch_word VALUES (4396, 'reread', 1);
+INSERT INTO ezsearch_word VALUES (4397, 'reading', 1);
+INSERT INTO ezsearch_word VALUES (4398, 'left', 1);
+INSERT INTO ezsearch_word VALUES (4146, 'out', 2);
+INSERT INTO ezsearch_word VALUES (4139, 'there', 3);
+INSERT INTO ezsearch_word VALUES (4399, 'supply', 1);
+INSERT INTO ezsearch_word VALUES (4400, 'expect', 1);
+INSERT INTO ezsearch_word VALUES (4401, 'right', 1);
+INSERT INTO ezsearch_word VALUES (4402, 'away', 1);
+INSERT INTO ezsearch_word VALUES (4403, 'supported', 1);
+INSERT INTO ezsearch_word VALUES (4404, 'community', 1);
+INSERT INTO ezsearch_word VALUES (4405, 'leisure', 1);
+INSERT INTO ezsearch_word VALUES (4406, 'level', 1);
+INSERT INTO ezsearch_word VALUES (4407, 'answers', 1);
+INSERT INTO ezsearch_word VALUES (4408, 'crew', 1);
+INSERT INTO ezsearch_word VALUES (4409, 'together', 1);
+INSERT INTO ezsearch_word VALUES (4410, 'valuable', 1);
+INSERT INTO ezsearch_word VALUES (4411, 'part', 1);
+INSERT INTO ezsearch_word VALUES (4412, 'improper', 1);
+INSERT INTO ezsearch_word VALUES (4413, 'language', 1);
+INSERT INTO ezsearch_word VALUES (4414, 'contains', 1);
+INSERT INTO ezsearch_word VALUES (4415, 'like', 1);
+INSERT INTO ezsearch_word VALUES (4416, 'cursing', 1);
+INSERT INTO ezsearch_word VALUES (4417, 'swearing', 1);
+INSERT INTO ezsearch_word VALUES (4205, 'removed', 2);
+INSERT INTO ezsearch_word VALUES (4418, 'answered', 1);
+INSERT INTO ezsearch_word VALUES (4419, 'way', 1);
+INSERT INTO ezsearch_word VALUES (4154, 'without', 2);
+INSERT INTO ezsearch_word VALUES (4420, 'warning', 1);
+INSERT INTO ezsearch_word VALUES (4421, 'administrators', 1);
+INSERT INTO ezsearch_word VALUES (4422, 'otherwise', 1);
+INSERT INTO ezsearch_word VALUES (4423, 'normal', 1);
+INSERT INTO ezsearch_word VALUES (4424, 'behavior', 1);
+INSERT INTO ezsearch_word VALUES (4425, 'expected', 1);
+INSERT INTO ezsearch_word VALUES (4265, 'news', 3);
+INSERT INTO ezsearch_word VALUES (4426, 'bulletin', 1);
+INSERT INTO ezsearch_word VALUES (4167, 'from', 3);
+INSERT INTO ezsearch_word VALUES (4428, 'lorem', 1);
+INSERT INTO ezsearch_word VALUES (4429, 'ipsum', 1);
+INSERT INTO ezsearch_word VALUES (4430, 'dill', 1);
+INSERT INTO ezsearch_word VALUES (4431, 'dall', 1);
+INSERT INTO ezsearch_word VALUES (4222, 'choose', 3);
+INSERT INTO ezsearch_word VALUES (4223, 'correct', 3);
+INSERT INTO ezsearch_word VALUES (4224, 'use', 3);
+INSERT INTO ezsearch_word VALUES (4225, 'few', 3);
+INSERT INTO ezsearch_word VALUES (4226, 'minutes', 3);
+INSERT INTO ezsearch_word VALUES (4227, 'consider', 3);
+INSERT INTO ezsearch_word VALUES (4228, 'which', 3);
+INSERT INTO ezsearch_word VALUES (4229, 'should', 3);
+INSERT INTO ezsearch_word VALUES (4230, 'post', 3);
+INSERT INTO ezsearch_word VALUES (4231, 'posting', 3);
+INSERT INTO ezsearch_word VALUES (4232, '"general"', 3);
+INSERT INTO ezsearch_word VALUES (4072, 'not', 5);
+INSERT INTO ezsearch_word VALUES (4233, 'effective', 3);
+INSERT INTO ezsearch_word VALUES (4234, '"install"', 3);
+INSERT INTO ezsearch_word VALUES (4127, 'if', 4);
+INSERT INTO ezsearch_word VALUES (4235, 'question', 3);
+INSERT INTO ezsearch_word VALUES (4236, 'install', 3);
+INSERT INTO ezsearch_word VALUES (4237, 'related', 3);
+INSERT INTO ezsearch_word VALUES (4238, 'questions', 3);
+INSERT INTO ezsearch_word VALUES (4239, 'don', 3);
+INSERT INTO ezsearch_word VALUES (4143, 't', 6);
+INSERT INTO ezsearch_word VALUES (4084, 'in', 10);
+INSERT INTO ezsearch_word VALUES (4240, 'several', 3);
+INSERT INTO ezsearch_word VALUES (4063, 'forums', 4);
+INSERT INTO ezsearch_word VALUES (4241, 'belongs', 3);
+INSERT INTO ezsearch_word VALUES (4242, '"developer"', 3);
+INSERT INTO ezsearch_word VALUES (4243, 'aren', 3);
+INSERT INTO ezsearch_word VALUES (4178, 'very', 4);
+INSERT INTO ezsearch_word VALUES (4244, 'helpful', 3);
+INSERT INTO ezsearch_word VALUES (4069, 'this', 8);
+INSERT INTO ezsearch_word VALUES (4079, 'wrong', 4);
+INSERT INTO ezsearch_word VALUES (4245, 'chances', 3);
+INSERT INTO ezsearch_word VALUES (4247, 'someone', 3);
+INSERT INTO ezsearch_word VALUES (4248, 'actually', 3);
+INSERT INTO ezsearch_word VALUES (4249, 'answering', 3);
+INSERT INTO ezsearch_word VALUES (4250, 'lower', 3);
+INSERT INTO ezsearch_word VALUES (4190, 'than', 4);
+INSERT INTO ezsearch_word VALUES (4251, 'furthermore', 3);
+INSERT INTO ezsearch_word VALUES (4252, 'off', 3);
+INSERT INTO ezsearch_word VALUES (4253, 'topic', 3);
+INSERT INTO ezsearch_word VALUES (4059, 'will', 6);
+INSERT INTO ezsearch_word VALUES (4124, 'just', 5);
+INSERT INTO ezsearch_word VALUES (4254, 'make', 3);
+INSERT INTO ezsearch_word VALUES (4255, 'harder', 3);
+INSERT INTO ezsearch_word VALUES (4256, 'those', 3);
+INSERT INTO ezsearch_word VALUES (4257, 'correctly', 3);
+INSERT INTO ezsearch_word VALUES (4258, 'noticed', 3);
+INSERT INTO ezsearch_word VALUES (4259, 'among', 3);
+INSERT INTO ezsearch_word VALUES (4158, 'who', 5);
+INSERT INTO ezsearch_word VALUES (4427, 'latest', 2);
+INSERT INTO ezsearch_word VALUES (4064, 'forum', 7);
+INSERT INTO ezsearch_word VALUES (4115, 'dreamcars', 2);
+INSERT INTO ezsearch_word VALUES (4092, 'to', 8);
+INSERT INTO ezsearch_word VALUES (4073, 'be', 7);
+INSERT INTO ezsearch_word VALUES (4432, 'added', 1);
+INSERT INTO ezsearch_word VALUES (4078, 'is', 14);
+INSERT INTO ezsearch_word VALUES (4107, 'about', 6);
+INSERT INTO ezsearch_word VALUES (4077, 'what', 6);
+INSERT INTO ezsearch_word VALUES (4105, 's', 3);
+INSERT INTO ezsearch_word VALUES (4116, 'your', 6);
+INSERT INTO ezsearch_word VALUES (4433, 'favorite', 1);
+INSERT INTO ezsearch_word VALUES (4117, 'dreamcar', 3);
+INSERT INTO ezsearch_word VALUES (4175, 'many', 2);
+INSERT INTO ezsearch_word VALUES (4101, 'of', 6);
+INSERT INTO ezsearch_word VALUES (4434, 'us', 1);
+INSERT INTO ezsearch_word VALUES (4372, 'always', 2);
+INSERT INTO ezsearch_word VALUES (4435, 'dream', 1);
+INSERT INTO ezsearch_word VALUES (4192, 'a', 6);
+INSERT INTO ezsearch_word VALUES (4436, 'red', 1);
+INSERT INTO ezsearch_word VALUES (4118, 'ferrari', 3);
+INSERT INTO ezsearch_word VALUES (4120, 'or', 6);
+INSERT INTO ezsearch_word VALUES (4151, 'an', 4);
+INSERT INTO ezsearch_word VALUES (4437, 'angry', 1);
+INSERT INTO ezsearch_word VALUES (4119, 'diablo', 2);
+INSERT INTO ezsearch_word VALUES (4333, 'let', 2);
+INSERT INTO ezsearch_word VALUES (4438, 'others', 1);
+INSERT INTO ezsearch_word VALUES (4332, 'know', 2);
+INSERT INTO ezsearch_word VALUES (4134, 'car', 3);
+INSERT INTO ezsearch_word VALUES (4439, 'dreams', 1);
+INSERT INTO ezsearch_word VALUES (4440, 'perhaps', 1);
+INSERT INTO ezsearch_word VALUES (4058, 'you', 8);
+INSERT INTO ezsearch_word VALUES (4126, 'have', 7);
+INSERT INTO ezsearch_word VALUES (4441, 'tested', 1);
+INSERT INTO ezsearch_word VALUES (4104, 'it', 10);
+INSERT INTO ezsearch_word VALUES (4140, 'even', 3);
+INSERT INTO ezsearch_word VALUES (4442, 'own', 1);
+INSERT INTO ezsearch_word VALUES (4443, 'volvo', 1);
+INSERT INTO ezsearch_word VALUES (4444, 'c70', 1);
+INSERT INTO ezsearch_word VALUES (4445, 'jaguar', 1);
+INSERT INTO ezsearch_word VALUES (4446, '79', 1);
+INSERT INTO ezsearch_word VALUES (4447, 'mustang', 1);
+INSERT INTO ezsearch_word VALUES (4121, 'beetle', 2);
+INSERT INTO ezsearch_word VALUES (4448, 'we', 1);
+INSERT INTO ezsearch_word VALUES (4096, 'all', 4);
+INSERT INTO ezsearch_word VALUES (4061, 'different', 5);
+INSERT INTO ezsearch_word VALUES (4449, 'choices', 1);
+INSERT INTO ezsearch_word VALUES (4450, 'guest', 1);
+INSERT INTO ezsearch_word VALUES (4451, 'accounts', 1);
+INSERT INTO ezsearch_word VALUES (4452, 'administrator', 2);
+INSERT INTO ezsearch_word VALUES (4454, 'site', 1);
+INSERT INTO ezsearch_word VALUES (4455, 'boss', 1);
+INSERT INTO ezsearch_word VALUES (4168, 'skien', 2);
+INSERT INTO ezsearch_word VALUES (4169, 'norway', 2);
+INSERT INTO ezsearch_word VALUES (4456, 'tim', 1);
+INSERT INTO ezsearch_word VALUES (4457, 'editors', 1);
+INSERT INTO ezsearch_word VALUES (4453, 'users', 2);
+INSERT INTO ezsearch_word VALUES (4066, 'group', 2);
+INSERT INTO ezsearch_word VALUES (4246, 'for', 4);
+INSERT INTO ezsearch_word VALUES (4102, 'the', 14);
+INSERT INTO ezsearch_word VALUES (4458, 'anonymous', 2);
+INSERT INTO ezsearch_word VALUES (4209, 'user', 5);
+INSERT INTO ezsearch_word VALUES (4460, 'links', 1);
+INSERT INTO ezsearch_word VALUES (4461, 'classes', 1);
+INSERT INTO ezsearch_word VALUES (4462, 'class', 1);
+INSERT INTO ezsearch_word VALUES (4463, 'grouplist', 1);
+INSERT INTO ezsearch_word VALUES (4466, 'edit', 1);
+INSERT INTO ezsearch_word VALUES (4467, '56', 1);
+INSERT INTO ezsearch_word VALUES (4468, 'cache', 1);
+INSERT INTO ezsearch_word VALUES (4459, 'setup', 2);
+INSERT INTO ezsearch_word VALUES (4469, 'url', 1);
+INSERT INTO ezsearch_word VALUES (4470, 'translator', 1);
+INSERT INTO ezsearch_word VALUES (4465, 'content', 2);
+INSERT INTO ezsearch_word VALUES (4471, 'urltranslator', 1);
+INSERT INTO ezsearch_word VALUES (4374, 'look', 3);
+INSERT INTO ezsearch_word VALUES (4089, 'and', 10);
+INSERT INTO ezsearch_word VALUES (4464, 'feel', 2);
+INSERT INTO ezsearch_word VALUES (4472, 'forum_package', 1);
+INSERT INTO ezsearch_word VALUES (4473, 'copyright', 1);
+INSERT INTO ezsearch_word VALUES (4474, '&copy', 1);
+INSERT INTO ezsearch_word VALUES (4475, 'ez', 1);
+INSERT INTO ezsearch_word VALUES (4476, 'systems', 1);
+INSERT INTO ezsearch_word VALUES (4214, 'as', 5);
+INSERT INTO ezsearch_word VALUES (4477, '1999', 1);
+INSERT INTO ezsearch_word VALUES (4478, '2004', 1);
 
 
 
@@ -7964,7 +7947,7 @@ INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 
 INSERT INTO ezsite_data VALUES ('ezpublish-version', '3.3');
-INSERT INTO ezsite_data VALUES ('ezpublish-release', '2');
+INSERT INTO ezsite_data VALUES ('ezpublish-release', '3');
 
 
 
@@ -9212,7 +9195,7 @@ ALTER TABLE ONLY ezsubtree_notification_rule
 
 
 
-SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
+SELECT pg_catalog.setval('ezapprove_items_s', 1, false);
 
 
 
@@ -9220,7 +9203,7 @@ SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezbasket_s', 1, false);
+SELECT pg_catalog.setval('ezbasket_s', 1, false);
 
 
 
@@ -9228,7 +9211,7 @@ SELECT pg_catalog.setval ('ezbasket_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_group_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_group_s', 1, false);
 
 
 
@@ -9236,7 +9219,7 @@ SELECT pg_catalog.setval ('ezcollab_group_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_item_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_item_s', 1, false);
 
 
 
@@ -9244,7 +9227,7 @@ SELECT pg_catalog.setval ('ezcollab_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_item_message_link_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_item_message_link_s', 1, false);
 
 
 
@@ -9252,7 +9235,7 @@ SELECT pg_catalog.setval ('ezcollab_item_message_link_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_notification_rule_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_notification_rule_s', 1, false);
 
 
 
@@ -9260,7 +9243,7 @@ SELECT pg_catalog.setval ('ezcollab_notification_rule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_profile_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_profile_s', 1, false);
 
 
 
@@ -9268,7 +9251,7 @@ SELECT pg_catalog.setval ('ezcollab_profile_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcollab_simple_message_s', 1, false);
+SELECT pg_catalog.setval('ezcollab_simple_message_s', 1, false);
 
 
 
@@ -9276,7 +9259,7 @@ SELECT pg_catalog.setval ('ezcollab_simple_message_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcontent_translation_s', 1, true);
+SELECT pg_catalog.setval('ezcontent_translation_s', 1, true);
 
 
 
@@ -9284,7 +9267,7 @@ SELECT pg_catalog.setval ('ezcontent_translation_s', 1, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentbrowsebookmark_s', 1, false);
+SELECT pg_catalog.setval('ezcontentbrowsebookmark_s', 1, false);
 
 
 
@@ -9292,7 +9275,7 @@ SELECT pg_catalog.setval ('ezcontentbrowsebookmark_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 85, true);
+SELECT pg_catalog.setval('ezcontentbrowserecent_s', 85, true);
 
 
 
@@ -9300,7 +9283,7 @@ SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 85, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentclass_s', 23, false);
+SELECT pg_catalog.setval('ezcontentclass_s', 23, false);
 
 
 
@@ -9308,7 +9291,7 @@ SELECT pg_catalog.setval ('ezcontentclass_s', 23, false);
 
 
 
-SELECT pg_catalog.setval ('ezcontentclass_attribute_s', 202, true);
+SELECT pg_catalog.setval('ezcontentclass_attribute_s', 202, true);
 
 
 
@@ -9316,7 +9299,7 @@ SELECT pg_catalog.setval ('ezcontentclass_attribute_s', 202, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentclassgroup_s', 4, true);
+SELECT pg_catalog.setval('ezcontentclassgroup_s', 4, true);
 
 
 
@@ -9324,7 +9307,7 @@ SELECT pg_catalog.setval ('ezcontentclassgroup_s', 4, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentobject_s', 233, true);
+SELECT pg_catalog.setval('ezcontentobject_s', 233, true);
 
 
 
@@ -9332,7 +9315,7 @@ SELECT pg_catalog.setval ('ezcontentobject_s', 233, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentobject_attribute_s', 836, true);
+SELECT pg_catalog.setval('ezcontentobject_attribute_s', 836, true);
 
 
 
@@ -9340,7 +9323,7 @@ SELECT pg_catalog.setval ('ezcontentobject_attribute_s', 836, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentobject_link_s', 16, true);
+SELECT pg_catalog.setval('ezcontentobject_link_s', 16, true);
 
 
 
@@ -9348,7 +9331,7 @@ SELECT pg_catalog.setval ('ezcontentobject_link_s', 16, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentobject_tree_s', 171, true);
+SELECT pg_catalog.setval('ezcontentobject_tree_s', 171, true);
 
 
 
@@ -9356,7 +9339,7 @@ SELECT pg_catalog.setval ('ezcontentobject_tree_s', 171, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentobject_version_s', 863, true);
+SELECT pg_catalog.setval('ezcontentobject_version_s', 863, true);
 
 
 
@@ -9364,7 +9347,7 @@ SELECT pg_catalog.setval ('ezcontentobject_version_s', 863, true);
 
 
 
-SELECT pg_catalog.setval ('ezdiscountrule_s', 1, false);
+SELECT pg_catalog.setval('ezdiscountrule_s', 1, false);
 
 
 
@@ -9372,7 +9355,7 @@ SELECT pg_catalog.setval ('ezdiscountrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezdiscountsubrule_s', 1, false);
+SELECT pg_catalog.setval('ezdiscountsubrule_s', 1, false);
 
 
 
@@ -9380,7 +9363,7 @@ SELECT pg_catalog.setval ('ezdiscountsubrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezenumvalue_s', 1, false);
+SELECT pg_catalog.setval('ezenumvalue_s', 1, false);
 
 
 
@@ -9388,7 +9371,7 @@ SELECT pg_catalog.setval ('ezenumvalue_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezforgot_password_s', 1, false);
+SELECT pg_catalog.setval('ezforgot_password_s', 1, false);
 
 
 
@@ -9396,7 +9379,7 @@ SELECT pg_catalog.setval ('ezforgot_password_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezgeneral_digest_user_settings_s', 1, false);
+SELECT pg_catalog.setval('ezgeneral_digest_user_settings_s', 1, false);
 
 
 
@@ -9404,7 +9387,7 @@ SELECT pg_catalog.setval ('ezgeneral_digest_user_settings_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezinfocollection_s', 2, true);
+SELECT pg_catalog.setval('ezinfocollection_s', 2, true);
 
 
 
@@ -9412,7 +9395,7 @@ SELECT pg_catalog.setval ('ezinfocollection_s', 2, true);
 
 
 
-SELECT pg_catalog.setval ('ezinfocollection_attribute_s', 6, true);
+SELECT pg_catalog.setval('ezinfocollection_attribute_s', 6, true);
 
 
 
@@ -9420,7 +9403,7 @@ SELECT pg_catalog.setval ('ezinfocollection_attribute_s', 6, true);
 
 
 
-SELECT pg_catalog.setval ('ezkeyword_s', 1, false);
+SELECT pg_catalog.setval('ezkeyword_s', 1, false);
 
 
 
@@ -9428,7 +9411,7 @@ SELECT pg_catalog.setval ('ezkeyword_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezkeyword_attribute_link_s', 1, false);
+SELECT pg_catalog.setval('ezkeyword_attribute_link_s', 1, false);
 
 
 
@@ -9436,7 +9419,7 @@ SELECT pg_catalog.setval ('ezkeyword_attribute_link_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezmessage_s', 1, false);
+SELECT pg_catalog.setval('ezmessage_s', 1, false);
 
 
 
@@ -9444,7 +9427,7 @@ SELECT pg_catalog.setval ('ezmessage_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezmodule_run_s', 1, false);
+SELECT pg_catalog.setval('ezmodule_run_s', 1, false);
 
 
 
@@ -9452,7 +9435,7 @@ SELECT pg_catalog.setval ('ezmodule_run_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('eznode_assignment_s', 570, true);
+SELECT pg_catalog.setval('eznode_assignment_s', 570, true);
 
 
 
@@ -9460,7 +9443,7 @@ SELECT pg_catalog.setval ('eznode_assignment_s', 570, true);
 
 
 
-SELECT pg_catalog.setval ('eznotificationcollection_s', 1, false);
+SELECT pg_catalog.setval('eznotificationcollection_s', 1, false);
 
 
 
@@ -9468,7 +9451,7 @@ SELECT pg_catalog.setval ('eznotificationcollection_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('eznotificationcollection_item_s', 1, false);
+SELECT pg_catalog.setval('eznotificationcollection_item_s', 1, false);
 
 
 
@@ -9476,7 +9459,7 @@ SELECT pg_catalog.setval ('eznotificationcollection_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('eznotificationevent_s', 277, true);
+SELECT pg_catalog.setval('eznotificationevent_s', 277, true);
 
 
 
@@ -9484,7 +9467,7 @@ SELECT pg_catalog.setval ('eznotificationevent_s', 277, true);
 
 
 
-SELECT pg_catalog.setval ('ezoperation_memento_s', 1, false);
+SELECT pg_catalog.setval('ezoperation_memento_s', 1, false);
 
 
 
@@ -9492,7 +9475,7 @@ SELECT pg_catalog.setval ('ezoperation_memento_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezorder_s', 1, false);
+SELECT pg_catalog.setval('ezorder_s', 1, false);
 
 
 
@@ -9500,7 +9483,7 @@ SELECT pg_catalog.setval ('ezorder_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezorder_item_s', 1, false);
+SELECT pg_catalog.setval('ezorder_item_s', 1, false);
 
 
 
@@ -9508,7 +9491,7 @@ SELECT pg_catalog.setval ('ezorder_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezpolicy_s', 378, true);
+SELECT pg_catalog.setval('ezpolicy_s', 378, true);
 
 
 
@@ -9516,7 +9499,7 @@ SELECT pg_catalog.setval ('ezpolicy_s', 378, true);
 
 
 
-SELECT pg_catalog.setval ('ezpolicy_limitation_s', 298, true);
+SELECT pg_catalog.setval('ezpolicy_limitation_s', 298, true);
 
 
 
@@ -9524,7 +9507,7 @@ SELECT pg_catalog.setval ('ezpolicy_limitation_s', 298, true);
 
 
 
-SELECT pg_catalog.setval ('ezpolicy_limitation_value_s', 584, true);
+SELECT pg_catalog.setval('ezpolicy_limitation_value_s', 584, true);
 
 
 
@@ -9532,7 +9515,7 @@ SELECT pg_catalog.setval ('ezpolicy_limitation_value_s', 584, true);
 
 
 
-SELECT pg_catalog.setval ('ezpreferences_s', 1, false);
+SELECT pg_catalog.setval('ezpreferences_s', 1, false);
 
 
 
@@ -9540,7 +9523,7 @@ SELECT pg_catalog.setval ('ezpreferences_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezproductcollection_s', 1, false);
+SELECT pg_catalog.setval('ezproductcollection_s', 1, false);
 
 
 
@@ -9548,7 +9531,7 @@ SELECT pg_catalog.setval ('ezproductcollection_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezproductcollection_item_s', 1, false);
+SELECT pg_catalog.setval('ezproductcollection_item_s', 1, false);
 
 
 
@@ -9556,7 +9539,7 @@ SELECT pg_catalog.setval ('ezproductcollection_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezproductcollection_item_opt_s', 1, false);
+SELECT pg_catalog.setval('ezproductcollection_item_opt_s', 1, false);
 
 
 
@@ -9564,7 +9547,7 @@ SELECT pg_catalog.setval ('ezproductcollection_item_opt_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezrole_s', 8, true);
+SELECT pg_catalog.setval('ezrole_s', 8, true);
 
 
 
@@ -9572,7 +9555,7 @@ SELECT pg_catalog.setval ('ezrole_s', 8, true);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 19928, true);
+SELECT pg_catalog.setval('ezsearch_object_word_link_s', 23268, true);
 
 
 
@@ -9580,7 +9563,7 @@ SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 19928, true);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_return_count_s', 1, false);
+SELECT pg_catalog.setval('ezsearch_return_count_s', 1, false);
 
 
 
@@ -9588,7 +9571,7 @@ SELECT pg_catalog.setval ('ezsearch_return_count_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
+SELECT pg_catalog.setval('ezsearch_search_phrase_s', 1, false);
 
 
 
@@ -9596,7 +9579,7 @@ SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_word_s', 4055, true);
+SELECT pg_catalog.setval('ezsearch_word_s', 4478, true);
 
 
 
@@ -9604,7 +9587,7 @@ SELECT pg_catalog.setval ('ezsearch_word_s', 4055, true);
 
 
 
-SELECT pg_catalog.setval ('ezsection_s', 11, true);
+SELECT pg_catalog.setval('ezsection_s', 11, true);
 
 
 
@@ -9612,7 +9595,7 @@ SELECT pg_catalog.setval ('ezsection_s', 11, true);
 
 
 
-SELECT pg_catalog.setval ('ezsubtree_notification_rule_s', 8, true);
+SELECT pg_catalog.setval('ezsubtree_notification_rule_s', 8, true);
 
 
 
@@ -9620,7 +9603,7 @@ SELECT pg_catalog.setval ('ezsubtree_notification_rule_s', 8, true);
 
 
 
-SELECT pg_catalog.setval ('eztrigger_s', 1, false);
+SELECT pg_catalog.setval('eztrigger_s', 1, false);
 
 
 
@@ -9628,7 +9611,7 @@ SELECT pg_catalog.setval ('eztrigger_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezurl_s', 1, false);
+SELECT pg_catalog.setval('ezurl_s', 1, false);
 
 
 
@@ -9636,7 +9619,7 @@ SELECT pg_catalog.setval ('ezurl_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezurlalias_s', 4, true);
+SELECT pg_catalog.setval('ezurlalias_s', 4, true);
 
 
 
@@ -9644,7 +9627,7 @@ SELECT pg_catalog.setval ('ezurlalias_s', 4, true);
 
 
 
-SELECT pg_catalog.setval ('ezuser_accountkey_s', 3, true);
+SELECT pg_catalog.setval('ezuser_accountkey_s', 3, true);
 
 
 
@@ -9652,7 +9635,7 @@ SELECT pg_catalog.setval ('ezuser_accountkey_s', 3, true);
 
 
 
-SELECT pg_catalog.setval ('ezuser_discountrule_s', 1, false);
+SELECT pg_catalog.setval('ezuser_discountrule_s', 1, false);
 
 
 
@@ -9660,7 +9643,7 @@ SELECT pg_catalog.setval ('ezuser_discountrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezuser_role_s', 34, true);
+SELECT pg_catalog.setval('ezuser_role_s', 34, true);
 
 
 
@@ -9668,7 +9651,7 @@ SELECT pg_catalog.setval ('ezuser_role_s', 34, true);
 
 
 
-SELECT pg_catalog.setval ('ezvattype_s', 1, true);
+SELECT pg_catalog.setval('ezvattype_s', 1, true);
 
 
 
@@ -9676,7 +9659,7 @@ SELECT pg_catalog.setval ('ezvattype_s', 1, true);
 
 
 
-SELECT pg_catalog.setval ('ezwaituntildatevalue_s', 1, false);
+SELECT pg_catalog.setval('ezwaituntildatevalue_s', 1, false);
 
 
 
@@ -9684,7 +9667,7 @@ SELECT pg_catalog.setval ('ezwaituntildatevalue_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezwishlist_s', 1, false);
+SELECT pg_catalog.setval('ezwishlist_s', 1, false);
 
 
 
@@ -9692,7 +9675,7 @@ SELECT pg_catalog.setval ('ezwishlist_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezworkflow_s', 1, false);
+SELECT pg_catalog.setval('ezworkflow_s', 1, false);
 
 
 
@@ -9700,7 +9683,7 @@ SELECT pg_catalog.setval ('ezworkflow_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezworkflow_assign_s', 1, false);
+SELECT pg_catalog.setval('ezworkflow_assign_s', 1, false);
 
 
 
@@ -9708,7 +9691,7 @@ SELECT pg_catalog.setval ('ezworkflow_assign_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezworkflow_event_s', 1, false);
+SELECT pg_catalog.setval('ezworkflow_event_s', 1, false);
 
 
 
@@ -9716,7 +9699,7 @@ SELECT pg_catalog.setval ('ezworkflow_event_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezworkflow_group_s', 1, true);
+SELECT pg_catalog.setval('ezworkflow_group_s', 1, true);
 
 
 
@@ -9724,7 +9707,7 @@ SELECT pg_catalog.setval ('ezworkflow_group_s', 1, true);
 
 
 
-SELECT pg_catalog.setval ('ezworkflow_process_s', 1, false);
+SELECT pg_catalog.setval('ezworkflow_process_s', 1, false);
 
 
 
@@ -9732,7 +9715,7 @@ SELECT pg_catalog.setval ('ezworkflow_process_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezpdf_export_s', 1, false);
+SELECT pg_catalog.setval('ezpdf_export_s', 1, false);
 
 
 
@@ -9740,7 +9723,7 @@ SELECT pg_catalog.setval ('ezpdf_export_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezrss_export_s', 1, false);
+SELECT pg_catalog.setval('ezrss_export_s', 1, false);
 
 
 
@@ -9748,7 +9731,7 @@ SELECT pg_catalog.setval ('ezrss_export_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezrss_export_item_s', 1, false);
+SELECT pg_catalog.setval('ezrss_export_item_s', 1, false);
 
 
 
@@ -9756,7 +9739,7 @@ SELECT pg_catalog.setval ('ezrss_export_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezrss_import_s', 1, false);
+SELECT pg_catalog.setval('ezrss_import_s', 1, false);
 
 
 
@@ -9764,6 +9747,14 @@ SELECT pg_catalog.setval ('ezrss_import_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezimagefile_s', 41, true);
+SELECT pg_catalog.setval('ezimagefile_s', 41, true);
+
+
+
+
+
+
+
+COMMENT ON SCHEMA public IS 'Standard public namespace';
 
 

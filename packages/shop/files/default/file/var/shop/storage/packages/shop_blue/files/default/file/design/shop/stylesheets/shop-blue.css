@@ -273,6 +273,8 @@ div#maincontent
 
 div#maincontent div.design
 {
+    display: table;
+    height: 1%;
     position: relative;
     padding: 0 1.5em 1em 1.5em;
     border-right: 2px dotted #cdcdcd;

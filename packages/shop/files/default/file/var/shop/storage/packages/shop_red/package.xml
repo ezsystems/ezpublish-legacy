@@ -4,22 +4,22 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1074182860">shop_red</name>
-  <summary modified="1074182860">Red CSS design for shop</summary>
+  <name modified="1075280448">shop_red</name>
+  <summary modified="1075280448">Red CSS design for shop</summary>
   <type value="sitestyle"
-        modified="1074182860" />
+        modified="1075280448" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3-2</version>
+    <version>3.3-3</version>
     <named-version>3.3</named-version>
   </ezpublish>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1074182860</timestamp>
+    <timestamp>1075280448</timestamp>
     <host>kk.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1074182860" />
+              modified="1075280448" />
   </documents>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
@@ -28,15 +28,15 @@
         <file name="shop.css"
               sub-directory="design/shop/stylesheets"
               path="design/shop/stylesheets/shop.css"
-              md5sum="3f8e793479fddab9ecbaab19bc6e8c28"
-              modified="1074182860" />
+              md5sum="c371d8b8f2565806890260a8a9db7c08"
+              modified="1075280448" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.png"
               path="design/shop/images/shop-red.png"
               md5sum="816c5021d0c4ceea3aff6c360c836e33"
-              modified="1074182860" />
+              modified="1075280448" />
       </file-list>
       <file-list type="file"
                  variable-name="image">
@@ -44,52 +44,52 @@
               sub-directory="design/shop/images"
               path="design/shop/images/header-background-top_right.gif"
               md5sum="5c86a416f1a70599ca4897a86f1bbc09"
-              modified="1074182860" />
+              modified="1075280448" />
         <file name="header-background-top_left.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/header-background-top_left.gif"
               md5sum="3d0e1d2dc808f2b4422f185cc4c72c81"
-              modified="1074182860" />
+              modified="1075280448" />
         <file name="left_sidebar-background.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/left_sidebar-background.gif"
               md5sum="32be4d8a04bdb9f2ff32cd681f4ece5f"
-              modified="1074182860" />
+              modified="1075280448" />
         <file name="tab_corner-top_left.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/tab_corner-top_left.gif"
               md5sum="fe68e87cfb480ac59fb2adc5a0b5cfd4"
-              modified="1074182861" />
+              modified="1075280449" />
         <file name="tab_corner-top_right.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/tab_corner-top_right.gif"
               md5sum="ff3e23151e89be2c49d677632ceda6c5"
-              modified="1074182861" />
+              modified="1075280449" />
         <file name="shopping-menu-icon.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/shopping-menu-icon.gif"
               md5sum="8f7e905fc5c8efcebd029a2c277b112d"
-              modified="1074182861" />
+              modified="1075280449" />
         <file name="half_white-transparent.gif"
               sub-directory="design/shop/images"
               path="design/shop/images/half_white-transparent.gif"
               md5sum="82ac3a8a5ad62d1d431a6bec8c4cfd96"
-              modified="1074182861" />
+              modified="1075280449" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1074182860">1.0</number>
-    <release modified="1074182860">1</release>
+    <number modified="1075280448">1.0</number>
+    <release modified="1075280448">1</release>
   </version>
-  <licence modified="1074182860">GPL</licence>
-  <state modified="1074182860">alpha</state>
+  <licence modified="1075280448">GPL</licence>
+  <state modified="1075280448">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1074182860" />
+               modified="1075280448" />
     </provides>
     <requires />
     <obsoletes />
@@ -97,12 +97,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1074182860"
+          modified="1075280448"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1074182860"
+          modified="1075280448"
           collection="default" />
   </uninstall>
 </package>

@@ -190,6 +190,8 @@ div#infobox a
 
 div#maincontent
 {
+    display: table;
+    height: 1%;
     margin-bottom: 2em;
     margin-left: 8em;
     margin-right: 220px;
