@@ -6,7 +6,7 @@ body
 
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
-    background-color: #ffffff;
+    background-color: #eeeeee;
     height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
@@ -155,7 +155,7 @@ div#infobox
 
 div#infobox div.design
 {
-    border: 1px solid #e4eaf3;
+    border: 1px solid #3366ff;
     background-position: top left;
     background-repeat: no-repeat;
 }

@@ -5,3 +5,9 @@ Source=node/view/full.tpl
 MatchFile=image.tpl
 Subdir=templates
 Match[class]=5
+
+[comment_line]
+Source=node/view/line.tpl
+MatchFile=comment_line.tpl
+Subdir=templates
+Match[class]=26

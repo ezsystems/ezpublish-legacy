@@ -61,7 +61,22 @@
 
     <div id="infobox">
         <div class="design">
-        
+               {let image_list=fetch( content, tree, hash( parent_node_id, 2,
+							   limit, 5,
+							   sort_by, array( published, false() ),
+							   class_filter_type, include, 
+							   class_filter_array, array( 'gallery' ) ) )}
+                                                          
+            <h3>Gallery list</h3>
+            <ul>
+                   {section name=Gallery loop=$gallery_list}
+                       <li>
+                       <a href={$node.url_alias|ezurl}>{$Gallery:item.name|wash}</a>  
+                       </li>
+                    {/section}
+            </ul>
+               {/let}
+
                {let image_list=fetch( content, tree, hash( parent_node_id, 2,
 							   limit, 5,
 							   sort_by, array( published, false() ),
