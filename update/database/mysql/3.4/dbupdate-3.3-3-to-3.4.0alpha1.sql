@@ -1,3 +1,6 @@
+UPDATE ezsite_data SET value='3.4.0alpha1' WHERE name='ezpublish-version';
+UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
+
 -- 
 -- Update ContentObjectTreeNode to store latest modified subnode value.
 --
