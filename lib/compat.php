@@ -84,3 +84,5 @@ else
 		return call_user_func_array( 'sprintf', $params );
 	}
 }
+
+?>
