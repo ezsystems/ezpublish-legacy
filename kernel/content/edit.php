@@ -199,9 +199,11 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             print( $version->attribute( 'modified' ) . "<br>" );
             print( $currentVersion->attribute( 'modified' ) . "<br>" );
             */
-            if ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT or
-                 $version->attribute( 'creator_id' ) != $user->id() )
+            if ( ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT and
+                   $version->attribute( 'status' ) != EZ_VERSION_STATUS_PENDING ) or
+                   $version->attribute( 'creator_id' ) != $user->id() )
             {
+                eZDebug::writeDebug(  $version->attribute( 'status' ),  "wrong version" );
                 $module->redirectToView( 'versions', array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
@@ -283,7 +285,7 @@ $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
+    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$Result )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
         {
@@ -341,6 +343,43 @@ if ( !function_exists( 'checkContentActions' ) )
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
             eZDebug::accumulatorStop( 'publish' );
+
+            if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
+            {
+                switch( $operationResult['status'] )
+                {
+                    case EZ_MODULE_OPERATION_HALTED:
+                    {
+                        if ( isset( $operationResult['redirect_url'] ) )
+                        {
+                            $module->redirectTo( $operationResult['redirect_url'] );
+                            return;
+                        }
+                        else if ( isset( $operationResult['result'] ) )
+                        {
+                            $result =& $operationResult['result'];
+                            $resultContent = false;
+                            if ( is_array( $result ) )
+                            {
+                                if ( isset( $result['content'] ) )
+                                    $resultContent = $result['content'];
+                                if ( isset( $result['path'] ) )
+                                    $Result['path'] = $result['path'];
+                            }
+                            else
+                                $resultContent =& $result;
+                            $Result['content'] =& $resultContent;
+                        }
+                    }break;
+                    case EZ_MODULE_OPERATION_CANCELED:
+                    {
+                        $Result = array();
+                        $Result['content'] = "Content publish cancelled<br/>";
+                    }
+                }
+                if ( is_array( $Result ) )
+                    return $Result;
+            }
 
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
 
