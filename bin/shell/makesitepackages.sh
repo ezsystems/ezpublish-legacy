@@ -237,9 +237,9 @@ if [[ -z $SITE || $SITE = 'plain' ]]; then
 	add plain ini -r siteaccess -v plain -n user_siteaccess settings/siteaccess/plain -- \
 	add plain ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin -- \
 	add plain sql -d mysql kernel/sql/mysql/kernel_schema.sql -- \
-	add plain sql -d mysql kernel/sql/mysql/cleandata.sql -- \
+	add plain sql -d mysql kernel/sql/common/cleandata.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
-	add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql -- \
+	add plain sql -d postgresql kernel/sql/common/cleandata.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/setval.sql -- \
 	add plain thumbnail design/plain/images/plain.gif
 fi
