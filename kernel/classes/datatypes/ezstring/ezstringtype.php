@@ -217,9 +217,6 @@ class eZStringType extends eZDataType
     */
     function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        eZDebug::writeDebug( '', 'lazy: eZString::validateClassAttributeHTTPInput' );
-        eZDebug::writeDebug( ezbacktrace(), 'lazy: backtrace for eZString::validateClassAttributeHTTPInput' );
-
         $maxLenName = $base . EZ_DATATYPESTRING_MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $maxLenName ) )
         {
@@ -229,17 +226,14 @@ class eZStringType extends eZDataType
             {
                 $maxLenValue = 0;
                 $http->setPostVariable( $maxLenName, $maxLenValue );
-                eZDebug::writeDebug( 'EZ_INPUT_VALIDATOR_STATE_ACCEPTED', 'lazy: eZString::validateClassAttributeHTTPInput' );
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
             else
             {
                 $this->MaxLenValidator->setRange( 1, false );
-                eZDebug::writeDebug( $this->MaxLenValidator->setRange( 1, false ), 'lazy: eZString::validateClassAttributeHTTPInput' );
                 return $this->MaxLenValidator->validate( $maxLenValue );
             }
         }
-        eZDebug::writeDebug( 'EZ_INPUT_VALIDATOR_STATE_INVALID', 'lazy: eZString::validateClassAttributeHTTPInput' );
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 

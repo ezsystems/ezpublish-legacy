@@ -105,7 +105,6 @@ class eZMultiOptionType extends eZDataType
 
                     if ( trim( $optionValueArray[$i] ) != "" )
                     {
-                        eZDebug::writeDebug( $optionAdditionalPriceArray[$i], 'lazy: $optionAdditionalPriceArray[i]' );
                         if ( strlen( $optionAdditionalPriceArray[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceArray[$i] ) )
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
