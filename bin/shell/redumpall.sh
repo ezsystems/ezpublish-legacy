@@ -149,7 +149,11 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+    if [ ! -z $USE_PAUSE ]; then
+	./bin/shell/sqlredump.sh --postgresql --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+    else
+	./bin/shell/sqlredump.sh --postgresql --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+    fi
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_DATA_FILE"
 	exit 1
@@ -157,9 +161,9 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
 
     for sql in $PACKAGE_POSTGRESQL_FILES; do
 	if [ ! -z $USE_PAUSE ]; then
-	    ./bin/shell/sqlredump.sh --postgresql --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
-	else
 	    ./bin/shell/sqlredump.sh --postgresql --sql-full --pause $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	else
+	    ./bin/shell/sqlredump.sh --postgresql --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
 	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
