@@ -59,7 +59,8 @@ eZUtils:
 - Fixed a bug with eZPersistentObject and limit/offset parameters (Merged from
   3.3, rev 5860)
   http://ez.no/community/bug_reports/ezdebug_trigger_error
-  
+- Fixed bug with getting a translation of an objectattribute. (Merged from 3.3 , rev. 5865)
+  http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
   
 
 *Update
