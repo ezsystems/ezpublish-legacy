@@ -5,6 +5,7 @@ Known bugs in eZ publish 3.0
 Versioning
 ----------
 Object relations are lost when reverting to another version of the object.
+New versions are created as copies of the 1. version, should be the last(usable?) version.
 
 Search
 ------
@@ -13,6 +14,8 @@ in PHP so that we will only index unique words.
 
 זרו caracters do not work properly, we must also test russian and chinese. 
 Probably the same error there.
+
+Note: non-ASCII character support must be done with the i18n system.
 
 Translate
 ---------
@@ -24,9 +27,11 @@ Translated objects are not indexed in search.
 Validate
 -------
 Images are not uploaded if some attributes does not validate
+(Maybe the fields which validate should be read and stored?)
 
 View object with temporary class will show double of all attributes in list.
 Due to temporary version of class which is joined in SQL.
+(just join where version=0)
 
 Enum datatype
 -------------
