@@ -721,7 +721,6 @@ class eZPDFTable extends Cezpdf
                             }
 
                             $rowHeight = $mx - $height + $decender;
-                            var_dump( $mx, $rowHeight );
                             $realColumnCount = 0;
                             for ( $columnCount = 0; $columnCount < count ( $row ); $columnCount++ )
                             {
