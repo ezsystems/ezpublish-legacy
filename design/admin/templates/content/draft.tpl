@@ -23,11 +23,10 @@
 <div class="left">
     <p>
     {switch match=$number_of_items}
-    {case match=25}
+        {case match=25}
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <span class="current">25</span>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
-
         {/case}
 
         {case match=50}
@@ -41,8 +40,7 @@
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
         {/case}
-
-        {/switch}
+    {/switch}
     </p>
 </div>
 <div class="break"></div>
@@ -51,7 +49,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/admin/content/draft' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/draft' )}</th>
@@ -74,7 +72,7 @@
 </table>
 {section-else}
 <div class="block">
-<p>{'There are no drafts.'|i18n( 'design/admin/content/draft' )}</p>
+<p>{'There are no drafts that belong to you.'|i18n( 'design/admin/content/draft' )}</p>
 </div>
 {/section}
 
@@ -92,8 +90,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" {section show=$draft_list|not}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" {section show=$draft_list|not}disabled="disabled"{/section} />
+{section show=$draft_list}
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" />
+    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" />
+{section-else}
+    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
+{/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
