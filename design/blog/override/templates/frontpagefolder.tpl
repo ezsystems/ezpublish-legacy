@@ -1,4 +1,4 @@
-<h1>Latest blogs</h1>
+<h1>{"Latest blogs"|i18n("design/blog/layout")}</h1>
 
 {let log_list=fetch( content, tree, hash( parent_node_id, 2, 
                                           sort_by, array( array( published, false() ) ),
@@ -8,3 +8,4 @@
        {node_view_gui view=line content_node=$:item}
     {/section}
 {/let}
+

@@ -10,7 +10,7 @@
 
     <div id="gallery">
     <div class="list">
-    <h2>Galleries</h2>
+    <h2>{"Galleries"|i18n("design/gallery/layout")}</h2>
 
     <form method="post" action={"content/action"|ezurl}>
 
@@ -91,7 +91,7 @@
                                  class_filter_type, include, 
                                  class_filter_array, array( 'image' ) ) )}
 
-    <h2>Latest images</h2>
+    <h2>{"Latest images"|i18n("design/gallery/layout")}</h2>
     <table class="imagelist">
     <tr>
         {section var=image loop=$image_list}
@@ -119,7 +119,7 @@
                                 class_filter_type, include, 
                                 class_filter_array, array( 'article' ) ) )}
 
-    <h2>Latest news</h2>
+    <h2>{"Latest news"|i18n("design/gallery/layout")}</h2>
     <ul>
         {section var=news loop=$news_list}
         <li>
@@ -143,7 +143,7 @@
                                     class_filter_type, include, 
                                     class_filter_array, array( 'comment' ) ) )}
 
-    <h2>Latest comments</h2>
+    <h2>{"Latest comments"|i18n("design/gallery/layout")}</h2>
     <ul>
         {section var=comment loop=$comments_list}
         <li>

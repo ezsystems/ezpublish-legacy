@@ -6,12 +6,12 @@
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" /> 
 
     <div class="block">
-    <label>Subject</label>
+    <label>{"Subject"|i18n("design/forum/layout")}</label>
     {attribute_edit_gui attribute=$object.data_map.subject}
     </div>
 
     <div class="block">
-    <label>Message</label>
+    <label>{"Message"|i18n("design/forum/layout")}</label>
     {attribute_edit_gui attribute=$object.data_map.message}
     </div>
     

@@ -15,7 +15,7 @@
 
 
 <div class="block">
-        <input type="submit" class="defaultbutton" name="ActionCollectInformation" value="Send" />
+        <input type="submit" class="defaultbutton" name="ActionCollectInformation" value="{"Send"|i18n("design/corporate/layout")}" />
 </div> 
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />

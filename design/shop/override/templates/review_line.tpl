@@ -17,7 +17,7 @@
 {/section}
     <p>Rating: {$node.object.data_map.rating.content} of 5</p>
 {section-else}
-    <p>No rating</p>
+    <p>{"No rating"|i18n("design/shop/layout")}</p>
 {/section}
 </div>
 

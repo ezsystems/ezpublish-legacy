@@ -16,7 +16,7 @@
       </div>
 {/section}
 <div class="block">
-    <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>Result</a>
+    <a href={$node.url_alias|ezurl}>{"Result"|i18n("design/blog/layout")}</a>
 </div>
 </form>
 

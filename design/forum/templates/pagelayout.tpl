@@ -69,13 +69,13 @@
         <h3 class="invisible">User menu</h3>
         <ul>
         {section show=$current_user.is_logged_in}
-            <li><a href={"/notification/settings"|ezurl}>Notifications</a></li>
-            <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
+            <li><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/forum/layout")}</a></li>
+            <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>{"Edit account"|i18n("design/forum/layout")}</a></li>
         {/section}
         {section show=eq($current_user.is_logged_in)}
-            <li><a href={"/user/login"|ezurl}>Login</a></li>
+            <li><a href={"/user/login"|ezurl}>{"Login"|i18n("design/forum/layout")}</a></li>
         {section-else}
-            <li><a href={"/user/logout"|ezurl}>Logout</a></li>
+            <li><a href={"/user/logout"|ezurl}>{"Logout"|i18n("design/forum/layout")}</a></li>
         {/section}
         
         </ul>
@@ -116,7 +116,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>

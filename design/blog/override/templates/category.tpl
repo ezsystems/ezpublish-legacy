@@ -13,7 +13,7 @@
   <div class="header">
     <h1><span>{$node.data_map.archive_title.content|wash} by Category</span></h1>
     <em>{$node.name|wash}</em>
-    <p><strong>Description:</strong> {attribute_view_gui attribute=$node.data_map.description}</p>
+    <p><strong>{"Description:"|i18n("design/blog/layout")}</strong> {attribute_view_gui attribute=$node.data_map.description}</p>
   </div>
 
 

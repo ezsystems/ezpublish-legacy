@@ -75,7 +75,7 @@
 							   class_filter_array, array( 'folder' ) ) )}
                                                           
             <div id="categorylist">
-            <h3>News</h3>
+            <h3>{"News"|i18n("design/news/layout")}</h3>
             <ul>
                    {section var=category loop=$category_list sequence=array(bglight,bgdark)}
                        <li class="{$category.sequence}">
@@ -93,7 +93,7 @@
 							   class_filter_array, array( 'article' ) ) )}
                                                           
             <div id="latestnews">
-            <h3>Latest news</h3>
+            <h3>{"Latest news"|i18n("design/news/layout")}</h3>
             <ul>
                    {section var=news loop=$news_list sequence=array(bglight,bgdark)}
                        <li class="{$news.sequence}">
@@ -110,7 +110,7 @@
 	       {let tipsend_list=fetch('content','tipafriend_top_list',hash(limit,5,offset,0))}
 	    
             <div id="mostpopular">
-	    <h3>Most popular</h3>
+	    <h3>{"Most popular"|i18n("design/news/layout")}</h3>
             <ul>
                    {section var=tipped loop=$tipsend_list sequence=array(bglight,bgdark)}
                        <li class="{$tipped.sequence}">
@@ -126,7 +126,7 @@
 
 	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( published, false() ) ), limit, 1 ) ) }
             <div id="pollbox">
-            <h3>Poll</h3>
+            <h3>{"Poll"|i18n("design/news/layout")}</h3>
                 <div class="poll">
                    <form method="post" action={"content/action"|ezurl}>
 
@@ -218,7 +218,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>

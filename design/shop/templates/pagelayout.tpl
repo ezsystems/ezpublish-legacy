@@ -97,7 +97,7 @@ div#maincontent div.design { width: 100%; }
     {cache-block}
     <div id="productmenu">
         <div class="design">
-        <h3>Products</h3>
+        <h3>{"Products"|i18n("design/shop/layout")}</h3>
             {let path=$module_result.path
                  node_id=$module_result.node_id}
 
@@ -129,7 +129,7 @@ div#maincontent div.design { width: 100%; }
 
    <div id="latestproducts">
         <div class="design">
-            <h3>Latest products</h3>  
+            <h3>{"Latest products"|i18n("design/shop/layout")}</h3>  
             {let new_product_list=fetch( content, tree, hash( parent_node_id, 2,
                                                                     limit, 6, 
                                                                     sort_by, array( published, false() ),
@@ -176,7 +176,7 @@ div#maincontent div.design { width: 100%; }
             <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
             <p><a href={"/shop/basket"|ezurl}>View all details</a></p>
             {section-else}
-                <p>Your basket is empty</p>
+                <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
             {/section}
             {/let}
 
@@ -208,7 +208,7 @@ div#maincontent div.design { width: 100%; }
                                                           limit, 5 ) )}
                 {/case}
             {/switch}
-            <h3>Best sellers</h3>
+            <h3>{"Best sellers"|i18n("design/shop/layout")}</h3>
             <ul>
                    {section name=Products loop=$bestseller_list}
                        <li>
@@ -230,7 +230,7 @@ div#maincontent div.design { width: 100%; }
                                                   sort_by, array( published, false() ),
                                                   class_filter_type, include, 
                                                   class_filter_array, array( 2 ) ) )}
-        <h3>Latest news</h3>
+        <h3>{"Latest news"|i18n("design/shop/layout")}</h3>
         <ul>
                {section name=News loop=$news_list}
                    <li>
@@ -281,7 +281,7 @@ div#maincontent div.design { width: 100%; }
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish E-Commerce Engine</a>
             </address>   
         </div>

@@ -54,7 +54,7 @@
                 {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
                 {section name=Folder loop=$folder_list}
 		    {section show=ne($Folder:item.node_id,173)}
-                        <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+                        <li><a href={$Folder:item.url_alias|ezurl}>{$Folder:item.name|wash}</a></li>
 		    {/section}
                 {/section}
                 {/let}
@@ -111,7 +111,7 @@
 
          {cache-block}
          <div id="poll">
-             <h2>Poll</h2>
+             <h2>{"Poll"|i18n("design/blog/layout")}</h2>
              <p>
             {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
             {section name=poll loop=$poll_list}
@@ -122,7 +122,7 @@
          </div>
 
          <div id="links">
-             <h2>Recent links</h2>
+             <h2>{"Recent links"|i18n("design/blog/layout")}</h2>
              {let link_limit=10
                   link_list=fetch( content, tree, hash( parent_node_id, 2,
                                                         limit, $link_limit,
@@ -150,7 +150,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>

@@ -13,7 +13,7 @@
 </div>
 
 <div class="readmore">
-    <p><a href={$node.url_alias|ezurl}>Read more</a></p>
+    <p><a href={$node.url_alias|ezurl}>{"Read more"|i18n("design/shop/layout")}</a></p>
 </div>
 
 </div>

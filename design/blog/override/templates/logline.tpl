@@ -8,7 +8,7 @@
         {section show=$node.object.data_map.enable_comments.content}
             <a class="comments" href={$node.url_alias|ezurl}>{fetch('content','list_count',hash(parent_node_id,$node.node_id))} comments</a>
         {section-else}
-            Comments disabled
+            {"Comments disabled"|i18n("design/blog/layout")}
         {/section}</em>
     </h2>
     <div class="logentry">
@@ -27,7 +27,7 @@
           {section show=$node.object.data_map.enable_comments.content}
               <a href={$node.url_alias|ezurl}>{fetch('content','list_count',hash(parent_node_id,$node.node_id))} comments</a>
           {section-else}
-              Comments disabled
+              {"Comments disabled"|i18n("design/blog/layout")}
           {/section}  
        </p>
     </div>

@@ -22,7 +22,7 @@
                                               attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
                                               sort_by, array( 'published', true() ) ) )}
   <div class="header">
-    <h1><span>Log Archive by Entry</span></h1>
+    <h1><span>{"Log Archive by Entry"|i18n("design/blog/layout")}</span></h1>
     <p>
 {section show=$previous_log|gt(0)}
     <strong class="arrow">&laquo;</strong> <a href={concat( "content/view/full/", $previous_log[0].node_id )|ezurl} title="{$previous_log[0].name|wash}">Previous entry</a>

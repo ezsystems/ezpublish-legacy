@@ -15,8 +15,8 @@
       </div>
 {/section}
 <div class="block">
-    <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>Result</a>
+    <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/news/layout")}</a>
 </div>
 </form>
-<a href={concat( "/content/view/full/", $node.parent_node_id, "/" )|ezurl}><h4>View all polls</h4></a>
+<a href={concat( "/content/view/full/", $node.parent_node_id, "/" )|ezurl}><h4>{"View all polls"|i18n("design/news/layout")}</h4></a>
 </div>

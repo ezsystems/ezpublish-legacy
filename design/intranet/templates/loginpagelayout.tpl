@@ -29,16 +29,6 @@
 	    <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a> 
         {/let}
 	</div>
-	<div id="searchbox">
-                <select name="SearchContentClassID">
-		<option value="-1"{section show=eq($search_contentclass_id,-1)}selected{/section} />Whole site</option>
-		<option value="2" {section show=eq($search_contentclass_id,2)}selected{/section} />News</option>
-		<option value="16" {section show=eq($search_contentclass_id,16)}selected{/section} />Companies</option>
-		<option value="17" {section show=eq($search_contentclass_id,17)}selected{/section} />Persons</option>	
-		</select>
-	        <input type="text" size="15" name="SearchText" id="Search" value="" />
-	        <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-	</div>
 	<div id="sitelogo">
 	&nbsp;
 	</div>
@@ -49,22 +39,7 @@
     {* Top menu START *}
     <div id="mainmenu">
        <div class="design">
-
-	{* Menubox start *}
-	{let  top_menu=fetch( content, list, hash( parent_node_id, 2, 
-				     sort_by, array( priority, true() ),
-				     class_filter_type, include,
-				     class_filter_array, array( 'folder' ) ) ) }
-
-        <ul>
-	{section name=item loop=$top_menu}
-	    <li>
-	        <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
-	    </li>
-	{/section}
-        </ul>
-	{/let}
-	{* Menubox stop *}    
+        &nbsp;
        </div>
     </div>
     {* Top menu END *}
@@ -119,46 +94,6 @@
        </div>
     </div>
 
-
-    {* Main menu START *}
-    <div id="submenu">
-       <div class="design">
-          <div id="navigation">
-           <h3>Navigation</h3>
-           {let sub_menu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 3)}
-           <ul>
-               {section name=Menu loop=$sub_menu}
-                <li class="level_{$:item.level}"><a href={$:item.url_alias|ezurl}>{$:item.text}</a></li>
-               {/section}
-           </ul>
-           {/let}
-           </div>
-
-            {let news_list=fetch( content, tree, hash( parent_node_id, 2,
-  					               limit, 5,
-						       sort_by, array( published, false() ),
-					               class_filter_type, include, 
-						       class_filter_array, array( 'article' ) ) )}
-                                                          
-            <div id="latestnews">
-            <h3>{"Latest news"|i18n("design/intranet/layout")}</h3>
-            <ul>
-                   {section var=news loop=$news_list sequence=array(bglight,bgdark)}
-                       <li class="{$news.sequence}">
-                       <a href={$news.item.url_alias|ezurl}>{$news.item.name|wash}</a>
-                       <div class="date">
-                        ({$news.item.object.published|l10n( shortdate )})
-                       </div>  
-                       </li>
-                    {/section}
-            </ul>
-            </div>
-           {/let}
-       </div>
-    </div>
-
-    {* Main menu END *}
-    
     </div>
     
     {* Main area END *}

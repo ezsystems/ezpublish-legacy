@@ -44,16 +44,16 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <table class="forum" cellspacing="0">
 <tr>
     <th>
-    Post
+    {"Post"|i18n("design/forum/layout")}
     </th>
     <th>
-    Author
+    {"Author"|i18n("design/forum/layout")}
     </th>
     <th>
-    Replies
+    {"Replies"|i18n("design/forum/layout")}
     </th>
     <th>
-    Last reply
+    {"Last reply"|i18n("design/forum/layout")}
     </th>
 </tr>
 

@@ -4,7 +4,7 @@
                                                    class_filter_array, array( 'folder' ),
                                                    sort_by, array( 'name', true() ) ) )}
 
-<h2>Categories</h2>
+<h2>{"Categories"|i18n("design/blog/layout")}</h2>
 
 <ul>
   {section var=category loop=$all_category_list}

@@ -57,9 +57,9 @@
 
                 <li>
                     {section show=$current_user.is_logged_in}
-                        <a href={"user/logout"|ezurl}>Logout</a>
+                        <a href={"user/logout"|ezurl}>{"Logout"|i18n("design/gallery/layout")}</a>
                     {section-else}
-                        <a href={"user/login"|ezurl}>Login</a>
+                        <a href={"user/login"|ezurl}>{"Login"|i18n("design/gallery/layout")}</a>
                     {/section}
                 </li>
 
@@ -115,7 +115,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
             </address>
         </div>

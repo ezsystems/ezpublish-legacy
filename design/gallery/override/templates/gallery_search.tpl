@@ -12,7 +12,7 @@
                                                 class_filter_array, array( "album" ),
                                                 limit, 3,
                                                 sort_by, array( 'published', false() ) ) )}
-    <h3>Albums</h3>
+    <h3>{"Albums"|i18n("design/gallery/layout")}</h3>
     <ul>
     {section var=album loop=$album_list}
         <li>
