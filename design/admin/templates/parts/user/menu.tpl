@@ -1,6 +1,8 @@
+{section show=ne( $ui_context, 'browse')}
 <ul>
     <li><a href={"/role/list/"|ezurl}>{"Roles"|i18n("design/admin/layout")}</a></li>
 </ul>
+{/section}
 
 {* Treemenu. *}
 {section show=ezpreference( 'admin_treemenu' )}
