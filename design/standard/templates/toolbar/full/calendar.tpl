@@ -57,7 +57,7 @@
                                                  current_class, 'selected',
                                                  today_class, 'today',
                                                  link, $log_node.url_alias,
-                                                 month_link, true(), year_link, true(), day_link, false(),
+                                                 month_link, true(), year_link, true(), day_link, true(),
                                                  next, hash( link, $log_node.url_alias ),
                                                  previous, hash( link, $log_node.url_alias ) ) )}
         {include name=Month uri="design:navigator/monthview.tpl" month=$month show_week=$show_week}

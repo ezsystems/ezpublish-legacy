@@ -5,8 +5,6 @@
 
         <h2>{$node.name|wash()}</h2>
 
-img='{"quote-up.gif"|ezimage}'
-{* img='{$test|ezimage}' *}
         <div class="attribute-byline">
             <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
             <p class="date">{$node.object.published|l10n(date)}</p>

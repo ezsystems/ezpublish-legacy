@@ -11,7 +11,7 @@
         {section show=is_array( $month.previous )}<td><div class="calendar-previous"><a href={$month.previous.link|ezurl} title="{$month.previous.month} {$month.previous.year}"><div class="calendar-arrow">&laquo;</div> </a></div></td>{/section}
         <td>
         <div class="calendar-date">
-            <div class="calendar-month">{$month.month}</div>&nbsp;<div class="calendar-year">{$month.year}</div>
+            <a href={$month.current.link|ezurl} title="{$month.current.month} {$month.current.year}"><div class="calendar-month">{$month.month}</div>&nbsp;<div class="calendar-year">{$month.year}</div></a>
         </div>
         </td>
         {section show=is_array( $month.next )}<td><div class="calendar-next"><a href={$month.next.link|ezurl} title="{$month.next.month} {$month.next.year}"><div class="calendar-arrow">&raquo;</div> </a></div></td>{/section}
