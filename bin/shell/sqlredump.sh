@@ -186,9 +186,8 @@ function ez_cleanup_db
 }
 
 if [ "$USE_MYSQL" != "" ]; then
-    [ -z "$SQLDUMP" ] && SQLDUMP="all"
     [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
-    [ -n "$SQLDUMP" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
+    [ -n "$SQLDUMP" ] && [ -n "$SCHEMAFILE" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
     [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
     [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
     [ -n "$DB_PWD" ] && PWDARG="-p$DB_PWD"
@@ -278,16 +277,16 @@ if [ "$USE_MYSQL" != "" ]; then
 	ez_result_file $? .mysql.log || exit 1
     fi
 else
-    [ -z "$SQLDUMP" ] && SQLDUMP="all"
     [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
-    [ -n "$SQLDUMP" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
+    [ -n "$SQLDUMP" ] && [ -n "$SCHEMAFILE" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
     [ -n "$DB_USER" ] && USERARG="--username $DB_USER"
     [ -n "$DB_HOST" ] && HOSTARG="--host $DB_HOST"
     [ -n "$DB_PWD" ] && PWDARG="--password $DB_PWD"
 
     function ez_postgresql_loadschema
     {
-	local file, status
+	local file
+	local status
 	file="$1"
 	case $file in
 	    *.dba)
@@ -308,9 +307,10 @@ else
 	return $status
     }
 
-    function ez_postgresql_loadschema
+    function ez_postgresql_loadfile
     {
-	local file, status
+	local file
+	local status
 	file="$1"
 	case $file in
 	    *.dba)
