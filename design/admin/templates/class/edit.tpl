@@ -52,13 +52,13 @@
     {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use the name field to set the informal name of the class. This field may contain whitespace an special characters.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="halfbox" type="text" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use the name field to set the informal name of the class. The name field may contain whitespace and special characters.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Identifier. *}
     <div class="block">
     <label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use The identifier field to set the name of the class internally in eZ publish. This name is used within the templates and PHP code. The identifier may not contain whitespace or special characters.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="halfbox" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use the identifier field to set the name of the class internally in eZ publish. This name is used within the templates and PHP code. The identifier field may not contain whitespace or special characters.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Object name pattern. *}
@@ -102,13 +102,13 @@
 {* Attribute name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/class/edit' )}</label>
-<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" />
+<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name}" title="{'Use the name field to set the informal name of this field. Use this field to describe the content that is supposed to be entered into this attribute. The name field may contain whitespace and special characters.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 {* Attribute identifier. *}
 <div class="block">
 <label>{'Identifier'|i18n( 'design/admin/class/edit' )}</label>
-<input class="box" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" />
+<input class="box" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" title="{'Use the identifier field to set the name of the attribute internally in eZ publish. This name is used within the templates you create for this class. The attribute identifier may not contain whitespace or special characters.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 <!-- Attribute input End -->
@@ -118,7 +118,7 @@
 
 {* Required. *}
 <label>
-<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_required}checked="checked"{/section} />
+<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_required}checked="checked"{/section} title="{'Use the required checkbox to control if the user should be forced to enter information into this attribute.'|i18n( 'design/admin/class/edit' )}" />
 {'Required'|i18n( 'design/admin/class/edit' )}
 </label>
 
@@ -126,9 +126,9 @@
 
 <label>
 {section show=$Attributes.item.data_type.is_indexable}
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_searchable}checked="checked"{/section} />
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_searchable}checked="checked"{/section} title="{'Use the searchable checkbox to control if the information found in this attribute should be indexed by the search engine.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input type="checkbox" name="" value="" disabled="disabled" />
+<input type="checkbox" name="" value="" disabled="disabled" title="{'This attribute type can not be indexed by the search engine.'|i18n( 'design/admin/class/edit' )}" />
 {/section}
 {'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
@@ -136,9 +136,9 @@
 {* Information collector. *}
 <label>
 {section show=$Attributes.item.data_type.is_information_collector}
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_information_collector}checked="checked"{/section} />
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {section show=$Attributes.item.is_information_collector}checked="checked"{/section} title="{'Use the information collector checkbox to control whether this attribute is used to display information to the user or to fetch information from the user.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input type="checkbox" name="" value="" disabled="disabled" />
+<input type="checkbox" name="" value="" disabled="disabled" title="{'This attribute type can not be used as an information collector.'|i18n( 'design/admin/class/edit' )}" />
 {/section}
 {'Information collector'|i18n( 'design/admin/class/edit' )}
 </label>
@@ -146,7 +146,7 @@
 
 {* Disable translation. *}
 <label>
-<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=$Attributes.item.can_translate|eq(0)}checked="checked"{/section} />
+<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=$Attributes.item.can_translate|eq(0)}checked="checked"{/section} title="{'Use disable translation checkbox to control if this attribute should be translated or not when an instance of this class is translated into another language. Use this setting for attributes that contain non-translatable content.'|i18n( 'design/admin/class/edit' )}" />
 {'Disable translation'|i18n( 'design/admin/class/edit' )}
 </label>
 
