@@ -37,22 +37,17 @@
 
 /*
  
-Yes, this file still needs A LOT of work.
-
-Here a short todo list (in no order):
+Here a short todo list (more or less in order of importance):
     - use internationalization    
     - more tests: 
         + critical combinations (winxp + php_isapi + ezsession = crash)
         + redhat: multipart/form-data
-        + security tests (.htaccess, admin password) 
     - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
-    - create classes
+    - create classes (?)
     - installation of demo data
     - register email to ez systems
     - download of ez publish by php script
     - upgrade option
-
-...feel free to add to this list, what I forgot.
 
 */
 
