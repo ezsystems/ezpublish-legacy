@@ -32,6 +32,10 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/can_create_class_list_incorrect
 - Fixed bug. Used depreated content.ini setting AvailableSiteDesigns when cleaning up contentcache
   http://ez.no/community/bug_reports/ezcontentcache
+- Fixed bug in eZImage datatype, when an attribute of eZImage datatype is set
+  to not have translations the whole content of the original language is copied
+  to the translated language. This ensures that filenames point to the original
+  image.
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
