@@ -43,6 +43,47 @@
   \class eZDBSchemaInterface ezdbschemainterface.php
   \ingroup eZDBSchema
   \brief This class provide interface for DB schema library
+
+  Schema structure an array with Table structures, each key is the name of the
+  table.
+
+  Table structure:
+  - name - Name of table
+  - fields - Array of Field structures, each key is the field name
+  - indexes - Array of Index structures, each key is the index name
+  - removed - Contains whether the table has been removed or not (Optional)
+  - comments - An array with comment strings (Optional)
+
+  The \c removed entry will only be used when some comments have been added
+  to the table. That way the comments can be added to the DROP TABLE statements.
+
+  Field structure:
+  - length - A number which defines the length/size of the type or \c false
+  - type - String containing the identifier of the Type, see Types below.
+  - not_null - Is 1 if the type cannot be null, otherwise it can
+  - default - The default value, the value depends on the type, \c false means no default value.
+
+  Index structure:
+  - type - What kind of index, see Index Types.
+  - fields - Array of field names the index is made on
+
+  Index Types:
+  - primary - A primary key, there can only be one primary key. This key will be named PRIMARY.
+  - non-unique - A standard index
+  - unique - A unique index
+
+  Field Types:
+  - int - Integer, uses \c length to define number of digits.
+  - float - Float, uses \c length to define number of digits.
+  - auto_increment - Integer that auto increments (uses sequence+trigger).
+  - varchar - String with variable length, uses \c length for max length.
+  - longtext - String with 2^32 number of possible characters
+  - mediumtext - String with 2^24 number of possible characters
+  - shorttext - String with 2^16 number of possible characters
+
+  When stored as a PHP array the schema structure will be placed in a variable
+  called $schema. The data structure will be placed in $data.
+
 */
 
 class eZDBSchemaInterface
@@ -151,12 +192,17 @@ class eZDBSchemaInterface
      \param difference array
      \param filename
     */
-	function writeUpgradeFile( $differences, $filename )
+	function writeUpgradeFile( $differences, $filename, $params = array() )
     {
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false,
+                                      'allow_multi_insert' => false,
+                                      'diff_friendly' => false ),
+                               $params );
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-			fputs( $fp, $this->generateUpgradeFile( $differences ) );
+			fputs( $fp, $this->generateUpgradeFile( $differences, $params ) );
 			fclose( $fp );
 			return true;
 		}
@@ -171,12 +217,27 @@ class eZDBSchemaInterface
 
       \param filename
     */
-    function writeSQLSchemaFile( $filename )
+    function writeSQLSchemaFile( $filename, $params = array() )
     {
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false,
+                                      'allow_multi_insert' => false,
+                                      'diff_friendly' => false ),
+                               $params );
+        $includeSchema = $params['schema'];
+        $includeData = $params['data'];
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-			fputs( $fp, $this->generateSchemaFile( $this->schema() ) );
+            $schema = $this->schema();
+            if ( $includeSchema )
+            {
+                fputs( $fp, $this->generateSchemaFile( $schema, $params ) );
+            }
+            if ( $includeData )
+            {
+                fputs( $fp, $this->generateDataFile( $schema, $this->data( $schema ), $params ) );
+            }
 			fclose( $fp );
 			return true;
 		}
@@ -293,14 +354,17 @@ class eZDBSchemaInterface
      \param database schema
      \return schema for file output
     */
-    function generateSchemaFile( $schema )
+    function generateSchemaFile( $schema, $params = array() )
 	{
 		$sql = '';
 
-		foreach ( $schema as $table => $table_def )
+        $i = 0;
+		foreach ( $schema as $table => $tableDef )
 		{
-            $sql .= $this->generateTableSchema( $table, $table_def );
-			$sql .= "\n\n";
+            if ( $i > 0 )
+                $sql .= "\n\n";
+            $sql .= $this->generateTableSchema( $table, $tableDef, $params );
+            ++$i;
 		}
 
 		return $sql;
@@ -309,8 +373,13 @@ class eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateUpgradeFile( $differences )
+	function generateUpgradeFile( $differences, $params = array() )
 	{
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false,
+                                      'allow_multi_insert' => false,
+                                      'diff_friendly' => false ),
+                               $params );
 		$sql = '';
 
 		/* Loop over all 'table_changes' */
@@ -322,7 +391,8 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['added_fields'] as $field_name => $added_field )
 					{
-						$sql .= $this->generateAddFieldSql( $table, $field_name, $added_field );
+                        $this->appendSQLComments( $added_field, $sql );
+						$sql .= $this->generateAddFieldSql( $table, $field_name, $added_field, $params );
 					}
 				}
 
@@ -330,14 +400,16 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
 					{
-						$sql .= $this->generateAlterFieldSql( $table, $field_name, $changed_field );
+                        $this->appendSQLComments( $changed_field, $sql );
+						$sql .= $this->generateAlterFieldSql( $table, $field_name, $changed_field, $params );
 					}
 				}
 				if ( isset ( $table_diff['removed_fields'] ) )
 				{
 					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field)
 					{
-						$sql .= $this->generateDropFieldSql( $table, $field_name );
+                        $this->appendSQLComments( $removed_field, $sql );
+						$sql .= $this->generateDropFieldSql( $table, $field_name, $params );
 					}
 				}
 
@@ -345,15 +417,16 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
 					{
-						$sql .= $this->generateDropIndexSql( $table, $index_name, $removed_index );
+                        $this->appendSQLComments( $removed_index, $sql );
+                        $sql .= $this->generateDropIndexSql( $table, $index_name, $removed_index, $params );
 					}
 				}
-
 				if ( isset ( $table_diff['added_indexes'] ) )
 				{
 					foreach ( $table_diff['added_indexes'] as $index_name => $added_index)
 					{
-						$sql .= $this->generateAddIndexSql( $table, $index_name, $added_index );
+                        $this->appendSQLComments( $added_index, $sql );
+						$sql .= $this->generateAddIndexSql( $table, $index_name, $added_index, $params );
 					}
 				}
 
@@ -361,8 +434,9 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
 					{
-						$sql .= $this->generateDropIndexSql( $table, $index_name );
-						$sql .= $this->generateAddIndexSql( $table, $index_name, $changed_index );
+                        $this->appendSQLComments( $changed_index, $sql );
+						$sql .= $this->generateDropIndexSql( $table, $index_name, $params );
+						$sql .= $this->generateAddIndexSql( $table, $index_name, $changed_index, $params );
 					}
 				}
 			}
@@ -371,14 +445,16 @@ class eZDBSchemaInterface
 		{
 			foreach ( $differences['new_tables'] as $table => $table_def )
 			{
-                $sql .= $this->generateTableSchema( $table, $table_def );
+                $this->appendSQLComments( $table_def, $sql );
+                $sql .= $this->generateTableSchema( $table, $table_def, $params );
             }
         }
         if ( isset( $differences['removed_tables'] ) )
         {
             foreach ( $differences['removed_tables'] as $table => $table_def )
             {
-                $sql .= $this->generateDropTable( $table );
+                $this->appendSQLComments( $table_def, $sql );
+                $sql .= $this->generateDropTable( $table, $params );
             }
         }
         return $sql;
@@ -536,6 +612,29 @@ class eZDBSchemaInterface
 
 		return $sql . ";\n";
 	}
+
+    /*!
+     Appends any comments found in \a $def to SQL text \a $sql as SQL comments.
+     \return \c true if any comments were added.
+    */
+    function appendSQLComments( $def, &$sql )
+    {
+        if ( isset( $def['comments'] ) )
+        {
+            if ( count( $def['comments'] ) > 0 )
+                $sql .= "\n";
+            foreach ( $def['comments'] as $comment )
+            {
+                $commentLines = explode( "\n", $comment );
+                foreach ( $commentLines as $commentLine )
+                {
+                    $sql .= '-- ' . $commentLine . "\n";
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     /*!
      \virtual

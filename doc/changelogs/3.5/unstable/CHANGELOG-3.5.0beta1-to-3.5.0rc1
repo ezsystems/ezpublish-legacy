@@ -9,6 +9,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   {$module_result.content_info.persistent_variable}
 - Made sure all errors, warnings and notices in eZScript are sent to stderr.
 - Added support for dumping data in ezsqldumpschema.php.
+- Added support for dumping to SQL format in ezsqldumpschema.php.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should
@@ -109,3 +110,10 @@ eZDBSchema:
   before new indexes.
 - Added support for dumping the data of tables to array and serialized
   structures. The default code will work for most database implementations.
+- Added support for dumping to SQL format.
+- All SQL output can now be dumped in a diff friendly format which is designed
+  to work well with Subversion.
+- The generated SQL for the primary key in PostgreSQL will not make a key
+  based on the table name.
+- Added check for primary key length in PostgreSQL, the length of the key must
+  not exceed 63 characters.

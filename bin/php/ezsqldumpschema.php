@@ -48,6 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]" .
+                                "[diff-friendly]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
@@ -57,6 +58,8 @@ $options = $script->getOptions( "[type:][user:][host:][password:][output-array][
                                        'password' => "Password to use when connecting to source database",
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
+                                       'output-sql' => 'Create file with SQL data (DB friendly)',
+                                       'diff-friendly' => 'Will make the output friendlier towards the diff command (applies to SQL output only)',
                                        'allow-multi-insert' => ( 'Will create INSERT statements with multiple data entries (applies to data output only)' . "\n" .
                                                                  'Multi-inserts will only be created for databases that support it' ),
                                        'output-types' => ( "A comma separated list of types to include in dump (default is schema only):\n" .
@@ -124,13 +127,16 @@ if ( $options['output-types'] )
 
 $dbschemaParameters = array( 'schema' => $includeSchema,
                              'data' => $includeData,
-                             'allow_multi_insert' => $options['allow-multi-insert'] );
+                             'allow_multi_insert' => $options['allow-multi-insert'],
+                             'diff_friendly' => $options['diff-friendly'] );
 
 $outputType = 'serialized';
 if ( $options['output-array'] )
     $outputType = 'array';
 if ( $options['output-serialized'] )
     $outputType = 'serialized';
+if ( $options['output-sql'] )
+    $outputType = 'sql';
 
 if ( strlen( trim( $type ) ) == 0)
 {
@@ -169,6 +175,11 @@ else if ( $outputType == 'array' )
 {
     $dbSchema->writeArraySchemaFile( $filename,
                                      $dbschemaParameters );
+}
+else if ( $outputType == 'sql' )
+{
+    $dbSchema->writeSQLSchemaFile( $filename,
+                                   $dbschemaParameters );
 }
 
 $script->shutdown();

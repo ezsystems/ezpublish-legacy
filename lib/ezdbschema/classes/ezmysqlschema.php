@@ -201,28 +201,33 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAddIndexSql( $table_name, $index_name, $def )
+	function generateAddIndexSql( $table_name, $index_name, $def, $params )
 	{
-		$sql = "ALTER TABLE $table_name ADD ";
+        $diffFriendly = $params['diff_friendly'];
+        $sql = '';
+		$sql .= "ALTER TABLE $table_name ADD";
 
+        $sql .= " ";
 		switch ( $def['type'] )
 		{
             case 'primary':
             {
-                $sql .= 'PRIMARY KEY ';
+                $sql .= 'PRIMARY KEY';
             } break;
 
             case 'non-unique':
             {
-                $sql .= "INDEX $index_name ";
+                $sql .= "INDEX $index_name";
             } break;
 
             case 'unique':
             {
-                $sql .= "UNIQUE $index_name ";
+                $sql .= "UNIQUE $index_name";
             } break;
 		}
-		$sql .= '( ' . join ( ', ', $def['fields'] ) . ' )';
+        $sql .= ( $diffFriendly ? " (\n    " : " ( " );
+		$sql .= join( ( $diffFriendly ? ",\n    " : ', ' ), $def['fields'] );
+        $sql .= ( $diffFriendly ? "\n)" : " )" );
 
 		return $sql . ";\n";
 	}
@@ -230,9 +235,10 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql( $table_name, $index_name, $def )
+	function generateDropIndexSql( $table_name, $index_name, $def, $params )
 	{
-		$sql = "ALTER TABLE $table_name DROP ";
+        $sql = '';
+		$sql .= "ALTER TABLE $table_name DROP ";
 
 		if ( $def['type'] == 'primary' )
 		{
@@ -248,8 +254,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateFieldDef( $field_name, $def, &$skip_primary )
+	function generateFieldDef( $field_name, $def, &$skip_primary, $params )
 	{
+        $diffFriendly = $params['diff_friendly'];
 		$sql_def = $field_name . ' ';
 
 		if ( $def['type'] != 'auto_increment' )
@@ -259,31 +266,40 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				$sql_def .= "({$def['length']})";
 			}
-			$sql_def .= ' ';
 			if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
             {
-				$sql_def .= 'NOT NULL ';
+                $sql_def .= $diffFriendly ? "\n    " : " ";
+				$sql_def .= 'NOT NULL';
 			}
             if ( array_key_exists( 'default', $def ) )
             {
+                $sql_def .= $diffFriendly ? "\n    " : " ";
                 if ( $def['default'] === null )
                 {
-                    $sql_def .= "DEFAULT NULL ";
+                    $sql_def .= "DEFAULT NULL";
                 }
                 else if ( $def['default'] !== false )
                 {
-                    $sql_def .= "DEFAULT '{$def['default']}' ";
+                    $sql_def .= "DEFAULT '{$def['default']}'";
                 }
 			}
 			else if ( $def['type'] == 'varchar' )
 			{
-				$sql_def .= "DEFAULT '' ";
+                $sql_def .= $diffFriendly ? "\n    " : " ";
+				$sql_def .= "DEFAULT ''";
 			}
 			$skip_primary = false;
 		}
 		else
 		{
-			$sql_def .= 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY';
+            if ( $diffFriendly )
+            {
+                $sql_def .= "int(11)\n    NOT NULL\n    AUTO_INCREMENT\n    PRIMARY KEY";
+            }
+            else
+            {
+                $sql_def .= 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY';
+            }
 			$skip_primary = true;
 		}
 		return $sql_def;
@@ -292,10 +308,10 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAddFieldSql( $table_name, $field_name, $def )
+	function generateAddFieldSql( $table_name, $field_name, $def, $params )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
+		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy, $params );
 
 		return $sql . ";\n";
 	}
@@ -303,39 +319,40 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAlterFieldSql( $table_name, $field_name, $def )
+	function generateAlterFieldSql( $table_name, $field_name, $def = array() )
 	{
 		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
+		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy, $params );
 
 		return $sql . ";\n";
 	}
 
 	/*!
-	 * \private
-	 */
-	function generateTableSchema( $table, $table_def )
+	 \private
+    */
+	function generateTableSchema( $tableName, $tableDef, $params )
 	{
+        $diffFriendly = $params['diff_friendly'];
 		$sql = '';
         $skip_pk = false;
         $sql_fields = array();
-        $sql .= "CREATE TABLE $table (\n";
-        foreach ( $table_def['fields'] as $field_name => $field_def )
+        $sql .= "CREATE TABLE $tableName (\n";
+        foreach ( $tableDef['fields'] as $field_name => $field_def )
         {
-            $sql_fields[] = "\t". eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag );
+            $sql_fields[] = '  ' . eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag, $params );
             if ( $skip_pk_flag )
             {
                 $skip_pk = true;
             }
         }
-        $sql .= join ( ",\n", $sql_fields ) . "\n);\n";
+        $sql .= join( ",\n", $sql_fields ) . "\n);\n";
 
-        foreach ( $table_def['indexes'] as $index_name => $index_def )
+        foreach ( $tableDef['indexes'] as $index_name => $index_def )
         {
             if ( $index_def['type'] != 'primary' or
                  ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
             {
-                $sql .= eZMysqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
+                $sql .= eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params );
             }
         }
 		return $sql;
@@ -344,7 +361,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     /*!
      * \private
      */
-    function generateDropTable( $table )
+    function generateDropTable( $table, $params )
     {
         return "DROP TABLE $table;\n";
     }

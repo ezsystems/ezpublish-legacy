@@ -240,8 +240,21 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			$fields = array();
 			$kn = $row['relname'];
 
+			$column_id_array = split( ' ', $row['indkey'] );
 			if ( $row['indisprimary'] == 't' )
 			{
+                // If the name of the key matches our primary key naming standard
+                // we change the name to PRIMARY, this makes it 100% similar to
+                // primary keys in MySQL
+                $correctName = $this->primaryKeyIndexName( $table, $kn, $column_id_array );
+                if ( strlen( $correctName ) > 63 )
+                {
+                    eZDebug::writeError( "The name '$correctName' (" . strlen( $correctName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
+                }
+                if ( $kn == $correctName )
+                {
+                    $kn = 'PRIMARY';
+                }
 				$indexes[$kn]['type'] = 'primary';
 			}
 			else
@@ -251,7 +264,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
 			/* getting fieldnames requires yet another query and it doesn't return it 'in order' either.
 			 * grumbl, stupid pgsql :) */
-			$column_id_array = split( ' ', $row['indkey'] );
 			$att_ids = join( ', ',  $column_id_array );
 			$query = str_replace( '<<indexrelid>>', $row['indrelid'], FETCH_INDEX_COL_NAMES_QUERY );
 			$query = str_replace( '<<attids>>', $att_ids, $query );
@@ -343,6 +355,18 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 		}
 	}
 
+    /*!
+     \private
+     The name will consist of the table name and _pkey, since it is only allowed
+     to have one primary key pre table that shouldn't be a problem.
+
+     \return A string representing the name of the primary key index.
+    */
+    function primaryKeyIndexName( $tableName, $indexName, $fields )
+    {
+        return $tableName . '_pkey';
+    }
+
 	function convertToStandardType( $type, &$length )
 	{
 		switch ( $type )
@@ -417,26 +441,35 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAddIndexSql( $table_name, $index_name, $def )
+	function generateAddIndexSql( $table_name, $index_name, $def, $params )
 	{
+        $diffFriendly = $params['diff_friendly'];
 		switch ( $def['type'] )
 		{
             case 'primary':
             {
-                $sql = "ALTER TABLE ONLY $table_name ADD CONSTRAINT $index_name PRIMARY KEY ";
+                $sql = "-- $index_name\n";
+                $pkeyName = $this->primaryKeyIndexName( $table_name, $index_name, $def['fields'] );
+                if ( strlen( $pkeyName ) > 63 )
+                {
+                    eZDebug::writeError( "The primary key '$pkeyName' (" . strlen( $pkeyName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
+                }
+                $sql .= "ALTER TABLE ONLY $table_name ADD CONSTRAINT $pkeyName PRIMARY KEY";
             } break;
 
             case 'non-unique':
             {
-                $sql = "CREATE INDEX $index_name ON $table_name USING btree ";
+                $sql = "CREATE INDEX $index_name ON $table_name USING btree";
             } break;
 
             case 'unique':
             {
-                $sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree ";
+                $sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree";
             } break;
 		}
-		$sql .= '( "' . join ( '", "', $def['fields'] ) . '" )';
+		$sql .= ( $diffFriendly ? " (\n  \"" : '( "' );
+        $sql .= join( ( $diffFriendly ? "\",\n  \"" : '", "' ), $def['fields'] );
+        $sql .= ( $diffFriendly ? "\"\n)" : '" )' );
 
 		return $sql . ";\n";
 	}
@@ -460,10 +493,12 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true )
+	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true, $params )
 	{
-		$sql_def = $field_name . ' ';
+        $diffFriendly = $params['diff_friendly'];
+		$sql_def = $field_name;
 
+        $sql_def .= ( $diffFriendly ? "\n    " : " " );
 		if ( $def['type'] != 'auto_increment' )
 		{
 			$pgType = eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
@@ -472,16 +507,32 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			{
 				$sql_def .= "({$def['length']})";
 			}
-			$sql_def .= ' ';
 			if ( $add_default_not_null )
 			{
-                $sql_def .= eZPGSQLSchema::generateDefaultDef( false, false, $def );
-                $sql_def .= eZPGSQLSchema::generateNullDef( false, false, $def );
+                $defaultDef = eZPGSQLSchema::generateDefaultDef( false, false, $def );
+                if ( $defaultDef )
+                {
+                    $sql_def .= ( $diffFriendly ? "\n    " : " " );
+                    $sql_def .= rtrim( $defaultDef );
+                }
+                $nullDef = eZPGSQLSchema::generateNullDef( false, false, $def );
+                if ( $nullDef )
+                {
+                    $sql_def .= ( $diffFriendly ? "\n    " : " " );
+                    $sql_def .= trim( $nullDef );
+                }
 			}
 		}
 		else
 		{
-			$sql_def .= "integer DEFAULT nextval('{$table_name}_s'::text) NOT NULL";
+            if ( $diffFriendly )
+            {
+                $sql_def .= "integer\n    DEFAULT nextval('{$table_name}_s'::text)\n    NOT NULL";
+            }
+            else
+            {
+                $sql_def .= "integer DEFAULT nextval('{$table_name}_s'::text) NOT NULL";
+            }
 		}
 		return $sql_def;
 	}
@@ -574,8 +625,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateTableSchema( $table, $table_def )
+	function generateTableSchema( $table, $table_def, $params )
 	{
+        $diffFriendly = $params['diff_friendly'];
 		$sql = '';
         $sql_fields = array();
         /* First we need to check if we use auto increment fields as
@@ -584,20 +636,20 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         {
             if ( $index_def['type'] == 'primary' )
             {
-                $sql .= "CREATE SEQUENCE {$table}_s\n\tSTART 1\n\tINCREMENT 1\n\tMAXVALUE 9223372036854775807\n\tMINVALUE 1\n\tCACHE 1;\n\n";
+                $sql .= "CREATE SEQUENCE {$table}_s\n  START 1\n  INCREMENT 1\n  MAXVALUE 9223372036854775807\n  MINVALUE 1\n  CACHE 1;\n";
             }
         }
 
         $sql .= "CREATE TABLE $table (\n";
         foreach ( $table_def['fields'] as $field_name => $field_def )
         {
-            $sql_fields[] = "\t". eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def );
+            $sql_fields[] = "  " . eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def, true, $params );
         }
-        $sql .= join ( ",\n", $sql_fields ) . "\n);\n";
+        $sql .= join( ",\n", $sql_fields ) . "\n);\n";
 
         foreach ( $table_def['indexes'] as $index_name => $index_def )
         {
-            $sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
+            $sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
         }
 
 		return $sql;

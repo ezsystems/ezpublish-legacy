@@ -65,7 +65,12 @@ class eZDbSchemaChecker
         {
 			if ( !isset( $schema2[$name] ) )
             {
-				$diff['removed_tables'][$name] = true;
+				$diff['removed_tables'][$name] = $def;
+			}
+			else if ( isset( $schema2[$name]['removed'] ) and
+                      isset( $schema2[$name]['removed'] ) )
+            {
+				$diff['removed_tables'][$name] = $def;
 			}
 		}
 
@@ -88,6 +93,11 @@ class eZDbSchemaChecker
 		foreach ( $table1['fields'] as $name => $def )
         {
 			if ( !isset( $table2['fields'][$name] ) )
+            {
+				$table_diff['removed_fields'][$name] = true;
+			}
+			else if ( isset( $table2['fields'][$name]['removed'] ) and
+                      $table2['fields'][$name]['removed'] )
             {
 				$table_diff['removed_fields'][$name] = true;
 			}
@@ -151,6 +161,7 @@ class eZDbSchemaChecker
             }
             $table2Indexes = $tmp2Indexes;
         }
+
 		/* See if all the indexes in table 1 exist in table 2 */
         foreach ( $table2Indexes as $name => $def )
         {
@@ -164,6 +175,14 @@ class eZDbSchemaChecker
         {
 			if ( !isset( $table2Indexes[$name] ) )
             {
+				$table_diff['removed_indexes'][$name] = $def;
+			}
+			else if ( isset( $table2Indexes[$name]['removed'] ) and
+                      $table2Indexes[$name]['removed'] )
+            {
+                if ( isset( $table2Indexes[$name]['comments'] ) )
+                    $def['comments'] = array_merge( isset( $def['comments'] ) ? $def['comments'] : array(),
+                                                    $table2Indexes[$name]['comments'] );
 				$table_diff['removed_indexes'][$name] = $def;
 			}
 		}
