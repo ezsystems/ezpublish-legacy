@@ -82,7 +82,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'parent_nodes' => 'parentNodes',
                                                       'node_assignments' => 'nodeAssignments',
                                                       'contentobject' => 'contentObject',
-                                                      'translation_list' => 'translations'
+                                                      'language_list' => 'translations',
+                                                      'translation_list' => 'translationList'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
                       'sort' => array( 'version' => 'asc' ),
@@ -99,6 +100,7 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'parent_nodes'
             or $attr == 'node_assignments'
             or $attr == 'contentobject'
+            or $attr == 'language_list'
             or $attr == 'translation_list'
             or eZPersistentObject::hasAttribute( $attr );
     }
@@ -138,9 +140,13 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             return  $this->contentObject();
         }
-        elseif ( $attr == 'translation_list' )
+        elseif ( $attr == 'language_list' )
         {
             return  $this->translations();
+        }
+        elseif ( $attr == 'translation_list' )
+        {
+            return  $this->translationList( eZContentObject::defaultLanguage() );
         }
         else
         {
@@ -255,7 +261,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function remove()
     {
-        eZDebug::writeNotice( $this, 'version' );
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
@@ -280,7 +285,20 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
             }
         }
+    }
 
+    function removeTranslation( $languageCode )
+    {
+        eZDebug::writeDebug( $this, 'removeTranslation:version' );
+        $versionNum = $this->attribute( 'version' );
+
+        $contentObjectAttributes =& $this->contentObjectAttributes( $languageCode );
+
+        foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+        {
+            $attribute =& $contentObjectAttributes[$attributeKey];
+            $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
+        }
     }
 
     /*!
@@ -303,20 +321,44 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      Returns an array with all the translations for the current version.
     */
-    function translations()
+    function translations( $asObject = true )
+    {
+        return $this->translationList( false, $asObject );
+    }
+
+    /*!
+     Returns an array with all the translations for the current version.
+    */
+    function translationList( $language = false, $asObject = true )
     {
         $db =& eZDB::instance();
 
+        $languageSQL = '';
+        if ( $language !== false )
+        {
+            $languageSQL = "AND language_code!='$language'";
+        }
         $query = "SELECT language_code FROM ezcontentobject_attribute
                   WHERE contentobject_id='$this->ContentObjectID' AND version='$this->Version'
+                        $languageSQL
                   GROUP BY language_code";
 
         $languageCodes =& $db->arrayQuery( $query );
 
         $translations = array();
-        foreach ( $languageCodes as $languageCode )
+        if ( $asObject )
         {
-            $translations[] = new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, $languageCode["language_code"] );
+            foreach ( $languageCodes as $languageCode )
+            {
+                $translations[] = new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, $languageCode["language_code"] );
+            }
+        }
+        else
+        {
+            foreach ( $languageCodes as $languageCode )
+            {
+                $translations[] = $languageCode["language_code"];
+            }
         }
 
         return $translations;
@@ -394,6 +436,26 @@ class eZContentObjectVersion extends eZPersistentObject
     function &creator()
     {
         return eZContentObject::fetch( $this->CreatorID );
+    }
+
+    /*!
+     \returns an array with locale objects, these objects represents the languages the content objects are allowed to be translated into.
+              The array will not include locales that has been translated in this version.
+    */
+    function &nonTranslationList()
+    {
+        $translationList =& eZContentObject::translationList();
+        if ( $translationList === null )
+            return null;
+        $translations =& $this->translations( false );
+        $nonTranslationList = array();
+        foreach ( $translationList as $translationItem )
+        {
+            $locale = $translationItem->attribute( 'locale_code' );
+            if ( !in_array( $locale, $translations ) )
+                $nonTranslationList[] = $translationItem;
+        }
+        return $nonTranslationList;
     }
 }
 

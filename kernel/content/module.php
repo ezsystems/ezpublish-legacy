@@ -119,6 +119,16 @@ $ViewList["permission"] = array(
 $ViewList["translate"] = array(
     "functions" => array( 'edit' ),
     "script" => "translate.php",
+    'single_post_actions' => array( 'EditObjectButton' => 'EditObject',
+                                    'PreviewButton' => 'Preview',
+                                    'StoreButton' => 'Store',
+                                    'AddLanguageButton' => 'AddLanguage',
+                                    'RemoveLanguageButton' => 'RemoveLanguage',
+                                    'EditLanguageButton' => 'EditLanguage' ),
+    'post_action_parameters' => array( 'AddLanguage' => array( 'SelectedLanguage' => 'SelectedLanguage' ) ,
+                                       'RemoveLanguage' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
+                                       'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
+    'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
     "params" => array( "ObjectID", "EditVersion" ) );
 
 

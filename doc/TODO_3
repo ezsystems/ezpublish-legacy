@@ -324,3 +324,7 @@ Caching
 _______
 Create a class for creating PHP cache files, should be use by eZINI and other classes
 which creates cache files.
+
+----------
+Make sure all views uses the action system instead of post variables directly.
+Add function support to all modules that could use it.

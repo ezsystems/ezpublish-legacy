@@ -75,13 +75,19 @@ class eZDataType
      Initializes the datatype with the string id \a $dataTypeString and
      the name \a $name.
     */
-    function eZDataType( $dataTypeString, $name )
+    function eZDataType( $dataTypeString, $name, $properties = array() )
     {
         $this->DataTypeString = $dataTypeString;
         $this->Name = $name;
+
+        $translationAllowed = true;
+        if ( isset( $properties['translation_allowed'] ) )
+            $translationAllowed = $properties['translation_allowed'];
+
         $this->Attributes = array();
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
+        $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed );
     }
 
     /*!

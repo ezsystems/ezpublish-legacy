@@ -2,8 +2,8 @@
 <b>User account information</b>
 
 <br />
-{"Login"|i18n}:
+{"Login"|i18n('content/object')}:
 {$attribute.content.login}
 <br />
-{"Email"|i18n}:
+{"Email"|i18n('content/object')}:
 {$attribute.content.email}

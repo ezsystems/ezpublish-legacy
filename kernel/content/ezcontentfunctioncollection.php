@@ -54,6 +54,22 @@ class eZContentFunctionCollection
     {
     }
 
+    function &fetchNonTranslationList( $objectID, $version )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        $version =& eZContentObjectVersion::fetchVersion( $version, $objectID );
+        if ( $version === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+
+        $nonTranslationList =& $version->nonTranslationList();
+        if ( $nonTranslationList === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$nonTranslationList );
+    }
+
     function &fetchTranslationList()
     {
         include_once( 'kernel/classes/ezcontentobject.php' );

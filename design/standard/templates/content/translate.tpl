@@ -1,47 +1,86 @@
 <h1>Translation</h1>
 
-<form action={concat("/content/translate/",$object.id,"/",$edit_version,"/")|ezurl} method="post">
+<form action={concat("/content/translate/",$object.id,"/",$edit_version)|ezurl} method="post">
 
-<select name="TranslateToLanguage" >
-  {section name=Translation loop=fetch('content','translation_list')}
+{let name=Translation
+     translation_list=fetch('content','non_translation_list',hash('object_id',$object.id,'version',$edit_version))}
+{section show=$Translation:translation_list}
+
+<h2>Translate to:</h2>
+<select name="SelectedLanguage" >
+  {section loop=$Translation:translation_list}
 <option value="{$Translation:item.locale_code}">{$Translation:item.intl_language_name}</option>
   {/section}
 </select>
-<input type="submit" name="SelectLanguageButton" value="{'Select'|i18n('content/object')}" />
+&nbsp;
+<input type="submit" name="AddLanguageButton" value="{'Add'|i18n('content/object')}" />
 
-<h2>Available translations</h2>
-<table width="100%" cellspacing="0" cellpadding="0" border="1">
+{/section}
+{/let}
+
+{let name=Translation
+     language_index=0
+     translation_list=$content_version.translation_list}
+{section show=$Translation:translation_list}
+
+<h2>Translations</h2>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-  <th width="98%">Language</th>
+  <th width="2%"><input type="submit" name="EditLanguageButton" value="{'Edit'|i18n('content/object')}" /></th>
+  <th width="96%">Language</th>
   <th width="2%"><input type="submit" name="RemoveLanguageButton" value="{'Remove'|i18n('content/object')}" /></th>
 </tr>
-{section name=TranslationLocale loop=$content_version.translation_list}
+
+{section loop=$Translation:translation_list}
+  {section show=eq($translation_language,$Translation:item.language_code)}
+    {set language_index=$Translation:index}
+  {/section}
+{/section}
+
+{*{section show=eq($Translation:index,$Translation:language_index)}class="bglight"{/section}*}
+
+{section loop=$Translation:translation_list sequence=array('bglight','bgdark')}
 <tr>
-  <td>
-  {section show=$TranslationLocale:item.locale.is_valid}
-    {$TranslationLocale:item.locale.intl_language_name}
+  <td class="{$Translation:sequence}">
+    <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+  </td>
+  <td class="{$Translation:sequence}">
+  {section show=$Translation:item.locale.is_valid}
+    {$Translation:item.locale.intl_language_name}
   {section-else}
-    No locale information for {$TranslationLocale:item.locale.locale_code}
+    {$Translation:item.language_code} (No locale information available)
   {/section}
   </td>
-  <td>
-    <input type="checkbox" name="RemoveLanguageArray[]" value="{$TranslationLocale:item.language_code}" />
+  <td class="{$Translation:sequence}">
+    <input type="checkbox" name="RemoveLanguageArray[]" value="{$Translation:item.language_code}" />
   </td>
 </tr>
 {/section}
 </table>
 
+{/section}
+
+{/let}
+
+{section show=$translation_language}
+
+<br/>
+
+<input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-  <th width="50%">Translation</th>
-  <th width="50%">Original</th>
+  <th width="50%">{$translation_locale.intl_language_name} ({$translation_locale.locale_code})</th>
+  <th width="50%">{$original_locale.intl_language_name} ({$original_locale.locale_code})</th>
 </tr>
 
-{section name=ContentAttribute loop=$content_attributes sequence=array('bglight','bgdark')}
+{section name=ContentAttribute loop=$content_attributes}
+{section-exclude match=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id].contentclass_attribute.data_type.properties.translation_allowed|not}
+
 <tr>
   <td>
     <label>{$ContentAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
-    <input type="hidden" name="ContentAttribute_id[]" value="{$ContentAttribute:item.id}" />
+    <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentAttribute:item.id}" />
   </td>
   <td>
     <label>{$ContentAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
@@ -53,9 +92,10 @@
   <td>
   {let translation=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id]}
     {section show=$ContentAttribute:translation}
-      {attribute_edit_gui attribute=$ContentAttribute:translation}<br />
+      {attribute_edit_gui attribute=$ContentAttribute:translation}
     {/section}
   {/let}
+
   </td>
   <!-- Translated attributes end -->
 
@@ -65,11 +105,20 @@
   </td>
   <!-- Original attributes end -->
 </tr>
+
 {/section}
 
 </table>
-<br />
 
+<br />
 <input type="submit" name="StoreButton" value="Store" />
-<input type="submit" name="BackButton" value="Back" />
+<input type="submit" name="EditObjectButton" value="Edit Object" />
+
+{section-else}
+
+<br />
+<input type="submit" name="EditObjectButton" value="Edit Object" />
+
+{/section}
+
 </form>
