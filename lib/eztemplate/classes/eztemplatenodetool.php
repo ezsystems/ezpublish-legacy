@@ -121,6 +121,28 @@ class eZTemplateNodeTool
 
     /*!
      \static
+     Creates an element which represents an array and returns it.
+    */
+    function createArrayElement( $array, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_ARRAY,
+                      $identifier, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents a boolean and returns it.
+    */
+    function createBooleanElement( $boolean, $variablePlacement = false )
+    {
+        if ( !is_bool( $boolean ) )
+            $boolean = (bool)$boolean;
+        return array( EZ_TEMPLATE_TYPE_BOOLEAN,
+                      $identifier, $variablePlacement );
+    }
+
+    /*!
+     \static
      Creates an element which represents an variable lookup and returns it.
      \param $namespaceScope Type of variable lookup, can be one of:
                             - \b EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL, Look for variables at the very top of the namespace tree
@@ -158,6 +180,145 @@ class eZTemplateNodeTool
     {
         return array( EZ_TEMPLATE_TYPE_ATTRIBUTE,
                       array_merge( array( $name ), $parameters ), $variablePlacement );
+    }
+
+    /*!
+     \return The value of the static element or \c null if the element is not static.
+     \note Make sure the element is checked with isStaticElement() before running this.
+    */
+    function elementStaticValue( $elements )
+    {
+        if ( !eZTemplateNodeTool::isStaticElement( $elements ) )
+            return null;
+        return $elements[0][1];
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to have a static value.
+             It is considered static if the following is true:
+             - The start value is either numeric, text, identifier, array or boolean
+             - It has no operators
+             - It has no attribute lookup
+    */
+    function isStaticElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_VOID,
+                                 EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER,
+                                 EZ_TEMPLATE_TYPE_NUMERIC, EZ_TEMPLATE_TYPE_BOOLEAN, EZ_TEMPLATE_TYPE_ARRAY );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be numerical.
+             It is considered static if the following is true:
+             - The start value is numeric (integer or float)
+             - It has no operators
+             - It has no attribute lookup
+     \sa isStaticElement
+     \note If you don't care about pure integers or floats use isStaticElement instead and just use the
+           element value as numerical value.
+    */
+    function isNumericElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_NUMERIC );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be a string.
+             It is considered static if the following is true:
+             - The start value is string or identifier
+             - It has no operators
+             - It has no attribute lookup
+     \sa isStaticElement
+     \note If you don't care about pure strings use isStaticElement instead and just use the
+           element value as string value.
+    */
+    function isStringElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be an identifier.
+             It is considered static if the following is true:
+             - The start value is identifier
+             - It has no operators
+             - It has no attribute lookup
+     \sa isStaticElement
+     \note If you don't care about pure identifiers use isStringElement or isStaticElement instead.
+    */
+    function isIdentifierElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_IDENTIFIER );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be a boolean.
+             It is considered static if the following is true:
+             - The start value is boolean
+             - It has no operators
+             - It has no attribute lookup
+     \sa isStaticElement
+     \note If you don't care about pure booleans use isStaticElement instead and just use the
+           element value as boolean value.
+    */
+    function isBooleanElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_BOOLEAN );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be an array.
+             It is considered static if the following is true:
+             - The start value is array
+             - It has no operators
+             - It has no attribute lookup
+     \sa isStaticElement
+    */
+    function isArrayElement( $elements )
+    {
+        $staticElements = array( EZ_TEMPLATE_TYPE_ARRAY );
+
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
     }
 
     /*!

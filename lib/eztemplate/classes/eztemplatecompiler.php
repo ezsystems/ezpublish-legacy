@@ -2332,7 +2332,7 @@ else
                 if ( isset( $variableDataItem[4] ) )
                 {
                     $values = $variableDataItem[4];
-                    
+
                     foreach ( $values as $value )
                     {
                         $matchMap[] = "%tmp$value%";

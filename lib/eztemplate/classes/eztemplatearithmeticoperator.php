@@ -247,54 +247,68 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        /* Check if all variables are integers. This is for optimization */
+        /* Check if parameters are static values. This is for optimization */
         $staticResult = 0;
         $allNumeric = true;
         $notInitialised = true;
+        $newParameters = array();
         foreach ( $parameters as $parameter )
         {
-            if ( $parameter[0][0] != EZ_TEMPLATE_TYPE_NUMERIC )
+            if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
             {
                 $allNumeric = false;
+                if ( !$notInitialised )
+                {
+                    $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
+                    $notInitialised = true;
+                }
+                $newParameters[] = $parameter;
             }
             else
             {
+                $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
                 if ( $notInitialised )
                 {
-                    $staticResult = $parameter[0][1];
+                    $staticResult = $staticValue;
                     $notInitialised = false;
                 }
                 else
                 {
                     if ( $function == 'sum' )
                     {
-                        $staticResult += $parameter[0][1];
+                        $staticResult += $staticValue;
                     }
                     else if ( $function == 'sub' )
                     {
-                        $staticResult -= $parameter[0][1];
+                        $staticResult -= $staticValue;
                     }
                     else if ( $function == 'mul' )
                     {
-                        $staticResult *= $parameter[0][1];
+                        $staticResult *= $staticValue;
                     }
                     else
                     {
-                        $staticResult /= $parameter[0][1];
+                        $staticResult /= $staticValue;
                     }
                 }
             }
         }
- 
+
         if ( $allNumeric )
         {
-            $code = "%output% = $staticResult;\n";
+            $newElements[] = eZTemplateNodeTool::createNumericElement( $staticResult );
+            return $newElements;
         }
         else
         {
+            if ( !$notInitialised )
+            {
+                $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
+            }
+
             $code = '%output% =';
             $counter = 1;
-            foreach ( $parameters as $parameter )
+            foreach ( $newParameters as $parameter )
             {
                 if ( $counter > 1 )
                 {

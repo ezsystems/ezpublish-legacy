@@ -16,6 +16,14 @@ Sum, Sub and Mul tests
 {9|sum( -12 )}
 
 
+Test of nested operators and variable lookup.
+
+{let a=1}
+    {sum( 4, sub( 10, sum( 1, mul( 2, 1 ) ) ), $a, 6 )}
+{/let}
+
+
+
 Min and Max tests
 
 {max( 1, 9, 1, 3 )}
