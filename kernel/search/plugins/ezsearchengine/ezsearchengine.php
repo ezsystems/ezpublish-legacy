@@ -828,6 +828,9 @@ class eZSearchEngine
 
             // Loop every word and insert result in temporary table
 
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( true );
+
             foreach ( $searchPartsArray as $searchPart )
             {
                 $stopWordThresholdValue = 100;
@@ -865,6 +868,7 @@ class eZSearchEngine
                                                $classAttributeQuery
                                                $searchPartText
                                                $subTreeSQL
+                                               $showInvisibleNodesCond
                                          ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                                          ezcontentobject.contentclass_id = ezcontentclass.id and
                                          ezcontentclass.version = '0' and
@@ -891,6 +895,7 @@ class eZSearchEngine
                                           $classAttributeQuery
                                           $searchPartText
                                           $subTreeSQL
+                                          $showInvisibleNodesCond
                                           ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                                           ezcontentobject.contentclass_id = ezcontentclass.id and
                                           ezcontentclass.version = '0' and
@@ -977,6 +982,7 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
+                    $showInvisibleNodesCond
                     $sortWhereSQL
                     ORDER BY $orderByFieldsSQL";
                 if ( $tmpTableCount == 0 )
@@ -994,6 +1000,7 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
+                    $showInvisibleNodesCond
                     $sortWhereSQL";
                 }
             }
@@ -1209,6 +1216,7 @@ class eZSearchEngine
 
         return $fullTextSQL;
     }
+
     /*!
      \private
      \return Returns an sql query part for a phrase
