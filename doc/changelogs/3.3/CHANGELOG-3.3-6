@@ -101,6 +101,8 @@ eZINI:
 - Fixed bug related to missing attributes "rowCount" and "columnCount" of 
   eZMatrix.
   http://ez.no/community/bug_reports/missed_attributes_in_ezmatrix
+- Fixed bug of unrecognized subtree arrays in fetchalias.ini
+  http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
 
 *Library:
 
