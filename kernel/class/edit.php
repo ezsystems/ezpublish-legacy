@@ -387,6 +387,21 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
         $class->storeDefined( $attributes );
     }
 
+    // Set the object name to the first attribute, if not set
+    $classAttributes = $class->fetchAttributes();
+
+    // Fetch the first attribute
+    if ( count( $classAttributes ) > 0 )
+    {
+        $identifier = $classAttributes[0]->attribute( 'identifier' );
+        $identifier = "<" . $identifier . ">";
+        if ( trim( $class->attribute( 'contentobject_name' ) ) == "" )
+        {
+            $class->setAttribute( 'contentobject_name', $identifier );
+            $class->store();
+        }
+    }
+
     // Remove old version 0 first
     eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
 

@@ -47,6 +47,7 @@ links to clickable links.
 - Fixed problem with relation datatype not storing the selected object.
 - Made discard work, even if input did not validate
 - Binary file handler will now give a warning when file uploads are disabled.
+- Added automatic generation of object name definition in class, if empty
 - Now element works for host matching as well.
 - Siteaccess matching can now be debugged with DebugAccess and DebugExtraAccess in
   site.ini under SiteAccessSettings.
