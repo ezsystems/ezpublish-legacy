@@ -358,6 +358,7 @@ class eZTemplateSetFunction
                     {
                         if ( $tpl->hasVariable( $key, $name ) )
                         {
+                            unset( $itemValue );
                             $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                         }
