@@ -90,7 +90,15 @@ class eZXMLTextType extends eZDataType
 
             $data =& $this->convertInput( $data );
 
-            $contentObjectAttribute->setAttribute( "data_text", $data );
+            // \todo add better validation of XML
+
+            $xml = new eZXML();
+            $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+
+            if ( $dom )
+            {
+                $contentObjectAttribute->setAttribute( "data_text", $data );
+            }
 
             eZDebug::writeNotice( $data, "XML text" );
         }
