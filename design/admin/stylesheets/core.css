@@ -286,7 +286,6 @@ div.block div.element, div.buttonblock div.element /* Use this style if several 
 
 div.block div.left, div.viewbar div.left
 {
-    width: 48%;
     text-align: left;
     float: left;
     clear: left;
@@ -294,7 +293,6 @@ div.block div.left, div.viewbar div.left
 
 div.block div.right, div.viewbar div.right
 {
-    width: 48%;
     text-align: right;
     float: right;
     clear: right;
