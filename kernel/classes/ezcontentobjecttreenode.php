@@ -2580,6 +2580,11 @@ WHERE
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
 
+        if ( !is_object( $node ) )
+        {
+            return;
+        }
+
         eZNodeAssignment::remove( $node->attribute( 'parent_node_id' ),
                                   $node->attribute( 'contentobject_id' ) );
 
