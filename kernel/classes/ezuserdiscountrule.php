@@ -179,7 +179,7 @@ class eZUserDiscountRule extends eZPersistentObject
                                               array( "discountrule_id" => $discountRuleID ),
                                               null,
                                               null,
-                                              $asObject );
+                                              true );
         $idArray = array();
         foreach ( $userList as $user )
         {
