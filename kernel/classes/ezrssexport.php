@@ -166,7 +166,11 @@ class eZRSSExport extends eZPersistentObject
         $dateTime = time();
         $user =& eZUser::currentUser();
 
-        $exportItems = $this->fetchItems();
+        if (  $this->ID == null )
+        {
+            eZPersistentObject::store();
+            return;
+        }
         if ( $storeAsValid )
         {
             $oldStatus = $this->attribute( 'status' );
@@ -177,6 +181,7 @@ class eZRSSExport extends eZPersistentObject
                 $item->remove();
             }
         }
+        $exportItems = $this->fetchItems();
         foreach ( $exportItems as $item )
         {
             if ( $storeAsValid )
@@ -285,12 +290,16 @@ class eZRSSExport extends eZPersistentObject
 
             case 'image_node':
             {
+                if ( !$this->ImageID > 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 return eZContentObjectTreeNode::fetch( $this->ImageID );
             }
 
             case 'image_path':
             {
+                if ( !$this->ImageID > 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 $objectNode =& eZContentObjectTreeNode::fetch( $this->ImageID );
                 if ( !isset( $objectNode ) )
@@ -357,7 +366,15 @@ class eZRSSExport extends eZPersistentObject
                 return null;
         }
 
-        return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
+        if ( $id !== null )
+        {
+            return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
+        }
+        else
+        {
+            $items = array();
+            return array();
+        }
     }
 
     /*!
