@@ -97,7 +97,7 @@ class eZSectionFunctionCollection
         $rows = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                      array(),
                                                      array( 'section_id' => $sectionID ),
-                                                     null, null, false, false, $custom );
+                                                     false, null, false, false, $custom );
         return array( 'result' => $rows[0]['count'] );
     }
 
