@@ -641,8 +641,6 @@ class eZContentObjectVersion extends eZPersistentObject
                          WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
         $db->query( "DELETE FROM eznode_assignment
                          WHERE contentobject_id=$contentobjectID AND contentobject_version=$versionNum" );
-        $db->query( "DELETE FROM ezcontentobject_name
-                         WHERE contentobject_id=$contentobjectID AND contentobject_version=$versionNum" );
 
         $db->query( 'DELETE FROM ezcontentobject_version
                          WHERE id=' . $this->attribute( 'id' ) );
@@ -664,6 +662,8 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $contentobject->purge();
         }
+        $db->query( "DELETE FROM ezcontentobject_name
+                         WHERE contentobject_id=$contentobjectID AND content_version=$versionNum" );
     }
 
     function removeTranslation( $languageCode )

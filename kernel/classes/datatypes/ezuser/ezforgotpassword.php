@@ -106,6 +106,15 @@ class eZForgotPassword extends eZPersistentObject
         $db->query( "DELETE FROM ezforgot_password" );
     }
 
+    /*!
+     Remove forgot password entries belonging to user \a $userID
+    */
+    function &remove( $userID )
+    {
+        eZPersistentObject::removeObject( eZForgotPassword::definition(),
+                                          array( 'user_id' => $userID ) );
+    }
+
 }
 
 ?>

@@ -35,6 +35,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed call-time pass-by-reference warning.
   http://ez.no/community/bug_reports/call_time_pass_by_reference_in_ezsmtptransport_php
   (Merged from stable/3.3, rev. 10052)
-
+- Added some more clean-up code for when users are deleted.
+  Part of: http://ez.no/community/bug_reports/3_5_deleting_objects_dirty_tables_after_deleting_process
 
 *Library:

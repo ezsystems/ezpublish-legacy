@@ -569,6 +569,9 @@ WHERE user_id = '" . $userID . "' AND
     function &removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
 
         $user =& eZUser::fetch( $userID );
         if ( $user )
@@ -577,6 +580,9 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         eZSubtreeNotificationRule::removeByUserID( $userID );
+        eZUserSetting::remove( $userID );
+        eZUserAccountKey::remove( $userID );
+        eZForgotPassword::remove( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
