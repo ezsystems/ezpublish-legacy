@@ -148,10 +148,11 @@ else
 
         // Read Cache file
         $fp = @fopen( $cacheFileArray['cache_path'], 'r' );
-        if ( $fp )
+        $stat = fstat( $fp );
+        if ( $fp and !eZContentObject::isCacheExpired( $stat['mtime'] ) )
         {
-            // TODO add expiry checking, get from ezcontentcache.php
             $contents = fread( $fp, filesize( $cacheFileArray['cache_path'] ) );
+
             $Result = unserialize( $contents );
             fclose( $fp );
 
@@ -213,9 +214,9 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
     }
 
-    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, 
-      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
-      $collectionAttributes, $validation );
+    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset,
+                                                     $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
+                                                     $collectionAttributes, $validation );
 
     return $Result;
 }

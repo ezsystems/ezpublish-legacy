@@ -1,6 +1,7 @@
 Changes from 3.4.0alpha4 to 3.4.0beta1
 
 *Kernel:
+- Fixed problem where cache was not removed when a class was created. The new content cache ignored the expiry time.
 
 *Database:
 - Moved the 'Anonymous' role assignment from the 'Anonymous User' to the
