@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{cache-block keys=$uri_string}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,shop_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
@@ -38,6 +39,7 @@ div#maincontent div.design { width: 100%; }
                   
         </div>
     </div>
+{/let}
 
     <div id="mainmenu">
         <div class="design">
@@ -50,7 +52,7 @@ div#maincontent div.design { width: 100%; }
             </ul>
         
         </div>
-    </div>      
+    </div>
         
     <div id="subheader">
         <div class="design">
@@ -63,6 +65,7 @@ div#maincontent div.design { width: 100%; }
                 </form>
             </div>
         </div>
+{/cache-block}
 
         <div id="shoppingmenu">
             <div class="design">
@@ -90,7 +93,8 @@ div#maincontent div.design { width: 100%; }
 
     <div id="maincolumns">
     <div id="leftmenu">
-    
+
+    {cache-block}
     <div id="productmenu">
         <div class="design">
         <h3>Products</h3>
@@ -148,6 +152,8 @@ div#maincontent div.design { width: 100%; }
     </div>
     
     </div>
+
+    {/cache-block}
     
     <div id="rightmenu">
 
@@ -176,6 +182,7 @@ div#maincontent div.design { width: 100%; }
 
         </div>
     </div>
+    {cache-block}
     <div id="infobox">
         <div class="design">
             {let bestseller_list=false()}
@@ -240,7 +247,7 @@ div#maincontent div.design { width: 100%; }
     </div>
 
     </div>
-    
+    {/cache-block}    
     <div id="maincontent">
         <div class="design">
         
@@ -261,7 +268,7 @@ div#maincontent div.design { width: 100%; }
            </p>
 
     </div>
-{/let}
+
             {$module_result.content}
         
             <div class="break"></div>
