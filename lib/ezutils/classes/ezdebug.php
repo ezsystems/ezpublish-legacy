@@ -425,7 +425,7 @@ class eZDebug
       The global variable \c 'eZDebugWarning' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeWarning( $string, $label = "" )
+    function writeWarning( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_WARNING );
         $enabled = eZDebug::isDebugEnabled();
@@ -457,7 +457,7 @@ class eZDebug
         }
         else
         {
-            $debug->write( $string, EZ_LEVEL_WARNING, $label, '', $alwaysLog );
+            $debug->write( $string, EZ_LEVEL_WARNING, $label, $backgroundClass, $alwaysLog );
         }
     }
 
@@ -468,7 +468,7 @@ class eZDebug
       The global variable \c 'eZDebugError' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeError( $string, $label = "" )
+    function writeError( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_ERROR );
         $enabled = eZDebug::isDebugEnabled();
@@ -500,7 +500,7 @@ class eZDebug
         }
         else
         {
-            $debug->write( $string, EZ_LEVEL_ERROR, $label, '', $alwaysLog );
+            $debug->write( $string, EZ_LEVEL_ERROR, $label, $backgroundClass, $alwaysLog );
         }
     }
 
@@ -511,7 +511,7 @@ class eZDebug
       The global variable \c 'eZDebugDebug' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeDebug( $string, $label = "" )
+    function writeDebug( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_DEBUG );
         $enabled = eZDebug::isDebugEnabled();
@@ -543,7 +543,7 @@ class eZDebug
         }
         else
         {
-            $debug->write( $string, EZ_LEVEL_DEBUG, $label, '', $alwaysLog );
+            $debug->write( $string, EZ_LEVEL_DEBUG, $label, $backgroundClass, $alwaysLog );
         }
     }
 
