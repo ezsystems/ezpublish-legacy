@@ -66,10 +66,18 @@
 
     <div id="submenu">
         <div class="design">
-        
+            <h2>Products</h2>  
+            {let path=$module_result.path
+                 node_id=$module_result.node_id}
+
+              {section show=$module_result.path[1].node_id|ne(154)}
+	         {set path=array(hash('node_id',2,'url','/content/view/full/2'),hash('node_id',154,'url','/content/view/full/154'))}
+                 {set node_id=154}
+              {/section}
+
             <h3 class="invisible">Sub menu</h3>
             <ul>
-                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 10 )}
+                {let mainMenu=treemenu($path,$node_id,array('folder','info_page'), 1, 10 )}
                     {section var=menu loop=$mainMenu}
                         {section show=$menu.item.is_selected}
                             <li class="level_{$menu.item.level}">
@@ -85,6 +93,7 @@
                    {/section}
                 {/let}
             </ul>
+            {/let}
         
         </div>
     </div>
@@ -98,6 +107,29 @@
         </div>
     </div>
 
+    <div id="submenu">
+        <div class="design">
+            <h2>Latest products</h2>  
+            {let new_product_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                                    limit, 6, 
+                                                                    sort_by, array( published, false() ),
+                                                                    class_filter_type, include, 
+                                                                    class_filter_array, array( 'product' ) ) )}
+            <ul>
+                   {section name=Product loop=$new_product_list}
+                       <li>
+                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                       <div class="date">
+                        ({$:item.object.published|l10n( shortdate )})
+                       </div>  
+                       </li>
+                    {/section}
+            </ul>
+
+
+            {/let}
+        </div>
+    </div>
     <div id="infobox">
         <div class="design">
 

@@ -10,6 +10,16 @@
 
 {attribute_view_gui attribute=$node.object.data_map.price}
 
+{let related_objects=$node.object.related_contentobject_array}
+    {section show=$related_objects} 
+       <h2>Related products</h2>  
+           {section name=ContentObject  loop=$related_objects show=$related_objects} 
+              {content_view_gui view=text_linked content_object=$ContentObject:item}
+           {/section}
+    {/section}
+{/let}
+
+[todo-add-print-icon]
 <a href={concat('/layout/set/print/', $node.url_alias )|ezurl}>Printer version</a>
 
 <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="Add to basket" />
