@@ -155,6 +155,8 @@ class eZRSSExportItem extends eZPersistentObject
             } break;
             case 'source_path':
             {
+                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 $objectNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
                 if ( !isset( $objectNode ) )
@@ -172,6 +174,8 @@ class eZRSSExportItem extends eZPersistentObject
             } break;
             case 'source_node':
             {
+                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
             } break;
@@ -228,13 +232,22 @@ class eZRSSExportItem extends eZPersistentObject
     function &fetchObjectList( $num = 5 )
     {
         include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-        return eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
-                                                        'DepthOperator' => 'eq',
-                                                        'Limit' => $num,
-                                                        'SortBy' => array( 'published', false ),
-                                                        'ClassFilterType' => 'include',
-                                                        'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
-                                                 $this->attribute( 'source_node_id' ) );
+
+        if (  $this->attribute( 'source_node_id' ) > 0 )
+        {
+            return eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                            'DepthOperator' => 'eq',
+                                                            'Limit' => $num,
+                                                            'SortBy' => array( 'published', false ),
+                                                            'ClassFilterType' => 'include',
+                                                            'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
+                                                     $this->attribute( 'source_node_id' ) );
+        }
+        else
+        {
+            $list = array();
+            return $list;
+        }
     }
 
 }
