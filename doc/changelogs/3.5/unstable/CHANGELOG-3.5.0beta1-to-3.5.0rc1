@@ -8,6 +8,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   {set scope=global persistent_variable=42} and fetched with
   {$module_result.content_info.persistent_variable}
 - Made sure all errors, warnings and notices in eZScript are sent to stderr.
+- Added support for dumping data in ezsqldumpschema.php.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should
@@ -104,3 +105,7 @@ eZDBSchema:
 - Fixed bug in PostgreSQL handler when generating SQL for dropping primary
   index.
 - Fixed bug in MySQL handler when generating SQL for adding indexes.
+- Fixed bug in SQL upgrade file generation, removed indexes are now listed
+  before new indexes.
+- Added support for dumping the data of tables to array and serialized
+  structures. The default code will work for most database implementations.

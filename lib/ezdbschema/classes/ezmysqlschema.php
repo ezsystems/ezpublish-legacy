@@ -348,5 +348,24 @@ class eZMysqlSchema extends eZDBSchemaInterface
     {
         return "DROP TABLE $table;\n";
     }
+
+    /*!
+     \reimp
+     MySQL 3.22.5 and higher support multi-insert queries so if the current
+     database has sufficient version we return \c true.
+     If no database is connected we return \true.
+    */
+    function isMultiInsertSupported()
+    {
+        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
+        {
+            $versionInfo = $this->DBInstance->databaseServerVersion();
+
+            // We require MySQL 3.22.5 to use multi-insert queries
+            // http://dev.mysql.com/doc/mysql/en/INSERT.html
+            return ( version_compare( $versionInfo['string'], '3.22.5' ) >= 0 );
+        }
+        return true;
+    }
 }
 ?>

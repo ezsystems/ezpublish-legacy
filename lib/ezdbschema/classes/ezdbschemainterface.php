@@ -70,6 +70,81 @@ class eZDBSchemaInterface
     }
 
     /*!
+     \virtual
+     Fetches the data for all tables and returns an array containing the data.
+
+     \param $schema A schema array which defines tables to fetch from.
+                    If \c false it will call schema() to fetch it.
+     \param $tableNameList An array with tables to include, will further narrow
+                           tables in \a $scema. Use \c false to fetch all tables.
+
+     \note You shouldn't need to reimplement this method unless since the default
+           code will do simple SELECT queries
+     \sa fetchTableData()
+    */
+    function data( $schema = false, $tableNameList = false )
+    {
+        if ( $schema === false )
+            $schema = $this->schema();
+        $data = array();
+        foreach ( $schema as $tableName => $tableInfo )
+        {
+            if ( is_array( $tableNameList ) and
+                 !in_array( $tableName, $tableNameList ) )
+                continue;
+
+            $tableEntry = $this->fetchTableData( $tableInfo );
+            if ( count( $tableEntry['rows'] ) > 0 )
+                $data[$tableName] = $tableEntry;
+        }
+
+        return $data;
+    }
+
+    /*!
+     \virtual
+     \protected
+     Fetches all rows for table defined in \a $tableInfo and returns this structure:
+     - fields - Array with fields that were fetched from table, the order of the fields
+                are the same as the order of the data
+     - rows - Array with all rows, each row is an indexed array with the data.
+
+     \param $tableInfo Table structure from schema.
+     \param $offset Which offset to start from or \c false to start at top
+     \param $limit How many rows to fetch or \c false for no limit.
+
+     \note You shouldn't need to reimplement this method unless since the default
+           code will do simple SELECT queries
+     \sa data()
+    */
+    function fetchTableData( $tableInfo, $offset = false, $limit = false )
+    {
+        if ( count( $tableInfo['fields'] ) == 0 )
+            return false;
+
+        $tableName = $tableInfo['name'];
+        $fieldText = '';
+        $i = 0;
+        $fields = array();
+        foreach ( $tableInfo['fields'] as $fieldName => $field )
+        {
+            if ( $i > 0 )
+                $fieldText .= ', ';
+            $fieldText .= $fieldName;
+            $fields[] = $fieldName;
+            ++$i;
+        }
+        $rows = $this->DBInstance->arrayQuery( "SELECT $fieldText FROM $tableName" );
+        $resultArray = array();
+        foreach ( $rows as $row )
+        {
+            $resultArray[] = array_values( $row );
+        }
+        return array( 'fields' => $fields,
+                      'rows' => $resultArray );
+    }
+
+    /*!
      \pure
      Write upgrade sql to file
 
@@ -116,13 +191,31 @@ class eZDBSchemaInterface
 
       \param filename
     */
-    function writeSerializedSchemaFile( $filename )
+    function writeSerializedSchemaFile( $filename, $params = array() )
     {
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false ),
+                               $params );
+        $includeSchema = $params['schema'];
+        $includeData = $params['data'];
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-			fputs( $fp, serialize( $this->schema() ) );
-			fclose( $fp );
+            $schema = $this->schema();
+            if ( $includeSchema and $includeData )
+            {
+                fputs( $fp, serialize( array( 'schema' => $schema,
+                                              'data' => $this->data( $schema ) ) ) );
+            }
+            else if ( $includeSchema )
+            {
+                fputs( $fp, serialize( $schema ) );
+            }
+            else if ( $includeData )
+            {
+                fputs( $fp, serialize( $this->data( $schema ) ) );
+            }
+            fclose( $fp );
 			return true;
 		}
         else
@@ -136,17 +229,31 @@ class eZDBSchemaInterface
 
       \param filename
     */
-    function writeArraySchemaFile( $filename )
+    function writeArraySchemaFile( $filename, $params = array() )
     {
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false ),
+                               $params );
+        $includeSchema = $params['schema'];
+        $includeData = $params['data'];
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-            $text = "\$schema = ";
-            $text .= var_export( $this->schema(), true );
-            $text .= ";\n";
-			fputs( $fp, '<?' . 'php' . "\n" . $text . "\n" . '?>' );
-			fclose( $fp );
-			return true;
+            $schema = $this->schema();
+            fputs( $fp, '<?' . 'php' . "\n" );
+            if ( $includeSchema )
+            {
+                fputs( $fp, "// This array contains the database schema\n" );
+                fputs( $fp, '$schema = ' . var_export( $schema, true ) . ";\n" );
+            }
+            if ( $includeData )
+            {
+                fputs( $fp, "// This array contains the database data\n" );
+                fputs( $fp, '$data = ' . var_export( $this->data( $schema ), true ) . ";\n" );
+            }
+            fputs( $fp, "\n" . '?>' );
+            fclose( $fp );
+            return true;
 		}
         else
         {
@@ -154,6 +261,32 @@ class eZDBSchemaInterface
 		}
     }
 
+    /*!
+     \private
+     \param database schema
+     \return schema for file output
+    */
+    function generateDataFile( $schema, $data, $params )
+	{
+        $params = array_merge( array( 'allow_multi_insert' => false,
+                                      'diff_friendly' => false ),
+                               $params );
+		$sql = '';
+
+        $i = 0;
+		foreach ( $schema as $tableName => $tableDef )
+		{
+            if ( !isset( $data[$tableName] ) )
+                continue;
+            if ( $i > 0 )
+                $sql .= "\n\n";
+            $dataEntries = $data[$tableName];
+            $sql .= $this->generateTableInsert( $tableName, $tableDef, $dataEntries, $params );
+            ++$i;
+		}
+
+		return $sql;
+	}
 
     /*!
      \private
@@ -208,6 +341,14 @@ class eZDBSchemaInterface
 					}
 				}
 
+				if ( isset ( $table_diff['removed_indexes'] ) )
+				{
+					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
+					{
+						$sql .= $this->generateDropIndexSql( $table, $index_name, $removed_index );
+					}
+				}
+
 				if ( isset ( $table_diff['added_indexes'] ) )
 				{
 					foreach ( $table_diff['added_indexes'] as $index_name => $added_index)
@@ -222,13 +363,6 @@ class eZDBSchemaInterface
 					{
 						$sql .= $this->generateDropIndexSql( $table, $index_name );
 						$sql .= $this->generateAddIndexSql( $table, $index_name, $changed_index );
-					}
-				}
-				if ( isset ( $table_diff['removed_indexes'] ) )
-				{
-					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
-					{
-						$sql .= $this->generateDropIndexSql( $table, $index_name, $removed_index );
 					}
 				}
 			}
@@ -252,37 +386,167 @@ class eZDBSchemaInterface
 
     /*!
      \pure
-	 \private
+     \protected
 	 */
 	function generateTableSchema( $table, $table_def )
     {
     }
 
     /*!
-	 \private
+     \virtual
+     \protected
+    */
+    function generateTableInsert( $tableName, $tableDef, $dataEntries, $params )
+    {
+        $diffFriendly = $params['diff_friendly'];
+        $multiInsert = $params['allow_multi_insert'] ? $this->isMultiInsertSupported() : false;
+
+        $sql = '';
+        $defText = '';
+        $entryIndex = 0;
+        foreach ( $dataEntries['fields'] as $fieldName )
+        {
+            if ( !isset( $tableDef['fields'][$fieldName] ) )
+                continue;
+            if ( $entryIndex > 0 )
+            {
+                if ( $diffFriendly )
+                {
+                    $defText .= ",\n  ";
+                }
+                else
+                {
+                    $defText .= ", ";
+                }
+            }
+            $defText .= $fieldName;
+            ++$entryIndex;
+        }
+
+        if ( $multiInsert )
+        {
+            if ( $diffFriendly )
+            {
+                $sql .= "INSERT INTO $tableName (\n  $defText\n)\nVALUES\n";
+            }
+            else
+            {
+                $sql .= "INSERT INTO $tableName ($defText) VALUES ";
+            }
+        }
+        $insertIndex = 0;
+        foreach ( $dataEntries['rows'] as $row )
+        {
+            if ( $multiInsert and $insertIndex > 0 )
+            {
+                if ( $diffFriendly )
+                    $sql .= "\n,\n";
+                else
+                    $sql .= ", ";
+            }
+            $dataText = '';
+            $entryIndex = 0;
+            foreach ( $dataEntries['fields'] as $fieldName )
+            {
+                if ( !isset( $tableDef['fields'][$fieldName] ) )
+                    continue;
+                if ( $entryIndex > 0 )
+                {
+                    if ( $diffFriendly )
+                    {
+                        $dataText .= ",\n  ";
+                    }
+                    else
+                    {
+                        $dataText .= ",";
+                    }
+                }
+                $dataText .= $this->generateDataValueTextSQL( $tableDef['fields'][$fieldName], $row[$entryIndex] );
+                ++$entryIndex;
+            }
+            if ( $multiInsert )
+            {
+                if ( $diffFriendly )
+                {
+                    $sql .= "(\n  $dataText\n)";
+                }
+                else
+                {
+                    $sql .= "($dataText)";
+                }
+                ++$insertIndex;
+            }
+            else
+            {
+                if ( $diffFriendly )
+                {
+                    $sql .= "INSERT INTO $tableName (\n$defText\n) VALUES (\n$dataText\n);\n";
+                }
+                else
+                {
+                    $sql .= "INSERT INTO $tableName ($defText) VALUES ($dataText);\n";
+                }
+            }
+        }
+        if ( $multiInsert )
+        {
+            $sql .= "\n;\n";
+        }
+        return $sql;
+    }
+
+    /*!
+     \virtual
+     \protected
+    */
+    function generateDataValueTextSQL( $fieldDef, $value )
+    {
+        if ( $fieldDef['type'] == 'auto_increment' or
+             $fieldDef['type'] == 'int' or
+             $fieldDef['type'] == 'float' )
+            return (string)$value;
+        else if ( is_string( $value ) )
+            return "'" . $this->DBInstance->escapeString( $value ) . "'";
+        else
+            return (string)$value;
+    }
+
+    /*!
      \pure
+     \protected
 	 */
 	function generateAlterFieldSql( $table_name, $field_name, $def )
 	{
     }
 
     /*!
-	 \private
      \pure
+     \protected
 	 */
 	function generateAddFieldSql( $table_name, $field_name, $def )
 	{
     }
 
     /*!
-	 * \private
-	 */
+	 \private
+    */
 	function generateDropFieldSql( $table_name, $field_name )
 	{
 		$sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
 
 		return $sql . ";\n";
 	}
+
+    /*!
+     \virtual
+     \protected
+     \return \c true if the schema system supports multi inserts.
+             The default is to return \c false.
+    */
+    function isMultiInsertSupported()
+    {
+        return false;
+    }
 
     /// eZDB instance
     var $DBInstance;

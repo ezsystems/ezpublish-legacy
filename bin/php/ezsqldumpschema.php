@@ -47,7 +47,8 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]",
+$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]" .
+                                "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
                                                           "mysql, postgresql" ),
@@ -55,7 +56,13 @@ $options = $script->getOptions( "[type:][user:][host:][password:][output-array][
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
                                        'output-array' => 'Create file with array structures (Human readable)',
-                                       'output-serialized' => 'Create file with serialized data (Saves space)'
+                                       'output-serialized' => 'Create file with serialized data (Saves space)',
+                                       'allow-multi-insert' => ( 'Will create INSERT statements with multiple data entries (applies to data output only)' . "\n" .
+                                                                 'Multi-inserts will only be created for databases that support it' ),
+                                       'output-types' => ( "A comma separated list of types to include in dump (default is schema only):\n" .
+                                                           "schema - Table schema\n" .
+                                                           "data - Table data\n" .
+                                                           "all - Both table schema and data" )
                                        ) );
 $script->initialize();
 
@@ -83,6 +90,41 @@ switch ( count( $options['arguments'] ) )
         $script->shutdown( 1 );
         break;
 }
+
+$includeSchema = true;
+$includeData = false;
+
+if ( $options['output-types'] )
+{
+    $includeSchema = false;
+    $includeData = false;
+    $includeTypes = explode( ',', $options['output-types'] );
+    foreach ( $includeTypes as $includeType )
+    {
+        switch ( $includeType )
+        {
+            case 'all':
+            {
+                $includeSchema = true;
+                $includeData = true;
+            } break;
+
+            case 'schema':
+            {
+                $includeSchema = true;
+            } break;
+
+            case 'data':
+            {
+                $includeData = true;
+            } break;
+        }
+    }
+}
+
+$dbschemaParameters = array( 'schema' => $includeSchema,
+                             'data' => $includeData,
+                             'allow_multi_insert' => $options['allow-multi-insert'] );
 
 $outputType = 'serialized';
 if ( $options['output-array'] )
@@ -120,11 +162,13 @@ include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 $dbSchema = eZDBSchema::instance( $db );
 if ( $outputType == 'serialized' )
 {
-    $dbSchema->writeSerializedSchemaFile( $filename );
+    $dbSchema->writeSerializedSchemaFile( $filename,
+                                          $dbschemaParameters );
 }
 else if ( $outputType == 'array' )
 {
-    $dbSchema->writeArraySchemaFile( $filename );
+    $dbSchema->writeArraySchemaFile( $filename,
+                                     $dbschemaParameters );
 }
 
 $script->shutdown();
