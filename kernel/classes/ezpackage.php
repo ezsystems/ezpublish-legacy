@@ -1478,7 +1478,8 @@ class eZPackage
                 if ( $package )
                 {
                     $package->setCurrentRepositoryInformation( $packageRepository );
-                    $package->RepositoryPath = $packagePath;
+                    if ( $packagePath )
+                        $package->RepositoryPath = $packagePath;
                     if ( $cacheExpired and
                          eZPackage::useCache() )
                     {
