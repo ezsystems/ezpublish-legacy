@@ -186,11 +186,21 @@ function toggleCheckboxes( formname, checkboxname )
     {section show=$node.can_create}
     <div class="left">
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
+
+   {let can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), parent_node, $node, filter_type, exclude ) )}
+
+   {section show=eq( $node.path_array[1], ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+          {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
+   {/section}
+
     <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-        {section var=CanCreateClasses loop=$node.object.can_create_class_list}
+        {section var=CanCreateClasses loop=$can_create_classes}
         <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
         {/section}
     </select>
+
+    {/let}
+
     <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/node/view/full' )}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
