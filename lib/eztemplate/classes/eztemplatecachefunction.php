@@ -69,72 +69,10 @@ class eZTemplateCacheFunction
         {
             case $this->BlockName:
             {
-                $keyString = "";
-                // Get cache keys
-                if ( isset( $functionParameters["keys"] ) )
+                // Check for disabled cache.
+                $ini =& eZINI::instance();
+                if ( $ini->variable( 'TemplateSettings', 'TemplateCompile' ) != 'enabled' )
                 {
-                    $keys = $tpl->elementValue( $functionParameters["keys"], $rootNamespace, $currentNamespace, $functionPlacement );
-
-                    if ( is_array( $keys ) )
-                    {
-                        foreach ( $keys as $key )
-                        {
-                            $keyString .= $key . "_";
-                        }
-                    }
-                    else
-                    {
-                        $keyString .= $keys . "_";
-                    }
-                }
-
-                // Append keys from position in template
-                $keyString .= $functionPlacement[0][0] . "_";
-                $keyString .= $functionPlacement[0][1] . "_";
-                $keyString .= $functionPlacement[1][0] . "_";
-                $keyString .= $functionPlacement[1][1] . "_";
-                $keyString .= $functionPlacement[2] . "_";
-
-                // Fetch the current siteaccess
-                $keyString .= $GLOBALS['eZCurrentAccess']['name'];
-                include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-                $md5Key = md5( $keyString );
-
-                $cacheDir = eZSys::cacheDirectory();
-                $phpCache = new eZPHPCreator( "$cacheDir/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
-
-                // Check if a custom expiry time is defined
-                if ( isset( $functionParameters["expiry"] ) )
-                {
-                    $expiry = $tpl->elementValue( $functionParameters["expiry"], $rootNamespace, $currentNamespace, $functionPlacement );
-                }
-                else
-                {
-                    // Default expiry time is set to two hours
-                    $expiry = 60*60*2;
-                }
-
-                $localExpiryTime = mktime() - $expiry;
-
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler =& eZExpiryHandler::instance();
-                $expiryTime = $localExpiryTime;
-                if ( $handler->hasTimestamp( 'content-cache' ) )
-                {
-                    $globalExpiryTime = $handler->timestamp( 'content-cache' );
-                    $expiryTime = max( $localExpiryTime, $globalExpiryTime );
-                }
-
-                // Check if we can restore
-                if ( $phpCache->canRestore( $expiryTime ) )
-                {
-                    $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
-                    $text =& $variables['contentdata'];
-                    $textElements[] = $text;
-                }
-                else
-                {
-                    // If no cache or expired cache, load data
                     $children = $functionChildren;
 
                     $childTextElements = array();
@@ -145,9 +83,89 @@ class eZTemplateCacheFunction
                     }
                     $text =& implode( '', $childTextElements );
                     $textElements[] = $text;
+                }
+                else
+                {
+                    $keyString = "";
+                    // Get cache keys
+                    if ( isset( $functionParameters["keys"] ) )
+                    {
+                        $keys = $tpl->elementValue( $functionParameters["keys"], $rootNamespace, $currentNamespace, $functionPlacement );
 
-                    $phpCache->addVariable( 'contentData', $text );
-                    $phpCache->store();
+                        if ( is_array( $keys ) )
+                        {
+                            foreach ( $keys as $key )
+                            {
+                                $keyString .= $key . "_";
+                            }
+                        }
+                        else
+                        {
+                            $keyString .= $keys . "_";
+                        }
+                    }
+
+                    // Append keys from position in template
+                    $keyString .= $functionPlacement[0][0] . "_";
+                    $keyString .= $functionPlacement[0][1] . "_";
+                    $keyString .= $functionPlacement[1][0] . "_";
+                    $keyString .= $functionPlacement[1][1] . "_";
+                    $keyString .= $functionPlacement[2] . "_";
+
+                    // Fetch the current siteaccess
+                    $keyString .= $GLOBALS['eZCurrentAccess']['name'];
+                    include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+                    $md5Key = md5( $keyString );
+
+                    $cacheDir = eZSys::cacheDirectory();
+                    $phpCache = new eZPHPCreator( "$cacheDir/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
+
+                    // Check if a custom expiry time is defined
+                    if ( isset( $functionParameters["expiry"] ) )
+                    {
+                        $expiry = $tpl->elementValue( $functionParameters["expiry"], $rootNamespace, $currentNamespace, $functionPlacement );
+                    }
+                    else
+                    {
+                        // Default expiry time is set to two hours
+                        $expiry = 60*60*2;
+                    }
+
+                    $localExpiryTime = mktime() - $expiry;
+
+                    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                    $handler =& eZExpiryHandler::instance();
+                    $expiryTime = $localExpiryTime;
+                    if ( $handler->hasTimestamp( 'content-cache' ) )
+                    {
+                        $globalExpiryTime = $handler->timestamp( 'content-cache' );
+                        $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+                    }
+
+                    // Check if we can restore
+                    if ( $phpCache->canRestore( $expiryTime ) )
+                    {
+                        $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
+                        $text =& $variables['contentdata'];
+                        $textElements[] = $text;
+                    }
+                    else
+                    {
+                        // If no cache or expired cache, load data
+                        $children = $functionChildren;
+
+                        $childTextElements = array();
+                        foreach ( array_keys( $children ) as $childKey )
+                        {
+                            $child =& $children[$childKey];
+                            $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
+                        }
+                        $text =& implode( '', $childTextElements );
+                        $textElements[] = $text;
+
+                        $phpCache->addVariable( 'contentData', $text );
+                        $phpCache->store();
+                    }
                 }
             } break;
         }
