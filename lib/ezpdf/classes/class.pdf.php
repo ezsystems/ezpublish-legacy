@@ -2349,7 +2349,9 @@ class Cpdf
     ob_clean();
 
     header( 'Pragma: ' );
-    header( 'Cache-Control:' );
+    header( 'Cache-Control: ' );
+    /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
+    header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 600) . 'GMT');
     header( 'X-Powered-By: eZ publish' );
 
 	header( 'Content-Length: '.strlen( $tmp ) );
