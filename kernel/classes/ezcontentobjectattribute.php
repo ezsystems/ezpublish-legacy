@@ -56,7 +56,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->Content = null;
         $this->ValidationError = null;
         $this->ValidationLog = null;
-        $this->InputXML = null;
         $this->ContentClassAttributeIdentifier = null;
         $this->ContentClassAttributeID = null;
         $this->eZPersistentObject( $row );
@@ -77,9 +76,6 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
                                                       "object" => "object",
-                                                      "xml" => "xml",
-                                                      "input_xml" => "inputXML",
-                                                      "xml_editor" => "xmlEditor",
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
@@ -159,8 +155,6 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->object( );
         else if ( $attr == "xml" )
             return $this->xml( );
-        else if ( $attr == "input_xml" )
-            return $this->inputXML( );
         else if ( $attr == "xml_editor" )
             return $this->xmlEditor( );
         else if ( $attr == "validation_error" )
@@ -377,53 +371,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     Returns the XML for this attribute
-     \todo instantiate the data type instance directly
-    */
-    function xml()
-    {
-        if ( $this->XML === null )
-        {
-            $attribute =& $this->contentClassAttribute();
-            $dataType =& $attribute->dataType();
-            $this->XML =& $dataType->xml( $this );
-        }
-
-        return $this->XML;
-    }
-
-    /*!
-     Returns the XML for this attribute
-     \todo instantiate the data type instance directly
-    */
-    function xmlEditor()
-    {
-        if ( $this->XMLEditor === null )
-        {
-            $attribute =& $this->contentClassAttribute();
-            $dataType =& $attribute->dataType();
-            $this->XMLEditor =& $dataType->xmlEditor( $this );
-        }
-        return $this->XMLEditor;
-    }
-
-    /*!
-     Returns the input XML for this attribute.
-     \todo instantiate the data type instance directly
-    */
-    function inputXML()
-    {
-        if ( $this->InputXML === null )
-        {
-            $attribute =& $this->contentClassAttribute();
-            $dataType =& $attribute->dataType();
-            $this->InputXML =& $dataType->inputXML( $this );
-        }
-
-        return $this->InputXML;
-    }
-
-    /*!
      Returns the metadata. This is the pure content of the attribute used for
      indexing data for search engines.
      */
@@ -504,40 +451,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $dataType->isA();
     }
 
-    /*!
-      TMP hack will be rewritten
-    */
-    function &originalInput()
-    {
-        eZDebug::writeWarning( "Tempoarary code in ezcontentobjectattribute.php originalInput()" );
-        return $this->OriginalInput;
-    }
-
-    /*!
-     TMP
-    */
-    function isValid()
-    {
-        return $this->IsValid;
-    }
-
     /// Contains the content for this attribute
     var $Content;
 
     /// Stores the is valid
     var $IsValid;
-
-    // TMP
-    var $OriginalInput;
-
-    /// Contains the XML for this attribute
-    var $XML;
-
-    /// Contains the boolean value for whether or not showing virtual editor
-    var $XMLEditor;
-
-    /// Contains the input XML for this attribute
-    var $InputXML;
 
     var $ContentClassAttributeID;
 
