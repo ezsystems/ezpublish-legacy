@@ -1,0 +1,12 @@
+<div class="maincontentheader">
+<h1>{"Activate account"|i18n("design/standard/user")}</h1>
+</div>
+
+<p>
+{section show=$account_avtivated}
+Your account is now activated.
+{section-else}
+Sorry, the key submitted was not a valid key. Account <b>not</b> activated.
+{/section}
+
+</p>

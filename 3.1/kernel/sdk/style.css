@@ -1,0 +1,179 @@
+/* Standard eZ publish stylesheet */
+
+body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, ul, li, a, td ,th, select, input, textarea, credit
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+}
+
+body, p, .p, ul, li, h3, .path, th, td, .check
+{
+	font-size: 13px;
+	color: #000000;
+}
+
+a
+{
+  color : #04396c;
+  font-size: 11px;
+  font-weight: bold;
+/*  text-align: center;*/
+  text-decoration: none;
+}
+
+a:hover 
+{
+	color: #578ec5;
+	text-decoration: underline;
+}
+
+a.path
+{
+  color : #000000;
+  font-size: 11px;
+}
+
+a.menuhead
+{
+    color : #ffffff;
+}
+
+a.menuhead:hover 
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+p.footnote
+{
+        font-size: 10px;
+}
+
+p.filename
+{
+	font-style: italic;
+}
+
+p.groupname
+{
+   font-weight: bold;
+}
+
+
+blockquote
+{
+        background-color: #ebf2f8;
+        border : 1px solid #999999;
+	padding: 6px;
+}
+
+pre.example, table.example
+{
+	font-family: Courier;
+        background-color: #ebf2f8;
+        border-top : 1px solid #999999;
+        border-bottom : 1px solid #999999;
+        border-left : 1px solid #999999;
+        border-right : 1px solid #999999;
+}
+
+p.important
+{
+        background-color: #f8f280;
+        border-top : 1px solid #999999;
+        border-bottom : 1px solid #999999;
+        border-left : 1px solid #999999;
+        border-right : 1px solid #999999;
+}
+
+
+td.debugheader
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.timingpoint1
+{
+	background-color : #ffffff;
+	border-top : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.timingpoint2
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+
+
+H1.dox 
+{ 
+}
+CAPTION.dox { font-weight: bold }
+A.dox_qindex {}
+A.dox_qindexRef {}
+A.dox_el { text-decoration: none; font-weight: bold }
+A.dox_elRef { font-weight: bold }
+A.dox_code { text-decoration: none; font-weight: normal; color: #4444ee }
+A.dox_codeRef { font-weight: normal; color: #4444ee }
+A:dox_hover { text-decoration: none; background-color: #f2f2ff }
+DL.dox_el { margin-left: -1cm }
+/* DIV.dox_fragment { width: 100%; border: none; background-color: #eeeeee } */
+DIV.dox_fragment
+{
+	font-family: Courier;
+        background-color: #ebf2f8;
+        border-top : 1px solid #999999;
+        border-bottom : 1px solid #999999;
+        border-left : 1px solid #999999;
+        border-right : 1px solid #999999;
+}
+DIV.dox_ah { background-color: black; font-weight: bold; color: #ffffff; margin-bottom: 3px; margin-top: 3px }
+TD.dox_md { background-color: #ebf2f8; font-weight: bold; }
+TD.dox_mdname1 { background-color: #ebf2f8; font-weight: bold; color: #602020; }
+TD.dox_mdname { background-color: #ebf2f8; font-weight: bold; color: #602020; width: 600px; }
+DIV.dox_groupHeader { margin-left: 16px; margin-top: 12px; margin-bottom: 6px; font-weight: bold }
+DIV.dox_groupText { margin-left: 16px; font-style: italic; font-size: smaller }
+BODY.dox { background: white }
+TD.dox_indexkey { 
+   background-color: #ebf2f8; 
+   font-weight: bold; 
+   padding-right  : 10px; 
+   padding-top    : 2px; 
+   padding-left   : 10px; 
+   padding-bottom : 2px; 
+   margin-left    : 0px; 
+   margin-right   : 0px; 
+   margin-top     : 2px; 
+   margin-bottom  : 2px  
+}
+TD.dox_indexvalue { 
+   background-color: #ebf2f8; 
+   font-style: italic; 
+   padding-right  : 10px; 
+   padding-top    : 2px; 
+   padding-left   : 10px; 
+   padding-bottom : 2px; 
+   margin-left    : 0px; 
+   margin-right   : 0px; 
+   margin-top     : 2px; 
+   margin-bottom  : 2px  
+}
+span.dox_keyword       { color: #008000 }
+span.dox_keywordtype   { color: #604020 }
+span.dox_keywordflow   { color: #e08000 }
+span.dox_comment       { color: #800000 }
+span.dox_preprocessor  { color: #806020 }
+span.dox_stringliteral { color: #002080 }
+span.dox_charliteral   { color: #008080 }
+
+
+
+/*  */

@@ -1,0 +1,140 @@
+Changes from 3.0-1 to 3.0-2
+
+*Kernel :
+- Workflow process cleans up input parameter cache when setting new input parameters.
+- Redirection after discarding draft is changed to the last viewed content, same when discarding registering user
+- Fixed bug with collaboration tables in mysql kernel_clean.sql
+- Fixed bug with ezoption datatype with adding new option before checked
+- Fixed bug with checking site.ini variable to allow special characters in generated passwords
+- Implemented cancel button for content object copy. Some minor design fixes.
+- Fixed problem with updating prices in basket after user login and if user has discounts.
+- Fixed bug with missing include in wrapping workflow event type.
+- Fixed bug in forgot password function with that after changing pasword to a new one user object was not
+  stored and user was not able to login with new password.
+- Renamed forgot password view from forgetpassword to forgotpassword ( old name kept for compatibility )
+- Added missing path to forgotpassword module
+- Added check for non-existing password key.
+- Fixed bug in approval which would stop the workflow if the publisher was an editor, excluded
+  or object was in wrong section.
+- Fixed parsing of nice URL's with internal links #.
+- Made eZ user datatype searchable
+- Fixed proper indexing of e-mail addresses and numbers containing .
+- Fixed bug of discard function in class group which will remove the class group. After fixing, Class group will be 
+  removed only if there is no any defined class in this group. 
+- Added support for a title path which is displayed in the title of the site instead of the normal path.
+  The title path is optional for views.
+- Fixed bug in datatype object relation which always causes validation error
+  if there is an object relation.
+- Added remove function for datatype object relation.
+- All templates has been controlled and fixed to make sure that they wash all content output.
+- Cleaned warning messages when running script ezxhtmlxmloutput.php.
+- Fixed bug of inserting anchor does not work before heading.
+- Fixed bug of running custom actions can not save changes in fields "searchable" and "required"
+  of class attributes.
+- Fixed bug with content create policy limitation.
+- Fixed typo in removeclass.php.
+- Fixed bug with trash objects of removed class.
+- Fixed bug with redirection after publishing if workkflow is running.
+
+Content:
+- Made sure a title path is returned in content/view, it no longer includes the root object (Frontpage, Users etc.).
+- Fixed bug with translations for object names.
+- Fixed bug with viewing of translated object versions.
+Binary file:
+- Fixed bug with stored file not being removed when the object was deleted (removed from trash).
+
+User:
+- Fixed bug in password change, the wrong user ID was used which caused the operation to crash.
+- Fixed user indexing bug, old user object was cached in memory causing wrong indexing
+
+Shop:
+- Change date in list to datetime since it can be quite important for shops.
+- Fixed problem with updating prices in basket after user login and if user has discounts.
+- Fixed bug with missing include in wrapping workflow event type.
+
+Browser:
+- Made sure children are indented one level to it's parent in the list.
+- Added section information to list.
+
+Collaboration:
+- Denied and deferred items now displays an edit link for the author.
+- Changed display name for deferred to Pushback.
+
+Security:
+- Made sure that the text string is washed before being presented in the HTML code.
+  Fixed search, advanced search and search stats.
+- Made sure ezurl, ezroot and ezdesign returns properly html escaped data which
+  can be inserted directly into HTML code.
+
+*SDK :
+
+*Library :
+
+eZ utils:
+- Fixed correct escaping of \ and $ characters in .ini file cache
+
+eZ template:
+- Locale operator no longer keeps a locale instance but calls eZLocale::instance when needed.
+
+eZ mail:
+- It's now possible to exclude certain headers when fetching the headertext in the eZMail class.
+- Made sure that the sendmail transport don't generate duplicate To and Subject headers.
+- Added a sendmail commandline parameter when sending mail to ensure ctladdr and Return-Path get set correctly.
+  An Authentication-Warning will be sent with the mail if the web server user is not in sendmail trusted users list.
+
+eZ DB:
+- Fixed bug in postresql driver which coused problems with detection of existing data in database during set up.
+
+*Missing files :
+- runcronjobs.php, required for running cronjob scripts, missing in 3.0-1 release.
+- doc/FAQ, answers to common questions, missing in 3.0-1 release.
+
+*New files :
+- Added .htaccess_root file which can be used for securing a non-virtualhost setup. The file
+  should be copied to .htaccess.
+
+*Changed files :
+- runcronjobs.php was made executable which means it can be run from
+  shell script with ./runcronjobs.php
+- Script in update/common/scripts were made executable which means it can be
+  run from shell script with update/common/scripts/nameofscript.php
+- Tests more files and directories in bin/modfix.sh for the eZ publish root detection.
+- Datatabase update files were devided in parts for each release and database.
+
+*Removed files:
+- Removed database_update.sql, this file was split into multiple files for each version and database types.
+  See update/database for new files.
+
+*Changed templates:
+- Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
+  This means that it will no longer ask for placement when using Create Here button.
+- Added missing dollar symbol in design/standard/templates/content/datatype/view/ezdate.tpl,
+  thus fixing date display.
+- Added i18n code to forgotpassword templates, to enable translation.
+- Several enhancements to design/standard/templates/navigator/google.tpl.
+  Fixed the expanding page list like the navigator on google.com.
+  Better HTML layout.
+  Fast jump to start and end of list.
+  Expands all view parameters to the generated url.
+
+*New documentation :
+- Added template and install security document.
+
+*Changed documentation :
+- Improved cache-block entry in function_list.tpl
+- Updated PHP security standard.
+
+*Settings:
+site.ini:
+- Fixed wrong spelling of NodeTranslation in site.ini.
+
+*Setup:
+- Fixed problem with queries not being separaed properly.
+- Added checks for open_basedir restriction, safe mode and register_globals.
+- Added security check for virtual/non-virtual host.
+- Added example to magic quotes template on how to disable magic quotes with a .htaccess file.
+
+*Changed shell scripts:
+
+clearcache.sh:
+- Added support for a subdir when clearing, the subdir is relative to var.

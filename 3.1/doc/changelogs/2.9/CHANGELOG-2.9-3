@@ -1,0 +1,63 @@
+CHANGELOG
+
+Changes from 2.9-2 to 2.9-3
+
+*SDK :
+
+*Kernel :
+- Added display of full path for node placement(s)
+- Added support for setting sort by when fetching trees, multiple sorting can be used.
+- Added support for filtering on classes when fetching trees, multiple classes can be included/excluded
+- Added support for specifying sort field and sort order for each node assignment.
+- Made sure generated SQL were a bit more viewer friendly.
+- Added new datatype DateTime
+- Added new datatype Time
+- Fixed date formating for datatype Date
+- Added new datatype Email
+- Added new datatype ISBN
+- Added check for existing related objects when adding new object relations, duplicated objects will not be added
+- Fixed some bugs for user settings, such as wrong redirection, uncrectly user information retriving. 
+- Fixed bug for unable to show stored information of issearchable and isrequired when editing class attribute
+- Fixed bug for finding related object
+_ Fixed bug for finding node
+- Fixed bug on node, class and object cleanup
+- Fixed bug for adjusting placement for class attribute
+- Fixed bug on viewing and editing object translation
+- Fixed bug for unable to remember what have been selected in enum datatype if multiple choice is allowed
+- Using standard url for all sites
+- Fixed bug of unable to discard object with empty media and binary file input
+- Added column choosing when creating a new datetype text field
+- Added column choosing when creating a new datetype xml text field
+- Fixed bug for "and" searching
+- Added function of searching only in specified section or specified published date to advanced search.
+- Added function for checking status when supply delete object(class) button or remove object(class) button. If nothing could be deleted, no delete button supplied
+- Fixed bug for permission system where related to object ownership. The owner of an object is able to delete or edit the object he created if permission allowed
+- Added global section ID to eZSection.
+- Fixed bugs with design override keys set multiple times.
+- Moved debug redirection to template file.
+- Image system can now be configured using the image.ini file.
+- Added function to check and add related objects when they are inputed as xml text.
+- Added function to check and save links when they are inputed as xml text.
+- Improved the user registration interface with better feedback.
+- Fixed bug for price check.
+- Fixed bug for duplicated role assignment.
+- Fixed bug for duplicated related object assignment.
+- Fixed bug for duplicated node assignment.
+- Fixed bug of images or binaryfiles are not uploaded if some attributes does not validate.
+- Datetype Date, DateTime and Time are initialized to current time. 
+- Improved the validation for ISBN number using checksum rule, only correct number are accepted.
+
+
+
+
+*Library :
+- Added function for check and get attribute for ezlocale/classed/ezdate.php, ezlocale/classed/ezdatetime.php and ezlocale/classed/eztime.php
+- Added writeDebug function in eZDebug which can be used for temporary debug messages, writeNotice should be reserved for debug messages
+  which are permament (but can be disabled). For instance eZINI has notices on which files it loads if debug is enabled for it.
+
+eZ sys :
+- Added function for setting/getting server and environment variables. They are prefered over accessing variables directly,
+  this also makes sure eZ publish works with register_globals off.
+
+eZ ini :
+- Comments are no longer required to start at the start of the line (requires double markers ##)

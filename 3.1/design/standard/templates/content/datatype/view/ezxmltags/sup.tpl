@@ -1,0 +1,2 @@
+<sup>{$content}</sup>
+  

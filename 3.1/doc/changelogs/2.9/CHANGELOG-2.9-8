@@ -1,0 +1,6 @@
+Changes from 2.9-7 to 2.9-8
+
+*Kernel :
+
+*Lib :
+- Added possibility to send MySQL write queries to a separate server.

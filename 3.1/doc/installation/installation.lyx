@@ -1,0 +1,6116 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\begin_preamble
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{\resizebox{1in}{!}{\includegraphics{screenshots/2.0/ezsystems.eps}}}
+\rhead{}
+\chead{}
+\end_preamble
+\language british
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\float_placement !htbp
+\paperfontsize 10
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\bulletLaTeX 3
+	
+\end_bullet
+
+\layout Title
+
+eZ publish 3.0 Installation Guide
+\layout Author
+
+
+\begin_inset Figure size 223 44
+file screenshots/3.0/ezpublish.eps
+width 4 75
+flags 11
+
+\end_inset 
+
+
+\layout Standard
+
+
+\begin_inset Figure size 60 14
+file screenshots/3.0/ezsystems.eps
+height 2 0.2
+flags 11
+
+\end_inset 
+
+The double squares and eZ are trademarks belonging to eZ systems of Norway,
+ registration number NO 981 601 564 (http://www.brreg.no/oppslag/enhet/detalj.ssc?o
+rgnr=981601564).
+\layout Standard
+
+All images and text herein is Copyright 1999-2002 eZ systems.
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+Introduction
+\begin_inset LatexCommand \label{chptr: introduction}
+
+\end_inset 
+
+
+\layout Quote
+
+
+\series bold 
+
+\begin_inset Quotes eld
+\end_inset 
+
+He who asks is a fool for five minutes, but he who does not ask remains
+ a fool forever.
+\begin_inset Quotes erd
+\end_inset 
+
+
+\series default 
+ - \SpecialChar \-
+ Chinese proverb
+\layout Standard
+
+eZ publish is a content management system, among a lot of other things.
+ This installation manual will try to cover the job of installing eZ publish
+ on your server.
+\layout Standard
+
+Since version 2.2 eZ publish has a new possible way to be installed: without
+ virtual hosts and mod_rewrite.
+ This makes it possible for people, who don't have a dedicated server or
+ a specialized eZ publish hoster, to install eZ publish on their accounts
+ as long as they have PHP and a supported database (e.g.
+ mySQL or PostgreSQL).
+ 
+\layout Standard
+
+This opens some new options for installing:
+\layout Standard
+
+If you have an account at a webhoster with PHP and mySQL, your option should
+ be chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+, because you won't be able to install eZ publish as it's explained in chapter
+ 
+\begin_inset LatexCommand \ref{chpt: dedicated server}
+
+\end_inset 
+
+.
+\layout Standard
+
+If you have a dedicated server with Apache and mySQL already running and
+ you don't want to mess with the Apache configuration, then chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+ might be of interest of you.
+ 
+\layout Standard
+
+If you have a dedicated server and want some help on how to install all
+ needed software and eZ publish on it, then chapter 
+\begin_inset LatexCommand \ref{chpt: dedicated server}
+
+\end_inset 
+
+ is for you.
+\layout Chapter
+
+System architecture
+\layout Standard
+
+eZ publish is a webapplication developed in php.
+ It should run on most systems, including MS Windows and Linux.
+ The application have the following requirements.
+\layout Itemize
+
+apache - the webserver
+\layout Itemize
+
+MySQL or PostgreSQL - relationdatabase
+\layout Itemize
+
+Imagemagick - image convertion and scaling application
+\layout Itemize
+
+PHP - scription language
+\layout Standard
+
+The application can basicly run in two different modes, standard mode and
+ nVH mode (non VirtualHost).
+ The difference between these two modes is how URLs is constructed.
+ Which mode you may run eZ publish in is decided by webserver configuration
+ (httpd.conf) and eZ publish settings
+\layout Section
+
+Standard mode
+\layout Standard
+
+This mode is prefered for dedicated webservers and on servers you have permissio
+n to modify the apache configuration (httpd.conf).
+ When running eZ publish in standard mode you will have URLs simular to
+ this:
+\layout List
+\labelwidthstring 00.00.0000
+
+http://www.myezpublishsite.com/content/view/full/81
+\layout Section
+
+nVH mode
+\layout Standard
+
+This is the easiest way for getting eZ publish up and running and it is
+ prefered for people who want to run eZ publish in a shared hosting environment
+ or people who wants eZ publish up and running as fast as possible with
+ as little fuzz has possible.
+\layout Standard
+
+When running eZ publish in nVH mode you will have URLs simular to:
+\layout List
+\labelwidthstring 00.00.0000
+
+http://www.myezpublishsite.com/index.php/content/view/full/81
+\layout Standard
+
+So the visible different between standard mode and nVH mode is that when
+ running in nVH mode, you will have 
+\begin_inset Quotes eld
+\end_inset 
+
+index.php
+\begin_inset Quotes erd
+\end_inset 
+
+ inserted into the url.
+\layout Chapter
+
+Installation - Linux
+\layout Standard
+
+Most linux distribution includes all the software needed by eZ publish,
+ including MySQL/PostgreSQL, apache, PHP and ImageMagick.
+ Therefor, this document does not focus on how to compile and install this
+ programs, only on how to configure them to run with eZ publish.
+\layout Section
+
+Untar the eZ publish files
+\layout Section
+
+Mysql configuration
+\layout Standard
+
+First make sure that MySQL is running.
+ On RedHat linux you may start MySQL with the following command:
+\layout Standard
+
+# /etc/rc.d/init.d/mysql start
+\layout Chapter
+
+OLD STUFF
+\layout Section
+
+Pre-Configured Hosting
+\layout Standard
+
+It is possible to get pre-configured hosting services where you can install
+ and manage your eZ publish site with ease.
+ Read more about our hosting partners at eZ systems web site (
+\family typewriter 
+\size footnotesize 
+http://
+\family default 
+\size default 
+ez.no/shop/hosting).
+\layout Section
+
+Pre-Configured Hardware
+\layout Standard
+
+It is possible to order pre-configured hardware from eZ systems.
+ You can order through or web shop (
+\family typewriter 
+\size footnotesize 
+http://
+\family default 
+\size default 
+shop.ez.no).
+\layout Standard
+
+A line starting with a hash-sign 
+\begin_inset Quotes eld
+\end_inset 
+
+#
+\begin_inset Quotes erd
+\end_inset 
+
+ are input from the user to the shell.
+\layout Chapter
+
+
+\begin_inset LatexCommand \label{chpt: dedicated server}
+
+\end_inset 
+
+Installing eZ publish (standard
+\begin_float footnote 
+\layout Standard
+
+An alternative install method is described in chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+
+\end_float 
+ method)
+\layout Standard
+
+This chapter is mainly intended for installation on a Red Hat Linux system,
+ but a lot of friendly people have contributed information for installation
+ on other operating systems, take a look at chapter 2 and learn which systems
+ those are.
+\layout Standard
+
+Most of what is described here regarding Red Hat installation can also be
+ applied to other installations, especially if your system uses RPM for
+ installation.
+ For other systems you would need to do a lot of compiling yourself to make
+ this work, or apply the system's own package manager.
+\layout Standard
+
+Finding packages can be done dirctly from vendor sites, though you might
+ not be guaranteed that you'll find the package you need.
+ In such instances you need to download the source directly from the software
+ developer.
+\layout Standard
+
+Different distribution sites for different Unix systems are:
+\layout Itemize
+
+Debian 
+\family typewriter 
+\size footnotesize 
+(http://www.debian.org/distrib/ftplist)
+\layout Itemize
+
+Mandrake, see chapter 
+\begin_inset LatexCommand \ref{chptr: mandrake}
+
+\end_inset 
+
+.
+\layout Itemize
+
+IRIX 
+\family typewriter 
+\size footnotesize 
+(http://freeware.sgi.com/)
+\layout Itemize
+
+Red Hat Linux 
+\family typewriter 
+\size footnotesize 
+(http://www.redhat.com/apps/download
+\family default 
+\size default 
+)
+\layout Itemize
+
+SuSE Linux (
+\family typewriter 
+\size footnotesize 
+http://www.suse.com/us/support/download/index.html)
+\layout Itemize
+
+Sun 
+\family typewriter 
+\size footnotesize 
+(http://www.sunfreeware.com/)
+\layout Standard
+
+The addresses to the software developers will be given where appropriated
+ in the text.
+\layout Standard
+
+You can also try "The Written Word" (
+\family typewriter 
+\size footnotesize 
+ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/
+\family default 
+\size default 
+) for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2, 6.5, Digital
+ UNIX 4.0D, HP-UX 10.20, and HP-UX.
+\layout Section
+
+Prerequisites
+\begin_inset LatexCommand \label{chptr: pre-requisites}
+
+\end_inset 
+
+
+\layout Subsection
+
+Needed Privileges
+\layout Standard
+
+For the standard installation of eZ publish you will need to have the following
+ privileges on your system:
+\layout Itemize
+
+Access to Apache's httpd.conf for creating two virtual hosts and for enabling
+ the rewrite engine and creating rewrite rules.
+ This is absolutely necessary for eZ Publish at the moment.
+\layout Itemize
+
+Access to compiler, only needed if you can't use any of the pre-compiled
+ packages available.
+ (You will have to install the gcc compiler on your system, see chapter
+ 
+\begin_inset LatexCommand \ref{chptr: introduction}
+
+\end_inset 
+
+ for a list of sites providing software for different Unixes.)
+\layout Itemize
+
+Access to a shell (You must run certain scripts during installation, and
+ sometimes for maintenance.)
+\layout Itemize
+
+Access to cron jobs (Only needed if you want to use the eZ news feed module
+ for regular updates of headlines imported from other sites.)
+\layout Itemize
+
+Access to Apache's modules
+\layout Itemize
+
+Access to a MySQL or PostgreSQL database
+\layout Itemize
+
+You might also need the privilege to add new libraries to your system.
+\layout Standard
+
+You might also use other web servers than apache, but then you're on your
+ own since we haven't tested eZ publish on other configurations.
+ If you do try another web server, please keep a log of what you do and
+ submit it to us (pkej@ez.no) for inclusion in future versions of this manual.
+\layout Subsection
+
+Needed Software
+\layout Standard
+
+You also need to download and install the following packages, if they aren't
+ present on your system already:
+\layout Itemize
+
+A database.
+ Currently, eZ publish suppports MySQL (http://www.mysql.com) version 3.23
+ or later and PostgreSQL (http://www.postgresql.org) version 7.1.3 or later.
+\layout Itemize
+
+ImageMagick (http://www.imagemagick.org/) newest version (Needed by eZ article,
+ eZ image catalogue, and all modules using images.
+ You need only the command line version.)
+\layout Itemize
+
+Apache (http://httpd.apache.org/) latest 1.3 release.
+ (It is always recommended to run the latest Apache release, though eZ publish
+ shouldn't be very picky with the Apache versions.
+ We've used eZ publish with Apache 1.3.13, some have reported that Apache
+ 1.3.9 isn't useful.)
+\layout Itemize
+
+mod_rewrite.
+ This apache module is included in all recent versions of RedHat Linux.
+ If you use an other distro, you may need to recompile apache with mod_rewrite
+\layout Itemize
+
+Any and all modules you need for apache in addition to mod_php.
+ (http://modules.apache.org/)
+\layout Itemize
+
+PHP (http://www.php.net/) version 4.0.4pl1 or later.
+ Version 4.0.6 is recommended.
+ You need the source code version from this site, for windows you can just
+ download the binary.
+ (eZ publish uses references for objects and foreach loops.
+ Only version 4.0.4pl1 and later supports both of these features satisfactorily.)
+\layout Itemize
+
+eZ publish (http://ez.no/developer/) version 2.0 or later stable releases.
+\layout Standard
+
+The libraries and php are packaged pre-compiled for Linux i386 on http://develop
+er.ez.no.
+ The software is listed in the order of installation.
+\layout Standard
+
+You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
+\layout Standard
+
+
+\series bold 
+Important release note:
+\layout Standard
+
+eZ publish version 2.2.2 does not require neither QDom or libxml as previosly
+ releases did.
+ In this release, eZ publish uses it own xml parser : eZ xml.
+ Optioninal support for libxml will probably be reintroduced in a future
+ version of eZ publish
+\layout Subsection
+
+Which Software is Already Installed?
+\layout Subsubsection
+
+Systems Using RPM
+\layout Standard
+
+RPM is a system for distributing pre-compiled software.
+ The packages also contain pre-configured settings and initialisation files,
+ leaving almost nothing to the user, except deciding what to install.
+\layout Standard
+
+To check if a package is available on your system you can run the following
+ command (RPM based systems 
+\begin_inset Quotes eld
+\end_inset 
+
+rpm -qa | grep <name of program/library>
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ If you need to know where you can find the different files from that package
+ you can follow up on the previous command with the following 
+\begin_inset Quotes eld
+\end_inset 
+
+rpm -ql <rpm name>
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ RPM name is one of the returned names from the previous command, example
+\begin_float footnote 
+\layout Standard
+
+A line starting with a hash-sign "#" are input from the user to the shell.
+\end_float 
+:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# rpm -qa | grep libxml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+libxml-1.8.7-80
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+libxmld-1.8.7-80
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# rpm -ql libxml-1.8.7-80
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/bin/xml-config
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/lib/libxml.so.1
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/lib/libxml.so.1.8.7
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/AUTHORS
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/COPYING
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/COPYING.LIB
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/NEWS
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/README
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/share/doc/packages/libxml/TODO
+\layout Subsection
+
+Mandrake
+\layout Standard
+
+First read chapter 
+\begin_inset LatexCommand \ref{chptr: mandrake}
+
+\end_inset 
+
+, then continue reading the manual from here.
+\layout Subsection
+
+IRIX
+\layout Standard
+
+By accessing the software manager (you must be root) you can get a list
+ of installed software, scroll or search that list to find the packages
+ you're interested in.
+ Double click on the tabs to the left to get information about where specific
+ files are installed.
+\layout Subsection
+
+RAQ 3
+\layout Standard
+
+There is a separate chapter 
+\begin_inset LatexCommand \ref{chptr: raq 3}
+
+\end_inset 
+
+ in this manual describing installation on a RAQ 3 server.
+ It was kindly provided by Chris Mason, 
+\layout Subsection
+
+Windows
+\layout Standard
+
+Windows installation is described in its own chapter 
+\begin_inset LatexCommand \ref{chptr: windows}
+
+\end_inset 
+
+.
+\layout Subsection
+
+Other Systems
+\layout Standard
+
+On other systems you should read the documentation for that system to learn
+ how to find out what software is already installed.
+\layout Standard
+
+You could try to use the command 
+\begin_inset Quotes eld
+\end_inset 
+
+find
+\begin_inset Quotes erd
+\end_inset 
+
+ to find the software.
+ It is used thus: 
+\begin_inset Quotes eld
+\end_inset 
+
+find .
+ -name 
+\backslash 
+*<program name>
+\backslash 
+*
+\begin_inset Quotes erd
+\end_inset 
+
+ from the /usr/, /local/ , /lib/, /share/ directories.
+ In extreme cases you could try from the root of the system, but this will
+ take a long time and will also hog resources on your computer.
+ Therefore we urge you to learn how to use the proper installation features
+ of your system to find the software already installed.
+\layout Subsection
+
+Installation of Required Software
+\layout Standard
+
+If you've found pre-compiled versions of all the software packaged for use
+ with an installation tool, you just have to install that software using
+ the tool.
+ Instructioins for its usage is often found using the command 
+\begin_inset Quotes eld
+\end_inset 
+
+man <installation tool name>
+\begin_inset Quotes erd
+\end_inset 
+
+ or by reading your system's documentation or the supplier's website.
+\layout Standard
+
+If you've had to download source code you will find instructions on how
+ to compile and install the software you've downloaded at the software developer
+'s website.
+ This requires a bit of knowledge and you should only undertake this if
+ you feel confident about the job.
+\layout Standard
+
+This manual will only cover configuration of the software needed and compilation
+ of PHP to use the other software.
+\layout Subsection
+
+Important Notice
+\layout Standard
+
+You should read all the README, INSTALL and similar files found with the
+ software packages you download.
+ They often contain tips on how to configure, compile and install the software
+ on your system.
+ It will save you a lot of time and aggravation if you follow instructions
+ supplied with the software.
+\layout Standard
+
+If problems arise during installation of the software, please turn to the
+ suppliers support forums, mailing list archives and FAQs, your questions
+ will often be answered there.
+ If the supplier's forums doesn't seem to help you, you should check the
+ support forums at our site.
+\layout Standard
+
+You should always do a search of the forums before posting any questions.
+\layout Section
+
+Compile Configuration
+\layout Subsection
+
+PHP
+\layout Standard
+
+Important : YOU NEED TO RECOMPILE PHP.
+ No known Linux distros does yet have all the php features required by eZ\SpecialChar ~
+publish.
+ This means that you need to compile the php module from source.
+\newline 
+You may find precompiled binaries for your system at 
+\begin_inset LatexCommand \url[the eZ publish web site, ]{http://ez.no/developer}
+
+\end_inset 
+
+.
+ Take a look at the 
+\begin_inset Quotes eld
+\end_inset 
+
+Contributions
+\begin_inset Quotes erd
+\end_inset 
+
+ section in the download area.
+\layout Subsubsection
+
+Unpacking
+\layout Standard
+
+After you have downloaded PHP you need to unpack it somewhere where you
+ can compile and configure the software.
+ To unpack run the command:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar zxvf php-4.0.x.tar.gz
+\newline 
+
+\layout Standard
+
+Where the x is the version of php you've downloaded.
+ Then you need to move into the directory you extracted php into:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd php-4.0.x
+\layout Subsubsection
+
+Configuration
+\layout Standard
+
+You'll need either an apache module or a command line (CGI) version of PHP
+ to use eZ publish on your website.
+ We recommend you use PHP as an apache module.
+ You will also need the command line version if you want to use the cron
+ jobs for periodical updates of the eZ news feed module.
+\layout Standard
+
+Thus for our recommended installation of PHP you need both the command line
+ and module versions of PHP.
+\layout Paragraph
+
+Common
+\layout Standard
+
+Both the command line and apache module versions need to have the following
+ configurations added to the configuration tool:
+\layout Description
+
+--enable-trans-sid This lets PHP use session id's which don't rely on cookies.
+ It does not disable normal cookie based sessions.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-trans-sid
+\size default 
+)
+\layout Description
+
+--with-mysql This tells PHP that the mysql functionality should be used.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.with-mysql
+\size default 
+)
+\layout Description
+
+--disable-magic-quotes This tells PHP to disable magic quotes by default.
+ you can also turn this feature on and off on a directory by directory basis
+ in either the 
+\begin_inset Quotes eld
+\end_inset 
+
+.htaccess
+\begin_inset Quotes erd
+\end_inset 
+
+ files (if you use them) or in the setup of the virtual server in 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Description
+
+IMORTANT : From version 2.1
+\begin_float footnote 
+\layout Standard
+
+eZ publish versions prior to 2.1 required magic quotes to be enabled
+\end_float 
+ onwards magic quotes must be turned off for eZ publish to work properly.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quot
+es
+\size default 
+)
+\layout Description
+
+--with-imap This configures PHP to include imap support.
+ This is used by eZ mail module.
+ This parameters require ssl support.
+ Imap does also have bindings to kerberos.
+ This causes some linking problems on RedHat Linux.
+ The workaround for this problem is to type this command before you compile
+ : 
+\family typewriter 
+\size footnotesize 
+
+\newline 
+
+\newline 
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5\SpecialChar ~
+-lpam"
+\layout Description
+
+--with-openssl This will enable ssl support in PHP
+\layout Standard
+
+You should also go through the web page: 
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php
+\size default 
+ and make sure that there isn't other functionality you would like to have
+ included.
+\layout Paragraph
+
+Command Line
+\layout Standard
+
+The default is to create a command line version of PHP.
+ Therefore you don't need to add more configuration options for this.
+\layout Paragraph
+
+Apache Module
+\layout Standard
+
+To build an apache module you need to add:
+\layout Description
+
+--with-apxs This compiles PHP as an apache module.
+
+\size footnotesize 
+ 
+\newline 
+(http://www.php.net/manual/en/install.configure.php#install.configure.with-apxs)
+\layout Paragraph*
+
+Other Web Servers
+\layout Standard
+
+We haven't tested our software with other web servers than apache.
+ If you need to try out other web servers, read this document 
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.servers
+\size default 
+ to learn how you configure for the web server you will be using.
+\layout Paragraph
+
+Creating the Configuration
+\layout Standard
+
+Now you just have to run the 
+\begin_inset Quotes eld
+\end_inset 
+
+./configure
+\begin_inset Quotes erd
+\end_inset 
+
+ program with the appropriate configuration directives which we discussed
+ in the preceeding sections, for an apache module you'd do the following:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./configure --enable-trans-sid --with-mysql --enable-trans-sid --disable-magic-
+quotes --with-imap --with-openssl
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-apxs
+\newline 
+
+\layout Standard
+
+Remember that to compile a script/cgi version you'd need to change that
+ line to:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./configure --enable-trans-sid --with-mysql --enable-trans-sid --disable-magic-
+quotes --with-imap --with-openssl
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\layout Subsubsection
+
+Compilation
+\layout Standard
+
+To compile you need to run the command 
+\begin_inset Quotes eld
+\end_inset 
+
+make
+\begin_inset Quotes erd
+\end_inset 
+
+:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make
+\layout Subsubsection
+
+Installation
+\layout Standard
+
+To install your new PHP package you need to run the following command:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\layout Subsubsection
+
+Compiling the php module on RedHat 7.x, step by step
+\layout Standard
+
+First download the source from www.php.net.
+ You should get a file called something like
+\layout Standard
+
+php-4.0.6.tar.gz
+\newline 
+
+\layout Standard
+
+First, unpack the tarball:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ tar -xzf php-4.0.6.tar.gz
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Now, enter the source directory
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ cd php-4.0.6
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Apply the kerberos workaround:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Run the configure script:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --enable-trans-sid
+ --with-config-file-path=/etc/httpd --with-mysql=/usr --with-pgsql=/usr
+ --enable-inline-optimization --with-ttf --with-gd --enable-gd-native-ttf
+ --with-imap --includedir=/usr --with-openssl=/usr --with-zlib-dir=/usr
+ --with-openssl=shared,/usr
+\newline 
+
+\layout Standard
+
+Compile the module:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ make
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Install the module, either automaticly or manually.
+\newline 
+Manually : 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ su
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# cp .libs/libphp.so /usr/lib/apache
+\layout Standard
+
+Automaticly:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ su
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# make install
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Restart apache:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# /etc/rc.d/init.d/httpd restart
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Verify that everything went OK.
+\newline 
+Verify that apache was able to start:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ps ax | grep httpd
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Check the apache log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# tail -f 50 /var/log/httpd/error_log
+\newline 
+
+\layout Standard
+
+IMPORTANT
+\layout Standard
+
+When compiling php, please read chapter 
+\begin_inset LatexCommand \ref{chptr: Troubleshooting}
+
+\end_inset 
+
+.
+ Especially, take note of chapter 
+\begin_inset LatexCommand \ref{chptr: openssl problem on redhat}
+
+\end_inset 
+
+.
+ It might save you for hours with debugging
+\layout Section
+
+Apache Configuration
+\layout Standard
+
+If you don't want to change the Apache configuration, go to chapter 2.
+ Please take notice of the rewrite rules.
+ They have been changed since the previously versions.
+\layout Subsection
+
+Dual Virtual Host
+\begin_inset LatexCommand \label{sec: dual virtualhost}
+
+\end_inset 
+
+
+\layout Subsubsection
+
+Configuring Through httpd.conf
+\layout Standard
+
+This set up is based on having two different virtual hosts for your administrati
+on back-end and the main site.
+ The main site would typically be known as 
+\begin_inset Quotes eld
+\end_inset 
+
+www.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+ and the administration would be 
+\begin_inset Quotes eld
+\end_inset 
+
+admin.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+; the names are up to you, theoretically you could have different names,
+ for example 
+\begin_inset Quotes eld
+\end_inset 
+
+mysite.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+ and 
+\begin_inset Quotes eld
+\end_inset 
+
+administration.mysite.com
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+The virtual host is configured through the 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+ file which is the main configuration of Apache.
+ Following is an example of such a host, modify it to reflect your own installat
+ion and preferences, but before that be sure to add the 
+\begin_inset Quotes eld
+\end_inset 
+
+NameVirtualServer
+\begin_inset Quotes erd
+\end_inset 
+
+ directive to the configuration file.
+ The directive is 
+\begin_inset Quotes eld
+\end_inset 
+
+NameVirtualServer ip-address
+\begin_inset Quotes erd
+\end_inset 
+
+ where the ip address is the address where the server will receive requests
+ (http://httpd.apache.org/docs/mod/core.html#namevirtualhost).
+\layout Standard
+
+You should consider using the utility which we have online for creating
+ the configuration.
+ The URL is http://ez.no/developer/virtualhost it will generate a setup with
+ the latest needed information.
+ The presented configuration herein might be slightly outdated, so we recommend
+ the online tool.
+\layout Paragraph
+
+User Site
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# User site
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost\SpecialChar ~
+your.ip.addr.no>
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<Directory /your/docroot>
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Options FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride None 
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=4]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/docroot/ezstats/user/storestats.php
+ [S=3]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/docroot/ezfilemanager/
+files/$1 [T="application/oct-stream",S=2]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/docroot/ezmediacatalogue/catal
+ogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar)$ /your/docroot/index.php
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin your.e-mail@address
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /your/apache/documentroot/publish_dist
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerName your.domain.com
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\layout Paragraph
+
+Admin Site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+# Admin site 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost your.ip.addr.no>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
+<Directory /your/docroot>
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Options FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ AllowOverride None 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar) /your/docroot/index_admin.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin your_mail@domain.no
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /your/apache/documentroot/publish_dist
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerName admin.yourdomain.org
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\newline 
+
+\layout Standard
+
+The format of the 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+ file is covered at http://httpd.apache.org/docs/ for a complete understanding
+ of the above information you'll need to read that documentation.
+\layout Standard
+
+The directory 
+\begin_inset Quotes eld
+\end_inset 
+
+/your/docroot/
+\begin_inset Quotes erd
+\end_inset 
+
+ is the directory where you extracted eZ publish.
+\layout Paragraph
+
+Error Checking
+\layout Standard
+
+You can check that everything is correct with your rewrite rules by running
+ 
+\begin_inset Quotes eld
+\end_inset 
+
+apache -s
+\begin_inset Quotes erd
+\end_inset 
+
+, which will check for virtual hosts.
+ There should also be an error log (consult the apache documentation) which
+ you can read to check for errors.
+\layout Paragraph
+
+Explanation of the Rewrite Rules
+\layout Standard
+
+A rewrite rule contains three arguments.
+ The third argument is optional.
+ The first argument describes a (reg exp
+\begin_float footnote 
+\layout Standard
+
+For an introduction to regular expressions, take a look at http://zez.org/article
+/articleview/11/
+\end_float 
+) pattern which is applied to the URI.
+ If the URI match the regular expression, the URI is substituted with the
+ second argument .
+ A last argument can be used to give mod_rewrite special flags so that it's
+ behaviour will differ from the default.
+ The syntax for a rewrite rule can be written in this general form:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule Pattern Substitution [FLAGS]
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+The rewrite rules for eZ publish do the following:
+\newline 
+
+\newline 
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=4]
+\layout Standard
+
+This rewrite rule states that every URLs containing the string 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ shall be served from 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/your/docroot/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ The 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+.*
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ means zero or more characters of any type.
+ When this is written in parenthesis like at the end of the argument, these
+ characters in inserted in the variable $1.
+ The result of this is that the filename is inserted into the variable $1.
+ The trailing $ in the pattern argument is a special meaning in a regular
+ expression.
+ It is the a symbol for the end of the line.
+ In the substitution argument, the content of variable $1 is then appended
+ to the path 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/your/docroot/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ so that the correct file is served.
+\newline 
+An result of this rewrite rule is that a file in the mediacatalog will be
+ served independet if which user is logget on.
+ Permissions on the media file will not checked if the user knows the filename.
+ This will be fixed in a later version of eZ publish.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/docroot/ezstats/user/storestats.php
+ [S=3]
+\newline 
+
+\layout Standard
+
+This says that everything served from 
+\begin_inset Quotes eld
+\end_inset 
+
+/stats/store/
+\begin_inset Quotes erd
+\end_inset 
+
+ should be served by the storestats.php script.
+ This is used by the statistical module
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/docroot/ezfilemanager/
+files/$1 [T="application/oct-stream",S=2]
+\newline 
+
+\layout Standard
+
+This says that everything served from 
+\begin_inset Quotes eld
+\end_inset 
+
+/filemanager/filedownload/
+\begin_inset Quotes erd
+\end_inset 
+
+ should be redirected to fetch information from 
+\begin_inset Quotes eld
+\end_inset 
+
+publish_dist/ezfilemanager/files
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ In other words, when people downloads a file from the filemanager, the
+ file is served from the directory specified in the second part.
+\layout Standard
+
+The 
+\begin_inset Quotes eld
+\end_inset 
+
+\i \^{ }
+
+\begin_inset Quotes erd
+\end_inset 
+
+ just after 
+\begin_inset Quotes eld
+\end_inset 
+
+RewriteRule
+\begin_inset Quotes erd
+\end_inset 
+
+ says that evertything which starts with this, in other words it is a start
+ of line marker.
+ When working with an URL that is from the root of your site, ie.
+ the part from the first slash after your domain name.
+\layout Standard
+
+The 
+\begin_inset Quotes eld
+\end_inset 
+
+$
+\begin_inset Quotes erd
+\end_inset 
+
+ sign is used to mark the end of line, in order to remember the full line.
+\layout Standard
+
+The part 
+\family typewriter 
+\size scriptsize 
+
+\begin_inset Quotes eld
+\end_inset 
+
+[T="application/oct-stream",S=2]
+\begin_inset Quotes erd
+\end_inset 
+
+ 
+\family default 
+\size default 
+means that everything which is matched shall be of the specific mime type
+ (
+\begin_inset Quotes eld
+\end_inset 
+
+application/oct-stream
+\begin_inset Quotes erd
+\end_inset 
+
+, ie.
+ binary download).
+ The 
+\begin_inset Quotes eld
+\end_inset 
+
+S=1
+\begin_inset Quotes erd
+\end_inset 
+
+ part means that if we match this rule, we should skip one rule ahead before
+ trying to match again.
+\newline 
+
+\layout Standard
+
+The last rewrite rule
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar)$ /your/docroot/index.php
+\newline 
+
+\layout Standard
+
+is found in both sites (admin and user).
+ This means that every file, except gif, css, jpg and png (and files matched
+ against the previous rule when in the user site) should be redirected to
+ the file in the second part, ie.
+ the index.php or index_admin.php file.
+ The reason for this is that we don't want anyone trying to get direct access
+ to anything which might be sensitive, or revealing about the site's operation.
+\layout Standard
+
+If you compiled PHP with magic quotes; or other software relies on PHP using
+ magic quotes you can add the following line into each virtual host section:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_gpc off
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_runtime off
+\newline 
+
+\layout Subsubsection
+
+Configuring php.ini
+\layout Standard
+
+Magic quotes may also be turned of in php.
+ This will disable magic quotes:
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+magic_quotes_gpc = Off
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+magic_quotes_runtime= Off
+\layout Subsubsection
+
+Configuring Through .htaccess
+\layout Standard
+
+At present, configuring the rewrite rules in .htaccess files is not supported.
+ However, you may switch of magic quotes in an .htaccess file.
+\layout Standard
+
+
+\emph on 
+Note: You must set up apache to accept this.
+\layout Paragraph
+
+User Site
+\layout Standard
+
+In your document root (/path/to/index.php/) create a file called ".htaccess"
+ containing the following text:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_gpc off
+\layout Section
+
+eZ publish Installation
+\layout Subsection
+
+Program Files
+\layout Standard
+
+The next step is to install the eZ publish package in your document root
+ directory.
+ First you need to unpack the software in a temporary directory:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd /tmp
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
+\newline 
+
+\layout Standard
+
+The next step is to move the files to your document root:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mv /tmp/publish_dist /your/apache/documentroot
+\newline 
+
+\layout Standard
+
+When all this is done you need to tell eZ publish a little about the site
+ you're running.
+ You'll need to edit the 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ file which you will find in the document root:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd /your/apache/documentroot
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# vi site.ini
+\newline 
+
+\layout Standard
+
+Instead of vi you can use your preferred text editor.
+ You'll need to add information about the username, hostname and password
+ of your database.
+ More information on what you can do with 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ can be found in the 
+\begin_inset Quotes eld
+\end_inset 
+
+eZ publish Customisation Guide
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+The next important step is to run the script 
+\begin_inset Quotes eld
+\end_inset 
+
+modfix.sh
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ 
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./modfix.sh
+\newline 
+
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{sec: Database (dual hosts)}
+
+\end_inset 
+
+Database 
+\layout Standard
+
+Some people might prefer to use phpMyAdmin (http://www.phpwizard.net/projects/phpM
+yAdmin/) for most of this part; we can not help you with installation of
+ that program, though.
+\layout Subsubsection
+
+First time installation (MySQL)
+\layout Standard
+
+Now you need to create a database in MySQL, the default name we use is publish,
+ but you can change that to whatever pleases you.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysqladmin create publish
+\newline 
+
+\layout Standard
+
+Add a publish user in MySQL.
+ To add a user you can use the MySQL client to log on to mysql and then
+ create the user:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql > grant all on publish.* to publish@localhost
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+identified by "secret";
+\size default 
+
+\newline 
+
+\layout Standard
+
+where secret is your password.
+ Then you need to add the default eZ publish data into your newly created
+ database:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql -uroot -p publish < sql/publish_mysql.sql
+\layout Paragraph
+
+Adding Pre-Defined Data
+\layout Standard
+
+If you want to add the pre-defined data of the distribution you shouldn't
+ add any data manually to the site before executing these commands.
+\layout Standard
+
+First we need to add files and images which are needed by the database.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar zpxvf data.tar.gz
+\newline 
+
+\layout Standard
+
+Then we need to run 
+\begin_inset Quotes eld
+\end_inset 
+
+modfix.sh
+\begin_inset Quotes erd
+\end_inset 
+
+ to make sure that everything is readable.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./modfix.sh
+\newline 
+
+\layout Standard
+
+Then we need to send the SQL data into the database:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql -upublish -ppublish publish < sql/data_mysql.sql
+\newline 
+
+\layout Standard
+
+Finally we run clearcache
+\begin_float footnote 
+\layout Standard
+
+A new feature in eZ publish 2.2 is the possibility of clearing the cache
+ from the admin site
+\end_float 
+ to make sure that everything presented is cached correctly:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./clearcache.sh
+\layout Subsubsection
+
+PostgreSQL configuration
+\layout Standard
+
+Important note regarding PostgreSQL support in eZ publish:
+\layout Standard
+
+PostgreSQL has one limitation which is not good for eZ publish:
+\layout Standard
+
+Max length of indentifiers used in the database, table names, column names
+ etc is default set to 32.
+\layout Standard
+
+eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue_ImageVari
+ationGroup
+\layout Standard
+
+Therefore you need to recompile PostgreSQL to support a larger value by
+ altering: 
+\layout Verse
+
+#define NAMEDATALEN 64
+\layout Standard
+
+in the file : src/include/postgres_ext.h
+\layout Subsubsection
+
+PostgreSQL setup
+\layout Standard
+
+On last configuration change is necessary.
+ This will allow TCP-IP connections to the database, not only unix sockets.
+ 
+\layout Standard
+
+In pqsql-root/data/postmaster.opts (for instance /var/lib/pgsql/data/postmaster.op
+ts) you need to apply a 
+\begin_inset Quotes eld
+\end_inset 
+
+-i
+\begin_inset Quotes erd
+\end_inset 
+
+ parameter.
+ The content of the file will then be like this:
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+/usr/bin/postmaster '-D' '/var/lib/pgsql/data/' '-i'
+\layout Subsubsection
+
+First time installation (PostgreSQL)
+\layout Standard
+
+Login as user postgres
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# su - postgres
+\newline 
+
+\layout Standard
+
+Create a database
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ createdb publish
+\newline 
+
+\layout Standard
+
+Create a dabase user
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ createuser publish -W
+\newline 
+
+\layout Standard
+
+Create tables
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ psql -Upublish <sql/data_mysql.sql
+\newline 
+
+\layout Standard
+
+You also need to enable PostgreSQL in site.ini.
+ Change the
+\begin_inset Quotes erd
+\end_inset 
+
+ DatabaseImplementation
+\begin_inset Quotes erd
+\end_inset 
+
+ configuration so it reads:
+\layout Verse
+
+DatabaseImplementation=postgresql
+\layout Subsubsection
+
+Updating the Installation
+\layout Standard
+
+This section is for users who are updating from a previous version of eZ
+ publish.
+ There should be several files ending with 
+\begin_inset Quotes eld
+\end_inset 
+
+.sql
+\begin_inset Quotes erd
+\end_inset 
+
+ in the directory 
+\begin_inset Quotes eld
+\end_inset 
+
+updates
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ Run the files needed to update your version to the current.
+ You need to apply all the updates for every version since your version.
+\layout Section
+
+Now What?
+\layout Standard
+
+After installing eZ publish you can test your site through the URL 
+\family typewriter 
+\size footnotesize 
+http://www.yoursite.com/
+\family default 
+\size default 
+ and you can administrate your site from the URL 
+\family typewriter 
+\size footnotesize 
+http://admin.yoursite.com/
+\family default 
+\size default 
+, of course, if you did anything different the names of the admin and the
+ public site might be different.
+\layout Standard
+
+
+\emph on 
+NOTE: 
+\emph default 
+The default user name and password for your site will be admin/publish.
+ Remember to change the password.
+\layout Standard
+
+The next manual you should read is the 
+\begin_inset Quotes eld
+\end_inset 
+
+eZ publish Customisation Guide
+\begin_inset Quotes erd
+\end_inset 
+
+, it tells you how to configure the software to use the functionality you
+ want, as well as how you change the templates to suit your needs.
+\layout Standard
+
+When you're finished with the design and the initial testing you can head
+ over to
+\family typewriter 
+\size footnotesize 
+ http://zez.org/
+\family default 
+\size default 
+ for articles about community building as well as programming, or you can
+ visit 
+\family typewriter 
+\size footnotesize 
+http://ez.no/developer
+\family default 
+\size default 
+ for updates, articles about eZ publish and how to work with it, as well
+ as keeping abreast of new developments.
+\layout Subsection
+
+Post Install Checklist
+\layout Enumerate
+
+Does Apache run?
+\layout Enumerate
+
+Does PHP run/work as an Apache module?
+\layout Enumerate
+
+Does MySQL run?
+\layout Enumerate
+
+Can you access your virtual hosts at all?
+\layout Enumerate
+
+Does the user site work?
+\layout Enumerate
+
+Does the admin site work?
+\layout Enumerate
+
+Consider this: all eZ publish sites has an admin site, perhaps you should
+ call the admin host something different than admin?
+\layout Enumerate
+
+Check that you've downloaded and read the configuration manual.
+ A quick tip is to read through the file 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ and change any e-mail addresses, passwords etc.
+ to fit your own choices.
+\layout Enumerate
+
+Log in on your admin site (
+\family typewriter 
+\size footnotesize 
+http://admin.yoursite.com/
+\family default 
+\size default 
+).
+ You will be presented with a page which will list any install problems.
+ If any problems appear read the error message presented and follow any
+ instructions.
+ If that fails, read the FAQ.
+ Then go to 
+\family typewriter 
+\size footnotesize 
+http://ez.no/developer 
+\family default 
+\size default 
+and search the forum for anyone who have had the same problem.
+ Also check the bug list for any open bugs covering your problem.
+ Finally you should register to the mailing list and try asking for help
+ there.
+\layout Enumerate
+
+If everything is okay go to the 
+\begin_inset Quotes eld
+\end_inset 
+
+user
+\begin_inset Quotes erd
+\end_inset 
+
+ module and change the e-mail address of the site administrator immediatly.
+\layout Enumerate
+
+Change the password of the administration user to something only you know.
+\layout Enumerate
+
+Start browsing the public part of your site, just to check that everything
+ is working; some of the articles supplied as default will inform you about
+ features of the software.
+\layout Enumerate
+
+Check that ImageMagick is working.
+ Try to upload an image to your site.
+\layout Section
+
+
+\begin_inset LatexCommand \label{chptr: Troubleshooting}
+
+\end_inset 
+
+Troubleshooting
+\layout Subsection
+
+Problems During Installation
+\layout Subsubsection
+
+Missing Compiler/Can not Compile (C++/C)
+\layout Standard
+
+When compiling php and other support programs (like ImageMagick) you need
+ the GCC compiler.
+ It is recommended that you use the GCC compiler which was shipped with
+ your Linux distro/unix system.
+ In the introduction (see chapter 
+\begin_inset LatexCommand \ref{chptr: introduction}
+
+\end_inset 
+
+) it listed some sites where you can download pre-compiled versions of software
+ for some different Unix versions.
+ Please note that you must compile php on your own.
+\layout Subsubsection
+
+I am getting linking errors when trying to build PHP
+\layout Standard
+
+The PHP module you have compiled will be linked agains kerberos.
+ This causes some linking problems on RedHat Linux.
+ The workaround for this problem is to type this command before you compile
+ :
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+\layout Subsection
+
+Problems After Installation
+\layout Subsubsection
+
+Permission Denied
+\layout Standard
+
+
+\family typewriter 
+\size small 
+Warning: fopen("site.ini","r+")
+\layout Standard
+
+
+\family typewriter 
+\size small 
+Permission denied in classes/INIFile.php on line 80
+\layout Standard
+
+If you get this error message you need to run the 
+\begin_inset Quotes eld
+\end_inset 
+
+modfix.sh
+\begin_inset Quotes erd
+\end_inset 
+
+ script.
+\layout Subsubsection
+
+Can not see Images
+\layout Standard
+
+ImageMagick is not working, make sure that it is working by using the command
+ line command 
+\begin_inset Quotes eld
+\end_inset 
+
+convert
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Subsubsection
+
+Warning about Temp Directory
+\layout Standard
+
+If you get any such warning you need to set the temp directory in php.ini.
+\layout Subsubsection
+
+
+\begin_inset LatexCommand \label{chptr: openssl problem on redhat}
+
+\end_inset 
+
+After installing my new php module, apache dies immediately.
+\layout Standard
+
+RedHat as released new versions of the openssl packages for RedHat 7.x
+\begin_float footnote 
+\layout Standard
+
+The problem described here may only apply to RedHat 7.0
+\end_float 
+.
+ If these erratas is installed before you compile php, your php module will
+ be linked agains these.
+ This will however brake mod_ssl, which is linked to the old openssl libraries.
+ There are two different ways to fix this:
+\newline 
+Uninstall mod_ssl:
+\layout Standard
+
+# rpm -e mod_ssl
+\newline 
+
+\newline 
+Or you may download the apache source rpm from redhat.
+ Then recompile and install it.
+\newline 
+
+\layout Standard
+
+If this doesn't help, look for clues in /var/log/httpd/error_messages
+\layout Section
+
+Installing on RAQ 3
+\begin_inset LatexCommand \label{chptr: raq 3}
+
+\end_inset 
+
+
+\layout Standard
+
+
+\emph on 
+Installing ezPublish on raq3 without messing up the GUI or voiding the warranty.
+\layout Standard
+
+This is untested by eZ systems, and we provide this 
+\begin_inset Quotes eld
+\end_inset 
+
+as is
+\begin_inset Quotes erd
+\end_inset 
+
+ without any form of guarantee or endorsement, either explicitly or implicitly.
+\layout Standard
+
+First, add the domain into the DNS, but do not create a virtual site.
+\layout Standard
+
+Log in by telnet (install SSH unless you are desperate to get hacked).
+\layout Standard
+
+Put the publish files in the directory you want to use, I used /home/sites/extra
+sites/mysite/web
+\layout Standard
+
+Install mysql 3.23 or later by rpm, there is one out there.
+ MySQL (http://www.mysql.com) version 3.23 or later if you want to compile
+\layout Standard
+
+Now you need to create a database in MySQL, the default name we use is publish,
+ but you can change that to whatever pleases you.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql -uroot -p publish < sql/publish.sql
+\newline 
+
+\layout Standard
+
+Add a publish user in MySQL.
+ To add a user you can use the MySQL client to log on to mysql and then
+ create the user:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql>grant all on publish.* to publish@localhost
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+identified by "secret";
+\newline 
+
+\layout Standard
+
+where secret is your password.
+ Then you need to add the default eZ publish data into your newly created
+ database:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mysql -uroot -p publish < sql/publish.sql
+\newline 
+
+\layout Standard
+
+Then get:
+\layout Itemize
+
+http://www.freesoftware.com/pub/infozip/zlib/ (zlib.tar.gz)
+\layout Itemize
+
+http://www.boutell.com/gd (gd-1.8.4.tar.gz)
+\layout Itemize
+
+ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz (jpegsrc.v6b.tar.gz)
+\layout Itemize
+
+http://www.php.net (php-4.0.4pl1.tar.gz)
+\layout Standard
+
+Delete all gd.h files on your system.
+ You can find them using:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# find / -name gd.h
+\newline 
+
+\layout Standard
+
+If there are more than one, then delete all of them.
+\layout Standard
+
+Now add the following line to the /etc/ld.so.conf file:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/usr/local/lib
+\newline 
+
+\layout Standard
+
+Save the file, and run:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# /sbin/ldconfig
+\newline 
+
+\layout Standard
+
+This was an important part, because Apache needs this dir to find the correct
+ modules.
+\layout Standard
+
+Extract the zlib archive:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar -zxvf zlib.tar.gz # cd zlib-1.1.3
+\newline 
+
+\layout Standard
+
+And install it:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./configure --shared
+\family default 
+\size default 
+\lang english
+ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\newline 
+
+\layout Standard
+
+Now install the JPEG-6b, doing the following:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar -zxvf jpegsrc.v6b.tar.gz
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd jpeg-6b
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./configure --enable-shared
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\newline 
+
+\layout Standard
+
+Install the PNG library
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# wget http://www.libpng.org/pub/png/src/libpng-1.0.9.tar.gz
+\newline 
+
+\layout Standard
+
+Then compile the package.
+\layout Standard
+
+Get Imagemagick ImageMagick (http://www.imagemagick.org/) newest version Download
+ and then:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar -zxvf Imagemagick-xxx
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd Imagemagick-xxx
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./configure
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\newline 
+
+\layout Standard
+
+Then go one directory back, and extract the GD archive using:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar -zxvf gd-xxx
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd gd-xxx
+\newline 
+
+\layout Standard
+
+Now edit the Makefile (using vi or pico) and check which modules you want.
+ I removed the Freetype Library (-DHAVE_LIBFREETYPE / -lfreetype).
+ After making the changes save the file and go back to the shell.
+ Now compile GD:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make
+\lang english
+ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\size small 
+
+\newline 
+
+\layout Standard
+
+If this is giving any errors, just remove the modules you don't have (but
+ don't remove the JPEG lib - we need that one ! :)) )
+\layout Standard
+
+Now go back one dir, and extract PHP4:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size small 
+# tar -zxvf php-4.0.4pl1.tar.gz
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size small 
+# cd php-4.0.4pl1
+\newline 
+
+\layout Standard
+
+First remove any cache:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# rm config.cache
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make clean
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+#./configure --with-mysql 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-apxs=/usr/sbin/apxs 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-system-regex 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-zlib 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--enable-safe-mode 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-gdbm 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--enable-sysvsem 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-ftp 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-config-file-path=/etc/httpd/conf/ 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--with-exec-dir=/usr/sbin/httpd 
+\backslash 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+--enable-trans-sid
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# make install
+\newline 
+
+\layout Standard
+
+run /sbin/ldconfig again.
+\layout Standard
+
+Apache: (Your milage may vary, be wary of paths)
+\layout Standard
+
+edit /etc/httpd/conf/httpd.conf and add the Loadmodules lines like this:
+\lang english
+ 
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# Extra Modules
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+LoadModule php_module modules/mod_php.so
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+LoadModule php3_module modules/libphp3.so
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+LoadModule perl_module /usr/lib/apache/libperl.so
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+LoadModule php4_module /usr/lib/apache/libphp4.so
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+LoadModule php4_module lib/apache/libphp4.so
+\newline 
+
+\layout Standard
+
+# Reconstruction of the complete module list from all available modules
+\layout Standard
+
+# (static and shared ones) to achieve correct module execution order.
+\layout Standard
+
+# [WHENEVER YOU CHANGE THE LOADMODULE SECTION ABOVE UPDATE THIS, TOO]
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ClearModuleList
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# Extra Modules
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddModule mod_php.c
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddModule mod_php3.c
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddModule mod_perl.c
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddModule mod_php4.c
+\size small 
+
+\newline 
+
+\layout Standard
+
+Add the second line below line below the rewrite stuff, above the <Virtualhost>
+ directives.
+\layout Standard
+
+NameVirtualHost 216.97.67.4 Include /etc/httpd/conf/extrasites.conf <VirtualHost
+ 216.97.67.4>
+\layout Standard
+
+create this include file and in it put the apache vitual server directives
+ for your site.
+\layout Standard
+
+For example:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# User site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost yourIP>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerName yourdomain.org
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAlias www.yourdomain.org
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<Directory /your/site/root/>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Options\SpecialChar ~
+FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride\SpecialChar ~
+None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/site/root/ezstats/user/storestats.php
+ [S=3]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/site/root/ezfilemanage
+r/files/$1 [T="application/oct-stream",S=2]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar)$ /your/site/root/index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin your_mail@domain.no
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /your/site/root/
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# Admin site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost admin.yourdomain.org>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<Directory /your/site/root>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Options\SpecialChar ~
+FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/site/root/ezfilemanage
+r/files/$1 [T="application/oct-stream",S=1]
+\size footnotesize 
+
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar) /your/site/root/index_admin.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin your_mail@domain.no
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /your/site/root
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerName admin.yourdomain.org
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAlias admin.yourdomain.org
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\newline 
+
+\layout Standard
+
+restart apache:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# /etc/rc.d/init.d/httpd stop
+\newline 
+
+\layout Standard
+
+wait a few seconds then
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# /etc/rc.d/init.d/httpd start
+\newline 
+
+\layout Standard
+
+Then chown httpd.httpd * on both the domain and admin.domain directories to
+ get it to work.
+\layout Standard
+
+If all is well, your site should work.
+\layout Subsection
+
+Getting SSL to Work
+\layout Standard
+
+This is a bit tougher! Enable SSL for the site in your GUI.
+ Generate your certificates.
+ Disable SSL in the GUI.
+ Add this to the end of your extrasites.conf
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+#attempt to modify
+\lang english
+ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSL Listen xxx.xxx.xxx.xxx:443
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost xxx.xxx.xxx.xxx:443>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin ubong
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /home/sites/yoursite/web
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<Directory /home/sites/yoursite/web>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Options FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLEngine on
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLCertificateFile /home/sites/yoursite/certs/certificate
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLCertificateKeyFile /home/sites/yoursite/certs/key
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler server-parsed .shtml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddType text/html .shtml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler cgi-wrapper .cgi
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler cgi-wrapper .pl
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /home/sites/public.edge.ai/web/index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ErrorLog /home/sites/yoursite/logs/error_log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+TransferLog /home/sites/yoursite/logs/access_log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\layout Standard
+
+This should work.
+ IF you can't get it, give me an email and I'll help if I have time: chris@net.ai
+\layout Section
+
+Installing on Windows 
+\begin_inset LatexCommand \label{chptr: windows}
+
+\end_inset 
+
+
+\layout Standard
+
+This information is contributed by Marco Zinn for the 2.1.0 release, so it
+ might be slightly outdated.
+ This is untested by eZ systems, and we provide this "as is" without any
+ form of guarantee or endorsement, either explicitly or implicitly.
+\layout Subsection
+
+Requirements and notes
+\layout Standard
+
+In order to install ezPublish on a windows system, you need to download
+ and install 
+\layout Itemize
+
+the apache webserver
+\layout Itemize
+
+php4 
+\layout Itemize
+
+MySQL database server
+\layout Itemize
+
+phpMyAdmin (optional, but I recommend it over using mySQL from the command
+ line)
+\layout Itemize
+
+Imagemagick
+\layout Standard
+
+If you already have installed all this, you may skip to the next section
+ and go and install ezPublish.
+\layout Standard
+
+Note that this installation was done on a windows 98 second edition system
+ with ezPublish 2.1.
+ For Windows NT and 2000 you may to do some more or other settings, because
+ of the access rights situation (file permissions in the file system) and
+ the possibility to run services independant from a user being logged in.
+ If you have the choice, do not use a windows system for a production system!
+ I'm using this just for development purposes on my laptop.
+\layout Standard
+
+I will describe the installation steps and show some small tests to see
+ if all went fine.
+ Of course you will need (root) access to the system if you need to install
+ anything.
+\newline 
+
+\layout Standard
+
+If you have never installed and configured software using text files, you
+ might run into trouble setting this up.
+ You need to install a web server, a database server, some tools and the
+ ezPublish application itself.
+ It's not that hard, but it is more than clicking on a big "Install" button.
+\newline 
+
+\layout Standard
+
+The installation guides are partially copied from the install texts of the
+ software packages.
+ You should read the full documentation for a specific software, if you
+ run into trouble or have any problems with my notes.
+\layout Subsection
+
+Apache
+\layout Standard
+
+Get the win32 binary of the Apache webserver version 1.13.19 from http://www.apache.
+org/ 
+\layout Standard
+
+Note that the binary is a MSI Binary Distribution Package and you need the
+ MSI installer application in order to install this package.
+ Users of Windows NT 4.0, 95 and 98 must download the MSI installer from
+ the website, if it was not already installed by another product's installation.
+\newline 
+
+\layout Standard
+
+When installing apache, have your network domain ready and choose a nice
+ name for your new webserver.
+ If you plan to use the webserver for more than just ezPublish (ie: phpMyAdmin,
+ browsing the apache docs, ...), you should choose a server name that is independan
+t from the host names of the ezPublish installation later.
+\layout Standard
+
+If you just set this up on a stand-alone PC or a small network, you could
+ use my.intranet as the network domain and apache.my.intranet as the server
+ name.
+ You need to choose an email adress for the server admin.
+\newline 
+
+\layout Standard
+
+Start the installer and choose to run apache as a service, if you like.
+ Choose "Complete Install" and change the destination folder to "C:
+\backslash 
+".
+ This will install apache in C:
+\backslash 
+apache and the documents will be in C:
+\backslash 
+apache
+\backslash 
+htdocs (=docroot).
+\newline 
+
+\layout Standard
+
+Your apache now needs to be told to use the rewrite module, so we can use
+ the rewrite rules later.
+ Open C:
+\backslash 
+Apache
+\backslash 
+conf
+\backslash 
+httpd.conf with your wordpad (I recommend to create a shortcut on the desktop
+ to this file).
+ Remove the comment sign "#" from the line "LoadModule rewrite_module modules/mo
+d_rewrite.so" and save the file.
+\layout Subsubsection*
+
+Error Checking Apache:
+\layout Standard
+
+Start Apache from the menu or make a shortcut to C:
+\backslash 
+apache
+\backslash 
+apache.exe on the desktop (recommended) and double-click.
+ If all went fine, a DOS box should pop up and show "Apache/1.3.19 (Win32)
+ running....".
+\newline 
+
+\layout Standard
+
+Fire up your webbrowser on this machine and open http://localhost/ .
+ This should display a welcome page with a link to the apache docs.
+\layout Standard
+
+Stop Apache by selecting (focussing) the DOS box window again and pressing
+ CTRL-C (takes some seconds).
+\layout Subsection
+
+PHP4
+\layout Standard
+
+Get the PHP4 windows binary from http://www.php.net/.
+ I used PHP 4.0.4.pl1.
+ You need a binary version with a server API version for apache, as we will
+ use PHP as an apache module.
+\newline 
+
+\layout Standard
+
+Extract the zip file to C:
+\backslash 
+php, using folder names.
+ Now move php4ts.dll to the C:
+\backslash 
+windows
+\backslash 
+system directory.
+\layout Standard
+
+Stop the Apache Webserver, if it is running.
+ Edit the httpd.conf and put in these lines:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# for the apache module
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+LoadModule php4_module c:/php/sapi/php4apache.dll
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+AddType application/x-httpd-php .php .php3
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<IfModule mod_dir.c>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ DirectoryIndex index.html index.php index.php3
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</IfModule>
+\newline 
+
+\layout Standard
+
+The AddType line might be already in there (search for "PHP 4"), be sure
+ to remove the "#".
+ The LoadModule line should be created below the other LoadModule lines.
+\newline 
+
+\layout Standard
+
+This will load the PHP4 module, when apache is started and link .php and
+ .php3 files to the PHP module.
+ The expansion of the DirectoryIndex entry (which already is in the config
+ file) is not be necessary for ezPublish.
+ Adding index.php and index.php3 just makes life with php tools easier.
+\newline 
+
+\layout Standard
+
+Copy the php.ini-dist from C:
+\backslash 
+PHP to C:
+\backslash 
+windows, rename it to php.ini, and edit the php.ini to fit your needs.
+ You will need at least these entries:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+magic_quotes_gpc\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+=\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Off
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+extension_dir\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+=\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+C:
+\backslash 
+php
+\backslash 
+extensions\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+session.save_path\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ = C:
+\backslash 
+windows
+\backslash 
+temp
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Magic Quotes must be off for ezPublish 2.1.
+ You also must enable this libary by removing the comment sign '#' in its
+ line.
+ The savepath must be set to some local directory for temporary files.
+\layout Standard
+
+Restart the Apache server.
+ If all is fine, it should display "Apache/1.3.19 (Win32) PHP/4.0.1pl1 running..."
+ now.
+\layout Subsubsection*
+
+Error Checking PHP and Apache:
+\layout Standard
+
+Create a text file called test.php in C:
+\backslash 
+apache
+\backslash 
+htdocs.
+ 
+\layout Standard
+
+The file must contain:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<?
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+phpinfo();
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+?>
+\newline 
+
+\layout Standard
+
+Save the file and open it via http://localhost/test.php.
+ This should display some information about your PHP.
+ If your webbrowser display the contents of the file or prompts you save
+ the file somewhere, the PHP integration did not work.
+ 
+\layout Subsection
+
+MySQL
+\layout Standard
+
+Get the standard binary (tarball) distribution for Windows 95/98/NT/2000
+ for intel from www.mysql.com.
+ I'm running version 3.23.35a here, but newer versions should be available.
+\layout Standard
+
+Extract the file to some temporary dir and run the setup.
+ Install to C:
+\backslash 
+MySQL using "Typical Install".
+\layout Standard
+
+Create a shortcut to C:
+\backslash 
+mysql
+\backslash 
+bin
+\backslash 
+winmysqladmin.exe on your desktop and run it.
+ At the very first start, a "Quick Setup" window should pop up.
+ Enter a username and a passwort for the MySQL Server access.
+ Use "publish" for both user name and password to simplify the rest of the
+ installation.
+ This will create the my.ini file in C:
+\backslash 
+windows
+\layout Standard
+
+There should be a traffic light in the system tray (left of the time display).
+ It should go green now.
+\layout Standard
+
+Right-click on the traffic lights, select "Show me" from the pop-up menu.
+ Go to "my.ini setup", and "pick-up and edit my.ini values".
+ Choose the server you want to use; probably mysqld-nt on NT and mysqld-opt
+ on Win9x (using the radio buttons).
+ Choose "Save Modification"
+\layout Standard
+
+If you want to load mysql on startup, choose 'Create ShortCut on Start Menu'.
+ Note that you might have to put a link to apache.exe in the startup menu
+ group, too, if you want the whole system to run at startup
+\layout Standard
+
+Right-Click on the traffic lights, Choose "Win9x "-> "Shutdown Both" in
+ order to stop the database server and the WinMySQLAdmin tool.
+\layout Subsubsection*
+
+Error Checking MySQL:
+\layout Standard
+
+Restart the database server by starting WinMySQLadmin: a window should show
+ up and minimize to tray.
+ The Traffic lights should go green.
+ This means that the MySQL daemon (server) is up and running, using your
+ new my.ini values.
+\layout Subsection
+
+phpMyAdmin
+\layout Standard
+
+In order to have some kind of nice interface to your MySQL database server
+ and in order to access its databases and tables, you should install phpMyAdmin.
+ I rely on it later, when installing ezPublish.
+ Note that using phpMyAdmin without further security measurements is always
+ some sort of security risc, because it allows access to your valuable databases
+ through a web browser.
+\newline 
+
+\layout Standard
+
+Get phpMyAdmin from http://www.phpwizard.net/ .
+ Select the zip version with php extensions.
+ I'm using version 2.1.0.
+ 
+\newline 
+
+\layout Standard
+
+Extract the zip-file to your document root, using folder names.
+ This puts phpMyAdmin to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+phpMyAdmin.
+\layout Subsubsection*
+
+Error Checking phpMyAdmin and MySQL:
+\layout Standard
+
+Note that this test seems to work only, when your default server (apache.my.intran
+et) is already translated to the right IP adress.
+ See 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\begin_inset LatexCommand \ref{Determing and publish your host names}
+
+\end_inset 
+
+ Determing and publishing your host names" on how to do this or do this
+ test later.
+\newline 
+
+\layout Standard
+
+When Apache and MySQL servers are running, fire up your browser and open
+ http://localhost/phpMyAdmin .
+ This should show the UI of phpMyAdmin and allow you do browse a bit in
+ two MySQLs databases.
+ "test" is a test-database, while "mysql" is the MySQL database itself,
+ containig users and access rights etc.
+ You should not mess to much with this, but you should be able to find a
+ user called "publish" in the user table.
+ This one is necessary for further installation of ezPublish.
+\layout Standard
+
+Also beware that "drop" means "delete"!
+\layout Subsection
+
+ImageMagick
+\layout Standard
+
+Get the ImageMagick windows binary (ImageMagick-win2k.zip) from www.imagemagick.org
+ and extract it to C:
+\backslash 
+, using folder names.
+ This installs ImageMagick to the C:
+\backslash 
+ImageMagick-win2k directory.
+\newline 
+
+\layout Standard
+
+Now specify in the site.ini where to find the convert program of ImageMagick.
+ In site.ini change the ImageConversionProgram line to read 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ImageConversionProgram=C:
+\backslash 
+ImageMagick-win2k
+\backslash 
+convert.exe .
+\newline 
+
+\layout Standard
+
+This works great for me.
+ The readme of ImageMagick tell you to use environment variables.
+ If you want to try this, add the following lines to your autoexec.bat, save
+ and reboot:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+set MAGICK_HOME=C:
+\backslash 
+ImageMagick-win2k
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+set PATH=C:
+\backslash 
+ImageMagick-win2k
+\newline 
+
+\layout Standard
+
+If you already have set a the PATH variable, you have to expand your path
+ by the ImageMagick application directory.
+\layout Subsubsection*
+
+Error Checking ImageMagick:
+\layout Standard
+
+Note that you can do this test only, when you have set up and configured
+ ezPublish completely, that is after 
+\begin_inset LatexCommand \ref{wininst Virtual host and rewrite rules}
+
+\end_inset 
+
+.
+ In order to test ImageMagick, log in to the admin site, choose the article
+ module, choose to create a new article, type some text and click on the
+ [images] button.
+ On the next screen click [Add Image] and upload some graphic file.
+ ImageMagick works, when you see a thumbnail of the image you just uploaded.
+ Try this with the common graphic formats (JPG, PNG, GIF).
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{Determing and publish your host names}
+
+\end_inset 
+
+Determing and publishing your host names
+\layout Standard
+
+For ezPublish, you need two virtual hosts, one for the user site, the other
+ for the admin site.
+ You should make up your mind on how you want to call these now.
+ They should be different from the apache (default) server name.
+\newline 
+
+\layout Standard
+
+If you called your apache (default) server apache.my.intranet, you might want
+ to call your ezPublish hosts something like ez.my.intranet and ezadmin.my.intranet.
+\newline 
+
+\layout Standard
+
+In order to have ezPublish running, you need to translate these host names
+ to the IP-Adress of the system the apache server is running on.
+\newline 
+
+\layout Standard
+
+If you are using a stand-alone PC, take 127.0.0.1 as your IP adress.
+ Using a LAN, you will find your IP with the tool ipconfig (run in a DOS
+ box).
+ If you are using a small private LAN, your IP might be something like 192.168.xxx.
+xxx.
+\newline 
+
+\layout Standard
+
+A company LAN probably will use a Domain Name Server (DNS).
+ If that's the case, contact your network admin for inserting the new host
+ names.
+ 
+\newline 
+
+\layout Standard
+
+All others (including stand-alone PCs) must use the hosts file: If you did
+ not use this file yet, copy the hosts.sam sample file to hosts (without
+ extension).
+ hosts files are in your windows directory.
+\newline 
+
+\layout Standard
+
+Open the hosts file with your notepad.
+\newline 
+
+\layout Standard
+
+If your are using the "localhosts" IP adress 127.0.0.1, enter the following
+ lines:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+localhost
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ez.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ezadmin.my.intranet
+\newline 
+
+\layout Standard
+
+This links all the used host names to the IP adress 127.0.0.1.
+ When using a small LAN, use your detected IP adress instead of 127.0.0.1 in
+ the last three lines (leave localhost as it is) and make sure to make this
+ hosts entries on any client system, from which you want to access your
+ webserver and ezPublish later (that probably is any PC in the LAN).
+\newline 
+
+\layout Standard
+
+Note that you do have to restart windows or the servers in order to take
+ the changes in the hosts file to take effect.
+\layout Subsubsection*
+
+Error Checking hosts settings:
+\layout Standard
+
+Open you webbrowser and load http://apache.my.intranet.
+ The browser should show the apache welcome screen.
+ Repeat this for every host name you just entered (ez.my.intranet and ezadmin.my.int
+ranet) and for every client.
+\layout Subsection
+
+ezPublish 2.1
+\layout Subsubsection*
+
+Unpacking the files
+\layout Standard
+
+Extract the ezpublish file to C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ , using folder names.
+ This will give you all files in C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1.
+ Put createdirs.bat in C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1 and run it.
+ This creates the cache directories.
+ If your did not uses publish/publish as your MySQL user/password settings,
+ open site.ini, and just change the user and password lines to match your
+ settings.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+While apache and MySQL servers are running, open http://localhost/ezpublish_2_1
+ in your webbrowser.
+ This should give you an "could not connect to database ...
+ no database selected".
+\newline 
+
+\layout Standard
+
+That's fine.
+ It shows that PHP ran the index.php of the ezPublish installation and tried
+ to connect to the database server.
+ Connecting to the server was okay, but the database "publish" could not
+ be found, as we did not yet create it.
+\layout Subsection
+
+Creating the database
+\layout Standard
+
+Open http://apache.my.intranet/phpMyAdmin in your webbrowser.
+ Create a new database named "publish".
+\newline 
+
+\layout Standard
+
+Run a SQL query and choose to load it from a textfile.
+ Browse to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1
+\backslash 
+sql
+\backslash 
+publish.sql and confirm with "Go".
+ This should take a while as the tables are created and some data is inserted.
+ Check the first line, if the execution of the SQL query was successful.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://apache.my.intranet/ezpublish_2_1.
+ This should give you nearly the known ezPublish screen.
+\layout Standard
+
+Note that you cannot access the admin site yet and the user site will not
+ work very much (links, missing graphics etc).
+ We have not yet set the virtual hosts.
+ But we will now.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{wininst Virtual host and rewrite rules}
+
+\end_inset 
+
+Virtual hosts and rewrite rules
+\layout Standard
+
+I will give you a quick sample, how to set up apache to use virtual hosts
+ and rewrite rules as we need them for ezPublish to work.
+\newline 
+
+\layout Standard
+
+A good explanation of the virtual host and rewrite rule concept is in chapter
+ 4 of the installation guide (Apache configuration) and of course in the
+ apache documentation itself.
+\newline 
+
+\layout Standard
+
+Open your httpd.conf and search for "NameVirtualHost".
+ You need to enable VirtualHosts using the NameVirtualHosts directive and
+ create three virtual hosts.
+ The first is the default host for this web server, second is the ezPublish
+ user site, third is the ezPublish admin site.
+ You can omit the first, if you are just running ezPublish on the system,
+ but you will not be able to access phpMyAdmin, the apache documentation
+ or anything else then.
+\newline 
+
+\layout Standard
+
+Copy these lines into httpd.conf and save.
+ If you did not follow my suggestions for folder names of apache and for
+ the host names, you need to make the appropriate changes here.
+\layout Standard
+
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# Use name-based virtual hosting.
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+NameVirtualHost apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# Server default site (default server)
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost apache.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ezPublish User site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost ez.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<Directory C:/Apache/htdocs/ezpublish_2_1>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ Options FollowSymLinks Indexes ExecCGI
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLog rewrite_user.log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLogLevel 9
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule ^/stats/store/(.*).gif$ /ezstats/user/storestats.php [S=3]
+\newline 
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /var/www/publish/ezmediacatalogue/
+catalogue/$1 [T="application/oct-stream",S=2]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# The lines above should appear on the same line in your configuration file!
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+/ezfilemanager/files/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# The lines above should appear on the same line in your configuration file!
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName ez.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ezPublish Admin site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost ezadmin.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<Directory C:/Apache/htdocs/ezpublish_2_1>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ Options FollowSymLinks Indexes ExecCGI
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLog rewrite_admin.log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLogLevel 9
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /var/www/publish/ezmediacatalogue/
+catalogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /index_admin.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName ezadmin.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\newline 
+
+\layout Standard
+
+You can check your VirtualHost configuration by running apache -S from the
+ command line.
+ If you are having trouble with the rewrite rules, you can enable the RewriteLog
+ directives for a time for debugging.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://ez.my.intranet.
+ This should give you the ezPublish screen.
+ Graphics should be there, links should be working, although there is no
+ content in the database yet.
+ We will add some in a minute.
+\layout Standard
+
+You can access the admin site through http://ezadmin.my.intranet.
+ You can log in using "admin" as a user and "publish" as the password.
+\layout Subsection
+
+Sample data
+\layout Standard
+
+In order to have something to play with, you may want to insert some sample
+ data.
+\newline 
+
+\layout Standard
+
+Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_1, using folder
+ names.
+ This will create some image files and some downloads for the sample data.
+ 
+\newline 
+
+\layout Standard
+
+Now we need to insert the data itself into the database.
+ Therefore open http://apache.my.intranet/phpMyAdmin, select the database
+ "publish" by clicking on it in the left frame, scroll down past the list
+ of tables in the right frame and run a SQL query.
+ Choose to load it from a textfile.
+ Browse to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1
+\backslash 
+sql
+\backslash 
+data.sql and confirm with "Go".
+ Again check the first line, if the execution of the SQL query was successful.
+\newline 
+
+\layout Standard
+
+This is just the same procedure like the first-time-creating of the database
+ (see 1.3.2), only with data.sql instead of publish.sql.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://ez.my.intranet.
+ This should give you the ezPublish screen, now with sample articles.
+\layout Subsection
+
+eZ publish and IIS
+\layout Standard
+
+Not very much information is available for this webserver.
+ We have however received reports that since IIS does not have a mod_rewrite
+ module you may use this hack
+\begin_float footnote 
+\layout Standard
+
+Since eZ publish now can be run without mod_rewrite you may take look at
+ chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+ as it may provide you with a better solution
+\end_float 
+ instead:
+\layout Subsubsection*
+
+IIS Configuration:
+\layout Standard
+
+- Create the virtual hosts for IIS.
+ (only tested on win2000)
+\layout Standard
+
+(here comes the not so elegant part)
+\layout Standard
+
+- In the virtual hosts config for the user site, change the custom errors
+\begin_float footnote 
+\layout Standard
+
+The eZ publish developers want to point out that this does NOT seem to be
+ a secure workaround.
+ This workaround should not be used in an environment where the server might
+ be exposed to untrusted users (i.e the internet)
+\end_float 
+ for 404 and 405 to:
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Message type: URL
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ URL: /index.php
+\layout Standard
+
+- In the virtual hosts config for the admin site, change the custom errors
+ for 404 and 405 to:
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Message type: URL
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ URL: /index_admin.php
+\layout Standard
+
+(if you encount 500-err you may need to reboot the server, Uhhh..
+ I love MS,
+\layout Standard
+
+it gives me a lot of cofee brakes.
+ eZPublish runing on IIS is unstable)
+\layout Standard
+
+\SpecialChar ~
+
+\layout Section
+
+Mandrake
+\begin_inset LatexCommand \label{chptr: mandrake}
+
+\end_inset 
+
+
+\layout Standard
+
+Thanks to Mark Polsen for giving us this information.
+\layout Standard
+
+This is untested by eZ systems, and we provide this 
+\begin_inset Quotes eld
+\end_inset 
+
+as is
+\begin_inset Quotes erd
+\end_inset 
+
+ without any form of guarantee or endorsement, either explicitly or implicitly.
+\layout Subsection
+
+Download the Following
+\layout Standard
+
+Download what you need from 
+\family typewriter 
+\size footnotesize 
+http://ez.no/developer/download
+\family default 
+\size default 
+ and install the rpms!
+\layout Standard
+
+That's all; read the manual from the start after that, and install eZ publish
+ as described.
+\layout Chapter
+
+
+\begin_inset LatexCommand \label{chpt: nVH}
+
+\end_inset 
+
+Installing eZ publish without virtual hosts and mod_rewrite
+\layout Standard
+
+Installing eZ publish this way has several advantages:
+\layout Itemize
+
+no root rights needed
+\layout Itemize
+
+no virtual/dual hosts or mod_rewrite needed
+\layout Itemize
+
+no subdomains needed
+\layout Itemize
+
+no change of Apache configuration needed
+\layout Itemize
+
+installation in subdirectories possible
+\layout Itemize
+
+you can keep your old documents on the server
+\layout Standard
+
+The disadvantages are:
+\layout Itemize
+
+the URLs will be "[...]/index.php/article/articleedit/[...]" instead of "[...]/article/art
+icleedit/[...]"
+\layout Itemize
+
+new feature in 2.2, so it's not as well tested as normal dual hosts install
+\layout Section
+
+Prerequisites
+\layout Standard
+
+The following software must be running on your server and you must have
+ permissions to use it:
+\layout Itemize
+
+PHP (
+\begin_inset LatexCommand \url{http://www.php.net}
+
+\end_inset 
+
+) version 4.0.4pl1 or later.
+\layout Itemize
+
+A supported database:
+\begin_deeper 
+\layout Itemize
+
+MySQL (
+\begin_inset LatexCommand \url{http://www.mysql.com}
+
+\end_inset 
+
+) version 3.23 or later
+\layout Itemize
+
+PostgreSQL (
+\begin_inset LatexCommand \url{http://www.postgresql.org}
+
+\end_inset 
+
+) version 7.1.3 or later
+\end_deeper 
+\layout Standard
+
+The following software is optional, but required for some modules of eZ
+ publish:
+\layout Itemize
+
+ImageMagick (
+\begin_inset LatexCommand \url{http://www.imagemagick.org}
+
+\end_inset 
+
+) newest version (Needed by eZ article, eZ image catalogue, and all modules
+ using images.
+ You need only the command line version.)
+\layout Section
+
+eZ publish installation
+\layout Subsection
+
+Installing in one directory (Recommended install)
+\layout Subsubsection
+
+Installing the files for eZ publish
+\layout Enumerate
+
+Extract the eZ publish files (if you want some example data, extract 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ too) and if they are not on the server yet, transfer them to the server
+ in a directory of your choice.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish
+\family default 
+\size default 
+ reachable by 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Copy
+\family typewriter 
+\size footnotesize 
+ installation/htaccess-nVH
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ in the top directory of your eZ publish installation.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/.htaccess
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Edit the file 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ and set the right directory.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/
+\family default 
+\size default 
+)
+\layout Subsubsection
+
+Database installation
+\layout Standard
+
+If you have shell access to create the database, see section 
+\begin_inset LatexCommand \ref{sec: Database (dual hosts)}
+
+\end_inset 
+
+.
+\layout Enumerate
+
+Create a database (e.g.
+ 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Create a user and give him permissions to access it
+\layout Enumerate
+
+Create the data structures for eZ publish with file 
+\family typewriter 
+\size footnotesize 
+sql/publish_mysql.sql
+\family default 
+\size default 
+ or 
+\family typewriter 
+\size footnotesize 
+sql/publish_postgresql.sql
+\layout Enumerate
+
+If you extracted 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ before, you should also fill the database with the example data in file
+ 
+\family typewriter 
+\size footnotesize 
+sql/data_mysql.sql
+\layout Subsubsection
+
+Finishing the install
+\layout Enumerate
+
+Rename 
+\family typewriter 
+\size footnotesize 
+site.ini
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+site.ini.php
+\family default 
+\size default 
+ and edit it.
+\layout Enumerate
+
+Test if you can access 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ with a WWW browser
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/sitedir.ini
+\family default 
+\size default 
+).
+\newline 
+
+\newline 
+a) If you get a 
+\begin_inset Quotes eld
+\end_inset 
+
+Forbidden
+\begin_inset Quotes erd
+\end_inset 
+
+, everything is good and safe.
+\newline 
+b) If you get the file, then your server doesn't obey 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ files.
+ Try the next install in section 
+\begin_inset LatexCommand \ref{sec: Install without shell}
+
+\end_inset 
+
+, it is much safer then.
+ Otherwise you can still use eZ publish, but have to remember that it is
+ not as safe as it could be.
+\layout Enumerate
+
+Finished!!
+\newline 
+Go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/index_admin.php
+\family default 
+\size default 
+, login as 
+\family typewriter 
+\size footnotesize 
+admin
+\family default 
+\size default 
+ with password 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+ and change your password.
+ Then go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+.
+ Have fun.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{sec: Install without shell}
+
+\end_inset 
+
+Installing with shell access on server and two separate directories for
+ eZ publish
+\layout Standard
+
+If you have shell access on your server and you have the possibility to
+ create directories which are not accessible by WWW browsers, you can use
+ the script 
+\family typewriter 
+\size footnotesize 
+ezinstaller.sh
+\family default 
+\size default 
+.
+ It will ask you all relevant questions and install eZ publish in a very
+ secure way.
+\the_end

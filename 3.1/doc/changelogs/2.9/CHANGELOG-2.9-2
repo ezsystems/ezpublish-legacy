@@ -1,0 +1,192 @@
+CHANGELOG
+
+Changes from 2.9-1 to 2.9-2
+
+*SDK :
+- Added online coding standards to SDK.
+- Added Changelog system to SDK.
+- Added support for changing the title in SDK parts
+- Added support for changing the forward/back navigators in SDK parts
+- Added support for adding more features to the left menu in SDK parts,
+  placement is also possible.
+- Added better titles for some reference and document items
+- Source view for sdk elements which uses a centralized file for parts works (see doc/ref).
+- Moved sdk doc directories into a separate sdk directory.
+- Added explanation of directory layout.
+- Added explanation of site access
+
+*Library :
+
+eZ soap :
+- Added support for complex datatypes
+- Added support for boolean response values.
+- Added support for boolean parameters.
+- Added support for base64 in response.
+- Fixed correct content length in the HTTP header
+- Fixed correct content type in HTTP header
+
+eZ xml : 
+- Added registration of #text nodes by name in DOM docuemnt.
+- Added support for numeric characters in namespace prefix.
+- Fixed crash when returning textContent of empty DOM node.
+
+eZ ini :
+- Added support for specifying the override directory path
+- Added support for fetching the variables of a block in the order they were read
+- Added /hasGroup()/ function for determing the existence of a group
+- Added /reset()/ function for resetting group/variable data
+- The cachefile name is now dependent on the override directory name
+- Three cachefiles will be created, one for the original file, one for
+  the override and one for the appending. This fixes a bug where deleting an
+  override file would not update cache.
+- Cache files now contains a cache date variable, if the cache date does not
+  exists or is lower than the defined cache date in the eZINI class the cache
+  must be recreated.
+- Added define which can be used to enable some internal debug output.
+- Group and keyvalues are now case sensitive and are stripped for whitespace
+  infront and after the name.
+- Made sure the cache files uses as little memory as possible.
+- Cache write code moved to separate function and changed a bit in how it writes it's data.
+- Gives error messages when group/variables are accessed but do not exist.
+- Changed functions readVariable(), readVariableArray() and readGroup() to variable(), 
+  variableArray() and group().
+- Finished save() function, it stores the file in the correct format according to
+  the current OS.
+- Handling newlines for Unix, Windows and Mac files is fixed. 
+- All ini values are now converted to the internal charset (and stored in the cache).
+- Made static functions setting whether debugging is used(default false), textcodecs are
+  used(default true) and whether caching is used(default true).
+- Added function exists() to check if an INI file exists, can be used before trying the instance() function.
+- Made sure the ordered group array was properly written to the cache file.
+
+eZ debug:
+- Output report can now be shown as plain text as well as HTML, which is good for
+  console tests.
+- Added support for enabling/disable direct output and logging of messages.
+- Added NullDB class which is used when an implementation is not found,
+  it does nothing and always returns false.
+- Debug output which is fetched from PHP errors are labeled *PHP*.
+
+eZ db :
+- Changed debug output to use the optional label parameter, this creating better
+  outputs. The number of affected rows is also added to the label (only mysql for the moment).
+- The time taken for each query is shown in debug label with sql output on (only mysql for the moment).
+- Added support for switching database implementation from site.ini
+- Added SQL output debug in PostgreSQL implementation.
+- All sql queries and rows returned are now converted to and from the internal charset. (only mysql for the moment)
+  This behaviour is controlled by a site.ini option.
+- Created an eZDBInterface class which all implementations inherit from, this takes care of general initialization
+  and has some helper functions.
+- Changed the way each implementation is instantiated, instead of harcoding the available implemenations
+  it is search for in a default path and a path set in site.ini.
+
+
+eZ uri :
+- Added support for changing the current URI string
+- Added function isEmpty() which returns true if the URI is either an empty string
+  or equals /.
+
+eZ module :
+- Added support for creating empty module objects.
+- Added support for creating "features" which allows for dynamic retrieval of objects, lists etc.
+- Added support for freely placed parameters in URI.
+- Added setGlobalPathList function to set the path list once and swapped the parameter positions of the
+  /exists/ function, this means that only the module name is required.
+- Added support for running an error module directly with an error code.
+- Added support for turning post variables into actions, no more need for post variable checking. They
+  can even have post variable parameters.
+- Added support for easier redirection using module, view and parameters.
+- Changed the handleError function, it now takes a second parameter called /type/ which determines
+  the type of the error, for instance: kernel or contentobject
+- Changed the setErrorModule to take a second parameter which defines the error view, default is /view/.
+- addHook() now takes an extra parameter called /priority/ which defines the order of execution for a hook,
+  lower priorities (negative included) gets executed first. The default priority is 1.
+  If an entry with the same priority is found it will be increased or decreased according to the /append/ parameter.
+
+eZ file :
+- New class for handling file operations
+- Added support for creating directories with permission mask, can create
+  missing parents as well
+- Added function splitLines() which splits the lines in a file into an array.
+
+eZ template :
+- Added check for GB with image conversion of ttf fonts in template operator lib.
+- The /section/ function now uses the /show/ parameter for controlling the
+  /section-else/ part.
+- Better error output when operator parameters are not properly closed
+- All examples uses Capital letters for namespaces according to the naming conventions for templates
+- Named types in operators are no longer referenced, thus fixing the problem with operators only
+  working once.
+- The section function can now loop over strings, each loop will set $item to the current character.
+- The parser is changed so it doesn't care about namespace when creating the tree, the
+  namespace is only used when fetching data, that way the trees can be reused.
+- Supports charset conversion using the eZTextCodec.
+- Added extra parameter for operators, it's the first parameter will be operator element object.
+- Added extra namespace parameter to process functions, this is needed by template functions which
+  will change the current namspace (eg. section), the old namspace parameter will be used for
+  variable retrieval and represents the namespace for a given template file.
+- New template operator /concat/ which takes all input parameters and creates a string out of it,
+  it will traverse arrays recursive.
+- Added extra parameter called $extraParameters for loadURI, load, fetch and display, this parameter
+  is passed to the resource handler and can contain special options for that handler.
+- /max/ and /offset/ may be set on section, to minimize items used.
+- Added /exclude/ and /include/ sub functions which defines rules to run in order,
+  the result of the function are either true or false, if true the current iteration
+  is performed, if not it is skipped.
+- /delimiter/ for /section/ function can now specify a modulo value which means that the delimiter
+  content will only be included each n times, the parameter name is /modulo/. It's also possible to 
+  specify the parameter /match/ which will be fetched and evaluated each time the delimiter is to
+  be used, if the value is true the delimiter is used.
+- Added support for template objects, that's object which has a function called /templateData/
+  implemented. It will return an array which will either define pure text or a template to
+  be used for representing the object.
+- Added support for autoloading functions and operators, this means that the classes aren't included
+  or instantiated before they are needed by a template.
+- Added autoload files which defines functions and operators, since the search path list is controlled
+  by site.ini it's possible for plugins for template functions and operators.
+- Improved parsing with regards to negative numbers.
+- New arithmetic template operators, /sum/, /sub/, /inc/, /dec/, /div/, /mod/, /mul/, /max/, /min/, /abs/, /ceil/, /floor/, /round/
+- New operator /fetch/ which can call a module function and get the result data.
+- New operators /array_prepend/, /array_append/ and /array_merge/
+- New function /default/ which allows for setting default data to non-existing variables.
+
+eZ httpfile :
+- Added two more attributes for fetching the category and part of the mimetype
+
+eZ httptool :
+- Added function for setting a post variable.
+
+eZ executionstack :
+- New class for handling URI executions in a given session, it will remember visited
+  URIs and allow for easy backtracking.
+
+eZ httppersistence :
+- Added support for fetching checkboxed field members.
+
+eZ translator :
+- New system for handling context sensitive text translation.
+  It currently supports reading .ts files(Qt translation), leetify(1337), character shuffling and random picking.
+
+eZ inputvalidator :
+- New class for handling input validation and correction, it currently has a regexp and integer validator.
+
+eZ locale :
+- New format type called DateTime and Short DateTime which displays both date and time in a long
+  and short format.
+- Changed the locale format, the locale is now specified with one locale string, for instance nor-NO,
+  the first part is the language and the second the country. The local will either look for an ini
+  file named as the locale string or try to find the language and country separately.
+- Added function /httpLocaleCode/ which returns the localcode usable in the HTTP header.
+
+eZ language:
+- Removed, see eZ locale
+
+eZ i18n :
+- New class eZCodePageAlias which converts alias charset names into real charset names.
+- New class eZCodePageMapper which handles conversion from one charset to another using codepages
+  and without using utf8/unicode as an intermediate value.
+- New class eZMBStringMapper which handles conversion using the mbstring extension in PHP.
+- Redone class eZTextCodec to handle proper text conversion, it's not done yet.
+- Added support for doublebyte characters in eZCodepage.
+- Added support for codepage to utf8 string conversion and strlen.
+- Added function /httpCharset/ which returns the charset usable in the HTTP header.

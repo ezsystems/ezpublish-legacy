@@ -1,0 +1,164 @@
+Webservices med PHP og eZ publish
+--------------------------------
+Skrevet av: Bård Farstad - bf@ez.no
+
+De fleste som følger med på hva som skjer i internettverdenen har fått med seg hypen om webservices. Antallet som vet hva dette innebærer eller hva webservices kan gjøre for dem er betydelig lavere. Så, hva er webservices? Dersom du slår opp i bøker så får du like mange definisjoner som det finnes bøker. Den enkleste og kanskje beste definisjonen er: dersom en applikasjon kan nåes over et nettverk ved bruk av en kombinasjon av protokoller som HTTP, XML, SMTP eller Jabber, er dette en webservice.
+
+I denne artikkelen skal vi se nærmere på den mest omtalte webservice protokollen, SOAP, og hvordan denne kan brukes sammen med eZ publish. SOAP, eller Simple Object Access Protocoll, er en standard for kommunikasjon ved bruk av XML. SOAP er utviklet av Microsoft i samarbeid med DevelopMentor, Userland og IBM. Utviklingen av SOAP startet i 1997 som et initiativ fra Microsoft om å lage en XML basert protokoll for kommunikasjon over HTTP. 
+
+Utviklingen av SOAP ble lagt delvis på is sommeren 1998 siden teknologier som XML namespaces og XML schema ikke var modne nok. Userland laget i stedet XML-RPC som senere ble brukt som grunnlag for SOAP. I mai 2000 ble SOAP sendt som et forslag til Word Wide Web Consortium, standardiseringsorganet for internett-teknologi.
+
+SOAP har i den senere tid fått flere tilhengere og nå lanseres flere og flere tjenester med SOAP støtte. For eksempel har søkemotoren Google lansert et SOAP grensesnitt for sine søketjenester. Dette gjør det mulig å integrere Googles søkefunksjonalitet i egne applikasjoner på en enkel måte. 
+
+Annen typisk bruk av SOAP kan være utveksling av ordreinformasjon mellom bedrifter, hente ut oppdaterte aksjekurser, oppslag i telefonkatalog eller hente informasjon om ny programvare.
+
+Når man lager webservices med SOAP bruker man normalt også Web Services Description Language (WSDL). WSDL er en standard for å beskrive hvilke webservice-tjenester som er tilgjengelige på en server. Dette skal vi ikke gå nærmere inn på her.
+
+SOAP kan brukes som et grensesnitt for en applikasjonstjener. Fordelen med å bruke SOAP er at man kan lage klienter for alle plattformer, med de fleste programmeringsspråk. Dette letter integrasjon mellom ulike plattformer, og man kan f.eks. kjøre applikasjonstjenester på Linux og ha grensesnitt for dette i Windows.
+
+SOAP bruker normalt HTTP for transport og dette fører til at man kan bruke SOAP-baserte applikasjoner på nettverk med brannmurer. Dette fordi trafikken kan gå på samme porter som vanlig nettsurfing (normalt port 80).
+
+En klar fordel ved å bruke SOAP er at man kan lage programvare komponenter som kommuniserer via et definert grensesnitt. Dette gjør at man kan vedlikeholde eller bytte ut komponenter så lenge grensesnittet er det samme.
+
+Det er i hovedsak to måter å bruke SOAP på, enten som en RPC protokoll eller som en protokoll for å utveksle XML dokumenter. RPC eller Remote Procedure Call, som demonstreres i dette eksempelet, betyr at applikasjoner kan kommunisere med hverandre direkte. RPC fungerer slik at man sender et kall til en server, serveren returnerer så resultatet eller eventuelt en feilmelding. 
+
+<header>Eksempel på bruk av eZ soap</header>
+
+For å lage en webservices-applikasjon kan du bruke eZ publish biblioteket eZ soap. Dette er et bibliotek for å utvikle SOAP applikasjoner raskt og enkelt. eZ soap er lisensiert under GPL og eZ publish professional license som gjør at du kan bruke den til både Open Source programvareutvikling og i kommersiell sammenheng.
+
+Som eksempel på en webservices-implementasjon skal vi lage en kalkulator. Dette er et enkelt eksempel på bruk av webservices.
+
+Klientimplementasjonen for kalkulatoren vises under. Dette er koden som må skrives for å gjøre et kall mot SOAP serveren. Det første som gjøres er å opprette et eZSOAP klientobjekt for å snakke med serveren. Klientobjektet, <bold>$client</bold>, håndterer kommunikasjonen mot serveren. 
+
+Selve kallet mot serveren gjøres ved bruk av et eZSOAP forespørselsobjekt, <bold>$request</bold>. Dette objektet håndterer det enkelte kall mot serveren. I dette eksempelet kaller vi opp funksjonen <bold>addNumbers</bold> med to parametere.
+
+Dette kallet sendes til serveren og vi mottar svaret, <bold>$result</bold>. Først sjekker vi om serveren returnerte en feilmelding, og dersom alt gikk bra skriver vi ut resultatet, som her er 59.
+
+Som vi ser av eksempelet trenger man ikke mange linjer med kode for å komme igang med SOAP. Her sender vi kun over integer tall, men man kan selvfølgelig bruke andre datatyper også. Strenger, array eller binær data kan enkelt oferføres med SOAP.
+
+// BEGIN KODE: soapclient.php
+<?php
+include_once( "lib/ezsoap/classes/ezsoapclient.php" );
+include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
+
+// Klientforbindelsen opprettes
+$client = new eZSOAPClient( "din.webservices.server.com", "/soapcalculator" );
+
+// Vi lager kallet som skal sendes til serveren
+$request = new eZSOAPRequest( "addNumbers", "http://calkulator.com/simplecalculator" );
+
+// Parameter til kallet legges til
+$request->addParameter( "valueA", 42 );
+$request->addParameter( "valueB", 17 );
+
+// Kallet sendes til serveren
+$result =& $client->send( $request );
+
+// Sjekk om serveren ga en feilmelding
+if ( $result->isFault() )
+{
+    print( "SOAP Feil: \"" . $result->faultCode(). " " . $result->faultString() . "\"" );
+}
+else
+    print( "Resultatet av addisjonen ble: \"" . $result->value() . "\"" );
+?>
+// END KODE
+
+Selve kommunikasjonen med serveren sendes som en XML SOAP melding. Meldingen som sendes til serveren i dette eksempelet vises under. Serveren vil tolke dette å eksekvere funksjonen <bold>addNumbers</bold>. Resultatet fra denne funksjonen vil så bli omgjørt til en SOAP melding som blir sendt tilbake til klienten. 
+
+// BEGIN KODE: Klient SOAP kall
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+  <SOAP-ENV:Body xmlns:req="http://calkulator.com/simplecalculator" >
+    <req:addNumbers>
+      <valueA xsi:type="xsd:int">42</valueA>
+      <valueB xsi:type="xsd:int">17</valueB>
+    </req:addNumbers>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+// END KODE
+
+Serverimplementasjonen av kalkulatoren vises under. På serveren må man registrere alle funksjonene som skal være tilgjengelig via SOAP grensesnittet. Hver funksjon som registreres må også registrere parameter navn og type.
+
+Selve funksjonen <bold>addNumbers</bold> er en helt vanlig PHP funksjon, slik at denne funksjonen kan brukes både som en webservice og et vanlig PHP script. Den returnerer helt vanlige PHP typer, som blir oversatt til SOAP av <bold>$server</bold> objektet når det prosesserer kallet. Selve prosesseringen av kallet gjøres i metoden <bold>$server->processRequest()</bold>.
+
+// BEGIN KODE: soapserver.php
+<?php
+include_once( "lib/ezsoap/classes/ezsoapserver.php" );
+
+// Opprett et nytt server objekt
+$server = new eZSOAPServer();
+
+// Registrer serverfunksjonen
+$server->registerFunction( "addNumbers", array( "valueA" => "integer", "valueB" => "integer" ) );
+
+// Kjør serveren
+$server->processRequest();
+
+// Implementasjon av enkel kalkulator
+function addNumbers( $valueA, $valueB )
+{
+    return $valueA + $valueB;
+}
+?>
+// END KODE
+
+SOAP responsen fra serveren vises under. Denne blir tolket på klientsiden og resultatet blir omgjort til PHP variabler.
+
+// BEGIN KODE: Server SOAP respons
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SOAP-ENV:Body xmlns:resp="http://calkulator.com/simplecalculator">
+    <resp:addNumbersResponse>
+      <return xsi:type="xsd:int">59</return>
+    </resp:addNumbersResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+// END KODE
+
+For flere eksempler eller mer informasjon om SOAP kan du gå til prosjektsiden for eZ soap, denne kan du finne på http://ez.no/developer/ezsoap.
+
+( faktaboks med linker )
+-------------
+eZ systems download side:
+http://ez.no/developer/download
+
+World Wide Web Consortium
+www.w3.org
+
+SOAP standarden
+http://www.w3.org/TR/SOAP/
+
+WSDL standarden
+http://www.w3.org/TR/wsdl
+
+Google APIs
+http://www.google.com/apis/
+
+SoapWare.org - Flere soap relaterte linker
+http://www.soapware.org
+-------------
+
+
+Open Source SOAP bibliotek:
+-----------------------
+PHP: eZ soap 
+http://ez.no/developer/ezsoap
+
+Perl: SOAP::Lite
+http://www.soaplite.com
+
+Java: Apache XML project
+http://xml.apache.org
+
+C++: EasySoap++
+http://easysoap.sourceforge.net
+-------------------

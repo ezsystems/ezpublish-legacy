@@ -1,0 +1,264 @@
+eZ publish 3, en utviklingsplatform
+
+Skrevet av: Bård Farstad <bf@ez.no>
+
+eZ publish 3 er neste generasjon av det populære open source content management 
+systemet eZ publish. I denne versjonen har eZ publish utviklet seg til å bli en
+utviklingsplatform med flere generelle PHP bibliotek som hjelper deg raskt å bygge
+ulike PHP applikasjoner. eZ publish er tilgjengelig under GPL lisens og eZ publish
+proff lisens. Med denne utgaven av Linux Magasinet følger det med en tidlig utgave 
+av eZ publish 3, eZ publish 3 RC1. Det vil si at det fortsatt er noen problemer
+som ikke er løst. Når det er sagt vil denne versjonen gi deg en god smakebit på 
+eZ publish 3. Siste versjon av eZ publish finner du på ez.no.
+
+Utviklingsplatformen eZ publish 3 er fullastet med funksjonalitet. De generelle PHP
+bibliotekene håndterer funksjonalitet som database abstraksjon, internasjonalisering,
+template motor, XML parser og SOAP bibliotek. I tillegg til dette får du eZ publish
+kjernen som håndterer cms funksjonalitet mm. Du har egendefinert innhold, integrert
+rollebasert rettighetssystem, flerspråksstøtte med bla. UNICODE støtte, versjonskontroll
+av innhold, workflows, søkemotor og en integrert e-handelsmotor for å nevne noe.
+
+Denne artikkelen viser deg hvor raskt og enkelt du kan sette opp et websted basert 
+på eZ publish 3. Vi kommer til å se på en innholdsklasse, content class, for å illustrere
+hvor kraftig og enkelt dette verktøyet kan brukes til å lage et tilpasset dynamisk nettsted.
+
+Innstallasjon
+
+Du har tre ulike måter å installere eZ publish på. Du kan enten bruke en av de tilgjengelige
+installasjonspakkene, som inneholder Apache, PHP, MySQL og andre programmer 
+som trengs for å kjøre eZ publish. En annen mulighet er å bruke eZ publish kildekoden
+og installere på en allerede fungerende Apache webserver. Du kan da enten følge en 
+konfigurasjons-wizard eller gjøre alt manuelt etter installasjonsmanualen. Om du ikke ønsker
+å installere eZ publish selv kan du få eZ systems, eller andre, til å installere for deg.
+Vi skal ikke gå i detalj på installasjon av eZ publish her, du finner all informasjonen du 
+trenger i installasjonsmanualen. Installasjonsmanualen kan du finne på manuals.ez.no.
+
+Oppsett
+
+Når du har fått eZ publish opp å kjøre er det på tide å konfigurere systemet. Du kan ha flere
+ulike websteder kjørende på samme eZ publish installasjon. For å skille mellom disse må
+du konfigurere site access oppsettet til eZ publish. Site access oppsettet brukes til å
+finne ut hvilket websted du prøve å aksessere. eZ publish vet da hvilken database, design
+osv som skal brukes. Det er flere måter å identifisere site access på, URI, domenenavn, portnummer
+eller filnavn. Det mest vanlige er å bruke domenenavnet.
+
+I dette eksempelet skal vi se på en tenkt site www.mybookstore.com og vi kommer til å bruke
+admin.mybookstore.com som administrasjonsgrensesnitt. For å få eZ publish til å indentifisere
+site access etter domenenavn må du ha en DNS server konfigurert til å peke ønskede domener til 
+webserveren din. Når domenenavnene peker til eZ publish installasjonen på webserveren din er
+det på tide å konfigurere eZ publish til å gjenkjenne disse domenene og bruke riktig konfigurasjon.
+For å gjøre dette må du åpne konfigurasjonsfilen settings/site.ini. I site.ini filen finner
+du frem til [SiteAccessSettings] seksjonen og endrer innstillingen som vise under.
+
+[SiteAccessSettings]
+MatchOrder=host
+HostMatchRegexp=^(.+)\.mybookstore\.com$
+HostMatchSubtextPost=\.mybookstore\.com
+
+eZ publish vil nå bruke de første bokstavene i domenenavnet til site access gjenkjenning.
+Dette betyr at du vil få www til webstedet og admin for administrasjonssiden. Nå kan vi skille
+mellom de ulike webstedene og det er bare å konfigurere dem slik vi ønsker. Dette gjøres
+ved å opprette en mappe under settings/siteaccess som har navnene www og admin. I begge
+disse mappene lages en fil som heter site.ini.append. Denne konfigurasjonsfilen brukes til
+å overstyre innstillinger gjort i site.ini filen. I dette eksempelet gjør vi kun et
+par endringer for å skille mellom webstedene. Under vises de to konfigurasjonsfilene.
+
+Konfigurasjonsfilen til administrasjonssidene, settings/siteaccess/admin/site.ini.append:
+[SiteSettings]
+LoginPage=custom
+
+[SiteAccessSettings]
+RequireUserLogin=true
+
+Konfigurasjonen LoginPage=custom vil si at det brukes en egen loginskjerm for admin siden.
+RequireUserLogin=true sier at man må være innlogget for å komme inn på admin siden.
+
+Konfigurasjonsfilen til websiden, settings/siteaccess/www/site.ini.append:
+[DesignSettings]
+SiteDesign=mybookstore
+
+[SiteAccessSettings]
+RequireUserLogin=false
+
+Sitedesign=mybookstore sier at vi skal bruke et eget design for websiden, dette designet
+finnes i design/mybookstore i eZ publish installasjonen. RequireUserLogin=false
+settes slik at brukere ikke trenger å være innloggget for å se på denne websiden.
+
+Design
+
+Hovedtemplaten i eZ publish kalles pagelayout.tpl og ligger i templates mappen i det 
+designet som brukes. I dette eksempelet blir det design/mybookstore/templates/pagelayout.tpl.
+Denne templaten definerer hovedlayouten for websiden. Her bestemmer du blandt annet hvor logoen 
+og menyen skal være. Vi lager en enkel template med en overskrift, en meny med to linker og
+selve innholdet. Under vises koden til denne templaten.
+
+{*?template charset=latin1?*}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Price Update System</title>
+    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+</head>
+<body>
+<h1>My Bookstore</h1>
+<table width="100%">
+<tr>
+    <td valign="top">
+    <a href={"content/view/full/16/"|ezurl}>Books</a><br />
+    <a href={"content/view/full/17/"|ezurl}>News</a>
+    </td>
+    <td valign="top">
+    {$module_result.content}
+    </td>
+</tr>
+</table>
+</body>
+</html>
+
+Denne templaten består i hovedsak av XHTML men det er noen spesielle koder i templaten,
+som gjør den dynamisk. Alle disse kodene starter med karakteren { og slutter med }. Disse
+kodene dekodes av template motoren for å gjøre siden dynamisk. På første linje i templaten 
+finner vi definisjonen {*?template charset=latin1?*}, dette definerer tegnsettet vi bruker 
+i templaten. Latin1 er det mest vanlige å bruke, om du trenger et annet tegnsett feks UTF-8 
+(UNICODE) settes dette her.
+
+Når vi refererer til stylesheet i templaten, {"stylesheets/core.css"|ezdesign}, bruker 
+vi ezdesign operatoren. Denne operatoren sier at eZ publish skal lete etter stylesheeten
+stylesheets/core.css i design mappen som brukes. Her blir det design/mybookstore/stylesheets/core.css.
+Dette er nyttig om du skal lage templates som kan gjenbrukes. Denne operatoren håndterer også
+URL transformasjon dersom du har installert eZ publish uten en egen virtual host, feks
+www.mybookstore.com/ezpublishsite/index.php/content/view/full/42.
+
+En tilsvarende operator brukes på url'er {"content/view/full/16/"|ezurl}. Denne operatoren vil 
+konvertere relative linker til korrekte linker og den vil også håndtere virtualhost løst oppsett
+på samme måte som ezdesign operatoren. I menyen har vi linket til to mapper sider i eZ publish.
+Disse bruker vi for å legge produkter og nyheter under.
+
+Vi finner også template variabelen {$module_result.content} i templaten. Her vil selve 
+innholdet fra eZ publish vises. Dette vil typisk være visning av produktinformasjonen, produktliste 
+eller en artikkel. Det er også mulig å ha flere pagelaoyout.tpl filer for ulike deler av webstedet
+eller dynamisk endre den feks basert på brukeren som er logget inn. 
+
+Egendefinert innhold
+
+Det er noen konsepter som er viktige å forstå når du skal definere eget innhold i eZ publish. 
+Innholdsklasser er en av disse. En innholdsklasse definerer strukturen på innholdet ditt. 
+Innholdsklasser er en samling av attributter hvor hver attributt er av en bestemt datatype.
+Tekstlinje, tekstfelt, bilde og integer verdier er et typisk eksempel på datatyper du kan bruke
+for klasseattributter. Det er innstillinger på attributter for å gjøre dem søkbare du kan også
+velge om innhold må fylles inn før man kan publisere. Alle attributter har også et navn. 
+Når vi legger inn navnet til en attributt blir
+det automatisk laget en identifikator. Denne identifikatoren er en tekststreng som kun
+inneholder bokstavene a-z i små bokstaver, tall 0-9 og karakteren _. Vi kommer tilbake til
+hva disse identifikatorene skal brukes til.
+
+En kraftig funksjon i eZ publish er at man kan definere opp en egen innholdsstruktur ved hjelp
+av innholdsklasser. Som standard kommer eZ publish blandt annet med klassene folder, article og 
+image. I dette eksempelet skal vi lage en ny klasse, book. Denne klassen definerer strukturen
+på innhold som brukes for å publisere informasjon om bøker. For å gjøre dette må vi logge
+oss inn i administrasjonsgrensesnittet og klikke på class menyen under set up. Der velger
+du en passende gruppe, feks content, og klikker på New class. Kall klassen din for Book og
+legg til attributtene som trengs.
+
+For å publisere informasjon om bøker trenger vi muligheten til å fylle inn tittelen,
+navnet på forfatteren og forleggeren, et lite sammendrag av boken, en komplett beskrivelse, et 
+bilde av bokomslaget og prisen.
+
+På klasseredigeringssiden, som vises på bildet [vis bilde classedit_1.png], kan vi opprette
+attributter ved å velge ønsket datatype og klikke på New knappen. For klassen vår trenger
+vi følgende attributter.
+
+ * Title: text line
+ * Author: text line
+ * Publisher: text line
+ * Brief: xml text field
+ * Description: xml text field
+ * Cover: image
+ * Price: price
+
+Når vi har opprettet alle attributtene vi ønsker lagrer vi klassen ved å klikke på Store knappen.
+Nå er det klart for å publisere informasjon om bøker. For å gjøre dette går du til innholdsmenyen i
+administrasjonsgrensesnittet og finner mappen hvor du ønsker å publisere informasjonen. Her velger
+du hva slags innhold du ønsker å publisere og klikker på New knappen. Du vil da komme til 
+redigeringsvinduet for klassen Book som vist på bildet [ Vis bilde bookedit.png ].
+
+Når du har publisert boken vil det lages et objekt. Et objekt er innhold som er publisert
+om en bok, det vil si den informasjonen du fylte inn etter reglene som er definert i Book klassen.
+Når et objekt publiseres vil det automatisk registreres i søkemotoren slik at det er søkbart med 
+det samme.
+
+Design
+
+Nå kan vi publisere informasjon om bøker og det er på tide å lage design for visning av denne 
+informasjonen. Alle klasser får et nummer (ID), som vi trenger når vi skal lage et eget design
+for den. Dette nummeret finner du i klasselisten under ID. I dette tilfelle var det 6.
+
+I eZ publish kan du se på objekter ved bruk av flere visningsmetoder. Den mest vanlige i de 
+fleste oppsett er line, som normalt blir brukt i artikkellister for å vise en liten smakebit på 
+artikkelen. For å lage en template for denne visingsmetoden trenger vi å lage en template i 
+mappen design/mybookstore/override/templates/node/view/line som vi kaller for line_class_6.tpl.
+Dette er en egen template som viser objekter av klasse 6 (Book) ved bruk av visninsmetoden line,
+derav navnet.
+
+Fil: design/mybookstore/override/templates/node/view/line_class_6.tpl
+
+<h2>{attribute_view_gui attribute=$node.object.data_map.title}</h2>
+<table align="right">
+<tr>
+   <td>
+    {attribute_view_gui attribute=$node.object.data_map.cover image_class=small}
+   </td>
+</tr>
+</table>
+{attribute_view_gui attribute=$node.object.data_map.brief}
+{attribute_view_gui attribute=$node.object.data_map.price}
+<a href={concat("/content/view/full/",$node.node_id,"/")|ezurl}>View book</a>
+
+[ Vis bilde lineshot.png ]
+
+På bildet vises hvordan denne templaten ser ut når den viser informasjon om to bøker. Dette er
+et typisk eksempel på hvordan man kan lage en produktliste.
+
+I templaten line_class_6.tpl finner vi noen templatefunksjoner som gjør denne dynamisk. Den første 
+funksjonen vi bruker er attribute_view_gui. Denne funksjonen har ett parameter, attribute (i noen 
+tilfeller kan man ha fler).
+Dette parameteret spesifiserer hvilken attributt som skal vises. Vi bruker identifikatoren
+som for å velge ut attributten som skal vises. Attributten hentes ut ved å skrive: 
+$node.object.data_map.title. 
+
+Vi bruker også funksjonen concat(). Denne funksjonen limer sammen delstrenger. Her bruker
+vi den til å sette sammen en url.
+
+Det må også lages en template for fullvisning, det er visningsmetoden som brukes når man ser på 
+en enkelt bok (Se bilde). For å få til dette må vi lage en ny fil i samme mappe, men kaller den 
+full_class_6.tpl.
+
+[ Vis bilde bookshot.png ]
+
+Fil: design/mybookstore/override/templates/node/view/full_class_6.tpl
+
+<h1>{attribute_view_gui attribute=$node.object.data_map.title}</h1>
+Author: {attribute_view_gui attribute=$node.object.data_map.author}<br />
+Publisher: {attribute_view_gui attribute=$node.object.data_map.publisher}<br />
+<table align="right">
+<tr>
+   <td>
+    {attribute_view_gui attribute=$node.object.data_map.cover}
+   </td>
+</tr>
+</table>
+{attribute_view_gui attribute=$node.object.data_map.brief}
+{attribute_view_gui attribute=$node.object.data_map.description}
+<b>{attribute_view_gui attribute=$node.object.data_map.price}</b>
+
+Nå har vi tilpasset eZ publish til å kunne publisere informasjon om bøker. Litt finpussing
+på design nå så har vi en webside vi kan bruke. Vi har sett på hvordan vi kan
+med enkle grep tilpasse eZ publish 3 til å lage en tilpasset dynamisk webside. Du kan finne 
+mer informasjon om eZ publish på ez.no/developer. Der finner du også forum hvor du kan
+spørre om eZ publish relaterte spørsmål.
+
+--------[ Nyttige linker ]-------------
+ez.no/developer - hjemmesiden til eZ publish
+ez.no/manual - brukermanual
+ez.no/sdk - utviklermanual

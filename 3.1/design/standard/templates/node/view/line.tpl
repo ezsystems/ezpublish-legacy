@@ -1,0 +1,1 @@
+{default node_name=$node.name}<img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />&nbsp;<a href={concat('content/view/full/',$node.node_id)|ezurl}>{$node_name|wash}</a>{/default}

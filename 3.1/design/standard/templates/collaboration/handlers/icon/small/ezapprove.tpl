@@ -1,0 +1,1 @@
+<img src={"collaboration/ezapprove.png"|ezimage} alt="{'Approval'|i18n('design/standard/collaboration')}" width="16" height="16" />

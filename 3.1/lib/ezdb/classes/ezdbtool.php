@@ -1,0 +1,98 @@
+<?php
+//
+// Definition of eZDBTool class
+//
+// Created on: <11-Dec-2002 15:07:25 amos>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezdbtool.php
+*/
+
+/*!
+  \class eZDBTool ezdbtool.php
+  \brief The class eZDBTool does
+
+*/
+
+include_once( 'lib/ezdb/classes/ezdb.php' );
+
+class eZDBTool
+{
+    /*!
+     Constructor
+    */
+    function eZDBTool()
+    {
+    }
+
+    /*!
+     \return true if the database does not contain any relation objects.
+     \note If db is not specified it will use eZDB::instance()
+    */
+    function isEmpty( &$db )
+    {
+        if ( $db === null )
+            $db =& eZDB::instance();
+        $relationTypeMask = $db->supportedRelationTypeMask();
+        $count = $db->relationCounts( $relationTypeMask );
+        return $count == 0;
+    }
+
+    /*!
+     Tries to remove all relation types from the database.
+     \note If db is not specified it will use eZDB::instance()
+    */
+    function cleanup( &$db )
+    {
+        if ( $db === null )
+            $db =& eZDB::instance();
+        $relationTypes = $db->supportedRelationTypes();
+        $result = true;
+        foreach ( $relationTypes as $relationType )
+        {
+            $relationItems = $db->relationList( $relationType );
+            foreach ( $relationItems as $relationItem )
+            {
+                if ( !$db->removeRelation( $relationItem, $relationType ) )
+                {
+                    $result = false;
+                    break;
+                }
+            }
+            if ( !$result )
+                break;
+        }
+        return $result;
+    }
+}
+
+?>

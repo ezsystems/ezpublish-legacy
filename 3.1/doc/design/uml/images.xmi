@@ -1,0 +1,80 @@
+<XMI xmi.version="1.1" >
+ <XMI.header>
+  <XMI.metamodel href="/home/bf/projects/php/nextgen/doc/design/uml/images.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/bf/projects/php/nextgen/doc/design/uml/images.xmi" version="1" name="/home/bf/projects/php/nextgen/doc/design/uml/images.xmi" />
+ </XMI.header>
+ <XMI.content>
+  <docsettings viewid="1" documentation="" uniqueid="20" />
+  <umlobjects>
+   <UML:Class stereotype="" package="" xmi.id="2" abstract="0" documentation="" name="eZImage" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="4" type="void" abstract="0" documentation="" name="requestImageVariation" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="5" type="void" abstract="0" documentation="" name="small" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="6" type="void" abstract="0" documentation="" name="medium" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="7" type="void" abstract="0" documentation="" name="large" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="14" type="void" abstract="0" documentation="" name="original" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="15" type="void" abstract="0" documentation="" name="reference" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="16" type="void" abstract="0" documentation="" name="mimeTypeCategory" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="8" value="" type="int" abstract="0" documentation="" name="FileName" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="10" value="" type="int" abstract="0" documentation="" name="MimeType" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="3" abstract="0" documentation="" name="eZImageVariation" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="13" type="void" abstract="0" documentation="" name="filepath" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="18" type="void" abstract="0" documentation="" name="filename" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="19" type="void" abstract="0" documentation="" name="width" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="20" type="void" abstract="0" documentation="" name="height" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="9" value="" type="int" abstract="0" documentation="" name="FileName" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="11" value="" type="int" abstract="0" documentation="" name="Width" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="12" value="" type="int" abstract="0" documentation="" name="Height" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="17" value="" type="int" abstract="0" documentation="" name="ContentObjectAttibuteID" scope="200" />
+   </UML:Class>
+  </umlobjects>
+  <diagrams>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="1" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:ConceptWidget showattsigs="603" x="86" y="85" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="2" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="485" y="92" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="3" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="3" widgetaid="2" documentation="" type="503" >
+      <linepath>
+       <startpoint startx="178" starty="85" />
+       <endpoint endx="579" endy="92" />
+       <point x="295" y="32" />
+       <point x="449" y="32" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Views" >
+    <listitem open="1" type="801" id="-1" label="Logical View" >
+     <listitem open="0" type="807" id="1" label="class diagram" />
+     <listitem open="1" type="812" id="2" label="eZImage" >
+      <listitem open="0" type="813" id="8" label="FileName" />
+      <listitem open="0" type="814" id="7" label="large" />
+      <listitem open="0" type="814" id="6" label="medium" />
+      <listitem open="0" type="813" id="10" label="MimeType" />
+      <listitem open="0" type="814" id="16" label="mimeTypeCategory" />
+      <listitem open="0" type="814" id="14" label="original" />
+      <listitem open="0" type="814" id="15" label="reference" />
+      <listitem open="0" type="814" id="4" label="requestImageVariation" />
+      <listitem open="0" type="814" id="5" label="small" />
+     </listitem>
+     <listitem open="1" type="812" id="3" label="eZImageVariation" >
+      <listitem open="0" type="813" id="17" label="ContentObjectAttibuteID" />
+      <listitem open="0" type="814" id="18" label="filename" />
+      <listitem open="0" type="813" id="9" label="FileName" />
+      <listitem open="0" type="814" id="13" label="filepath" />
+      <listitem open="0" type="814" id="20" label="height" />
+      <listitem open="0" type="813" id="12" label="Height" />
+      <listitem open="0" type="814" id="19" label="width" />
+      <listitem open="0" type="813" id="11" label="Width" />
+     </listitem>
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />
+   </listitem>
+  </listview>
+ </XMI.content>
+</XMI>

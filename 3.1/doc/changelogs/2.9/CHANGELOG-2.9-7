@@ -1,0 +1,239 @@
+Changes from 2.9-6 to 2.9-7
+
+*Kernel :
+- NB!. Added possibility to limit user login per siteaccesses, it's defined by roles. Since that you need
+to create policy for all user roles exsept of admin user that allows user to login the siteaccess. smth like:
+user-login-* without that user will not be able to login.
+- Fixed redirection to self when editing top level node
+- The ModuleRepositories setting in ModuleSettings in settings/site.ini
+  has been changed to an array.
+- Moved some settings from site.ini into design.ini and workflow.ini
+- Added the notion of extensions, there are some settings in site.ini
+  which controls which extension are active. A new class eZExtension
+  has been made for this purpose.
+- Workflowtype list has been changed to an array in workflow.ini
+- Added DesignExtensions array in design.ini, extensions will
+  add to this list to insert additional design.
+- Added RepositoryDirectories and ExtensionDirectories array to workflow.ini
+  which controls the directories and extensions which have event types.
+- Moved module settings to module.ini file.
+- Added support for literal tag which can contain special html caracters without breaking the XML.
+- Added support for extensions, they use the x18n operator instead of i18n which takes
+  an extension name as the first parameter.
+- Fixed problem with missing content action when object has multiple content object actions.
+- Added clearing of content cache for view when sorting priority is updated.
+- Template overrides now check the override dir for the file first without _keyword overrides
+  before doing checks with _keywords.
+- Moved AvailableDataTypes into content.ini
+- Extension support for datatypes and content actions.
+- Template object forwarding function now supports render modes, a render mode will
+  change the directory it searches for templates to render- and the modename./
+- Fixed redirection for object publishing and removal to go to correct node after it's done.
+- Added function to return creator of version in node
+- Added uri_alias attribute on node.
+- Module list in policies now works with extensions.
+- Added anchor tag as standard in XMLText
+- Optimized fetch lists
+- Access denied page now shows a login button if the current user is anonymous.
+- Added reverse_related_object_list attribute to eZContentObjectVersion
+- Added next/previous navigation on browse page
+- Made ezurl operator convert empty strings to / url's.
+- Improved validation for datetime datatype.
+- Fixed reference bug in enum serialization
+- Added new workflow event type publishontime it allows to create workflow which will delay publishing of objects.
+- Added session cache handler class to manage cached session information
+- Added session cache on current user
+- Fixed crash with ' character in object name translation
+- Added session cache for current user group assignments
+- The admin left menu can have parts of it disabled by setting some variables when including it.
+- Added nodetree searching to advancedsearch which is similar to the one in normal search.
+- Fixed user registration to read some default values from site.ini, such as class id,
+  section id and creator id. It also made sure the registration session variable was removed
+  when cancelling.
+- Made enum attributes searchable
+- Fixed correct rendering of XML block tags in XHTML.
+- Fixed path to storage directory
+- Created admin design templates
+- Added generation of meta data based on site.ini settings
+- Added reading of site title from site.ini.
+- Added dynamic generation of meta description.
+- Added session cache of disount rules
+- Added GUI interface to manage possible tranlations for object
+- Added possibility to limit user login per siteaccesses, it's defined by roles.
+- Fixed problem with class caching
+- New object forward template functions, content_version_view_gui,
+  collaboration_view_gui, collaboration_simple_message_view and collaboration_icon.
+- Added clearing of cache when object is deleted
+- New ezhttp and ezini template operators which can return data from http post, get
+  and session variables and ini files.
+- User login can now be done with email address as well as username.
+- Bug with correct fetchTree count when using limitations is fixed
+- Added archiving function. Now object are not removed but just placed to archive. You can restore them from there
+- Cleaned up eZXMLText class interface
+- User registration now works even when login is required, it will
+  also behaves like user login with custom pagelayout.
+- Fixed problem with postgresql db not being found, postgresql extension
+  was searched for while pgsql is the correct extension.
+- Google navigation tab added to 'My drafts' and 'Archive' views
+- Main pagelayout now has some extra metadata to inform browser of
+  specific urls. Opera 7 will create a top bar with this information.
+- Pagelayouts have been changed to include some common templates, this
+  makes it much easier to upgrade the pagelayouts.
+- Added ezinfo page which displays copyright and about information.
+- Current URI and version info is now available in the pagelayout.
+- attribute_view_gui and attribute_edit_gui now uses the new view_template
+  and edit_template attributes of eZContentObjectAttribute which 
+  will return the template name from the datatypes. This means
+  datatypes has more control over the template to be used.
+- File download now supports filehandlers which controls how
+  files are download, currently PHP passtrough and direct handlers are available.
+- Fixed bug with new version creating for bynary file
+contentclass:
+- Moving attributes up in class edit now moves one step instead of two.
+- Classes can now be copied, a new function in eZDataType was added which
+  tells datatypes to copy data from the old to the new. This is only required
+  for complexe datatypes which uses external tables for class options.
+- After creating a new class group you are now redirected to that group.
+- Sorting on object name was added (Patch by Bruce Morrison)
+- Added unpublish workflow event.
+- Added unpublish function to ezcontenobjectversion
+- Image datatype can now return info on the original image.
+- Fixed field main_key in ezoperation_memento table for MySQL to be varchar.
+- Workflow processes now has a new status called reset which tells the system
+  that the process is no longer in use but may be reused later on.
+  This allows the process ID to be used througout the system until it is
+  considered complete.
+- Fixed a major problem with mementos fetchin in runcronworkflows, before
+  the wrong memento data would be fetched in some occasions.
+- Error view will set 404 HTTP status for some error numbers.
+- Made sure the xmltext datatype stores correct link elements.
+- New script for fixing bad xmltext link tags.
+- Added system for listing and handling URLs which are linked
+  in ezxmltext and ezurl fields.
+- Ext url operator was finished and will now use the eZUrl system
+  for storing urls.
+- xhtml output for ezxmltext will only show valid urls, invalid
+  urls will link to url/view.
+- Added new plain design for quicker starting a new site design
+- Added template fetch functions for user, the current user can be fetched with
+  current_user.
+- site.ini now has a list of modules and module/views which will always
+  work even when login is required. They will still use policy rules.
+- Bork translation may now be enabled with a site.ini setting.
+
+eZ setup:
+- Languages are now set in the translation table.
+- A check for file uploading has been added, if not a warning is given/
+- Now the demo siteaccess is set if demodata is installed, if not admin is used.
+- Added mysql socket to db init page.
+
+persistentobject:
+- Added support for between in conditions, it is passed as an array with two elements
+  as the second condition item.
+- New dirty data flag which is set when an attribute is changed with setAttribute.
+- New function sync() which will store the data if the dirty flag is set.
+
+content:
+- Added fetch functions content, version and node to fetch the content object,
+  content object version and content node.
+- Changed the serialize function to use namespaces and also changed the xml structure.
+- Now you can create objects from left menubar
+- content/edit.tpl has been split into multiple templates to make it easier to reuse and
+  override each part.
+- New template resource called /standard/ which works similar to /design/ but will only
+  check in the standard design directory.
+- content/edit_placement.tpl now has support for limitation placement, the template
+  must be overriden to achieve this.
+- Objects can now be copied, either the current version or all versions are copied.
+  The copied object will not be published but will be available for editing.
+
+eZ extension:
+- Added some helper functions for extension include.
+
+*SDK :
+
+*Manual:
+- Added a site access section
+- Added a multi site configuration section
+- Added a install using the setup guide section
+- New colors
+
+*Library :
+
+eZTemplate:
+- Added wash operator which handles conversion of text to e.g. xhtml compatible format
+- Fixed parser problem with {literal} tags.
+- Improved texttoimage to support multiple font directories.
+- When debug output is on the template include name is prepended to the text.
+- Sitebasics are now only used if available.
+- Made sure variable attributes are not fetched with references, this is because
+  operators will override the values.
+- New type operators, is_array, is_boolean, is_integer, is_float, is_numeric, is_string,
+                      is_object, is_class, is_null, is_set, is_unset, get_type and get_class.
+- New control operators, cond and first_set.
+- New arithmetic operator count to get the count of a type, supports arrays and objects.
+- Added check for ImageTTFBox support in eZTemplateImageLayer class
+- Added documentation of the available template operators in eZ publish.
+- Added datetime operator which allows for custom date/time formats, it
+  can read the formats from the datetime.ini file using class names or
+  the format may be added directly in the template.
+- Added string support for comparison operators.
+- Added missing ne operator to autoload list.
+- Fixed si operator to work again.
+- Template debug output now works properly with tree caching enabled.
+
+eZINI:
+- Added support for override directories which are not a subdir
+  of settings.
+- Sitebasics are now only used if available.
+- The main settings/*.ini dir is now used only if it exists, this means
+  that ini files can exists in extensions.
+- Variable names can now have _ and - in them.
+- Made sure data is reset when files are (re)parsed, this fixes the duplicate
+  variable item problem.
+- Added feature for reading associative arrays from .ini files
+
+eZModuleFunctionInfo:
+- Added support for extension definitions.
+
+eZ db:
+- Mysql db driver no longer fetches indexed array only associative arrays.
+- Added support for configurable reconnect (default 0), changed reconnect
+  delay to 3 seconds and added reconnect code to postgresql.
+
+eZ debug:
+- Added missing class variable for group loop in debug output.
+- New helper class called eZDebugSetting which allows for conditional debug
+  messages.
+- Log rotation has been added, this avoids the log files flooding your file system.
+- Settings are not longer handled directly by eZDebug, instead it relies
+  on the users of the class to initialize the correct values.
+  This avoids a recursion problem with eZINI.
+- Some changes to the debug settings in site.ini to make it a bit clearer to use.
+
+eZXML:
+- Some minor fixes to the toString() function with regards to text output.
+- Added prefix to attribute creation function in eZDOMDocument.
+- Added helper function for creating an element and a text as child in eZDOMDocument.
+- Added helper function for creating an element and a CDATA as child in eZDOMDocument.
+- The createElementNode now takes an additional parameter called attributes which
+  is an associative array with attributes, the key will be the name and the value
+  the content. This is also available on some of the other functions.
+- New function firstChild() which returns the first child of all the children
+  or null if no children.
+- Added support for cloning DOM nodes.
+- XML domtree will return null for invalid xml text.
+- Attributes can be removed by passing the name.
+
+eZSys:
+- Added storageDirectory() which returns the path to the storage directory
+
+eZi18n:
+- Added translation cache system
+  Added setting in site.ini: [RegionalSettings] TranslationCache=enabled
+- TextCodec settings are now handled by external clients instead of
+  reading it internally. This avoids the recursion problem with
+  eZINI and eZTextCodec.
+
+eZ web:
+- New class for handling web browser detection.

@@ -1,0 +1,93 @@
+CHANGELOG
+
+Changes from 2.9-3 to 2.9-4
+
+*SDK :
+
+*Kernel :
+- Added new corporate demo design setup
+- Fixed wrong path in header redirects when using nvh setup
+- Updated modfix script to use sh instead of bash
+- Added more user friendly sort order selection in object edit.
+- New script checkcode.sh which lists out files which has programming issues (like not following codinstandard).
+- Missing module/view is now properly reported to user.
+- Added missing error messages kernel/20 and kernel/21
+- Cleanups in templates and views, should be less warnings now.
+- Renamed kernel/drafts to kernel/draft and design/standard/templates/drafts to design/standard/templates/draft
+- Added site.ini setting which controls the languages one can translate to.
+- Many improvements to the translation page.
+- Added translation overview to object edit.
+- Fixed single selection in browse object/node.
+- Fixed bug in list stylesheet.
+- Changed node assignment interface when editing objects.
+- Added function to move node from one place to another place.
+- Changed role editing interface. Policy creation wizard is added.
+- Added new template operator /ezroot/ which prepends the wwwDir to urls,
+  useful for stored images, files etc.
+- Fixed geometry setting for convert to use quotes around the geometry value.
+- Added warning page for removing group, fixed bug of unable to delete group classes.
+- Added warning page for removing published object. When an object is assigned to different nodes, remove an
+  object in one place will not remove the object, only the specified placement will be removed.
+- Fixed bug for uncorrected attribute order when editing an object whose attribute order may have been changed.
+- Fixed bug for class discard function.
+- Added total price function to basket.
+- Added new template operator ezsys which can return attributes from the ezsys global object.
+- User registration email sends out correct url.
+- Redone the uri modification, the global uri object will now only contain the module, view and parameter values.
+- Made the change password interface more user-friendly.
+- Improved content version list, it now displays status on versions, translations. Revert operation was removed,
+  and copy operation no longer sets current version. Object edit will return with the selected version
+  and only versions which are yours and are drafts can be edited.
+- Added version status and ownership checking in content edit.
+- Versionview can change between translations and placements. Placements will decide the current section id.
+  Only versions that are drafts can be edited and published.
+  Only versions that you created can be viewed.
+- Added setup and eZ publish configuration script
+- Made sure a warning message is shown when the user could not login, passwords must always be entered.
+- Added sample object tag for related objects in object edit
+
+Datatypes:
+- Datatypes can now report if they are non-translateable.
+- Added table border support for xmltext.
+
+*Library :
+
+eZ utils:
+- Created operation system which will help with creating code to execute triggers and workflows.
+- Fixed problem with creating recursive directory sctructures on windows.
+- Fixed bug with copying files on windows from temporary version
+
+eZ template:
+- Added site.ini setting which turn template debug information on/off.
+- New template operator "ne" which returns true if two ore more parameters does not match, ie. not equal.
+
+eZ locale:
+- Added site.ini setting which turn locale debug information on/off.
+- Added support for the attribute system.
+
+eZ debug:
+- Fixed clearing buffer when buffer is empty (ob_end_clear())
+
+eZ module:
+- Added support for parameters to handleError, this parameters are read by the error module
+  and set as template variables for the template.
+- Added support for default actions for views, default actions may be dependent on post variables.
+
+eZ httptool:
+- Added suport for images buttons
+
+eZ image:
+- Added support for exec path for eZImageShell.
+
+eZ uri:
+- Passed URIs will get the first / removed if it exists and index will start at 0.
+- Added dropBase() function which will remove all values before the index, set the index to 0
+  and fix the URI string.
+
+eZ sys:
+- Improved the attribute support.
+- Fixed nVH detection and setup, it no longer modifies server variables.
+- Added support for debug output which is off by default.
+
+eZ session:
+- Added checked for DB connection.

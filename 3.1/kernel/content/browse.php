@@ -1,0 +1,113 @@
+<?php
+//
+// Created on: <18-Jul-2002 10:55:01 bf>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+include_once( 'kernel/classes/ezcontentbrowse.php' );
+
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+
+include_once( 'kernel/common/template.php' );
+
+$tpl =& templateInit();
+$http =& eZHTTPTool::instance();
+
+$browse = new eZContentBrowse();
+
+if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
+{
+    $NodeID = $Params['NodeID'];
+    $browse->setStartNode( $NodeID );
+}
+
+$NodeID = $browse->attribute( 'start_node' );
+$Offset = $Params['Offset'];
+
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
+
+$node =& eZContentObjectTreeNode::fetch( $NodeID );
+if ( !$node )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+$contentObject =& $node->attribute( 'object' );
+if ( !$contentObject )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$contentObject->attribute( 'can_read' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+$parents =& $node->attribute( 'path' );
+
+$tpl->setVariable( 'browse', $browse );
+$tpl->setVariable( 'main_node', $node );
+$tpl->setVariable( 'node_id', $NodeID );
+$tpl->setVariable( 'parents', $parents );
+
+$viewParameters = array( 'offset' => $Offset );
+$tpl->setVariable( 'view_parameters', $viewParameters );
+
+$tpl->setVariable( 'path', false );
+
+$Result = array();
+$Result['path'] =& $path;
+$Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
+
+$templatePath = $tpl->variable( 'path' );
+if ( $templatePath )
+{
+    $Result['path'] = $templatePath;
+}
+else
+{
+    $path = array();
+    foreach ( $parents as $parent )
+    {
+        $path[] = array( 'text' => $parent->attribute( 'name' ),
+                         'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/'
+                         );
+    }
+    $path[] = array( 'text' => $contentObject->attribute( 'name' ),
+                     'url' => false );
+    $Result['path'] = $path;
+}
+
+// Fetch the navigation part from the section information
+include_once( 'kernel/classes/ezsection.php' );
+$section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+
+?>

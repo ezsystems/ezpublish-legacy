@@ -1,0 +1,228 @@
+/* eZ publish 3 admin CSS - th[eZ] 20021004                             */
+
+body
+{
+	background-color: #ffffff;
+	margin: 0px;
+	padding: 0px;
+}
+
+td.topline
+{
+	background-color: #0099cc;
+	border-bottom: solid 1px #000000;
+}
+
+label.topline, a.topline, a.topline:hover
+{
+	color: #ffffff;
+}
+
+.topbox
+{
+	background-color: #0099cc;
+	border-bottom: solid 1px #000000;
+    padding-right: 8px;
+    padding-bottom: 13px;
+}
+
+td.pathline
+{
+	background-color: #e0f4ff;
+	border-bottom: solid 1px #000000;
+}
+
+table.path td.bullet
+{
+	padding-top: 2px;
+	padding-left: 2px;
+}
+
+p.path
+{
+	font-weight: bold;
+}
+
+p.path a.path
+{
+	text-decoration: none;
+}
+
+p.path a.path:hover
+{
+	color: #000000;
+}
+
+span.slash
+{
+    color: #0099cc;
+}
+
+table.menuboxleft
+{
+	border-top: solid 1px #000000;
+	border-right: solid 1px #000000;
+	border-bottom: solid 1px #000000;
+	margin-top: 12px;
+}
+
+table.menuboxright
+{
+	border-top: solid 1px #000000;
+	border-left: solid 1px #000000;
+	border-bottom: solid 1px #000000;
+	margin-top: 12px;
+}
+
+th.menuheaddark
+{
+	background-color: #0099cc;
+}
+
+th.menuheadlight
+{
+	background-color: #e0f4ff;
+}
+
+p.menuhead
+{
+	font-weight: bold;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+th.menuheaddark p.menuhead
+{
+	color: #ffffff;
+}
+
+th.menuheadlight p.menuhead
+{
+	color: #000000;
+}
+
+td.menu, table.menuboxleft td.bullet, table.menuboxright td.bullet  
+{
+	background-color: #ffffff;
+}
+
+table.menuboxleft td.bullet, table.menuboxright td.bullet
+{
+	padding-top: 2px;
+	padding-left: 4px;
+}
+
+p.menuitem, p.menufieldlabel, p.menufield, p.menutext
+{
+    font-size: 70%;
+}
+
+p.menuitem
+{
+	font-weight: bold;
+}
+
+p.menuitem a.menuitem
+{
+	text-decoration: none;
+}
+
+p.menuitem a.menuitem:hover
+{
+	color: #000000;
+}
+
+p.menufieldlabel
+{
+	font-weight: bold;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 0px;
+
+}
+
+p.menufield
+{
+	padding-top: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+p.menutext
+{
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+td.mainarea
+{
+	background-color: #ffffff;
+	padding: 12px;
+}
+
+td.bglight, td.bgdark
+{
+	border-top: solid 1px #e0f4ff;
+}
+
+table.list
+{
+	border-bottom: solid 1px #e0f4ff;
+}
+
+td.bglight
+{
+	background-color: #f8fdff;
+}
+
+td.bgdark
+{
+	background-color: #f0faff;
+}
+
+th.bglight
+{
+	background-color: #f8fdff;
+}
+
+th.bgdark
+{
+	background-color: #f0faff;
+}
+
+div.selectbar
+{
+    align: center;
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+td.selectbar
+{
+	background-color: #e0f4ff;
+    color: #000000;
+    font-size: 70%;
+    text-align: center;
+}
+
+a.selectbar
+{
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px;
+}
+
+a.selectbar:hover, td.selected
+{
+	background-color: #0099cc;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+input.menubutton
+{
+    font-weight: bold;
+    font-size: 70%;
+    margin: 4px;
+}                                                                                                                                                                                                                                 

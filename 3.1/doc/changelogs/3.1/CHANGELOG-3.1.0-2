@@ -1,0 +1,63 @@
+Changes from 3.1.0-1 to 3.1.0-2
+
+* Kernel:
+- Added function is_empty to eZXMLText datatype
+- Improved ezmultiplexer event to let the user select workflow id to be run and class id
+- Added site.ini setting for aditional designs in override system ([DesignSettings], AditionalSiteDesignArray )
+- Added support for setting cachedir with full path ( CacheDir=/var/ezpublish/cache )
+- Fixed a typo in the article template
+- Added missing tables to mysql kernel_schema.sql ezkeyword and ezkeyword_attribute_link.
+- Added removeKey function to the eZTemplateDesignResource class
+- Fixed override by classification ( class attribute on tags )
+- Fixed bug in override system which would cause override files to not be used if no
+  design keys were set (for instance from shop/basket).
+- Added correct permission checking in template creation admin and proper error messages.
+- Fixed bug with phrase search, fixed problem with combining phrases with usual words in one search query.
+- Fixed bug where printable version used the same cache file as the normal view
+- Added data_text5 field to eZContentClassAttribute which is a text type.
+- Added support for specifying siteaccess when run cronjobs and also uses default siteaccess value.
+- Made sure notification system executes properly when no messages are to be sent.
+- Made sure name and type for access is set in access.php when default access is used.
+- Added setting in object.tpl which decides if the object should be rendered as a block tag or as inline
+- Fixed crash with object tag referencing a non existing object
+- Renamed misspelled setting AdditionalSiteDesignList in site.ini
+- Fixed problem with permissions for trash. Two additional functions 'restore' and 'cleantrash' has
+  been added to content module.
+- Added missing information from default admin templates.
+- Fixed bug with approval workflow.
+- Fixed regexp in .htaccess_root to allow css and js files.
+- Fixed corrupt product view admin template
+- Fixed broken extension support for new override system
+- Fixed clearing of override and cache-block cache when clearing cache in admin
+- Removed default wordtoimage rule for :/ which messes up URL's
+- Fixed setting correct access type when using default siteaccess
+- Fixed subtree handler to not handle objects that no longer exists, this avoids a crash.
+- Added support for some options to runcronjobs.php, for instance output can be supressed, debug turned on
+  and colors can be added.
+
+*Library :
+eZ xml:
+- Fixed bug in attribute parsing with the - character, e.g. SOAP-ENV
+
+eZ template:
+- Fixed bug in cache-block. Cache blocks where shared between different siteaccesses.
+
+eZ soap:
+- Added support for SOAP faults as return data from the server
+- Fixed compatibility problems with SOAP responses using the 1999 SOAP schema instance definition
+- Fixed setting correct UTF-8 charset in SOAP server
+
+eZ i18n:
+- Fixed the new and optimized convertStringFromUTF8 function, it should now create convert correctly.
+
+eZ mail:
+- Added support for Content-Type, Content-Transfer-Encoding, Content-Disposition and User-Agent which defaults
+  to some sane values.
+- Added conversion of emails to a suitable output charset, allowed output formats are defined in setting/site.ini.
+
+* Update:
+- Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.
+- Made sure text codec settings were initialized correctly in updatexmltext.php.
+
+*SQL:
+- Some new fields defined in update/database/mysql/3.1/dbupdate-3.1.0-1-to-3.1.0-2.sql

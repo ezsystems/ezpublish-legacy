@@ -1,0 +1,227 @@
+Changes from 2.9-7 to 3.0-1
+
+*Kernel :
+- Changed default rendering of headers in XML text to start at h2 instead of h1
+- Added autolink template operator for automatic conversion of e-mail http and ftp
+links to clickable links.
+- Added new design to admin interface
+- Added new design to manuals
+- Added new design to sdk
+- Added missing settings file file.ini to the release
+- The ezxmltext datatype has been changed to support extensions, this means
+  that custom handlers can be made in extensions.
+- ezxmltext handlers can now be overriden by other handlers.
+- The ezdesign template operator now fully supports designs and extensions.
+- It's now possible to add javascripts in subtemplates by using run-once
+  and append-block.
+- Added plugin system for shop accounts, which enables simpler checkout without regstering users
+- The eZXMLText datatype now stores correct XML formats using UTF-8 encoding.
+  It uses a new timestamp value to know which version the xml format is in
+  and allows automatic conversion when older versions are detected.
+  Use update/common/scripts/updateurllink.php to update all XML fields.
+- Added support for line break in xml text, added <line> tag in stored xml format. 
+- Fixed bug of stiping space between link (bold, italic) tag and normal text.
+- Fixed bug of unable to select multiple related objects ( only radio button shows ).
+- Some fixes to session cleanup.
+- Added navigation parts to provide tabbed interface.
+- User logins are now only possible when the object is published.
+- Fixed problem with indexing objects in search engine
+- Fixed advanced search attribute list, it now only shows searchable attributes.
+- Fixed problem with rendering tables with width
+- Made sure only one warning block is shown for input and locations.
+- Locations can now be removed even if it's a main location.
+- User email can now be changed after the user has been created.
+- Translations of objects is fixed, a list of available translation
+  languages will now be present.
+- Removed all task code.
+- Improved eZUser password creation by removing some characters that look too
+  similar visually and added some extra special characters.
+- Fixed problem with multiple content actions appearing when having e.g. multiple information
+  collection fields
+- Added possibility to specify redirect node in information collection template
+- The date, datetime and time datatypes has been cleaned up to work more similar,
+  they now all honor the required flag properly and can choose a default value.
+- Fixed a bug in content edit where the last attribute would decide if the
+  input was valid or not.
+- Added alternative text to image datatype
+- Added output washing for datatypes.
+- Added support for custom actions in content/browse.
+- Custom actions now works for more than one datatype in edit page.
+- Fixed problem with relation datatype not storing the selected object.
+- Made discard work, even if input did not validate
+- Binary file handler will now give a warning when file uploads are disabled.
+- Added automatic generation of object name definition in class, if empty
+- Now element works for host matching as well.
+- Siteaccess matching can now be debugged with DebugAccess and DebugExtraAccess in
+  site.ini under SiteAccessSettings.
+- Fixed setting published date only when initial version is published
+- Added article comments to demo site.
+- Made sure the session is not started if the DB is not connected, avoids PHP
+  core dumps.
+- Fixed checking of successful generation of imagevariations. 
+- Added missing include in collaboration approval.
+- Added site URL and eZ publish version to admin interface, under setup.
+- If require user login is on and the siteaccess is not allowed the user login
+  page is shown with a warning about access denied.
+- Added node_id to url array
+- Template cleanups to use the newly revised user interface guidelines.
+- Fixed object rendering as block tag
+- Added uri_string as global template variable in pagelayout
+- Fixed problem with missing variables in content cache files.
+- Content cache now restores template design keys.
+- Full and sitemap now only shows edit/copy/remove columns when you actually can do it.
+- Fixed problem with ezsys returning values with quotes ".
+- Made sure section information is correct when publishing object.
+- Content cache is expired when role editing, role assignment or section assignment is used.
+- Complex viewmodes like sitemap are now expired whenever an object is published, controlled by site.ini setting.
+- Content cache cleanup is now controlled by a threshold value, if the published object's
+  cache value is less than the threshold the files are removed if not a global
+  expiry is used.
+- The bug with the original size not working on images has been fixed.
+- Fixed a problem with the eZXMLText datatype not initializing correctly from older versions.
+- Added function for disabling VAT for the whole order
+- Moved eZExtension class into eZUtils library.
+- Added support for storing XML format in native charset, this makes it a lot faster.
+- Made sure the search engine works even with bad data in the database with case problems.
+- If an draft is discarded and there is no other versions available for an object
+  the object is purged from the system.
+- Controlling the assignments for newly created related objects are not possible, see
+  content.ini for more information.
+- Added possibility to create complete urls (with server name) in template operators based on the custom page layouts.
+- User registration can now redirect to a specific url if the url is specified in the
+  the template.
+- It is possible to send out a feedback email to site owners when a new user registers.
+  Controlled by a site.ini setting.
+- Fixed storing of VAT value instead of reference in order item
+- Improved clearcache to be able to handle more cache types.
+- Added suport for custom cancel message ( template ) in checkout
+- Fixed bug with numbering in nice urls
+- Fixed problem with multiple word search
+- Added stopword support in search engine for searching large ammounts of data
+- Fixed rendering of custom tag as a block tag
+- Added next/prev to search template
+- Made integer datatype searchable
+- Fixed forget password functionality
+- Added possibility to insert options in ezoption datatype
+- Added site.ini variable to allow special characters in created password
+- Fixed bug with sending user information feedback to you, password is not empty
+- Changed operation definition for checkout, added possibility to call post_checkout trigger
+- Created system for cronjobs, the cronjobs.php script will now be used to run any
+  future cronjobs. The actual scripts to run are controlled by settings/cronjob.php.
+- Added next/previous function to standard search.
+- Optimized multiple word search queries.
+- Search and advanced search now use design keys for section if a section id override is used,
+  this means that override templates can be used per section.
+- Redirect after logout is now controlled by UserSettings/LogoutRedirect in settings/site.ini.
+- Added class and object overide keys for informationcollector mail
+- If email can be used as login, now validation checks if email is unique
+- If we update basket with 0 amount, then product is deleted from basket
+- Added optional view mode for advanced search
+- Added script for probing if server is alive. /ezinfo/is_alive
+- Added next/previous navigation to advanced search template
+- Texttoimage operator can now set absolute size for the resulting image in texttoimage.ini.
+- Fixed bug with getting correct GroupID on workflows creation.
+- Fixed broken user activation by e-mailcode
+- Applied new design to setup
+- Fixed problem with redirection in SSL mode
+- Fixed problem with language setting not remembered if language details was skipped
+- Fixed redirection after login to last accessed page.
+- Multiple role assignments to samme object no longer creates multiple entries.
+- Cronjob system now supports running different parts, each part has a set of scripts to run.
+  This is useful for running different kinds of scripts at different intervals.
+- Made sure options in basket shows currency in prices.
+- Made sure modfix.sh sets all required directories.
+- Setup modifies the database to accomodate the language selected if different
+  than eng-GB.
+- Fixed bug of unable to delete class group when discard button is pushed.
+
+*SDK :
+
+*Library :
+- Added possibility to send MySQL write queries to a separate server.
+- Made the MySQL database read the UsePersistentConnection from site.ini
+  to provide optional persistent connections to the database.
+
+eZ XML:
+- Added reference to the attributes() function in eZDomNode.
+- Added eZTextCodec conversion, it will now return text in UTF-8 encoding
+  by default and will decode the input xml from the specified charset in
+  the XML file, UTF-8 is default.
+- Added function to remove DOM nodes by name
+- Added function to remove the last appended DOM node
+- Added function to return the last appended child of a DOM node.
+
+eZ utils:
+- Removed cyclic dependecy between eZDebugSetting and eZINI
+- Fixed automatic removal of magick quotes for _GET variables, if magickquotes is enabled
+- Removed unneeded global definition of $_ENV and $_SERVER
+- eZHTTPTool now has a redirect function which takes care of constructing
+  a HTTP/1.1 compatible redirect string, is to be used instead of pure header().
+- New class eZExpiryHandler which keeps track of expiry timestamps which can be
+  used for cache handlers.
+- Made sure the result from getPathFromFilename() in eZDir does not contain extra slash at the end.
+- eZExtension was moved from kernel to this library.
+- Added missing string escaping of session data.
+- Added class ezlog which provides functions to write storage log message.
+
+eZ ini:
+- Added support for saving only the values that has changed.
+
+eZ PHP creator:
+- Added support for end-of-line comments.
+- When restoring PHP files the variables fetching can now be set as optional
+  with default values incase the variable does not exist.
+
+eZ sys:
+- Added support for Mac specific settings.
+
+eZ template:
+- imagelabel was removed and image, imagefile and texttoimage was improved
+  to handle transparency, alignment and placement.
+- eztemplateimagelayer.php file has been moved to lib/ezimage and all classes
+  has been given new names and files.
+- New function append-block which works like set-block but instead creates an
+  array out of all appended items.
+- New function run-once which will run the children once per session.
+- Fixed call to pow() to explicitly cast to int, required for newer PHP versions.
+- Made sure the ezini operator doesn't quote the return value.
+- Default recursion of the /attribute/ operator is now 2.
+- The default charset for template can now be controlled by settings/template.ini,
+  this means it is no longer required to add charset controls in all template files.
+- Added support for global warning list which is can displayed in pagelayout.tpl.
+- Washing operator now supports email washing as well, @ and . will be converted to
+  straight textual representations which are harder for spam engines to pick up.
+  The representation is configurable in template.ini.
+- The count operator now works on strings.
+- Added cache-block function, to cache part of the template. It takes keys and expiry as arguments.
+- Added nl2br text operator.
+- Error message for array an object attribute access has been improved, it will now
+  display attributes for objects and arrays to pick from.
+- New template operator /contains/ which will return true if the input variable (which should
+  be an array) contains the value specified as input.
+- Template debugging will now add an HTML comment as well as normal text output in the result.
+
+eZ image:
+- Image object and layer classes has been moved from eZ template to eZ image
+  since they are not specific to the template engine but rather the
+  the image library. Each class now has a separate file and new names.
+- Fixed calculation of width and height from return value of BBox function,
+  now angled text should work properly.
+- Added check if ImageCreateFromPNG exists.
+
+eZ locale:
+- Made sure %l was converted using locale translations instead of PHP names.
+- Fix bug with missing saturday for locale whose week start with sunday.
+
+eZ db:
+- The MySQL and PostgreSQL drivers will report if the extension is missing and
+  will not initialize the DB.
+- Fixed correct initializing of master/slave connections in MySQL and reading values from site.ini
+- Fixed correct lastSerialID when running in master/slave configuration
+- Fixed sending "create temporary" queries to slave server ( pr connection memory tables )
+- Fixed problem when master db server was not available in MySQL master/slave setup
+- It is now possible to force a new instance when requesting an instance, this makes
+  is possible to change db setting even if an instance already exists.
+
+eZ debug:
+- The popup window was fixed to use the var directory and works on non-virtual hosts as well.

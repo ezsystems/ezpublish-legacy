@@ -1,0 +1,36 @@
+Changes from 3.1.0-2 to 3.1-1
+
+*Kernel:
+- Added automatic creation of template override folder if non existing when creating override templates.
+- Fixed problem with activating orders
+- Fixed broken GD image scaling
+- Fixed correct aspect ratio scaling when using GD
+- Fixed typo in eZContentObjectTreeNode::createObject()
+- Fixed problem with preview not showing the correct translation
+- Fixed template defined block/inline namespace for embeded objects.
+- Fixed problem with object preview not showing the correct design.
+- Fixed bug in eZXMLText datatype validation where required fields where always validated.
+- Fixed bug in template admin where default template was not copyed from the selected sitedesign.
+- Fixed bug in related object when fetching a non-existing translation. Now the default translation is returned if the requested translation does not exist.
+- Fixed setting selected site access in template admin when pushing the create new button
+- Fixed typo in ezmail include file
+- Fixed correct database initializing in setup so eZ publish will not crash when PHP only has PostgreSQL support
+- Added some error checking to values used in eZContentObject::purge.
+- Added revision number to setup page and system info page.
+- Added ActiveAccessExtensions variable in settings/site.ini which will be used after siteaccess has been chosen
+  to allow per siteaccess extension settings.
+- Made sure template override cache file is determined by it's designs and extension designs.
+- Fixed display error in width of table and table cell.
+- Fixed bug of unable to remember media type when creating a media class.
+- Fixed bug of "Cancel" button doesn't work when editing a policy.
+- Fixed bug of unable to edit node and subtree when editing a policy.
+- Added missed kernel contentclasses to postgresql cleandata.sql.
+- Fixed typo in kernel/user/activate.php
+- Fixed bug of unable to store default value for datatype checkbox.
+
+*Library:
+- Added revision number to SDK info.
+
+*Update:
+
+*SQL:
