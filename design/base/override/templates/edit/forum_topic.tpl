@@ -10,7 +10,28 @@
         {include uri="design:content/edit_validation.tpl"}
 
         <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
-        {include uri="design:content/edit_attribute.tpl"}
+
+        <h3>{'Subject'|i18n('design/standard/content/edit')}</h3>
+        {attribute_edit_gui attribute=$object.data_map.subject}
+        <h3>{'Message'|i18n('design/standard/content/edit')}</h3>
+        {attribute_edit_gui attribute=$object.data_map.message}
+
+        <h3>{'Notify me about updates'|i18n('design/standard/content/edit')}</h3>
+        {attribute_edit_gui attribute=$object.data_map.notify_me}
+
+        {let current_user=fetch( 'user', 'current_user' )
+             sticky_groups=ezini( 'ForumSettings', 'StickyUserGroupArray', 'forum.ini' )}
+
+        {$current_user.groups|contains($sticky)}
+
+            {section var=sticky loop=$sticky_groups}
+                {section show=$current_user.groups|contains($sticky)}
+                <h3>{'Sticky'|i18n('design/standard/content/edit')}</h3>
+                {attribute_edit_gui attribute=$object.data_map.sticky}
+                {/section}
+            {/section}
+        {/let}
+
         <br/>
 
         <div class="buttonblock">
