@@ -112,6 +112,82 @@ class eZTemplateTextOperator
                                                                             'default' => false ) ) );
     }
 
+    function indentTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $count = $type = $filler = false;
+        $paramCount = count( $parameters );
+
+        if ( $paramCount == 4 )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
+            {
+                $filler = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+            }
+        }
+        if ( $paramCount >= 3)
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+            {
+                $type = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                if ( $type == 'space' )
+                {
+                    $filler = ' ';
+                }
+                else if ( $type == 'tab' )
+                {
+                    $filler = "\t";
+                }
+                else if ( $type != 'custom' )
+                {
+                    $filler = ' ';
+                }
+            }
+        }
+        if ( $paramCount >= 2 )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            {
+                $count = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            }
+            if ( !$type )
+            {
+                $type = 'space';
+                $filler = ' ';
+            }
+        }
+        $newElements = array();
+
+        if ( $count && $type && $filler )
+        {
+            $values[] = $parameters[0];
+            $indentation = str_repeat( $filler, $count );
+            $code = "%output% = '$indentation' . %1%;\n";
+        }
+        else
+        {
+            $code = "if ( %3% == 'tab' )\n{\n\t%tmp1% = \"\\t\";\n}\nelse ";
+            $code .= "if ( %3% == 'space' )\n{\n\t%tmp1% = ' ';\n}\nelse\n";
+            if ( count ( $parameters ) == 4 )
+            {
+                $code .= "{\n\t%tmp1% = %4%;\n}\n";
+            }
+            else
+            {
+                $code.= "{\n\t%tmp1% = ' ';\n}\n";
+            }
+            $code .= "%output% = str_repeat(%tmp1%, %2%) . %1%;\n";
+            foreach ( $parameters as $parameter )
+            {
+                $values[] = $parameter;
+            }
+        }
+
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, 'false', 1 );
+        return $newElements;
+    }
+
     function concatTransformation( $operatorName, &$node, &$tpl, &$resourceData,
                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
