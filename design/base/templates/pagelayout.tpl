@@ -10,9 +10,10 @@
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
     @import url({"stylesheets/site.css"|ezdesign});
-    @import url({"stylesheets/site-colors.css"|ezdesign});
+    @import url({"stylesheets/t6/site-colors.css"|ezdesign}); {* todo -> read from design settings  *}
+
     @import url({"stylesheets/classes.css"|ezdesign});
-    @import url({"stylesheets/classes-colors.css"|ezdesign});
+    @import url({"stylesheets/t6/classes-colors.css"|ezdesign}); {* todo -> read from design settings  *}
     @import url({"stylesheets/debug.css"|ezdesign});
 
     {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
