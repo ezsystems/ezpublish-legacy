@@ -36,10 +36,6 @@
 	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysqlgt&; create database &lt;name_of_database&gt;</pre></li>
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
 	identified by '&lt;password&gt;';</pre></li>
-	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
-	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
-	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
-	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/demokernel.sql </pre></li>
 </ol>
 
 
