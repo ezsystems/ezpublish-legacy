@@ -357,12 +357,14 @@ CREATE TABLE ezcontentobject_attribute (
   data_text text,
   data_int int(11) default NULL,
   data_float float default NULL,
-  sort_key varchar(255) default NULL,
   attribute_original_id int(11) default '0',
+  sort_key_int int(11) NOT NULL default '0',
+  sort_key_string varchar(50) NOT NULL default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
-  KEY sort_key (sort_key)
+  KEY sort_key_int (sort_key_int),
+  KEY sort_key_string (sort_key_string)
 ) TYPE=MyISAM CHARSET=latin1;
 
 --

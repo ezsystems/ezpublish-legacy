@@ -146,7 +146,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezcontentclass DISABLE KEYS */;
 LOCK TABLES ezcontentclass WRITE;
-INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',-1,14,1024392098,1048494694),(2,0,'Article','article','<title>',-1,14,1024392098,1048494722),(3,0,'User group','user_group','<name>',-1,14,1024392098,1048494743),(4,0,'User','user','<first_name> <last_name>',-1,14,1024392098,1048494759),(5,0,'Image','image','<name>',8,14,1031484992,1048494784),(6,0,'Forum','forum','<name>',14,14,1052384723,1052384870),(7,0,'Forum message','forum_message','<topic>',14,14,1052384877,1052384943),(8,0,'Product','product','<title>',14,14,1052384951,1052385067),(9,0,'Product review','product_review','<title>',14,14,1052385080,1052385252),(10,0,'Info page','info_page','<name>',14,14,1052385274,1052385353),(11,0,'Link','link','<title>',14,14,1052385361,1052385453),(12,0,'File','file','<name>',14,14,1052385472,1052385669),(13,0,'Comment','comment','<subject>',14,14,1052385685,1052385756);
+INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',14,14,1024392098,1048494694),(2,0,'Article','article','<title>',14,14,1024392098,1048494722),(3,0,'User group','user_group','<name>',14,14,1024392098,1048494743),(4,0,'User','user','<first_name> <last_name>',14,14,1024392098,1048494759),(5,0,'Image','image','<name>',8,14,1031484992,1048494784),(6,0,'Forum','forum','<name>',14,14,1052384723,1052384870),(7,0,'Forum message','forum_message','<topic>',14,14,1052384877,1052384943),(8,0,'Product','product','<title>',14,14,1052384951,1052385067),(9,0,'Product review','product_review','<title>',14,14,1052385080,1052385252),(10,0,'Info page','info_page','<name>',14,14,1052385274,1052385353),(11,0,'Link','link','<title>',14,14,1052385361,1052385453),(12,0,'File','file','<name>',14,14,1052385472,1052385669),(13,0,'Comment','comment','<subject>',14,14,1052385685,1052385756);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezcontentclass ENABLE KEYS */;
 
@@ -196,7 +196,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezcontentobject_attribute DISABLE KEYS */;
 LOCK TABLES ezcontentobject_attribute WRITE;
-INSERT INTO ezcontentobject_attribute VALUES (1,'eng-GB',1,1,4,'My folder',NULL,NULL,NULL,0),(2,'eng-GB',1,1,119,'<?xml version=\"1.0\"><section><paragraph>This folder contains some information about...</paragraph></section>',NULL,NULL,NULL,0),(7,'eng-GB',1,4,7,'Main group',NULL,NULL,NULL,0),(8,'eng-GB',1,4,6,'Users',NULL,NULL,NULL,0),(1,'eng-GB',2,1,4,'My folder',0,0,NULL,0),(2,'eng-GB',2,1,119,'<?xml version=\"1.0\"><section><paragraph>This folder contains some information about...</paragraph></section>',0,0,NULL,0),(21,'eng-GB',1,10,12,'',0,0,NULL,0),(22,'eng-GB',1,11,6,'Guest accounts',0,0,NULL,0),(19,'eng-GB',1,10,8,'Anonymous',0,0,NULL,0),(20,'eng-GB',1,10,9,'User',0,0,NULL,0),(23,'eng-GB',1,11,7,'',0,0,NULL,0),(24,'eng-GB',1,12,6,'Administrator users',0,0,NULL,0),(25,'eng-GB',1,12,7,'',0,0,NULL,0),(26,'eng-GB',1,13,6,'Editors',0,0,NULL,0),(27,'eng-GB',1,13,7,'',0,0,NULL,0),(28,'eng-GB',1,14,8,'Administrator',0,0,NULL,0),(29,'eng-GB',1,14,9,'User',0,0,NULL,0),(30,'eng-GB',1,14,12,'',0,0,NULL,0),(95,'eng-GB',1,40,8,'test',0,0,NULL,0),(96,'eng-GB',1,40,9,'test',0,0,NULL,0),(97,'eng-GB',1,40,12,'',0,0,NULL,0),(98,'eng-GB',1,41,4,'Media',0,0,'media',0),(99,'eng-GB',1,41,119,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\" />',1045487555,0,'',0);
+INSERT INTO ezcontentobject_attribute VALUES (1,'eng-GB',1,1,4,'My folder',NULL,NULL,0,0,''),(2,'eng-GB',1,1,119,'<?xml version=\"1.0\"><section><paragraph>This folder contains some information about...</paragraph></section>',NULL,NULL,0,0,''),(7,'eng-GB',1,4,7,'Main group',NULL,NULL,0,0,''),(8,'eng-GB',1,4,6,'Users',NULL,NULL,0,0,''),(1,'eng-GB',2,1,4,'My folder',0,0,0,0,''),(2,'eng-GB',2,1,119,'<?xml version=\"1.0\"><section><paragraph>This folder contains some information about...</paragraph></section>',0,0,0,0,''),(21,'eng-GB',1,10,12,'',0,0,0,0,''),(22,'eng-GB',1,11,6,'Guest accounts',0,0,0,0,''),(19,'eng-GB',1,10,8,'Anonymous',0,0,0,0,''),(20,'eng-GB',1,10,9,'User',0,0,0,0,''),(23,'eng-GB',1,11,7,'',0,0,0,0,''),(24,'eng-GB',1,12,6,'Administrator users',0,0,0,0,''),(25,'eng-GB',1,12,7,'',0,0,0,0,''),(26,'eng-GB',1,13,6,'Editors',0,0,0,0,''),(27,'eng-GB',1,13,7,'',0,0,0,0,''),(28,'eng-GB',1,14,8,'Administrator',0,0,0,0,''),(29,'eng-GB',1,14,9,'User',0,0,0,0,''),(30,'eng-GB',1,14,12,'',0,0,0,0,''),(95,'eng-GB',1,40,8,'test',0,0,0,0,''),(96,'eng-GB',1,40,9,'test',0,0,0,0,''),(97,'eng-GB',1,40,12,'',0,0,0,0,''),(98,'eng-GB',1,41,4,'Media',0,0,0,0,''),(99,'eng-GB',1,41,119,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\" />',1045487555,0,0,0,'');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezcontentobject_attribute ENABLE KEYS */;
 
@@ -710,7 +710,6 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezworkflow DISABLE KEYS */;
 LOCK TABLES ezworkflow WRITE;
-INSERT INTO ezworkflow VALUES (1,0,0,'group_ezserial','Sp\'s forkflow',8,24,1031927869,1032856662);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezworkflow ENABLE KEYS */;
 
@@ -729,7 +728,6 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezworkflow_event DISABLE KEYS */;
 LOCK TABLES ezworkflow_event WRITE;
-INSERT INTO ezworkflow_event VALUES (18,0,1,'event_ezapprove','3333333333',0,0,0,0,'','','','',1),(20,0,1,'event_ezmessage','foooooo',0,0,0,0,'eeeeeeeeeeeeeeeeee','','','',2);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezworkflow_event ENABLE KEYS */;
 
@@ -739,7 +737,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezworkflow_group DISABLE KEYS */;
 LOCK TABLES ezworkflow_group WRITE;
-INSERT INTO ezworkflow_group VALUES (1,'Standard',-1,-1,1024392098,1024392098);
+INSERT INTO ezworkflow_group VALUES (1,'Standard',14,14,1024392098,1024392098);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezworkflow_group ENABLE KEYS */;
 
