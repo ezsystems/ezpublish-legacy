@@ -173,7 +173,7 @@ class eZMultiplexerType extends eZWorkflowEventType
     {
         $processParameters = $process->attribute( 'parameter_list' );
         $nodeID = $processParameters['node_id'];
-        $node = & eZContentObjectTreeNode::fetch( $nodeID );
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
         $objectID = $node->attribute( 'contentobject_id' );
         $object =& $node->attribute( 'object');
         $class =& $object->attribute( 'content_class' );
