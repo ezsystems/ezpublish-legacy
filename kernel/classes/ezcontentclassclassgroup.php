@@ -117,6 +117,8 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
+        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+        $classIDList =& eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         if ( $contentclass_version !== null )
         {
@@ -146,13 +148,14 @@ class eZContentClassClassGroup extends eZPersistentObject
             $groupIDList = array( $groupIDList );
         }
         $classGroupList =& eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
-                                                                null,
+                                                                array(),
                                                                 array( "group_id" => $groupIDList,
                                                                        "contentclass_version" => $contentclassVersion ),
                                                                 null,
                                                                 null,
                                                                 false,
-                                                                array( 'contentclass_id' ) );
+                                                                false,
+                                                                array( array( 'operation' => "distinct contentclass_id" ) ) );
         $classList = array();
         if ( $asObject )
         {
