@@ -10,16 +10,18 @@
 <p>{"The URL points to %1."|i18n('design/standard/url',,array(concat('<a href="',$full_url,'">',$full_url,"</a>")))}</p>
 
 <p>{"Objects which use this link"|i18n('design/standard/url')}:
-<select name="ObjectList">
+
 {section show=$object_list}
+<select name="ObjectList">
     {section name=ObjectArray loop=$object_list}
     <option value="{$ObjectArray:item.id}">{$ObjectArray:item.name}-{'version'|i18n('design/standard/url')} {$ObjectArray:item.version}</option>
     {/section}
-{section-else}
-<option value="-1">{'No object available'|i18n('design/standard/url')}</option>
-{/section}
 </select>
-   <input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />
+{section-else}
+{'No object available'|i18n('design/standard/url')}
+{/section}
+
 </p>
 
 {section show=$url_object.modified|gt(0)}
