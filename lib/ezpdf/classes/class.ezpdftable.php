@@ -734,6 +734,7 @@ class eZPDFTable extends Cezpdf
                                             $fontSize = $options['fontSize'];
                                         }
 
+                                        $this->setXOffset( $pos[$realColumnCount] );
                                         $textInfo = $this->addTextWrap( $pos[$realColumnCount],
                                                                         $this->y,
                                                                         $maxWidth[$colSpan][$realColumnCount],
