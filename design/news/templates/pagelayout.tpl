@@ -49,9 +49,17 @@
                                                              sort_by, array( array( priority ) ),
   							     class_filter_type, exclude, 
 							     class_filter_array, array( 'gallery' ) ) )}
-                {section name=Folder loop=$folder_list}
-                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
-                {/section}
+                {section var=Folder loop=$folder_list}
+		    {section show=eq($Folder.item.node_id,173)}
+		        {let poll_list=fetch( content, list, hash(  parent_node_id, $Folder.item.node_id, sort_by, array( array( priority ) ), limit, 1 ) ) }
+		        {section var=Poll loop=$poll_list}
+		            <li><a href={concat( "/content/view/full/", $Poll.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
+		        {/section}
+		        {/let}
+		    {section-else}
+		    <li><a href={concat( "/content/view/full/", $Folder.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
+		    {/section}                
+		{/section}
                 {/let}
                 </ul>
             
@@ -92,11 +100,11 @@
                                                           
             <h3>Latest news</h3>
             <ul>
-                   {section name=News loop=$news_list sequence=array(bglight,bgdark)}
+                   {section var=News loop=$news_list sequence=array(bglight,bgdark)}
                        <li class="{$:sequence}">
-                       <a href={$News:item.url_alias|ezurl}>{$News:item.name|wash}</a>
+                       <a href={$News.item.url_alias|ezurl}>{$News.item.name|wash}</a>
                        <div class="date">
-                        ({$News:item.object.published|l10n( shortdate )})
+                        ({$News.item.object.published|l10n( shortdate )})
                        </div>  
                        </li>
                     {/section}
@@ -129,11 +137,11 @@
 
            <p>
            &gt;
-           {section name=Path loop=$module_result.path }
-               {section show=$Path:item.url}
-                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+           {section var=Path loop=$module_result.path }
+               {section show=$Path.item.url}
+                  <a href={$Path.item.url|ezurl}>{$Path.item.text|wash}</a>
                {section-else}
-    	      {$Path:item.text|wash}
+    	      {$Path.item.text|wash}
                {/section}
     
                {delimiter}
