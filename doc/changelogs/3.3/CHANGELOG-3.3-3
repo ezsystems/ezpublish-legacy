@@ -18,6 +18,9 @@ Changes from 3.3-2 to 3.3-3
 - Added support for cleanup of class attribute cache for clearcache.sh.
 - Added quick updated of eZEmail datatype to updateattributefilter.php update script.
 
+*Setup:
+- Added check for AcceptPathInfo setting in apache.
+
 *DataTypes:
 
 eZObjectRelation:

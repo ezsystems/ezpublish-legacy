@@ -58,7 +58,8 @@ function eZSetupTestTable()
                   'imagegd_extension' => array( 'eZSetupCheckGDVersion' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
-                  'execution_time' => array( 'eZSetupTestExecutionTime' ) );
+                  'execution_time' => array( 'eZSetupTestExecutionTime' ),
+                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -237,6 +238,16 @@ function eZSetupTestPhpVersion( $type, &$arguments )
                   'warning_version' => $warningVersion );
 }
 
+/*!
+  Test if Apache setting for AcceptPathInfo is enabled
+*/
+function eZSetupTestAcceptPathInfo( $type, &$arguments )
+{
+    $fp = fopen( 'http://' . $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test' , 'r' );
+
+    return array( 'result' => ( $fp !== false ),
+                  'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );
+}
 
 /*!
     Test if the extensios are loaded
