@@ -68,7 +68,7 @@ if ( !is_dir( $cacheDir.'/rss' ) )
 
 $rssFeed = null;
 
-if ( !file_exists( $cacheFile ) or ( time() - filectime( $cacheFile ) > 20*60 ) )
+if ( !file_exists( $cacheFile ) or ( time() - filemtime( $cacheFile ) > 20*60 ) )
 {
     $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
 
