@@ -25,7 +25,7 @@
             {section show=eq( $#ui_context, 'browse' )}
                 <a class="nodeicon" href="#"> {$:parentNode.object.class_identifier|class_icon( $:classIconsSize )}</a>
             {section-else}
-                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)|wash(javascript)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "Click on the icon for a menu."|i18n( 'design/admin/contentstructuremenu' ) )}</a>
+                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)|wash(javascript)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "Click on the icon for a context sensitive menu."|i18n( 'design/admin/contentstructuremenu' ) )}</a>
             {/section}
             {* Label *}
                 {* Tooltip *}
