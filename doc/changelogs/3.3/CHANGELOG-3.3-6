@@ -93,6 +93,8 @@ eZINI:
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
 - Fixed bug in cronjobs/workflow.php
   http://ez.no/community/bug_reports/deleting_the_default_admin_user_disables_workflow
+- Fixed bug with unabling to upload image to a new translated object.
+  http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
 
 *Library:
 
