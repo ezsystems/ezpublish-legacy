@@ -1,4 +1,4 @@
-Changes from 3.1.0-1 to 3.1.0-2
+Changes from 3.1.0-1 to 3.1
 
 * Kernel:
 - Added function is_empty to eZXMLText datatype- Added function is_empty to eZXMLText datatype
@@ -6,6 +6,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Added site.ini setting for aditional designs in override system ([DesignSettings], AditionalSiteDesignArray )
 - Added support for setting cachedir with full path ( CacheDir=/var/ezpublish/cache )
 - Fixed a typo in the article template
+- Added missing tables to mysql kernel_schema.sql ezkeyword and ezkeyword_attribute_link.
 
 *Library :
 eZ xml:
