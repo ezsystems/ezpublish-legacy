@@ -562,30 +562,9 @@ class eZContentObject extends eZPersistentObject
         // then we fetch it from the DB (objects are always cached as arrays).
         if ( !isset( $eZContentObjectContentObjectCache[$id] ) or $asObject === false )
         {
-            $language = eZContentObject::defaultLanguage();
-
-            $useVersionName = true;
-            if ( $useVersionName )
-            {
-                $versionNameTables = ', ezcontentobject_name ';
-                $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-                $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject.current_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$language' ";
-            }
-
             $db =& eZDB::instance();
 
-            $query = "SELECT ezcontentobject.* $versionNameTargets
-                      FROM
-                         ezcontentobject
-                         $versionNameTables
-                      WHERE
-                         ezcontentobject.id='$id'
-                         $versionNameJoins";
-
-            $resArray =& $db->arrayQuery( $query );
+            $resArray = $db->arrayQuery( eZContentObject::createFetchSQLString( $id ) );
 
             $objectArray = array();
             if ( count( $resArray ) == 1 && $resArray !== false )
@@ -615,6 +594,58 @@ class eZContentObject extends eZPersistentObject
         {
             return $eZContentObjectContentObjectCache[$id];
         }
+    }
+
+    /*!
+     \static
+     Tests for the existance of a content object by using the ID \a $id.
+     \return \c true if the object exists, \c false otherwise.
+    */
+    function exists( $id )
+    {
+        global $eZContentObjectContentObjectCache;
+
+        // Check the global cache
+        if ( isset( $eZContentObjectContentObjectCache[$id] ) )
+            return true;
+
+        // If the object is not cached we need to check the DB
+        $db =& eZDB::instance();
+
+        $resArray = $db->arrayQuery( eZContentObject::createFetchSQLString( $id ) );
+
+        if ( $resArray !== false and count( $resArray ) == 1 )
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    /*!
+      \static
+      Creates the SQL for fetching the object with ID \a $id and returns the string.
+    */
+    function createFetchSQLString( $id )
+    {
+        $language = eZContentObject::defaultLanguage();
+
+        $versionNameTables  = ', ezcontentobject_name ';
+        $versionNameTargets = ', ezcontentobject_name.name AS name,  ezcontentobject_name.real_translation ';
+        $versionNameJoins   = " AND  ezcontentobject.id = ezcontentobject_name.contentobject_id AND\n" .
+                              " ezcontentobject.current_version = ezcontentobject_name.content_version AND\n" .
+                              " ezcontentobject_name.content_translation = '$language' ";
+
+        $fetchSQLString = "SELECT ezcontentobject.* $versionNameTargets\n" .
+                          "FROM\n" .
+                          "    ezcontentobject\n" .
+                          "    $versionNameTables\n" .
+                          "WHERE\n" .
+                          "    ezcontentobject.id='$id'\n" .
+                          "    $versionNameJoins";
+
+        return $fetchSQLString;
     }
 
     /*!

@@ -43,6 +43,10 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Added functionality to copy subtree.
   (see doc/features/3.6/admin_copy_subtree.txt for details)
 
+eZContentObject:
+- Added: Static function exists() to check if an object exists.
+  (Submitted by: Paul Forsyth)
+
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default
   you will need to override this setting for that siteaccess.
