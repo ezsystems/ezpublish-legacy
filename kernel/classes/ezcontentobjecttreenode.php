@@ -172,8 +172,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
                                                       'sort_array' => 'sortArray',
-                                                      "path"     => "fetchPath",
-                                                      "parent"   => "fetchParent"
+                                                      "path" => "fetchPath",
+                                                      "parent" => "fetchParent"
                                                       ),
                       "increment_key" => "node_id",
 
@@ -379,6 +379,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCondition .= ' ) AND ';
         }
 
+
         if ( $nodeID == 0 )
         {
             $nodeID = $this->attribute( 'node_id' );
@@ -390,11 +391,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $fromNode = $nodeID ;
+
         if ( count( $node ) != 0 )
         {
             $nodePath =  $node->attribute( 'path_string' );
             $nodeDepth = $node->attribute( 'depth' );
         }
+
 //        $childrensPath = $nodePath . $fromNode . '/';
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
@@ -479,7 +482,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if( !$offset && !$limit )
         {
             $nodeListArray = $db->arrayQuery( $query );
-        }else
+        }
+        else
         {
             $nodeListArray = $db->arrayQuery( $query, array( "offset" => $offset,
                                                              "limit" => $limit ) );
@@ -490,8 +494,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function subTreeCount( $params = array() )
     {
-        $nodePath =  $this->attribute( 'path_string' );
-        $fromNode =  $this->attribute( 'node_id');
+        $nodePath = $this->attribute( 'path_string' );
+        $fromNode = $this->attribute( 'node_id');
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
         $db =& eZDB::instance();

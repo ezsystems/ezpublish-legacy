@@ -5,7 +5,7 @@
 <br /><b>Path:</b><br />
 &gt;
 {section name=Path loop=$parents}
- <a href="/content/browse/{$Path:item.node_id}/{$object_id}/{$edit_version}/">{$Path:item.name}</a> /
+ <a href="/content/browse/{$Path:item.node_id}/">{$Path:item.name}</a> /
 {/section}
 {$main_node.name}
 <br/>
@@ -48,7 +48,7 @@
 	</td>
 	<td class="{$Object:sequence}">
 	<img src="1x1.gif" width="10" height="1" alt="" />
-	<a href="/content/browse/{$Object:item.node_id}/{$object_id}/{$edit_version}/">
+	<a href="/content/browse/{$Object:item.node_id}/">
 	{$Object:item.name}
         </a>
 	</td>

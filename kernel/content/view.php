@@ -114,4 +114,5 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
 $Result['view_parameters'] =& $viewParameters;
 $Result['path'] =& $path;
+$Result['section_id'] =& $object->attribute( 'section_id' );
 ?>

@@ -251,9 +251,9 @@ if ( !function_exists ( 'checkContentActions'  ) )
 $Module->addHook( 'action_check', 'checkContentActions' );
 
 $includeResult = include( 'kernel/content/attribute_edit.php' );
+
 if ( $includeResult != 1 )
     return $includeResult;
-
 
 /********** Custom Action Code Start ***************/
 // $customAction = false;

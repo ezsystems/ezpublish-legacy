@@ -93,7 +93,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         }
 
         $nodeID = 2;
-        $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion ) );
+        $module->redirectToView( 'browse', array( $nodeID ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'DeleteRelation' ) )

@@ -77,14 +77,6 @@ class eZXMLTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-    }
-
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
@@ -94,11 +86,11 @@ class eZXMLTextType extends eZDataType
             // \todo add better validation of XML
 
             $xml = new eZXML();
-            $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+            $dom =& $xml->domTree( $data );
 
             if ( $dom )
             {
-                $contentObjectAttribute->setAttribute( "data_text", $data );
+                $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
 
                 $objects =& $dom->elementsByName( 'object' );
 
@@ -106,10 +98,24 @@ class eZXMLTextType extends eZDataType
                 {
                     print( $object->attributeValue( 'id' ) );
                 }
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                $contentObjectAttribute->setAttribute( "data_text", "test" );
             }
 
             eZDebug::writeNotice( $data, "XML text" );
         }
+
+        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    /*!
+     Fetches the http post var string input and stores it in the data instance.
+    */
+    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
     }
 
     /*!
@@ -117,9 +123,16 @@ class eZXMLTextType extends eZDataType
     */
     function &convertInput( &$text )
     {
-        // get paragraphs
+        // fix newlines
+        // Convet windows newlines
+        $text =& preg_replace( "#\r\n#", "\n", $text );
+        // Convet mac newlines
+        $text =& preg_replace( "#\r#", "\n", $text );
+
         $data =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
+        // Convert headers
+        $data =& preg_replace( "#<header>#", "<header level='1'>", $data );
 
         // split on headers
         $sectionData = "<section>";
@@ -330,6 +343,7 @@ class eZXMLTextType extends eZDataType
                     $view = "embed";
 
                 $object =& eZContentObject::fetch( $objectID );
+
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
@@ -377,7 +391,7 @@ class eZXMLTextType extends eZDataType
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent =& $this->inputTagXML( $itemChildNode );
+                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode );
                     }
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
@@ -392,8 +406,6 @@ class eZXMLTextType extends eZDataType
 
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= $text;
-
-//                $output .= "<$tagName>\n$listContent</$tagName>";
             }break;
 
             // normal content tags
@@ -401,6 +413,18 @@ class eZXMLTextType extends eZDataType
             case 'strong' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+
+                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= $text;
+            }break;
+
+            case 'link' :
+            {
+                $href = $tag->attributeValue( 'href' );
+
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                $tpl->setVariable( 'href', $href, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );

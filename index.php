@@ -372,14 +372,35 @@ if ( $show_page_layout )
         $pathArray = array();
         $tmpModulePath = $moduleResult['path'];
         $tmpModulePath[count($tmpModulePath)-1]['url'] = $REQUEST_URI;
-
+        $offset = 0;
+        if ( $moduleResult['section_id'] == 2 )
+            $offset = 2;
         while ( !$done )
         {
+
             // get node id
-            $elements = explode( "/", $tmpModulePath[$i]['url'] );
+            $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
             $nodeID = $elements[4];
-            if ( $elements[1] == 'content' and is_numeric( $nodeID ) )
+
+            $excludeNode = false;
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node )
             {
+                $obj = $node->attribute('object');
+                $dataMap = $obj->dataMap();
+                if ( $obj->attribute( 'contentclass_id' ) == 1 )
+                {
+                    if ( get_class( $dataMap['liste'] ) == 'ezcontentobjectattribute' )
+                    if ( $dataMap['liste']->attribute('data_int' ) == 1 )
+                    {
+                        $excludeNode = true;
+                    }
+                }
+            }
+
+            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false )
+            {
+
                 $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                           'Offset' => 0,
                                                                           'ClassFilterType' => 'include',
@@ -388,6 +409,59 @@ if ( $show_page_layout )
                                                                    $nodeID );
 
                 $tmpPathArray = array();
+                foreach ( $menuChildren as $child )
+                {
+                    $name = $child->attribute( 'name' );
+
+                    $strLimit = 17;
+                    if ( strlen( $name ) > $strLimit )
+                    {
+                        $name = substr( $name, 0, $strLimit ) . "...";
+                    }
+                    $tmpNodeID = $child->attribute( 'node_id' );
+                    $tmpObj = $child->attribute( 'object' );
+                    $className = $tmpObj->attribute( 'class_name' );
+
+                    if ( $className == "Link" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $tmpURL = $map['url']->content();
+                        $url = "$tmpURL";
+                    }
+                    else
+                        $url = "/content/view/full/$tmpNodeID/";
+                    if ( $tmpNodeID <> "20" )
+                    $tmpPathArray[] = array( 'id' => $tmpNodeID,
+                                             'level' => $i,
+                                             'url' => $url,
+                                             'text' => $name );
+                }
+
+                // find insert pos
+                $j = 0;
+                $insertPos = 0;
+                foreach ( $pathArray as $path )
+                {
+                    if ( $path['id'] == $nodeID )
+                        $insertPos = $j;
+                    $j++;
+                }
+                $restArray = array_splice( $pathArray, $insertPos + 1 );
+
+                $pathArray = array_merge( $pathArray, $tmpPathArray );
+                $pathArray = array_merge( $pathArray, $restArray  );
+            }
+            else
+            {
+                if ( $level == 0 )
+                {
+                    $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                              'Offset' => 0,
+                                                                              'ClassFilterType' => 'include',
+                                                                              'ClassFilterArray' => array( 1,6,20 )
+                                                                              ),
+                                                                       2 );
+                    $pathArray = array();
                 foreach ( $menuChildren as $child )
                 {
                     $name = $child->attribute( 'name' );
@@ -409,35 +483,15 @@ if ( $show_page_layout )
                     }
                     else
                         $url = "/content/view/full/$tmpNodeID/";
-                    $tmpPathArray[] = array( 'id' => $tmpNodeID,
-                                             'level' => $i,
-                                             'url' => $url,
-                                             'text' => $name );
+                    if ( $tmpNodeID <> "20" )
+                    $pathArray[] = array( 'id' => $tmpNodeID,
+                                          'level' => $i,
+                                          'url' => $url,
+                                          'text' => $name );
                 }
 
-                // find insert pos
-                $j = 0;
-                $insertPos = 0;
-                foreach ( $pathArray as $path )
-                {
-                    if ( $path['id'] == $nodeID )
-                        $insertPos = $j;
-                    $j++;
-                }
-                if ( $insertPos == 0 )
-                {
-                    $pathArray = array_merge( $pathArray, $tmpPathArray );
-                }
-                else
-                {
-                    $restArray = array_splice( $pathArray, $insertPos + 1 );
 
-                    $pathArray = array_merge( $pathArray, $tmpPathArray );
-                    $pathArray = array_merge( $pathArray, $restArray  );
                 }
-            }
-            else
-            {
                 $done = true;
             }
             ++$level;

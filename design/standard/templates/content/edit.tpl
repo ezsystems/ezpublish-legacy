@@ -27,13 +27,17 @@
     {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
-    <tr><th>{"Name"|i18n('content/object')}</th><th>{"Sort by"|i18n('content/object')}</th><th colspan="2">{"Sort ascending"|i18n('content/object')}</th></tr>
+    <tr><th>{"Name"|i18n('content/object')}</th><th>{"Sort by"|i18n('content/object')}</th><th colspan="2">{"Asc"|i18n('content/object')}</th></tr>
     {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {let parent_node=$Node:item.parent_node_obj}
     <tr>
         <td class="{$Node:sequence}">
-        <span class="normal">{$Node:parent_node.name}</span>
+	<span class="normal">
+        {section name=Path loop=$Node:parent_node.path}
+	{$Node:Path:item.name} /
+	{/section}
+        {$Node:parent_node.name}</span>
         </td>
         <td class="{$Node:sequence}">
         <span class="normal">
@@ -84,10 +88,8 @@
     <!-- Right part start-->
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
-        <th class="menuheaddark">
+        <th class="menuheaddark" colspan="2">
         <p class="menuhead">{"Object info"|i18n('content/object')}</p>
-        </th>
-	<th class="menuheaddark">
         </th>
     </tr>
     <tr>
@@ -107,11 +109,16 @@
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
-        <td class="menu">
+        <td class="{$Object:sequence}">
         {content_view_gui view=text_linked content_object=$Object:item}
         </td>
 	<td>
 	<input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
+	</td>
+    </tr>
+    <tr>
+        <td class="{$Object:sequence}" colspan="2">
+	<span class="small">&lt;object id='{$Object:item.id}' view='inline' /&gt;</span>
 	</td>
     </tr>
     {/section}
@@ -122,7 +129,7 @@
     </tr>
     <tr>
         <td>
-        <input class="button" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
+        <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
         </td>
     </tr>
     </table>

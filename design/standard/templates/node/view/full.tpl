@@ -91,7 +91,7 @@
         {case} 
 	<td class="{$Child:sequence}" align="right" width="1%">
 	</td>
-1	<td width="1%" class="{$Child:sequence}"></td>
+	<td width="1%" class="{$Child:sequence}"></td>
         {/case}
         {/switch} 
 </tr>

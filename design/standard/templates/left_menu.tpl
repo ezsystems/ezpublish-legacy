@@ -9,7 +9,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/content/view/full/2/">Contents</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Contents</a></p>
     </td>
 </tr>
 <tr>

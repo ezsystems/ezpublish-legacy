@@ -43,8 +43,6 @@ $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 
 $NodeID = $Params["NodeID"];
-$ObjectID = $Params["ObjectID"];
-$EditVersion = $Params["EditVersion"];
 
 if ( array_key_exists( 'Limitation', $Params ) )
 {
@@ -54,7 +52,6 @@ if ( array_key_exists( 'Limitation', $Params ) )
         $limitationList[] = $policy->attribute( 'limitations' );
     }
 }
-
 
 $returnURL = $http->sessionVariable( "BrowseFromPage" );
 $browseActionName = $http->sessionVariable( "BrowseActionName" );
@@ -87,13 +84,10 @@ $tpl->setVariable( "custom_action_button", $customActionButton );
 $tpl->setVariable( "return_type", $returnType );
 
 $tpl->setVariable( "node_id", $NodeID );
-$tpl->setVariable( "object_id", $ObjectID );
-$tpl->setVariable( "edit_version", $EditVersion );
 
 $tpl->setVariable( "object_array", $objectArray );
 $tpl->setVariable( "parents", $parents );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
-
 ?>
