@@ -13,6 +13,8 @@ Tool[]
 Tool[]=setup_link
 Tool[]=setup_link
 Tool[]=setup_link
+Tool[]=setup_link
+Tool[]=setup_link
 
 [Tool_setup_link]
 Title=
@@ -33,4 +35,14 @@ URL=/setup/cache
 Title=URL translator
 Icon=url_translator.png
 URL=/content/urltranslator
+
+[Tool_setup_setup_link_4]
+Title=Common ini settings
+Icon=common_ini_settings.png
+URL=/content/edit/71
+
+[Tool_setup_setup_link_5]
+Title=Look and feel
+Icon=look_and_feel.png
+URL=/content/edit/72
 */ ?>
