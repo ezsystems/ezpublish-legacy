@@ -40,6 +40,7 @@
 
 /*!
   \class eZCodeMapper ezcodemapper.php
+  \ingroup eZI18N
   \brief Handles mapping of character codes
 
 */
@@ -59,6 +60,9 @@ class eZCodeMapper
         $this->TransformationFiles = array();
     }
 
+    /*!
+     \return The mapping table for identifier \a $identifier or \c false if it is not found.
+    */
     function mappingTable( $identifier )
     {
         if ( isset( $this->TransformationTables[$identifier] ) )
@@ -66,16 +70,17 @@ class eZCodeMapper
         return false;
     }
 
+    /*!
+     \return An array with the names of rules which are currently available.
+    */
     function ruleNames()
     {
         return array_keys( $this->TransformationTables );
     }
 
-    function identifiers()
-    {
-        return array_keys( $this->TransformationTables );
-    }
-
+    /*!
+     Outputs error \a $text found in parsed file at position \a $position.
+    */
     function error( $text, $position = false )
     {
         include_once( 'lib/ezutils/classes/ezcli.php' );
@@ -91,6 +96,9 @@ class eZCodeMapper
         $cli->error( $str );
     }
 
+    /*!
+     Outputs warning \a $text found in parsed file at position \a $position.
+    */
     function warning( $text, $position = false )
     {
         include_once( 'lib/ezutils/classes/ezcli.php' );
@@ -114,9 +122,13 @@ class eZCodeMapper
         return in_array( $name, $this->TransformationFiles );
     }
 
+    /*!
+     Parses the transformation file \a $filename and appends any rules it finds
+     to the current rule list.
+     \param $name The name of transformation file as it was requested, ie. without a path
+    */
     function parseTransformationFile( $filename, $name )
     {
-//         $tbl =& $this->TransformationTables;
         eZDebug::writeDebug( "Parsing file $filename" );
         $tbl = array();
 
@@ -688,9 +700,16 @@ class eZCodeMapper
         fclose( $fd );
 
         $this->TransformationTables = array_merge( $this->TransformationTables, $tbl );
-//        var_dump( $this->TransformationTables );
     }
 
+    /*!
+     \private
+     Appends a mapping from one value to another.
+     \param $block Current block it is working on
+     \param $identifier The current identifier it is working on
+     \param $sourceValue The original value
+     \param $destinationValues The value it should be mapped to
+    */
     function appendDirectMapping( &$block, $identifier, $sourceValue, $destinationValues )
     {
         $count = count( $block );
@@ -711,6 +730,15 @@ class eZCodeMapper
         }
     }
 
+    /*!
+     \private
+     Appends a mapping for a range of values into a specific value
+     \param $block Current block it is working on
+     \param $identifier The current identifier it is working on
+     \param $sourceValue The start of the original value
+     \param $sourceEndValue The ned of the original value
+     \param $destinationValues The value it should be mapped to
+    */
     function appendReplaceMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $destinationValues )
     {
         $count = count( $block );
@@ -732,6 +760,13 @@ class eZCodeMapper
     }
 
     /*!
+     \private
+     Appends a mapping for characters by transposing them up or down.
+     \param $block Current block it is working on
+     \param $identifier The current identifier it is working on
+     \param $sourceValue The start of the original value
+     \param $sourceEndValue The ned of the original value
+     \param $transposeValue How much to transpose the values
      \param $addValue If \c true the $transposeValue is added to the range if not it is subtracted.
     */
     function appendTransposeMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $transposeValue, $addValue )
@@ -752,6 +787,10 @@ class eZCodeMapper
         }
     }
 
+    /*!
+     \private
+     \return The first unicod value for the data entry \a $data.
+    */
     function extractUnicodeValue( $data )
     {
         $type = $data['type'];
@@ -779,6 +818,10 @@ class eZCodeMapper
         return null;
     }
 
+    /*!
+     \private
+     \return The unicode values for the data entry \a $data.
+    */
     function extractUnicodeValues( $data )
     {
         $type = $data['type'];
@@ -805,256 +848,12 @@ class eZCodeMapper
         return array();
     }
 
-    function mappingTable2( $identifier )
-    {
-        // Note: This is currently hardcoded but will be moved to configurable
-        //       text files, the syntax will be something like:
-        // U+0402="D%"
-        // U+0041-U+005A+=32
-        // U+00BC-U+00BE=U+0020
-
-        if ( $identifier == 'search' )
-        {
-//             $list = array( 'space', 'hyphen', 'quote', 'latin_lowercase', 'diacritical' );
-            $list = array( 'diacritical', 'latin_uppercase' );
-            return $list;
-        }
-        else if ( $identifier == 'space' )
-        {
-            // Space control, turns special spaces into ASCII space (32)
-            $spaceMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array( 160 => 32 // non-break space
-                                             ),
-                                      'space' ) );
-            return $spaceMap;
-        }
-        else if ( $identifier == 'hyphen' )
-        {
-            // Dash and hyphen control, turns them into hyphen-minus (45) or removed
-            $hyphenMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                       array( 126 => 45, // tilde or swung dash
-                                              173 => false // soft hyphen, remove it to get proper words
-                                              ),
-                                       'hyphen' ) );
-            return $hyphenMap;
-        }
-        else if ( $identifier == 'apostrophe_normalize' )
-        {
-            // Fancy quotes, turns them into apostrophe (39) (often used as single quote)
-            $quoteMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array( 96 => 39 // grave accent
-                                             ,180 => 39 // acute accent
-                                             ,714 => 39 // modified letter accute accent
-                                             ,715 => 39 // modified letter grave accent
-                                             ,719 => 39 // modified letter low accute accent
-                                             ,718 => 39 // modified letter low grave accent
-                                             ),
-                                      'apostrophe_normalize' ) );
-            return $quoteMap;
-        }
-        else if ( $identifier == 'doublequote_normalize' )
-        {
-            // Fancy quotes, turns them into double quote (34)
-            $quoteMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array( 171 => 34 // left-pointing double angle quotation mark
-                                             ,187 => 34 // right-pointing double angle quotation mark
-                                             ,733 => 39 // double accute accent
-                                             ),
-                                      'doublequote_normalize' ) );
-            return $quoteMap;
-        }
-        else if ( $identifier == 'doublequote_to_apostrophe' )
-        {
-            // Turn apostrophe into double quote
-            $quoteMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array( 39 => 34 // apostrophe to double quote
-                                             ),
-                                      'doublequote_to_apostrophe' ) );
-            return $quoteMap;
-        }
-        else if ( $identifier == 'questionmark' )
-        {
-            $questionMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                         array( 191 => 63 // inverted question mark
-                                                ),
-                                         'questionmark' ) );
-            return $questionMap;
-        }
-        else if ( $identifier == 'special' )
-        {
-            // Turns several special characters into spaces
-            $specialMap = array( array( EZ_CODEMAPPER_TYPE_REPLACE,
-                                        array( array( 188, 190, 32 ), // special characters
-                                               array( 161, 169, 32 ), // special characters
-                                               array( 172, 177, 32 ), // special characters
-                                               array( 181, 184, 32 ) // special characters
-                                               ),
-                                        'special_range' ),
-                                 array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                        array( 170 => false, // feminine ordinal indicator
-                                               186 => false, // masculine ordinal indicator
-                                               185 => false, // superscript one
-                                               178 => false, // superscript two
-                                               179 => false // superscript three
-                                               ),
-                                        'special_direct' ) );
-            return $specialMap;
-        }
-        else if ( $identifier == 'ascii_lowercase' )
-        {
-            // Basic latin lowercase
-            $latinRangeMap = array( array( EZ_CODEMAPPER_TYPE_RANGE,
-                                           array( array( 65, 90, 32 ) ),
-                                           'latin1_lowercase' ) );
-            return $latinRangeMap;
-        }
-        else if ( $identifier == 'ascii_uppercase' )
-        {
-            // Basic latin lowercase
-            $latinRangeMap = array( array( EZ_CODEMAPPER_TYPE_RANGE,
-                                           array( array( 97, 122, -32 ) ),
-                                           'latin1_lowercase' ) );
-            return $latinRangeMap;
-        }
-        else if ( $identifier == 'cyrillic_transliterate' )
-        {
-            // Transliteration of cyrrilic characters into reduced ASCII equivelants
-            $latinMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array(  0x402 => 'D%'
-                                             ,0x403 => 'G%'
-                                             ,0x404 => 'IE'
-                                             ,0x405 => 'DS'
-                                             ,0x406 => 'II'
-                                             ,0x407 => 'YI'
-                                             ,0x408 => 'J%'
-                                             ,0x409 => 'LJ'
-                                             ,0x40a => 'NJ'
-                                             ,0x40b => 'Ts'
-                                             ,0x40c => 'KJ'
-                                             ,0x40e => 'V%'
-                                             ,0x40f => 'DZ'
-
-                                             ,0x401 => 'IO'
-
-                                             ,0x410 => 'A'
-                                             ,0x411 => 'B'
-                                             ,0x412 => 'V'
-                                             ,0x413 => 'G'
-                                             ,0x414 => 'D'
-                                             ,0x415 => 'E'
-                                             ,0x416 => 'ZH'
-                                             ,0x417 => 'Z'
-                                             ,0x418 => 'I'
-                                             ,0x419 => 'J'
-                                             ,0x41a => 'K'
-                                             ,0x41b => 'L'
-                                             ,0x41c => 'M'
-                                             ,0x41d => 'N'
-                                             ,0x41e => 'O'
-                                             ,0x41f => 'P'
-                                             ,0x420 => 'R'
-                                             ,0x421 => 'S'
-                                             ,0x422 => 'T'
-                                             ,0x423 => 'U'
-                                             ,0x424 => 'F'
-                                             ,0x425 => 'H'
-                                             ,0x426 => 'C'
-                                             ,0x427 => 'CH'
-                                             ,0x428 => 'SH'
-                                             ,0x429 => 'SCH'
-                                             ,0x42a => '"'
-                                             ,0x42b => 'Y'
-                                             ,0x42c => "'"
-                                             ,0x42d => "`E"
-                                             ,0x42e => "YU"
-                                             ,0x42f => "YA"
-
-                                             ,0x430 => 'a'
-                                             ,0x431 => 'b'
-                                             ,0x432 => 'v'
-                                             ,0x433 => 'g'
-                                             ,0x434 => 'd'
-                                             ,0x435 => 'e'
-                                             ,0x436 => 'zh'
-                                             ,0x437 => 'z'
-                                             ,0x438 => 'i'
-                                             ,0x439 => 'j'
-                                             ,0x43a => 'k'
-                                             ,0x43b => 'l'
-                                             ,0x43c => 'm'
-                                             ,0x43d => 'n'
-                                             ,0x43e => 'o'
-                                             ,0x43f => 'p'
-                                             ,0x440 => 'r'
-                                             ,0x441 => 's'
-                                             ,0x442 => 't'
-                                             ,0x443 => 'u'
-                                             ,0x444 => 'f'
-                                             ,0x445 => 'h'
-                                             ,0x446 => 'c'
-                                             ,0x447 => 'ch'
-                                             ,0x448 => 'sh'
-                                             ,0x449 => 'sch'
-                                             ,0x44a => '"'
-                                             ,0x44b => 'y'
-                                             ,0x44c => "'"
-                                             ,0x44d => "`e"
-                                             ,0x44e => "yu"
-                                             ,0x44f => "ya"
-
-                                             ,0x451 => "io"
-
-                                             ),
-                                      'cyrillic_transliterate' ) );
-            return $latinMap;
-        }
-        else if ( $identifier == 'latin1_transliterate' )
-        {
-            // Transliteration of latin characters into reduced ASCII equivelants
-            $latinMap = array( array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                      array( 230 => "ae", // æ => ae
-                                             198 => "AE", // Æ => AE
-                                             229 => "aa", // å => aa
-                                             197 => "AA", // Å => AA
-                                             248 => "oe", // ø => oe
-                                             216 => "OE", // Ø => OE
-                                             156 => "oe", // oe ligature
-                                             140 => "OE" // OE ligature
-                                             ),
-                                      'latin1_transliterate' ) );
-            return $latinMap;
-        }
-        else if ( $identifier == 'diacritical_remove' )
-        {
-            // Diacriticals
-            $diacriticMap = array( array( EZ_CODEMAPPER_TYPE_REPLACE,
-                                          array( array( 192, 196, 65 ), // A
-                                                 array( 224, 228, 97 ), // a
-                                                 array( 200, 203, 69 ), // E
-                                                 array( 232, 235, 101 ), // e
-                                                 array( 204, 207, 73 ), // I
-                                                 array( 236, 239, 105 ), // i
-                                                 array( 210, 214, 79 ), // o
-                                                 array( 242, 246, 111 ), // o
-                                                 array( 217, 220, 85 ), // u
-                                                 array( 249, 252, 117 ) // u
-                                                 ),
-                                          'diacritical_range' ),
-                                   array( EZ_CODEMAPPER_TYPE_DIRECT,
-                                          array( 221 => 89, // Y
-                                                 159 => 89, // Y
-                                                 253 => 121, // y
-                                                 255 => 121, // y
-                                                 199 => 67, // C
-                                                 231 => 99, // c
-                                                 209 => 78, // N
-                                                 241 => 110 // n
-                                                 ),
-                                          'diacritical_direct' ) );
-            return $diacriticMap;
-        }
-    }
-
+    /*!
+     \private
+     Goes trough all entries in \a $table and if it finds identifier references
+     it will fetch the table for that identifier and merge in the current one.
+     \return The expanded table.
+    */
     function expandInheritance( $table )
     {
         $newTable = array();
@@ -1410,12 +1209,18 @@ class eZCodeMapper
         return $unicodeMap;
     }
 
+    /*!
+     Generates a unicode mapping table for idenfier \a $idenfier.
+
+     \param $identifier Is either a single identifier string or a
+                        an array with identifiers.
+     \return The unicode mapping table for all defined identifiers
+    */
     function generateMappingCode( $identifier )
     {
         if ( !is_array( $identifier ) )
             $identifier = array( $identifier );
         $table = $this->expandInheritance( $identifier );
-        $table = $this->expandInheritance( $table );
 
         // We allow all characters for now
         $allowedRanges = array();
@@ -1622,6 +1427,11 @@ class eZCodeMapper
         }
         return false;
     }
+
+    /// \privatesection
+    var $TransformationTables;
+    var $TransformationFiles;
+    var $ISOUnicodeCodec;
 }
 
 ?>

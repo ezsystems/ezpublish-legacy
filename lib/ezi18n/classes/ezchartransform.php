@@ -40,6 +40,7 @@
 
 /*!
   \class eZCharTransform ezchartransform.php
+  \ingroup eZI18N
   \brief Performs rule based transformation of characters in a string
 
   \sa eZCodeMapper
