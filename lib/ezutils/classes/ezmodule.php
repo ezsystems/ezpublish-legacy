@@ -192,7 +192,7 @@ class eZModule
 
     /*!
      \return the name of the module which will be run on errors.
-             The default name is 'errror'.
+             The default name is 'error'.
      \sa handleError
     */
     function errorModule()
