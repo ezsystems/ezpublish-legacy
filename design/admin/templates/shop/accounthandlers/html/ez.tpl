@@ -1,6 +1,6 @@
 {* Name. *}
 <div class="block">
-<label>{'Name:'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</label>
+<label>{'Name'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</label>
 {let customer_user=fetch( content, object, hash( object_id, $order.user_id ) )}
 <a href={$customer_user.main_node.url_alias|ezurl}>{$order.account_information.first_name}&nbsp;{$order.account_information.last_name}</a>
 {/let}
