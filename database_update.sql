@@ -308,7 +308,8 @@ create table ezcontent_translation(
 
 # adding status to ezcontentobject and making correct update of it
 alter table ezcontentobject add column status int default 0;
-create temporary table ezcontentobject_temp as select distinct id,owner_id,section_id,contentclass_id,name,current_version,is_published,published,modified, 1 as status from ezcontentobject, ezcontentobject_tree  where ezcontentobject_tree.contentobject_id = ezcontentobject.id;
+create temporary table ezcontentobject_temp as select distinct ezcontentobject.* from ezcontentobject, ezcontentobject_tree  where ezcontentobject_tree.contentobject_id = ezcontentobject.id;
+update ezcontentobject_temp set status = 1;
 insert into ezcontentobject_temp  select ezcontentobject.* from ezcontentobject left join ezcontentobject_tree on ezcontentobject.id = ezcontentobject_tree.contentobject_id where ezcontentobject_tree.contentobject_id is null;
 delete from ezcontentobject;
 insert into ezcontentobject select * from ezcontentobject_temp;
