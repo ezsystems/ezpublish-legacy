@@ -110,6 +110,7 @@ class eZHTTPPersistence
     }
 
     /*!
+     \deprecated This function has some serious flaws and will be removed in a future release
      Goes trough all fields defined in \a $def and tries to find a post variable
      which is named \a $base_name, field name and "checked" with _ between items.
      If the post variable is an array the id of the current object is matched against
@@ -141,6 +142,7 @@ class eZHTTPPersistence
     }
 
     /*!
+     \deprecated This function has some serious flaws and will be removed in a future release
      \private
      Helper function for handleChecked().
     */

@@ -186,8 +186,7 @@ $canStore = true;
 $requireFixup = false;
 if ( $validationRequired )
 {
-    reset( $attributes );
-    while( ( $key = key( $attributes ) ) !== null )
+    foreach ( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
         $dataType =& $attribute->dataType();
@@ -203,12 +202,29 @@ if ( $validationRequired )
                                               "identifier" => $attribute->attribute( "identifier" ),
                                               "name" => $attributeName );
         }
-        next( $attributes );
     }
     $validation["processed"] = true;
     $validation["attributes"] = $unvalidatedAttributes;
-    eZHttpPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
-                                      $attributes, $http, true );
+    $requireVariable = 'ContentAttribute_is_required_checked';
+    $searchableVariable = 'ContentAttribute_is_searchable_checked';
+    $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
+    $requireCheckedArray = array();
+    $searchableCheckedArray = array();
+    $informationCollectorCheckedArray = array();
+    if ( $http->hasPostVariable( $requireVariable ) )
+        $requireCheckedArray = $http->postVariable( $requireVariable );
+    if ( $http->hasPostVariable( $searchableVariable ) )
+        $searchableCheckedArray = $http->postVariable( $searchableVariable );
+    if ( $http->hasPostVariable( $informationCollectorVariable ) )
+        $informationCollectorCheckedArray = $http->postVariable( $informationCollectorVariable );
+    foreach ( array_keys( $attributes ) as $key )
+    {
+        $attribute =& $attributes[$key];
+        $attributeID = $attribute->attribute( 'id' );
+        $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
+        $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
+        $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
+    }
 }
 
 // Fixup input
@@ -228,8 +244,6 @@ $cur_datatype = 0;
 // Apply HTTP POST variables
 eZHTTPPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
                           $attributes, $http, true );
-/*eZHTTPPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
-  $attributes, $http, true );*/
 eZHttpPersistence::fetch( "ContentClass", eZContentClass::definition(),
                           $class, $http, false );
 if ( $http->hasPostVariable( "DataTypeString" ) )
