@@ -41,7 +41,9 @@ Changes from 3.4.0beta1 to 3.4.0beta2
   all). (Merged from 3.3, rev. 6487)
   http://ez.no/community/bug_reports/digests_not_timestamping_correctly
   http://ez.no/community/bug_reports/digest_notification_doesn_t_work
-
+- Fixed a bug in a template with a missing default case. (Merged from 3.3, rev. 6491)
+  http://ez.no/community/bug_reports/no_default_case_in_datatypes_tpl
+  
 *Update:
 
 *Admin:
