@@ -178,6 +178,7 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     // invalidate node view cache
     include_once( 'kernel/classes/ezcontentcache.php' );
     eZContentCache::cleanup( array( $nodeID ) );
+    eZContentObject::expireTemplateBlockCacheIfNeeded();
 
     return $module->redirectToView( 'view', array( 'full', $nodeID,
                                                    $languageCode = $module->actionParameter( 'LanguageCode' ) ) );
@@ -1036,7 +1037,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
-
+    eZContentObject::expireTemplateBlockCacheIfNeeded();
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
     return;
 }
