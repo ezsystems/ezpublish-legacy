@@ -50,6 +50,9 @@ $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
+$Year = $Params['Year'];
+$Month = $Params['Month'];
+$Day = $Params['Day'];
 
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
@@ -104,10 +107,10 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
         if ( $Result )
         {
             $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ), // Object ID
-                                  array( 'node', $Result['content_info']['node_id'] ), // Node ID
-                                  array( 'parent_node', $Result['content_info']['parent_node_id'] ), // Parent Node ID
-                                  array( 'class', $Result['content_info']['class_id'] ), // Class ID
+            $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
+                                  array( 'node', $Result['content_info']['node_id'] ),
+                                  array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                  array( 'class', $Result['content_info']['class_id'] ),
                                   array( 'view_offset', $Result['content_info']['offset'] ),
                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
                                   array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
@@ -168,10 +171,10 @@ switch( $operationResult['status'] )
                     if ( $Result )
                     {
                         $res =& eZTemplateDesignResource::instance();
-                        $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ), // Object ID
-                                              array( 'node', $Result['content_info']['node_id'] ), // Node ID
-                                              array( 'parent_node', $Result['content_info']['parent_node_id'] ), // Parent Node ID
-                                              array( 'class', $Result['content_info']['class_id'] ), // Class ID
+                        $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
+                                              array( 'node', $Result['content_info']['node_id'] ),
+                                              array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                              array( 'class', $Result['content_info']['class_id'] ),
                                               array( 'view_offset', $Result['content_info']['offset'] ),
                                               array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                               array( 'viewmode', $Result['content_info']['viewmode'] ),
@@ -183,7 +186,10 @@ switch( $operationResult['status'] )
                 }
             }
 
-            $viewParameters = array( 'offset' => $Offset );
+            $viewParameters = array( 'offset' => $Offset,
+                                     'year' => $Year,
+                                     'month' => $Month,
+                                     'day' => $Day );
             $object = $operationResult[ 'object' ];
 
             if ( !get_class( $object ) == 'ezcontentobject' )

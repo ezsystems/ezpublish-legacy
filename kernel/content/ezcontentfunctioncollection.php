@@ -160,11 +160,10 @@ class eZContentFunctionCollection
         return array( 'result' => &$attribute );
     }
 
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $attribute_filter, $extended_attribute_filter,$class_filter_type, $class_filter_array )
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator,
+                               $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
+                               $groupBy, $asObject )
     {
-//        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" ); //commented by kk, saw no use for it
-//         print( "fetch list $parentNodeID $hash<br>" );
-
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
                                  'Limit' => $limit,
@@ -175,6 +174,16 @@ class eZContentFunctionCollection
                                  'ExtendedAttributeFilter' => $extended_attribute_filter,
                                  'ClassFilterType' => $class_filter_type,
                                  'ClassFilterArray' => $class_filter_array );
+        if ( is_array( $groupBy ) )
+        {
+            $groupByHash = array( 'field' => $groupBy[0],
+                                  'type' => false );
+            if ( isset( $groupBy[1] ) )
+                $groupByHash['type'] = $groupBy[1];
+            $treeParameters['GroupBy'] = $groupByHash;
+        }
+        if ( $asObject !== null )
+            $treeParameters['AsObject'] = $asObject;
         if ( $depth !== false )
         {
             $treeParameters['Depth'] = $depth;
@@ -186,8 +195,8 @@ class eZContentFunctionCollection
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
 
-        /// Fill objects with attributes, speed boost
-        eZContentObject::fillNodeListAttributes( $children );
+        if ( $asObject === null or $asObject )
+            eZContentObject::fillNodeListAttributes( $children );
 
         return array( 'result' => &$children );
     }

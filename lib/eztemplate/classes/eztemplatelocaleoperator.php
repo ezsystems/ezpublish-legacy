@@ -61,15 +61,17 @@ class eZTemplateLocaleOperator
      Initializes the object with the default locale.
      \note Add support for specifying the locale object.
     */
-    function eZTemplateLocaleOperator( $localeName = 'l10n', $dateTimeName = 'datetime',
-                                       $currentDateName = 'currentdate' )
+    function eZTemplateLocaleOperator( $localeName = 'l10n',
+                                       $dateTimeName = 'datetime',
+                                       $currentDateName = 'currentdate',
+                                       $makeTimeName = 'maketime' )
     {
         $this->Operators = array( $localeName, $dateTimeName,
-                                  $currentDateName );
+                                  $currentDateName, $makeTimeName );
         $this->LocaleName = $localeName;
         $this->DateTimeName = $dateTimeName;
         $this->CurrentDateName = $currentDateName;
-//         $this->Locale =& eZLocale::instance();
+        $this->MakeTimeName = $makeTimeName;
     }
 
     /*!
@@ -101,23 +103,53 @@ class eZTemplateLocaleOperator
                                                              'default' => false ),
                                            'data' => array( 'type' => 'mixed',
                                                             'required' => false,
-                                                            'default' => false ) ) );
+                                                            'default' => false ) ),
+                      'maketime' => array( 'hour' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'minute' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'second' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'month' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'day' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'year' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'dst' => array( 'type' => 'integer',
+                                                           'required' => false,
+                                                           'default' => false ) ) );
     }
 
-    /*!
-     Converts the variable according to the locale type.
-     Allowed types are:
-     - time
-     - shorttime
-     - date
-     - shortdate
-     - currency
-     - number
-    */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $locale =& eZLocale::instance();
-        if ( $operatorName == $this->CurrentDateName )
+        if ( $operatorName == $this->MakeTimeName )
+        {
+            $parameters = array();
+            if ( $namedParameters['hour'] !== false )
+                $parameters[] = $namedParameters['hour'];
+            if ( $namedParameters['minute'] !== false )
+                $parameters[] = $namedParameters['minute'];
+            if ( $namedParameters['second'] !== false )
+                $parameters[] = $namedParameters['second'];
+            if ( $namedParameters['month'] !== false )
+                $parameters[] = $namedParameters['month'];
+            if ( $namedParameters['day'] !== false )
+                $parameters[] = $namedParameters['day'];
+            if ( $namedParameters['year'] !== false )
+                $parameters[] = $namedParameters['year'];
+            if ( $namedParameters['dst'] !== false )
+                $parameters[] = $namedParameters['dst'];
+            $operatorValue = call_user_func_array( 'mktime', $parameters );
+        }
+        else if ( $operatorName == $this->CurrentDateName )
         {
             $operatorValue = eZDateTime::currentTimestamp();
         }

@@ -36,6 +36,16 @@ Changes from 3.2-3 to 3.3.0-1
 - Added last modified class list to class group list and class list.
 - Added support for not having confirmation on draft remove.
 - Fixed namespaces for some of the gui template functions.
+- New view parameters for content/view, the parameters are day, month and year and can be used by template code.
+  The new parameters are alos used with view caching.
+- New parameters for subtree listing of content object nodes, you can now specify a field to group by and
+  the type of grouping (by day, hour, minute, second and year). You can also specify whether the
+  nodes are returned as objects or not. The same parameters are also available with the fetch functions
+  content/list and content/tree.
+- New navigator called monthview, it will a full month with highlighted and hyperlinked entries, can be
+  used for calendars.
+- New template operator 'month_overview' which can take a list of items and create a month structure
+  which be sent to the monthview.tpl template.
 
 *DataType:
 
@@ -80,6 +90,7 @@ eZ template:
 - Added templates for new design of setup in admin
 - Added wash operator for pdf generation ( for escaping linebreaks, tabs and spaces in pdf definition ). Usage : |wash(pdf)
 - Added line/column information to the error messages from the template parser.
+- New template operator 'maketime' for creating timestamp from hour, minutes, seconds, month, day and year.
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.

@@ -430,12 +430,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'AttributeFilter' => false,
                              'ExtendedAttributeFilter' => false,
                              'ClassFilterType' => false,
-                             'ClassFilterArray' => false );
+                             'ClassFilterArray' => false,
+                             'GroupBy' => false );
         }
         $depth = false;
         $offset = false;
         $limit = false;
+        $asObject = true;
         $limitationList = array();
+        if ( isset( $params['AsObject'] ) )
+             $asObject = $params['AsObject'];
         if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
         {
             $depth = $params['Depth'];
@@ -921,6 +925,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
+        $groupBySelectText = false;
+        $groupByText = false;
+        if ( isset( $params['GroupBy'] ) )
+        {
+            $groupBy = $params['GroupBy'];
+            if ( isset( $groupBy['field'] ) and
+                 isset( $groupBy['type'] ) )
+            {
+                $groupByField = $groupBy['field'];
+                $groupByFieldType = $groupBy['type'];
+                switch ( $groupByField )
+                {
+                    case 'published':
+                    {
+                        $groupBySelect = eZContentObjectTreeNode::subTreeGroupByDateField( "ezcontentobject." . $groupByField, $groupByFieldType );
+                        $groupBySelect['field'] = "ezcontentobject." . $groupByField;
+                    } break;
+                    case 'modified':
+                    {
+                        $groupBySelect = eZContentObjectTreeNode::subTreeGroupByDateField( "ezcontentobject." . $groupByField, $groupByFieldType );
+                        $groupBySelect['field'] = "ezcontentobject." . $groupByField;
+                    } break;
+                }
+                $groupBySelectText = ", " . $groupBySelect['select'];
+                $groupByText = "GROUP BY " . $groupBySelect['group_field'];
+            }
+        }
+
         $useVersionName = true;
         if ( $useVersionName )
         {
@@ -982,6 +1014,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
+                           $groupBySelectText
                            $versionNameTargets
                     FROM
                           ezcontentobject_tree,
@@ -1003,6 +1036,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_is_published = 1
                           $versionNameJoins
                           $sqlPermissionCheckingString
+                    $groupByText
                     ORDER BY $sortingFields";
         }
         else
@@ -1010,6 +1044,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.name as class_name
+                             $groupBySelectText
                              $versionNameTargets
                       FROM
                             ezcontentobject_tree,
@@ -1030,7 +1065,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $classCondition
                             ezcontentobject_tree.contentobject_is_published = 1
                             $versionNameJoins
-                      ORDER BY $sortingFields";
+                     $groupByText
+                     ORDER BY $sortingFields";
         }
         if ( !$offset && !$limit )
         {
@@ -1039,11 +1075,57 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $nodeListArray =& $db->arrayQuery( $query, array( "offset" => $offset,
-                                                             "limit" => $limit ) );
+                                                              "limit" => $limit ) );
         }
-        $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        if ( $asObject )
+            $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        else
+            $retNodeList =& $nodeListArray;
 
         return $retNodeList;
+    }
+
+    function subTreeGroupByDateField( $field, $type )
+    {
+        $divisor = 0;
+        switch ( $type )
+        {
+            case 'year':
+            {
+                $divisor = 60*60*24*365;
+            } break;
+            case 'week':
+            {
+                $divisor = 60*60*24*7;
+            } break;
+            case 'day':
+            {
+                $divisor = 60*60*24;
+            } break;
+            case 'hour':
+            {
+                $divisor = 60*60;
+            } break;
+            case 'minute':
+            {
+                $divisor = 60;
+            } break;
+            case 'second':
+            {
+                $divisor = 0;
+            } break;
+            default:
+            {
+                eZDebug::writeError( "Unknown field type $type",
+                                     'eZContentObjectTreeNode::subTreeGroupByDateField' );
+            }
+        }
+        if ( $divisor > 0 )
+            $text = "( $field / $divisor ) AS groupbyfield";
+        else
+            $text = "$field AS groupbyfield";
+        return array( 'select' => $text,
+                      'group_field' => 'groupbyfield' );
     }
 
     function subTreeCount( $params = array() )

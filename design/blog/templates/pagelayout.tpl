@@ -64,17 +64,7 @@
 
     <div id="navigationbar">
         <div class="design">
-         <h2>Navigation bar</h2>
-         <p>
-          date navigation   
-          date navigation   
-          date navigation   
-          date navigation   
-          date navigation   
-          date navigation   
-          date navigation   
-          date navigation   
-         </p>    
+            {include uri="design:navigationbar.tpl"}
         </div>
     </div>
 

@@ -77,7 +77,10 @@ $ViewList['view'] = array(
     'script' => 'view.php',
     'params' => array( 'ViewMode', 'NodeID' ),
     'unordered_params' => array( 'language' => 'Language',
-                                 'offset' => 'Offset' )
+                                 'offset' => 'Offset',
+                                 'year' => 'Year',
+                                 'month' => 'Month',
+                                 'day' => 'Day' )
     );
 
 $ViewList['copy'] = array(
