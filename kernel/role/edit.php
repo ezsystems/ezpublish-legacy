@@ -129,63 +129,69 @@ if ( $http->hasPostVariable( "AddFunction" ) )
 
 if ( $http->hasPostVariable( "AddLimitation" ) )
 {
+    $policy = false;
+
     if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         $hasNodeLimitation = false;
         $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
-        $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
-        foreach ( $limitationList as $limitation )
+        if ( $policy )
         {
-            $limitationID = $limitation->attribute( 'id' );
-            $limitationIdentifier = $limitation->attribute( 'identifier' );
-            if ( $limitationIdentifier != "Node" and $limitationIdentifier != "Subtree" )
-                eZPolicyLimitation::remove( $limitationID );
-            if ( $limitationIdentifier == "Node" )
+            $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
+            foreach ( $limitationList as $limitation )
             {
-                $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
-                if ( $nodeLimitationValues != null )
-                    $hasNodeLimitation = true;
-                else
+                $limitationID = $limitation->attribute( 'id' );
+                $limitationIdentifier = $limitation->attribute( 'identifier' );
+                if ( $limitationIdentifier != "Node" and $limitationIdentifier != "Subtree" )
                     eZPolicyLimitation::remove( $limitationID );
-            }
-
-            if ( $limitationIdentifier == "Subtree" )
-            {
-                $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
-                if ( $nodeLimitationValues == null )
-                    eZPolicyLimitation::remove( $limitationID );
-            }
-        }
-
-        if ( !$hasNodeLimitation )
-        {
-            $currentModule = $http->postVariable( 'CurrentModule' );
-            $currentFunction = $http->postVariable( 'CurrentFunction' );
-
-            $mod = & eZModule::exists( $currentModule );
-            $functions =& $mod->attribute( 'available_functions' );
-            $currentFunctionLimitations = $functions[ $currentFunction ];
-            foreach ( $currentFunctionLimitations as $functionLimitation )
-            {
-                if ( $http->hasPostVariable( $functionLimitation['name'] ) and
-                     $functionLimitation['name'] != "Node" and
-                     $functionLimitation['name'] != "Subtree" )
+                if ( $limitationIdentifier == "Node" )
                 {
-                    $limitationValues = $http->postVariable( $functionLimitation['name'] );
+                    $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
+                    if ( $nodeLimitationValues != null )
+                        $hasNodeLimitation = true;
+                    else
+                        eZPolicyLimitation::remove( $limitationID );
+                }
 
-                    if ( !in_array('-1', $limitationValues ) )
+                if ( $limitationIdentifier == "Subtree" )
+                {
+                    $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
+                    if ( $nodeLimitationValues == null )
+                        eZPolicyLimitation::remove( $limitationID );
+                }
+            }
+
+            if ( !$hasNodeLimitation )
+            {
+                $currentModule = $http->postVariable( 'CurrentModule' );
+                $currentFunction = $http->postVariable( 'CurrentFunction' );
+
+                $mod = & eZModule::exists( $currentModule );
+                $functions =& $mod->attribute( 'available_functions' );
+                $currentFunctionLimitations = $functions[ $currentFunction ];
+                foreach ( $currentFunctionLimitations as $functionLimitation )
+                {
+                    if ( $http->hasPostVariable( $functionLimitation['name'] ) and
+                         $functionLimitation['name'] != "Node" and
+                         $functionLimitation['name'] != "Subtree" )
                     {
-                        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
-                        foreach ( $limitationValues as $limitationValue )
+                        $limitationValues = $http->postVariable( $functionLimitation['name'] );
+
+                        if ( !in_array( '-1', $limitationValues ) )
                         {
-                            eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
+                            $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
+                            foreach ( $limitationValues as $limitationValue )
+                            {
+                                eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
+                            }
                         }
                     }
                 }
             }
         }
     }
-    else
+
+    if ( !$policy )
     {
         $currentModule = $http->postVariable( 'CurrentModule' );
         $currentFunction = $http->postVariable( 'CurrentFunction' );
