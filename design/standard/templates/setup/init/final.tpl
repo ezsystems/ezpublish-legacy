@@ -1,11 +1,11 @@
 {*?template charset=latin1?*}
 
 <div align="center">
-  <h1>{"Finished!"|i18n("design/standard/setup/init")}</h1>
+  <h1>{"Finished"|i18n("design/standard/setup/init")}</h1>
 </div>
 
 <p>
-  {"eZ publish has been installed with the following site(s)"|i18n("design/standard/setup/init")}
+  {"eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site."|i18n("design/standard/setup/init")}
 </p>
 
 <p>
@@ -16,7 +16,7 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <a href="{$:item.url|wash}" target="_blank">{section show=$:item.image_file_name}<img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
+          <a href="{$:item.url|wash}" target="_other">{section show=$:item.image_file_name}<img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
@@ -49,7 +49,7 @@
         </div>
       </td>
 
-      {delimiter module=2}
+      {delimiter modulo=2}
         </tr>
         <tr>
       {/delimiter}

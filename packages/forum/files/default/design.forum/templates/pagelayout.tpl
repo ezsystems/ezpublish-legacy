@@ -5,6 +5,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/forum.css"|ezdesign} />
+
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
+
 </head>
 
 <body>
@@ -12,7 +15,7 @@
 <table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td>
-        <a href={"content/view/full/32/"|ezurl}><img src={"images/crossroads_logo.gif"|ezdesign} alt="Forum fora" border="0" /></a>
+        <a href={"/"|ezurl}><img src={"images/crossroads_logo.gif"|ezdesign} alt="Forum fora" border="0" /></a>
     </td>
 </tr>
 <tr>

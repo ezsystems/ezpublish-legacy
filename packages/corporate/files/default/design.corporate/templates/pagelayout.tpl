@@ -2,6 +2,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 <head>
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 {cache-block}
 <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
 <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
@@ -23,6 +24,7 @@ function OpenWindow ( URL, WinName, Features ) {
 // -->
 </script>
 {* Javascript END *}
+
 </head>
 
 <body>
@@ -32,7 +34,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
-        <a href={"content/view/full/2"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
+        <a href={"/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
     </td>
 </tr>
 <tr>

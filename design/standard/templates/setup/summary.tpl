@@ -10,11 +10,11 @@
       <div class="setup_summary_empty">
     {/section}
     
-    {"System check:"|i18n("design/standard/setup")}</div></td>
+    {"System:"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count( $system_check )}
-      <div class="setup_summary_ok">{"Ok"|i18n("design/standard/setup")}</div>
+      <div class="setup_summary_ok">{"OK"|i18n("design/standard/setup")}</div>
     {/section}
     </td>
   </tr>
@@ -27,7 +27,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Image settings:"|i18n("design/standard/setup")}</div></td>
+    {"Image system:"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count($image_processor)}
@@ -45,7 +45,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Outgoing mail:"|i18n("design/standard/setup")}</td>
+    {"Mail:"|i18n("design/standard/setup")}</td>
 
     <td>
     {section show=count($summary_email_info)}
@@ -79,7 +79,7 @@
       <div class="setup_summary_empty">
     {/section}
   
-    {"Language:"|i18n("design/standard/setup")}</div></td>
+    {"Language(s):"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count($languages)}

@@ -86,6 +86,7 @@ class eZHTTPFile
     */
     function store( $sub_dir = false, $suffix=false )
     {
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( !$this->IsTemporary )
         {
             eZDebug::writeError( "Cannot store non temporary file: " . $this->Filename,
@@ -105,7 +106,7 @@ class eZHTTPFile
         {
             $oldumask = umask( 0 );
             $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
-            if ( !mkdir( $dir, octdec( $perm ) ) )
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
                 umask( $oldumask );
                 return false;
@@ -118,7 +119,7 @@ class eZHTTPFile
         {
             $oldumask = umask( 0 );
             $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
-            if ( !mkdir( $dir, octdec( $perm ) ) )
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
                 umask( $oldumask );
                 return false;
@@ -126,6 +127,7 @@ class eZHTTPFile
             umask( $oldumask );
         }
 
+        $suffixString = false;
         if ( $suffix != false )
             $suffixString = ".$suffix";
 
@@ -137,7 +139,8 @@ class eZHTTPFile
         eZDebug::writeDebug( $this->Filename . " " . $dest_name . $suffixString );
         if ( !move_uploaded_file( $this->Filename, $dest_name . $suffixString ) )
         {
-            unlink( $dest_name );
+            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name$suffixString" );
+            unlink( $dest_name . $suffixString );
             $ret = false;
         }
         else

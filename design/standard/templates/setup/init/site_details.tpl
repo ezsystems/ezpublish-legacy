@@ -74,13 +74,13 @@
 	    <tr>
               {switch match=$:item.access_type}
               {case match='url'}
-                <td>{"URL for access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User path"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case match='port'}
-                <td>{"Port for access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User port"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case match='hostname'}
-                <td>{"Hostname for access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User hostname"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case/}
               {/switch}
@@ -89,13 +89,13 @@
 	    <tr>
               {switch match=$:item.access_type}
               {case match='url'}
-                <td>{"URL for admin access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin path"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case match='port'}
-                <td>{"Port for admin access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin port"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case match='hostname'}
-                <td>{"Hostname for admin access"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin hostname"|i18n("design/standard/setup/init")}: </td>
               {/case}
               {case/}
               {/switch}

@@ -29,6 +29,7 @@ function OpenWindow ( URL, WinName, Features ) {
 
 {* Javascript END *}
 
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 </head>
 
 <body>

@@ -2,15 +2,16 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
+<head>
+{include uri="design:page_head.tpl"}
+
 {cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id)}
 {* Cache header for each navigation part *}
 
-<head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
-{include uri="design:page_head.tpl"}
 
 </head>
 

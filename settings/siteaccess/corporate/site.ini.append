@@ -8,9 +8,9 @@
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
+IndexPage=/content/view/full/47
 ErrorHandler=displayerror
-LoginPage=custom
-
+LoginPage=embedded
 
 [SiteAccessSettings]
 RequireUserLogin=false
