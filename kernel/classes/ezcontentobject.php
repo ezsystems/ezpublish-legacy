@@ -2021,7 +2021,6 @@ class eZContentObject extends eZPersistentObject
                     if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
                     {
                         $limitationMatch = true;
-                        $canCreateSubtreeIDListPart =& $limitation->attribute( 'values_as_array' );
                     }
                 }
                 if ( ! $limitationMatch )
