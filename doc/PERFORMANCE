@@ -1,8 +1,0 @@
-Perfomance problems:
-
-Nice Urls
----------------------
-When we change tha name of toplevel object, we need to recalculate CRC32
-path for each child object. It can bee a perfomance impact for large sites
-whan we change the name of "very toplevel" folder. So it can be timeouts
-on server as well.

@@ -1,31 +1,185 @@
-Tasks which needs to be done before 3.0 release:
+A list of issues:
+-----------------
 
-* means the todo has been fixed
 
--------
-General
--------
-Design
-------- 
-We need to make a professional design for the standard admin and
-user site. 
+FEATURES
+--------
 
-Demo data
+- Implement copy functionality object/class ( JB )
+
+- Oracle support.
+
+module.php:
+- Better names for ViewList keys, params should parameters etc..
+Actions:
+
+Actions:
+- Make sure all views is moved away from postvariable checking and instead
+  uses the action system and action parameters.
+Template variables:
+- Read only views should only pass as little as template variables as possible
+  ie. just id's from input paramaters, it should be up to the template to fetch
+  the actual objects and lists using the /fetch/ operator.
+- Better names for template variables, for instance variables named attributes
+  should be changed into attribute_list.
+Path:
+- Make sure all views has at least a simple path element.
+- Figure out a way to allow templates to override path and other variables
+  returned by a view. That way templates has even more control over the
+  design.
+Loops:
+- Change all code that loops using:
+reset( $list );
+while ( ( $key = key( $list ) ) !== null )
+{
+  $item =& $list[$key];
+  next( $list );
+}
+
+into
+
+foreach ( array_keys( $list ) as $key )
+{
+  $item =& $list[$key];
+}
+
+Module:
+- Do some changes the eZModule class, it should be created a eZModuleView class
+  which will replace the $Module object in the views.
+- Cleanup eZModule, there's some old code and variable names left there.
+- Figure out if we need to move the class out of lib, or if we can move some of
+  the specific code out of it.
+Redirects:
+- Change all redirect code to use redirectToView instead of redirectTo which
+  requires the url to be created by the client, redirectToView takes care of this
+  automatically.
+Errors:
+- Make sure input data is validated before using it, if they are invalid issue
+  an error with handleError.
+Functions:
+- Implement more module functions, currently content is the only module which
+  has defined any.
+DataTypes:
+- Create a system (perhaps in the eZDatatype class) which allows datatypes to
+  fetch post variables without knowing that they are post variables.
+Validators:
+- The validator classes should not use regexs since they will not work properly
+  with some charsets.
+
+Features:
+user/register:
+Some sites might now want to allow user specified login id's, so it should be configurable
+in site.ini if the "Login ID" is shown. Login ID could be made from name, email or generated
+by site. The same goes for passwords, some sites don't want user specified passwords
+(because they are often insecure).
+
+User ID hash should not be made of only login and user id, the current time value should be
+added and the hash should be stored in the db for later checking in user/activate.
+Also register hashes should have a timeout value to clean up users which were never activated.
+
+user/success should not be used, instead the register page should display a different template
+displaying the content of the user/success. The page should give more information on what
+to do with the email.
+
+eZMail:
+Also i18n system should be expanded to allow quoted-printable which is often used in mails.
+(it's an encoding scheme not a charset).
+
+
+Classes:
+Add a checkbox to each attribute which tells whether the attribute is considered a content
+attribute or a metadata attribute. Metadata attributes are not translated and are generally
+not shown in views but instead used to control objects, like "have comments".
+
+Add a mass add text field which one can enter datatypes one line after another and click
+add to get them all, this makes it easier to setup classes. To make this work the combobox
+must default to a None entry. It might even be possible to have options for datatypes.
+
+Policy:
+Make policy checking more centralized instead of copying code all the time.
+
+Versionview:
+- what to do for non-existing nodes?
+
+Versions:
+- A link should only be shown for versions which are viewable by the user.
+- Store previous version in new versions, that way it's possible to see the
+  progress of version and show branches. A previous version of 0 is considered
+  a starting version.
+
+Browsers:
+- Create a framework for checking browser type, version and OS and make it
+  accessible from templates.
+- Create template operators/functions which will input HTML data according to
+  browser data. For instance
+  checked="checked" vs checked.
+  multiple="multiple" vs multiple
+  selected="selected" vs selected
+
+
+DEBUG
 ---------
-A good demo data package must be created to demonstrate: Article publishing,
-shopping, forum and image gallery.
+Does not work with IP settings anymore.
 
-UI
---
-We need to work alot with the user interface. Placement, menues etc..
+http image post variables
+-------------------------
+We handle image post variables and buttons in the same way so that one can change the 
+buttons to nice images.
 
-Installers
-----------
-There should be made ready installers for:
- - linux
- - freebsd
- - windows
- - osx
+DateTime
+--------
+The return hour is always (input-1). It works properly right now by using simple justment in input value, need to 
+find out what is the real reason. 
+See http://www.php.net/manual/en/function.mktime.php, we might need a site.ini setting for this to work properly?
+
+Search
+------
+Too many database calls when indexing objects. Need to find the unique words
+in PHP so that we will only index unique words.
+
+�? caracters do not work properly, we must also test russian and chinese.
+Probably the same error there.
+
+Note: non-ASCII character support must be done with the i18n system.
+
+Translate
+---------
+Complex data types, e.g. image, does not work when translating.
+Translated objects are not indexed in search.
+
+Tasks
+------------------------------------------
+Error: error executing query: SELECT contentclass_id, contentclass_version, group_id, group_name
+FROM   ezcontentclass_classgroup
+WHERE  group_id IN ( '7' )  AND contentclass_version='0'
+GROUP BY contentclass_id
+ORDER BY contentclass_id ASC ERROR:  Attribute ezcontentclass_classgroup.contentclass_version must be GROUPed or used in an aggregate function
+    on postgressql
+
+Deprecated function in PHP 4.1.0
+---------------------------------------------
+call_user_method_array()
+
+Perfomance problems:
+
+Nice Urls
+---------------------
+When we change tha name of toplevel object, we need to recalculate CRC32
+path for each child object. It can bee a perfomance impact for large sites
+whan we change the name of "very toplevel" folder. So it can be timeouts
+on server as well.
+
+Bug:
+Delete multiple node assignment gets this error:
+string(3) "179" 
+Fatal error: Call to a member function on a non-object in /home/bf/projects/php/nextgen/kernel/classes/ezcontentobjecttreenode.php on line 749
+
+        if ( $nodeID == 0 )
+        {
+            $node =& $this;
+that line ->            $nodeID = $node->attribute( 'node_id' );
+        }
+
 
 Create a policy for releases, it will explain how to do a release ie test
 procedure, packaging, PR etc.. Define how each release should explain what has
@@ -44,8 +198,6 @@ content object hook entry would be run and it could updates to the affected
 objects. This is extremely useful for third-party modules which might need
 notification on changes.
 
-Implement the execution stack in more places, see eZExecutionStack in
-lib/ezutils/classes and workflow/list workfloe/edit for it's use.
 
 Rename current eZPersistentObject class to eZPersistentSQLObject and make a new
 eZPersistentObject which uses the SQL one. Then create new persistent class for
@@ -87,13 +239,6 @@ with 3.0 release functionality. Write a good documentation on how to implement
 forums(simple and advanced). Documents for how to deal with bugs, supports and
 project management might also be need, probably others as well.
 
-
-Workflows
---------
-- Workflows / triggers
-  We need to finish the workflow and trigger system which will handle content 
-approval, shop payment etc..
-
 Tasks
 ------
 - Task / message system
@@ -125,14 +270,6 @@ the table would have n columns, one for each sort type (excluding
 asc/desc). All columns uses simple integers for sorting, that way it's possible
 to cache advanced sorting algorithms (Unicode sorting or multiple column sorting).
 
- - Solve object name, there should exist one per version/language instead of just
- one per object.
-
-Translate
-  - Add permission
-  - Add  select lang and default lang ( based on section, or manually - needs 
-   discussion )
-  - User personslized settings for language
 
 Version
   - Support for named versions, and comment on each version ( will work as a log )
@@ -154,12 +291,6 @@ Copy support
    - Copy attribute
  - Copy content object subtree.
 
-- Change sitemap into a view mode.
-
-- Implement the "prepare" (maybe a new name?) for most views, now it's only used
-in class/list. Maybe it's better to allow templates run various listings
-directly and then process that data.
-
 Newsletter
 ----------
   We need to possiblity for users to subscribe to new published objects ( can 
@@ -177,7 +308,6 @@ User management
   discuss.
  - Defining default pages per user, group and/or role. For instance partners would
  get a special page while anon users gets another.  Sugg. impl: add setting on main user group.
-
 
 Shop:
 -----
@@ -199,31 +329,6 @@ idea is to do some refactoring here as well(internal).
 Make a .ini file(or similar) for configuring the image system, mime-types and
 which conversions types to use.
 Solve the mime-type system which is also used by the filehandling.
-
-  
-Template
---------
-Template enginge refactoring, change some of the internals of the template
-engine before optimization and cache is done. Some of the missing features
-are(which require some refactoring) operator return value dereferencing and
-attribute functions which can take parameters(would solve the "prepare" issue
-above).
-See if the names "functions" and "operators" should have new names.
-
-  - Add compling / speed enhancements
-  - Add caching ( included functions and views )
-  - Add object list with different parameter: Section, Class, Node, Time,    
- Random
-
-
-Content action ( needs a meeting for discussion )
--------------------------------------------------
-  - Add send as e-mail "form" functionality ( feedback )
-  - Add store form to db ( feedback with archive and statistics functions
-   later )
-  - Add poll/quiz functionality
-Datatypes:
-  - Add media datatypes like flash, mpeg, mp3, avi, asf, mov...
 
 General
 ___________
@@ -276,12 +381,6 @@ upgrades will also be handled by this.
      - MBString
      ....Enything else we can use?
 
-site.ini
---------
-
-Move items which can be automically created to a separate ini file.
-Such as main node ids.
-
 images
 ------
 
@@ -319,11 +418,6 @@ all links stored without this reference to correct.
 Locale
 -------
 Add documents explaining how to write locale files and how to use them.
-
-Caching
-_______
-Create a class for creating PHP cache files, should be use by eZINI and other classes
-which creates cache files.
 
 ----------
 Make sure all views uses the action system instead of post variables directly.
