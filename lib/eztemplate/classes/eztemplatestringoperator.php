@@ -326,6 +326,7 @@ class eZTemplateStringOperator
             {
                 $operatorValue = htmlspecialchars( $operatorValue );
             } break;
+
             case "email":
             {
                 $ini =& $tpl->ini();
@@ -337,6 +338,7 @@ class eZTemplateStringOperator
                                                      $atText ),
                                               $operatorValue );
             } break;
+
             case 'pdf':
             {
                 $operatorValue = str_replace( array( ' ', // use default callback functions in ezpdf library
@@ -347,12 +349,13 @@ class eZTemplateStringOperator
                                                      '<C:callTab>' ),
                                               $operatorValue );
                 $operatorValue = str_replace( "\n", '<C:callNewLine>', $operatorValue );
-            }
+            } break;
+
             case 'javascript':
             {
                 $operatorValue = str_replace( array( "\\", "\"", "'"),
                                               array( "\\\\", "\\042", "\\047" ) , $operatorValue );
-            }
+            } break;
         }
         return $operatorValue;
     }
@@ -394,7 +397,7 @@ class eZTemplateStringOperator
             {
                 $type = $staticValues[1];
             }
-            $code = "%output% = '" . addcslashes( $this->wash( $staticValues[0], $tpl, $type ), "'" ) . "' ;\n";
+            $code = "%output% = '" . addcslashes( $this->wash( $staticValues[0], $tpl, $type ), "'\\" ) . "' ;\n";
         }
         /* XHTML: Type is static, input is not */
         else if ( ( $paramCount == 1 ) || ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'xhtml' ) ) )
@@ -424,7 +427,7 @@ class eZTemplateStringOperator
         else if ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'javascript' ) )
         {
             $values[] = $parameters[0];
-            $code = '%output% = str_replace( array( "\\\\", "\"", "\'"),
+            $code = '%output% = str_replace( array( "\\\\", "\"", "\'" ),
                                              array( "\\\\\\\\", "\\\\042", "\\\\047" ) , %1% ); ';
 
 

@@ -853,13 +853,13 @@ class eZTemplateLogicOperator
             } break;
             case $this->NotName:
             {
-                if ( $value !== null or $value === null)
+                if ( $value === null and isset( $operatorParameters[0] ) )
                 {
-                    $operand = $value;
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 }
                 else
                 {
-                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $operand = $value;
                 }
                 if ( is_array( $operand ) )
                     $operand = ( count( $operand ) == 0 );

@@ -47,6 +47,12 @@ ne( 1, $value )='{ne( 1, $value )}'
 
 not( 1 )='{not( 1 )}'
 not( $value )='{not( $value )}'
+{let bool=true() bool2=false()}{* bool3 is set by logical.php *}
+$bool|not|choose( 'false', 'true' )='{$bool|not|choose( 'false', 'true' )}'
+$bool2|not|choose( 'false', 'true' )='{$bool2|not|choose( 'false', 'true' )}'
+$bool3|not|choose( 'false', 'true' )='{$bool3|not|choose( 'false', 'true' )}'
+{/let}
+
 45|not()='{45|not()}'
 $value|not()='{$value|not()}'
 $value|not|not='{$value|not|not}'
