@@ -37,6 +37,9 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug with unchecked nodeID
   http://ez.no/community/bug_reports/node_not_set_and_fatal_error
   (Manually merged from trunk/3.5, rev. 10218)
+- Fixed bug with indexing of attributes and translations
+  http://ez.no/community/bug_reports/search_doubled_indexed_words_in_ezsearch_object_word_link
+  (Manually merged from trunk/3.5, rev. 10229)
 
 *Library:
 

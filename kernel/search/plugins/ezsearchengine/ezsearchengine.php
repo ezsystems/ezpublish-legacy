@@ -75,20 +75,14 @@ class eZSearchEngine
         $wordCount = 0;
         $placement = 0;
         $previousWord = '';
+        $metaData = array();
+
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
 
             $classAttribute =& $attribute->contentClassAttribute();
-
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
-                $metaData =& $attribute->metaData( );
-                if( ! is_array( $metaData ) )
-                {
-                    $metaData = array( array( 'id' => '',
-                                              'text' => $metaData ) );
-                }
-
                 // Fetch attribute translations
                 $attributeTranslations = $attribute->fetchAttributeTranslations();
 
@@ -98,7 +92,7 @@ class eZSearchEngine
                     if( ! is_array( $tmpMetaData ) )
                     {
                         $tmpMetaData = array( array( 'id' => '',
-                                                  'text' => $tmpMetaData ) );
+                                                     'text' => $tmpMetaData ) );
                     }
                     $metaData = array_merge( $metaData, $tmpMetaData );
                 }
