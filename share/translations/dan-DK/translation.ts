@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link</translation>
     </message>
 </context>
 <context>
@@ -574,11 +574,11 @@
     </message>
     <message>
         <source>Last modified by %username on %time</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidst ændret af %username kl. %time</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation type="unfinished"></translation>
+        <translation>Ændret af %username kl. %time</translation>
     </message>
 </context>
 <context>
@@ -731,7 +731,7 @@
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Opsummering</translation>
+        <translation>Opsummering</translation>
     </message>
 </context>
 <context>
@@ -963,15 +963,15 @@ Hvis du ønsker at sende kommentarer til godkenderen eller se status, venligst b
     </message>
     <message>
         <source>URL translator</source>
-        <translation type="unfinished">URL oversætter</translation>
+        <translation>URL oversætter</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Gem</translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Tilføj</translation>
+        <translation>Tilføj</translation>
     </message>
 </context>
 <context>
@@ -1284,7 +1284,7 @@ Hvis du ønsker at sende kommentarer til godkenderen eller se status, venligst b
     </message>
     <message>
         <source>MIME-Type</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME-Type</translation>
     </message>
 </context>
 <context>
@@ -1587,23 +1587,23 @@ Hvis du ønsker at sende kommentarer til godkenderen eller se status, venligst b
     </message>
     <message>
         <source>Search tips</source>
-        <translation type="unfinished"></translation>
+        <translation>Søgetips</translation>
     </message>
     <message>
         <source>Check spelling of keywords.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroller venligst at nøgleord er stavet korrekt.</translation>
     </message>
     <message>
         <source>Try changing some keywords eg. car instead of cars.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prøv at præcisere din søgning f. eks. bil istedet for biler.</translation>
     </message>
     <message>
         <source>Try more general keywords.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prøv at indtaste generelle nøgleord.</translation>
     </message>
     <message>
         <source>Fewer keywords gives more results, try reducing keywords until you get a result.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et mindre antal nøgleord giver flere resultater. Prøv at reducere antallet af nøgleord for at få et resultat.</translation>
     </message>
 </context>
 <context>
@@ -1784,11 +1784,11 @@ Hvis du ønsker at sende kommentarer til godkenderen eller se status, venligst b
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Vælg alle</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Fravælg alle</translation>
     </message>
 </context>
 <context>
@@ -2115,11 +2115,11 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Vælg alle</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Fravælg alle</translation>
     </message>
 </context>
 <context>
@@ -2262,38 +2262,38 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>The requested module %module could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det forespurgte modul %module kunne ikke findes.</translation>
     </message>
     <message>
         <source>The requested view %view could not be found in module %module</source>
-        <translation type="unfinished"></translation>
+        <translation>Det forespurgte view %view kunne ikke findes i modulet %module</translation>
     </message>
     <message>
         <source>The view does not exist for the module %module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visningen eksisterer ikke for modulet %module.</translation>
     </message>
     <message>
         <source>The view %module/%view is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visningen %module/%view er slået fra og kan ikke tilgås.</translation>
     </message>
     <message>
         <source>The module %module is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulet %module er slået fra og kan ikke tilgås.</translation>
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du bliver automatisk omdirrigeret til en ny side. Alternativt klik på følgende link %url.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/form</name>
     <message>
         <source>Thank you for your feedback</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak for din henvendelse</translation>
     </message>
     <message>
         <source>Your information was successfully received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dine informationer er modtaget.</translation>
     </message>
 </context>
 <context>
@@ -2319,11 +2319,11 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation type="unfinished">Side:</translation>
+        <translation>Side:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished">Version:</translation>
+        <translation>Version:</translation>
     </message>
     <message>
         <source>Login</source>
@@ -2391,19 +2391,19 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>%sitetitle front page</source>
-        <translation type="unfinished"></translation>
+        <translation>%sitetitle forside</translation>
     </message>
     <message>
         <source>Search %sitetitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Søg %sitetitle</translation>
     </message>
     <message>
         <source>eZ publish redirection - %url</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish omdirrigering - %url</translation>
     </message>
     <message>
         <source>Redirecting to %url</source>
-        <translation type="unfinished"></translation>
+        <translation>Omdirrigerer til %url</translation>
     </message>
 </context>
 <context>
@@ -2461,15 +2461,15 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjernelse af tildelingen vil også fjerne %1 børn.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerner knudetildeling af %1</translation>
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjernelse af %1 vil fjerne knuden selv og dens %2 børn. %3</translation>
     </message>
 </context>
 <context>
@@ -2548,19 +2548,19 @@ Klik på objektnavne for at ændre listen over punkter.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">Preview</translation>
+        <translation>Preview</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Vælg alle</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Fravælg alle</translation>
     </message>
     <message>
         <source>Click to create a custom template</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik for at oprette en tilpasset skabelon</translation>
     </message>
 </context>
 <context>
@@ -2648,35 +2648,35 @@ Emnet kan vises ved at følge nedenstående URL.</translation>
     </message>
     <message>
         <source>Notification admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificeringsadministrator</translation>
     </message>
     <message>
         <source>Notification filter proccessed all available notification events</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificeringsfilter afviklede alle tilgængelige notificeringshændelser</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsbetinget hændelse er udløst</translation>
     </message>
     <message>
         <source>Run notification filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Kør notificeringsfilter</translation>
     </message>
     <message>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Kør</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation type="unfinished"></translation>
+        <translation>Udløs tidsbetinget hændelse</translation>
     </message>
     <message>
         <source>Spawn</source>
-        <translation type="unfinished"></translation>
+        <translation>Udløs</translation>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation type="unfinished">Beskedindstillinger</translation>
+        <translation>Beskedindstillinger</translation>
     </message>
 </context>
 <context>
@@ -2733,73 +2733,75 @@ Emnet kan vises ved at følge nedenstående URL.</translation>
     <name>design/standard/reference/ez</name>
     <message>
         <source>No generated documentation found</source>
-        <translation type="unfinished"></translation>
+        <translation>Der blev ikke fundet noget genereret dokumentation</translation>
     </message>
     <message>
         <source>To create the reference documentation you must do the following step</source>
-        <translation type="unfinished"></translation>
+        <translation>For at oprette referencedokumentationen bedes du gøre følgende</translation>
     </message>
     <message>
         <source>Download and install doxygen</source>
-        <translation type="unfinished"></translation>
+        <translation>Download og installer doxygen</translation>
     </message>
     <message>
         <source>Generate the documentation by running the following command</source>
-        <translation type="unfinished"></translation>
+        <translation>Generer dokumentationen ved at køre følgende kommando</translation>
     </message>
     <message>
         <source>Download doxygen from %doxygenurl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Download doxygen fra %doxygenurl.</translation>
     </message>
     <message>
         <source>Main</source>
-        <translation type="unfinished">Hoved</translation>
+        <translation>Hoved</translation>
     </message>
     <message>
         <source>Modules</source>
-        <translation type="unfinished"></translation>
+        <translation>Moduler</translation>
     </message>
     <message>
         <source>Class hierarchy</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassehierarki</translation>
     </message>
     <message>
         <source>Compound list</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementliste</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation type="unfinished"></translation>
+        <translation>Filliste</translation>
     </message>
     <message>
         <source>Compound members</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementmedlemmer</translation>
     </message>
     <message>
         <source>File members</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmedlemmer</translation>
     </message>
     <message>
         <source>Related pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Relaterede sider</translation>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduktion</translation>
     </message>
     <message>
         <source>The Reference Documentation for eZ publish consists of multiple sections which
 each have a different view on the documentation. The sections can be accessed at
 menu on the top.</source>
-        <translation type="unfinished"></translation>
+        <translation>Referencedokumentationen for eZ publish er sammensat af flere sektioner
+som hver især giver en forskellig vinkel til dokumentationen. Sektionerne kan tilgås gennem
+topmenuen.</translation>
     </message>
     <message>
         <source>The documentation will give an overview of the API of eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentationen giver et overblik over API&apos;et i eZ publish.</translation>
     </message>
     <message>
         <source>All reference documentation has been made with %doxygenurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt referencedokumentation er lavet med %doxygenurl</translation>
     </message>
 </context>
 <context>
@@ -2998,31 +3000,31 @@ menu on the top.</source>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Find</translation>
+        <translation>Find</translation>
     </message>
     <message>
         <source>Remove selected policies</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte politikker</translation>
     </message>
     <message>
         <source>Edit role</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger rolle</translation>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation type="unfinished"></translation>
+        <translation>Tildel rolle til bruger eller gruppe</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte roller</translation>
     </message>
     <message>
         <source>Edit current role</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger aktuel rolle</translation>
     </message>
     <message>
         <source>Remove selected assignments</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte tildelinger</translation>
     </message>
 </context>
 <context>
@@ -3049,7 +3051,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Reset statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Nulstil statistikker</translation>
     </message>
 </context>
 <context>
@@ -3176,11 +3178,11 @@ Klik på placeringsnavne for at ændre visningen.</translation>
     </message>
     <message>
         <source>Assign section - %section</source>
-        <translation type="unfinished"></translation>
+        <translation>Tildel sektion - %section</translation>
     </message>
     <message>
         <source>Remove selected sections</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte sektioner</translation>
     </message>
 </context>
 <context>
@@ -3728,7 +3730,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>System check</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Ok</source>
@@ -3736,15 +3738,15 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Mail server</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Sitedesign</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Start</source>
@@ -3852,6 +3854,30 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Image processing</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>System check:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sitedesign:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3885,7 +3911,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Introduktion</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
@@ -4256,7 +4282,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Multiselect</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your&apos;re done click the</source>
@@ -4578,7 +4604,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Mail system</source>
@@ -4586,7 +4612,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Finished!</source>
@@ -4884,7 +4910,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Choose one or more site templates for your site</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
@@ -4961,7 +4987,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Back</source>
@@ -4991,23 +5017,23 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>recommended</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
@@ -5026,6 +5052,34 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <comment>manual installation link</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Plain if you would like to start from scratch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next &amp;gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press &lt;i&gt;Next &amp;gt;&lt;/i&gt; to continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -5035,19 +5089,19 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Constructor, does nothing by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konstruktør - gør ikke noget som standard.</translation>
     </message>
     <message>
         <source>\return an array with the template operator name.</source>
-        <translation type="unfinished"></translation>
+        <translation>\return et array med skabelon operator navn.</translation>
     </message>
     <message>
         <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Udfører PHP-funktionen for operatoroprydning og ændrer \a $operatorValue.</translation>
     </message>
     <message>
         <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksempelkode. Koden skal ændres til at udføre operatorens job. Den trimmer kun tekst på nuværende tidspunkt.</translation>
     </message>
 </context>
 <context>
@@ -5618,71 +5672,71 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>First name</source>
-        <translation type="unfinished"></translation>
+        <translation>Fornavn</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation type="unfinished"></translation>
+        <translation>Efternavn</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">E-mail</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <source>Payment was cancelled for an unknown reason. Please try to buy again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Betaling er afbrudt af ukendte årsager. Prøv venligst at købe igen.</translation>
     </message>
     <message>
         <source>Order summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordreoversigt</translation>
     </message>
     <message>
         <source>Sort Result by</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorter resultat efter</translation>
     </message>
     <message>
         <source>Order Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordretidspunkt</translation>
     </message>
     <message>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Brugernavn</translation>
     </message>
     <message>
         <source>Order ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre ID</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiltagende</translation>
     </message>
     <message>
         <source>Sort ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorter tiltagende</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Aftagende</translation>
     </message>
     <message>
         <source>Sort descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorter aftagende</translation>
     </message>
     <message>
         <source>Order %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre %1</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din konto er nu aktiveret.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beklager. Den benyttede nøgle er ikke gyldig. Kontoen er ikke aktiveret.</translation>
     </message>
 </context>
 <context>
@@ -5752,15 +5806,15 @@ Klik på produktnavne for at ændre visning.</translation>
     </message>
     <message>
         <source>Module name</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulnavn</translation>
     </message>
     <message>
         <source>Function name</source>
-        <translation type="unfinished"></translation>
+        <translation>Funktionsnavn</translation>
     </message>
     <message>
         <source>Connect type</source>
-        <translation type="unfinished"></translation>
+        <translation>Indholdstype</translation>
     </message>
 </context>
 <context>
@@ -5811,67 +5865,67 @@ Klik på produktnavne for at ændre visning.</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Gem</translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Afbryd</translation>
+        <translation>Afbryd</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrer</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigér</translation>
+        <translation>Redigér</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>Last checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidst kontrolleret</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Ændret</translation>
+        <translation>Ændret</translation>
     </message>
     <message>
         <source>Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyt vindue</translation>
     </message>
     <message>
         <source>Never</source>
-        <translation type="unfinished"></translation>
+        <translation>Aldrig</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukendt</translation>
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle URL&apos;er</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ugyldige URL&apos;er</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Gyldige URL&apos;er</translation>
     </message>
     <message>
         <source>Information on URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Information om URL</translation>
     </message>
     <message>
         <source>Objects which use this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekter som benytter dette link</translation>
     </message>
     <message>
         <source>No object available</source>
-        <translation type="unfinished"></translation>
+        <translation>Intet objekt tilgængeligt</translation>
     </message>
 </context>
 <context>
@@ -6043,33 +6097,34 @@ Klik på produktnavne for at ændre visning.</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger profil</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation type="unfinished">Skift adgangskode</translation>
+        <translation>Skift adgangskode</translation>
     </message>
     <message>
         <source>Change setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift indstilling</translation>
     </message>
     <message>
         <source>Old password</source>
-        <translation type="unfinished"></translation>
+        <translation>Gammelt kodeord</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyt kodeord</translation>
     </message>
     <message>
         <source>Retype password</source>
-        <translation type="unfinished"></translation>
+        <translation>Gentag kodeord</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din konto er nu oprettet. Der bliver sendt en e-mail til den angivne e-mailadresse.
+For at aktivere din konto bedes du følge instruktionerne i denne e-mail.</translation>
     </message>
 </context>
 <context>
@@ -6128,23 +6183,23 @@ your account.</source>
     </message>
     <message>
         <source>Password was successfully generated and sent to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyt kodeord er genereret og sendt til: %1</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>%siteurl new password</source>
-        <translation type="unfinished"></translation>
+        <translation>%siterurl nyt kodeord</translation>
     </message>
     <message>
         <source>Click here to get new password</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik her for at modtage et nyt kodeord</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyt kodeord</translation>
     </message>
 </context>
 <context>
@@ -6171,60 +6226,60 @@ your account.</source>
     </message>
     <message>
         <source>Confirm user registration at %siteurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekræft brugerregistrering på %siteurl</translation>
     </message>
     <message>
         <source>Your user account at %siteurl has been created</source>
-        <translation type="unfinished"></translation>
+        <translation>Din konto på %siteurl er oprettet</translation>
     </message>
     <message>
         <source>Account information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontoinformation</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Log ind</translation>
+        <translation>Log ind</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">E-mail</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Click the following URL to confirm your account</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik på følgende link for at bekræfte din konto</translation>
     </message>
     <message>
         <source>New user registered at %siteurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny bruger registreret på %siteurl</translation>
     </message>
     <message>
         <source>A new user has registered.</source>
-        <translation type="unfinished"></translation>
+        <translation>En ny bruger er registreret.</translation>
     </message>
     <message>
         <source>Account information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontoinformation.</translation>
     </message>
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation type="unfinished">Log ind</translation>
+        <translation>Log ind</translation>
     </message>
     <message>
         <source>Link to user information</source>
-        <translation type="unfinished"></translation>
+        <translation>Link til brugerinformation</translation>
     </message>
     <message>
         <source>Thank you for registering at %siteurl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak for din registrering på %siteurl.</translation>
     </message>
     <message>
         <source>Your account information</source>
-        <translation type="unfinished">Din kontoinformation</translation>
+        <translation>Din kontoinformation</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Kodeord</translation>
+        <translation>Kodeord</translation>
     </message>
 </context>
 <context>
@@ -6424,58 +6479,58 @@ your account.</source>
     </message>
     <message>
         <source>Add group</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilføj gruppe</translation>
     </message>
     <message>
         <source>Editing workflow group - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer arbejdsgangsgruppe - %1</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation type="unfinished"></translation>
+        <translation>Ændret af %username den %time</translation>
     </message>
     <message>
         <source>Edit workflow</source>
-        <translation type="unfinished">Redigér arbejdsgang</translation>
+        <translation>Redigér arbejdsgang</translation>
     </message>
     <message>
         <source>Remove selected workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte arbejdsgange</translation>
     </message>
     <message>
         <source>Workflow process was created at %creation and modified at %modification.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbejdsgangsproces blev oprettet %creation og ændret %modification.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Til kassen</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Næste</translation>
+        <translation>Næste</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished">Indpakning</translation>
+        <translation>Indpakning</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du have julepapir som indpakning?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished">Nej</translation>
+        <translation>Nej</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Ja</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation type="unfinished">Hallo</translation>
+        <translation>Hej</translation>
     </message>
 </context>
 <context>
@@ -6562,15 +6617,15 @@ your account.</source>
     </message>
     <message>
         <source>New entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny indgang</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern valgte</translation>
     </message>
     <message>
         <source>Load attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Hent attributter</translation>
     </message>
 </context>
 <context>
@@ -6917,261 +6972,261 @@ your account.</source>
     <message>
         <source>Author</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Forfatter</translation>
+        <translation>Forfatter</translation>
     </message>
     <message>
         <source>At least one author is required.</source>
-        <translation type="unfinished">Der kræves mindst en forfatter.</translation>
+        <translation>Der kræves mindst en forfatter.</translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
-        <translation type="unfinished">Forfatternavn skal udbydes.</translation>
+        <translation>Forfatternavn skal udbydes.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
-        <translation type="unfinished">E-mailadresse er ikke gyldig.</translation>
+        <translation>E-mailadresse er ikke gyldig.</translation>
     </message>
     <message>
         <source>BinaryFile</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Binær fil</translation>
     </message>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="unfinished">Fil-upload er ikke aktiveret - filhåndtering kan ikke udføres.</translation>
+        <translation>Fil-upload er ikke aktiveret - filhåndtering kan ikke udføres.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
-        <translation type="unfinished">En gyldig fil er påkrævet.</translation>
+        <translation>En gyldig fil er påkrævet.</translation>
     </message>
     <message>
         <source>Checkbox</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Checkboks</translation>
     </message>
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Datofelt</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dato og Tidsfelt</translation>
     </message>
     <message>
         <source>Email</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">E-mail</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>A valid email account is required.</source>
-        <translation type="unfinished">En gyldig fil er påkrævet.</translation>
+        <translation>En gyldig e-mailkonto er påkrævet.</translation>
     </message>
     <message>
         <source>Enum</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Navngivet liste (Enum)</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
-        <translation type="unfinished">Der skal vælges mindst ét felt.</translation>
+        <translation>Der skal vælges mindst ét felt.</translation>
     </message>
     <message>
         <source>Float</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kommatal (float)</translation>
     </message>
     <message>
         <source>Input is not float.</source>
-        <translation type="unfinished">Indtastninger ikke en gyldig kommatalværdi.</translation>
+        <translation>Indtastninger ikke en gyldig kommatalværdi.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Den indtastede værdi er større end %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
-        <translation type="unfinished">Indtastningen skal være mindre end %1</translation>
+        <translation>Indtastningen skal være mindre end %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
-        <translation type="unfinished">Indtastning ligger ikke indenfor %1 - %2</translation>
+        <translation>Indtastning ligger ikke indenfor %1 - %2</translation>
     </message>
     <message>
         <source>Image</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Billede</translation>
+        <translation>Billede</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation type="unfinished">Du skal vælge et gyldigt billede.</translation>
+        <translation>Du skal vælge et gyldigt billede.</translation>
     </message>
     <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Heltal (integer)</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
-        <translation type="unfinished">Indtastningen er ikke en integer.</translation>
+        <translation>Indtastningen er ikke et heltal (integer).</translation>
     </message>
     <message>
         <source>ISBN</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">ISBN</translation>
+        <translation>ISBN</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
-        <translation type="unfinished">ISBN-nummeret er ikke korrekt. Kontrollér venligst indtastningen</translation>
+        <translation>ISBN-nummeret er ikke korrekt. Kontrollér venligst indtastningen</translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
-        <translation type="unfinished">ISBN-formatet er ikke gyldigt.</translation>
+        <translation>ISBN-formatet er ikke gyldigt.</translation>
     </message>
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nøgleord (Keyword)</translation>
     </message>
     <message>
         <source>Matrix</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tabelform (Matrix)</translation>
     </message>
     <message>
         <source>Media</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Medie</translation>
+        <translation>Medie</translation>
     </message>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Objektrelation</translation>
     </message>
     <message>
         <source>Object relation list</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Objekt relationliste</translation>
     </message>
     <message>
         <source>Option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Valg (Option)</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
-        <translation type="unfinished">Der kræves mindst et valg.</translation>
+        <translation>Der kræves mindst et valg.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
-        <translation type="unfinished">Valgbar værdi skal angives.</translation>
+        <translation>Valgbar værdi skal angives.</translation>
     </message>
     <message>
         <source>Additional price for option value is invalid.</source>
-        <translation type="unfinished">Yderligere pris for værdivalg er ikke gyldig.</translation>
+        <translation>Yderligere pris for værdivalg er ikke gyldig.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilføj til indkøbskurv</translation>
     </message>
     <message>
         <source>Add to wish list</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilføj til ønskeliste</translation>
     </message>
     <message>
         <source>Range option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Valgområde (Range option)</translation>
     </message>
     <message>
         <source>Selection</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Multiselect</translation>
     </message>
     <message>
         <source>Text line</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstlinie</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
-        <translation type="unfinished">Tekstlinien er tomt - udfyld venligst linien.</translation>
+        <translation>Tekstlinien er tomt - udfyld venligst linien.</translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
-        <translation type="unfinished">Indholdet af tekstlinien er for langt - maksimum tegn er %1.</translation>
+        <translation>Indholdet af tekstlinien er for langt - maksimum tegn er %1.</translation>
     </message>
     <message>
         <source>Subtree subscription</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abonner på undertræ</translation>
     </message>
     <message>
         <source>Text field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstfelt</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation type="unfinished">Tekstfelt er tomt - udfyld venligst feltet.</translation>
+        <translation>Tekstfelt er tomt - udfyld venligst feltet.</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished">Send</translation>
+        <translation>Send</translation>
     </message>
     <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tidsfelt</translation>
     </message>
     <message>
         <source>URL</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User account</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Brugerkonto</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation type="unfinished">Brugernavn skal angives</translation>
+        <translation>Brugernavn skal angives</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
-        <translation type="unfinished">Brugernavnet eksisterer allerede - vælg venligst et andet brugernavn.</translation>
+        <translation>Brugernavnet eksisterer allerede - vælg venligst et andet brugernavn.</translation>
     </message>
     <message>
         <source>The E-Mail address is not valid.</source>
-        <translation type="unfinished">E-mailadressen er ikke gyldig.</translation>
+        <translation>E-mailadressen er ikke gyldig.</translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
-        <translation type="unfinished">Der eksisterer allerede en bruger med denne e-mailadresse.</translation>
+        <translation>Der eksisterer allerede en bruger med denne e-mailadresse.</translation>
     </message>
     <message>
         <source>The password must be at least 3 characters.</source>
-        <translation type="unfinished">Kodeordet skal fylde mindst 3 tegn.</translation>
+        <translation>Kodeordet skal fylde mindst 3 tegn.</translation>
     </message>
     <message>
         <source>XML Text field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>XML Tekstfelt</translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekt %1 eksisterer ikke.</translation>
     </message>
     <message>
         <source>Link %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Link %1 eksisterer ikke.</translation>
     </message>
 </context>
 <context>
@@ -7310,7 +7365,7 @@ your account.</source>
     <name>kernel/contentclass</name>
     <message>
         <source>New %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny %1</translation>
     </message>
 </context>
 <context>
@@ -7364,7 +7419,7 @@ your account.</source>
     <name>kernel/reference</name>
     <message>
         <source>Reference documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Referencedokumentation</translation>
     </message>
 </context>
 <context>
@@ -7605,62 +7660,62 @@ your account.</source>
     <name>kernel/workflow/event</name>
     <message>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Hændelse</translation>
     </message>
     <message>
         <source>Approve</source>
-        <translation type="unfinished">Godkend</translation>
+        <translation>Godkend</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Checkout</translation>
     </message>
     <message>
         <source>Multiplexer</source>
-        <translation type="unfinished"></translation>
+        <translation>Multiplexer</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation type="unfinished">Publicér</translation>
+        <translation>Publicér</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicer på tidspunkt</translation>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpel shipping</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation type="unfinished"></translation>
+        <translation>Timing</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation type="unfinished"></translation>
+        <translation>Afpublicer</translation>
     </message>
     <message>
         <source>Wait until date</source>
-        <translation type="unfinished"></translation>
+        <translation>Vent indtil dato</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished">Indpakning</translation>
+        <translation>Indpakning</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation type="unfinished"></translation>
+        <translation>Hej bruger</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/group</name>
     <message>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppe</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>Serie</translation>
     </message>
 </context>
 <context>
