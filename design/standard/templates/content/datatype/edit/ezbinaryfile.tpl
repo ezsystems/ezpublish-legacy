@@ -13,15 +13,15 @@
 <p class="box">	{$attribute.content.original_filename|wash(xhtml)}</p>
 </div>
 <div class="element">
-<label>{"MIME-Type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"MIME type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.mime_type|wash(xhtml)}</p>
 </div>
 <div class="element">
-<label>{"Filesize"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Size"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.filesize|si(byte)}</p>
 </div>
 <div class="element">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Remove'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Remove'|i18n('design/standard/content/datatype')}" title="{'Remove the file from this draft.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 <div class="break"></div>
 </div>
