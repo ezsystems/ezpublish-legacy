@@ -101,6 +101,7 @@ contentclass:
 - Added unpublish workflow event.
 - Added unpublish function to ezcontenobjectversion
 - Image datatype can now return info on the original image.
+- Fixed field main_key in ezoperation_memento table for MySQL to be varchar.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements

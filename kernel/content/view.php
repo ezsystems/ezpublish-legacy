@@ -113,7 +113,7 @@ switch( $operationResult['status'] )
 
             if ( ! is_object( $object ) )
             {
-                eZDebug::printReport();
+//                 eZDebug::printReport();
             }
 
             $res =& eZTemplateDesignResource::instance();

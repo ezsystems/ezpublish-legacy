@@ -327,3 +327,18 @@ delete from ezcontentobject;
 insert into ezcontentobject select * from ezcontentobject_temp;
 
 
+# Change workflow approve tables to reflect the new collaboration system
+create table ezapprove_items(
+    id int NOT NULL auto_increment,
+    workflow_process_id int NOT NULL DEFAULT '0',
+    collaboration_id int NOT NULL DEFAULT '0',
+    PRIMARY KEY  (id)
+    );
+
+insert into ezapprove_items (workflow_process_id, collaboration_id) select workflow_process_id, task_id from ezapprovetasks;
+
+drop table ezapprovetasks;
+
+# Fixes a bug with workflows and mementos
+alter table ezoperation_memento drop main_key;
+alter table ezoperation_memento add main_key varchar(32) NOT NULL;

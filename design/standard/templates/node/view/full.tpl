@@ -106,24 +106,24 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
-    {"Name:"|i18n("design/standard/node/view")}
+      <nobr>{"Name:"|i18n("design/standard/node/view")}</nobr>
     </th>
     <th>
-    {"Class:"|i18n("design/standard/node/view")}
+      <nobr>{"Class:"|i18n("design/standard/node/view")}</nobr>
     </th>
     {section show=eq($node.sort_array[0][0],'priority')}
     <th>
-    {"Priority:"|i18n("design/standard/node/view")}
+      <nobr>{"Priority:"|i18n("design/standard/node/view")}</nobr>
     </th>
     {/section}
-    <th>
-    {"Edit:"|i18n("design/standard/node/view")}
+    <th width="1">
+      <nobr>{"Edit:"|i18n("design/standard/node/view")}</nobr>
     </th>
-    <th>
-    {"Copy:"|i18n("design/standard/node/view")}
+    <th width="1">
+      <nobr>{"Copy:"|i18n("design/standard/node/view")}</nobr>
     </th>
-    <th colspan="2" align="right">
-    {"Remove:"|i18n("design/standard/node/view")}
+    <th width="1">
+      <nobr>{"Remove:"|i18n("design/standard/node/view")}</nobr>
     </th>
 </tr>
 {section name=Child loop=$children  sequence=array(bglight,bgdark)}
@@ -143,12 +143,12 @@
 
 	{switch name=sw match=$Child:item.object.can_edit}
         {case match=1}
-	<td width="1%" class="{$Child:sequence}">
+	<td width="1" class="{$Child:sequence}">
         <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
         </td>
 	{/case}
         {case} 
-	<td class="{$Child:sequence}" width="1%">
+	<td class="{$Child:sequence}" width="1">
 	</td>
         {/case}
         {/switch}
@@ -158,14 +158,12 @@
 
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
-	<td class="{$Child:sequence}" align="right" width="1%">
+	<td class="{$Child:sequence}" align="right" width="1">
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
 	{/case}
-        {case} 
-	<td class="{$Child:sequence}" align="right" width="1%">
-	</td>
-	<td width="1%" class="{$Child:sequence}"></td>
+        {case}
+	<td class="{$Child:sequence}" align="right" width="1%"></td>
         {/case}
         {/switch} 
 </tr>
@@ -192,9 +190,9 @@
     </td>
     <td>
     </td>
-    <td>
+    <td align="right">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+      {include uri="design:gui/archive.tpl"}
     {/section}
     </td>
 </tr>

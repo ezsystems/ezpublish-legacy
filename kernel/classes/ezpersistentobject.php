@@ -270,17 +270,26 @@ class eZPersistentObject
         {
             $use_fields = array_diff( array_keys( $fields ), $keys );
             $field_text = "";
+            $field_text_len = 0;
             $i = 0;
             foreach ( $use_fields as $key )
             {
-                if ( $i > 0 )
-                    $field_text .= ", ";
                 $value =& $obj->attribute( $key );
-                $field_text .= $key . "='" . $db->escapeString( $value ) . "'";
+                $field_text_entry = $key . "='" . $db->escapeString( $value ) . "'";
+                $field_text_len += strlen( $field_text_entry );
+                $needNewline = false;
+                if ( $field_text_len > 60 )
+                {
+                    $needNewline = true;
+                    $field_text_len = 0;
+                }
+                if ( $i > 0 )
+                    $field_text .= "," . ($needNewline ? "\n    " : ' ');
+                $field_text .= $field_text_entry;
                 ++$i;
             }
             $cond_text = eZPersistentObject::conditionText( $key_conds );
-            $sql = "UPDATE $table SET $field_text$cond_text";
+            $sql = "UPDATE $table\nSET $field_text$cond_text";
 //             eZDebug::writeNotice( $sql );
             $db->query( $sql );
         }

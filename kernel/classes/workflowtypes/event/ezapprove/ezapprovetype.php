@@ -106,7 +106,7 @@ class eZApproveType extends eZWorkflowEventType
             {
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 $users =& eZPersistentObject::fetchObjectList( eZUser::definition(), array( 'contentobject_id', 'login' ), null,null,null,false );
-                eZDebug::writeDebug( $users, "attr" );
+                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $users, "attr" );
                 foreach ( array_keys( $users ) as $key )
                 {
                     $user =& $users[$key];
@@ -138,8 +138,8 @@ class eZApproveType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        eZDebug::writeDebug( $process, 'eZApproveType::execute' );
-        eZDebug::writeDebug( $event, 'eZApproveType::execute' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process, 'eZApproveType::execute' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'eZApproveType::execute' );
         $parameters = $process->attribute( 'parameter_list' );
 //        var_dump( $parameters );
         $versionID =& $parameters['version'];
@@ -151,12 +151,12 @@ class eZApproveType extends eZWorkflowEventType
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editor = $event->attribute( 'data_int1' );
 
-        eZDebug::writeDebug( $user, 'eZApproveType::execute::user' );
-        eZDebug::writeDebug( $userGroups, 'eZApproveType::execute::userGroups' );
-        eZDebug::writeDebug( $editor, 'eZApproveType::execute::editor' );
-        eZDebug::writeDebug( $workflowSections, 'eZApproveType::execute::workflowSections' );
-        eZDebug::writeDebug( $workflowGroups, 'eZApproveType::execute::workflowGroups' );
-        eZDebug::writeDebug( $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user, 'eZApproveType::execute::user' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, 'eZApproveType::execute::userGroups' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $editor, 'eZApproveType::execute::editor' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections, 'eZApproveType::execute::workflowSections' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups, 'eZApproveType::execute::workflowGroups' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
 
         $correctSection = true;
         if ( !in_array( -1, $workflowSections ) )
@@ -254,8 +254,8 @@ class eZApproveType extends eZWorkflowEventType
 //         $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
 //         $task->store();
         $db = & eZDb::instance();
-        $db->query( 'insert into ezapprovetasks( workflow_process_id,
-                                                      task_id )
+        $db->query( 'insert into ezapprove_items( workflow_process_id,
+                                                      collaboration_id )
                                               values(' . $process->attribute( 'id' ) .','. $collaborationItem->attribute( 'id' ) .' ) '
                     );
     }
@@ -263,8 +263,8 @@ class eZApproveType extends eZWorkflowEventType
     function checkApproveCollaboration( &$process, &$event )
     {
         $db = & eZDb::instance();
-        $taskResult = $db->arrayQuery( 'select workflow_process_id, task_id from ezapprovetasks where workflow_process_id = ' . $process->attribute( 'id' )  );
-        $collaborationID = $taskResult[0]['task_id'];
+        $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
+        $collaborationID = $taskResult[0]['collaboration_id'];
 
 //         $task =& eZTask::fetch( $taskID );
         $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );
@@ -276,18 +276,20 @@ class eZApproveType extends eZWorkflowEventType
         else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was accepted' );
-            return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+            $status = EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
         else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DENIED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
-            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+            $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
         else
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, "approval unknown status '$approvalStatus'" );
-            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+            $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
+        $db->query( 'DELETE FROM ezapprove_items WHERE workflow_process_id = ' . $process->attribute( 'id' )  );
+        return $status;
     }
 }
 

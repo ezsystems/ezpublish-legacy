@@ -1157,7 +1157,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                eZDebug::printReport();
+//                eZDebug::printReport();
                 die();
             }
         }

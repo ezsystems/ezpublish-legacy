@@ -9,14 +9,14 @@
   <td class="{$:sequence}" width="1">
     {section show=$:item.user_status.is_active}
       {section show=$:item.user_status.is_read}
-      <img src={"collaboration/status_read.png"|ezimage} />
+      <img src={"collaboration/status_read.png"|ezimage} alt="{'Read'|i18n('design/standard/collaboration')}" />
       {section-else}
       {set item_class="status_unread"}
-      <img src={"collaboration/status_unread.png"|ezimage} />
+      <img src={"collaboration/status_unread.png"|ezimage} alt="{'Unread'|i18n('design/standard/collaboration')}" />
       {/section}
     {section-else}
     {set item_class="status_inactive"}
-    <img src={"collaboration/status_inactive.png"|ezimage} />
+    <img src={"collaboration/status_inactive.png"|ezimage} alt="{'Inactive'|i18n('design/standard/collaboration')}" />
     {/section}
   </td>
   <td class="{$:sequence}" width="1">

@@ -318,7 +318,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 $next_event_pos = $event_pos + 1;
                 if ( !is_object( $workflow ) )
                 {
-                    eZDebug::printReport();
+//                    eZDebug::printReport();
                 }
                 $next_event_id = $workflow->fetchEventIndexed( $next_event_pos );
                 if ( $next_event_id !== null )

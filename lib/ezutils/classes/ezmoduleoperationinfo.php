@@ -229,12 +229,15 @@ class eZModuleOperationInfo
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
 
+//                 eZDebug::writeDebug( $resultArray, 'ezmodule operationr result array' );
             }
             if ( is_array( $resultArray ) and
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
                 if ( $this->Memento !== null )
+                {
                     $this->Memento->store();
+                }
             }
             else if ( $this->Memento !== null and
                       $this->Memento->attribute( 'id' ) !== null )
