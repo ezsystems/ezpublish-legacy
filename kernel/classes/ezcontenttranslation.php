@@ -100,7 +100,7 @@ class eZContentTranslation extends eZPersistentObject
         $localeList = array();
         foreach ( array_keys( $translationArray ) as $key )
         {
-            $localeList[] =& $translationRow[$key]['locale'];
+            $localeList[] = $translationArray[$key]['locale'];
         }
         return $localeList;
     }
