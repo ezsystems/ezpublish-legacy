@@ -718,12 +718,11 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $row = array(
             "contentobject_id" => $contentobjectID,
             "version" => $version,
-            "created" => eZDateTime::currentTimeStamp(),
-            "modified" => eZDateTime::currentTimeStamp(),
+            "created" => time(),
+            "modified" => time(),
             'creator_id' => $userID );
         return new eZContentObjectVersion( $row );
     }

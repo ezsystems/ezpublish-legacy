@@ -836,6 +836,8 @@ class eZContentObject extends eZPersistentObject
     {
         $contentObject = $this;
         $contentObject->setAttribute( 'id', null );
+        $contentObject->setAttribute( 'published', time() );
+        $contentObject->setAttribute( 'modified', time() );
         return $contentObject;
     }
 
@@ -2431,7 +2433,7 @@ class eZContentObject extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->setTimestamp( 'content-cache', time() );
         $handler->store();
     }
 
@@ -2442,7 +2444,7 @@ class eZContentObject extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-complex-viewmode-cache', mktime() );
+        $handler->setTimestamp( 'content-complex-viewmode-cache', time() );
         $handler->store();
     }
 
