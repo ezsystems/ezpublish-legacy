@@ -76,6 +76,9 @@ eztc.php:
   http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
 - Fixed typo in user/activate.tpl (merged from stable/3.4 rev. 6829)
   http://ez.no/community/bug_reports/user_activate_template_typo
+- Fixed bug in SQL fetching user list for subtree notification handler
+  resulting in very large query execution times.
+  Manually merged from 3.3 rev. 6836, also in 3.4 rev. 6837.
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
