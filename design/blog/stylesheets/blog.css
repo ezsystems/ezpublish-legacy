@@ -222,7 +222,7 @@ div#footer address, div#footer a
 
 /* log styles */
 
-div.logline h2
+div.log h2
 { 
     border-top:1px dotted #ccc; 
     font: bold 110% Georgia,Serif;
@@ -231,7 +231,7 @@ div.logline h2
     padding-left: 20px;
 }
 
-div.logline h3
+div.log h3
 { 
     border-bottom:1px solid #ccc; 
     font: 100% Georgia,Serif;
@@ -240,8 +240,36 @@ div.logline h3
 
 div.logentry
 { 
-  padding-left: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
 }
+
+div.logentry div.byline p
+{ 
+    color: #999999;
+    padding: 0px;
+}
+
+div.log div.commentlist
+{ 
+    background-color: #eeeeee;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 25px;
+    padding-top: 5px;
+    margin-top: 10px;
+}
+
+div.log div.commentlist h4
+{ 
+    color: #999;
+}
+
+div.log div.commentlist p
+{ 
+    color: #999;
+}
+
 /* Search */
 
 div.advancedsearchbox
@@ -276,6 +304,25 @@ div.editbutton input
    font-size: small;
    background-color: #304b82;
    color: #ffffff;
+}
+
+p
+{ 
+   color: #666666;
+}
+
+a
+{ 
+   border-bottom: 1px dotted #69f;
+   color: #396acd;
+   text-decoration:none;
+}
+
+a:hover
+{ 
+   border-bottom:1px solid #f00;
+   color: #f00;
+   text-decoration:none;
 }
 
 /* Extra */
