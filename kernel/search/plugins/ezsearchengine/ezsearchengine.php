@@ -332,7 +332,7 @@ class eZSearchEngine
             $fullText = $searchText;
             $nonPhraseText ='';
 //            $fullText = '';
-            $postPhraseText = '';
+            $postPhraseText = $fullText;
             $pos = 0;
             if ( ( $numQuotes > 0 ) and ( ( $numQuotes % 2 ) == 0 ) )
             {
@@ -493,13 +493,13 @@ class eZSearchEngine
             $i = 0;
             foreach ( $phraseTextArray as $phraseText )
             {
-                $seacrhPart = array();
-                $seacrhPart['text'] = $phraseText;
-                $seacrhPart['sql_part'] = $phraseSearchSQLArray[$i] . 'AND';
-                $seacrhPart['is_phrase'] = 1;
+                $searchPart = array();
+                $searchPart['text'] = $phraseText;
+                $searchPart['sql_part'] = $phraseSearchSQLArray[$i] . 'AND';
+                $searchPart['is_phrase'] = 1;
                 $searchPart['object_count'] = 0;
-                $searchPartsArray[] =& $seacrhPart;
-                unset( $seacrhPart );
+                $searchPartsArray[] =& $searchPart;
+                unset( $searchPart );
                 $i++;
             }
 
@@ -507,14 +507,14 @@ class eZSearchEngine
 
             foreach ( $nonPhraseWordArray as $word )
             {
-                $seacrhPart = array();
-                $seacrhPart['text'] = $word;
+                $searchPart = array();
+                $searchPart['text'] = $word;
                 $wordID = $wordIDHash[$word]['id'];
-                $seacrhPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
-                $seacrhPart['is_phrase'] = 0;
+                $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
+                $searchPart['is_phrase'] = 0;
                 $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
-                $searchPartsArray[] =& $seacrhPart;
-                unset ( $seacrhPart );
+                $searchPartsArray[] =& $searchPart;
+                unset ( $searchPart );
             }
 
             /// OR search, not used in this version
@@ -676,6 +676,7 @@ class eZSearchEngine
             // Loop every word and insert result in temporary table
 
 //            foreach ( $wordIDHash as $searchWord )
+//            eZDebug::writeDebug( $searchPartsArray, "Search parts array" );
             foreach ( $searchPartsArray as $searchPart )
             {
 //                $wordID = $searchWord['id'];
@@ -695,7 +696,7 @@ class eZSearchEngine
                 }
 
                 // do not search words that are too frequent
-                if ( $searchWord['object_count'] < $searchThresholdValue )
+                if ( $searchPart['object_count'] < $searchThresholdValue )
                 {
                     $tmpTableCount++;
                     $searchPartText =& $searchPart['sql_part'];

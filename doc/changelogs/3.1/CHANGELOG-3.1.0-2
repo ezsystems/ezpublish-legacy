@@ -34,6 +34,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Fixed subtree handler to not handle objects that no longer exists, this avoids a crash.
 - Added support for some options to runcronjobs.php, for instance output can be supressed, debug turned on
   and colors can be added.
+- Fixed couple bugs in search.
 
 *Library :
 eZ xml:
