@@ -117,6 +117,7 @@ $ViewList['copy'] = array(
     'single_post_actions' => array( 'CopyButton' => 'Copy',
                                     'CancelButton' => 'Cancel' ),
     'post_action_parameters' => array( 'Copy' => array( 'VersionChoice' => 'VersionChoice' ) ),
+    'post_actions' => array( 'BrowseActionName' ),
     'params' => array( 'ObjectID' ) );
 
 

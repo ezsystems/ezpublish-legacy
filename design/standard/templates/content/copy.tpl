@@ -29,6 +29,8 @@
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/content/copy')}" />
 </div>
 
+<input type="hidden" name="SelectedNodeID" value="{$selected_node_id}" />
+
 {/let}
 
 </form>
