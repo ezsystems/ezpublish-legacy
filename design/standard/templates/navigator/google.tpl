@@ -55,7 +55,7 @@
 {/section}
 {/section}
 
-    {section name=Quick loop=$:left_length}
+    {section loop=$:left_length}
 <td>
         {let page_offset=sum(sub($ViewParameter:current_page,$ViewParameter:left_length),$:index)}
           <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_offset|inc}</a>
@@ -67,7 +67,7 @@
         <b>{$:current_page|inc}</b>
 </td>
 
-    {section name=Quick loop=$:right_length}
+    {section loop=$:right_length}
 <td>
         {let page_offset=sum($ViewParameter:current_page,1,$:index)}
           <a href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_offset|inc}</a>
