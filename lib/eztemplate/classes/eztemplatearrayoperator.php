@@ -57,11 +57,18 @@ class eZTemplateArrayOperator
     /*!
      Initializes the array operator with the operator name $name.
     */
-    function eZTemplateArrayOperator( $arrayName = "array", $hashName = 'hash' )
+    function eZTemplateArrayOperator( $arrayName = "array", $hashName = 'hash',
+                                      $arrayPrependName = 'array_prepend', $arrayAppendName = 'array_append',
+                                      $arrayMergeName = 'array_merge' )
     {
         $this->ArrayName = $arrayName;
         $this->HashName = $hashName;
-        $this->Operators = array( $arrayName, $hashName );
+        $this->ArrayPrependName = $arrayPrependName;
+        $this->ArrayAppendName = $arrayAppendName;
+        $this->ArrayMergeName = $arrayMergeName;
+        $this->Operators = array( $arrayName, $hashName,
+                                  $arrayPrependName, $arrayAppendName,
+                                  $arrayMergeName );
     }
 
     /*!
@@ -93,6 +100,68 @@ class eZTemplateArrayOperator
                     $tpl->error( $operatorName,
                                  "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
             }
+        }
+        else if ( $operatorName == $this->ArrayPrependName or
+                  $operatorName == $this->ArrayAppendName )
+        {
+            $i = 0;
+            if ( is_array( $operatorValue ) )
+            {
+                if ( count( $operatorParameters ) < 1 )
+                {
+                    $tpl->error( $operatorName,
+                                 "Requires at least one item" );
+                    return;
+                }
+                $mainArray = $operatorValue;
+            }
+            else
+            {
+                if ( count( $operatorParameters ) < 2 )
+                {
+                    $tpl->error( $operatorName,
+                                 "Requires an array and at least one item" );
+                    return;
+                }
+                $mainArray =& $tpl->elementValue( $operatorParameters[$i++], $namespace );
+            }
+            $tmpArray = array();
+            for ( ; $i < count( $operatorParameters ); ++$i )
+            {
+                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+            }
+            if ( $operatorName == $this->ArrayPrependName )
+                $operatorValue = array_merge( $tmpArray, $mainArray );
+            else
+                $operatorValue = array_merge( $mainArray, $tmpArray );
+        }
+        else if ( $operatorName == $this->ArrayMergeName )
+        {
+            $tmpArray = array();
+            if ( is_array( $operatorValue ) )
+            {
+                if ( count( $operatorParameters ) < 1 )
+                {
+                    $tpl->error( $operatorName,
+                                 "Requires at least one item" );
+                    return;
+                }
+                $tmpArray[] = $operatorValue;
+            }
+            else
+            {
+                if ( count( $operatorParameters ) < 2 )
+                {
+                    $tpl->error( $operatorName,
+                                 "Requires an array and at least one item" );
+                    return;
+                }
+            }
+            for ( $i = 0; $i < count( $operatorParameters ); ++$i )
+            {
+                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+            }
+            $operatorValue = call_user_func_array( 'array_merge', $tmpArray );
         }
         else
         {

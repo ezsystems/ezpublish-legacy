@@ -1,20 +1,35 @@
-{let page_limit=1
+{let page_limit=25
      tree=fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
      tree_count=fetch('content','tree_count',hash(parent_node_id,$node.node_id))}
-{section show=$view_parameters.offset|lt(1)}
-  {set tree=array_prepend($tree,$node)}
-{/section}
+
+<form action="{$module.functions.view.uri}/sitemap/{$node.node_id}{section show=$view_parameters.offset|gt(0)}/offset/{$view_parameters.offset}{/section}" method="post" >
 
 <h1>{"Site map"|i18n('content/object')}</h1>
 
-<form action="{$module.functions.sitemap.uri}/{$node.node_id}{section show=$view_parameters.offset|gt(0)}/offset/{$view_parameters.offset}{/section}" method="post" >
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr>
+	<td>
+	{$node.object.name|texttoimage('archtura')}
+{* 	<h1>{$node.object.name}</h1> *}
+	</td>
+</tr>
+</table>
+
+<table width="100%">
+{section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
+<tr>
+  <td><b>{$ContentObjectAttribute:item.contentclass_attribute.name}</b><br/>
+  {attribute_view_gui attribute=$ContentObjectAttribute:item}
+  </td>
+</tr>
+{/section}
+</table>
 
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
 	<th class="normal">ID:</th>
 	<th class="normal">Object:</th>
 	<th class="normal">OwnerID:</th>
-	<th class="normal">IsPublished:</th>
 	<th class="normal">Version:</th>
 	<th class="normal">Section ID:</th>
 	<th class="normal">Class:</th>
@@ -26,10 +41,8 @@
 <tr>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
 	<td class="{$Tree:sequence}">
-{*	<img src="1x1.gif" width="{$Tree:item.Level}0" height="1" alt="" /> *}
-        	<img src="1x1.gif" width="{$Tree:item.depth}0" height="1" alt="" />
+       	<img src="1x1.gif" width="{$Tree:item.depth|dec}0" height="1" alt="" />
 	<a class="normal" href="/content/view/full/{$Tree:item.node_id}">
-
 {switch name=sw match=$Tree:item.object.contentclass_id}
 {case match=2}
 	<img src={"class_2.png"|ezimage} border="0"> 
@@ -48,7 +61,6 @@
 	{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.is_published}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.current_version}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.section_id}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.class_name}</span></td>
@@ -84,21 +96,31 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat($module.functions.sitemap.uri,'/',$node.node_id)
+         page_uri=concat($module.functions.view.uri,'/sitemap/',$node.node_id)
          module=$module
          item_count=$tree_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
 <div class="buttonblock">
-<input class="button" type="submit" name="NewButton" value="New" />
-<select name="ClassID">
-{section name=Classes loop=$classes}
-<option value="{$Classes:item.id}">{$Classes:item.name}</option>
-{/section}
-</select>
+{switch match=$node.object.can_create}
+{case match=1}
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <input type="submit" name="NewButton" value="New" />
+         <select name="ClassID">
+	      {section name=Classes loop=$node.object.can_create_class_list}
+	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	      {/section}
+         </select>
+{/case}
+{case match=0}
+  You are not allowed to create child objects
+{/case}
+{/switch}
 
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
+
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 </div>
 
 </form>

@@ -49,6 +49,8 @@ $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
 $LanguageCode = $Params['LanguageCode'];
 $Offset = $Params['Offset'];
+if ( !$Offset )
+    $Offset = 0;
 
 $limitationList = array();
 

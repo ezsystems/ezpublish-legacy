@@ -146,6 +146,7 @@ eZ template :
 - Improved parsing with regards to negative numbers.
 - New arithmetic template operators, /sum/, /sub/, /inc/, /dec/, /div/, /mod/, /mul/, /max/, /min/, /abs/, /ceil/, /floor/, /round/
 - New operator /fetch/ which can call a module function and get the result data.
+- New operators /array_prepend/, /array_append/ and /array_merge/
 
 eZ httpfile :
 - Added two more attributes for fetching the category and part of the mimetype

@@ -6,7 +6,7 @@
 	{switch match=$item_previous|lt(0) }
 	  {case match=0}
 	<td class="selectbar" width="1%">
-          <a class="selectbar" href="{$page_uri}/offset/{$item_previous}"><<&nbsp;Previous</a>
+        <a class="selectbar" href="{$page_uri}{section show=$item_previous|gt(0)}/offset/{$item_previous}{/section}"><<&nbsp;Previous</a>
     </td>
 	  {/case}
           {case match=1}
@@ -22,7 +22,9 @@
         <b>{$Quick:number}</b>
       {/case}
       {case}
-        <a href="{$page_uri}/offset/{mul($Quick:index,$item_limit)}">{$Quick:number}</a>
+        {let page_offset=mul($Quick:index,$item_limit)}
+          <a href="{$page_uri}{section show=$Quick:page_offset|gt(0)}/offset/{$Quick:page_offset}{/section}">{$Quick:number}</a>
+        {/let}
       {/case}
     {/switch}
     {/section}

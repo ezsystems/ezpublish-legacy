@@ -1,15 +1,15 @@
-{let page_limit=1}
+{let page_limit=25
+     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+
 <form method="post" action="/content/action/">
 
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
 	{$node.object.name|texttoimage('archtura')}
-{*	{$node.object.name|imagefile('image-6f04edb50d1c35bf54e47ccb585d300a.png')} *}
-{*	{image($node.object.name|texttoimage('archtura'),'abc'|texttoimage('archtura'))} *}
 {* 	<h1>{$node.object.name}</h1> *}
 	</td>
-	<td align="rigt">
+	<td align="right">
 	{switch match=$node.object.can_edit}
 	    {case match=1}
 	    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
@@ -22,15 +22,6 @@
 	</td>
 </tr>
 </table>
-
-{*
-// Use this for fetching children
-
-{section name=Test loop=fetch('content','list',hash(parent_node_id,$nodeID))}
-{$Test:item.name}<br/>
-{/section}
-*}
-
 
 <table width="100%">
 <tr>
@@ -92,7 +83,7 @@
 	</td>
 	<td class="{$Child:sequence}" align="right">
 	{switch name=sw match=$Child:item.object.can_remove}
-        {case match=1}  
+        {case match=1}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
              <img src={"editdelete.png"|ezimage} border="0">
 	{/case}
@@ -103,6 +94,14 @@
 </tr>
 {/section}
 </table>
+
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat($module.functions.view.uri,'/full/',$node.node_id)
+         module=$module
+         item_count=$list_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
 
 {switch match=$node.object.can_create}
 {case match=1}
@@ -120,14 +119,6 @@
 {/switch}
 
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
-
-{include name=navigator
-         uri='design:navigator/google.tpl'
-         page_uri=concat($module.functions.view.uri,'/full/',$node.node_id)
-         module=$module
-         item_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
-         view_parameters=$view_parameters
-         item_limit=$page_limit}
 
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 

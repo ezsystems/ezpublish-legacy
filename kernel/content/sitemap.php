@@ -167,23 +167,24 @@ $res->setKeys( array( array( 'topobject', $TopObjectID ) ) ); // Object ID
 //                       array( 'class', $class->attribute( 'id' ) ), // Class ID
 //                       array( 'section', 0 ) ) ); // Section ID, 0 so far
 
-$tpl->setVariable( 'top_object_id', $TopObjectID );
+// $tpl->setVariable( 'top_object_id', $TopObjectID );
 
-$tpl->setVariable( 'tree', $tree );
-$tpl->setVariable( 'tree_count', $treeCount );
+// $tpl->setVariable( 'tree', $tree );
+// $tpl->setVariable( 'tree_count', $treeCount );
 
 $tpl->setVariable( 'classes', $classes );
 
 $tpl->setVariable( 'module', $Module );
 
-$tpl->setVariable( 'nodeID', $TopObjectID );
+$tpl->setVariable( 'node', $mainNode );
+// $tpl->setVariable( 'nodeID', $TopObjectID );
 
-$tpl->setVariable( 'page', array( 'limit' => $pageLimit,
-                                  'offset' => $Offset,
-                                  'current' => (int)( $Offset / $pageLimit ),
-                                  'total' => (int)ceil( $treeCount / $pageLimit ),
-                                  'previous' => $Offset - $pageLimit,
-                                  'next' => $Offset + $pageLimit ) );
+// $tpl->setVariable( 'page', array( 'limit' => $pageLimit,
+//                                   'offset' => $Offset,
+//                                   'current' => (int)( $Offset / $pageLimit ),
+//                                   'total' => (int)ceil( $treeCount / $pageLimit ),
+//                                   'previous' => $Offset - $pageLimit,
+//                                   'next' => $Offset + $pageLimit ) );
 
 $tpl->setVariable( 'view_parameters', array( 'offset' => $Offset ) );
 
