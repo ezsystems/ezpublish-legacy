@@ -2,40 +2,20 @@
 
 [Toolbar_right]
 Tool[]
-Tool[]=calendar
-Tool[]=create_object
-Tool[]=node_list
 Tool[]=node_list
 
 [Toolbar_top]
 Tool[]
 Tool[]=login
-Tool[]=basket
 Tool[]=searchbox
 
 [Toolbar_bottom]
 Tool[]
-Tool[]=link
 Tool[]=basket
 
-[Tool_right_calendar_1]
-show_subtree=news
-show_classidentifiers=article
-
-[Tool_right_create_object_2]
-title=Create blog
-show_subtree=blogs
-type_classidentifier=weblog
-placement_node=98
-
-[Tool_right_node_list_3]
-parent_node=54
-title=Latest news
-show_subtree=
-
-[Tool_right_node_list_4]
-parent_node=79
-title=Gallery images
+[Tool_right_node_list_1]
+parent_node=2
+title=Latest objects
 show_subtree=
 
 */ ?>
