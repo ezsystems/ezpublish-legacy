@@ -82,6 +82,8 @@ eZINI:
   http://ez.no/community/bug_reports/edit_tpl_wrong_language_param_in_form
 - Fixed bug of not unset custom attributes in template.
   http://ez.no/community/bug_reports/custom_tags_custom_attributes_must_be_unset_after_tag_handling
+- Fixed bug of using an extra '$' using php function substr() in kernel/setup/ezsetuptests.php.
+  http://ez.no/community/bug_reports/preceding_on_function_name_causes_ezsetuptests_php_to_fail
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path

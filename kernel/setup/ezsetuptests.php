@@ -452,7 +452,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
             {
                 if ( strpos( $path, $program) == strlen( $path ) - strlen( $program ) )
                 {
-                    $extraPath[] = $substr( $path, strpos( $path, $program) );
+                    $extraPath[] = substr( $path, strpos( $path, $program) );
                 }
             }
         }
