@@ -1,22 +1,22 @@
 {let page_limit=30
-     list_count=fetch('content','archive_count')}
-<form action={concat("content/archive/")|ezurl} method="post" >
+     list_count=fetch('content','trash_count')}
+<form action={concat("content/trash/")|ezurl} method="post" >
 
 <div class="maincontentheader">
-<h1>{"Archive"|i18n("design/standard/content/archive")}</h1>
+<h1>{"Trash"|i18n("design/standard/content/trash")}</h1>
 </div>
 
-{let object_list=fetch('content','archive_object_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
+{let object_list=fetch('content','trash_object_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
 {section show=$object_list}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Name:"|i18n("design/standard/content/archive")}</th>
-    <th>{"Version:"|i18n("design/standard/content/archive")}</th>
-    <th>{"Restore:"|i18n("design/standard/content/archive")}</th>
+    <th>{"Name:"|i18n("design/standard/content/trash")}</th>
+    <th>{"Version:"|i18n("design/standard/content/trash")}</th>
+    <th>{"Restore:"|i18n("design/standard/content/trash")}</th>
     <th>
     <div class="buttonblock">
-    <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/archive')}" />
+    <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/trash')}" />
     </div>
     </th>
 </tr>
@@ -41,7 +41,7 @@
 </table>
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/content/archive/')
+         page_uri=concat('/content/trash/')
          item_count=$list_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
@@ -50,7 +50,7 @@
 {section-else}
 
 <div class="feedback">
-<h2>{"Archive is empty"|i18n("design/standard/content/archive")}</h2>
+<h2>{"Trash is empty"|i18n("design/standard/content/trash")}</h2>
 </div>
 
 {/section}

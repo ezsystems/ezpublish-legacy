@@ -178,8 +178,8 @@ $ViewList["draft"] = array(
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
-$ViewList["archive"] = array(
-    "script" => "archive.php",
+$ViewList["trash"] = array(
+    "script" => "trash.php",
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );
 

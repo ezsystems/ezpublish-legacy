@@ -172,26 +172,24 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
-    function fetchArchiveObjectCount()
+    function fetchTrashObjectCount()
     {
-        $archivedObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                     array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
-                                                                     array(), null,
-                                                                     false,false,
-                                                                     array( array( 'operation' => 'count( * )',
-                                                                                   'name' => 'count' ) ) );
-
-        return array( 'result' => $archivedObjectList[0]['count'] );
-
+        $trashObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                                  array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                  array(), null,
+                                                                  false,false,
+                                                                  array( array( 'operation' => 'count( * )',
+                                                                                'name' => 'count' ) ) );
+        return array( 'result' => $trashObjectList[0]['count'] );
     }
 
-    function fetchArchiveObjectList( $offset, $limit )
+    function fetchTrashObjectList( $offset, $limit )
     {
-        $archivedObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                     null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
-                                                                     null, array( 'length' => $limit, 'offset' => $offset ),
-                                                                     true );
-        return array( 'result' => &$archivedObjectList );
+        $trashObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                                  null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                  null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                  true );
+        return array( 'result' => &$trashObjectList );
     }
 
     function fetchDraftVersionList( $offset, $limit )

@@ -192,7 +192,7 @@
     </td>
     <td align="right">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-      {include uri="design:gui/archive.tpl"}
+      {include uri="design:gui/trash.tpl"}
     {/section}
     </td>
 </tr>

@@ -82,7 +82,7 @@
 	<td></td>
 	<td></td>
 	<td align="right">
-        {include uri="design:gui/archive.tpl"}
+        {include uri="design:gui/trash.tpl"}
 {*	<input class="button" type="image" src={"remove.png"|ezimage} name="RemoveButton" value="Remove" /> *}
 	</td>
 </tr>

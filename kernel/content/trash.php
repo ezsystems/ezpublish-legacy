@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of Archive class
+// Definition of Trash class
 //
 // Created on: <28-Jan-2003 13:19:47 sp>
 //
@@ -34,7 +34,7 @@
 // you.
 //
 
-/*! \file archive.php
+/*! \file trash.php
 */
 
 include_once( 'kernel/common/template.php' );
@@ -67,8 +67,8 @@ $tpl =& templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/archive.tpl' );
-$Result['path'] = array( array( 'text' => 'Archive',
+$Result['content'] =& $tpl->fetch( 'design:content/trash.tpl' );
+$Result['path'] = array( array( 'text' => 'Trash',
                                 'url' => false ) );
 
 
