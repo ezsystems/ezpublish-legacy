@@ -137,6 +137,9 @@ class eZTemplateImageOperator
             $bgcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
             $textcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
 
+            $absoluteWidth = false;
+            $absoluteHeight = false;
+
             if ( $ini->hasVariable( $class, 'Family' ) )
                 $family =& $ini->variable( $class, 'Family' );
             if ( $ini->hasVariable( $class, 'PointSize' ) )
@@ -155,6 +158,10 @@ class eZTemplateImageOperator
                 $bgcol =& $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
             if ( $ini->hasVariable( $class, 'TextColor' ) )
                 $textcol =& $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
+            if ( $ini->hasVariable( $class, 'AbsoluteWidth' ) )
+                $absoluteWidth =& $ini->variable( $class, 'AbsoluteWidth' );
+            if ( $ini->hasVariable( $class, 'AbsoluteHeight' ) )
+                $absoluteHeight =& $ini->variable( $class, 'AbsoluteHeight' );
 
             if ( $namedParameters['family'] !== null )
                 $family = $namedParameters["family"];
@@ -206,12 +213,13 @@ class eZTemplateImageOperator
             if ( is_string( $usecache ) )
                 $md5Text = $usecache;
             else
-                $md5Text = md5( $inputValue . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
+                $md5Text = md5( $inputValue . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . $absoluteWidth . $absoluteHeight . implode( ",", $bgcol ) . implode( ",", $textcol ) );
             if ( is_string( $usecache ) or !$usecache or
                  !$this->hasImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, 'png' ) )
             {
                 $layer =& eZImageTextLayer::createForText( $inputValue, $font,
-                                                           $wadj, $hadj, $angle );
+                                                           $wadj, $hadj, $angle,
+                                                           $absoluteWidth, $absoluteHeight );
                 if ( !$layer )
                 {
                     $tpl->error( $operatorName, "Could not open font \"$family\", no image created" );

@@ -159,7 +159,8 @@ class eZImageTextLayer extends eZImageLayer
      Creates a new text layer with the text \a $text, font \a $font and adjustment
      \a $widthAdjustment and \a $heightAdjustment at the angle \a $angle and returns it.
     */
-    function &createForText( $text, &$font, $widthAdjustment, $heightAdjustment, $angle )
+    function &createForText( $text, &$font, $widthAdjustment, $heightAdjustment, $angle,
+                             $absoluteWidth = false, $absoluteHeight = false )
     {
         if ( get_class( $font ) != 'ezimagefont' )
             return false;
@@ -182,6 +183,11 @@ class eZImageTextLayer extends eZImageLayer
         $height = abs( $ymax - $ymin );
         $width += $widthAdjustment;
         $height += $heightAdjustment;
+
+        if ( $absoluteWidth !== false )
+            $width = $absoluteWidth;
+        if ( $absoluteHeight !== false)
+            $height = $absoluteHeight;
 
         $layer = new eZImageTextLayer( null, null, $width, $height,
                                        $font, $bbox, $text, $angle );
