@@ -118,7 +118,7 @@
         {$module_result.content}
         </td>
         <td width="145" bgcolor="#FFF4EA" valign="top" class="links">
-        <table width="145" border="0" cellspacing="0" cellpadding="4" align="left">
+        <table width="145" border="0" cellspacing="0" cellpadding="8" align="left">
         <tr>             
              <td valign="top" bgcolor="#663366">
 	     <strong class="small"><font color="#FFFFFF">Latest update....</font> 

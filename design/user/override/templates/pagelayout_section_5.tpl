@@ -41,6 +41,9 @@
 {let folder_list=fetch(content,list,hash(parent_node_id,60))
      product_list=fetch(content,tree,hash(parent_node_id,60,limit,20,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(22)))}
 
+<br clear="all" />
+<br />
+
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",62)|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a></td>
