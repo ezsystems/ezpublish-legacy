@@ -6,7 +6,7 @@
 
 div#maincontent div.content-view-line div.attribute-link p
 { 
-    old-background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t18/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@ div#maincontent div.content-view-line div.attribute-link p
 div#maincontent div.content-view-line div.attribute-link-disabled p
 { 
     color: #666666;
-    old-background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t18/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -24,7 +24,7 @@ div#maincontent div.content-view-line div.attribute-link-disabled p
 
 div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
 { 
-    old-background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t18/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -170,14 +170,14 @@ div#maincontent-design div.content-view-embed h3
 
 div.quote-begin
 { 
-    old-background-image: url(../../images/quote-up.gif);
+    background-image: url(../../images/quote-up.gif);
     background-repeat: no-repeat;
     background-position: bottom right;
 }
 
 div.quote-end
 { 
-    old-background-image: url(../../images/quote-down.gif);
+    background-image: url(../../images/quote-down.gif);
     background-repeat: no-repeat;
     background-position: top left;
 }
@@ -294,7 +294,6 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
     border-color: #99ccff;
 }
 
-
 /* RENDERED TABLE */
 
 table.renderedtable td
@@ -306,7 +305,6 @@ table.renderedtable
 { 
     border-colort: #336699;
 }
-
 
 /* FORUM */
 
@@ -325,5 +323,3 @@ table.forum tr.bglight td, table.forum tr.bgdark td
 {
     border-color: #7b92bc;
 }
-
-

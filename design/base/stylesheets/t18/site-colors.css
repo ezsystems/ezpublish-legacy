@@ -68,66 +68,46 @@ div#topmenu
     background-image: url(../../images/t18/background-menu.png);
     background-repeat: repeat-x;
     background-position: top left;
-    background-color: #cccccc;
-    border-color: #ffffff;
-}
-
-div.topmenu-line
-{
-    border-color: #cccccc;
+    background-color: #ffc757;
+    border-color: #e6eeff;
 }
 
 div#topmenu li
 {
-/*    background-color: #ff8939;*/
     border-color: #ffffff;
 }
 
 div#topmenu li.selected
 {
-color: #ff0000;
-    background-image: url(../../images/t18/background-menu.png);
+    background-image: url(../../images/t18/background-menu-over.png);
     background-repeat: repeat-x;
     background-position: top left;
-    background-color: #cccccc;
+    background-color: #ffc757;
 }
-
-/*
-div#topmenu li div.spacing
-{
-    color: #000000;
-    old-background-image: url(../../images/t1/t1-tab-normal-right.gif);
-    background-repeat: no-repeat;
-    background-position: top right;
-}*/
 
 div#topmenu li a
 {
-    text-decoration: none;
     color: #000000;
 }
 
-/*
-div#topmenu li.selected div.spacing
-{
-    old-background-image: url(../../images/t1/t1-tab-selected-right.gif);
-    background-repeat: no-repeat;
-    background-position: top right;
-}*/
-
-div#topmenu li.selected a
+div#topmenu li a:hover
 {
     text-decoration: none;
-    color: #000000;
 }
-
 
 /* SUB MENU */
 
 div#submenu
 {
     background-color: #7b92bc;
-    border-color: #7b92bc;
+    border-color: #e6eeff;
+    height: 20px;
+}
+
+div#submenu li
+{
+    height: 100%;
+    border-right: #ffffff 1px solid;
 }
 
 div#submenu li a
@@ -135,6 +115,10 @@ div#submenu li a
     color: #ffffff;
 }
 
+div#submenu li a:hover
+{
+    text-decoration: none;
+}
 
 /* PATH */
 
@@ -152,41 +136,56 @@ div#path p a
 
 /* MENUES */
 
+div#leftmenu-design
+{
+    padding-right: 5px;
+}
+
 div#leftmenu-design li.menu-level-0
 { 
-    border-color: #99ccff;
+    border-color: #e6eeff;
 }
 
 div#leftmenu-design li.menu-level-0 a
-{ 
-    color: #339999;
+{
+    display: block;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    background-color: #d5dcea;
+    font-weight: normal;
+    color: #666666;
 }
 
 div#leftmenu-design li.menu-level-0 a:hover
 {
-    color: #003399;
-}
-
-div#leftmenu-design li.menu-level-0 a.selected
-{
-    color: #003399;
+    background-color: #527ccc;
+    color: #ffffff;
 }
 
 div#leftmenu-design li.menu-level-1 a
-{ 
-    color: #66cccc;
+{
+    display: block;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    border-top: #d5dcea 1px solid;
+    border-bottom: #d5dcea 1px solid;
+    color: #666666;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover
 {
-    color: #003399;
+    background-color: #527ccc;
+    color: #ffffff;
 }
 
 div#leftmenu-design li.menu-level-1 a.selected
 {
-    color: #003399;
+    color: #666666;
 }
-
 
 /* NAVIGATORS */
 
@@ -252,14 +251,18 @@ div.toolbox-design div.attribute-link-disabled p
 
 div.toollist-design
 { 
-    background-color: #ffffff;
-    border-color: #336699;
+    background-color: #dee6f4;
+    border-color: #e6eeff;
 }
 
 div.toollist-design h2
 { 
-    color: #ffffff;
-    background-color: #336699;
+    color: #666666;
+    letter-spacing: 2px;
+    padding-left: 0px;
+    font-weight: normal;
+    text-align: right;
+    background-color: #e6eeff;
 }
 
 div.toollist-design h3
@@ -289,6 +292,8 @@ div#footer-design
 {
     color: #003366;
     background-color: #e6eeff;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 div#footer-design a:hover
