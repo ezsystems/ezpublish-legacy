@@ -1,7 +1,13 @@
 <form action={concat( '/shop/orderlist' )|ezurl} method="post" name="orderlist">
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Orders [%count]'|i18n( 'design/admin/shop/orderlist',, hash( '%count', $order_list|count ) )}</h2>
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-toolbar">
 <div class="block">
@@ -67,12 +73,14 @@
          item_limit=$limit}
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" {section show=$order_list|not}disabled="disabled"{/section} />
 </div>
 </div>
-
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </form>
