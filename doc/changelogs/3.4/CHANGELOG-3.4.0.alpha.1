@@ -80,7 +80,9 @@ eZ template:
   input value. A new operator array_sum was created to handle this
   case (sub is no longer support for arrays). Code depending on this
   must be changed.
-- Switch no longer requires a default case.
+- The switch function no longer requires a default case, and has an additional
+  argument 'var' which controls the naming of the variable which contains the
+  value of the match (which was formerly always '$match').
 
 eZ PHP creator:
 - New creation type 'define' which creates a define() expression.
