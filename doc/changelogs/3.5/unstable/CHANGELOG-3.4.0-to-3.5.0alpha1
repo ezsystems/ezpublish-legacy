@@ -23,6 +23,10 @@ Changes from 3.4.0 to 3.5.0alpha1
   Merged from 3.4 rev. 6772.
   By the way the following bug fixed:                              
   http://ez.no/community/bug_reports/not_able_to_fetch_keyword_list
+- Fixed bug with nodes counted instead of objects in
+  eZContentClass::objectCount() (merged from 3.4 rev. 6774).
+  http://ez.no/community/bug_reports/object_count_counts_nodes_instead_of_objects
+  http://ez.no/community/bug_reports/object_count_in_class_list_view_does_not_count_related_objects
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

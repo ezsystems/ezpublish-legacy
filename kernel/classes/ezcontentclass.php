@@ -908,8 +908,8 @@ class eZContentClass extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $countRow = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject, ezcontentobject_tree
-                                      WHERE ezcontentobject_tree.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=$this->ID" );
+        $countRow = $db->arrayQuery( 'SELECT count(*) AS count FROM ezcontentobject '.
+                                     'WHERE contentclass_id='.$this->ID );
 
         return $countRow[0]['count'];
     }
