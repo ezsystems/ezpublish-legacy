@@ -912,15 +912,11 @@ function definition()
         $attr_functions = null;
         if ( isset( $def["function_attributes"] ) )
             $attr_functions = $def["function_attributes"];
-        if ( !isset( $fields[$attr] ) )
+        if ( !isset( $fields[$attr] ) && ( $attr_functions === null || !isset( $attr_functions[$attr] ) ) )
         {
-            if ( !is_null( $attr_functions ) or
-                 !isset( $attr_functions[$attr] ) )
-            {
-                eZDebug::writeError( "Undefined attribute '$attr', cannot get",
-                                     $def['class_name'] );
-                return null;
-            }
+            eZDebug::writeError( "Undefined attribute '$attr', cannot get",
+                                  $def['class_name'] );
+            return null;
         }
         if ( !is_null( $attr_functions ) and isset( $attr_functions[$attr] ) )
         {
