@@ -45,10 +45,10 @@
 
 class eZXMLText
 {
-    function eZXMLText( &$xmlData, &$contentObjectAttribute )
+    function eZXMLText( &$xmlData, $contentObjectAttribute )
     {
         $this->XMLData =& $xmlData;
-        $this->ContentObjectAttribute =& $contentObjectAttribute;
+        $this->ContentObjectAttribute = $contentObjectAttribute;
         $this->XMLInputHandler = null;
         $this->XMLOutputHandler = null;
     }

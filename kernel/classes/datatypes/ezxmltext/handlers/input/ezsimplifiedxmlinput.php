@@ -39,9 +39,9 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
-    function eZSimplifiedXMLInput( &$xmlData, $aliasedType, &$contentObjectAttribute )
+    function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
-        $this->eZXMLInputHandler( $xmlData, $aliasedType );
+        $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
         $this->subTagArray['section'] = $this->sectionArray;
         $this->subTagArray['paragraph'] = array_merge( $this->blockTagArray, $this->inlineTagArray );
         $this->subTagArray['header'] = array( );
@@ -1267,9 +1267,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     /*!
      \private
-     \return the user input format for the given section
+     \return the user input format for the given table cell
     */
-    function &inputTdXML( &$tdNode, $currentSectionLevel )
+    function &inputTdXML( &$tdNode, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = "";
         if ( get_class( $tdNode ) == "ezdomnode" )
@@ -1280,12 +1280,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             case 'paragraph' :
             {
-                $output .= trim( $this->inputParagraphXML( $tdNode, $currentSectionLevel ) ) . "\n\n";
+                $output .= trim( $this->inputParagraphXML( $tdNode, $currentSectionLevel, $tdSectionLevel ) ) . "\n\n";
             }break;
             case 'section' :
             {
-                $sectionLevel = $currentSectionLevel + 1;
-                $output .= $this->inputSectionXML( $tdNode, $sectionLevel );
+                $tdSectionLevel += 1;
+                $output .= $this->inputSectionXML( $tdNode, $currentSectionLevel, $tdSectionLevel );
             }break;
 
             default :
@@ -1299,12 +1299,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
-    function &inputSectionXML( &$section, $currentSectionLevel )
+    function &inputSectionXML( &$section, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = "";
         foreach ( $section->children() as $sectionNode )
         {
-            $sectionLevel = $currentSectionLevel;
+            if ( $tdSectionLevel == null )
+            {
+                $sectionLevel = $currentSectionLevel;
+            }
+            else
+            {
+                $sectionLevel = $tdSectionLevel;
+                $currentSectionLevel = $currentSectionLevel;
+            }
             $tagName = $sectionNode->name();
 
             switch ( $tagName )
@@ -1321,13 +1329,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 case 'paragraph' :
                 {
-                    $output .= trim( $this->inputParagraphXML( $sectionNode, $sectionLevel ) ) . "\n\n";
+                    $output .= trim( $this->inputParagraphXML( $sectionNode, $sectionLevel, $tdSectionLevel ) ) . "\n\n";
                 }break;
 
                 case 'section' :
                 {
                     $sectionLevel += 1;
-                    $output .= $this->inputSectionXML( $sectionNode, $sectionLevel );
+                    if ( $tdSectionLevel == null )
+                        $output .= $this->inputSectionXML( $sectionNode, $sectionLevel );
+                    else
+                        $output .= $this->inputSectionXML( $sectionNode, $currentSectionLevel, $sectionLevel );
                 }break;
 
                 default :
@@ -1342,12 +1353,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
      \return the input xml of the given paragraph
     */
-    function &inputParagraphXML( &$paragraph, $currentSectionLevel )
+    function &inputParagraphXML( &$paragraph, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = "";
         foreach ( $paragraph->children() as $paragraphNode )
         {
-            $output .= $this->inputTagXML( $paragraphNode, $currentSectionLevel );
+            $output .= $this->inputTagXML( $paragraphNode, $currentSectionLevel, $tdSectionLevel );
         }
         return $output;
     }
@@ -1355,7 +1366,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
      \return the input xml for the given tag
     */
-    function &inputTagXML( &$tag, $currentSectionLevel )
+    function &inputTagXML( &$tag, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = "";
         $tagName = $tag->name();
@@ -1364,7 +1375,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $tagChildren = $tag->children();
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->inputTagXML( $childTag, $currentSectionLevel );
+            $childTagText .= $this->inputTagXML( $childTag, $currentSectionLevel, $tdSectionLevel );
         }
 
         switch ( $tagName )
@@ -1406,7 +1417,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel );
+                        $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
                     }
                     $listContent .= "  <li>$listItemContent</li>\n";
                 }
@@ -1430,10 +1441,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
-
+                        $tdSectionLevel = $currentSectionLevel;
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel );
+                            $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel, $tdSectionLevel );
                         }
                         if ( $tableCell->name() == "th" )
                             $tableData .= "  <th>" . trim( $cellContent ) . "</th>\n";
@@ -1473,7 +1484,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $customTagContent = "";
                 foreach ( $tag->children() as $tagChild )
                 {
-                    $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel );
+                    $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                 }
                 $output .= "<$tagName name='$name'>\n" .   trim( $customTagContent ) . "\n</$tagName>";
             }break;
