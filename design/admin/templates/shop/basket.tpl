@@ -40,7 +40,7 @@
 </tr>
 {section var=Products loop=$basket.items sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">
-	<td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Products.item.id}" /></td>
+	<td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Products.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/shop/basket' )}" /></td>
 	<td><input type="hidden" name="ProductItemIDList[]" value="{$Products.item.id}" /><a href={concat( '/content/view/full/', $Products.item.node_id, '/' )|ezurl}>{$Products.item.object_name}</a></td>
 	<td><input type="text" name="ProductItemCountList[]" value="{$Products.item.item_count}" size="3" /></td>
 	<td>{$Products.item.vat_value} %</td>
@@ -91,7 +91,7 @@
 
 {section-else}
 <div class="block">
-    <p>{'There are no products in your shopping basket.'|i18n( 'design/admin/shop/basket' )}</p>
+    <p>{'There are no items in your shopping basket.'|i18n( 'design/admin/shop/basket' )}</p>
 </div>
 {/section}
 
@@ -104,10 +104,10 @@
     {section show=$basket.items}
     <div class="button-left">
         <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/basket' )}" title="{'Remove selected items from the basket.'|i18n( 'design/admin/shop/basket' )}" />
-        <input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" title="{'Store changes (quantity, option, etc.) and update the basket.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" title="{'Click this button to update the basket if you have modified any quantity and/or option fields.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     <div class="button-right">
-        <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and go back to where you came from.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" title="{'Proceed to checkout and purchase the items that are in the basket.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     {section-else}
@@ -116,7 +116,7 @@
         <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not store any changes because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     <div class="button-right">
-        <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and go back to where you came from.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button-disabled" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not check out because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     {/section}

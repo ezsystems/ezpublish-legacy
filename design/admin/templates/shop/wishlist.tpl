@@ -98,8 +98,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$wish_list.items}
-<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items from the wish list.'|i18n( 'design/admin/shop/wishlist' )}" />
-<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Click this button after changing the quantity and option values.'|i18n( 'design/admin/shop/wishlist' )}" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items.'|i18n( 'design/admin/shop/wishlist' )}" />
+<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Click this button to store changes if you have modified quantity and/or option values.'|i18n( 'design/admin/shop/wishlist' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
 <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
