@@ -48,5 +48,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed bug of no search index generated for datatype 'datetime'.
 - Fixed bug:  Role editing forgets limitations in step 3.
   http://ez.no/community/bug_reports/role_editing_forgets_limitations_in_step_3
+- Fixed bug: "target" object parameter was sometimes unset in ezxhtmlxmloutput.php.
+  (Merged from stable/3.3, rev. 10115, also in stable/3.4, rev. 10116)
+  http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
 
 *Library:

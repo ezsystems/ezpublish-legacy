@@ -349,10 +349,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $href =& eZURL::url( $linkID );
                         $target = $tag->attributeValueNS( 'ezurl_target', "http://ez.no/namespaces/ezpublish3/image/" );
-                        if ( $target == null )
-                            $target = "_self";
                         $hasLink = true;
                     }
+
+                    if ( !isset( $target ) )
+                        $target = "_self";
 
                     $objectParameters = array();
 //                    $objectParameters['align'] = "right;
