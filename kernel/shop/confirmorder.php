@@ -66,6 +66,35 @@ if ( get_class( $order ) == 'ezorder' )
     $tpl->setVariable( "order", $order );
 }
 
+
+// Create a custom order item
+
+$items =& $order->orderItems();
+
+$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                     'description' => 'Shipping',
+                                     'price' => 42.0,
+                                     'vat_is_included' => true,
+                                     'vat_type_id' => 1 )
+                              );
+$orderItem->store();
+
+$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                     'description' => 'Handling',
+                                     'price' => 12.0,
+                                     'vat_is_included' => true,
+                                     'vat_type_id' => 1 )
+                              );
+$orderItem->store();
+
+$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                     'description' => 'Gift certificate',
+                                     'price' => -10.0,
+                                     'vat_is_included' => true,
+                                     'vat_type_id' => 1 )
+                              );
+$orderItem->store();
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,

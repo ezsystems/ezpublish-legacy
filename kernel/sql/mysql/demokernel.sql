@@ -12471,6 +12471,10 @@ CREATE TABLE ezdiscountrule (
  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
+alter table ezorder add is_temporary int not null default 1;
+
+create table ezorder_item( id int primary key NOT NULL auto_increment, order_id int not null, description varchar(255), price float, vat_is_included int, vat_type_id int );
+
 create index ezcontentobject_tree_crc32_path on ezcontentobject_tree(crc32_path);
 create unique index ezuser_contentobject_id on ezuser(contentobject_id);
 create index ezuser_role_contentobject_id on ezuser_role(contentobject_id);

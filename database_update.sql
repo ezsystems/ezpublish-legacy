@@ -121,3 +121,6 @@ CREATE TABLE ezdiscountrule (
 ) TYPE=MyISAM;
 
 alter table ezorder add is_temporary int not null default 1;
+
+create table ezorder_item( id int primary key NOT NULL auto_increment, order_id int not null, description varchar(255), price float, vat_is_included int, vat_type_id int );
+

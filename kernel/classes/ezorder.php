@@ -48,6 +48,7 @@ include_once( "kernel/classes/ezproductcollectionitem.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/ezorderitem.php" );
 
 class eZOrder extends eZPersistentObject
 {
@@ -90,8 +91,18 @@ class eZOrder extends eZPersistentObject
 
     function attribute( $attr )
     {
-        if ( $attr == "items" )
-            return $this->items();
+        if ( $attr == "product_items" )
+            return $this->productItems();
+        if ( $attr == "order_items" )
+            return $this->orderItems();
+        if ( $attr == "product_total_inc_vat" )
+            return $this->productTotalIncVAT();
+        if ( $attr == "product_total_ex_vat" )
+            return $this->productTotalExVAT();
+        if ( $attr == "total_inc_vat" )
+            return $this->totalIncVAT();
+        if ( $attr == "total_ex_vat" )
+            return $this->totalExVAT();
         else if ( $attr == "user" )
             return $this->user();
         else
@@ -100,7 +111,17 @@ class eZOrder extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        if ( $attr == "items" )
+        if ( $attr == "order_items" )
+            return true;
+        else if ( $attr == "product_items" )
+            return true;
+        else if ( $attr == "product_total_inc_vat" )
+            return true;
+        else if ( $attr == "product_total_ex_vat" )
+            return true;
+        else if ( $attr == "total_inc_vat" )
+            return true;
+        else if ( $attr == "total_ex_vat" )
             return true;
         else if ( $attr == "user" )
             return true;
@@ -108,7 +129,7 @@ class eZOrder extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function &items( $asObject=true )
+    function &productItems( $asObject=true )
     {
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
@@ -182,10 +203,75 @@ class eZOrder extends eZPersistentObject
         return $addedProducts;
     }
 
+    function &productTotalIncVAT()
+    {
+        $items =& $this->productItems();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item['total_price_inc_vat'];
+        }
+        return $total;
+    }
+
+    function &productTotalExVAT()
+    {
+        $items =& $this->productItems();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item['total_price_ex_vat'];
+        }
+        return $total;
+    }
+
+    function &orderTotalIncVAT()
+    {
+        $items =& $this->orderItems();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item->attribute( 'price_inc_vat' );
+        }
+        return $total;
+    }
+
+    function &orderTotalExVAT()
+    {
+        $items =& $this->orderItems();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item->attribute( 'price_ex_vat' );
+        }
+        return $total;
+    }
+
+    function &totalIncVAT()
+    {
+        return $this->productTotalIncVAT() + $this->orderTotalIncVAT();
+    }
+
+    function &totalExVAT()
+    {
+        return $this->productTotalExVAT() + $this->orderTotalExVAT();
+    }
+
     function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
         $item->remove();
+    }
+
+    function &orderItems()
+    {
+        $items =& eZOrderItem::fetchList( $this->ID );
+
+        return $items;
     }
 
     /*!

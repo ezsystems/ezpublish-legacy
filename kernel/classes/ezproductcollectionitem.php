@@ -117,7 +117,6 @@ class eZProductCollectionItem extends eZPersistentObject
     function discountPercent()
     {
         $discount = false;
-//        $object->;
 
         return $discount;
     }

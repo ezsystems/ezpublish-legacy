@@ -45,5 +45,7 @@ $tpl->setVariable( "order", $order );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/orderview.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Order view' ) );
 
 ?>
