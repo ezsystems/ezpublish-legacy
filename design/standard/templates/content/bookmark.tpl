@@ -56,7 +56,7 @@
 
     <td>
         <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>
-            {$:item.name|wash}
+            {$:item.node.name|wash}
         </a>
     </td>
 

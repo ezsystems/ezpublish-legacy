@@ -17,8 +17,8 @@
 </div>
 <ul class="leftmenu">
 {let bookmark_list=fetch(content,bookmarks)}
-{section name=$BookMark loop=$bookmark_list}
-<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.name|wash}</a></li>
+{section name=BookMark loop=$bookmark_list}
+<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
 {/section}
 {/let}
 </ul>
@@ -34,8 +34,8 @@
 </div>
 <ul class="leftmenu">
 {let history_list=fetch(content,recent)}
-{section name=$History loop=$history_list}
-<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.name|wash}</a></li>
+{section name=History loop=$history_list}
+<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
 {/section}
 {/let}
 </ul>
