@@ -138,5 +138,9 @@ $tpl->setVariable( 'module', $Module );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:workflow/workflowlist.tpl' );
+$Result['path'] = array( array( 'text' => 'Workflow',
+                                'url' => false ),
+                         array( 'text' => 'List',
+                                'url' => false ) );
 
 ?>

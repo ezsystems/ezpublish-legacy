@@ -147,5 +147,10 @@ $tpl->setVariable( "workflow_group", $workflowGroup );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/groupedit.tpl" );
+$Result['path'] = array( array( 'text' => 'Workflow',
+                                'url' => false ),
+                         array( 'text' => 'Group edit',
+                                'url' => false ) );
+
 
 ?>

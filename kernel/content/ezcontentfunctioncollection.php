@@ -54,10 +54,40 @@ class eZContentFunctionCollection
     {
     }
 
+    function &fetchContentObject( $objectID )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        $contentObject =& eZContentObject::fetch( $objectID );
+        if ( $contentObject === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $contentObject );
+    }
+
+    function &fetchContentVersion( $objectID, $versionID )
+    {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
+        $contentVersion =& eZContentObjectVersion::fetchVersion( $versionID, $objectID );
+        if ( $contentVersion === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $contentObject );
+    }
+
+    function &fetchContentNode( $nodeID )
+    {
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+        if ( $contentNode === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $contentNode );
+    }
+
     function &fetchNonTranslationList( $objectID, $version )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $version =& eZContentObjectVersion::fetchVersion( $version, $objectID );
         if ( $version === null )
             return array( 'error' => array( 'error_type' => 'kernel',

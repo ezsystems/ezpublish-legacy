@@ -36,6 +36,37 @@
 */
 
 $FunctionList = array();
+$FunctionList['object'] = array( 'name' => 'object',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchContentObject' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( array( 'name' => 'object_id',
+                                                               'type' => 'integer',
+                                                               'required' => true ) ) );
+$FunctionList['version'] = array( 'name' => 'version',
+                                  'operation_types' => array( 'read' ),
+                                  'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                          'class' => 'eZContentFunctionCollection',
+                                                          'method' => 'fetchContentVersion' ),
+                                  'parameter_type' => 'standard',
+                                  'parameters' => array( array( 'name' => 'object_id',
+                                                                'type' => 'integer',
+                                                                'required' => true ),
+                                                         array( 'name' => 'version_id',
+                                                                'type' => 'integer',
+                                                                'default' => false,
+                                                                'required' => false ) ) );
+$FunctionList['node'] = array( 'name' => 'node',
+                               'operation_types' => array( 'read' ),
+                               'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                       'class' => 'eZContentFunctionCollection',
+                                                       'method' => 'fetchContentNode' ),
+                               'parameter_type' => 'standard',
+                               'parameters' => array( array( 'name' => 'node_id',
+                                                             'type' => 'integer',
+                                                             'required' => true ) ) );
 $FunctionList['translation_list'] = array( 'name' => 'object',
                                            'operation_types' => array( 'read' ),
                                            'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

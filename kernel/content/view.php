@@ -57,22 +57,6 @@ if ( !is_numeric( $Offset ) )
 $ini =& eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
-if ( $viewCacheEnabled )
-{
-    include_once( 'kernel/classes/ezcontentcache.php' );
-    $cacheInfo = eZContentObject::cacheInfo( $Params );
-    $language = $cacheInfo['language'];
-    $roleList = $cacheInfo['role_list'];
-    $discountList = $cacheInfo['discount_list'];
-    $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
-    {
-//         eZDebug::writeDebug( 'found cache', 'content/view' );
-        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
-        return $Result;
-    }
-}
-
 $limitationList = array();
 
 if ( array_key_exists( 'Limitation', $Params ) )
@@ -121,6 +105,21 @@ switch( $operationResult['status'] )
              !isset( $operationResult['result'] ) &&
              ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
         {
+            if ( $viewCacheEnabled )
+            {
+                include_once( 'kernel/classes/ezcontentcache.php' );
+                $cacheInfo = eZContentObject::cacheInfo( $Params );
+                $language = $cacheInfo['language'];
+                $roleList = $cacheInfo['role_list'];
+                $discountList = $cacheInfo['discount_list'];
+                $designSetting = eZTemplateDesignResource::designSetting( 'site' );
+                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
+                {
+//         eZDebug::writeDebug( 'found cache', 'content/view' );
+                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
+                    return $Result;
+                }
+            }
             $viewParameters = array( 'offset' => $Offset );
             $object = $operationResult[ 'object' ];
 
