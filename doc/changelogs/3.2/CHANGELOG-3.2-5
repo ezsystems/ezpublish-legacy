@@ -19,6 +19,7 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/developer/ez_publish_3/bug_reports/diappearing_field_information_when_editing_a_class
 - Fixed indexing large documents by deviding the text to be indexed into smaller chunks.
   http://ez.no/developer/ez_publish_3/bug_reports/weird_search_limitations_binary_file
+- Fixed undefined variabled. http://ez.no/developer/ez_publish_3/bug_reports/undefined_variables_in_class_groupedit_and_workflow_groupedit
 
 *Setup:
 
