@@ -32,7 +32,6 @@
 // you.
 //
 
-
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
@@ -44,23 +43,42 @@ if ( isset( $Params["GroupID"] ) )
 $http =& eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
 $DeleteResult = array();
-foreach ( $deleteIDArray as $deleteID )
+$alreadyRemoved = array();
+
+if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'CancelButton' ) && $GroupID != null )
 {
-    $ClassObjectsCount = 0;
-    $class =& eZContentClass::fetch( $deleteID );
-    if( $class != null )
+    // we will remove class - group relations rather than classes if they belongs to more than 1 group:
+    $updateDeleteIDArray = true;
+    foreach ( array_keys( $deleteIDArray ) as $key )
     {
-        $ClassID = $class->attribute( 'id' );
-        $ClassName = $class->attribute( 'name' );
-        $classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
-        $ClassObjectsCount = count( $classObjects );
-        if ( $ClassObjectsCount == 1 )
-            $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
-        else
-            $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );
-        $item = array( "className" => $ClassName,
-                       "objectCount" => $ClassObjectsCount );
-        $DeleteResult[] = $item;
+        $classID = $deleteIDArray[$key];
+        // for each classes tagged for deleting:
+        $class =& eZContentClass::fetch( $classID );
+        if ( $class )
+        {
+            // find out to how many groups the class belongs:
+            $classInGroups = $class->attribute( 'ingroup_list' );
+            if ( count( $classInGroups ) != 1 )
+            {
+                // remove class - group relation:
+                include_once( "kernel/class/ezclassfunctions.php" );
+                eZClassFunctions::removeGroup( $classID, null, array( $GroupID ) );
+                $alreadyRemoved[] = array( 'id' => $classID,
+                                           'name' => $class->attribute( 'name' ) );
+                $updateDeleteIDArray = true;
+                unset( $deleteIDArray[$key] );
+            }
+        }
+    }
+    if ( $updateDeleteIDArray )
+    {
+        // we aren't going to remove classes already processed:
+        $http->setSessionVariable( 'DeleteClassIDArray', $deleteIDArray );
+    }
+    if ( count( $deleteIDArray ) == 0 )
+    {
+        // we don't need anything to confirm:
+        return $Module->redirectTo( '/class/classlist/' . $GroupID );
     }
 }
 
@@ -68,8 +86,8 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
-        eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
+        eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
+        eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
 
         // Fetch real version and remove it
         $deleteClass =& eZContentClass::fetch( $deleteID );
@@ -98,19 +116,43 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             }
         }
     }
-    $Module->redirectTo( '/class/classlist/' . $GroupID );
+    return $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
-    $Module->redirectTo( '/class/classlist/' . $GroupID );
+    return $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
+
+foreach ( $deleteIDArray as $deleteID )
+{
+    $ClassObjectsCount = 0;
+    $class =& eZContentClass::fetch( $deleteID );
+    if ( $class != null )
+    {
+        $class =& eZContentClass::fetch( $deleteID );
+        $ClassID = $class->attribute( 'id' );
+        $ClassName = $class->attribute( 'name' );
+        $classObjects =& eZContentObject::fetchSameClassList( $ClassID );
+        $ClassObjectsCount = count( $classObjects );
+        if ( $ClassObjectsCount == 1 )
+            $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
+        else
+            $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );
+        $item = array( "className" => $ClassName,
+                       "objectCount" => $ClassObjectsCount );
+        $DeleteResult[] = $item;
+    }
+}
+
 $Module->setTitle( ezi18n( 'kernel/class', 'Remove classes' ) . ' ' . $ClassID );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( "GroupID", $GroupID );
-$tpl->setVariable( "DeleteResult", $DeleteResult );
+$tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'GroupID', $GroupID );
+$tpl->setVariable( 'DeleteResult', $DeleteResult );
+$tpl->setVariable( 'already_removed', $alreadyRemoved );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removeclass/',
