@@ -63,6 +63,7 @@ else
 $http =& eZHttpTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
+    eZContentClassGroup::removeSelected( $GroupID );
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
