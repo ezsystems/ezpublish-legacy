@@ -146,6 +146,20 @@
         <source>System information</source>
         <translation>系统信息</translation>
     </message>
+    <message>
+        <source>RSS</source>
+        <comment>Really Simple Syndication</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished">先进的</translation>
+    </message>
+    <message>
+        <source>PDF export</source>
+        <comment>PDF export</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -211,10 +225,405 @@
     </message>
 </context>
 <context>
+    <name>design/blog/layout</name>
+    <message>
+        <source>Log entries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest blogs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log Archive by Entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comments disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recent links</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/corporate/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished">发送</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/forum/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation type="unfinished">主题</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished">信息</translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation type="unfinished">作者</translation>
+    </message>
+    <message>
+        <source>Replies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of Topics:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of Posts:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+</context>
+<context>
+    <name>design/gallery/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Galleries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of your album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">描述</translation>
+    </message>
+    <message>
+        <source>Number of columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
+    </message>
+</context>
+<context>
+    <name>design/intranet/layout</name>
+    <message>
+        <source>Comment this article!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contact information</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/news/content/poll</name>
+    <message>
+        <source>Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/news/layout</name>
+    <message>
+        <source>Related stories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished">注释</translation>
+    </message>
+    <message>
+        <source>Comment this article!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View all polls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most popular</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
         <translation type="obsolete">取消付款.试着再买.</translation>
+    </message>
+</context>
+<context>
+    <name>design/shop/layout</name>
+    <message>
+        <source>login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write your own review</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>How do you rate the product?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title of your review:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your review:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related products</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to basket</source>
+        <translation type="unfinished">加入到购物篮</translation>
+    </message>
+    <message>
+        <source>Notify me about updates</source>
+        <translation type="unfinished">如果更新， 请通知我</translation>
+    </message>
+    <message>
+        <source>Printerfriendly version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People who bought this also bought</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reviews</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Write a review</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished">搜索</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>Register new customer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
+    </message>
+    <message>
+        <source>Products</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest products</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shopping basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View all details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your basket is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best sellers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -379,6 +788,166 @@
         <source>New option</source>
         <translation>新选择</translation>
     </message>
+    <message>
+        <source>Pretext</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Posttext</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current value: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> (This value are the current identifier)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current temporary value: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> (This value is a copy of the original identifier)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start value</source>
+        <translation type="unfinished">开始值</translation>
+    </message>
+    <message>
+        <source>Update identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini Parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini file location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini setting type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished">文本</translation>
+    </message>
+    <message>
+        <source>Enable/Disable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>True/False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Integer</source>
+        <translation type="unfinished">整数</translation>
+    </message>
+    <message>
+        <source>Float</source>
+        <translation type="unfinished">浮点数</translation>
+    </message>
+    <message>
+        <source>Array</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">类型</translation>
+    </message>
+    <message>
+        <source>Create or browse objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New and existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only new objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">删除被选的</translation>
+    </message>
+    <message>
+        <source>Unchecked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single choice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning, the ini file settings value and object value does not match.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ini file has probably been modified manually since last time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini File : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini Value: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make empty array</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -542,6 +1111,46 @@
         <source>URL</source>
         <translation>URL</translation>
     </message>
+    <message>
+        <source>Retry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is not required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is searchable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is not searchable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collects information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Does not collect information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
@@ -572,6 +1181,14 @@
     <message>
         <source>New group</source>
         <translation>新组</translation>
+    </message>
+    <message>
+        <source>Last modified classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -619,6 +1236,10 @@
     <message>
         <source>New class</source>
         <translation>新的类</translation>
+    </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -690,6 +1311,10 @@
     <message>
         <source>Summary</source>
         <translation>概要</translation>
+    </message>
+    <message>
+        <source>[more]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -911,6 +1536,73 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Add</source>
         <translation>添加</translation>
     </message>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished">标题</translation>
+    </message>
+    <message>
+        <source>Intro text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sub text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation type="unfinished">浏览</translation>
+    </message>
+    <message>
+        <source>Export structure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished">节点</translation>
+    </message>
+    <message>
+        <source>Export classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export to URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export for direct download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/browse</name>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished">创建新的</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
@@ -1102,7 +1794,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Image filename</source>
-        <translation>图象文件名</translation>
+        <translation type="obsolete">图象文件名</translation>
     </message>
     <message>
         <source>Alternative image text</source>
@@ -1134,7 +1826,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Existing orignal filename</source>
-        <translation>已存在的原文件名</translation>
+        <translation type="obsolete">已存在的原文件名</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1210,19 +1902,63 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation>创建新的 %classname</translation>
+        <translation type="obsolete">创建新的 %classname</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation>添加 %classname</translation>
+        <translation type="obsolete">添加 %classname</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>编辑对象</translation>
+        <translation type="obsolete">编辑对象</translation>
     </message>
     <message>
         <source>Remove objects</source>
         <translation>删除对象</translation>
+    </message>
+    <message>
+        <source>View Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local image file for upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original filename for image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing original filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">编辑</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1309,7 +2045,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
-        <translation>你的确想放弃草稿吗?</translation>
+        <translation type="obsolete">你的确想放弃草稿吗?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -1398,6 +2134,168 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>New draft</source>
         <translation>新草稿</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following feedback was collected:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation type="unfinished">所有人</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation type="unfinished">最后修改时间</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to discard the draft %versionname?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/ezoption</name>
+    <message>
+        <source>No value chosen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/feedback</name>
+    <message>
+        <source>Feedback for %feedbackname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks for your feedback, the following information was collected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/form</name>
+    <message>
+        <source>Form %formname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/pdf</name>
+    <message>
+        <source>eZ publish PDF export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>#page of #total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>#level1 - #level2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>#levelIndex1:#levelIndex2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished">内容</translation>
+    </message>
+    <message>
+        <source>Versionview not supported in PDF yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll</name>
+    <message>
+        <source>Poll %pollname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%count total votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poll results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1929,7 +2827,7 @@ If you wish to send comments to the approver or view the status use the URL belo
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>这些是你放在书签的对象。点击对象来浏览它。如果你有足够权限，点击编辑键来编辑它。
+        <translation type="obsolete">这些是你放在书签的对象。点击对象来浏览它。如果你有足够权限，点击编辑键来编辑它。
 如果你想添加更多对象， 点击%addbutton 键。
 
 删除对象只会把对象从这个清单中删除。</translation>
@@ -2067,6 +2965,17 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Your pending list is empty</source>
         <translation>你的未发表清单是空的</translation>
     </message>
+    <message>
+        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
+      If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
+
+      Removing objects will only remove them from this list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -2124,7 +3033,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation>你目前没有登录。 要得到适当权限， 请登录或创建新用户。</translation>
+        <translation type="obsolete">你目前没有登录。 要得到适当权限， 请登录或创建新用户。</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -2213,6 +3122,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
         <translation>如果不点击 %url, 你将被自动的转到新位置。</translation>
+    </message>
+    <message>
+        <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2367,7 +3280,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Are you sure you want to remove these nodes?</source>
-        <translation>你确实想删除这些节点?</translation>
+        <translation type="obsolete">你确实想删除这些节点?</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1!</source>
@@ -2391,7 +3304,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation>删除指定的节点将删除它的 %1 个子节点.</translation>
+        <translation type="obsolete">删除指定的节点将删除它的 %1 个子节点.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
@@ -2399,7 +3312,31 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation>删掉%1将删掉它自己和它的%2个子节点</translation>
+        <translation type="obsolete">删掉%1将删掉它自己和它的%2个子节点</translation>
+    </message>
+    <message>
+        <source>Removing this assignment will also remove its %1 children.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%nodename and its %childcount children. %additionalwarning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%nodename %additionalwarning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2492,6 +3429,54 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Notify me about updates</source>
         <translation>如果更新， 请通知我</translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New article</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New person</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input did not validate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -2557,12 +3542,12 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename]%classname &quot;%itemname&quot; 被发表了</translation>
+        <translation type="obsolete">[%sitename]%classname &quot;%itemname&quot; 被发表了</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>信件通知你一个在%sitename的新项目已被发表。
+        <translation type="obsolete">信件通知你一个在%sitename的新项目已被发表。
 你可以用下面的URL来浏览。</translation>
     </message>
     <message>
@@ -2654,6 +3639,267 @@ The item can viewed by using the URL below.</source>
     <message>
         <source>Install package</source>
         <translation>安装包裹</translation>
+    </message>
+    <message>
+        <source>Please provide information on the changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
+The change will continue to the next change marker.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please provide some basic information for your package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">描述</translation>
+    </message>
+    <message>
+        <source>Licence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Packager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please provide information on the maintainer of the package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>Maintainer name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <comment>Maintainer role</comment>
+        <translation type="unfinished">任务</translation>
+    </message>
+    <message>
+        <source>Please select a thumbnail file to be included in the package,
+if you do not wish to have a thumbnail simply click Next.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available wizards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose one of the following wizards for creating a package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose the content classes you wish to be included in the package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation type="unfinished">类的清单</translation>
+    </message>
+    <message>
+        <source>Please select a CSS file to be included in the package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select an image file to be included in the package and click Next.
+When you are done with adding images click Next without choosing an image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently added image files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package wizard: %wizardname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
+If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal of packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to remove the following packages?
+The packages will be lost forever.
+Note: The packages will not be uninstalled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package removal was cancelled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <source>Installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next %arrowright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstall package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
+If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
+You may also remove the package without uninstalling it from the package list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstall items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip uninstallation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Files [%collectionname]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export to file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maintainers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Regarding eZ publish package &apos;%packagename&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send E-Mail to the maintainer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File list</source>
+        <translation type="unfinished">文件列表</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>PDF Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished">创建</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">编辑</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2953,6 +4199,234 @@ menu on the top.</source>
     </message>
 </context>
 <context>
+    <name>design/standard/rss</name>
+    <message>
+        <source>Choose export node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose where to export from.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <source>Choose import destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose where to store imported items.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose RSS image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose image to use in RSS export.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose export source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose owner of imported objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the owner of the objects to import
+
+    Select the user and click the %buttonname button.
+    Using the recent and bookmark items for quick selection is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/edit</name>
+    <message>
+        <source>Display frontpage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished">标题</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">描述</translation>
+    </message>
+    <message>
+        <source>Site URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished">图像</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation type="unfinished">浏览</translation>
+    </message>
+    <message>
+        <source>Site Access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished">类</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">升级</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>RSS Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished">URL</translation>
+    </message>
+    <message>
+        <source>Destination path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imported objects owner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/list</name>
+    <message>
+        <source>RSS Feeds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation type="unfinished">修改者</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">编辑</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished">是</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/view</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/search</name>
     <message>
         <source>Search statistics</source>
@@ -3137,7 +4611,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Name</source>
-        <translation type="obsolete">名字</translation>
+        <translation type="unfinished">名字</translation>
     </message>
     <message>
         <source>Database info:</source>
@@ -3201,7 +4675,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Path</source>
-        <translation type="obsolete">路径</translation>
+        <translation type="unfinished">路径</translation>
     </message>
     <message>
         <source>Executable</source>
@@ -3253,7 +4727,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>setup</source>
-        <translation>设置</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
         <source>Cache admin</source>
@@ -3480,11 +4954,11 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>PHP Accelerator is enabled.</source>
-        <translation>PHP 加速允许。</translation>
+        <translation type="obsolete">PHP 加速允许。</translation>
     </message>
     <message>
         <source>PHP Accelerator is disabled.</source>
-        <translation>PHP 加速不允许。</translation>
+        <translation type="obsolete">PHP 加速不允许。</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
@@ -3527,31 +5001,31 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>System check:</source>
-        <translation>系统检查:</translation>
+        <translation type="obsolete">系统检查:</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>Ok系统检查</translation>
+        <translation type="obsolete">Ok系统检查</translation>
     </message>
     <message>
         <source>Image settings:</source>
-        <translation>图像设置 :</translation>
+        <translation type="obsolete">图像设置 :</translation>
     </message>
     <message>
         <source>Outgoing mail:</source>
-        <translation>发出邮件 :</translation>
+        <translation type="obsolete">发出邮件 :</translation>
     </message>
     <message>
         <source>Database settings:</source>
-        <translation>数据库设置 :</translation>
+        <translation type="obsolete">数据库设置 :</translation>
     </message>
     <message>
         <source>Language settings:</source>
-        <translation>语言设置 :</translation>
+        <translation type="obsolete">语言设置 :</translation>
     </message>
     <message>
         <source>Sitedesign:</source>
-        <translation>网站设计 :</translation>
+        <translation type="obsolete">网站设计 :</translation>
     </message>
     <message>
         <source>Create new template override for</source>
@@ -3770,6 +5244,159 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Summary</source>
         <translation>概要</translation>
+    </message>
+    <message>
+        <source>All caches were cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>PHP Accelerator name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not detect version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <comment>Database server</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket path</source>
+        <comment>Database socket path</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <comment>Database name</comment>
+        <translation type="unfinished">数据库</translation>
+    </message>
+    <message>
+        <source>Connection retry count</source>
+        <comment>Database retry count</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current read-only database (Slave)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>Image system:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">优先权</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">升级</translation>
     </message>
 </context>
 <context>
@@ -4186,11 +5813,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Server name</source>
-        <translation type="unfinished">服务器名</translation>
+        <translation type="obsolete">服务器名</translation>
     </message>
     <message>
         <source>User name</source>
-        <translation type="unfinished">用户名</translation>
+        <translation type="obsolete">用户名</translation>
     </message>
     <message>
         <source>Password</source>
@@ -4326,35 +5953,35 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Details of your system, like OS type etc.</source>
-        <translation type="unfinished">你系统的细节,象系统的类型等.</translation>
+        <translation type="obsolete">你系统的细节,象系统的类型等.</translation>
     </message>
     <message>
         <source>The test results for your system</source>
-        <translation type="unfinished">测试你系统的结果</translation>
+        <translation type="obsolete">测试你系统的结果</translation>
     </message>
     <message>
         <source>The database type you are using</source>
-        <translation type="unfinished">你正在使用的数据类型</translation>
+        <translation type="obsolete">你正在使用的数据类型</translation>
     </message>
     <message>
         <source>The name of your site</source>
-        <translation type="unfinished">你网站的名称</translation>
+        <translation type="obsolete">你网站的名称</translation>
     </message>
     <message>
         <source>The url of your site</source>
-        <translation type="unfinished">你网站的URL</translation>
+        <translation type="obsolete">你网站的URL</translation>
     </message>
     <message>
         <source>The languages you chose</source>
-        <translation type="unfinished">你选择的语言</translation>
+        <translation type="obsolete">你选择的语言</translation>
     </message>
     <message>
         <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="unfinished">如果你希望,你也能加某些注释. 这些注释将包含在你的注册中.</translation>
+        <translation type="obsolete">如果你希望,你也能加某些注释. 这些注释将包含在你的注册中.</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished">注释</translation>
+        <translation type="obsolete">注释</translation>
     </message>
     <message>
         <source>Send Registration</source>
@@ -4454,7 +6081,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>However if you wish to finetune your system you should click the</source>
-        <translation type="unfinished">不过, 如果你想微调你的系统,你应该点击</translation>
+        <translation type="obsolete">不过, 如果你想微调你的系统,你应该点击</translation>
     </message>
     <message>
         <source>Finetune System</source>
@@ -4490,7 +6117,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Servername</source>
-        <translation type="unfinished">服务器名称</translation>
+        <translation type="obsolete">服务器名称</translation>
     </message>
     <message>
         <source>Socket</source>
@@ -4622,11 +6249,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="unfinished">我们探测到你的系统支持MySQL和PostgreSQL。您喜欢用户谁呢？</translation>
+        <translation type="obsolete">我们探测到你的系统支持MySQL和PostgreSQL。您喜欢用户谁呢？</translation>
     </message>
     <message>
         <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="unfinished">eZ支持MySQL和PostgreSQL。</translation>
+        <translation type="obsolete">eZ支持MySQL和PostgreSQL。</translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
@@ -4655,15 +6282,15 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Enter database system user information in the boxes below</source>
-        <translation type="unfinished">在下列的输入框中输入数据库系统用户信息</translation>
+        <translation type="obsolete">在下列的输入框中输入数据库系统用户信息</translation>
     </message>
     <message>
         <source>Socket (optional)</source>
-        <translation type="unfinished">插孔（可选择性的）</translation>
+        <translation type="obsolete">插孔（可选择性的）</translation>
     </message>
     <message>
         <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="unfinished">推荐它来为eZ生成数据库。如果你不能肯定怎么做，请阅读数据库的用户手册。</translation>
+        <translation type="obsolete">推荐它来为eZ生成数据库。如果你不能肯定怎么做，请阅读数据库的用户手册。</translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
@@ -4675,11 +6302,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>E-mail settings</source>
-        <translation type="unfinished">电子信箱设置</translation>
+        <translation type="obsolete">电子信箱设置</translation>
     </message>
     <message>
         <source>Specify email settings for eZ publish</source>
-        <translation type="unfinished">为eZ指定电子信箱设置</translation>
+        <translation type="obsolete">为eZ指定电子信箱设置</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
@@ -4691,7 +6318,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Mail system</source>
-        <translation type="unfinished">信件系统</translation>
+        <translation type="obsolete">信件系统</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval.</source>
@@ -4707,11 +6334,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Finished!</source>
-        <translation type="unfinished">完成！</translation>
+        <translation type="obsolete">完成！</translation>
     </message>
     <message>
         <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="unfinished">eZ已安装在下列的网站中</translation>
+        <translation type="obsolete">eZ已安装在下列的网站中</translation>
     </message>
     <message>
         <source>Title</source>
@@ -4735,7 +6362,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished">技巧：靠点击你网络浏览器的“保存为”菜单来保存此页为html文件你也右以写下你网站的地址。</translation>
+        <translation type="obsolete">技巧：靠点击你网络浏览器的“保存为”菜单来保存此页为html文件你也右以写下你网站的地址。</translation>
     </message>
     <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
@@ -4744,7 +6371,7 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>forum</source>
         <comment>forum link</comment>
-        <translation type="unfinished">论坛</translation>
+        <translation type="obsolete">论坛</translation>
     </message>
     <message>
         <source>eZ publish</source>
@@ -4779,11 +6406,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Language and country selection</source>
-        <translation type="unfinished">语言和国家选择。</translation>
+        <translation type="obsolete">语言和国家选择。</translation>
     </message>
     <message>
         <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished">用无线电按钮来选择原始语言，然后用检查框来选择附加语言。你可以选择多种语言。</translation>
+        <translation type="obsolete">用无线电按钮来选择原始语言，然后用检查框来选择附加语言。你可以选择多种语言。</translation>
     </message>
     <message>
         <source>No Unicode support</source>
@@ -4812,7 +6439,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="unfinished">用选择绵语言来决定字符集、数据格式，数字格式，等等。</translation>
+        <translation type="obsolete">用选择绵语言来决定字符集、数据格式，数字格式，等等。</translation>
     </message>
     <message>
         <source>These and other additional languages can also be installed later.</source>
@@ -4820,7 +6447,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>For more information about language customization, see the %1.</source>
-        <translation type="unfinished">关于语言用户化的信息，请看%1.</translation>
+        <translation type="obsolete">关于语言用户化的信息，请看%1.</translation>
     </message>
     <message>
         <source>documentation</source>
@@ -4848,7 +6475,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="unfinished">如果你希望能靠发送eZ的某些住处来注册安装。没有机密的数据被传送。eZ系统将不用或卖你的私人信息</translation>
+        <translation type="obsolete">如果你希望能靠发送eZ的某些住处来注册安装。没有机密的数据被传送。eZ系统将不用或卖你的私人信息</translation>
     </message>
     <message>
         <source>The registration email:</source>
@@ -4856,7 +6483,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
-        <translation type="unfinished">送出的电子邮件和产生你的网站可能花一两秒钟。请等待到下一页加载。</translation>
+        <translation type="obsolete">送出的电子邮件和产生你的网站可能花一两秒钟。请等待到下一页加载。</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
@@ -4864,25 +6491,25 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="unfinished">此数据将帮助eZ的后续版本</translation>
+        <translation type="obsolete">此数据将帮助eZ的后续版本</translation>
     </message>
     <message>
         <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
 If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="unfinished">你的网站正以虚拟模式工作。此模式是一不安全的模式。推荐&apos;s 以实模式运行eZ。
+        <translation type="obsolete">你的网站正以虚拟模式工作。此模式是一不安全的模式。推荐&apos;s 以实模式运行eZ。
 如果你不可能用实模式，你应该按下列说明来安装.htaccess文件，此文件告诉服务器仅给某些文件的入口。</translation>
     </message>
     <message>
         <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="unfinished">如果你进入网站，你能运行下列的命令来安装文件。</translation>
+        <translation type="obsolete">如果你进入网站，你能运行下列的命令来安装文件。</translation>
     </message>
     <message>
         <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished">如果你没有进入网站，你将必须用FTP拷贝文件或由服务器为你做它。</translation>
+        <translation type="obsolete">如果你没有进入网站，你将必须用FTP拷贝文件或由服务器为你做它。</translation>
     </message>
     <message>
         <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="unfinished">这个安全测试确保你的设置其他用户不能进入。</translation>
+        <translation type="obsolete">这个安全测试确保你的设置其他用户不能进入。</translation>
     </message>
     <message>
         <source>Site access configuration</source>
@@ -4891,7 +6518,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
  If unsure choose URL.</source>
-        <translation type="unfinished">为你的网站选择你喜欢的进入方法。进入方法决定于用户将如何进入。
+        <translation type="obsolete">为你的网站选择你喜欢的进入方法。进入方法决定于用户将如何进入。
 如果不能定选择URL。</translation>
     </message>
     <message>
@@ -4924,7 +6551,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="unfinished">*这要求你的服务器设置处理端口数。</translation>
+        <translation type="obsolete">*这要求你的服务器设置处理端口数。</translation>
     </message>
     <message>
         <source>Hostname</source>
@@ -4936,11 +6563,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="unfinished">*这要求你有对主机名的DNS设置</translation>
+        <translation type="obsolete">*这要求你有对主机名的DNS设置</translation>
     </message>
     <message>
         <source>For more detailed information on site access see the %1</source>
-        <translation type="unfinished">对于进入网站的更详细的信息，请看％1</translation>
+        <translation type="obsolete">对于进入网站的更详细的信息，请看％1</translation>
     </message>
     <message>
         <source>online documentation</source>
@@ -4949,7 +6576,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
-        <translation type="unfinished">对于每一被选网站you&apos;ve，你需要指定某些信息来安装。</translation>
+        <translation type="obsolete">对于每一被选网站you&apos;ve，你需要指定某些信息来安装。</translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
@@ -4973,31 +6600,31 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>URL for access</source>
-        <translation type="unfinished">进入网站的URL</translation>
+        <translation type="obsolete">进入网站的URL</translation>
     </message>
     <message>
         <source>Port for access</source>
-        <translation type="unfinished">进入网站的端口</translation>
+        <translation type="obsolete">进入网站的端口</translation>
     </message>
     <message>
         <source>Hostname for access</source>
-        <translation type="unfinished">进入网站的主机名</translation>
+        <translation type="obsolete">进入网站的主机名</translation>
     </message>
     <message>
         <source>URL for admin access</source>
-        <translation type="unfinished">管理员进入网站的URL</translation>
+        <translation type="obsolete">管理员进入网站的URL</translation>
     </message>
     <message>
         <source>Port for admin access</source>
-        <translation type="unfinished">管理员进入网站的端口</translation>
+        <translation type="obsolete">管理员进入网站的端口</translation>
     </message>
     <message>
         <source>Hostname for admin access</source>
-        <translation type="unfinished">管理员进入网站的主机名</translation>
+        <translation type="obsolete">管理员进入网站的主机名</translation>
     </message>
     <message>
         <source>Database not empty</source>
-        <translation type="unfinished">数据库不空</translation>
+        <translation type="obsolete">数据库不空</translation>
     </message>
     <message>
         <source>Leave the data and add new</source>
@@ -5017,11 +6644,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Fill out the details for each site.</source>
-        <translation type="unfinished">为每个网站填写细节。</translation>
+        <translation type="obsolete">为每个网站填写细节。</translation>
     </message>
     <message>
         <source>For more information on how to configure site access, see the %1</source>
-        <translation type="unfinished">关于配置如何进入网站的更多信息，请看％1</translation>
+        <translation type="obsolete">关于配置如何进入网站的更多信息，请看％1</translation>
     </message>
     <message>
         <source>documentation</source>
@@ -5030,15 +6657,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Use the refresh button to update database list.</source>
-        <translation type="unfinished">用“刷新”按钮来升级数据库的清单。</translation>
+        <translation type="obsolete">用“刷新”按钮来升级数据库的清单。</translation>
     </message>
     <message>
         <source>Choose site templates</source>
-        <translation type="unfinished">选择网站的模板</translation>
+        <translation type="obsolete">选择网站的模板</translation>
     </message>
     <message>
         <source>Use Plain if you would like to start from scratch.</source>
-        <translation type="unfinished">如果你喜欢草稿开始，请用PLAIN格式。</translation>
+        <translation type="obsolete">如果你喜欢草稿开始，请用PLAIN格式。</translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
@@ -5046,11 +6673,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished">每一模板将生成一个唯一的网站。</translation>
+        <translation type="obsolete">每一模板将生成一个唯一的网站。</translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template require a unique database.</source>
-        <translation type="unfinished">由于每一网站是唯一的，每一模板要求唯一的数据库。</translation>
+        <translation type="obsolete">由于每一网站是唯一的，每一模板要求唯一的数据库。</translation>
     </message>
     <message>
         <source>Next &amp;gt;</source>
@@ -5070,11 +6697,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="unfinished">安装程序已经检测某些系统设置需要改变。</translation>
+        <translation type="obsolete">安装程序已经检测某些系统设置需要改变。</translation>
     </message>
     <message>
         <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="unfinished">如果这不正确，eZ将可能安装不正确和工作不适当。</translation>
+        <translation type="obsolete">如果这不正确，eZ将可能安装不正确和工作不适当。</translation>
     </message>
     <message>
         <source>Welcome to eZ publish %1</source>
@@ -5082,7 +6709,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press &lt;i&gt;Next &amp;gt;&lt;/i&gt; to continue.</source>
-        <translation type="unfinished">欢迎到eZ内容管理系统和开发框架工具. 此专家工具将帮助你安装eZ. 为了继续,请按&lt;i&gt;Next &amp;gt;&lt;/i&gt;.</translation>
+        <translation type="obsolete">欢迎到eZ内容管理系统和开发框架工具. 此专家工具将帮助你安装eZ. 为了继续,请按&lt;i&gt;Next &amp;gt;&lt;/i&gt;.</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
@@ -5094,7 +6721,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="unfinished">安装到最后一步之前,数据库中无数据</translation>
+        <translation type="obsolete">安装到最后一步之前,数据库中无数据</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
@@ -5104,6 +6731,328 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <source>here</source>
         <comment>manual installation link</comment>
         <translation type="unfinished">这是</translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please input database access information in the form below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Servername:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket (optional):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail delivery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username (optional): </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password (optional): </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forums</source>
+        <comment>forum link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information about language customization, please refer to the %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comments:</source>
+        <translation type="unfinished">注释:</translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System details (OS type, etc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The test results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The site name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url of the site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages chosen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This data will help to improve future releases of eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you have shell access, you can run the following commmands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This security tweak takes care of protecting configuration files and other important files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires web server setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires DNS setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access, please refer to the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database not empty: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You may modify the details for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information about how to configure site access, please refer to the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data will be stored in the database until the final step of the setup.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5189,11 +7138,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Missing imagegd extension</source>
-        <translation type="unfinished">丢失图象扩充部分</translation>
+        <translation type="obsolete">丢失图象扩充部分</translation>
     </message>
     <message>
         <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished">失图象扩充部分对eZ无效. 没有它eZ公能用ImageMagick来做变换, 并且</translation>
+        <translation type="obsolete">失图象扩充部分对eZ无效. 没有它eZ公能用ImageMagick来做变换, 并且</translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
@@ -5209,7 +7158,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished">为了使重新编译PHP能支持图象化,此主题的更多信息在</translation>
+        <translation type="obsolete">为了使重新编译PHP能支持图象化,此主题的更多信息在</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
@@ -5397,7 +7346,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="unfinished">  &apos;s 推荐关闭选项. 为了关闭它来编辑你的 %1 配置, 并设置 %2 , %3, 和 %4.</translation>
+        <translation type="obsolete">  &apos;s 推荐关闭选项. 为了关闭它来编辑你的 %1 配置, 并设置 %2 , %3, 和 %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
@@ -5426,6 +7375,114 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
         <translation type="unfinished">eZ可能工作在安全模式下，然而可能有几个功能将失效。可能出现的事情中的某些是：</translation>
+    </message>
+    <message>
+        <source>AcceptPathInfo disabled or running in CGI mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enter the following into your httpd.conf file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to restart your web server afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work properly with this option on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5456,15 +7513,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="obsolete">订单一览表:</translation>
+        <translation type="unfinished">订单一览表:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">款项小计:</translation>
+        <translation type="unfinished">款项小计:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="obsolete">订货单总计:</translation>
+        <translation type="unfinished">订货单总计:</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -5564,7 +7621,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Remove item(s)</source>
-        <translation>删除款项</translation>
+        <translation type="obsolete">删除款项</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -5789,6 +7846,14 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
         <translation>对不起， 提交钥匙不对。 帐户不能激活。</translation>
     </message>
+    <message>
+        <source>ez.no: Orderconfirmation %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove items</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
@@ -5821,6 +7886,17 @@ If you do not have the possibility to use virtualhost mode you should follow the
 选择产品， 然后点击按钮 %buttonname.
 可用最新添加的书签来迅速选择。
 点击产品名来变更浏览列表。</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
     </message>
 </context>
 <context>
@@ -5971,6 +8047,10 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>No object available</source>
         <translation>对象不存在</translation>
+    </message>
+    <message>
+        <source>version</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6162,6 +8242,14 @@ e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
         <translation>你的帐户成功地生成. 一封电子信件将被送到你的电子信箱地址. 
 你需要按照信件的指示来激活帐号。</translation>
+    </message>
+    <message>
+        <source>You need to log in to get access to the intranet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6536,31 +8624,31 @@ your account.</source>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>结账</translation>
+        <translation type="obsolete">结账</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一步</translation>
+        <translation type="obsolete">下一步</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>包装</translation>
+        <translation type="obsolete">包装</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>你想用圣诞纸包装吗?</translation>
+        <translation type="obsolete">你想用圣诞纸包装吗?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>不</translation>
+        <translation type="obsolete">不</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>是</translation>
+        <translation type="obsolete">是</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>你好</translation>
+        <translation type="obsolete">你好</translation>
     </message>
 </context>
 <context>
@@ -6571,11 +8659,11 @@ your account.</source>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>不出版的对象</translation>
+        <translation type="obsolete">不出版的对象</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>出版的对象</translation>
+        <translation type="obsolete">出版的对象</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -6607,11 +8695,11 @@ your account.</source>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>查看文本</translation>
+        <translation type="obsolete">查看文本</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>信息</translation>
+        <translation type="obsolete">信息</translation>
     </message>
     <message>
         <source>Section IDs</source>
@@ -6623,15 +8711,15 @@ your account.</source>
     </message>
     <message>
         <source>Days</source>
-        <translation>天</translation>
+        <translation type="obsolete">天</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>小时</translation>
+        <translation type="obsolete">小时</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>分</translation>
+        <translation type="obsolete">分</translation>
     </message>
     <message>
         <source>Class</source>
@@ -6656,6 +8744,10 @@ your account.</source>
     <message>
         <source>Load attributes</source>
         <translation>加载属性</translation>
+    </message>
+    <message>
+        <source>Modify publish date</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7090,7 +9182,7 @@ your account.</source>
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation>要求有效的图象.</translation>
+        <translation type="obsolete">要求有效的图象.</translation>
     </message>
     <message>
         <source>Integer</source>
@@ -7204,11 +9296,11 @@ your account.</source>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>文本行空,文本要求.</translation>
+        <translation type="obsolete">文本行空,文本要求.</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>发送</translation>
+        <translation type="obsolete">发送</translation>
     </message>
     <message>
         <source>Time field</source>
@@ -7257,6 +9349,47 @@ your account.</source>
     <message>
         <source>Link %1 does not exist.</source>
         <translation>连接%1不存在。</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished">ID</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <comment>Default image name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ini Setting</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not locate ini file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <comment>Datatype information collector action</comment>
+        <translation type="unfinished">发送</translation>
     </message>
 </context>
 <context>
@@ -7310,7 +9443,7 @@ your account.</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation>编辑</translation>
+        <translation type="obsolete">编辑</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -7360,6 +9493,10 @@ your account.</source>
         <source>URL translator</source>
         <translation>UPL 翻译</translation>
     </message>
+    <message>
+        <source>Keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -7379,12 +9516,12 @@ your account.</source>
     <message>
         <source>child</source>
         <comment>1 child</comment>
-        <translation>儿童</translation>
+        <translation type="obsolete">儿童</translation>
     </message>
     <message>
         <source>children</source>
         <comment>several children</comment>
-        <translation>小孩</translation>
+        <translation type="obsolete">小孩</translation>
     </message>
     <message>
         <source>And also it will remove the nodes:</source>
@@ -7444,6 +9581,145 @@ your account.</source>
         <source>Upload</source>
         <translation>上载</translation>
     </message>
+    <message>
+        <source>Package information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package maintainer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package name is missing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A package named %packagename already exists, please give another name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">概要</translation>
+    </message>
+    <message>
+        <source>Summary is missing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must enter a name for the changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail for the changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must supply some text for the changelog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must enter a name of the maintainer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail address of the maintainer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content classes to include</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content class export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation type="unfinished">类的清单</translation>
+    </message>
+    <message>
+        <source>You must select at least one class for inclusion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CSS file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You must upload a CSS file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File did not have a .css suffix, this is most likely not a CSS file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content class %classname (%classidentifier)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/reference</name>
@@ -7473,6 +9749,13 @@ your account.</source>
     <message>
         <source>Editing policy</source>
         <translation>编辑规则</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/rss</name>
+    <message>
+        <source>Really Simple Syndication</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7534,6 +9817,10 @@ your account.</source>
     <message>
         <source>Activate extensions</source>
         <translation>激活扩充</translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7698,7 +9985,7 @@ your account.</source>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>查看</translation>
+        <translation type="obsolete">查看</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -7706,11 +9993,11 @@ your account.</source>
     </message>
     <message>
         <source>Publish</source>
-        <translation>发表</translation>
+        <translation type="obsolete">发表</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>按时发表</translation>
+        <translation type="obsolete">按时发表</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -7718,11 +10005,11 @@ your account.</source>
     </message>
     <message>
         <source>Timing</source>
-        <translation>定时</translation>
+        <translation type="obsolete">定时</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>不出版</translation>
+        <translation type="obsolete">不出版</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -7730,11 +10017,11 @@ your account.</source>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>包装</translation>
+        <translation type="obsolete">包装</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>你好客户</translation>
+        <translation type="obsolete">你好客户</translation>
     </message>
 </context>
 <context>
@@ -7745,7 +10032,20 @@ your account.</source>
     </message>
     <message>
         <source>Serial</source>
-        <translation>序列</translation>
+        <translation type="obsolete">序列</translation>
+    </message>
+</context>
+<context>
+    <name>lib/ezpdf/classes</name>
+    <message>
+        <source>Contents</source>
+        <comment>Table of contents</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <comment>Keyword index name</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7753,6 +10053,13 @@ your account.</source>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>某模板出现错误,为更多信息请看调试程序.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

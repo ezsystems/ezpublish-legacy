@@ -1045,6 +1045,14 @@
         <source>False</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make empty array</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -2332,6 +2340,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Value (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5231,6 +5243,10 @@ menu on the top.</source>
         <source>Ignore</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove Source</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
@@ -5528,7 +5544,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Name</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Database info:</source>
@@ -5592,7 +5608,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Path</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Executable</source>
@@ -6238,6 +6254,82 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches were cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7969,7 +8061,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site packages</source>
@@ -7981,6 +8073,47 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8379,6 +8512,38 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AcceptPathInfo disabled or running in CGI mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enter the following into your httpd.conf file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to restart your web server afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9269,6 +9434,10 @@ your account.</source>
     </message>
     <message>
         <source>You need to log in to get access to the intranet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10417,11 +10586,11 @@ your account.</source>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Time field</source>
@@ -10498,6 +10667,18 @@ your account.</source>
     <message>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

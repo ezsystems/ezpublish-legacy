@@ -937,6 +937,10 @@
         <source>Make empty array</source>
         <translation>Eine leere Liste erzeugen</translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Entferne Auswahl</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1858,6 +1862,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Value (optional)</source>
         <translation>Wert (optional)</translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4117,6 +4125,10 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
         <source>Ignore</source>
         <translation>Ignorieren</translation>
     </message>
+    <message>
+        <source>Remove Source</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
@@ -4805,7 +4817,7 @@ By using %datatypename you can ...</source>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Die erste Zeile wird als kurze Beschreibugn genutzt und der Rest als Dokumentation des Operators.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
@@ -6131,7 +6143,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>System finetuning</source>
@@ -6168,6 +6180,10 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7262,6 +7278,10 @@ your account.</source>
         <source>You need to log in to get access to the intranet.</source>
         <translation>Sie müssen sich anmelden um Zugang zum Intranet zu bekommen.</translation>
     </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
@@ -8003,7 +8023,7 @@ your account.</source>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>Textfeld ist leer, Inhalt ist notwendig.</translation>
+        <translation type="obsolete">Textfeld ist leer, Inhalt ist notwendig.</translation>
     </message>
     <message>
         <source>Time field</source>
@@ -8081,6 +8101,18 @@ your account.</source>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation>Senden</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

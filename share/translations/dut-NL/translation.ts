@@ -938,6 +938,10 @@
         <source>Make empty array</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Verwijder selectie</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1862,6 +1866,10 @@ of de status van de publicatie wil zien.</translation>
     <message>
         <source>Value (optional)</source>
         <translation>Waarde (optioneel)</translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4145,6 +4153,10 @@ Click op de naam van een locatie om verder te zoeken binnen dat item.
         <source>Ignore</source>
         <translation>Negeren</translation>
     </message>
+    <message>
+        <source>Remove Source</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
@@ -6169,7 +6181,7 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>System finetuning</source>
@@ -6206,6 +6218,10 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7301,6 +7317,10 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <source>You need to log in to get access to the intranet.</source>
         <translation>Om het intranet te bezoeken dient u eerst in te loggen.</translation>
     </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
@@ -8042,7 +8062,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>Tekstveld is leeg, content vereist.</translation>
+        <translation type="obsolete">Tekstveld is leeg, content vereist.</translation>
     </message>
     <message>
         <source>Send</source>
@@ -8124,6 +8144,18 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation>Verzenden</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -988,6 +988,10 @@ modifiez vos paramètres à :</translation>
         <source>Make empty array</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Suprimmer la sélection</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1932,6 +1936,10 @@ Si vous souhaitez envoyer un commentaire au responsable de l&apos;approbation ou
     </message>
     <message>
         <source>Value (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4229,6 +4237,10 @@ sont accessibles par le menu en haut.</translation>
     </message>
     <message>
         <source>Add Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Source</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6548,7 +6560,7 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>System finetuning</source>
@@ -6613,6 +6625,10 @@ Si vous n&apos;êtes pas certains : choisissez URL.</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7724,6 +7740,10 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
         <source>You need to log in to get access to the intranet.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
@@ -8539,7 +8559,7 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>Le champ texte est vide. Entrez l&apos;information.</translation>
+        <translation type="obsolete">Le champ texte est vide. Entrez l&apos;information.</translation>
     </message>
     <message>
         <source>Send</source>
@@ -8621,6 +8641,18 @@ Vous devez suivre les instructions inscritent dans ce courriel pour activer votr
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation type="unfinished">Envoyer</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -935,6 +935,14 @@
         <source>False</source>
         <translation>Fałsz</translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Usuń zaznaczone</translation>
+    </message>
+    <message>
+        <source>Make empty array</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1867,6 +1875,10 @@ Użyj odnośnika poniżej, jeśli chcesz wysłać komentarz dla osoby zatwierdza
     <message>
         <source>Value (optional)</source>
         <translation>Wartość (opcjonalne)</translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4305,6 +4317,10 @@ Kliknij na nazwie pozycji w celu zmiany przeglądanej listy.</translation>
         <source>Ignore</source>
         <translation>Ignoruj</translation>
     </message>
+    <message>
+        <source>Remove Source</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
@@ -5082,6 +5098,90 @@ Domyślny skrypt został wygenerowany korzystając z podstawowych parametrów kt
     <message>
         <source>Update</source>
         <translation>Uaktualnij</translation>
+    </message>
+    <message>
+        <source>All caches were cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished">Wybór</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished">Wyłączona</translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6634,7 +6734,48 @@ Dzięki Twej pomocy będziemy mogli poprawić błedy eZ publish w nowych wersjac
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
-        <translation>Upewnij się że nazwa użytkownika i hasło są poprawne. Sprawdź czy Twa baza PostgreSQL jest skonfigurowana poprawnie.&lt;br&gt; Przeczytaj %dokumentation aby uzyskać więcej informacji. &lt;br&gt; Pamiętaj o wystartowaniu demona postmaster z opcją -i. &lt;br&gt; Uwaga: Postgre 7.2 i 7.4 nie są obsługiwane.</translation>
+        <translation type="obsolete">Upewnij się że nazwa użytkownika i hasło są poprawne. Sprawdź czy Twa baza PostgreSQL jest skonfigurowana poprawnie.&lt;br&gt; Przeczytaj %dokumentation aby uzyskać więcej informacji. &lt;br&gt; Pamiętaj o wystartowaniu demona postmaster z opcją -i. &lt;br&gt; Uwaga: Postgre 7.2 i 7.4 nie są obsługiwane.</translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7038,11 +7179,11 @@ Dzięki Twej pomocy będziemy mogli poprawić błedy eZ publish w nowych wersjac
     </message>
     <message>
         <source>AcceptPathInfo disabled</source>
-        <translation>AcceptPathInfo wyłączone</translation>
+        <translation type="obsolete">AcceptPathInfo wyłączone</translation>
     </message>
     <message>
         <source>You need enable AcceptPathInfo in your Apache config file.</source>
-        <translation>Musisz włączyć AcceptPathInfo w pliku konfiguracyjnym Apache.</translation>
+        <translation type="obsolete">Musisz włączyć AcceptPathInfo w pliku konfiguracyjnym Apache.</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
@@ -7051,6 +7192,30 @@ Dzięki Twej pomocy będziemy mogli poprawić błedy eZ publish w nowych wersjac
     <message>
         <source>Remember to restart your web server afterwards.</source>
         <translation>Pamiętaj o zrestartowaniu Twego serwera web póżniej.</translation>
+    </message>
+    <message>
+        <source>AcceptPathInfo disabled or running in CGI mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7449,7 +7614,7 @@ Dzięki Twej pomocy będziemy mogli poprawić błedy eZ publish w nowych wersjac
     </message>
     <message>
         <source>Selected options</source>
-        <translation>Wybrane opcje</translation>
+        <translation type="obsolete">Wybrane opcje</translation>
     </message>
     <message>
         <source>Email</source>
@@ -7510,55 +7675,55 @@ Dzięki Twej pomocy będziemy mogli poprawić błedy eZ publish w nowych wersjac
     </message>
     <message>
         <source>Your account information</source>
-        <translation>Informacje o Twoim koncie</translation>
+        <translation type="obsolete">Informacje o Twoim koncie</translation>
     </message>
     <message>
         <source>Input did not validate, all fields marked with * must be filled in</source>
-        <translation>Niepoprawne dane, wszystkie pola oznaczone * muszą zostać wypełnione</translation>
+        <translation type="obsolete">Niepoprawne dane, wszystkie pola oznaczone * muszą zostać wypełnione</translation>
     </message>
     <message>
         <source>First name:*</source>
-        <translation>Imię:*</translation>
+        <translation type="obsolete">Imię:*</translation>
     </message>
     <message>
         <source>Last name:*</source>
-        <translation>Nazwisko:*</translation>
+        <translation type="obsolete">Nazwisko:*</translation>
     </message>
     <message>
         <source>E-mail:*</source>
-        <translation>E-mail:*</translation>
+        <translation type="obsolete">E-mail:*</translation>
     </message>
     <message>
         <source>Company:</source>
-        <translation>Firma:</translation>
+        <translation type="obsolete">Firma:</translation>
     </message>
     <message>
         <source>Street:*</source>
-        <translation>Ulica:*</translation>
+        <translation type="obsolete">Ulica:*</translation>
     </message>
     <message>
         <source>Zip:*</source>
-        <translation>Kod:*</translation>
+        <translation type="obsolete">Kod:*</translation>
     </message>
     <message>
         <source>Place:*</source>
-        <translation>Miejscowość:*</translation>
+        <translation type="obsolete">Miejscowość:*</translation>
     </message>
     <message>
         <source>State:</source>
-        <translation>Poczta:</translation>
+        <translation type="obsolete">Poczta:</translation>
     </message>
     <message>
         <source>Country:*</source>
-        <translation>Kraj:*</translation>
+        <translation type="obsolete">Kraj:*</translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Komentarz:</translation>
+        <translation type="obsolete">Komentarz:</translation>
     </message>
     <message>
         <source>All fields marked with * must be filled in.</source>
-        <translation>Wszystkie pola oznaczone * muszą zostać wypełnione.</translation>
+        <translation type="obsolete">Wszystkie pola oznaczone * muszą zostać wypełnione.</translation>
     </message>
 </context>
 <context>
@@ -7912,6 +8077,10 @@ Twojego konta.</translation>
     <message>
         <source>You need to log in to get access to the intranet.</source>
         <translation>Aby dostać się do sieci wewnętrznej musisz się zalogować.</translation>
+    </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8654,11 +8823,11 @@ Twojego konta.</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>Pole tekstowe jest puste, wymagana zawartość.</translation>
+        <translation type="obsolete">Pole tekstowe jest puste, wymagana zawartość.</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Wyślij</translation>
+        <translation type="obsolete">Wyślij</translation>
     </message>
     <message>
         <source>Time field</source>
@@ -8736,6 +8905,18 @@ Twojego konta.</translation>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation>Wyślij</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
