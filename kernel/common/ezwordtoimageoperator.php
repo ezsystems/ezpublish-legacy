@@ -82,7 +82,7 @@ class eZWordToImageOperator
                 }
 
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
-            }
+            }break;
 
             case "mimetype_icon" :
             {
@@ -108,6 +108,21 @@ class eZWordToImageOperator
                         $icon = "pdf.png";
                     }break;
 
+                    case "application/vnd.ms-powerpoint":
+                    {
+                        $icon = "powerpoint.png";
+                    }break;
+
+                    case "application/msword":
+                    {
+                        $icon = "word.png";
+                    }break;
+
+                    case "application/vnd.ms-excel":
+                    {
+                        $icon = "excel.png";
+                    }break;
+
                     default:
                     {
                         $icon = "document.png";
@@ -120,7 +135,7 @@ class eZWordToImageOperator
                     $wwwDirPrefix = eZSys::wwwDir() . "/";
 
                 $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '" width="32" height="32" alt="$operatorValue" />';
-            }
+            }break;
 
             default:
             {
