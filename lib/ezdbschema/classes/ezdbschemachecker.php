@@ -105,31 +105,39 @@ class eZDbSchemaChecker
 
         $table1Indexes = $table1['indexes'];
         $table2Indexes = $table2['indexes'];
+
+        /*
+         A small fix when the database type for the two schemas differ (eg. mysql and postgresql).
+         If they are different you cannot be sure that the indexes has the same
+         names in both schemas, however the fields the indexes point to will always be the same.
+
+         The fix is to only keep indexes which have different type or where the field list is different.
+        */
         if ( $schema1Type != $schema2Type )
         {
             $tmp2Indexes = array();
             foreach ( $table2Indexes as $name2 => $def2 )
             {
-                $tmpIndexes = array();
+                $tmp1Indexes = array();
                 $match = false;
                 foreach ( $table1Indexes as $name1 => $def1 )
                 {
                     if ( $match )
                     {
-                        $tmpIndexes[$name1] = $def1;
+                        $tmp1Indexes[$name1] = $def1;
                         continue;
                     }
                     if ( $def1['type'] != $def2['type'] )
                     {
-                        $tmpIndexes[$name1] = $def1;
+                        $tmp1Indexes[$name1] = $def1;
                         continue;
                     }
-                    $diff1 =array_diff( $def1['fields'], $def2['fields'] );
+                    $diff1 = array_diff( $def1['fields'], $def2['fields'] );
                     $diff2 = array_diff( $def2['fields'], $def1['fields'] );
                     if ( count( $diff1 ) != 0 or
                          count( $diff2 ) != 0 )
                     {
-                        $tmpIndexes[$name1] = $def1;
+                        $tmp1Indexes[$name1] = $def1;
                         continue;
                     }
                     $match = true;
@@ -138,7 +146,7 @@ class eZDbSchemaChecker
                 {
                     $tmp2Indexes[$name2] = $def2;
                 }
-                $table1Indexes = $tmpIndexes;
+                $table1Indexes = $tmp1Indexes;
             }
             $table2Indexes = $tmp2Indexes;
         }
