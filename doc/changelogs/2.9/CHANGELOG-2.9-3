@@ -32,6 +32,7 @@ _ Fixed bug for finding node
 - Fixed bug for permission system where related to object ownership. The owner of an object is able to delete or edit the object he created if permission allowed
 - Added global section ID to eZSection.
 - Fixed bugs with design override keys set multiple times.
+- Moved debug redirection to template file.
 
 *Library :
 - Added function for check and get attribute for ezlocale/classed/ezdate.php, ezlocale/classed/ezdatetime.php and ezlocale/classed/eztime.php
