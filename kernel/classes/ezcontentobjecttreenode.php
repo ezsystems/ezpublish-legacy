@@ -1085,7 +1085,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    function &fetchNode( $contentObjectID, $partentNodeID )
+    function &fetchNode( $contentObjectID, $parentNodeID )
     {
         $returnValue = null;
         $ini =& eZINI::instance();
@@ -1093,7 +1093,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query="SELECT *
                 FROM ezcontentobject_tree
                 WHERE contentobject_id = $contentObjectID AND
-                      parent_node_id = $partentNodeID";
+                      parent_node_id = $parentNodeID";
         $nodeListArray =& $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
