@@ -1,0 +1,22 @@
+*Title: Clearing of contentcache
+
+Incentive:
+Make it easy to clear the viewcache for a given node or subtree without
+resorting to clearing all the content cache.
+This will help keep the load on a server down by only clear caches
+that have new and updated templates ready.
+
+*Documentation:
+A new script was made for this called contentcache.sh which accepts
+a list of node IDs/nice urls.
+
+Clearing a given node is done with:
+./bin/php/ezcontentcache.php --clear-node=/
+or for multiple nodes (5 is users)
+./bin/php/ezcontentcache.php --clear-node=/,5
+
+
+Clearing a given subtree is done with:
+./bin/php/ezcontentcache.php --clear-subtree=2
+or for multiple subtrees
+./bin/php/ezcontentcache.php --clear-subtree=2,users
