@@ -5,7 +5,7 @@
 </div>
 <div class="element">
 <label>{"Month:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<input type="text" name="ContentObjectAttribute_datetime_day_{$attribute.id}" size="3" value="{$attribute.content.day}" />
+<input type="text" name="ContentObjectAttribute_datetime_month_{$attribute.id}" size="3" value="{$attribute.content.month}" />
 </div>
 <div class="element">
 <label>{"Day:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
