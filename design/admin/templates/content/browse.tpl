@@ -1,6 +1,5 @@
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     browse_indentation=5
      browse_list_count=fetch(content,list_count,hash(parent_node_id,$node_id,depth,1))
      object_array=fetch(content,list,hash(parent_node_id,$node_id,depth,1,offset,$view_parameters.offset,limit,$number_of_items,sort_by,$main_node.sort_array))
      select_name='SelectedObjectIDArray'
@@ -26,7 +25,13 @@
 {/section}
 
 <div class="context-block">
-<h2 class="context-title"><a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {'Items'|i18n( 'design/admin/layout' )} [x]</h2>
+{let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
+{section show=$browse.start_node|gt(1)}
+    <h2 class="context-title"><a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
+{section-else}
+    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
+{/section}
+{/let}
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
