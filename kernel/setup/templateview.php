@@ -57,12 +57,6 @@ if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
     }
 }
 
-if ( $module->isCurrentAction( 'NewOverride' ) )
-{
-    $module->redirectTo( '/setup/templatecreate'. $template );
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-}
-
 // Fetch siteaccess settings for the selected override
 // Default to first defined siteacces if none are selected
 if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
@@ -72,6 +66,57 @@ if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
 }
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+
+if ( $module->isCurrentAction( 'NewOverride' ) )
+{
+    $module->redirectTo( '/setup/templatecreate'. $template );
+    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+}
+
+if ( $module->isCurrentAction( 'RemoveOverride' ) )
+{
+    if ( $http->hasPostVariable( 'RemoveOverrideArray' ) )
+    {
+        $removeOverrideArray = $http->postVariable( 'RemoveOverrideArray' );
+        // TODO: read from correct site.ini
+        $siteBase = $siteAccess;
+
+        // Load override.ini for the current siteaccess
+        $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+        $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+        $overrideINI->loadCache();
+
+        // Remove settings and file
+        foreach ( $removeOverrideArray as $removeOverride )
+        {
+            $group = $overrideINI->group( $removeOverride );
+
+            $fileName = "design/$siteBase/override/templates/" . $group['MatchFile'];
+
+            if ( unlink( $fileName ) )
+            {
+                $overrideINI->removeGroup( $removeOverride );
+            }
+            else
+            {
+                eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
+            }
+        }
+        $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
+
+        // Expire content cache
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->store();
+
+        // Clear override cache
+        $cachedDir = "var/cache/override/";
+        eZDir::recursiveDelete( $cachedDir );
+    }
+}
+
+
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
 $templateSettings = false;
@@ -79,6 +124,11 @@ if ( isset( $overrideArray[$template] ) )
 {
     $templateSettings = $overrideArray[$template];
 }
+
+if ( !isset( $templateSettings['custom_match'] ) )
+    $tpl->setVariable( 'custom_match', false );
+else
+    $tpl->setVariable( 'custom_match', true );
 
 $tpl->setVariable( 'template_settings', $templateSettings );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );

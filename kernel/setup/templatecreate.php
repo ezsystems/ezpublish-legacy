@@ -47,7 +47,6 @@ $tpl =& templateInit();
 // Todo: read from siteaccess settings
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$siteBase = eZTemplateDesignResource::designSetting( 'site' );
 $siteBase = $siteAccess;
 
 $template = "";
@@ -150,39 +149,48 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
         $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
         $fp = fopen( $fileName, "w+" );
-        fwrite( $fp, $templateCode );
-        fclose( $fp );
-
-        // Expire content cache
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
-        $handler->store();
-
-        // Store override.ini.append file
-        $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
-        $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-        $overrideINI->loadCache();
-
-        $templateFile = preg_replace( "#^/(.*)$#", "\\1", $template );
-
-        $overrideINI->setVariable( $templateName, 'Source', $templateFile );
-        $overrideINI->setVariable( $templateName, 'MatchFile', $templateName . ".tpl" );
-        $overrideINI->setVariable( $templateName, 'Subdir', "templates" );
-
-        foreach ( array_keys( $matchArray ) as $matchKey )
+        if ( $fp )
         {
-            if ( $matchArray[$matchKey] == -1 )
-                unset( $matchArray[$matchKey] );
+            fwrite( $fp, $templateCode );
+            fclose( $fp );
+
+            // Store override.ini.append file
+            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+            $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            $overrideINI->loadCache();
+
+            $templateFile = preg_replace( "#^/(.*)$#", "\\1", $template );
+
+            $overrideINI->setVariable( $templateName, 'Source', $templateFile );
+            $overrideINI->setVariable( $templateName, 'MatchFile', $templateName . ".tpl" );
+            $overrideINI->setVariable( $templateName, 'Subdir', "templates" );
+
+            foreach ( array_keys( $matchArray ) as $matchKey )
+            {
+                if ( $matchArray[$matchKey] == -1 )
+                    unset( $matchArray[$matchKey] );
+            }
+
+            $overrideINI->setVariable( $templateName, 'Match', $matchArray );
+
+            $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
+
+            // Expire content cache
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            $handler =& eZExpiryHandler::instance();
+            $handler->setTimestamp( 'content-cache', mktime() );
+            $handler->store();
+
+            // Clear override cache
+            $cachedDir = "var/cache/override/";
+            eZDir::recursiveDelete( $cachedDir );
+        }
+        else
+        {
+            eZDebug::writeError( "Could not create override template, check permissions on $fileName", "Template override" );
         }
 
-        $overrideINI->setVariable( $templateName, 'Match', $matchArray );
 
-        $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-
-        // Clear override cache
-        $cachedDir = "var/cache/override/";
-        eZDir::recursiveDelete( $cachedDir );
 
         $module->redirectTo( '/setup/templateview'. $template );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;

@@ -376,6 +376,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         foreach ( array_keys( $overrideSettingGroupArray ) as $overrideSettingKey )
         {
+            $overrideName = $overrideSettingKey;
             $overrideSource = "/" . $overrideSettingGroupArray[$overrideSettingKey]['Source'];
 
             $overrideMatchConditionArray =& $overrideSettingGroupArray[$overrideSettingKey]['Match'];
@@ -397,6 +398,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $customMatchArray = array();
                 $customMatchArray['conditions'] = $overrideMatchConditionArray;
                 $customMatchArray['match_file'] = $overrideMatchFilePath;
+                $customMatchArray['override_name'] = $overrideName;
                 $matchFileArray[$overrideSource]['custom_match'][] = $customMatchArray;
 
             }

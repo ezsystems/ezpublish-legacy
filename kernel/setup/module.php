@@ -68,6 +68,7 @@ $ViewList["templateview"] = array(
     "script" => "templateview.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
+                                    'RemoveOverrideButton' => 'RemoveOverride',
                                     'NewOverrideButton' => 'NewOverride' ),
     "params" => array( ) );
 
