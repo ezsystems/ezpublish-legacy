@@ -1695,7 +1695,7 @@ function eZSetupImageINISettings( $siteType, $parameters )
                                          'large' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scaledownonly=360;440' ) ),
                                          'listitem' => array( 'Reference' => false,
-                                                            'Filters' => array( 'geometry/scaledownonly=155;200' ) ),
+                                                            'Filters' => array( 'geometry/scaledownonly=110;170' ) ),
                                          'articleimage' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scaledownonly=170;350' ) ),
                                          'articlethumbnail' => array( 'Reference' => false,
