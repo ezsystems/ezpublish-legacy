@@ -9,7 +9,7 @@
 
     <h1>{$node.name|wash}</h1>
 
-    <div class="content-short">
+    <div class="attribute-short">
     {attribute_view_gui attribute=$node.object.data_map.description}
     </div>
 
@@ -55,7 +55,7 @@
                 <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a>
             </td>
             <td>
-                <div class="content-byline">
+                <div class="attribute-byline">
                    <p class="date">{$topic.object.published|l10n(shortdatetime)}</p>
                    <p class="author"> by {$topic.object.owner.name|wash}</p>
                 </div>
@@ -70,7 +70,7 @@
                 {section var=reply loop=$last_reply show=$last_reply}
                 Last reply: <a href={concat($reply.parent.url_alias,'#msg',$reply.node_id)|ezurl}>{$reply.name|wash}</a>
 
-                <div class="content-byline">
+                <div class="attribute-byline">
                    <p class="date">{$reply.object.published|l10n(shortdatetime)}</p>
                    <p class="author"> by {$reply.object.owner.name|wash}</p>
                 </div>

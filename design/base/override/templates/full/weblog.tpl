@@ -5,13 +5,13 @@
 
         <h1>{$node.name|wash()}</h1>
 
-        <div class="content-byline">
+        <div class="attribute-byline">
            <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
            <p class="date">{$node.object.published|l10n(date)}</p>
            <div class="break"></div>
         </div>
 
-        <div class="content-message">
+        <div class="attribute-message">
            {attribute_view_gui attribute=$node.object.data_map.message}
         </div>
 

@@ -4,27 +4,37 @@
 Source=node/view/full.tpl
 MatchFile=full/folder.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
 [line_folder]
 Source=node/view/line.tpl
 MatchFile=line/folder.tpl
 Subdir=templates
-Match[class]=1
+Match[class_identifier]=folder
 
-[embed_folder_contentlist]
+[embed_folder_list]
 Source=content/view/embed.tpl
-MatchFile=embed/folder_contentlist.tpl
+MatchFile=embed/folder_list.tpl
 Subdir=templates
-Match[class]=1
-Match[classification]=contentlist
+Match[class_identifier]=folder
+Match[classification]=list
 
 [embed_folder_subtree]
 Source=content/view/embed.tpl
 MatchFile=embed/folder_subtree.tpl
 Subdir=templates
-Match[class]=1
-Match[classification]=subtree
+Match[class_identifier]=folder
+Match[classification]=subtreelist
+
+# Default embedded template must be under the specific classifications
+[embed_folder_contentlist]
+Source=content/view/embed.tpl
+MatchFile=embed/folder_contentlist.tpl
+Subdir=templates
+Match[class_identifier]=folder
+# Make the default folder to show content list overide
+#Match[classification]=contentlist
+
 
 # Article templates
 

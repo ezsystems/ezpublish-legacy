@@ -4,7 +4,7 @@
     <div class="class-poll">
         <h1>{$node.name|wash()}</h1>
 
-        <div class="content-short">
+        <div class="attribute-short">
         {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
 

@@ -6,20 +6,20 @@
         <h1>{$node.name|wash()}</h1>
 
     {section show=$node.object.data_map.image.content}
-        <div class="content-image">
+        <div class="attribute-image">
             {attribute_view_gui alignment=right image_class=medium attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
 
-        <div class="content-short">
+        <div class="attribute-short">
            {attribute_view_gui attribute=$node.object.data_map.intro}
         </div>
 
-        <div class="content-long">
+        <div class="attribute-long">
            {attribute_view_gui attribute=$node.object.data_map.body}
         </div>
 
-        <div class="content-price">
+        <div class="attribute-price">
           <p>
            {attribute_view_gui attribute=$node.object.data_map.price}
           </p>

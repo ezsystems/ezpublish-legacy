@@ -1,17 +1,17 @@
 {* Folder - Line view *}
 
-<div class="view-line">
+<div class="content-view-line">
     <div class="class-folder">
 
         <h2><a href={$node.url_alias|ezurl}>{$node.name|wash()}</a></h2>
 
        {section show=$node.object.data_map.summary.content.is_empty|not}
-        <div class="content-short">
+        <div class="attribute-short">
         {attribute_view_gui attribute=$node.object.data_map.summary}
         </div>
        {/section}
 
-        <div class="content-link">
+        <div class="attribute-link">
             <p><a href={$node.url_alias|ezurl}>Read more...</a></p>
         </div>
     </div>

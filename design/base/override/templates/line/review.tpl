@@ -1,11 +1,11 @@
 {* Review - Line view *}
 
-<div class="view-line">
+<div class="content-view-line">
     <div class="class-review">
 
     <h3>{$node.name}</h3>
 
-    <div class="content-byline">
+    <div class="attribute-byline">
         <p class="author">
             {section show=$node.object.data_map.author.content|count_chars()|gt(0)}
                 {$node.object.data_map.author.content|wash}
@@ -17,7 +17,7 @@
         <div class="break"></div>
     </div>
 
-    <div class="content-message">
+    <div class="attribute-message">
         <p>
         {$node.object.data_map.message.content|wash(xhtml)|break|wordtoimage|autolink}
         </p>

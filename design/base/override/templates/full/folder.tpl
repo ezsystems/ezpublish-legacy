@@ -5,13 +5,13 @@
         <h1>{$node.object.data_map.name.content|wash()}</h1>
 
         {section show=$node.object.data_map.summary.content.is_empty|not}
-            <div class="content-short">
+            <div class="attribute-short">
                 {attribute_view_gui attribute=$node.object.data_map.summary}
             </div>
         {/section}
 
         {section show=$node.object.data_map.body.content.is_empty|not}
-            <div class="content-long">
+            <div class="attribute-long">
                 {attribute_view_gui attribute=$node.object.data_map.body}
             </div>
         {/section}

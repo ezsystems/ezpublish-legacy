@@ -6,20 +6,20 @@
         <h1>{$node.name|wash()}</h1>
 
     {section show=$node.object.data_map.image.content}
-        <div class="content-image">
+        <div class="attribute-image">
             {attribute_view_gui alignment=right image_class=medium attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
 
-        <div class="content-short">
+        <div class="attribute-short">
            {attribute_view_gui attribute=$node.object.data_map.short_description}
         </div>
 
-        <div class="content-long">
+        <div class="attribute-long">
            {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
 
-        <div class="content-link">
+        <div class="attribute-link">
             <p>
             <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>View as slideshow</a>
             </p>

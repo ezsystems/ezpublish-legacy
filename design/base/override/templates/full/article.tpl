@@ -6,19 +6,19 @@
         <h1>{$node.object.data_map.title.content|wash()}</h1>
 
         {section show=$node.object.data_map.image.content}
-            <div class="content-image">
+            <div class="attribute-image">
                 {attribute_view_gui attribute=$node.object.data_map.image align=right}
             </div>
         {/section}
 
         {section show=$node.object.data_map.intro.content.is_empty|not}
-            <div class="content-short">
+            <div class="attribute-short">
                 {attribute_view_gui attribute=$node.object.data_map.intro}
             </div>
         {/section}
 
         {section show=$node.object.data_map.author.content.is_empty|not()}
-        <div class="content-byline">
+        <div class="attribute-byline">
         <p class="author">
              {attribute_view_gui attribute=$node.object.data_map.author}
         </p>
@@ -29,12 +29,12 @@
         {/section}
 
         {section show=$node.object.data_map.body.content.is_empty|not}
-            <div class="content-long">
+            <div class="attribute-long">
                 {attribute_view_gui attribute=$node.object.data_map.body}
             </div>
         {/section}
 
-        <div class="content-tipafriend">
+        <div class="attribute-tipafriend">
           <p>
              <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>{"Tip a friend"|i18n("design/news/layout")}</a>
           </p>

@@ -497,7 +497,7 @@ div.toolbox-design div.info-text p
     font-weight: normal;
 }
 
-div.toolbox-design div.content-link p
+div.toolbox-design div.attribute-link p
 { 
     padding-top: 0px;
     padding-left: 6px;
@@ -547,14 +547,14 @@ div.toollist-design h3
     margin: 0px;
 }
 
-div.toollist-design div.class-article div.content-short p
+div.toollist-design div.class-article div.attribute-short p
 { 
     margin: 0px;
     font: 9pt regular;
     color: #666;
 }
 
-div.toollist-design div.class-article div.content-link p
+div.toollist-design div.class-article div.attribute-link p
 { 
     margin-top: 0px;
     margin-bottom: 10px;
@@ -665,7 +665,7 @@ div#maincontent-design h5
 }
 
 /* folder */
-div#maincontent-design div.class-folder div.content-short p
+div#maincontent-design div.class-folder div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -675,7 +675,7 @@ div#maincontent-design div.class-folder div.content-short p
 }
 
 /* article */
-div#maincontent-design div.class-article div.content-short p
+div#maincontent-design div.class-article div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -684,7 +684,7 @@ div#maincontent-design div.class-article div.content-short p
     color: #036;
 }
 
-div#maincontent-design div.class-folder div.class-article div.content-short p
+div#maincontent-design div.class-folder div.class-article div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -694,7 +694,7 @@ div#maincontent-design div.class-folder div.class-article div.content-short p
 }
 
 /* product */
-div#maincontent-design div.class-folder div.view-line div.class-product div.content-short p
+div#maincontent-design div.class-folder div.content-view-line div.class-product div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -703,7 +703,7 @@ div#maincontent-design div.class-folder div.view-line div.class-product div.cont
     color: #036;
 }
 
-div#maincontent-design div.view-full div.class-product div.content-short p
+div#maincontent-design div.content-view-full div.class-product div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -712,7 +712,7 @@ div#maincontent-design div.view-full div.class-product div.content-short p
     color: #036;
 }
 
-div#maincontent-design div.class-product div.content-price p
+div#maincontent-design div.class-product div.attribute-price p
 { 
     float: right;
     padding: 0px;
@@ -723,7 +723,7 @@ div#maincontent-design div.class-product div.content-price p
 }
 
 /* "Read more" text for all children objects */
-div#maincontent-design div.view-full div.view-line div.content-link p
+div#maincontent-design div.content-view-full div.content-view-line div.attribute-link p
 { 
     padding-top: 0px;
     padding-left: 6px;
@@ -736,7 +736,7 @@ div#maincontent-design div.view-full div.view-line div.content-link p
 }
 
 /* Content link for all main objects, e.g. " and "Thumbnail/slideshow view" */
-div#maincontent-design div.view-full div.content-link p
+div#maincontent-design div.content-view-full div.attribute-link p
 { 
     padding-top: 0px;
     padding-left: 6px;
@@ -748,7 +748,7 @@ div#maincontent-design div.view-full div.content-link p
     background-repeat: no-repeat;
 }
 
-div#maincontent-design div.view-slideshow div.content-link p
+div#maincontent-design div.view-slideshow div.attribute-link p
 { 
     padding-top: 0px;
     padding-left: 6px;
@@ -760,7 +760,7 @@ div#maincontent-design div.view-slideshow div.content-link p
     background-repeat: no-repeat;
 }
 
-div#maincontent-design div.view-full div.content-tipafriend p
+div#maincontent-design div.content-view-full div.attribute-tipafriend p
 { 
     padding-top: 0px;
     padding-left: 6px;
@@ -773,32 +773,32 @@ div#maincontent-design div.view-full div.content-tipafriend p
 }
 
 /* Author and date for all full objects */
-div.view-full div.content-byline p.author
+div.content-view-full div.attribute-byline p.author
 { 
     display: inline;
     color: #666;
 }
 
-div.view-full div.content-byline p.date
+div.content-view-full div.attribute-byline p.date
 { 
     display: inline;
     color: #666;
 }
 
 /* Author and date for all children objects */
-div.view-full div.view-line div.content-byline p.author
+div.content-view-full div.content-view-line div.attribute-byline p.author
 { 
     display: inline;
     color: #666;
 }
 
-div.view-full div.view-line div.content-byline p.date
+div.content-view-full div.content-view-line div.attribute-byline p.date
 { 
     display: inline;
     color: #666;
 }
 
-div.class-product div.view-line div.class-review div.content-message p
+div.class-product div.content-view-line div.class-review div.attribute-message p
 { 
     font: 9pt;
     padding-top: 0px;
@@ -807,7 +807,7 @@ div.class-product div.view-line div.class-review div.content-message p
 }
 
 /* gallery */
-div#maincontent-design div.class-folder div.class-gallery div.content-short p
+div#maincontent-design div.class-folder div.class-gallery div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -816,7 +816,7 @@ div#maincontent-design div.class-folder div.class-gallery div.content-short p
     color: #036;
 }
 
-div#maincontent-design div.class-folder div.class-gallery div.content-link p
+div#maincontent-design div.class-folder div.class-gallery div.attribute-link p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -824,7 +824,7 @@ div#maincontent-design div.class-folder div.class-gallery div.content-link p
     font-weight: normal;
 }
 
-div#maincontent-design div.class-gallery div.content-short p
+div#maincontent-design div.class-gallery div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -848,7 +848,7 @@ div#maincontent-design div.class-gallery div.view-children table td
     background-color: #efefef;
 }
 
-div#maincontent-design div.class-gallery div.view-children div.content-image p
+div#maincontent-design div.class-gallery div.view-children div.attribute-image p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -859,7 +859,7 @@ div#maincontent-design div.class-gallery div.view-children div.content-image p
     color: #666;
 }
 
-div#maincontent-design div.class-gallery div.view-children div.content-caption p
+div#maincontent-design div.class-gallery div.view-children div.attribute-caption p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -869,29 +869,45 @@ div#maincontent-design div.class-gallery div.view-children div.content-caption p
 }
 
 
-div#maincontent-design div.content-long p
+div#maincontent-design div.attribute-long p
 { 
     font: 9pt regular;
     color: #036;
 }
 
-div.content-file
+div.attribute-file
 { 
 
 }
 
 /* Special formatting in XML fields */
-div.factbox-design
+div.factbox-design, div.object-right, div.object-left, div.object-center
 { 
     padding-right: 6px;
     padding-left: 6px;
-    float: right;
     width: 178px;
     background-color: #fff;
     border: 1px solid #369;
 }
 
-div#maincontent-design div.factbox-design h2
+div.object-right
+{ 
+    float: right;
+}
+
+div.object-left
+{ 
+    float: left;
+}
+div.object-center
+{ 
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+div#maincontent-design div.factbox-design h2, div#maincontent-design div.object-right h2, div#maincontent-design div.object-left h2, div#maincontent-design div.object-center h2
 { 
     width: 100%;
     position: relative;
@@ -912,7 +928,7 @@ div.factbox h3
     margin: 0px;
 }
 
-div.factbox div.content-file p
+div.factbox div.attribute-file p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -922,19 +938,19 @@ div.factbox div.content-file p
 }
 
 /* list item styles  */
-div.view-listitem h3
+div.content-view-listitem h3
 { 
     margin-top: 6px;
 }
 
 /* list item image */
-div.view-listitem div.class-image div.content-image p
+div.content-view-listitem div.class-image div.attribute-image p
 { 
     padding: 0px;
     margin: 0px;
 }
 
-div.view-listitem div.class-image div.content-caption p
+div.content-view-listitem div.class-image div.attribute-caption p
 { 
     font: 9pt regular;
     padding: 0px;
@@ -943,7 +959,7 @@ div.view-listitem div.class-image div.content-caption p
 }
 
 /* list item product */
-div.view-listitem div.class-product div.content-short p
+div.content-view-listitem div.class-product div.attribute-short p
 { 
     font: 9pt regular;
     padding: 0px;
@@ -951,7 +967,7 @@ div.view-listitem div.class-product div.content-short p
     color: #666;
 }
 
-div.view-listitem div.class-product div.content-price p
+div.content-view-listitem div.class-product div.attribute-price p
 { 
     font: 9pt regular;
     padding: 0px;
@@ -959,7 +975,7 @@ div.view-listitem div.class-product div.content-price p
     color: #000;
 }
 
-div.view-listitem div.class-product div.content-link a
+div.content-view-listitem div.class-product div.attribute-link a
 { 
     font: 9pt regular;
     padding: 0px;
@@ -968,7 +984,7 @@ div.view-listitem div.class-product div.content-link a
 }
 
 /* File styles */
-div#maincontent-design div.class-folder div.class-file div.content-short p
+div#maincontent-design div.class-folder div.class-file div.attribute-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
@@ -980,12 +996,12 @@ div#maincontent-design div.class-folder div.class-file div.content-short p
 
 
 /*! article style */
-div.class-article div.content-image div.imagecaption
+div.class-article div.attribute-image div.imagecaption
 { 
     width: 170px;
 }
 
-div.class-article div.content-image div.imagecaption p
+div.class-article div.attribute-image div.imagecaption p
 { 
     font: 9pt regular;
     padding: 0px;
