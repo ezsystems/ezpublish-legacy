@@ -1,7 +1,10 @@
 
-
 [SiteSettings]
 LoginPage=embeded
+SiteURL=myuser.wy.dvh1.ez.no
+
+[SiteAccessSettings]
+RequireUserLogin=false
 
 [DatabaseSettings]
 DatabasePluginPath=
