@@ -175,6 +175,7 @@ class eZUserType extends eZDataType
             {
                 $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
                 $password = $user->createPassword( $passwordLength );
+                $passwordConfirm = $password;
                 $http->setSessionVariable( "GeneratedPassword", $password );
             }
             else

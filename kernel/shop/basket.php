@@ -136,17 +136,28 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
         $i++;
     }
 
-    $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
-
     $basket =& eZBasket::currentBasket();
 
-    foreach ( $itemList as $item )
+    $item = $http->postVariable( "RemoveProductItemButton" );
+    eZDebug::writeDebug( $item, "basket item" );
+    if ( is_numeric( $http->postVariable( "RemoveProductItemButton" ) )  )
     {
+        $item = $http->postVariable( "RemoveProductItemButton" );
         $basket->removeItem( $item );
+    }
+    else
+    {
+        $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
+
+        foreach ( $itemList as $item )
+        {
+            $basket->removeItem( $item );
+        }
     }
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
+
 
 if ( $http->hasPostVariable( "StoreChangesButton" ) )
 {

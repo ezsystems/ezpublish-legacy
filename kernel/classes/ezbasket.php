@@ -107,7 +107,7 @@ class eZBasket extends eZPersistentObject
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                     ),
-                                                       null,
+                                                       array( 'contentobject_id' => 'desc' ),
                                                        null,
                                                        $asObject );
         $addedProducts = array();

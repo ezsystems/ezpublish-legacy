@@ -85,7 +85,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
         $productItemOptions =& eZPersistentObject::fetchObjectList( eZProductCollectionItemOption::definition(),
                                                                     null, array( "item_id" => $productCollectionItemID,
                                                                                  ),
-                                                                    null,
+                                                                    array( "id" => "ASC"  ),
                                                                     null,
                                                                     $asObject );
         return $productItemOptions;
