@@ -18,4 +18,3 @@
                '%buttonname','Select'|i18n('design/standard/content/view')))
     |nl2br}
 </p>
-{/let}
