@@ -284,7 +284,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $objectAttributes =& $tag->attributes();
                 $object =& $this->ObjectArray["$objectID"];
                 // Fetch from cache
-                if ( get_class( $object ) == "ezcontentobject" )
+                if ( get_class( $object ) == "ezcontentobject" and
+                     $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
                 {
                     $view = $tag->attributeValue( 'view' );
                     $alignment = $tag->attributeValue( 'align' );

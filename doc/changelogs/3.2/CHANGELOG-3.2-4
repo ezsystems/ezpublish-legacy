@@ -76,6 +76,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed missing workflow_event_pos in ezcontentobject_version table definition, plain package postgresql:
   http://www.ez.no/developer/ez_publish_3/bug_reports/sql_error_with_postgresql_database
 - Fixed fetching object list with several classes in class filter : http://www.ez.no/developer/ez_publish_3/bug_reports/kernelbug_fetching_class_lists
+- Fixed related objects to only include objects that have status 'published'
+  http://ez.no/developer/ez_publish_3/bug_reports/related_objects_are_shown_even_if_they_are_archived
 
 *Library :
 

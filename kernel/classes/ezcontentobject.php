@@ -1557,8 +1557,11 @@ class eZContentObject extends eZPersistentObject
         $relatedObjectArray =& $db->arrayQuery( "SELECT
 					       count( ezcontentobject_link.from_contentobject_id ) as count
 					     FROM
+					       ezcontentobject,
 					       ezcontentobject_link
 					     WHERE
+					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
 					       ezcontentobject_link.from_contentobject_version='$version'" );
 
@@ -1606,6 +1609,7 @@ class eZContentObject extends eZPersistentObject
                            $versionNameTables
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
 					       ezcontentobject_link.from_contentobject_version='$version'
                            $versionNameJoins;;" );
@@ -1639,6 +1643,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.to_contentobject_id='$objectID'" );
 
         $return = array();
@@ -1668,6 +1673,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.to_contentobject_id='$objectID'" );
 
         $return = array();
