@@ -14,3 +14,4 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
 - Fixed bug of wrong encoding for chi-CN locale file.
   http://ez.no/developer/ez_publish_3/bug_reports/wrong_encoding_for_chi_cn_locale_file
+- Fixed override bug when writing override rules for non-existing overrides. http://ez.no/developer/ez_publish_3/bug_reports/template_override_and_multiple_designs
