@@ -36,12 +36,13 @@ COMMON_BIN_FILES="bin bin/modfix.sh bin/shell bin/shell/makedoc.sh"
 COMMON_DOC_FILES="doc doc/design doc/design/uml doc/design/uml/class_old.png doc/design/uml/class.png doc/design/uml/contentclass_db.png doc/design/uml/database.png doc/design/uml/ezsoap.png doc/design/uml/eztask_db.png doc/design/uml/eztask.png doc/design/uml/eztranslator.png doc/design/uml/ezxml.png doc/images doc/images/basket_state.png doc/images/charset.png doc/images/ezpublish_overview.png doc/images/module.png doc/images/notification_database.png doc/images/notification_state.png doc/images/permission_overview.png doc/images/role.png doc/images/shopping_overview.png doc/images/tree_overview.png doc/images/wish_list_state.png doc/images/xml_processing.png"
 COMMON_SETTINGS_FILES="settings settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess"
 COMMON_DESIGN_FILES="design var.tgz"
-COMMON_FILES="$COMMON_BIN_FILES $COMMON_DOC_FILES $COMMON_SETTINGS_FILES $COMMON_DESIGN_FILES index.php pre_check.php access.php"
+CODEPAGES_FILES="share/codepages share/codepages/iso-8859-1 share/codepages/iso-8859-10 share/codepages/iso-8859-11 share/codepages/iso-8859-13 share/codepages/iso-8859-14 share/codepages/iso-8859-15 share/codepages/iso-8859-2 share/codepages/iso-8859-3 share/codepages/iso-8859-4 share/codepages/iso-8859-5 share/codepages/iso-8859-6 share/codepages/iso-8859-7 share/codepages/iso-8859-8 share/codepages/iso-8859-9 share/codepages/windows-1250 share/codepages/windows-1251 share/codepages/windows-1252 share/codepages/windows-1253 share/codepages/windows-1254 share/codepages/windows-1255 share/codepages/windows-1256 share/codepages/windows-1257 share/codepages/windows-1258"
+COMMON_FILES="$COMMON_BIN_FILES $COMMON_DOC_FILES $COMMON_SETTINGS_FILES $COMMON_DESIGN_FILES /share $CODEPAGES_FILES index.php pre_check.php access.php"
 
 COMMON_DOC_DIRS="doc/changelogs doc/standards doc/doxygen"
 COMMON_DESIGN_DIRS="design/standard design/user"
 COMMON_SETTINGS_DIRS="settings/siteaccess/sdk"
-COMMON_DIRS="$COMMON_DOC_DIRS $COMMON_DESIGN_DIRS $COMMON_SETTINGS_DIRS share"
+COMMON_DIRS="$COMMON_DOC_DIRS $COMMON_DESIGN_DIRS $COMMON_SETTINGS_DIRS share/locale share/translations"
 
 FULL_SETTINGS_DIRS="settings/siteaccess/admin settings/siteaccess/user"
 

@@ -224,18 +224,26 @@ if [ -d $DEST/bin -a -d $DEST/bin/modfix.bin ]; then
 	chmod a+x modfix.sh)
 fi
 
-echo "Creating tar.gz file"
+echo -n "Creating tar.gz file"
 (cd $DEST_ROOT
-    tar cfz $BASE.tar.gz $BASE)
+    tar cfz $BASE.tar.gz $BASE
+    echo ", done")
 
-echo "Creating tar.bz2 file"
+echo -n "Creating tar.bz2 file"
 (cd $DEST_ROOT
     tar cf $BASE.tar $BASE
     if [ -f $BASE.tar.bz2 ]; then
 	rm -f $BASE.tar.bz2
     fi
-    bzip2 $BASE.tar)
+    bzip2 $BASE.tar
+    echo ", done")
+
+echo -n "Creating zip file"
+(cd $DEST_ROOT
+    zip -9 -r -q $BASE.zip $BASE
+    echo ", done")
 
 echo "Created archives:"
 echo "$DEST_ROOT/$BASE.tar.gz"
 echo "$DEST_ROOT/$BASE.tar.bz2"
+echo "$DEST_ROOT/$BASE.zip"
