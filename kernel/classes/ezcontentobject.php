@@ -762,7 +762,11 @@ class eZContentObject extends eZPersistentObject
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
         {
             $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+            if ( !$classAttribute )
+                continue;
             $dataType =& $classAttribute->dataType();
+            if ( !$dataType )
+                continue;
             $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
         }
 
