@@ -12,7 +12,9 @@ Changes from 2.9-5 to 2.9-6
 - Added template for sending information collection results in mail
 - Moved drafts to content module
 - Fixed bug in eZPersistentObject which required default sorting to make override sorting work
-
+- Fixed bug with publishing from preview
+- Fixed bug with related objects when creat new version by copying from another version
+    - Fixed bug with viewing related objects in view full;
 shop:
 - Added more information to order list
 - Added real order number to orders
