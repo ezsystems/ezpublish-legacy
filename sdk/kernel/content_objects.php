@@ -156,6 +156,7 @@ if ( $attribute->isValid() )
 
 
 <?php
+/*
 include_once( "kernel/classes/ezcontentobject.php" );
 
 // check current user
@@ -174,9 +175,6 @@ $user->setAttribute( "password", "ikkeno" );
 
 print( "Current user id: " . $user->attribute( "id" ) . "<br>" );
 eZDebug::writeNotice( $user, "User account"  );
-
-/************** This next line doesn't work anymore ***********/
-// $contentObject =& eZContentObject::createNew( 2 );
 
 //$contentObject =& eZContentObject::fetch( 1 );
 
@@ -212,5 +210,7 @@ foreach ( $attributes as $attribute )
 }
 
 $versions = $contentObject->versions();
+
+*/
 
 ?>
