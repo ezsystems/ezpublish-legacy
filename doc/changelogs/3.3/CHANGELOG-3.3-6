@@ -29,6 +29,8 @@ eZINI:
   http://ez.no/community/bug_reports/error_viewing_checkbox_atribute_on_class_view
 - Fixed bug of deleted nodes still exist in recent items and node id not updated in recent items.
   http://ez.no/community/bug_reports/moving_objects
+- Fixed bug of ignoring the "ViewCachedModes" setting when creating caches for views.
+  http://ez.no/community/bug_reports/cachedviewmodes_setting_isn_t_taken_into_account_when_storing_view_cache
 
 *Library:
 

@@ -86,7 +86,13 @@ if ( !is_numeric( $Offset ) )
 $ini =& eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 if ( isset( $Params['ViewCache'] ) )
+{
     $viewCacheEnabled = $Params['ViewCache'];
+}
+elseif ( $viewCacheEnabled && !in_array( $ViewMode, $ini->variableArray( 'ContentSettings', 'CachedViewModes' ) ) )
+{
+    $viewCacheEnabled = false;
+}
 
 $collectionAttributes = false;
 if ( isset( $Params['CollectionAttributes'] ) )
