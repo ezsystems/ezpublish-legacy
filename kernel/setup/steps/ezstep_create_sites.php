@@ -41,6 +41,32 @@ include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
+
+/*!
+  Error codes:
+
+  EZSW-001: Failed to load database schema file
+  EZSW-002: Failed to load database data file
+  EZSW-003: Failed to initialize database schema
+  EZSW-004: Failed to initialize database data
+
+  EZSW-020: Failed to fetch administrator user object
+  EZSW-021: Failed to fetch administrator content object
+  EZSW-022: Failed to create new version for administrator object
+  EZSW-023: Failed to find first_name field of administrator object
+  EZSW-024: Failed to find last_name field of administrator object
+  EZSW-025: Failed to publish administrator object
+
+  EZSW-040: Failed to initialize the site package <package>
+
+  EZSW-050: Could not fetch addon package <package>
+  EZSW-051: Could not install addon package <package>
+
+  EZSW-060: Could not fetch style package <package>
+
+*/
+
+
 /*!
   \class eZStepCreateSites ezstep_create_sites.php
   \brief The class eZStepCreateSites does
@@ -70,6 +96,8 @@ class eZStepCreateSites extends eZStepInstaller
      */
     function init()
     {
+        $this->Error = array( 'errors' => array()  );
+
         set_time_limit( 10*60 );
         $saveData = true; // set to true to save data
 
@@ -131,15 +159,32 @@ class eZStepCreateSites extends eZStepInstaller
 //         $siteCount = 1;
         $siteTypes = $this->chosenSiteTypes();
 //         for ( $counter = 0; $counter < $siteCount; ++$counter )
+
+        $result = true;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
             $siteType =& $siteTypes[$siteTypeKey];
 //             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
             $accessType = $siteType['access_type'];
 //             $package =& eZPackage::fetch( $siteType['identifier'], 'kernel/setup/packages' );
-            $this->initializePackage( //$package,
-                                      $siteType, $accessMap, $charset,
-                                      $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'] );
+            $resultArray = array( 'errors' => array() );
+            $result = $this->initializePackage( $siteType, $accessMap, $charset,
+                                                $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'],
+                                                $resultArray );
+            if ( !$result )
+            {
+                $this->Error['errors'] = array_merge( $this->Error['errors'], $resultArray['errors'] );
+                $this->Error['errors'][] = array( 'code' => 'EZSW-040',
+                                                  'text' => "Failed to initialize site package " . $siteType['identifier'] );
+                $result = false;
+                break;
+            }
+        }
+
+        if ( !$result )
+        {
+            // Display errors
+            return false;
         }
 
         $regionalInfo = $this->PersistenceList['regional_info'];
@@ -241,13 +286,29 @@ class eZStepCreateSites extends eZStepInstaller
     */
     function &display()
     {
+        $errors = array();
+        if ( is_array( $this->Error ) )
+        {
+            $errors = $this->Error['errors'];
+        }
+
+        $this->Tpl->setVariable( 'error_list', $errors );
+
+        $result = array();
+        // Display template
+        $result['content'] = $this->Tpl->fetch( "design:setup/init/create_sites.tpl" );
+        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                          'Creating sites' ),
+                                        'url' => false ) );
+        return $result;
     }
 
     function initializePackage( // &$package,
                                 $siteType,
                                 &$accessMap, $charset,
                                 &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
-                                &$admin)
+                                &$admin,
+                                &$resultArray )
     {
         // Time limit #3:
         // We set the time limit to 5 minutes to ensure we have enough time
@@ -316,7 +377,9 @@ class eZStepCreateSites extends eZStepInstaller
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         eZDB::setInstance( $db );
 
+        $result = true;
 //         if ( $package )
+        // Initialize the database by inserting schema and data
         {
             if ( $siteType['existing_database'] == 2 )
             {
@@ -336,7 +399,8 @@ class eZStepCreateSites extends eZStepInstaller
                 $schemaArray = eZDBSchema::read( 'share/db_schema.dba', true );
                 if ( !$schemaArray )
                 {
-                    eZDebug::writeError( "Failed loading database schema file shaer/db_schema.dba" );
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-001',
+                                                      'message' => "Failed loading database schema file share/db_schema.dba" );
                     $result = false;
                 }
 
@@ -346,20 +410,22 @@ class eZStepCreateSites extends eZStepInstaller
                     $dataArray = eZDBSchema::read( 'share/db_data.dba', true );
                     if ( !$dataArray )
                     {
-                        eZDebug::writeError( "Failed loading database data file share/db_data.dba" );
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-002',
+                                                          'text' => "Failed loading database data file share/db_data.dba" );
                         $result = false;
                     }
 
                     if ( $result )
                     {
                         $schemaArray = array_merge( $schemaArray, $dataArray );
-                        $schemaArray['type'] = 'oracle';
+                        $schemaArray['type'] = strtolower( $db->databaseName() );
                         $schemaArray['instance'] =& $db;
                         $result = true;
                         $dbSchema = eZDBSchema::instance( $schemaArray );
                         if ( !$dbSchema )
                         {
-                            eZDebug::writeError( "Failed loading Oracle schema handler" );
+                            $resultArray['errors'][] = array( 'code' => 'EZSW-003',
+                                                              'text' => "Failed loading " . $db->databaseName() . " schema handler" );
                             $result = false;
                         }
 
@@ -368,16 +434,45 @@ class eZStepCreateSites extends eZStepInstaller
                             $result = true;
                             // This will insert the schema, then the data and
                             // run any sequence value correction SQL if required
-                            if ( !$dbSchema->insertSchema( array( 'schema' => false,
+                            if ( !$dbSchema->insertSchema( array( 'schema' => true,
                                                                   'data' => true ) ) )
                             {
-                                eZDebug::writeError( "Failed inserting data to Oracle" );
+                                $resultArray['errors'][] = array( 'code' => 'EZSW-004',
+                                                                  'text' => "Failed inserting data to " . $db->databaseName() );
                                 $result = false;
                             }
                         }
                     }
                 }
             }
+            if ( !$result )
+            {
+                return false;
+            }
+            // Database initialization done
+
+            $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
+
+            // Make sure we have all the translation available
+            // before we work with objects
+            include_once( 'kernel/classes/ezcontenttranslation.php' );
+            foreach ( array_keys( $languageObjects ) as $languageObjectKey )
+            {
+                $languageObject = $languageObjects[$languageObjectKey];
+                $languageLocale = $languageObject->localeCode();
+
+                if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
+                {
+                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                    $translation->store();
+                    if ( $languageLocale != $primaryLanguageLocaleCode )
+                    {
+                        $translation->updateObjectNames();
+                    }
+                }
+            }
+
+
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
@@ -423,11 +518,24 @@ class eZStepCreateSites extends eZStepInstaller
 
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
+            if ( !is_object( $user ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-020',
+                                                  'text' => "Could not fetch administrator user object" );
+                return false;
+            }
             $ini =& eZINI::instance();
             $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
+            // Change the current translation variables, before other parts start using them
+            $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
+            $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
+            $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
+
             $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
+            $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
+                                               $this->PersistenceList['additional_packages'] :
+                                               array(),
                                                $typeFunctionality['required'] );
             $extraFunctionality = array_unique( $extraFunctionality );
             foreach ( $extraFunctionality as $packageName )
@@ -435,15 +543,23 @@ class eZStepCreateSites extends eZStepInstaller
                 $package = eZPackage::fetch( $packageName, 'packages/addons' );
                 if ( is_object( $package ) )
                 {
-                    $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                              'top_nodes_map' => array( '*' => 2 ),
-                                              'design_map' => array( '*' => $userDesignName ),
-                                              'restore_dates' => true,
-                                              'user_id' => $user->attribute( 'contentobject_id' ) ) );
+                    $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                                        'top_nodes_map' => array( '*' => 2 ),
+                                                        'design_map' => array( '*' => $userDesignName ),
+                                                        'restore_dates' => true,
+                                                        'user_id' => $user->attribute( 'contentobject_id' ) ) );
+                    if ( !$status )
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-051',
+                                                          'text' => "Could not install addon package named $packageName" );
+                        return false;
+                    }
                 }
                 else
                 {
-                    eZDebug::writeError( "Failed to fetch package $packageName" );
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-050',
+                                                      'text' => "Could not fetch addon package named $packageName" );
+                    return false;
                 }
                 unset( $package );
             }
@@ -500,6 +616,12 @@ class eZStepCreateSites extends eZStepInstaller
                             $classesCSS = $themePackage->fileItemPath( $file, 'default' );
                         }
                     }
+                }
+                else
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-060',
+                                                      'text' => "Could not fetch style package named $themeName" );
+                    return false;
                 }
             }
 
@@ -642,20 +764,56 @@ class eZStepCreateSites extends eZStepInstaller
             eZDir::mkdir( "design/" . $userDesignName . "/override" );
             eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
 
-//             $package->install( $installParameters );
-
             $publishAdmin = false;
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $userAccount =& eZUser::fetch( 14 );
+            if ( !is_object( $userAccount ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-020',
+                                                  'text' => "Could not fetch administrator user object" );
+                return false;
+            }
+
             $userObject =& $userAccount->attribute( 'contentobject' );
+            if ( !is_object( $userObject ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-021',
+                                                  'text' => "Could not fetch administrator content object" );
+                return false;
+            }
+
             if ( trim( $admin['email'] ) )
             {
                 $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
             }
+
             if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
             {
-                $newUserObject =& $userObject->createNewVersion( 1, false);
+                $newUserObject =& $userObject->createNewVersion( 1, false );
+                if ( !is_object( $newUserObject ) )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-022',
+                                                      'text' => "Could not create new version of administrator content object" );
+                    return false;
+                }
                 $dataMap =& $newUserObject->attribute( 'data_map' );
+                $error = false;
+                if ( !isset( $dataMap['first_name'] ) )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-023',
+                                                      'text' => "Administrator content object does have a 'first_name' field" );
+                    $error = true;
+                }
+                if ( !isset( $dataMap['last_name'] ) )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-024',
+                                                      'text' => "Administrator content object does have a 'last_name' field" );
+                    $error = true;
+                }
+
+                if ( $error )
+                    return false;
+
                 $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
                 $dataMap['first_name']->store();
                 $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
@@ -670,6 +828,12 @@ class eZStepCreateSites extends eZStepInstaller
                 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
                                                                                              'version' => $newUserObject->attribute( 'version' ) ) );
+                if ( $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-025',
+                                                      'text' => "Failed to properly publish the administrator object" );
+                    return false;
+                }
             }
         }
 //         else
@@ -681,8 +845,7 @@ class eZStepCreateSites extends eZStepInstaller
         {
 //            eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
 
-            $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
-
+            // Make sure objects use the selected main language instead of eng-GB
             if ( $primaryLanguageLocaleCode != 'eng-GB' )
             {
                 // Updates databases that have eng-GB data to the new locale.
@@ -703,24 +866,10 @@ WHERE
                 $db->query( $updateSql );
 //                 }
             }
-
-            include_once( 'kernel/classes/ezcontenttranslation.php' );
-            foreach ( array_keys( $languageObjects ) as $languageObjectKey )
-            {
-                $languageObject = $languageObjects[$languageObjectKey];
-                $languageLocale = $languageObject->localeCode();
-
-                if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
-                {
-                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
-                    $translation->store();
-                    if ( $languageLocale != $primaryLanguageLocaleCode )
-                    {
-                        $translation->updateObjectNames();
-                    }
-                }
-            }
         }
+
+        // This the end, my friend
+        return true;
     }
 
 }
