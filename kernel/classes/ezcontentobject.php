@@ -256,6 +256,14 @@ class eZContentObject extends eZPersistentObject
         return $result[0]['name'];
     }
 
+    /*!
+     Sets the name of the object, in memory only. Use setName() to change it.
+    */
+    function setCachedName( $name )
+    {
+        $this->Name = $name;
+    }
+
     function setName( $objectName, $versionNum = false, $translation = false )
     {
         $db =& eZDB::instance();

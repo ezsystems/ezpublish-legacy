@@ -79,7 +79,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function eZContentObjectTreeNode( $row = array() )
     {
-        $this->HasContentObject = false;
         $this->eZPersistentObject( $row );
     }
 
@@ -1243,10 +1242,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                  "_" ),
                                           $topLevelName );
             $pathElementArray = explode( '/', $parentNodePathString );
-            if( count( $pathElementArray ) > 0 )
+            if ( count( $pathElementArray ) > 0 )
             {
                 $parentNodePathString = implode( '/', $pathElementArray );
-            }else
+            }
+            else
             {
                 $parentNodePathString = '';
             }
@@ -1257,8 +1257,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 //            eZDebugSetting::writeDebug( 'kernel-content-treenode', $pathElementArray, "pathElementArray" );
 //            eZDebugSetting::writeDebug( 'kernel-content-treenode', $nodeList, "nodeList" );
-
-
 
         if ( count( $nodeList ) > 0 )
         {
@@ -1369,19 +1367,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $path;
     }
 
-/*    function updatePathWithNames()
-    {
-        $this->setAttribute( 'path_identification_string', $this->pathWithNames() );
-        $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
-        $this->store();
-    }
-*/
     function updateSubTreePath()
     {
         $oldPathString = $this->attribute( 'path_identification_string' );
         $oldPathStringLength = strlen( $oldPathString );
 
-//        eZDebugSetting::writeDebug( 'kernel-content-treenode', $this, 'node2' );
         $newPathString = $this->pathWithNames();
         eZDebugSetting::writeDebug( 'kernel-content-treenode', $oldPathString .'  ' . $oldPathStringLength . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
@@ -1393,8 +1383,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDb::instance();
         $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
         $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
-//        $md5QueryPart = $db->md5( $newPathStringQueryPart );
-          $md5QueryPart = $db->md5( 'path_identification_string' );
+        $md5QueryPart = $db->md5( 'path_identification_string' );
         $query = "UPDATE
                          ezcontentobject_tree
                   SET
@@ -1408,31 +1397,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          md5_path = $md5QueryPart
                   WHERE
                          path_string like '$childrensPath%'";
-//        eZDebugSetting::writeDebug( 'kernel-content-treenode', $query, "nice_urls" );
         $db->query( $query );
         $db->query( $query1 );
-/*
-             $subTree = & $this->subTree();
-         reset( $subTree );
-         while( ( $key = key( $subTree ) ) !== null )
-         {
-               $node =& $subTree[$key];
-               $nodeOldPathString = $node->attribute( 'path_identification_string' );
-               eZDebugSetting::writeDebug( 'kernel-content-treenode', $nodeOldPathString , 'nodeOldPathString' );
-
-               eZDebug::accumulatorStart( 'new_path_string', 'nice_urls_total', 'new_path_string' );
-               $node->setAttribute( 'path_identification_string', $newPathString . substr( $nodeOldPathString, $oldPathStringLength ) );
-               eZDebug::accumulatorStop( 'new_path_string' );
-               eZDebug::accumulatorStart( 'crc32', 'nice_urls_total', 'crc32' );
-               $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
-               eZDebug::accumulatorStop( 'crc32' );
-               eZDebug::accumulatorStart( 'node_store', 'nice_urls_total', 'node_store' );
-               $node->store();
-               eZDebug::accumulatorStop( 'node_store' );
-               next( $subTree );
-         }
-*/
     }
+
+    /*!
+      Removes the current node.
+    */
     function remove( $nodeID = 0 )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
@@ -1454,10 +1425,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $childrensPath = $nodePath ; //. $nodeID . '/';
         $pathLength = strlen( $childrensPath ); //+ 1;
 
-/*        $query = "delete from ezcontentobject_tree
-                  where substring( path_string from 1 for $pathLength ) = '$childrensPath' or
-                        path_string = '$nodePath' ";
-*/
         $db =& eZDB::instance();
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
@@ -1469,6 +1436,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
+    /*!
+      Moves the node to the given node.
+    */
     function move( $newParentNodeID, $nodeID = 0 )
     {
         if ( $nodeID == 0 )
@@ -1548,7 +1518,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $object->CurrentLanguage = $node['real_translation'];
                     $contentObject->CurrentLanguage = $node['real_translation'];
                 }
- 
+
                 $object->setContentObject( $contentObject );
             }
             $retNodes[] =& $object;
@@ -1568,7 +1538,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $parentArr[0]['parent_node_id'];
     }
 
-
     function deleteNodeWhereParent( $node, $id )
     {
         eZContentObjectTreeNode::remove( eZContentObjectTreeNode::findNode( $node, $id ) );
@@ -1581,7 +1550,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $parentNode = 2;
         }
-//        var_dump( $parentNode );
 
         $db =& eZDB::instance();
         if( $asObject )
@@ -1610,7 +1578,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 return null;
             }
-        }else{
+        }
+        else
+        {
             $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
                            WHERE
@@ -1623,7 +1593,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &getName()
     {
-        return  $this->Name;
+        return $this->Name;
     }
 
     function setName( $name )
@@ -1638,18 +1608,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $handler->setTimestamp( 'content-cache', mktime() );
         $handler->store();
 
-        /*      $newPathString = $this->pathWithNames();
-
-        if ( $newPathString != $this->attribute ( 'path_identification_string' ) )
-        {
-
-            $this->setAttribute( 'path_identification_string', $newPathString );
-            $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
-            $this->updateSubTreePath();
-        }
-        */
         eZPersistentObject::storeObject( $this );
     }
+
     function &object()
     {
         if ( $this->hasContentObject() )
@@ -1659,20 +1620,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
         $this->ContentObject =& $obj;
-        $this->HasContentObject = true;
         return $obj;
     }
 
     function hasContentObject()
     {
-        return $this->HasContentObject;
-
+        if ( get_class( $this->ContentObject ) == "ezcontentobject" )
+            return true;
+        else
+            return false;
     }
 
-    function setContentObject( $obj )
+    /*!
+     Sets the current content object for this node.
+    */
+    function setContentObject( $object )
     {
-        $this->ContentObject =& $obj;
-        $this->HasContentObject = true;
+        $this->ContentObject =& $object;
     }
 
     /*!
@@ -1704,9 +1668,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $this->PathIdentificationString;
     }
 
-    //
+    /// The current language for the node
     var $CurrentLanguage = false;
 
+    /// Name of the node
+    var $Name;
 }
 
 ?>

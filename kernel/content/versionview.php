@@ -137,11 +137,12 @@ if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
     $placementID = $http->postVariable( 'ContentObjectPlacementID' );
 
 $nodeAssignments =& $versionObject->attribute( 'node_assignments' );
-if ( is_array( $nodeAssignments )and
+if ( is_array( $nodeAssignments ) and
      count( $nodeAssignments ) == 1 )
 {
     $placementID = $nodeAssignments[0]->attribute( 'id' );
-}else if ( !$placementID && count( $nodeAssignments ) )
+}
+else if ( !$placementID && count( $nodeAssignments ) )
 {
     foreach ( array_keys( $nodeAssignments ) as $key )
     {
@@ -192,7 +193,9 @@ if ( $assignment !== null )
     }
 }
 else
-$assignment = false;
+{
+    $assignment = false;
+}
 
 $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 if ( $versionAttributes === null or
@@ -233,6 +236,22 @@ $res->setKeys( $designKeys );
 
 // include_once( 'kernel/classes/ezsection.php' );
 // eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
+
+$contentObject->setAttribute( 'current_version', $EditVersion );
+
+// Set variables to be compatible with normal design templates
+$class =& eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
+$objectName = $class->contentObjectName( $contentObject );
+$contentObject->setCachedName( $objectName );
+
+$node = new eZContentObjectTreeNode();
+$node->setAttribute( 'contentobject_version', $EditVersion );
+$node->setAttribute( 'parent_node_id', $placementID );
+$node->setAttribute( 'main_node_id', $placementID );
+$node->setName( $objectName );
+$node->setContentObject( $contentObject );
+
+$tpl->setVariable( 'node', $node );
 
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version', $versionObject );
