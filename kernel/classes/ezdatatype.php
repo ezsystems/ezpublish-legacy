@@ -479,6 +479,7 @@ class eZDataType
 
     function preStoreDefinedClassAttribute( &$classAttribute )
     {
+        $this->preStoreClassAttribute( $classAttribute, $classAttribute->attribute( 'version' ) );
     }
 
     /*!
