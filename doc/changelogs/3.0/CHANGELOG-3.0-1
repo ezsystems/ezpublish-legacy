@@ -201,6 +201,7 @@ eZ image:
   the image library. Each class now has a separate file and new names.
 - Fixed calculation of width and height from return value of BBox function,
   now angled text should work properly.
+- Added check if ImageCreateFromPNG exists.
 
 eZ locale:
 - Made sure %l was converted using locale translations instead of PHP names.
