@@ -5,28 +5,28 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>Object info</h4>
+<h4>{'Object information'|i18n( 'design/admin/content/translate' )}</h4>
 
 </div></div></div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <p>
-<label>{"Created"|i18n("design/standard/content/edit")}:</label>
+<label>{'Created'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.published}
-{$object.published|l10n(date)}<br />
+{$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name}
 {section-else}
-{"Not yet published"|i18n("design/standard/content/edit")}
+{'Not yet published'|i18n( 'design/admin/content/translate' )}
 {/section}
 </p>
 <p>
-<label>{"Last Modified"|i18n("design/standard/content/edit")}:</label>
+<label>{'Last Modified'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.modified}
-{$object.modified|l10n(date)}<br />
+{$object.modified|l10n(shortdatetime)}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{"Not yet published"|i18n("design/standard/content/edit")}
+{'Not yet published'|i18n( 'design/admin/content/translate' )}
 {/section}
 </p>
 
@@ -109,7 +109,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.translationsform, 'RemoveLanguageArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.translationsform, 'RemoveLanguageArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/translate' )}" /></th>
     <th>{'Language'|i18n( 'design/admin/content/translate' )}</th>
     <th>{'Locale'|i18n( 'design/admin/content/translate' )}</th>
     <th class="tight">&nbsp;</th>
@@ -130,8 +130,8 @@
     {/section}
     </td>
     <td>{$Translations.item.language_code}</td>
-    <td><a href={concat( 'content/translate/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'trash.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Translate'|i18n( 'design/admin/node/view/full' )}" /></a></td>
-<td><a href={concat( 'content/edit/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit'|i18n( 'design/admin/node/view/full' )}" /></a></td>
+    <td><a href={concat( 'content/translate/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'trash.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/translate' )}" title="{'Translate'|i18n( 'design/admin/content/translate' )}" /></a></td>
+<td><a href={concat( 'content/edit/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/translate' )}" title="{'Edit'|i18n( 'design/admin/content/translate' )}" /></a></td>
 </tr>
 {/section}
 </table>
@@ -149,7 +149,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n('design/standard/content/translate')}" {section show=$content_version.language_list|count|eq(1)}disabled="disabled"{/section} />
+<input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n('design/admin/content/translate')}" {section show=$content_version.language_list|count|eq(1)}disabled="disabled"{/section} />
 </div>
 <div class="block">
 {section show=$trans_list}
@@ -160,10 +160,10 @@
 </select>
 {section-else}
 <select name="SelectedLanguage" disabled="disabled">
-<option value="-1">{'No languages'|i18n('design/standard/content/translate')}</option>
+<option value="-1">{'No languages'|i18n( 'design/admin/content/translate' )}</option>
 </select>
 {/section}
-<input class="button" type="submit" name="AddLanguageButton" value="{'Add translation'|i18n('design/standard/content/translate')}" {section show=$trans_list|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="AddLanguageButton" value="{'Add translation'|i18n( 'design/admin/content/translate' )}" {section show=$trans_list|not}disabled="disabled"{/section} />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -185,7 +185,7 @@
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{$original_locale.intl_language_name} ({$original_locale.locale_code}) &gt;&gt; {$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h2>
+<h2 class="context-title">{'Translating %source_language version into %destination_language version'|i18n( 'design/admin/content/translate',, hash( '%source_language', $original_locale.intl_language_name, '%destination_language', $translation_locale.intl_language_name ) )|wash}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
@@ -232,7 +232,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/standard/content/translate' )}" />
+<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/translate' )}" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
