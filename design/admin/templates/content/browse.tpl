@@ -184,11 +184,6 @@
 </div>
 </div>
 
-<form name="test" method="post" action={"content/action"|ezurl}>
-	<input class="menubutton" type="hidden" name="RedirectURIAfterPublish" value="/content/browse/" />
-	<input class="menubutton" type="hidden" name="NodeID" value="{$main_node.node_id}" />
-</form>
-
 {/let}
 
 </div>
