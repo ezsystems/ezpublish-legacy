@@ -12,12 +12,25 @@ AvailableToolArray[]=setup_link
 Tool[]
 Tool[]=setup_link
 Tool[]=setup_link
+Tool[]=setup_link
 
 [Tool_setup_link]
-icon=bla.png
-title=Link
-url=/setup/menu
+Title=
+Icon=
+URL=
+
+[Tool_setup_setup_link_1]
+Title=Classes
+Icon=classes.png
+URL=/class/grouplist
 
 [Tool_setup_setup_link_2]
-url=/class/grouplist
+Title=Cache
+Icon=cache.png
+URL=/setup/cache
+
+[Tool_setup_setup_link_3]
+Title=URL translator
+Icon=url_translator.png
+URL=/content/urltranslator
 */ ?>
