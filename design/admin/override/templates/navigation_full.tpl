@@ -69,8 +69,8 @@
 {/section}
 
 {* Children *}
-{* section show=$node.object.contentclass.is_container *}
+{section show=$node.object.content_class.is_container}
     <div class="content-view-children">
         {include uri='design:children.tpl'}
     </div>
-{* /section *}
+{/section}
