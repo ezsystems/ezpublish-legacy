@@ -429,7 +429,7 @@ table.calendar
 
 .calendar th.holiday
 {
-  color: #ff0000;
+  color: #aa3300;
 }
 
 .calendar th div.navigator
@@ -461,7 +461,7 @@ table.calendar
 {
   padding:0 2px;
   text-align:center;
-  color:#666;
+  color:#aaa;
 }
 
 .calendar td.week
@@ -522,7 +522,6 @@ dl dt em
 
 #archive .header, #category .header
 {
-    margin: 0 -50px 0 0px;
     padding: 20px 50px 10px 15px;
     background: #eeeeee;
     font-size: 85%;
@@ -537,6 +536,11 @@ dl dt em
 #archive .header p, #category .header p
 {
     margin: .5em 0 0;
+}
+
+#archive .header h1, #category .header h1
+{
+    padding-left: 0;
 }
 
 #archive .header em, #category .header em
