@@ -39,6 +39,10 @@
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
 
+{section show=ezini( 'SiteSettings', 'LoginPage' )|eq( 'custom' )}
+    <p><a href={'/user/forgotpassword'|ezurl}>{'Forgot your password?'|i18n( 'design/standard/user' )}</a></p>
+{/section}
+
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
 
 </form>
