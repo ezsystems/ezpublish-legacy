@@ -27,8 +27,8 @@
 <div class="block">
 <input type="hidden" name="discountGroupIDList[]" value="{$discountgroup.id}" />
 <input type="hidden" name="EditGroupID" value="{$discountgroup.id}" />
-<input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-<input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+<input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Edit this discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+<input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove this discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -62,11 +62,11 @@
 </tr>
 {section var=Rules loop=$rule_list sequence=array( bglight, bgdark )}
 <tr class="{$Rules.sequence}">
-    <td><input type="checkbox" name="removeRuleList[]" value="{$Rules.item.id}" /></td>
+    <td><input type="checkbox" name="removeRuleList[]" value="{$Rules.item.id}" title="{'Select discount rule for removal.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" /></td>
     <td>{$Rules.item.name|wash}</td>
     <td>{$Rules.item.discount_percent|l10n( number )}%</td>
     <td>{$Rules.item.limitation}</td>
-    <td><a href={concat( $module.functions.discountruleedit.uri, '/', $discountgroup.id, '/', $Rules.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" /></a></td>
+    <td><a href={concat( $module.functions.discountruleedit.uri, '/', $discountgroup.id, '/', $Rules.item.id)|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Edit the <%discount_rule_name> discount rule.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_rule_name', $Rules.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>
@@ -84,11 +84,11 @@
 
 <div class="block">
     {section show=$rule_list}
-    <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove selected discount rules.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
     {/section}
-    <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Create a new discount rule and add it to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -118,7 +118,7 @@
 </tr>
 {section var=Customers loop=$customers sequence=array( bglight, bgdark )}
 <tr class="{$Customers.sequence}">
-    <td><input type="checkbox" value="{$Customers.item.id}" name="CustomerIDArray[]" /></td>
+    <td><input type="checkbox" value="{$Customers.item.id}" name="CustomerIDArray[]" title="{'Select user or user group for removal.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" /></td>
     <td>{$Customers.item.class_identifier|class_icon(small, $Customers.item.class_name )}&nbsp;<a href={$Customers.item.main_node.url_alias|ezurl}>{$Customers.item.name}</a></td>
     <td>{$Customers.item.class_name}</td>
 </tr>
@@ -136,11 +136,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     {section show=$customers}
-    <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove selected users and/or user groups.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
     {/section}
-    <input class="button" type="submit" name="AddCustomerButton" value="{'Add customer'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="AddCustomerButton" value="{'Add customers'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Add users and/or user groups to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

@@ -39,7 +39,7 @@
 <div class="block">
 <div class="button-left">
     {section show=$vattype_array}
-    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" title="{'Remove the selected VAT types.'|i18n( 'design/admin/shop/vattype' )}" />
+    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" title="{'Remove selected VAT types.'|i18n( 'design/admin/shop/vattype' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
     {/section}

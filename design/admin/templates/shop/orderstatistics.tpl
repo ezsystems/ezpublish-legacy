@@ -60,7 +60,7 @@
     {/section}
 </select>
 
-<input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" title="{'Update the list using the values specified by the menus on the left.'|i18n( 'design/admin/shop/orderstatistics' )}" />
+<input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" title="{'Update the list using the values specified by the menus to the left.'|i18n( 'design/admin/shop/orderstatistics' )}" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
