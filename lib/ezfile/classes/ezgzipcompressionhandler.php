@@ -43,6 +43,8 @@
 
   This class is a wrapper of the eZGZIPZLIBCompressionHandler and
   eZGZIPShellCompressionHandler classes.
+
+  Duplication of this handler is done by the eZForwardCompressionHandler class.
 */
 
 include_once( 'lib/ezfile/classes/ezforwardcompressionhandler.php' );

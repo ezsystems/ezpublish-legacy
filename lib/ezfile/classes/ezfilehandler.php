@@ -1030,6 +1030,17 @@ class eZFileHandler
     }
 
     /*!
+     \virtual
+     Creates a copy of the current handler and returns a reference to the copy.
+     \note The default does a simple copy of \c $this, this method must be reimplemented for specific handlers.
+    */
+    function &duplicate()
+    {
+        $copy = $this;
+        return $copy;
+    }
+
+    /*!
      Returns the handler for the identifier \a $identifier.
              The parameters \a $filename, \a $mode and \a $binaryFile is passed to the handler.
      \return \c false if the handler could not be created.
