@@ -358,10 +358,10 @@ class eZScript
              eZDebug::isDebugEnabled() )
         {
             if ( $this->DebugMessage )
-                print( $this->DebugMessage );
-            print( eZDebug::printReport( false, $webOutput, true,
-                                         $this->AllowedDebugLevels, $this->UseDebugAccumulators,
-                                         $this->UseDebugTimingPoints, $this->UseIncludeFiles ) );
+                fputs( STDERR, $this->DebugMessage );
+            fputs( STDERR, eZDebug::printReport( false, $webOutput, true,
+                                                 $this->AllowedDebugLevels, $this->UseDebugAccumulators,
+                                                 $this->UseDebugTimingPoints, $this->UseIncludeFiles ) );
         }
 
         include_once( 'lib/ezutils/classes/ezexecution.php' );
@@ -1095,10 +1095,10 @@ function eZFatalError()
 
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( !$webOutput )
-        print( $endl );
-    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish its request$endl" );
-    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
-    print( eZDebug::printReport( false, $webOutput, true ) );
+        fputs( STDERR, $endl );
+    fputs( STDERR, $bold . "Fatal error" . $unbold . ": eZ publish did not finish its request$endl" );
+    fputs( STDERR, $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
+    fputs( STDERR, eZDebug::printReport( false, $webOutput, true ) );
 }
 
 /*!

@@ -7,6 +7,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   content templates and other templates, even though content caching is on. It can be set for example with
   {set scope=global persistent_variable=42} and fetched with
   {$module_result.content_info.persistent_variable}
+- Made sure all errors, warnings and notices in eZScript are sent to stderr.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should
@@ -93,3 +94,6 @@ eZDebug:
 eZTemplate:
 - Added scope support to the "set" template function. Scope can be global, root or relative (default).
   Also added unit tests for this.
+
+eZCLI:
+- Made sure all errors, warnings and notices are sent to stderr.
