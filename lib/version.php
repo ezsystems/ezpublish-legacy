@@ -41,12 +41,17 @@ class eZPublishSDK
 {
     /*!
       \return the SDK version as a string
+      \param withRelease If true the release version is appended
+      \param withAlias If true the alias is used instead
     */
-    function version( /*! If true the release version is appended */ $with_release = true )
+    function version( $withRelease = true,
+                      $asAlias = false )
     {
         $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
-        if ( $with_release )
+        if ( $withRelease )
             $ver .= "-" . eZPublishSDK::release();
+        if ( $withAlias )
+            $ver = eZPublishSDK::alias();
         return $ver;
     }
 
@@ -72,6 +77,14 @@ class eZPublishSDK
     function release()
     {
         return 6;
+    }
+
+    /*!
+     \return the alias name for the release, this is often used for beta releases and release candidates.
+    */
+    function alias()
+    {
+        return '3.0.0-rc1';
     }
 }
 
