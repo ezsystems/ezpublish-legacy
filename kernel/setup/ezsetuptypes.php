@@ -173,7 +173,6 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'false' ) );
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
-    http://dist.jb.ez.no/ezpublish-3.5.0alpha1-build3/index.php/news_admin/user/preferences/set/admin_children_viewmode/thumbnail
     $settings['ContentSettings'] = array( 'CachedViewPreferences' => array( 'full' => 'admin_navigation_content=0;admin_navigation_information=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;admin_navigation_translations=0;admin_children_viewmode=list;items=1' ) );
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
