@@ -41,9 +41,9 @@ ob_start();
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
-include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
+include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
-
+include_once( "lib/ezutils/classes/ezini.php" );
 
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
@@ -58,13 +58,28 @@ function eZUpdateDebugSettings()
 }
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
-$ini =& eZINI::instance( WEBDAV_INI_FILE );
+$ini =& eZINI::instance( 'webdav.ini' );
 $enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
 
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable == true )
 {
-    append_to_log( "Requested URI is: " . $_SERVER['REQUEST_URI'] );
+    if ( !isset( $_SERVER['REQUEST_URI'] ) or
+         !isset( $_SERVER['REQUEST_METHOD'] ) )
+    {
+        // We stop the script if these are missing
+        // e.g. if run from the shell
+        exit;
+    }
+    include_once( "lib/ezutils/classes/ezmodule.php" );
+    include_once( 'lib/ezutils/classes/ezexecution.php' );
+    include_once( "lib/ezutils/classes/ezsession.php" );
+    include_once( "access.php" );
+    include_once( "kernel/common/i18n.php" );
+    include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
+
+    eZModule::setGlobalPathList( array( "kernel" ) );
+    eZWebDAVServer::appendLogEntry( "Requested URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
     // Initialize/set the index file.
     eZSys::init( 'webdav.php' );
@@ -115,7 +130,7 @@ if ( $enable == true )
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
-                append_to_log( "Logged in!" );
+                eZWebDAVServer::appendLogEntry( "Logged in!", 'webdav.php' );
 
                 // Process the request.
                 $server->processClientRequest();

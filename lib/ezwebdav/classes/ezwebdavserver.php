@@ -177,6 +177,7 @@ class eZWebDAVServer
 
         // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
+        $status = EZ_WEBDAV_FAILED_NOT_FOUND;
 
         switch ( $_SERVER["REQUEST_METHOD"] )
         {

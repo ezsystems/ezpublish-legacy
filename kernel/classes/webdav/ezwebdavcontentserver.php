@@ -42,29 +42,19 @@
 */
 
 include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
-include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( "kernel/classes/ezurlalias.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( "access.php" );
-include_once( "kernel/common/i18n.php" );
-
-// __FIX_ME__
-eZModule::setGlobalPathList( array( "kernel" ) );
 
 // Get the path to the var directory.
 $varDir = eZSys::varDirectory();
 
 define( "VIRTUAL_CONTENT_FOLDER_NAME", ezi18n( 'kernel/content', "Content" ) );
 define( "VIRTUAL_MEDIA_FOLDER_NAME", ezi18n( 'kernel/content', "Media" ) );
-define( "VIRTUAL_INFO_FILE_NAME", $varDir."/webdav/root/info.txt" );
+define( "VIRTUAL_INFO_FILE_NAME", $varDir . "/webdav/root/info.txt" );
 define( "WEBDAV_INI_FILE", "webdav.ini" );
 define( "WEBDAV_AUTH_REALM", "eZ publish WebDAV interface" );
 define( "WEBDAV_AUTH_FAILED", "Invalid username or password!" );
