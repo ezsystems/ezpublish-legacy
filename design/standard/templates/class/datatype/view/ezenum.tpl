@@ -21,6 +21,7 @@
 {section-else}
     {'Radiobuttons / checkboxes'|i18n( 'design/standard/class/datatype' )}
 {/section}
+</p>
 </div>
 
 {* Elements. *}

@@ -57,7 +57,7 @@
 
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_placement]" value="{'Select location'|i18n('design/standard/class/datatype')}" />
 
-</div>
+</fieldset>
 
 </div>
 {/let}
