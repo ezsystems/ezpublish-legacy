@@ -88,6 +88,7 @@ class eZTemplateCacheFunction
 
         $newNodes = array();
         $ignoreExpiry = false;
+        $ignoreContentExpiry = false;
 
         $expiry = 60*60*2;
         if ( isset( $parameters['expiry'] ) )
@@ -107,14 +108,18 @@ class eZTemplateCacheFunction
             }
             else
             {
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['expiry'], false, array(),
-                                                                      'localExpiry' );
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['expiry'], false, array(), 'localExpiry' );
                 $expiryText = "\$localExpiry";
             }
         }
         else
         {
             $expiryText = eZPHPCreator::variableText( $expiry , 0, 0, false );
+        }
+
+        if ( isset( $parameters['ignore_content_expiry'] ) )
+        {
+            $ignoreContentExpiry = eZTemplateNodeTool::elementStaticValue( $parameters['ignore_content_expiry'] );
         }
 
         $keysData = false;
@@ -151,6 +156,7 @@ class eZTemplateCacheFunction
                     $subtreeValue .= '/';
                 }
             }
+            $ignoreContentExpiry = true;
         }
         if ( $useDynamicKeys )
         {
@@ -217,9 +223,27 @@ class eZTemplateCacheFunction
             }
         }
 
-        $code =  "if ( file_exists( $filepathText )";
+        $code = '';
+        
+        if ( !$ignoreContentExpiry )
+        {
+            $code .= <<<ENDADDCODE
+include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+\$handler =& eZExpiryHandler::instance();
+if ( \$handler->hasTimestamp( 'content-cache' ) )
+{
+    \$globalExpiryTime = \$handler->timestamp( 'content-cache' );
+}
+
+ENDADDCODE;
+        }
+
+        $code .= "if ( file_exists( $filepathText )";
         if ( !$ignoreExpiry ) {
             $code .= "\n    and filemtime( $filepathText ) >= ( time() - $expiryText )";
+        }
+        if ( !$ignoreContentExpiry ) {
+            $code .= "\n    and (time() > \$globalExpiryTime)";
         }
         $code .= " )\n" .
                  "{\n" .
