@@ -243,6 +243,7 @@ CREATE TABLE ezcontentclass (
   modifier_id int(11) NOT NULL default '0',
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
+  remote_id varchar(100) NOT NULL default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)
 ) TYPE=MyISAM;
@@ -392,6 +393,7 @@ CREATE TABLE ezcontentobject_tree (
   path_identification_string longtext,
   main_node_id int(11) default NULL,
   modified_subnode int(11) default '0',
+  remote_id varchar(100) NOT NULL default '',
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
@@ -665,6 +667,7 @@ CREATE TABLE eznode_assignment (
   is_main int(11) NOT NULL default '0',
   from_node_id int(11) default '0',
   remote_id int(11) NOT NULL default '0',
+  node_remote_id varchar(100) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

@@ -1098,7 +1098,8 @@ CREATE TABLE ezcontentclass (
     creator_id integer DEFAULT 0 NOT NULL,
     modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    modified integer DEFAULT 0 NOT NULL,
+    remote_id character varying(100) DEFAULT '' NOT NULL
 );
 
 
@@ -1249,7 +1250,8 @@ CREATE TABLE ezcontentobject_tree (
     priority integer DEFAULT 0 NOT NULL,
     path_identification_string text,
     main_node_id integer,
-    modified_subnode integer DEFAULT 0
+    modified_subnode integer DEFAULT 0,
+    remote_id character varying(100) DEFAULT '' NOT NULL
 );
 
 
@@ -1519,7 +1521,8 @@ CREATE TABLE eznode_assignment (
     sort_order integer DEFAULT 1,
     is_main integer DEFAULT 0 NOT NULL,
     from_node_id integer DEFAULT 0,
-    remote_id integer DEFAULT 0 NOT NULL
+    remote_id integer DEFAULT 0 NOT NULL,
+    node_remote_id character varying(100) DEFAULT ''
 );
 
 
