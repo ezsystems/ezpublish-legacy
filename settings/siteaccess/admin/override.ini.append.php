@@ -167,4 +167,9 @@ MatchFile=embed_image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
+[template_look]
+Source=content/edit.tpl
+MatchFile=template_look_edit.tpl
+Subdir=templates
+Match[class_identifier]=template_look
 */ ?>
