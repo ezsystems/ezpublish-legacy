@@ -52,6 +52,9 @@ $http =& eZHTTPTool::instance();
 
 $iniPath = "settings/siteaccess/$currentSiteAccess";
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
+$ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+$ini->loadCache();
+
 $iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
 $toolArray = array();
@@ -172,7 +175,7 @@ if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
 {
     $availableToolArray =  $ini->variable( "Tool", "AvailableToolArray" );
 }
-
+print_r( $availableToolArray );
 $toolList = array();
 foreach ( array_keys( $toolArray ) as $toolKey )
 {
