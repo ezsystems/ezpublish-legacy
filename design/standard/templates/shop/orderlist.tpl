@@ -20,7 +20,7 @@
 	Total inc. VAT
 	</th>
 </tr>
-{section name="Order" loop=$order_array sequence=array(bglight,bgdark)}
+{section name="Order" loop=$order_list sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Order:sequence}">
 	{$Order:item.order_nr}
@@ -43,3 +43,10 @@
 </tr>
 {/section}
 </table>
+
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/shop/orderlist/',$node.node_id)
+         item_count=$order_list_count
+         view_parameters=$view_parameters
+         item_limit=5}

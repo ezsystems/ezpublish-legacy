@@ -1,4 +1,4 @@
-<form action={concat("draft/list")|ezurl} method="post" >
+<form action={concat("content/draft/")|ezurl} method="post" >
 
 <div class="maincontentheader">
 <h1>{"My drafts"|i18n('draft/list')}</h1>
@@ -38,7 +38,7 @@
 </table>
 
 <div class="buttonblock">
-<input type="submit" name="RemoveButton" value="Remove draft" />
+<input type="submit" name="RemoveButton" value="Remove" />
 </div>
 
 {section-else}

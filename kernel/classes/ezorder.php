@@ -91,12 +91,28 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchActive( $asObject = true )
+    /*!
+     \return the active orders
+    */
+    function &active( $asObject = true, $offset, $limit )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null, array( 'is_temporary' => 0 ),
-                                                    array( "created" => "desc" ), null,
+                                                    array( "created" => "desc" ),
+                                                    array( 'offset' => $offset,
+                                                           'length' => $limit ),
                                                     $asObject );
+    }
+
+    /*!
+     \return the number of active orders
+    */
+    function &activeCount()
+    {
+        $db =& eZDB::instance();
+
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezorder WHERE is_temporary='0'" );
+        return $countArray[0]['count'];
     }
 
     function attribute( $attr )

@@ -429,7 +429,6 @@ class eZPersistentObject
             }
         }
 
-        $limit_text = "";
         $db_params = array();
         if ( is_array( $limit ) )
         {

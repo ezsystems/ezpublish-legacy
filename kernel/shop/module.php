@@ -50,6 +50,7 @@ $ViewList["wishlist"] = array(
 
 $ViewList["orderlist"] = array(
     "script" => "orderlist.php",
+    "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["confirmorder"] = array(

@@ -1,6 +1,8 @@
 <?php
 //
-// Created on: <01-Aug-2002 10:40:10 bf>
+// Definition of List class
+//
+// Created on: <29-ïËÔ-2002 16:14:57 sp>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,31 +34,42 @@
 // you.
 //
 
-include_once( "kernel/common/template.php" );
+/*! \file list.php
+*/
+include_once( 'kernel/common/template.php' );
+include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
-include_once( "kernel/classes/ezorder.php" );
+$Module =& $Params['Module'];
+$http =& eZHTTPTool::instance();
+
+$user =& eZUser::currentUser();
+$userID = $user->id();
+
+if ( $http->hasPostVariable( 'RemoveButton' )  )
+{
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    {
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            eZDebug::writeNotice( $deleteID, "deleteID" );
+            $version =& eZContentObjectVersion::fetch( $deleteID );
+            $version->remove();
+        }
+    }
+}
+
+$versions =& eZContentObjectVersion::fetchForUser( $userID );
 
 $tpl =& templateInit();
 
-$offset = $Params['Offset'];
-$limit = 25;
-
-$orderArray =& eZOrder::active( true, $offset, $limit );
-$orderCount = eZOrder::activeCount( true, $offset );
-
-$tpl->setVariable( "order_list", $orderArray );
-$tpl->setVariable( "order_list_count", $orderCount );
-
-$viewParameters = array( 'offset' => $offset );
-$tpl->setVariable( 'view_parameters', $viewParameters );
-
-
-$path = array();
-$path[] = array( 'text' => "Order list",
-                 'url' => false );
+$tpl->setVariable( 'draft_list', $versions );
 
 $Result = array();
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/orderlist.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:content/draft.tpl' );
+$Result['path'] = array( array( 'text' => 'Draft',
+                                'url' => false ),
+                         array( 'text' => 'List',
+                                'url' => false ) );
 
 ?>
