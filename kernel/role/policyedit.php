@@ -63,6 +63,8 @@ else
 $currentModule = $policy->attribute( 'module_name' );
 $currentFunction = $policy->attribute( 'function_name' );
 $roleID = $policy->attribute( 'role_id' );
+$role =& eZRole::fetch( $roleID );
+$roleName = $role->attribute( 'name' );
 $limitationValueList =& $policy->limitationList();
 $nodeList = array();
 $subtreeList = array();
@@ -358,6 +360,7 @@ $tpl =& templateInit();
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "current_function", $currentFunction );
 $tpl->setVariable( "role_id", $roleID );
+$tpl->setVariable( "role_name", $roleName );
 $tpl->setVariable( "current_module", $currentModule );
 $tpl->setVariable( "function_limitations", $currentFunctionLimitations );
 $tpl->setVariable( "policy_id", $policyID );
