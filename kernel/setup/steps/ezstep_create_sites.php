@@ -526,6 +526,9 @@ WHERE
         }
 
         $user = eZUser::instance( 14 );
+        $ini =& eZINI::instance();
+        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+
         $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
         $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
                                            $typeFunctionality['required'] );

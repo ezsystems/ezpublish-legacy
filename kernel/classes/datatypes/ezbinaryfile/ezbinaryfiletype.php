@@ -449,8 +449,6 @@ class eZBinaryFileType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-//        $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
-
         $fileNode = $attributeNode->elementByName( 'binary-file' );
         $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
