@@ -133,27 +133,33 @@ function processList( &$module )
 <td>
 <h1>eZ publish&trade; SDK</h1>
 <p>
-eZ publish&trade; SDK is a package for quickly developing PHP applications. It has
-libraries to handle e.g. database abstraction, XML, templates, internationalization,
- localization, SOAP communication and debug. These libraries
-is the basis for the next generation eZ publish&trade;.
+eZ publish&trade; SDK is a set of object oriented PHP libraries which is general
+libraries you can use in your PHP applications. The libraries has functionality
+ranging from database abtraction to image handling. These libraries is the foundation
+of eZ publish 3.
 </p>
 <p>
-The eZ publish&trade; SDK is licenced under the GPL license and the eZ publish professional licences.
+The eZ publish&trade; SDK also contains documentation and tutorials on the eZ publish kernel.
+This resource will help you set up eZ publish, develop extensions and plugins or to get the overview
+of how eZ publish works.
+</p>
+<p>
+The eZ publish&trade; SDK is licenced under the GPL license and the eZ publish professional licences
+and the copyright is held by eZ systems as.
 Contact licence@ez.no if any conditions of this licencing is not clear to you.
 </p>
 <p>
 This documentation is divided into the following parts. Getting started, which contains an
-overview over the different features in the SDK. What\'s new, is a changelog and todo overview.
+overview over the different features in the SDK. The turorials part includes
+howtos on often used functionality of eZ publish. What\'s new, is a changelog and todo overview.
 Libraries, which is a documentation by example of the different libraries.
 Kernel, is a documentation by example of the eZ publish specific features. And finally
 the API reference which is a complete reference to both the libraries and the kernel code.
 </p>
 <p class="important">
-<b>NOTE:</b> This is a technology preview release and is regarded <b>alpha</b>
-state code. We do not recomend using these libraries in production environments
-at this time. The API for these libraries may be altered in future releases. Please
-send feedback on this release to sdk@ez.no.
+<b>NOTE:</b>
+This is a <b>beta</b> release and the code base is not meant for production systems.
+Feedback on this release can be sent to sdk@ez.no.
 </p>
 
 <table width="100%">

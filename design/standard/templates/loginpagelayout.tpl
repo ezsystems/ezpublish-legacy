@@ -1,57 +1,83 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{*?template charset=latin1?*}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>{$site.title}{section show=$site.page_title} - {$site.page_title}{/section}</title>
+    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
+
+    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
-<META HTTP-EQUIV=Refresh CONTENT="{$site.redirect.timer}; URL={$site.redirect.location}" />
+<meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
 {/section}
 
-<link rel="stylesheet" type="text/css" href={"stylesheets/style.css"|ezdesign} />
-
-<!-- set the content meta information -->
+<!-- Meta information START -->
 
 {section name=meta loop=$site.meta}
 <meta name="{$meta:key}" content="{$meta:item}" />
 {/section}
 
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
 
 <meta name="generator" content="eZ publish" />
 
+<!-- Meta information END -->
+
 </head>
 
-<body bgcolor="#4987bc" topmargin="0" marginheight="0" leftmargin="0" marginwidth="0">
+<body style="background: url(/design/standard/images/grid-background.gif);">
+
+
+<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="topline" width="40%" colspan="2">
+    <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
+   </td>
+</tr>
+<tr>
+    <td class="pathline" colspan="2">
+<table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><br />
+    </td>
+    <td width="99%">
+    <p class="path">
+    {section name=Path loop=$module_result.path}
+        {section show=$Path:item.url}
+        <a class="path" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        {section-else}
+        {$Path:item.text}
+        {/section}
+
+        {delimiter}
+        <span class="slash">/</span>
+        {/delimiter}
+    {/section}
+    &nbsp;</p>
+    </td>
+</tr>
+</table>
+   </td>
+</tr>
+<tr>
+    <td colspan="2">
+
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 {* Header *}
-<tr><td>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="3">
 <tr>
-   <td width="20%" bgcolor="#4987bc">
-   <h1><font color="white">eZ publish 3<sup>TM</sup></font></h1>
-   </td>
-   <td width="70%" bgcolor="#4987bc">
-   {section show=$access_type}<h1><font color="white">({$access_type.name})</font></h1>{/section}
-   </td>
-
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-
 	<td>
 <table width="100%"  cellspacing="0" cellpadding="4">
 <tr>
 
 {* This is the main content *}
 <td width="20%" bgcolor="#ffffff">
-&nbsp;&nbsp;&nbsp;<img src={"user.png"|ezimage} border="0" />
 </td>
 <td width="30%" bgcolor="#ffffff">
 <form method="post" action="/user/login/">
@@ -84,13 +110,10 @@
 
 </table>
 
-<br />
-<font color="white">
-<center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a>
-</center>
-</font>
-<br />
+
+<div align="center" style="padding-top: 0.5em;">
+<p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a></p>
+</div>
 
 </body>
 </html>
