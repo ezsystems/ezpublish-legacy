@@ -52,6 +52,7 @@ general.
 <h3>Content class</h3>
 <p>
 In eZ publish you can define your own content classes. This is an object definition if you like.
+A class defines the structure of the building blocks in eZ publish, object.
 Some examples of content classes are article, forum, product and user account.
 </p>
 
@@ -65,9 +66,9 @@ and body could be XML formatted text.
 
 <h3>Content object</h3>
 <p>
-A content object is an instance of a defined content class. The content class defines
-the structure of content objects. The content object is the actual documents/articles etc
-which are stored in eZ publish<sup>TM</sup>.
+A content object is an instance of a defined content class. Whilst the content class defines
+the structure of content object, the object has the actual content.
+The content object is the actual documents/articles etc which are stored in eZ publish.
 </p>
 
 <h3>Content object version</h3>
@@ -81,6 +82,14 @@ of changes and to have the possiblity to revert changes in an object.
 Each content object consists of several attributes. These attributes is defined
 by a content class attribute. The content object attribute contains the actual
 data.
+</p>
+
+<h3>Information collector</h3>
+
+<p>
+Information collector is a setting on class attributes which says if the attribute
+can be used to get input from the user. This is used when e.g. creating feedback
+forms on a website.
 </p>
 
 <h3>Site access</h3>

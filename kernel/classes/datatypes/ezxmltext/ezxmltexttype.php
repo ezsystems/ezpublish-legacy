@@ -411,6 +411,20 @@ class eZXMLTextType extends eZDataType
                 $tagText .= implode( '', $textElements );
             }break;
 
+            case 'custom' :
+            {
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+
+                // Get the name of the custom tag.
+                $name = $tag->attributeValue( 'name' );
+
+                $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
+
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
+            }break;
+
             case 'link' :
             {
                 include_once( 'lib/ezutils/classes/ezmail.php' );

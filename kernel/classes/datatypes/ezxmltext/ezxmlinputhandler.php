@@ -558,6 +558,12 @@ class eZXMLInputHandler
                 $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
             }break;
 
+            // Custom tags
+            case 'custom' :
+            {
+                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
+            }break;
+
             case 'link' :
             {
                 $linkID = $tag->attributeValue( 'id' );
