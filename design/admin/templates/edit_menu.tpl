@@ -1,3 +1,4 @@
+<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
 <div class="objectinfo">
 <h4>Object info</h4>
 <p>
@@ -96,3 +97,4 @@
 
 <!-- Dummy link tool END -->
 
+</form>
