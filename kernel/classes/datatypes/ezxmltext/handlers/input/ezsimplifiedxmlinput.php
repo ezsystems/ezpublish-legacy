@@ -60,6 +60,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->subTagArray['emphasize'] = $this->inlineTagArray;
         $this->subTagArray['link'] = $this->inlineTagArray;
         $this->subTagArray['anchor'] = $this->inlineTagArray;
+        $this->subTagArray['line'] = $this->inlineTagArray;
         $this->tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
                                              'border' => array( 'required' => false ) );
 
@@ -223,7 +224,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         if ( in_array( $tagName, $this->blockTagArray ) )
         {
             unset( $currentNode );
-            $currentNode =& $lastInsertedNode ;
+            $currentNode =& $lastInsertedNode;
             $lastInsertedNodeArray = array_pop( $TagStack );
             $parentNodeTag = $lastInsertedNodeArray["TagName"];
         }
@@ -298,7 +299,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Deal with paragraph tag.
         if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "paragraph" )
         {
-            //pop up paragraph tag
+             //pop up paragraph tag
              $lastNodeArray = array_pop( $TagStack );
              $lastNode =& $lastNodeArray["ParentNodeObject"];
              unset( $currentNode );
@@ -315,51 +316,60 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
              }
         }
 
-        if ( in_array( $currentTag, $this->subTagArray[$parentNodeTag] ) )
+        if ( in_array( $currentTag, $this->subTagArray[$parentNodeTag] ) and $currentTag != $parentNodeTag )
         {
             $subNode->Name = $currentTag;
             $subNode->LocalName = $currentTag;
             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-            if ( $attrPart != null )
+
+            $allowedAttr = array();
+            $existAttrNameArray = array();
+            unset( $attr );
+            $attr =& $this->parseAttributes( $attrPart );
+            // Tag is valid Check attributes
+            // parse attruibet
+            foreach ( $attr as $attrbute )
             {
-                $allowedAttr = array();
-                $existAttrNameArray = array();
-                unset( $attr );
-                $attr =& $this->parseAttributes( $attrPart );
-                // Tag is valid Check attributes
-                // parse attruibet
-                foreach ( $attr as $attrbute )
+                $attrName = $attrbute->Name;
+                $existAttrNameArray[] = $attrName;
+                if ( isset( $this->tagAttributeArray[$currentTag][$attrName] ) )
                 {
-                    $attrName = $attrbute->Name;
-                    $existAttrNameArray[] = $attrName;
-                    if ( isset( $this->tagAttributeArray[$currentTag][$attrName] ) )
+                    $allowedAttr[] = $attrbute;
+                }
+                else
+                {
+                    // attr is not allowed
+                }
+            }
+            // Check if there should be any more attributes
+            foreach ( $this->tagAttributeArray[$currentTag] as $key => $attribute )
+            {
+                if ( $attribute['required'] == true )
+                {
+                    // Chekc if tag is already found
+                    if ( in_array( $key, $existAttrNameArray ) )
                     {
-                        $allowedAttr[] = $attrbute;
+                        //do nothing
                     }
                     else
                     {
-                        // attr is not allowed
+                        //Set input invalid
+                        $this->isInputValid = false;
+                        $message .= "<li>Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)</li>";
                     }
                 }
-                // Check if there should be any more attributes
-                foreach ( $this->tagAttributeArray[$currentTag] as $key => $attribute )
-                {
-                    if ( $attribute['required'] == true )
-                    {
-                        // Chekc if tag is already found
-                        if ( in_array( $key, $existAttrNameArray ) )
-                        {
-                            //do nothing
-                        }
-                        else
-                        {
-                            //Set input invalid
-                            $this->isInputValid = false;
-                            $message .= "<li>Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)</li>";
-                        }
-                    }
-                }
+            }
+
+            if ( $allowedAttr != null )
+            {
                 $subNode->Attributes = $allowedAttr;
+            }
+
+            if ( $allowedAttr == null and $currentTag == "link" )
+            {
+                //Set input invalid
+                $this->isInputValid = false;
+                $message .= "<li>Tag 'link' must have attribute 'href' or valid 'id' (need fix)</li>";
             }
 
             $domDocument->registerElement( $subNode );
@@ -505,10 +515,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         array_push( $TagStack,
                                     array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
-                        /*  if ( in_array( $convertedTag, $this->supportedTagArray ) )
+                        if ( in_array( $convertedTag, $this->supportedInputTagArray ) )
                         {
-                            $message .= "<li>Unmatched tag " . $lastInsertedNodeTag . " and " . $convertedTag . "</li>";
-                        }*/
+                            //Set input invalid
+                            // $this->isInputValid = false;
+                            $message .= "<li>Unmatched tag " . $convertedTag . "(removed)</li>";
+                        }
+                        if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedTagArray ) )
+                        {
+                            if ( $this->isInputValid == true )
+                                $message .= "<li>Unmatched tag " . $lastInsertedNodeTag . "</li>";
+                            //Set input invalid
+                            $this->isInputValid = false;
+                        }
                     }
                     else
                     {
@@ -571,6 +590,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             unset( $currentNode );
                             $currentNode =& $subNode;
                         }
+                    }
+                    elseif ( !in_array( $justName, $this->supportedTagArray ) )
+                    {
+                        $message .= "<li>Unsupported tag " . $justName .  "(removed)</li>";
                     }
                     elseif ( $justName == "header" )
                     {
@@ -794,27 +817,32 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &parseAttributes( $attributeString )
     {
-        $attrbutes = false;
-        // Register attributes which with double or single quotes
-        $attrbutesNodeWithQuote = $this->registerAttributes( $attributeString );
-
-        // Remove registed attributes
-        $attributeString = preg_replace( "/([0-9A-Za-z]+)\s*\=\"(.*?)\"/e", "", $attributeString );
-        $attributeString = preg_replace( "/([0-9A-Za-z]+)\s*\='(.*?)'/e", "", $attributeString );
-
-        // Change attributes which without quotes with double quote.
-        $attributeString = preg_replace( "/([a-zA-Z0-9:-_#\-]+)\s*\=([a-zA-Z0-9:-_#\-]+)/e", "'\\1'.'=\"'.'\\2'.'\"'", $attributeString );
-        $attrbutesNodeWithoutQuote = $this->registerAttributes( $attributeString );
-
-        foreach ( $attrbutesNodeWithQuote as $attrbutesNode )
+        if ( $attributeString != null )
         {
-            $attrbutes[] = $attrbutesNode;
+           $attrbutes = false;
+           // Register attributes which with double or single quotes
+           $attrbutesNodeWithQuote = $this->registerAttributes( $attributeString );
+
+           // Remove registed attributes
+           $attributeString = preg_replace( "/([0-9A-Za-z]+)\s*\=\"(.*?)\"/e", "", $attributeString );
+           $attributeString = preg_replace( "/([0-9A-Za-z]+)\s*\='(.*?)'/e", "", $attributeString );
+
+           // Change attributes which without quotes with double quote.
+           $attributeString = preg_replace( "/([a-zA-Z0-9:-_#\-]+)\s*\=([a-zA-Z0-9:-_#\-]+)/e", "'\\1'.'=\"'.'\\2'.'\"'", $attributeString );
+           $attrbutesNodeWithoutQuote = $this->registerAttributes( $attributeString );
+
+           foreach ( $attrbutesNodeWithQuote as $attrbutesNode )
+           {
+               $attrbutes[] = $attrbutesNode;
+           }
+           foreach ( $attrbutesNodeWithoutQuote as $attrbutesNode )
+           {
+               $attrbutes[] = $attrbutesNode;
+           }
+           return $attrbutes;
         }
-        foreach ( $attrbutesNodeWithoutQuote as $attrbutesNode )
-        {
-            $attrbutes[] = $attrbutesNode;
-        }
-        return $attrbutes;
+        else
+            return null;
     }
 
     /*!
@@ -1197,6 +1225,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $output .= "<$tagName name='$name' />";
             }break;
 
+            case 'line' :
+            {
+                $output .= "<line>" . $childTagText . "</line>";
+            }break;
+
             case 'tr' :
             case 'td' :
             case 'th' :
@@ -1215,11 +1248,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $blockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
 
-    var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
+    var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
     var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ) );
 
-    var $supportedTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' );
+    // Contains all supported tag for xml parse
+    var $supportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
+
+    // Contains all supported input tag
+    var $supportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' , 'line' );
 }
 
 ?>
