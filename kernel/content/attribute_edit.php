@@ -330,10 +330,15 @@ if ( $mainAssignment )
                              'node_id' => $parent->attribute( 'node_id' )
                              );
         }
-        $path[] = array( 'text' => $parentNode->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
-                         'url_alias' => $parentNode->attribute( 'url_alias' ),
-                         'node_id' => $parentNode->attribute( 'node_id' ) );
+
+        if ( $parentNode->attribute( 'name' ) != null )
+        {
+            $path[] = array( 'text' => $parentNode->attribute( 'name' ),
+                             'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
+                             'url_alias' => $parentNode->attribute( 'url_alias' ),
+                             'node_id' => $parentNode->attribute( 'node_id' ) );
+        }
+
         $objectPathElement = array( 'text' => $object->attribute( 'name' ),
                                     'url' => false,
                                     'url_alias' => false );
