@@ -77,11 +77,14 @@ class eZURI
 
     /*!
      \return the URI passed as to the object.
-     \note the URI will not include the starting \c /
+     \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function uriString()
+    function uriString( $withLeadingSlash = false )
     {
-        return $this->URI;
+        $uri = $this->URI;
+        if ( $withLeadingSlash )
+            $uri = "/$uri";
+        return $uri;
     }
 
     /*!

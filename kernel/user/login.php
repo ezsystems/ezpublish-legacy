@@ -47,8 +47,6 @@ $userLogin = '';
 $userPassword = '';
 $userRedirectURI = '';
 
-print( $Module->currentAction( 'Login' ) );
-
 if ( $Module->isCurrentAction( 'Login' ) and
      $Module->hasActionParameter( 'UserLogin' ) and
      $Module->hasActionParameter( 'UserPassword' )
@@ -81,11 +79,12 @@ else
     $requestedURI =& $GLOBALS['eZRequestedURI'];
     if ( get_class( $requestedURI ) == 'ezuri' )
     {
-        $requestedModule = $requestedURI->element( 1, false );
-        $requestedView = $requestedURI->element( 2, false );
+        print( $requestedURI->uriString() . "<br/>" );
+        $requestedModule = $requestedURI->element( 0, false );
+        $requestedView = $requestedURI->element( 1, false );
         if ( $requestedModule != 'user' or
              $requestedView != 'login' )
-            $userRedirectURI = $GLOBALS['eZGlobalRequestURI'];
+            $userRedirectURI = $requestedURI->uriString( true );
     }
 }
 
