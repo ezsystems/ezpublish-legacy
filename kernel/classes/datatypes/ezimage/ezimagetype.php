@@ -283,9 +283,9 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function metaData()
+    function metaData( $contentObjectAttribute )
     {
-        $content =& $this->content();
+        $content =& $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         return $value;

@@ -1,0 +1,9 @@
+Changes from 3.3-1 to 3.3-2
+
+*Kernel:
+- Fixed eZImageType::metaData
+- Fixed eZObjectRelationList::metaData
+- Fixed eZSelection::metaData
+
+*Design:
+- Added content for content/datatype/pdf/ezmatrix.tpl
