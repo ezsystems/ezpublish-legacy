@@ -202,3 +202,6 @@ eZWebDAV:
 
 eZModule:
 - Added support for user-defined parameters and anchor to all redirect methods().
+- Added possibility to change the name and view of the currently running module.
+- Added new redirect method which redirects to the current module and view with
+  all its parameters.

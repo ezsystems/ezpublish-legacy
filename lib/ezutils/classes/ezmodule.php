@@ -114,6 +114,7 @@ class eZModule
         $this->ErrorCode = 0;
         $this->ViewActions = array();
         $this->OriginalParameters = null;
+        $this->UserParameters = array();
     }
 
     /*!
@@ -156,6 +157,26 @@ class eZModule
     function setTitle( $title )
     {
         $this->Title = $title;
+    }
+
+    /*!
+     Sets the name of the currently running module to \a $name.
+    */
+    function setCurrentName( $name )
+    {
+        $this->Name = $name;
+        foreach( $this->Functions as $key => $dummy )
+        {
+            $this->Functions[$key]["uri"] = "/$name/$key";
+        }
+    }
+
+    /*!
+     Sets the name of the currently running view to \a $name.
+    */
+    function setCurrentView( $name )
+    {
+        $GLOBALS['eZModuleCurrentView'] = $name;
     }
 
     /*!
@@ -361,7 +382,7 @@ class eZModule
     }
 
     /*!
-     \return the uri of the currently run view in the current module with the current parameters.
+     \return The URI of the currently run view in the current module with the current parameters.
     */
     function currentRedirectionURI()
     {
@@ -369,7 +390,20 @@ class eZModule
         $viewName = eZModule::currentView();
         $parameters = $this->OriginalViewParameters;
         $unorderedParameters = $this->OriginalUnorderedParameters;
-        return $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
+        $userParameters = $this->UserParameters;
+        return $this->redirectionURIForModule( $module, $viewName, $parameters,
+                                               $unorderedParameters, $userParameters );
+    }
+
+    /*!
+     Redirects to the current module and view, it will use currentRedirectionURI() to
+     figure out the URL.
+     \note By changing using setCurrentName() and setCurrentView() first it is possible to
+           redirect to another module or view with the same parameters.
+    */
+    function redirectCurrent()
+    {
+        $this->redirectTo( $this->currentRedirectionURI() );
     }
 
     /*!
@@ -953,6 +987,7 @@ class eZModule
         $this->OriginalParameters = $parameters;
         $this->OriginalViewParameters = $parameterValues;
         $this->NamedParameters = $params;
+        $this->UserParameters = $userParameters;
 
         if ( isset( $function['ui_context'] ) )
         {
@@ -974,6 +1009,7 @@ class eZModule
 
         // check for unordered parameters and initialize variables if they exist
         $unorderedParametersList = array();
+        $unorderedParameters = array();
         if ( isset( $function["unordered_params"] ) )
         {
             $unorderedParams =& $function["unordered_params"];
@@ -984,12 +1020,14 @@ class eZModule
                 {
                     $pos = array_search( $urlParamName, $parameters );
 
-                    $params[$variableParamName] = $parameters[$pos+1];
-                    $unorderedParametersList[$variableParamName] = $parameters[$pos+1];
+                    $params[$variableParamName] = $parameters[$pos + 1];
+                    $unorderedParameters[$variableParamName] = $parameters[$pos + 1];
+                    $unorderedParametersList[$variableParamName] = $parameters[$pos + 1];
                 }
                 else
                 {
                     $params[$variableParamName] = false;
+                    $unorderedParameters[$variableParamName] = false;
                 }
             }
         }
@@ -1224,6 +1262,7 @@ class eZModule
     var $OriginalViewParameters;
     var $NamedParameters;
     var $OriginalUnorderedParameters;
+    var $UserParameters;
 
     /// The current UI context, by default 'navigation' but can be changed depending on module or PHP code
     var $UIContext;
