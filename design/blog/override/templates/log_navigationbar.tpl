@@ -1,4 +1,3 @@
-
 {let today_info=$view_parameters
      cache_keys=array( $today_info.year, $today_info.month, $today_info.day )}
 

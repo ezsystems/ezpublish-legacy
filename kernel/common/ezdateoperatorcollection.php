@@ -112,7 +112,7 @@ class eZDateOperatorCollection
                     ++$i;
                 }
                 $days = array();
-                $lastDay = getdate( mktime( 0, 0, 0, $dateInfo['mon'], 0, $dateInfo['year'] ) );
+                $lastDay = getdate( mktime( 0, 0, 0, $dateInfo['mon']+1, 0, $dateInfo['year'] ) );
                 $lastDay = $lastDay['mday'];
                 for ( $day = 1; $day <= $lastDay; ++$day )
                 {
@@ -166,6 +166,7 @@ class eZDateOperatorCollection
                 if ( isset( $optional['day_link'] ) )
                      $dayLinkParameter = $optional['day_link'];
                 $weeks = array();
+                $lastWeek = 0;
                 for ( $day = 1; $day <= $lastDay; ++$day )
                 {
                     $timestamp = mktime( 0, 0, 0, $dateInfo['mon'], $day, $dateInfo['year'] );
@@ -174,6 +175,9 @@ class eZDateOperatorCollection
                     $week = date( 'W', $timestamp );
                     if ( $info['wday'] == 0 )
                         ++$week;
+                    if ( $week < $lastWeek )
+                        $week = $lastWeek;
+                    $lastWeek = $week;
                     if ( !isset( $weeks[$week] ) )
                     {
                         for ( $i = 0; $i < 7; ++$i )

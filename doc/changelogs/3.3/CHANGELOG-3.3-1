@@ -4,6 +4,7 @@ Changes from 3.3.0-2 to 3.3-1
 
 *Bugfixes:
 - Fixed several layout and functionality bugs in blog package
+- Fixed calendar operator bug
 
 *RSS:
 
