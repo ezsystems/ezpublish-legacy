@@ -47,7 +47,7 @@ function togglestuff( formname, checkboxname )
                                           offset, $view_parameters.offset ) ) }
 
 
-<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {'Sub items'|i18n( 'design/admin/layout' )}&nbsp;[{$children_count}]</h2>
+<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {$node.object.content_class.identifier|class_icon( small, $node.object.content_class.name )}&nbsp;{$node.name|wash}&nbsp;[{$children_count}]</h2>
 
 {* If there are children: show list and buttons that belong to the list. *}
 {section show=$children}
