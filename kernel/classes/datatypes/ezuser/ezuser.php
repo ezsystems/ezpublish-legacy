@@ -1251,8 +1251,16 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $accessArray == null )
         {
+            /* Figure out when the last update was done */
+            $expiredTimestamp = 0;
+            $handler =& eZExpiryHandler::instance();
+            if ( $handler->hasTimestamp( 'user-role-policy-cache' ) )
+            {
+                $expiredTimestamp = $handler->timestamp( 'user-role-policy-cache' );
+            }
+
             $cacheFile = eZUser::getCacheFilename( $userID );
-            if ( $cacheFile !== false && file_exists( $cacheFile ) )
+            if ( $cacheFile !== false && file_exists( $cacheFile ) && filemtime( $cacheFile ) > $expiredTimestamp )
             {
                 // var_dump("CACHEFILE DOES EXIST FOR USER $userID");
                 $accessArray = include( $cacheFile );
@@ -1644,10 +1652,10 @@ WHERE user_id = '" . $userID . "' AND
 
     function cleanupCache()
     {
-        // var_dump("CLEANUP DIRECTORY");
-        $sys =& eZSys::instance();
-        $dir = $sys->cacheDirectory() . '/user-info';
-        eZDir::recursiveDelete( $dir );
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-role-policy-cache', time() );
+        $handler->store();
     }
 
     /*!
