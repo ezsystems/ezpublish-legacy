@@ -485,6 +485,10 @@ class eZDBSchemaInterface
         $i = 0;
 		foreach ( $schema as $tableName => $tableDef )
 		{
+            // Skip the info structure, this is not a table
+            if ( $table == '_info' )
+                continue;
+
             if ( !isset( $data[$tableName] ) )
                 continue;
             if ( $i > 0 )
