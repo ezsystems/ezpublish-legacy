@@ -63,8 +63,10 @@
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Translation *}
+{section show=fetch( content, translation_list )|count|gt( 1 )}
 <label>{'Translation'|i18n( 'design/admin/view/versionview' )}:</label>
 <div class="block">
+{section show=$version.language_list|count|gt( 1 )}
 {section var=Translations loop=$version.language_list}
 <p>
 <input type="radio" name="SelectedLanguage" value="{$Translations.item.language_code}" {section show=eq( $Translations.item.locale.locale_code, $object_languagecode )}checked="checked"{/section} />
@@ -75,14 +77,29 @@
 {/section}
 </p>
 {/section}
+{section-else}
+<input type="radio" name="SelectedLanguage" value="{$version.language_list[0].language_code}" checked="checked" disabled="disabled" />
+{section show=$version.language_list[0].locale.is_valid}
+<img src="{$version.language_list[0].language_code|flag_icon}" alt="{$version.language_list[0].language_code}" style="vertical-align: middle;" /> {$version.language_list[0].locale.intl_language_name|shorten( 16 )}
+{section-else}
+{'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $version.language_list[0].language_code ) )}
+{/section}
+{/section}
 </div>
+{/section}
 
 {* Location *}
 <label>{'Location'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
+{section show=$version.node_assignments|count|gt( 1 )}
 {section var=Locations loop=$version.node_assignments}
 <p>
 <input type="radio" name="SelectedPlacement" value="{$Locations.item.id}" {section show=eq( $Locations.item.id, $placement )}checked="checked"{/section} />&nbsp;{$Locations.item.parent_node_obj.name|wash}
+</p>
+{/section}
+{section-else}
+<p>
+<input type="radio" name="SelectedPlacement" value="{$version.node_assignments[0]}" checked="checked" disabled="disabled" />&nbsp;{$version.node_assignments[0].parent_node_obj.name|wash}
 </p>
 {/section}
 </div>
@@ -91,9 +108,15 @@
 {let site_designs=fetch( layout, sitedesign_list )}
 <label>{'Design'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
+{section show=$site_designs|count|gt( 1 )}
 {section var=Designs loop=$site_designs}
 <p>
-<input type="radio" name="SelectedSitedesign" value="{$Designs.item}" {section show=eq( $Designs.item, $sitedesign )}checked="checked"{/section}>&nbsp;{$Designs.item|wash}
+<input type="radio" name="SelectedSitedesign" value="{$Designs.item}" {section show=eq( $Designs.item, $sitedesign )}checked="checked"{/section} />&nbsp;{$Designs.item|wash}
+</p>
+{/section}
+{section-else}
+<p>
+<input type="radio" name="SelectedSitedesign" value="{$site_designs[0]}" checked="checked" disabled="disabled" />&nbsp;{$site_designs[0]|wash}
 </p>
 {/section}
 </div>
