@@ -10,6 +10,7 @@ Changes from 3.3-5 to 3.3-6
   versions and not drafts.
 - Made sure the user/success page follows the SiteSettings/LoginPage setting.
   (Merged from stable/3.4 rev. 7167)
+- Added detection of APC in the system information page.
 
 *Setup:
 
