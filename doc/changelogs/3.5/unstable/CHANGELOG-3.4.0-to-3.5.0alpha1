@@ -229,6 +229,9 @@ eztc.php:
 - Fixed tip-a-friend email to generate proper links to the object (including www-dir and index-file)
   http://ez.no/community/bug_reports/missing_ezurl_in_template_design_standard_templates_content_tipafriendmail_tpl
   (Merged from stable/3.4, rev. 7163)
+- Fixed missing information collector result template for ezemail datatype.
+  http://ez.no/community/bug_reports/information_collection_ezemail_template_missing
+  (Merged from stable/3.4, rev. 7165)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
