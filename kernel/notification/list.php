@@ -98,6 +98,6 @@ $tpl->setVariable( "module", $Module );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:notification/list.tpl" );
 $Result['path'] = array( array( 'url' => '/notification/list/',
-                                'text' => 'Notification rule list' ) );
+                                'text' => ezi18n( 'kernel/content', 'Notification rule list' ) ) );
 
 ?>

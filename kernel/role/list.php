@@ -85,6 +85,5 @@ $tpl->setVariable( 'module', $Module );
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
 $Result['path'] = array( array( 'url' => '/role/list/',
-                                'text' => 'Role list' ) );
+                                'text' => ezi18n( 'kernel/content', 'Role list' ) ) );
 ?>
-

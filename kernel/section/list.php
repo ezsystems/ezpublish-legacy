@@ -61,7 +61,7 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
     $Result = array();
     $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/section', 'Section list' ) ) );
+                                    'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
     return;
 
 }
@@ -83,6 +83,6 @@ $tpl->setVariable( 'section_array', $sectionArray );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:section/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/section', 'Section list' ) ) );
+                                'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
 
 ?>

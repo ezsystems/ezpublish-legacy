@@ -65,6 +65,6 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( $template );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Collaboration' ) );
+                                'text' => ezi18n( 'kernel/content', 'Collaboration' ) ) );
 
 ?>

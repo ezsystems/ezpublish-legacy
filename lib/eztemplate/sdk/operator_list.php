@@ -50,13 +50,13 @@ operation name, and a hash of operation parameters corresponding to the given fu
 kernel/[module_name]/function_definition.php. A few examples:<br/>
 Fetch the number of items in a list:
 E.g. {fetch('content','list_count',hash(parent_node_id,$node.node_id,sort_by,array(published,true()),class_filter_type,exclude,class_filter_array,array(1,24)))}<br/>
-Fetch a class: Returns the content class defined by class_id. E.g. fetch('content','class',hash(class_id,4))<br/>
+Fetch a class: Returns the content class defined by class_id. E.g. {fetch('content','class',hash(class_id,4))}<br/>
 Fetch a class attribute: Returns one specific class attribute defined by attribute_id. The parameter
 version_id is optional (default 0) and defines the version of the attribute.
-E.g. fetch('content','class_attribute',hash(attribute_id,140,version_id,0))<br/>
+E.g. {fetch('content','class_attribute',hash(attribute_id,140,version_id,0))}<br/>
 Fetch a class attribute list: Returns an array of all attributes for one class defined by class_id.
 The parameter version_id is optional (default 0) and defines the version of the attributes.
-E.g. fetch('content','class_attribute_list',hash(class_id,4,version_id,0))
+E.g. {fetch('content','class_attribute_list',hash(class_id,4,version_id,0))}
 </dd>
 </dl>
 

@@ -1,5 +1,28 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/layout</name>
+    <message>
+        <source>Content</source>
+        <translation>Innhold</translation>
+    </message>
+    <message>
+        <source>Shop</source>
+        <translation>Butikk</translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation>Brukere</translation>
+    </message>
+    <message>
+        <source>Set up</source>
+        <translation>Oppsett</translation>
+    </message>
+    <message>
+        <source>My drafts</source>
+        <translation>Mine utkast</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Max file size:</source>
@@ -801,14 +824,6 @@
         <translation>Fjern</translation>
     </message>
     <message>
-        <source>Disable editor</source>
-        <translation>Deaktiver redigeringsverktøy</translation>
-    </message>
-    <message>
-        <source>Enable editor</source>
-        <translation>Aktiver redigeringsverktøy</translation>
-    </message>
-    <message>
         <source>MIME Type:</source>
         <translation>MIME type:</translation>
     </message>
@@ -972,12 +987,8 @@
         <translation>Navn</translation>
     </message>
     <message>
-        <source>Placemnent did not validate</source>
+        <source>Placement did not validate</source>
         <translation>Plasseringen er ikke gyldig</translation>
-    </message>
-    <message>
-        <source>Placements were stored successfully</source>
-        <translation>Plasseringene er lagret</translation>
     </message>
 </context>
 <context>
@@ -1369,10 +1380,6 @@
         <translation>Søkestatistikk</translation>
     </message>
     <message>
-        <source>Set up</source>
-        <translation>Oppsett</translation>
-    </message>
-    <message>
         <source>Classes</source>
         <translation>Klasser</translation>
     </message>
@@ -1387,10 +1394,6 @@
     <message>
         <source>Triggers</source>
         <translation>Utløsere</translation>
-    </message>
-    <message>
-        <source>Shop</source>
-        <translation>Butikk</translation>
     </message>
     <message>
         <source>Order list</source>
@@ -1517,10 +1520,6 @@
         <translation>Søk %1</translation>
     </message>
     <message>
-        <source>eZ publish manuals</source>
-        <translation>eZ publish manualer</translation>
-    </message>
-    <message>
         <source>Site access</source>
         <translation>Nettstedstilgang</translation>
     </message>
@@ -1539,6 +1538,10 @@
     <message>
         <source>Translations</source>
         <translation>Oversettelser</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation>Bytt passord</translation>
     </message>
 </context>
 <context>
@@ -1581,6 +1584,10 @@
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2!</source>
         <translation>Hvis du fjerner noden %1 blir også %2 av denne fjernet!</translation>
+    </message>
+    <message>
+        <source>The following items were removed from your basket, because the products were changed</source>
+        <translation>De følgende varene ble fjernet fra handlekurven din, fordi produktene er endret</translation>
     </message>
 </context>
 <context>
@@ -2953,6 +2960,10 @@
         <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Socket:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/tests</name>
@@ -3190,6 +3201,26 @@
     </message>
     <message>
         <source>More information on that subject is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File uploading is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File uploading is not enabled which means that it&apos;s impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it&apos;s recommended to enable file uploads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling file uploads is done by setting %1 in php.ini. Refer to the PHP manual for how to set configuration switches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on enabling the extension can be found by reading %1 and %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3430,6 +3461,18 @@
     <message>
         <source>Group view</source>
         <translation>Gruppevisning</translation>
+    </message>
+    <message>
+        <source>Subtotal of items</source>
+        <translation>Subtotal av varer</translation>
+    </message>
+    <message>
+        <source>Register account information</source>
+        <translation>Registrer kontoinformasjon</translation>
+    </message>
+    <message>
+        <source>Input did not validate, fill in all fields</source>
+        <translation>Den innlagte informasjonen ble ikke godkjent, du må fylle inn alle feltene</translation>
     </message>
 </context>
 <context>
@@ -3680,6 +3723,49 @@
     <message>
         <source>Store</source>
         <translation>Lagre</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/url</name>
+    <message>
+        <source>All</source>
+        <translation>Alle</translation>
+    </message>
+    <message>
+        <source>Valid</source>
+        <translation>Gyldig</translation>
+    </message>
+    <message>
+        <source>Invalid</source>
+        <translation>Ugyldig</translation>
+    </message>
+    <message>
+        <source>The URL is not considered valid anymore.</source>
+        <translation>Denne URL-en er ikke gyldig lenger.</translation>
+    </message>
+    <message>
+        <source>This means that the url is no longer available or has been moved.</source>
+        <translation>Det betyr at den ikke lenger kan nås, eller at den har blitt flyttet.</translation>
+    </message>
+    <message>
+        <source>The URL points to %1.</source>
+        <translation>URL-en peker til %1.</translation>
+    </message>
+    <message>
+        <source>Last modified at %1</source>
+        <translation>Sist endret %1</translation>
+    </message>
+    <message>
+        <source>URL has no modification date</source>
+        <translation>URL-en har ingen endringsdato</translation>
+    </message>
+    <message>
+        <source>Last checked at %1</source>
+        <translation>Sist kontrollert %1</translation>
+    </message>
+    <message>
+        <source>URL has not been checked</source>
+        <translation>URL-en er ikke kontrollert</translation>
     </message>
 </context>
 <context>
@@ -4144,6 +4230,10 @@
         <source>Remove class groups</source>
         <translation>Fjern klassegrupper</translation>
     </message>
+    <message>
+        <source>Classes</source>
+        <translation>Klasser</translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes</name>
@@ -4383,6 +4473,11 @@
         <source>Link </source>
         <translation>Lenke</translation>
     </message>
+    <message>
+        <source>Additional price for option value is invalid.</source>
+        <comment>eZOptionType</comment>
+        <translation>Ekstra pris for opsjonsverdi er ugyldig.</translation>
+    </message>
 </context>
 <context>
     <name>kernel/content</name>
@@ -4393,6 +4488,54 @@
     <message>
         <source>Remove object</source>
         <translation>Fjern objekt</translation>
+    </message>
+    <message>
+        <source>Collaboration</source>
+        <translation>Samarbeid</translation>
+    </message>
+    <message>
+        <source>My drafts</source>
+        <translation>Mine utkast</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Oversettelse</translation>
+    </message>
+    <message>
+        <source>Content translations</source>
+        <translation>Innholdsoversettelser</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation>Papirkurv</translation>
+    </message>
+    <message>
+        <source>Notification rule list</source>
+        <translation>Meldingsregler</translation>
+    </message>
+    <message>
+        <source>Role list</source>
+        <translation>Rolleliste</translation>
+    </message>
+    <message>
+        <source>Discount group</source>
+        <translation>Tilbudsgruppe</translation>
+    </message>
+    <message>
+        <source>Order list</source>
+        <translation>Ordreliste</translation>
+    </message>
+    <message>
+        <source>VAT types</source>
+        <translation>MVA-typer</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>Bruker</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation>Bytt passord</translation>
     </message>
 </context>
 <context>
@@ -4454,8 +4597,8 @@
         <translation>Rediger seksjon</translation>
     </message>
     <message>
-        <source>Section list</source>
-        <translation>Seksjonsliste</translation>
+        <source>Sections</source>
+        <translation>Seksjoner</translation>
     </message>
 </context>
 <context>

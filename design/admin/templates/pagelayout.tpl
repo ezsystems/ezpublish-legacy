@@ -23,13 +23,13 @@
     <img src={"logo.gif"|ezimage} alt="" />&nbsp;&nbsp;<img src={"admin.gif"|ezimage} alt="" /></td>
     <td class="headlink" width="66">
     {* Content menu *}
-    {include uri="design:page_menuheadgray.tpl" menu_text="Content" menu_url="/content/view/full/2/"}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
 
     <td class="menuheadspacer" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
     <td class="headlink" width="66">
     {* Shop menu *}
-    {include uri="design:page_menuheadselected.tpl" menu_text="Shop" menu_url="/shop/orderlist/"}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
 
     <td class="menuheadspacer" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
@@ -37,7 +37,7 @@
     <td class="headlink" width="66">
 
     {* Users menu *}
-    {include uri="design:page_menuheadgray.tpl" menu_text="Users" menu_url="/content/view/full/5/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     
     </td>
 
@@ -47,7 +47,7 @@
     <td class="headlink" width="66">
 
     {* Set up menu *}
-    {include uri="design:page_menuheadgray.tpl" menu_text="Set up" menu_url="/class/grouplist/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
 
     </td>
 
@@ -57,7 +57,7 @@
     <td class="headlink" width="66">
 
     {* My *}
-    {include uri="design:page_menuheadgray.tpl" menu_text="My" menu_url="/content/draft/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='My drafts'|i18n('design/admin/layout') menu_url="/content/draft/"}
 
     </td>
    <td class="headlogo" width="50%">
@@ -77,9 +77,9 @@
     <td align="right">
       <p class="menuitem">
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-      <a class="menuheadlink" href={"/user/login/"|ezurl}>{"Login"|i18n("design/standard/layout")}</a>
+      <a class="menuheadlink" href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
       {section-else}
-      <a class="menuheadlink" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")}</a> ({$current_user.contentobject.name})
+      <a class="menuheadlink" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name})
       {/section}
       </p>
     </td>

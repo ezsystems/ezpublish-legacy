@@ -52,7 +52,7 @@ if ( $Module->isCurrentAction( 'New' ) /*or
 {
     $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
     $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
-    $Result['path'] = array( array( 'text' => 'Translation',
+    $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
                                     'url' => false ),
                              array( 'text' => 'New',
                                     'url' => false ) );
@@ -122,7 +122,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     {
         $tpl->setVariable( 'confirm_list', $confirmTranslationList );
         $Result['content'] =& $tpl->fetch( 'design:content/confirmtranslationremove.tpl' );
-        $Result['path'] = array( array( 'text' => 'Translation',
+        $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
                                         'url' => false ),
                                  array( 'text' => 'Confirm remove',
                                         'url' => false ) );
@@ -143,7 +143,7 @@ $tpl->setVariable( 'module', $Module );
 //$tpl->setVariable( 'workflow_list', $workflowList );
 
 $Result['content'] =& $tpl->fetch( 'design:content/translations.tpl' );
-$Result['path'] = array( array( 'text' => 'Content translations',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
                                 'url' => false ) );
 
 

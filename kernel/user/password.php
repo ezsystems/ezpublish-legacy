@@ -117,9 +117,9 @@ $tpl->setVariable( "newPasswordNotMatch", $newPasswordNotMatch );
 $tpl->setVariable( "message", $message );
 
 $Result = array();
-$Result['path'] = array( array( 'text' => 'User',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'User' ),
                                 'url' => false ),
-                         array( 'text' => 'Change password',
+                         array( 'text' => ezi18n( 'kernel/content', 'Change password' ),
                                 'url' => false ) );
 $Result['content'] =& $tpl->fetch( "design:user/password.tpl" );
 

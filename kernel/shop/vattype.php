@@ -90,7 +90,7 @@ $tpl->setVariable( "vattype_array", $vatTypeArray );
 $tpl->setVariable( "module", $module );
 
 $path = array();
-$path[] = array( 'text' => "VAT types",
+$path[] = array( 'text' => ezi18n( 'kernel/content', 'VAT types' ),
                  'url' => false );
 
 
