@@ -577,7 +577,7 @@ class eZContentObject extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
+                eZDebug::writeError( "Object not found ($id)", 'eZContentObject::fetch()' );
                 return null;
             }
 
