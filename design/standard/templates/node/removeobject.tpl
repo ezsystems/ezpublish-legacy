@@ -1,8 +1,8 @@
 <div class="warning">
-<h2>{"Are you sure you want to remove this(these) node(s)?"|i18n("design/standard/node")}</h2>
+<h2>{"Are you sure you want to remove these nodes?"|i18n("design/standard/node")}</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
-    <li>{"Removing"|i18n("design/standard/node")} "{$Result:item.nodeName}" {"will remove the node itself and it's"|i18n("design/standard/node")} {$Result:item.childCount} {"!"|i18n("design/standard/node")}</li>
+    <li>{"Removing %1 will remove the node itself and it's %2 children!"|i18n("design/standard/node",,hash("%1",$Result:item.nodeName,"%2",$Result:item.childCount))}</li>
 {/section}
 </ul>
 </div>

@@ -1,8 +1,8 @@
 <div class="warning">
-<h2>{"Are you sure you want to remove this(these) group(s)?"|i18n("design/standard/class/edit")}</h2>
+<h2>{"Are you sure you want to remove these groups?"|i18n("design/standard/class/edit")}</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
-	<li>{"Remove group"|i18n("design/standard/class/edit")} "{$Result:item.groupName}" {"will remove"|i18n("design/standard/class/edit")} {$Result:item.deletedClassName}!</li>
+	<li>{"Removing group %1 will remove %2!"|i18n("design/standard/class/edit",,hash("%1",$Result:item.groupName,"%2",$Result:item.deletedClassName))}</li>
 {/section}
 </ul>
 </div>
