@@ -331,18 +331,20 @@ td input.halfbox, td textarea.halfbox
 
 fieldset
 {
-    border: 1px solid #a0a099;
+    border: 1px solid #ccccc3;
     padding: 0.5em;
 }
 
 legend
 {
     font-weight: bold;
+    color: #000000;
+    padding: 0 0.25em 0 0.25em;
 }
 
 fieldset label
 {
-    color: #a0a099;
+    color: #000000;
 }
 
 fieldset input.button
