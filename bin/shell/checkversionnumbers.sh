@@ -371,36 +371,37 @@ fi
 SQL_LIST="kernel/sql/common/cleandata.sql"
 SQL_ERROR_LIST=""
 
-for sql in $SQL_LIST; do
-    SQL_FILE_ERROR=""
-    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION');" $sql &>/dev/null; then
-	MAIN_ERROR="1"
-	SQL_ERROR="1"
-	SQL_FILE_ERROR="1"
-    fi
+./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --format=local --output-types=data --output-sql --schema-file=share/db_schema.dba share/db_data.dba ".tmp.sql"
+SQL_FILE_ERROR=""
+if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION');" ".tmp.sql" &>/dev/null; then
+    rm -f ".tmp.sql"
+    MAIN_ERROR="1"
+    SQL_ERROR="1"
+    SQL_FILE_ERROR="1"
+fi
 
-    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" $sql &>/dev/null; then
-	MAIN_ERROR="1"
-	SQL_ERROR="1"
-	SQL_FILE_ERROR="1"
-    fi
-    [ -n "$SQL_FILE_ERROR" ] && SQL_ERROR_LIST="$SQL_ERROR_LIST $sql"
-done
+if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" ".tmp.sql" &>/dev/null; then
+    rm -f ".tmp.sql"
+    MAIN_ERROR="1"
+    SQL_ERROR="1"
+    SQL_FILE_ERROR="1"
+fi
+[ -n "$SQL_FILE_ERROR" ] && SQL_ERROR_LIST="$SQL_ERROR_LIST .tmp.sql"
+if [ -f ".tmp.sql" ]; then
+    rm -f ".tmp.sql"
+fi
 
 if [ -n "$SQL_ERROR" ]; then
 
     echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo -n "Wrong/missing version number in "
-    for sql in $SQL_ERROR_LIST; do
-	echo -n "`$SETCOLOR_FILE`$sql`$SETCOLOR_NORMAL` "
-    done
+    echo -n "Wrong/missing version number in `ez_color_file share/db_data.dba`"
     echo
-    echo "For the variable ezpublish-version"
+    echo "For the table `ez_color_comment ezsite_data` and name `ez_color_comment ezpublish-version`"
     echo
     echo "Should be:"
-    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`');"
+    echo "ezpublish-version='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`'"
     echo "and"
-    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`');"
+    echo "ezpublish-release='`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`'"
     echo
     echo "To fix this the following should be done:"
     echo
