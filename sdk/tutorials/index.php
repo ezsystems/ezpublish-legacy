@@ -54,9 +54,20 @@ $featureArray[] = array( "uri" => "main_concepts",
 $featureArray[] = array( "uri" => "content_classes",
                          "level" => 0,
                          "name" => "Custom content" );
+
 $featureArray[] = array( "uri" => "workflows",
                          "level" => 0,
                          "name" => "Custom workflow" );
+$featureArray[] = array( "uri" => "permissions",
+                         "level" => 0,
+                         "name" => "Permissions and sections" );
+$featureArray[] = array( "uri" => "publishworkflow",
+                         "level" => 0,
+                         "name" => "Approval workflow" );
+
+
+
+
 $featureArray[] = array( "uri" => "datatypes",
                          "level" => 0,
                          "name" => "Datatypes" );

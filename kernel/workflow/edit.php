@@ -204,6 +204,22 @@ $user =& eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflow->setAttribute( "modifier_id", $user_id );
 
+// Fetch HTTP input
+reset( $event_list );
+while( ( $key = key( $event_list ) ) !== null )
+{
+    $event =& $event_list[$key];
+    $eventType =& $event->eventType();
+    $eventType->fetchHTTPInput( $http, "WorkflowEvent", $event );
+    next( $event_list );
+}
+
+// Store changes
+if ( $canStore )
+{
+    $workflow->store( $event_list );
+}
+
 // Discard existing events, workflow version 1 and store version 0
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
@@ -249,21 +265,6 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
     }
 }
 
-// Fetch HTTP input
-reset( $event_list );
-while( ( $key = key( $event_list ) ) !== null )
-{
-    $event =& $event_list[$key];
-    $eventType =& $event->eventType();
-    $eventType->fetchHTTPInput( $http, "WorkflowEvent", $event );
-    next( $event_list );
-}
-
-// Store changes
-if ( $canStore )
-{
-    $workflow->store( $event_list );
-}
 
 if ( $http->hasPostVariable( "NewButton" ) )
 {
