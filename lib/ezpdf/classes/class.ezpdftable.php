@@ -855,6 +855,11 @@ class eZPDFTable extends Cezpdf
             $options['justification'] = $params['justification'];
         }
 
+        if ( isset( $params['fontName'] ) )
+        {
+            $options['fontName'] = 'lib/ezpdf/classes/fonts/'. $params['fontName'];
+        }
+
         $this->addToPreStack( $options );
 
         $label = $params['label'];
@@ -1047,7 +1052,7 @@ class eZPDFTable extends Cezpdf
             {
                 if ( $dots )
                 {
-                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v['label'] .'</c:ilink><C:dots:'. $sizeArray[$v['level']-1].$v['localPageNumber'] .'>'. "\n",
+                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v['label'] .'</c:ilink><C:dots:'. $sizeArray[$v['level']-1].$v['localPageNumber'] .'>'."\n",
                                    $sizeArray[$v['level']-1],
                                    array('left' => $indentArray[$v['level']-1] ) );
                 }
@@ -1056,7 +1061,7 @@ class eZPDFTable extends Cezpdf
                     Cezpdf::ezText( '<c:ilink:toc'. $k .'>'.$v['label'].'</c:ilink>',
                                     $sizeArray[$v['level']-1],
                                     array( 'left' => $indentArray[$v['level']-1] ) );
-                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v['localPageNumber'] .'</c:ilink>'. "\n",
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v['localPageNumber'] .'</c:ilink>',
                                     $sizeArray[$v['level']-1],
                                     array( 'justification' => 'right' ) );
                 }
@@ -1080,6 +1085,7 @@ class eZPDFTable extends Cezpdf
         $this->line($xpos,$info['y'],$info['x']+5,$info['y']);
         $this->restoreState();
         $this->addText($xpos+5,$info['y'],$size,$lbl);
+        $this->ez['xOffset'] = $xpos+5+$this->getTextWidth($lbl);
     }
 
     /**
@@ -1091,7 +1097,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $params['name'] ) )
         {
-            $options['fontName'] = $params['name'];
+            $options['fontName'] = 'lib/ezpdf/classes/fonts/'. $params['name'];
         }
 
         if ( isset( $params['size'] ) )
@@ -1604,7 +1610,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $params['font'] ) )
         {
-            $options['fontName'] = $params['font'];
+            $options['fontName'] = 'lib/ezpdf/classes/fonts/'. $params['font'];
         }
 
         if ( isset( $params['size'] ) )
@@ -1695,7 +1701,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $options['fontName'] ) )
         {
-            $currentElement['fontName'] = 'lib/ezpdf/classes/fonts/'. $options['fontName'];
+            $currentElement['fontName'] = $options['fontName'];
         }
         else
         {

@@ -772,16 +772,13 @@ class Cezpdf extends Cpdf
 
         $lines = explode("\n",$text);
         foreach ( array_keys( $lines ) as $key ){
-            $start=1;
             $line = $lines[$key];
-            if ( $key > 0 )
+            if ( $key > 0 || strlen($line) == 0 )
             {
                 $this->y=$this->y-$height;
                 $this->ez['xOffset'] = 0;
             }
-
-            while (strlen($line) || $start){
-                $start=0;
+            while (strlen($line)){
                 if ($this->y < $this->ez['bottomMargin']){
                     if ($test){
                         $newPage=true;
@@ -816,11 +813,6 @@ class Cezpdf extends Cpdf
                 {
                     $this->ez['xOffset'] = $left + $textInfo['width'];
                 }
-            }
-            if ( $start == 1 && strlen( $line ) == 0 )
-            {
-                $this->y=$this->y-$height;
-                $this->ez['xOffset'] = 0;
             }
         }
 
@@ -1020,7 +1012,7 @@ class Cezpdf extends Cpdf
                 }
                 $i = $info['nCallback'];
 
-                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>$info['p']);
+                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>rawurldecode($info['p']));
                 if ($internal==0){
                     $this->saveState();
                     $this->setColor(0,0,1);

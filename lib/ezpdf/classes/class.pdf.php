@@ -2648,7 +2648,6 @@ class Cpdf
 
 	// converts a number or a float to a string so it can get the width
 	$text = "$text";
-
 	// hmm, this is where it all starts to get tricky - use the font information to
 	// calculate the width of each character, add them up and convert to user units
 	$w=0;
@@ -2807,7 +2806,7 @@ class Cpdf
 			if (isset($this->fonts[$cf]['differences'][$ctmp])){
 			    $ctmp=$this->fonts[$cf]['differences'][$ctmp];
 			}
-			$tmpw=($w-$this->fonts[$cf]['C'][$ctmp]['WX'])*$size/1000;
+			$tmpw=($w-$this->fonts[$cf]['C'][$ctmp]['WX'])*$size/1000; //TODO !!!!
 			$this->PRVTadjustWrapText($tmp,$tmpw,$width,$x,$adjust,$justification);
 			// reset the text state
 			$this->currentTextState = $store_currentTextState;

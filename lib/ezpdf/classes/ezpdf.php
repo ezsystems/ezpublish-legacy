@@ -151,11 +151,21 @@ class eZPDF
                                                '',
                                                $header['text'] );
 
-                if ( !isset( $header['align'] ) )
-                    $header['align'] = 'left';
+                $operatorValue = '<ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'];
 
-                $operatorValue = '<ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'] .':justification:'. $header['align'] .':label:'.
-                     rawurlencode( $header['text'] ) .'>'. $header['text'] .'</ezCall:callHeader><C:callSpace><C:callNewLine>';
+                if ( isset( $header['align'] ) )
+                {
+                    $operatorValue .= ':justification:'. $header['align'];
+                }
+
+                if ( isset( $header['font'] ) )
+                {
+                    $operatorValue .= ':fontName:'. $header['font'];
+                }
+
+                $operatorValue .= ':label:'. rawurlencode( $header['text'] );
+
+                $operatorValue .= '>'. $header['text'] .'</ezCall:callHeader><C:callNewLine>';
 
                 eZDebug::writeNotice( 'PDF: Added header: '. $header['text'] .', size: '. $header['size'] .
                                       ', align: '. $header['align'] .', level: '. $header['level'],
@@ -210,7 +220,7 @@ class eZPDF
             {
                 $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $operatorValue = '<c:alink:'. $link['url'] .'>'. $link['text'] .'</c:alink>';
+                $operatorValue = '<c:alink:'. rawurlencode( $link['url'] ) .'>'. $link['text'] .'</c:alink>';
                 eZDebug::writeNotice( 'PDF: Added link: '. $link['text'] .', url: '.$link['url'], 'eZPDF::modify' );
             } break;
 
@@ -532,7 +542,6 @@ class eZPDF
                 $operatorValue .= $text;
                 if ( $changeFont )
                 {
-                    eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
                     $operatorValue .= '</ezCall:callText>';
                 }
 
@@ -541,7 +550,7 @@ class eZPDF
 
             default:
             {
-                eZDebug::writeNotice( 'No operation defined, nothing done', 'eZPDF::modify' );
+                eZDebug::writeError( 'PDF operation '. $namedParameters['operation'] .'undefined', 'eZPDF::modify' );
             }
 
         }
