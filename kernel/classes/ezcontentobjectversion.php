@@ -121,10 +121,8 @@ class eZContentObjectVersion extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
-
     function &mainParentNodeID()
     {
-
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         return $temp[0]->attribute( 'parent_node' );
     }
