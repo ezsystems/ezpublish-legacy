@@ -1193,20 +1193,23 @@ class eZContentObject extends eZPersistentObject
         else if ( $nodeID !== null )
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            if ( $node->attribute( 'main_node_id' )  == $nodeID )
+            if ( is_object( $node ) )
             {
-                foreach ( array_keys( $nodes ) as $key )
+                if ( $node->attribute( 'main_node_id' )  == $nodeID )
                 {
-                    $node =& $nodes[$key];
-                    $node->remove();
+                    foreach ( array_keys( $nodes ) as $key )
+                    {
+                        $node =& $nodes[$key];
+                        $node->remove();
+                    }
+                    $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+                    eZSearch::removeObject( $contentobject );
+                    $contentobject->store();
                 }
-                $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
-                eZSearch::removeObject( $contentobject );
-                $contentobject->store();
-            }
-            else
-            {
-                eZContentObjectTreeNode::remove( $nodeID );
+                else
+                {
+                    eZContentObjectTreeNode::remove( $nodeID );
+                }
             }
         }
         else
