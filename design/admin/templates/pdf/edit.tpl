@@ -1,7 +1,15 @@
 <form action={concat( 'pdf/edit/', $pdf_export.id )|ezurl} method="post" name="ExportPDF">
 
 <div class="context-block">
-<h2 class="context-title">{'pdfexport'|icon( 'normal', 'PDF Export'|i18n( 'design/admin/pdf/edit' ) )}&nbsp;{'%pdf_export_title [PDF export]'|i18n( 'design/admin/pdf/edit',, hash( '%pdf_export_title', $pdf_export.title ) )|wash}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'pdfexport'|icon( 'normal', 'PDF Export'|i18n( 'design/admin/pdf/edit' ) )}&nbsp;{'%pdf_export_title [PDF export]'|i18n( 'design/admin/pdf/edit',, hash( '%pdf_export_title', $pdf_export.title ) )|wash}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
 <div class="context-attributes">
     {* Title. *}
     <div class="block">
@@ -66,12 +74,16 @@
 
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
 {* Buttons. *}
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input class="button" type="submit" name="ExportPDFButton" value="{'OK'|i18n( 'design/admin/pdf/edit' )}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/pdf/edit' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>

@@ -1,15 +1,22 @@
 <form name="pdfexportlist" action={"pdf/list"|ezurl} method="post" name="PDFList">
 
 <div class="context-block">
-<h2 class="context-title">{'PDF Exports [%export_count]'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'PDF Exports [%export_count]'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0">
 {section show=$pdfexport_list}
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.pdfexportlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
-    <th>{'Name'|i18n( 'design/standard/pdf/list' )}</th>
-    <th>{'Modifier'|i18n( 'design/standard/pdf/list' )}</th>
-    <th>{'Modified'|i18n( 'design/standard/pdf/list' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" onclick="ezjs_toggleCheckboxes( document.pdfexportlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" /></th>
+    <th>{'Name'|i18n( 'design/admin/pdf/list' )}</th>
+    <th>{'Modifier'|i18n( 'design/admin/pdf/list' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/pdf/list' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
@@ -34,12 +41,16 @@
 {/section}
 </table>
 
+{* DESIGN: Content END *}</div></div></div>
+
 {* Buttons. *}
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/standard/pdf/list' )}" {section show=$pdfexport_list|not}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/standard/pdf/list' )}" />
+    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" {section show=$pdfexport_list|not}disabled="disabled"{/section} />
+    <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
