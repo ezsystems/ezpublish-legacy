@@ -370,7 +370,7 @@ class eZSys
     */
     function &serverVariable( $variableName, $quiet = false )
     {
-        global $_SERVER;
+        $_SERVER;
         if ( !isset( $_SERVER[$variableName] ) )
         {
             if ( !$quiet )
@@ -386,7 +386,7 @@ class eZSys
     */
     function setServerVariable( $variableName, $variableValue )
     {
-        global $_SERVER;
+        $_SERVER;
         $_SERVER[$variableName] = $variableValue;
     }
 
@@ -404,7 +404,7 @@ class eZSys
     */
     function &environmentVariable( $variableName, $quiet = false )
     {
-        global $_ENV;
+        $_ENV;
         if ( !isset( $_ENV[$variableName] ) )
         {
             if ( !$quiet )
@@ -420,7 +420,7 @@ class eZSys
     */
     function setEnvironmentVariable( $variableName, $variableValue )
     {
-        global $_ENV;
+        $_ENV;
         $_ENV[$variableName] = $variableValue;
     }
 
