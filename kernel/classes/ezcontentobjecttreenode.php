@@ -327,6 +327,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sortList = array( $sortList );
             }
         }
+        $attributeJoinCount = 0;
         $attributeFromSQL = "";
         $attributeWereSQL = "";
         if ( $sortList !== false )
@@ -380,12 +381,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'attribute':
                         {
                             $sortClassID = $sortBy[2];
-                            $sortingFields .= 'ezcontentobject_attribute.sort_key';
-                            $attributeFromSQL = ", ezcontentobject_attribute ";
-                            $attributeWereSQL = " ezcontentobject_attribute.contentobject_id = ezcontentobject.id AND
-                                                  ezcontentobject_attribute.contentclassattribute_id = $sortClassID AND
-                                                  ezcontentobject_attribute.version = ezcontentobject_name.content_version AND";
+                            $sortingFields .= "a$attributeJoinCount.sort_key";
+                            $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
+                            $attributeWereSQL .= " a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
+                                                  a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
+                                                  a$attributeJoinCount.version = ezcontentobject_name.content_version AND";
 
+                            $attributeJoinCount++;
                         }break;
 
                         default:
@@ -466,10 +468,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $filterType = $filter[1];
                 $filterValue = $filter[2];
 
-                $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
-                $attributeFilterWhereSQL .= " a$filterCount.contentobject_id = ezcontentobject.id AND
+                // Use the same joins as we do when sorting,
+                // if more attributes are filtered by we will append them
+                if ( $filterCount > $attributeJoinCount )
+                {
+                    $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
+                    $attributeFilterWhereSQL .= "a$filterCount.version = ezcontentobject_name.content_version AND ";
+
+                }
+                else
+                {
+                    $attributeFilterWhereSQL .= " a$filterCount.contentobject_id = ezcontentobject.id AND
                                              a$filterCount.contentclassattribute_id = $filterAttributeID AND
                                              a$filterCount.version = ezcontentobject_name.content_version AND ";
+                }
 
                 switch ( $filterType )
                 {
