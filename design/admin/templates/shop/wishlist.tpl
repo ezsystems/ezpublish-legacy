@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list.items|count ) )}</h1>
+<h1 class="context-title">{'My wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list.items|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -57,6 +57,7 @@
 
     {* Total price (inc. VAT). *}
     <td>{$WishedItems.item.total_price_inc_vat|l10n(currency)}</td>
+
 </tr>
 
 {section show=$WishedItems.item.item_object.option_list}
