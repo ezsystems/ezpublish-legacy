@@ -558,6 +558,7 @@ class eZDir
         }
         $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
         $totalItems = $items;
+        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         while ( count( $items ) > 0 )
         {
             $currentItems = $items;
