@@ -2,10 +2,10 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-Server=localhost##!
-#User=bf##!
-#Password=bf##!
-#Database=bf##!
+Server=localhost
+User=acta
+Password=acta
+Database=acta
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
@@ -18,5 +18,14 @@ RequireUserLogin=true
 [DesignSettings]
 SiteDesign=admin
 
-[DesignSettings]
-SiteDesign=admin
+[TemplateSettings]
+Debug=disabled
+NodeTreeCaching=disabled
+
+
+[FileSettings]
+StorageDir=acta/storage
+CacheDir=acta/cache
+
+[ContentSettings]
+ViewCaching=enabled
