@@ -96,25 +96,25 @@ Items:
 <div class="break"></div>
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat( '/content/view', '/full/', $node.node_id)
+         page_uri=$node.url_alias
          item_count=$children_count
          view_parameters=$view_parameters
          item_limit=$number_of_items}
 </div>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
-    {set can_copy=$node.object.can_create}
+    {set can_copy=$node.can_create}
 
     {* Check if the current user is allowed to *}
     {* edit or delete any of the children.     *}
     {section var=Children loop=$children}
-        {section show=$Children.item.object.can_remove}
+        {section show=$Children.item.can_remove}
             {set can_remove=true()}
         {/section}
-        {section show=$Children.item.object.can_edit}
+        {section show=$Children.item.can_edit}
             {set can_edit=true()}
         {/section}
-        {section show=$Children.item.object.can_create}
+        {section show=$Children.item.can_create}
             {set can_create=true()}
         {/section}
     {/section}
@@ -161,7 +161,7 @@ Items:
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
     <div class="button-right">
-        {section show=$node.object.can_edit}
+        {section show=$node.can_edit}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
@@ -176,7 +176,7 @@ Items:
 
 {* The "Create new here" thing: *}
 <div class="createblock">
-{section show=$node.object.can_create}
+{section show=$node.can_create}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
 {section var=CanCreateClasses loop=$node.object.can_create_class_list}
@@ -185,7 +185,7 @@ Items:
 </select>
 <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/layout' )}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
 <input type="hidden" name="ViewMode" value="full" />
 </div>
 {section-else}

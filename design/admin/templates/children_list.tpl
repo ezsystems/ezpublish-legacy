@@ -27,7 +27,7 @@
 
         {* Remove checkbox *}
         <td>
-        {section show=$Nodes.item.object.can_remove}
+        {section show=$Nodes.item.can_remove}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/layout' )|wash()} "/>
             {section-else}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permissions to mark this item for removal.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
@@ -43,7 +43,7 @@
         {* Priority *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <td>
-            {section show=$node.object.can_edit}
+            {section show=$node.can_edit}
                 <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/layout')|wash()}" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
                 {section-else}
@@ -54,7 +54,7 @@
 
         {* Edit button *}
         <td>
-        {section show=$Nodes.item.object.can_edit}
+        {section show=$Nodes.item.can_edit}
             <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout')}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/layout',, hash( '%quoted_child', $quoted_child ) )}" /></a>
         {section-else}
             <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout' )}" title="{'You do not have permissions to edit %quoted_child.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
