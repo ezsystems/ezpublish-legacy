@@ -168,6 +168,17 @@ class eZKeywordType extends eZDataType
     }
 
     /*!
+     Delete stored object attribute
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezkeyword_attribute_link WHERE objectattribute_id='$contentObjectAttributeID'" );
+    }
+
+    /*!
      Returns the content of the keyword for use as a title
     */
     function title( &$attribute )
