@@ -1,0 +1,86 @@
+eZ publish 3 installation ( BETA )
+----------------------------------
+
+Required software to run eZ publish 3:
+
+You need to have apache and php installed.
+PHP needs to have compiled in support for either MySQL or PostgreSQL. 
+For image conversion support you need to have GD compiled in PHP or
+ImageMagick installed on your system. 
+
+eZ publish 3 beta 2 is tested on these versions:
+apache-1.3.27
+php-4.1.2 
+
+Please report other versions eZ publish runs successfully on to beta@ez.no.
+
+eZ publish instalation:
+-----------------------
+1. Unpack ezpublish-2.9-3.tar.gz in httproot folder
+2. cd <httproot>/ezpublish-2.9-3/
+3. Run $ bin/modfix.sh
+
+Database setup:
+--------------
+For postgresql:
+1. createdb <name_of_database>
+2. psql ezpublish_demo < <httproot>/ezpublish-2.9-3/kernel/sql/postgresql/kernel_clean.sql
+For mysql:
+1. mysqladmin -u <user> -p create <name_of_database>
+2. mysql -u <user> -p  <name_of_database> <  <httproot>/ezpublish-2.9-3/kernel/sql/mysql/kernel_clean.sql
+
+Configure eZ publish:
+--------------------
+1. Open <httproot>/ezpublish-2.9-3/settings/site.ini with editor and setup correct [DatabaseSettings]
+You need to chose what db implementation you will use, hostname of db server to connect to, 
+db user name, db user password, and db name.
+[DatabaseSettings]
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezpostgresql
+# Name of server to connect to 
+Server=localhost
+# DB user name
+User=sp
+# DB Password
+Password=sp
+# database name you have created on previous step
+Database=sp_demo
+
+Demo data:
+----------
+You can setup demodata for eZ publish. But this aviable only for MySQL.
+For that you need to create database and insert demodata from demokernel.sql
+1. mysqladmin -u <user> -p create <name_of_database>
+2. mysql -u <user> -p  <name_of_database> <  <httproot>/ezpublish-2.9-3/kernel/sql/mysql/demokernel.sql
+3. cd <httproot>/ezpublish-2.9-3/ 
+4. tar xfvz var.tgz 
+5. bin/modfix.sh
+
+
+
+Virtualhost setup:
+------------------
+You can use eZ publish with a virtualhost setup. When using 
+a virtualhost you don't need to specify the index.php in the URL.
+Below is a sample configuration for virtualhost setup.
+
+<VirtualHost 10.0.0.1>
+ <Directory <httproot>/ezpublish-2.9-3/>
+       Options FollowSymLinks Indexes ExecCGI
+       AllowOverride None 
+  </Directory>
+
+  RewriteEngine On 
+  RewriteRule !\.(gif|css|jpg|png)$ <httproot>/ezpublish-2.9-3/index.php
+
+  ServerAdmin root@localhost
+  DocumentRoot <httproot>/ezpublish-2.9-3/
+  ServerName 10.0.0.1
+</VirtualHost>
+
+
+That's it,
+
+Enjoy !
+
+- eZ publish team
