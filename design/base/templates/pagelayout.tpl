@@ -14,6 +14,9 @@
  {*    @import url({"stylesheets/t1/classes-colors.css"|ezdesign}); todo -> read from design settings  *}
     @import url({ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot});
     @import url({"stylesheets/debug.css"|ezdesign});
+    {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
+        @import url({concat( 'stylesheets/', $css_file )|ezdesign});
+    {/section}
 </style>
 
 {literal}

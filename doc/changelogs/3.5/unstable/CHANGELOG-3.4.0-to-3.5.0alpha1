@@ -34,9 +34,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed bug in ezdesign operator which caused eZTemplateDesignResource
   instance to be overwritten.
   (Merged from stable/3.4 rev. 7210)
-- Added new settings in design.ini called ClassesCSS which is an array with CSS to include
-  in the pagelayout (base design). This makes it much easier for extensions to add
-  CSS files to the current design.
+- Added new settings in design.ini called CSSFileList which is an array with
+  CSS to include in the pagelayout (base design). This makes it much easier
+  for extensions to add CSS files to the current design.
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
