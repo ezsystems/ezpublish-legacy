@@ -33,13 +33,60 @@
 //
 
 $OrderID = $Params['OrderID'];
+$module =& $Params['Module'];
 include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
+$ini =& eZINI::instance();
+$http =& eZHTTPTool::instance();
+$user =& eZUser::currentUser();
+$access = false;
+$order = eZOrder::fetch( $OrderID );
+
+$accessToAdministrate =& $user->hasAccessTo( 'shop', 'administrate' );
+$accessToAdministrateWord = $accessToAdministrate['accessWord'];
+eZDebug::writeDebug( $accessToAdministrateWord, 'accessToAdministrateWord' );
+
+$accessToBuy =& $user->hasAccessTo( 'shop', 'buy' );
+$accessToBuyWord = $accessToBuy['accessWord'];
+eZDebug::writeDebug( $accessToBuyWord, 'accessToBuyWord' );
+
+if ( $accessToAdministrateWord != 'no' )
+{
+    $access = true;
+}
+elseif ( $accessToBuyWord != 'no' )
+{
+    if ( $user->id() == $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+    {
+        if( $OrderID != $http->sessionVariable( 'UserOrderID' ) )
+        {
+            $access = false;
+        }
+        else
+        {
+            $access = true;
+        }
+    }
+    else
+    {
+        if ( $order->attribute( 'user_id' ) == $user->id() )
+        {
+            $access = true;
+        }
+        else
+        {
+            $access = false;
+        }
+    }
+}
+if ( !$access )
+{
+     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+}
 $tpl =& templateInit();
 
-$order = eZOrder::fetch( $OrderID );
 
 $tpl->setVariable( "order", $order );
 

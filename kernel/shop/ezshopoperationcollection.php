@@ -66,6 +66,8 @@ class eZShopOperationCollection
         $order->activate();
         $basket =& eZBasket::currentBasket();
         $basket->remove();
+        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        eZHTTPTool::setSessionVariable( "UserOrderID", $orderID );
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 
