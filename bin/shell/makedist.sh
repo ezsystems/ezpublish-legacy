@@ -569,8 +569,10 @@ if [ -z "$SKIPTRANSLATION" ]; then
     echo -n "`ez_store_pos`"
     translations=""
     for translation in *; do
-	translations="$translations $translation"
-	TR_TOTAL=`expr $TR_TOTAL + 1`
+	if echo "$translation" | grep -E '^([a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z]|untranslated)$' &>/dev/null; then
+	    translations="$translations $translation"
+	    TR_TOTAL=`expr $TR_TOTAL + 1`
+	fi
     done
     for translation in $translations; do
 	TR_COUNTER=`expr $TR_COUNTER + 1`
@@ -591,18 +593,11 @@ if [ -z "$SKIPTRANSLATION" ]; then
 		(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
 		    ez_result_output 1 "Error updating translations for untranslated" || exit 1
-#		    echo
-#		    echo "Error updating translations for untranslated"
-#		    exit 1
 		fi
 	    else
 		(cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
-		    ez_result_output 1 "Error updating translations for $translated" || exit 1
-#		    ez_result_output 1 "Error updating translations for $translation"
-#		    echo
-#		    echo "Error updating translations for $translation"
-#		    exit 1
+		    ez_result_output 1 "Error updating translations for $translation" || exit 1
 		fi
 	    fi
 	fi
@@ -617,7 +612,6 @@ if [ -z "$SKIPTRANSLATION" ]; then
 	iterator=`expr $iterator + 1`
     done
     echo -n "`ez_restore_pos``ez_store_pos`$text"
-#    echo
     echo -n "`ez_restore_pos`[$TR_TOTAL/$TR_TOTAL] translations"
     ez_result_output 0 "" || exit 1
 
