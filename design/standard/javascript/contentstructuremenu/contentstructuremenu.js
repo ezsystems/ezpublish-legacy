@@ -23,52 +23,52 @@
 // http://ez.no/home/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
-//              
+//
 // The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-            
-/*! \file contentstructuremenu.js 
+
+/*! \file contentstructuremenu.js
 */
 
 /*!
     \brief
-    This is a set of functions which helps to organize a work of 
+    This is a set of functions which helps to organize a work of
     tree-menu: fold/unfold nodes, save/restore state of menu
     to/from cookie, some helpers.
-    
-        
+
+
    Functions which works with cookie but adapted to tree menu:
         ezcst_cookie_restoreUnfoldedNodesList,
         ezcst_cookie_saveUnfoldedNodesList,
         ezcst_cookie_addNode,
         ezcst_cookie_addNodesList,
         ezcst_cookie_removeNode.
-        
-    Functions which change state of node(folded/unfolded):        
+
+    Functions which change state of node(folded/unfolded):
         ezcst_changeState,
         ezcst_setFoldedState,
         ezcst_setUnfoldedState,
         ezcst_foldUnfold,
         ezcst_foldUnfoldSubtree,
         ezcst_unfoldNode.
-        
-    Functions which initializes menu:        
+
+    Functions which initializes menu:
         ezcst_initializeMenuState,
         ezcst_resetMenuState,
         ezcst_restoreMenuState.
-    
+
     Event handlers:
         ezcst_onFoldClicked,
         ezcst_onItemClicked.
-        
+
 */
 
 /*!
-    Global array of unfolded nodes 
+    Global array of unfolded nodes
 */
 var gUnfoldedNodesList                          = new Array(0);
 
@@ -113,7 +113,7 @@ function ezcst_findNodeIDInList( node_id )
 }
 
 /*!
-    cookie wrappers 
+    cookie wrappers
 */
 /*!
      Initializes \a gUnfoldedNodesList with values stored in cookie
@@ -177,25 +177,37 @@ function ezcst_cookie_removeNode( node_id )
     }
 }
 
-/*! 
+/*!
     Changes state(folded/unfolded) of node.
     Saves \a node_id in cookie,
     changes display status of \a ul_node,
     changes text of \a link_node
-*/                                                   
-function ezcst_changeState( node_id, ul_node, link_node )
+*/
+function ezcst_changeState( node_id, ul_node, link_node, bForceFold, bForceUnfold )
 {
     // change display state of ul_node and label for link_node
     if ( ul_node )
     {
+        if ( bForceFold )
+        {
+            ezcst_setFoldedState( node_id, ul_node, link_node );
+            return;
+        }
+
+        if ( bForceUnfold )
+        {
+            ezcst_setUnfoldedState( node_id, ul_node, link_node );
+            return;
+        }
+
         if ( ul_node.style.display == "none" )
-        { 
+        {
             ezcst_setUnfoldedState( node_id, ul_node, link_node );
         }
-        else 
-        { 
+        else
+        {
             ezcst_setFoldedState( node_id, ul_node, link_node );
-        } 
+        }
     }
 }
 
@@ -208,7 +220,7 @@ function ezcst_changeState( node_id, ul_node, link_node )
 function ezcst_setUnfoldedState( node_id, ul_node, link_node )
 {
     if ( ul_node && ul_node.style.display == "none" )
-    { 
+    {
         // fold state => make it unfold
             ul_node.style.display = "";
         // change label
@@ -237,12 +249,12 @@ function ezcst_setFoldedState( node_id, ul_node, link_node )
     }
 }
 
-/*! 
+/*!
     onClick handler for \a node
 */
 function ezcst_onFoldClicked( node )
 {
-    ezcst_foldUnfold( node, true, false );
+    ezcst_foldUnfold( node, true, false, false, false );
 }
 
 /*!
@@ -256,13 +268,13 @@ function ezcst_onItemClicked( ezpublish_nodeID, defaultItemClickAction )
     location.href = redirectURL;
 }
 
-/*! 
-    Fold/unfold \a node. If \a bUpdateCookie sets to 
+/*!
+    Fold/unfold \a node. If \a bUpdateCookie sets to
     \a true then cookie will be updated.
     \a bInitNodesText - initialize HTML nodes( e.g sets text [-]/[ ])
 */
-function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText ) 
-{ 
+function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold )
+{
     for ( var i = 0; i < node.childNodes.length; ++i )
     {
         var child = node.childNodes[i];
@@ -275,23 +287,23 @@ function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText )
             if( bInitNodesText == true)
                 ezjslib_createHTMLChildTextNode( link_node, "[-]" );
 
-            ezcst_changeState( node_id, child, link_node );
+            ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
             break;
         }
-        else if ( bInitNodesText && child["tagName"] && child.tagName.toLowerCase() == "span" ) 
+        else if ( bInitNodesText && child["tagName"] && child.tagName.toLowerCase() == "span" )
         {
             ezjslib_createHTMLChildTextNode( child, "[ ]" );
         }
     }
-}   
+}
 
-/*! 
+/*!
     Fold/unfold subtree by recursive calls.
     \a root_node is a root node of subtree.
     \a bUpdateCookie - if sets to \a true, then cookie will be updated.
     \a bInitNodesText - initialize HTML nodes( e.g sets text [-]/[ ])
 */
-function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText )
+function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold )
 {
     var root_ul_node = ezjslib_getHTMLChildNodeByTag( rootNode, "ul" );
 
@@ -303,13 +315,13 @@ function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText )
             var li_node = root_ul_node.childNodes[i];
             if ( li_node["tagName"] && li_node.tagName.toLowerCase() == "li" )
             {
-                ezcst_foldUnfoldSubtree( li_node, bUpdateCookie, bInitNodesText );
+                ezcst_foldUnfoldSubtree( li_node, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold );
             }
         }
     }
 
     // fold/unfold current subtree.
-    ezcst_foldUnfold( rootNode, bUpdateCookie, bInitNodesText );
+    ezcst_foldUnfold( rootNode, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold );
 }
 
 /*!
@@ -322,14 +334,49 @@ function ezcst_unfoldNode( li_node )
 }
 
 /*!
-    Default menu state: all 'container' nodes(except root node) are folded 
+    Expands subtree(node and all its children and children of their children
+    and so on...) with root \a rootNodeID.
+*/
+function ezcst_expandSubtree( rootNodeID )
+{
+    ezcst_collapseExpandSubtree( rootNodeID, false );
+}
+
+/*!
+    Collapses subtree(node and all its children and children of their children
+    and so on...) with root \a rootNodeID.
+*/
+function ezcst_collapseSubtree( rootNodeID )
+{
+    ezcst_collapseExpandSubtree( rootNodeID, true );
+}
+
+/*!
+    Collapses/expands subtree(node and all its children and children of their children
+    and so on...) with root \a rootNodeID.
+*/
+function ezcst_collapseExpandSubtree( rootNodeID, bCollapse )
+{
+    if ( rootNodeID )
+    {
+        var liTagID = 'n' + rootNodeID;
+        var liTag   = ezjslib_getHTMLNodeById( liTagID );
+        if ( liTag )
+        {
+            ezcst_foldUnfoldSubtree( liTag, true, false, bCollapse, !bCollapse );
+        }
+    }
+}
+
+/*!
+    Default menu state: all 'container' nodes(except root node) are folded
 */
 function ezcst_resetMenuState( rootNode )
-{   
+{
     if ( rootNode != null )
     {
         // Since all nodes are folded, need to unfold root node.
-        ezcst_foldUnfold( rootNode, true, false );
+        ezcst_foldUnfold( rootNode, true, false, false, false );
     }
 }
 
@@ -346,7 +393,7 @@ function ezcst_restoreMenuState( rootNode )
             var li_node = ezjslib_getHTMLNodeById( gUnfoldedNodesList[i] );
             if ( li_node )
             {
-                ezcst_foldUnfold( li_node, false, false );
+                ezcst_foldUnfold( li_node, false, false, false, false );
             }
         }
 
@@ -362,31 +409,31 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAc
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
     var currentNodeID = additionalNodesList.pop();           // remove current node;
-    
+
     gItemClickAction  = itemClickAction;
 
     if ( menu != null )
     {
         // restore unfolded nodes ids from cookies
         ezcst_cookie_restoreUnfoldedNodesList();
-        
+
         // add path to current node to unfolded nodes list
         ezcst_cookie_addNodesList( additionalNodesList );
-        
+
         var rootNode = ezjslib_getHTMLChildNodeByTag( menu, "li" );
         if ( rootNode != null )
         {
             // Fold all 'container' nodes.
-            ezcst_foldUnfoldSubtree( rootNode, false, true );
+            ezcst_foldUnfoldSubtree( rootNode, false, true, false, false );
 
             // Remove [-]/[+] text of root node.
             var root_link_node = ezjslib_getHTMLChildNodeByTag( rootNode, "a" );
-            ezjslib_removeHTMLChildTextNode( root_link_node );         
+            ezjslib_removeHTMLChildTextNode( root_link_node );
 
             // Highlight current node
             var currentNode = ezjslib_getHTMLNodeById( currentNodeID );
             ezjslib_setHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
-            
+
             if ( ezcst_getUnfoldedNodesListSize() > 0 )
             {
                 // unfolde nodes which are stored in gUnfoldedNodesList
