@@ -1,5 +1,5 @@
-{*?template charset=iso-8859-1 ?*}
-<form action={concat($module.functions.classlist.uri,"/",$GroupID)|ezurl} method="post" name="ClassList">
+<form action={concat("class/classlist/",$GroupID)|ezurl} method="post" name="ClassList">
+
 {switch name=Sw1 match=$count}
   {case match=0}
   <h3>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h3>
@@ -19,14 +19,14 @@
 {section show=$groupclasses}
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/id")|ezurl}>{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/name")|ezurl}>{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/identifier")|ezurl}>{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/status")|ezurl}>{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/creator")|ezurl}>{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/modifier")|ezurl}>{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/created")|ezurl}>{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href={concat($module.functions.classlist.uri,"/",$GroupID,"/modified")|ezurl}>{"Modified"|i18n('content/class')}</a></th>
+  <th align="left">{"ID"|i18n('content/class')}</th>
+  <th align="left">{"Name"|i18n('content/class')}</th>
+  <th align="left">{"Identifier"|i18n('content/class')}</th>
+  <th align="left">{"Status"|i18n('content/class')}</th>
+  <th align="left">{"Creator"|i18n('content/class')}</th>
+  <th align="left">{"Modifier"|i18n('content/class')}</th>
+  <th align="left">{"Created"|i18n('content/class')}</th>
+  <th align="left">{"Modified"|i18n('content/class')}</th>
 </tr>
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
 <tr>

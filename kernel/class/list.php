@@ -66,25 +66,6 @@ if ( $http->hasPostVariable( "NewButton" ) )
     return;
 }
 
-$sorting = null;
-if ( isset( $Params["SortingColumn"] ) )
-{
-    $sort_array = array( "id" => "id",
-                         "name" => "name",
-                         "identifier" => "identifier",
-                         "status" => "version",
-                         "creator" => "creator_id",
-                         "modifier" => "modifier_id",
-                         "created" => "created",
-                         "modified" => "modified" );
-    $sort_column = $Params["SortingColumn"];
-    if ( isset( $sort_array[$sort_column] ) )
-        $sorting = array( $sort_array[$sort_column] => "asc" );
-    else
-        eZDebug::writeError( "Undefined sorting column: $sort_column", "Class::list" );
-}
-
-
 if ( file_exists( "design/standard/prepare/class/list.php" ) )
 {
     include( "design/standard/prepare/class/list.php" );
@@ -126,8 +107,11 @@ foreach( $TemplateData as $tpldata )
             case "defined_list":
             {
                 unset( $list );
+//                 $list =& eZContentClass::fetchList( $list_versions[$data["command"]],
+//                                                     $asObject, $user->attribute( "id" ),
+//                                                     $sort, $fields );
                 $list =& eZContentClass::fetchList( $list_versions[$data["command"]],
-                                                    $asObject, $user->attribute( "id" ),
+                                                    $asObject, false,
                                                     $sort, $fields );
                 removeSelectedClasses( $http, $list, $base );
                 $tpl->setVariable( $tplname, $list );

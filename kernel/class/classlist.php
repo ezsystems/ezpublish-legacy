@@ -38,7 +38,7 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params["Module"];
-$GroupID = null;
+$GroupID = false;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
 function &removeSelectedClasses( &$http, &$classes, $base, &$Module, $GroupID )
@@ -82,8 +82,6 @@ if ( $http->hasPostVariable( "NewButton" ) )
     return;
 }
 
-$sorting = null;
-
 if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 {
     $TemplateData = array( array( "name" => "groupclasses",
@@ -107,9 +105,14 @@ foreach( $TemplateData as $tpldata )
     $fields = isset( $data["fields"] ) ? $data["fields"] : null;
     $base = $tpldata["http_base"];
     $classids = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true);
+//     $classes_list = & eZContentClass::fetchList( 0,
+//                                                  $asObject = true,
+//                                                  $user->attribute( "id" ),
+//                                                  $sort,
+//                                                  $fields );
     $classes_list = & eZContentClass::fetchList( 0,
                                                  $asObject = true,
-                                                 $user->attribute( "id" ),
+                                                 false,
                                                  $sort,
                                                  $fields );
     $list =array();
@@ -127,9 +130,14 @@ foreach( $TemplateData as $tpldata )
     }
 
     $temp_classids = & eZContentClassClassGroup::fetchClassList( 1, $GroupID, $asObject = true);
+//     $temp_classes_list = & eZContentClass::fetchList( 1,
+//                                                  $asObject = true,
+//                                                  $user->attribute( "id" ),
+//                                                       array("modified" => "modified"),
+//                                                  $fields );
     $temp_classes_list = & eZContentClass::fetchList( 1,
                                                  $asObject = true,
-                                                 $user->attribute( "id" ),
+                                                 false,
                                                       array("modified" => "modified"),
                                                  $fields );
     $temp_list = array();
@@ -158,7 +166,9 @@ foreach( $TemplateData as $tpldata )
     $tpl->setVariable( "count", $count );
     $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
-    $GroupName = $groupInfo->attribute("name");
+    $GroupName = '';
+    if ( $groupInfo !== null )
+        $GroupName = $groupInfo->attribute("name");
     $tpl->setVariable( "group_name", $GroupName );
 }
 

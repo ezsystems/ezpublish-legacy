@@ -51,7 +51,7 @@ function &removeSelectedGroups( &$http, &$groups, $base )
             {
                 $reject =& $rejects[$i];
                 $reject->remove( );
-                $group_id = $reject->attribute("id");
+                $group_id = $reject->attribute( "id" );
                 eZContentClassClassGroup::removeGroupMembers( $group_id );
             }
         }
@@ -67,22 +67,6 @@ if ( $http->hasPostVariable( "NewGroupButton" ) )
     $params = array();
     $Module->run( "groupedit", $params );
     return;
-}
-
-$sorting = null;
-if ( isset( $Params["SortingColumn"] ) )
-{
-    $sort_array = array( "id" => "id",
-                         "name" => "name",
-                         "creator" => "creator_id",
-                         "modifier" => "modifier_id",
-                         "created" => "created",
-                         "modified" => "modified" );
-    $sort_column = $Params["SortingColumn"];
-    if ( isset( $sort_array[$sort_column] ) )
-        $sorting = array( $sort_array[$sort_column] => "asc" );
-    else
-        eZDebug::writeError( "Undefined sorting column: $sort_column", "Group::list" );
 }
 
 if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
@@ -106,7 +90,8 @@ foreach( $TemplateData as $tpldata )
     $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $base = $tpldata["http_base"];
     unset( $list );
-    $list =& eZContentClassGroup::fetchList( $user->attribute( "id" ), $asObject );
+//     $list =& eZContentClassGroup::fetchList( $user->attribute( "contentobject_id" ), $asObject );
+    $list =& eZContentClassGroup::fetchList( false, $asObject );
     removeSelectedGroups( $http, $list, $base );
     $tpl->setVariable( $tplname, $list );
 }

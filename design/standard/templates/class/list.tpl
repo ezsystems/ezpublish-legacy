@@ -1,30 +1,16 @@
-{*?template charset=iso-8859-1 ?*}
-<form action="{$module.functions.list.uri}" method="post" name="ClassEdit">
-
-{*
-{$module.features.class.1}
-{$module.features.class.list}
-{$module.features.class.defined_list}
-{$module.features.class.mixed_list}
-{$module.features.class.temporary_list}
-{$module.features.class.sort_by_id.list}
-{$module.features.class.sort_by_name.list}
-{$module.features.class.sort_by_id.defined_list}
-{$module.features.class.sort_by_name.defined_list}
-{$module.features.class_attribute.1}
-*}
+<form action={"class/list"|ezurl} method="post" name="ClassEdit">
 
 <h1>{"Defined class types"|i18n('content/class')}</h1>
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.list.uri}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/identifier">{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/status">{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left">{"ID"|i18n('content/class')}</th>
+  <th align="left">{"Name"|i18n('content/class')}</th>
+  <th align="left">{"Identifier"|i18n('content/class')}</th>
+  <th align="left">{"Status"|i18n('content/class')}</th>
+  <th align="left">{"Creator"|i18n('content/class')}</th>
+  <th align="left">{"Modifier"|i18n('content/class')}</th>
+  <th align="left">{"Created"|i18n('content/class')}</th>
+  <th align="left">{"Modified"|i18n('content/class')}</th>
 </tr>
 
 {section name=Classes loop=$classes sequence=array(bglight,bgdark)}

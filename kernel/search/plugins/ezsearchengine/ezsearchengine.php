@@ -223,7 +223,7 @@ class eZSearchEngine
             else
                 $searchSectionID = -1;
 
-            eZDebug::writeError("wWwwwwwwwwwww".$searchSectionID);
+            eZDebug::writeDebug( 'searchSectionID=' . $searchSectionID, 'eZSearchEngine::search' );
             if ( isset( $params['SearchDate'] ) )
                 $searchDate = $params['SearchDate'];
             else
@@ -259,12 +259,13 @@ class eZSearchEngine
                 }
             }
 
-            $sectionQuery = "";
+            $sectionQuery = '';
             if ( is_numeric( $searchSectionID ) and  $searchSectionID > 0 )
             {
                 $sectionQuery = "ezsearch_object_word_link.section_id = '$searchSectionID' AND ";
             }
 
+            $searchDateQuery = '';
             if ( is_numeric( $searchDate ) and  $searchDate > 0 )
             {
                 $date = new eZDateTime();
@@ -455,7 +456,9 @@ class eZSearchEngine
                 // Build the word query string
                 foreach ( $searchWordArray as $searchWord )
                 {
-                    $wordID = $wordIDHash[$searchWord];
+                    $wordID = null;
+                    if ( isset( $wordIDHash[$searchWord] ) )
+                        $wordID = $wordIDHash[$searchWord];
 
                     if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
                     {

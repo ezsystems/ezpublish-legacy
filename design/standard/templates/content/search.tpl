@@ -10,15 +10,14 @@
 {section show=$search_text}
 <tr>
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-
-	<td class="{$SearchResult:sequence}" valign="top">
-<a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
+    <td class="{$SearchResult:sequence}" valign="top">
+    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
         
-	</td>
-{delimiter modulo=1}
+    </td>
+  {delimiter modulo=1}
 </tr>
 <tr>
-{/delimiter}
+  {/delimiter}
   {section-else}
   {/section}
 {/section}

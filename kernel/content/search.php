@@ -67,8 +67,6 @@ $Module->setTitle( "Search for: $searchText" );
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                        "SearchSectionID" => $searchSectionID ) );
 
-eZDebug::writeNotice( $searchResult["SearchResult"], "result" );
-
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
@@ -77,6 +75,8 @@ $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );
 $Result['path'] = array( array( 'text' => 'Search',
+                                'url' => false ),
+                         array( 'text' => 'Normal',
                                 'url' => false ) );
 
 eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );

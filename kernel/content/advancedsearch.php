@@ -47,7 +47,8 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $tpl =& templateInit();
 
-$searchText = "";
+$searchText = '';
+$phraseSearchText = '';
 
 if ( $http->hasVariable( "PhraseSearchText" ) and trim( $http->variable( "PhraseSearchText" ) ) != "" )
 {
@@ -66,6 +67,7 @@ if ( $http->hasVariable( "SearchText" ) )
 
 $searchContentClassID = -1;
 $searchContentClassAttributes = 0;
+$searchContentClassAttributeArray = array();
 if ( $http->hasVariable( "SearchContentClassID" ) and
      $http->variable( "SearchContentClassID" ) != -1 )
 {
@@ -121,6 +123,10 @@ $tpl->setVariable( "search_content_class_attribute_array", $searchContentClassAt
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/advancedsearch.tpl" );
+$Result['path'] = array( array( 'text' => 'Search',
+                                'url' => false ),
+                         array( 'text' => 'Advanced',
+                                'url' => false ) );
 
 eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
 

@@ -5,7 +5,7 @@
 <table width="100%">
 <tr>
 	<th>
-	Phrase	
+	Phrase
 	</th>
 	<th>
 	Number of phrases
@@ -16,13 +16,13 @@
 </tr>
 {section name=Phrase loop=$most_frequent_phrase_array sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$SearchResult:sequence}">
+	<td class="{$Phrase:sequence}">
 	{$Phrase:item.phrase}
 	</td>
-	<td class="{$SearchResult:sequence}">
+	<td class="{$Phrase:sequence}">
 	{$Phrase:item.phrase_count}
 	</td>
-	<td class="{$SearchResult:sequence}">
+	<td class="{$Phrase:sequence}">
 	{$Phrase:item.result_count|l10n(number)}
 	</td>
 </tr>

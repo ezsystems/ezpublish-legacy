@@ -42,7 +42,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/drafts/list/"|ezurl}>Drafts</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/draft/list/"|ezurl}>Drafts</a></p>
     </td>
 </tr>
 <tr>

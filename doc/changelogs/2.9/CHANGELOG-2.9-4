@@ -11,6 +11,8 @@ Changes from 2.9-3 to 2.9-4
 - New script checkcode.sh which lists out files which has programming issues (like not following codinstandard).
 - Missing module/view is now properly reported to user.
 - Added missing error messages kernel/20 and kernel/21
+- Cleanups in templates and views, should be less warnings now.
+- Renamed kernel/drafts to kernel/draft and design/standard/templates/drafts to design/standard/templates/draft
 
 *Library :
 

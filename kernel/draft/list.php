@@ -40,15 +40,10 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 $Module =& $Params['Module'];
-
 $http =& eZHTTPTool::instance();
 
-
 $user =& eZUser::currentUser();
-
 $userID = $user->id();
-
-
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
@@ -64,22 +59,17 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
-
-
 $versions =& eZContentObjectVersion::fetchForUser( $userID );
-
 
 $tpl =& templateInit();
 
-
-
-$tpl->setVariable( 'drafts', $versions );
-$tpl->setVariable( 'module', $Module );
-
+$tpl->setVariable( 'draft_list', $versions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:drafts/list.tpl' );
-
-
+$Result['content'] =& $tpl->fetch( 'design:draft/list.tpl' );
+$Result['path'] = array( array( 'text' => 'Draft',
+                                'url' => false ),
+                         array( 'text' => 'List',
+                                'url' => false ) );
 
 ?>
