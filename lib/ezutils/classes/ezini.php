@@ -73,6 +73,8 @@
   which files are load, if cache files are used and when cache files are written.
 */
 
+include_once 'lib/ezutils/classes/ezdebug.php';
+
 /*!
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
@@ -279,6 +281,9 @@ class eZINI
         {
             if ( file_exists ( $iniFile ) )
                 $inputFiles[] = $iniFile;
+
+            if ( file_exists ( $iniFile . '.php' ) )
+                $inputFiles[] = $iniFile . '.php';
 
             if ( file_exists ( $iniFile . '.append' ) )
                 $inputFiles[] = $iniFile . '.append';
@@ -628,8 +633,18 @@ class eZINI
             if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
+                $valuesPlacement =& $this->BlockValuesPlacement[$currentBlock];
+
+                if ( isset( $valuesPlacement[$varName] ) )
+                    if ( !is_array( $valuesPlacement[$varName] ) )
+                    {
+                        eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
+                        continue;
+                    }
+                
                 $this->BlockValues[$currentBlock][$varName] = array();
-                $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
+                $valuesPlacement[$varName][] = $file;
+
             }
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
@@ -1238,7 +1253,7 @@ class eZINI
      \encode
      \sa setVariable
     */
-    function &setVariables( $variables )
+    function setVariables( $variables )
     {
         foreach ( $variables as $blockName => $blockVariables )
         {
