@@ -164,6 +164,7 @@ a.menuheadlink
 
 td.menuheadtoolbar
 {
+    vertical-align: middle;
     background-color: #638ecf;
     color: #ffffff;
     border-bottom: solid 1px #89a7d6;
