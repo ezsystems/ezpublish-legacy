@@ -68,33 +68,25 @@ $iniPath = ( $siteAccess == "global_override" ) ? "settings/override" : "setting
 foreach( $iniFiles as $fileName => $settings )
 {
     $ini =& eZINI::instance( $fileName . '.append', $iniPath, null, null, null, true );
-    $base_ini =& eZINI::instance( $fileName );
+    $baseIni =& eZINI::instance( $fileName );
 
     foreach( $settings as $setting )
     {
         if ( $ini->hasVariable( $setting[0], $setting[1] ) )
-        {
             $value = $ini->variable( $setting[0], $setting[1] );
-        }
         else
-        {
-            $value = $base_ini->variable( $setting[0], $setting[1] );
-        }
+            $value = $baseIni->variable( $setting[0], $setting[1] );
 
         if ( $value == 'true' || $value == 'false' )
-        {
             $ini->setVariable( $setting[0], $setting[1], $setting[2] ? 'true' : 'false' );
-        }
         else
-        {
             $ini->setVariable( $setting[0], $setting[1], $setting[2] ? 'enabled' : 'disabled' );
-        }
     }
 
     if ( !$ini->save() )
         eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
     
-    unset( $base_ini );
+    unset( $baseIni );
     unset( $ini );
 
     // Remove variable from the global override
