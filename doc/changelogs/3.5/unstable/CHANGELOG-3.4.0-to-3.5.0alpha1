@@ -12,7 +12,7 @@ Changes from 3.4.0 to 3.5.0alpha1
   and create missing object attributes. (merge from stable/3.4 rev. 6955)
 - Added option to set the number of rows to add to the matrix datatype
 - Added functionality of preserving of attribute values in the edit interface.
-  Preservig means that if you enter value and submitting returns you back because
+  Preserving means that if you enter value and submitting returns you back because
   of an error, you will still have the form filled with these values.)
 - Made sure the eZContentObject::contentObjectListRelatingThis function uses
   the eZContentObject::reverseRelatedObjectList function.
@@ -252,6 +252,9 @@ eztc.php:
 - Fixed problem with user specified parameters when URL translator is disabled.
   http://ez.no/community/bug_reports/role_list_does_not_work_with_disabled_url_translation
   (Merged from stable/3.4 rev. 7182)
+- Fixed use of uninitialized variable for si operator.
+  http://ez.no/community/bug_reports/binary_file_size_display
+  (Merged from stable/3.4 rev. 7188)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

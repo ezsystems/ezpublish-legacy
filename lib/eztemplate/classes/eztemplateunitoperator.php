@@ -217,6 +217,7 @@ class eZTemplateUnitOperator
                      '}' . "\n" .
                      'else' . "\n" .
                      '{' . "\n" .
+                     '    %tmp3% = "";' . "\n" .
                      '    foreach ( %2% as %tmp1% )' . "\n" .
                      '    {' . "\n" .
                      '        %tmp2% = pow( 10, (int)%tmp1%[0] );' . "\n" .
@@ -276,6 +277,7 @@ class eZTemplateUnitOperator
                      '}' . "\n" .
                      'else' . "\n" .
                      '{' . "\n" .
+                     '    %tmp3% = "";' . "\n" .
                      '    foreach ( %2% as %tmp1% )' . "\n" .
                      '    {' . "\n" .
                      '      %tmp2% = pow( 2, (int)%tmp1%[0] );' . "\n" .
