@@ -208,6 +208,16 @@ textarea
     font-size: 1em; /* Needs to be specified for IE */
 }
 
+input.box, textarea.box
+{
+    width: 100%;
+}
+
+input.halfbox, textarea.halfbox
+{
+    width: 47%;
+}
+
 optgroup
 {
     font-weight: bold;

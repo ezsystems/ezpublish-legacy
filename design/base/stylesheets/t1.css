@@ -24,7 +24,6 @@ div#header
 div#header-design
 {
     height: 70px;
-    width: 400px;
     float: left;
 }
 
@@ -46,6 +45,7 @@ div#toolbar-design
     padding: 0;
     margin: 0;
     float: right;
+    /* Test */
 }
 
 div#toolbar-top div.toolbar-item input.searchinput
