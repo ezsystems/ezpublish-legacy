@@ -58,6 +58,15 @@ Datatype:
   (Merged from stable/3.3, rev. 9321, also in stable/3.4 rev. 9322)
 - Fixed bug: Broken datatype
   http://ez.no/community/bug_reports/broken_datatype
+- Fixed bug:
+  http://ez.no/community/bug_reports/fatal_error_in_ezpackagetype_php
+  http://ez.no/community/bug_reports/look_feel_fatal_error_ezpackagetype_php_line_165
+  http://ez.no/community/bug_reports/setup_look_feel_appearance_dissappeared
+  These three are the same bug. Symptoms: When editing "Look and feel" in admin, you get a
+  "fatal error" in kernel/classes/datatypes/ezpackage/ezpackagetype.php on line 165, or
+  the "Appearance" thumbnails and radiobuttons disappears from the page. The bug also causes
+  a database corruption. To fix it, edit the "Template look" class and store it without
+  changing anything.
 
 *Library:
 

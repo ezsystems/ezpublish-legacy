@@ -129,6 +129,7 @@ class eZPackageType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
+        $ini =& eZIni::instance();
         // Delete compiled template
         $iniPath = "settings/siteaccess/$siteAccess";
         $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
