@@ -21,4 +21,7 @@ Shop:
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
 - postgresql driver changed to set up correct errorMesage variables
- 
+
+*Settings :
+site.ini:
+- Fixed wrong spelling of NodeTranslation in site.ini.
