@@ -140,7 +140,7 @@ if ( $storingAllowed )
         }
     }
 
-    foreach( array_keys( $contentObjectAttributes ) as $key )
+    foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" );

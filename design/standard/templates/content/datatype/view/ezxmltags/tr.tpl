@@ -1,0 +1,3 @@
+<tr>
+{$content}
+</tr>

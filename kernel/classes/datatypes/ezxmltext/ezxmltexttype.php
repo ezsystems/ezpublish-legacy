@@ -98,6 +98,13 @@ class eZXMLTextType extends eZDataType
             if ( $dom )
             {
                 $contentObjectAttribute->setAttribute( "data_text", $data );
+
+                $objects =& $dom->elementsByName( 'object' );
+
+                foreach ( $objects as $object )
+                {
+                    print( $object->attributeValue( 'id' ) );
+                }
             }
 
             eZDebug::writeNotice( $data, "XML text" );
@@ -214,6 +221,7 @@ class eZXMLTextType extends eZDataType
         if ( $dom )
             $node = $dom->elementsByName( "section" );
 
+        eZDebug::writeNotice( $contentObjectAttribute->attribute( "data_text" ), "xxxx" );
         if ( count( $node ) > 0 )
         {
             $output = "";
@@ -324,6 +332,36 @@ class eZXMLTextType extends eZDataType
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
+                $tagText .= $text;
+            }break;
+
+            case 'table' :
+            {
+                $tableRows = "";
+                // find all table rows
+                foreach ( $tag->children() as $tableRow )
+                {
+                    $tableData = "";
+                    foreach ( $tableRow->children() as $tableCell )
+                    {
+                        $cellContent = "";
+                        foreach ( $tableCell->children() as $tableCellChildNode )
+                        {
+                            $cellContent =& $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                        }
+                        $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
+                        $uri = "design:content/datatype/view/ezxmltags/td.tpl";
+                        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
+                        $tableData .= $text;
+                    }
+                    $tpl->setVariable( 'content', $tableData, 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
+                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
+                    $tableRows .= $text;
+                }
+                $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
+                $uri = "design:content/datatype/view/ezxmltags/table.tpl";
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
                 $tagText .= $text;
             }break;
@@ -469,6 +507,27 @@ class eZXMLTextType extends eZDataType
                     $listContent .= "  <li>$listItemContent</li>\n";
                 }
                 $output .= "<$tagName>\n$listContent</$tagName>";
+            }break;
+
+            case 'table' :
+            {
+                $tableRows = "";
+                // find all table rows
+                foreach ( $tag->children() as $tableRow )
+                {
+                    $tableData = "";
+                    foreach ( $tableRow->children() as $tableCell )
+                    {
+                        $cellContent = "";
+                        foreach ( $tableCell->children() as $tableCellChildNode )
+                        {
+                            $cellContent =& $this->inputTagXML( $tableCellChildNode );
+                        }
+                        $tableData .= "  <td>\n" . trim( $cellContent ) . "\n  </td>\n";
+                    }
+                    $tableRows .= "<tr>\n $tableData</tr>\n";
+                }
+                $output .= "<table>\n$tableRows</table>\n";
             }break;
 
             // normal content tags
