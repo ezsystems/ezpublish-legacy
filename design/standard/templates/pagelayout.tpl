@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
-
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
 <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />

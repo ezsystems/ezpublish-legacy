@@ -261,7 +261,6 @@ class eZContentObject extends eZPersistentObject
                                                     null,
                                                     $asObject );
     }
-
     /*!
       Returns the current version of this document.
     */

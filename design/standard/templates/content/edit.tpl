@@ -1,5 +1,6 @@
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/")|ezurl}>
-
+<script language=jscript src='/extension/editor/ezeditor.js'></script>
+<link rel="stylesheet" type="text/css" href="/extension/editor/toolbar.css">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>

@@ -77,6 +77,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "content" => "content",
                                                       "xml" => "xml",
                                                       "input_xml" => "inputXML",
+                                                      "show_editor" => "showEditor",
                                                       "validation_error" => "validationError",
                                                       "language" => "language"
                                                       ),
@@ -155,6 +156,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->xml( );
         else if ( $attr == "input_xml" )
             return $this->inputXML( );
+        else if ( $attr == "show_editor" )
+            return $this->showEditor( );
         else if ( $attr == "validation_error" )
             return $this->validationError( );
         else if  ( $attr == "language" )
@@ -354,6 +357,21 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Returns the XML for this attribute
+     \todo instantiate the data type instance directly
+    */
+    function showEditor()
+    {
+        if ( $this->ShowEditor === null )
+        {
+            $attribute =& $this->contentClassAttribute();
+            $dataType =& $attribute->dataType();
+            $this->ShowEditor =& $dataType->showEditor( $this );
+        }
+        return $this->ShowEditor;
+    }
+
+    /*!
      Returns the input XML for this attribute.
      \todo instantiate the data type instance directly
     */
@@ -427,6 +445,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /// Contains the XML for this attribute
     var $XML;
+
+    /// Contains the boolean value for whether or not showing virtual editor
+    var $ShowEditor;
 
     /// Contains the input XML for this attribute
     var $InputXML;
