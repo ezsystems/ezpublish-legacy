@@ -77,13 +77,12 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 //            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
-                include_once( "lib/ezlocale/classes/ezdatetime.php" );
                 $dateTime =& $objectAttribute->attribute( 'content' );
                 if ( get_class( $dateTime ) == 'ezdatetime' or
                      get_class( $dateTime ) == 'eztime' or
                      get_class( $dateTime ) == 'ezdate' )
                 {
-                    if ( eZDateTime::currentTimeStamp() < $dateTime->timeStamp() )
+                    if ( time() < $dateTime->timeStamp() )
                     {
                         $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
                         $this->setActivationDate( $dateTime->timeStamp() );
