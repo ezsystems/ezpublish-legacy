@@ -18,16 +18,21 @@ Changes from 3.0-? to 3.1
 - Fixed proper HTTP 404 header error on unrecogniced url's
 - Added support for viewmodes on attribute_view_gui, the viewmodes are placed in directories under the normal datatype templates.
   The viewmode is optional for backwards compatability.
+- Added template-block to clearcache script.
 
 Binary file:
 - Added support for resuming downloads.
+
 Search:
 - Fixed for compatibility with Oracle driver
+
 Setup tool:
 - has been changed to support separate ( for schema and for data ) kernel sql files.
+
 Shop:
 - Added support for choosing objects ( products ) to discount rule editing.
 - Added support for sorting of order list.
+
 Admin:
 - Used cache-block operator to speed up the admin interface
 
