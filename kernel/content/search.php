@@ -39,15 +39,38 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezsearch.php" );
 include_once( "kernel/classes/ezsearchlog.php" );
 
+/*!
+ Get search limit
+ */
+function pageLimit( $searchPageLimit )
+{
+    switch ( $searchPageLimit )
+    {
+        case 1:
+            return 5;
+
+        case 2:
+        default:
+            return 10;
+
+        case 3:
+            return 20;
+
+        case 4:
+            return 30;
+
+        case 5:
+            return 50;
+    }
+}
+
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
 $Offset = $Params['Offset'];
 
-$pageLimit = 10;
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
-$searchPageLimit = false;
 
 $tpl =& templateInit();
 
@@ -55,13 +78,17 @@ $ini =& eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
 $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
 
+$searchPageLimit = 2;
 if ( $http->hasVariable( 'SearchPageLimit' ) )
 {
     $searchPageLimit = $http->variable( 'SearchPageLimit' );
 }
+
+$pageLimit = pageLimit( $searchPageLimit );
+
 $maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
-if ( $searchPageLimit > $maximumSearchLimit )
-    $searchPageLimit = $maximumSearchLimit;
+if ( $pageLimit > $maximumSearchLimit )
+    $pageLimit = $maximumSearchLimit;
 
 if ( $http->hasVariable( "SearchText" ) )
 {

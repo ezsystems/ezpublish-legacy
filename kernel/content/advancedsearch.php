@@ -42,6 +42,31 @@ include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezsearchlog.php' );
 include_once( 'kernel/classes/ezsection.php' );
 
+/*!
+ Get search limit
+ */
+function pageLimit( $searchPageLimit )
+{
+    switch ( $searchPageLimit )
+    {
+        case 1:
+            return 5;
+
+        case 2:
+        default:
+            return 10;
+
+        case 3:
+            return 20;
+
+        case 4:
+            return 30;
+
+        case 5:
+            return 50;
+    }
+}
+
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
@@ -60,19 +85,21 @@ $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabl
 $searchText = '';
 $originalSearchText = '';
 $phraseSearchText = '';
-$searchPageLimit = false;
 
-$pageLimit = 10;
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
+$searchPageLimit = 2;
 if ( $http->hasVariable( 'SearchPageLimit' ) )
 {
     $searchPageLimit = $http->variable( 'SearchPageLimit' );
 }
+
+$pageLimit = pageLimit( $searchPageLimit );
+
 $maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
-if ( $searchPageLimit > $maximumSearchLimit )
-    $searchPageLimit = $maximumSearchLimit;
+if ( $pageLimit > $maximumSearchLimit )
+    $pageLimit = $maximumSearchLimit;
 
 if ( $http->hasVariable( 'PhraseSearchText' ) and trim( $http->variable( 'PhraseSearchText' ) ) != '' )
 {
@@ -149,13 +176,6 @@ $classArray =& eZContentClass::fetchList();
 
 $sectionArray =& eZSection::fetchList();
 
-/* $searchResult =& eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
-                                                       'SearchContentClassID' => $searchContentClassID,
-                                                       'SearchContentClassAttributeID' => $searchContentClassAttributeID,
-                                                       'SearchSubTreeArray' => $subTreeArray,
-                                                       'SearchDate' => $searchDate,
-                                                       'SearchLimit' => $pageLimit,
-                                                       'SearchOffset' => $Offset ) ); */
 $searchArray =& eZSearch::buildSearchArray();
 
 if ( $useSearchCode )
