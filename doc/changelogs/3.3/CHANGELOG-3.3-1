@@ -8,6 +8,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed calendar operator bug
 - Fixed several UI issues in forum package
 - Fixed several bugs reported in bugreport ( merged from stable 4503 ): http://ez.no/developer/ez_publish_3/bug_reports/kernel_errors
+- Fixed Apache 2 problem when redirecting to url with two or more / at end of url. ( merged from stable 4505 )
 
 *RSS:
 

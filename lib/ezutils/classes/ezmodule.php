@@ -276,6 +276,7 @@ class eZModule
     function redirectModule( &$module, $viewName, $parameters = array(), $unorderedParameters = null )
     {
         $uri = $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
+        $uri = preg_replace( "#(^.*)(//+)$#", "\$1", $uri );
         $this->redirectTo( $uri );
         return true;
     }
