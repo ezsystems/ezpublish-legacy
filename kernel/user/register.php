@@ -163,8 +163,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $body .= "Your account profile:\n";
             $body .= "Login ID: " . $login;
             $body .= "\nPassword: " . $password;
-            $domain = getenv( 'HTTP_HOST' );
-            $admin = getenv( 'SERVER_ADMIN' );
+            $domain = eZSys::hostname();
+            $admin = eZSys::serverVariable( 'SERVER_ADMIN' );
             $body .= "\n\nPlease go to the link below to activate your account:\n";;
 
             $activationURL = "http://" .  $domain;

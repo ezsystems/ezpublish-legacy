@@ -59,7 +59,7 @@ class eZXMLInputType
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
 
         $isMSIE = false;
-        $userAgent = getenv( 'HTTP_USER_AGENT' );
+        $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
         if ( eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
         {
             $version = $browserInfo[1];
@@ -106,7 +106,7 @@ class eZXMLInputType
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
 
         $isMSIE = false;
-        $userAgent = getenv( 'HTTP_USER_AGENT' );
+        $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
         if ( eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
         {
             $version = $browserInfo[1];

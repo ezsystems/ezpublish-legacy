@@ -321,7 +321,7 @@ if ( !function_exists( 'checkContentActions' ) )
                             $destinationAddress = $user->attribute( "destination_address" );
                             $title = "New publishing notification";
                             $body = $object->attribute( "name" );
-                            $domain = getenv( 'HTTP_HOST' );
+                            $domain = eZSys::hostname();
                             $body .= "\nhttp://" .  $domain . "/content/view/full/";
                             $body .=  $object->attribute( "main_node_id" );
                             $body .= "\n\n\nAdministrator";
