@@ -60,9 +60,21 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
             $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
             foreach ( $deleteIDArray as $deleteID )
             {
+
+                $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                                    null,
+                                                                    array( 'id' => $deleteID ),
+                                                                    null,
+                                                                    null,
+                                                                    true );
                 eZDebug::writeNotice( $deleteID, "deleteID" );
-                $object =& eZContentObject::fetch( $deleteID );
-                $object->purge();
+                foreach ( array_keys( $objectList ) as $key )
+                {
+                    $object =& $objectList[$key];
+                    $object->purge();
+                }
+//                $object =& eZContentObject::fetch( $deleteID );
+//                $object->purge();
             }
         }
         else
