@@ -46,6 +46,9 @@
 {section loop=$package_array}
     <div class="block">
         <input type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" />&nbsp;{$:item.name|wash}<br/>
+         <p>
+         {$:item.description|wash}
+         </p>
     </div>
 {/section}
 
