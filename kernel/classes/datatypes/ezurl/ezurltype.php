@@ -95,6 +95,33 @@ class eZURLType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $urls = array();
+        if ( $version == null )
+        {
+            $urls =& eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, false, false );
+            eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, false );
+        }
+        else
+        {
+            $urls =& eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, $version, false );
+            eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $version );
+        }
+        $urls = array_unique( $urls );
+        foreach ( $urls as $urlID )
+        {
+            if ( !eZURLObjectLink::hasObjectLinkList( $urlID ) )
+            {
+                eZURL::removeByID( $urlID );
+            }
+        }
+    }
+
+    /*!
      Fetches the http post var url input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -122,6 +149,7 @@ class eZURLType extends eZDataType
         $urlValue = $attribute->content();
         if ( trim( $urlValue ) != '' )
         {
+            $oldURLID = $attribute->attribute( 'data_int' );
             $urlID = eZURL::registerURL( $urlValue );
             $attribute->setAttribute( 'data_int', $urlID );
 
@@ -131,6 +159,14 @@ class eZURLType extends eZDataType
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
             $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
             $linkObjectLink->store();
+
+            if ( $oldURLID )
+            {
+                if ( !eZURLObjectLink::hasObjectLinkList( $oldURLID ) )
+                {
+                    eZURL::removeByID( $oldURLID );
+                }
+            }
         }
     }
 

@@ -109,6 +109,16 @@ class eZURL extends eZPersistentObject
 
     /*!
      \static
+     Removes the URL with ID \a $urlID.
+    */
+    function removeByID( $urlID )
+    {
+        eZPersistentObject::removeObject( eZURL::definition(),
+                                          array( 'id' => $urlID ) );
+    }
+
+    /*!
+     \static
      Registers a URL to the URL database. The URL id is
      returned if successful. False is returned if not.
     */
