@@ -12,7 +12,7 @@ ErrorHandler=displayerror
 LoginPage=custom
 
 [SiteAccessSettings]
-RequireUserLogin=true
+RequireUserLogin=false
 
 [DesignSettings]
 SiteDesign=news
