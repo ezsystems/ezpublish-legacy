@@ -100,8 +100,7 @@ $templateConfig =& eZINI::instance( 'template.ini' );
 $i18nConfig =& eZINI::instance( 'i18n.ini' );
 
 /* First we check the HTML Output Charset */
-$httpCharset = $i18nConfig->variable( 'CharacterSettings', 'HTTPCharset');
-
+$outputCharset = eZTextCodec::internalCharset();
 
 if ( $module->isCurrentAction( 'Save' ) )
 {
@@ -112,16 +111,19 @@ if ( $module->isCurrentAction( 'Save' ) )
         if ( $templateConfig->variable( 'CharsetSettings', 'AutoConvertOnSave') == 'enabled' )
         {
             include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-            $httpCharset = eZCharsetInfo::realCharsetCode( $httpCharset );
+            $outputCharset = eZCharsetInfo::realCharsetCode( $outputCharset );
             if ( preg_match( '|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
             {
                 $templateContent = preg_replace( '|({\*\?template.*charset=)[a-zA-Z0-9-]*(.*\?\*})|',
-                                                 '\\1'. $httpCharset. '\\2',
+                                                 '\\1'. $outputCharset. '\\2',
                                                  $templateContent );
             }
             else
             {
-                $templateContent = "{*?template charset=$httpCharset?*}\n". $templateContent;
+                $templateCharset = eZCharsetInfo::realCharsetCode( $templateConfig->variable( 'CharsetSettings', 'DefaultTemplateCharset') );
+
+                if ( $templateCharset != $outputCharset )
+                    $templateContent = "{*?template charset=$outputCharset?*}\n" . $templateContent;
             }
         }
         else
@@ -140,7 +142,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
             /* If we're saving a template after editting we need to convert it to the template's
              * Charset. */
-            $codec =& eZTextCodec::instance( $httpCharset, $templateCharset, false );
+            $codec =& eZTextCodec::instance( $outputCharset, $templateCharset, false );
             if ( $codec )
             {
                 $templateContent = $codec->convertString( $templateContent );
@@ -202,7 +204,7 @@ else
 
 /* If we're loading a template for editting we need to convert it to the HTTP
  * Charset. */
-$codec =& eZTextCodec::instance( $templateCharset, $httpCharset, false );
+$codec =& eZTextCodec::instance( $templateCharset, $outputCharset, false );
 if ( $codec )
 {
     $templateContent = $codec->convertString( $templateContent );
