@@ -255,6 +255,7 @@ class eZPgsqlSchema
                 return 'text';
             } break;
             case 'float':
+            case 'double':
             {
                 return 'double precision';
             } break;
@@ -312,6 +313,16 @@ class eZPgsqlSchema
 		}
 
 		if ( preg_match( "@^'(.*)'::character\ varying$@", $default, $matches ) )
+		{
+			return $matches[1];
+		}
+
+		if ( preg_match( "@^'(.*)'::[a-zA-Z ]+$@", $default, $matches ) )
+		{
+			return $matches[1];
+		}
+
+		if ( preg_match( "@^'(.*)'$@", $default, $matches ) )
 		{
 			return $matches[1];
 		}
@@ -437,30 +448,41 @@ class eZPgsqlSchema
 
 		foreach ( $schema as $table => $table_def )
 		{
-			$sql_fields = array();
-			/* First we need to check if we use auto increment fields as
-			 * sequences need to exist before we use them */
-			foreach ( $table_def['indexes'] as $index_name => $index_def )
-			{
-				if ( $index_def['type'] == 'primary' )
-				{
-					$sql .= "CREATE SEQUENCE {$table}_s\n\tSTART 1\n\tINCREMENT 1\n\tMAXVALUE 9223372036854775807\n\tMINVALUE 1\n\tCACHE 1;\n\n";
-				}
-			}
-
-			$sql .= "CREATE TABLE $table (\n";
-			foreach ( $table_def['fields'] as $field_name => $field_def )
-			{
-				$sql_fields[] = "\t". eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def );
-			}
-			$sql .= join ( ",\n", $sql_fields ) . "\n);\n";
-
-			foreach ( $table_def['indexes'] as $index_name => $index_def )
-			{
-				$sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
-			}
+            $sql .= eZPGSQLSchema::generateTableSchema( $table, $table_def );
 			$sql .= "\n\n";
 		}
+
+		return $sql;
+	}
+
+	/*!
+	 * \private
+	 */
+	function generateTableSchema( $table, $table_def )
+	{
+		$sql = '';
+        $sql_fields = array();
+        /* First we need to check if we use auto increment fields as
+         * sequences need to exist before we use them */
+        foreach ( $table_def['indexes'] as $index_name => $index_def )
+        {
+            if ( $index_def['type'] == 'primary' )
+            {
+                $sql .= "CREATE SEQUENCE {$table}_s\n\tSTART 1\n\tINCREMENT 1\n\tMAXVALUE 9223372036854775807\n\tMINVALUE 1\n\tCACHE 1;\n\n";
+            }
+        }
+
+        $sql .= "CREATE TABLE $table (\n";
+        foreach ( $table_def['fields'] as $field_name => $field_def )
+        {
+            $sql_fields[] = "\t". eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def );
+        }
+        $sql .= join ( ",\n", $sql_fields ) . "\n);\n";
+
+        foreach ( $table_def['indexes'] as $index_name => $index_def )
+        {
+            $sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
+        }
 
 		return $sql;
 	}
@@ -481,7 +503,7 @@ class eZPgsqlSchema
 				{
 					foreach ( $table_diff['added_fields'] as $field_name => $added_field )
 					{
-						$sql .= ezMysqlSchema::generateAddFieldSql( $table, $field_name, $added_field );
+						$sql .= eZPGSQLSchema::generateAddFieldSql( $table, $field_name, $added_field );
 					}
 				}
 
@@ -489,14 +511,14 @@ class eZPgsqlSchema
 				{
 					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
 					{
-						$sql .= ezMysqlSchema::generateAlterFieldSql( $table, $field_name, $changed_field );
+						$sql .= eZPGSQLSchema::generateAlterFieldSql( $table, $field_name, $changed_field );
 					}
 				}
 				if ( isset ( $table_diff['removed_fields'] ) )
 				{
 					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field)
 					{
-						$sql .= ezMysqlSchema::generateDropFieldSql( $table, $field_name );
+						$sql .= eZPGSQLSchema::generateDropFieldSql( $table, $field_name );
 					}
 				}
 
@@ -504,7 +526,7 @@ class eZPgsqlSchema
 				{
 					foreach ( $table_diff['added_indexes'] as $index_name => $added_index)
 					{
-						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $added_index );
+						$sql .= eZPGSQLSchema::generateAddIndexSql( $table, $index_name, $added_index );
 					}
 				}
 
@@ -512,19 +534,26 @@ class eZPgsqlSchema
 				{
 					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
 					{
-						$sql .= ezMysqlSchema::generateDropIndexSql( $table, $index_name );
-						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $changed_index );
+						$sql .= eZPGSQLSchema::generateDropIndexSql( $table, $index_name );
+						$sql .= eZPGSQLSchema::generateAddIndexSql( $table, $index_name, $changed_index );
 					}
 				}
 				if ( isset ( $table_diff['removed_indexes'] ) )
 				{
 					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
 					{
-						$sql .= ezMysqlSchema::generateDropIndexSql( $table, $index_name );
+						$sql .= eZPGSQLSchema::generateDropIndexSql( $table, $index_name );
 					}
 				}
 			}
 		}
+		if ( isset( $differences['new_tables'] ) )
+		{
+			foreach ( $differences['new_tables'] as $table => $table_def )
+			{
+                $sql .= eZPGSQLSchema::generateTableSchema( $table, $table_def );
+            }
+        }
 		return $sql;
 	}
 
@@ -559,4 +588,3 @@ class eZPgsqlSchema
 	}
 }
 ?>
-

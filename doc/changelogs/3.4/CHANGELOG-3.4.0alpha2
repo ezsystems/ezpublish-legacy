@@ -16,6 +16,8 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made eZRole::fetchIDListByUser() sort the roles by id thus preventing the need for doing this sorting in PHP when doing view caching.
 - Changed extension of cache files to .cache for template-block and view cache. This prevents PHP Accelerator and friends to cache these files, which causes problems on large sites.
 - Added the possibility to set attributes in eZWorkflowType. (Merged from stable/3.3 rev. 5534)
+- Create new script sqldiff.php which can be used to figure out differences between two databases (even database type).
+  It uses the eZDBSchema library to compute the differences.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.
@@ -61,6 +63,13 @@ eZ file:
 eZDebug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one. (Merged in changes from stable/3.3 rev. 5539)
+
+eZ DB Schema:
+- Made sure the DB schema checker takes into account different database types which can have different
+  names on the same indexes.
+- Moved the table generation code into a separate function for MySQL and PostgreSQL handler.
+- Added new tables to sql output.
+
 
 eZ PHP creator:
 

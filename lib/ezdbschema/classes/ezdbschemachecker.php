@@ -35,7 +35,7 @@
 class eZDbSchemaChecker
 {
 
-	function diff( $schema1, $schema2 = array() )
+	function diff( $schema1, $schema2 = array(), $schema1Type = false, $schema2Type = false )
 	{
 		if ( !is_array( $schema1 ) )
 		{
@@ -43,8 +43,6 @@ class eZDbSchemaChecker
 		}
 		$diff = array();
 
-		/* Loop through all tables and see if they exist in the compared
-		 * schema */
 		foreach ( $schema2 as $name => $def )
         {
 			if ( !isset( $schema1[$name] ) )
@@ -53,7 +51,7 @@ class eZDbSchemaChecker
 			}
             else
             {
-				$table_diff = eZDbSchemaChecker::diffTable( $schema1[$name], $def );
+				$table_diff = eZDbSchemaChecker::diffTable( $schema1[$name], $def, $schema1Type, $schema2Type );
 				if ( count( $table_diff ) )
                 {
 					$diff['table_changes'][$name] = $table_diff;
@@ -73,7 +71,7 @@ class eZDbSchemaChecker
 		return $diff;
 	}
 
-	function diffTable( $table1, $table2 )
+	function diffTable( $table1, $table2, $schema1Type, $schema2Type )
 	{
 		$table_diff = array();
 
@@ -98,35 +96,74 @@ class eZDbSchemaChecker
         {
 			if ( isset( $table2['fields'][$name] ) )
             {
-				if ( is_array( $field_diff = eZDbSchemaChecker::diffField( $def, $table2['fields'][$name] ) ) )
+				if ( is_array( $field_diff = eZDbSchemaChecker::diffField( $def, $table2['fields'][$name], $schema1Type, $schema2Type ) ) )
                 {
 					$table_diff['changed_fields'][$name] = $field_diff;
 				}
 			}
 		}
 
-		/* See if all the indexes in table 1 exist in table 2 */
-		foreach ( $table2['indexes'] as $name => $def )
+        $table1Indexes = $table1['indexes'];
+        $table2Indexes = $table2['indexes'];
+        if ( $schema1Type != $schema2Type )
         {
-			if ( !isset( $table1['indexes'][$name] ) )
+            $tmp2Indexes = array();
+            foreach ( $table2Indexes as $name2 => $def2 )
             {
-				$table_diff['added_indexes'][$name] = $def;
-			}
-		}
-		/* See if there are any removed indexes in table 2 */
-		foreach ( $table1['indexes'] as $name => $def )
+                $tmpIndexes = array();
+                $match = false;
+                foreach ( $table1Indexes as $name1 => $def1 )
+                {
+                    if ( $match )
+                    {
+                        $tmpIndexes[$name1] = $def1;
+                        continue;
+                    }
+                    if ( $def1['type'] != $def2['type'] )
+                    {
+                        $tmpIndexes[$name1] = $def1;
+                        continue;
+                    }
+                    $diff1 =array_diff( $def1['fields'], $def2['fields'] );
+                    $diff2 = array_diff( $def2['fields'], $def1['fields'] );
+                    if ( count( $diff1 ) != 0 or
+                         count( $diff2 ) != 0 )
+                    {
+                        $tmpIndexes[$name1] = $def1;
+                        continue;
+                    }
+                    $match = true;
+                }
+                if ( !$match )
+                {
+                    $tmp2Indexes[$name2] = $def2;
+                }
+                $table1Indexes = $tmpIndexes;
+            }
+            $table2Indexes = $tmp2Indexes;
+        }
+		/* See if all the indexes in table 1 exist in table 2 */
+        foreach ( $table2Indexes as $name => $def )
         {
-			if ( !isset( $table2['indexes'][$name] ) )
+            if ( !isset( $table1Indexes[$name] ) )
+            {
+                $table_diff['added_indexes'][$name] = $def;
+            }
+        }
+		/* See if there are any removed indexes in table 2 */
+		foreach ( $table1Indexes as $name => $def )
+        {
+			if ( !isset( $table2Indexes[$name] ) )
             {
 				$table_diff['removed_indexes'][$name] = true;
 			}
 		}
 		/* See if there are any changed definitions */
-		foreach ( $table1['indexes'] as $name => $def )
+		foreach ( $table1Indexes as $name => $def )
         {
-			if ( isset($table2['indexes'][$name] ) )
+			if ( isset( $table2Indexes[$name] ) )
             {
-				if ( is_array( $index_diff = eZDbSchemaChecker::diffIndex( $def, $table2['indexes'][$name] ) ) )
+				if ( is_array( $index_diff = eZDbSchemaChecker::diffIndex( $def, $table2Indexes[$name], $schema1Type, $schema2Type ) ) )
                 {
 					$table_diff['changed_indexes'][$name] = $index_diff;
 				}
@@ -136,7 +173,7 @@ class eZDbSchemaChecker
 		return $table_diff;
 	}
 
-	function diffField( $field1, $field2 )
+	function diffField( $field1, $field2, $schema1Type, $schema2Type )
 	{
 		/* Type is always available */
 		if ( $field1['type'] != $field2['type'] )
@@ -166,7 +203,7 @@ class eZDbSchemaChecker
 		return false;
 	}
 
-	function diffIndex( $index1, $index2 )
+	function diffIndex( $index1, $index2, $schema1Type, $schema2Type )
 	{
 		if ( ( $index1['type'] != $index2['type'] ) ||
              count( array_diff( $index1, $index2 ) ) )

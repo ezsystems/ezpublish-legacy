@@ -256,29 +256,39 @@ class eZMysqlSchema
 
 		foreach ( $schema as $table => $table_def )
 		{
-			$skip_pk = false;
-			$sql_fields = array();
-			$sql .= "CREATE TABLE $table (\n";
-			foreach ( $table_def['fields'] as $field_name => $field_def )
-			{
-				$sql_fields[] = "\t". eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag );
-				if ( $skip_pk_flag )
-				{
-					$skip_pk = true;
-				}
-			}
-			$sql .= join ( ",\n", $sql_fields ) . "\n);\n";
-
-			foreach ( $table_def['indexes'] as $index_name => $index_def )
-			{
-				if ( ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
-				{
-					$sql .= eZMysqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
-				}
-			}
+            $sql .= eZMysqlSchema::generateTableSchema( $table, $table_def );
 			$sql .= "\n\n";
 		}
 
+		return $sql;
+	}
+
+	/*!
+	 * \private
+	 */
+	function generateTableSchema( $table, $table_def )
+	{
+		$sql = '';
+        $skip_pk = false;
+        $sql_fields = array();
+        $sql .= "CREATE TABLE $table (\n";
+        foreach ( $table_def['fields'] as $field_name => $field_def )
+        {
+            $sql_fields[] = "\t". eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag );
+            if ( $skip_pk_flag )
+            {
+                $skip_pk = true;
+            }
+        }
+        $sql .= join ( ",\n", $sql_fields ) . "\n);\n";
+
+        foreach ( $table_def['indexes'] as $index_name => $index_def )
+        {
+            if ( ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
+            {
+                $sql .= eZMysqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
+            }
+        }
 		return $sql;
 	}
 
@@ -342,7 +352,14 @@ class eZMysqlSchema
 				}
 			}
 		}
-		return $sql;
+		if ( isset( $differences['new_tables'] ) )
+		{
+			foreach ( $differences['new_tables'] as $table => $table_def )
+			{
+                $sql .= eZMySQLSchema::generateTableSchema( $table, $table_def );
+            }
+        }
+        return $sql;
 	}
 
 	function writeUpgradeFile( $differences, $filename )
