@@ -13,6 +13,15 @@
 
 <div class="context-attributes">
 
+    {section show=$validaton}
+        <div class="warning">
+            <h2>{"Invalid Input"}</h2>
+            <ul>
+                <li>{"If RSS Export is Active then a valid Access URL is required."}</li>
+            </ul>
+        </div>
+    {/section}
+
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <input class="halfbox" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the administration interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
