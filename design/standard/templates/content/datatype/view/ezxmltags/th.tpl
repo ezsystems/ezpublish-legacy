@@ -1,4 +1,4 @@
-<th align="top" {section show=$colspan} colspan="{$colspan}"{/section}{section show=$rowspan} rowspan="{$rowspan}"{/section}{section show=$width} width="{$width}"{/section}>
+<th align="top" {section show=ne($classification|trim,'')} class="{$classification}"{/section}{section show=$colspan} colspan="{$colspan}"{/section}{section show=$rowspan} rowspan="{$rowspan}"{/section}{section show=$width} width="{$width}"{/section}>
 {switch name=Sw match=$content}
   {case match="<p></p>"}
   &nbsp;
