@@ -115,10 +115,18 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         {
             $ini =& eZINI::instance();
             $nodeID = $ini->variable( "ContentSettings", "SurplusNode" );
-            if ( !( $nodeID >= 0 ) )
+            if ( ( $nodeID <= 0 ) )
+            {
+                eZDebug::writeNotice( "SurplusNode variable is not found in ContentSetting. Falling back on root folder" );
                 $nodeID = 2;
+            }
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
-
+            if ( $node == null )
+            {
+                eZDebug::writeNotice( "SurplusNode variable is not refering to a valid node. Falling back on root folder" );
+                $nodeID = 2;
+                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            }
             if ( $node != null )
             {
                 $parentContentObject =& $node->attribute( 'object' );

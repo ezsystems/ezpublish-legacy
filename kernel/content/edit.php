@@ -204,9 +204,10 @@ if ( !function_exists( 'checkContentActions' ) )
                                                                                          'version' => $version->attribute( 'version' ) ) );
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
             $http =& eZHttpTool::instance();
-            if ( $object->attribute( 'main_node_id' ) != null )
+            $node = $object->mainNode();
+            if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
             {
-                if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
+                if ( $node == null )
                 {
                     $parentArray = $http->sessionVariable( 'ParentObject' );
                     $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
@@ -218,7 +219,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 else
                 {
-                    $node = eZContentObjectTreeNode::fetch( $object->attribute( 'main_node_id' ) );
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
                         $parentNode = 2;
