@@ -70,9 +70,9 @@ class eZTemplateSwitchFunction
     /*!
      Initializes the function with the name $name, default is "switch".
     */
-    function eZTemplateSwitchFunction( $name = "switch" )
+    function eZTemplateSwitchFunction()
     {
-        $this->Name = $name;
+        $this->SwitchName = 'switch';
     }
 
     /*!
@@ -80,15 +80,105 @@ class eZTemplateSwitchFunction
     */
     function &functionList()
     {
-        return array( $this->Name );
+        return array( $this->SwitchName );
     }
 
+    function functionTemplateHints()
+    {
+        return array( $this->SwitchName => array( 'parameters' => true,
+                                                  'static' => false,
+                                                  'tree-transformation' => true ) );
+    }
     /*!
      Returns the attribute list which is case.
     */
     function attributeList()
     {
         return array( "case" => true );
+    }
+
+    function templateNodeCaseTransformation( &$newNodes, &$node )
+    {
+        if ( $node[2] == 'case' )
+        {
+            if ( is_array( $node[3] ) && count( $node[3] ) && isset( $node[3]['match'] ) )
+            {
+                $match = $node[3]['match'];
+
+                if ( eZTemplateNodeTool::isStringElement( $match ) )
+                {
+                    $case = "'{$match[0][1]}'";
+                }
+                else if ( eZTemplateNodeTool::isNumericElement( $match ) )
+                {
+                    $case = $match[0][1];
+                }
+                
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tcase $case: {\n" );
+                $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+
+                foreach ( $children as $child )
+                {
+                    $newNodes[] = $child;
+                }
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
+            }
+            else
+            {
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tdefault: {\n" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
+            }
+        }
+        return $newNodes;
+    }
+
+
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData, $parameters )
+    {
+        $newNodes = array();
+        $namespaceValue = false;
+        if ( !isset( $parameters['match'] ) )
+        {
+            return false;
+        }
+
+        if ( isset( $parameters['name'] ) )
+        {
+            $nameData = $parameters['name'];
+            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $nameData, false, $resourceData );
+            $namespaceValue = $nameDataInspection['new-data'][0][1];
+            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        }
+        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),
+                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
+        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'],
+                                                              eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                              array( 'variable-name' => 'match',
+                                                                     'text-result' => false ) );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{\n" );
+
+        $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+        foreach ( $children as $child )
+        {
+            $childType = $child[0];
+            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+            {
+                $this->templateNodeCaseTransformation( $newNodes, $child );
+            }
+        }
+
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'match' );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
+
+        if ( isset( $parameters['name'] ) )
+        {
+            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        }
+       
+        return $newNodes;
+        return false;
     }
 
     /*!
@@ -113,7 +203,7 @@ class eZTemplateSwitchFunction
             $match = $tpl->elementValue( $params["match"], $rootNamespace, $currentNamespace, $functionPlacement );
         else
         {
-            $tpl->missingParameter( $this->Name, "match" );
+            $tpl->missingParameter( $this->SwitchName, "match" );
             return false;
         }
 
@@ -147,10 +237,10 @@ class eZTemplateSwitchFunction
                                 }
                             }
                             else
-                                $tpl->warning( $this->Name, "Match value $child_match already set, skipping" );
+                                $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping" );
 //                             }
 //                             else
-//                                 $tpl->warning( $this->Name, "Match value $child_match for case is not set" );
+//                                 $tpl->warning( $this->SwitchName, "Match value $child_match for case is not set" );
                         }
                         else if ( isset( $child_params["in"] ) )
                         {
@@ -193,7 +283,7 @@ class eZTemplateSwitchFunction
                             }
 //                             }
 //                             else
-//                                 $tpl->warning( $this->Name, "In value $child_in for case is not set" );
+//                                 $tpl->warning( $this->SwitchName, "In value $child_in for case is not set" );
                         }
                         else
                         {
@@ -202,7 +292,7 @@ class eZTemplateSwitchFunction
                     } break;
                     default:
                     {
-                        $tpl->warning( $this->Name, "Only case functions are allowed as children, found \""
+                        $tpl->warning( $this->SwitchName, "Only case functions are allowed as children, found \""
                                        . $child[2] . "\"" );
                     } break;
                 }
@@ -213,7 +303,7 @@ class eZTemplateSwitchFunction
             }
             else
             {
-                $tpl->warning( $this->Name, "Only functions are allowed as children, found \""
+                $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
                                . $childType . "\"" );
             }
             next( $children );
@@ -237,7 +327,7 @@ class eZTemplateSwitchFunction
             }
         }
         else
-            $tpl->warning( $this->Name, "No case match and no default case" );
+            $tpl->warning( $this->SwitchName, "No case match and no default case" );
         return;
     }
 
@@ -250,7 +340,7 @@ class eZTemplateSwitchFunction
     }
 
     /// The name of the switch function
-    var $Name;
+    var $SwitchName;
 }
 
 ?>
