@@ -1059,7 +1059,10 @@ td.timingpoint2
                 $childElapsed = number_format( ( $child['time'] ), $this->TimingAccuracy );
                 $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, 1 );
                 $childCount = $child['count'];
-                $childAverage = number_format( ( $child['time'] / $child['count'] ), $this->TimingAccuracy );
+                $childPercent = 0.0;
+                if ( $childCount > 0 )
+                    $childPercent = $child['time'] / $child['count'];
+                $childAverage = number_format( $childPercent, $this->TimingAccuracy );
 
                 if ( $as_html )
                 {
