@@ -132,7 +132,10 @@ class eZScript
     }
 
     /*!
-     \static
+     Checks if the script is run in CLI mode, if not it exits with a warning.
+     The PHP local is also initialized if it is used.
+
+     Call this at the very start of your script and always before getOptions() and initialize().
     */
     function startup()
     {
@@ -143,7 +146,7 @@ class eZScript
         if ( php_sapi_name() != 'cli' )
         {
             $cli =& eZCLI::instance();
-            $cli->output( "PHP is currently using the '".php_sapi_name()."' interface. Make sure it is using the 'cli' interface." );
+            $cli->output( "PHP is currently using the '" . php_sapi_name() . "' interface. Make sure it is using the 'cli' interface." );
             exit( 1 );
         }
 
@@ -156,6 +159,13 @@ class eZScript
         }
     }
 
+    /*!
+     Initializes all settings which are required for the script to run,
+     must be called after startup() and getOptions().
+
+     If you modify the eZScript object using the set* functions you must make sure that
+     is done before this function is called.
+    */
     function initialize()
     {
         while( @ob_end_clean() );
@@ -272,6 +282,16 @@ class eZScript
         $this->IsInitialized = true;
     }
 
+    /*!
+     Shuts down the currently running script, the following things will be done:
+     - Remove current session (if sessions are used)
+     - Print debug messages (if debug is enabled)
+     - Call cleanup function using eZExecution
+     - Sets the clean exit flag, that way an exit, die or other stops will not issue an error
+
+     If an exit code is set, PHP will exit with that code set (this means that this function never returns),
+     otherwise this function returns normally.
+    */
     function shutdown( $exitCode = false, $exitText = false )
     {
         $db =& eZDB::instance();
@@ -311,41 +331,81 @@ class eZScript
         }
     }
 
+    /*!
+     Sets the text message which is shown before the debug list.
+     There will be a default message which should suit most scripts.
+     \note This requires that setUseDebugOutput is set to true or that
+           the user has enabled debug in the arguments.
+    */
     function setDebugMessage( $message )
     {
         $this->DebugMessage = $message;
     }
 
+    /*!
+     Sets whether debug output should be enabled or not.
+     \note This can also be called by the argument parser if the user specifies to show debug.
+    */
     function setUseDebugOutput( $useDebug )
     {
         $this->UseDebugOutput = $useDebug;
     }
 
+    /*!
+     Sets whether accumulators should be shown on debug output or not.
+     \note This requires that setUseDebugOutput is set to true or that
+           the user has enabled debug in the arguments.
+    */
     function setUseDebugAccumulators( $useAccumulators )
     {
         $this->UseDebugAccumulators = $useAccumulators;
     }
 
+    /*!
+     Sets whether timing points should be shown on debug output or not.
+     \note This requires that setUseDebugOutput is set to true or that
+           the user has enabled debug in the arguments.
+    */
     function setUseDebugTimingPoints( $useTimingPoints )
     {
         $this->UseDebugTimingPoints = $useTimingPoints;
     }
 
+    /*!
+     Sets whether include files should be shown on debug output or not.
+     \note This requires that setUseDebugOutput is set to true or that
+           the user has enabled debug in the arguments.
+    */
     function setUseIncludeFiles( $useIncludeFiles )
     {
         $this->UseIncludeFiles = $useIncludeFiles;
     }
 
+    /*!
+     Sets which debug levels are to be shown on debug output, this must be an array
+     with EZ_LEVEL_* definitions taken from eZDebug.
+     \note This requires that setUseDebugOutput is set to true or that
+           the user has enabled debug in the arguments.
+    */
     function setAllowedDebugLevels( $allowedDebugLevels )
     {
         $this->AllowedDebugLevels = $allowedDebugLevels;
     }
 
+    /*!
+     Sets whether session is to be used or not.
+     \note This will only work if it is set before initialized() is called.
+     \note If session is enabled the current session data will be removed on shutdown().
+    */
     function setUseSession( $useSession )
     {
         $this->UseSession = $useSession;
     }
 
+    /*!
+     Sets whether extension support is to be added or not.
+     \note This will only work if it is set before initialized() is called.
+    */
     function setUseExtensions( $useExtensions )
     {
         $this->UseExtensions = $useExtensions;
@@ -353,7 +413,7 @@ class eZScript
 
     /*!
      Sets the current site access to \a $siteAccess.
-     This will only work if it is set before initialized() is called.
+     \note This will only work if it is set before initialized() is called.
      \note This will be filled in if getOptions() is used and the user specifices it in the arguments.
     */
     function setUseSiteAccess( $siteAccess )
