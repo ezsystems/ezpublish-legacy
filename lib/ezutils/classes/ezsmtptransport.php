@@ -62,6 +62,7 @@ class eZSMTPTransport extends eZMailTransport
         $ini =& eZINI::instance();
         $parameters = array();
         $parameters['host'] = $ini->variable( 'MailSettings', 'TransportServer' );
+        $parameters['helo'] = $ini->variable( 'MailSettings', 'TransportServer' );
         $parameters['port'] = $ini->variable( 'MailSettings', 'TransportPort' );
         $user = $ini->variable( 'MailSettings', 'TransportUser' );
         $password = $ini->variable( 'MailSettings', 'TransportPassword' );
@@ -70,7 +71,7 @@ class eZSMTPTransport extends eZMailTransport
         {
             $parameters['auth'] = true;
             $parameters['user'] = $user;
-            $parameters['password'] = $password;
+            $parameters['pass'] = $password;
         }
 
         $sendData = array();

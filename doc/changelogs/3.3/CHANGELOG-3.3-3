@@ -80,6 +80,16 @@ eZTime:
   http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_kernel__1
 - Fixed having whitespace before settings in ini files.
   http://ez.no/community/bug_reports/override_mechanism_not_working_3_3_1
+- Merged SMTP parameters fix from stable/3.3 rev. 4885.
+  http://ez.no/community/bug_reports/class_ezsmtptransport_extends_ezmailtransport
+
+*Library:
+
+eZ template:
+- Some changes to the compiled templates.
+  Removed the references when accessing attributes which fixed some of the problems with the image system.
+  Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
+  Merged in from 3.2 stable (Rev. 4814).
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
