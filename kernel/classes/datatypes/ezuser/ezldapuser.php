@@ -247,6 +247,11 @@ class eZLDAPUser extends eZUser
                     return false;
                 }
 
+                if( !$password )
+                {
+                    $password = crypt( microtime() );
+                }
+
                 // authenticated user
                 if  ( !@ldap_bind( $ds, $info[0]['dn'], $password ) )
                 {

@@ -19,6 +19,7 @@ Changes from 3.2-3 to 3.2-4
   locations is already set as main
 - Replaced several " with ' in kernel/content/module.php
 - Fixed the content/translations list to show the internal name of the languages instead of the local name.
+- Fixed bug of LDAP user could login with null password if anoymous access is allowed in server.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
@@ -63,6 +64,12 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/php_error_in_admin_role_edition
 - Fixed ImageGD bug during setup : http://ez.no/developer/ez_publish_3/bug_reports/setup_wizard_fails_to_write_rules_to_imageiniappendphp_when_using_gd
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typo_in_custom_tag_removes_all_content_in_xml_text_field
+- Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
+  http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
+- Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
+  http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
+- Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
+  http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
 - Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
   http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
 
