@@ -192,6 +192,9 @@ class eZURLType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
+        if ( !$contentObjectAttribute->attribute( 'data_int' ) )
+            return false;
+
         return eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
     }
 
