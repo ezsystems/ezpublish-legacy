@@ -2,7 +2,7 @@
 //
 // Created on: <17-Apr-2002 15:01:32 amos>
 //
-// Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -213,7 +213,7 @@ function processList( &$module )
 </table>
 <br />
 <center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a>
+<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </center>
 <br />
 </body></html>';
@@ -436,7 +436,7 @@ function process( &$module, $component, $command, $part, $rest )
 
 <br />
 <center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a>
+<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </center>
 <br />
 </body></html>';
