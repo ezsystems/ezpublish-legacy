@@ -400,7 +400,6 @@ class eZContentCache
                                 $cacheFile = eZDir::path( array( $cacheDir, $file ) );
                                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
                                 unlink( $cacheFile );
-                                print( "cleanup: $cacheFile<br>" );
                                 // Write log message to storage.log
                                 include_once( 'lib/ezutils/classes/ezlog.php' );
                                 eZLog::writeStorageLog( $cacheFile );
