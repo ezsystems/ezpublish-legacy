@@ -9,7 +9,7 @@
 
 PROJECT     = ezlupdate
 TEMPLATE    = app
-CONFIG     += qt warn_on console
+CONFIG     += qt warn_on release console
 
 unix {
     macx {
