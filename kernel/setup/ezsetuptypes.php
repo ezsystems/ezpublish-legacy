@@ -198,6 +198,24 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
                                                                                       'type_classidentifier' => $classIdentifier,
                                                                                       'placement_node' => $nodeID ) ) );
     }
+    else if ( $siteType == 'forum' )
+    {
+        $nodeID = 2;
+        $nodeListTitle = 'Latest topic';
+        if ( isset( $nodeRemoteMap['e0845f2d5210cb3a9732249926cca224'] ) )
+            $nodeID = $nodeRemoteMap['e0845f2d5210cb3a9732249926cca224'];
+
+        $nodeSubtree = 'weblog';
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'login', 'node_list', 'search', 'users' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'notification' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_node_list_2' => array( 'show_subtree' => false,
+                                                                                  'title' => $nodeListTitle,
+                                                                                  'parent_node' => $nodeID ),
+                                               ) );
+    }
     else if ( $siteType == 'shop' )
     {
         $nodeSubtree = 'products';
@@ -783,6 +801,16 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/forum_topic.tpl',
+                'Subdir' => 'templates',
+                'Match' =>
+                array (
+                    'class_identifier' => 'forum_topic',
+                    ),
+                ),
+            'forum_topic_listitem' =>
+            array (
+                'Source' => 'node/view/listitem.tpl',
+                'MatchFile' => 'listitem/forum_topic.tpl',
                 'Subdir' => 'templates',
                 'Match' =>
                 array (

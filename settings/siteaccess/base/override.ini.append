@@ -352,6 +352,12 @@ MatchFile=line/forum_topic.tpl
 Subdir=templates
 Match[class_identifier]=forum_topic
 
+[forum_topic_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/forum_topic.tpl
+Subdir=templates
+Match[class_identifier]=forum_topic
+
 [forum_reply_full]
 Source=node/view/full.tpl
 MatchFile=full/forum_reply.tpl
