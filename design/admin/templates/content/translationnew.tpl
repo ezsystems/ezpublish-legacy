@@ -53,7 +53,7 @@ function toggleInputs( selection )
 {* Custom name. *}
 <div class="block">
 <label>{'Name of custom translation'|i18n( 'design/admin/content/translationnew' )}</label>
-<input id="field1" type="edit" name="TranslationName" value=""  size="20" />
+<input id="field1" type="text" name="TranslationName" value=""  size="20" />
 </div>
 
 {* Custom locale. *}
@@ -72,12 +72,12 @@ function toggleInputs( selection )
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$is_edit}
-    <input class="button" type="submit" name="ChangeButton" value={'OK'|i18n( 'design/admin/content/translationnew')} />
+    <input class="button" type="submit" name="ChangeButton" value="{'OK'|i18n( 'design/admin/content/translationnew')}" />
 {section-else}
-    <input class="button" type="submit" name="StoreButton" value={'OK'|i18n('design/admin/content/translationnew')} />
+    <input class="button" type="submit" name="StoreButton" value="{'OK'|i18n('design/admin/content/translationnew')}" />
 {/section}
 
-<input class="button" type="submit" name="CancelButton" value={'Cancel'|i18n('design/admin/content/translationnew')} />
+<input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/content/translationnew')}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
