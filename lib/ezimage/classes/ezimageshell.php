@@ -194,9 +194,12 @@ class eZImageShell
         if ( strstr( $this->Exec, $this->ExecPath ) === false ) // if false, Exec does not contain full path
             $str .= $this->Exec;
         else
-            $str = '$this->Exec';
+            $str = $this->Exec;
 
-        $str = str_replace( ' ', '\ ', $str );
+
+        // Check if convert string contains spaces
+        if ( strstr( $str, " " ) !== false )
+            $str = "\"".$str."\"";
 
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
