@@ -15,6 +15,7 @@ CLEAR_URLALIAS="0"
 CLEAR_SORTKEY="0"
 CLEAR_CLASSIDENTIFIER="0"
 CLEAR_RSS="0"
+CLEAR_CODEPAGE="0"
 
 # Check parameters
 for arg in $*; do
@@ -28,6 +29,7 @@ for arg in $*; do
 	    echo "         --clear-image              Remove image cache"
 	    echo "         --clear-content            Remove content cache(default)"
 	    echo "         --clear-ini                Remove ini file cache"
+	    echo "         --clear-codepage           Remove codepages cache"
 	    echo "         --clear-tpl                Remove template cache"
 	    echo "         --clear-tpl-override       Remove template override cache"
 	    echo "         --clear-tpl-block          Remove template-block cache"
@@ -58,6 +60,9 @@ for arg in $*; do
 	    ;;
 	--clear-ini)
 	    CLEAR_INI="1"
+	    ;;
+	--clear-codepage)
+	    CLEAR_CODEPAGE="1"
 	    ;;
 	--clear-tpl)
 	    CLEAR_TEMPLATE="1"
@@ -91,6 +96,7 @@ for arg in $*; do
 	    CLEAR_CONTENT="1"
 	    CLEAR_IMAGE="1"
 	    CLEAR_INI="1"
+	    CLEAR_CODEPAGE="1"
 	    CLEAR_TEMPLATE="1"
 	    CLEAR_TEMPLATE_BLOCK="1"
 	    CLEAR_TEMPLATE_OVERRIDE="1"
@@ -144,6 +150,7 @@ for DIR in $VAR_DIRS; do
 	CONTENT_CACHEDIR="$DIR/cache/content"
 	IMAGE_CACHEDIR="$DIR/cache/texttoimage"
 	INI_CACHEDIR="$DIR/cache/ini"
+	CODEPAGE_CACHEDIR="$DIR/cache/codepages"
 	TEMPLATE_CACHEDIR="$DIR/cache/template"
 	TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
 	TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
@@ -174,6 +181,13 @@ for DIR in $VAR_DIRS; do
 	    if [ -d "$INI_CACHEDIR" ]; then
 		echo "Removing ini cache files in $INI_CACHEDIR"
 		rm -rf "$INI_CACHEDIR"
+	    fi
+	fi
+
+	if [ "$CLEAR_CODEPAGE" -eq 1 ]; then
+	    if [ -d "$CODEPAGE_CACHEDIR" ]; then
+		echo "Removing codepage cache files in $CODEPAGE_CACHEDIR"
+		rm -rf "$CODEPAGE_CACHEDIR"
 	    fi
 	fi
 

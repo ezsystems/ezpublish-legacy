@@ -89,6 +89,8 @@ Changes from 3.3-3 to 3.3-4
 - Removed the extraneous space after the child count in content/removeobject.php
   which caused bad template behaviour.
   http://ez.no/community/bug_reports/comparation_in_design_node_removeobject_tpl_always_return_true
+- Made sure codepages are cleared by the clearcache.sh script. (Rev. 5371)
+  http://ez.no/community/bug_reports/cache_translate_and_texttoimage_etc
 
 *Library:
 
