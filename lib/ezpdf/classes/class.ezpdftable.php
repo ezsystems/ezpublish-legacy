@@ -1179,7 +1179,7 @@ class eZPDFTable extends Cezpdf
                     $this->addDocSpecification( $newText );
                     array_pop( $this->PreStack );
                     $offSet = strpos( $text, '>', $offSet );
-                    $offSet++;
+//                    $offSet++;
                     $newText = '';
                     continue;
                 }

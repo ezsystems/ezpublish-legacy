@@ -728,6 +728,9 @@ class Cezpdf extends Cpdf
         // if $test is set then this should just check if the text is going to flow onto a new page or not, returning true or false
 
         // apply the filtering which will make the underlining function.
+        if ( strlen( $text ) == 0 )
+            return $this->y;
+
         $text = $this->ezProcessText($text);
 
         $newPage=false;
@@ -769,8 +772,7 @@ class Cezpdf extends Cpdf
             $height = $this->getFontHeight($size);
         }
 
-
-        $lines = explode("\n",$text);
+        $lines = explode( "\n", $text );
         foreach ( array_keys( $lines ) as $key ){
             $line = $lines[$key];
             if ( $key > 0 || strlen($line) == 0 )

@@ -157,7 +157,7 @@ class eZPDF
                                                '',
                                                $header['text'] );
 
-                $operatorValue = '<C:callNewLine><ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'];
+                $operatorValue = '<ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'];
 
                 if ( isset( $header['align'] ) )
                 {
@@ -171,7 +171,7 @@ class eZPDF
 
                 $operatorValue .= ':label:'. rawurlencode( $header['text'] );
 
-                $operatorValue .= '>'. $header['text'] .'</ezCall:callHeader><C:callNewLine>';
+                $operatorValue .= '><C:callNewLine>'. $header['text'] .'</ezCall:callHeader><C:callNewLine>';
 
                 eZDebug::writeNotice( 'PDF: Added header: '. $header['text'] .', size: '. $header['size'] .
                                       ', align: '. $header['align'] .', level: '. $header['level'],
