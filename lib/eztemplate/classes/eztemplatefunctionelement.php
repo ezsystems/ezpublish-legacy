@@ -121,7 +121,7 @@ class eZTemplateFunctionElement
     */
     function appendChild( &$node )
     {
-        array_push( $this->Children, &$node );
+        $this->Children[] =& $node;
     }
 
     /// The name of the function

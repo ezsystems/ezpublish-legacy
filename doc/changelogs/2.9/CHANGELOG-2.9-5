@@ -34,6 +34,10 @@ eZ text codec:
   the conversion functions in text codec. This improves speed for code which handles
   lots of strings.
 
+eZ session:
+- Made sure db is not included or initialized before actually needed, before there were some problems
+  with ini files and siteaccess.
+
 eZ debug:
 - Made sure debug messages are ignored when debug is off.
 - New feature: Accumulators, they can be used for profiling how much time

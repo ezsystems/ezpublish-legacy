@@ -393,11 +393,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 {
                     $text =& $element["Text"];
                     $text_len = strlen( $text );
-                    $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, 0, &$var_end, $text_len, $rootNamespace );
+                    $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, 0, $var_end, $text_len, $rootNamespace );
 
                     $node =& new eZTemplateVariableElement( $var_data );
                     $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-                    $currentRoot->appendChild( &$node );
+                    $currentRoot->appendChild( $node );
                     if ( $var_end < $text_len )
                     {
                         $tpl->warning( "", "Junk at variable end: '" . substr( $text, $var_end, $text_len - $var_end ) . "' (" . substr( $text, 0, $var_end ) . ")" );
@@ -444,7 +444,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         }
                         ++$attr_name_pos;
                         unset( $var_data );
-                        $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, $attr_name_pos, &$var_end, $text_len, $rootNamespace );
+                        $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, $attr_name_pos, $var_end, $text_len, $rootNamespace );
                         $args[$attr_name] = $var_data;
                         $attr_pos = $var_end;
                     }
@@ -460,7 +460,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         unset( $node );
                         $node =& new eZTemplateFunctionElement( $tag, $args );
                         $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-                        $currentRoot->appendChild( &$node );
+                        $currentRoot->appendChild( $node );
                         $has_children = true;
                         if ( isset( $tpl->FunctionAttributes[$tag] ) )
                         {
@@ -509,7 +509,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         {
                             unset( $oldTag );
                             unset( $oldTagName );
-                            $oldTag =& array_pop( &$tagStack );
+                            $oldTag =& array_pop( $tagStack );
                             $oldTagName =& $oldTag["Tag"];
                             unset( $currentRoot );
                             $currentRoot =& $oldTag["Root"];
@@ -523,7 +523,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         unset( $node );
                         $node =& new eZTemplateFunctionElement( $tag, $args );
                         $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-                        $currentRoot->appendChild( &$node );
+                        $currentRoot->appendChild( $node );
                     }
                     unset( $tag );
 

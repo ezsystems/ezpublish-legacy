@@ -101,7 +101,7 @@ class eZTemplateRoot
     */
     function appendChild( &$node )
     {
-        array_push( $this->Children, &$node );
+        $this->Children[] =& $node;
     }
 
     /// The child array

@@ -215,13 +215,13 @@ class eZTemplateSectionFunction
                     } break;
                     default:
                     {
-                        array_push( $items[$shown], &$child );
+                        $items[$shown][] =& $child;
                     } break;
                 }
             }
             else
             {
-                array_push( $items[$shown], &$child );
+                $items[$shown][] =& $child;
             }
         }
 //         eZDebug::writeNotice( $filterStructure, "\$filterStructure" );

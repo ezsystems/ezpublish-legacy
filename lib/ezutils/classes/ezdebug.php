@@ -458,6 +458,8 @@ class eZDebug
         $desc = "Timing Point: $description";
         foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR, EZ_LEVEL_DEBUG ) as $lvl )
         {
+            if ( isset( $debug->TmpTimePoints[$lvl] ) )
+                $debug->TmpTimePoints[$lvl] = array();
             if ( $debug->TmpTimePoints[$lvl] === false and
                  $debug->isLogFileEnabled( $lvl ) )
             {

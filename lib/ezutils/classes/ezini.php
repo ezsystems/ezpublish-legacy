@@ -277,13 +277,29 @@ class eZINI
             $cacheTime = filemtime( $cachedFile );
             $loadCache = true;
             if ( $cacheTime < $origTime )
+            {
                 $loadCache = false;
+            }
+//             if ( file_exists( $overrideName ) )
+//             {
+//                 $overrideTime = filemtime( $overrideName );
+//                 print( "\$overrideTime=$overrideTime<br/>" );
+//             }
             if ( file_exists( $overrideName ) and
                  $cacheTime < filemtime( $overrideName ) )
+            {
                 $loadCache = false;
+            }
+//             if ( file_exists( $appendName ) )
+//             {
+//                 $appendTime = filemtime( $appendName );
+//                 print( "\$appendTime=$appendTime<br/>" );
+//             }
             if ( file_exists( $appendName ) and
                  $cacheTime < filemtime( $appendName ) )
+            {
                 $loadCache = false;
+            }
         }
 
         $useCache = false;
