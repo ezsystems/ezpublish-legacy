@@ -112,6 +112,14 @@ $res =& eZTemplateDesignResource::instance();
 
 $object = $node->attribute( 'object' );
 
+if (isset( $GLOBALS['eZDesignKeys']['section'] ))
+{
+    $globalSectionID = $GLOBALS['eZDesignKeys']['section'];
+    unset($GLOBALS['eZDesignKeys']['section']);
+}
+
+ezDebug::writeDebug( $object->attribute( 'class_identifier' ), 'rush: class_identifier' );
+
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'node', $node->attribute( 'node_id' ) ), // Node ID
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
@@ -119,11 +127,18 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'view_offset', $Offset ),
                       array( 'navigation_part_identifier', $Result['navigation_part'] ),
                       array( 'depth', $node->attribute( 'depth' ) ),
-                      array( 'url_alias', $node->attribute( 'url_alias' ) )
+                      array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                      array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                      array( 'section', $object->attribute('section_id') )
                       ) );
 
 $Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
+
+if (isset( $globalSectionID ))
+{
+    $GLOBALS['eZDesignKeys']['section'] = $globalSectionID;
+}
 
 $templatePath = $tpl->variable( 'path' );
 if ( $templatePath )
