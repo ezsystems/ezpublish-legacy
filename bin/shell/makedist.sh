@@ -268,7 +268,8 @@ fi
 # The build number is also increase and stored at the end if everything was successful
 if [ "$BUILD_RC" == "1" ]; then
     echo "Creating RC build #$BUILD_NUMBER"
-    BASE="$BASE-build$BUILD_NUMBER"
+    CURRENT_BUILD_NUMBER=$BUILD_NUMBER
+    BASE="$BASE-build$CURRENT_BUILD_NUMBER"
     BUILD_NUMBER=`expr $BUILD_NUMBER + 1`
 fi
 
@@ -860,6 +861,14 @@ else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
 
+if [ "$BUILD_RC" == "1" ]; then
+    DISTROOT="$HOME/ezpublish-dist"
+    VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
+    mkdir -p $VERSIONROOT
+
+    echo "Copying `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
+    cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+fi
 if [ -n "$FINAL" ]; then
     DISTROOT="$HOME/ezpublish-dist"
     VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
