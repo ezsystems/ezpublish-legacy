@@ -25,6 +25,14 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made sure it is not possible to move, remove or add locations for top level objects. (Merged from stable/3.3 rev. 5577)
 - Added class_identification override key for embeded objects in XML text.
 
+eZPersistentObject:
+- Redone the attributes, hasAttribute, attribute and setAttribute functions to
+  properly include support for function_attributes and custom functions.
+  With this it is no longer necesary to implent the function calling yourself,
+  eZPersistentObject will handle the function call.
+- Made sure the dirty flag is only set when an attribute is actually changed,
+  that means either the type or content is changed.
+
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.
 - Added back the finetuning page, it will display hints for extending eZ publish.

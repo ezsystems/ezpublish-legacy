@@ -885,6 +885,8 @@ function definition()
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
             $attrs = array_merge( $attrs, array_keys( $def["function_attributes"] ) );
+        if ( isset( $def["functions"] ) )
+            $attrs = array_merge( $attrs, array_keys( $def["functions"] ) );
         return $attrs;
     }
 
@@ -897,6 +899,8 @@ function definition()
         $has_attr = isset( $def["fields"][$attr] );
         if ( !$has_attr and isset( $def["function_attributes"] ) )
             $has_attr = isset( $def["function_attributes"][$attr] );
+        if ( !$has_attr and isset( $def["functions"] ) )
+            $has_attr = isset( $def["functions"][$attr] );
         return $has_attr;
     }
 
@@ -909,33 +913,31 @@ function definition()
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
-        $attr_functions = null;
-        if ( isset( $def["function_attributes"] ) )
-            $attr_functions = $def["function_attributes"];
-        if ( !isset( $fields[$attr] ) && ( $attr_functions === null || !isset( $attr_functions[$attr] ) ) )
+        $attrFunctions =& $def["function_attributes"];
+        if ( isset( $fields[$attr] ) )
+        {
+            $attrName = $fields[$attr];
+            if ( is_array( $attrName ) )
+            {
+                $attrName =& $attrName['name'];
+            }
+            return $this->$attrName;
+        }
+        else if ( isset( $attrFunctions[$attr] ) )
+        {
+            $functionName = $attrFunctions[$attr];
+            return $this->$functionName();
+        }
+        else if ( isset( $functions[$attr] ) )
+        {
+            $functionName = $functions[$attr];
+            return $this->$functionName();
+        }
+        else
         {
             eZDebug::writeError( "Undefined attribute '$attr', cannot get",
                                   $def['class_name'] );
             return null;
-        }
-        if ( !is_null( $attr_functions ) and isset( $attr_functions[$attr] ) )
-        {
-            $function_name = $attr_functions[$attr];
-            return $this->$function_name();
-        }
-        else if ( isset( $functions[$attr] ) )
-        {
-            $function_name = $functions[$attr];
-            return $this->$function_name();
-        }
-        else
-        {
-            $attr_name = $fields[$attr];
-            if ( is_array( $attr_name ) )
-            {
-                $attr_name =& $attr_name['name'];
-            }
-            return $this->$attr_name;
         }
     }
 
@@ -948,27 +950,32 @@ function definition()
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["set_functions"];
-        if ( !isset( $fields[$attr] ) )
+        if ( isset( $fields[$attr] ) )
         {
-            eZDebug::writeError( "Undefined attribute '$attr', cannot set",
-                                 $def['class_name'] );
-            return;
+            $attrName = $fields[$attr];
+            if ( is_array( $attrName ) )
+            {
+                $attrName =& $attrName['name'];
+            }
+
+            $oldValue = null;
+            if ( isset( $this->$attrName ) )
+                $oldValue = $this->$attrName;
+            $this->$attrName = $val;
+            if ( $oldValue === null or $oldValue !== $val )
+                $this->setHasDirtyData( true );
         }
-        if ( isset( $functions[$attr] ) )
+        else if ( isset( $functions[$attr] ) )
         {
-            $function_name = $functions[$attr];
-            $this->$function_name( $val );
+            $functionName = $functions[$attr];
+            $oldValue = $this->$functionName( $val );
+            if ( $oldValue === null or $oldValue !== $val )
+                $this->setHasDirtyData( true );
         }
         else
         {
-            $attr_name = $fields[$attr];
-            if ( is_array( $attr_name ) )
-            {
-                $attr_name =& $attr_name['name'];
-            }
-
-            $this->$attr_name = $val;
-            $this->setHasDirtyData( true );
+            eZDebug::writeError( "Undefined attribute '$attr', cannot set",
+                                 $def['class_name'] );
         }
     }
 
