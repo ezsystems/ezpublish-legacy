@@ -693,8 +693,8 @@ WHERE user_id = '" . $userID . "' AND
 
     /*!
     \static
-     Logs in the user if applied username and password is
-     valid. The userID is returned if succesful, false if not.
+     Logs in the user if applied username and password is valid.
+     \return The user object (eZContentObject) of the logged in user or \c false if it failed.
     */
     function &loginUser( $login, $password, $authenticationMatch = false )
     {
