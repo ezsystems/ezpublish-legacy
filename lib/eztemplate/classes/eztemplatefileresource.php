@@ -117,11 +117,11 @@ class eZTemplateFileResource
      Sets the cached node tree for the selected template to \a $root.
     */
     function executeCompiledTemplate( &$tpl, &$textElements,
-                                      $keyData, $uri, $res, $templatePath,
+                                      $keyData, $uri, $resourceData, $templatePath,
                                       &$extraParameters, $timestamp,
                                       $rootNamespace, $currentNamespace )
     {
-        $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
+        $key = $this->cacheKey( $keyData, $resourceData, $templatePath, $extraParameters );
         return eZTemplateCompiler::executeCompilation( $tpl, $textElements, $key, $resourceData,
                                                        $rootNamespace, $currentNamespace );
     }
@@ -204,7 +204,7 @@ class eZTemplateFileResource
         {
             if ( $canCache )
             {
-                if ( $handler->hasCompiledTemplate( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
+                if ( $handler->hasCompiledTemplate( $keyData, $uri, $resourceData, $path, $extraParameters, $tstamp ) )
                 {
                     $resourceData['compiled-template'] = true;
                     return true;

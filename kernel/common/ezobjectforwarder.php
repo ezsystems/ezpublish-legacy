@@ -258,11 +258,14 @@ class eZObjectForwarder
                 }
             }
 
+            $templateCompilationUsed = false;
             if ( $resourceData['compiled-template'] )
             {
-                $tpl->executeCompiledTemplate( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters );
+                if ( $tpl->executeCompiledTemplate( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters ) )
+                    $templateCompilationUsed = true;
             }
-            else if ( $resourceData['root-node'] )
+            if ( !$templateCompilationUsed and
+                 $resourceData['root-node'] )
             {
                 $root =& $resourceData['root-node'];
                 $tpl->process( $root, $sub_text, $outCurrentNamespace, $outCurrentNamespace );

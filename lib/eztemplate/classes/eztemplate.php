@@ -828,7 +828,8 @@ class eZTemplate
                     if ( !is_null( $attributeValue ) )
                     {
                         if ( !is_numeric( $attributeValue ) and
-                             !is_string( $attributeValue ) )
+                             !is_string( $attributeValue ) and
+                             !is_bool( $attributeValue ) )
                         {
                             if ( !$checkExistance )
                                 $this->error( "",

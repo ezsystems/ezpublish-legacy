@@ -49,12 +49,16 @@ define( 'EZ_PHPCREATOR_TEXT', 3 );
 define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
 define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
 define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
+define( 'EZ_PHPCREATOR_INCLUDE', 7 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT', 3 );
 
-define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
+define( 'EZ_PHPCREATOR_INCLUDE_ONCE', 1 );
+define( 'EZ_PHPCREATOR_INCLUDE_ALWAYS', 2 );
+
+define( 'EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
 define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
 
 class eZPHPCreator
@@ -103,6 +107,12 @@ class eZPHPCreator
             fclose( $this->FileResource );
             $this->FileResource = false;
         }
+    }
+
+    function exists()
+    {
+        $path = $this->PHPDir . '/' . $this->PHPFile;
+        return file_exists( $path );
     }
 
     function canRestore( $timestamp = false )
@@ -182,6 +192,10 @@ class eZPHPCreator
                 {
                     $this->writeComment( $element );
                 }
+                else if ( $element[0] == EZ_PHPCREATOR_INCLUDE )
+                {
+                    $this->writeInclude( $element );
+                }
             }
 
             $this->write( "?>\n" );
@@ -218,6 +232,19 @@ class eZPHPCreator
     {
 //         fwrite( $this->FileResource, $text );
         $this->TextChunks[] = $text;
+    }
+
+    function writeInclude( $element )
+    {
+        $includeFile = $element[1];
+        $includeType = $element[2];
+        if ( $includeType == EZ_PHPCREATOR_INCLUDE_ONCE )
+            $includeName = 'include_once';
+        else if ( $includeType == EZ_PHPCREATOR_INCLUDE_ALWAYS )
+            $includeName = 'include';
+        $includeFileText = $this->variableText( $includeFile, 0 );
+        $text = "$includeName( $includeFileText );\n";
+        $this->write( $text );
     }
 
     function writeComment( $element )
@@ -522,6 +549,14 @@ class eZPHPCreator
                           $comment,
                           array( 'eol' => $eol,
                                  'whitespace-handling' => $whitespaceHandling ) );
+        $this->Elements[] = $element;
+    }
+
+    function addInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
+    {
+        $element = array( EZ_PHPCREATOR_INCLUDE,
+                          $file,
+                          $type );
         $this->Elements[] = $element;
     }
 
