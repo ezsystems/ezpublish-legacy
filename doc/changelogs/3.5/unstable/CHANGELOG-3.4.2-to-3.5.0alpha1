@@ -1,4 +1,4 @@
-Changes from 3.4.0 to 3.5.0alpha1
+Changes from 3.4.2 to 3.5.0alpha1
 
 *Kernel:
 - Fixed problem with template compiler ignoring the current pagelayout which is set

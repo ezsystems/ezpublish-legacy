@@ -214,3 +214,4 @@ class eZTemplateOptimizer
         return $attributeArray;
     }
 }
+?>

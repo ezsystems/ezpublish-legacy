@@ -8,7 +8,7 @@
 # wich case $LAST_STABLE is used.
 PREVIOUS_VERSION=""
 # The last version of the newest stable branch
-LAST_STABLE="3.4.1"
+LAST_STABLE="3.4.2"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
 LAST_STABLE_CHANGED="false"
