@@ -229,3 +229,40 @@ ALTER TABLE ONLY ezworkflow_group_link ADD CONSTRAINT ezworkflow_group_link_pkey
 ALTER TABLE ezworkflow_process DROP CONSTRAINT ezworkflow_process1254_key;
 ALTER TABLE ONLY ezworkflow_process ADD CONSTRAINT ezworkflow_process_pkey PRIMARY KEY( "id" );
 
+-- Some minor fixes to schema to make it 100% equal to MySQL
+-- Difference in SQL commands from MySQL to PostgreSQL
+ALTER TABLE ezcontentobject_attribute RENAME COLUMN data_type_string TO data_type_string_tmp;
+ALTER TABLE ezcontentobject_attribute ADD COLUMN data_type_string character varying(50);
+ALTER TABLE ezcontentobject_attribute ALTER data_type_string SET DEFAULT '' ;
+UPDATE ezcontentobject_attribute SET data_type_string=data_type_string_tmp;
+ALTER TABLE ezcontentobject_attribute DROP COLUMN data_type_string_tmp;
+
+ALTER TABLE ezmedia RENAME COLUMN has_controller TO has_controller_tmp;
+ALTER TABLE ezmedia ADD COLUMN has_controller integer;
+ALTER TABLE ezmedia ALTER has_controller SET DEFAULT '0' ;
+UPDATE ezmedia SET has_controller=has_controller_tmp;
+ALTER TABLE ezmedia DROP COLUMN has_controller_tmp;
+
+ALTER TABLE ezmedia RENAME COLUMN is_autoplay TO is_autoplay_tmp;
+ALTER TABLE ezmedia ADD COLUMN is_autoplay integer;
+ALTER TABLE ezmedia ALTER is_autoplay SET DEFAULT '0' ;
+UPDATE ezmedia SET is_autoplay=is_autoplay_tmp;
+ALTER TABLE ezmedia DROP COLUMN is_autoplay_tmp;
+
+ALTER TABLE ezmedia RENAME COLUMN is_loop TO is_loop_tmp;
+ALTER TABLE ezmedia ADD COLUMN is_loop integer;
+ALTER TABLE ezmedia ALTER is_loop SET DEFAULT '0' ;
+UPDATE ezmedia SET is_loop=is_loop_tmp;
+ALTER TABLE ezmedia DROP COLUMN is_loop_tmp;
+
+ALTER TABLE ezproductcollection_item RENAME COLUMN price TO price_tmp;
+ALTER TABLE ezproductcollection_item ADD COLUMN price double precision;
+ALTER TABLE ezproductcollection_item ALTER price SET DEFAULT '0' ;
+UPDATE ezproductcollection_item SET price=price_tmp;
+ALTER TABLE ezproductcollection_item DROP COLUMN price_tmp;
+
+ALTER TABLE ezrss_export_item RENAME COLUMN description TO description_tmp;
+ALTER TABLE ezrss_export_item ADD COLUMN description character varying(255);
+ALTER TABLE ezrss_export_item ALTER description SET DEFAULT NULL ;
+UPDATE ezrss_export_item SET description=description_tmp;
+ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
