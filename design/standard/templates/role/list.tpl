@@ -1,3 +1,5 @@
+<a href={"/manual/user/permissions#Roles"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+
 <div class="maincontentheader">
 <h1>{"Role list"|i18n("design/standard/role")}</h1>
 </div>
