@@ -624,7 +624,6 @@ class eZINI
             {
                 $varName = trim( $valueArray[1] );
                 $this->BlockValues[$currentBlock][$varName] = array();
-                $this->BlockValues[$currentBlock][$varName][] = NULL;
                 $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
             }
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
