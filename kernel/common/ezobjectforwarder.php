@@ -115,7 +115,9 @@ class eZObjectForwarder
             $view_var =& $rule["use_views"];
             if ( !isset( $params[$view_var] ) )
             {
-                $tpl->warning( $functionName, "No view specified, skipping views" );
+                if ( !isset( $rule['optional_views'] ) or
+                     !$rule['optional_views'] )
+                    $tpl->warning( $functionName, "No view specified, skipping views" );
             }
             else
             {

@@ -113,7 +113,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
                                                'attribute_access' => array( array( 'view_template' ) ),
-                                               'use_views' => false ),
+                                               'optional_views' => true,
+                                               'use_views' => 'view' ),
 
                 'shop_account_view_gui' => array( 'template_root' => "shop/accounthandlers",
                                                   'input_name' => 'order',

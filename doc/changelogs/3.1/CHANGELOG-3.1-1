@@ -13,6 +13,8 @@ Changes from 3.0-? to 3.1
 - Added function for permission policy editing.
 - Added options "Node" and "Subtree" when creating permission policy for content module.
 - Fixed proper HTTP 404 header error on unrecogniced url's
+- Added support for viewmodes on attribute_view_gui, the viewmodes are placed in directories under the normal datatype templates.
+  The viewmode is optional for backwards compatability.
 
 Binary file:
 - Added support for resuming downloads.
