@@ -635,6 +635,18 @@ class eZContentObject extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
+    {
+        $limits = null;
+        if ( $offset or $limit )
+            $limits = array( 'offset' => $limits,
+                             'length' => $limit );
+        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                    null,
+                                                    $conditions, null, $limits,
+                                                    $asObject );
+    }
+
     function &fetchSameClassList( $contentClassID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
@@ -2413,6 +2425,36 @@ class eZContentObject extends eZPersistentObject
             $count = $countArray[0]['count'];
         }
         return $count;
+    }
+
+    /*!
+     \static
+     Will remove all version that match the status set in \a $versionStatus.
+     \param $versionStatus can either be a single value or an array with values,
+                           if \c false the function will remove all status except published.
+    */
+    function removeVersions( $versionStatus = false )
+    {
+        if ( $versionStatus === false )
+            $versionStatus = array( EZ_VERSION_STATUS_DRAFT,
+                                    EZ_VERSION_STATUS_PENDING,
+                                    EZ_VERSION_STATUS_ARCHIVED,
+                                    EZ_VERSION_STATUS_REJECTED );
+        $max = 20;
+        $offset = 0;
+        $hasVersions = true;
+        while ( $hasVersions )
+        {
+            $versions =& eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
+                                                                $offset, $max );
+            $hasVersions = count( $versions ) > 0;
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[$versionKey];
+                $version->remove();
+            }
+            $offset += count( $versions );
+        }
     }
 
     var $ID;

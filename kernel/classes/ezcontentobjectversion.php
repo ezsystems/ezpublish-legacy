@@ -205,6 +205,19 @@ class eZContentObjectVersion extends eZPersistentObject
         return $versions;
     }
 
+    function &fetchFiltered( $filters, $offset, $limit )
+    {
+        $limits = null;
+        if ( $offset or $limit )
+            $limits = array( 'offset' => $offset,
+                             'length' => $limit );
+        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          null, $filters,
+                                                          null, $limits,
+                                                          true );
+        return $versions;
+    }
+
     /*!
      \return the attribute with the requested name.
     */

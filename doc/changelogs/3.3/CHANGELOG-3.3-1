@@ -20,6 +20,8 @@ Changes from 3.3.0-2 to 3.3-1
   that the anonymous user could read.
 - Added search indexing of all attribute translations, not just the main translation.
 - Added option to remove class identifier cache and sort key cache in clearcache.sh and admin interface
+- Added flatten script which will remove unneeded elements from the database such as drafts,
+  temporary data etc.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set
