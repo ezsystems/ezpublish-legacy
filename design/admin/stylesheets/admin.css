@@ -216,15 +216,17 @@ table.menuboxleft
 
 table.menuboxright
 {
-	border-top: solid 1px #000000;
-	border-left: solid 1px #000000;
-	border-bottom: solid 1px #000000;
+	border-top: solid 1px #4272b4;
+	border-left: solid 1px #4272b4;
+	border-bottom: solid 1px #4272b4;
+	border-right: solid 1px #4272b4;
 	margin-top: 12px;
 }
 
 th.menuheaddark
 {
-	background-color: #4272b4;
+  padding-left: 4px;
+  background-color: #4272b4;
 }
 
 th.menuheaddark p.menuhead
@@ -350,7 +352,7 @@ a.selectbar:hover, td.selected
 
 input.menubutton
 {
-    font-weight: bold;
+    font-weight: none;
     font-size: 70%;
     margin: 4px;
 }
