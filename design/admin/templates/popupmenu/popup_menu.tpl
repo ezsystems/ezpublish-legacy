@@ -53,7 +53,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 <!-- Treemenu icon click popup menu -->
 <div class="popupmenu" id="ContextMenu">
     <div class="popupmenuheader"><h3 id="menu-header">XXX</h3>
-        <div class="window-close" onclick="ezpopmenu_hide( 'ContextMenu' )"><p>X</p></div>
+        {*<div class="window-close" onclick="ezpopmenu_hide( 'ContextMenu' )"><p>X</p></div>*}
         <div class="break"></div>
     </div>
     <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
