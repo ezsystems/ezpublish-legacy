@@ -37,10 +37,11 @@
     <input type="hidden" name="ViewMode" value="full" /> 
 
     <input class="button" type="submit" name="ActionAddToNotification" value="Notify me about updates {*to {$node.name}*}" />
-    </form>
-    <p><a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}>Printerfriendly version</a></p>
+
+    <div class="rightobject"><p><a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}>Printerfriendly version</a></p></div>
 </div>
 
+</form>
 
 <h2>{"People who bought this also bought"|i18n("design/shop/layout")}</h2>
 
