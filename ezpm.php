@@ -862,7 +862,8 @@ foreach ( $commandList as $commandItem )
 
         $package->setRelease( $commandItem['version'], '1', false,
                               $commandItem['licence'], 'alpha' );
-        $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
+        if ( $userObject )
+            $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
         $package->appendDocument( 'README', false, false, false, true,
                                   $commandItem['name'] . " README" .
                                   "\n" .
@@ -874,7 +875,8 @@ foreach ( $commandList as $commandItem )
                                   "Licence\n" .
                                   "-------\n" .
                                   "Insert licence here...\n" );
-        $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
+        if ( $userObject )
+            $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
 
         $package->store();
         $cli->output( "Created package " . $commandItem['name'] );
