@@ -53,6 +53,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/no_output_wash_in_collectedinfo_templates
 - Fixed several bugs in libraries.
   http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_lib
+- Fixed several bugs in kernel.
+  http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_kernel__1
 
 *Library:
 
