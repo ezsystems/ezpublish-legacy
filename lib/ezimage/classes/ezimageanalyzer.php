@@ -39,8 +39,13 @@
 /*! \file ezimageanalyzer.php
 */
 
+/*! \defgroup eZImageAnalyzer Image analysis
+    \ingroup eZImage
+*/
+
 /*!
   \class eZImageAnalyzer ezimageanalyzer.php
+  \ingroup eZImageAnalyzer
   \brief The class eZImageAnalyzer does
 
 */

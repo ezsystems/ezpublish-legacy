@@ -41,6 +41,7 @@
 
 /*!
   \class eZImageShellHandler ezimageshellhandler.php
+  \ingroup eZImage
   \brief The class eZImageShellHandler does
 
 */
