@@ -13,7 +13,51 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<p>Test</p>
+{* Object ID *}
+<p>
+<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+{*
+{$object.id}
+*}
+</p>
+
+{* Created *}
+<p>
+<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+{*
+{section show=$object.published}
+{$object.published|l10n( shortdatetime )}<br />
+{$object.current.creator.name}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{/section}
+*}
+</p>
+
+{* Modified *}
+<p>
+<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
+{*
+{section show=$object.modified}
+{$object.modified|l10n( shortdatetime )}<br />
+{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{/section}
+*}
+</p>
+
+{* Published version *}
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+{*
+{section show=$object.published}
+{$object.current.version}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{/section}
+*}
+</p>
 
 </div></div></div></div></div></div>
 
@@ -32,7 +76,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Discard draft?'|i18n( 'design/admin/node/view/full' )}</h1>
+<h1 class="context-title">{'Discard draft?'|i18n( 'design/standard/content/edit' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
