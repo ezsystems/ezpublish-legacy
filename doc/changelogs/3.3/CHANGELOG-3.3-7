@@ -66,7 +66,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug: Feed of RSS export was not cachied properly.
 - Fixed bug #6137: Search did not work with MySQL and accented characters.
 - Fixed bug #4033: <literal> tag removes heading whitespace.
-- Fixed bug #6040: URLS are stored incorrectly into ezstring attributes.
+- Fixed bug #6040: RSS Import -- URLS are stored incorrectly into ezstring attributes.
 - Fixed bug #6091: Template operators and locate settings problem.
 - Fixed bug #6166: forgot password entries are not removed once password is 
   regenerated.
