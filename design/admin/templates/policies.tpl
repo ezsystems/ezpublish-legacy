@@ -1,7 +1,7 @@
 {let policies=fetch( user, user_role, hash( user_id, $node.object.id ) )}
 
 <div class="context-block">
-<h2 class="context-title">{'Available policies'|i18n( 'design/admin/node/view/full' )} [{count( $policies )}]</h2>
+<h2 class="context-title">{'Available policies [%policies_count]'|i18n( 'design/admin/node/view/full',, hash( '%policies_count', $policies|count ) )}</h2>
 
 {section show=count( $policies )}
 <table class="list" cellspacing="0">

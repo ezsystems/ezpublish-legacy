@@ -5,7 +5,7 @@
 {* Related objects list. *}
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Related objects'|i18n( 'design/admin/node/view/full' )} [{$node.object.related_contentobject_count}]</th>
+    <th>{'Related objects [%related_objects_count]'|i18n( 'design/admin/node/view/full',, hash( '%related_objects_count', $node.object.related_contentobject_count ) )}</th>
 </tr>
 {section show=$node.object.related_contentobject_count}
     {section var=RelatedObjects loop=$node.object.related_contentobject_array sequence=array( bglight, bgdark )}

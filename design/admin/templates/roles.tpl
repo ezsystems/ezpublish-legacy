@@ -1,7 +1,7 @@
 {let member_groups=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
 
 <div class="context-block">
-<h2 class="context-title">{'Assigned roles'|i18n( 'design/admin/node/view/full' )} [{count( $member_groups )}]</h2>
+<h2 class="context-title">{'Assigned roles [%roles_count]'|i18n( 'design/admin/node/view/full',, hash( '%roles_count', $member_groups|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 {section show=count( $member_groups )}
