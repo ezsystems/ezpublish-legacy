@@ -1,6 +1,10 @@
 Known bugs in eZ publish 3.0
 ----------------------------
 
+DEBUG
+---------
+Does not work with IP settings anymore.
+
 
 Versioning
 ----------
@@ -42,11 +46,6 @@ eZ sys
 ________________
 the code for nvh detection needs to be redone.
 
-
-Binary file upload
-------------------
-Must check if the file was too big. You should be able to
-set the max filesize in the class edit.
 
 Forms
 -----
