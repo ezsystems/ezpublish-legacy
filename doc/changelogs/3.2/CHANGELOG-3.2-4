@@ -80,6 +80,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed fetching object list with several classes in class filter : http://www.ez.no/developer/ez_publish_3/bug_reports/kernelbug_fetching_class_lists
 - Fixed related objects to only include objects that have status 'published'
   http://ez.no/developer/ez_publish_3/bug_reports/related_objects_are_shown_even_if_they_are_archived
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_deleting_object_node_does_not_remove_keyword_reference
 
 *Library :
 
