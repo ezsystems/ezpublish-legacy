@@ -48,7 +48,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/translations' )}" />
-<input class="button" type="submit" name="NewButton"    value="{'Add translation'|i18n( 'design/admin/content/translations' )}" />
+<input class="button" type="submit" name="NewButton"    value="{'Add language'|i18n( 'design/admin/content/translations' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
