@@ -164,10 +164,10 @@
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
                 {section show=eq($:item.node_id,$main_node.node_id)}
-                    {$:item.name|wash}
+                    {$:item.node.name|wash}
                 {section-else}
                     <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
-                        {$:item.name|wash}
+                        {$:item.node.name|wash}
                     </a>
                 {/section}
             </td>
