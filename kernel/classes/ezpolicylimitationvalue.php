@@ -40,7 +40,8 @@
 
 /*!
   \class eZPolicyLimitationValue ezpolicylimitationvalue.php
-  \brief The class eZPolicyLimitationValue does
+  \ingroup eZRole
+  \brief Defines a limitation value for a policy in the permission system
 
 */
 include_once( "kernel/classes/ezpersistentobject.php" );

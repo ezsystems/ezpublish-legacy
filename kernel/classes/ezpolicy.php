@@ -40,7 +40,8 @@
 
 /*!
   \class eZPolicy ezpolicy.php
-  \brief The class eZPolicy does
+  \ingroup eZRole
+  \brief Defines a policy in the permission system
 
 */
 

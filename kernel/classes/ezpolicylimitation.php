@@ -40,7 +40,8 @@
 
 /*!
   \class eZPolicyLimitation ezpolicylimitation.php
-  \brief The class eZPolicyLimitation does
+  \ingroup eZRole
+  \brief Defines a limitation for a policy in the permission system
 
 */
 include_once( "lib/ezdb/classes/ezdb.php" );

@@ -38,9 +38,27 @@
 /*! \file ezrole.php
 */
 
+/*! \defgroup eZRole Role based permission system */
+
 /*!
   \class eZRole ezrole.php
-  \brief The class eZRole does
+  \ingroup eZRole
+  \brief A container for policies in the permission system
+
+  It consists merely of a name() and has a DB id() and a version() number.
+  The actual permissions are stored in policies and policy values
+  which can be fetched with the method policyList().
+
+  To fetch permission access array you can use accessArrayByUserID() and accessArray().
+
+  There are multiple ways to fetch a role,
+  directly from an id() with fetch(), by a role name() with fetchByName(),
+  by a given user with fetchByUser() or the whole list with fetchList() and fetchByOffset().
+
+  Creating roles is done with create(), after which new policies can be added
+  using appendPolicy().
+
+  Remove roles with remove() and its policies with removePolicies().
 
 */
 include_once( 'lib/ezutils/classes/ezini.php' );
@@ -55,8 +73,12 @@ class eZRole extends eZPersistentObject
     {
         $this->eZPersistentObject( $row );
         $this->PolicyArray = 0;
-        $this->LimitIdentifier = 0;
-        $this->LimitValue = 0;
+        $this->LimitIdentifier = false;
+        $this->LimitValue = false;
+        if ( isset( $row['limit_identifier'] ) )
+            $this->LimitIdentifier = $row['limit_identifier'];
+        if ( isset( $row['limit_value'] ) )
+            $this->LimitValue = $row['limit_value'];
     }
 
     function &definition()
@@ -73,20 +95,9 @@ class eZRole extends eZPersistentObject
                                                           'datatype' => 'string',
                                                           'default' => '',
                                                           'required' => true ) ),
-
-/* Commented out because it causes bogus behaviour. KK will fix it. :-)
-
-                                         "limit_identifier" => array( 'name' => "LimitIdentifier",
-                                                          'datatype' => 'string',
-                                                          'default' => false,
-                                                          'required' => true ) ,
-
-                                         "limit_value" => array( 'name' => "LimitValue",
-                                                          'datatype' => 'string',
-                                                          'default' => false,
-                                                          'required' => true ) ),
-*/							  
-                      "function_attributes" => array( "policies" => "policyList" ),
+                      "function_attributes" => array( "policies" => "policyList",
+                                                      'limit_identifier' => 'limitIdentifier',
+                                                      'limit_value' => 'limitValue' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
@@ -96,35 +107,11 @@ class eZRole extends eZPersistentObject
 
     /*!
      \reimp
-      Adds \c limit_identifier and \c limit_value.
-    */
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
-    /*!
-     \reimp
     */
     function &attribute( $attr )
     {
         switch( $attr )
         {
-            case 'limit_identifier':
-            {
-                return $this->LimitIdentifier;
-            } break;
-
-            case 'limit_value':
-            {
-                return $this->LimitValue;
-            } break;
-
-            case 'policies':
-            {
-                return $this->policyList();
-            } break;
-
             default:
             {
                 return eZPersistentObject::attribute( $attr );
@@ -133,27 +120,23 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-     \reimp
+     Returns the limit identifier if it is set.
+     \note This will only be available when fetching roles for a specific user
+     \sa limitValue
     */
-    function setAttribute( $attr, $val )
+    function limitIdentifier()
     {
-        switch( $attr )
-        {
-            case 'limit_identifier':
-            {
-                $this->LimitIdentifier = $val;
-            } break;
+        return $this->LimitIdentifier;
+    }
 
-            case 'limit_value':
-            {
-                $this->LimitValue = $val;
-            } break;
-
-            default:
-            {
-                eZPersistentObject::setAttribute( $attr, $val );
-            } break;
-        }
+    /*!
+     Returns the limit value if it is set.
+     \note This will only be available when fetching roles for a specific user
+     \sa limitIdentifier
+    */
+    function limitValue()
+    {
+        return $this->LimitValue;
     }
 
     /*!
@@ -448,8 +431,6 @@ class eZRole extends eZPersistentObject
         foreach ( $roleArray as $roleRow )
         {
             $role = new eZRole( $roleRow );
-            $role->setAttribute( 'limit_identifier', $roleRow['limit_identifier'] );
-            $role->setAttribute( 'limit_value', $roleRow['limit_value'] );
             $roles[] = $role;
         }
 
@@ -762,7 +743,7 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $query = "SELECT DISTINCT 
+        $query = "SELECT DISTINCT
                      ezuser_role.role_id as role_id,
                      ezuser_role.contentobject_id as user_id
                   FROM
