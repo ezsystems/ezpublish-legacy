@@ -5,15 +5,15 @@
 -- Server version	4.0.7-gamma
 
 --
--- Table structure for table 'ezapprovetasks'
+-- Table structure for table 'ezapprove_items'
 --
 
-CREATE TABLE ezapprovetasks (
-  id int(11) NOT NULL auto_increment,
-  workflow_process_id int(11) default NULL,
-  task_id int(11) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+create table ezapprove_items(
+    id int NOT NULL auto_increment,
+    workflow_process_id int NOT NULL DEFAULT '0',
+    collaboration_id int NOT NULL DEFAULT '0',
+    PRIMARY KEY  (id)
+    );
 
 --
 -- Dumping data for table 'ezapprovetasks'
@@ -843,7 +843,7 @@ CREATE TABLE eznotification_user_link (
 
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
-  main_key int(11) NOT NULL default '0',
+  main_key varchar(32) NOT NULL default '',,
   memento_key varchar(32) NOT NULL default '',
   memento_data text NOT NULL,
   main int(11) NOT NULL default '0',
@@ -1467,3 +1467,14 @@ CREATE TABLE ezworkflow_process (
 --
 
 
+
+
+
+create table ezcollab_item_status(
+    collaboration_id int NOT NULL DEFAULT '0',
+    user_id int NOT NULL default '0',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    last_read int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, user_id)
+    );
