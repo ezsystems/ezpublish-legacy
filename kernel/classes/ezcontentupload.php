@@ -62,6 +62,16 @@ eZContentUpload::upload( array( 'action_name' => 'MyActionName' ), $module );
 eZContentUpload::result( 'MyActionName' );
 \endcode
 
+  It is also possible to use this class to upload a given file (HTTP or regular) as an object.
+  The correct class and location can be determined automatically.
+
+  Simple create a new instance of this class and then call handleUpload() or handleLocalFile().
+
+\code
+$upload = new eZContentUpload( array() );
+$upload->handleUpload( $result, 'UploadFile', 'auto' );
+
+$upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 */
 
 class eZContentUpload
@@ -219,6 +229,148 @@ class eZContentUpload
     }
 
     /*!
+     Fetches the local file, figures out its MIME-type and creates the proper content object out of it.
+
+     \param $filePath Path to file which should be stored.
+     \param $result Result data, will be filled with information which the client can examine, contains:
+                    - errors - An array with errors, each element is an array with \c 'description' containing the text
+     \param $location The node ID which the new object will be placed or the string \c 'auto' for automatic placement of type.
+
+     \return \c false if something failed or \c true if succesful.
+    */
+    function handleLocalFile( &$result, $filePath, $location )
+    {
+        $result = array( 'errors' => array(),
+                         'notices' => array(),
+                         'result' => false,
+                         'redirect_url' => false );
+        $errors =& $result['errors'];
+        $notices =& $result['notices'];
+
+        if ( !file_exists( $filePath ) )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The file %filename does not exist, cannot insert file.', null,
+                                                        array( '%filename' => $filePath ) ) );
+            return false;
+        }
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        $mimeData = eZMimeType::findByFileContents( $filePath );
+        $mime = $mimeData['name'];
+
+        $classIdentifier = $this->detectClassIdentifier( $mime );
+        if ( !$classIdentifier )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching class identifier found.' ) );
+            return false;
+        }
+        $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+        if ( !$class )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The class %class_identifier does not exist.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+
+
+        $parentNodes = false;
+        $parentMainNode = false;
+        $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+        if ( !$locationOK )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'Was not able to figure out placement of object.' ) );
+            return false;
+        }
+
+
+        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $iniGroup = $classIdentifier . '_ClassSettings';
+        if ( !$uploadINI->hasGroup( $iniGroup ) )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No configuration group in upload.ini for class identifier %class_identifier.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+
+        $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
+        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
+        $dataMap = $class->dataMap();
+
+        $fileAttribute = $this->findRegularFileAttribute( $dataMap, $fileAttribute );
+        if ( !$fileAttribute )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching file attribute found, cannot create content object without this.' ) );
+            return false;
+        }
+
+        $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        if ( !$nameAttribute )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching name attribute found, cannot create content object without this.' ) );
+            return false;
+        }
+
+        $variables = array( 'original_filename' => $filePath,
+                            'mime_type' => $mime );
+        $variables['original_filename_base'] = $mimeData['basename'];
+        $variables['original_filename_suffix'] = $mimeData['suffix'];
+
+
+        $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
+        $nameString = $this->processNamePattern( $variables, $namePattern );
+
+        $object =& $class->instantiate();
+
+        unset( $dataMap );
+        $dataMap =& $object->dataMap();
+
+        $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                               $filePath, $mimeData,
+                                                               $storeResult );
+        if ( $status === null )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The attribute %class_identifier does not support regular file storage.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+        else if ( !$status )
+        {
+            $errors = array_merge( $errors, $storeResult['errors'] );
+            return false;
+        }
+        if ( $storeResult['require_storage'] )
+            $dataMap[$fileAttribute]->store();
+
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                                $nameString,
+                                                                $storeResult );
+        if ( $status === null )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The attribute %class_identifier does not support simple string storage.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+        else if ( !$status )
+        {
+            $errors = array_merge( $errors, $storeResult['errors'] );
+            return false;
+        }
+        if ( $storeResult['require_storage'] )
+            $dataMap[$nameAttribute]->store();
+
+        return $this->publishObject( $result, $errors, $notices,
+                                     $object, $class, $parentNodes, $parentMainNode );
+    }
+
+    /*!
      Fetches the uploaded file, figures out its MIME-type and creates the proper content object out of it.
 
      \param $httpFileIdentifier The HTTP identifier of the uploaded file, this must match the \em name of your \em input tag.
@@ -231,10 +383,213 @@ class eZContentUpload
     function handleUpload( &$result, $httpFileIdentifier, $location )
     {
         $result = array( 'errors' => array(),
+                         'notices' => array(),
                          'result' => false,
                          'redirect_url' => false );
         $errors =& $result['errors'];
+        $notices =& $result['notices'];
 
+        $this->fetchHTTPFile( $httpFileIdentifier, $errors, $file, $mimeData );
+        $mime = $mimeData['name'];
+        if ( $mime == '' )
+            $mime = $file->attribute( "mime_type" );
+
+
+        $classIdentifier = $this->detectClassIdentifier( $mime );
+        if ( !$classIdentifier )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching class identifier found.' ) );
+            return false;
+        }
+        $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+        if ( !$class )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The class %class_identifier does not exist.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+
+
+        $parentNodes = false;
+        $parentMainNode = false;
+        $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+        if ( !$locationOK )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'Was not able to figure out placement of object.' ) );
+            return false;
+        }
+
+
+        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $iniGroup = $classIdentifier . '_ClassSettings';
+        if ( !$uploadINI->hasGroup( $iniGroup ) )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No configuration group in upload.ini for class identifier %class_identifier.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+
+        $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
+        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
+        $dataMap = $class->dataMap();
+
+        $fileAttribute = $this->findHTTPFileAttribute( $dataMap, $fileAttribute );
+        if ( !$fileAttribute )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching file attribute found, cannot create content object without this.' ) );
+            return false;
+        }
+
+        $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        if ( !$nameAttribute )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'No matching name attribute found, cannot create content object without this.' ) );
+            return false;
+        }
+
+        $variables = array( 'original_filename' => $file->attribute( 'original_filename' ),
+                            'mime_type' => $mime );
+        $variables['original_filename_base'] = $mimeData['basename'];
+        $variables['original_filename_suffix'] = $mimeData['suffix'];
+
+
+        $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
+        $nameString = $this->processNamePattern( $variables, $namePattern );
+
+        $object =& $class->instantiate();
+
+        unset( $dataMap );
+        $dataMap =& $object->dataMap();
+
+        $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                            $file, $mimeData,
+                                                            $storeResult );
+        if ( $status === null )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The attribute %class_identifier does not support HTTP file storage.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+        else if ( !$status )
+        {
+            $errors = array_merge( $errors, $storeResult['errors'] );
+            return false;
+        }
+        if ( $storeResult['require_storage'] )
+            $dataMap[$fileAttribute]->store();
+
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                                $nameString,
+                                                                $storeResult );
+        if ( $status === null )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'The attribute %class_identifier does not support simple string storage.', null,
+                                                        array( '%class_identifier' => $classIdentifier ) ) );
+            return false;
+        }
+        else if ( !$status )
+        {
+            $errors = array_merge( $errors, $storeResult['errors'] );
+            return false;
+        }
+        if ( $storeResult['require_storage'] )
+            $dataMap[$nameAttribute]->store();
+
+        return $this->publishObject( $result, $errors, $notices,
+                                     $object, $class, $parentNodes, $parentMainNode );
+    }
+
+    /*!
+     \private
+     Publishes the object to the selected locations.
+
+     \return \c true if everything was OK, \c false if something failed.
+    */
+    function publishObject( &$result, &$errors, &$notices,
+                            &$object, &$class, $parentNodes, $parentMainNode )
+    {
+        foreach ( $parentNodes as $key => $parentNode )
+        {
+            $object->createNodeAssignment( $parentNode, $parentNode == $parentMainNode );
+        }
+
+        $object->setName( $class->contentObjectName( $object ) );
+        $object->store();
+
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//            $oldObjectName = $object->name();
+//             print( "version: " . $object->attribute( 'current_version' ) . "<br/>\n" );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                     'version' => $object->attribute( 'current_version' ) ) );
+
+        $objectID = $object->attribute( 'id' );
+        unset( $object );
+        $object =& eZContentObject::fetch( $objectID );
+        $result['contentobject'] =& $object;
+        $result['contentobject_id'] = $object->attribute( 'id' );
+        $result['contentobject_version'] = $object->attribute( 'current_version' );
+        $result['contentobject_main_node'] = false;
+        $result['contentobject_main_node_id'] = false;
+
+        $this->setResult( array( 'node_id' => false,
+                                 'object_id' => $object->attribute( 'id' ),
+                                 'object_version' => $object->attribute( 'current_version' ) ) );
+
+        switch ( $operationResult['status'] )
+        {
+            case EZ_MODULE_OPERATION_HALTED:
+            {
+                if ( isset( $operationResult['redirect_url'] ) )
+                {
+                    $result['redirect_url'] = $operationResult['redirect_url'];
+                    $notices[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                                 'Publishing of content object was halted.' ) );
+                    return true;
+                }
+                else if ( isset( $operationResult['result'] ) )
+                {
+                    $result['result'] = $operationResult['result'];
+                    return true;
+                }
+            } break;
+
+            case EZ_MODULE_OPERATION_CANCELED:
+            {
+                $result['result'] = ezi18n( 'kernel/content/upload',
+                                            'Publish process was cancelled.' );
+                return true;
+            } break;
+
+            case EZ_MODULE_OPERATION_CONTINUE:
+            {
+            }
+        }
+
+        $mainNode = $object->mainNode();
+        $result['contentobject_main_node'] = $mainNode;
+        $result['contentobject_main_node_id'] = $mainNode->attribute( 'node_id' );
+        $this->setResult( array( 'node_id' => $mainNode->attribute( 'node_id' ),
+                                 'object_id' => $object->attribute( 'id' ),
+                                 'object_version' => $object->attribute( 'current_version' ) ) );
+//         $newObjectName = $object->name();
+        return true;
+    }
+
+    /*!
+     \private
+     Fetches the HTTP-File into \a $file and fills in MIME-Type information into \a $mimeData.
+     \return \c false if something went wrong.
+    */
+    function fetchHTTPFile( $httpFileIdentifier, &$errors, &$file, &$mimeData )
+    {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         if ( !eZHTTPFile::canFetch( $httpFileIdentifier ) )
         {
@@ -242,361 +597,256 @@ class eZContentUpload
                                                         'A file is required for upload, no file were found.' ) );
             return false;
         }
+
+        $file = eZHTTPFile::fetch( $httpFileIdentifier );
+        if ( get_class( $file ) != "ezhttpfile" )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                        'Expected a eZHTTPFile object but got nothing.' ) );
+            return false;
+        }
+
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        $mimeData = eZMimeType::findByFileContents( $file->attribute( "original_filename" ) );
+
+        return false;
+    }
+
+    /*!
+     \private
+     \static
+     Checks if the attribute with the identifier \a $fileAttribute in \a $dataMap
+     supports HTTP file uploading. If not it will go trough all attributes and
+     find the first that has this support.
+
+     \return The identifier of the matched attribute or \c false if none were found.
+     \param $dataMap Associative array with class attributes, the key is attribute identifier
+     \param $fileAttribute The identifier of the attribute that is expected to have the file datatype.
+    */
+    function findHTTPFileAttribute( &$dataMap, $fileAttribute )
+    {
+        $fileDatatype = false;
+        if ( isset( $dataMap[$fileAttribute] ) )
+            $fileDatatype =& $dataMap[$fileAttribute]->dataType();
+        if ( !$fileDatatype or
+             !$fileDatatype->isHTTPFileInsertionSupported() )
+        {
+            $fileAttribute = false;
+            foreach ( $dataMap as $identifier => $attribute )
+            {
+                $attribute =& $dataMap[$identifier];
+                $datatype = $attribute->dataType();
+                if ( $datatype->isHTTPFileInsertionSupported() )
+                {
+                    $fileAttribute = $identifier;
+                    break;
+                }
+            }
+        }
+        return $fileAttribute;
+    }
+
+    /*!
+     \private
+     \static
+     Checks if the attribute with the identifier \a $nameAttribute in \a $dataMap
+     supports string insertion. If not it will go trough all attributes and
+     find the first that has this support.
+
+     \return The identifier of the matched attribute or \c false if none were found.
+     \param $dataMap Associative array with class attributes, the key is attribute identifier
+     \param $nameAttribute The identifier of the attribute that is expected to have the string datatype.
+    */
+    function findStringAttribute( &$dataMap, $nameAttribute )
+    {
+        $nameDatatype = false;
+        if ( isset( $dataMap[$nameAttribute] ) )
+            $nameDatatype =& $dataMap[$nameAttribute]->dataType();
+        if ( !$nameDatatype or
+             !$nameDatatype->isSimpleStringInsertionSupported() )
+        {
+            $nameAttribute = false;
+            foreach ( $dataMap as $identifier => $attribute )
+            {
+                $attribute =& $dataMap[$identifier];
+                $datatype =& $attribute->dataType();
+                if ( $datatype->isSimpleStringInsertionSupported() )
+                {
+                    $nameAttribute = $identifier;
+                    break;
+                }
+            }
+        }
+        return $nameAttribute;
+    }
+
+    /*!
+     \private
+     \static
+     Figures out the class which should be used for file with
+     MIME-Type \a $mime and returns the class identifier.
+     \param $mime A string defining the MIME-Type, will be used to determine class identifier.
+    */
+    function detectClassIdentifier( $mime )
+    {
+        $uploadINI =& eZINI::instance( 'upload.ini' );
+
+        $mimeClassMap = $uploadINI->variable( 'CreateSettings', 'MimeClassMap' );
+        $defaultClass = $uploadINI->variable( 'CreateSettings', 'DefaultClass' );
+
+        list( $group, $type ) = explode( '/', $mime );
+        if ( isset( $mimeClassMap[$mime] ) )
+        {
+            $classIdentifier = $mimeClassMap[$mime];
+        }
+        else if ( isset( $mimeClassMap[$group] ) )
+        {
+            $classIdentifier = $mimeClassMap[$group];
+        }
         else
         {
-            $file =& eZHTTPFile::fetch( $httpFileIdentifier );
-            if ( get_class( $file ) != "ezhttpfile" )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'Expected a eZHTTPFile object but got nothing.' ) );
-                return false;
-            }
-
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
-            $mimeData =& eZMimeType::findByFileContents( $file->attribute( "original_filename" ) );
-            $mime =& $mimeData['name'];
-
-            if ( $mime == '' )
-            {
-                $mime = $file->attribute( "mime_type" );
-            }
-
-            $uploadINI =& eZINI::instance( 'upload.ini' );
-
-            $mimeClassMap = $uploadINI->variable( 'CreateSettings', 'MimeClassMap' );
-            $defaultClass = $uploadINI->variable( 'CreateSettings', 'DefaultClass' );
-
-            list( $group, $type ) = explode( '/', $mime );
-            if ( isset( $mimeClassMap[$mime] ) )
-            {
-                $classIdentifier = $mimeClassMap[$mime];
-            }
-            else if ( isset( $mimeClassMap[$group] ) )
-            {
-                $classIdentifier = $mimeClassMap[$group];
-            }
-            else
-            {
-                $classIdentifier = $defaultClass;
-            }
-            unset( $group, $type );
-
-//             $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
-//         }
-//         $parentContentObject =& $node->attribute( 'object' );
-
-//         if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
-            if ( !$classIdentifier )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'No matching class identifier found.' ) );
-                return false;
-            }
-
-            $parentNodes = false;
-            $parentMainNode = false;
-
-//             print( "location: $location<br/>" );
-            if ( $this->attribute( 'parent_nodes' ) )
-            {
-                $parentNodes = $this->attribute( 'parent_nodes' );
-            }
-            else
-            {
-                if ( $location == 'auto' or !is_numeric( $location ) )
-                {
-                    $contentINI =& eZINI::instance( 'content.ini' );
-
-                    $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
-                    $defaultPlacement = $contentINI->variable( 'RelationAssignmentSettings', 'DefaultAssignment' );
-                    foreach ( $classPlacementMap as $classData )
-                    {
-                        $classElements = explode( ';', $classData );
-                        $classList = explode( ',', $classElements[0] );
-                        $nodeList = explode( ',', $classElements[1] );
-                        $mainNode = false;
-                        if ( isset( $classElements[2] ) )
-                            $mainNode = $classElements[2];
-                        if ( in_array( $classIdentifier, $classList ) )
-                        {
-                            $parentNodes = $nodeList;
-                            $parentMainNode = $mainNode;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    $parentNodes = array( $location );
-                }
-            }
-            if ( !$parentNodes )
-            {
-                $parentNodes = array( $defaultPlacement );
-            }
-            if ( !$parentNodes or
-                 count( $parentNodes ) == 0 )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'Was not able to figure out placement of object.' ) );
-                return false;
-            }
-
-            foreach ( $parentNodes as $key => $parentNode )
-            {
-                $parentNode = eZContentUpload::nodeAliasID( $parentNode );
-                $parentNodes[$key] = $parentNode;
-//                 print( "placing in $parentNode<br/>" );
-            }
-            if ( !$parentMainNode )
-            {
-                $parentMainNode = $parentNodes[0];
-            }
-            $parentMainNode = eZContentUpload::nodeAliasID( $parentMainNode );
-//             print( "main node: $parentMainNode<br/>\n" );
-
-//             print( "identifier: $classIdentifier<br/>" );
-            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
-            if ( !$class )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'The class %class_identifier does not exist.', null,
-                                                            array( '%class_identifier' => $classIdentifier ) ) );
-                return false;
-            }
-
-            $iniGroup = $classIdentifier . '_ClassSettings';
-            if ( !$uploadINI->hasGroup( $iniGroup ) )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'No configuration group in upload.ini for class identifier %class_identifier.', null,
-                                                            array( '%class_identifier' => $classIdentifier ) ) );
-                return false;
-            }
-//             print( "group: '" . $iniGroup . "'<br/>" );
-            $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
-            $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
-            $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
-
-            $fileDatatypes = array( 'ezbinaryfile', 'ezimage', 'ezmedia' );
-            $nameDatatypes = array( 'ezstring', 'eztext' );
-
-            $dataMap = $class->dataMap();
-
-            $fileDatatype = false;
-            if ( isset( $dataMap[$fileAttribute] ) )
-                $fileDatatype =& $dataMap[$fileAttribute]->dataType();
-//             print( get_class( $fileDatatype ) . "<br/>" );
-//             print( "'" . $fileDatatype->isHTTPFileInsertionSupported()  . "'<br/>" );
-            if ( !$fileDatatype or
-                 !$fileDatatype->isHTTPFileInsertionSupported() )
-            {
-                $fileAttribute = false;
-//                 print( "No file attribute found, scanning<br/>\n" );
-                foreach ( $dataMap as $identifier => $attribute )
-                {
-                    $attribute =& $dataMap[$identifier];
-                    $datatype = $attribute->dataType();
-                    if ( $datatype->isHTTPFileInsertionSupported() )
-                    {
-                        $fileAttribute = $identifier;
-                        break;
-                    }
-                }
-            }
-
-            if ( !$fileAttribute )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'No matching file attribute found, cannot create content object without this.' ) );
-                return false;
-            }
-
-            $nameDatatype = false;
-            if ( isset( $dataMap[$nameAttribute] ) )
-                $nameDatatype =& $dataMap[$nameAttribute]->dataType();
-            if ( !$nameDatatype or
-                 !$nameDatatype->isSimpleStringInsertionSupported() )
-            {
-                $nameAttribute = false;
-//                 print( "No name attribute found, scanning<br/>\n" );
-                foreach ( $dataMap as $identifier => $attribute )
-                {
-                    $attribute =& $dataMap[$identifier];
-                    $datatype =& $attribute->dataType();
-                    if ( $datatype->isSimpleStringInsertionSupported() )
-                    {
-                        $nameAttribute = $identifier;
-                        break;
-                    }
-                }
-            }
-
-            if ( !$nameAttribute )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'No matching name attribute found, cannot create content object without this.' ) );
-                return false;
-            }
-
-            $variables = array( 'original_filename' => $file->attribute( 'original_filename' ),
-                                'mime_type' => $mime );
-            $variables['original_filename_base'] = $mimeData['basename'];
-            $variables['original_filename_suffix'] = $mimeData['suffix'];
-
-            $tags = array();
-            $pos = 0;
-            $lastPos = false;
-            $len = strlen( $namePattern );
-            while ( $pos < $len )
-            {
-                $markerPos = strpos( $namePattern, '<', $pos );
-                if ( $markerPos !== false )
-                {
-                    $markerEndPos = strpos( $namePattern, '>', $markerPos + 1 );
-                    if ( $markerEndPos === false )
-                    {
-                        $markerEndPos = $len;
-                        $pos = $len;
-                    }
-                    else
-                    {
-                        $pos = $markerEndPos + 1;
-                    }
-                    $tag = substr( $namePattern, $markerPos + 1, $markerEndPos - $markerPos - 1 );
-                    $tags[] = array( 'name' => $tag );
-                }
-                if ( $lastPos !== false and
-                     $lastPos < $pos )
-                {
-                    $tags[] = substr( $namePattern, $lastPos, $pos - $lastPos );
-                }
-                $lastPos = $pos;
-            }
-            $nameString = '';
-            foreach ( $tags as $tag )
-            {
-                if ( is_string( $tag ) )
-                {
-                    $nameString .= $tag;
-                }
-                else
-                {
-                    if ( isset( $variables[$tag['name']] ) )
-                        $nameString .= $variables[$tag['name']];
-                }
-            }
-//             print( "Pattern: '" . htmlspecialchars( $namePattern ) . "'<br/>\n" );
-//             print( "Name: '" . $nameString . "'<br/>\n" );
-
-            $object =& $class->instantiate();
-            foreach ( $parentNodes as $key => $parentNode )
-            {
-                $object->createNodeAssignment( $parentNode, $parentNode == $parentMainNode );
-            }
-
-            unset( $dataMap );
-            $dataMap =& $object->dataMap();
-
-            $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
-                                                                $file, $mimeData,
-                                                                $storeResult );
-            if ( $status === null )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'The attribute %class_identifier does not support HTTP file storage.', null,
-                                                            array( '%class_identifier' => $classIdentifier ) ) );
-                return false;
-            }
-            else if ( !$status )
-            {
-                $errors = array_merge( $errors, $storeResult['errors'] );
-                return false;
-            }
-            if ( $storeResult['require_storage'] )
-                $dataMap[$fileAttribute]->store();
-
-            $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
-                                                                    $nameString,
-                                                                    $storeResult );
-            if ( $status === null )
-            {
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'The attribute %class_identifier does not support simple string storage.', null,
-                                                            array( '%class_identifier' => $classIdentifier ) ) );
-                return false;
-            }
-            else if ( !$status )
-            {
-                $errors = array_merge( $errors, $storeResult['errors'] );
-                return false;
-            }
-            if ( $storeResult['require_storage'] )
-                $dataMap[$nameAttribute]->store();
-
-            $object->setName( $class->contentObjectName( $object ) );
-            $object->store();
-
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-//            $oldObjectName = $object->name();
-//             print( "version: " . $object->attribute( 'current_version' ) . "<br/>\n" );
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $object->attribute( 'current_version' ) ) );
-
-            $objectID = $object->attribute( 'id' );
-            unset( $object );
-            $object =& eZContentObject::fetch( $objectID );
-            $result['contentobject'] =& $object;
-            $result['contentobject_id'] = $object->attribute( 'id' );
-            $result['contentobject_version'] = $object->attribute( 'current_version' );
-            $result['contentobject_main_node'] = false;
-            $result['contentobject_main_node_id'] = false;
-
-            $this->setResult( array( 'node_id' => false,
-                                     'object_id' => $object->attribute( 'id' ),
-                                     'object_version' => $object->attribute( 'current_version' ) ) );
-
-            switch ( $operationResult['status'] )
-            {
-                case EZ_MODULE_OPERATION_HALTED:
-                {
-                    if ( isset( $operationResult['redirect_url'] ) )
-                    {
-                        $result['redirect_url'] = $operationResult['redirect_url'];
-                        $notices[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                                     'Publishing of content object was halted.' ) );
-                        return true;
-                    }
-                    else if ( isset( $operationResult['result'] ) )
-                    {
-                        $result['result'] = $operationResult['result'];
-                        return true;
-                    }
-                } break;
-
-                case EZ_MODULE_OPERATION_CANCELED:
-                {
-                    $result['result'] = ezi18n( 'kernel/content/upload',
-                                                'Publish process was cancelled.' );
-                    return true;
-                } break;
-
-                case EZ_MODULE_OPERATION_CONTINUE:
-                {
-                }
-            }
-
-            $mainNode = $object->mainNode();
-            $result['contentobject_main_node'] = $mainNode;
-            $result['contentobject_main_node_id'] = $mainNode->attribute( 'node_id' );
-            $this->setResult( array( 'node_id' => $mainNode->attribute( 'node_id' ),
-                                     'object_id' => $object->attribute( 'id' ),
-                                     'object_version' => $object->attribute( 'current_version' ) ) );
-
-//            $newObjectName = $object->name();
-
+            $classIdentifier = $defaultClass;
         }
+        return $classIdentifier;
+    }
+
+    /*!
+     \private
+     Figures out the location(s) in which the class with
+     the identifier \a $classIdentifier should be placed.
+     The returned locations will either be a node ID or an identifier
+     for a node (e.g. content).
+
+     \return \c true if a location was found or \c false if no location could be determined
+     \param $classIdentifier Identifier of class, is used to determine location
+     \param $location The wanted location, either use \c 'auto' for automatic placement
+                      or number to determine to parent node ID.
+     \param[out] $parentNodes Will contain an array with node IDs or identifiers if a location could be detected.
+     \param[out] $parentMainNode Will contain the ID of the main node if a location could be detected.
+    */
+    function detectLocations( $classIdentifier, $location,
+                              &$parentNodes, &$parentMainNode )
+    {
+        if ( $this->attribute( 'parent_nodes' ) )
+        {
+            $parentNodes = $this->attribute( 'parent_nodes' );
+        }
+        else
+        {
+            if ( $location == 'auto' or !is_numeric( $location ) )
+            {
+                $contentINI =& eZINI::instance( 'content.ini' );
+
+                $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
+                $defaultPlacement = $contentINI->variable( 'RelationAssignmentSettings', 'DefaultAssignment' );
+                foreach ( $classPlacementMap as $classData )
+                {
+                    $classElements = explode( ';', $classData );
+                    $classList = explode( ',', $classElements[0] );
+                    $nodeList = explode( ',', $classElements[1] );
+                    $mainNode = false;
+                    if ( isset( $classElements[2] ) )
+                        $mainNode = $classElements[2];
+                    if ( in_array( $classIdentifier, $classList ) )
+                    {
+                        $parentNodes = $nodeList;
+                        $parentMainNode = $mainNode;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                $parentNodes = array( $location );
+            }
+        }
+        if ( !$parentNodes )
+        {
+            $parentNodes = array( $defaultPlacement );
+        }
+        if ( !$parentNodes or
+             count( $parentNodes ) == 0 )
+        {
+            return false;
+        }
+
+        foreach ( $parentNodes as $key => $parentNode )
+        {
+            $parentNode = eZContentUpload::nodeAliasID( $parentNode );
+            $parentNodes[$key] = $parentNode;
+        }
+        if ( !$parentMainNode )
+        {
+            $parentMainNode = $parentNodes[0];
+        }
+        $parentMainNode = eZContentUpload::nodeAliasID( $parentMainNode );
+
         return true;
+    }
+
+    /*!
+     \private
+     \static
+     Parses the name pattern \a $namePattern and replaces any
+     variables found in \a $variables with the variable value.
+
+     \return The resulting string with all \e tags replaced.
+     \param $variables An associative array where the key is variable name and element the variable value.
+     \param $namePattern A string containing of plain text or \e tags, each tag is enclosed in < and > and
+                         defines name of the variable to lookup.
+
+     \code
+     $vars = array( 'name' => 'A name',
+                    'filename' => 'myfile.txt' );
+     $name = $this->parseNamePattern( $vars, '<name> - <filename>' );
+     print( $name ); // Will output 'A name - myfile.txt'
+     \endcode
+    */
+    function processNamePattern( $variables, $namePattern )
+    {
+        $tags = array();
+        $pos = 0;
+        $lastPos = false;
+        $len = strlen( $namePattern );
+        while ( $pos < $len )
+        {
+            $markerPos = strpos( $namePattern, '<', $pos );
+            if ( $markerPos !== false )
+            {
+                $markerEndPos = strpos( $namePattern, '>', $markerPos + 1 );
+                if ( $markerEndPos === false )
+                {
+                    $markerEndPos = $len;
+                    $pos = $len;
+                }
+                else
+                {
+                    $pos = $markerEndPos + 1;
+                }
+                $tag = substr( $namePattern, $markerPos + 1, $markerEndPos - $markerPos - 1 );
+                $tags[] = array( 'name' => $tag );
+            }
+            if ( $lastPos !== false and
+                 $lastPos < $pos )
+            {
+                $tags[] = substr( $namePattern, $lastPos, $pos - $lastPos );
+            }
+            $lastPos = $pos;
+        }
+        $nameString = '';
+        foreach ( $tags as $tag )
+        {
+            if ( is_string( $tag ) )
+            {
+                $nameString .= $tag;
+            }
+            else
+            {
+                if ( isset( $variables[$tag['name']] ) )
+                    $nameString .= $variables[$tag['name']];
+            }
+        }
+        return $nameString;
     }
 
     /*!
