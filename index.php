@@ -165,14 +165,6 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
 
 include_once( 'kernel/error/errors.php' );
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-
-$db =& eZDB::instance();
-if ( !$db->isConnected() )
-    $warningList[] = array( 'error' => array( 'type' => 'kernel',
-                                              'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
-                            'text' => 'No database connection could be made, the system might not behave properly.' );
-
 /*
 print( "<pre>" );
 var_dump( $_SERVER );
@@ -196,6 +188,14 @@ if ( $access !== null )
 }
 
 session_start();
+
+include_once( 'lib/ezdb/classes/ezdb.php' );
+
+$db =& eZDB::instance();
+if ( !$db->isConnected() )
+    $warningList[] = array( 'error' => array( 'type' => 'kernel',
+                                              'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
+                            'text' => 'No database connection could be made, the system might not behave properly.' );
 
 $use_external_css = true;
 $show_page_layout = true;

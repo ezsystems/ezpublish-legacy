@@ -38,11 +38,13 @@
   Re-implementation of PHP session management using database.
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-
 function eZSessionOpen( )
 {
     // do nothing eZDB will open connection when needed.
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    if ( !$db->isConnected() )
+        eZDebug::writeError( 'Database session will not work, not connected to a database', 'eZSession' );
 }
 
 function eZSessionClose( )
@@ -52,6 +54,7 @@ function eZSessionClose( )
 
 function &eZSessionRead( $key )
 {
+    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
     $sessionRes =& $db->arrayQuery( "SELECT data FROM ezsession WHERE session_key='$key'" );
@@ -72,6 +75,7 @@ function &eZSessionRead( $key )
 */
 function eZSessionWrite( $key, $value )
 {
+    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $ini =& eZIni::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
@@ -103,6 +107,7 @@ function eZSessionWrite( $key, $value )
 */
 function eZSessionDestroy( $key )
 {
+    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $query = "DELETE FROM ezsession WHERE session_key='$key'";
 
@@ -113,6 +118,7 @@ function eZSessionDestroy( $key )
 */
 function eZSessionGarbageCollector()
 {
+    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $query = "DELETE FROM ezsession WHERE expiration_time < " . time();
 
@@ -127,9 +133,5 @@ session_set_save_handler(
 	'ezsessionwrite',
 	'ezsessiondestroy',
 	'ezsessiongarbagecollector' );
-
-$db =& eZDB::instance();
-if ( !$db->isConnected() )
-    eZDebug::writeError( 'Database session will not work, not connected to a database', 'eZSession' );
 
 ?>
