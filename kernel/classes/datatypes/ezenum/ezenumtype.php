@@ -346,6 +346,45 @@ class eZEnumType extends eZDataType
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $contentObjectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $contentObjectAttributeID =& $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( "version" );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
+        $ismultiple = $contentClassAttribute->attribute( "data_int1" );
+        $isoption = $contentClassAttribute->attribute( "data_int2" );
+        $enum = new eZEnum( $id, $version );
+        $enum->setIsmultipleValue( $ismultiple );
+        $enum->setIsoptionValue( $isoption );
+        $enum->setObjectEnumValue( $contentObjectAttributeID, $contentObjectAttributeVersion );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $contentObjectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezenum' ) );
+
+        foreach ( $enum->attribute( 'enumobject_list' ) as $enumElement )
+        {
+            $elementNode = new eZDOMNode();
+            $elementNode->setName( 'enum-element' );
+
+            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $enumElement->attribute( 'enumid' ) ) );
+            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $enumElement->attribute( 'enumvalue' ) ) );
+            $node->appendChild( $elementNode );
+        }
+
+
+        return $node;
+    }
 }
 eZDataType::register( EZ_DATATYPESTRING_ENUM, "ezenumtype" );
 

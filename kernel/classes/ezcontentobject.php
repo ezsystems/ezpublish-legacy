@@ -1051,6 +1051,26 @@ class eZContentObject extends eZPersistentObject
         return $translationList;
     }
 
+    /*!
+     \return a DOM structure of the content object and it's attributes.
+    */
+    function &serialize()
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+        $objectNode = new eZDOMNode();
+
+        $objectNode->setName( 'object' );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID ) );
+        $attributes =& $this->contentObjectAttributes();
+
+        foreach ( $attributes as $attribute )
+        {
+            $objectNode->appendChild( $attribute->serialize() );
+        }
+        return $objectNode;
+    }
+
     var $ID;
     var $Name;
 

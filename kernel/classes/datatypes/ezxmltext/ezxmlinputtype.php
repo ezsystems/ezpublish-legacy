@@ -143,6 +143,7 @@ class eZXMLInputType
         }
         return $editorName;
     }
+
 }
 
 ?>

@@ -184,6 +184,27 @@ class eZOptionType extends eZDataType
 
         return $value;
     }
+
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
+
+        $option = new eZOption( "" );
+
+        $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
+
+        return $node;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );

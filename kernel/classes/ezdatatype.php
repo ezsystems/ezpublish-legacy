@@ -355,6 +355,22 @@ class eZDataType
         return "";
     }
 
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', 'Unsupported datatype for serialization' ) );
+        return $node;
+    }
+
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     var $DataTypeString;

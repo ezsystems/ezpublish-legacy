@@ -345,7 +345,6 @@ class eZContentObjectAttribute extends eZPersistentObject
             $dataType =& $attribute->dataType();
             $this->Content =& $dataType->objectAttributeContent( $this );
         }
-
         return $this->Content;
     }
 
@@ -447,6 +446,15 @@ class eZContentObjectAttribute extends eZPersistentObject
     function validationError()
     {
         return $this->ValidationError;
+    }
+
+    /*!
+    */
+    function &serialize()
+    {
+        $attribute =& $this->contentClassAttribute();
+        $dataType =& $attribute->dataType();
+        return $dataType->serializeContentObjectAttribute( $this );
     }
 
     /*!

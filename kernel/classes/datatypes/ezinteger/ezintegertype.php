@@ -358,6 +358,23 @@ class eZIntegerType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezinteger' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $objectAttribute->attribute( "data_int" ) ) );
+
+        return $node;
+    }
+
     /// \privatesection
     /// The integer value validator
     var $IntegerValidator;

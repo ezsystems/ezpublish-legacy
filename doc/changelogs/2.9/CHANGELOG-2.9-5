@@ -23,6 +23,7 @@ modfix:
 - The eZObjectForwarder class can now use different template roots depending on values from the input.
 - New class eZURLTranslator which handles all types of url translations.
 - Moved url nodepath matching to the new urltranslator class.
+- Added general XML serialization framework
 
 *Library :
 
