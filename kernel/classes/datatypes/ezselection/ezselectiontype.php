@@ -82,7 +82,10 @@ class eZSelectionType extends eZDataType
 
         if ( $http->hasPostVariable( $base . "_ezselection_ismultiple_value_" . $classAttributeID ) )
         {
-            $isMultipleSelection = true;
+	    if( $http->postVariable( $base . "_ezselection_ismultiple_value_" . $classAttributeID ) != 0 )
+	    {
+                $isMultipleSelection = true;
+	    }
         }
 
         $currentOptions = $attributeContent['options'];
