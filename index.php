@@ -349,6 +349,171 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
+                /// HiO special menu code tmp
+        eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
+
+        $level = 0;
+        $done = false;
+        $i = 0;
+        $pathArray = array();
+        $tmpModulePath = $moduleResult['path'];
+        $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::serverVariable( 'REQUEST_URI' );
+        $offset = 0;
+        if ( $moduleResult['section_id'] == 2 )
+            $offset = 2;
+        while ( !$done )
+        {
+
+            // get node id
+            $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
+            $nodeID = $elements[4];
+
+            $excludeNode = false;
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node )
+            {
+                $obj = $node->attribute('object');
+                $dataMap = $obj->dataMap();
+                if ( $obj->attribute( 'contentclass_id' ) == 1 )
+                {
+                    if ( get_class( $dataMap['liste'] ) == 'ezcontentobjectattribute' )
+                    if ( $dataMap['liste']->attribute('data_int' ) == 1 )
+                    {
+                        $excludeNode = true;
+                    }
+                }
+            }
+
+            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false )
+            {
+
+                $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                          'Offset' => 0,
+                                                                          'SortBy' => array( array('priority') ),
+                                                                          'ClassFilterType' => 'include',
+                                                                          'ClassFilterArray' => array( 1,6,20,25 )
+                                                                          ),
+                                                                   $nodeID );
+
+                $tmpPathArray = array();
+                foreach ( $menuChildren as $child )
+                {
+                    $name = $child->attribute( 'name' );
+
+                    $strLimit = 17;
+                    if ( strlen( $name ) > $strLimit )
+                    {
+                        $name = substr( $name, 0, $strLimit ) . "...";
+                    }
+                    $tmpNodeID = $child->attribute( 'node_id' );
+                    $tmpObj = $child->attribute( 'object' );
+                    $className = $tmpObj->attribute( 'class_name' );
+
+                    $addToMenu = true;
+                    if ( $className == "Vevside" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $enum = $map['type']->content();
+                        $values = $enum->attribute( "enumobject_list" );
+                        $value = $values[0];
+                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+                            $addToMenu = false;
+                    }
+
+                    if ( $className == "Link" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $tmpURL = $map['url']->content();
+                        $url = "$tmpURL";
+                    }
+                    else
+                        $url = "/content/view/full/$tmpNodeID/";
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64, 49 ) ) and ( $addToMenu == true ) )
+                    $tmpPathArray[] = array( 'id' => $tmpNodeID,
+                                             'level' => $i,
+                                             'url' => $url,
+                                             'text' => $name );
+                }
+
+                // find insert pos
+                $j = 0;
+                $insertPos = 0;
+                foreach ( $pathArray as $path )
+                {
+                    if ( $path['id'] == $nodeID )
+                        $insertPos = $j;
+                    $j++;
+                }
+                $restArray = array_splice( $pathArray, $insertPos + 1 );
+
+                $pathArray = array_merge( $pathArray, $tmpPathArray );
+                $pathArray = array_merge( $pathArray, $restArray  );
+            }
+            else
+            {
+                if ( $level == 0 )
+                {
+                    $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                              'Offset' => 0,
+                                                                              'SortBy' => array( array('priority') ),
+                                                                              'ClassFilterType' => 'include',
+                                                                              'ClassFilterArray' => array( 1,6,20,25 )
+                                                                              ),
+                                                                       2 );
+                    $pathArray = array();
+                foreach ( $menuChildren as $child )
+                {
+                    $name = $child->attribute( 'name' );
+
+                    $strLimit = 17;
+                    if ( strlen( $name ) > $strLimit )
+                    {
+                        $name = substr( $name, 0, $strLimit ) . "...";
+                    }
+                    $tmpNodeID = $child->attribute( 'node_id' );
+                    $tmpObj = $child->attribute( 'object' );
+                    $className = $tmpObj->attribute( 'class_name' );
+
+                    $addToMenu = true;
+                    if ( $className == "Vevside" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $enum = $map['type']->content();
+                        $values = $enum->attribute( "enumobject_list" );
+                        $value = $values[0];
+                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+                            $addToMenu = false;
+                    }
+
+                    if ( $className == "Link" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $tmpURL = $map['url']->content();
+                        $url = "$tmpURL";
+                    }
+                    else
+                        $url = "/content/view/full/$tmpNodeID/";
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64 ) ) )
+                    $pathArray[] = array( 'id' => $tmpNodeID,
+                                          'level' => $i,
+                                          'url' => $url,
+                                          'text' => $name );
+                }
+
+                }
+                $done = true;
+            }
+            ++$level;
+            ++$i;
+        }
+
+//        foreach ( $pathArray as $path )
+//        {
+//          print( $path['level'] . " " . $path['text'] . "<br>");
+//      }
+        $tpl->setVariable( 'menuitems', $pathArray );
+        /// end HiO code
+
         $tpl->display( $resource . $show_page_layout );
     }
 }
