@@ -30,7 +30,7 @@
 
 {* Header *}
 <tr><td>
-<form action="/search/search/" method="get">
+<form action="/content/search/" method="get">
 <table width="100%" border="0" cellspacing="0" cellpadding="3">
 <tr>
    <td width="25%" bgcolor="#4987bc">
@@ -45,7 +45,7 @@
 <input type="text" name="SearchText" value=""/><input type="image" src={"search.png"|ezimage} name="SearchButton" value="Search"/>
 </nobr>
 <br />
-<a href="/search/advancedsearch/"><font color="white">advanced search</font></a>
+<a href="/content/advancedsearch/"><font color="white">advanced search</font></a>
    </td>
 </tr>
 </table>

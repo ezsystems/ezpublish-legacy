@@ -321,16 +321,11 @@ if ( $show_page_layout )
 
     if ( $show_page_layout )
     {
-        if ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" )
-        {
-            // include user class
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//         include_once( "kernel/classes/ezusertype.php" );
-//         $currentUserID = $http->sessionVariable( "eZUserLoggedInID" );
+        // include user class
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-            $currentUser =& eZUser::currentUser();
-            $tpl->setVariable( "current_user", $currentUser );
-        }
+        $currentUser =& eZUser::currentUser();
+        $tpl->setVariable( "current_user", $currentUser );
 
         include_once( "lib/ezutils/classes/ezexecutionstack.php" );
         $execStack =& eZExecutionStack::instance();

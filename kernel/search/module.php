@@ -37,12 +37,6 @@ $Module = array( "name" => "eZSearch",
 
 $ViewList = array();
 
-$ViewList["search"] = array(
-    "script" => "search.php",
-    "params" => array( ) );
-$ViewList["advancedsearch"] = array(
-    "script" => "advancedsearch.php",
-    "params" => array( ) );
 $ViewList["stats"] = array(
     "script" => "stats.php",
     "params" => array( ) );
