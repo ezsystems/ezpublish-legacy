@@ -248,7 +248,10 @@ class eZINI
         $cachedFile = $cachedDir . md5( $md5_input ) . ".php";
 
         // check for modifications
-        $origTime = filemtime( $this->RootDir . "/" . $this->FileName );
+        if ( file_exists( $this->RootDir . "/" . $this->FileName . ".php" ) )
+            $origTime = filemtime( $this->RootDir . "/" . $this->FileName . ".php" );
+        else
+            $origTime = filemtime( $this->RootDir . "/" . $this->FileName );
 //        $overrideTime = filemtime( "override/" . $this->FileName );
 //        $appendTime = filemtime( "override/" . $this->FileName . ".append" );
 
@@ -364,18 +367,27 @@ class eZINI
             $file = $this->FileName;
         $override_dir = $this->overrideDir();
         $overrideName = $this->RootDir . "/$override_dir/" . $file;
-        if ( file_exists( $overrideName ) )
+        if ( file_exists( $overrideName . ".php" ) )
+        {
+            $this->parseFile( $overrideName . ".php" );
+        }
+        else if ( file_exists( $overrideName ) )
         {
             $this->parseFile( $overrideName );
         }
         else
         {
+            $filePath = $this->RootDir . "/" . $file;
+            if ( file_exists( $filePath . ".php" ) )
+                $this->parseFile( $filePath . ".php" );
+            else if ( file_exists( $filePath ) )
+                $this->parseFile( $filePath );
+            
             $appendName = $this->RootDir . "/$override_dir/" . $file . ".append";
-            $this->parseFile( $this->RootDir . "/" . $file );
-            if ( file_exists( $appendName ) )
-            {
+            if ( file_exists( $appendName . ".php" ) )
+                $this->parseFile( $appendName . ".php" );
+            else if ( file_exists( $appendName ) )
                 $this->parseFile( $appendName );
-            }
         }
     }
 
@@ -487,6 +499,7 @@ class eZINI
             return false;
         }
 
+        fwrite( $fp, "<?php /* $sep$sep" );
         fwrite( $fp, "#?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
         $i = 0;
         /* foreach( $this->OrderedBlockValues as $blockName => $orderedBlockValues )
@@ -503,20 +516,21 @@ class eZINI
             ++$i;
         } */
 
-		foreach( array_keys( $this->BlockValues ) as $blockName )
-		{
+        foreach( array_keys( $this->BlockValues ) as $blockName )
+        {
             if ( $i > 0 )
                 fwrite( $fp, "$sep" );
             fwrite( $fp, "[$blockName]$sep" );
-			foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
-			{
-				$varKey = $blockVariable;
-				$varValue = $this->BlockValues[$blockName][$blockVariable];
-                fwrite( $fp, "$varKey=$varValue$sep" );				
-			}
-			++$i;
-		}		
-		
+            foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
+            {
+                $varKey = $blockVariable;
+                $varValue = $this->BlockValues[$blockName][$blockVariable];
+                fwrite( $fp, "$varKey=$varValue$sep" );                
+            }
+            ++$i;
+        }        
+        fwrite( $fp, "*/ ?>" );
+        
         @fclose( $fp );
         return true;
     }
