@@ -57,11 +57,14 @@
                 </div>
 
                 {* Are we allowed to create new object under this node? *}
-                {section show=$node.object.can_create}
+                {section show=fetch( content, access,
+                                     hash( access, 'can_create',
+                                           contentobject, $node,
+                                           contentclass_id, 'comment' ) )}
                     <form method="post" action={"content/action"|ezurl}>
                     <input type="hidden" name="ClassIdentifier" value="comment" />
                     <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                    <input class="button" type="submit" name="NewButton" value="New Comment" />
+                    <input class="button" type="submit" name="NewButton" value="{'New Comment'|i18n( 'design/base' )}" />
                     </form>
                 {section-else}
                     <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>

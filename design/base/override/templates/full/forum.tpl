@@ -17,16 +17,17 @@
     {section show=is_unset( $versionview_mode )}
     {section show=$node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button forum-new-topic" type="submit" name="NewButton" value="New topic" />
+            <input class="button forum-new-topic" type="submit" name="NewButton" value="{'New topic'|i18n( 'design/base' )}" />
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
             <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
-            <input class="button forum-keep-me-updated" type="submit" name="ActionAddToNotification" value="Keep me updated" />
+            <input class="button forum-keep-me-updated" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n( 'design/base' )}" />
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             <input type="hidden" name="ClassIdentifier" value="forum_topic" />
         </form>
     {section-else}
         <p>
-        {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
+        {"You need to be logged in to get access to the forums. You can do so %login_link_start%here%login_link_end%"|i18n( "design/base",,
+         hash( '%login_link_start%', concat( '<a href=', '/user/login/'|ezurl, '>' ), '%login_link_end%', '</a>' ) )}
         </p>
     {/section}
     {/section}

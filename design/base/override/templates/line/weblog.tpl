@@ -26,14 +26,8 @@
            {attribute_view_gui attribute=$node.object.data_map.message}
         </div>
 
-        {section show=$node.object.data_map.enable_comments.content}
         <div class="attribute-link">
-            <p><a href={$node.url_alias|ezurl}>{'Comments'|i18n( 'design/base' )}</a></p>
+            <p><a href={$node.url_alias|ezurl}>{'View comments'|i18n( 'design/base' )}</a></p>
         </div>
-        {section-else}
-        <div class="attribute-link-disabled">
-            <p><a href={$node.url_alias|ezurl}>{'Comments off'|i18n( 'design/base' )}</a></p>
-        </div>
-        {/section}
    </div>
 </div>

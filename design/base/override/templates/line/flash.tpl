@@ -10,7 +10,7 @@
     </div>
 
     <div class="attribute-link">
-        <p><a href={$node.url_alias|ezurl}>{"Read more..."|i18n("design/base")}</a></p>
+        <p><a href={$node.url_alias|ezurl}>{"View flash"|i18n("design/base")}</a></p>
     </div>
 
     </div>
