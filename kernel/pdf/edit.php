@@ -89,6 +89,10 @@ if ( isset( $Params['PDFExportID'] ) )
     if ( !$pdfExport )
     {
         $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+        if( !$pdfExport ) // user requested a non existent export
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
         $pdfExport->setAttribute( 'version', EZ_PDFEXPORT_VERSION_DRAFT );
         $pdfExport->store();
     }
