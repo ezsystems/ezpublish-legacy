@@ -62,11 +62,12 @@ class eZDir
     {
         $ini =& eZINI::instance();
         $dirDepth = $ini->variable( "FileSettings" , "DirDepth" );
-        $path = '';
+        $pathArray = array();
         for ( $i = 0; $i < $dirDepth and $i < strlen( $filename ); $i++ )
         {
-            $path = $path . substr( $filename, $i, 1 ) . '/';
+            $pathArray[] = substr( $filename, $i, 1 );
         }
+        $path = implode( '/', $pathArray );
 
         return $path;
     }
