@@ -2466,7 +2466,11 @@ $rbracket
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if ( isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
+                        $php->addCodePiece( "if ( isset( \$vars[$namespaceText][$variableNameText] ) or\n".
+                                            "( \$vars[$namespaceText][$variableNameText] === null ) )\n".
+                                            "{\n".
+                                            "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
+                                            "}",
                                             array( 'spacing' => $spacing ) );
                     }
                     else if ( $variableOverWrite )
