@@ -15,6 +15,7 @@ Changes from 3.2-1 to 3.2-2
   if there is no match.
 - Made sure the left and right max count can be set when including the google navigator.
 - Added support for attribute_filter parameter to list and tree count which was missing.
+- Fixed read/self policy for content object tree nodes, the SQL was missing.
 
 *DataType:
 
@@ -40,6 +41,10 @@ eZ template:
   than the specified maximum length.
 - Fixed bug in cond operator, the iterator was not multiplied with 2 and caused
   the expression to fail.
+
+eZ session:
+- Added setting for controlling cookie timeout value.
+- Added support for regenerating the session ID, this helps avoid session theft.
 
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.

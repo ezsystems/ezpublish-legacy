@@ -459,6 +459,7 @@ class eZUser extends eZPersistentObject
             $userID = $user->attribute( 'contentobject_id' );
             $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
+            eZSessionRegenerate();
             return $user;
         }
         else
