@@ -27,7 +27,7 @@
         <tr class="{$ReverseRelatedObjects.sequence}">
         <td>{$ReverseRelatedObjects.content_class.identifier|class_icon( small, $ReverseRelatedObjects.item.content_class.name )}&nbsp;{content_view_gui view=text_linked content_object=$ReverseRelatedObjects.item}</td>
         </tr>
-{/section}
+    {/section}
 {section-else}
 <tr><td>{'The item being viewed is not in use by any other objects.'|i18n( 'design/admin/navigation/relations' )}</td></tr>
 {/section}
