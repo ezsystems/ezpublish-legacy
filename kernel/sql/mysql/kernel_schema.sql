@@ -1041,8 +1041,10 @@ CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
   expiration_time int(11) unsigned NOT NULL default '0',
   data longtext NOT NULL,
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (session_key),
-  KEY expiration_time (expiration_time)
+  KEY expiration_time (expiration_time),
+  KEY ezsession_user_id (user_id)
 ) TYPE=MyISAM;
 
 
@@ -1198,18 +1200,6 @@ CREATE TABLE ezuser_role (
   limit_value varchar(255) default '',
   PRIMARY KEY  (id),
   KEY ezuser_role_contentobject_id (contentobject_id)
-) TYPE=MyISAM;
-
-
-
-
-
-CREATE TABLE ezuser_session_link (
-  user_id int(11) NOT NULL default '0',
-  session_key varchar(32) NOT NULL default '',
-  PRIMARY KEY  (user_id,session_key),
-  KEY ezuser_session_link_user_idx (user_id),
-  KEY ezuser_session_link_session_idx (session_key)
 ) TYPE=MyISAM;
 
 

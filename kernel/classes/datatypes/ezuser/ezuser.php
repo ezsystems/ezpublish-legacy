@@ -46,7 +46,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( "kernel/classes/ezcontentobject.php" );
 
 $ini =& eZINI::instance();
-define( 'EZ_USER_ANONYMOUS_ID', $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+define( 'EZ_USER_ANONYMOUS_ID', (int)$ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 
 /// MD5 of password
 define( 'EZ_USER_PASSWORD_HASH_MD5_PASSWORD', 1 );
@@ -334,11 +334,10 @@ class eZUser extends eZPersistentObject
         if ( $asObject )
         {
             $sql = "SELECT ezuser.*
-FROM ezuser_session_link, ezsession, ezuser
-WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+FROM ezsession, ezuser
+WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       ezsession.expiration_time > '$time' AND
-      ezuser_session_link.session_key = ezsession.session_key AND
-      ezuser.contentobject_id = ezuser_session_link.user_id
+      ezuser.contentobject_id = ezsession.user_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
             $list = array();
@@ -350,11 +349,10 @@ $sortText";
         else
         {
             $sql = "SELECT ezuser.contentobject_id as user_id, ezcontentobject.name
-FROM ezuser_session_link, ezsession, ezuser, ezcontentobject
-WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+FROM ezsession, ezuser, ezcontentobject
+WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       ezsession.expiration_time > '$time' AND
-      ezuser_session_link.session_key = ezsession.session_key AND
-      ezuser.contentobject_id = ezuser_session_link.user_id AND
+      ezuser.contentobject_id = ezsession.user_id AND
       ezcontentobject.id = ezuser.contentobject_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
@@ -375,11 +373,11 @@ $sortText";
     {
         $db =& eZDB::instance();
         $time = mktime();
-        $sql = "SELECT count( ezuser_session_link.user_id ) as count
-FROM ezuser_session_link, ezsession
-WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser_session_link.session_key = ezsession.session_key";
+        $sql = "SELECT count( DISTINCT user_id ) as count
+FROM ezsession
+WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+      user_id > 0 AND
+      expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
         return $rows[0]['count'];
     }
@@ -392,11 +390,10 @@ WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
     {
         $db =& eZDB::instance();
         $time = mktime();
-        $sql = "SELECT count( ezuser_session_link.session_key ) as count
-FROM ezuser_session_link, ezsession
-WHERE ezuser_session_link.user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser_session_link.session_key = ezsession.session_key";
+        $sql = "SELECT count( session_key ) as count
+FROM ezsession
+WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
+      expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
         return $rows[0]['count'];
     }
@@ -409,12 +406,12 @@ WHERE ezuser_session_link.user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
     {
         $db =& eZDB::instance();
         $time = mktime();
-        $sql = "SELECT DISTINCT ezuser_session_link.user_id
-FROM ezuser_session_link, ezsession
-WHERE ezuser_session_link.user_id = '" . $userID . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser_session_link.session_key = ezsession.session_key";
-        $rows = $db->arrayQuery( $sql );
+        $userID = (int)$userID;
+        $sql = "SELECT DISTINCT user_id
+FROM ezsession
+WHERE user_id = '" . $userID . "' AND
+      expiration_time > '$time'";
+        $rows = $db->arrayQuery( $sql, array( 'limit' => 2 ) );
         return count( $rows ) > 0;
     }
 
@@ -423,92 +420,15 @@ WHERE ezuser_session_link.user_id = '" . $userID . "' AND
     */
     function removeSessionData( $userID )
     {
-        eZUser::unregisterSessionForUser( $userID, true );
-    }
-
-    /*!
-     \static
-     Moves the session \a $sessionKey from the old user \a $oldUserID to the new \a $newUserID.
-    */
-    function moveSession( $sessionKey, $oldUserID, $newUserID )
-    {
         $db =& eZDB::instance();
-        eZUser::unregisterSessionForUser( $oldUserID, false, $sessionKey );
-        eZUser::registerSessionKey( $sessionKey, $newUserID );
-    }
-
-    /*!
-     \static
-     Unregisters all sessions which are related to the user \a $userID.
-     \param $removeSession If \c true the session data which \a $sessionKey refers to will be removed.
-    */
-    function unregisterSessionForUser( $userID, $removeSession = false, $sessionKey = false )
-    {
         $userID = (int)$userID;
-        $db =& eZDB::instance();
-        if ( $removeSession )
-        {
-            if ( $sessionKey !== false )
-            {
-                eZUser::unregisterSessionKey( $sessionKey, $removeSession );
-            }
-            else
-            {
-                $rows = $db->arrayQuery( 'SELECT session_key FROM ezuser_session_link WHERE user_id = \'' . $db->escapeString( $userID ) . '\'' );
-                $sessionList = array();
-                foreach ( $rows as $row )
-                {
-                    $sessionList[] = $row['session_key'];
-                }
-                eZUser::unregisterSessionKey( $sessionList, $removeSession );
-            }
-        }
-        if ( $sessionKey !== false )
-            $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
-        else
-            $db->query( 'DELETE FROM ezuser_session_link WHERE user_id = \'' . $db->escapeString( $userID ) . '\'' );
+        $db->query( 'DELETE FROM ezsession WHERE user_id = \'' . $userID . '\'' );
     }
 
     /*!
-     \static
-     Unregisters the session \a $sessionKey from the user.
-     \param $removeSession If \c true the session data which \a $sessionKey refers to will be removed.
+     Removes the user from the ezuser table.
+     \note Will also remove any notifications and session related to the user.
     */
-    function unregisterSessionKey( $sessionKey, $removeSession = false )
-    {
-        $db =& eZDB::instance();
-        if ( $removeSession )
-        {
-            if ( is_array( $sessionKey ) )
-            {
-                $sessionKeyList = $sessionKey;
-                $sessionList = array();
-                foreach ( $sessionKeyList as $sessionKey )
-                {
-                    $sessionList[] = "'" . $db->escapeString( $sessionKey ) . "'";
-                }
-                $sessionKeyText = 'IN ( ' . implode( ', ', $sessionList ) . ' )';
-            }
-            else
-            {
-                $sessionKeyText = '= \'' . $db->escapeString( $sessionKey ) . '\'';
-            }
-            $db->query( 'DELETE FROM ezsession WHERE session_key ' . $sessionKeyText );
-        }
-        $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
-    }
-
-    /*!
-     \static
-     Registers the session \a $sessionKey from the user.
-    */
-    function registerSessionKey( $sessionKey, $userID )
-    {
-        $db =& eZDB::instance();
-        $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
-        $db->query( 'INSERT INTO ezuser_session_link ( session_key, user_id ) VALUES( \'' . $db->escapeString( $sessionKey ) . '\', \'' . $db->escapeString( $userID ) . '\' )' );
-    }
-
     function &removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
@@ -748,7 +668,7 @@ WHERE ezuser_session_link.user_id = '" . $userID . "' AND
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
             $user->cleanup();
-            eZUser::moveSession( session_id(), $oldUserID, $userRow['contentobject_id'] );
+            eZSessionSetUserID( $userRow['contentobject_id'] );
             return $user;
         }
         else
@@ -783,18 +703,6 @@ WHERE ezuser_session_link.user_id = '" . $userID . "' AND
     }
 
     /*!
-     \removes all user<->session links.
-    */
-    function cleanupSessionLink()
-    {
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
-        $query = "TRUNCATE TABLE ezuser_session_link";
-
-        $db->query( $query );
-    }
-
-    /*!
      \return logs in the current user object
     */
     function loginCurrent()
@@ -814,8 +722,7 @@ WHERE ezuser_session_link.user_id = '" . $userID . "' AND
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
         $newUserID = EZ_USER_ANONYMOUS_ID;
         $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
-        eZUser::moveSession( session_id(), $contentObjectID, $newUserID );
-//        $http->removeSessionVariable( "eZUserLoggedInID" );
+        eZSessionSetUserID( $newUserID );
         if ( $contentObjectID )
             eZUser::cleanup();
     }
@@ -846,7 +753,7 @@ WHERE ezuser_session_link.user_id = '" . $userID . "' AND
             {
                 $id = EZ_USER_ANONYMOUS_ID;
                 $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                eZUser::registerSessionKey( session_id(), $id );
+                eZSessionSetUserID( $id );
             }
         }
 
