@@ -39,7 +39,7 @@
       <tr>
       {section var=site2 loop=$site_types max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site2.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site2.identifier}" {section show=$chosen_types[0].identifier|eq( $site2.identifier )}checked="checked"{/section} /><label for="{$site2.identifier|wash}">{$site2.name}</label>
+	    <input id="{$site2.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site2.identifier}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site2.identifier )}checked="checked"{/section} /><label for="{$site2.identifier|wash}">{$site2.name}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][identifier]" value="{$site2.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][name]" value="{$site2.name}" /> *}
 	  </td>
@@ -59,7 +59,7 @@
     <tr>
         {section var=site loop=$site_types offset=4 max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier|wash}" {section show=$chosen_types[0].identifier|eq( $site.identifier )}checked="checked"{/section} /><label for="{$site.identifier|wash}">{$site.name|wash}</label>
+	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier|wash}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site.identifier )}checked="checked"{/section} /><label for="{$site.identifier|wash}">{$site.name|wash}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][identifier]" value="{$:item.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][name]" value="{$site.name}" /> *}
 	  </td>
@@ -71,7 +71,7 @@
     <tr>
         {section var=site loop=$site_types max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier}" {section show=$chosen_types[0].identifier|eq( $site.identifier )}checked="checked"{/section} /><label for="{$site.identifier|wash}">{$site.name}</label>
+	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site.identifier )}checked="checked"{/section} /><label for="{$site.identifier|wash}">{$site.name}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][identifier]" value="{$site.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][name]" value="{$site.name}" /> *}
 	  </td>
