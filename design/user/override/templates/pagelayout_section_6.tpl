@@ -57,6 +57,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <!-- Top box START -->
 
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<br />
 
 <map name="map">
 <area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
@@ -65,12 +66,12 @@ function OpenWindow ( URL, WinName, Features ) {
 <AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
 <AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
+
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
      news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
 
-<br clear="all" />
-
+<br />
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
@@ -81,7 +82,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <table width="700" border="0" cellspacing="2" cellpadding="2">
     <tr>
 {section name=Folder loop=$folder_list}
-        <td align="center">
+        <td align="left">
         &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font>
         </td>
 {/section}
@@ -98,7 +99,7 @@ function OpenWindow ( URL, WinName, Features ) {
 </tr>
 <tr>
     <td valign="top">
-    &nbsp;
+    &nbsp;&gt;
      {section name=Path loop=$module_result.path  offset=2}
         {section show=$Path:item.url}
         <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
@@ -113,8 +114,17 @@ function OpenWindow ( URL, WinName, Features ) {
     <table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
     <tr>
         <td valign="top" width="100">
-	Item 1<br />
-	Item 2
+	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1)))}
+	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a>
+	{delimiter}
+	<br />
+	{/delimiter}
+	{/section}
+
+	<br />
+	<br />
+	<br />
+	<center><a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a></center>
         </td>
 
         <td valign="top">
@@ -132,17 +142,30 @@ function OpenWindow ( URL, WinName, Features ) {
     </tr>
     <tr>
         <td bgcolor="#e4eaf3">
-	&nbsp;<b>News</b>
+	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="2">
+	<tr>
+	   <td>
+	   &nbsp;&nbsp;<b>News</b>
+	   </td>
+	</tr>
+	</table> 	
         </td>
     </tr>
     <tr>
         <td bgcolor="#ffffff">
+	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
+	<tr>
+	   <td>
         {section name=News loop=$news_list}
-        {node_view_gui view=menu content_node=$News:item}
+	<a class="small" href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a><br />
+	<span class="small">({$News:item.object.published|l10n(shortdate)})</span>
 	{delimiter}
-	<br />
+	<br clear="all" /><br />
 	{/delimiter}
 	{/section}
+            </td>
+	</tr>
+	</table> 	
         </td>
     </tr>
     </td>

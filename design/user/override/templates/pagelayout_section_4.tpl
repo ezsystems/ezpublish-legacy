@@ -71,10 +71,10 @@
 
 <br />
 
-<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#E6E6E6">
+<table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td>
-    <table width="100%" border="0" cellspacing="0" cellpadding="20">
+    <table width="100%" border="0" cellspacing="20" cellpadding="0">
     <tr>
         <td>
         {$module_result.content}
@@ -87,8 +87,6 @@
     </td>    
 </tr>
 <tr>
-    <td>
-    <img src={"images/crossroads_bottom.gif"|ezdesign} alt="" /></td>
 </tr>
 </table>
 

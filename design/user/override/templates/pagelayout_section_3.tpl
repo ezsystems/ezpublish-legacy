@@ -129,13 +129,14 @@
          <tr>
          <td width="100%" valign="top">
          {node_view_gui view=menu content_node=$News:item}
+	 <br /><br />
          </td>
          </tr>
          {/section} 
          {section name=News loop=$news_list offset=1}
          <tr> 
              <td width="125" bgcolor="#FFF4EA" class="links"> 
-             -<a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
+             <a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
              </td>
          </tr>
          {/section}   

@@ -1,0 +1,371 @@
+/* eZ publish 3 core CSS - th[eZ] 20021002                              */
+/* Do _not_ remove or delete this stylesheet, because some basic        */
+/* formatting methods in the system depends on it for proper display.   */
+/* Just modify and/or override styles where necessary.                  */
+
+/* Main vindow */
+
+body
+{
+    background-color: #ffffff;
+    margin: 8px;
+    padding: 8px;
+}
+
+/* Global setting of font types */
+
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Global setting of font sizes */
+h1
+{
+    font-size: 120%;
+}
+
+h2
+{
+    font-size: 110%;
+}
+
+h3
+{
+    font-size: 100%;
+}
+
+p, li, dl, label, input, .normal
+{
+    font-size: 80%;
+}
+
+.small, .picturetext, .factbox
+{
+    font-size: 70%;
+}
+
+/* Headings */
+
+h1, h2, h3
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.25ex;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px;
+    clear: left;
+}
+
+h1, h2
+{
+    font-weight: normal;
+}
+
+h3
+{
+    font-weight: bold;
+}
+
+/* Regular text */
+
+p
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+    margin: 0px;
+}
+
+a
+{
+    color: #000000;
+}
+
+a:hover
+{
+    color: #0000c0;
+    text-decoration: underline;
+}
+
+/*
+a:visited
+{
+    color: #000000;
+    text-decoration: underline;
+}
+*/
+
+/* Tables */
+
+table
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+table.list
+{
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+th
+{
+    padding-top: 0px;
+    margin-top: 0px;
+    font-weight: bold;
+    text-align: left;
+}
+
+td
+{
+    font-weight: normal;
+}
+
+td.bglight
+{
+    background-color: #f8f8f8;
+}
+
+td.bgdark
+{
+    background-color: #f0f0f0;
+}
+
+td.tight
+{
+    font-size: 1px;
+}
+
+/* Lists */
+
+ul, ol
+{
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+li
+{
+    padding: 0px;
+    margin-top: 0.25ex;
+    margin-bottom: 0.25ex;
+}
+
+dl
+{
+    padding: 0px;
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+dt
+{
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 1ex;
+}
+
+dd
+{
+    font-style: italic;
+    margin-top: 0px;
+    margin-bottom: 0.5ex;
+    margin-left: 2ex;
+    margin-right: 2ex;
+}
+
+/* Forms */
+
+form
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+input.box, textarea.box
+{
+    width: 80ex;
+}
+
+input.halfbox, textarea.halfbox
+{
+    width: 39ex;
+}
+
+label
+{
+    font-weight: bold;
+    padding-right: 1ex;
+}
+
+div.labelbreak
+{
+    display: block;
+}
+
+input.button
+{
+    font-weight: bold;
+}
+
+p.box
+{
+    padding-top: 0.25ex;
+}
+
+/* Page dividers */
+
+div.bodyblock
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+}
+
+div.break
+{
+    display: block;
+    clear: both;
+    margin-bottom: 1ex;
+}
+
+div.block
+{
+    clear: both;
+    padding: 0px;
+    margin-top: 0.5ex;
+    margin-bottom: 0.5ex;
+}
+
+div.buttonblock
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+div.element
+{
+    float: left;
+    display: block;
+    padding-right: 1ex;
+    padding-left: 0px;
+    clear: right;
+}
+
+div.divider
+{
+    float: left;
+    width: 48%;
+    padding-right: 8px;
+}
+
+div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright
+{
+    padding: 4px;
+    padding-top: 8px;
+    display: inline;
+    clear: both;
+}
+
+div.imagecenter, div.faxtboxcenter
+{
+    width: 100%;
+    padding: 4px;
+    padding-top: 8px;
+    display: block;
+    text-align: center;
+}
+
+div.imageleft, div.factboxleft
+{
+    float: left;
+}
+
+div.imageright, div.factboxright
+{
+    float: right;
+}
+
+div.faxtboxleft, div.faxtboxright
+{
+    background-color: #f0f0f0;
+}
+
+/* Messages to the user */
+
+.error
+{
+    font-weight: bold;
+    color: #c00000;
+}
+
+div.error, div.warning, div.feedback
+{
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: 2ex;
+    padding: 0.5ex;
+    padding-left: 1ex;
+    padding-right: 2ex;
+    border-width: 0.5ex;
+    border-style: solid;
+    background-color: #f8f8f8;
+}
+
+div.error
+{
+    border-color: #b00000;
+}
+
+div.warning
+{
+    border-color: #e0e000;
+}
+
+div.feedback
+{
+    border-color: #008000;
+}
+
+/* Other objects */
+
+hr
+{
+    height: 1px;
+    padding-bottom: 0px;
+    margin-bottom: 1ex;
+}
+
+/* Article formatting */
+
+div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+{
+    padding: 2px;
+    margin: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, span.bgcolor, p.factbox
+{
+    background-color: #f0f0f0;
+}
+
+div.bodyblock p.body
+{
+    display: inline;
+}
+
+/* Special stuff */
+
+h1.top
+{
+    padding-top: 0px;
+    padding-bottom: 1ex;
+}
+
+.invisible
+{
+    display: none;
+}
