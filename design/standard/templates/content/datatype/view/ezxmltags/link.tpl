@@ -1,1 +1,1 @@
-<a href="{$href}">{$content}</a>
+<a href="{$href}" target="{$target}">{$content}</a>

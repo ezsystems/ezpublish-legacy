@@ -429,6 +429,7 @@ class eZXMLTextType extends eZDataType
             {
                 include_once( 'lib/ezutils/classes/ezmail.php' );
                 $linkID = $tag->attributeValue( 'id' );
+                $target = $tag->attributeValue( 'target' );
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID );
                 else
@@ -440,6 +441,7 @@ class eZXMLTextType extends eZDataType
                     $href = "mailto:" . $href;
 
                 $tpl->setVariable( 'href', $href, 'xmltagns' );
+                $tpl->setVariable( 'target', $target, 'xmltagns' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
