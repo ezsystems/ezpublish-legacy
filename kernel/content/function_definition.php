@@ -107,7 +107,16 @@ $FunctionList['tree'] = array( 'name' => 'tree',
                                                       array( 'name' => 'class_id',
                                                              'type' => 'integer',
                                                              'required' => false,
+                                                             'default' => false ),
+                                                      array( 'name' => 'class_filter_type',
+                                                             'type' => 'string',
+                                                             'required' => false,
+                                                             'default' => false ),
+                                                      array( 'name' => 'class_filter_array',
+                                                             'type' => 'array',
+                                                             'required' => false,
                                                              'default' => false ) ) );
+
 $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                      'operation_types' => array( 'read' ),
                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
@@ -116,6 +125,15 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                      'parameter_type' => 'standard',
                                      'parameters' => array( array( 'name' => 'parent_node_id',
                                                                    'type' => 'integer',
-                                                                   'required' => true ) ) );
+                                                                   'required' => true ),
+                                                            array( 'name' => 'class_filter_type',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => false ),
+                                                            array( 'name' => 'class_filter_array',
+                                                                   'type' => 'array',
+                                                                   'required' => false,
+                                                                   'default' => false )
+                                                            ) );
 
 ?>
