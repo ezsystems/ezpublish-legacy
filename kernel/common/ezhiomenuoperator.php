@@ -94,7 +94,8 @@ class eZHiOMenuOperator
                               13, // Voldsofferarbeid
                               14, // Pedagogisk utviklingssenter
                               15, // Høgskolebiblioteket
-                              16  // Administrasjonen16
+                              16,  // Administrasjonen16
+                              21  // Sevu
                               );
         if ( in_array( $namedParameters['section_id'], $sessionIDs ) )
             $offset = 2;
