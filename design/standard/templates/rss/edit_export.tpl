@@ -9,7 +9,7 @@
     </div>
 
     <div class="block">
-    
+
     <label>{"Title"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     {include uri="design:gui/lineedit.tpl" id_name=title value=$rss_export.title|wash}
     <br/>
@@ -36,7 +36,7 @@
       selected="selected"
     {/section} value="{$:item}">{$:item|wash}</option>
     {/section}
-    </select> 
+    </select>
 
     <br/> *}
 
@@ -67,7 +67,7 @@
     <label>{"Access URL"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     rss/feed/ {include uri="design:gui/lineedit.tpl" id_name="Access_URL" value=$rss_export.access_url}
     <br/>
-    
+
     </div>
 
     <input type="hidden" name="RSSExport_ID" value={$rss_export.id} />
@@ -83,7 +83,10 @@
        <input type="hidden" name="Item_ID_{$Source:index}" value="{$Source:item.id}" />
        <label>{"Source path"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
        <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" maxlength="60" />
-       {include uri="design:gui/button.tpl" id_name=concat( "SourceBrowse_", $Source:index ) value="Browse"|i18n("design/standard/rss/edit")}
+       {include uri="design:gui/button.tpl"
+                name=concat( "SourceBrowse_", $Source:index )
+                id_name=concat( "SourceBrowse_", $Source:index )
+                value="Browse"|i18n("design/standard/rss/edit")}
        <br/>
 
        <label>{"Class"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
@@ -95,15 +98,18 @@
        {/section} value="{$:item.id}">{$:item.name|wash}</option>
        {/section}
        </select>
-       {include uri="design:gui/button.tpl" id_name="Update_Item_Class" value="Update"|i18n("design/standard/rss/edit")}
+       {include uri="design:gui/button.tpl"
+                name="Update_Item_Class"
+                id_name="Update_Item_Class"
+                value="Update"|i18n("design/standard/rss/edit")}
        <br/>
-              
+
        {section name=Attribute show=count($rss_export.item_list[$Source:index])|gt(0)}
 
          <label>{"Title"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
          <select name="Item_Class_Attribute_Title_{$Source:index}">
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
-         <option value="{$:item.identifier}" 
+         <option value="{$:item.identifier}"
              {section name=ShowSelected show=eq($Source:item.title,$:item.identifier)}
                  selected="selected"
              {/section}>{$:item.name|wash}</option>
@@ -114,7 +120,7 @@
          <label>{"Description"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
          <select name="Item_Class_Attribute_Description_{$Source:index}">
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
-         <option value="{$:item.identifier|wash}" 
+         <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq($Source:item.description,$:item.identifier)}
                  selected="selected"
              {/section}>{$:item.name|wash}</option>

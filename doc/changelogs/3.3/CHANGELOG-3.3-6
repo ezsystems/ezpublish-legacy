@@ -60,6 +60,9 @@ eZINI:
   http://ez.no/community/bug_reports/ezkeyword_related_array_shows_content_which_is_not_readable
 - Fixed bug of role policies limit to a subtree destroyed after moving subtree
   http://ez.no/community/bug_reports/role_policies_limit_to_a_subtree_destroyed_after_moving_subtree
+- Fixed bug related to inability of selecting source node for RSS export.
+  http://ez.no/community/bug_reports/rss_export_source_1_selection_fails
+
 *Library:
 
 eZ Locale:
