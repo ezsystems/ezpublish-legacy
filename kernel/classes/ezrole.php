@@ -158,6 +158,7 @@ class eZRole extends eZPersistentObject
                 $this->Policies =& $policies;
             }
         }
+
         return $this->Policies;
     }
 
@@ -287,6 +288,9 @@ class eZRole extends eZPersistentObject
                 $http->removeSessionVariable( 'UserPolicies' );
                 $http->removeSessionVariable( 'UserLimitations' );
                 $http->removeSessionVariable( 'UserLimitationValues' );
+                $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
+                $http->removeSessionVariable( 'CanInstantiateClassList' );
+                $http->removeSessionVariable( 'ClassesCachedForUser' );
 
                 // Expire role cache
                 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );

@@ -197,22 +197,22 @@ class eZContentClass extends eZPersistentObject
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
 
-            $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
-            $classesCachedTimestamp = $http->sessionVariable( 'classesCachedTimestamp' );
+            $classesCachedForUser = $http->sessionVariable( 'CanInstantiateClassesCachedForUser' );
+            $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
             $user =& eZUser::currentUser();
             $userID = $user->id();
 
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
-                if ( $http->hasSessionVariable( 'canInstantiateClasses' ) )
+                if ( $http->hasSessionVariable( 'CanInstantiateClasses' ) )
                 {
-                    return $http->sessionVariable( 'canInstantiateClasses' );
+                    return $http->sessionVariable( 'CanInstantiateClasses' );
                 }
             }
             else
             {
                 // store cache
-                $http->setSessionVariable( 'canInstantiateClassesCachedForUser', $userID );
+                $http->setSessionVariable( 'CanInstantiateClassesCachedForUser', $userID );
 //                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
             }
         }
@@ -227,7 +227,7 @@ class eZContentClass extends eZPersistentObject
 
         if ( $enableCaching == 'true' )
         {
-            $http->setSessionVariable( 'canInstantiateClasses', $canInstantiateClasses );
+            $http->setSessionVariable( 'CanInstantiateClasses', $canInstantiateClasses );
         }
         return $canInstantiateClasses;
     }
@@ -248,22 +248,22 @@ class eZContentClass extends eZPersistentObject
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
 
-            $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
-            $classesCachedTimestamp = $http->sessionVariable( 'classesCachedTimestamp' );
+            $classesCachedForUser = $http->sessionVariable( 'CanInstantiateClassesCachedForUser' );
+            $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
-                if ( $http->hasSessionVariable( 'canInstantiateClassList' ) )
+                if ( $http->hasSessionVariable( 'CanInstantiateClassList' ) )
                 {
-                    return $http->sessionVariable( 'canInstantiateClassList' );
+                    return $http->sessionVariable( 'CanInstantiateClassList' );
                 }
             }
             else
             {
-                $http->setSessionVariable( 'classesCachedForUser' , $userID );
-                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
+                $http->setSessionVariable( 'ClassesCachedForUser' , $userID );
+                $http->setSessionVariable( 'ClassesCachedTimestamp', mktime() );
             }
         }
 
@@ -333,7 +333,7 @@ class eZContentClass extends eZPersistentObject
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
         if ( $enableCaching == 'true' )
         {
-            $http->setSessionVariable( 'canInstantiateClassList', $classList );
+            $http->setSessionVariable( 'CanInstantiateClassList', $classList );
         }
         return $classList;
     }

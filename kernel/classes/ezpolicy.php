@@ -133,8 +133,8 @@ class eZPolicy extends eZPersistentObject
                 $limitation->copy( $newPolicy->attribute( 'id' ) );
             }
         }
-
     }
+
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )
@@ -181,10 +181,10 @@ class eZPolicy extends eZPersistentObject
             {
                 //  $http =& eZHTTPTool::instance();
 
-                $hasLimitationsInCache = $http->hasSessionVariable( 'userLimitations' );
+                $hasLimitationsInCache = $http->hasSessionVariable( 'UserLimitations' );
                 if ( $hasLimitationsInCache )
                 {
-                    $limitationsForAllUserPolicies =& $http->sessionVariable( 'userLimitations' );
+                    $limitationsForAllUserPolicies =& $http->sessionVariable( 'UserLimitations' );
                     $limitationsForCurrentPolicy =& $limitationsForAllUserPolicies["$policyID"];
                     if ( count( $limitationsForCurrentPolicy ) > 0 )
                     {
@@ -199,7 +199,6 @@ class eZPolicy extends eZPersistentObject
                         $loadFromDb = false;
                     }
                 }
-
             }
             if ( $loadFromDb )
             {
@@ -222,9 +221,9 @@ class eZPolicy extends eZPersistentObject
                         $limitationsForCurrentPolicy[] = $limitationAttributes;
                     }
                     $http =& eZHTTPTool::instance();
-                    if ( !$http->hasSessionVariable( 'userLimitations' ) )
+                    if ( !$http->hasSessionVariable( 'UserLimitations' ) )
                     {
-                        $limitationArray =& $http->sessionVariable( 'userLimitations' );
+                        $limitationArray =& $http->sessionVariable( 'UserLimitations' );
                     }
                     else
                     {
