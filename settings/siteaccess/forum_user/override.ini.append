@@ -112,4 +112,17 @@ MatchFile=edit_user.tpl
 Subdir=templates
 Match[class]=4
 
+[embedded_folder]
+Source=content/view/embed.tpl
+MatchFile=embedded_folder.tpl
+Subdir=templates
+Match[class]=1
+
+[embedded_forum]
+Source=content/view/embed.tpl
+MatchFile=embedded_forum.tpl
+Subdir=templates
+Match[class]=20
+
+
 */ ?>
