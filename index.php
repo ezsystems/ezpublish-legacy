@@ -110,9 +110,23 @@ function eZUpdateTextCodecSettings()
 // Initialize text codec settings
 eZUpdateTextCodecSettings();
 
-// Initialize debug settings
+// Fixing setting for codepage cache files:
+$ini =& eZINI::instance();
+$iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+$iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+$iniVarDirectory = eZSys::varDirectory() ;
+
+
+// Initialize debug settings.
 eZUpdateDebugSettings();
 
+
+// Set the different permissions/settings.
+eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
+                                         'dir_permission'  => octdec( $iniDirPermission ),
+                                         'var_directory'   => $iniVarDirectory ) );
+
+//
 $warningList = array();
 
 /*!
