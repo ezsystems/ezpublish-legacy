@@ -102,7 +102,7 @@ class eZTextType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            
+
             if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
             {
                 if ( $classAttribute->attribute( "is_required" ) )
@@ -146,7 +146,6 @@ class eZTextType extends eZDataType
     function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
     {
         $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
         $collectionAttribute->setAttribute( 'data_text', $dataText );
 
         return true;

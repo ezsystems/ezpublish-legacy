@@ -442,6 +442,8 @@ class eZDataType
     /*!
      Fetches the HTTP collected information for the content object attribute.
      \note Default implementation does nothing.
+
+     \return true if variable was successfully fetched.
     */
     function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$objectAttribute )
     {
