@@ -122,6 +122,12 @@ class eZObjectRelationType extends eZDataType
         {
             case "set_object_relation" :
             {
+                if ( $http->hasPostVariable( 'RemoveObjectButton_' . $contentObjectAttribute->attribute( 'id' ) ) )
+                {
+                    $contentObjectAttribute->setAttribute( 'data_int', 0 );
+                    $contentObjectAttribute->store();
+                }
+
                 if ( $http->hasPostVariable( 'BrowseObjectButton_' . $contentObjectAttribute->attribute( 'id' ) ) )
                 {
                     $module =& $parameters['module'];
@@ -130,6 +136,7 @@ class eZObjectRelationType extends eZDataType
                     $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
 
                     $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) );
+                    $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
                     $http->setSessionVariable( 'BrowseReturnType', 'ObjectID' );
                     $http->setSessionVariable( 'BrowseCustomAction', array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
                                                                             'value' => $contentObjectAttribute->attribute( 'id' ) ) );
