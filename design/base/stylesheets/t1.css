@@ -999,14 +999,15 @@ div.class-article div.content-image div.imagecaption p
 }
 
 /* Submit buttons */
-div.content-action input.defaultbutton
+input.defaultbutton
 {
     font: 9pt;
+    font-weight: bold;
     border: 1px solid #369;
     background-color: #9cf;
 }
 
-div.content-action input.button
+input.button
 {
     font: 9pt;
     border: 1px solid #369;
@@ -1018,5 +1019,47 @@ input.searchbutton
     font: 9pt;
     border: 1px solid #369;
     background-color: #9cf;
+}
+
+/* Table formatting */
+table th
+{ 
+    background-color: #d9e5f2;
+}
+
+/* shop tables */
+div.view-shop div.content-basket table
+{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+div.view-shop div.content-basket table th
+{
+    padding: 3px;
+    margin: 0px;
+}
+
+div.view-shop div.content-basket table td
+{
+    padding: 3px;
+    margin: 0px;
+}
+
+div.view-shop div.content-basket table td.product-details
+{
+    border-bottom: 1px solid #9cf;
+}
+
+div.view-shop div.content-basket table td.product-price
+{
+    text-align: right;
+}
+
+div.view-shop div.content-basket table td.product-subtotal
+{
+    text-align: right;
+    border-bottom: 1px solid #9cf;
 }
 
