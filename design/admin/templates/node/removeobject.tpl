@@ -41,7 +41,7 @@
 
 <tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
     {* Object icon. *}
-    <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name )}</td>
+    <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name|wash )}</td>
 
     {* Location. *}
     <td>
