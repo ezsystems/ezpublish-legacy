@@ -720,6 +720,12 @@ class eZTemplate
             $this->setIncludeText( $uri, $templateText );
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+
+            if ( eZTemplate::isDebugEnabled() )
+            {
+                $this->appendDebugNodes( $root, $resourceData );
+            }
+
             if ( $canCache )
                 $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
         }
@@ -822,6 +828,10 @@ class eZTemplate
         $templateText =& $resourceData["text"];
         $rootNamespace = '';
         $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+        if ( eZTemplate::isDebugEnabled() )
+        {
+            $this->appendDebugNodes( $root, $resourceData );
+        }
 
         $result = $this->ErrorCount == 0 and $this->WarningCount == 0;
         if ( $returnResourceData )
@@ -865,6 +875,10 @@ class eZTemplate
             $templateText =& $resourceData["text"];
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+            if ( eZTemplate::isDebugEnabled() )
+            {
+                $this->appendDebugNodes( $root, $resourceData );
+            }
 
             $result = eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
         }
@@ -1682,6 +1696,25 @@ class eZTemplate
         else
             $textElements[] = "$item";
         return $textElements;
+    }
+
+    /*!
+     Creates some text nodes before and after the children of \a $root.
+     It will extract the current filename and uri and create some XHTML
+     comments and inline text.
+     \sa isXHTMLCodeIncluded
+    */
+    function appendDebugNodes( &$root, &$resourceData )
+    {
+        $path = $resourceData['template-filename'];
+        $uri = $resourceData['uri'];
+        $preText = "\n<!-- START: including template: $path ($uri) -->\n";
+        if ( eZTemplate::isXHTMLCodeIncluded() )
+            $preText .= "<p class=\"small\">$path</p><br/>\n";
+        $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
+        include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
+        $root[1] = array_merge( eZTemplateNodeTool::createTextNode( $preText ), $root[1] );
+        $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
     }
 
     /*!

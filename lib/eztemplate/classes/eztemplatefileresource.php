@@ -306,14 +306,6 @@ class eZTemplateFileResource
                     eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                 }
                 $result = true;
-                if ( eZTemplate::isDebugEnabled() )
-                {
-                    $preText = "\n<!-- START: including template: $path ($uri) -->\n";
-                    if ( eZTemplate::isXHTMLCodeIncluded() )
-                        $preText .= "<p class=\"small\">$path</p><br/>\n";
-                    $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-                    $text = $preText . $text . $postText;
-                }
             }
         }
         else if ( $method == EZ_RESOURCE_QUERY )

@@ -312,6 +312,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                 if ( $literalEndPos === false )
                                     $literalEndPos = $sourceLength;
                                 $data = substr( $sourceText, $blockEnd, $literalEndPos - $blockEnd );
+                                $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                                 $blockEnd = $literalEndPos + strlen( $literalEndTag );
                                 $textElements[] = array( "text" => $data,
                                                          "type" => EZ_ELEMENT_TEXT,
