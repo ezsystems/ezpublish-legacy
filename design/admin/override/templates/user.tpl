@@ -11,56 +11,32 @@
     <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-<table cellspacing="5" cellpadding="0" border="0">
-<tr>
-    <td>
-        <div class="maincontentheader">
-            <h1>{$node_name|wash}</h1>
-        </div>
-	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    </td>
-</tr>
-</table>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td valign="top">
-        {attribute_view_gui attribute=$node.object.data_map.user_account}
-    </td>
-    <td width="120" valign="top">
-    {let name=Object  related_objects=$content_version.related_contentobject_array}
-    {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array( bglight, bgdark )}
-        <div class="block">
-            {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
-        </div>
-    {section-else}
-    {/section}
-    {/let}
-
-    {section show=$is_standalone}
-        {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
-        <div class="block">
-            <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
-        </div>
-        {/section}
-    {/section}
-    </td>
-</tr>
-</table>
-
-{section show=and( $is_editable,$content_object.can_edit )}
-   <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-    {*   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />*}
-{/section}
-
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-<input type="hidden" name="ViewMode" value="full" />
-
+<div class="objectheader">
+    <h2>User</h2>
 </div>
 
-{/section}
+<div class="object">
+    <h1>{$node_name|wash( xhtml )}</h1>
+
+    <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
+
+    <p>{attribute_view_gui attribute=$node.object.data_map.user_account}</p>
+            
+    <div class="buttonblock">
+    {section show=$is_editable}
+        {switch match=$content_object.can_edit}
+        {case match=1}
+            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
+        {/case}
+        {case match=0}
+        {/case}
+        {/switch}
+    {/section}
+    <input class="button" type="submit" value="Remove" />
+    </div>
+</div>
 
 {section show=$is_standalone}
     </form>

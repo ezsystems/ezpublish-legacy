@@ -83,4 +83,9 @@ Source=node/view/full.tpl
 MatchFile=image.tpl
 Subdir=templates
 Match[class]=5
+
+[search]
+Source=content/search.tpl
+MatchFile=search.tpl
+Subdir=templates
 */ ?>
