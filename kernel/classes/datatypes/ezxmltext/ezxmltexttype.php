@@ -552,7 +552,18 @@ class eZXMLTextType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        $metaData = "";
+        $doc =& $contentObjectAttribute->attribute( "data_text" );
+
+        $xml = new eZXML();
+        $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+
+        $textNodes =& $dom->elementsByName( "#text" );
+        foreach ( $textNodes as $node )
+        {
+            $metaData .= " " . $node->content();
+        }
+        return $metaData;
     }
 
     /*!

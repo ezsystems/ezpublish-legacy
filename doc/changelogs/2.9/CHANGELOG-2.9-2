@@ -26,6 +26,7 @@ eZ soap :
 - Fixed correct content type in HTTP header
 
 eZ xml : 
+- Added registration of #text nodes by name in DOM docuemnt.
 - Added support for numeric characters in namespace prefix.
 - Fixed crash when returning textContent of empty DOM node.
 
