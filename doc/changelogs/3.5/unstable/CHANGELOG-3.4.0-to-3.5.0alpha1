@@ -566,6 +566,9 @@ Workflow:
 - Fixed bug: incorrect value of eZNodeAssignment after node was moved.
 - Removed hardcoded redirect in kernel/user/password.php. You can now control the redirect with the hidden variable
   "RedirectOnCancel".
+- Changed default PostgreSQL user from 'root' to 'postgres' in bin/shell/redumpall.sh since
+  there's no user called root in default PostgreSQL installation.
+  (Merged from stable/3.3 rev. 8108, also in stable/3.4 rev. 8109)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

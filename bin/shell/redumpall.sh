@@ -29,7 +29,7 @@ USE_POSTGRESQL=""
 DUMP_DATA=""
 PAUSE=""
 
-POST_USER="root"
+POST_USER="postgres"
 
 # Check parameters
 for arg in $*; do
