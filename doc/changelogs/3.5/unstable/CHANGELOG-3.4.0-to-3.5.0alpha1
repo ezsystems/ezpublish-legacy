@@ -221,6 +221,8 @@ eztc.php:
 - Fixed another bug related to the ezcontentobjectlrelationlist template.
   (Merged from stable/3.4, rev. 7150)
   http://ez.no/community/bug_reports/template_compiler_bug_when_class_list_is_passed_to_fetch_in_a_variable_containing_hash
+- Fixed bogus PostGreSQL version check. (Merged from stable/3.4, rev. 7156)
+  http://ez.no/community/bug_reports/fail_installation_with_postgresql_db
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
