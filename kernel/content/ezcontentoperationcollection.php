@@ -267,7 +267,7 @@ class eZContentOperationCollection
             $ruleID = $rule->attribute( "id" );
             $ruleClass = $rule->attribute("rule_type");
 
-            if ( is_object( $ruleClass ) && $ruleClass->match( &$object, &$rule ) )
+            if ( is_object( $ruleClass ) && $ruleClass->match( $object, $rule ) )
             {
                 $users =& eZNotificationUserLink::fetchUserList( $ruleID );
                 foreach ( $users as $user )
