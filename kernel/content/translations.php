@@ -105,6 +105,8 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     foreach ( $seletedIDList as $translationID )
     {
         $translation =& eZContentTranslation::fetch( $translationID );
+        if ( $translation === null )
+            continue;
         $translatedObjectsCount = $translation->translatedObjectsCount();
         if ( $translatedObjectsCount == 0 )
         {
