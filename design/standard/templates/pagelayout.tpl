@@ -61,30 +61,107 @@
 <td valign="top" width="10%" class="leftmenu">
 
 <table>
-<tr><td><a href="/class/grouplist/"><nobr><img src={"configure.png"|ezimage} border="0" alt=""/>Classes</nobr></a></td></tr>
-<tr><td><a href="/content/view/full/2/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Contents</nobr></a></td></tr>
-<tr><td><a href="/content/sitemap/2/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Sitemap</nobr></a></td></tr>
-<tr><td><a href="/content/sitemap/5/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Users</nobr></a></td></tr>
-<tr><td><a href="/workflow/list/"><nobr><img src={"uml.png"|ezimage} border="0" alt=""/> Workflows</nobr></a></td></tr>
-<tr><td><a href="/shop/orderlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Order list</nobr></a></td></tr>
-<tr><td><a href="/shop/wishlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Wish list</nobr></a></td></tr>
-<tr><td><a href="/shop/cart/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Shopping Cart</nobr></a></td></tr>
-<tr><td><a href="/search/stats/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Search stats</nobr></a></td></tr>
-<tr><td><a href="/role/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Roles </nobr></a></td></tr>
-<tr><td><a href="/section/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Sections </nobr></a></td></tr>
-<tr><td><a href="/task/view/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Tasks </nobr></a></td></tr>
-<tr><td><b>Current user:</b>{$current_user.login}</td></tr>
-<tr><td><b>Member of groups</b> 
-{section name=groups loop=$current_user.groups}
-{delimiter},{/delimiter}
-{$groups:item}
-{/section}
-</td></tr>
-<tr><td><b>Member of roles:</b> <br/>
-{section name=Roles loop=$current_user.roles}
-<a href="/role/view/{$Roles:item.id}/">{$Roles:item.name}</a><br/>
-{/section}
-</td></tr>
+<tr>
+   <td>
+   <a href="/class/grouplist/"><nobr><img src={"configure.png"|ezimage} border="0" alt=""/>Classes</nobr></a>
+   </td>
+</tr>
+<tr>
+    <td>
+    <a href="/content/view/full/2/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Contents</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/content/sitemap/2/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Sitemap</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/content/sitemap/5/"><nobr><img src={"view_tree.png"|ezimage} border="0" alt=""/> Users</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/workflow/list/"><nobr><img src={"uml.png"|ezimage} border="0" alt=""/> Workflows</nobr></a>
+    </td>
+</tr>
+<tr>
+   <td>
+   <a href="/shop/orderlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Order list</nobr></a>
+   </td>
+</tr>
+<tr>
+    <td>
+    <a href="/shop/wishlist/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Wish list</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/shop/cart/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Shopping Cart</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/search/stats/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Search stats</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/role/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Roles </nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/section/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Sections </nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <a href="/task/view/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Tasks </nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+    <table width="100%">
+    <tr>
+        <td class="bgdark">
+        <b>Current user:</b>
+        </td>
+    </tr>
+    <tr>
+        <td class="bglight">
+        {$current_user.login}
+        </td>
+    </tr>
+    <tr>
+        <td class="bgdark">
+        <b>Groups</b> 
+        </td>
+    </tr>
+    <tr>
+        <td class="bglight">
+        {section name=groups loop=$current_user.groups}
+        {delimiter},{/delimiter}
+        {$groups:item}
+        {/section}
+        </td>
+    </tr>
+    <tr>
+        <td class="bgdark">
+        <b>Roles:
+        </td>
+    </tr>
+    <tr>
+        <td class="bglight">
+        {section name=Roles loop=$current_user.roles}
+        <a href="/role/view/{$Roles:item.id}/">{$Roles:item.name}</a><br/>
+        {/section}
+	</td>
+    </tr>
+    </table>
+    </td>
+</tr>
 <tr><td><a class="path" href="/user/logout/"><nobr><img src={"exit.png"|ezimage} border="0" alt=""/> log out</a></nobr></td></tr>
 </table>
 
