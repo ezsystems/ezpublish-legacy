@@ -424,10 +424,10 @@ class eZCLI
                 }
                 $optionList = substr( $configString, $i + 1, $end - $i - 1 );
                 $i += 1 + ( $end - $i );
-                $end = strpos( $optionList, '[' );
-                if ( $end !== false )
+                $startMarkerPos = strpos( $optionList, '[' );
+                if ( $startMarkerPos !== false )
                 {
-                    eZDebug::writeError( "Start marker [ found in option string at position, it should not be present. Skipping current option" . ( $i + 1 + $end ),
+                    eZDebug::writeError( "Start marker [ found in option string at position, it should not be present. Skipping current option" . ( $i + 1 + $startMarkerPos ),
                                          'eZCLI::parseOptionString' );
                     continue;
                 }
@@ -443,6 +443,12 @@ class eZCLI
                     $text .= $configString[$i];
                     ++$i;
                 }
+                if ( $i < $len and
+                     in_array( $configString[$i], array( '?', '*', '+' ) ) )
+                {
+                    $text .= $configString[$i];
+                    ++$i;
+                }
                 $optionList = array( $text );
             }
             $optionStoreName = false;
@@ -453,15 +459,33 @@ class eZCLI
                 $optionLen = strlen( $optionItem );
                 $hasValue = false;
                 $optionName = $optionItem;
-                if ( $optionLen > 0 and $optionItem[$optionLen - 1] == ':' )
+                $quantifierText = false;
+                $quantifier = array( 'min' => 0,
+                                     'max' => 0 );
+                if ( $optionLen > 0 and in_array( $optionName[$optionLen - 1], array( '?', '*', '+' ) ) )
                 {
-                    $hasValue = true;
-                    $optionName = substr( $optionItem, 0, $optionLen - 1 );
+                    $quantifierText = $optionName[$optionLen - 1];
+                    $optionName = substr( $optionName, 0, $optionLen - 1 );
+                    --$optionLen;
+                    if ( $quantifierText == '?' )
+                        $quantifier = array( 'min' => 0,
+                                             'max' => 1 );
+                    else if ( $quantifierText == '*' )
+                        $quantifier = array( 'min' => 0,
+                                             'max' => false );
+                    else if ( $quantifierText == '+' )
+                        $quantifier = array( 'min' => 1,
+                                             'max' => false );
                 }
-                else if ( $optionLen > 0 and $optionItem[$optionLen - 1] == ';' )
+                if ( $optionLen > 0 and in_array( $optionName[$optionLen - 1], array( ':', ';' ) ) )
                 {
-                    $hasValue = 'optional';
-                    $optionName = substr( $optionItem, 0, $optionLen - 1 );
+                    $valueText = $optionName[$optionLen - 1];
+                    $optionName = substr( $optionName, 0, $optionLen - 1 );
+                    --$optionLen;
+                    if ( $valueText == ':' )
+                        $hasValue = true;
+                    else if ( $valueText == ';' )
+                        $hasValue = 'optional';
                 }
                 $optionLen = strlen( $optionName );
                 if ( $optionLen == 0 )
@@ -469,6 +493,7 @@ class eZCLI
                 $optionStoreName = $optionName;
                 $optionConfigItem = array( 'name' => $optionName,
                                            'has-value' => $hasValue,
+                                           'quantifier' => $quantifier,
                                            'store-name' => false,
                                            'is-long-option' => strlen( $optionName ) > 1 );
                 $optionConfigList[] = $optionConfigItem;
@@ -554,14 +579,18 @@ class eZCLI
                 if ( isset( $configItem ) )
                 {
                     $value = true;
-                    if ( $configItem['has-value'] )
+                    $hasValue = $configItem['has-value'];
+                    $hasMultipleValues = ( $configItem['quantifier']['min'] > 1 or
+                                           $configItem['quantifier']['max'] === false or
+                                           $configItem['quantifier']['max'] > 1 );
+                    if ( $hasValue )
                     {
                         $hasArgumentValue = false;
                         if ( $argumentValue !== false )
                         {
                             $value = $argumentValue;
                         }
-                        else if ( $checkNext )
+                        else if ( $checkNext and $configItem['has-value'] !== 'optional' )
                         {
                             ++$i;
                             if ( $i < $argumentCount )
@@ -589,11 +618,21 @@ class eZCLI
                     $optionStoreName = $configItem['store-name'];
                     if ( !$optionStoreName )
                         $optionStoreName = $optionName;
-                    $options[$optionStoreName] = $value;
+                    if ( $hasMultipleValues )
+                    {
+                        if ( !isset( $options[$optionStoreName] ) )
+                            $options[$optionStoreName] = array();
+                        $options[$optionStoreName][] = $value;
+                    }
+                    else
+                    {
+                        $options[$optionStoreName] = $value;
+                    }
                 }
                 else
                 {
                     $cli->error( "$program: invalid option `$optionPrefix$optionName'" . $helpText );
+                    return false;
                 }
             }
             else

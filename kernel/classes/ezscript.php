@@ -113,6 +113,7 @@ class eZScript
         $this->Description = $settings['description'];
         $this->ExitCode = false;
         $this->IsQuiet = false;
+        $this->ShowVerbose = false;
         $this->IsInitialized = false;
 
         $this->IterationTrueString = '.';
@@ -341,6 +342,27 @@ class eZScript
     }
 
     /*!
+     Controls whether verbose output is used or not, use \c false to turn it off,
+     \c true to turn it on or a number to select the verbose level (\c true == 1).
+     The actual behaviour of verbose output depends on the script, however enabling
+     it will make sure iteration looping displays the iteration name instead of a dot.
+    */
+    function setShowVerboseOutput( $verbose )
+    {
+        if ( $verbose === true )
+            $verbose = 1;
+        $this->ShowVerbose = $verbose;
+    }
+
+    /*!
+     \return the verbosity level for the script, will be \c false or a number in the range 1 and up.
+    */
+    function verboseOutputLevel()
+    {
+        return $this->ShowVerbose;
+    }
+
+    /*!
      Sets the current exit code which will be set with an exit() call in shutdown().
      If you don't want shutdown() to exit automatically set it to \c false.
     */
@@ -404,54 +426,77 @@ class eZScript
     {
         if ( !$this->IterationNumericStrings )
             $status = (bool)$status;
-        if ( is_bool( $status ) )
+        if ( $this->verboseOutputLevel() === false or
+             $text === false )
         {
-            $statusText = $status ? $this->IterationTrueString : $this->IterationFalseString;
-        }
-        else
-        {
-            if ( $this->IterationWrapNumeric )
-                $status = $status % count( $this->IterationNumericStrings );
-            if ( $status < count( $this->IterationNumericStrings ) )
-                $statusText = $this->IterationNumericStrings[$status];
+            if ( is_bool( $status ) )
+            {
+                $statusText = $status ? $this->IterationTrueString : $this->IterationFalseString;
+            }
             else
-                $statusText = ' ';
-        }
-        $endLine = false;
-        $changeLine = false;
-        ++$this->IterationIndex;
-        ++$this->IterationColumn;
-        $iterationColumn = $this->IterationColumn;
-        if ( $this->IterationColumn >= $this->IterationColumnMax )
-        {
-            $this->IterationColumn = 0;
-            $changeLine = true;
-        }
-        if ( $this->IterationMax !== false )
-        {
-            if ( $this->IterationIndex >= $this->IterationMax )
+            {
+                if ( $this->IterationWrapNumeric )
+                    $status = $status % count( $this->IterationNumericStrings );
+                if ( $status < count( $this->IterationNumericStrings ) )
+                    $statusText = $this->IterationNumericStrings[$status];
+                else
+                    $statusText = ' ';
+            }
+            $endLine = false;
+            $changeLine = false;
+            ++$this->IterationIndex;
+            ++$this->IterationColumn;
+            $iterationColumn = $this->IterationColumn;
+            if ( $this->IterationColumn >= $this->IterationColumnMax )
             {
                 $this->IterationColumn = 0;
                 $changeLine = true;
             }
-        }
-        if ( $changeLine )
-        {
             if ( $this->IterationMax !== false )
             {
-                $spacing = $this->IterationColumnMax - $iterationColumn;
-                $percent = ( $this->IterationIndex * 100 ) / $this->IterationMax;
-                if ( $percent > 100.0 )
-                    $percent = 100;
-                else
-                    $spacing += 1;
-                $percentText = number_format( $percent, 2 ) . '%';
-                $statusText .= str_repeat( ' ', $spacing );
-                $statusText .= $percentText;
+                if ( $this->IterationIndex >= $this->IterationMax )
+                {
+                    $this->IterationColumn = 0;
+                    $changeLine = true;
+                }
             }
-            $endLine = true;
+            if ( $changeLine )
+            {
+                if ( $this->IterationMax !== false )
+                {
+                    $spacing = $this->IterationColumnMax - $iterationColumn;
+                    $percent = ( $this->IterationIndex * 100 ) / $this->IterationMax;
+                    if ( $percent > 100.0 )
+                        $percent = 100;
+                    else
+                        $spacing += 1;
+                    $percentText = number_format( $percent, 2 ) . '%';
+                    $statusText .= str_repeat( ' ', $spacing );
+                    $statusText .= $percentText;
+                }
+                $endLine = true;
+            }
+            $cli->output( $statusText, $endLine );
         }
-        $cli->output( $statusText, $endLine );
+        else
+        {
+            $statusLevel = $status;
+            if ( is_bool( $status ) )
+                $statusLevel = $status ? 0 : 1;
+            if ( $statusLevel > 0 )
+            {
+                --$statusLevel;
+                $statusLevels = array( 'warning', 'failure' );
+                if ( $statusLevel > count( $statusLevels ) )
+                    $statusLevel = count( $statusLevels ) - 1;
+                $levelText = $statusLevels[$statusLevel];
+                $cli->output( $cli->stylize( $levelText, $text ) );
+            }
+            else
+            {
+                $cli->output( $text );
+            }
+        }
     }
 
     function showHelp( $useStandardOptions, $optionList, $arguments = false )
@@ -471,7 +516,9 @@ class eZScript
             if ( $useStandardOptions['siteaccess'] )
                 $generalOptionList[] = array( '-s,--siteaccess', "selected siteaccess for operations,\nif not specified default siteaccess is used" );
             if ( $useStandardOptions['debug'] )
-                $generalOptionList[] = array( '-d,--debug', 'display debug output at end of execution' );
+                $generalOptionList[] = array( '-d,--debug...', ( "display debug output at end of execution,\n" .
+                                                                 "the following debug items can be controlled: \n" .
+                                                                 "all, accumulator, include, timing, error, warning, debug or notice." ) );
             if ( $useStandardOptions['colors'] )
             {
                 $generalOptionList[] = array( '-c,--colors', 'display output using ANSI colors (default)' );
@@ -486,6 +533,10 @@ class eZScript
             {
                 $generalOptionList[] = array( '--logfiles', 'create log files' );
                 $generalOptionList[] = array( '--no-logfiles', 'do not create log files (default)' );
+            }
+            if ( $useStandardOptions['verbose'] )
+            {
+                $generalOptionList[] = array( '-v,--verbose...', "display more information, \nused multiple times will increase amount of information" );
             }
         }
         $description = $this->Description;
@@ -585,6 +636,7 @@ class eZScript
                                                       'colors' => true,
                                                       'log' => true,
                                                       'siteaccess' => true,
+                                                      'verbose' => true,
                                                       'user' => false ),
                                                $useStandardOptions );
         }
@@ -600,7 +652,7 @@ class eZScript
             $excludeOptions[] = 'quiet';
             if ( $useStandardOptions['debug'] )
             {
-                $optionString .= "[d:|debug;]";
+                $optionString .= "[d;*|debug;*]";
                 $excludeOptions[] = 'd';
                 $excludeOptions[] = 'debug';
             }
@@ -631,10 +683,23 @@ class eZScript
                 $excludeOptions[] = 'p';
                 $excludeOptions[] = 'password';
             }
+            if ( $useStandardOptions['verbose'] )
+            {
+                $optionString .= "[v*|verbose*]";
+                $excludeOptions[] = 'v';
+                $excludeOptions[] = 'verbose';
+            }
             $config = eZCLI::parseOptionString( $optionString, $optionConfig );
         }
         $cli =& eZCLI::instance();
         $options = $cli->getOptions( $config, $arguments );
+        if ( !$options )
+        {
+            if ( !$this->IsInitialized )
+                $this->initialize();
+            $this->shutdown();
+            exit;
+        }
         if ( $useStandardOptions )
         {
             if ( $options['quiet'] )
@@ -647,7 +712,12 @@ class eZScript
             $cli->setUseStyles( $useColors );
             if ( $options['debug'] )
             {
-                $levels = explode( ',', $options['debug'] );
+                $debugOptiom = $options['debug'];
+                $levels = array();
+                foreach ( $options['debug'] as $debugOption )
+                {
+                    $levels = array_merge( $levels, explode( ',', $debugOption ) );
+                }
                 $allowedDebugLevels = array();
                 $useDebugAccumulators = false;
                 $useDebugTimingpoints = false;
@@ -694,6 +764,10 @@ class eZScript
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
+            if ( count( $options['verbose'] ) > 0 )
+            {
+                $this->setShowVerboseOutput( count( $options['verbose'] ) );
+            }
             if ( $options['help'] )
             {
                 if ( !$this->IsInitialized )
@@ -721,6 +795,7 @@ class eZScript
             if ( $options['siteaccess'] )
                 $this->setUseSiteAccess( $options['siteaccess'] );
         }
+        return $options;
     }
 
     function &instance( $settings = array() )
@@ -744,6 +819,7 @@ class eZScript
     var $SiteAccess;
     var $ExitCode;
     var $IsQuiet;
+    var $ShowVerbose;
 }
 
 function eZDBCleanup()

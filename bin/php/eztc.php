@@ -46,7 +46,7 @@ $script->startup();
 
 $options = $script->getOptions( "[compile-directory:]",
                                 "",
-                                array( 'compile-directory' => 'Where to place compiled files, default is var/cache/template/compiled' ) );
+                                array( 'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory" ) );
 $script->initialize();
 
 $ini =& eZINI::instance();
