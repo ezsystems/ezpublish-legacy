@@ -880,7 +880,7 @@ foreach ( $commandList as $commandItem )
 
         $package->store();
         $cli->output( "Created package " . $commandItem['name'] );
-        $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
+//         $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
     }
 }
 
