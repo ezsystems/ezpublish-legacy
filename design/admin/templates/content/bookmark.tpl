@@ -48,7 +48,7 @@ function toggleCheckboxes( formname, checkboxname )
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Bookmarks.item.id}" /></td>
     <td>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={concat( '/content/view/full/', $Bookmarks.item.node_id, '/' )|ezurl}>{$Bookmarks.item.node.name|wash}</a></td>
     <td>{$Bookmarks.item.node.object.content_class.name|wash}</td>
-    <td>{$Bookmarks.item.node.object.section_id}</td>
+    <td>{fetch( section, object, hash( section_id, $Bookmarks.item.node.object.section_id ) ).name|wash}</td>
     <td>
     {section show=$Bookmarks.item.node.object.can_edit}
         <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" /></a>
