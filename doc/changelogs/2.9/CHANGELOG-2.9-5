@@ -8,6 +8,8 @@ Changes from 2.9-4 to 2.9-5
 - Debug report can now be place anywhere inside the resulting HTML, it must contain a marker which
   is a HTML comment, it is <!--DEBUG_REPORT-->.
 - Fixed bug with duplicating node on publishing
+- Added feature for searching one or more subtrees on the site
+
 *Library :
 
 eZ utils:
