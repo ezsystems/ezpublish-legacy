@@ -54,7 +54,6 @@ $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
 $http =& eZHTTPTool::instance();
 
-
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
    $mainNode =& eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
@@ -73,6 +72,10 @@ if( $http->hasPostVariable( 'CancelDraftButton' ) )
 
 }
 
+if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+{
+	$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+}
 
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
@@ -87,6 +90,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
                 $EditLanguage = false;
             }
         }
+									
         return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
