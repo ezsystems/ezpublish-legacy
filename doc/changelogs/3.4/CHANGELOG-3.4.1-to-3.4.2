@@ -74,6 +74,9 @@ eZ template:
 - Fixed bug in switch function when using in parameter and no subkey.
   (Merged from stable/3.3 rev. 7190)
 - Fixed bug with let not cleaning up its variables in compiled mode.
+- Fixed bug with template processing and input variable to operators,
+  if the input variable was a template proxy object the template value 
+  was not dereferenced.
 
 eZPDF:
 - Fixed margins using ul operator.

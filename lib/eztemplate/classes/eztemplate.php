@@ -1049,6 +1049,11 @@ class eZTemplate
                     $operatorParameters = $dataElement[1];
                     $operatorName = $operatorParameters[0];
                     $operatorParameters = array_splice( $operatorParameters, 1 );
+                    if ( is_object( $value ) and
+                         method_exists( $value, 'templateValue' ) )
+                    {
+                        $value =& $value->templateValue();
+                    }
                     $valueData = array( 'value' => $value );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
                                             $valueData, $placement, $checkExistance );

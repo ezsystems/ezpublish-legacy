@@ -301,6 +301,10 @@ eZ Template:
   (Merged from stable/3.4 rev. 7191)
 - Fixed bug with let not cleaning up its variables in compiled mode.
   (Merged from stable/3.4 rev. 7214)
+- Fixed bug with template processing and input variable to operators,
+  if the input variable was a template proxy object the template value 
+  was not dereferenced.
+  (Merged from stable/3.4 rev. 7216)
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
