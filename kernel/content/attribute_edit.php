@@ -286,12 +286,15 @@ if ( $Module->isCurrentAction( 'Publish' ) )
 }
 
 // After the object has been validated we can check for other actions
-
+$Result = '';
 if ( $inputValidated == true )
 {
     if ( $validatedAttributes == null )
     {
-        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
+        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
+            return;
+        eZDebug::writeDebug( $Result, 'Result' );
+        if ( $Result != '' )
             return;
     }
 }

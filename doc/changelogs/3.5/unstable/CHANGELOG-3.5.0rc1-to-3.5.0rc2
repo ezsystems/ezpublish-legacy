@@ -89,7 +89,9 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Added missing class and section override keys for the
   content_version_view_gui template function.
   (Merged from stable/3.4 (3.4.5) rev. 10258).
-
+- Fixed bug Workflow results are ignored in content/edit.php.
+  http://ez.no/community/bug_reports/workflow_results_are_ignored_in_content_edit_php
+  (Manually merged from stable/3.4 rev. 10261).
 *Library:
 
 eZURI:

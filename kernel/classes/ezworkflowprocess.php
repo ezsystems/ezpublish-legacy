@@ -150,7 +150,8 @@ class eZWorkflowProcess extends eZPersistentObject
 //                      $contentID, $contentVersion, $nodeID, $sessionKey = '' )
     {
         $dateTime = time();
-
+        if ( !isset( $parameters['user_id'] ) )
+            $parameters['user_id'] = 0;
         $row = array( 'process_key' => $processKey,
                       'workflow_id' => $parameters['workflow_id'],
                       'user_id' => $parameters['user_id'],
