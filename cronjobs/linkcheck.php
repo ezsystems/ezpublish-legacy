@@ -39,12 +39,16 @@
 */
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 ini_set( 'user_agent', 'eZ publish Link Validator' );
 
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
+
+$cronjobIni =& eZINI::instance( 'cronjob.ini' );
+$siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
 $linkList = eZURL::fetchList();
 foreach ( array_keys( $linkList ) as $key )
 {
@@ -141,9 +145,35 @@ foreach ( array_keys( $linkList ) as $key )
         }
         else
         {
-            if ( $isValid )
-                eZURL::setIsValid( $linkID, false );
-            $cli->output( $cli->stylize( 'warning', "invalid" ) );
+            $isInternal = false;
+            // Check if it is a valid internal link.
+            foreach ( $siteURLs as $siteURL )
+            {
+                $siteURL = preg_replace("/\/$/e", "", $siteURL );
+                $fp = @fopen( $siteURL . "/". $url, "r" );
+                if ( !$fp )
+                {
+                    // do nothing
+                }
+                else
+                {
+                    $isInternal = true;
+                    fclose($fp);
+                }
+            }
+
+            if ( $isInternal )
+            {
+                if ( !$isValid )
+                    eZURL::setIsValid( $linkID, true );
+                $cli->output( $cli->stylize( 'success', "valid" ) );
+            }
+            else
+            {
+                if ( $isValid )
+                    eZURL::setIsValid( $linkID, false );
+                $cli->output( $cli->stylize( 'warning', "invalid" ) );
+            }
         }
     }
     eZURL::setLastChecked( $linkID );
