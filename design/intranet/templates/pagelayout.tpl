@@ -6,147 +6,171 @@
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
 
 <head>
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    {*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_red.css"|ezdesign} />*}
-    <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
+<link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+{*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_red.css"|ezdesign} />*}
+{*<link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />*}
+<link rel="stylesheet" type="text/css" href="/var/intranet/storage/packages/intranet2/files/default/file/design/intranet/stylesheets/intranet_blue.css" />
+<link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
-    {* page header start *}
-    {default enable_help=true() enable_link=true()}
+{* page header start *}
+{default enable_help=true() enable_link=true()}
 
-    {let name=Path
-         path=$module_result.path
-         reverse_path=array()}
-    {section show=is_set($module_result.title_path)}
-        {set path=$module_result.title_path}
-    {/section}
-    {section loop=$:path}
+{let name=Path
+     path=$module_result.path
+     reverse_path=array()}
+{section show=is_set($module_result.title_path)}
+    {set path=$module_result.title_path}
+{/section}
+{section loop=$:path}
     {set reverse_path=$:reverse_path|array_prepend($:item)}
+{/section}
+
+{set-block scope=root variable=site_title}
+{section loop=$Path:reverse_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section} - {$site.title|wash}
+{/set-block}
+
+{/let}
+
+<title>{$site_title}</title>
+
+{section show=and(is_set($#Header:extra_data),is_array($#Header:extra_data))}
+    {section name=ExtraData loop=$#Header:extra_data}
+        {$:item}
     {/section}
+{/section}
 
-    {set-block scope=root variable=site_title}
-    {section loop=$Path:reverse_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section} - {$site.title|wash}
-    {/set-block}
-
-    {/let}
-    <title>{$site_title}</title>
-
-    {section show=and(is_set($#Header:extra_data),is_array($#Header:extra_data))}
-      {section name=ExtraData loop=$#Header:extra_data}
-      {$:item}
-      {/section}
-    {/section}
-
-    {* check if we need a http-equiv refresh *}
-    {section show=$site.redirect}
+{* check if we need a http-equiv refresh *}
+{section show=$site.redirect}
     <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
+{/section}
 
-    {/section}
-
-    {section name=HTTP loop=$site.http_equiv}
+{section name=HTTP loop=$site.http_equiv}
     <meta http-equiv="{$HTTP:key|wash}" content="{$HTTP:item|wash}" />
+{/section}
 
-    {/section}
-
-    {section name=meta loop=$site.meta}
+{section name=meta loop=$site.meta}
     <meta name="{$meta:key|wash}" content="{$meta:item|wash}" />
+{/section}
 
-    {/section}
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
+<meta name="generator" content="eZ publish" />
 
-    <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-    <meta name="generator" content="eZ publish" />
-
-    {/default}
-    {* page header finished *}
+{/default}
+{* page header finished *}
 </head>
 
 <body>
 
-{* Top box START *}
-<form action={"/content/search/"|ezurl} method="get">
+<div id="container">
+    {* Top box START *}
+    <div id="topbox">
+        <form action={"/content/search/"|ezurl} method="get">
+	<div id="logo">
+	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a>
+	</div>
+	<div id="searchbox">
+	    <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
+	    <a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a>
+	</div>
+	<div id="searchbutton">
+	    <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+	</div>
+	<div id="sitelogo">
+	    <img src={"06_intranet_logo.png"|ezimage} />
+	</div>
+	</form>
+    </div>
+    {* Top box END *}
 
-<table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
-<tr>
-    <td class="logo" background={"06_intranet_background_repeat.png"|ezimage}>
-	<a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a>
-    </td>
-    <td class="topbox" align="left" width="15%" valign="bottom" background={"06_intranet_background_repeat.png"|ezimage}>
-       &nbsp;<br />
-	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />  <br />
-	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a><div class="labelbreak"></div>
-    </td>
-    <td class="topbox" valign="top" width="10%" background={"06_intranet_background_repeat.png"|ezimage}>
-       &nbsp;<br />
-	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-    </td>
-    <td class="topline" align="right" width="40%" background={"06_intranet_background_repeat.png"|ezimage} >
-    <img src={"06_intranet_logo.png"|ezimage} />
-    </td>
-</tr>
-</table>
+    {* Top menu START *}
+    <div id="topmenu">
+	<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+	{* Menubox start *}
+	{let  top_menu_level1=fetch( content, list, hash( parent_node_id, 2, 
+				     limit, 6, 
+				     sort_by, array( priority, true() ),
+				     class_filter_type, include,
+				     class_filter_array, array( 'folder' ) ) ) }
 
-</form>
+	{section name=Mitem1 loop=$top_menu_level1}
+	    <td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
+	        <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
+	    </td>
+	{/section}
+	{/let}
+	{* Menubox stop *}    
+	<tr/>
+	<tr>
+	    {let  top_menu_level2=fetch( content, list, hash( parent_node_id, $node.node_id, 
+					 limit, 6, 
+					 sort_by, array( priority, true() ),
+					 class_filter_type, include,
+					 class_filter_array, array( 'info_page' ) ) ) }
 
-{* Top box END *}
+	    {section name=Mitem1 loop=$top_menu_level2}
+		<td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
+		    <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
+		</td>
+	    {/section}
+	    {/let}
+	</tr>
+	</table>
+    </div>
+    {* Top menu END *}
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td class="pathline" colspan="2">
+    {* Main path START *}
+    <div id="mainpath">
+    {cache-block keys=array('path',$uri_string)}
+     <p class="path">
+	&nbsp;
+	{section name=Path loop=$module_result.path}
+	    {section show=$Path:item.url}
+	    <a class="path" href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
+	    {section-else}
+	    {$Path:item.text|wash}
+	    {/section}
 
-{* Top menu START *}
+	    {delimiter}
+	    <span class="slash">/</span>
+	    {/delimiter}
+	{/section}
+	&nbsp;</p>
+    {/cache-block}
+    </div>
+    {* Main path END *}
 
-{include uri="design:top_menu.tpl"}
+    {* Main part START *}
+    <div id="mainframe">
 
-{* Top menu END *}
+    {* Left menu START *}
+    <div id="leftmenu">
+    {cache-block keys=array('left_menu',$uri_string)}
+    {let children=fetch('content',list,hash(parent_node_id,2))}
 
-{* Main path START *}
-
-{cache-block keys=array('path',$uri_string)}
- <p class="path">
-    &nbsp;
-    {section name=Path loop=$module_result.path}
-        {section show=$Path:item.url}
-        <a class="path" href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
-        {section-else}
-        {$Path:item.text|wash}
-        {/section}
-
-        {delimiter}
-        <span class="slash">/</span>
-        {/delimiter}
+    {* loop children and print name with link *}
+    {section name=Child loop=$children}
+    <a href={$Child:item.url_alias|ezurl}>{$Child:item.name|wash}</a><br />
     {/section}
-    &nbsp;</p>
-{/cache-block}
+    {/let}
+    {/cache-block}
+    </div>
 
-{* Main path END *}
+    {* Left menu END *}
 
-    </td>
-</tr>
-<tr>
-    <td width="120" valign="top" style="padding-right: 4px;">
+    {* Main area START *}
 
-{* Left menu START *}
-{cache-block keys=array('left_menu',$uri_string)}
-{include uri="design:left_menu.tpl"}
-{/cache-block}
+    <div id="mainarea">
+    {$module_result.content}
+    </div>
+    {* Main area END *}
+    </div>
+    {* Main part END *}
 
-{* Left menu END *}
-
-    </td>
-    <td class="mainarea" width="99%" valign="top">
-
-{* Main area START *}
-
-{include uri="design:page_mainarea.tpl"}
-
-{* Main area END *}
-
-    </td>
-</tr>
-</table>
-
-{include uri="design:page_copyright.tpl"}
-
+    <div  id="copyright" align="center">
+    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+    </div>
+</div>
 <!--DEBUG_REPORT-->
 
 </body>
