@@ -38,7 +38,7 @@ This one doesn't match.
 
 =========================================================
 
-{let myvar='bård'}
+{let myvar='baard'}
 
 {switch name=Sw2 var=foobar match=$myvar}
 {case match='derick'}
