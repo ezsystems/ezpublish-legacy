@@ -103,21 +103,21 @@ $featureArray[] = array( "uri" => "subversion_standard",
 
 
 
-$featureArray[] = array(
-                         "level" => 1,
-                         "name" => "eZ publish libraries" );
-$featureArray[] = array( "uri" => "ezdb",
-                         "level" => 1,
-                         "name" => "eZ db" );
-$featureArray[] = array( "uri" => "eztemplate",
-                         "level" => 1,
-                         "name" => "eZ template" );
-$featureArray[] = array( "uri" => "ezxml",
-                         "level" => 1,
-                         "name" => "eZ xml" );
-$featureArray[] = array( "uri" => "ezsoap",
-                         "level" => 1,
-                         "name" => "eZ soap" );
+// $featureArray[] = array(
+//                          "level" => 1,
+//                          "name" => "eZ publish libraries" );
+// $featureArray[] = array( "uri" => "ezdb",
+//                          "level" => 1,
+//                          "name" => "eZ db" );
+// $featureArray[] = array( "uri" => "eztemplate",
+//                          "level" => 1,
+//                          "name" => "eZ template" );
+// $featureArray[] = array( "uri" => "ezxml",
+//                          "level" => 1,
+//                          "name" => "eZ xml" );
+// $featureArray[] = array( "uri" => "ezsoap",
+//                          "level" => 1,
+//                          "name" => "eZ soap" );
 
 
 

@@ -8,22 +8,29 @@ $infoArray["description"] = "
 eZ soap&trade; is a library for SOAP communication. It handles both client and server side
 functionality. eZ xml&trade; is used to handle XML manipulations in eZ soap&trade;.
 </p>
+
 <p>eZ soap&trade; definition of SOAP, from the W3C spec:</p>
 
 <blockquote>SOAP is a lightweight protocol for exchange of information in a decentralized,
   distributed environment. It is an XML based protocol that consists of three
   parts: an envelope that defines a framework for describing what is in a message
   and how to process it, a set of encoding rules for expressing instances of
-  application-defined datatypes, and a convention for representing remote
+  application-defined data types, and a convention for representing remote
   procedure calls and responses.
 </blockquote>
+
+<p>
+eZ soap&trade; follows the <a href='http://www.w3.org/TR/2001/WD-soap12-part0-20011217/'>
+SOAP Version 1.2</a> standard. Read the <a href='http://www.w3.org/TR/2001/WD-soap12-part1-20011217/'>
+Messaging framework specification</a> for details about messaging with SOAP.
+</p>
 
 <h1>SOAP usage</h1>
 <p>
 eZ soap&trade; can be used for distributed computing. It's platform and language independent.
 The basis of SOAP is to exchange XML encoded information, using XML namespaces and schemas.
 SOAP can be used in two different ways, either sending a custom XML document or as a RPC
-( Remote Procedure Call ) protocoll. eZ soap&trade; focuses on the latter.
+(Remote Procedure Call) protocol. eZ soap&trade; focuses on the latter.
 </p>
 
 <h1>SOAP messages</h1>
@@ -45,6 +52,16 @@ interface to SOAP communication.
   &lt;/SOAP-ENV:Body&gt;
 &lt;/SOAP-ENV:Envelope&gt;
 </pre>
+
+<h2>Useful links</h2>
+<ul>
+<li><a href='http://www.w3.org/'>W3C</a></li>
+<li><a href='http://www.w3.org/TR/wsdl'>WSDL spec</></li>
+<li><a href='http://xml.apache.org/axis/'>SOAPBuilders Interoperability Lab</a></li>
+<li><a href='http://www.w3.org/TR/2001/WD-xmlp-am-20010709/'>XML Protocol Abstract Model</a></li>
+<li><a href='http://xml.apache.org/axis/'>Apache AXIS SOAP library (Java)</a></li>
+<li><a href='http://easysoap.sourceforge.net/'>EasySoap++ SOAP library (C++)</a></li>
+</ul>
 ";
 
 $dependArray = array();

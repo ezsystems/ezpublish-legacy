@@ -35,16 +35,31 @@
 $infoArray = array();
 $infoArray["name"] = "eZ xml";
 $infoArray["description"] = "
-<h1>eZ xml&trade; - xml made easy</h1>
-<p>
-eZ xml&trade; is a DOM XML parser written in PHP and does not need any external libraries
-to work. eZ xml&trade; enables you to parse and manupulate XML documents. It follows the
-<a href='http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/'>DOM level 2</a> as
-far as possible.
-</p>
+<h1>eZ xml&trade; - XML made easy</h1>
+
 <blockquote>
 The Extensible Markup Language (XML) is the universal format for structured documents and data on the Web.
 </blockquote>
+
+<p>
+eZ xml&trade; is a DOM XML parser written in PHP. It does not need any external libraries
+to work. eZ xml&trade; enables you to parse and manipulate XML documents. eZ xml supports handling of
+XML documents as defined in
+<a href='http://www.w3.org/TR/2000/REC-xml-20001006'>Extensible Markup Language (XML) 1.0</a>.
+Namespaces are supported as described by W3C in
+<a href='http://www.w3.org/TR/1999/REC-xml-names-19990114/'>Namespaces in XML</a>.
+eZ xml supports the
+<a href='http://www.w3.org/TR/xmlschema-0/'>XML Schema</a> standard for validating XML documents.
+It follows the
+<a href='http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/'>DOM level 2</a> as far as possible.
+</p>
+
+<h2>Useful links</h2>
+<ul>
+<li><a href='http://www.w3.org/'>W3C</a></li>
+<li><a href='http://www.w3.org/XML/'>XML information on W3C</a></li>
+<li><a href='http://www.nitf.org/'>News Industri Text Format</a></li>
+</ul>
 ";
 
 $dependArray = array();

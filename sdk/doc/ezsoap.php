@@ -55,5 +55,5 @@ Messaging framework specification</a> for details about messaging with SOAP.
 <li><a href="http://xml.apache.org/axis/">SOAPBuilders Interoperability Lab</a></li>
 <li><a href="http://www.w3.org/TR/2001/WD-xmlp-am-20010709/">XML Protocol Abstract Model</a></li>
 <li><a href="http://xml.apache.org/axis/">Apache AXIS SOAP library ( Java ) </a></li>
-<li><a href="http://easysoap.sourceforge.net/">EasySoap++ SOAP library ( C++ )</a>
+<li><a href="http://easysoap.sourceforge.net/">EasySoap++ SOAP library ( C++ )</a></li>
 </ul>

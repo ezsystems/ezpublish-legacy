@@ -4,15 +4,22 @@ $infoArray = array();
 $infoArray["name"] = "eZ db";
 $infoArray["description"] = "
 <h1>eZ db&trade;</h1>
-<p>eZ db&trade; provides database wrapper functions.</p>
+<p>eZ db is a database abstraction library. It provides a uniform interface
+to MySQL, PostgreSQL and Oracle.</p>
 <p>The eZ db library provides a database independent framework for
   SQL databases. The current supported databases are:</p>
  <ul><li>PostgreSQL</li><li>MySQL</li><li>Oracle</li></ul>
 
-<p>eZ db is designed to be used with the following type subset of SQL:
-  int, float, varchar and text ( clob in oracle ).</p>
+<p>To make the it easier to support the different databases we've defined a subset
+of SQL data types to use. The types used are:</p>
+<ul>
+<li>int - integers, date and time as UNIX timestamp, enums and boolean</li>
+<li>float - float and prices</li>
+<li>varchar - short text strings ( < 255 chars )</li>
+<li>text, clob in oracle - large text objects like article contents</li>
+</ul>
 
-<p>To store date and time values int's are used. eZ locale is used to
+<p>To store date and time values ints are used. eZ locale is used to
   present the date and times on a localized format. That way we don't have
   to worry about the different date and time formats used in the different
   databases.</p>
@@ -24,8 +31,15 @@ $infoArray["description"] = "
 <p>Limit and offset functionality is also abstracted by the eZ db library.</p>
 
 <p>eZ db is designed to use lowercase in all table/column names. This is
-  done to prevent errors as the different databases handles this differently.
-  Especially when returning the data as an associative array.</p>
+  done to prevent errors as the different databases handles this differently,
+  especially when returning the data as an associative array.</p>
+
+<h2>Useful links</h2>
+<ul>
+<li><a href='http://www.mysql.com'>MySQL</a></li>
+<li><a href='http://postgresql.org'>PostgreSQL</a></li>
+<li><a href='http://www.oracle.com'>Oracle</a></li>
+</ul>
 ";
 
 $dependArray = array();

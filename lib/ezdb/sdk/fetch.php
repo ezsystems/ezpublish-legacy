@@ -35,7 +35,7 @@
 ?>
 <p>
 To fetch data from the database you can use the <b>arrayQuery</b> function.
-This function takes an SQL command as a parameter. An array of accociative arrays
+This function takes an SQL command as a parameter. An array of associative arrays
 is then returned.
 </p>
 
