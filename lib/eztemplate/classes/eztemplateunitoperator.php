@@ -173,11 +173,6 @@ class eZTemplateUnitOperator
                 $prefix_base = 2;
                 $prefix_var = $unit_ini->variableArray( "BinaryPrefixes", $prefix );
             }
-            else if ( $unit_ini->hasVariable( "FakeBinaryPrefixes", $prefix ) )
-            {
-                $prefix_base = 2;
-                $prefix_var = $unit_ini->variableArray( "FakeBinaryPrefixes", $prefix );
-            }
             else if ( $unit_ini->hasVariable( "DecimalPrefixes", $prefix ) )
             {
                 $prefix_base = 10;
