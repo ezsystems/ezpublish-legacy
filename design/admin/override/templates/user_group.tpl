@@ -132,7 +132,6 @@
                     </td>
                 {/section}
                 <td>
-		        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
 			<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
 			{switch match=$Child:item.object.contentclass_id}
 			{case match=4}
@@ -146,7 +145,7 @@
 			{/case}
 			{/switch}
 			&nbsp;
-			{$Child:item.name|wash}</a></a>
+			{$Child:item.name|wash}</a>
                 </td>
                 <td>
                     {$Child:item.object.class_name|wash}
