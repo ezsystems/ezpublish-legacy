@@ -305,6 +305,16 @@ div.advancedsearchbox
    display: none;
 }
 
+#search .searchbox
+{
+    padding: 5px;
+}
+#search h1
+{
+    background: #eeeeee;
+    border-bottom: 1px dotted #cccccc;
+}
+
 /* poll */
 
 div#poll
@@ -534,4 +544,13 @@ dl dt em
     display: block;
     padding-top: 5px;
     font: italic 120%/1.6em Georgia,Serif;
+}
+
+/* Feedback */
+
+div.error, div.warning, div.feedback, div.highlight
+{ 
+    font-size: 80%;
+    color: #ffa113;
+    border-width: 0px;
 }

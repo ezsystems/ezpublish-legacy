@@ -1,4 +1,5 @@
-{let all_category_list=fetch( content, list, hash( parent_node_id, $module_result.content_info.parent_node_id,
+{let log_node_id=50
+     all_category_list=fetch( content, list, hash( parent_node_id, $log_node_id,
                                                    class_filter_type, include,
                                                    class_filter_array, array( 1 ),
                                                    sort_by, array( 'name', true() ) ) )}
