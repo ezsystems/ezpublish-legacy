@@ -186,12 +186,9 @@ class eZSys
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-
-        $varDir = $this->varDirectory();
+        $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
-        return( $varDir . '/' . $storageDir );
+        return eZDir::path( array( $varDir, $storageDir ) );
     }
 
     /*!
