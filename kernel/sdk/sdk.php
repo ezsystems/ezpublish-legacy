@@ -380,8 +380,11 @@ function process( &$module, $component, $command, $part, $rest )
 
 <table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="pathline" width="100%">
-    &nbsp;
+    <td class="pathline" width="50%">
+    %back_data%
+    </td>
+    <td class="pathline" align="right" width="50%">
+    %forward_data%
     </td>
 </tr>
 </table>
@@ -413,9 +416,6 @@ Version:&nbsp;%sdk_version%
 
 <td valign="top" width="85%">
 <table width="100%" border="0">
-<tr>
-  <td>%back_data%</td> <td align="right">%forward_data%</td>
-</tr>
 <tr><td colspan="2">%content_data%</td></tr>
 </table>
 </td>

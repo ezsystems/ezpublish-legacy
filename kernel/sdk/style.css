@@ -38,16 +38,6 @@ pre.example, table.example
         border-right : 1px solid #999999;
 }
 
-table.listing
-{
-	font-family: Courier;
-        background-color: #dbf2c8;
-        border-top : 1px solid #999999;
-        border-bottom : 1px solid #999999;
-        border-left : 1px solid #999999;
-        border-right : 1px solid #999999;
-}
-
 p.important
 {
         background-color: #f8f280;
@@ -55,23 +45,6 @@ p.important
         border-bottom : 1px solid #999999;
         border-left : 1px solid #999999;
         border-right : 1px solid #999999;
-}
-
-td.leftmenu
-{
-	background-color : #ebf2f8;
-	border-right : 1px solid #aaaaaa;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.contents
-{
-	padding-left: 8px;
-	padding-bottom : 15px;
-	background-color : #ffffff;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
 
