@@ -229,6 +229,11 @@ Content action ( needs a meeting for discussion )
 Datatypes:
   - Add media datatypes like flash, mpeg, mp3, avi, asf, mov...
 
+General
+___________
+- Change all associative arrays to only use lowercase letters for keys.
+  For instance eZDB must be changed (Limit,Offset).
+
 Files
 ------------------------------------------------
 - Figure out how to handle file downloading with permissions enabled.
