@@ -4,8 +4,10 @@
     <h3 class="hide">{"Top menu"|i18n("design/base")}</h3>
 
     {let root_node=fetch( content, node, hash( node_id, 2 ) )
-         menuitems=fetch( 'content', 'list', hash( 'parent_node_id', 2,
-                                                   'sort_by', $root_node.sort_array ) )}
+         menuitems=fetch( content, list, hash( parent_node_id, 2,
+                                               class_filter_type, include,
+                                               class_filter_array, ezini( 'MenuContentSettings', 'LeftIdentifierList', 'menu.ini' ),
+                                               sort_by, $root_node.sort_array ) )}
     <ul>
     {section var=menu loop=$menuitems}
             {section show=eq( $menu.object.content_class.identifier, "link" )}
