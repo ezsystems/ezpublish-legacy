@@ -891,6 +891,16 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     /*!
      \reimp
     */
+    function escapeSQLString( $value )
+    {
+        $value = str_replace( "'", "\'", $value );
+        $value = str_replace( "\"", "\\\"", $value );
+        return $value;
+    }
+
+    /*!
+     \reimp
+    */
     function schemaType()
     {
         return 'postgresql';

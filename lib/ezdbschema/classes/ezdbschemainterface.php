@@ -99,7 +99,12 @@ class eZDBSchemaInterface
     function eZDBSchemaInterface( $params )
     {
         $this->DBInstance = $params['instance'];
-        $this->Schema = $params['schema'];
+        $this->Schema = false;
+        $this->Data = false;
+        if ( isset( $params['schema'] ) )
+            $this->Schema = $params['schema'];
+        if ( isset( $params['data'] ) )
+            $this->Data = $params['data'];
     }
 
     /*!
@@ -127,18 +132,30 @@ class eZDBSchemaInterface
     */
     function data( $schema = false, $tableNameList = false, $params = array() )
     {
-        if ( $schema === false )
-            $schema = $this->schema( $params );
-        $data = array();
-        foreach ( $schema as $tableName => $tableInfo )
+        if ( $this->Data === false )
         {
-            if ( is_array( $tableNameList ) and
-                 !in_array( $tableName, $tableNameList ) )
-                continue;
+            if ( $schema === false )
+                $schema = $this->schema( $params );
+            $data = array();
+            foreach ( $schema as $tableName => $tableInfo )
+            {
+                // Skip the information array, this is not a table
+                if ( $tableName == '_info' )
+                    continue;
 
-            $tableEntry = $this->fetchTableData( $tableInfo );
-            if ( count( $tableEntry['rows'] ) > 0 )
-                $data[$tableName] = $tableEntry;
+                if ( is_array( $tableNameList ) and
+                     !in_array( $tableName, $tableNameList ) )
+                    continue;
+
+                $tableEntry = $this->fetchTableData( $tableInfo );
+                if ( count( $tableEntry['rows'] ) > 0 )
+                    $data[$tableName] = $tableEntry;
+            }
+            $this->Data = $data;
+        }
+        else
+        {
+            $data = $this->Data;
         }
 
         return $data;
@@ -686,11 +703,35 @@ class eZDBSchemaInterface
         if ( $fieldDef['type'] == 'auto_increment' or
              $fieldDef['type'] == 'int' or
              $fieldDef['type'] == 'float' )
-            return (string)$value;
+        {
+            if ( $value === null or
+                 $value === false )
+                return "NULL";
+            $value = (int)$value;
+            $value = (string)$value;
+            return $value;
+        }
         else if ( is_string( $value ) )
-            return "'" . $this->DBInstance->escapeString( $value ) . "'";
+        {
+            return "'" . $this->escapeSQLString( $value ) . "'";
+        }
         else
+        {
+            if ( $value === null or
+                 $value === false )
+                return "NULL";
             return (string)$value;
+        }
+    }
+
+    /*!
+     \pure
+     This escapes the string according to the current database type and returns it.
+     \note The default just returns the value so it must be reimplemented.
+    */
+    function escapeSQLString( $value )
+    {
+        return $value;
     }
 
     /*!
@@ -1138,6 +1179,8 @@ class eZDBSchemaInterface
 
     /// eZDB instance
     var $DBInstance;
+    var $Schema;
+    var $Data;
 }
 
 ?>

@@ -98,7 +98,7 @@ class eZDbSchema
     /*!
      \static
     */
-	function read( $filename )
+	function read( $filename, $returnArray = false )
 	{
         $fd = @fopen( $filename, 'rb' );
         if ( $fd )
@@ -108,7 +108,19 @@ class eZDbSchema
             if ( preg_match( '#^<\?' . "php#", $buf ) )
             {
                 include( $filename );
-                return $schema;
+                if ( $returnArray )
+                {
+                    $params = array();
+                    if ( isset( $schema ) )
+                        $params['schema'] = $schema;
+                    if ( isset( $data ) )
+                        $params['data'] = $data;
+                    return $params;
+                }
+                else
+                {
+                    return $schema;
+                }
             }
             else if ( preg_match( '#a:[0-9]+:{#', $buf ) )
             {

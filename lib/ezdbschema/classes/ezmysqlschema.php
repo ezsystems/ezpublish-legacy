@@ -678,6 +678,33 @@ class eZMysqlSchema extends eZDBSchemaInterface
     /*!
      \reimp
     */
+    function escapeSQLString( $value )
+    {
+        // We use the mysql function if it exists
+        // if not we use a custom replace method that should sufficient
+        if ( function_exists( 'mysql_escape_string' ) )
+            return mysql_escape_string( $value );
+        else
+            str_replace( array( "\\",
+                                "'",
+                                '"',
+                                "\x00",
+                                "\x1a",
+                                "\n",
+                                "\r" ),
+                         array( "\\\\",
+                                "\\'",
+                                "\\\"",
+                                "\\0",
+                                "\\Z",
+                                "\\n",
+                                "\\r" ),
+                         $value );
+    }
+
+    /*!
+     \reimp
+    */
     function schemaType()
     {
         return 'mysql';
