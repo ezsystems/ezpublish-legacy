@@ -81,9 +81,15 @@ class eZEnumType extends eZDataType
     {
         if ( $currentVersion !== false )
         {
-            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
+            $originalContentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
             $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
-            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $currentVersion );
+
+            // Delete stored object attributes when initialize translated attribute.
+            if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
+                $this->deleteStoredObjectAttribute( $contentObjectAttribute, $currentVersion );
+
+            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $originalContentObjectAttributeID, $currentVersion );
 
             for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
             {
