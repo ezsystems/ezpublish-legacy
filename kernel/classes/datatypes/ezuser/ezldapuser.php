@@ -155,8 +155,9 @@ class eZLDAPUser extends eZUser
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
-            $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
-            $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
+
+            eZUser::setCurrentlyLoggedInUser( $user, $userID );
+
             return $user;
         }
         else if ( $LDAPIni->variable( 'LDAPSettings', 'LDAPEnabled' ) == "true" )
@@ -417,8 +418,7 @@ class eZLDAPUser extends eZUser
                     $user->setAttribute('password_hash_type', 0 );
                     $user->store();
 
-                    $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
-                    $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+                    eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
@@ -476,8 +476,9 @@ class eZLDAPUser extends eZUser
                         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
                                                                                                      'version' => $newVersionNr ) );
                     }
-                    $GLOBALS["eZUserGlobalInstance_$userID"] =& $existUser;
-                    $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+
+                    eZUser::setCurrentlyLoggedInUser( $existUser, $userID );
+
                     return $existUser;
                 }
                 ldap_close( $ds );

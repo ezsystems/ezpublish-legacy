@@ -802,15 +802,31 @@ WHERE user_id = '" . $userID . "' AND
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
-            $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
-            $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
-            eZSessionRegenerate();
-            $user->cleanup();
-            eZSessionSetUserID( $userRow['contentobject_id'] );
+
+            eZUser::setCurrentlyLoggedInUser( $user, $userID );
             return $user;
         }
         else
             return false;
+    }
+
+    /*!
+     \protected
+     Makes sure the user \a $user is set as the currently logged in user by
+     updating the session and setting the necessary global variables.
+
+     All login handlers should use this function to ensure that the process
+     is executed properly.
+    */
+    function setCurrentlyLoggedInUser( &$user, $userID )
+    {
+        $http =& eZHTTPTool::instance();
+
+        $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
+        $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+        eZSessionRegenerate();
+        $user->cleanup();
+        eZSessionSetUserID( $userID );
     }
 
     /*!
