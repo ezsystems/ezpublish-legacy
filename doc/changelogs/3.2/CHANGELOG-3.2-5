@@ -85,6 +85,9 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/bug_in_datetime
 - Fixed typo in nor_NO translation, 
   http://ez.no/community/bug_reports/typo_in_norwegian_translation
+- Fixed bug. Using undefined index: base_dir in some cases
+  http://ez.no/community/bug_reports/undefined_index_base_dir_in_kernel_common_eztemplatedesignresource_php_on_line_367
+
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
