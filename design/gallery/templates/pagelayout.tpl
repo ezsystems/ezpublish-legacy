@@ -7,8 +7,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-    @import url("/design/gallery/stylesheets/gallery.css");
+   {*  @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+    @import url("/design/gallery/stylesheets/gallery_gray.css");
 </style>
 
 </head>
