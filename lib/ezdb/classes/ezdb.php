@@ -278,9 +278,23 @@ class eZDB
             if ( isset( $b['use_persistent_connection'] ) )
                 $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
 
-            foreach( $pluginPathArray as $pluginPath )
+            // Search for the db interface implementations in active extensions directories.
+            include_once( 'lib/ezutils/classes/ezextension.php' );
+            $baseDirectory         = eZExtension::baseDirectory();
+            $extensionDirectories  = eZExtension::activeExtensions();
+            $extensionDirectories  = array_unique( $extensionDirectories );
+            $repositoryDirectories = array();
+            foreach ( $extensionDirectories as $extDir )
             {
-                $dbFile = $pluginPath . $databaseImplementation . 'db.php';
+                $newRepositoryDir = "$baseDirectory/$extDir/lib/ezdb/classes/";
+                if ( file_exists( $newRepositoryDir ) )
+                    $repositoryDirectories[] = $newRepositoryDir;
+            }
+            $repositoryDirectories = array_merge( $repositoryDirectories, $pluginPathArray );
+
+            foreach( $repositoryDirectories as $repositoryDir )
+            {
+                $dbFile = $repositoryDir . $databaseImplementation . 'db.php';
                 if ( file_exists( $dbFile ) )
                 {
                     include_once( $dbFile );
