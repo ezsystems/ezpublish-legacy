@@ -111,8 +111,18 @@ class eZTemplateCacheFunction
                     $expiry = 60*60*2;
                 }
 
+                $localExpiryTime = mktime() - $expiry;
+
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                $handler =& eZExpiryHandler::instance();
+                if ( !$handler->hasTimestamp( 'content-cache' ) )
+                    return false;
+                $globalExpiryTime = $handler->timestamp( 'content-cache' );
+
+                $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+
                 // Check if we can restore
-                if ( $phpCache->canRestore( mktime() - $expiry ) )
+                if ( $phpCache->canRestore( $expiryTime ) )
                 {
                     $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
                     $text =& $variables['contentdata'];
@@ -127,7 +137,7 @@ class eZTemplateCacheFunction
                     foreach ( array_keys( $children ) as $childKey )
                     {
                         $child =& $children[$childKey];
-                        $tpl->processNode( $child, $childTextElements, $rootNamespace, $name );
+                        $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
                     }
                     $text =& implode( '', $childTextElements );
                     $textElements[] = $text;
