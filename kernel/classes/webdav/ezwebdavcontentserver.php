@@ -299,48 +299,15 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         $object = $node->attribute( 'object' );
-        $classID = $object->attribute( 'contentclass_id' );
 
-        // Get the content class ID string of the object (image, folder, file, etc.).
-        $class =& $object->attribute( 'content_class' );
-        $classIdentifier =& $class->attribute( 'identifier' );
-
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-        $iniSettings = $webdavINI->variable( 'GetSettings', 'FileAttribute' );
-
-        // Attempt to determine the attribute that should be used for display:
-        $attributeID = $iniSettings[$classIdentifier];
-
-        // Only proceed to the special cases if the
-        // attribute is actually defined in the ini file:
-        if ( $attributeID )
+        include_once( 'kernel/classes/ezcontentupload.php' );
+        $upload = new eZContentUpload();
+        $info = $upload->objectFileInfo( $object );
+        if ( $info )
         {
-            $dataMap = $object->dataMap();
-
-            $attribute = $dataMap[$attributeID];
-            $attributeContent = $attribute->content();
-            $attributeDataTypeString = $attribute->attribute( 'data_type_string' );
-
-            $attributeClass = get_class( $attributeContent );
-
-            switch ( $attributeDataTypeString )
-            {
-                case 'ezimage':
-                {
-                    $originalAlias = $attributeContent->attribute( 'original' );
-                    $filePath = $originalAlias['url'];
-                } break;
-
-
-                case 'ezbinaryfile':
-                {
-                    $filePath = $attributeContent->attribute( 'filepath' );
-                } break;
-            }
+            $result['file'] = $info['filepath'];
         }
 
-        // Make sure file points to the real file found in the attribute
-        $result["file"] = $filePath;
         return $result;
     }
 
@@ -1505,76 +1472,54 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $entry["ctime"] = $object->attribute( 'published' );
         $entry["mtime"] = $object->attribute( 'modified' );
 
-        // Attempt to determine the attribute that should be used for display:
-        $attributeID = false;
-        if ( isset( $iniSettings[$classIdentifier] ) )
-            $attributeID = $iniSettings[$classIdentifier];
-
-        // Only proceed to the special cases if the
-        // attribute is actually defined in the ini file:
-        if ( $attributeID )
+        include_once( 'kernel/classes/ezcontentupload.php' );
+        $upload = new eZContentUpload();
+        $info = $upload->objectFileInfo( $object );
+        if ( $info )
         {
-            // Get the object's datamap.
-            $dataMap =& $object->dataMap();
+            $filePath = $info['filepath'];
+            $entry["mimetype"] = false;
+            $entry["size"] = false;
+            if ( isset( $info['filesize'] ) )
+                $entry['size'] = $info['filesize'];
+            if ( isset( $info['mime_type'] ) )
+                $entry['mimetype'] = $info['mime_type'];
 
-            $attribute =& $dataMap[$attributeID];
-
-            // Check if the attribute settings are valid
-            if ( $attribute )
+            // Fill in information from the actual file if they are missing.
+            if ( !$entry['size'] and file_exists( $filePath ) )
             {
-                $attributeDataTypeIdentifier = $attribute->attribute( 'data_type_string' );
+                $entry["size"] = filesize( $filePath );
+            }
+            if ( !$entry['mimetype']  )
+            {
+                $mimeInfo = eZMimeType::findByURL( $filePath );
+                $entry["mimetype"] = $mimeInfo['name'];
+                $suffix = $mimeInfo['suffix'];
+                if ( strlen( $suffix ) > 0 )
+                    $entry["name"] .= '.' . $suffix;
+            }
+            else
+            {
+                $mimeInfo = eZMimeType::findByName( $entry['mimetype'] );
+                $suffix = $mimeInfo['suffix'];
+                if ( strlen( $suffix ) > 0 )
+                    $entry["name"] .= '.' . $suffix;
+            }
 
-                switch ( $attributeDataTypeIdentifier )
-                {
-                    // If the file being uploaded is an image:
-                    case 'ezimage':
-                    {
-                        $attributeContent =& $attribute->attribute( 'content' );
-                        $originalAlias =& $attributeContent->attribute( 'original' );
-                        $mime = $originalAlias['mime_type'];
-                        $originalName = $originalAlias['original_filename'];
-                        $imageFile = $originalAlias['url'];
-                        $suffix = $originalAlias['suffix'];
-
-                        if ( file_exists( $imageFile ) )
-                        {
-                            $entry["size"] = filesize( $imageFile );
-                            $entry["ctime"] = filectime( $imageFile );
-                            $entry["mtime"] = filemtime( $imageFile );
-                        }
-                        $entry["mimetype"] = $mime;
-                        if ( strlen( $suffix ) > 0 )
-                            $entry["name"] .= '.' . $suffix;
-//                        $entry["href"] = '/' . $imageFile;
-                    }break;
-
-
-                    // If the file being uploaded is a regular file:
-                    case 'ezbinaryfile':
-                    {
-                        $attributeContent =& $attribute->attribute( 'content' );
-                        $mime = $attributeContent->attribute( 'mime_type' );
-                        $originalName = $attributeContent->attribute( 'original_filename' );
-                        $fileLocation = $attributeContent->attribute( 'filepath' );
-                        $pathInfo = pathinfo( $originalName );
-                        $extension = $pathInfo["extension"];
-
-                        $entry["size"] = $attributeContent->attribute( 'filesize' );
-                        $entry["mimetype"] = $mime;
-                        if ( strlen( $extension ) > 0 )
-                            $entry["name"] .= '.' . $extension;
-                        if ( file_exists( $fileLocation ) )
-                        {
-                            $entry["ctime"] = filectime( $fileLocation );
-                            $entry["mtime"] = filemtime( $fileLocation );
-                        }
-                    }break;
-
-                    default:
-                    {
-                        $this->appendLogEntry( "datatype = " . $attributeDataTypeIdentifier, 'CS:fetchNodeInfo' );
-                    } break;
-                }
+            if ( file_exists( $filePath ) )
+            {
+                $entry["ctime"] = filectime( $filePath );
+                $entry["mtime"] = filemtime( $filePath );
+            }
+        }
+        else
+        {
+            // Here we only show items as folders if they have
+            // is_container set to true, otherwise it's an unknown binary file
+            $class =& $object->contentClass();
+            if ( !$class->attribute( 'is_container' ) )
+            {
+                $entry['mimetype'] = 'application/octet-stream';
             }
         }
 
@@ -1670,75 +1615,5 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Return the site list.
         return $siteList ;
     }
-
-    /*!
-      Creates a new instance of a file object, sets the attributes.
-      Stores the object in the database. The file which was uploaded
-      is copied to its final location.
-    */
-    function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribute )
-    {
-        // Get the file/base-name part of the filepath.
-        $filename = basename( $fileFileName );
-
-        // Attempt to determine the mime type of the file to be saved.
-        $mimeInfo = eZMimeType::findByURL( strtolower( $fileOriginalFileName ) );
-        $mime = $mimeInfo['name'];
-
-        // Extract elements from the mime array.
-        list( $subdir, $extension ) = split ("/", $mime );
-
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-
-        $version = $contentObjectAttribute->attribute( "version" );
-
-        // Create a new instance of a file object.
-        $file =& eZBinaryFile::create( $contentObjectAttributeID , $version );
-
-        // Set the attributes for the newly created object:
-        $file->setAttribute( "filename", $filename . '.' . $extension );
-        $file->setAttribute( "original_filename", $fileOriginalFileName );
-        $file->setAttribute( "mime_type", $mime );
-
-        // Store the object in the database.
-        $file->store();
-
-        // Get the path to the storage directory.
-        $sys =& eZSys::instance();
-        $storageDir = $sys->storageDirectory();
-
-        // Build the path to the destination directory.
-        $destinationDir = $storageDir . '/' . 'original/' . $subdir;
-
-        // If no directory for these files exists: create one!
-        if ( !file_exists( $destinationDir ) )
-        {
-            eZDir::mkdir( $destinationDir, eZDir::directoryPermission(), true);
-        }
-
-        // Build the target filename.
-        $targetFile = $destinationDir . "/" . $filename . '.' . $extension ;
-
-        // Attempt to copy the file from upload to its final destination.
-        $result = copy( $fileFileName, $targetFile );
-
-        // Check if the move operation succeeded and return true/false...
-        if ( $result )
-        {
-            return true;
-        }
-        else
-        {
-            // Remove the object from the databse.
-            eZBinaryFile::remove( $contentObjectAttributeID , $version );
-
-            // Bail...
-            return false;
-        }
-
-        // Attempt to remove the uploaded file.
-        $result = unlink( $fileFileName );
-    }
-
 }
 ?>
