@@ -89,7 +89,6 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <hr class="hide" />
 
-
 <div id="toolbar-bottom">
     <div id="toolbar-design">
        {tool_bar name=bottom view=line}

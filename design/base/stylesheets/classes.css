@@ -19,15 +19,15 @@ div.content-byline p
 
 div.content-byline p.author
 {
-    float: left;
-    width: 48%;
+/*    float: left;
+    width: 48%;*/
 }
 
 div.content-byline p.date
 {
-    text-align: right;
+/*    text-align: right;
     float: right;
-    width: 48%;
+    width: 48%;*/
 }
 
 /* FOLDER STYLES */

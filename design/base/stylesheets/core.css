@@ -348,3 +348,9 @@ div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.f
 {
     background-color: #f0f0f0;
 }
+
+/* Misc */
+span.spamfilter
+{
+     display: none;
+}

@@ -22,11 +22,12 @@ div#header h1
     font-size: 4em;
     font-style: italic;
     margin: 0;
-    padding-left: 85px;
     height: 60px;
+/* 
+    padding-left: 85px;
     background-image: url(../images/top-logo.gif);
     background-repeat: no-repeat;
-    background-position: top left;
+    background-position: top left;*/
     white-space: nowrap;
 }
 
@@ -118,6 +119,14 @@ div#fix /* This style breaks the unwanted connection between the content of the 
     float: left;
     width: 100%;
 }
+
+/* Footer */
+div#footer
+{ 
+    clear: both;
+
+}
+
 
 /* COMMON STYLES SET JUST AS AN EXAMPLE */
 /* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
