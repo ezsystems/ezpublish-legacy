@@ -150,7 +150,7 @@ class eZXMLInputHandler
         if ( $dom )
             $node =& $dom->elementsByName( "section" );
 
-        eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
 
         $output = "";
         if ( count( $node ) > 0 )

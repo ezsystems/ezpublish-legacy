@@ -1,4 +1,4 @@
-{default $attribute_parameters=array()}
+{default attribute_parameters=array()}
 {switch match=$attribute_parameters[0].alignment}
 {case match="left"}
 <div class="imageleft">

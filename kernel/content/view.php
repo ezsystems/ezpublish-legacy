@@ -90,14 +90,13 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 //     return;
 $user =& eZUser::currentUser();
 
-eZDebug::addTimingPoint( 'Operation start' );
+eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
                                                                           'language_code' => $LanguageCode ) );
-eZDebug::addTimingPoint( 'Operation end' );
+eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
 
-eZDebug::writeNotice( $NodeID, "Fetching node" );
-
+eZDebugSetting::writeDebug( 'kernel-content-view', $NodeID, "Fetching node" );
 
 switch( $operationResult['status'] )
 {
@@ -117,7 +116,7 @@ switch( $operationResult['status'] )
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
                 if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
                 {
-//         eZDebug::writeDebug( 'found cache', 'content/view' );
+                    eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'found cache', 'content/view' );
                     $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
                     return $Result;
                 }
@@ -182,7 +181,7 @@ switch( $operationResult['status'] )
                 $discountList = $cacheInfo['discount_list'];
                 if ( eZContentCache::store( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $Result ) )
                 {
-//                     eZDebug::writeDebug( 'cache written', 'content/view' );
+                    eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }
             }
 

@@ -71,7 +71,7 @@ class openFts
         $currentVersion =& $contentObject->currentVersion();
 
         $allText = '';
-         
+
         $ini =& eZINI::instance();
         $storagePath = $ini->variable( "FileSettings" , "StorageDir" );
 
@@ -105,9 +105,9 @@ class openFts
 
         fclose( $fp );
         $tmpFname = realpath( $tmpFname );
-        eZDebug::writeNotice("/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname","indexing command");
+        eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname","indexing command");
         $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname", &$foo );
-        eZDebug::writeNotice( $retStr.$foo, "error string" ); 
+        eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "error string" );
         //  unlink($tmpFname);
 
 
@@ -120,12 +120,12 @@ class openFts
     {
         $db =& eZDB::instance();
         $contentObjectID = $contentObject->attribute( "id" );
-        eZDebug::writeNotice( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , "delete error string" ); 
+        eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , "delete error string" );
 
         $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , &$foo);
-        eZDebug::writeNotice( $retStr.$foo, "delete error string" ); 
+        eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "delete error string" );
 
-        
+
 
     }
 
@@ -155,9 +155,9 @@ class openFts
 
         // find the phrases
 
-//        $sqlPartsString = system("/home/sp/projects/php/ezpublish3/bin/openfts/search.pl nextgen_test $searchText", &$foo);  
-        $sqlPartsString = `/home/sp/projects/php/ezpublish3/bin/openfts/search.pl -p nextgen_test -z $searchText`;  
-        eZDebug::writeNotice("/home/sp/projects/php/ezpublish3/bin/openfts/search.pl nextgen_test $searchText","indexing command");
+//        $sqlPartsString = system("/home/sp/projects/php/ezpublish3/bin/openfts/search.pl nextgen_test $searchText", &$foo);
+        $sqlPartsString = `/home/sp/projects/php/ezpublish3/bin/openfts/search.pl -p nextgen_test -z $searchText`;
+        eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/search.pl nextgen_test $searchText","indexing command");
         $sqlPartsArray = explode('|||', $sqlPartsString );
         $out = $sqlPartsArray[0];
         $tables = $sqlPartsArray[1];
@@ -189,12 +189,11 @@ class openFts
 
         $objectRes = array();
 
-        
         $objectRes =& $db->arrayQuery( $searchQuery );
         $objectCountRes =& $db->arrayQuery( $searchCountQuery );
         $searchCount = $objectCountRes[0]['count'];
 
-//        eZDebug::writeNotice($objectRes, 'search result' );
+//        eZDebugSetting::writeDebug( 'kernel-search-openfts', $objectRes, 'search result' );
 
         return array( "SearchResult" => $objectRes,
                       "SearchCount" => $searchCount );
@@ -246,15 +245,5 @@ class openFts
         return $retArray;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 ?>

@@ -84,7 +84,7 @@ class eZURLTranslator
     */
     function translateNodeTree( &$uri )
     {
-        eZDebug::addTimingPoint( 'Node Path Match start' );
+        eZDebugSetting::addTimingPoint( 'kernel-urltranslator', 'Node Path Match start' );
         $nodePathString = $uri->elements();
         $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -96,7 +96,7 @@ class eZURLTranslator
         {
             $uriResult= 'content/view/full/' . $node->attribute( 'node_id' ) . '/';
         }
-        eZDebug::addTimingPoint( 'Node Path Match end' );
+        eZDebugSetting::addTimingPoint( 'kernel-urltranslator', 'Node Path Match end' );
         return $uriResult;
     }
 

@@ -1,4 +1,3 @@
-
 <?php
 //
 // Definition of eZXMLInputType class
@@ -104,7 +103,7 @@ class eZXMLInputType
         }
         else
         {
-            eZDebug::writeError("No XML editor available." );
+            eZDebug::writeError( "No XML editor available." );
         }
         return $impl;
     }

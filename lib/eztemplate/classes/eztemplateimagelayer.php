@@ -96,6 +96,8 @@ class eZTemplateImageFont
             $family_file = $fontFamily . '.ttf';
         if ( $fontPath != null )
         {
+            if ( !is_array( $fontPath ) )
+                $fontPath = array( $fontPath );
             foreach ( $fontPath as $singleFontPath )
             {
                 $font = $singleFontPath . "/$family_file";

@@ -499,7 +499,7 @@ class eZXMLTextType extends eZDataType
         }
         else
         {
-            eZDebug::writeDebug("called else");
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "called else" );
             $output =& $contentObjectAttribute->originalInput();
         }*/
         $inputType =& eZXMLInputType::instance();
@@ -516,7 +516,7 @@ class eZXMLTextType extends eZDataType
     function &renderXHTMLSection( &$tpl, &$section, $currentSectionLevel )
     {
         $output = "";
-         eZDebug::writeDebug("level ". $section->toString( 0 ) );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
         foreach ( $section->children() as $sectionNode )
         {
             $sectionLevel = $currentSectionLevel;
@@ -537,13 +537,13 @@ class eZXMLTextType extends eZDataType
 
                 case 'paragraph' :
                 {
-                    $output .= $this->renderXHTMLParagraph( $tpl, $sectionNode );
+                    $output .= $this->renderXHTMLParagraph( $tpl, $sectionNode, $currentSectionLevel );
                 }break;
 
                 case 'section' :
                 {
                     $sectionLevel += 1;
-                    eZDebug::writeDebug("level ". $sectionLevel );
+                    eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level ". $sectionLevel );
                     $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $sectionLevel );
                 }break;
 
@@ -772,7 +772,7 @@ class eZXMLTextType extends eZDataType
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode );
+                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0 );
                     }
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
@@ -794,7 +794,7 @@ class eZXMLTextType extends eZDataType
             case 'literal' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-                eZDebug::writeDebug("ooo" .$childTagText);
+                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "ooo" . $childTagText);
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $textElements = array();

@@ -61,7 +61,7 @@ define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
 $wfINI =& eZINI::instance( 'workflow.ini' );
 $workflowTypes =& $GLOBALS["eZWorkflowTypes"];
 $types = $wfINI->variable( 'EventSettings', 'AvailableEventTypes' );
-// eZDebug::writeDebug( $types, 'workflow' );
+// eZDebugSetting::writeDebug( 'workflow-type', $types, 'workflow' );
 
 class eZWorkflowType
 {
@@ -121,7 +121,7 @@ class eZWorkflowType
             $def =& $GLOBALS["eZWorkflowTypeObjects"][$typeString];
             if ( get_class( $def ) != $class_name )
             {
-//                 eZDebug::writeDebug( "Created type: $typeString", "eZWorkflowType::createType" );
+//                 eZDebugSetting::writeDebug( 'workflow-type', "Created type: $typeString", "eZWorkflowType::createType" );
                 if ( class_exists( $class_name ) )
                     $def = new $class_name();
                 else
@@ -146,7 +146,7 @@ class eZWorkflowType
                 $def =& $definition_objects[$typeString];
                 if ( get_class( $def ) != $class_name )
                 {
-//                     eZDebug::writeDebug( "Created list type: $typeString", "eZWorkflowType::fetchRegisteredTypes" );
+//                     eZDebugSetting::writeDebug( 'workflow-type', "Created list type: $typeString", "eZWorkflowType::fetchRegisteredTypes" );
                     if ( class_exists( $class_name ) )
                         $def = new $class_name();
                     else
@@ -192,7 +192,7 @@ class eZWorkflowType
         }
         else
         {
-//             eZDebug::writeDebug( "Registered type: $typeString", "eZWorkflowType::registerType" );
+//             eZDebugSetting::writeDebug( 'workflow-type', "Registered type: $typeString", "eZWorkflowType::registerType" );
             $types[$typeString] = array( "class_name" => $class_name );
         }
     }

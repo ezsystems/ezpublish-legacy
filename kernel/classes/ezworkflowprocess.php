@@ -133,13 +133,13 @@ class eZWorkflowProcess extends eZPersistentObject
     function run( &$workflow, &$workflowEvent, &$eventLog )
     {
         $eventLog = array();
-        eZDebug::writeDebug( $workflowEvent, "workflowEvent in process->run beginning" );
+        eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent, "workflowEvent in process->run beginning" );
         include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
         $runCurrentEvent = true;
         $done = false;
         $workflowStatus = $this->attribute( 'status' );
-        eZDebug::writeDebug( $workflowStatus , 'workflowStatus' );
+        eZDebugSetting::writeDebug( 'workflow-process', $workflowStatus , 'workflowStatus' );
         $lastEventStatus = $this->attribute( 'last_event_status' );
 
 // just temporary. needs to be removed from parameters
@@ -158,10 +158,10 @@ class eZWorkflowProcess extends eZPersistentObject
             case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
             {
                 $activationDate = $this->attribute( "activation_date" );
-                eZDebug::writeDebug( "Checking activation date" );
+                eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
                 if ( eZDateTime::currentTimeStamp() < $activationDate )
                 {
-                    eZDebug::writeDebug( "Date failed, not running events" );
+                    eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
                     $eventType =& $workflowEvent->eventType();
                     $eventLog[] = array( "status" => $lastEventStatus,
                                          "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
@@ -173,8 +173,8 @@ class eZWorkflowProcess extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeDebug( "Date ok, running events" );
-                    eZDebug::writeDebug( $lastEventStatus, 'WORKFLOW_TYPE_STATUS' );
+                    eZDebugSetting::writeDebug( 'workflow-process', "Date ok, running events" );
+                    eZDebugSetting::writeDebug( 'workflow-process', $lastEventStatus, 'WORKFLOW_TYPE_STATUS' );
                     if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
                          $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
                          $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
@@ -187,9 +187,9 @@ class eZWorkflowProcess extends eZPersistentObject
                 break;
         }
 
-//         eZDebug::writeDebug( $workflowEvent, "$done , $runCurrentEvent , fooooooooooooooo" );
-//         eZDebug::writeDebug( $done , "$done , $runCurrentEvent , fooooooooooooooo" );
-//         eZDebug::writeDebug( $runCurrentEvent, "$done , $runCurrentEvent , fooooooooooooooo" );
+//         eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent, "$done , $runCurrentEvent , fooooooooooooooo" );
+//         eZDebugSetting::writeDebug( 'workflow-process', $done , "$done , $runCurrentEvent , fooooooooooooooo" );
+//         eZDebugSetting::writeDebug( 'workflow-process', $runCurrentEvent, "$done , $runCurrentEvent , fooooooooooooooo" );
         while ( !$done )
         {
 //            var_dump( $done );
@@ -197,37 +197,37 @@ class eZWorkflowProcess extends eZPersistentObject
             flush();
             if ( $runCurrentEvent )
             {
-                eZDebug::writeDebug( "runCurrentEvent is true" );
+                eZDebugSetting::writeDebug( 'workflow-process', "runCurrentEvent is true" );
             }
             else
             {
-                eZDebug::writeDebug( "runCurrentEvent is false" );
+                eZDebugSetting::writeDebug( 'workflow-process', "runCurrentEvent is false" );
             }
             if ( $workflowEvent != null )
             {
-//                 eZDebug::writeDebug( $workflowEvent ,"workflowEvent  is not null" );
+//                 eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent ,"workflowEvent  is not null" );
             }
             else
             {
-//                 eZDebug::writeDebug( $workflowEvent ,"workflowEvent  is  null" );
+//                 eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent ,"workflowEvent  is  null" );
             }
             if ( get_class( $workflowEvent ) == "ezworkflowevent")
             {
-                eZDebug::writeDebug( get_class( $workflowEvent )  ,"workflowEvent class  is ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent )  ,"workflowEvent class  is ezworkflowevent " );
             }
             else
             {
-                eZDebug::writeDebug( get_class( $workflowEvent )  ,"workflowEvent class  is not ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent )  ,"workflowEvent class  is not ezworkflowevent " );
             }
-            eZDebug::writeNotice( $done , "in while" );
+            eZDebugSetting::writeDebug( 'workflow-process', $done , "in while" );
             if ( $runCurrentEvent and
                  $workflowEvent !== null and
                  get_class( $workflowEvent ) == "ezworkflowevent" )
             {
 
-//                 eZDebug::writeNotice( $workflowEvent , "workflowEvent line 173 " );
+//                 eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent , "workflowEvent line 173 " );
                 $eventType =& $workflowEvent->eventType();
-//                 eZDebug::writeNotice( $eventType, "eventType line 176 " );
+//                 eZDebugSetting::writeDebug( 'workflow-process', $eventType, "eventType line 176 " );
                 if ( is_subclass_of( $eventType, "ezworkflowtype" ) )
                 {
                     $lastEventStatus = $eventType->execute( $this, $workflowEvent );
@@ -241,7 +241,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         $this->setAttribute( 'parameters', serialize( $workflowParameters ) );
                     }
 //                    print( "<br>lastEventStatus" . $lastEventStatus );
-                    eZDebug::writeDebug( $lastEventStatus, "lastEventStatus" );
+                    eZDebugSetting::writeDebug( 'workflow-process', $lastEventStatus, "lastEventStatus" );
                     switch( $lastEventStatus )
                     {
                         case EZ_WORKFLOW_TYPE_STATUS_ACCEPTED:
@@ -306,7 +306,7 @@ class eZWorkflowProcess extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeDebug( "Not running current event. Trying next" );
+                eZDebugSetting::writeDebug( 'workflow-process', "Not running current event. Trying next" );
             }
             $runCurrentEvent = true;
             // still not done
@@ -314,7 +314,7 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 // fetch next event
                 $event_pos = $this->attribute( "event_position" );
-//                 eZDebug::writeNotice( $this , 'workflow_process' );
+//                 eZDebugSetting::writeNotice( 'workflow-process', $this , 'workflow_process' );
                 $next_event_pos = $event_pos + 1;
                 if ( !is_object( $workflow ) )
                 {
@@ -323,7 +323,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 $next_event_id = $workflow->fetchEventIndexed( $next_event_pos );
                 if ( $next_event_id !== null )
                 {
-                    eZDebug::writeDebug( $event_pos , "workflow  not done");
+                    eZDebugSetting::writeDebug( 'workflow-process', $event_pos , "workflow  not done");
                     $this->advance( $next_event_id, $next_event_pos, $lastEventStatus );
                     $workflowEvent =& eZWorkflowEvent::fetch( $next_event_id );
                 }
@@ -331,8 +331,8 @@ class eZWorkflowProcess extends eZPersistentObject
                 {
                     $done = true;
                     unset( $workflowEvent );
-                    eZDebug::writeDebug( $event_pos , "workflow done");
-//                     eZDebug::writeNotice( $this, "workflow done");
+                    eZDebugSetting::writeDebug( 'workflow-process', $event_pos , "workflow done");
+//                     eZDebugSetting::writeNotice( 'workflow-process', $this, "workflow done");
                     $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
                     $this->advance();
                 }

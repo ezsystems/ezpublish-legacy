@@ -620,7 +620,6 @@ class eZModuleOperationInfo
                                 &$bodyCallCount, $currentLoopData, $operationName )
     {
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
-        
     }
     function &storeBodyMemento( $bodyName, $bodyKeys,
                                $operationKeys, $operationParameterDefinitions, $operationParameters,

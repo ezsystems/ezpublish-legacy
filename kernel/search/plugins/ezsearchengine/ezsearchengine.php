@@ -145,8 +145,8 @@ class eZSearchEngine
             $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id in ( $wordIDString )" );
             if ( count( $indexArrayOnlyWords ) > $wordResCount )
             {
-                eZDebug::writeDebug( $indexArrayOnlyWords, 'indexArrayOnlyWords' );
-                eZDebug::writeDebug( $existenWordArray, "existenWordArray" );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $indexArrayOnlyWords, 'indexArrayOnlyWords' );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $existenWordArray, "existenWordArray" );
                 $newWordArray = array_diff( $indexArrayOnlyWords, $existenWordArray );
                 $newWordString = implode( "', '1' ), ('", $newWordArray );
                 $db->query( "INSERT INTO
@@ -283,7 +283,7 @@ class eZSearchEngine
             else
                 $searchSectionID = -1;
 
-            eZDebug::writeDebug( 'searchSectionID=' . $searchSectionID, 'eZSearchEngine::search' );
+            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'searchSectionID=' . $searchSectionID, 'eZSearchEngine::search' );
             if ( isset( $params['SearchDate'] ) )
                 $searchDate = $params['SearchDate'];
             else
@@ -631,7 +631,7 @@ class eZSearchEngine
                         }
                         elseif( $limitation->attribute( 'name' ) == 'Owner' )
                         {
-                            eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in search objects' );
+                            eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in search objects' );
                         }
                     }
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );

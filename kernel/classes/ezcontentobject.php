@@ -496,7 +496,7 @@ class eZContentObject extends eZPersistentObject
             $nodeAssignment =& $nodeAssignmentList[$key];
             $clonedAssignment =& $nodeAssignment->clone( $newVersionNumber, $contentObjectID );
             $clonedAssignment->store();
-            eZDebugSetting::writeDebug( 'content-object-copy', $clonedAssignment, 'copyVersion:Copied assignment' );
+            eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAssignment, 'copyVersion:Copied assignment' );
         }
 
         $currentVersionNumber = $version->attribute( "version" );
@@ -508,7 +508,7 @@ class eZContentObject extends eZPersistentObject
             if ( $clonedVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
                 $clonedVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         }
-        eZDebugSetting::writeDebug( 'content-object-copy', $clonedVersion, 'copyVersion:cloned version' );
+        eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedVersion, 'copyVersion:cloned version' );
 
         $clonedVersion->store();
 
@@ -521,7 +521,7 @@ class eZContentObject extends eZPersistentObject
                 $attribute =& $contentObjectAttributes[$attributeKey];
                 $clonedAttribute =& $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID );
                 $clonedAttribute->sync();
-                eZDebugSetting::writeDebug( 'content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
+                eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
             }
         }
 
@@ -531,7 +531,7 @@ class eZContentObject extends eZPersistentObject
             $relatedObject =& $relatedObjects[$key];
             $objectID = $relatedObject->attribute( 'id' );
             $object->addContentObjectRelation( $objectID, $newVersionNumber );
-            eZDebugSetting::writeDebug( 'content-object-copy', 'Add object relation', 'copyVersion' );
+            eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
 
         return $version;
@@ -572,11 +572,11 @@ class eZContentObject extends eZPersistentObject
     */
     function &copy( $allVersions = true )
     {
-        eZDebugSetting::writeDebug( 'content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
+        eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
         $contentObject =& $this->clone();
         $contentObject->setAttribute( 'current_version', 0 );
         $contentObject->store();
-        eZDebugSetting::writeDebug( 'content-object-copy', $contentObject, 'contentObject' );
+        eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObject, 'contentObject' );
 
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
@@ -603,9 +603,9 @@ class eZContentObject extends eZPersistentObject
             $contentObjectVersion =& $contentObject->copyVersion( $contentObject, $currentContentObjectVersion,
                                                                   $versionNumber, $contentObject->attribute( 'id' ),
                                                                   false );
-            eZDebugSetting::writeDebug( 'content-object-copy', $contentObjectVersion, 'Copied version' );
+            eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObjectVersion, 'Copied version' );
         }
-        eZDebugSetting::writeDebug( 'content-object-copy', 'Copy done', 'copy' );
+        eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
         return $contentObject;
     }
 
@@ -948,7 +948,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &relatedContentObjectArray( $version = false, $objectID = false )
     {
-        eZDebug::writeDebug( $objectID, "objectID1111" );
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID1111" );
         if ( $version == false )
             $version = $this->CurrentVersion;
         if( ! $objectID )
@@ -1006,7 +1006,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
-        eZDebug::writeDebug( $objectID, "objectID1111" );
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID1111" );
         if ( $version == false )
             $version = $this->CurrentVersion;
         if( ! $objectID )
@@ -1183,7 +1183,7 @@ class eZContentObject extends eZPersistentObject
                         $limitation =& $limitationArray[$key];
 //                        if ( $functionName == 'remove' )
 //                        {
-//                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
+//                            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $limitation, 'limitation in check access' );
 //                        }
 
                         if ( $limitation->attribute( 'identifier' ) == 'Class' )
@@ -1297,7 +1297,7 @@ class eZContentObject extends eZPersistentObject
     function &canCreateClassList()
     {
 
-//        eZDebug::writeNotice( $this, "object in canCreateClass" );
+//        eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
@@ -1305,12 +1305,12 @@ class eZContentObject extends eZPersistentObject
         if ( $accessWord == 'yes' )
         {
             $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-//            eZDebug::writeNotice( $classList, 'can create everithing' );
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everithing' );
             return $classList;
         }
         elseif ( $accessWord == 'no' )
         {
-//            eZDebug::writeNotice( array(), 'can create nothing' );
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         else
@@ -1325,7 +1325,7 @@ class eZContentObject extends eZPersistentObject
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-//                    eZDebug::writeNotice( $classList, 'can create everything' );
+//                    eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everything' );
                     return $classList;
                 }else
                 {
@@ -1336,7 +1336,7 @@ class eZContentObject extends eZPersistentObject
         }
         if( count( $classIDArray ) == 0  )
         {
-//            eZDebug::writeNotice( array(), 'can create nothing' );
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         $classList = array();
@@ -1344,7 +1344,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDb::instance();
         $classString = implode( ',', $classIDArray );
         $classList = $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
-//        eZDebug::writeNotice( $classList, 'can create some classes' );
+//        eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create some classes' );
         return $classList;
     }
 

@@ -154,6 +154,17 @@ class eZDebugSetting
             return false;
         eZDebug::writeDebug( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
+
+    /*!
+      \static
+      Adds the timing point if the condition \a $conditionName is enabled.
+    */
+    function addTimingPoint( $conditionName, $label = "" )
+    {
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_TIMING_POINT ) )
+            return false;
+        eZDebug::addTimingPoint( eZDebugSetting::changeLabel( $conditionName, $label ) );
+    }
 }
 
 ?>
