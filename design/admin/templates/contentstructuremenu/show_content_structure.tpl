@@ -48,7 +48,7 @@
                 {* Text *}
                 {section show=$:csm_menu_item_click_action|eq('')}
                     {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                        <a class="nodetext" href="{$:defaultItemClickAction}"  title="{$:toolTip}">
+                        <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
                     {/let}
                 {section-else}
                         <a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">
@@ -68,7 +68,7 @@
                     {section show=$:parentNode.node.is_invisible}
                         <span class="node-hiddenbyparent">(Hidden by parent)</span></a>
                     {section-else}
-                        </a>
+</a> {* Do not indent this line; otherwise links will contain empty space at the end! *}
                     {/section}
                 {/section}
 
