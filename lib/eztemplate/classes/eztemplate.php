@@ -1595,7 +1595,7 @@ class eZTemplate
         if ( array_key_exists( $namespace, $this->Variables ) and
              array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
-        $this->Variables["$namespace"]["$var"] =& $val;
+        $this->Variables[$namespace][$var] =& $val;
     }
 
     /*!
