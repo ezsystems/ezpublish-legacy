@@ -15,6 +15,8 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   the permission handling of the list.
 - Added possibility top configure top admin menu thrue menu.ini. 
 - Added class-type versioning for PDF export and RSS import/export.
+- Removed checking for contentobject_is_published in subTree() in eZContentObjectTreeNode,
+  the use of this attribute is deprecated and should be removed.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should

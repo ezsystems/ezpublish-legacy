@@ -1123,7 +1123,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createVersionNameJoinsSQLString( $useVersionName )
+    function &createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true )
     {
         $versionNameJoins = '';
 
@@ -1131,9 +1131,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $lang = eZContentObject::defaultLanguage();
 
-            $versionNameJoins   = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                    ezcontentobject_name.content_translation = '$lang' ";
+            if ( $includeAnd )
+                $versionNameJoins = ' and';
+            $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                   ezcontentobject_name.content_translation = '$lang' ";
         }
 
         return $versionNameJoins;
@@ -1350,7 +1352,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $useVersionName     = true;
         $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
+        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
@@ -1383,7 +1385,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       ezcontentclass.id = ezcontentobject.contentclass_id AND
                       $mainNodeOnlyCond
                       $classCondition
-                      ezcontentobject_tree.contentobject_is_published = 1
                       $versionNameJoins
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
@@ -1882,7 +1883,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
                             $notEqParentString
-                            ezcontentobject_tree.contentobject_is_published = 1 AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id
                             $versionNameJoins
@@ -1908,7 +1908,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $attributeFilterWhereSQL
                            ezcontentclass.version=0 AND
                            $notEqParentString
-                           ezcontentobject_tree.contentobject_is_published = 1 AND
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id
                            $showInvisibleNodesCond
@@ -1956,8 +1955,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentclass.version=0 AND
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                            ezcontentclass.id = ezcontentobject.contentclass_id AND
-                            ezcontentobject_tree.contentobject_is_published = 1";
+                            ezcontentclass.id = ezcontentobject.contentclass_id";
 
         $nodeListArray =& $db->arrayQuery( $query );
 
