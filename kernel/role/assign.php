@@ -36,8 +36,9 @@
 /*! \file ~~~
 */
 
-$http =& eZHTTPTool::instance();
+include_once( "kernel/classes/ezrole.php" );
 
+$http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 $roleID =& $Params['RoleID'];
