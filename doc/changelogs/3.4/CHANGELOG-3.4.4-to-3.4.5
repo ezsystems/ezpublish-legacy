@@ -16,11 +16,12 @@ Changes from 3.4.4 to 3.4.5
 
 *Datatypes:
 
-	eZ Identifier:
+eZ Identifier:
 - Fixed: Aqcuiring a unique ID is now done the first time an object is created
   and not only when it is created.
 - Fixed: Acquiring a new unique ID is not present in previous versions.
 - Fixed: Sort key were not in lowercase.
+
 eZ Url:
 - Fixed: serialising/unserialising, if attribute is empty.
 - Fixed: data_text was not serialised/unserialised.
@@ -227,6 +228,7 @@ eZ Url:
 - Fixed bug #6034: eZMYSQLDB::query() unproper error handling
   (Merged from stable/3.3 (3.3-7) rev. 10746)
 - Fixed bug #6032: sql error after deleting object.
+- Fixed bug #6095: File upload fails.
 
 *Library:
 
