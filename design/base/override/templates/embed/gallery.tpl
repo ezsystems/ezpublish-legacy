@@ -1,4 +1,4 @@
-{* Gallery - List embed view *}
+{* Gallery - Embed view *}
 <div class="content-view-embed">
     <div class="class-gallery">
         <a href={$object.main_node.url_alias|ezurl}><h2>{$object.name}</h2></a>

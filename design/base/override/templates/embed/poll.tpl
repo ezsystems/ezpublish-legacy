@@ -1,7 +1,9 @@
-<div class="view-embed">
+{* Poll - Embed view *}
+<div class="content-view-embed">
     <div class="class-poll">
-        <h3>{$object.name}</h3>
+        <h2>{$object.name}</h2>
 
+       <div class="embedded-content">
         <form method="post" action={"content/action"|ezurl}>
         <input type="hidden" name="ContentNodeID" value="{$object.main_node_id}" />
         <input type="hidden" name="ContentObjectID" value="{$object.id}" />
@@ -10,7 +12,7 @@
         {let attribute=$object.data_map.question
              option_id=cond( is_set( $#collection_attributes[$attribute.id]), $#collection_attributes[$attribute.id].data_int,false() )}
 
-        <h4>{$attribute.content.name}</h4>
+        <h3>{$attribute.content.name}</h3>
 
         {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
             <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$OptionList:item.id}"
@@ -22,6 +24,6 @@
         <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
 
         </form>
-
+        </div>
     </div>
 </div>
