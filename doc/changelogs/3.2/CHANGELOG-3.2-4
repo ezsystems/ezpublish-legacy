@@ -13,6 +13,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug, added check missing check if current preference is set
   http://ez.no/developer/ez_publish_3/bug_reports/ezpreferences_only_one_variable_can_be_stored_in_the_database_for_each_user
 - Fixed bug, http://ez.no/developer/ez_publish_3/bug_reports/please_fix_setupdatatype_wizard_text_for_next_32_version
+- Fixed cleandata.sql bug, http://ez.no/developer/ez_publish_3/bug_reports/cleandatasql_is_not_clean
+
    
 
 *Library :
