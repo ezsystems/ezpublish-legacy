@@ -30,13 +30,16 @@ eZINI:
   http://ez.no/community/bug_reports/online_editor_error_with_factbox
 - Fixed bug in localization of date/time strings.
   http://ez.no/index.php/community/bug_reports/long_day_names_not_localized
+- Fixed bug in digest notifications (wrong timestamp, and not being run at all).
+  http://ez.no/community/bug_reports/digests_not_timestamping_correctly
+  http://ez.no/community/bug_reports/digest_notification_doesn_t_work
 
 *Library:
 
 eZ Locale:
 
 eZ Image:
-- Fixed bug that made it impossible to read any other font then a lowercase ttf extension
+- Fixed bug that made it impossible to read any other font then a lowercase TTF extension
 
 eZ MIMEType:
 
