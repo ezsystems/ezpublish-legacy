@@ -140,6 +140,7 @@ class eZContentObject extends eZPersistentObject
                                                       "main_node" => "mainNode",
                                                       "default_language" => "defaultLanguage",
                                                       "content_action_list" => "contentActionList",
+                                                      "class_identifier" => "contentClassIdentifier",
                                                       "name" => "Name" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",

@@ -20,6 +20,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
   It uses the eZDBSchema library to compute the differences.
 - Added 'Delayed Indexing' of published objects; when activated a lost of not 
   indexed objects are kept, and being processed by a cronjob.
+- Added missing definition of class_identifier in eZContentObject which made hasAttribute() always return false. This made it impossible to have class identifier overrides of node children.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.
