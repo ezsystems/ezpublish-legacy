@@ -279,7 +279,12 @@ class eZRole extends eZPersistentObject
                 $http->removeSessionVariable( 'UserPolicies' );
                 $http->removeSessionVariable( 'UserLimitations' );
                 $http->removeSessionVariable( 'UserLimitationValues' );
-                eZSessionCache::setIsValid( EZ_SESSION_CACHE_USER_ROLES );
+
+                // Expire role cache
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                $handler =& eZExpiryHandler::instance();
+                $handler->setTimestamp( 'user-role-cache', mktime() );
+                $handler->store();
             }
         }
         else
