@@ -27,6 +27,10 @@
   {/section}
 {/section}
 
+<div class="context-block">
+
+<h2 class="context-title">Bookmarks</h2>
+
 <table class="list" cellspacing="0"">
 <tr>
     <th class="tight">
@@ -79,26 +83,31 @@
 <tr>
 </table>
 
-{*{include name=navigator
+{*
+<div class="context-toolbar">
+{include name=navigator
          uri='design:navigator/google.tpl'
          page_uri='/content/draft'
          item_count=$list_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
+</div>
 *}
 {section-else}
+<div class="context-block">
 
-<div class="message-feedback">
-    <h2>{"You have no bookmarks"|i18n("design/standard/content/view")}</h2>
-</div>
+<h2 class="context-title">Bookmarks</h2>
 
 {/section}
 
 <div class="controlbar">
+    <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" />
     <input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n('design/standard/content/view')}" />
+    </div>
 </div>
 
+</div>
 
 </form>
 

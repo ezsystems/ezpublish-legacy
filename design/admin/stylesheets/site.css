@@ -418,6 +418,7 @@ div.context-toolbar a:hover
     text-decoration: none;
 }
 
+/*
 div.context-controlbar
 {
     background-color: #606060;
@@ -430,7 +431,7 @@ div.context-controlbar select
 {
     font-size: 0.85em;
 }
-
+*/
 div.viewbar, div.controlbar
 {
     background-color: #606060;

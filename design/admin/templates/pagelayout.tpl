@@ -280,6 +280,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {/section}
 
 {* --- History --- *}
+{*
 <div id="history">
 {section show=eq(ezpreference('history_menu'),'on')}
     {section show=ne($ui_context,'edit')}
@@ -306,6 +307,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {/section}
 {/section}
 </div>
+*}
 
 {* --- Notifications --- *}
     {section show=ne($ui_context,'edit')}
@@ -322,6 +324,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {/section}
 
 {* --- Interface mode --- *}
+{*
 <h4>Interface mode</h4>
 {section show=eq(ezpreference('interface_mode'),'simple')}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
@@ -334,7 +337,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <input class="button" type="submit" name="SetInterfaceModeSimple" value="{'Switch to simple'|i18n('/design/admin/layout')}" title="{'Click here to put the user interface into simple mode. Simple mode provides a lightweight interface for content authors.'|i18n( 'design/admin/layout' )}" />
 </form>
 {/section}
-
+*}
 
 </div>
 </div>
