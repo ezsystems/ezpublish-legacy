@@ -3122,7 +3122,6 @@ WHERE
                 $depthCond = ' ezcot.depth <= ' . $nodeDepth . ' and ';
         }
 
-        $db->OutputSQL = true;
         $db->createTempTable( "CREATE TEMPORARY TABLE eznode_count ( count int )" );
         $query = "INSERT INTO eznode_count
                   SELECT
@@ -3142,7 +3141,6 @@ WHERE
                   WHERE count <= 1";
         $rows = $db->arrayQuery( $query );
         $db->dropTempTable( "DROP TABLE eznode_count" );
-        $db->OutputSQL = false;
         return $rows[0]['count'];
     }
 
