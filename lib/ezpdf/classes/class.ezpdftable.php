@@ -89,10 +89,10 @@ class eZPDFTable extends Cezpdf
                                           'topMargin' => $config->variable( 'Header', 'TopMargin' ),
                                           'bottomMargin' => $config->variable( 'Header', 'BottomMargin' ) );
         $this->ezFrame['footer'] = array( 'y0' => $this->ez['bottomMargin'],
-                                          'leftMargin' => $config->variable( 'Header', 'LeftMargin' ),
-                                          'rightMargin' => $config->variable( 'Header', 'RightMargin' ),
-                                          'topMargin' => $config->variable( 'Header', 'TopMargin' ),
-                                          'bottomMargin' => $config->variable( 'Header', 'BottomMargin' ) );
+                                          'leftMargin' => $config->variable( 'Footer', 'LeftMargin' ),
+                                          'rightMargin' => $config->variable( 'Footer', 'RightMargin' ),
+                                          'topMargin' => $config->variable( 'Footer', 'TopMargin' ),
+                                          'bottomMargin' => $config->variable( 'Footer', 'BottomMargin' ) );
     }
 
     /**
@@ -1343,6 +1343,7 @@ class eZPDFTable extends Cezpdf
             }
 
             $yOffset = $frameCoords['y0'] - $frameCoords['topMargin'];
+            echo $frameCoords['topMargin'].'<br>';
 
             $yOffset -= $this->getFontHeight( $size );
             $xOffset = $frameCoords['leftMargin'];
