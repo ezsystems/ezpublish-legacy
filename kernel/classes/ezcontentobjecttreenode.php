@@ -516,91 +516,39 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $rows;
     }
 
-    function &subTree( $params = false ,$nodeID = 0 )
+    /*!
+        \a static
+    */
+    function &createSortingSQLStrings( $sortList )
     {
-        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
-        {
-            return array();
-        }
+        $sortingInfo = array( 'sortCount'           => 0,
+                              'sortingFields'       => " path_string ASC",
+                              'attributeJoinCount'  => 0,
+                              'attributeFromSQL'    => "",
+                              'attributeWhereSQL'   => "" );
 
-        if ( $params === false )
+        if ( $sortList and is_array( $sortList ) and count( $sortList ) > 0 )
         {
-            $params = array( 'Depth' => false,
-                             'Offset' => false,
-                             'Limit' => false,
-                             'SortBy' => false,
-                             'AttributeFilter' => false,
-                             'ExtendedAttributeFilter' => false,
-                             'ClassFilterType' => false,
-                             'ClassFilterArray' => false,
-                             'GroupBy' => false );
-        }
-        $depth = false;
-        $offset = false;
-        $limit = false;
-        $asObject = true;
-        $limitationList = array();
-        if ( isset( $params['AsObject'] ) )
-             $asObject = $params['AsObject'];
-        if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
-        {
-            $depth = $params['Depth'];
-
-        }
-        if ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) )
-        {
-            $offset = $params['Offset'];
-        }
-        if ( isset( $params['Limit'] ) && is_numeric( $params['Limit'] ) )
-        {
-            $limit = $params['Limit'];
-        }
-        if ( isset( $params['Limitation'] ) )
-        {
-            $limitationList =& $params['Limitation'];
-        }
-        else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
-        {
-            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
-            eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
-        }
-        else
-        {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $currentUser =& eZUser::currentUser();
-            $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
-            if ( $accessResult['accessWord'] == 'limited' )
-            {
-                $params['Limitation'] =& $accessResult['policies'];
-                $limitationList =& $params['Limitation'];
-                $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
-            }
-        }
-        $sortCount = 0;
-        $sortList = false;
-        if ( isset( $params['SortBy'] ) and
-             is_array( $params['SortBy'] ) and
-             count( $params['SortBy'] ) > 0 )
-        {
-            $sortList = $params['SortBy'];
-            if ( count( $sortList ) > 1 and
-                 !is_array( $sortList[0] ) )
+            if ( count( $sortList ) > 1 and !is_array( $sortList[0] ) )
             {
                 $sortList = array( $sortList );
             }
-        }
-        $attributeJoinCount = 0;
-        $attributeFromSQL = "";
-        $attributeWhereSQL = "";
-        if ( $sortList !== false )
-        {
-            $sortingFields = '';
+
+            $sortingFields      = '';
+            $sortCount          = 0;
+            $attributeJoinCount = 0;
+            $attributeFromSQL   = "";
+            $attributeWhereSQL  = "";
+
             foreach ( $sortList as $sortBy )
             {
                 if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
                 {
                     if ( $sortCount > 0 )
-                        $sortingFields .= ', ';
+                    {
+                        $sortingInfo['sortingFields'] .= ', ';
+                    }
+
                     $sortField = $sortBy[0];
                     switch ( $sortField )
                     {
@@ -675,7 +623,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         default:
                         {
-                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::getSortingInfo' );
                             continue;
                         };
                     }
@@ -686,27 +634,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     ++$sortCount;
                 }
             }
+            
+            $sortingInfo['sortCount']           =  $sortCount;
+            $sortingInfo['sortingFields']       =& $sortingFields;
+            $sortingInfo['attributeJoinCount']  =  $attributeJoinCount;
+            $sortingInfo['attributeFromSQL']    =& $attributeFromSQL;
+            $sortingInfo['attributeWhereSQL']   =& $attributeWhereSQL;
         }
+        
+        return $sortingInfo;
+    }
 
-        // Should we sort?
-        if ( $sortCount == 0 )
-        {
-            $sortingFields = " path_string ASC";
-        }
-
+    /*!
+        \a static
+    */
+    function &createClassFilteringSQLString( $classFilterType, &$classFilterArray )
+    {
         // Check for class filtering
         $classCondition = '';
-        if ( !isset( $params['ClassFilterType'] ) )
-            $params['ClassFilterType'] = false;
-        if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
-             and count( $params['ClassFilterArray'] ) > 0 )
+
+        if ( isset( $classFilterType ) and 
+             ( $classFilterType == 'include' or $classFilterType == 'exclude' ) and
+             count( $classFilterArray ) > 0 )
         {
-            $gotInvalidClassIdentifier = false;
             $classCondition = ' ( ';
             $i = 0;
-            $classCount = count( $params['ClassFilterArray'] );
-
-            foreach ( $params['ClassFilterArray'] as $classID )
+            $classCount = count( $classFilterArray );
+            foreach ( $classFilterArray as $classID )
             {
                 $originalClassID = $classID;
                 // Check if classes are recerenced by identifier
@@ -717,39 +671,49 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         if ( $i > 0 )
                         {
-                            if ( $params['ClassFilterType'] == 'include' )
+                            if ( $classFilterType == 'include' )
                                 $classCondition .= " OR ";
                             else
                                 $classCondition .= " AND ";
                         }
 
-                        if ( $params['ClassFilterType'] == 'include' )
+                        if ( $classFilterType == 'include' )
                             $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
                         else
                             $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
 
                         $i++;
-
-                    } else
+                    }
+                    else
+                    {
                         eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                    }
                 }
-
             }
             $classCondition .= ' ) AND ';
         }
 
+        return $classCondition;
+    }
 
-        $extendedAttributeFilterTables = '';
-        $extendedAttributeFilterJoins = '';
-        if ( isset( $params['ExtendedAttributeFilter'] ) and count( $params['ExtendedAttributeFilter'] ) > 1 )
+    /*!
+        \a static
+    */
+    function &createExtendedAttributeFilterSQLStrings( &$extendedAttributeFilter )
+    {
+        $filter = array( 'tables'   => '',
+                         'joins'    => '' );
+
+        if ( $extendedAttributeFilter and count( $extendedAttributeFilter ) > 1 )
         {
-            $extendedAttributeFilterID = $params['ExtendedAttributeFilter']['id'];
-            $extendedAttributeFilterParams = $params['ExtendedAttributeFilter']['params'];
-            $filterINI =& eZINI::instance( 'extendedattributefilter.ini' );
+            $extendedAttributeFilterID      = $extendedAttributeFilter['id'];
+            $extendedAttributeFilterParams  = $extendedAttributeFilter['params'];
+            $filterINI                      =& eZINI::instance( 'extendedattributefilter.ini' );
 
-            $filterClassName = $filterINI->variable( $extendedAttributeFilterID, 'ClassName' );
-            $filterMethodName = $filterINI->variable( $extendedAttributeFilterID, 'MethodName' );
-            $filterFile = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
+            $filterClassName    = $filterINI->variable( $extendedAttributeFilterID, 'ClassName' );
+            $filterMethodName   = $filterINI->variable( $extendedAttributeFilterID, 'MethodName' );
+            $filterFile         = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
+            
             if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
             {
                 include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -760,32 +724,49 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 include_once( $filterFile );
             }
-            $classObject = new $filterClassName();
-            $parameterArray = array( $extendedAttributeFilterParams );
-            $sqlResult = call_user_func_array( array( $classObject, $filterMethodName ), $parameterArray );
-            $extendedAttributeFilterTables = $sqlResult['tables'];
-            $extendedAttributeFilterJoins = $sqlResult['joins'];
-            eZDebug::writeDebug( $extendedAttributeFilterJoins, 'extendedAttributeFilterJoins' );
-            if ( $extendedAttributeFilterJoins == '' )
-            {
-                return array();
-            }
+
+            $classObject        = new $filterClassName();
+            $parameterArray     = array( $extendedAttributeFilterParams );
+
+            $sqlResult          = call_user_func_array( array( $classObject, $filterMethodName ), $parameterArray );
+
+            $filter['tables']   = $sqlResult['tables'];
+            $filter['joins']    = $sqlResult['joins'];
+
+            eZDebug::writeDebug( $filter['joins'], 'extendedAttributeFilterJoins' );
         }
 
+        return $filter;
+    }
+
+    /*!
+        \a static
+    */
+    function &createMainNodeConditionSQLString( $mainNodeOnly )
+    {
         // Main node check
-        $mainNodeOnlyCond = '';
-        if ( isset( $params['MainNodeOnly'] ) && $params['MainNodeOnly'] === true )
+        $mainNodeCondition = '';
+        if ( isset( $mainNodeOnly ) && $mainNodeOnly === true )
         {
-            $mainNodeOnlyCond = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
+            $mainNodeCondition = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
         }
 
-        // Check for attribute filtering
-        $attributeFilterFromSQL = "";
-        $attributeFilterWhereSQL = "";
+        return $mainNodeCondition;
+    }
 
-        if ( isset( $params['AttributeFilter'] ) && $params['AttributeFilter'] !== false )
+    /*!
+        \a static
+    */
+    function &createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo )
+    {
+        // Check for attribute filtering
+
+        $filterSQL = array( 'from'    => '',
+                            'where'   => '' );
+
+        if ( isset( $attributeFilter ) && $attributeFilter !== false )
         {
-            $filterArray = $params['AttributeFilter'];
+            $filterArray = $attributeFilter;
 
             // Check if first value of array is a string.
             // To check for and/or filtering
@@ -804,7 +785,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $attibuteFilterJoinSQL = "";
-            $filterCount = $sortCount;
+            $filterCount = $sortingInfo['sortCount'];
             $justFilterCount = 0;
 
             $db =& eZDB::instance();
@@ -873,10 +854,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         // Use the same joins as we do when sorting,
                         // if more attributes are filtered by we will append them
-                        if ( $filterCount >= $attributeJoinCount )
+                        if ( $filterCount >= $sortingInfo['attributeJoinCount'] )
                         {
-                            $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
-                            $attributeFilterWhereSQL .= "
+                            $filterSQL['from']  .= ", ezcontentobject_attribute a$filterCount ";
+                            $filterSQL['where'] .= "
                                a$filterCount.contentobject_id = ezcontentobject.id AND
                                a$filterCount.contentclassattribute_id = $filterAttributeID AND
                                a$filterCount.version = ezcontentobject_name.content_version AND
@@ -885,7 +866,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
                         else
                         {
-                            $attributeFilterWhereSQL .= "
+                            $filterSQL['where'] .= "
                               a$filterCount.contentobject_id = ezcontentobject.id AND
                               a$filterCount.contentclassattribute_id = $filterAttributeID AND
                               a$filterCount.version = ezcontentobject_name.content_version AND
@@ -952,7 +933,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     if ( $hasFilterOperator )
                     {
-                        if ( ( $filterCount - $sortCount ) > 0 )
+                        if ( ( $filterCount - $sortingInfo['sortCount'] ) > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
                         $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
                         $filterCount++;
@@ -962,100 +943,113 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             if ( $justFilterCount > 0 )
-                $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
+                $filterSQL['where'] .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
         }
 
-        if ( $nodeID == 0 )
+        return $filterSQL;
+    }
+
+    /*!
+        \a static
+    */
+    function &createNotEqParentSQLString( $nodeID, $depth, $depthOperator )
+    {
+        $notEqParentString  = '';
+        if( !$depth || !$depthOperator || $depthOperator != 'eq' )
         {
-            $nodeID = $this->attribute( 'node_id' );
-            $node = $this;
-        }
-        else if ( is_numeric( $nodeID ) )
-        {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            $notEqParentString  = "node_id != $nodeID AND";
         }
 
-        $pathStringCond = '';
+        return $notEqParentString;
+    }
+
+    /*!
+        \a static
+    */
+    function &createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator )
+    {
+        $pathCondition  = '';
+        $depthCondition = '';
+
+        if ( $depth )
+        {
+            $nodeDepth += $depth;
+            if ( $depthOperator && $depthOperator == 'eq' )
+            {
+                $depthCondition = ' depth = '  . $nodeDepth . ' and ';
+            }
+            else
+            {
+                $depthCondition = ' depth <= ' . $nodeDepth . ' and ';
+            }
+        }
+
+        $pathCondition = " path_string like '$nodePath%' and $depthCondition ";
+        return $pathCondition;
+    }
+
+    /*!
+        \a static
+    */
+    function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, &$treeNode, $nodeID, $depth, $depthOperator )
+    {
         if ( is_array( $nodeID ) )
         {
-            $nodeIDList = $nodeID;
-            $nodeList = array();
-            $sqlPartForOneNodeList = array();
+            $nodeIDList             = $nodeID;
+            $sqlPartForOneNodeList  = array();
+
             foreach ( $nodeIDList as $nodeID )
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                $nodePath =  $node->attribute( 'path_string' );
-                $nodeDepth = $node->attribute( 'depth' );
-                $childrensPath = $nodePath ;
-                $pathString = " path_string like '$childrensPath%' ";
-                if ( isset( $params[ 'Depth' ] ) and $params[ 'Depth' ] > 0 )
+                $node           =& eZContentObjectTreeNode::fetch( $nodeID );
+                $nodePath       = $node->attribute( 'path_string' );
+                $nodeDepth      = $node->attribute( 'depth' );
+                
+                $depthCond      = '';
+                if ( $depth )
                 {
-                    $nodeDepth += $params[ 'Depth' ];
+                    $nodeDepth += $depth;
                     $depthCond = ' and depth = ' . $nodeDepth . ' ';
                 }
-                else
-                {
-                    $depthCond = '';
-                }
-
-                $notEqParentString = " and node_id != $nodeID ";
-
-                $sqlPartForOneNodeList[] = " ( path_string like '$childrensPath%'   $depthCond $notEqParentString ) ";
-                $notEqParentString = '';
+                
+                $outNotEqParentStr          = " and node_id != $nodeID ";
+                $sqlPartForOneNodeList[]    = " ( path_string like '$nodePath%'   $depthCond $outNotEqParentStr ) ";
+                $outNotEqParentStr          = '';
             }
-            $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );
-            $pathStringCond = ' (' . $pathStringCond . ') and';
+            $outPathConditionStr = implode( ' or ', $sqlPartForOneNodeList );
+            $outPathConditionStr = ' (' . $outPathConditionStr . ') and';
         }
         else
         {
-            $fromNode = $nodeID ;
-
-            $nodePath = null;
-            $nodeDepth = 0;
-            if ( count( $node ) != 0 )
+            if ( $nodeID == 0 )
             {
-                $nodePath = $node->attribute( 'path_string' );
-                $nodeDepth = $node->attribute( 'depth' );
+                $nodeID = $treeNode->attribute( 'node_id' );
+                $node   =& $treeNode;
+            }
+            else
+            {
+                $node   =& eZContentObjectTreeNode::fetch( $nodeID );
             }
 
-            $childrensPath = $nodePath ;
-            $pathLength = strlen( $childrensPath );
-
-            $db =& eZDB::instance();
-            $subStringString = $db->subString( 'path_string', 1, $pathLength );
-            $pathString = " path_string like '$childrensPath%' and ";
-
-            $notEqParentString = "node_id != $fromNode AND";
-            $depthCond = '';
-            if ( $depth )
-            {
-
-                $nodeDepth += $params[ 'Depth' ];
-                if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
-                {
-                    $depthCond = ' depth = ' . $nodeDepth . ' and ';
-                    $notEqParentString = '';
-                }
-                else
-                    $depthCond = ' depth <= ' . $nodeDepth . ' and ';
-            }
-
-            $pathStringCond = $pathString . $depthCond;
+            $nodePath   = $node->attribute( 'path_string' );
+            $nodeDepth  = $node->attribute( 'depth' );
+            
+            $outNotEqParentStr   = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
+            $outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
         }
+    }
 
-        $ini =& eZINI::instance();
-        $db =& eZDB::instance();
-
-        $groupBySelectText = false;
-        $groupByText = false;
-        if ( isset( $params['GroupBy'] ) )
+    /*!
+        \a static
+    */
+    function createGroupBySQLStrings( &$outGroupBySelectText, &$outGroupByText, $groupBy )
+    {
+        if ( $groupBy )
         {
-            $groupBy = $params['GroupBy'];
-            if ( isset( $groupBy['field'] ) and
-                 isset( $groupBy['type'] ) )
+            if ( isset( $groupBy['field'] ) and isset( $groupBy['type'] ) )
             {
-                $groupByField = $groupBy['field'];
-                $groupByFieldType = $groupBy['type'];
+                $groupByField       = $groupBy['field'];
+                $groupByFieldType   = $groupBy['type'];
+
                 switch ( $groupByField )
                 {
                     case 'published':
@@ -1069,29 +1063,80 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $groupBySelect['field'] = "ezcontentobject." . $groupByField;
                     } break;
                 }
-                $groupBySelectText = ", " . $groupBySelect['select'];
-                $groupByText = "GROUP BY " . $groupBySelect['group_field'];
+
+                $outGroupBySelectText = ", " . $groupBySelect['select'];
+                $outGroupByText = "GROUP BY " . $groupBySelect['group_field'];
             }
         }
+    }
 
-        $useVersionName = true;
+    /*!
+        \a static
+    */
+    function &createVersionNameTablesSQLString( $useVersionName )
+    {
+        $versionNameTables = '';
 
-        $versionNameTables = ', ezcontentobject_name ';
-        $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+        }
+        
+        return $versionNameTables;
+    }
 
-        $lang = eZContentObject::defaultLanguage();
+    /*!
+        \a static
+    */
+    function &createVersionNameTargetsSQLString( $useVersionName )
+    {
+        $versionNameTargets = '';
 
-        $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                              ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                              ezcontentobject_name.content_translation = '$lang' ";
+        if ( $useVersionName )
+        {
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+        }
 
-        if ( count( $limitationList) > 0 )
+        
+        return $versionNameTargets;
+    }
+
+    /*!
+        \a static
+    */
+    function &createVersionNameJoinsSQLString( $useVersionName )
+    {
+        $versionNameJoins = '';
+
+        if ( $useVersionName )
+        {
+            $lang = eZContentObject::defaultLanguage();
+    
+            $versionNameJoins   = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                    ezcontentobject_name.content_translation = '$lang' ";
+        }
+
+        return $versionNameJoins;
+    }
+
+    /*!
+        \a static
+    */
+    function &createPermissionCheckingSQLString( &$limitationList )
+    {
+        $sqlPermissionCheckingString = '';
+        
+        $db =& eZDB::instance();
+
+        if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
             {
-                $sqlPartPart = array();
-                $hasNodeLimitation = false;
+                $sqlPartPart        = array();
+                $hasNodeLimitation  = false;
+
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -1108,7 +1153,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Owner':
                         {
-                            $user =& eZUser::currentUser();
+                            $user   =& eZUser::currentUser();
                             $userID = $user->attribute( 'contentobject_id' );
                             $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
                         } break;
@@ -1121,7 +1166,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Subtree':
                         {
-                            $pathArray =& $limitationArray[$ident];
+                            $pathArray       =& $limitationArray[$ident];
                             $sqlPartPartPart = array();
                             foreach ( $pathArray as $limitationPathString )
                             {
@@ -1137,67 +1182,154 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-            $query = "SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name,
-                           ezcontentclass.identifier as class_identifier
-                           $groupBySelectText
-                           $versionNameTargets
-                    FROM
-                          ezcontentobject_tree,
-                          ezcontentobject,ezcontentclass
-                          $versionNameTables
-                          $attributeFromSQL
-                          $attributeFilterFromSQL
-                          $extendedAttributeFilterTables
-                       WHERE
-                          $pathStringCond
-                          $extendedAttributeFilterJoins
-                          $attributeWhereSQL
-                          $attributeFilterWhereSQL
-                          ezcontentclass.version=0 AND
-                          $notEqParentString
-                          ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id AND
-                          $mainNodeOnlyCond
-                          $classCondition
-                          ezcontentobject_tree.contentobject_is_published = 1
-                          $versionNameJoins
-                          $sqlPermissionCheckingString
-                    $groupByText
-                    ORDER BY $sortingFields";
+        }
+
+        return $sqlPermissionCheckingString;
+    }
+
+
+    /*!
+        \a static
+    */
+    function createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
+    {
+        $pathString = false;
+        $pathArray  = explode( '/', trim($nodePath,'/') );
+
+        if ( $includingLastNodeInThePath == false )
+            $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
+        
+        if ( count( $pathArray ) > 0 )
+        {
+            foreach ( $pathArray as $node )
+            {
+                $pathString .= 'or node_id = ' . $node . ' ';
+    
+            }
+            if ( strlen( $pathString) > 0 )
+            {
+                $pathString = '('. substr( $pathString, 2 ) . ') and ';
+            }
+        }
+
+        return $pathString;
+    }
+
+    /*!
+        \a static
+    */
+    function &getLimitationList( &$limitation )
+    {
+        $limitationList = array();
+
+        if ( $limitation )
+        {
+            $limitationList = $limitation;
+        }
+        else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
+        {
+            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+            eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
         }
         else
         {
-            $query = "SELECT ezcontentobject.*,
-                             ezcontentobject_tree.*,
-                             ezcontentclass.name as class_name,
-                             ezcontentclass.identifier as class_identifier
-                             $groupBySelectText
-                             $versionNameTargets
-                      FROM
-                            ezcontentobject_tree,
-                            ezcontentobject,ezcontentclass
-                            $versionNameTables
-                            $attributeFromSQL
-                            $attributeFilterFromSQL
-                            $extendedAttributeFilterTables
-                      WHERE
-                            $pathStringCond
-                            $extendedAttributeFilterJoins
-                            $attributeWhereSQL
-                            $attributeFilterWhereSQL
-                            ezcontentclass.version=0 AND
-                            $notEqParentString
-                            ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                            ezcontentclass.id = ezcontentobject.contentclass_id AND
-                            $mainNodeOnlyCond
-                            $classCondition
-                            ezcontentobject_tree.contentobject_is_published = 1
-                            $versionNameJoins
-                     $groupByText
-                     ORDER BY $sortingFields";
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $currentUser =& eZUser::currentUser();
+            $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
+            if ( $accessResult['accessWord'] == 'limited' )
+            {
+                $limitationList =& $accessResult['policies'];
+                $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $accessResult['policies'];
+            }
         }
+
+        return $limitationList;
+    }
+
+    /*!
+    */
+    function &subTree( $params = false ,$nodeID = 0 )
+    {
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+        {
+            return array();
+        }
+
+        if ( $params === false )
+        {
+            $params = array( 'Depth'                    => false,
+                             'Offset'                   => false,
+                             'Limit'                    => false,
+                             'SortBy'                   => false,
+                             'AttributeFilter'          => false,
+                             'ExtendedAttributeFilter'  => false,
+                             'ClassFilterType'          => false,
+                             'ClassFilterArray'         => false,
+                             'GroupBy'                  => false );
+        }
+
+        $offset         = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
+        $limit          = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
+        $depth          = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
+        $depthOperator  = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
+        $asObject       = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
+        $groupBy        = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
+        $mainNodeOnly   = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
+
+        $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+        $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
+        $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+        
+        $pathStringCond     = '';
+        $notEqParentString  = '';
+        eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator );
+
+        $groupBySelectText  = '';
+        $groupByText        = '';
+        eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
+
+        $useVersionName     = true;
+        $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+        $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
+        
+        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $params['Limitation'] );
+        $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+
+        $query = "SELECT ezcontentobject.*,
+                       ezcontentobject_tree.*,
+                       ezcontentclass.name as class_name,
+                       ezcontentclass.identifier as class_identifier
+                       $groupBySelectText
+                       $versionNameTargets
+                   FROM
+                      ezcontentobject_tree,
+                      ezcontentobject,ezcontentclass
+                      $versionNameTables
+                      $sortingInfo[attributeFromSQL]
+                      $attributeFilter[from]
+                      $extendedAttributeFilter[tables]
+                   WHERE
+                      $pathStringCond
+                      $extendedAttributeFilter[joins]
+                      $sortingInfo[attributeWhereSQL]
+                      $attributeFilter[where]
+                      ezcontentclass.version=0 AND
+                      $notEqParentString
+                      ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                      ezcontentclass.id = ezcontentobject.contentclass_id AND
+                      $mainNodeOnlyCond
+                      $classCondition
+                      ezcontentobject_tree.contentobject_is_published = 1
+                      $versionNameJoins
+                      $sqlPermissionCheckingString
+                $groupByText
+                ORDER BY $sortingInfo[sortingFields]";
+        
+
+        $db =& eZDB::instance();
 
         if ( !$offset && !$limit )
         {
@@ -1205,9 +1337,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $nodeListArray =& $db->arrayQuery( $query, array( "offset" => $offset,
-                                                              "limit" => $limit ) );
+            $nodeListArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                              'limit'  => $limit ) );
         }
+
         if ( $asObject )
             $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         else
@@ -1327,38 +1460,36 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCondition = ' ( ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
-
             foreach ( $params['ClassFilterArray'] as $classID )
             {
-                $originalClassID = $classID;
-                // Check if classes are recerenced by identifier
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
-                    if ( is_numeric( $classID ) )
+                    if ( !is_numeric( $classID ) )
                     {
-                        if ( $i > 0 )
-                        {
-                            if ( $params['ClassFilterType'] == 'include' )
-                                $classCondition .= " OR ";
-                            else
-                                $classCondition .= " AND ";
-                        }
+                        $gotInvalidClassIdentifier = true;
+                    }
 
-                        if ( $params['ClassFilterType'] == 'include' )
-                            $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
-                        else
-                            $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
-
-                        $i++;
-
-                    } else
-                        eZDebug::writeError("Invalid class identifier in subTreeCount() classfilterarray, classID : " . $originalClassID );
                 }
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
+                else
+                    $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
 
+                $i++;
+                if ( $i < $classCount )
+                {
+                    if ( $params['ClassFilterType'] == 'include' )
+                        $classCondition .= " OR ";
+                    else
+                        $classCondition .= " AND ";
+                }
             }
             $classCondition .= ' ) AND ';
 
+            // Do not include class conditions if the translated class ID is empty
+            if ( $gotInvalidClassIdentifier == true )
+                $classCondition = "";
         }
 
         // Main node check
@@ -2089,66 +2220,80 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathArray;
     }
 
-    function fetchPath()
+
+    function &fetchPath()
     {
-        $nodeID = $this->attribute( 'node_id' );
         $nodePath = $this->attribute( 'path_string' );
-
-        $pathArray = explode( '/', trim($nodePath,'/') );
-        $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
-
-        if ( count( $pathArray ) == 0 )
-        {
-            return eZContentObjectTreeNode::makeObjectsArray( $pathArray );
-        }
-
-        $pathString = '';
-        foreach ( $pathArray as $node )
-        {
-            $pathString .= 'or node_id = ' . $node . ' ';
-
-        }
-        if ( strlen( $pathString) > 0 )
-        {
-            $pathString = '('. substr( $pathString, 2 ) . ') and ';
-        }
-        $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $lang = eZContentObject::defaultLanguage();
-
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
-        }
-
-        $query="SELECT ezcontentobject.*,
-                       ezcontentobject_tree.*,
-                       ezcontentclass.name as class_name
-                       $versionNameTargets
-                FROM ezcontentobject_tree,
-                     ezcontentobject,
-                     ezcontentclass
-                     $versionNameTables
-                WHERE $pathString
-                      ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-                      ezcontentclass.version=0 AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id
-                      $versionNameJoins
-                ORDER BY path_string";
-
-        $db =& eZDB::instance();
-        $nodesListArray = $db->arrayQuery( $query );
-        $retNodes = array();
-        $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        
+        $retNodes =& eZContentObjectTreeNode::fetchPathByPathString( $nodePath, false, true );
+        
         return $retNodes;
-
-
     }
 
+    /*!
+        \a static
+    */
+    function &fetchPathByPathString( $nodePath, $fetchLastNodeInThePath = false, $asObjects = true )
+    {
+        $nodesListArray     = array();
+        $pathString         =& eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $fetchLastNodeInThePath );
+        
+        if ( $pathString  )
+        {
+            $useVersionName     = true;
+            $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+            $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+            $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
+    
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name,
+                           ezcontentclass.identifier as class_identifier
+                           $versionNameTargets
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                         $versionNameTables
+                    WHERE $pathString
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+                          ezcontentclass.version=0 AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                          $versionNameJoins
+                    ORDER BY path_string";
+    
+            $db =& eZDB::instance();
+            $nodesListArray = $db->arrayQuery( $query );
+        }
+        
+        if ( $asObjects )          
+            $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        else
+            $retNodes =& $nodesListArray;
+
+        return $retNodes;
+    }
+
+
+    /*!
+        \a static
+        Extracts each node that in the path from db and returns an array of class identifiers 
+    */
+    function &getClassIdentifiersListByPath( $nodePath, $includingLastNodeInThePath )
+    {
+        $classIds   =  array();
+        $nodes      =& eZContentObjectTreeNode::fetchPathByPathString( $nodePath, $includingLastNodeInThePath, false );
+
+        foreach ( array_keys( $nodes ) as $nodeKey )
+        {
+            $node       =& $nodes[$nodeKey];
+
+            $classIds[]  = array( 'node_id'          => $node['node_id'],
+                                  'class_identifier' => $node['class_identifier'] );
+        }
+
+        return $classIds;
+    }
+    
     /*!
      \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
     */
