@@ -153,7 +153,7 @@
 </tr>
 
 <tr>
-  <td  class="{$Attributes:sequence}" colspan="2">
+  <td class="{$Attributes:sequence}" colspan="2">
   {class_attribute_edit_gui class_attribute=$Attributes:item}
   </td>
 </tr>

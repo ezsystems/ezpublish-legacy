@@ -1,11 +1,19 @@
 <form action={concat($return_url)|ezurl} method="post">
+
 <div class="maincontentheader">
-<h1>{"Browse"|i18n("design/standard/content/view")}</h1>
+<h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name}</h1>
 </div>
+
+<p>{'To select objects, choose the appriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
+<p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n("design/standard/content/view")}</p>
+
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<th width="98%">
+	<th width="69%">
 	{"Name"|i18n("design/standard/content/view")}
+	</th>
+	<th width="30%">
+	{"Class"|i18n("design/standard/content/view")}
 	</th>
 	<th width="1%">
 	{"Select"|i18n("design/standard/content/view")}
@@ -15,8 +23,12 @@
 	<td class="bglight">
 	{$main_node.name}
 	</td>
+
 	<td class="bglight">
-	
+	{$main_node.object.content_class.name}
+	</td>
+
+	<td class="bglight">
 	{switch name=sw match=$return_type}
 	  {case match='NodeID'}
           {switch name=sw match=$selection_type}
@@ -42,13 +54,18 @@
 	</td>
 
 </tr>
-{section name=Object loop=$object_array sequence=array(bglight,bgdark)}
+{section name=Object loop=$object_array sequence=array(bgdark,bglight)}
 <tr>
 	<td class="{$Object:sequence}">
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
 	{$Object:item.name}
         </a>
 	</td>
+
+	<td class="{$Object:sequence}">
+	{$Object:item.object.content_class.name}
+	</td>
+
 	<td class="{$Object:sequence}">
 	{switch name=sw match=$return_type}
 	  {case match='NodeID'}
@@ -78,6 +95,10 @@
 <tr>
     <td>
     </td>
+
+    <td>
+    </td>
+
     <td>
     <div class="buttonblock">
     <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />

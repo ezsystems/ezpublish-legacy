@@ -1,9 +1,9 @@
-<a href={"/manual/user/everyday#Classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
 
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">
-<h1>{"Defined class groups"|i18n("design/standard/class/list")}</h1>
+<h1>{"Class groups"|i18n("design/standard/class/list")}</h1>
 </div>
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>

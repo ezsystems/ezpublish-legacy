@@ -104,7 +104,7 @@
     {/let}
     {/let}
  </table>
- <div align="right" class="buttonblock">
+ <div align="left" class="buttonblock">
   <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
  </div>
 {/default}

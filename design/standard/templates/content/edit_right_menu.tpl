@@ -19,7 +19,7 @@
     </tr>
     <tr>
         <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Version info"|i18n("design/standard/content/edit")}</p>
+        <p class="menuhead">{"Versions"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
     <tr>
@@ -41,6 +41,11 @@
     <tr>
         <td class="menu" colspan="2" align="right">
           <input class="menubutton" type="submit" name="VersionsButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
+        </td>
+    </tr>
+    <tr>
+        <td class="menu" colspan="2" align="right">
+          <input class="menubutton" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
         </td>
     </tr>
     <!-- Object info box end-->
@@ -124,7 +129,7 @@
     <tr>
         <td colspan="2" align="right">
 	<br />
-	<select	name="ClassID">
+	<select	name="ClassID" class="classcreate">
 	    {section name=Classes loop=$object.can_create_class_list}
 	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	    {/section}

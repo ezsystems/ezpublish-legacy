@@ -91,10 +91,10 @@
 <h2>{"Translations"|i18n("design/standard/content/translate")}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="2%"><input type="submit" name="EditLanguageButton" value="{'Translate'|i18n('design/standard/content/translate')}" /></th>
     <th width="10%">{"Locale"|i18n("design/standard/content/translate")}</th>
     <th width="86%">{"Language"|i18n("design/standard/content/translate")}</th>
-    <th width="2%"><input type="submit" name="RemoveLanguageButton" value="{'Remove'|i18n('design/standard/content/translate')}" /></th>
+    <th></th>
+    <th></th>
 </tr>
 
 {section loop=$Translation:translation_list}
@@ -106,9 +106,6 @@
 {section loop=$Translation:translation_list sequence=array("bglight","bgdark")}
 <tr>
     <td class="{$Translation:sequence}">
-    <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
-    </td>
-    <td class="{$Translation:sequence}">
     {$Translation:item.language_code}
     </td>
     <td class="{$Translation:sequence}">
@@ -119,10 +116,19 @@
     {/section}
     </td>
     <td class="{$Translation:sequence}">
+    <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+    </td>
+    <td class="{$Translation:sequence}">
     <input type="checkbox" name="RemoveLanguageArray[]" value="{$Translation:item.language_code}" />
     </td>
 </tr>
 {/section}
+<tr>
+    <td></td>
+    <td></td>
+    <td width="2%"><input type="submit" name="EditLanguageButton" value="{'Translate'|i18n('design/standard/content/translate')}" /></td>
+    <td width="2%">{include uri="design:gui/delete.tpl"}</td>
+</tr>
 </table>
 
 {/section}
@@ -178,13 +184,13 @@
 
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/translate')}" />
-<input class="button" type="submit" name="EditObjectButton" value="{'Edit Object'|i18n('design/standard/content/translate')}" />
+<input class="button" type="submit" name="EditObjectButton" value="{'Edit'|i18n('design/standard/content/translate')}" />
 </div>
 
 {section-else}
 
 <div class="buttonblock">
-<input class="button" type="submit" name="EditObjectButton" value="{'Edit Object'|i18n('design/standard/content/translate')}" />
+<input class="button" type="submit" name="EditObjectButton" value="{'Edit'|i18n('design/standard/content/translate')}" />
 </div>
 
 {/section}

@@ -1015,7 +1015,7 @@
     </message>
     <message>
         <source>Manage</source>
-        <translation>Rediger</translation>
+        <translation>Administrer</translation>
     </message>
     <message>
         <source>Translations</source>

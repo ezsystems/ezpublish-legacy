@@ -74,9 +74,9 @@
 <tr>
 </table>
 
-<div class="buttonblock">
-<input class="button" type="submit" name="EditButton" value="{'Object Edit'|i18n('design/standard/content/version')}" />
-<input class="button" type="submit" name="CopyVersionButton" value="{'Copy'|i18n('design/standard/content/version')}" />
+<div class="buttonblock" align="right">
+<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/version')}" />
+<input class="button" type="submit" name="CopyVersionButton" value="{'Copy and edit'|i18n('design/standard/content/version')}" />
 </div>
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
