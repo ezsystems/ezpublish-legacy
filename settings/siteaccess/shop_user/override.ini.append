@@ -1,3 +1,4 @@
+<?php /* #?ini charset="iso-8859-1"?
 
 [feedbackform]
 Source=node/view/full.tpl
@@ -39,3 +40,16 @@ Match[class]=2
 Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
+
+[product]
+Source=node/view/full.tpl
+MatchFile=product.tpl
+Subdir=templates
+Match[class]=23
+
+[product_line]
+Source=node/view/line.tpl
+MatchFile=product_line.tpl
+Subdir=templates
+Match[class]=23
+*/ ?>
