@@ -72,7 +72,7 @@
      <table width="100%"  border="0">
 <tr>
 <td colspan='3'>
-Selected options
+{"Selected options"|i18n("design/standard/shop")}
 </td> 
 </tr>
      {section name=Options loop=$ProductItem:item.item_object.option_list}

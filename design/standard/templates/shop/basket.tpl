@@ -88,11 +88,11 @@
      <table width="100%"  border="0">
 <tr>
 <td colspan='3'>
-Selected options
-</td> 
+{"Selected options"|i18n("design/standard/shop")}
+</td>
 </tr>
      {section name=Options loop=$Basket:ProductItem:item.item_object.option_list}
-      <tr> 
+      <tr>
         <td width="33%">{$Basket:ProductItem:Options:item.name}</td>
         <td width="33%">{$Basket:ProductItem:Options:item.value}</td>
         <td width="33%">{$Basket:ProductItem:Options:item.price|l10n(currency)}</td>
