@@ -2,16 +2,18 @@
 
 $Result = array( 'title' => 'Namespaces' );
 
-print( "<p>Namespaces allows separation of variables with the same name. This is most useful for
-functions which creates variables on the fly (e.g. <i>section</i>).
+print( "<h1>Namespaces</h1>
+<p>Namespaces allow separation of variables with the same name. This is most useful for
+functions that create variables on the fly (e.g. <i>section</i>).
 </p>
+
 <p>
-Templates has two namespaces,
+Templates have two namespaces,
 one is called the root namespace and defines the global namespace for one template, the other
 is the current namespace. The current namespace will start out being the same as the root but
 will change when a function is used which has namespace support. The current namespace is
 used by functions to create new variables and avoid clashes, while the root namespace is
-used to lookup the correct variable ( That's why variable use must always include the full namespace* ).
+used to lookup the correct variable (That's why variable use must always include the full namespace*).
 </p>
 
 <p>
@@ -19,7 +21,7 @@ The following table displays how the root and current namespace behaves.
 </p>
 
 <table class=\"example\">
-<tr><th>Code</th><th>Root</th><th>Current</th></tr>
+<tr><th>Code</th><th>Root&nbsp;&nbsp;</th><th>Current</th></tr>
 <tr>
   <td><pre>{\$variable}</pre></td>
   <td>First</td>

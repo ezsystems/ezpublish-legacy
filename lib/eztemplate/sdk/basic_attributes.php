@@ -1,12 +1,15 @@
-<p>Attributes are a way of accessing data in objects and array.
-The attribute is and identifier which will lookup either the index number or key in an array
+<h1>Attributes</h1>
+
+<p>Attributes are a way of accessing data in objects and arrays.
+The attribute is an identifier that will lookup either the index number or the key in an array
 or the defined attribute in an object. The access method for arrays and objects are similar
-which that template code can be fed an array or an object and the code wouldn't know.
+which means that the template code can be fed an array or an object and the code wouldn't know the
+difference.
 </p>
 
 <h2>Arrays</h2>
 <p>
-Array elements have two types of attributes, numerical indeces or identifiers.
+Array elements have two types of attributes, numerical indices or identifiers.
 </p>
 <h3>Index lookup</h3>
 <pre class="example">{$array.1}
@@ -71,9 +74,9 @@ Here's an example of how to implement attribute support.
 
 <h2>Access methods</h3>
 <p>
-It's possible to access attributes using two different methods. The first, which is shown above, uses the <b>.</b>
-operator and an identifier name or numerical index. The second uses the <b>[</b> and <b>]</b> brackets to enclose
-a new statement for which the result is used to do the lookup.
+It's possible to access attributes using two different methods, this is shown below. The first uses the
+<b>.</b> operator and an identifier name or numerical index. The second uses the <b>[</b> and <b>]</b>
+brackets to enclose a new statement for which the result is used to do the lookup.
 </p>
 <h3>. operator</h3>
 <pre class="example">{$array.1}
@@ -84,7 +87,7 @@ a new statement for which the result is used to do the lookup.
 {$array[first][last]}
 </pre>
 <p>
-It's also possible to use another variable as lookup, doing this is best suited with the <b>[]</b> operators.
+It's also possible to use another variable as lookup, doing this is best suited with the <b>[]</b> brackets.
 </p>
 <pre class="example">
 {$array.$index}

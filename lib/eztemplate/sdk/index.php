@@ -10,7 +10,7 @@ $infoArray["description"] = "
   by the PHP code.</p>
 
 <p>The template system in itself is does not do much, it parses template files
-  according to a rule set sets up a tree hierarchy and process the data
+  according to a rule set, sets up a tree hierarchy and processes the data
   using functions and operators. The standard template system comes with only
   a few functions and no operators, it is meant for these functions and operators
   to be specified by the users of the template system. But for simplicity a few
