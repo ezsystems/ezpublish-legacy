@@ -57,7 +57,7 @@
     {section-else}
     <li class="disabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n('design/admin/node/view/full')}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {/section}

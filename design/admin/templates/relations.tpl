@@ -1,9 +1,9 @@
-{* Related objects window. *}
+{* Relations windows. *}
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Relations'|i18n( 'design/admin/node/view/full')}</h2>
+<h2 class="context-title">{'Relations [%relation_count]'|i18n( 'design/admin/node/view/full',, hash( '%relation_count', sum( $node.object.related_contentobject_count, $node.object.reverse_related_contentobject_count ) ) )}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 

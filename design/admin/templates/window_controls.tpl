@@ -57,7 +57,7 @@
     {section-else}
     <li class="disabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n('design/admin/node/view/full')}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {/section}
@@ -66,13 +66,13 @@
     {section show=ezpreference( 'admin_navigation_relations' )}
     <li class="enabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_relations/0'|ezurl} title="{'Hide relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_relations/0'|ezurl} title="{'Hide object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {section-else}
     <li class="disabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl} title="{'Show relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {/section}

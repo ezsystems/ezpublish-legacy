@@ -13,9 +13,9 @@
     {include uri='design:locations.tpl'}
 {/section}
 
-{* Related objects window. *}
+{* Relations window. *}
 {section show=ezpreference( 'admin_navigation_relations'  )}
-    {include uri='design:related_objects.tpl'}
+    {include uri='design:relations.tpl'}
 {/section}
 
 {* Children window.*}
