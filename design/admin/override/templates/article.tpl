@@ -20,10 +20,11 @@
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
+    <h3>{'Author'|i18n('design/admin/node/view')}: {attribute_view_gui attribute=$node.object.data_map.author}</h3>
     <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
+        {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image}
     </div>
-    
+
     {attribute_view_gui attribute=$node.object.data_map.intro}
     {attribute_view_gui attribute=$node.object.data_map.body}
 
