@@ -19,6 +19,7 @@ Changes from 3.1.0-2 to 3.1-1
 - Fixed display error in width of table and table cell.
 - Fixed bug of unable to remember media type when creating a media class.
 - Fixed bug of "Cancel" button doesn't work when editing a policy.
+- Fixed bug of unable to edit node and subtree when editing a policy.
 
 *Library:
 - Added revision number to SDK info.
