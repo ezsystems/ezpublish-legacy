@@ -55,6 +55,10 @@ eZUtils:
 - Added default setting for UserSettings: UseSpecialCharacters to site.ini
   (Merged from 3.3, rev 5840)
   http://ez.no/community/bug_reports/site_ini_missing_entry
+- Fixed a bug with eZPersistentObject and limit/offset parameters (Merged from
+  3.3, rev 5860)
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
+  
   
 
 *Update
