@@ -139,6 +139,9 @@ eztc.php:
 - Fixed bug in eZContentObject which set incorect status for objects when do unserializing it.
   Merged from stable/3.4 rev. 6906.
   http://ez.no/community/bug_reports/imported_content_objects_cannot_be_related_assigned_to_other_objects
+- Fixed bug: when user enabled DebugByIP then DebugRedirection was automatically enabled.
+  Merged from stable/3.4 rev. 6912.
+  http://ez.no/community/bug_reports/debug_redirect_always_on_when_using_debug_by_ip
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
