@@ -49,6 +49,11 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 $siteBase = $siteAccess;
 
+$siteINI = eZINI::instance( 'site.ini', 'settings', null, null, true );
+$siteINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+$siteINI->loadCache();
+$siteDesign = $siteINI->variable( "DesignSettings", "SiteDesign" );
+
 $template = "";
 foreach ( $parameters as $param )
 {
@@ -82,8 +87,8 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     if ( preg_match( "#^[0-9a-z_]+$#", $templateName ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
-        $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
-        $filePath = "design/$siteBase/override/templates";
+        $fileName = "design/$siteDesign/override/templates/" . $templateName . ".tpl";
+        $filePath = "design/$siteDesign/override/templates";
 
         $templateCode = "";
         switch ( $templateType )
@@ -431,6 +436,7 @@ $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_type', $templateType );
 $tpl->setVariable( 'template_name', $templateName );
 $tpl->setVariable( 'site_base', $siteBase );
+$tpl->setVariable( 'site_design', $siteDesign );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/templatecreate.tpl" );
