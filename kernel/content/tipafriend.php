@@ -144,6 +144,11 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         {
             $tpl->setVariable( 'action', 'error' );
         }
+        if ( $http->hasPostVariable( 'RedirectBack' ) && $http->postVariable( 'RedirectBack' ) == 1 )
+        {
+            $Module->redirectTo( '/content/view/full/' . $NodeID );
+            return;
+        }
     }
 }
 else if ( $http->hasPostVariable( 'CancelButton' ) )
