@@ -53,6 +53,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed cleanup bug in workflows http://ez.no/developer/ez_publish_3/bug_reports/deleted_workflow_shows_up_in_triggers
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/contentini_defaultversionhistorylimit_2_provokes_kernel_crash
 - Fixed path bug while editing top nodes : http://ez.no/developer/ez_publish_3/bug_reports/editing_root_node_fails_path_error
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/template_ezurl_shows_php_warning
 - Fixed the adding of new object attributes to add attributes for all translations.
   http://ez.no/developer/ez_publish_3/bug_reports/translated_attributes_are_not_added_when_class_is_extended
 - Fixed update attribute filter script bug : http://ez.no/developer/ez_publish_3/bug_reports/incorrect_searched_field_in_script_updateattributefilterphp

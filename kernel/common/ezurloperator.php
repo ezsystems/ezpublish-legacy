@@ -186,7 +186,9 @@ class eZURLOperator
                 if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
                      substr( $operatorValue, 0, 2 ) == '//' )
                      break;
-                if ( $operatorValue[0] != '/' )
+                if ( strlen( $operatorValue ) == 0 )
+                    $operatorValue = '/';
+                else if ( $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
                 $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
