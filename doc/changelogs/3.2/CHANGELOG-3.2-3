@@ -7,6 +7,9 @@ Changes from 3.2.2 to 3.2-3
 *Optimizations:
 
 *Bugfixes:
+- http://ez.no/developer/ez_publish_3/bug_reports/matchorderhosturi_does_not_work
+  The accessType() and changeAccess() functions were rewritten by using the patches
+  from Volker Lenz.
 
 *Setup:
 
