@@ -146,6 +146,7 @@ $ViewList["toolbarlist"] = array(
 $ViewList["toolbar"] = array(
     "script" => "toolbar.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
+    'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'SiteAccess', 'Position' ) );
 
 $ViewList["menuconfig"] = array(

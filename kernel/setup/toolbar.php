@@ -47,6 +47,7 @@ if ( $Params['Position'] )
 
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 $http =& eZHTTPTool::instance();
 
@@ -68,8 +69,24 @@ else if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
 $storeList = false;
 $removeCache = false;
 
+
+if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
+{
+    $selectedNodeIDArray = eZContentBrowse::result( 'SelectToolbarNode' );
+
+    $nodeID = $selectedNodeIDArray[0];
+    if ( is_numeric( $nodeID ) )
+    {
+        $toolIndex = $http->variable( 'tool_index' );
+        $parameterName = $http->variable( 'parameter_name' );
+
+        $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $nodeID );
+    }
+}
+
 if ( $http->hasPostVariable( 'NewToolButton' ) or
      $http->hasPostVariable( 'UpdatePlacementButton' ) or
+     $http->hasPostVariable( 'BrowseButton' ) or
      $http->hasPostVariable( 'RemoveButton' ) )
 {
     $deleteToolArray = array();
@@ -160,6 +177,23 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
     $iniAppend->setVariable( "Toolbar_" . $toolbarPosition, "Tool", $updatedToolArray );
     $succeed = $iniAppend->save(  false, false, false, false, true, true );
 
+    if ( $http->hasPostVariable( 'BrowseButton' ) )
+    {
+        $browseArray = $http->postVariable( 'BrowseButton' );
+        if ( preg_match( "/_node$/", key( $browseArray ) ) )
+        {
+            if ( preg_match( "/(.+)_parameter_(.+)/", key( $browseArray ), $res ) )
+            {
+                eZContentBrowse::browse( array( 'action_name' => 'SelectToolbarNode',
+                                                'description_template' => false,
+                                                'persistent_data' => array( 'tool_index' => $res[1], 'parameter_name' => $res[2] ),
+                                                'from_page' => "/setup/toolbar/$currentSiteAccess/$toolbarPosition/" ),
+                                         $module );
+                return;
+            }
+
+        }
+    }
     $toolArray = $updatedToolArray;
     $removeCache = true;
 }

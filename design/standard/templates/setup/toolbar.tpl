@@ -36,7 +36,14 @@
             {$Parameter.name}
             </td>
             <td>
-            <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
+            {section show=$Parameter.name|ends_with('_node')}
+                {$Parameter.value}
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/standard/setup/toolbar")}" />
+                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
+            {section-else}
+                <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
+            {/section}
+
             </td>
         </tr>
         {/section}
