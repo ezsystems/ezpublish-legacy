@@ -958,7 +958,7 @@ class eZINI
     /*!
      Appends the override directory \a $dir to the override directory list.
     */
-    function appendOverrideDir( $dir, $globalDir = false )
+    function appendOverrideDir( $dir, $globalDir = false, $identifier = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
@@ -987,7 +987,25 @@ class eZINI
         }
 
         if ( $overrideOverwritten == false )
-            $dirs[] = array( $dir, $globalDir, $identifier = false );
+        {
+            /* Although the function name is append... we are actually not
+             * appending at the far end of the list of override directories.
+             * This is because the last one is always supposed to be the
+             * "override" directory, but that one is the first element set in
+             * our list. Therefore we append to the end of the list, but before
+             * the last one. */
+            $count = count( $dirs );
+            if ($count)
+            {
+                $dirs[] = $dirs[$count - 1];
+                $dirs[$count - 1] = array( $dir, $globalDir, $identifier = false );
+            }
+            else
+            {
+                $dirs[] = array( $dir, $globalDir, $identifier = false );
+            }
+        }
+
         $this->CacheFile = false;
     }
 
