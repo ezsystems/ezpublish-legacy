@@ -117,16 +117,10 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     if ( $http->hasPostVariable( "RedirectOnCancel" ) )
     {
-        $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
+        return $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
     }
-    else if( $http->hasSessionVariable( "LastAccessesURI" ) )
-    {
-        $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
-    }
-    else
-    {
-        $Module->redirectTo( '/content/view/sitemap/2/' );
-    }
+    include_once( 'kernel/classes/ezredirectmanager.php' );
+    eZRedirectManager::redirectTo( $Module, '/content/view/sitemap/2/' );
     return;
 }
 

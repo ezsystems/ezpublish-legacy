@@ -783,16 +783,38 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 if ( is_object( $db ) and $db->isConnected() and
      $module->exitStatus() == EZ_MODULE_STATUS_OK )
 {
-    $currentURI = $uri->uriString( true );
+    $currentURI = $actualRequestedURI;
+    if ( strlen( $currentURI ) > 0 and $currentURI[0] != '/' )
+        $currentURI = '/' . $currentURI;
+
     $lastAccessedURI = "";
+    $lastAccessedViewURI = "";
+
     $http =& eZHTTPTool::instance();
+
+    // Fetched stored session variables
     if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     {
         $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
     }
-    if ( $currentURI != $lastAccessedURI )
+    if ( $http->hasSessionVariable( "LastAccessedModifyingURI" ) )
+    {
+        $lastAccessedModifyingURI = $http->sessionVariable( "LastAccessedModifyingURI" );
+    }
+
+    // Update last accessed view page
+    if ( $currentURI != $lastAccessedURI and
+         !in_array( $module->uiContextName(), array( 'edit', 'administration', 'browse', 'authentication' ) ) )
     {
         $http->setSessionVariable( "LastAccessesURI", $currentURI );
+        $http->setSessionVariable( "LastAccessesParameters", $userParameters );
+    }
+
+    // Update last accessed non-view page
+    if ( $currentURI != $lastAccessedModifyingURI )
+    {
+        $http->setSessionVariable( "LastAccessedModifyingURI", $currentURI );
+        $http->setSessionVariable( "LastAccessedModifyingParameters", $userParameters );
     }
 }
 

@@ -110,16 +110,10 @@ if ( $isConfirmed )
     if ( $hasRedirected == false )
     {
         if ( $nodeID != null )
-            $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
-        else
-            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-            {
-                $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
-            }
-            else
-            {
-                $Module->redirectTo( '/' );
-            }
+            return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
+
+        include_once( 'kernel/classes/ezredirectmanager.php' );
+        return eZRedirectManager::redirectTo( $Module, '/', true, array( 'content/edit' ) );
     }
 }
 

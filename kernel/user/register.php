@@ -102,12 +102,8 @@ if ( !function_exists( 'checkContentActions' ) )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
-            $http =& eZHTTPTool::instance();
-            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-            {
-                $module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
-            }
-//            $module->redirectTo( '/content/view/full/2/' );
+            include_once( 'kernel/classes/ezredirectmanager.php' );
+            eZRedirectManager::redirectTo( $module, '/' );
 
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();

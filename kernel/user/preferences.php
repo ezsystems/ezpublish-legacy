@@ -54,10 +54,9 @@ if ( $url )
 }
 else
 {
-    if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
-        $module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
-    else
-        $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+    include_once( 'kernel/classes/ezredirectmanager.php' );
+    eZRedirectManager::redirectTo( $Module, $_SERVER['HTTP_REFERER'] );
+    return;
 }
 
 ?>

@@ -45,13 +45,9 @@ else
     eZContentObjectTreeNode::hideSubTree( $curNode );
 
 
-$http =& eZHTTPTool::instance();
-if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
-{
-    // redirect user to the previous page
-    $Module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
-}
-else
+include_once( 'kernel/classes/ezredirectmanager.php' );
+$hasRedirect = eZRedirectManager::redirectTo( $Module, false );
+if ( !$hasRedirect )
 {
     // redirect to the parent node
     if( ( $parentNodeID = $curNode->attribute( 'parent_node_id' ) ) == 1 )
