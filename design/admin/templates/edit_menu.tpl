@@ -137,7 +137,7 @@
 {/section}
 
 
-{section show=$Translation:other_translation_list|count|gt( 1 )}
+{section show=$Translation:other_translation_list|count|gt( 0 )}
 {section loop=$Translation:translation_list}
 <p>
 <label>
