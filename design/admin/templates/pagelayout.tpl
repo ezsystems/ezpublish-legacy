@@ -39,7 +39,7 @@ div#search p.advanced { margin-top: 0.3em; }
 <!--[if lt IE 6.0]>
 <style>
 div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
-div#maincontent div#maincontent-design { width: 99%; } /* Avoid width bug in IE 5.5 */
+div#maincontent div#maincontent-design { width: 98%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 <!--[if IE 6.0]>
@@ -353,7 +353,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<p><img src={'current-user.gif'|ezimage} height="24" width="24" alt="" style="align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
+<p><img src={'current-user.gif'|ezimage} height="24" width="24" alt="" style="text-align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
 
 <ul>
 {let basket=fetch( shop, basket )}
