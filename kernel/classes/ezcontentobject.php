@@ -1484,15 +1484,36 @@ class eZContentObject extends eZPersistentObject
                         elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
                         {
                             $assignedNodes = $this->attribute( 'assigned_nodes' );
-                            foreach (  $assignedNodes as  $assignedNode )
+                            if ( count(  $assignedNodes ) != 0 )
                             {
-                                $path =  $assignedNode->attribute( 'path_string' );
-                                $subtreeArray = $limitation->attribute( 'values_as_array' );
-                                foreach ( $subtreeArray as $subtreeString )
+                                foreach (  $assignedNodes as  $assignedNode )
                                 {
-                                    if (  strstr( $path, $subtreeString ) )
+                                    $path =  $assignedNode->attribute( 'path_string' );
+                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                    foreach ( $subtreeArray as $subtreeString )
                                     {
-                                        $access = 'allowed';
+                                        if (  strstr( $path, $subtreeString ) )
+                                        {
+                                            $access = 'allowed';
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $parentNodes = $this->attribute( 'parent_nodes' );
+                                foreach ( $parentNodes as $parentNode )
+                                {
+                                    $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                    $path = $parentNode->attribute( 'path_string' );
+
+                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                    foreach ( $subtreeArray as $subtreeString )
+                                    {
+                                        if (  strstr( $path, $subtreeString ) )
+                                        {
+                                            $access = 'allowed';
+                                        }
                                     }
                                 }
                             }

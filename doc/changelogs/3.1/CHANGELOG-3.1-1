@@ -27,6 +27,7 @@ Changes from 3.1.0-2 to 3.1-1
 - Added missed kernel contentclasses to postgresql cleandata.sql.
 - Fixed typo in kernel/user/activate.php
 - Fixed bug of unable to store default value for datatype checkbox.
+- Fixed bug of unable to edit object although user has permission to create and edit this object using subtree policy.
 
 *Library:
 - Added revision number to SDK info.
