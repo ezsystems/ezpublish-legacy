@@ -151,12 +151,16 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
             $rootDOMNode = $this->rootDOMNode();
             $topNodeListNode = $rootDOMNode->elementByName( 'top-node-list' );
 
-            foreach( $topNodeListNode->elementsByName( 'top-node' ) as $topNodeDOMNode )
+            $ini =& eZINI::instance( 'content.ini' );
+            $defaultPlacementNodeID = $ini->variable( 'NodeSettings', 'RootNode' );
+            $defaultPlacementNode = eZContentObjectTreeNode::fetch( $defaultPlacementNodeID );
+            $defaultPlacementName = $defaultPlacementNode->attribute( 'name' );
+            foreach ( $topNodeListNode->elementsByName( 'top-node' ) as $topNodeDOMNode )
             {
                 $persistentData['top_nodes_map'][(string)$topNodeDOMNode->attributeValue( 'node-id' )] = array( 'old_node_id' => $topNodeDOMNode->attributeValue( 'node-id' ),
                                                                                                                 'name' => $topNodeDOMNode->textContent(),
-                                                                                                                'new_node_id' => false,
-                                                                                                                'new_parent_name' => false );
+                                                                                                                'new_node_id' => $defaultPlacementNodeID,
+                                                                                                                'new_parent_name' => $defaultPlacementName );
             }
         }
 

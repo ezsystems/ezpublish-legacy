@@ -8,13 +8,20 @@
 
     {include uri="design:package/install_header.tpl"}
 
-    <p>{'Please select placement of top nodes.'|i18n('design/standard/package')}</p>
+    <p>{'Please select where you want to place the imported items.'|i18n('design/standard/package')}</p>
 
 
-    <label>{'Browse to select placement.'|i18n('design/standard/package')}</label>
-    
+    <label>{'If you wish to change the placement click the browse button.'|i18n('design/standard/package')}</label>
+
     {section loop=$top_nodes_map}
-      <div class="block">{$:item.name|wash}: {$:item.new_parent_name} ( {$:item.new_node_id} )
+    <div class="block">
+    {section show=$:item.new_node_id}
+        {let class=fetch( content, node, hash( node_id, $:item.new_node_id ) ).object.content_class}
+        {'Place %object_name in node %node_placement'|i18n( 'design/standard/package',, hash( '%object_name', concat( '<i>', $:item.name, '</i>' ), '%node_placement', concat( $:class.identifier|class_icon( small, $:class.name ), ' ', $:item.new_parent_name ) ) )}
+        {/let}
+    {section-else}
+        {'Choose placement for %object_name'|i18n( 'design/standard/package',, hash( '%object_name', $:item.name ) )}
+    {/section}
         &nbsp;<input class="button" type="submit" Name="{concat('BrowseNode_', $:item.old_node_id)}" value="{"Browse"|i18n("design/package")}" />
       </div>
     {/section}

@@ -8,15 +8,16 @@
 
     {include uri="design:package/install_header.tpl"}
 
-    <p>{'Please select site access mapping.'|i18n('design/standard/package')}</p>
+    <p>{'You must now choose which siteaccess the package contents should be installed to.
+The chosen siteaccess determines where design files and settings are written to.
+If unsure choose the siteaccess which reflects the user part of your site, i.e. not admin.'|i18n('design/standard/package')|break}</p>
 
+    <label>{'Select siteaccess'|i18n('design/standard/package')}</label>
 
-    <label>{'Selected your siteaccess'|i18n('design/standard/package')}</label>
-    
     {section loop=$site_access_map}
-      <div>{$:key|wash} : <select name="SiteAccessMap_{$:key|wash}">
+      <div>{'Map %siteaccess_name to:'|i18n( 'design/standard/package',, hash( '%siteaccess_name', concat( '<i>', $:key, '</i>' ) ) )} <select name="SiteAccessMap_{$:key|wash}">
         {section loop=$available_site_access_array}
-          <option>{$:item|wash}</option>
+          <option {section show=eq( $item, $:item )}selected="selected"{/section}>{$:item|wash}</option>
         {/section}
         </select>
       </div>
