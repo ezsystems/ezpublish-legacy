@@ -206,7 +206,7 @@ div.toolbox-design div.info-text p
 
 div.toolbox-design div.attribute-link p
 { 
-    background-image: url(../../images/t11/arrow.gif);
+    background-image: url(../../images/t13/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -340,6 +340,6 @@ input.shopbutton
 
 input.searchimage
 {
-    background-image: url(../../images/t11/button.gif);
+    background-image: url(../../images/t13/button.gif);
     background-repeat: no-repeat;
 }
