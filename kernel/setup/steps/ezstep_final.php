@@ -80,11 +80,13 @@ class eZStepFinal extends eZStepInstaller
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
+            eZDebug::writeDebug( $templates[$counter], '$templates[$counter]' );
             $url = $templates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
                 $url = 'http://' . $url;
             }
+            $currentURL = $url;
             $adminURL = $url;
             if ( $templates[$counter]['access_type'] == 'url' )
             {
@@ -93,13 +95,13 @@ class eZStepFinal extends eZStepInstaller
             }
             else if ( $templates[$counter]['access_type'] == 'hostname' )
             {
-                $url = eZHTTPTool::createRedirectURL( $url, array( 'host' => $templates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $url, array( 'host' => $templates[$counter]['admin_access_type_value'] ) );
+                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $templates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $templates[$counter]['admin_access_type_value'] ) );
             }
             else if ( $templates[$counter]['access_type'] == 'port' )
             {
-                $url = eZHTTPTool::createRedirectURL( $url, array( 'port' => $templates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $url, array( 'port' => $templates[$counter]['admin_access_type_value'] ) );
+                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $templates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $templates[$counter]['admin_access_type_value'] ) );
             }
             $templates[$counter]['url'] = $url;
             $templates[$counter]['admin_url'] = $adminURL;

@@ -111,10 +111,7 @@ class eZStepRegistration extends eZStepInstaller
 
         $mail = new eZMail();
         $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
-//     $mail->setReceiver( 'jb@ez.no', 'eZ Site Registration' );
-//     $mail->addReceiver( 'bf@ez.no', 'eZ Site Registration' );
-//        $mail->addReceiver( 'kk@ez.no', 'eZ Site Registration' );
-        $mail->setSenderText( $this->Ini->variable( 'MailSettings', 'AdminEmail' ) );
+        $mail->setSender( 'registerezsite@ez.no' );
 
         // Send e-mail
         include_once( 'kernel/common/template.php' );

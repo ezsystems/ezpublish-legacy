@@ -122,6 +122,7 @@ if ( $http->hasPostVariable( 'setup_previous_step' ) )
         $previousStepClass = new $className( $tpl, $http, $ini, $persistenceList );
 
         $processPostDataResult = $previousStepClass->processPostData();
+        $persistenceList = $previousStepClass->PersistenceList;
 
         if ( $processPostDataResult === false ) // processing previous input failed, step must be redone
         {

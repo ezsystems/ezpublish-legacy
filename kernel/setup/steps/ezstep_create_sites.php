@@ -117,6 +117,9 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $primaryLanguage === null )
             $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
 
+        eZDebug::writeDebug( $this->PersistenceList, '$this->PersistenceList' );
+        $canUseUnicode = $this->PersistenceList['database_info']['use_unicode'];
+
         $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
         if ( !$charset )
             return 'LanguageOptions';
@@ -258,8 +261,6 @@ class eZStepCreateSites extends eZStepInstaller
     {
         eZDebug::writeDebug( $sitePackage, 'sitePackage' );
 //         $sitePackage['admin_access_type_value'] = $sitePackage['access_type_value'] . '_admin';
-
-        $canUseUnicode = $this->PersistenceList['database_use_unicode'];
 
         switch ( $sitePackage['access_type'] )
         {

@@ -105,10 +105,10 @@ class eZStepLanguageOptions extends eZStepInstaller
 
         $this->Tpl->setVariable( 'language_list', $languages );
         $showUnicodeError = false;
-        if ( isset( $this->PersistenceList['database_use_unicode'] ) )
+        if ( isset( $this->PersistenceList['database_info']['use_unicode'] ) )
         {
-            $showUnicodeError = !$this->PersistenceList['database_use_unicode'];
-            unset( $this->PersistenceList['database_use_unicode'] );
+            $showUnicodeError = !$this->PersistenceList['database_info']['use_unicode'];
+            unset( $this->PersistenceList['database_info']['use_unicode'] );
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
 

@@ -127,15 +127,13 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
-        $this->PersistenceList['database_use_unicode'] = false;
+        $this->PersistenceList['database_info']['use_unicode'] = false;
         if ( $db->isCharsetSupported( 'utf-8' ) )
         {
-            $this->PersistenceList['database_use_unicode'] = true;
+        $this->PersistenceList['database_info']['use_unicode'] = true;
         }
         else
         {
-            $this->PersistenceList['database_use_unicode'] = false;
-
             $primaryLanguage = null;
             $allLanguages = array();
             $allLanguageCodes = array();

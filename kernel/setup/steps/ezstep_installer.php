@@ -111,7 +111,7 @@ class eZStepInstaller
             }
         }
         $allCharsets = array_unique( $allCharsets );
-        eZDebug::writeDebug( $allCharsets, 'allCharsets' );
+//         eZDebug::writeDebug( $allCharsets, 'allCharsets' );
         $commonCharsets = $allCharsets;
         for ( $i = 0; $i < count( $allLanguages ); ++$i )
         {
@@ -127,7 +127,7 @@ class eZStepInstaller
             $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
         }
         $usableCharsets = array_values( $commonCharsets );
-        eZDebug::writeDebug( $usableCharsets, 'usableCharsets' );
+//         eZDebug::writeDebug( $usableCharsets, 'usableCharsets' );
         $charset = false;
         if ( count( $usableCharsets ) > 0 )
         {
@@ -148,7 +148,7 @@ class eZStepInstaller
 //                 $charset = $primaryLanguage->charset();
 //             }
         }
-        eZDebug::writeDebug( $charset, 'charset' );
+//         eZDebug::writeDebug( $charset, 'charset' );
         return $charset;
     }
 
