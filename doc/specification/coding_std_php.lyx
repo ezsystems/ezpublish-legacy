@@ -62,7 +62,7 @@ rgnr=981601564).
 
 eZ publish is a software package released under the GPL licence (http://www.gnu.or
 g/copyleft/gpl.html), its primary point of distribution and information is
- http://developer.ez.no/
+ http://ez.no/developer
 \layout Standard
 
 
@@ -83,7 +83,6 @@ This coding standard defines how the code in eZ publish should be formatted.
 
 To easier comply with this coding standard we recommend using emacs with
  our configuration files which handles proper indenting and other nice features.
- You can get it from: http://developer.ez.no/filemanager/list/31/
 \layout Chapter
 
 Files 

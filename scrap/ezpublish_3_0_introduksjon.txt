@@ -255,10 +255,10 @@ Publisher: {attribute_view_gui attribute=$node.object.data_map.publisher}<br />
 Nå har vi tilpasset eZ publish til å kunne publisere informasjon om bøker. Litt finpussing
 på design nå så har vi en webside vi kan bruke. Vi har sett på hvordan vi kan
 med enkle grep tilpasse eZ publish 3 til å lage en tilpasset dynamisk webside. Du kan finne 
-mer informasjon om eZ publish på developer.ez.no. Der finner du også forum hvor du kan
+mer informasjon om eZ publish på ez.no/developer. Der finner du også forum hvor du kan
 spørre om eZ publish relaterte spørsmål.
 
 --------[ Nyttige linker ]-------------
-developer.ez.no - hjemmesiden til eZ publish
-manuals.ez.no - brukermanual
-sdk.ez.no - utviklermanual
+ez.no/developer - hjemmesiden til eZ publish
+ez.no/manual - brukermanual
+ez.no/sdk - utviklermanual

@@ -273,7 +273,7 @@ Updates
 -------
 Discuss how future updates should be handled, will probably be done using the
 setup page. Maybe even add support for checking for new versions on
-developer.ez.no and fetching them. Give overview of all changes in different
+ez.no/developer and fetching them. Give overview of all changes in different
 versions. How this affects SOAP/DE should also be considered.
 
 Digital signing of libraries/kernel/plugins using PGP/GPG. That way it's

@@ -124,12 +124,12 @@ SOAP responsen fra serveren vises under. Denne blir tolket på klientsiden og res
 
 // END KODE
 
-For flere eksempler eller mer informasjon om SOAP kan du gå til prosjektsiden for eZ soap, denne kan du finne på http://developer.ez.no/developer/ezsoap.
+For flere eksempler eller mer informasjon om SOAP kan du gå til prosjektsiden for eZ soap, denne kan du finne på http://ez.no/developer/ezsoap.
 
 ( faktaboks med linker )
 -------------
 eZ systems download side:
-http://developer.ez.no/developer/download
+http://ez.no/developer/download
 
 World Wide Web Consortium
 www.w3.org
@@ -151,7 +151,7 @@ http://www.soapware.org
 Open Source SOAP bibliotek:
 -----------------------
 PHP: eZ soap 
-http://developer.ez.no/developer/ezsoap
+http://ez.no/developer/ezsoap
 
 Perl: SOAP::Lite
 http://www.soaplite.com

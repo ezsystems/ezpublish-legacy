@@ -471,7 +471,7 @@ PHP (http://www.php.net/) version 4.0.4pl1 or later.
  Only version 4.0.4pl1 and later supports both of these features satisfactorily.)
 \layout Itemize
 
-eZ publish (http://developer.ez.no/) verision 2.0 or later stable releases.
+eZ publish (http://ez.no/developer/) version 2.0 or later stable releases.
 \layout Standard
 
 The libraries and php are packaged pre-compiled for Linux i386 on http://develop
@@ -817,7 +817,7 @@ publish.
  This means that you need to compile the php module from source.
 \newline 
 You may find precompiled binaries for your system at 
-\begin_inset LatexCommand \url[the eZ publish web site, ]{http://developer.ez.no}
+\begin_inset LatexCommand \url[the eZ publish web site, ]{http://ez.no/developer}
 
 \end_inset 
 
@@ -1379,7 +1379,7 @@ NameVirtualServer ip-address
 
 You should consider using the utility which we have online for creating
  the configuration.
- The URL is http://developer.ez.no/virtualhost it will generate a setup with
+ The URL is http://ez.no/developer/virtualhost it will generate a setup with
  the latest needed information.
  The presented configuration herein might be slightly outdated, so we recommend
  the online tool.
@@ -2659,7 +2659,7 @@ When you're finished with the design and the initial testing you can head
  visit 
 \family typewriter 
 \size footnotesize 
-http://developer.ez.no
+http://ez.no/developer
 \family default 
 \size default 
  for updates, articles about eZ publish and how to work with it, as well
@@ -2718,7 +2718,7 @@ http://admin.yoursite.com/
  Then go to 
 \family typewriter 
 \size footnotesize 
-http://developer.ez.no 
+http://ez.no/developer 
 \family default 
 \size default 
 and search the forum for anyone who have had the same problem.
@@ -5778,7 +5778,7 @@ Download the Following
 Download what you need from 
 \family typewriter 
 \size footnotesize 
-http://developer.ez.no/filemanager/list/23/
+http://ez.no/developer/filemanager/list/23/
 \family default 
 \size default 
  and install the rpms!

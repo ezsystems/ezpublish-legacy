@@ -110,4 +110,4 @@ share/translations/nor-NO/translation.ts
 You can also use the shell script bin/shell/makei18ndist.sh to do this.
 
 
-Please see the translation tutorial on http://sdk.ez.no for more information.
+Please see the translation tutorial on http://ez.no/sdk for more information.

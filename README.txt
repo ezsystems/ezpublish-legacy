@@ -58,14 +58,14 @@ eZ publish features
 
 Installation
 ------------
-Read doc/INSTALL or go to http://manuals.ez.no
+Read doc/INSTALL or go to http://ez.no/manual
 
 
 Where to get more help
 ----------------------
 Online:
-User and installation documentation: http://manuals.ez.no
-Developer documentation: http://sdk.ez.no
+User and installation documentation: http://ez.no/manual
+Developer documentation: http://ez.no/sdk
 eZ publish forums: http://ez.no/developer/forums/
 
 Offline:

@@ -1428,7 +1428,7 @@ INSERT INTO ezcontentobject_attribute VALUES (568,'eng-GB',2,191,147,'',0,2999);
 INSERT INTO ezcontentobject_attribute VALUES (569,'eng-GB',2,191,148,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (603,'eng-GB',1,201,158,'eZ publish',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (604,'eng-GB',1,201,159,'<?xml version=\"1.0\"?>\n<section>  <paragraph>An open source web application toolkit and CMS.</paragraph>\n</section>\n',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (605,'eng-GB',1,201,160,'developer.ez.no',3,0);
+INSERT INTO ezcontentobject_attribute VALUES (605,'eng-GB',1,201,160,'ez.no/developer',3,0);
 INSERT INTO ezcontentobject_attribute VALUES (570,'eng-GB',3,192,142,'Server optimized',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (571,'eng-GB',3,192,144,'TGB 21',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (572,'eng-GB',3,192,157,'<?xml version=\"1.0\"?>\n<section>  <paragraph>My company Server optimized is a software package containing everything you need in order to run My company software quickly. You will get Linux, Mac or Windows as operating system, apache as webserver and mysql as the database backend.</paragraph>\n</section>\n',0,0);
@@ -12877,7 +12877,7 @@ CREATE TABLE ezurl (
 
 INSERT INTO ezurl VALUES (1,'',0,0,1,0,'');
 INSERT INTO ezurl VALUES (2,'http://ez.no',0,0,1,0,'');
-INSERT INTO ezurl VALUES (3,'http://developer.ez.no',0,0,1,0,'');
+INSERT INTO ezurl VALUES (3,'http://ez.no/developer',0,0,1,0,'');
 
 --
 -- Table structure for table 'ezuser'
