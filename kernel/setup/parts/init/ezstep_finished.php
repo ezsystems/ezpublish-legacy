@@ -48,6 +48,22 @@ function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
     $ini =& eZINI::create();
 
     $databaseMap = eZSetupDatabaseMap();
+
+    $dbServer = $databaseInfo['server'];
+    $dbName = $databaseInfo['name'];
+    $dbSocket = $databaseInfo['socket'];
+    $dbUser = $databaseInfo['user'];
+    $dbPwd = $databaseInfo['password'];
+    $dbCharset = $charset;
+    $dbDriver = $databaseInfo['info']['driver'];
+    $dbParameters = array( 'server' => $dbServer,
+                           'user' => $dbUser,
+                           'password' => $dbPwd,
+                           'socket' => $dbSocket,
+                           'database' => $dbName,
+                           'charset' => $dbCharset );
+    $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+
     $databaseInfo = $persistenceList['database_info'];
     $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
     $regionalInfo = $persistenceList['regional_info'];
@@ -149,20 +165,6 @@ function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
 
         if ( $primaryLanguageLocaleCode != 'eng-GB' )
         {
-            $dbServer = $databaseInfo['server'];
-            $dbName = $databaseInfo['name'];
-            $dbSocket = $databaseInfo['socket'];
-            $dbUser = $databaseInfo['user'];
-            $dbPwd = $databaseInfo['password'];
-            $dbCharset = $charset;
-            $dbDriver = $databaseInfo['info']['driver'];
-            $dbParameters = array( 'server' => $dbServer,
-                                   'user' => $dbUser,
-                                   'password' => $dbPwd,
-                                   'socket' => $dbSocket,
-                                   'database' => $dbName,
-                                   'charset' => $dbCharset );
-            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
 
             // Updates databases that have eng-GB data to the new locale.
             $updateSql = "UPDATE ezcontentobject_name
