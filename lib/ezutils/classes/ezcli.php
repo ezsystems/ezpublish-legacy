@@ -390,9 +390,9 @@ class eZCLI
     {
         if ( $this->isQuiet() )
             return;
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!
@@ -404,9 +404,9 @@ class eZCLI
         if ( $this->isQuiet() )
             return;
         $string = $this->stylize( 'warning', $string );
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!
@@ -418,9 +418,9 @@ class eZCLI
         if ( $this->isQuiet() )
             return;
         $string = $this->stylize( 'error', $string );
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!
@@ -565,6 +565,7 @@ class eZCLI
 
     function getOptions( $config, $argumentConfig, $arguments = false )
     {
+        $program = false;
         if ( $arguments === false )
         {
             $arguments = $GLOBALS['argv'];
@@ -595,6 +596,7 @@ class eZCLI
 
         $options['arguments'] = array();
 
+        $arguments = array_values( $arguments );
         $argumentCount = count( $arguments );
         for ( $i = 0; $i < $argumentCount; ++$i )
         {
