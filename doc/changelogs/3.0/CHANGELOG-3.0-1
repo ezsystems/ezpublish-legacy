@@ -142,6 +142,7 @@ eZ image:
 
 eZ locale:
 - Made sure %l was converted using locale translations instead of PHP names.
+- Fix bug with missing saturday for locale whose week start with sunday.
 
 eZ db:
 - The MySQL and PostgreSQL drivers will report if the extension is missing and

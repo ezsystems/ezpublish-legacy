@@ -199,7 +199,7 @@ class eZLocale
         if ( $this->MondayFirst )
             $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
         else
-            $this->WeekDays = array( 0, 1, 2, 3, 4, 5 );
+            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
 
         $this->IsValid = true;
         // Load language information
