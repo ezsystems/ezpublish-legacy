@@ -9,7 +9,7 @@
 
 {* Username. *}
 <div class="block">
-    <label>{'Username'|i18n( 'design/standard/content/datatype' }</label>
+    <label>{'Username'|i18n( 'design/standard/content/datatype' )}</label>
     {section show=$attribute.content.has_stored_login}
         <input type="hidden" name="{$attribute_base}_data_user_login_{$attribute.id}" value="{$attribute.content.login}" />
         {$attribute.content.login}
