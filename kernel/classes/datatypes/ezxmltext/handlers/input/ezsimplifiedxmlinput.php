@@ -1589,6 +1589,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $xml = new eZXML();
             $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false ) );
+            $links = array();
+            $node = array();
 
             if ( $dom )
             {
