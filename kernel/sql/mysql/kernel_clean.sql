@@ -714,6 +714,7 @@ CREATE TABLE ezmedia (
   is_autoplay int(1) default NULL,
   pluginspage varchar(255) default NULL,
   quality varchar(50) default NULL,
+  controls varchar(50) default NULL,
   is_loop int(1) default NULL,
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
