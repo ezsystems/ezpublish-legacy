@@ -50,6 +50,10 @@ if ( $SectionID == 0 )
 else
 {
     $section =& eZSection::fetch( $SectionID );
+    if( is_null( $section ) )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
 }
 
 if ( $http->hasPostVariable( "StoreButton" ) )
