@@ -58,6 +58,11 @@
 		    {/section}
                 {/section}
                 {/let}
+		{section show=$current_user.is_logged_in}
+		  <li><a href={"user/logout"|ezurl}>{"Logout"|i18n("design/standard/templates/")}</a></li>
+		{section-else}
+		  <li><a href={"user/login"|ezurl}>{"Login"|i18n("design/standard/templates/")}</a></li>
+		{/section}
                 </ul>
             
             </div>
@@ -116,7 +121,7 @@
          <div id="poll">
              <h2>{"Poll"|i18n("design/blog/layout")}</h2>
              <p>
-            {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+            {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( published, false() ) ), limit, 1 ) ) }
             {section name=poll loop=$poll_list}
                 {node_view_gui view=full content_node=$poll:item}
 	    {/section}
