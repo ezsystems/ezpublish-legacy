@@ -44,6 +44,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
+include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
 define( 'EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE', 1041857934 );
 
@@ -223,74 +224,82 @@ class eZTemplateProcessCache
         $php->addVariable( 'eZTemplateProcessCacheCodeDate', EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE );
         $php->addSpace();
 
+        $php->addCodePiece( "eZDebug::accumulatorStart( 'template_process_cache', 'template_total', 'Template process cache' );" );
+
         $php->addCodePiece( "\$vars =& \$tpl->Variables;\n" );
-        $php->addCodePiece( "if ( !function_exists( 'processfetchvariable' ) )
-{
+        $lbracket = '{';
+        $rbracket = '}';
+        $initText = "if ( !function_exists( 'processfetchvariable' ) )
+$lbracket
     function &processFetchVariable( &\$vars, \$namespace, \$name )
-    {
+    $lbracket
         \$exists = ( array_key_exists( \$namespace, \$vars ) and
                     array_key_exists( \$name, \$vars[\$namespace] ) );
         if ( \$exists )
-        {
+        $lbracket
             \$var =& \$vars[\$namespace][\$name];
-        }
+        $rbracket
         else
             \$var = null;
         return \$var;
-    }
-}
+    $rbracket
+$rbracket
 if ( !function_exists( 'processfetchtext' ) )
-{
+$lbracket
     function processFetchText( &\$tpl, \$rootNamespace, \$currentNamespace, \$namespace, &\$var )
-    {
+    $lbracket
         \$text = '';
         \$tpl->appendElement( \$text, \$var, \$rootNamespace, \$currentNamespace );
         return \$text;
-    }
-}
+    $rbracket
+$rbracket
 if ( !function_exists( 'processfetchattribute' ) )
-{
+$lbracket
     function processFetchAttribute( &\$value, \$attributeValue )
-    {
+    $lbracket
         if ( !is_null( \$attributeValue ) )
-        {
+        $lbracket
             if ( !is_numeric( \$attributeValue ) and
                  !is_string( \$attributeValue ) )
                 return null;
             if ( is_array( \$value ) )
-            {
+            $lbracket
                 if ( isset( \$value[\$attributeValue] ) )
-                {
+                $lbracket
                     unset( \$tempValue );
                     \$tempValue =& \$value[\$attributeValue];
                     return \$tempValue;
-                }
-            }
+                $rbracket
+            $rbracket
             else if ( is_object( \$value ) )
-            {
+            $lbracket
                 if ( method_exists( \$value, \"attribute\" ) and
                      method_exists( \$value, \"hasattribute\" ) )
-                {
+                $lbracket
                     if ( \$value->hasAttribute( \$attributeValue ) )
-                    {
+                    $lbracket
                         unset( \$tempValue );
                         \$tempValue =& \$value->attribute( \$attributeValue );
                         return \$tempValue;
-                    }
-                }
-            }
-        }
+                    $rbracket
+                $rbracket
+            $rbracket
+        $rbracket
         return null;
-    }
-}
-" );
+    $rbracket
+$rbracket
+";
+        $php->addCodePiece( $initText );
         $php->addSpace();
 
         $php->addVariable( 'text', '' );
         $php->addSpace();
 
+        $transformedTree = array();
+        eZTemplateProcessCache::processNodeTransformation( $php, $tpl, $rootNode, $resourceData, $transformedTree );
+
         $staticTree = array();
-        eZTemplateProcessCache::processStaticOptimizations( $php, $tpl, $rootNode, $resourceData, $staticTree );
+        eZTemplateProcessCache::processStaticOptimizations( $php, $tpl, $transformedTree, $resourceData, $staticTree );
 
         $combinedTree = array();
         eZTemplateProcessCache::processNodeCombining( $php, $tpl, $staticTree, $resourceData, $combinedTree );
@@ -299,7 +308,10 @@ if ( !function_exists( 'processfetchattribute' ) )
 
 //         $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
 //         $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+//         $php->addVariable( 'transformedTree', $transformedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
 //         $php->addVariable( 'originalTree', $rootNode, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+
+        $php->addCodePiece( "eZDebug::accumulatorStop( 'template_process_cache' );" );
 
         $php->store();
 
@@ -333,7 +345,7 @@ if ( !function_exists( 'processfetchattribute' ) )
     - Children usage, no result(set-block) | copy(let,default) | dynamic(conditional, repeated etc.)
     - Children tree, requires original tree | allows custom processing
     - Custom PHP code
-    - Deflate tree, create new non-nested tree (let, default)
+    - Deflate/transform tree, create new non-nested tree (let, default)
     - Modifies template variables, if possible name which ones. Allows
       for caching of variables in the script.
 
@@ -341,13 +353,14 @@ if ( !function_exists( 'processfetchattribute' ) )
 
     function generatePHPCode( &$php, &$tpl, &$node, &$resourceData )
     {
+        $parameters = array();
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
             $children = $node[1];
             if ( $children )
             {
-                eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData );
+                eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData, $parameters );
             }
         }
         else
@@ -468,7 +481,7 @@ else
         }
     }
 
-    function generatePHPCodeChildren( &$php, &$tpl, &$nodeChildren, &$resourceData )
+    function generatePHPCodeChildren( &$php, &$tpl, &$nodeChildren, &$resourceData, $parameters )
     {
         foreach ( $nodeChildren as $node )
         {
@@ -479,7 +492,7 @@ else
                 $children = $node[1];
                 if ( $children )
                 {
-                    eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData );
+                    eZTemplateProcessCache::generatePHPCodeChildren( $php, $tpl, $children, $resourceData, $parameters );
                 }
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
@@ -534,20 +547,174 @@ unset( \$var );\n" );
                                   $functionParameters,
                                   $functionPlacement );
 
-                $php->addComment( "Function: $functionName, Parameters: " . implode( ', ', array_keys( $functionParameters ) ) );
+                $parameterText = 'No parameters';
+                if ( $functionParameters )
+                {
+                    $parameterText = "Parameters: ". implode( ', ', array_keys( $functionParameters ) );
+                }
+                $php->addComment( "Function: $functionName, $parameterText" );
                 $originalText = eZTemplateProcessCache::fetchTemplatePiece( $functionPlacement );
                 $php->addComment( '{' . $originalText . '}' );
-                $functionNameText = $php->variableText( $functionName, 0 );
-                $functionChildrenText = $php->variableText( $functionChildren, 22, 0, false );
-                $functionParametersText = $php->variableText( $functionParameters, 22, 0, false );
-                $functionPlacementText = $php->variableText( $functionPlacement, 22, 0, false );
-                $php->addCodePiece( "\$textElements = array();
+                if ( isset( $node[5] ) )
+                {
+                    $functionHook = $node[5];
+                    $functionHookCustomFunction = $functionHook['function'];
+                    if ( $functionHookCustomFunction )
+                    {
+                        $functionHookCustomFunction = array_merge( array( 'add-function-name' => false,
+                                                                          'add-hook-name' => false,
+                                                                          'add-template-handler' => true,
+                                                                          'add-function-hook-data' => false,
+                                                                          'add-function-parameters' => true,
+                                                                          'add-function-placement' => false,
+                                                                          'add-calculated-namespace' => false,
+                                                                          'add-namespace' => true,
+                                                                          'add-input' => false,
+                                                                          'return-value' => false ),
+                                                                   $functionHookCustomFunction );
+                        if ( !isset( $parameters['hook-result-variable-counter'][$functionName] ) )
+                            $parameters['hook-result-variable-counter'][$functionName] = 0;
+                        if ( $functionHookCustomFunction['return-value'] )
+                            $parameters['hook-result-variable-counter'][$functionName]++;
+                        $hookResultName = $functionName . 'Result' . $parameters['hook-result-variable-counter'][$functionName];
+                        if ( $functionHookCustomFunction['add-input'] )
+                            $parameters['hook-result-variable-counter'][$functionName]--;
+                        $functionHookCustomFunctionName = $functionHookCustomFunction['name'];
+                        $codeText = '';
+                        if ( $functionHookCustomFunction['return-value'] )
+                            $codeText = "\$$hookResultName = ";
+                        if ( $functionHookCustomFunction['static'] )
+                        {
+                            $hookClassName = $functionHookCustomFunction['class-name'];
+                            $codeText .= "$hookClassName::$functionHookCustomFunctionName( ";
+                        }
+                        else
+                            $codeText .= "\$functionObject->$functionHookCustomFunctionName( ";
+                        $codeTextLength = strlen( $codeText );
+
+                        $functionNameText = $php->variableText( $functionName, 0 );
+                        $functionChildrenText = $php->variableText( $functionChildren, $codeTextLength, 0, false );
+
+                        $inputFunctionParameters = $functionParameters;
+                        if ( $functionHookCustomFunction['add-calculated-namespace'] )
+                            unset( $inputFunctionParameters['name'] );
+                        $functionParametersText = $php->variableText( $inputFunctionParameters, $codeTextLength, 0, false );
+
+                        $functionPlacementText = $php->variableText( $functionPlacement, $codeTextLength, 0, false );
+                        $functionHookText = $php->variableText( $functionHook, $codeTextLength, 0, false );
+
+                        $functionHookName = $functionHook['name'];
+                        $functionHookNameText = $php->variableText( $functionHookName, 0 );
+
+                        $codeParameters = array();
+                        if ( $functionHookCustomFunction['add-function-name'] )
+                            $codeParameters[] = $functionNameText;
+                        if ( $functionHookCustomFunction['add-hook-name'] )
+                            $codeParameters[] = $functionHookNameText;
+                        if ( $functionHookCustomFunction['add-function-hook-data'] )
+                            $codeParameters[] = $functionHookText;
+                        if ( $functionHookCustomFunction['add-template-handler'] )
+                            $codeParameters[] = "\$tpl";
+                        if ( $functionHookCustomFunction['add-function-parameters'] )
+                            $codeParameters[] = $functionParametersText;
+                        if ( $functionHookCustomFunction['add-function-placement'] )
+                            $codeParameters[] = $functionPlacementText;
+                        if ( $functionHookCustomFunction['add-calculated-namespace'] )
+                        {
+                            $name = '';
+                            if ( isset( $functionParameters['name'] ) )
+                            {
+                                $nameParameter = $functionParameters['name'];
+                                $nameInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                                                                                               $nameParameter, $functionPlacement,
+                                                                                               $resourceData );
+                                if ( $nameInspection['is-constant'] and
+                                     !$nameInspection['is-variable'] and
+                                     !$nameInspection['has-attributes'] and
+                                     !$nameInspection['has-operators'] )
+                                {
+                                    $nameData = $nameParameter[0][1];
+                                    $nameText = $php->variableText( $nameData, 0, 0, false );
+                                    $php->addCodePiece( "if ( \$currentNamespace != '' )
+    \$name = \$currentNamespace . ':' . $nameText;
+else
+    \$name = $nameText;\n" );
+                                    $codeParameters[] = "\$name";
+                                }
+                                else
+                                {
+                                    $persistence = array();
+                                    eZTemplateProcessCache::generateVariableCode( $php, $tpl, $nameParameter, $nameInspection,
+                                                                                  $persistence,
+                                                                                  array( 'variable' => 'name',
+                                                                                         'counter' => 0 ) );
+                                    $php->addCodePiece( "if ( \$currentNamespace != '' )
+{
+    if ( \$name != '' )
+        \$name = \"\$currentNamespace:\$name\";
+    else
+        \$name = \$currentNamespace;
+}\n" );
+                                    $codeParameters[] = "\$name";
+                                }
+                            }
+                            else
+                            {
+                                $codeParameters[] = "\$currentNamespace";
+                            }
+                        }
+                        if ( $functionHookCustomFunction['add-namespace'] )
+                            $codeParameters[] = "\$rootNamespace, \$currentNamespace";
+                        if ( $functionHookCustomFunction['add-input'] )
+                            $codeParameters[] = "\$$hookResultName";
+                        $codeText .= implode( ",\n" . str_repeat( ' ', $codeTextLength ),
+                                              $codeParameters );
+                        $codeText .= " );\n";
+                        if ( $functionHookCustomFunction['static'] )
+                        {
+                            $hookFile = $functionHookCustomFunction['php-file'];
+                            $hookFileText = $php->variableTexT( $hookFile, 0 );
+                            $php->addCodePiece( "include_once( $hookFileText );\n" );
+                        }
+                        else
+                            $php->addCodePiece( "\$functionObject =& \$tpl->fetchFunctionObject( $functionNameText );\n" );
+                        $php->addCodePiece( $codeText );
+                    }
+                    else
+                    {
+                        $functionNameText = $php->variableText( $functionName, 0 );
+                        $functionChildrenText = $php->variableText( $functionChildren, 52, 0, false );
+                        $functionParametersText = $php->variableText( $functionParameters, 52, 0, false );
+                        $functionPlacementText = $php->variableText( $functionPlacement, 52, 0, false );
+
+                        $functionHookText = $php->variableText( $functionHook, 52, 0, false );
+                        $functionHookName = $functionHook['name'];
+                        $functionHookNameText = $php->variableText( $functionHookName, 0 );
+                        $functionHookParameters = $functionHook['parameters'];
+                        $php->addCodePiece( "\$functionObject =& \$tpl->fetchFunctionObject( $functionNameText );
+\$hookResult = \$functionObject->templateHookProcess( $functionNameText, $functionHookNameText,
+                                                    $functionHookText,
+                                                    \$tpl,
+                                                    $functionParametersText,
+                                                    $functionPlacementText,
+                                                    \$rootNamespace, \$currentNamespace );
+" );
+                    }
+                }
+                else
+                {
+                    $functionNameText = $php->variableText( $functionName, 0 );
+                    $functionChildrenText = $php->variableText( $functionChildren, 22, 0, false );
+                    $functionParametersText = $php->variableText( $functionParameters, 22, 0, false );
+                    $functionPlacementText = $php->variableText( $functionPlacement, 22, 0, false );
+                    $php->addCodePiece( "\$textElements = array();
 \$tpl->processFunction( $functionNameText, \$textElements,
                        $functionChildrenText,
                        $functionParametersText,
                        $functionPlacementText,
                        \$rootNamespace, \$currentNamespace );
 \$text .= implode( '', \$textElements );\n" );
+                }
             }
             $php->addSpace();
         }
@@ -691,11 +858,6 @@ unset( \$var );\n" );
                 $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
                                                                                $variableData, $variablePlacement,
                                                                                $resourceData );
-//             $php->addVariable( 'dataInspection', $dataInspection, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-//                 if ( isset( $dataInspection['new-data'] ) )
-//                 {
-//                     $variableData = $dataInspection['new-data'];
-//                 }
                 $newNode = array( $nodeType,
                                   false,
                                   $variableData,
@@ -710,25 +872,13 @@ unset( \$var );\n" );
                 $functionParameters = $node[3];
                 $functionPlacement = $node[4];
 
-//                 $newFunctionParameters = array();
-//                 foreach ( $functionParameters as $functionParameterName => $functionParameterData )
-//                 {
-//                     $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
-//                                                                                    $functionParameterData, false,
-//                                                                                    $resourceData );
-//                     if ( isset( $dataInspection['new-data'] ) )
-//                     {
-//                         $functionParameterData = $dataInspection['new-data'];
-//                     }
-//                     $newFunctionParameters[$functionParameterName] = $functionParameterData;
-//                 }
-//                 $functionParameters = $newFunctionParameters;
-
                 $newNode = array( $nodeType,
                                   false,
                                   $functionName,
                                   $functionParameters,
                                   $functionPlacement );
+                if ( isset( $node[5] ) )
+                    $newNode[5] = $node[5];
 
                 if ( is_array( $functionChildren ) )
                 {
@@ -755,6 +905,8 @@ unset( \$var );\n" );
 
     function processStaticOptimizations( &$php, &$tpl, &$node, &$resourceData, &$newNode )
     {
+        if ( !isset( $node[0] ) )
+            eZDebug::writeDebug( $node, 'node' );
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
@@ -808,6 +960,7 @@ unset( \$var );\n" );
             $functionPlacement = $node[4];
 
             $newFunctionChildren = array();
+//             eZDebug::writeDebug( $functionChildren, "functionChildren for $functionName" );
             if ( is_array( $functionChildren ) )
             {
                 foreach ( $functionChildren as $functionChild )
@@ -817,28 +970,34 @@ unset( \$var );\n" );
                                                                         $functionChild, $resourceData, $newChild );
                     $newFunctionChildren[] = $newChild;
                 }
+                $functionChildren = $newFunctionChildren;
             }
-            $functionChildren = $newFunctionChildren;
+//             eZDebug::writeDebug( $functionChildren, "new functionChildren for $functionName" );
 
             $newFunctionParameters = array();
-            foreach ( $functionParameters as $functionParameterName => $functionParameterData )
+            if ( $functionParameters )
             {
-                $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
-                                                                               $functionParameterData, false,
-                                                                               $resourceData );
-                if ( isset( $dataInspection['new-data'] ) )
+                foreach ( $functionParameters as $functionParameterName => $functionParameterData )
                 {
-                    $functionParameterData = $dataInspection['new-data'];
+                    $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                                                                                   $functionParameterData, false,
+                                                                                   $resourceData );
+                    if ( isset( $dataInspection['new-data'] ) )
+                    {
+                        $functionParameterData = $dataInspection['new-data'];
+                    }
+                    $newFunctionParameters[$functionParameterName] = $functionParameterData;
                 }
-                $newFunctionParameters[$functionParameterName] = $functionParameterData;
+                $functionParameters = $newFunctionParameters;
             }
-            $functionParameters = $newFunctionParameters;
 
             $newNode[0] = $nodeType;
             $newNode[1] = $functionChildren;
             $newNode[2] = $functionName;
             $newNode[3] = $functionParameters;
             $newNode[4] = $functionPlacement;
+            if ( isset( $node[5] ) )
+                $newNode[5] = $node[5];
         }
     }
 
@@ -1004,293 +1163,110 @@ unset( \$var );\n" );
                           $variableItemPlacement );
     }
 
-    function processNodeOld( &$php, &$tpl, &$node, &$resourceData )
+    function processNodeTransformation( &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    {
+        $newNode = eZTemplateProcessCache::processNodeTransformationRoot( $php, $tpl, $node, $resourceData );
+    }
+
+    function processNodeTransformationRoot( &$php, &$tpl, &$node, &$resourceData )
     {
         $nodeType = $node[0];
+        eZDebug::writeDebug( 'there' );
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
             $children = $node[1];
+            $newNode = array( $nodeType,
+                              false );
             if ( $children )
             {
-                foreach ( $children as $child )
+                $newChildren = array();
+                foreach ( $children as $childNode )
                 {
-                    eZTemplateProcessCache::processNode( $php, $tpl, $child, $resourceData );
+                    $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $php, $tpl, $childNode, $resourceData );
+                    if ( !$newChildNode )
+                        $newChildren[] = $childNode;
+                    else if ( !is_array( $newChildNode ) )
+                        $newChildren[] = $newChildNode;
+                    else
+                        $newChildren = array_merge( $newChildren, $newChildNode );
                 }
+                if ( count( $newChildren ) > 0 )
+                    $newNode[1] = $newChildren;
             }
+            return $newNode;
         }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
-        {
-            $text = $node[2];
-            $php->addVariable( 'textElements', $text, EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT );
-        }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
-        {
-            $variableData = $node[2];
-            $variablePlacement = $node[3];
+        else
+            $tpl->error( 'processNodeTransformation', "Unknown root type $nodeType, should be " . EZ_TEMPLATE_NODE_ROOT );
+        return false;
+    }
 
-            eZTemplateProcessCache::processVariable( $php, $tpl, $resourceData, $variableData, $variablePlacement,
-                                                     0, 'textElements', EZ_PHPCREATOR_VARIABLE_ASSIGNMENT );
-
-//         $value = $this->elementValue( $variableData, $rootNamespace, $currentNamespace, $variablePlacement );
-//         $this->appendElementText( $textElements, $value, $rootNamespace, $currentNamespace );
-//             $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
-//             if ( !is_array( $textElements ) )
-//                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-//                                      'eztemplate::processNode::variable' );
-        }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
+    function processNodeTransformationChild( &$php, &$tpl, &$node, &$resourceData )
+    {
+        $nodeType = $node[0];
+        if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
         {
             $functionChildren = $node[1];
             $functionName = $node[2];
             $functionParameters = $node[3];
             $functionPlacement = $node[4];
-            $php->addSpace();
-            $functionObject =& $tpl->fetchFunctionObject( $functionName );
+
+            if ( is_array( $tpl->Functions[$functionName] ) )
+            {
+                $tpl->loadAndRegisterOperators( $tpl->Functions[$functionName] );
+            }
+            $functionObject =& $tpl->Functions[$functionName];
+            eZDebug::writeDebug( 'here' );
             if ( is_object( $functionObject ) )
             {
-                if ( method_exists( $functionObject, 'generatetemplatecodecache' ) )
+                $hasTransformationSupport = false;
+                if ( method_exists( $functionObject, 'processCacheHints' ) )
                 {
-                    $functionObject->generateTemplateCodeCache( $php, $tpl, $this, $resourceData,
-                                                                'pre',
-                                                                $functionName,
-                                                                $functionChildren,
-                                                                $functionParameters,
-                                                                $functionPlacement );
+                    $hints = $functionObject->processCacheHints();
+                    eZDebug::writeDebug( $hints, "Hints for $functionName" );
+                    if ( isset( $hints[$functionName] ) and
+                         isset( $hints[$functionName]['tree-transformation'] ) and
+                         $hints[$functionName]['tree-transformation'] )
+                        $hasTransformationSupport = true;
                 }
-                else
+                if ( $hasTransformationSupport and
+                     method_exists( $functionObject, 'templateNodeTransformation' ) )
                 {
-                    $php->addMethodCall( 'this', 'processFunction',
-                                         array( array( $functionName ),
-                                                array( 'textElements',
-                                                       EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                                array( $functionChildren ),
-                                                array( $functionParameters ),
-                                                array( $functionPlacement ),
-                                                array( 'rootNamespace',
-                                                       EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                                array( 'currentNamespace',
-                                                       EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ) ) );
+                    eZDebug::writeDebug( "Transformation for $functionName" );
+
+                    if ( $functionChildren )
+                    {
+                        $newChildren = array();
+                        foreach ( $functionChildren as $childNode )
+                        {
+                            $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $php, $tpl, $childNode, $resourceData );
+                            if ( !$newChildNode )
+                                $newChildren[] = $childNode;
+                            else if ( !is_array( $newChildNode ) )
+                                $newChildren[] = $newChildNode;
+                            else
+                                $newChildren = array_merge( $newChildren, $newChildNode );
+                        }
+                        if ( count( $newChildren ) > 0 )
+                            $node[1] = $newChildren;
+                    }
+
+                    $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
+                                                                             $tpl, $resourceData );
+                    if ( !$newNodes )
+                        return $node;
+                    return $newNodes;
                 }
             }
-            else
-                $php->addComment( "Failed to fetch object handler for function: '$functionName'" );
-            $php->addSpace();
-
-//             $php->addCodePiece( '$func =& $this->Functions[$functionName];
-// if ( is_array( $func ) )
-// {
-//     $this->loadAndRegisterFunctions( $this->Functions["' . $functionName . '"] );
-//     $func =& $this->Functions["' . $functionName . '"];
-// }
-// if ( isset( $func ) and
-//      is_object( $func ) )
-// {
-//     return $func->process( $this, &$textElements, "' . $functionName . '", ' . $php->variableText( $functionChildren, 0 ) . ', ' . $functionParameters . ', ' . $functionPlacement . ', $rootNamespace, $currentNamespace );
-// }
-// else
-// {
-//     $this->warning( "", "Function ' . $functionName . ' is not registered" );
-// }
-// ' . 'unset( $func );
-// ' );
-
-//             $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
-//             if ( !is_array( $textElements ) )
-//                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-//                                      "eztemplate::processNode::function( '$functionName' )" );
+            return false;
         }
-    }
-
-    function processVariable( &$php, &$tpl, &$resourceData, $variableData, $variablePlacement,
-                              $indentSpaces, $variableAssignmentName, $variableAssignmentType )
-    {
-        $simpleTypes = array( EZ_TEMPLATE_TYPE_VOID, EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_NUMERIC, EZ_TEMPLATE_TYPE_IDENTIFIER );
-        $attributeTypes = array( EZ_TEMPLATE_TYPE_ATTRIBUTE, EZ_TEMPLATE_TYPE_OPERATOR );
-        $isSimpleType = true;
-        $startsWithSimpleType = false;
-        $hasAttributes = false;
-        $hasOperators = false;
-
-        if ( count( $variableData ) > 0 and
-             in_array( $variableData[0][0], $simpleTypes ) )
-            $startsWithSimpleType = true;
-        foreach ( $variableData as $variableDataElement )
+        else if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
-            $elementType = $variableDataElement[0];
-            if ( !in_array( $elementType, $simpleTypes ) )
-                $isSimpleType = false;
-            if ( in_array( $elementType, $attributeTypes ) )
-                $hasAttributes = true;
-            if ( $elementType == EZ_TEMPLATE_TYPE_OPERATOR )
-                $hasOperators = true;
-        }
-//         eZDebug::writeDebug( $isSimpleType, 'isSimpleType' );
-//         eZDebug::writeDebug( $startsWithSimpleType, 'startsWithSimpleType' );
-//         eZDebug::writeDebug( $hasAttributes, 'hasAttributes' );
-        if ( $isSimpleType )
-        {
-            if ( count( $variableData ) > 0 and
-                 $variableData[0][0] == EZ_TEMPLATE_TYPE_VOID )
-            {
-                $php->addMethodCall( 'this', 'warning',
-                                     array( array( 'elementValue' ),
-                                            array( 'Found void datatype, should not be used' ) ) );
-            }
-            else
-            {
-                $php->addVariable( $variableAssignmentName, $variableData[0][1],
-                                   $variableAssignmentType );
-            }
-        }
-        else if ( !$hasAttributes and
-                  count( $variableData ) > 0 and
-                  $variableData[0][0] == EZ_TEMPLATE_TYPE_VARIABLE )
-        {
-            $variableInfo = $variableData[0][1];
-            $variableType = $variableData[0][0];
-            $assignmentName = $variableAssignmentName;
-            $assignmentType = $variableAssignmentType;
-            eZTemplateProcessCache::processSingleElement( $php, $tpl, $resourceData, $variableType, $variableInfo, $variablePlacement,
-                                                          $assignmentName, $assignmentType );
-        }
-        else if ( $hasAttributes or
-                  $hasOperators )
-        {
-            $variableInfo = $variableData[0][1];
-            $variableType = $variableData[0][0];
-            $assignmentName = 'value';
-            $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT;
-            $php->addVariable( $assignmentName, null,
-                               EZ_PHPCREATOR_VARIABLE_ASSIGNMENT );
-            eZTemplateProcessCache::processSingleElement( $php, $tpl, $resourceData, $variableType, $variableInfo, $variablePlacement,
-                                                          $assignmentName, $assignmentType );
-            for ( $i = 1; $i < count( $variableData ); ++$i )
-            {
-                $variableElement = $variableData[$i];
-            }
+            return eZTemplateProcessCache::processNodeTransformationRoot( $php, $tpl, $node, $resourceData );
         }
         else
-        {
-            $php->addSpace();
-            $php->addMethodCall( 'this', 'elementValue',
-                                 array( array( $variableData ),
-                                        array( 'rootNamespace',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                        array( 'currentNamespace',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                        array( $variablePlacement ) ),
-                                 array( 'value' ) );
-            $php->addMethodCall( 'this', 'appendElementText',
-                                 array( array( 'textElements',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                        array( 'value',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                        array( 'rootNamespace',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ),
-                                        array( 'currentNamespace',
-                                               EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE ) ) );
-            $php->addCodePiece( 'unset( $value );' . "\n" );
-            $php->addSpace();
-        }
+            return false;
     }
 
-    function processSingleElement( &$php, &$tpl, &$resourceData, $variableType, $variableInfo, $variablePlacement,
-                                   $assignmentName, $assignmentType )
-    {
-        if ( $variableType == EZ_TEMPLATE_TYPE_VARIABLE )
-        {
-            $variableNamespace = $variableInfo[0];
-            $variableNamespaceScope = $variableInfo[1];
-            $variableName = $variableInfo[2];
-            $namespaceText = '$namespace = ';
-            $namespaceNameText = '$namespace';
-            if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
-            {
-                if ( $variableNamespace != "" )
-                    $namespaceText .= "'$variableNamespace'";
-                else
-                {
-                    $namespaceNameText = 'false';
-                    $namespaceText = false;
-                }
-            }
-            else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
-            {
-                if ( $variableNamespace != "" )
-                    $namespaceText .= 'eZTemplate::mergeNamespace( $rootNamespace, "' . $variableNamespace . '" )';
-                else
-                {
-                    $namespaceNameText = '$rootNamespace';
-                    $namespaceText = false;
-                }
-            }
-            else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
-            {
-                if ( $variableNamespace != "" )
-                    $namespaceText .= 'eZTemplate::mergeNamespace( $currentNamespace, "' . $variableNamespace . '" )';
-                else
-                {
-                    $namespaceNameText = '$currentNamespace';
-                    $namespaceText = false;
-                }
-            }
-            else
-                $namespaceText .= '"false"';
-            if ( $namespaceText )
-                $namespaceText .= ";\n";
-            $variableNameText = "'$variableName'";
-            $placementText = eZTemplate::placementText( $variablePlacement );
-            $assignmentText = '$' . $assignmentName;
-            if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
-                $assignmentText .= " = ";
-            else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
-                $assignmentText .= " .= ";
-            if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT )
-                $assignmentText .= "[] = ";
-
-            $php->addSpace();
-            $php->addCodePiece(
-                $namespaceText .
-                'if ( $this->hasVariable( ' . $variableNameText . ', ' . $namespaceNameText . ' ) )
-{
-    ' . $assignmentText . '$this->variable( ' . $variableNameText . ', ' . $namespaceNameText . ' );
-}
-else
-    $this->error( ' . "''" . ', "Unknown template variable ' . "'$variableName'" . ' in namespace ' . $namespaceNameText . '", "' . $placementText . '" );
-' );
-            $php->addSpace();
-        }
-        else if ( $variableType == EZ_TEMPLATE_TYPE_OPERATOR )
-        {
-            $operatorName = $variableInfo[0];
-            $php->addComment( "Operator: " . $operatorName );
-            if ( is_array( $tpl->Operators[$operatorName] ) )
-            {
-                $tpl->loadAndRegisterOperators( $tpl->Operators[$operatorName] );
-            }
-            $operatorObject =& $tpl->Operators[$operatorName];
-            if ( $operatorObject )
-            {
-                $supportsInput = true;
-                if ( method_exists( $operatorObject, 'supportsinput' ) )
-                {
-                    $supportsInput = $operatorObject->supportsInput( $operatorName );
-                }
-                if ( !$supportsInput )
-                {
-                }
-                $php->addVariable( $assignmentName, $variableInfo,
-                                   $assignmentType );
-            }
-            else
-                $php->addComment( "Failed to load operator $operatorName" );
-        }
-        else
-        {
-            $php->addVariable( $assignmentName, $variableInfo,
-                               $assignmentType );
-        }
-    }
 }
 
 ?>
