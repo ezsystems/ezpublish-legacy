@@ -1,21 +1,22 @@
 # Transformation formats
-# CF = CF           : Map from one char to one or more chars ""
-# CF - CF = CF      : Map several chars to one or more chars "replace"
-# CF - CF +- xx     : Transpose several chars by value       "transpose"
+# CF = CF...        : Map from one char to one or more chars  (map)
+# CF - CF = CF...   : Map range of chars to one or more chars (replace)
+# CF - CF +- xx     : Transpose several chars by value        (transpose)
 #
 # Character formats:
 # U+xxxx : Unicode value in hexadecimal
-#////////// maybe not xx : Ascii/iso-8859-1 value in hexadecimal
+# xx: Ascii value in hexadecimal
 # remove : Remove character from result, can only be used in destination
 # keep : Keep character as it is, can only be used in destination
-# "xxxx" : Multiple characters as a string, can only be used in destination
-# (CF CF...) : Multiple characters, can only be used in destination
+# "xxxx" : Multiple characters as a string, can only be used in destination, \\ means \ and \" means "
 #
 #
 #
 
 space:
 U+00A0 = U+0020 # Turn non-breaking-space into normal space
+#U+00BC - U+00B = U+0020 # test of parser error detection
+#U+0041 - U+005G + 20 # test of parser error detection
 
 hyphen:
 U+007E = U+002D # tilde/swung dash into hyphen-minus

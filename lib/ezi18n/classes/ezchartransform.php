@@ -121,6 +121,7 @@ class eZCharTransform
             $this->Mapper = new eZCodeMapper();
         }
 
+        $this->Mapper->parseTransformationFile( "share/transformations/basic.tr" );
         $unicodeTable = $this->Mapper->generateMappingCode( $rule );
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
         unset( $unicodeTable );

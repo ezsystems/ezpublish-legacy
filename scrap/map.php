@@ -54,8 +54,8 @@ foreach ( $text as $str )
     }
 }
 
-$allIdentifiers = array( 'space', 'hyphen', 'doublequote_normalize', 'apostrophe_normalize', 'doublequote_to_apostrophe', 'doublequote_to_singlequote', 'questionmark', 'special', 'ascii_lowercase', 'ascii_uppercase', 'cyrillic_transliterate', 'latin1_transliterate', 'diacritical' );
-$identifierList = array( 'diacritical', 'ascii_uppercase' );
+$allIdentifiers = array( 'space', 'hyphen', 'doublequote_normalize', 'apostrophe_normalize', 'doublequote_to_apostrophe', 'doublequote_to_singlequote', 'questionmark', 'special', 'ascii_lowercase', 'ascii_uppercase', 'cyrillic_transliterate', 'latin1_transliterate', 'diacritical_remove' );
+$identifierList = array( 'diacritical_remove', 'ascii_uppercase' );
 if ( $http->hasPostVariable( 'IdentifierList' ) )
 {
     $identifierList = $http->postVariable( 'IdentifierList' );
