@@ -39,6 +39,8 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
 - Fixed SMTP parameters.
   http://ez.no/community/bug_reports/class_ezsmtptransport_extends_ezmailtransport
+- Fixed Login link in design/admin/templates/loginpagelayout.tpl
+  http://ez.no/community/bug_reports/admin_loginpagelayout_tpl_wrong_url
 
 *Setup:
 
