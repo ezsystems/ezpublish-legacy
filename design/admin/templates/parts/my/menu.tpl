@@ -1,43 +1,19 @@
-<table width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/draft/"|ezurl}>{"My drafts"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<table width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/notification/settings/"|ezurl}>{"My notification settings"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/bookmark/"|ezurl}>{"My bookmarks"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/collaboration/view/summary"|ezurl}>{"Collaboration"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change password"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-</table>
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/content/draft/"|ezurl}>{"My drafts"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/notification/settings/"|ezurl}>{"My notification settings"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/content/bookmark/"|ezurl}>{"My bookmarks"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/collaboration/view/summary"|ezurl}>{"Collaboration"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change password"|i18n("design/admin/layout")}</a>
+</div>

@@ -75,7 +75,6 @@ span.slash
 
 td.headlogo
 {
-    background-color: #4272b4;
     padding-top: 10px;
     padding-left: 10px;
     padding-bottom: 10px;
@@ -85,8 +84,6 @@ td.headlogo
 
 td.headlink
 {
-    background-color: #4272b4;
-    
     padding-bottom: 0px;
     vertical-align:bottom; 
 }
@@ -94,20 +91,8 @@ td.headlink
 td.menuheadselectedgfx
 {
     background-color: #638ecf;
-    color: #ffffff;
+    color: #4373b4;
     text-align: center;
-}
-
-td.menuheadselectedleftline
-{
-    background-color: #638ecf;
-    border-left: solid 1px #89a7d6;
-}
-
-td.menuheadselectedrightline
-{
-    background-color: #638ecf;
-    border-right: solid 1px #89a7d6;
 }
 
 td.menuheadselectedtopline
@@ -126,47 +111,52 @@ td.menuheadselected
 
 td.menuheadgraygfx
 {
-    background-color: #3963ad;
+    background-color: #6c9ad7;
     color: #eeeeee;
     text-align: center;
 }
 
 td.menuheadgrayleftline
 {
-    background-color: #3963ad;
-    border-bottom: solid 1px #89a7d6;
-    border-left: solid 1px #89a7d6;
+    background-color: #6c9ad7;
+    border-bottom: solid 1px #b5cded;
+    border-left: solid 1px #b5cded;
 }
 
 td.menuheadgrayrightline
 {
-    background-color: #3963ad;
-    border-bottom: solid 1px #89a7d6;
-    border-right: solid 1px #89a7d6;
+    background-color: #6c9ad7;
+    border-bottom: solid 1px #b5cded;
+    border-right: solid 1px #b5cded;
 }
 
 td.menuheadgraytopline
 {
-    background-color: #3963ad;
-    border-top: solid 1px #89a7d6;
+    background-color: #6c9ad7;
+    border-top: solid 1px #b5cded;
 }
 
 td.menuheadgray
 {
-    background-color: #3963ad;
-    color: #eeeeee;
+    background-color: #6c9ad7;
+    color: #ffffff;
     text-align: center;
     font-size: 80%;
-    border-bottom: solid 1px #89a7d6;
+    border-bottom: solid 1px #b5cded;
 }
 
 td.menuheadspacer
 {
-    background-color: #4272b4;
     border-bottom: solid 1px #89a7d6;
 }
 
 a.menuheadlink
+{
+    color: #4373b4;
+    text-decoration: none;
+}
+
+a.menuheadlinkgray
 {
     color: #ffffff;
     text-decoration: none;
@@ -175,7 +165,6 @@ a.menuheadlink
 td.menuheadtoolbar
 {
     vertical-align: middle;
-    background-color: #638ecf;
     color: #ffffff;
     border-bottom: solid 1px #89a7d6;
 }
@@ -183,6 +172,7 @@ td.menuheadtoolbar
 
 p.menuheadselected
 {
+        font-size: 70%;
         font-weight: none;
         padding-top: 0px;
         padding-bottom: 0px;
@@ -261,7 +251,7 @@ table.menuboxleft td.bullet, table.menuboxright td.bullet
         padding-left: 4px;
 }
 
-p.menuitem, p.menufieldlabel, p.menufield, p.menutext
+p.menuitem, p.menufieldlabel, p.menufield, p.menutext, a.leftmenuitem
 {
     font-size: 70%;
 }
@@ -275,6 +265,12 @@ p.menuitem a.menuitem
 {
         text-decoration: none;
         color: #4373b4;
+}
+
+a.leftmenuitem
+{
+        text-decoration: none;
+        color: #ffffff;
 }
 
 p.menuitem a.menuitem:hover

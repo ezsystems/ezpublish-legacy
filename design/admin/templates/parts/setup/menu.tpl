@@ -1,98 +1,47 @@
-<table  width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/setup/cache/"|ezurl}>{"Cache"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a></p>
-    </td>
-</tr>
-</table>
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem"  href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/setup/cache/"|ezurl}>{"Cache"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem"  href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a>
+</div>

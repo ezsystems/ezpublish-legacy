@@ -17,13 +17,94 @@
 {* Top box START *}
 
 
+
+{section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+   {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
+   {'Version:'|i18n('design/standard/layout')} {$ezinfo.version}
+   {'Revision:'|i18n('design/standard/layout')} {$ezinfo.revision}
+ {/section}
+
 {* Cache header for each navigation part *}
 {cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
+<tr>
+    <td style="padding: 4px" colspan="11">
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="5" style="background-image:url('{"tbox-top-left.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+        <td style="border-top: solid 1px #789dce;" width="99%">
+        <img src={"1x1.gif"|ezimage} alt="" width="1" height="1" /></td>
+        <td width="5" style="background-image:url('{"tbox-top-right.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+    </tr>
+    <tr>
+        <td style="border-left: solid 1px #789dce;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+        <td>
+        <table width="100%">
+        <tr> 
+            <td>
+	    <img src={"logo.gif"|ezimage} alt="" /></td>
+            <td valign="top">
+            <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+             <nobr>
+             <input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
+             <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+             </nobr>
+            </form>
+            </td>
+            <td valign="top">
+
+{section show=fetch('content', 'can_instantiate_classes')}
+<form method="post" action={"content/action"|ezurl}>
+         <nobr>
+         <select name="ClassID" class="classcreate">
+	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
+	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
+	      {/section}
+         </select>
+         <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+         </nobr>
+
+</form>
+{/section}
+
+            </td>  
+            <td>
+      {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+      <a href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
+      {section-else}
+      <a href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name|wash})
+      {/section}
+            </td> 
+        </tr>  
+        </table>
+        </td>
+        <td style="border-right: solid 1px #789dce;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+    </tr>
+    <tr>
+        <td style="background-image:url('{"tbox-bottom-left.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+        <td style="border-bottom: solid 1px #789dce;">
+        <img src={"1x1.gif"|ezimage} alt="" width="1" height="1" /></td>
+        <td style="background-image:url('{"tbox-bottom-right.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
+    </tr>
+    </table>
+
+    </td>
+</tr>
+<tr>
+    <td>
+    <img src={"1x1.gif"|ezimage} alt="" width="3" height="5" /></td>
+</tr>
 <tr>
     <td class="headlogo" width="360">
     {* Admin logo area *}
-    <img src={"logo.gif"|ezimage} alt="" />&nbsp;&nbsp;<img src={"admin.gif"|ezimage} alt="" /></td>
+    &nbsp;
+     </td>
     <td class="headlink" width="66">
     {* Content menu *}
     {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
@@ -87,62 +168,16 @@
    &nbsp;</td>
 </tr>
 <tr>
-    <td colspan="11" class="menuheadtoolbar">
-
-<form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-
-<table width="750" cellpadding="0" cellspacing="2" border="0">
+    <td colspan="11" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
+    <img src={"1x1.gif"|ezimage} alt="" width="1" height="8" /></td>
 <tr>
-    <td align="left" valign="middle" width="50">
-	<input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
-    </td>
-    <td align="left" valign="middle">
-	<input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-
-    </td>
-    <td valign="middle">
-      <p class="menuitem">
-      {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-        {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
-        {'Version:'|i18n('design/standard/layout')} {$ezinfo.version}
-        {'Revision:'|i18n('design/standard/layout')} {$ezinfo.revision}
-      {/section}
-      </p>
-    </td>
-{/cache-block}
-
-{* Cache login/logout pr user *}
-{cache-block keys=array('login_part',$current_user.contentobject_id)}
-
-    <td align="right" valign="middle">
-      <p class="menuitem">
-      {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-      <a class="menuheadlink" href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
-      {section-else}
-      <a class="menuheadlink" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name|wash})
-      {/section}
-      </p>
-    </td>
-</tr>
-</table>
-
-{/cache-block}
-
-</form>
-    </td>
-</tr>
-<tr>
-    <td class="pathline" colspan="11">
-    {include uri="design:page_toppath.tpl"}
-    </td>
-</tr>
 </table>
 
 {* Top box END *}
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td width="120" valign="top" style="padding-right: 4px; padding-left: 15px; padding-top: 15px;">
+    <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
 {* Left menu START *}
 
@@ -169,8 +204,16 @@
 {* {include uri="design:left_menu.tpl"} *}
 
 {* Left menu END *}
-
+    <br />
+    <img src={"1x1.gif"|ezimage} alt="" width="120" height="1" /></td>
     </td>
+    <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+    <img src={"1x1.gif"|ezimage} alt="" width="23" height="1" /></td>
+    <td class="pathline" colspan="11">
+    {include uri="design:page_toppath.tpl"}
+    </td>
+</tr>
+<tr>
     <td class="mainarea" width="99%" valign="top">
 
 {* Main area START *}

@@ -12,8 +12,8 @@
     <td class="menuheadgrayleftline" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="1" height="15" /></td>
     <td class="menuheadgray">
-    <p class="menuheadgray">
-    <a class="menuheadlink" href={$menu_url|ezurl}>{$menu_text}</a>
+    <p class="menuheadselected">
+    <a class="menuheadlinkgray" href={$menu_url|ezurl}>{$menu_text}</a>
     </p>
     </td>
     <td class="menuheadgrayrightline" width="3">
