@@ -613,6 +613,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
+            $gotInvalidClassIdentifier = false;
             $classCondition = ' ( ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
@@ -622,6 +623,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                    if ( !is_numeric( $classID ) )
+                    {
+                        $gotInvalidClassIdentifier = true;
+                    }
                 }
                 if ( $params['ClassFilterType'] == 'include' )
                     $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
@@ -638,6 +643,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
             $classCondition .= ' ) AND ';
+
+            // Do not include class conditions if the translated class ID is empty
+            if ( $gotInvalidClassIdentifier == true )
+                $classCondition = "";
         }
 
 
@@ -1236,6 +1245,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
              ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
+            $gotInvalidClassIdentifier = false;
             $classCondition = ' ( ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
@@ -1244,6 +1254,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                    if ( !is_numeric( $classID ) )
+                    {
+                        $gotInvalidClassIdentifier = true;
+                    }
+
                 }
                 if ( $params['ClassFilterType'] == 'include' )
                     $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
@@ -1260,6 +1275,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
             $classCondition .= ' ) AND ';
+
+            // Do not include class conditions if the translated class ID is empty
+            if ( $gotInvalidClassIdentifier == true )
+                $classCondition = "";
         }
 
         // Main node check
