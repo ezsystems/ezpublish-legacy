@@ -276,14 +276,90 @@ class eZUserType extends eZDataType
     {
         $currentUser =& eZUser::currentUser();
         $userObject =&  $currentUser->attribute( 'contentobject' );
-        if ( $contentClassAttribute->attribute( 'contentclass_id' ) == $userObject->attribute( 'contentclass_id' ) )
-        {
+        $ini =& eZINI::instance();
+        $anonID = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
+        $classID = (int)$contentClassAttribute->attribute( 'contentclass_id' );
+        $db =& eZDB::instance();
+
+        if ( $classID == $userObject->attribute( 'contentclass_id' ) )
             return false;
-        }
-        else
+
+        $sql = "SELECT id FROM ezcontentobject WHERE id = $anonID AND contentclass_id = $classID";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+            return false;
+
+        $sql = "SELECT ezco.id FROM ezcontentobject ezco, ezuser
+WHERE ezco.contentclass_id = $classID AND
+      ezuser.login = 'admin' AND
+      ezco.id = ezuser.contentobject_id ";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+            return false;
+
+        $sql = "SELECT count( ezcc.id ) AS count FROM ezcontentclass ezcc, ezcontentclass_attribute ezcca
+WHERE ezcc.id != $classID AND
+      ezcca.data_type_string = 'ezuser' AND
+      ezcc.id = ezcca.contentclass_id ";
+        $rows = $db->arrayQuery( $sql );
+        if ( $rows[0]['count'] == 0 )
+            return false;
+
+        return true;
+    }
+
+    /*!
+     \reimp Only allowed to remove it if this datatype is not used by login users.
+    */
+    function canRemovableInformation( $contentClassAttribute )
+    {
+        $currentUser =& eZUser::currentUser();
+        $userObject =&  $currentUser->attribute( 'contentobject' );
+        $ini =& eZINI::instance();
+        $anonID = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
+        $classID = (int)$contentClassAttribute->attribute( 'contentclass_id' );
+        $db =& eZDB::instance();
+
+        if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
-            return true;
+            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                  "It is being used by the currently logged in user." ) );
         }
+
+        $sql = "SELECT id FROM ezcontentobject WHERE id = $anonID AND contentclass_id = $classID";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+        {
+            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                  "It is being used by the anonymous user." ) );
+        }
+
+        $sql = "SELECT ezco.id FROM ezcontentobject ezco, ezuser
+ WHERE ezco.contentclass_id = $classID AND
+       ezuser.login = 'admin' AND
+       ezco.id = ezuser.contentobject_id ";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+        {
+            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                  "It is being used by the administrator user." ) );
+        }
+
+        $sql = "SELECT count( ezcc.id ) AS count FROM ezcontentclass ezcc, ezcontentclass_attribute ezcca
+ WHERE ezcc.id != $classID AND
+       ezcca.data_type_string = 'ezuser' AND
+       ezcc.id = ezcca.contentclass_id ";
+        $rows = $db->arrayQuery( $sql );
+        if ( $rows[0]['count'] == 0 )
+        {
+            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                  "There are no more classes with account information." ) );
+        }
+
+        $text = ezi18n( 'kernel/classes/datatypes',
+                        "Cannot remove the account information, the reasons being:" );
+        return array( 'text' => $text,
+                      'list' => $reasons );
     }
 
     /*!

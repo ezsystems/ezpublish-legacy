@@ -764,9 +764,17 @@ class eZDataType
     /*!
      \return true if the datatype can be removed
     */
-    function canRemovable( $classAttribute )
+    function canRemovable( &$classAttribute )
     {
         return true;
+    }
+
+    /*!
+     \return true if the datatype can be removed
+    */
+    function canRemovableInformation( &$classAttribute )
+    {
+        return false;
     }
 
     /*!

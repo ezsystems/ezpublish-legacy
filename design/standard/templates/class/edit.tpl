@@ -85,9 +85,20 @@
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>
 {/section}
-{section name=UnvalidatedAttributes loop=$validation.attributes}
-    <li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name|wash} ({$UnvalidatedAttributes:item.id})</li>
-{/section}
+    {section var=UnvalidatedAttributes loop=$validation.attributes}
+        {section show=is_set( $UnvalidatedAttributes.item.reason )}
+            <li>{$UnvalidatedAttributes.item.identifier}: ({$UnvalidatedAttributes.item.id})
+                {$UnvalidatedAttributes.item.reason.text|wash}
+            <ul>
+            {section var=subitem loop=$UnvalidatedAttributes.item.reason.list}
+                <li>{section show=is_set( $subitem.identifier )}{$subitem.identifier|wash}: {/section}{$subitem.text|wash}</li>
+            {/section}
+            </ul>
+            </li>
+        {section-else}
+            <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
+        {/section}
+    {/section}
 </ul>
 </div>
 {section-else}

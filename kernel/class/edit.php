@@ -370,7 +370,22 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         $attributes = $keepers;
         foreach ( $rejects as $reject )
         {
-            $reject->remove();
+            $dataType =& $reject->dataType();
+            if ( $dataType->canRemovable( $reject ) )
+            {
+                $reject->remove();
+            }
+            else
+            {
+                $removeInfo = $dataType->canRemovableInformation( $reject );
+                if ( $removeInfo !== false )
+                {
+                    $validation['processed'] = true;
+                    $validation['attributes'] = array( array( 'id' => $reject->attribute( 'id' ),
+                                                              'identifier' => $reject->attribute( 'identifier' ),
+                                                              'reason' => $removeInfo ) );
+                }
+            }
         }
     }
 }

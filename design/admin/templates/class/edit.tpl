@@ -5,7 +5,18 @@
 <h2>{'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
 <p>{'The following information is either missing or invalid'|i18n( 'design/admin/class/edit' )}:</p>
 <ul>
-    <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
+    {section show=is_set( $UnvalidatedAttributes.item.reason )}
+        <li>{$UnvalidatedAttributes.item.identifier}: ({$UnvalidatedAttributes.item.id})
+            {$UnvalidatedAttributes.item.reason.text|wash}
+        <ul>
+        {section var=subitem loop=$UnvalidatedAttributes.item.reason.list}
+            <li>{section show=is_set( $subitem.identifier )}{$subitem.identifier|wash}: {/section}{$subitem.text|wash}</li>
+        {/section}
+        </ul>
+        </li>
+    {section-else}
+        <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
+    {/section}
 </ul>
 </div>
 {section-else}
