@@ -1,0 +1,88 @@
+THINGS TO DO BEFORE BETA 1 RELEASE
+----------------------------------
+
+Resources needed is noted.
+
+PR
+--
+
+Create product specifications for press releases in different
+formats and lengths.
+
+( TG )
+
+DESIGN
+------
+
+- Standard eZ publish "user" design
+- Standard eZ publish "admin" design
+
+( Pia )
+
+UI
+--
+
+User interface needs to be optimized. Needs a meeting.
+
+( Devel group )
+
+INSTALLERS
+----------
+
+Installers for 3.0 must be ready for:
+ * Linux - test on:
+                    - Redhat
+                    - Mandrake
+                    - SuSe
+                    - Debian
+                    - Slackware
+ * Windows
+ * FreeBSD
+ * Mac OS-X
+
+( ST )
+
+DOCUMENTATION
+-------------
+
+General rework of documentation fix spelling errors, add better
+images and update diagrams. Add missing documentation.
+
+- Introduction to eZ publish 3 for 2.2 users. "You must onlearn
+what you know... There is no spoon. "
+
+- Installation manual
+
+- Add tutorials/examples for:
+ * Content class
+ * Create object
+ * Custom look for object ( view modes )
+ * Site access
+
+Tech:
+ * Create datatype
+ * Create workflow event
+
+- Fix code documentation, each responsible for their module
+- Fix coding standard
+
+FEATURES
+--------
+
+Features which needs to be implemented and/or tested. Prioritized
+order.
+
+- Workflows needs to be completed ( SP )
+- Complete task system ( JB )
+- Implement messaging system ( WY )
+- XML format definition and implementation. Validation ( BF )
+- Content action to use for forms, poll etc.. ( is not speced yet ) ( BF )
+- Complete user accounts. Enable disable, banned etc.. ( WY )
+- Complete shopping functionality with price groups % based and fixed price ( BF )
+- Non Virtualhost test for: index_sitename.php and /sitename/content/view/. ( SP )
+- Implement copy functionality object/class ( JB )
+- Create complete translations for Russian, Norwegian, Chinese and English ( Everybody, JB show how )
+- DB support: MySQL, PostgreSQL and Oracle ( SP )
+
+- Implement div. functionality which is needed to set up the demo installation
+of eZ publish 3.
