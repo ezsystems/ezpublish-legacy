@@ -307,10 +307,20 @@ class eZWorkflowProcess extends eZPersistentObject
 // code idea :
                     $workflowParameters =& $this->attribute( 'parameter_list' );
 
-                    $cleanupList =& $workflowParameters['cleanup_list'];
+                    if ( isset( $workflowParameters['cleanup_list'] ) )
+                    {
+                        $cleanupList =& $workflowParameters['cleanup_list'];
+                    }
+                    else
+                    {
+                        unset( $cleanupList );
+                        $cleanupList = array();
+                    }
+
                     if ( $eventType->needCleanup() )
                     {
                         $cleanupList[] = $workflowEvent->attribute( 'id' );
+                        $workflowParameters['cleanup_list'] = $cleanupList;
                         $this->setAttribute( 'parameters', serialize( $workflowParameters ) );
                     }
 //                    print( "<br>lastEventStatus" . $lastEventStatus );
