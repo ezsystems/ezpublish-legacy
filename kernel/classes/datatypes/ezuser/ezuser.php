@@ -324,6 +324,61 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \return an array with characters which are allowed in password;
+    */
+    function passwordCharacterTable()
+    {
+        $table =& $GLOBALS['eZUserPasswordCharacterTable'];
+        if ( isset( $table ) )
+            return $table;
+        $table = array();
+        for ( $i = ord( 'a' ); $i <= ord( 'z' ); ++$i )
+        {
+            $char = chr( $i );
+            $table[] = $char;
+            $table[] = strtoupper( $char );
+        }
+        for ( $i = 0; $i <= 9; ++$i )
+        {
+            $table[] = "$i";
+        }
+        return $table;
+    }
+
+    /*!
+     Creates a password with number of characters equal to \a $passwordLength and returns it.
+     If you want pass a value in \a $seed it will be used as basis for the password, if not
+     it will use the current time value as seed.
+     \note If \a $passwordLength exceeds 16 it will need to generate new seed for the remaining
+           characters.
+    */
+    function createPassword( $passwordLength, $seed = false )
+    {
+        $chars = 0;
+        $password = '';
+        if ( $passwordLength < 1 )
+            $passwordLength = 1;
+        while ( $chars < $passwordLength )
+        {
+            if ( $seed == false )
+                $seed = mktime();
+            $text = md5( $seed );
+            $characterTable = eZUser::passwordCharacterTable();
+            $tableCount = count( $characterTable );
+            for ( $i = 0; ( $chars < $passwordLength ) and $i < 32; ++$chars, $i += 2 )
+            {
+                $decimal = hexdec( substr( $text, $i, 2 ) );
+                while ( $decimal + 1 > $tableCount )
+                    $decimal -= $tableCount;
+                $character = $characterTable[$decimal];
+                $password .= $character;
+            }
+            $seed = false;
+        }
+        return $password;
+    }
+
+    /*!
      \static
      Will create a hash of the given string. This is used to store the passwords in the database.
     */
