@@ -14,7 +14,7 @@ EDITOR='vi'
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
-FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/admin/site.ini.append settings/siteaccess/admin/override.ini.append settings/webdav.ini settings/image.ini"
+FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/admin/site.ini.append.php settings/siteaccess/admin/override.ini.append.php settings/siteaccess/admin/icon.ini.append.php settings/siteaccess/admin/toolbar.ini.append.php settings/webdav.ini settings/image.ini"
 FILTER_FILES2="bin/modfix.sh"
 PACKAGE_DIR="packages"
 
