@@ -118,6 +118,12 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['path'] =& $path;
-
 $Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
+
+// Fetch the navigation part from the section information
+include_once( 'kernel/classes/ezsection.php' );
+$section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
+
 ?>

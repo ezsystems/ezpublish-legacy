@@ -95,8 +95,11 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectP
         $http->setSessionVariable( "BrowseReturnType", "NodeID" );
         $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
 
-        $module->redirectToView( 'browse', array( 2 ) );
+        $browseNodeID = 2;
+        if ( $http->hasPostVariable( 'BrowseNodeID' ) )
+            $browseNodeID = $http->postVariable( 'BrowseNodeID' );
 
+        $module->redirectToView( 'browse', array( $browseNodeID ) );
     }
 }
 else if ( $http->hasPostVariable( 'EditButton' )  )
