@@ -190,11 +190,14 @@ class eZDataType
     {
         $types =& $GLOBALS["eZDataTypes"];
         $type_objects =& $GLOBALS["eZDataTypeObjects"];
-        foreach ( $types as $dataTypeString => $className )
+        if ( isset( $types ) )
         {
-            $def =& $type_objects[$dataTypeString];
-            if ( get_class( $def ) != $className )
-                $def = new $className();
+            foreach ( $types as $dataTypeString => $className )
+            {
+                $def =& $type_objects[$dataTypeString];
+                if ( get_class( $def ) != $className )
+                    $def = new $className();
+            }
         }
         return $type_objects;
     }

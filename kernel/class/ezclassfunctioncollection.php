@@ -112,23 +112,28 @@ class eZClassFunctionCollection
 
             foreach( $overrides as $override )
             {
-                foreach( $override['custom_match'] as $customMatch )
+                if ( isset( $override['custom_match'] ) )
                 {
-                    if( $customMatch['conditions']['class_identifier'] == $classIdentifier )
+                    foreach( $override['custom_match'] as $customMatch )
                     {
-                        $result[] = array( 'siteaccess' => $siteAccess,
-                                           'block'      => $customMatch['override_name'],
-                                           'source'     => $override['template'],
-                                           'target'     => $customMatch['match_file'] );
-                    }
+                        if( isset( $customMatch['conditions']['class_identifier'] ) &&
+                            $customMatch['conditions']['class_identifier'] == $classIdentifier )
+                        {
+                            $result[] = array( 'siteaccess' => $siteAccess,
+                                               'block'      => $customMatch['override_name'],
+                                               'source'     => $override['template'],
+                                               'target'     => $customMatch['match_file'] );
+                        }
 
-                    if( $customMatch['conditions']['class'] == $classID )
-                    {
+                        if( isset( $customMatch['conditions']['class'] ) &&
+                            $customMatch['conditions']['class'] == $classID )
+                        {
 
-                        $result[] = array( 'siteaccess' => $siteAccess,
-                                           'block'      => $customMatch['override_name'],
-                                           'source'     => $override['template'],
-                                           'target'     => $customMatch['match_file'] );
+                            $result[] = array( 'siteaccess' => $siteAccess,
+                                               'block'      => $customMatch['override_name'],
+                                               'source'     => $override['template'],
+                                               'target'     => $customMatch['match_file'] );
+                        }
                     }
                 }
             }
