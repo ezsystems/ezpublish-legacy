@@ -63,6 +63,9 @@ if ( $Month )
 if ( $Day )
     $Day = (int) $Day;
 
+if ( $NodeID < 2 )
+    $NodeID = 2;
+
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
