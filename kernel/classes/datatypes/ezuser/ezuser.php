@@ -1232,19 +1232,25 @@ WHERE user_id = '" . $userID . "' AND
     {
         $http =& eZHTTPTool::instance();
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $expiredTimeStamp = 0;
-        $userGroupTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
-        if ( $handler->hasTimestamp( 'user-info-cache' ) )
-            $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+        // If the user object is not the currently logged in user we cannot use the session cache
+        $useCache = ( $this->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
 
-        if ( $userGroupTimestamp > $expiredTimeStamp )
+        if ( $useCache )
         {
-            $userGroupsInfo = array();
-            if ( $http->hasSessionVariable( 'eZRoleIDList' ) )
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            $handler =& eZExpiryHandler::instance();
+            $expiredTimeStamp = 0;
+            $userGroupTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
+            if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+            if ( $userGroupTimestamp > $expiredTimeStamp )
             {
-                return $http->sessionVariable( 'eZRoleIDList' );
+                $userGroupsInfo = array();
+                if ( $http->hasSessionVariable( 'eZRoleIDList' ) )
+                {
+                    return $http->sessionVariable( 'eZRoleIDList' );
+                }
             }
         }
 
@@ -1253,8 +1259,11 @@ WHERE user_id = '" . $userID . "' AND
         $groups[] = $this->attribute( 'contentobject_id' );
         $roleList = eZRole::fetchIDListByUser( $groups );
 
-        $http->setSessionVariable( 'eZRoleIDList', $roleList );
-        $http->setSessionVariable( 'eZRoleIDList_Timestamp', mktime() );
+        if ( $useCache )
+        {
+            $http->setSessionVariable( 'eZRoleIDList', $roleList );
+            $http->setSessionVariable( 'eZRoleIDList_Timestamp', mktime() );
+        }
         return $roleList;
     }
 
@@ -1340,21 +1349,27 @@ WHERE user_id = '" . $userID . "' AND
         {
             if ( !isset( $this->Groups ) )
             {
-                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
+                // If the user object is not the currently logged in user we cannot use the session cache
+                $useCache = ( $this->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
 
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler =& eZExpiryHandler::instance();
-                $expiredTimeStamp = 0;
-                if ( $handler->hasTimestamp( 'user-info-cache' ) )
-                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
-
-                if ( $userGroupTimestamp > $expiredTimeStamp )
+                if ( $useCache )
                 {
-                    $userGroupsInfo = array();
-                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
+                    $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
+
+                    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                    $handler =& eZExpiryHandler::instance();
+                    $expiredTimeStamp = 0;
+                    if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                        $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+                    if ( $userGroupTimestamp > $expiredTimeStamp )
                     {
-                        $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
-                        return $this->Groups;
+                        $userGroupsInfo = array();
+                        if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
+                        {
+                            $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
+                            return $this->Groups;
+                        }
                     }
                 }
 
@@ -1406,8 +1421,11 @@ WHERE user_id = '" . $userID . "' AND
                     }
                 }
 
-                $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
-                $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
+                if ( $useCache )
+                {
+                    $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
+                    $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
+                }
                 $this->Groups =& $userGroupArray;
             }
             return $this->Groups;
