@@ -63,7 +63,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
     function processPostData()
     {
         $databaseMap = eZSetupDatabaseMap();
-        $this->PersistenceList['database_info'] = $databaseMap[$http->postVariable( 'eZSetupDatabaseType' )];
+        $this->PersistenceList['database_info'] = $databaseMap[$this->Http->postVariable( 'eZSetupDatabaseType' )];
         return true;
     }
 
@@ -83,7 +83,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
                 if ( !isset( $databaseMap[$extension] ) )
                     continue;
                 $database = $databaseMap[$extension];
-                $database['name'] = null; // fix to get default name of database under installation
+                $database['name'] = null;
                 $databaseCount++;
             }
         }

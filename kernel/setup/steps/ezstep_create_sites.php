@@ -57,7 +57,7 @@ class eZStepCreateSites extends eZStepInstaller
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
     }
 
-        /*!
+	/*!
      \reimp
     */
     function processPostData()
@@ -251,7 +251,6 @@ WHERE
                 $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'admin' );
 
             if ( $saveData ){
-                print( "KAKE !");
                 $saveResult = $ini->save( false, '.php', 'append', true );
             }
         }
