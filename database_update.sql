@@ -67,15 +67,35 @@ CREATE TABLE ezvattype (
 alter table ezproductcollection_item drop price_is_inc_vat;
 
 
-CREATE TABLE ezdiscountrule (
-  id int(11) NOT NULL auto_increment,
-  name varchar(255) NOT NULL,
-  discount_percent float default NULL,
-  PRIMARY KEY  (id) );
-
-
 CREATE TABLE ezuser_discountrule (
   id int(11) NOT NULL auto_increment,
   discountrule_id int(11) default NULL,
   contentobject_id int(11) default NULL,
   PRIMARY KEY  (id) );
+
+
+CREATE TABLE ezdiscountrule (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL,
+  PRIMARY KEY  (id)
+);
+
+
+CREATE TABLE ezdiscountsubrule (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL,
+  discountrule_id int(11) NOT NULL,
+  discount_percent float default NULL,
+  limitation char(1) default NULL,
+  PRIMARY KEY  (id)
+);
+
+
+CREATE TABLE ezdiscountsubrule_value (
+  discountsubrule_id int(11) NOT NULL,
+  value int(11) NOT NULL,
+  issection int(1) NOT NULL,
+  PRIMARY KEY  (discountsubrule_id,value,issection)
+);
+
+
