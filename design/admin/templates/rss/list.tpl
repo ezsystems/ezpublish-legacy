@@ -24,13 +24,13 @@
 </tr>
 
 {section var=RSSExports loop=$rssexport_list sequence=array( bglight, bgdark )}
-<tr>
+<tr class="{$RSSExports.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$RSSExports.item.id}"></td>
     <td><a href={concat("rss/feed/",$RSSExports.item.access_url)|ezurl}>{$RSSExports.item.title|wash}</a></td>
     <td>{$RSSExports.item.rss_version|wash}</td>
     <td>{section show=$RSSExports.item.active|eq(1)}{"Active"|i18n( 'design/admin/rss/list' )}{section-else}{"Inactive"|i18n( 'design/admin/rss/list' )}{/section}</td>
     <td>{content_view_gui view=text_linked content_object=$RSSExports.item.modifier.contentobject}</td>
-    <td>{$RSSExports.item.modified|l10n(shortdatetime)}</td>
+    <td>{$RSSExports.item.modified|l10n( shortdatetime )}</td>
     <td><a href={concat("rss/edit_export/",$RSSExports.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></td>
 </tr>
 {/section}
@@ -83,14 +83,14 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section var=RSSImports loop=$rssimport_list sequence=array(bglight,bgdark)}
-<tr>
+{section var=RSSImports loop=$rssimport_list sequence=array( bglight, bgdark )}
+<tr class="{$RSSImports.sequence}">
     <td><input type="checkbox" name="DeleteIDArrayImport[]" value="{$RSSImports.item.id}"></td>
-    <td><a href={concat("rss/edit_import/",$RSSImports.item.id)|ezurl}>{$RSSImports.item.name|wash}</a></td>
+    <td>{$RSSImports.item.name|wash}</td>
     <td>{section show=$RSSImports.item.active|eq(1)}{"Active"|i18n( 'design/admin/rss/list' )}{section-else}{"Inactive"|i18n( 'design/admin/rss/list' )}{/section}</td>
     <td>{content_view_gui view=text_linked content_object=$RSSImports.item.modifier.contentobject}</td>
-    <td><span class="small">{$RSSImports.item.modified|l10n(shortdatetime)}</span></td>
-    <td><a href={concat("rss/edit_import/",$RSSImports.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></td>
+    <td>{$RSSImports.item.modified|l10n( shortdatetime )}</td>
+    <td><a href={concat( 'rss/edit_import/', $RSSImports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
 </tr>
 {/section}
 {section-else}
