@@ -4,6 +4,11 @@
      node_name=$node.name
      children=$node.children}
 
+{section show=$generate_toc|eq(1)}
+  {pdf(pageNumber, hash( identifier, "main",
+                         start, 1 ) )}
+{/section}
+
 {pdf(header, hash( level, 1,
                    text, $node_name|wash(pdf),
 		   size, 26,
@@ -26,6 +31,8 @@
 
 {* generate_toc variable is only set in namespace of first instance of pdf.tpl called *}
 {section show=$generate_toc|eq(1)}
+  {pdf(pageNumber, hash( identifier, "main",
+                         stop, 1 ) )}
   {include uri="design:content/pdf/footer.tpl"}
   {include uri="design:content/pdf/toc.tpl"}
 {/section}

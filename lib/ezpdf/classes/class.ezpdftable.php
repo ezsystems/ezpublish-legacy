@@ -1087,6 +1087,19 @@ class eZPDFTable extends Cezpdf
                 }
                 else if ( strcmp( substr($text, $offSet+1, strlen( 'ezGroup' ) ), 'ezGroup' ) == 0 ) // special call for processing whole text group, used by extends table.
                 {
+                    $newTextLength = strlen( $newText );
+                    if ( $newTextLength > 0 && $newText[$newTextLength - 1] == "\n" )
+                    {
+                        unset( $newText[$newTextLength - 1] );
+                        $this->addDocSpecification( $newText );
+                        $newText = "\n";
+                    }
+                    else
+                    {
+                        $this->addDocSpecification( $newText );
+                        $newText = '';
+                    }
+
                     $params = array();
                     $funcName = '';
 
@@ -1209,34 +1222,20 @@ class eZPDFTable extends Cezpdf
                 foreach ( array_keys( $this->PageCounter ) as $identifier )
                 {
                     if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
-                         $this->PageCounter[$identifier]['end'] >= $pageNum )
+                         $this->PageCounter[$identifier]['stop'] >= $pageNum )
                     {
                         $frameText = str_replace( EZ_PDF_LIB_PAGENUM,
                                                   $this->ezWhatPageNumber( $pageNum, $identifier ),
                                                   $frameText );
-                        $countIdentifier = $identifier;
-                        break;
-                    }
-                }
-            }
 
-            if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
-            {
-                if( $countIdentifier == '' )
-                {
-                    foreach ( array_keys( $this->PageCounter ) as $identifier )
-                    {
-                        if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
-                             $this->PageCounter[$identifier]['end'] >= $pageNum )
+                        if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
                         {
-                            $countIdentifier = $identifier;
-                            break;
+                            $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+                                                      $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
+                                                      $frameText );
                         }
                     }
                 }
-                $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
-                                          $this->PageCounter[$countIdentifier]['end'] - $this->PageCounter[$countIdentifier]['start'] + 1,
-                                          $frameText );
             }
 
             for( $levelCount = 0; $levelCount < 9; $levelCount++ )
@@ -1271,14 +1270,13 @@ class eZPDFTable extends Cezpdf
                 $line = $lines[$key];
                 while (strlen($line) || $start){
                     $start = 0;
-                    $textInfo = $this->addTextWrap( $xOffset, $yOffset, $pageWidth, $frameText, $justification );
+                    $textInfo = $this->addTextWrap( $xOffset, $yOffset, $pageWidth, $size, $line, $justification );
                     $line = $textInfo['text'];
 
                     if ( strlen( $line ) )
                     {
                         $yOffset -= $this->getFontHeight( $size );
                     }
-                    var_dump( $line );
                 }
             }
 
@@ -1402,7 +1400,7 @@ class eZPDFTable extends Cezpdf
         $endOffset = strpos( $text, '>', $offSet );
         if ( $endOffset === false )
         {
-            $endOffset = strlen( $text ) - 1;
+            $endOffset = strlen( $text );
         }
 
         if ( $skipFirstChar === false )
@@ -1641,19 +1639,14 @@ class eZPDFTable extends Cezpdf
             $identifier = $params['identifier'];
         }
 
-        switch( $params['action'] )
+        if ( isset( $params['start'] ) )
         {
-            case 'start':
-            case 'begin':
-            {
-                $this->PageCounter[$identifier] = array( 'start' => $this->ezGetCurrentPageNumber() );
-            } break;
-
-            case 'stop':
-            case 'end':
-            {
-                $this->PageCounter[$identifier] = array( 'end' => $this->ezGetCurrentPageNumber() );
-            } break;
+            $this->PageCounter[$identifier] = array();
+            $this->PageCounter[$identifier]['start'] = $this->ezGetCurrentPageNumber();
+        }
+        if ( isset( $params['stop'] ) )
+        {
+            $this->PageCounter[$identifier]['stop'] = $this->ezGetCurrentPageNumber();
         }
     }
 
@@ -1670,12 +1663,12 @@ class eZPDFTable extends Cezpdf
             foreach ( array_keys( $this->PageCounter ) as $identifier )
             {
                 if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
-                     $this->PageCounter[$identifier]['end'] >= $pageNum )
-                    return $pageNum - $this->PageCounter[$identifier]['start'];
+                     $this->PageCounter[$identifier]['stop'] >= $pageNum )
+                    return $pageNum - $this->PageCounter[$identifier]['start'] + 1;
             }
         }
         else
-            return $pageNum - $this->PageCounter[$identifier]['start'];
+            return $pageNum - $this->PageCounter[$identifier]['start'] + 1;
     }
 
     /* --- Private --- */

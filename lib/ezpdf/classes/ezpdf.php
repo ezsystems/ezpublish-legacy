@@ -241,11 +241,11 @@ class eZPDF
 
                 if ( isset( $numberDesc['start'] ) )
                 {
-                    $operatorValue = '<C:callStartPageCounter:action:start:identifier:'. $identifier .'>';
+                    $operatorValue = '<C:callStartPageCounter:start:'. $numberDesc['start'] .':identifier:'. $identifier .'>';
                 }
                 else if ( isset( $numberDesc['stop'] ) )
                 {
-                    $operatorValue = '<C:callStartPageCounter:action:stop:identifier:'. $identifier .'>';
+                    $operatorValue = '<C:callStartPageCounter:stop:1:identifier:'. $identifier .'>';
                 }
             } break;
 
