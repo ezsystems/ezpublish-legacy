@@ -326,6 +326,14 @@ if [ -d $DEST/kernel/sql/oracle ]; then
     rm -rf $DEST/kernel/sql/oracle
 fi
 
+if [ -d $DEST/kernel/sql/mysql/doc.sql ]; then
+    rm -f $DEST/kernel/sql/mysql/doc.sql
+fi
+
+if [ -d $DEST/kernel/sql/postgresql/doc.sql ]; then
+    rm -f $DEST/kernel/sql/postgresql/doc.sql
+fi
+
 # Remove old archives
 if [ -f "$DEST_ROOT/$BASE.tar.gz" ]; then
     rm -f "$DEST_ROOT/$BASE.tar.gz";
