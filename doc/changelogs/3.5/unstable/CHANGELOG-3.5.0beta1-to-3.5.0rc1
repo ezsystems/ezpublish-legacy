@@ -134,6 +134,9 @@ Datatype:
 - Fixed bug some template typo errors.
   http://ez.no/community/bug_reports/template_typo_errors
   (Manually merged from stable/3.4 (3.4.5) rev. 9722)
+- Fixed bug of duplicated keyword stored.
+  http://ez.no/community/bug_reports/critical_keywords_will_be_duplicated_at_each_publishing_process
+  (Merged from stable/3.4 (3.4.5) rev. 9741)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
