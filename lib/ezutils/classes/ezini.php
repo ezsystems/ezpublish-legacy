@@ -400,7 +400,10 @@ class eZINI
                 $this->Charset = $charset;
                 $this->BlockValues = $blockValues;
                 //$this->BlockValuesPlacement = array ( 'ClassSettings' => array ( 'Formats' => array ( 0 => "settings/datetime.ini" ) ) );
-                $this->BlockValuesPlacement = $blockValuesPlacement;
+                if ( isset( $blockValuesPlacement ) )
+                    $this->BlockValuesPlacement = $blockValuesPlacement;
+                else
+                    $this->BlockValuesPlacement = array();
                 $this->ModifiedBlockValues = array();
                 unset( $blockValues );
             }
