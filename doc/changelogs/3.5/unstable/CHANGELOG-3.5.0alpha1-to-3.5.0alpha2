@@ -31,3 +31,6 @@ Payment:
 - Fixed bug: Wrong check for "content/edit" privilege in user/setting.
   (Merged from stable/3.3 rev. 8468, also in stable/3.4 rev. 8469)
   http://ez.no/community/bug_reports/user_settings_and_no_access_canedit
+- Fixed bug: package export not working with datatype ezenum
+  http://ez.no/community/bug_reports/package_export_not_working_with_datatype_ezenum
+  (merged from stable/3.4 rev.8467)
