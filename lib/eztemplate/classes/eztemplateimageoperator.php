@@ -62,6 +62,7 @@ class eZTemplateImageOperator
         $this->FontDir = "";
         $this->CacheDir = "";
         $this->HTMLDir = "";
+        $this->DefaultClass = 'default';
         $this->Family = "arial";
         $this->Colors = array( "bgcolor" => array( 255, 255, 255 ),
                                "textcolor" => array( 0, 0, 0 ) );
@@ -69,7 +70,17 @@ class eZTemplateImageOperator
         $this->Angle = 0;
         $this->XAdjust = 0;
         $this->YAdjust = 0;
+        $this->WAdjust = 0;
+        $this->HAdjust = 0;
         $this->UseCache = true;
+
+        $this->ImageGDSupported = ( function_exists( "ImageTTFBBox" ) and
+                                    function_exists( "ImageCreate" ) and
+                                    function_exists( "ImageColorAllocate" ) and
+                                    function_exists( "ImageColorAllocate" ) and
+                                    function_exists( "ImageTTFText" ) and
+                                    function_exists( "ImagePNG" ) and
+                                    function_exists( "ImageDestroy" ) );
     }
 
     /*!
@@ -85,15 +96,18 @@ class eZTemplateImageOperator
     */
     function namedParameterList()
     {
-        return array( "family" => array( "type" => "string",
+        return array( "class" => array( 'type' => 'string',
+                                        'required' => false,
+                                        'default' => $this->DefaultClass ),
+                      "family" => array( "type" => "string",
                                          "required" => false,
-                                         "default" => $this->Family ),
+                                         "default" => null ),
                       "pointsize" => array( "type" => "integer",
                                             "required" => false,
-                                            "default" => $this->PointSize ),
+                                            "default" => null ),
                       "angle" => array( "type" => "integer",
                                         "required" => false,
-                                        "default" => $this->Angle ),
+                                        "default" => null ),
                       "bgcolor" => array( "type" => "mixed",
                                           "required" => false,
                                           "default" => null ),
@@ -102,13 +116,19 @@ class eZTemplateImageOperator
                                             "default" => null ),
                       "x" => array( "type" => "integer",
                                     "required" => false,
-                                    "default" => $this->XAdjust ),
+                                    "default" => null ),
                       "y" => array( "type" => "integer",
                                     "required" => false,
-                                    "default" => $this->YAdjust ),
+                                    "default" => null ),
+                      "w" => array( "type" => "integer",
+                                    "required" => false,
+                                    "default" => null ),
+                      "h" => array( "type" => "integer",
+                                    "required" => false,
+                                    "default" => null ),
                       "usecache" => array( "type" => "boolean",
                                            "required" => false,
-                                           "default" => $this->UseCache )
+                                           "default" => null )
                       );
     }
 
@@ -185,6 +205,24 @@ class eZTemplateImageOperator
     }
 
     /*!
+     \return the number of pixels the width of the image is adjusted.
+     \sa setWidthAdjustment, heightAdjustment
+    */
+    function widthAdjustment()
+    {
+        return $this->WAdjust;
+    }
+
+    /*!
+     \return the number of pixels the height of the image is adjusted.
+     \sa setHeightAdjustment, widthAdjustment
+    */
+    function heightAdjustment()
+    {
+        return $this->HAdjust;
+    }
+
+    /*!
      \return true if image cache should be reused if the image text etc.. hasn't changed.
     */
     function useCache()
@@ -211,8 +249,8 @@ class eZTemplateImageOperator
             $decode = $col;
         else if ( is_string( $col ) )
         {
-            preg_match( "/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/", $col, $regs );
-            $decode = array( hexdec( $regs[1] ), hexdec( $regs[2] ), hexdec( $regs[3] ) );
+            if ( preg_match( "/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/", $col, $regs ) )
+                $decode = array( hexdec( $regs[1] ), hexdec( $regs[2] ), hexdec( $regs[3] ) );
         }
         return $decode;
     }
@@ -300,6 +338,24 @@ class eZTemplateImageOperator
     }
 
     /*!
+     Adjustment for width.
+     \sa widthAdjustment, heightAdjustment, setHeightAdjustment
+    */
+    function setWidthAdjustment( $w )
+    {
+        $this->WAdjust = $w;
+    }
+
+    /*!
+     Adjustment for height.
+     \sa widthAdjustment, heightAdjustment, setWidthAdjustment
+    */
+    function setHeightAdjustment( $h )
+    {
+        $this->HAdjust = $h;
+    }
+
+    /*!
      Sets whether to reuse cache files or not.
      \sa useCache
     */
@@ -332,79 +388,141 @@ class eZTemplateImageOperator
      text for the image.
      \todo Change the output to not use HTML but rather the path to the image.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$namedParameters )
     {
-        if ( function_exists( "ImageTTFBBox" ) )
+        if ( !$this->ImageGDSupported )
+            return;
+
+        $class = $namedParameters['class'];
+
+        $family = $this->Family;
+        $size = $this->PointSize;
+        $angle = $this->Angle;
+        $xadj = $this->XAdjust;
+        $yadj = $this->YAdjust;
+        $wadj = $this->WAdjust;
+        $hadj = $this->HAdjust;
+        $usecache = $this->UseCache;
+        $bgcol = $this->color( "bgcolor" );
+        $textcol = $this->color( "textcolor" );
+
+        $ini =& eZINI::instance( 'texttoimage.ini' );
+        $family =& $ini->variable( 'DefaultSettings', 'Family' );
+        $size =& $ini->variable( 'DefaultSettings', 'PointSize' );
+        $angle =& $ini->variable( 'DefaultSettings', 'Angle' );
+        $xadj =& $ini->variable( 'DefaultSettings', 'XAdjustment' );
+        $yadj =& $ini->variable( 'DefaultSettings', 'YAdjustment' );
+        $wadj =& $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
+        $hadj =& $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
+        $bgcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
+        $textcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
+
+        if ( $ini->hasVariable( $class, 'Family' ) )
+            $family =& $ini->variable( $class, 'Family' );
+        if ( $ini->hasVariable( $class, 'PointSize' ) )
+            $size =& $ini->variable( $class, 'PointSize' );
+        if ( $ini->hasVariable( $class, 'Angle' ) )
+            $angle =& $ini->variable( $class, 'Angle' );
+        if ( $ini->hasVariable( $class, 'XAdjustment' ) )
+            $xadj =& $ini->variable( $class, 'XAdjustment' );
+        if ( $ini->hasVariable( $class, 'YAdjustment' ) )
+            $yadj =& $ini->variable( $class, 'YAdjustment' );
+        if ( $ini->hasVariable( $class, 'WidthAdjustment' ) )
+            $wadj =& $ini->variable( $class, 'WidthAdjustment' );
+        if ( $ini->hasVariable( $class, 'HeightAdjustment' ) )
+            $hadj =& $ini->variable( $class, 'HeightAdjustment' );
+        if ( $ini->hasVariable( $class, 'BackgroundColor' ) )
+            $bgcol =& $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
+        if ( $ini->hasVariable( $class, 'TextColor' ) )
+            $textcol =& $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
+
+        if ( $namedParameters['family'] !== null )
+            $family = $namedParameters["family"];
+        if ( $namedParameters["pointsize"] !== null )
+            $size = $namedParameters["pointsize"];
+        if ( $namedParameters["angle"] !== null )
+            $angle = $namedParameters["angle"];
+        if ( $namedParameters["x"] !== null )
+            $xadj = $namedParameters["x"];
+        if ( $namedParameters["y"] !== null )
+            $yadj = $namedParameters["y"];
+        if ( $namedParameters["w"] !== null )
+            $wadj = $namedParameters["w"];
+        if ( $namedParameters["h"] !== null )
+            $hadj = $namedParameters["h"];
+        if ( $namedParameters["usecache"] !== null )
+            $usecache = $namedParameters["usecache"];
+        if ( $namedParameters["bgcolor"] !== null )
+            $bgcol = $this->decodeColor( $namedParameters["bgcolor"] );
+        if ( $namedParameters["textcolor"] !== null )
+            $textcol = $this->decodeColor( $namedParameters["textcolor"] );
+
+        if ( preg_match( "/\.ttf$/", $family ) )
+            $family_file = $family;
+        else
+            $family_file = "$family.ttf";
+        if ( $this->FontDir != "" )
         {
-            $family = $named_params["family"];
-            if ( preg_match( "/\.ttf$/", $family ) )
-                $family_file = $family;
-            else
-                $family_file = "$family.ttf";
-            if ( $this->FontDir != "" )
-            {
-                $font = $this->FontDir . "/$family_file";
-                if ( !file_exists( $font ) )
-                    $font = $family;
-            }
-            else
+            $font = $this->FontDir . "/$family_file";
+            if ( !file_exists( $font ) )
                 $font = $family;
-            $size = $named_params["pointsize"];
-            $angle = $named_params["angle"];
-            $xadj = $named_params["x"];
-            $yadj = $named_params["y"];
-            $usecache = $named_params["usecache"];
-
-            $bgcol = $this->decodeColor( $named_params["bgcolor"] );
-            $textcol = $this->decodeColor( $named_params["textcolor"] );
-            if ( $bgcol === null )
-                $bgcol = $this->color( "bgcolor" );
-            if ( !is_array( $bgcol ) or
-                 count( $bgcol ) < 3 )
-                $bgcol = array( 255, 255, 255 );
-            if ( $textcol === null )
-                $textcol = $this->color( "textcolor" );
-            if ( !is_array( $textcol ) or
-                 count( $textcol ) < 3 )
-                $textcol = array( 0, 0, 0 );
-
-            if ( is_string( $usecache ) )
-                $cnt = $usecache;
-            else
-                $cnt = md5( $value . $family . $size . $angle . $xadj . $yadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
-            if ( $usecache )
-                $file = "image-$cnt.png";
-            else
-                $file = "image-uncached-$cnt.png";
-            $output = $this->CacheDir . "/$file";
-            if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
-            {
-                $bbox = @ImageTTFBBox( $size, $angle, $font, $value );
-                if ( !$bbox )
-                {
-                    $tpl->error( $op_name, "Could not open font \"$family\"" );
-                    return;
-                }
-
-                $width = $bbox[4] - $bbox[6];
-                $height = $bbox[1] - $bbox[7];
-
-                $im = ImageCreate( $width, $height );
-
-                $bgcolor = ImageColorAllocate( $im, $bgcol[0], $bgcol[1], $bgcol[2] );
-                $textcolor = ImageColorAllocate ($im, $textcol[0], $textcol[1], $textcol[2] );
-
-                ImageTTFText ( $im, $size, $angle, $bbox[6] + $xadj, -$bbox[7] + $yadj,
-                               $textcolor, $font, $value );
-                ImagePNG( $im, $output );
-                ImageDestroy( $im );
-            }
-            $value = "<img src=\"" . $this->HTMLDir . "/$file\" alt=\"$value\"/>";
         }
+        else
+            $font = $family;
+
+        if ( $bgcol === null )
+            $bgcol = $this->color( "bgcolor" );
+        if ( !is_array( $bgcol ) or
+             count( $bgcol ) < 3 )
+            $bgcol = array( 255, 255, 255 );
+        if ( $textcol === null )
+            $textcol = $this->color( "textcolor" );
+        if ( !is_array( $textcol ) or
+             count( $textcol ) < 3 )
+            $textcol = array( 0, 0, 0 );
+
+        if ( is_string( $usecache ) )
+            $cnt = $usecache;
+        else
+            $cnt = md5( $value . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
+        if ( $usecache )
+            $file = "image-$cnt.png";
+        else
+            $file = "image-uncached-$cnt.png";
+        $output = $this->CacheDir . "/$file";
+        if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
+        {
+            $bbox = @ImageTTFBBox( $size, $angle, $font, $value );
+            if ( !$bbox )
+            {
+                $tpl->error( $op_name, "Could not open font \"$family\"" );
+                return;
+            }
+
+            $width = $bbox[4] - $bbox[6];
+            $height = $bbox[1] - $bbox[7];
+
+            $width += $wadj;
+            $height += $hadj;
+
+            $im = ImageCreate( $width, $height );
+
+            $bgcolor = ImageColorAllocate( $im, $bgcol[0], $bgcol[1], $bgcol[2] );
+            $textcolor = ImageColorAllocate ($im, $textcol[0], $textcol[1], $textcol[2] );
+
+            ImageTTFText ( $im, $size, $angle, $bbox[6] + $xadj, -$bbox[7] + $yadj,
+                           $textcolor, $font, $value );
+            ImagePNG( $im, $output );
+            ImageDestroy( $im );
+        }
+        $value = "<img src=\"" . $this->HTMLDir . "/$file\" alt=\"$value\"/>";
     }
 
+    /// \privatesection
     /// The operator array
     var $Operators;
+    /// The default class to use for text to image conversion
+    var $DefaultClass;
     /// the directory were fonts are found, default is ""
     var $FontDir;
     /// the directory were cache files are created, default is ""
@@ -425,6 +543,8 @@ class eZTemplateImageOperator
     var $UseCache;
     /// the color array, default is bgcolor=white and textcolor=black
     var $Colors;
+    /// Whether image GD is supported
+    var $ImageGDSupported;
 }
 
 ?>

@@ -86,8 +86,10 @@ order.
 - Complete shopping functionality with price groups % based and fixed price ( BF )
 - Non Virtualhost test for: index_sitename.php and /sitename/content/view/. ( SP )
 - Implement copy functionality object/class ( JB )
+  * Not need for beta
 - Create complete translations for Russian, Norwegian, Chinese and English ( Everybody, JB show how )
 - DB support: MySQL, PostgreSQL and Oracle ( SP )
+  * Oracle is skipped for now
 
 - Implement div. functionality which is needed to set up the demo installation
 of eZ publish 3.

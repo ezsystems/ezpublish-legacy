@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-{*	{$object.name|texttoimage("hatten",45,0,,,-1,-3)}*}
+{*	{$object.name|texttoimage('1942')} *}
  	<h1>{$object.name}</h1>
 	</td>
 </tr>

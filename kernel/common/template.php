@@ -132,16 +132,10 @@ function &templateInit()
     include_once( "lib/ezutils/classes/ezsys.php" );
 
     $imgop = new eZTemplateImageOperator();
-    $imgop->setFontDir( realpath( "." ) . "/" . $tpl_ini->variable( "TextToImageSettings", "FontDir" ) );
-    $imgop->setCacheDir( realpath( "." ) . "/" . $tpl_ini->variable( "TextToImageSettings", "CacheDir" ) );
-    $imgop->setHtmlDir( eZSys::wwwDir() . $tpl_ini->variable( "TextToImageSettings", "HtmlDir" ) );
-    $imgop->setFamily( $tpl_ini->variable( "TextToImageSettings", "Family" ) );
-    $imgop->setPointSize( $tpl_ini->variable( "TextToImageSettings", "PointSize" ) );
-    $imgop->setAngle( $tpl_ini->variable( "TextToImageSettings", "Angle" ) );
-    $imgop->setXAdjustment( $tpl_ini->variable( "TextToImageSettings", "XAdjustment" ) );
-    $imgop->setYAdjustment( $tpl_ini->variable( "TextToImageSettings", "YAdjustment" ) );
-    $imgop->setColor( "bgcolor", $tpl_ini->variable( "TextToImageSettings", "BackgroundColor" ) );
-    $imgop->setColor( "textcolor", $tpl_ini->variable( "TextToImageSettings", "TextColor" ) );
+    $ttiINI =& eZINI::instance( 'texttoimage.ini' );
+    $imgop->setFontDir( realpath( "." ) . "/" . $ttiINI->variable( "PathSettings", "FontDir" ) );
+    $imgop->setCacheDir( realpath( "." ) . "/" . $ttiINI->variable( "PathSettings", "CacheDir" ) );
+    $imgop->setHtmlDir( eZSys::wwwDir() . $ttiINI->variable( "PathSettings", "HtmlDir" ) );
 
     $tpl->registerOperators( $imgop );
 
