@@ -1,5 +1,3 @@
-\connect - postgres
-
 SET search_path = public, pg_catalog;
 
 
@@ -1197,7 +1195,7 @@ CREATE TABLE ezcontentobject_attribute (
     data_float double precision,
     attribute_original_id integer DEFAULT '0',
     sort_key_int integer DEFAULT '0' NOT NULL,
-    sort_key_string character varying(50) DEFAULT '' NOT NULL
+    sort_key_string character varying(50) DEFAULT ''
 );
 
 
