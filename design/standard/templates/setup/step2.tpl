@@ -79,7 +79,7 @@ Now we need information about the database eZ publish should use.<br />
     </table>
     <input type="hidden" name="dbEncoding" value="{$dbEncoding}" />
     {section name=handover loop=$handover}
-    <input type="hidden" name="{$handover:item.name}" value="{$handover:item.pass}" />
+    <input type="hidden" name="{$handover:item.name}" value="{$handover:item.value}" />
     {/section}
 
     

@@ -36,7 +36,7 @@ No critical test failed. You can continue installing eZ publish.
 <hr width="50%" />
 <form method="post" action="{$script}">
     {section name=handover loop=$handover}
-    <input type="hidden" name="{$continue:handover:item.name}" value="{$continue:handover:item.pass}" />
+    <input type="hidden" name="{$continue:handover:item.name}" value="{$continue:handover:item.value}" />
     {/section}
     <input type="hidden" name="nextStep" value="{$nextStep}" />
     <button name="buttonNextStep" type="submit">Next Step</button>

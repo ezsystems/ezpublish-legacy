@@ -93,6 +93,7 @@
     </tr>
     </table>
     <hr width="50%" />
+    <input type="hidden" name="nextStep" value="{$prevStep}" />
     <p><button type="submit">previous step</button></p>
     {* doesn't work yet {include uri="design/standard/templates/setup/error.tpl" name="error"} *}
     
