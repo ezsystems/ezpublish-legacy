@@ -135,5 +135,6 @@ eZ sys:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 - Fixed the eng-CA locale, it previously reported eng-GB as it's locale code.
 - Updated chinese translation (chi-CN), thanks to Frank Lee.
+- Updated portuguese translation to 3.2.
 
 *Miscellaneous:
