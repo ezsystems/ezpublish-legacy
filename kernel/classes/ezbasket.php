@@ -173,7 +173,8 @@ class eZBasket extends eZPersistentObject
                                        "price_inc_vat" => $priceIncVAT,
                                        "discount_percent" => $discountPercent,
                                        "total_price_ex_vat" => $totalPriceExVAT,
-                                       "total_price_inc_vat" => $totalPriceIncVAT );
+                                       "total_price_inc_vat" => $totalPriceIncVAT,
+                                       'item_object' =>$productItem );
                 $addedProducts[] = $addedProduct;
             }
         }
