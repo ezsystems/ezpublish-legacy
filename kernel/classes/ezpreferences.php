@@ -106,9 +106,9 @@ class eZPreferences
                 $query = "INSERT INTO ezpreferences ( user_id, name, value ) VALUES ( $userID, '$name', '$value' )";
                 $db->query( $query );
             }
-        }
-        if ( $storeUserID !== false )
             eZPreferences::storeInSession( $name, $value );
+        }
+
         return true;
     }
 
