@@ -1109,6 +1109,7 @@ if [ -z "$SKIP_EXTENSIONS" ]; then
 	EXTENSION_PUBLISH_VERSION=""
 	EXTENSION_ARCHIVE_NAME=""
 	EXTENSION_PHP_VERSION=""
+	EXTENSION_FILTER_FILES=""
 	. "$DEST_EXT/dist.sh"
 
 	rm -f "$DEST_EXT/dist.sh"
@@ -1149,6 +1150,34 @@ if [ -z "$SKIP_EXTENSIONS" ]; then
 		echo "The files must be removed before the extension distribution can be made"
 		exit 1
 	    fi
+	)
+	ez_result_output $? "" || exit 1
+
+	function ez_skeleton_replace_variables
+	{
+	    sed 's/\[ExtensionName\]/'"$EXTENSION_NAME"'/g' | \
+		sed 's/\[ExtensionIdentifier\]/'"$EXTENSION_IDENTIFIER"'/g' | \
+		sed 's/\[ExtensionSummary\]/'"$EXTENSION_SUMMARY"'/g' | \
+		sed 's/\[ExtensionLicense\]/'"$EXTENSION_LICENSE"'/g' | \
+		sed 's/\[ExtensionPublishVersion\]/'"$EXTENSION_PUBLISH_VERSION"'/g' | \
+		sed 's/\[ExtensionArchiveName\]/'"$EXTENSION_ARCHIVE_NAME"'/g' | \
+		sed 's/\[ExtensionVersion\]/'"$EXTENSION_VERSION"'/g' | \
+		sed 's/\[PHPVersion\]/'"$EXTENSION_PHP_VERSION"'/g' | \
+		sed 's/\[Timestamp\]/'`date "+%s"`'/g' | \
+		sed 's/\[Host\]/'`uname -n`'/g'
+	}
+
+	echo -n "Applying filters"
+	(cd $DEST
+	    for file in $EXTENSION_FILTER_FILES; do
+		cat "$file" | ez_skeleton_replace_variables > "$file.1"
+		if [ $? -ne 0 ]; then
+		    rm -f "$file.1"
+		    ez_result_output 1 "Failed to apply filter to `ez_color_file $file`"
+		    exit 1
+		fi
+		mv -f "$file.1" "$file"
+	    done
 	)
 	ez_result_output $? "" || exit 1
 
