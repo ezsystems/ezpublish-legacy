@@ -2,7 +2,7 @@
 {let assigned_nodes=$node.object.current.node_assignments
      assignment_count=$assigned_nodes|count}
 
-<form method="post" action={'content/action'|ezurl}>
+<form name="locationsform" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
@@ -27,7 +27,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'AssignmentIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Sorting'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
