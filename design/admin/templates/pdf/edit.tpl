@@ -56,7 +56,7 @@
 <tr>
 <td>{$pdf_export.source_node.class_identifier|class_icon( small, $pdf_export.source_node.class_name )}&nbsp;{$pdf_export.source_node.name|wash}</td>
 <td>{$pdf_export.source_node.class_name|wash}</td>
-<td>{fetch( section, object, hash( section_id, $pdf_export.source_node.object.section_id ) ).name|wash}</td>
+<td>{let section_object=fetch( section, object, hash( section_id, $pdf_export.source_node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown section'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</i>{/section}{/let}</td>
 </tr>
 
 </table>
