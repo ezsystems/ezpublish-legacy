@@ -1,0 +1,127 @@
+Changes from 3.3.0-2 to 3.3-1
+
+*Kernel:
+- Added support for multiple tag lists for the simpletags template operator.
+- Added sortKeyType and sortKey functions to eZSelection datatype. ( merged from stable 4532 )
+  http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezselection_missing_default_methods_sortkey_sortkeytype
+- Removed all use of the SiteAccessList (from site.ini), instead the AvailableSiteAccessList is used everywhere.
+  The setting was also removed from site.ini.
+- Added ObjectID and NodeID to all admin full class templates.
+- Added some explaining text to the class lockout functionality.
+- Added support for is_valid attribute directly on the image datatype content, no need to
+  go through original alias.
+- Removed obsolete function fetchTree in eZContentObject
+- Added cleanup.php script for cleaning up lots of data from databases which are not to be included in releases.
+- Added cleanup script for cleaning up lots of data from databases which are not to be included in releases.
+- Added cleanup() function to several functions, these functions are used in the new cleanup script.
+- Added --clean option to updatesearchindex.php script, this will clear all search data before indexing.
+  This is useful before release handling to ensure no extra data is present in the search.
+- Fixed bug in updatesearchindex.php which would only reindex objects
+  that the anonymous user could read.
+- Added search indexing of all attribute translations, not just the main translation.
+- Added option to remove class identifier cache and sort key cache in clearcache.sh and admin interface
+- Added flatten script which will remove unneeded elements from the database such as drafts,
+  temporary data etc.
+- Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
+- Changed permission on user/preferences from preferences to login, if you have a valid account you should be able to set preferences
+- Fixed workflow editing to redirect back to the workflowlist instead of the grouplist on discard and store.
+
+*Bugfixes:
+- Fixed problem with cache block expiry when ignore_content_expiry was set
+- Fixed several layout and functionality bugs in blog package
+- Fixed calendar operator bug
+- Fixed several UI issues in forum package
+- Fixed several bugs reported in bugreport ( merged from stable 4503 ): http://ez.no/developer/ez_publish_3/bug_reports/kernel_errors
+- Fixed Apache 2 problem when redirecting to url with two or more / at end of url. ( merged from stable 4505 )
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/node_id_and_object_id_in_standard_template
+- Fixed redirect bug when editing objects using workflows in apache 2. ( merged from stable 4518 )
+  http://ez.no/developer/ez_publish_3/bug_reports/empty_page_after_editing_if_you_have_a_workflow_on_apache_2
+- Fixed pressing store button multiple times when editing classes. Will no longer cause strange behaviour in objects. ( merged from stable 4524 )
+- Fixed unset and missing parameter in eZDBInterface::lastSerialID implementations. ( merged from stable 4526 )
+  http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_lastserialid
+- Fixed bookmark links in admin menu template. ( merged from stable 4528 )
+  http://ez.no/developer/ez_publish_3/bug_reports/typo_in_designadmintemplatespartsmediamenutpl
+- Fixed max recent browse items fetch from ini file. ( merged from stable 4530 )
+  http://ez.no/developer/ez_publish_3/bug_reports/class_ezcontentbrowserecentphp_bug
+- Fixed module handler for append unordered parameters to redirect uri bug. ( merged from stable 4534 )
+  http://ez.no/developer/ez_publish_3/bug_reports/modulehandler_utility_fails_to_append_unordered_parameters_to_redirecturis
+- Fixed hard coded page limit doing search in php code. ( merged from stable 4536 )
+  http://ez.no/developer/ez_publish_3/bug_reports/advancedsearchphp_uses_hardwired_pagination_parameter
+- Fixed editing policy with subtree limitation. ( merged from stable 4538 )
+  http://ez.no/developer/ez_publish_3/bug_reports/policy_editing_error_with_subtree_limitation
+- Fixed cache bug when adding bookmarks in admin interface. ( merged from stable 4541 )
+  http://ez.no/developer/ez_publish_3/bug_reports/bookmarks_cacheblock_dont_expires
+- Fixed timeout for editing class drafts from other user. This will prevent users beeing permanently unable to edit classes. ( merged from stable 4543 )
+  http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
+- Fixed updating section id when moving unpublished objects. ( merged from stable 4545 )
+  http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/notification_system_is_not_working
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/hard_parent_node_id46_in_setupmenuphp
+- Fixed setting role settings on PDF export. http://ez.no/developer/ez_publish_3/bug_reports/anomymous_user_can_create_a_pdf_export
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/image_troubles_bugs_ez_33_beta_2
+  Added check for is_valid in ezimage.tpl
+- Fixed bogus html data when showing non-existent image datatypes. The parameters alignment and href should now be used to the attribute_view_gui function to specify alignment and link information on images.
+- Fixed sort order of PDF export. http://ez.no/developer/ez_publish_3/bug_reports/pdf_does_not_keep_sort_order
+- Removed maxlength from design/standard/templates/gui/lineedit.tpl http://ez.no/developer/ez_publish_3/bug_reports/rss_url_input_is_not_long_enough
+- Fixed bug http://www.ez.no/developer/ez_publish_3/bug_reports/datatype_function_metadata_isnt_part_of_the_datatype_api ( merged from stable 4574 )
+- Fixed bug in hostmatching in eZHTTPTool::redirectURL, it did not find host names without . in them, e.g. localhost. ( merged from stable 4578 )
+- Fixed showing embeded images in blog package. http://ez.no/developer/ez_publish_3/bug_reports/picture_does_not_show_in_package
+- Fixed right alignment of printer friendly link in shop package. http://ez.no/developer/ez_publish_3/bug_reports/move_printerfriendly_pages_message_in_shop_package
+- Fixed bug in policy edit/creation, if node limitations were added the other limitation values would be removed,
+  this no longer happpens.
+- Fixed bug in listing of subtree when the attribute filter and attribute sort were used and the attribute filter
+  was an empty array.
+- Fixed security bug in content module for several views, they now have a separate function access instead
+  of reusing the 'edit' access.
+- Fixed security bug in policy checking for content objects, it was possible to get create access
+  anywhere on the site all depeneding on the role setup. Now creation checking is properly implemented.
+- Fixed security bug in which it was possible to add forbidden locations to an object you could edit.
+- Fixed security bug in which any object could be created using the related object functionality for
+  an existing object edit.
+- Fixed showing images in shop package. http://ez.no/developer/ez_publish_3/bug_reports/shop_images_dont_show_when_uploaded
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_php_typo_line_133 ( merged from stable 4598 )
+- Fixed problem with approve workflow event which displayed non-published users. Also users that are
+  disabled are no longer shown (merged from stable 4600).
+  http://ez.no/developer/ez_publish_3/bug_reports/bogus_users_in_gallery_package
+- Made sure empty body mementos are skipped
+  http://ez.no/developer/ez_publish_3/bug_reports/missing_error_handling_in_workflow_cronjob
+- Fixed some potential bugs which might have caused editing root nodes to crash. http://ez.no/developer/ez_publish_3/bug_reports/edit_users_or_frontpage_object
+- Fixed cache bug in setup menu so the advanced menu was not shown.
+- Fixed Postgres error text during installation. http://ez.no/developer/ez_publish_3/bug_reports/installation_with_postgresql__1
+- Removed debug output http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobjecttreenode_php_debug_statement
+- Fixed http://ez.no/developer/ez_publish_3/bug_reports/news_package_misconfigured_workflow
+- Added us-ascii to codepages to accept theregister rdf feed. http://ez.no/developer/ez_publish_3/bug_reports/rss_cron_and_admin_bugs
+- Fixed bug with publish date when the first published version of an object were not 1,
+  now the published date is updated if it is found to be 0.
+
+*ezlupdate:
+- Added check for newlines in the context field for templates, usually this means a missing quote.
+- Changed the parse warnings to stop the program to make the user aware of the problems.
+
+*templates:
+- Fixed content/datatype/view/ezimage.tpl to support a css_class parameter, if this is set a div tag
+  is created around the image with the specified class.
+
+*RSS:
+
+*Setup:
+
+*DataTypes:
+
+eZ Image:
+
+eZ BinaryFile:
+
+eZ ObjectRelationList:
+
+*Library;
+
+eZ INI:
+
+eZ PDF:
+
+eZ db:
+
+*Translations:
+
+- Added missing quotes to the context of several translations which gave strange results in the .ts files.
