@@ -1662,7 +1662,6 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the main node id for the current object.
-    \todo cache id in memory
     */
     function mainNodeID()
     {

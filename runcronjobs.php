@@ -33,69 +33,78 @@
 // you.
 //
 
-
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/ezscript.php' );
 
-error_reporting ( E_ALL );
+$cli =& eZCLI::instance();
+$script =& eZScript::instance( array( 'debug-message' => '',
+                                      'use-session' => true,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
 
-eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+$script->startup();
 
-$endl = "<br/>";
-$webOutput = true;
-if ( isset( $argv ) )
-{
-    $endl = "\n";
-    $webOutput = false;
-}
-
-$cronPart = false;
-$siteaccess = false;
-$debugOutput = false;
-$useColors = false;
-$isQuiet = false;
-
-$colors = array( 'warning' => "\033[1;35m",
-                 'error' => "\033[1;31m",
-                 'success' => "\033[1;32m",
-                 'emphasize' => "\033[1;38m",
-                 'normal' => "\033[0;39m" );
-
-$optionsWithData = array( 's' );
-$longOptionsWithData = array( 'siteaccess' );
+$endl = $cli->endlineString();
+$webOutput = $cli->isWebOutput();
 
 function help()
 {
-    print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
-           "Executes eZ publish cronjobs.\n\n" .
-           "  -h,--help          display this help and exit \n" .
-           "  -q,--quiet         do not give any output except errors occur\n" .
-           "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-           "  -d,--debug         display debug output at end of execution\n" .
-           "  -c,--colors        display output using ANSI colors\n" .
-           "  --no-colors        do not use ANSI coloring (default)\n" );
+    $argv = $_SERVER['argv'];
+    $cli =& eZCLI::instance();
+    $cli->output( "Usage: " . $argv[0] . " [OPTION]... [PART]\n" .
+                  "Executes eZ publish cronjobs.\n" .
+                  "\n" .
+                  "General options:\n" .
+                  "  -h,--help          display this help and exit \n" .
+                  "  -q,--quiet         do not give any output except when errors occur\n" .
+                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
+                  "  -d,--debug         display debug output at end of execution\n" .
+                  "  -c,--colors        display output using ANSI colors\n" .
+                  "  --sql              display sql queries\n" .
+                  "  --logfiles         create log files\n" .
+                  "  --no-logfiles      do not create log files (default)\n" .
+                  "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
-        print( "Using siteaccess $siteaccess for cronjob" );
+        if ( !$isQuiet )
+            $cli->notice( "Using siteaccess $siteaccess for cronjob" );
     }
     else
     {
-        print( "Siteaccess $optionData does not exist, using default siteaccess" );
+        if ( !$isQuiet )
+            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
+
+$siteaccess = false;
+$debugOutput = false;
+$allowedDebugLevels = false;
+$useDebugAccumulators = false;
+$useDebugTimingpoints = false;
+$useIncludeFiles = false;
+$useColors = false;
+$isQuiet = false;
+$useLogFiles = false;
+$showSQL = false;
+
+$optionsWithData = array( 's' );
+$longOptionsWithData = array( 'siteaccess' );
+
+$readOptions = true;
 
 for ( $i = 1; $i < count( $argv ); ++$i )
 {
     $arg = $argv[$i];
-    if ( strlen( $arg ) > 0 and
+    if ( $readOptions and
+         strlen( $arg ) > 0 and
          $arg[0] == '-' )
     {
         if ( strlen( $arg ) > 1 and
@@ -132,6 +141,18 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 $useColors = false;
             }
+            else if ( $flag == 'no-logfiles' )
+            {
+                $useLogFiles = false;
+            }
+            else if ( $flag == 'logfiles' )
+            {
+                $useLogFiles = true;
+            }
+            else if ( $flag == 'sql' )
+            {
+                $showSQL = true;
+            }
         }
         else
         {
@@ -165,6 +186,46 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'd' )
             {
                 $debugOutput = true;
+                if ( strlen( $arg ) > 2 )
+                {
+                    $levels = explode( ',', substr( $arg, 2 ) );
+                    $allowedDebugLevels = array();
+                    foreach ( $levels as $level )
+                    {
+                        if ( $level == 'all' )
+                        {
+                            $useDebugAccumulators = true;
+                            $allowedDebugLevels = false;
+                            $useDebugTimingpoints = true;
+                            break;
+                        }
+                        if ( $level == 'accumulator' )
+                        {
+                            $useDebugAccumulators = true;
+                            continue;
+                        }
+                        if ( $level == 'timing' )
+                        {
+                            $useDebugTimingpoints = true;
+                            continue;
+                        }
+                        if ( $level == 'include' )
+                        {
+                            $useIncludeFiles = true;
+                        }
+                        if ( $level == 'error' )
+                            $level = EZ_LEVEL_ERROR;
+                        else if ( $level == 'warning' )
+                            $level = EZ_LEVEL_WARNING;
+                        else if ( $level == 'debug' )
+                            $level = EZ_LEVEL_DEBUG;
+                        else if ( $level == 'notice' )
+                            $level = EZ_LEVEL_NOTICE;
+                        else if ( $level == 'timing' )
+                            $level = EZ_LEVEL_TIMING;
+                        $allowedDebugLevels[] = $level;
+                    }
+                }
             }
             else if ( $flag == 's' )
             {
@@ -175,29 +236,29 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     else
     {
         if ( $cronPart === false )
+        {
+            $readOptions = false;
             $cronPart = $arg;
+        }
     }
 }
+$script->setUseDebugOutput( $debugOutput );
+$script->setAllowedDebugLevels( $allowedDebugLevels );
+$script->setUseDebugAccumulators( $useDebugAccumulators );
+$script->setUseDebugTimingPoints( $useDebugTimingpoints );
+$script->setUseIncludeFiles( $useIncludeFiles );
 
 if ( $webOutput )
-    $useColors = false;
+    $useColors = true;
 
-if ( $useColors )
-{
-    $emphasizeText = $colors['emphasize'];
-    $normalText = $colors['normal'];
-    $errorText = $colors['error'];
-    $warningText = $colors['warning'];
-    $successText = $colors['success'];
-}
-else
-{
-    $emphasizeText = '';
-    $normalText = '';
-    $errorText = '';
-    $warningText = '';
-    $successText = '';
-}
+$cli->setUseStyles( $useColors );
+$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
+
+$script->setUseSiteAccess( $siteaccess );
+
+$script->initialize();
+
+$cronPart = false;
 
 if ( $cronPart )
 {
@@ -205,124 +266,6 @@ if ( $cronPart )
         print( "Running cronjob part '$cronPart'$endl" );
 }
 
-/*!
- Reads settings from site.ini and passes them to eZDebug.
-*/
-function eZUpdateDebugSettings()
-{
-    global $debugOutput;
-    $ini =& eZINI::instance();
-    $debugSettings = array();
-    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
-    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    $debugSettings['debug-enabled'] = $debugOutput;
-    eZDebug::updateSettings( $debugSettings );
-}
-
-/*!
- Reads settings from i18n.ini and passes them to eZTextCodec.
-*/
-function eZUpdateTextCodecSettings()
-{
-    $ini =& eZINI::instance( 'i18n.ini' );
-    $i18nSettings = array();
-    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
-    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-    eZTextCodec::updateSettings( $i18nSettings );
-}
-
-// Initialize text codec settings
-eZUpdateTextCodecSettings();
-
-// Initialize debug settings
-eZUpdateDebugSettings();
-
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-
-function eZDBCleanup()
-{
-    if ( class_exists( 'ezdb' )
-         and eZDB::hasInstance() )
-    {
-        $db =& eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
-    }
-//     session_write_close();
-}
-
-function eZFatalError()
-{
-    global $webOutput;
-    global $endl;
-    global $errorText;
-    global $normalText;
-    $bold = '<b>';
-    $unbold = '</b>';
-    $par = '<p>';
-    $unpar = '</p>';
-    if ( !$webOutput )
-    {
-        $bold = $errorText;
-        $unbold = $normalText;
-        $par = '';
-        $unpar = $endl;
-    }
-
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
-    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
-    print( eZDebug::printReport( false, $webOutput, true ) );
-}
-
-eZExecution::addCleanupHandler( 'eZDBCleanup' );
-eZExecution::addFatalErrorHandler( 'eZFatalError' );
-
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-
-// Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
-eZExtension::activateExtensions();
-// Extension check end
-
-include_once( "access.php" );
-
-if ( $siteaccess )
-{
-    $access = array( 'name' => $siteaccess,
-                     'type' => EZ_ACCESS_TYPE_STATIC );
-}
-else
-{
-    $ini =& eZINI::instance();
-    $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-    $access = array( 'name' => $siteaccess,
-                     'type' => EZ_ACCESS_TYPE_DEFAULT );
-}
-
-$access = changeAccess( $access );
-$GLOBALS['eZCurrentAccess'] =& $access;
-
-// Initialize module loading
-$moduleRepositories = array();
-$moduleINI =& eZINI::instance( 'module.ini' );
-$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-$extensionDirectory = eZExtension::baseDirectory();
-$globalExtensionRepositories = array();
-foreach ( $extensionRepositories as $extensionRepository )
-{
-    $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
-    if ( file_exists( $modulePath ) )
-    {
-        $globalExtensionRepositories[] = $modulePath;
-    }
-}
-$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
-eZModule::setGlobalPathList( $moduleRepositories );
 
 $ini =& eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
@@ -333,11 +276,11 @@ $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
 $index = 0;
 
-foreach ( $scripts as $script )
+foreach ( $scripts as $cronScript )
 {
     foreach ( $scriptDirectories as $scriptDirectory )
     {
-        $scriptFile = $scriptDirectory . '/' . $script;
+        $scriptFile = $scriptDirectory . '/' . $cronScript;
         if ( file_exists( $scriptFile ) )
             break;
     }
@@ -347,7 +290,7 @@ foreach ( $scripts as $script )
         {
             if ( $index > 0 )
                 print( $endl );
-            print( "Running $emphasizeText$scriptFile$normalText$endl" );
+            $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
         }
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
         include( $scriptFile );
@@ -356,11 +299,6 @@ foreach ( $scripts as $script )
     }
 }
 
-if ( $debugOutput or
-     eZDebug::isDebugEnabled() )
-    print( eZDebug::printReport( false, $webOutput, true ) );
-
-eZExecution::cleanup();
-eZExecution::setCleanExit();
+$script->shutdown();
 
 ?>

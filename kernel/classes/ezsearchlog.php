@@ -104,6 +104,18 @@ class eZSearchLog
 
         return $phraseArray;
     }
+
+    /*!
+     Removes all stored phrases and search match counts from the database.
+    */
+    function removeStatistics()
+    {
+        $db =& eZDB::instance();
+        $query = "DELETE FROM ezsearch_search_phrase";
+        $db->query( $query );
+        $query = "DELETE FROM ezsearch_return_count";
+        $db->query( $query );
+    }
 }
 
 ?>

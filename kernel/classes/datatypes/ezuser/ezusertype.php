@@ -128,14 +128,17 @@ class eZUserType extends eZDataType
                 $authenticationMatch = eZUser::authenticationMatch();
                 if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
                 {
-                    $userByEmail =& eZUser::fetchByEmail( $email );
-                    if ( $userByEmail != null )
+                    if ( eZUser::requireUniqueEmail() )
                     {
-                        if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
+                        $userByEmail =& eZUser::fetchByEmail( $email );
+                        if ( $userByEmail != null )
                         {
-                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'A user with this email already exists.' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
+                            {
+                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                     'A user with this email already exists.' ) );
+                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            }
                         }
                     }
                 }

@@ -46,7 +46,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
-    print( "Checking LDAP users ...\n"  );
+    $cli->output( "Checking LDAP users ..."  );
 
 $db =& eZDB::instance();
 $query = "SELECT contentobject_id, login
@@ -169,7 +169,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
     $info = ldap_get_entries( $ds, $sr );
     if ( $info["count"] != 1 )
     {
-        print("Disable user " . $login ."\n");
+        $cli->output( "Disable user " . $cli->stylize( 'emphasize', $login ) );
         // Disable the user
         $userSetting =& eZUserSetting::fetch( $userID );
         $userSetting->setAttribute( "is_enabled", false );
@@ -217,7 +217,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                         $groupNodeID = $LDAPGroupObject[0]['node_id'];
                         if ( $groupNodeID != $parentNodeID )
                         {
-                            print( $existUser->attribute('login') . " has been moved to the group he belongs.\n" );
+                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to the group he belongs." );
                             $newVersion =& $contentObject->createNewVersion();
                             $newVersion->assignToNode( $groupNodeID, 1 );
                             $newVersion->removeAssignment( $parentNodeID );
@@ -232,7 +232,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                         // move user to default group
                         if ( $defaultUserPlacement != $parentNodeID )
                         {
-                            print( $existUser->attribute('login') . " has been moved to default group\n" );
+                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to default group" );
                             $newVersion =& $contentObject->createNewVersion();
                             $newVersion->assignToNode( $defaultUserPlacement, 1 );
                             $newVersion->removeAssignment( $parentNodeID );
@@ -261,7 +261,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                         $groupNodeID = $LDAPGroupObject[0]['node_id'];
                         if ( $groupNodeID != $parentNodeID )
                         {
-                            print( $existUser->attribute('login') . " has been moved to the group he belongs.\n" );
+                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to the group he belongs." );
                             $newVersion =& $contentObject->createNewVersion();
                             $newVersion->assignToNode( $groupNodeID, 1 );
                             $newVersion->removeAssignment( $parentNodeID );
@@ -276,7 +276,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                         // move user to default group
                         if ( $defaultUserPlacement != $parentNodeID )
                         {
-                            print( $existUser->attribute('login') . " has been moved to default group\n" );
+                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to default group" );
                             $newVersion =& $contentObject->createNewVersion();
                             $newVersion->assignToNode( $defaultUserPlacement, 1 );
                             $newVersion->removeAssignment( $parentNodeID );
@@ -293,5 +293,5 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
 }
 
 if ( !$isQuiet )
-    print( "All LDAP users have been updated!\n" );
+    $cli->output( "All LDAP users have been updated!" );
 ?>

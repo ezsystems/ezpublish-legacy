@@ -1,4 +1,5 @@
-<div class="maincontentheader">
+<form action={"/search/stats/"|ezurl} method="post">
+
 <h1>{"Search statistics"|i18n("design/standard/search")}</h1>
 </div>
 
@@ -30,3 +31,9 @@
 </tr>
 {/section}
 </table>
+
+<div class="buttonblock">
+    <input class="button" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n('design/standard/search')}" />
+</div>
+
+</form>

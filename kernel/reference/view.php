@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <08-Aug-2002 14:04:07 bf>
+// Created on: <18-Apr-2002 10:04:48 amos>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -32,30 +32,34 @@
 // you.
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+$module =& $Params['Module'];
+$referenceType = $Params['ReferenceType'];
 
-include_once( "kernel/common/template.php" );
+$Result = array();
+// $Result["pagelayout"] = false;
+// $Result["external_css"] = true;
 
-include_once( "kernel/classes/ezsearchlog.php" );
-
-$http =& eZHTTPTool::instance();
-
-$module =& $Params["Module"];
-
-if ( $module->isCurrentAction( 'ResetSearchStats' ) )
+switch ( $referenceType )
 {
-    eZSearchLog::removeStatistics();
+    case 'ez':
+    {
+        include_once( 'kernel/reference/ezreference.php' );
+        $referenceResult = eZReferenceDocument( $module, '/reference/view/ez', $referenceType, array_slice( $Params['Parameters'], 1 ) );
+    } break;
+    default:
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+    } break;
 }
 
 $tpl =& templateInit();
 
-$mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray();
+$tpl->setVariable( 'reference_result', $referenceResult );
+$tpl->setVariable( 'reference_type', $referenceType );
 
-$tpl->setVariable( "most_frequent_phrase_array", $mostFrequentPhraseArray );
+$Result['content'] = $tpl->fetch( "design:reference/view/$referenceType/full.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/reference', 'Reference documentation' ) ) );
 
-$Result = array();
-$Result['content'] =& $tpl->fetch( "design:search/stats.tpl" );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/search', 'Search stats' ),
-                                'url' => false ) );
 
 ?>

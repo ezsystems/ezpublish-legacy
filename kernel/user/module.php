@@ -51,20 +51,24 @@ $ViewList["login"] = array(
                                                          'UserRedirectURI' => 'RedirectURI' ) ),
     "params" => array( ) );
 $ViewList["setting"] = array(
+    "function" => array( "preferences" ),
     "script" => "setting.php",
     "params" => array( "UserID" ) );
 
 $ViewList["preferences"] = array(
+    "function" => array( "preferences" ),
     "script" => "preferences.php",
     "params" => array( "Function", "Key", "Value" ) );
 
 $ViewList["password"] = array(
+    "function" => array( "password" ),
     "script" => "password.php",
     "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( "UserID" ) );
 
 /// \deprecated This view is kept for compatability
 $ViewList["forgetpassword"] = array(
+    "function" => array( "password" ),
     "script" => "forgotpassword.php",
     'deprecated' => true,
     "params" => array( ),
@@ -75,6 +79,7 @@ $ViewList["forgetpassword"] = array(
 
 /// Note the function above is misspelled and should be removed
 $ViewList["forgotpassword"] = array(
+    "function" => array( "password" ),
     "script" => "forgotpassword.php",
     "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
@@ -119,6 +124,7 @@ $SiteAccess = array(
 
 $FunctionList['login'] = array( 'SiteAccess' => $SiteAccess );
 $FunctionList['selfedit'] = array();
-
+$FunctionList['password'] = array();
+$FunctionList['preferences'] = array();
 
 ?>

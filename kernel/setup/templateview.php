@@ -91,6 +91,9 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
         $overrideINI->loadCache();
 
+        $siteBase = $overrideINI->variable( 'DesignSettings', 'SiteDesign' );
+        print( "siteBase=$siteBase<br/>" );
+
         // Remove settings and file
         foreach ( $removeOverrideArray as $removeOverride )
         {

@@ -61,7 +61,7 @@ $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_D
 $user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
-    print( "Checking for workflow processes$endl"  );
+    $cli->output( "Checking for workflow processes"  );
 $removedProcessCount = 0;
 $processCount = 0;
 $statusMap = array();
@@ -123,12 +123,10 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $process->remove();
     }
 
-//     if ( !$isQuiet )
-//         print( $process->attribute( 'status' ) . " workflow process status$endl"  );
 }
 if ( !$isQuiet )
 {
-    print( $emphasizeText . "Status list" . $normalText . $endl );
+    $cli->output( $cli->stylize( 'emphasize', "Status list" ) );
     $statusTextList = array();
     $maxStatusTextLength = 0;
     foreach ( $statusMap as $statusID => $statusCount )
@@ -144,10 +142,10 @@ if ( !$isQuiet )
     {
         $text = $item['text'];
         $count = $item['count'];
-        print( $successText . $text . $normalText . ': ' . str_repeat( ' ', $maxStatusTextLength - strlen( $text ) ) . $emphasizeText . $count . $normalText . $endl );
+        $cli->output( $cli->stylize( 'success', $text ) . ': ' . str_repeat( ' ', $maxStatusTextLength - strlen( $text ) ) . $cli->stylize( 'emphasize', $count )  );
     }
-    print( $endl );
-    print( "$removedProcessCount out of $processCount processes was finished$endl"  );
+    $cli->output();
+    $cli->output( $cli->stylize( 'emphasize', $removedProcessCount ) . " out of " . $cli->stylize( 'emphasize', $processCount ) . " processes was finished"  );
 }
 
 ?>

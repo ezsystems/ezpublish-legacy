@@ -122,6 +122,7 @@ class eZScript
 
     function initialize()
     {
+        while( @ob_end_clean() );
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
         $debugINI =& eZINI::instance( 'debug.ini' );
@@ -358,6 +359,8 @@ function eZFatalError()
 //     }
 
     eZDebug::setHandleType( EZ_HANDLE_NONE );
+    if ( !$webOutput )
+        print( $endl );
     print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
     print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
     print( eZDebug::printReport( false, $webOutput, true ) );

@@ -4,6 +4,16 @@ Changes from 3.2.0-1 to 3.2.0-2
 - Added support for turning debug includes on and off in eZScript and ezpm.php.
 - Made sure the bork translator didn't translate words that start with a % (percent).
 - Added master control switch for template cache, if disabled all template based caches will be turned off.
+- Added maximum limit value for the fetched page limit values in search and avancedsearch.
+- Added reset button search statistics page.
+- The MailSettings/AdminEmail is now the master setting for all other email settings, this means
+  that it's possible to change all email adresses by changing this if the other ones are empty.
+- Added setting for control whether unique email addresses are required when registering a new user,
+  default is to require it.
+- Integrated the eZScript and eZCLI classes into the php scripts runcronjobs.php, updateezxmltext.php,
+  updateniceurls.php and updatesearchindex.php.
+- Added back the API reference viewer, it is now a separate module which can be used to view
+  the generated reference as well as other references (in the future). The url is reference/view/ez/
 
 *Setup:
 - Made sure the password is used when connecting to database.
