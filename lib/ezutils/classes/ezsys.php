@@ -51,12 +51,9 @@
   Example:
 \code
 // Run the init in the index file
-eZSys::init( $SCRIPT_FILENAME, $PHP_SELF, $DOCUMENT_ROOT,
-             $SCRIPT_NAME, $REQUEST_URI );
+eZSys::init( eZINI::instance() );
 print( eZSys::indexFile() );
 print( eZSys::wwwDir() );
-$ini =& eZINI::instance();
-eZSys::initIni( $ini );
 \endcode
 */
 
@@ -357,10 +354,12 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
 
-        eZDebug::writeDebug( "PHP_SELF=" . eZSys::serverVariable( 'PHP_SELF' ) );
-        eZDebug::writeDebug( "SCRIPT_FILENAME=" . eZSys::serverVariable( 'SCRIPT_FILENAME' ) );
-        eZDebug::writeDebug( "DOCUMENT_ROOT=" . eZSys::serverVariable( 'DOCUMENT_ROOT' ) );
-        eZDebug::writeDebug( "include_path=" . ini_get( 'include_path' ) );
+        eZDebug::writeDebug( eZSys::serverVariable( 'PHP_SELF' ), 'PHP_SELF' );
+        eZDebug::writeDebug( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 'SCRIPT_FILENAME' );
+        eZDebug::writeDebug( eZSys::serverVariable( 'DOCUMENT_ROOT' ), 'DOCUMENT_ROOT' );
+        eZDebug::writeDebug( ini_get( 'include_path' ), 'include_path' );
+
+        $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
 
         // Find out, where our files are.
         if ( ereg( "(.*/)([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
@@ -368,7 +367,7 @@ class eZSys
             $siteDir = $regs[1];
             $index = "/" . $regs[2];
         }
-        elseif ( ereg( "(.*/)([^\/]+\.php)/?", eZSys::serverVariable( 'PHP_SELF' ), $regs ) )
+        elseif ( ereg( "(.*/)([^\/]+\.php)/?", $phpSelf, $regs ) )
         {
             // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
             $siteDir = eZSys::serverVariable( 'DOCUMENT_ROOT' ) . $regs[1];
@@ -392,34 +391,54 @@ class eZSys
         // Get the webdir.
         if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_NAME' ), $regs ) )
             $wwwDir = $regs[1];
-		else if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'PHP_SELF' ), $regs ) )
+		else if ( ereg( "(.*)/([^\/]+\.php)$", $phpSelf, $regs ) )
 			$wwwDir = $regs[1];
+
+        $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
 
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
-            eZSys::setServerVariable( 'PHP_SELF', eZSys::serverVariable( 'REQUEST_URI' ) );
+            $phpSelf = $requestURI;
 
         $def_index_reg = str_replace( ".", "\\.", $def_index );
         // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-        if ( ! ereg( ".*$def_index_reg.*", eZSys::serverVariable( 'PHP_SELF' ) ) )
+        if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
             $index = "";
         else
         {
+            eZDebug::writeDebug( "$wwwDir$index", '$wwwDir$index' );
             // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-            if ( ereg( "^$wwwDir$index(.+)", eZSys::serverVariable( 'PHP_SELF' ), $req ) )
-                eZSys::setServerVariable( 'REQUEST_URI', $req[1] );
-//            else
-//                eZSys::setServerVariable( 'REQUEST_URI', "/" );
+            if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
+            {
+                $requestURI = $req[1];
+            }
+        }
+
+        // Remove url parameters
+        if ( ereg( "([^?]+)", $requestURI, $regs ) )
+        {
+            $requestURI = $regs[1];
         }
 
         $this->AccessPath = array();
         $this->SiteDir =& $siteDir;
         $this->WWWDir =& $wwwDir;
         $this->IndexFile =& $index;
+        $this->RequestURI = $requestURI;
 
-        eZDebug::writeDebug( "SiteDir=" . $this->SiteDir );
-        eZDebug::writeDebug( "WWWDir=" . $this->WWWDir );
-        eZDebug::writeDebug( "IndexFile=" . $this->IndexFile );
+        eZDebug::writeDebug( $this->SiteDir, 'SiteDir' );
+        eZDebug::writeDebug( $this->WWWDir, 'WWWDir' );
+        eZDebug::writeDebug( $this->IndexFile, 'IndexFile' );
+    }
+
+    /*!
+     \return the URI used for parsing modules, views and parameters, may differ from $_SERVER['REQUEST_URI'].
+    */
+    function requestURI()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        return $this->RequestURI;
     }
 
     /*!
@@ -460,6 +479,8 @@ class eZSys
     var $WWWDir;
     /// The filepath for the index
     var $IndexFile;
+    /// The uri which is used for parsing module/view information from, may differ from $_SERVER['REQUEST_URI']
+    var $RequestURI;
 }
 
 ?>

@@ -166,7 +166,12 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $domain = getenv( 'HTTP_HOST' );
             $admin = getenv( 'SERVER_ADMIN' );
             $body .= "\n\nPlease go to the link below to activate your account:\n";;
-            $body .= "\nhttp://" .  $domain . '/user/activate/' . $login . '/' . $userIDHash;
+
+            $activationURL = "http://" .  $domain;
+            $activationURL .= eZSys::indexDir();
+            $activationURL .= '/user/activate/' . $login . '/' . $userIDHash;
+
+            $body .= "\n$activationURL";
             $body .= "\n\n\n";
             $mail->setReceiver( $email );
             $mail->setSender( $admin );

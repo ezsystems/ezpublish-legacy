@@ -87,12 +87,12 @@ $locale =& eZLocale::instance();
 
 eZDebug::addTimingPoint( "Script start" );
 
-// Remove url parameters
-ereg( "([^?]+)", eZSys::serverVariable( 'REQUEST_URI' ), $regs );
-eZSys::setServerVariable( 'REQUEST_URI', $regs[1] );
 include_once( "lib/ezutils/classes/ezuri.php" );
 
-$uri =& eZURI::instance( eZSys::serverVariable( 'REQUEST_URI' ) );
+eZDebug::writeDebug( eZSys::serverVariable( 'REQUEST_URI' ), 'REQUEST_URI' );
+eZDebug::writeDebug( eZSys::requestURI(), 'eZSys::requestURI()' );
+$uri =& eZURI::instance( eZSys::requestURI() );
+eZDebug::writeDebug( $uri->uriString(), '$uri' );
 $GLOBALS['eZRequestedURI'] =& $uri;
 
 include_once( "pre_check.php" );
@@ -131,7 +131,7 @@ while ( $moduleRunRequired )
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-    $node = eZContentObjectTreeNode::fetchByCRC(  $nodePathString  );
+    $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
 
     if ( get_class( $node ) == 'ezcontentobjecttreenode' )
     {
@@ -253,7 +253,7 @@ while ( $moduleRunRequired )
 if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 {
     $ini =& eZINI::instance();
-    $uri =& eZURI::instance( eZSys::serverVariable( 'REQUEST_URI' ) );
+    $uri =& eZURI::instance( eZSys::requestURI() );
 
     $redir_uri = $ini->variable( "DebugSettings", "DebugRedirection" );
     $automatic_redir = true;
@@ -276,16 +276,17 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         }
     }
 
+    $redirectURI = eZSys::indexDir();
+    eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
+    eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
     if ( $automatic_redir )
     {
-        $redirectURI = eZSys::indexDir();
         $redirectURI .= $module->redirectURI();
 
         header( "Location: " . $redirectURI );
     }
     else
     {
-        $redirectURI = eZSys::indexDir();
         $redirectURI .= $module->redirectURI();
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
@@ -315,7 +316,7 @@ if ( $show_page_layout )
     $tpl =& templateInit();
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
-    $moduleResult['uri'] = eZSys::serverVariable( 'REQUEST_URI' );
+    $moduleResult['uri'] = eZSys::requestURI();
 
     $tpl->setVariable( "module_result", $moduleResult );
 
@@ -377,7 +378,7 @@ if ( $show_page_layout )
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $moduleResult['path'];
-        $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::serverVariable( 'REQUEST_URI' );
+        $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::requestURI();
         $offset = 0;
         $sessionIDs = array ( 2,  // Sykepleierutdanning
                               4,  // Estetiske fag

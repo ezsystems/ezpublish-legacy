@@ -32,6 +32,8 @@ Changes from 2.9-3 to 2.9-4
 - Fixed bug for class discard function.
 - Added total price function to basket.
 - Added new template operator ezsys which can return attributes from the ezsys global object.
+- User registration email sends out correct url.
+- Redone the uri modification, the global uri object will now only contain the module, view and parameter values.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
@@ -63,5 +65,11 @@ eZ http:
 eZ image:
 - Added support for exec path for eZImageShell.
 
+eZ uri:
+- Passed URIs will get the first / removed if it exists and index will start at 0.
+- Added dropBase() function which will remove all values before the index, set the index to 0
+  and fix the URI string.
+
 eZ sys:
 - Improved the attribute support.
+- Fixed nVH detection and setup, it no longer modifies server variables.

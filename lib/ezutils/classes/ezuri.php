@@ -46,7 +46,7 @@
 
   This class also supports the attribute system.
 
-  \note The index starts at 1
+  \note The index starts at 0
   \todo Add support for modifiyin elements and outputting as an URI string
   \todo Add range checking
 */
@@ -67,9 +67,21 @@ class eZURI
     */
     function setURIString( $uri )
     {
+        if ( strlen( $uri ) > 0 and
+             $uri[0] == '/' )
+            $uri = substr( $uri, 1 );
         $this->URI = $uri;
-        $this->URIArray = explode( "/", $uri );
-        $this->Index = 1;
+        $this->URIArray = explode( '/', $uri );
+        $this->Index = 0;
+    }
+
+    /*!
+     \return the URI passed as to the object.
+     \note the URI will not include the starting \c /
+    */
+    function uriString()
+    {
+        return $this->URI;
     }
 
     /*!
@@ -77,7 +89,7 @@ class eZURI
     */
     function isEmpty()
     {
-        return $this->URI == "" or $this->URI == "/";
+        return $this->URI == '' or $this->URI == '/';
     }
 
     /*!
@@ -103,7 +115,7 @@ class eZURI
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
-            return implode( "/", $elements );
+            return implode( '/', $elements );
         else
             return $elements;
     }
@@ -113,7 +125,7 @@ class eZURI
     */
     function toBeginning()
     {
-        $this->Index = 1;
+        $this->Index = 0;
     }
 
     /*!
@@ -130,6 +142,20 @@ class eZURI
     function increase( $num = 1 )
     {
         $this->Index += $num;
+        if ( $this->Index < 0 )
+            $this->Index = 0;
+    }
+
+    /*!
+     Removes all elements below the current index, recreates the URI string
+     and sets index to 0.
+    */
+    function dropBase()
+    {
+        $elements = array_slice( $this->URIArray, $this->Index );
+        $this->URIArray = $elements;
+        $this->URI = implode( '/', $this->URIArray );
+        $this->Index = 0;
     }
 
     /*!
@@ -146,9 +172,9 @@ class eZURI
     */
     function base( $as_text = true )
     {
-        $elements = array_slice( $this->URIArray, 1, $this->Index - 1 );
+        $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )
-            return "/" . implode( "/", $elements );
+            return '/' . implode( '/', $elements );
         else
             return $elements;
     }
@@ -162,7 +188,7 @@ class eZURI
     */
     function matchBase( &$uri )
     {
-        if ( get_class( $uri ) != "ezuri" )
+        if ( get_class( $uri ) != 'ezuri' )
             return false;
         if ( count( $this->URIArray ) == 0 or
              count( $uri->URIArray ) == 0 )
@@ -180,7 +206,7 @@ class eZURI
     */
     function attributes()
     {
-        return array( "element", "base", "tail", "index" );
+        return array( 'element', 'base', 'tail', 'index', 'uri' );
     }
 
     /*!
@@ -188,7 +214,7 @@ class eZURI
     */
     function hasAttribute( $attr )
     {
-        return $attr == "element" or $attr == "base" or $attr == "tail" or $attr == "index";
+        return $attr == 'element' or $attr == 'base' or $attr == 'tail' or $attr == 'index' or $attr == 'uri';
     }
 
     /*!
@@ -198,14 +224,16 @@ class eZURI
     {
         switch ( $attr )
         {
-            case "element":
+            case 'element':
                 return $this->element();
-            case "tail":
+            case 'tail':
                 return $this->elements();
-            case "base":
+            case 'base':
                 return $this->base();
-            case "index":
+            case 'index':
                 return $this->index();
+            case 'uri':
+                return $this->uriString();
         }
         return null;
     }
@@ -215,12 +243,12 @@ class eZURI
     */
     function &instance( $uri = false )
     {
-        $uri_obj =& $GLOBALS["eZURIInstance"];
+        $uri_obj =& $GLOBALS['eZURIInstance'];
         if ( $uri )
         {
             $uri_obj = new eZURI( $uri );
         }
-        if ( get_class( $uri_obj ) != "ezuri" )
+        if ( get_class( $uri_obj ) != 'ezuri' )
         {
             $uri_obj = new eZURI( $uri );
         }
