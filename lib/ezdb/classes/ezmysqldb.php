@@ -112,7 +112,7 @@ class eZMySQLDB extends eZDBInterface
         }
         else
         {
-            $connection = @mysql_connect( $server, $user, $password );
+            $connection = @mysql_connect( $server, $user, $password, true );
         }
         $dbErrorText = mysql_error();
         $maxAttempts = $this->connectRetryCount();
