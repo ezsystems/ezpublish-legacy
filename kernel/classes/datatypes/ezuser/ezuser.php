@@ -1126,7 +1126,6 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         $access = 'no';
-
         if ( isset( $accessArray['*'] ) )
         {
             $moduleArray =& $accessArray['*'];

@@ -148,94 +148,17 @@ class eZContentObject extends eZPersistentObject
 
     function &attribute( $attr )
     {
-        if ( $attr == "current" or
-             $attr == 'versions' or
-             $attr == 'author_array' or
-             $attr == "class_name" or
-             $attr == "content_class" or
-             $attr == "owner" or
-             $attr == "contentobject_attributes" or
-             $attr == "related_contentobject_array" or
-             $attr == "related_contentobject_count" or
-             $attr == "can_read" or
-             $attr == "can_create" or
-             $attr == "can_create_class_list" or
-             $attr == "can_edit" or
-             $attr == "can_translate" or
-             $attr == "can_remove" or
-             $attr == "data_map" or
-             $attr == "default_language" or
-             $attr == "content_action_list" or
-             $attr == "class_identifier" or
-             $attr == 'remote_id'
-             )
-        {
-            if ( $attr == "current" )
-                return $this->currentVersion();
-            else if ( $attr == 'remote_id' )
-                return $this->remoteID();
-            else if ( $attr == 'versions' )
-                return $this->versions();
-            else if ( $attr == 'author_array' )
-                return $this->authorArray();
-            else if ( $attr == "class_name" )
-                return $this->className();
-            else if ( $attr == 'content_class' )
-                return $this->contentClass();
-            else if ( $attr == "owner" )
-                return $this->owner();
-            else if ( $attr == "can_read" )
-                return $this->canRead( $accessList );
-            else if ( $attr == "can_create" )
-                return $this->canCreate( $accessList );
-            else if ( $attr == "can_create_class_list" )
-                return $this->canCreateClassList();
-            else if ( $attr == "can_edit" )
-                return $this->canEdit( $accessList );
-            else if ( $attr == "can_translate" )
-                return $this->canTranslate( $accessList );
-            else if ( $attr == "can_remove" )
-                return $this->canRemove( $accessList );
-            else if ( $attr == "contentobject_attributes" )
-                return $this->contentObjectAttributes();
-            else if ( $attr == "related_contentobject_array" )
-                return $this->relatedContentObjectArray();
-            else if ( $attr == 'related_contentobject_count' )
-                return $this->relatedContentObjectCount();
-            else if ( $attr == "content_action_list" )
-                return $this->contentActionList();
-            else if ( $attr == "default_language" )
-                return $this->defaultLanguage();
-            else if ( $attr == "class_identifier" )
-                return $this->contentClassIdentifier();
-            else if ( $attr == "data_map" )
-            {
-                return $this->dataMap();
-            }
-        }
-        elseif ( $attr == "main_parent_node_id" )
-        {
-            return  $this->mainParentNodeID() ;
-        }
-        elseif ( $attr == 'assigned_nodes' )
+        if ( $attr == 'assigned_nodes' )
         {
             return $this->assignedNodes( true );
         }
-        elseif ( $attr == 'parent_nodes' )
+        else if ( $attr == 'parent_nodes' )
         {
             return $this->parentNodes( true, false );
         }
-        elseif ( $attr == 'main_node_id' )
+        else if ( $attr == 'remote_id' )
         {
-            return $this->mainNodeID();
-        }
-        elseif ( $attr == 'main_node' )
-        {
-            return $this->mainNode();
-        }
-        elseif ( $attr == 'name' )
-        {
-            return $this->name();
+            return $this->remoteID();
         }
         else
             return eZPersistentObject::attribute( $attr );
@@ -1982,17 +1905,28 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $parentNodes = $this->attribute( 'parent_nodes' );
-                                foreach ( $parentNodes as $parentNode )
+                                if ( count( $parent_nodes ) == 0 )
                                 {
-                                    $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
-                                    $path = $parentNode->attribute( 'path_string' );
-
-                                    $subtreeArray = $limitationArray[$key];
-                                    foreach ( $subtreeArray as $subtreeString )
+                                    if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                                     {
-                                        if ( strstr( $path, $subtreeString ) )
+                                        $access = 'allowed';
+                                    }
+                                }
+                                else
+                                {
+                                    foreach ( $parentNodes as $parentNode )
+                                    {
+                                        $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                        $path = $parentNode->attribute( 'path_string' );
+
+                                        $subtreeArray = $limitationArray[$key];
+                                        foreach ( $subtreeArray as $subtreeString )
                                         {
-                                            $access = 'allowed';
+                                            if ( strstr( $path, $subtreeString ) )
+                                            {
+                                                $access = 'allowed';
+                                                break;
+                                            }
                                         }
                                     }
                                 }

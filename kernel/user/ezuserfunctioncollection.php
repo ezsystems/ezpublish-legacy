@@ -183,7 +183,7 @@ class eZUserFunctionCollection
     function &fetchMemberOf( $id )
     {
         include_once( 'kernel/classes/ezrole.php' );
-        return array( 'result' => eZRole::fetchByUser( array( $id ) ) );
+        return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
     }
 }
 

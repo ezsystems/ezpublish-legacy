@@ -322,16 +322,20 @@ class eZRole extends eZPersistentObject
     /*!
      \static
      Returns the roles which the corresponds to the array of content object id's ( Users and user group id's ).
+
+     \param recursive, default false
     */
-    function &fetchByUser( $idArray )
+    function &fetchByUser( $idArray, $recursive = false )
     {
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
         $db =& eZDB::instance();
-        $groupString = implode( ',', $idArray );
 
-        $query = "SELECT DISTINCT ezrole.id,
+        if ( !$recursive )
+        {
+            $groupString = implode( ',', $idArray );
+            $query = "SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
                                       ezuser_role.limit_value
@@ -339,6 +343,27 @@ class eZRole extends eZPersistentObject
                            ezuser_role
                       WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                             ezuser_role.role_id = ezrole.id";
+        }
+        else
+        {
+            $userNodeIDArray = array();
+            foreach( $idArray as $id )
+            {
+                $nodeDefinition = eZContentObjectTreeNode::fetchByContentObjectID( $id );
+                $userNodeIDArray = array_merge( $nodeDefinition[0]->attribute( 'path_array' ), $userNodeIDArray );
+            }
+
+            $query = 'SELECT DISTINCT ezrole.id,
+                                      ezrole.name,
+                                      ezuser_role.limit_identifier,
+                                      ezuser_role.limit_value
+                      FROM ezrole,
+                           ezuser_role,
+                           ezcontentobject_tree as role_tree
+                      WHERE ezuser_role.contentobject_id = role_tree.contentobject_id AND
+                            ezuser_role.role_id = ezrole.id AND
+                            role_tree.node_id IN ( ' . implode( ',', $userNodeIDArray ) . ' )';
+        }
 
         $roleArray =& $db->arrayQuery( $query );
 

@@ -186,73 +186,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $node;
     }
 
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
     function &attribute( $attr )
     {
-        if ( $attr == 'name')
-        {
-            return $this->getName();
-        }
-        else if ( $attr == 'data_map')
-        {
-            return $this->dataMap();
-        }
-        else if ( $attr == 'object' )
-        {
-            $obj = $this->object();
-            return $obj;
-        }
-        else if ( $attr == 'subtree' )
-        {
-            return $this->subTree();
-        }
-        else if ( $attr == 'remote_id' )
+        if ( $attr == 'remote_id' )
         {
             return $this->remoteID();
-        }
-        else if ( $attr == 'contentobject_version_object' )
-        {
-            return $this->contentObjectVersionObject();
-        }
-        else if ( $attr == 'children' )
-        {
-            return $this->children();
-        }
-        else if ( $attr == 'children_count' )
-        {
-            return $this->childrenCount();
-        }
-        else if ( $attr == 'sort_array' )
-        {
-            return $this->sortArray();
-        }
-        else if ( $attr == 'path' )
-        {
-            return $this->fetchPath();
-        }
-        else if ( $attr == 'path_array' )
-        {
-            return $this->pathArray();
-        }
-        else if ( $attr == 'parent' )
-        {
-            return $this->fetchParent();
-        }
-        else if ( $attr == 'creator' )
-        {
-            return $this->creator();
-        }
-        else if ( $attr == 'url_alias' )
-        {
-            return $this->urlAlias();
-        }
-        else if ( $attr == 'url' )
-        {
-            return $this->url();
         }
         else if ( $attr == 'can_read' )
         {

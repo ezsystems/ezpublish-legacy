@@ -20,6 +20,8 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug of not updating pagelayout cache when using browse button to edit tool parameters.
 - Fixed bug of missing argument when use function validateinput() in content/translate.php
   http://ez.no/community/bug_reports/ezcontentobjectattribute_validateinput_missing_parameter_3_at_translation
+- Fixed bug when creating related objects and strict user rights.
+  http://ez.no/community/bug_reports/unable_to_create_related_object_without_very_relaxing_privileges
 
 *Library:
 

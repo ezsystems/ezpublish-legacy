@@ -212,7 +212,7 @@
 {/section}
 {/default}
 
-{section show=ne($node.node_id,5)}
+{section show=count( $policies )}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th colspan="3">

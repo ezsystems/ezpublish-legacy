@@ -133,7 +133,7 @@ class eZContentOperationCollection
 
     function setVersionStatus( $objectID, $versionNum, $status )
     {
-        $object =& eZContentObject::fetch( $objectID ); 
+        $object =& eZContentObject::fetch( $objectID );
 
         if ( !$versionNum )
         {

@@ -115,7 +115,8 @@ class eZContentObjectAssignmentHandler
     {
         $parameters = array_merge( array( 'group-name' => false,
                                           'default-variable-name' => false,
-                                          'specific-variable-name' => false ),
+                                          'specific-variable-name' => false,
+                                          'fallback-node-id' => false ),
                                    $parameters );
         if ( !$parameters['group-name'] and
              !$parameters['default-variable-name'] and
@@ -209,6 +210,17 @@ class eZContentObjectAssignmentHandler
                     $nodeAssignment->store();
                     ++$assignmentCount;
                 }
+            }
+
+            if ( $assignmentCount == 0 &&
+                 $parameters['fallback-node-id'] )
+            {
+                $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
+                                                                    'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
+                                                                    'parent_node' => $parameters['fallback-node-id'],
+                                                                    'is_main' => true ) );
+                $nodeAssignment->store();
+                ++$assignmentCount;
             }
         }
         return true;
