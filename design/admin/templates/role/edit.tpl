@@ -17,7 +17,7 @@
 {* Name. *}
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/role/edit' )}:</label>
-    <input class="box" type="text" name="NewName" value="{$role.name|wash}" />
+    <input class="box" id="roleName" type="text" name="NewName" value="{$role.name|wash}" />
 </div>
 
 {* Policies. *}
@@ -114,3 +114,15 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('roleName').select();
+        document.getElementById('roleName').focus();
+    }
+-->
+</script>
+{/literal}
