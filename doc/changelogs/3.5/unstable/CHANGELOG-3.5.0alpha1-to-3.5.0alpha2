@@ -39,3 +39,5 @@ Payment:
 - Fixed bug: fatal error when storing an attribute of the ezpackage datatype.
   (Merged from stable/3.4 rev. 8481)
   http://ez.no/community/bug_reports/fatal_error_in_ezpackagetype_php
+- Fixed call-time pass-by-reference issue in ezpaymentgatewaytype.php
+  http://ez.no/community/bug_reports/warning_when_creating_new_workflow
