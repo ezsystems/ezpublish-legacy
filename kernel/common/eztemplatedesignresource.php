@@ -352,6 +352,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
             if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
             {
+                var_dump($cacheMap['code']);
                 eval( "\$matchFile = " . $cacheMap['code'] . ";" );
             }
             else
@@ -521,7 +522,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 if ( $conditionKey == 'url_alias' )
                                     $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
                                 else
-                                    $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
+                                    $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and ( \$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) )";
 
 
                                 $condCount++;
