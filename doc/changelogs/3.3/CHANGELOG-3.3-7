@@ -32,6 +32,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed some PHP warnings in the template system's sequence function
 - Added extra check to see if there are any keywords at all when cleaning them up
   http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
+- Added checks to object removals for cases where the object already was deleted
+  http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
 
 *Library:
 
