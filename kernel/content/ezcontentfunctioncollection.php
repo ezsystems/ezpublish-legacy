@@ -217,19 +217,20 @@ class eZContentFunctionCollection
     function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $attributeFilter, $depth, $depthOperator, $mainNodeOnly )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+/*        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
         if ( $node === null )
         {
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        }
-        $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
-                                                      'ClassFilterType' => $class_filter_type,
-                                                      'ClassFilterArray' => $class_filter_array,
-                                                      'AttributeFilter' => $attributeFilter,
-                                                      'DepthOperator' => $depthOperator,
-                                                      'Depth' => $depth,
-                                                      'MainNodeOnly' => $mainNodeOnly ) );
+        } */
+        $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => null,
+                                                                        'ClassFilterType' => $class_filter_type,
+                                                                        'ClassFilterArray' => $class_filter_array,
+                                                                        'AttributeFilter' => $attributeFilter,
+                                                                        'DepthOperator' => $depthOperator,
+                                                                        'Depth' => $depth,
+                                                                        'MainNodeOnly' => $mainNodeOnly ),
+                                                                 $parentNodeID );
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

@@ -493,7 +493,10 @@ Workflow:
 - Fixed bug in ezcontentrelationtype's usage of
   ezcontentobjecttreenode::subtree(). (Merged from stable/3.4, rev. 7955)
   http://www.ez.no/community/bug_reports/objectrelationtype_and_fuzzy_match
-
+- Fixed bug with list_count fetch function in content so it allows array of
+  parent_node_id's as argument.
+  (Merged from stable/3.4 rev.7960)
+  http://ez.no/community/bug_reports/parent_node_id_array_use_inconsistent
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
