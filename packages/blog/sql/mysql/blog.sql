@@ -3571,8 +3571,8 @@ CREATE TABLE ezsite_data (
 
 
 
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.5');
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','12');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.3');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','7');
 
 
 
