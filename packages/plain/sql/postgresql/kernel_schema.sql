@@ -3041,5 +3041,3 @@ ALTER TABLE ONLY ezworkflow_group_link
 
 ALTER TABLE ONLY ezworkflow_process
     ADD CONSTRAINT ezworkflow_process1254_key PRIMARY KEY (id);
-
-

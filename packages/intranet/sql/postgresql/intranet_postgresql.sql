@@ -4512,3 +4512,8 @@ SELECT setval('ezworkflow_assign_s', max(id)) , 'ezworkflow_assign' as tablename
 SELECT setval('ezworkflow_event_s', max(id)) , 'ezworkflow_event' as tablename FROM ezworkflow_event;
 SELECT setval('ezworkflow_group_s', max(id)) , 'ezworkflow_group' as tablename FROM ezworkflow_group;
 SELECT setval('ezworkflow_process_s', max(id)) , 'ezworkflow_process' as tablename FROM ezworkflow_process;
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
+CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);

@@ -3314,6 +3314,79 @@ The item can viewed by using the URL below.</source>
     </message>
 </context>
 <context>
+    <name>design/standard/reference/ez</name>
+    <message>
+        <source>No generated documentation found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To create the reference documentation you must do the following step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download and install doxygen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate the documentation by running the following command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download doxygen from %doxygenurl.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class hierarchy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Compound list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Compound members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Introduction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Reference Documentation for eZ publish consists of multiple sections which
+each have a different view on the documentation. The sections can be accessed at
+menu on the top.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The documentation will give an overview of the API of eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All reference documentation has been made with %doxygenurl</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/role</name>
     <message>
         <source>Create policy for</source>
@@ -3624,6 +3697,10 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Average result returned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset statistics</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4411,11 +4488,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Fill out the details for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Manual install</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>&amp;percent% completed</source>
@@ -4447,6 +4524,10 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image processing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4852,7 +4933,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You can choose from either</source>
@@ -4872,7 +4953,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Configuration of sendmail is done on the server, consult your webhost.</source>
@@ -5168,7 +5249,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>The system check found some issues that needs to be resolve before the setup can continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Please have a look through the results below for more information on what the problems are.</source>
@@ -5794,27 +5875,27 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Welcome to the installation of eZ publish content management system and development framework. The setup wizard will now guide you through the installation of eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You will need to have information about a database server you can connect to. You need to have a database which you can use for eZ publish. MySQL and PostgreSQL are supported.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click &gt;&gt; to continue the installation of eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Your system cannot install eZ publish as it is. You need to do some modifications. Click &gt;&gt; to see what you have to do.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Help on each installation step will be presented here.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The summary area below will contain information of selected settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the installation.</source>
@@ -5822,6 +5903,73 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Information on how to install eZ publish manually is available here.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <comment>back button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <comment>Refresh button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fill out the details for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update database list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system check found some issues that need to be resolved before the setup can continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Requirements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>recommended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This section will contain information/help about each step in the setup wizard.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The summary section below will contain information about configured settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information about how to set up eZ publish manually is available %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <comment>manual installation link</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8339,6 +8487,13 @@ your account.</source>
     </message>
 </context>
 <context>
+    <name>kernel/contentclass</name>
+    <message>
+        <source>New %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>kernel/error</name>
     <message>
         <source>Error</source>
@@ -8390,6 +8545,13 @@ your account.</source>
     </message>
     <message>
         <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/reference</name>
+    <message>
+        <source>Reference documentation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

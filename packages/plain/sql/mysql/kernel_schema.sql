@@ -1185,3 +1185,10 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
+
+CREATE TABLE ezsite_data (
+  id int(11) auto_increment NOT NULL,
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL default '',
+  PRIMARY KEY (id)
+);
