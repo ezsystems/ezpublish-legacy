@@ -212,7 +212,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            eval( "\$matchFile = " . $GLOBALS['eZOverrideTemplateCacheMap']['/' . $path] . ";" );
+            if ( $GLOBALS['eZOverrideTemplateCacheMap']['/' . $path]['eval'] == 1 )
+            {
+                eval( "\$matchFile = " . $GLOBALS['eZOverrideTemplateCacheMap']['/' . $path]['code'] . ";" );
+            }
+            else
+            {
+                $matchFile =& $GLOBALS['eZOverrideTemplateCacheMap']['/' . $path];
+            }
             $match['file'] = $matchFile;
         }
         else
@@ -392,6 +399,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         }
                     }
 
+                    $phpCode .= "array ( 'eval' => 1, 'code' => ";
+
                     $phpCode .= "'";
 
                     foreach ( array_keys( $matchConditionArray ) as $key )
@@ -406,11 +415,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         $phpCode .= ')';
                     }
 
-                    $phpCode .= "'";
+                    $phpCode .= "' )";
                 }
                 else
                 {
-                    $phpCode .= "'\\'". $matchFileArray[$matchKey]['base_dir'] . $matchKey . "\\''";
+                    $phpCode .= "'". $matchFileArray[$matchKey]['base_dir'] . $matchKey . "'";
                     // Plain matching without custom override
 //                    $phpCode .= "case  \"$matchKey\":\n    {\n
 //                           return '" .
@@ -430,9 +439,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
 //            $phpCode .= "}\n";
 
-            $phpCode .= "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
-            $phpCode .= '  eval( "\$return = " . $GLOBALS[\'eZOverrideTemplateCacheMap\'][$matchFile] . ";" );' . "\n";
-            $phpCode .= '  return $return;' . "\n}\n\n";
+//            $phpCode .= "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
+//            $phpCode .= '  eval( "\$return = " . $GLOBALS[\'eZOverrideTemplateCacheMap\'][$matchFile] . ";" );' . "\n";
+//            $phpCode .= '  return $return;' . "\n}\n\n";
 
             $phpCache->addCodePiece( $phpCode );
             if ( $phpCache->store() == true )
