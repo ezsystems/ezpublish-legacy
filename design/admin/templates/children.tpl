@@ -151,6 +151,11 @@ function toggleCheckboxes( formname, checkboxname )
          item_limit=$number_of_items}
 </div>
 
+{* Else: there are no children. *}
+{section-else}
+    <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}
+{/section}
+
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
 <div class="block">
@@ -163,25 +168,18 @@ function toggleCheckboxes( formname, checkboxname )
     {/section}
     </div>
 
-    {* Update priorities button *}
-    {section show=eq( $node.sort_array[0][0], 'priority' )}
     <div class="right">
-        {section show=$node.can_edit}
+    {* Update priorities button *}
+    {section show=and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/admin/node/view/full')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
-        {section-else}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/admin/node/view/full')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/section}
-    </div>
+    {section-else}
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/admin/node/view/full')}" title="{'You can not update the priorities because you do not have permissions to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
+    </div>
+
     <div class="break"></div>
 </div>
 
-{* Else: there are no children, but we still need to start the controlbar div. *}
-{section-else}
-            <p>{'There are no items inside %node_name.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node.name|wash ) )}
-
-    <div class="controlbar">
-{/section}
 
 {* The "Create new here" thing: *}
 <div class="block">
@@ -232,7 +230,7 @@ function toggleCheckboxes( formname, checkboxname )
     title='You can not set the sorting method for the current location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )
     disabled=' disabled="disabled"' }
 
-{section show=$node.can_edit}
+{section show=and( $node.can_edit, $children_count )}
     {set title='Use these controls to set the sorting method for the items within the current location.'|i18n( 'design/admin/node/view/full' )}
     {set disabled=''}
 {/section}
