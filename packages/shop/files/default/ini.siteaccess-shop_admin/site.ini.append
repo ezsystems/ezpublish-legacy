@@ -1,6 +1,6 @@
 
 [SiteSettings]
-LoginPage=embeded
+LoginPage=custom
 SiteURL=myuser.wy.dvh1.ez.no
 
 [SiteAccessSettings]

@@ -22,6 +22,3 @@ SiteURL=corporate.wy.dvh1.ez.no
 
 [SiteAccessSettings]
 RequireUserLogin=false
-
-[DebugSettings]
-DebugOutput=disabled##!

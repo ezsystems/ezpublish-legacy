@@ -1,7 +1,7 @@
 
 [SiteSettings]
 LoginPage=embeded
-SiteURL=shop.wy.dvh1.ez.no
+SiteURL=myuser.wy.dvh1.ez.no
 
 [SiteAccessSettings]
 RequireUserLogin=false

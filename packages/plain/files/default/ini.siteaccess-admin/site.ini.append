@@ -15,12 +15,3 @@ RequireUserLogin=true
 
 [DesignSettings]
 SiteDesign=admin
-
-[DatabaseSettings]
-DatabasePluginPath=
-# Use either ezmysql or ezpostgresql
-DatabaseImplementation=ezmysql
-Server=localhost
-User=wy
-Password=wy
-Database=wy

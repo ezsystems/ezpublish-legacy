@@ -22,4 +22,4 @@ SiteDesign=news
 VarDir=var/news
 
 [DebugSettings]
-DebugOutput=disabled
+DebugOutput=enabled
