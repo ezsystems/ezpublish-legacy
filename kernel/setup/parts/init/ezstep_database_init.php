@@ -58,9 +58,9 @@ function prepareSqlQuery( &$file, &$buffer )
 //            eZDebug::writeDebug( $sqlQuery, "read data" );
 
             // Split the query into an array
-            $sqlQueryArray = preg_split( '/;$/m', $sqlQuery );
+            $sqlQueryArray = preg_split( '/;\n/m', $sqlQuery );
 
-            if ( preg_match( '/;$/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
+            if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
             {
                 $buffer = '';
             }

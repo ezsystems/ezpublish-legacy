@@ -37,6 +37,9 @@ Shop:
 - Fixed problem with updating prices in basket after user login and if user has discounts.
 - Fixed bug with missing include in wrapping workflow event type.
 
+Setup tool:
+- Fixed problem with correct separating for queries.
+
 Browser:
 - Made sure children are indented one level to it's parent in the list.
 - Added section information to list.
