@@ -94,7 +94,7 @@ class eZDefaultShopAccountHandler
     {
         $user =& $order->user();
         $userObject =& $user->attribute( "contentobject" );
-        $dataMap =& $object->dataMap();
+        $dataMap =& $userObject->dataMap();
 
         return array( 'first_name' => $dataMap['first_name']->content(),
                       'last_name' => $dataMap['last_name']->content(),
