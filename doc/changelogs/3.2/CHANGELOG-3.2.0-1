@@ -162,6 +162,7 @@ eZ XML:
 - Added convenience functions for fetching the text content and attribute value of a child
   element by naming it.
 - Added convenience function to fetch the children and first child of a named child element.
+- Added convenience function to fetch the text content of all child elements with a given name.
 
 eZ i18n:
 - Added support for Unicode encoding which is an array with Unicode values. Conversion from

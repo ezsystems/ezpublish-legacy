@@ -308,7 +308,7 @@ class eZDOMNode
     }
 
     /*!
-     \returns An array with elements that is named \a $name.
+     \return an array with elements that is named \a $name.
      \sa elementByName
     */
     function &elementsByName( $name )
@@ -320,6 +320,24 @@ class eZDOMNode
             if ( $child->name() == $name )
             {
                 $elements[] =& $child;
+            }
+        }
+        return $elements;
+    }
+
+    /*!
+     \return an array with text contents taken from all child elements with the name \a $name.
+     \sa elementsByName, textContent
+    */
+    function &elementsTextContentByName( $name )
+    {
+        $elements = array();
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->name() == $name )
+            {
+                $elements[] =& $child->textContent();
             }
         }
         return $elements;
