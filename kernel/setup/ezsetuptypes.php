@@ -163,7 +163,7 @@ function eZSetupForumINISettings( $siteType, $parameters, $isAdmin )
 function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
 {
     $settings = array();
-    if ( $siteType == 'intranet' )
+    if ( $siteType == 'intranet' or $isAdmin )
     {
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'true' ) );
         $settings['SiteSettings'] = array( 'LoginPage' => 'custom' );
