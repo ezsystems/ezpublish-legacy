@@ -39,6 +39,7 @@ include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezrole.php' );
+include_once( 'kernel/classes/ezpreferences.php' );
 
 $http =& eZHTTPTool::instance();
 
@@ -46,7 +47,20 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
 
 $offset = $Params['Offset'];
-$limit = 15;
+
+if( eZPreferences::value( 'admin_role_list_limit' ) )
+{
+    switch( eZPreferences::value( 'admin_role_list_limit' ) )
+    {
+        case '2': { $limit = 25; } break;
+	case '3': { $limit = 50; } break;
+	default:  { $limit = 10; } break;
+    }
+}
+else 
+{
+    $limit = 10;
+}
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
@@ -89,7 +103,8 @@ $tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( "limit", $limit );
+$tpl->setVariable( 'limit', $limit );
+
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
