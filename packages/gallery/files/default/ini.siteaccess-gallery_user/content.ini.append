@@ -1,0 +1,7 @@
+[VersionView]
+AvailableSiteDesignList[]
+AvailableSiteDesignList[]=gallery
+DefaultPreviewDesign=gallery
+
+[ImageSettings]
+DefaultEditAlias=small_h

@@ -1,0 +1,35 @@
+# NOTE: The same settings are present in gallery_admin
+# Remember to update image.ini.append in gallery_admin if this is updated
+
+[AliasSettings]
+AliasList[]
+AliasList[]=logo
+AliasList[]=small_h
+AliasList[]=small_v
+AliasList[]=navigator
+AliasList[]=large
+
+[logo]
+Reference=
+Filters[]=geometry/scaledownonly=250;58
+
+[small_h]
+Reference=
+Filters[]
+Filters[]=geometry/scaleheight=130
+
+[small_v]
+Reference=
+Filters[]
+Filters[]=geometry/scalewidth=150
+
+[navigator]
+Reference=
+Filters[]
+Filters[]=geometry/scaleheight=100
+Filters[]=colorspace/gray
+
+[large]
+Reference=
+Filters[]
+Filters[]=geometry/scaledownonly=450;450
