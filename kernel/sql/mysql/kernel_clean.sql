@@ -875,7 +875,6 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession (session_key, expiration_time, data) VALUES ('173dd278b9413868ad2c6715a7e0553d',1039183390,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 
 #
 # Table structure for table 'eztask'

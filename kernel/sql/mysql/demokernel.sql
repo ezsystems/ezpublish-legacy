@@ -12128,9 +12128,6 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession VALUES ('173dd278b9413868ad2c6715a7e0553d',1039181029,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"7\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('9ad8f15729b40ed612a4f9c4cea3d3d0',1039181068,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"7\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-
 #
 # Table structure for table 'eztask'
 #
