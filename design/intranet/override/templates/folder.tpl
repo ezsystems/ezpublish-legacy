@@ -105,6 +105,9 @@
 </form>
 
 {/section}
+
+{/section}
+
 </div>
 
 {/default}
