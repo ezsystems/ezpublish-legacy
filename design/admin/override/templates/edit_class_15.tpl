@@ -20,6 +20,12 @@
     </div>
 
     <div class="block">
+    <label>Site URL:</label><div class="labelbreak"></div>
+        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[6].id}" />
+        {attribute_edit_gui attribute=$object.data_map.siteurl}
+    </div>
+
+    <div class="block">
     <label>Logo:</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[2].id}" />
         {attribute_edit_gui attribute=$object.data_map.image}
@@ -44,7 +50,7 @@
     </div>
 
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[4].id}" />
-    <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$content_attributes[4].id}" value="corporate_package"  />
+    <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$content_attributes[4].id}" value="forum_package"  />
     
     <br/>
     

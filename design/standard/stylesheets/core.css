@@ -391,6 +391,17 @@ div.setup_element
     width: 170px;
 }
 
+div.package_element
+/* Used to place packages with thumbnail view. */
+{
+    float: left;
+    display: block;
+    padding-right: 1ex;
+    padding-left: 0px;
+    padding-top: 5px;
+    clear: right;
+}
+
 div.element
 /* Used to position several elements next to each other horizontally. NOT on regular buttons. */
 {
