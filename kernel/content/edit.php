@@ -64,6 +64,7 @@ else if ( $http->hasPostVariable( 'NewButton' ) )
     return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
 }
 
+$ini =& eZINI::instance();
 if ( is_numeric( $EditVersion ) )
 {
     $version =& $obj->version( $EditVersion );
@@ -71,6 +72,10 @@ if ( is_numeric( $EditVersion ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
+}
+else if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
+{
+    $version =& $obj->currentVersion( true );
 }
 else
 {
