@@ -135,6 +135,17 @@ function eZSessionGarbageCollector()
 function eZRegisterSessionFunctions()
 {
     session_module_name( 'user' );
+    $ini =& eZIni::instance();
+    if ( $ini->variable( 'Session', 'SessionNameHandler' ) == 'custom' )
+    {
+        $sessionName = $ini->variable( 'Session', 'SessionNamePrefix' );
+        if ( $ini->variable( 'Session', 'SessionNamePerSiteAccess' ) == 'enabled' )
+        {
+            $access = $GLOBALS['eZCurrentAccess'];
+            $sessionName .=  $access['name'];
+        }
+        session_name( $sessionName );
+    }
     session_set_save_handler(
         'ezsessionopen',
         'ezsessionclose',
