@@ -630,6 +630,9 @@ Workflow:
   http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
 - Fixed bug: eZContentObjectTreeNode::subTree() - could not fetch nodes without limitations
   http://ez.no/community/bug_reports/3_5alpha1_ezcontentobjecttreenode_subtree_could_not_fetch_nodes_without_limitations
+- Fixed bug: fatal error occurs when null $nodeID is passed to subTreeCount().
+  (Merged from stable/3.4 rev. 8403)
+  http://ez.no/community/bug_reports/fatal_error_ezcontentobjecttreenode_subtreecount
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

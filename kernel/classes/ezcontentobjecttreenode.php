@@ -1418,6 +1418,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function subTreeCount( $params = array(), $nodeID = 0 )
     {
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+            return 0;
+
         if ( $nodeID == 0 )
         {
             $nodeID = $this->attribute( 'node_id' );
