@@ -18,7 +18,7 @@
 </tr>
 </table>
 {section-else}
-<p>{'There is no file available.'|i18n( 'design/standard/content/datatype' )}</p>
+<p>{'There is no file.'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
 {section show=$attribute.content}

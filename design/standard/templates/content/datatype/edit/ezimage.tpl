@@ -21,7 +21,7 @@
 </tr>
 </table>
 {section-else}
-<p>{'There is no image available.'|i18n( 'design/standard/content/datatype' )}</p>
+<p>{'There is no image file.'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
 {section show=$attribute_content.original.is_valid}
