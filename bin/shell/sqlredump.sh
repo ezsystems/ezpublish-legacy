@@ -200,8 +200,10 @@ else
 	echo "Importing schema SQL file $sql"
 	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
 	if cat .psql.log | grep 'ERROR:' &>/dev/null; then
-	    echo "Postgresql import from schema $sql failed"
+	    echo "`$SETCOLOR_FAILURE`Postgresql import from schema $sql failed`$SETCOLOR_NORMAL`"
+	    echo `$SETCOLOR_FAILURE`
 	    cat .psql.log
+	    echo `$SETCOLOR_NORMAL`
 	    rm .psql.log
 	    exit 1
 	fi
@@ -210,8 +212,10 @@ else
     echo "Importing SQL file $SQLFILE"
     psql $USERARG $USERARGVAL "$DBNAME" < "$SQLFILE" &>.psql.log || exit 1
     if cat .psql.log | grep 'ERROR:' &>/dev/null; then
-	echo "Postgresql import from $sql failed"
+	echo "`$SETCOLOR_FAILURE`Postgresql import from $sql failed`$SETCOLOR_NORMAL`"
+	echo `$SETCOLOR_FAILURE`
 	cat .psql.log
+	echo `$SETCOLOR_NORMAL`
 	rm .psql.log
 	exit 1
     fi
@@ -220,8 +224,10 @@ else
 	echo "Importing SQL file $sql"
         psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
         if cat .psql.log | grep 'ERROR:' &>/dev/null; then
-            echo "Postgresql import from $sql failed"
+            echo "`$SETCOLOR_FAILURE`Postgresql import from $sql failed`$SETCOLOR_NORMAL`"
+	    echo `$SETCOLOR_FAILURE`
             cat .psql.log
+	    echo `$SETCOLOR_NORMAL`
             rm .psql.log
             exit 1
         fi
