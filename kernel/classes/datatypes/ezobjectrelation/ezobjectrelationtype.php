@@ -104,7 +104,10 @@ class eZObjectRelationType extends eZDataType
         if ( $http->hasPostVariable( $postVariableName ) )
         {
             $relatedObjectID =& $http->postVariable( $postVariableName );
-            $contentObjectAttribute->setAttribute( 'data_int', $relatedObjectID );
+            if ( $relatedObjectID === '' ) // avoid storing (empty) string to the integer attribute
+                $contentObjectAttribute->setAttribute( 'data_int', null );
+            else
+                $contentObjectAttribute->setAttribute( 'data_int', $relatedObjectID );
             $haveData = true;
         }
         $fuzzyMatchVariableName = $base . "_data_object_relation_fuzzy_match_" . $contentObjectAttribute->attribute( "id" );

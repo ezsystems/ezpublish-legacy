@@ -268,6 +268,9 @@ class eZPersistentObject
             $insert_object = false;
 
         $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
+        // If we filter out some of the fields we need to intersect it with $use_fields
+        if ( is_array( $fieldFilters ) )
+            $use_fields = array_intersect( $use_fields, $fieldFilters );
         $doNotEscapeFields = array();
         $changedValueFields = array();
         $numericDataTypes = array( 'integer', 'float', 'double' );
@@ -375,6 +378,8 @@ class eZPersistentObject
             // We include compat.php here because of the ezsprintf function call below
             require_once( 'lib/compat.php' );
 
+            // Note: When inserting we cannot hone the $fieldFilters parameters
+
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
             $use_field_names = $use_fields;
             if ( $db->useShortNames() )
@@ -436,6 +441,9 @@ class eZPersistentObject
             require_once( 'lib/compat.php' );
 
             $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
+            // If we filter out some of the fields we need to intersect it with $use_fields
+            if ( is_array( $fieldFilters ) )
+                $use_fields = array_intersect( $use_fields, $fieldFilters );
             $use_field_names = array();
             foreach ( $use_fields as $key )
             {
@@ -942,9 +950,9 @@ function definition()
         $def =& $this->definition();
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["function_attributes"] ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["function_attributes"] ) ) );
         if ( isset( $def["functions"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["functions"] ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
         return $attrs;
     }
 

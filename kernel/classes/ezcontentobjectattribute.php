@@ -93,7 +93,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                                               'required' => true ),
                                          "sort_key_int" => array( 'name' => "SortKeyInt",
                                                                   'datatype' => 'integer',
-                                                                  'default' => '',
+                                                                  'default' => 0,
                                                                   'required' => true ),
                                          "sort_key_string" => array( 'name' => "SortKeyString",
                                                                      'datatype' => 'string',

@@ -515,7 +515,7 @@ for translation in *; do
 		exit 1
 	    fi
 	else
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -d "$dir/design" "$translation" &>/dev/null )
+	    (cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
 	    if [ $? -ne 0 ]; then
 		echo
 		echo "Error updating translations"
@@ -542,13 +542,13 @@ cd $DEST/share/translations
 for translation in *; do
     if [ -z $SKIPTRANSLATION ]; then
 	if [ "$translation" == "untranslated" ]; then
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -u -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
 		echo "Error removing obsolete entries"
 		exit 1
 	    fi
 	else
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no "$translation" -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
 		echo "Error removing obsolete entries"
 		exit 1
