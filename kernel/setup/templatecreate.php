@@ -183,7 +183,8 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
     {
         case 'DefaultCopy' :
         {
-            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+            $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
             $fp = fopen( $fileName, 'r' );
             if ( $fp )
@@ -274,7 +275,8 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
     {
         case 'DefaultCopy' :
         {
-            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+            $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
             $fp = fopen( $fileName, 'r' );
             if ( $fp )
@@ -323,7 +325,8 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
     {
         case 'DefaultCopy' :
         {
-            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+            $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
             $fp = fopen( $fileName, 'r' );
             if ( $fp )
@@ -368,7 +371,8 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
     {
         case 'DefaultCopy' :
         {
-            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+            $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
             $fp = fopen( $fileName, 'r' );
             if ( $fp )
