@@ -84,7 +84,7 @@ class eZINI
     /*!
       Initialization of object;
     */
-    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null )
+    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
         $this->Charset = "utf8";
         if ( $fileName == "" )
@@ -104,6 +104,12 @@ class eZINI
         $this->FileName = $fileName;
         $this->RootDir = $rootDir;
         $this->UseCache = $useCache;
+        $this->UseLocalOverrides = $useLocalOverrides;
+
+        if ( $this->UseLocalOverrides == true )
+        {
+            $this->LocalOverrideDirArray = $GLOBALS["eZINIOverrideDirList"];
+        }
 
         $this->load();
     }
@@ -272,6 +278,7 @@ class eZINI
     */
     function loadCache( $reset = true )
     {
+        eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
         if ( $reset )
             $this->reset();
         $cachedDir = "var/cache/ini/";
@@ -286,7 +293,11 @@ class eZINI
 
         $this->findInputFiles( $inputFiles, $iniFile );
         if ( count( $inputFiles ) == 0 )
+        {
+            eZDebug::accumulatorStop( 'ini' );
             return false;
+        }
+
 
         $md5Files = array();
         foreach ( $inputFiles as $inputFile )
@@ -359,6 +370,8 @@ class eZINI
             include_once( 'lib/ezutils/classes/ezlog.php' );
             eZLog::writeStorageLog( $fileName, $cachedDir );
         }
+
+        eZDebug::accumulatorStop( 'ini' );
     }
 
 
@@ -742,27 +755,61 @@ class eZINI
     /*!
      \return the override directories, if no directories has been set "override" is returned.
 
-     The override directories are relative to the rootDir().
+    The override directories are returned as an array of arrays. The first
+    value in the array is the override directory, the second is a boolean which
+    defines if the directory is relative to the rootDir() or not. If the second value
+    is false the override dir is relative, true means that the override dir is relative
+    to the eZ publish root directory.
+    The third value of the array will contain the identifier of the override, if it exists.
+    Identifiers are useful if you want to overwrite the current override setting.
     */
     function overrideDirs()
     {
-        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+        if ( $this->UseLocalOverrides == true )
+            $dirs =& $this->LocalOverrideDirArray;
+        else
+            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+
         if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( array( "override", false ) );
+            $dirs = array( array( "override", false, false ) );
         return $dirs;
     }
 
     /*!
      Appends the override directory \a $dir to the override directory list.
+     If global dir is set top
     */
-    function prependOverrideDir( $dir, $globalDir = false )
+    function prependOverrideDir( $dir, $globalDir = false, $identifier = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
-        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+
+        if ( $this->UseLocalOverrides == true )
+            $dirs =& $this->LocalOverrideDirArray;
+        else
+            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+
         if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( array( 'override', false ) );
-        $dirs = array_merge( array( array( $dir, $globalDir ) ), $dirs );
+            $dirs = array( array( 'override', false, false ) );
+
+        // Check if the override with the current identifier already exists
+        $overrideOverwritten = false;
+        if ( $identifier !== false )
+        {
+            foreach ( array_keys( $dirs ) as $dirKey )
+            {
+                if ( $dirs[$dirKey][2] == $identifier )
+                {
+                    $dirs[$dirKey][0] = $dir;
+                    $dirs[$dirKey][1] = $globalDir;
+                    $overrideOverwritten = true;
+                }
+            }
+        }
+
+        if ( $overrideOverwritten == false )
+            $dirs = array_merge( array( array( $dir, $globalDir, $identifier ) ), $dirs );
+
         $this->CacheFile = false;
      }
 
@@ -771,13 +818,34 @@ class eZINI
     */
     function appendOverrideDir( $dir, $globalDir = false )
     {
-        print( $dir );
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
-        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+
+        if ( $this->UseLocalOverrides == true )
+            $dirs =& $this->LocalOverrideDirArray;
+        else
+            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+
         if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( 'override' );
-        $dirs[] = array( $dir, $globalDir );
+            $dirs = array( 'override', false, false );
+
+        // Check if the override with the current identifier already exists
+        $overrideOverwritten = false;
+        if ( $identifier !== false )
+        {
+            foreach ( array_keys( $dirs ) as $dirKey )
+            {
+                if ( $dirs[$dirKey][2] == $identifier )
+                {
+                    $dirs[$dirKey][0] = $dir;
+                    $dirs[$dirKey][1] = $globalDir;
+                    $overrideOverwritten = true;
+                }
+            }
+        }
+
+        if ( $overrideOverwritten == false )
+            $dirs[] = array( $dir, $globalDir, $identifier = false );
         $this->CacheFile = false;
     }
 
@@ -913,18 +981,20 @@ class eZINI
     /*!
       \static
       Returns the current instance of the given .ini file
+      If $useLocalOverrides is set to true you will get a copy of the current overrides,
+      but changes to the override settings will not be global.
     */
-    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null )
+    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
-        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName"];
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
+        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
 
         $class =& get_class( $impl );
         if ( $class != "ezini" )
         {
             $isLoaded = false;
 
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache );
+            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
 
             $isLoaded = true;
         }
@@ -952,6 +1022,15 @@ class eZINI
 
     /// Stores the path and filename of the cache file
     var $CacheFile;
+
+    /// true if cache should be used
+    var $UseCache;
+
+    /// true if the overrides should only be changed locally
+    var $UseLocalOverrides;
+
+    /// Contains the override dirs, if in local mode
+    var $LocalOverrideDirArray;
 }
 
 ?>
