@@ -93,6 +93,9 @@ eztc.php:
 - Fixed bug  of node_url missing in design/standard/templates/node/view/line.tpl
   Merged from stable/3.4 rev. 6855.
   http://ez.no/community/bug_reports/node_url_missing_in_design_standard_templates_node_view_line_tpl
+- Fixed bug with missing includes in ezcontentobjecttreenode class.
+  Merged from stable/3.4 rev. 6858.
+  http://ez.no/community/bug_reports/error_when_deleting_subtree_in_3_4
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
   enables compression of compiled template files.
