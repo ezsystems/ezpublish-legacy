@@ -94,6 +94,9 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Manually merged from stable/3.4 rev. 10261).
 - Changed workflow mechanism so that the before and after connection types can
   be specified in the workflow.ini.
+- Fixed bug in archive handler in doWrite() method, the length parameter was
+  not checked for false and would in some cases not write any data at all.
+  (Manually merged from stable/3.4 (3.4.5) rev. 10273)
 
 *Library:
 
