@@ -150,10 +150,73 @@ class eZPolicy extends eZPersistentObject
     {
         if ( !isset( $this->Limitations ) )
         {
-            $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
-                                                                null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
-                                                                true );
-            $this->Limitations =& $limitations;
+
+            $ini =& eZINI::instance();
+            $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+//            $enableCaching = false;
+            $loadFromDb = true;
+            $policyID = $this->attribute( 'id' );
+            if ( $enableCaching )
+            {
+                $http =& eZHTTPTool::instance();
+
+                $hasLimitationsInCache = $http->hasSessionVariable( 'userLimitations' );
+                if ( $hasLimitationsInCache )
+                {
+                    $limitationsForAllUserPolicies =& $http->sessionVariable( 'userLimitations' );
+                    $limitationsForCurrentPolicy =& $limitationsForAllUserPolicies["$policyID"];
+                    if ( count( $limitationsForCurrentPolicy ) > 0 )
+                    {
+                        $limitations = array();
+                        foreach ( array_keys( $limitationsForCurrentPolicy ) as $key )
+                        {
+                            $limitationRow = $limitationsForCurrentPolicy[$key];
+                            $limitations[] =& new eZPolicyLimitation( $limitationRow );
+                        }
+                        eZDebug::writeDebug( $limitations, "using cached  limitations for policy_id=$policyID" );
+                        $this->Limitations =& $limitations;
+                        $loadFromDb = false;
+                    }
+                }
+
+            }
+            if ( $loadFromDb )
+            {
+                $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
+                                                                     null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
+                                                                     true );
+                if ( $enableCaching )
+                {
+                    $limitationsForCurrentPolicy = array();
+                    foreach ( array_keys( $limitations ) as $key )
+                    {
+                        $limitation =& $limitations[$key];
+                        $limitationAttributes = array();
+                        $limitationAttributes['id'] = $limitation->attribute( 'id' );
+                        $limitationAttributes['policy_id'] = $limitation->attribute( 'policy_id' );
+                        $limitationAttributes['identifier'] = $limitation->attribute( 'identifier' );
+                        $limitationAttributes['role_id'] = $limitation->attribute( 'role_id' );
+                        $limitationAttributes['module_name'] = $limitation->attribute( 'module_name' );
+                        $limitationAttributes['function_name'] = $limitation->attribute( 'function_name' );
+                        $limitationsForCurrentPolicy[] = $limitationAttributes;
+                    }
+                    $http =& eZHTTPTool::instance();
+                    if ( !$http->hasSessionVariable( 'userLimitations' ) )
+                    {
+                        $limitationArray =& $http->sessionVariable( 'userLimitations' );
+                    }
+                    else
+                    {
+                        $limitationArray = array();
+                    }
+
+                    eZDebug::writeDebug(  $limitationArray, "using limitations from db for policy_id=$policyID" );
+                    $limitationArray["$policyID"] = $limitationsForCurrentPolicy;
+
+                }
+
+                $this->Limitations =& $limitations;
+            }
         }
 
         return $this->Limitations;

@@ -219,12 +219,73 @@ class eZPolicyLimitation extends eZPersistentObject
 
     function & valueList()
     {
+        eZDebug::writeDebug( "valueList call" );
         if ( !isset( $this->Values ) )
         {
-            $values =& eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
-                                                              null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
-                                                               true);
-            $this->Values =& $values;
+
+            $ini =& eZINI::instance();
+            $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+//            $enableCaching = false;
+            $loadFromDb = true;
+            $limitationID = $this->attribute( 'id' );
+            if ( $enableCaching )
+            {
+                $http =& eZHTTPTool::instance();
+
+                $hasLimitationValuesInCache = $http->hasSessionVariable( 'userLimitationValues' );
+                if ( $hasLimitationValuesInCache )
+                {
+                    $limitationValuesForAllUserLimitations =& $http->sessionVariable( 'userLimitationValues' );
+                    $limitationValuesForCurrentLimitation =& $limitationValuesForAllUserLimitations["$limitationID"];
+                    if ( count( $limitationValuesForCurrentLimitation ) > 0 )
+                    {
+                        $limitationValues = array();
+                        foreach ( array_keys( $limitationValuesForCurrentLimitation ) as $key )
+                        {
+                            $limitationValueRow = $limitationValuesForCurrentLimitation[$key];
+                            $limitationValues[] =& new eZPolicyLimitationValue( $limitationValueRow );
+                        }
+                        eZDebug::writeDebug( $limitationValues, "using cached  limitationValues for limitation_id=$limitationID" );
+                        $this->Values =& $limitationValues;
+                        $loadFromDb = false;
+                    }
+                }
+
+            }
+            if ( $loadFromDb )
+            {
+                $values =& eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
+                                                                null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
+                                                                true);
+                if ( $enableCaching )
+                {
+                    $limitationValues =& $values;
+                    $limitationValuesForCurrentLimitation = array();
+                    foreach ( array_keys( $limitationValues ) as $key )
+                    {
+                        $limitationValue =& $limitationValues[$key];
+                        $limitationValueAttributes = array();
+                        $limitationValueAttributes['id'] = $limitationValue->attribute( 'id' );
+                        $limitationValueAttributes['limitation_id'] = $limitationValue->attribute( 'limitation_id' );
+                        $limitationValueAttributes['value'] = $limitationValue->attribute( 'value' );
+                        $limitationValuesForCurrentLimitation[] = $limitationValueAttributes;
+                    }
+                    $http =& eZHTTPTool::instance();
+                    if ( !$http->hasSessionVariable( 'userLimitationValues' ) )
+                    {
+                        $limitationValueArray =& $http->sessionVariable( 'userLimitationValues' );
+                    }
+                    else
+                    {
+                        $limitationValueArray = array();
+                    }
+
+                    eZDebug::writeDebug(  $limitationValueArray, "using limitationValues from db for limitation_id=$limitationID" );
+                    $limitationValueArray["$limitationID"] = $limitationValuesForCurrentLimitation;
+
+                }
+                $this->Values =& $values;
+            }
         }
         return $this->Values;
     }

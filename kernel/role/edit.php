@@ -71,6 +71,9 @@ if ( is_null( $role ) )
 $http =& eZHTTPTool::instance();
 
 $tpl->setVariable( "module", $Module );
+
+$role->turnOffCaching();
+
 $tpl->setVariable( "role", $role );
 $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
