@@ -304,22 +304,11 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
          {$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={concat( '/content/browse/', $Bookmarks.item.node.node_id)|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
        {/section}
      {section-else}
-         <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
+         <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( ghost, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
          {/section}
     {/section}
 {/let}
 </ul>
-
-{section-else}
-    {section show=and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
-    <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
-    {section-else}
-    <h4><span class="disabled openclose"><span class="bracket">[</span>+<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
-    {/section}
-</div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-{/section}
 
 <div class="block">
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}
@@ -334,6 +323,17 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </form>
 {/section}
 </div>
+
+{section-else}
+    {section show=and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
+    <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
+    {section-else}
+    <h4><span class="disabled openclose"><span class="bracket">[</span>+<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
+    {/section}
+</div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{/section}
 
 </div></div></div></div></div></div>
 
