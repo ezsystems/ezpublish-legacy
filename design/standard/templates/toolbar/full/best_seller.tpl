@@ -25,7 +25,7 @@
     {/switch}
     <div class="toollist">
         <div class="toollist-design">
-            <h2>{"Best sellers"|i18n("design/shop/layout")}</h2>
+            <h2>{"Best sellers"|i18n("design/standard/toolbar")}</h2>
             <div class="content-view-children">
             {section var=productObject loop=$bestseller_list sequence=array(bglight,bgdark)}
                 {node_view_gui view=listitem content_node=$productObject.main_node}

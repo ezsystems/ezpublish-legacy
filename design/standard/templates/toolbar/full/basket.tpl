@@ -4,7 +4,7 @@
 {let basket=fetch( shop, basket )
      use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
      basket_items=$basket.items}
-    <h2>{"Shopping basket"|i18n("design/shop/layout")}</h2>
+    <h2>{"Shopping basket"|i18n("design/standard/toolbar")}</h2>
     <div class="toolbox-content">
 {section show=$basket_items}
     <ul>
@@ -16,9 +16,9 @@
         {/section}
     </ul>
     <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
-    <p><a href={"/shop/basket"|ezurl}>{"View all details"|i18n("design/shop/layout")}</a></p>
+    <p><a href={"/shop/basket"|ezurl}>{"View all details"|i18n("design/standard/toolbar")}</a></p>
     {section-else}
-        <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
+        <p>{"Your basket is empty"|i18n("design/standard/toolbar")}</p>
     {/section}
     {/let}
     </div>
