@@ -285,6 +285,9 @@ eztc.php:
 - Fixed missing quotes and washing in link tool.
   http://ez.no/community/bug_reports/toolbar_line_link_tpl_href_need_to_put_quotes_around_to_validate
   (Merged from stable/3.4 rev. 7221)
+- Fixed ezenum class view template to not show HTML input elements.
+  http://ez.no/community/bug_reports/enum_attributes_are_editable_when_viewing_not_editing_a_class
+  (Merged from stable/3.4 rev. 7223)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
