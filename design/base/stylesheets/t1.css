@@ -453,7 +453,7 @@ div.toolbox
 
 div.toolbox-design
 { 
-    padding-top: 6px;
+    padding-top: 0px;
     padding-left: 10px;
     padding-bottom: 10px;
     background-color: #d9e5f2;
@@ -472,7 +472,7 @@ div.toolbox-design h2
     color: #fff;
 }
 
-div.toolbox-design input.searchtext
+div.toolbox-design input.searchtext, div.toolbox-design input.textinput
 {
     height: 18px;
     width: 120px;
@@ -483,6 +483,7 @@ div.toolbox-design input.searchtext
 
 div.toolbox-design label
 {
+    padding-top: 6px;
     margin-bottom: 0px;
     padding-bottom: 0px;
     font: 9pt;
@@ -493,6 +494,26 @@ div.toolbox-design label
 div.toolbox-design form
 {
     vertical-align: bottom;
+}
+
+div.toolbox-design div.info-text p
+{ 
+    font: 9pt;
+    color: #000;
+    font: 9pt;
+    font-weight: normal;
+}
+
+div.toolbox-design div.content-link p
+{ 
+    padding-top: 0px;
+    padding-left: 6px;
+    font: 9pt;
+    font-weight: normal;
+    vertical-align: center;
+    background-image: url(../images/t1/t1-arrow.gif);
+    background-position: center left;
+    background-repeat: no-repeat;
 }
 
 
