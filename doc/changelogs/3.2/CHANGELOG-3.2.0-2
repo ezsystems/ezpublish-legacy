@@ -26,3 +26,6 @@ eZ ini:
 
 eZ debug:
 - Added support for listing included files (off by default).
+
+eZ i18n:
+- Changed the 0 character into a chr( 0 ) to avoid problems with unpackers messing up the line.
