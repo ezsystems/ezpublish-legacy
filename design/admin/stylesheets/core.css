@@ -269,7 +269,7 @@ div.block div.element, div.buttonblock div.element /* Use this style if several 
     float: left;
 }
 
-div.block div.left
+div.block div.left, div.viewbar div.left
 {
     width: 48%;
     text-align: left;
@@ -277,7 +277,7 @@ div.block div.left
     clear: left;
 }
 
-div.block div.right
+div.block div.right, div.viewbar div.right
 {
     width: 48%;
     text-align: right;

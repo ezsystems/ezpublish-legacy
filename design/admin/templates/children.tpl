@@ -16,19 +16,26 @@
 {section show=$children}
 
 {* Items per page and view mode selector. *}
-    <p>
+<div class="viewbar">
+<div class="left">
         Items:
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
-        <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
-    </p>
-
-    <p>
+        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+</div>
+<div class="right">
         View:
         <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
         <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
-    </p>
-
+</div>
+<div class="break"></div>
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/content/view', '/full/', $node.node_id)
+         item_count=$children_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
     {set can_copy=$node.object.can_create}
@@ -60,12 +67,6 @@
 
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
-{include name=navigator
-         uri='design:navigator/google.tpl'
-         page_uri=concat( '/content/view', '/full/', $node.node_id)
-         item_count=$children_count
-         view_parameters=$view_parameters
-         item_limit=$number_of_items}
 
     {* Remove button *}
     {section show=$can_remove}

@@ -12,4 +12,6 @@
 {include uri="design:buttons.tpl"}
 
 {* List of children. *}
+<div class="content-view-children">
 {include uri="design:children.tpl"}
+</div>

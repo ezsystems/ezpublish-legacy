@@ -281,6 +281,12 @@ div.viewbar, div.controlbar
     border-right-color: #d0d0d0;
 }
 
+div.content-view-children div.viewbar
+{
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+
 div.viewbar label, div.controlbar label
 {
     padding: 0;
@@ -351,7 +357,7 @@ input#searchbutton, input.menubutton
 
 div.content-navigation-childlist
 {
-    margin-top: 2em;
+    margin: 0 0 0.5em 0;
 }
 
 div.content-navigation-childlist table.list th
@@ -379,5 +385,31 @@ div.image-thumbnail-item
     width: 130px;
     margin: 0 1em 1em 0;
     float: left;
+}
+
+div.content-navigation-childlist div.element
+{
+    border: 1px solid black;
+}
+
+table.list-thumbnails
+{
+    width: 100%;
+}
+
+table.list-thumbnails td
+{
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.list-thumbnails div.controls
+{
+    margin-top: 0.5em;
+}
+
+table.list-thumbnails div.controls input, table.list-thumbnails div.controls img
+{
+    vertical-align: middle;
 }
 
