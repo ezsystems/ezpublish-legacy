@@ -177,11 +177,23 @@ class eZTemplateSetFunction
             case $this->DefaultName:
             case $this->LetName:
             {
+                $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+                if ( isset( $parameters['scope'] ) )
+                {
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
+                        return false;
+                    $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
+                    if ( $scopeText == 'relative' )
+                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+                    else if ( $scopeText == 'root' )
+                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL;
+                    else if ( $scopeText == 'global' )
+                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL;
+                }
+
                 $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
                 $namespaceValue = false;
-                if ( ( $functionName == $this->LetName or
-                       $functionName == $this->DefaultName ) and
-                     isset( $parameters['name'] ) )
+                if ( isset( $parameters['name'] ) )
                 {
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
                     {
@@ -195,16 +207,15 @@ class eZTemplateSetFunction
                 $setVarNodes = array();
                 foreach ( array_keys( $parameters ) as $parameterName )
                 {
-                    if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) &&
-                         $parameterName == 'name' )
+                    if ( $parameterName == 'name' or $parameterName == 'scope' )
                     {
                         continue;
                     }
                     $parameterData =& $parameters[$parameterName];
 
                     $setVarNodes[] = eZTemplateNodeTool::createVariableNode(
-                            false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ), array(),
-                            array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
+                            false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                            array(), array( $namespaceValue, $scope, $parameterName ),
                             ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ),
                             false, ( $functionName == $this->DefaultName ) );
 
@@ -214,7 +225,8 @@ class eZTemplateSetFunction
                     }
                 }
 
-                if ( $namespaceValue )
+                if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) and
+                     $namespaceValue )
                 {
                     $setVarNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $namespaceValue );
                 }
@@ -230,7 +242,8 @@ class eZTemplateSetFunction
 
                 $unsetVarNodes = array();
 
-                if ( $namespaceValue )
+                if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) and
+                     $namespaceValue )
                 {
                     $unsetVarNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
                 }
@@ -282,7 +295,7 @@ class eZTemplateSetFunction
                         $varname = $key;
                         if ( $name != '' )
                             $varname = "$name:$varname";
-                        $tpl->warning( $this->SetName, "Variable '$varname' already exists, cannot define", $functionPlacement );
+                        $tpl->warning( $this->SetName, "Variable '$varname' already exists, cannot define" );
                     }
                 } break;
             }
@@ -339,16 +352,46 @@ class eZTemplateSetFunction
              $functionName != $this->LetName and
              $functionName != $this->DefaultName )
             return null;
-        $name = '';
-        if ( isset( $functionParameters['name'] ) )
-            $name = $tpl->elementValue( $functionParameters['name'], $rootNamespace, $currentNamespace, $functionPlacement );
-        if ( $currentNamespace != '' )
+
+        $children = $functionChildren;
+        $parameters = $functionParameters;
+
+        $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+        if ( isset( $parameters["scope"] ) )
         {
-            if ( $name != '' )
-                $name = "$currentNamespace:$name";
+            $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
+            if ( $scopeText == 'relative' )
+                $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+            else if ( $scopeText == 'root' )
+                $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
+            else if ( $scopeText == 'global' )
+                $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
             else
-                $name = $currentNamespace;
+                $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
         }
+
+        $name = null;
+        if ( isset( $parameters["name"] ) )
+            $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+        if ( $name === null )
+        {
+            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
+                $name = $currentNamespace;
+            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
+                $name = $rootNamespace;
+            else
+                $name = '';
+        }
+        else
+        {
+            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
+                 $currentNamespace != '' )
+                $name = "$currentNamespace:$name";
+            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
+                      $rootNamespace != '' )
+                $name = "$rootNamespace:$name";
+        }
+
         $definedVariables = array();
         if ( $functionName == $this->SetName )
         {
@@ -358,6 +401,7 @@ class eZTemplateSetFunction
                 switch ( $key )
                 {
                     case 'name':
+                    case 'scope':
                         break;
 
                     default:
@@ -373,7 +417,7 @@ class eZTemplateSetFunction
                             $varname = $key;
                             if ( $name != '' )
                                 $varname = "$name:$varname";
-                            $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set", $functionPlacement );
+                            $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
                         }
                     } break;
                 }
