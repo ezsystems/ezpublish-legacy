@@ -6,6 +6,16 @@
     <td valign="top">
     <!-- Main part start -->
     <div class="maincontentheader">
+
+    {section show=$validaton}
+        <div class="warning">
+            <h2>{"Invalid Input"}</h2>
+            <ul>
+                <li>{"If RSS Export is Active then a valid Access URL is required."}</li>
+            </ul>
+        </div>
+    {/section}
+
     <h1>{"RSS Export"|i18n("design/standard/rss/edit")}</h1>
     </div>
 

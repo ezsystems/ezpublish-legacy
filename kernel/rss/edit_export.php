@@ -45,6 +45,7 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 $http =& eZHTTPTool::instance();
 
+$validated = false;
 if ( isset( $Params['RSSExportID'] ) )
     $RSSExportID = $Params['RSSExportID'];
 else
@@ -55,7 +56,15 @@ if ( $http->hasPostVariable( 'RSSExport_ID' ) )
 
 if ( $Module->isCurrentAction( 'Store' ) )
 {
-    return storeRSSExport( $Module, $http, true );
+    if( $_POST[active] == "on" and strlen( trim( $_POST[Access_URL] ) ) == 0 )
+    {
+        storeRSSExport( $Module, $http );
+        $validated = true;
+    }
+    else
+    {
+        return storeRSSExport( $Module, $http, true );
+    }
 }
 else if ( $Module->isCurrentAction( 'UpdateItem' ) )
 {
@@ -178,6 +187,7 @@ $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_export', $rssExport );
 $tpl->setVariable( 'rss_export_id', $rssExportID );
 
+$tpl->setVariable( 'validaton', $validated );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:rss/edit_export.tpl" );
 $Result['path'] = array( array( 'url' => false,
