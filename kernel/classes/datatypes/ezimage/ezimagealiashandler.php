@@ -544,6 +544,15 @@ class eZImageAliasHandler
         $xml = new eZXML();
         $xmlString =& $contentObjectAttribute->attribute( 'data_text' );
         $domTree =& $xml->domTree( $xmlString );
+        if ( $domTree == false )
+        {
+            $this->generateXMLData();
+            $domTree =& $xml->domTree( $xmlString );
+        }
+//         if ( $domTree == false )
+//         {
+//             $domTree = new eZDOMNode();
+//         }
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
 
         return $domTree;
@@ -789,6 +798,21 @@ class eZImageAliasHandler
 
             $width = false;
             $height = false;
+            if ( !file_exists( $filePath ) )
+            {
+                $referenceDirPath = eZSys::storageDirectory() . '/reference/image';
+                $suffixList = array( 'jpg', 'png', 'gif' );
+                foreach ( $suffixList as $suffix )
+                {
+                    $referenceFilePath = $referenceDirPath . '/' . $basename . '.' . $suffix;
+                    if ( file_exists( $referenceFilePath ) )
+                    {
+                        $filePath = $referenceFilePath;
+                        break;
+                    }
+                }
+            }
+
             if ( file_exists( $filePath ) )
             {
                 $isValid = true;
