@@ -4,6 +4,7 @@ Changes from 3.3-6 to 3.3-7
 
 *Bugfixes:
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
-- Fixed http://ez.no/community/bug_reports/broken_datatype.
+- Fixed bug: broken datatype.
+  http://ez.no/community/bug_reports/broken_datatype.
 
 *Library:
