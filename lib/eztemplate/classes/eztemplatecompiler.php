@@ -2304,7 +2304,7 @@ $rbracket
                             {
                                 $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
                             }
-                            
+
                             if ( !$resourceFilename ) /* Not optimized version */
                             {
                                 $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
@@ -2912,21 +2912,23 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
             {
-                $php->addCodePiece("\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n");
+                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) . "\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n");
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP )
             {
-                $code = <<<END
+                $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
+                $code .= <<<END
 if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
 {
     \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" );
 }
+
 END;
                 $php->addCodePiece($code);
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL )
             {
-                $php->addCodePiece("\$$variableAssignmentName = \${$variableAssignmentName}->content();\n");
+                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) . "\$$variableAssignmentName = \${$variableAssignmentName}->content();\n");
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
             {

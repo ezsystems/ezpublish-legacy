@@ -295,6 +295,7 @@ class eZObjectForwarder
                 }
                 foreach ( $attributeAccessEntries as $attributeAccessName )
                 {
+//                    $attributeAccessData[] = eZTemplateNodeTool::createCodePieceNode( "" . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "" );
                     $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $attributeAccessName );
                 }
                 $accessNodes = array();
