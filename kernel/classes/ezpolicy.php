@@ -233,6 +233,9 @@ class eZPolicy extends eZPersistentObject
             $delID = $this->ID;
         }
 
+        if ( $policy === null )
+            return;
+
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
         foreach ( $policy->attribute( 'limitations' ) as $limitation )

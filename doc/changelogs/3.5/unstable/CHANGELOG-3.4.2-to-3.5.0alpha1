@@ -597,6 +597,9 @@ Workflow:
 - Fixed bug: fatal error occurs when removing a PDF export.
   (Merged from stable/3.3 rev. 8310, also in stable/3.4 rev. 8311)
   http://ez.no/community/bug_reports/repost_crash_pdf
+- Fixed bug: fatal error occurs when one removes a policy and then reloads the page.
+  (Merged manually from stable/3.3 rev. 8315, also in stable/3.4 rev. 8316
+  http://ez.no/community/bug_reports/repost_crash_role
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
