@@ -136,8 +136,7 @@ class eZDB
     function &instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = false )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
-
-        $class =& get_class( $impl );
+        $class = get_class( $impl );
 
         $fetchInstance = false;
         if ( !preg_match( '/.*?db/', $class ) )
@@ -145,6 +144,8 @@ class eZDB
 
         if ( $forceNewInstance  )
         {
+            unset($impl);
+            $impl = false;
             $fetchInstance = true;
         }
 
@@ -220,13 +221,44 @@ class eZDB
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
                                                 'use_persistent_connection' => $usePersistentConnection );
+/*            $databaseParameters = $defaultDatabaseParameters;
+            if ( isset( $b['server'] ) )
+                $databaseParameters['server'] = $b['server'];
+            if ( isset( $b['user'] ) )
+                $databaseParameters['user'] = $b['user'];
+            if ( isset( $b['password'] ) )
+                $databaseParameters['password'] = $b['password'];
+            if ( isset( $b['use_slave_server'] ) )
+                $databaseParameters['use_slave_server'] = $b['use_slave_server'];
+            if ( isset( $b['slave_server'] ) )
+                $databaseParameters['slave_server'] = $b['slave_server'];
+            if ( isset( $b['slave_user'] ) )
+                $databaseParameters['slave_user'] = $b['slave_user'];
+            if ( isset( $b['slave_password'] ) )
+                $databaseParameters['slave_password'] = $b['slave_password'];
+            if ( isset( $b['slave_database'] ) )
+                $databaseParameters['slave_database'] = $b['slave_database'];
+            if ( isset( $b['charset'] ) )
+                $databaseParameters['charset'] = $b['charset'];
+            if ( isset( $b['socket'] ) )
+                $databaseParameters['socket'] = $b['socket'];
+            if ( isset( $b['builtin_encoding'] ) )
+                $databaseParameters['builtin_encoding'] = $b['builtin_encoding'];
+            if ( isset( $b['connect_retries'] ) )
+                $databaseParameters['connect_retries'] = $b['connect_retries'];
+            if ( isset( $b['use_persistent_connection'] ) )
+                $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];*/
             if ( $databaseParameters === false )
             {
                 $databaseParameters = $defaultDatabaseParameters;
             }
             else
             {
-                $databaseParameters = array_merge( $defaultDatabaseParameters, $databaseParameters );
+                $b = $databaseParameters;
+                $c = $defaultDatabaseParameters;
+
+                $databaseParameters =& array_merge( $b, $c );
+
             }
             foreach( $pluginPathArray as $pluginPath )
             {

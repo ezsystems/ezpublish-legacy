@@ -36,6 +36,7 @@
 
 /*! \file ezsetup_summary.php
 */
+include_once( "kernel/setup/ezsetuptests.php" );
 
 /*!
   \class eZSetupSummary ezsetup_summary.php
@@ -66,7 +67,9 @@ class eZSetupSummary
     */
     function &summary()
     {
-        $database = $this->PersistenceList['database_info']['type'];
+        $databaseMap = eZSetupDatabaseMap();
+
+        $database = $databaseMap[$this->PersistenceList['database_info']['type']]['name'];
         $this->Tpl->setVariable( 'database', $database );
 
         $languages = $this->PersistenceList['regional_info']['languages'];

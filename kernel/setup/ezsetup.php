@@ -48,7 +48,6 @@ Here a short todo list (more or less in order of importance):
     - upgrade option
 
 */
-
 include_once( "lib/eztemplate/classes/eztemplate.php" );
 include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
 include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );

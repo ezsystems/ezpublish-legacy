@@ -39,6 +39,7 @@
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/setup/ezsetuptests.php" );
 include_once( "kernel/common/i18n.php" );
+include_once( 'lib/ezdb/classes/ezdb.php' );
 
 /*!
   \class eZStepCreateSites ezstep_create_sites.php
@@ -72,7 +73,6 @@ class eZStepCreateSites extends eZStepInstaller
         $saveData = false;
 
         $ini =& eZINI::create();
-
         $databaseMap = eZSetupDatabaseMap();
 
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -92,6 +92,9 @@ class eZStepCreateSites extends eZStepInstaller
                                'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+//        $db =& eZDB::instance( );
+
+        $db->query ( 'show tables');
 
         $regionalInfo = $this->PersistenceList['regional_info'];
         $demoData = $this->PersistenceList['demo_data'];
@@ -228,6 +231,10 @@ WHERE
             {
                 $languageObject = $languageObjects[$languageObjectKey];
                 $languageLocale = $languageObject->localeCode();
+
+//                $db->query( 'SELECT * from ezurl' );
+//                $db->query( 'show tables');
+
                 if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
                 {
                     $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
@@ -247,8 +254,9 @@ WHERE
                 $saveResult = $ini->save( false, '.php', 'append', true );
         }
 
-        if ( $saveResult )
-        {
+
+            if ( $saveResult )
+            {
             $setupINI = eZINI::create( 'setup.ini' );
             $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
             $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
