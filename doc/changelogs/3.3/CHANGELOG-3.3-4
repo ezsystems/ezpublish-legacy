@@ -1,0 +1,25 @@
+Changes from 3.3-3 to 3.3-4
+
+*Kernel:
+- Changed rendering of literal inside XML text to block to ensure correct XHTML validation
+
+*Setup:
+
+*DataTypes:
+
+
+*Bugs:
+
+*Library:
+
+eZ template:
+
+eZ db:
+
+eZ Locale:
+
+*Design:
+
+*Translations:
+
+*Database:

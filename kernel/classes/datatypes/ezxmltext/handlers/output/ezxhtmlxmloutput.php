@@ -471,6 +471,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // Literal text which allows xml specific caracters < >
             case 'literal' :
             {
+                $isBlockTag = true;
+
                 $class = $tag->attributeValue( 'class' );
 
                 $res =& eZTemplateDesignResource::instance();
