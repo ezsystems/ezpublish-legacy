@@ -92,6 +92,7 @@ eZ file :
 - Added function splitLines() which splits the lines in a file into an array.
 
 eZ template :
+- Added check for GB with image conversion of ttf fonts in template operator lib.
 - The /section/ function now uses the /show/ parameter for controlling the
   /section-else/ part.
 - Better error output when operator parameters are not properly closed
