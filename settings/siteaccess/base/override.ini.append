@@ -67,7 +67,6 @@ Source=content/datatype/view/ezobjectrelation.tpl
 MatchFile=datatype/ezobjectrelation/image.tpl
 Subdir=templates
 Match[class_identifier]=article
-# Match[class_identifier]=2
 
 
 # Comment templates
@@ -83,13 +82,13 @@ Match[class]=13
 Source=node/view/line.tpl
 MatchFile=line/comment.tpl
 Subdir=templates
-Match[class]=13
+Match[class_identifier]=comment
 
 [edit_comment]
 Source=content/edit.tpl
 MatchFile=edit/comment.tpl
 Subdir=templates
-Match[class]=13
+Match[class_identifier]=comment
 
 # File templates
 
@@ -134,13 +133,13 @@ Subdir=templates
 Source=node/view/full.tpl
 MatchFile=full/link.tpl
 Subdir=templates
-Match[class]=11
+Match[class_identifier]=link
 
 [line_link]
 Source=node/view/line.tpl
 MatchFile=line/link.tpl
 Subdir=templates
-Match[class]=11
+Match[class_identifier]=link
 
 # Image templates
 
@@ -179,6 +178,12 @@ Source=content/view/embed.tpl
 MatchFile=embed/image.tpl
 Subdir=templates
 Match[class_identifier]=image
+
+[text_linked_image]
+Source=content/view/text_linked.tpl
+MatchFile=textlinked/image.tpl
+Subdir=templates
+Match[class]=5
 
 # Flash templates
 
@@ -420,6 +425,56 @@ Source=content/collectedinfo/poll.tpl
 MatchFile=collectedinfo/poll_result.tpl
 Subdir=templates
 
+# Person templates
+[person_full]
+Source=node/view/full.tpl
+MatchFile=full/person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[person_line]
+Source=node/view/line.tpl
+MatchFile=line/person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[person_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[edit_person]
+Source=content/edit.tpl
+MatchFile=edit/person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+# Company templates
+[company_full]
+Source=node/view/full.tpl
+MatchFile=full/company.tpl
+Subdir=templates
+Match[class_identifier]=company
+
+[company_line]
+Source=node/view/line.tpl
+MatchFile=line/company.tpl
+Subdir=templates
+Match[class_identifier]=company
+
+[company_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/company.tpl
+Subdir=templates
+Match[class_identifier]=company
+
+[edit_company]
+Source=content/edit.tpl
+MatchFile=edit/company.tpl
+Subdir=templates
+Match[class_identifier]=company
+
 # Feedback form templates
 
 [feedback_form_full]
@@ -440,7 +495,6 @@ MatchFile=collectedinfomail/feedback_form.tpl
 Subdir=templates
 Match[class_identifier]=feedback_form
 
-
 # General templates
 
 [factbox]
@@ -457,4 +511,15 @@ Subdir=templates
 Source=content/datatype/view/ezprice.tpl
 MatchFile=datatype/price.tpl
 Subdir=templates
+
+[matrix]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/ezmatrix/view.tpl
+Subdir=templates
+
+[edit_matrix]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=datatype/ezmatrix/edit.tpl
+Subdir=templates
+
 

@@ -193,5 +193,17 @@ MatchFile=edit_template_look.tpl
 Subdir=templates
 Match[class_identifier]=template_look
 
+[edit_person_datatype_matrix]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=edit_datatype_ezmatrix.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[edit_company_datatype_matrix]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=edit_datatype_ezmatrix.tpl
+Subdir=templates
+Match[class_identifier]=company
+
 
 */ ?>

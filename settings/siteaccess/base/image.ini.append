@@ -10,6 +10,12 @@ AliasList[]=gallerythumbnail
 AliasList[]=imagelarge
 AliasList[]=large
 AliasList[]=rss
+AliasList[]=logo
+AliasList[]=articlethumbnail
+
+[logo]
+Reference=reference
+Filters[]=geometry/scaledownonly=250;58
 
 [small]
 Reference=
@@ -55,3 +61,6 @@ Filters[]=geometry/scaledownonly=370;450
 Reference=
 Filters[]
 Filters[]=geometry/scale=88;31
+
+[articlethumbnail]
+Filters[]=geometry/scaledownonly=100;100
