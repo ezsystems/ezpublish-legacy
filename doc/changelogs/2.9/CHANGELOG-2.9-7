@@ -66,6 +66,7 @@ Changes from 2.9-6 to 2.9-7
   and session variables and ini files.
 - User login can now be done with email address as well as username.
 - Bug with correct fetchTree count when using limitations is fixed
+- Added archiving function. Now object are not removed but just placed to archive. You can restore them from there
 - Cleaned up eZXMLText class interface
 - User registration now works even when login is required, it will
   also behaves like user login with custom pagelayout.

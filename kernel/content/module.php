@@ -193,6 +193,10 @@ $ViewList["draft"] = array(
     "script" => "draft.php",
     "params" => array( ) );
 
+$ViewList["archive"] = array(
+    "script" => "archive.php",
+    "params" => array( ) );
+
 
 $ViewList["translations"] = array(
     "functions" => array( 'edit' ),

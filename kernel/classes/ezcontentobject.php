@@ -55,6 +55,11 @@ include_once( "kernel/classes/ezcontenttranslation.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
+define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
+define( "EZ_CONTENT_OBJECT_STATUS_PUBLISHED", 1 );
+define( "EZ_CONTENT_OBJECT_STATUS_ARCHIVED", 2 );
+
+
 class eZContentObject extends eZPersistentObject
 {
     function eZContentObject( $row )
@@ -73,7 +78,8 @@ class eZContentObject extends eZPersistentObject
                                          "is_published" => "IsPublished",
                                          "published" => "Published",
                                          "modified" => "Modified",
-                                         "current_version" => "CurrentVersion"
+                                         "current_version" => "CurrentVersion",
+                                         "status" => "Status"
                                          ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
@@ -675,6 +681,46 @@ class eZContentObject extends eZPersistentObject
       If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
       Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
     */
+    function purge( $id = false )
+    {
+        $delID = $this->ID;
+        if ( is_numeric( $id ) )
+        {
+            $delID = $id;
+            $contentobject =& eZContentObject::fetch( $delID );
+        }
+        else
+        {
+            $contentobject =& $this;
+        }
+        $db =& eZDB::instance();
+
+        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+        foreach (  $contentobjectAttributes as $contentobjectAttribute )
+        {
+            $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+            $dataType =& $classAttribute->dataType();
+            $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
+        }
+
+        $db->query( "DELETE FROM ezcontentobject_attribute
+		     WHERE contentobject_id='$delID'" );
+
+        $db->query( "DELETE FROM ezcontentobject_version
+		     WHERE contentobject_id='$delID'" );
+
+        $db->query( "DELETE FROM ezcontentobject
+		     WHERE id='$delID'" );
+
+        $db->query( "DELETE FROM eznode_assignment
+             WHERE contentobject_id = '$delID'" );
+
+        $db->query( "DELETE FROM ezcontentobject_link
+             WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
+
+
+    }
+
     function remove( $id = false, $nodeID = null )
     {
         $delID = $this->ID;
@@ -696,31 +742,12 @@ class eZContentObject extends eZPersistentObject
             {
                 $node->remove();
             }
-            $db =& eZDB::instance();
+//            $db =& eZDB::instance();
 
+            $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+            $contentobject->store();
             // Delete stored attribute from other tables
-            $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
-            foreach (  $contentobjectAttributes as $contentobjectAttribute )
-            {
-                $classAttribute =& $contentobjectAttribute->contentClassAttribute();
-                $dataType =& $classAttribute->dataType();
-                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
-            }
 
-            $db->query( "DELETE FROM ezcontentobject_attribute
-		     WHERE contentobject_id='$delID'" );
-
-            $db->query( "DELETE FROM ezcontentobject_version
-		     WHERE contentobject_id='$delID'" );
-
-            $db->query( "DELETE FROM ezcontentobject
-		     WHERE id='$delID'" );
-
-            $db->query( "DELETE FROM eznode_assignment
-             WHERE contentobject_id = '$delID'" );
-
-            $db->query( "DELETE FROM ezcontentobject_link
-             WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
         }
         else
         {

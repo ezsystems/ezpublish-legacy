@@ -145,6 +145,13 @@ class eZContentOperationCollection
         $version->store();
     }
 
+    function setObjectStatusPublished( $objectID )
+    {
+        $object =& eZContentObject::fetch( $objectID );
+        $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
+        $object->store();
+    }
+
     function publishNode( $parentNodeID, $objectID, $versionNum )
     {
         $object =& eZContentObject::fetch( $objectID );

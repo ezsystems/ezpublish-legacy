@@ -19,4 +19,17 @@
 	     {/section}
 	   </div>
         {/section}
+       {section name=UnvalidatedPlacements loop=$validation.placement show=$validation.placement}
+        <div class="warning">
+        <h2>{"Placemnent did not validate"|i18n("design/standard/content/edit")}</h2>
+        <ul>
+         <li>{$UnvalidatedPlacements:item.text}</li>
+        </ul>
+        </div>
+	{section-else}
+	   <div class="feedback">
+	     <h2>{"Placements were stored successfully"|i18n("design/standard/content/edit")}</h2>
+	   </div>  
+        {/section}   
+
     {/section}

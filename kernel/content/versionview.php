@@ -185,8 +185,11 @@ $assignment =& eZNodeAssignment::fetchByID( $placementID );
 if ( $assignment !== null )
 {
     $node =& $assignment->getParentNode();
-    $nodeObject =& $node->attribute( "object" );
-    $sectionID = $nodeObject->attribute( "section_id" );
+    if ( $node !== null )
+    {
+        $nodeObject =& $node->attribute( "object" );
+        $sectionID = $nodeObject->attribute( "section_id" );
+    }
 }
 else
 $assignment = false;

@@ -1495,3 +1495,6 @@ create table ezcontent_translation(
     PRIMARY KEY  (id)
     );
 
+alter table ezcontentobject add column status smallint;
+alter table ezcontentobject alter column status set default 0;
+update table ezcontentobject set status = 1;

@@ -117,7 +117,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
 
                     $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
-                    
+
                     if ( is_null( $realNode ) )
                     {
                         $fromNodeID = 0;
@@ -389,30 +389,42 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
+    eZDebug::writeDebug( $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
     foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
     {
         $assignedNode =& $assignedNodeArray[$assignedNodeKey];
-        $remoteID = $assignedNode->attribute( 'remote_id' );
-        if ( $remoteID > 0 )
+        $node =& $assignedNode->getParentNode();
+        if ( $node !== null )
         {
-            if ( isset( $remoteMap[$remoteID] ) )
+            $remoteID = $assignedNode->attribute( 'remote_id' );
+            if ( $remoteID > 0 )
             {
-                if ( is_array( $remoteMap[$remoteID] ) )
-                    $remoteMap[$remoteID][] =& $assignedNode;
-                else
+                if ( isset( $remoteMap[$remoteID] ) )
                 {
-                    $currentRemote =& $remoteMap[$remoteID];
-                    unset( $remoteMap[$remoteID] );
-                    $remoteMap[$remoteID] = array();
-                    $remoteMap[$remoteID][] =& $currentRemote;
-                    $remoteMap[$remoteID][] =& $assignedNode;
+                    if ( is_array( $remoteMap[$remoteID] ) )
+                        $remoteMap[$remoteID][] =& $assignedNode;
+                    else
+                    {
+                        $currentRemote =& $remoteMap[$remoteID];
+                        unset( $remoteMap[$remoteID] );
+                        $remoteMap[$remoteID] = array();
+                        $remoteMap[$remoteID][] =& $currentRemote;
+                        $remoteMap[$remoteID][] =& $assignedNode;
+                    }
                 }
+                else
+                    $remoteMap[$remoteID] =& $assignedNode;
             }
-            else
-                $remoteMap[$remoteID] =& $assignedNode;
+        }
+        else
+        {
+            $assignedNode->remove();
+            unset( $assignedNodeArray[$assignedNodeKey] );
         }
     }
+    eZDebug::writeDebug( $assignedNodeArray, "assigned nodes array" );
+
     $currentVersion =& $object->version( $editVersion );
     $publishedNodeArray = array();
     if ( $currentVersion !== null )

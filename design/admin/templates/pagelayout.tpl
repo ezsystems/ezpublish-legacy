@@ -102,6 +102,9 @@
     <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>{"My drafts"|i18n("design/standard/layout")}</a></p>
     </td>
     <td class="toolbar" align="right" >
+    <p class="menuitem"><a class="menuitem" href={"content/archive/"|ezurl}>{"Archive"|i18n("design/standard/layout")}</a></p>
+    </td>
+    <td class="toolbar" align="right" >
     <p class="menuitem">
     <a class="menuitem" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change Password"|i18n("design/standard/layout")}</a>
     </p>

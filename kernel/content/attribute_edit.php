@@ -84,8 +84,19 @@ $http =& eZHTTPTool::instance();
 
 if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
     return;
+
+// Checking if object has at least one placement, if not user needs to choose it from browse page
+$assignments =& $version->attribute( 'parent_nodes' );
+if ( count( $assignments ) < 1 && $Module->isCurrentAction( 'Publish' ) )
+{
+    $Module->setCurrentAction( 'BrowseForNodes' );
+}
+//----------
+
+
 $validation = array( 'processed' => false,
-                     'attributes' => array() );
+                     'attributes' => array(),
+                     'placement' => array() );
 
 /********** Custom Action Code Start ***************/
 $customAction = false;
@@ -210,7 +221,32 @@ if ( $storingAllowed )
 
 }
 
+if ( $Module->isCurrentAction( 'Publish' ) )
+{
+    $mainFound = false;
+    $assignments =& $version->attribute( 'parent_nodes' );
+    foreach ( array_keys( $assignments ) as $key )
+    {
+        if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+        {
+            $mainFound = true;
+            break;
+        }
+    }
+    if ( !$mainFound && count ( $assignments ) > 0 )
+    {
+        $validation[ 'placement' ][] = array( 'text' => 'There is no main node specified' );
+        $validation[ 'processed' ] = true;
+        $inputValidated = false;
+        eZDebug::writeDebug( "placement is not validated" );
+    }
+    else
+        eZDebug::writeDebug( "placement is validated" );
+
+}
+
 // After the object has been validated we can check for other actions
+
 if ( $inputValidated == true )
 {
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
@@ -253,9 +289,9 @@ $templateName = 'design:content/edit.tpl';
 
 if ( isset( $Params['TemplateName'] ) )
     $templateName = $Params['TemplateName'];
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
-
 $Result['path'] = array( array( 'text' => 'Content',
                                 'url' => false ),
                          array( 'text' => 'Edit',
