@@ -93,7 +93,7 @@ class eZTemplateIncludeFunction
         $uriDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                       $uriData, false,
                                                                       $resourceData );
-        print_r( $uriDataInspection );
+//         print_r( $uriDataInspection );
         if ( !$uriDataInspection['is-constant'] or
              $uriDataInspection['has-operators'] or
              $uriDataInspection['has-attributes'] )
