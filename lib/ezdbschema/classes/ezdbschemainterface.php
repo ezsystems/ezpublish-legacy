@@ -392,6 +392,9 @@ class eZDBSchemaInterface
             return false;
         }
 
+        $oldOutputSQL = $this->DBInstance->OutputSQL;
+        $this->DBInstance->OutputSQL = false;
+
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
         $params['format'] = 'local';
@@ -417,9 +420,28 @@ class eZDBSchemaInterface
         }
         if ( $includeData )
         {
-            // TODO
             $data = $this->data( $schema );
+            foreach ( $schema as $tableName => $table )
+            {
+                // Skip the information array, this is not a table
+                if ( $tableName == '_info' )
+                    continue;
+
+                if ( !isset( $data[$tableName] ) )
+                    continue;
+
+                $sqlList = $this->generateTableInsertSQLList( $tableName, $table, $data[$tableName], $params, false );
+                foreach ( $sqlList as $sql )
+                {
+                    if ( !$this->DBInstance->query( $sql ) )
+                    {
+                        eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
+                        return false;
+                    }
+                }
+            }
         }
+        $this->DBInstance->OutputSQL = $oldOutputSQL;
         return true;
     }
 
@@ -615,9 +637,19 @@ class eZDBSchemaInterface
     */
     function generateTableInsert( $tableName, $tableDef, $dataEntries, $params )
     {
-        $diffFriendly = $params['diff_friendly'];
-        $multiInsert = $params['allow_multi_insert'] ? $this->isMultiInsertSupported() : false;
+        return join( "\n", $this->generateTableInsertSQLList( $tableName, $tableDef, $dataEntries, $params, true ) );
+    }
 
+    /*!
+     \virtual
+     \protected
+    */
+    function generateTableInsertSQLList( $tableName, $tableDef, $dataEntries, $params, $withClosure = true )
+    {
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
+        $multiInsert = ( isset( $params['allow_multi_insert'] ) and $params['allow_multi_insert'] ) ? $this->isMultiInsertSupported() : false;
+
+        $sqlList = array();
         $sql = '';
         $defText = '';
         $entryIndex = 0;
@@ -711,19 +743,21 @@ class eZDBSchemaInterface
             {
                 if ( $diffFriendly )
                 {
-                    $sql .= "INSERT INTO $tableName (\n$defText\n) VALUES (\n$dataText\n);\n";
+                    $sqlList[] = "INSERT INTO $tableName (\n$defText\n) VALUES (\n$dataText\n)" . ( $withClosure ? ";" : "" );
                 }
                 else
                 {
-                    $sql .= "INSERT INTO $tableName ($defText) VALUES ($dataText);\n";
+                    $sqlList[] = "INSERT INTO $tableName ($defText) VALUES ($dataText)" . ( $withClosure ? ";" : "" );
                 }
             }
         }
         if ( $multiInsert )
         {
-            $sql .= "\n;\n";
+            if ( $withClosure )
+                $sql .= "\n;";
+            $sqlList[] = $sql;
         }
-        return $sql;
+        return $sqlList;
     }
 
     /*!
