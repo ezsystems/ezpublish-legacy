@@ -1095,7 +1095,7 @@ class eZTemplateCompiler
                     }
 
                     $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
-                                                                             $tpl, $resourceData );
+                                                                             $tpl, $resourceData, $functionParameters );
                     if ( !$newNodes )
                     {
                         $node[1] = $functionChildren;
