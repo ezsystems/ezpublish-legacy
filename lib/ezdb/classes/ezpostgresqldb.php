@@ -204,7 +204,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 {
                     $offset = $params["offset"];
                 }
-                if ( isset( $params["column"] ) and is_numeric( $params["column"] ) )
+                if ( isset( $params["column"] ) and ( is_numeric( $params["column"] ) or is_string( $params["column"] ) ) )
                     $column = $params["column"];
             }
 
@@ -394,7 +394,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT relname FROM pg_class WHERE relkind='$relationKind' AND NOT relname~'pg_.*'";
-            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
+            $array = $this->arrayQuery( $sql, array( 'column' => 'relname' ) );
         }
         return $array;
     }
@@ -586,6 +586,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function &escapeString( $str )
     {
+        $str = str_replace( "\\", "\\\\", $str );
         $str = str_replace( "'", "\'", $str );
         $str = str_replace( "\"", "\\\"", $str );
         return $str;
