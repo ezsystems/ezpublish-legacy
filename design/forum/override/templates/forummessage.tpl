@@ -26,7 +26,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {/case}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input type="hidden" name="ClassID" value="21" />
+<input type="hidden" name="ClassID" value="22" />
 
 </form>
 {/section}
@@ -50,7 +50,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {case/}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.parent_node_id}" />
-<input type="hidden" name="ClassID" value="21" />
+<input type="hidden" name="ClassID" value="22" />
 
 {/section}
 
@@ -60,7 +60,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     <form action="/content/advancedsearch/" method="get">
     <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="Search forum" />
-    <input type="hidden" name="SearchContentClassID" value="21" />
+    <input type="hidden" name="SearchContentClassID" value="22" />
     </form>
     </td>
 </tr>
@@ -85,18 +85,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     <td class="bglightforum" valign="top">
     <p>
     {$node.object.owner.name|wash}<br />
-
-    {section show=$node.object.owner.parent_nodes|contains(13)}
-    eZ systems crew
-    <img src={"ezicon.gif"|ezimage} alt="Official eZ systems member" /><br />
-    {section-else}
-    {/section}
-
-    {section show=$node.object.owner.parent_nodes|contains(29204)}
-    Moderator
-    <img src={"moderator-user.gif"|ezimage} alt="Community moderator" /><br />
-    {section-else}
-    {/section}
 
     <br />
     {$node.object.published|l10n(datetime)}
@@ -144,19 +132,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     <td valign="top" class="{$Child:sequence}">
     <p>
     {$Child:item.object.owner.name|wash}<br />
-
-
-    {section show=$Child:item.object.owner.parent_nodes|contains(13)}
-    eZ systems crew
-    <img src={"ezicon.gif"|ezimage} alt="Official eZ systems member" /><br />
-    {section-else}
-    {/section}
-
-    {section show=$Child:item.object.owner.parent_nodes|contains(29204)}
-    Moderator
-    <img src={"moderator-user.gif"|ezimage} alt="Community moderator" /><br />
-    {section-else}
-    {/section}
 
     <br /> {$Child:item.object.published|l10n(datetime)}
     </p>
@@ -207,7 +182,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {/case}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input type="hidden" name="ClassID" value="21" />
+<input type="hidden" name="ClassID" value="22" />
 
 </form>
 
