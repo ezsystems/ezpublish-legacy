@@ -1,8 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+{*?template charset=utf8?*}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+
 <head>
-    <title>Untitled Document</title>
-    <link rel="stylesheet" type="text/css" href={"stylesheets/bookcorner.css"|ezdesign} />
+    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
+
+    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {* check if we need a http-equiv refresh *}
@@ -17,186 +22,82 @@
 {/section}
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-
 <meta name="generator" content="eZ publish" />
 
 <!-- Meta information END -->
 
-<script language="JavaScript" type="text/JavaScript">
-<!--
-{literal}
-function MM_jumpMenu(targ,selObj,restore){ //v3.0
-  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
-  if (restore) selObj.selectedIndex=0;
-}
-{/literal}
-//-->
-</script>
 </head>
+<body>
 
-<body link="#000000" vlink="#000000" alink="#000000">
-<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
+<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+
+<map name="map">
+<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
+<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
+<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
+</map>
+
+{let folder_list=fetch(content,list,hash(parent_node_id,60))
+     product_list=fetch(content,tree,hash(parent_node_id,60,limit,20,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(22)))}
+
+<table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
-   <th>
-   Quick links
-   </th>
+    <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",60)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a></td>
 </tr>
 <tr>
-    <td >
-    <a href="/content/view/full/31/">Crossroads Forum</a>
-    </td>
-    <td >
-    <a href="/content/view/news/26">News 24</a>
-    </td>
-    <td >
-    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
-    </td>
-    <td >
-    <a href="/content/view/full/65/">the Book corner</a>
+    <td bgcolor="#333333">
+    <div class="small" align="center"><font color="#FFFFFF">&quot;Wear the old coat and buy the new book&quot; (Austin Phelps)</font></div>
     </td>
 </tr>
-</table>
-
-<p>&nbsp;</p><table width="700" height="633" border="0" align="left" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="106" valign="top" bgcolor="#333333"><a href={concat("content/view/full/",60)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a> 
-      <table width="700" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td height="19" bgcolor="#333333" class="links">
-
-<!-- Quote START -->
-            <div align="center"><font color="#FFFFFF">&quot;Wear the old coat and buy the new book&quot; (Austin Phelps)</font></div>
-<!-- Quote END -->
-
-          </td>
-        </tr>
-      </table> </td>
-  </tr>
-  <tr>
+<tr>
     <td valign="top">
-<table width="702" height="398" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
+    <tr> 
+        <td width="120" valign="top" bgcolor="#E2DCC0"> 
+
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
         <tr> 
-          <td width="121" height="398" valign="top" bordercolor="#FFFFFF" bgcolor="#E2DCC0"> 
-
-<!-- Left menu START -->
-            <table width="108" border="0" align="center" cellpadding="2" cellspacing="0" bgcolor="#333399">
-              <tr> 
-                <td bgcolor="#E2DCC0" class="links">&nbsp;&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="104" bgcolor="#E2DCC0" class="links">&nbsp;&nbsp;<strong><a href={concat("content/view/full/",65)|ezurl}>home</a></strong></td>
-              </tr>
-              <tr> 
-                <td bgcolor="#E2DCC0" class="links">&nbsp;&nbsp;<strong><a href={concat("content/view/full/",64)|ezurl}>authors a-z</a></strong></td>
-              </tr>
-              <tr> 
-                <td bgcolor="#E2DCC0" class="links">&nbsp;&nbsp;<strong><a href={concat("content/view/full/",62)|ezurl}>bestsellers</a></strong></td>
-              </tr>
-              <tr> 
-                <td bgcolor="#E2DCC0" class="links">&nbsp;&nbsp;<strong>paperbacks</strong></td>
-              </tr>
-              <tr> 
-                <td bgcolor="#E2DCC0">&nbsp;</td>
-              </tr>
-              <tr> 
-                <td bgcolor="#E2DCC0"> 
-                  <p>&nbsp; 
-                    <select name="menu1" onChange="MM_jumpMenu('parent',this,0)">
-                      <option>books</option>
-                      <option>authors</option>
-                    </select>
-                  </p>
-                  <p> <span class="links">&nbsp;&nbsp;<strong>Search</strong></span><br>
-                    &nbsp; 
-                    <input name="textfield" type="text" size="10">
-                    <strong><span class="links">&nbsp;<br>
-                    &nbsp;<font color="#FFFFFF">&nbsp;</font>GO</span></strong></p></td>
-              </tr>
-            </table>
-<!-- Left menu START -->
-
-            <p>&nbsp; </p></td>
-          <td width="414" valign="top" bordercolor="#66CC00" bgcolor="#FFFFFF"><br> 
-
-<!-- Content START -->
-             {$module_result.content}
-<!-- Content END -->
-
-            <p class="links"><br>
-            </p></td>
-          <td width="165" valign="top" bordercolor="#66CC00" bgcolor="#333333"><br>
-
-<!-- Top 20 books START -->
-{section show=eq($DesignKeys:used.node,65)}
-            <table width="138" height="352" border="0" align="right" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="138" valign="top">
-<p class="heading"><strong><font color="#FFFFFF" size="2">Top 20 books</font></strong></p>
-                  <p class="links"><font color="#FFFFFF"><strong>Steppenwolf </strong><br>
-                    Herman Hesse<br>
-                    <br>
-                    <strong>A fine balance </strong>Rohinton Mistry<br>
-                    <br>
-                    <strong>How to be good</strong><br>
-                    Nick Hornby<br>
-                    <br>
-                    <strong>Songs of Kabir</strong><br>
-                    Rabindranath Tagore<br>
-                    <br>
-                    <strong>Immortality</strong><br>
-                    Milan Kundera<br>
-                    <br>
-                    <strong>Nadja</strong><br>
-                    Andre Breton<br>
-                    <br>
-                    <strong>The street of crocodiles</strong><br>
-                    Bruno Schulz<br>
-                    <br>
-                    <strong>Neuromancer </strong><br>
-                    William Gibson<br>
-                    <br>
-                    <strong>The Fall</strong><br>
-                    Albert Camus<br>
-                    <br>
-                    <strong>Midnight Children</strong><br>
-                    Salman Rushdie</font></p>
-                  </td>
-              </tr>
-            </table>
-{section-else}
-            <table width="100" height="352" border="0" align="center" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="100" valign="top">
-<p class="heading"><strong><font color="#FFFFFF" size="2">Noe annet stoff</font></strong></p>
-                  <p class="links"><font color="#FFFFFF">host res publii probses
-                    locciemo</font></p>
-                  <p class="links"><font color="#FFFFFF">erum con tus ad consus
-                    dum prae, se conum vis ocre confirm hilicae icienteriam idem
-                    esil tem hacteri factoret, ut nox nonimus, cotabefacit L.
-                    An defecut in Etris; in speri, que acioca L. Maet; </font></p>
-                  <p class="links"><font color="#FFFFFF">Cas nox nulinte renica;
-                    nos, constraeque probus reis publibuntia mo Catqui pubissimis
-                    apere nor ut puli iaet in Italegero movente issimus niu consulintiu
-                    vitin dis. Opicae con intem, vivere porum spiordiem mo mactantenatu
-                    es mo Cat. Serenih libus sedo, num inatium diem host C. maiorei
-                    senam ora, senit; nonsult retis.<br>
-                    </font> </p>
-                  </td>
-              </tr>
-            </table>
-{/section}
-<!-- Top 20 books END -->
-
-            <p>&nbsp;</p>
+            <td>&nbsp;&nbsp;</td>
+        </tr>
+        {section name=Folder loop=$folder_list}
+        <tr> 
+            <td>
+            &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>
             </td>
         </tr>
-      </table>
-      <table width="702" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td bgcolor="#333333">&nbsp;</td>
+        {/section}
+        <tr> 
+            <td bgcolor="#E2DCC0"> 
+            <input name="textfield" type="text" size="10" />
+            </td>
         </tr>
-      </table></td>
-  </tr>
+        </table>
+
+        </td>
+        <td width="430" valign="top" bgcolor="#FFFFFF">
+	<table width="100%" cellspacing="0" cellpadding="20" border="0">
+        <tr> 
+        <td>
+        {$module_result.content}
+	</td>
+	</tr>
+	</table>
+        </td>
+        <td width="20" valign="top" bgcolor="#333333">&nbsp;</td><td>
+        <td width="130" valign="top" bgcolor="#333333">
+        <h2><font color="#ffffff">New books</font></h2>
+
+        {section name=Product loop=$product_list}
+        <a class="small" href="/content/view/full/{$Product:item.node_id}"><font color="#ffffff"><b>{$Product:item.name}</b></font></a><br />
+        {/section}
+        </td>
+        </tr>
+        </table>
+        </td>
+    </tr>
 </table>
+
+{/let}
 </body>
 </html>

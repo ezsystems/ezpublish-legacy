@@ -58,10 +58,10 @@ function OpenWindow ( URL, WinName, Features ) {
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
-<area shape="RECT" coords="0,2,72,23" href="/content/formum/">
-<area shape="RECT" coords="75,2,142,25" href={"/content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
+<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
 <area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
-<area shape="RECT" coords="221,1,283,23" href="/shop">
+<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
 </map>
 
 
@@ -87,13 +87,17 @@ function OpenWindow ( URL, WinName, Features ) {
 </tr>
 <tr>
     <td class="mainarea" width="99%" valign="top">
-
+<table width="100%" cellspacing="0" cellpadding="10">
+<tr>
+<td>
 <!-- Main area START -->
 
 {$module_result.content}
 
 <!-- Main area END -->
-
+</td>
+</tr>
+</table>
     </td>
 <td width="20%" valign="top" bgcolor="#cccccc" class="links">
             <div align="right">

@@ -34,14 +34,14 @@
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
-<area shape="RECT" coords="0,2,72,23" href="/content/formum/">
-<area shape="RECT" coords="75,2,142,25" href={"/content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
+<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
 <area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
-<area shape="RECT" coords="221,1,283,23" href="/shop">
+<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
 </map>
 
-{let folder_list=fetch(content,list,hash(parent_node_id,24))}
-{let news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(2)))}
+{let folder_list=fetch(content,list,hash(parent_node_id,24))
+     news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(2)))}
 
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
@@ -64,6 +64,7 @@
 {/section}
     <tr> 
         <td valign="top" bgcolor="#FF9900"> 
+	<br />
         <form action={"/content/search/"|ezurl} method="get">
         <input  type="text" size="10" name="SearchText" id="Search" value="" />
         <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
@@ -132,7 +133,7 @@
          {section name=News loop=$news_list offset=1}
          <tr> 
              <td width="125" bgcolor="#FFF4EA" class="links"> 
-             <a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
+             -<a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
              </td>
          </tr>
          {/section}   
@@ -153,5 +154,6 @@
 </tr>
 </table>
 
+{/let}
 </body>
 </html>
