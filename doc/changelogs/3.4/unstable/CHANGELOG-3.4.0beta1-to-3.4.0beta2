@@ -51,6 +51,8 @@ Changes from 3.4.0beta1 to 3.4.0beta2
   http://ez.no/community/bug_reports/class_copy_doubles_rows_in_table
 - Fixed "Undefined variable" and "Undefined index" notices in the template compiler.
   http://ez.no/community/bug_reports/template_compile_undefined_index_result
+- Fixed problem with next/previous navigator on images in gallery.
+  http://ez.no/community/bug_reports/galleries_next_previous_image
   
 *Update:
 
