@@ -232,7 +232,7 @@ div#topmenu li.selected a, div#topmenu li.selected span.disabled
 
 div#topmenu li.selected span.disabled
 {
-    color: #33485e;
+    color: #bfbeb6;
 }
 
 div#topmenu li.selected a:hover
@@ -288,6 +288,39 @@ div#columns
 div#leftmenu ul, div#rightmenu ul
 {
     margin-left: 1.5em;
+}
+
+div#leftmenu ul, div#rightmenu ul
+{
+    list-style-type: none;
+    margin-left: 0;
+}
+
+div#leftmenu ul li, div#rightmenu ul li
+{
+    margin-left: 0;
+}
+
+div#leftmenu li a, div#rightmenu li a
+{
+    background-image: url(../images/list-bullet.gif);
+    background-position: 0.2em 0.4em;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+}
+
+div#leftmenu li span.disabled, div#rightmenu li span.disabled
+{
+    background-image: url(../images/list-bullet-disabled.gif);
+    background-position: 0.2em 0.4em;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+}
+
+div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled
+{
+    background-image: none;
+    padding-left: 0;
 }
 
 div#leftmenu
@@ -719,13 +752,19 @@ div#currentuser, div#bookmarks
     margin-bottom: 0;
 }
 
-div#currentuser p, div#bookmarks p
+div#currentuser p
+{
+    margin: 0.25em 0 0 0;
+}
+
+div#bookmarks p
 {
     margin: 0;
 }
 
 div#currentuser ul
 {
+    margin-top: 0.25em;
     margin-bottom: 0;
     padding-bottom: 0.5em;
 }
@@ -733,7 +772,6 @@ div#currentuser ul
 div#currentuser a
 {
     font-weight: bold;
-    color: #f08c00;
 }
 
 div#history ul, div#bookmarks ul
@@ -750,11 +788,6 @@ div#history li, div#bookmarks li
 div#history img, div#bookmarks img
 {
     vertical-align: middle;
-}
-
-div#bookmarks span.disabled
-{
-    color: #33485e;
 }
 
 a.showhide, div#rightmenu span.openclose

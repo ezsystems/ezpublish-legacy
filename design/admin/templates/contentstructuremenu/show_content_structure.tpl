@@ -20,7 +20,7 @@
                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
                       onclick="ezpopmenu_hideAll(); ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
-                    <span class="openclose"><img src="../../images/1x1.gif" width="16" height="16" alt ="" /></span> {* This image should be inserted by javascript, and removed from here *}
+                    <span class="openclose"><img src="../../images/1x1.gif" width="16" height="16" alt="" /></span> {* This image should be inserted by javascript, and removed from here *}
                 {/section}
 
             {* Icon *}
