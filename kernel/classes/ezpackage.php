@@ -2152,7 +2152,6 @@ class eZPackage
 
         // Read simple files
         $this->Parameters['simple-file-list'] = eZDOMDocument::createArrayFromDOMNode( $root->elementByName( 'simple-files' ) );
-        $this->Parameters['simple-file-list'] = $this->Parameters['simple-file-list'][0];
 
         // Read files
         $filesList =& $root->elementChildrenByName( 'files' );
