@@ -73,7 +73,8 @@
     {/section}
 
     {* create menu *}
-    {cache-block keys=array($:itemClickAction, $:rootNodeID) subtree_expire="$:parentNode.object.name/"}
+    {default current_user=fetch('user','current_user')}
+    {cache-block keys=array($:itemClickAction, $:rootNodeID,$current_user.role_id_list|implode( ',' )) subtree_expire="$:parentNode.object.name/"}
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID,
                                                             $:classFilter,
@@ -87,7 +88,7 @@
                 {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize csm_menu_item_click_action=$:itemClickAction}
             </ul>
     {/cache-block}
-
+    {/default}
     {* initialize menu *}
     <script language="JavaScript" type="text/javascript"><!--
 
