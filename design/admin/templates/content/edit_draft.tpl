@@ -137,7 +137,7 @@
 </td>
 <td>{$Drafts.item.version}</td>
 <td><a href={concat( 'content/versionview/', $object.id, '/', $Drafts.item.version )|ezurl}>{$Drafts.item.version_name|wash}</a></td>
-<td>{content_view_gui view=text_linked content_object=$Drafts.item.creator}</td>
+<td>{$Drafts.item.creator.name|wash}</td>
 <td>{$Drafts.item.created|l10n( shortdatetime )}</td>
 <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
 </tr>
