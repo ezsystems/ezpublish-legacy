@@ -171,6 +171,7 @@ class eZRSSExport extends eZPersistentObject
             eZPersistentObject::store();
             return;
         }
+        $exportItems = $this->fetchItems();
         if ( $storeAsValid )
         {
             $oldStatus = $this->attribute( 'status' );
@@ -181,7 +182,6 @@ class eZRSSExport extends eZPersistentObject
                 $item->remove();
             }
         }
-        $exportItems = $this->fetchItems();
         foreach ( $exportItems as $item )
         {
             if ( $storeAsValid )
