@@ -6317,7 +6317,7 @@ Se não tem a certeza escolha URL.</translation>
     </message>
     <message>
         <source>Site templates</source>
-        <translation>Templates para sites</translation>
+        <translation type="obsolete">Templates para sites</translation>
     </message>
     <message>
         <source>Use Plain if you would like to start from scratch.</source>
@@ -6329,11 +6329,11 @@ Se não tem a certeza escolha URL.</translation>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation>Cada template cria um site único.</translation>
+        <translation type="obsolete">Cada template cria um site único.</translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template requires a unique database.</source>
-        <translation>Uma vez que cada site é único, cada template necessita de uma base de dados única.</translation>
+        <translation type="obsolete">Uma vez que cada site é único, cada template necessita de uma base de dados única.</translation>
     </message>
     <message>
         <source>Here you will see a summary of the basic settings for your site. If you are satisfied with the settings you can click the</source>
@@ -6623,6 +6623,22 @@ Se não tem a certeza escolha URL.</translation>
     </message>
     <message>
         <source>Use the refresh button to update the database listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
