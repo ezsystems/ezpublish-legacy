@@ -264,8 +264,14 @@ class eZImageType extends eZDataType
             $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
                                             $ref_dir, array( "width" => $width, "height" => $height ),
                                             false, $mime );
-
             $contentObjectAttribute->setContent( $image );
+            $ini =& eZINI::instance( 'image.ini' );
+            if ( $ini->variable( "General", "KeepOriginalFile" ) == 'false' )
+            {
+                eZDebug::writeDebug( $imageFile->attribute( "filename" ), "trying to remove image"  );
+                if ( file_exists( $imageFile->attribute( "filename" ) ) )
+                    unlink( $imageFile->attribute( "filename" ) );
+            }
         }
         return true;
     }
