@@ -17,6 +17,8 @@ Changes from 3.4.1 to 3.4.2
 - Fixed problem with fetch function content/checkAccess and the
   content class id parameter being false.
 - Fixed problem with character set conversion which was always done when using utf-8
+- Added indexcontent.php to cronjobs.ini
+- Fixed cronjobs/indexcontent.php to be more fault tolerant and scale better.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ).
