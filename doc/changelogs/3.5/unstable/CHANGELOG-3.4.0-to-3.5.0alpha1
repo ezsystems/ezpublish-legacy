@@ -123,6 +123,7 @@ eztc.php:
   "Peronal->Notification settings" when using PostgreSQL.
   Merged from stable/3.4 rev. 6883.
   http://ez.no/community/bug_reports/node_notification
+- Fixed (partially) bug: content object(s) export sometimes fails (merged from stable/3.4 rev. 6885).
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

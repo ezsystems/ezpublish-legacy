@@ -1107,7 +1107,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $domDocument = $eZXML->domTree( eZFile::getContents( $originalPath ) );
                 $rootNode = $domDocument->root();
                 $templateListNode = $rootNode->elementByName( 'template-list' );
-                foreach( $templateListNode->elementsByName( 'file' ) as $fileNode )
+                foreach( $templateListNode ? $templateListNode->elementsByName( 'file' ) : array() as $fileNode )
                 {
                     $newFilePath = $installDirectory . $fileNode->elementTextContentByName( 'path' );
                     if ( !file_exists( eZDir::dirpath( $newFilePath ) ) )
