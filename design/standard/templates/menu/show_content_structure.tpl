@@ -17,9 +17,7 @@
             {*
             <a  href={$:parentNode.path_id_string|ezurl}>
             *}
-            <a  href={$:parentNode.node.path_identification_string|ezurl}>
-                {$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}
-            </a>
+            <a  href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         
         {* Label *}
             {section show=$:showToolTips|eq('enabled')}
@@ -31,9 +29,7 @@
                 {set toolTip = ''}
             {/section}
                 
-            <a href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">
-                {$:parentNode.object.name|wash}
-            </a>
+            <a href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
         
         {* Show children *}    
             {section show=$:haveChildren}

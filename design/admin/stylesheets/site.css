@@ -140,6 +140,12 @@ div#contentstructure ul#content_tree_menu
 div#contentstructure ul#content_tree_menu li
 {
     list-style-type: none;
+    white-space: nowrap;
+}
+
+div#contentstructure ul#content_tree_menu li img
+{
+    vertical-align: middle;
 }
 
 a.openclose, span.openclose

@@ -186,21 +186,6 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
                 {/section}
 -->
 
-<div id="history">
-{section show=eq(ezpreference('history_menu'),'on')}
- <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
-<ul>
-{let history_list=fetch(content,recent)}
-{section name=History loop=$history_list}
-<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
-{/section}
-{/let}
-</ul>
-{section-else}
- <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
-{/section}
-</div>
-
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
  <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
@@ -223,6 +208,21 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to bookmarks'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
+
+<div id="history">
+{section show=eq(ezpreference('history_menu'),'on')}
+ <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+<ul>
+{let history_list=fetch(content,recent)}
+{section name=History loop=$history_list}
+<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+{/section}
+{/let}
+</ul>
+{section-else}
+ <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
+{/section}
+</div>
 
 </div>
 </div>
