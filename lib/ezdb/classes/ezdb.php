@@ -92,7 +92,7 @@
                            array( 'offset' => 0, 'limit' => 10 ) );
 
   // check which implementation we're running
-  print( $db->isA() );
+  print( $db->databaseName() );
 
   \endcode
 

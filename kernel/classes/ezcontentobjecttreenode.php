@@ -215,7 +215,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groups =& $user->groups( false );
         $groupString = "";
         $groupString = implode( ',', $groups );
-        if ( $db->isA() == 'oracle' )
+        if ( $db->databaseName() == 'oracle' )
         {
             $db->query( 'delete from permission' );
         }
