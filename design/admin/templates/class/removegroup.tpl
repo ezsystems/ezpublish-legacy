@@ -46,8 +46,8 @@
 <div class="block">
 
 <form action={concat( $module.functions.removegroup.uri )|ezurl} method="post" name="GroupRemove">
-    <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removegroup' )}">
-    <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/class/removegroup' )}">
+    <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removegroup' )}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/class/removegroup' )}" />
 </form>
 
 </div>
