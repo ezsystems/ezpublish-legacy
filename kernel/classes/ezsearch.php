@@ -160,8 +160,8 @@ class eZSearch
         foreach ( $searchTypesDefinition['types'] as $searchType )
         {
             $postVariablePrefix = 'Content_search_' . $searchType['type'] . '_' . $searchType['subtype'] . '_';
-            print $postVariablePrefix . "\n";
-            print_r( $searchType['params'] );
+            //print $postVariablePrefix . "\n";
+            //print_r( $searchType['params'] );
             $searchArrayPartForType = array();
 
             $searchPart = array();
