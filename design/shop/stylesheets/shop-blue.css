@@ -75,6 +75,42 @@ div#mainmenu a:hover
     text-decoration: underline;
 }
 
+div#shoppingmenu
+{ 
+    color: #0000ff;
+    float: right;
+}
+
+div#shoppingmenu ul, div#shoppingmenu li
+{
+    display: inline; /* This makes the vertical display of this menu */
+}
+
+div#shoppingmenu ul
+{
+    margin-left: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div#shoppingmenu li a
+{
+    padding-left: 0.5em;
+    padding-right: 1em;
+}
+
+div#shoppingmenu a
+{
+    color: #ff0000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#shoppingmenu a:hover
+{
+    text-decoration: underline;
+}
+
 div#searchbox
 {
     float: right;

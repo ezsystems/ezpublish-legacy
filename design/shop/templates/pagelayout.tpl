@@ -33,7 +33,6 @@
 
     <div id="subheader">
         <div class="design">
-        
        
         <div id="mainmenu">
             <div class="design">
@@ -48,6 +47,14 @@
                 </ul>
             
             </div>
+        </div>
+
+        <div id="shoppingmenu">
+             <ul>
+                 <li><a href={concat('/content/view/full/',$current_user.contentobject.main_node_id)|ezurl}>My Acccount</a></li>
+		 <li><a href={"/shop/basket/"|ezurl}>View Card</a></li>
+		 <li><a href={"/shop/basket/"|ezurl}>Checkout</a></li>
+             </ul>
         </div>
         
         <div class="break"></div> {* This is needed for proper flow of floating objects *}
