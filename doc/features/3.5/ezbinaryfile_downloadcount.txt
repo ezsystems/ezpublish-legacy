@@ -14,5 +14,6 @@ To use it in a template , use file.content.download_count
 2- Download it several times from different computers
 3- Display the number from a template (file.content.download_count) and check the number increases
 (you can do it directly from mysql with a request)
+4-Try the same with a non existing file (or delete the previous one) to check that the download numbers do not increase in this case
 
 *SVN revisions:
