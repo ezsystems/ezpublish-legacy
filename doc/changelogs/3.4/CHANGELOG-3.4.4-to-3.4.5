@@ -15,7 +15,7 @@ Changes from 3.4.4 to 3.4.5
 
 *Datatypes:
 
-eZ Identifier:
+	eZ Identifier:
 - Fixed: Aqcuiring a unique ID is now done the first time an object is created
   and not only when it is created.
 - Fixed: Acquiring a new unique ID is not present in previous versions.
@@ -201,6 +201,8 @@ eZ Url:
 - Fixed: Adding eZ Identifier datatype does not generate ID for existing objects (Bug #6109)
 - Fixed bug #6107: Variables loosing content in deep nesting template constructs.
 - Fixed: Extensions could not override template.ini entries. (Bug #6129)
+- Fixed: User setting DefaultSectionID in site.ini (Bug #6039)
+  (Merged from stable/3.3 (3.3-7) rev. 10631)
 
 *Library:
 
