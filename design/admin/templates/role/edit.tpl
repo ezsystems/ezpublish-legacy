@@ -20,6 +20,7 @@
 <div class="block">
 <label>{'Policies'|i18n( 'design/admin/role/edit' )}</label><div class="labelbreak" />
 
+{section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
@@ -68,9 +69,11 @@
 </tr>
 {/section}
 </table>
+{section-else}
+<p>{'There are no policies within this role.'|i18n( 'design/admin/role/edit' )}</p>
+{/section}
 
-
-<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" />
+<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" {section show=$policies|not}disabled="disabled"{/section} />
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" />
 
 </div>
