@@ -57,23 +57,49 @@ class eZApproveType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        eZDebug::writeNotice( $process, 'process');
+        $parameters = $process->attribute( 'parameter_list' );
+        var_dump( $parameters );
+        $object =& eZContentObject::fetch( $parameters['object_id'] );
+        $user =& eZUser::currentUser(); //fetch( $parameters['user_id'] );
+        $userGroups = $user->attribute( 'groups' );
 
-        if( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_NOT_CREATED )
+        $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
+        $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
+        $editor = $event->attribute( 'data_int1' );
+
+        
+        if ( $user->id() != $editor &&
+             count( array_intersect( $userGroups, $workflowGroups ) ) == 0  &&
+             in_array( $object->attribute( 'section_id'), $workflowSections ) )
         {
-            $this->createTask( $process, $event );
-            $this->setInformation( "We are going to create task" );
-            $process->setAttribute( 'event_state', EZ_APPROVE_TYPE_TASK_CREATED );
-            $process->store();
-            eZDebug::writeNotice( $this, 'aprove execute');
-            return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+        
 
+//        eZDebug::writeNotice( $process, 'process');
+
+            if( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_NOT_CREATED )
+            {
+                $this->createTask( $process, $event, $user->id(), $object->attribute( 'id' ), $editor );
+                $this->setInformation( "We are going to create task" );
+                $process->setAttribute( 'event_state', EZ_APPROVE_TYPE_TASK_CREATED );
+                $process->store();
+                eZDebug::writeNotice( $this, 'aprove execute');
+                return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+
+            }
+            elseif ( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_CREATED )
+            {
+                $this->setInformation( "we are checking task now" );
+                eZDebug::writeNotice( $event, 'check task' );
+                return $this->checkTask(  $process, $event );
+            }
         }
-        elseif ( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_CREATED )
+        else
         {
-            $this->setInformation( "we are checking task now" );
-            eZDebug::writeNotice( $event, 'check task' );
-            return $this->checkTask(  $process, $event );
+            eZDebug::writeDebug( $workflowSections , "we are not going to create task " . $object->attribute( 'section_id') );
+            eZDebug::writeDebug( $userGroups, "we are not going to create task" );
+            eZDebug::writeDebug( $workflowGroups,  "we are not going to create task" );
+            eZDebug::writeDebug( $user->id(), "we are not going to create task $editor "  );
+            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
         }
     }
 
@@ -89,23 +115,33 @@ class eZApproveType extends eZWorkflowEventType
             $editorID = $http->postVariable( $editorVar );
             $event->setAttribute( "data_int1", $editorID );
         }
-        $editorVar = $base . "_event_ezapprove_not_approve_id_" . $event->attribute( "id" );
-        if ( $http->hasPostVariable( $editorVar ) )
+        $userGroupsVar = $base . "_event_ezapprove_not_approve_id_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $userGroupsVar ) )
         {
-            $editorID = $http->postVariable( $editorVar );
-            $event->setAttribute( "data_int2", $editorID );
+            $userGroupsString = $http->postVariable( $userGroupsVar );
+//            $userGroupList = explode( ',', $userGroupsString );
+            
+
+            $event->setAttribute( "data_text2", $userGroupsString );
+        }
+
+        $sectionsVar = $base . "_event_ezapprove_section_id_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $sectionsVar ) )
+        {
+            $sectionsString = $http->postVariable( $sectionsVar );
+//            $userGroupList = explode( ',', $userGroupsString );
+            $event->setAttribute( "data_text1", $sectionsString );
         }
 
     }
 
-    function createTask( &$process, &$event )
+    function createTask( &$process, &$event, $userID, $contentobjectID, $editor )
     {
-        $user =& eZUser::currentUser();
-        $task =& eZTask::createAssignment( $user->id() );
-        $task->setAttribute( 'object_id', $process->attribute( 'content_id' ));
-        if ( $event->attribute( 'data_int1' ) != null && $event->attribute( 'data_int1' ) != 0 )
+        $task =& eZTask::createAssignment( $userID );
+        $task->setAttribute( 'object_id',  $contentobjectID );
+        if ( $editor != null )
         {
-            $task->setAttribute( 'receiver_id', $event->attribute( 'data_int1' ) );
+            $task->setAttribute( 'receiver_id', $editor );
         }
         else
         {
@@ -119,6 +155,7 @@ class eZApproveType extends eZWorkflowEventType
                                               values(' . $process->attribute( 'id' ) .','. $task->attribute( 'id' ) .' ) '
                     );
     }
+
     function checkTask( &$process, &$event )
     {
         $db = & eZDb::instance();

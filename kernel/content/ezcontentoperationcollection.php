@@ -65,45 +65,196 @@ class eZContentOperationCollection
                                              array( 'parent_node_id' => 12 ) ) );
     }
 
-    function loopNodeAssignment( $objectID, $version )
+    function loopNodeAssignment( $objectID, $versionNum )
     {
+        $object =& eZContentObject::fetch( $objectID );
+        $version =& $object->version( $versionNum );
+        $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+//        var_dump( $nodeAssignmentList );
+
+        $parameters = array();
+        foreach ( array_keys( $nodeAssignmentList ) as $key )
+        {
+//            $nodeAssignment =& $nodeAssignmentList[$key];
+            print( "loopNodeAssignment:\$parentNode=" . $nodeAssignmentList[$key]->attribute( 'parent_node' ) . "<br/>" );
+            
+            $parameters[] = array( 'parent_node_id' => $nodeAssignmentList[$key]->attribute( 'parent_node' ) );
+        }
+
         print( "loopNodeAssignment:\$objectID=$objectID<br/>" );
-        print( "loopNodeAssignment:\$version=$version<br/>" );
-        return array( 'parameters' => array( array( 'parent_node_id' => 3 ),
-                                             array( 'parent_node_id' => 5 ),
-                                             array( 'parent_node_id' => 12 ) ) );
+        print( "loopNodeAssignment:\$version=$versionNum<br/>" );
+
+        
+        return array( 'parameters' => $parameters );
     }
 
-    function setVersionStatus( $objectID, $version, $status )
+    function setVersionStatus( $objectID, $versionNum, $status )
     {
+        $object =& eZContentObject::fetch( $objectID );
+        if ( !$versionNum )
+        {
+            $versionNum = $object->attribute( 'current_version' );
+        }
+        $version =& $object->version( $versionNum );
         switch ( $status )
         {
             case 1:
             {
                 $statusName = 'pending';
+                $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
+                
             } break;
             case 2:
             {
                 $statusName = 'archived';
+                $version->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
             } break;
             case 3:
             {
                 $statusName = 'published';
+                $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
             } break;
             default:
                 $statusName = 'none';
         }
+        $version->store();
         print( "setVersionStatus:\$objectID=$objectID<br/>" );
-        print( "setVersionStatus:\$version=$version<br/>" );
+        print( "setVersionStatus:\$version=$versionNum<br/>" );
         print( "setVersionStatus:\$status=$status($statusName)<br/>" );
     }
 
-    function publishNode( $parentNodeID, $objectID, $version )
+    function publishNode( $parentNodeID, $objectID, $versionNum )
     {
+        $object =& eZContentObject::fetch( $objectID );
+        $version =& $object->version( $versionNum );
+        $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
+
+        $object->setAttribute( 'current_version', $versionNum );
+        $object->setAttribute( 'modified', mktime() );
+        $object->setAttribute( 'published', mktime() );
+        $object->store();
+
+        $class =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
+        $objectName = $class->contentObjectName( $object );
+        $object->setAttribute( 'name', $objectName );
+        $object->store();
+
+        $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
+        $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
+
+        $nodeID = $nodeAssignment->attribute( 'parent_node' );
+        $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+        $parentNodeID = $parentNode->attribute( 'node_id' );
+        if ( $existingNode  == null )
+        {
+            if ( $fromNodeID == 0 )
+            {
+                $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+            }else
+            {
+                $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+                $originalNode->move( $parentNodeID );
+                $existingNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeID );
+            }
+        }
+
+        $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
+        $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
+        $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+        $existingNode->setAttribute( 'contentobject_is_published', 1 );
+        if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
+        {
+            $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+        }
+        $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
+        $version->store();
+
+        $object->store();
+        $existingNode->store();
+
         print( "publishNode:\$parentNodeID=$parentNodeID<br/>" );
         print( "publishNode:\$objectID=$objectID<br/>" );
         print( "publishNode:\$version=$version<br/>" );
     }
+
+
+    function removeOldNodes(  $objectID, $versionNum )
+    {
+        $object =& eZContentObject::fetch( $objectID );
+        $version =& $object->version( $versionNum );
+
+        $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
+
+        $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
+        //    var_dump( $curentVersionNodeAssignments );
+        $versionParentIDList = array();
+        foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
+        {
+            $nodeAssignment =& $curentVersionNodeAssignments[$key];
+            $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
+        }
+        foreach ( array_keys( $assignedExistingNodes )  as $key )
+        {
+            $node =& $assignedExistingNodes[$key];
+            if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) &&
+                 !in_array( $node->attribute( 'parent_node_id' ), $versionParentIDList ) )
+            {
+                $node->remove();
+            }
+        }
+        print( "removeOldNodes:\$objectID=$objectID<br/>" );
+
+    }
+
+    function registerSearchObject(  $objectID, $versionNum )
+    {
+        include_once( "kernel/classes/ezsearch.php" );
+        $object =& eZContentObject::fetch( $objectID );
+        // Register the object in the search engine.
+        eZSearch::removeObject( $object );
+        eZSearch::addObject( $object );
+        print( "registerSearchObject:\$objectID=$objectID<br/>" );
+
+    }
+
+    function checkNotifications(  $objectID, $versionNum )
+    {
+        include_once( "kernel/notification/eznotificationrule.php" );
+        include_once( "kernel/notification/eznotificationruletype.php" );
+        include_once( "kernel/notification/eznotificationuserlink.php" );
+        include_once( "kernel/notification/ezmessage.php" );
+        $object =& eZContentObject::fetch( $objectID );
+        $allrules =& eZNotificationRule::fetchList( null );
+        foreach ( $allrules as $rule )
+        {
+            $ruleClass = $rule->attribute("rule_type");
+            $ruleID = $rule->attribute( "id" );
+            if ( $ruleClass->match( &$object, &$rule ) )
+            {
+                $users =& eZNotificationUserLink::fetchUserList( $ruleID );
+                foreach ( $users as $user )
+                {
+                    $sendMethod = $user->attribute( "send_method" );
+                    $sendWeekday = $user->attribute( "send_weekday" );
+                    $sendTime = $user->attribute( "send_time" );
+                    $destinationAddress = $user->attribute( "destination_address" );
+                    $title = "New publishing notification";
+                    $body = $object->attribute( "name" );
+                    $domain = getenv( 'HTTP_HOST' );
+                    $body .= "\nhttp://" .  $domain . "/content/view/full/";
+                    $body .=  $object->attribute( "main_node_id" );
+                    $body .= "\n\n\nAdministrator";
+                    $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
+                    $message->store();
+                }
+            }
+        }
+        print( "checkNotifications:\$objectID=$objectID<br/>" );
+
+    }
+
+
 
 }
 

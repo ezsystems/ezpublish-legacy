@@ -46,11 +46,16 @@
 include_once( 'lib/ezutils/classes/ezmodule.php' );
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+include_once( 'kernel/classes/eztrigger.php' );
 
 define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS', 5 );
 define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD', 6 );
 define( 'EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED', 7 );
 define( 'EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER', 8 );
+
+define( 'EZ_MODULE_OPERATION_CONTINUE', 1 );
+define( 'EZ_MODULE_OPERATION_CANCELED', 2 );
+define( 'EZ_MODULE_OPERATION_HALTED', 3 );
 
 class eZModuleOperationInfo
 {
@@ -170,7 +175,8 @@ class eZModuleOperationInfo
             if ( isset( $operationDefinition['keys'] ) )
                 $operationKeys = $operationDefinition['keys'];
             $operationParameterDefinitions = $operationDefinition['parameters'];
-            $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount );
+            $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
+            eZDebug::writeDebug($this->Memento, "stored operation memento" );
 
             $runOperation = true;
             if ( $mementoData === null )
@@ -222,6 +228,7 @@ class eZModuleOperationInfo
                     $runOperation = false;
                 }
             }
+            eZDebug::writeDebug( $mementoData, "mementoData" );
             if ( $runOperation )
             {
                 // start  new operation
@@ -230,12 +237,16 @@ class eZModuleOperationInfo
                 $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
-                print( "<pre>" );
+                print( "<pre>111" );
                 var_dump( $bodyCallCount );
-                print( "</pre>" );
+                print( "<br/>" );
+                var_dump( $resultArray );
+                print( "222</pre>" );
             }
+            eZDebug::writeDebug( $this->Memento, "memento" );
+            eZDebug::writeDebug( $mementoData, "mementoData" );
             if ( is_array( $resultArray ) and
-                 $resultArray['status'] == false )
+                 $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
                 if ( $this->Memento !== null )
                     $this->Memento->store();
@@ -245,6 +256,17 @@ class eZModuleOperationInfo
             {
                 $this->Memento->remove();
             }
+            /*
+            else if ( isset( $mementoData['memento_key'] ) )
+            {
+                $memento = eZOperationMemento::fetch( $mementoData['mementoKey'] );
+                if ( $memento->attribute( 'main_key') !=  $mementoData['mementoKey'] )
+                {
+                    $mainMemento = eZOperationMemento::fetch( $memento->attribute( 'main_key') );
+                }
+                $memento->remove();
+            }
+            */
             $this->Memento = null;
         }
         else
@@ -321,7 +343,7 @@ class eZModuleOperationInfo
                           $operationKeys, $operationParameterDefinitions, $operationParameters,
                           &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null )
     {
-        $bodyReturnValue = array( 'status' => true );
+        $bodyReturnValue = array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
         foreach ( $bodyStructure as $body )
         {
             if ( !isset( $body['type'] ) )
@@ -371,6 +393,9 @@ class eZModuleOperationInfo
                             $parameters = $resultArray['parameters'];
                         }
                         $count = 0;
+                        $countDone = 0;
+                        $countHalted = 0;
+                        $countCanceled = 0;
                         foreach ( $parameters as $parameterStructure )
                         {
                             $tmpOperationParameters = $operationParameters;
@@ -384,16 +409,55 @@ class eZModuleOperationInfo
                             $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                                $operationKeys, $tmpOperationParameterDefinitions, $tmpOperationParameters,
                                                                $mementoData, $bodyCallCount, $operationName, array( 'name' => $loopName,
-                                                                                                                 'count' => count( $parameters ),
-                                                                                                                 'index' => $count  ) );
-                            if ( !$returnValue['status'] )
-                                $bodyReturnValue = $returnValue;
+                                                                                                                    'count' => count( $parameters ),
+                                                                                                                    'index' => $count  ) );
+                            print( "after execute body returnValue['status']= " . $returnValue['status'] . "<br/> " );
+                            switch( $returnValue['status'] )
+                            {
+                                case EZ_MODULE_OPERATION_CANCELED:
+                                {
+                                    $bodyReturnValue = $returnValue;
+                                    ++$countCanceled;
+                                }break;
+                                case EZ_MODULE_OPERATION_CONTINUE:
+                                {
+                                    $bodyReturnValue = $returnValue;
+
+                                    ++$countDone;
+                                }break;
+                                case EZ_MODULE_OPERATION_HALTED:
+                                {
+                                    $bodyReturnValue = $returnValue;
+                                    ++$countHalted;
+                                }break;
+                            }
                         }
+                        if ( $body['continue_operation'] == 'all' )
+                        {
+                            if ( $count == $countDone )
+                            {
+                                // continue operation
+                            }
+                            if ( $countCanceled > 0 )
+                            {
+                                print( "One or more loop items failed, returning<br/>" );
+                                return $bodyReturnValue;
+                                //cancel operation
+                            }
+                            if ( $countHalted > 0 )
+                            {
+                                print( "One or more loop items halted, returning<br/>" );
+                                return $bodyReturnValue;                                //show tempalate
+                            }
+
+                        }
+                        /*
                         if ( !$bodyReturnValue['status'] )
                         {
                             print( "One or more loop items failed, returning<br/>" );
                             return $bodyReturnValue;
                         }
+                        */
                     }
                 } break;
                 case 'trigger':
@@ -407,8 +471,8 @@ class eZModuleOperationInfo
                     {
                         if ( $mementoData['name'] == $triggerName )
                         {
-                            $this->restoreBodyMementoData( $bodyName, $mementoData,
-                                                           $operationParameters, $bodyCallCount, $currentLoopData );
+                            $executeTrigger =  $this->restoreBodyMementoData( $bodyName, $mementoData,
+                                                                              $operationParameters, $bodyCallCount, $currentLoopData );
                             $triggerRestored = true;
                         }
                         else
@@ -419,10 +483,33 @@ class eZModuleOperationInfo
                     }
                     if ( $executeTrigger )
                     {
+                        $status = $this->executeTrigger( $bodyReturnValue, $body,
+                                                          $operationParameterDefinitions, $operationParameters,
+                                                          $bodyCallCount, $currentLoopData,
+                                                          $triggerRestored, $operationName, $operationKeys );
+                        print( "executeTrigger returned status: $status <br/>>");
+                        switch( $status )
+                        {
+                            case EZ_MODULE_OPERATION_CONTINUE:
+                            {
+                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                            }break;
+                            case EZ_MODULE_OPERATION_CANCELED:
+                            {
+                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CANCELED;
+                            }break;
+                            case EZ_MODULE_OPERATION_HALTED:
+                            {
+
+                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_HALTED;
+                                return $bodyReturnValue;
+                            }
+                        }
+/*
                         if ( !$this->executeTrigger( $bodyReturnValue, $body,
                                                     $operationParameterDefinitions, $operationParameters,
                                                     $bodyCallCount, $currentLoopData,
-                                                    $triggerRestored ) )
+                                                    $triggerRestored, $operationName ) )
                         {
                             $this->storeBodyMemento( $triggerName, $triggerKeys,
                                                      $operationKeys, $operationParameterDefinitions, $operationParameters,
@@ -432,6 +519,12 @@ class eZModuleOperationInfo
                     }
                     if ( !$bodyReturnValue['status'] )
                         return $bodyReturnValue;
+*/
+                    }else
+                    {
+                        $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+//                        return $bodyReturnValue;
+                    }
                 } break;
                 case 'method':
                 {
@@ -449,6 +542,7 @@ class eZModuleOperationInfo
                             $tmpOperationParameterDefinitions = $body['parameters'];
                         if ( $executeMethod )
                         {
+                            print( "method call #:". $bodyName ."<br/>" );
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $this->executeClassMethod( $includeFile, $className, $method,
                                                        $tmpOperationParameterDefinitions, $operationParameters );
@@ -463,16 +557,55 @@ class eZModuleOperationInfo
                 }
             }
         }
+        
         return $bodyReturnValue;
     }
 
     function executeTrigger( &$bodyReturnValue, $body,
                              $operationParameterDefinitions, $operationParameters,
                              &$bodyCallCount, $currentLoopData,
-                             $triggerRestored )
+                             $triggerRestored, $operationName, &$operationKeys )
     {
         $triggerName = $body['name'];
         $triggerKeys = $body['keys'];
+
+//
+        print( "Trigger name: $triggerName <br/>" );
+        var_dump( $body );
+        $status = eZTrigger::runTrigger( $triggerName, $this->ModuleName, $operationName, $operationParameters, $triggerKeys );
+
+        print( "<br/> Trigger $triggerName returned  next status : <br/>" );
+        var_dump( $status );
+        if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
+        {
+            ++$bodyCallCount['loop_run'][$triggerName];
+            print( "Trigger executed:$triggerName<br/>" );
+            return EZ_MODULE_OPERATION_CONTINUE;
+        }
+        else if ( $status['Status'] == EZ_TRIGGER_STATUS_CRON_JOB || $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE )
+        {
+            $bodyMemento =& $this->storeBodyMemento( $triggerName, $triggerKeys,
+                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
+                                                     $bodyCallCount, $currentLoopData, $operationName );
+            $workflowProcess =& $status['WorkflowProcess'];
+            if ( ! is_null( $workflowProcess ) )
+            {
+                var_dump( $workflowProcess );
+                var_dump( $bodyMemento );
+                
+                $workflowProcess->setAttribute( 'memento_key', $bodyMemento->attribute( 'memento_key' ) );
+                $workflowProcess->store();
+            }
+
+            $bodyReturnValue['result'] =& $status['Result'];
+            return EZ_MODULE_OPERATION_HALTED;
+        }
+        else if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_CANCELED )
+        {
+             return EZ_MODULE_OPERATION_CANCELED;
+        }
+
+
         // The code below is just to fake a trigger halt
         if ( !$triggerRestored and
              ( $triggerName == 'pre_read' or $triggerName == 'post_read' ) and
@@ -512,13 +645,15 @@ class eZModuleOperationInfo
     }
 
     function storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                    &$bodyCallCount )
+                                    &$bodyCallCount, $operationName )
     {
+        $mementoData = array();
+        $mementoData['module_name'] = $this->ModuleName;
+        $mementoData['operation_name'] = $operationName;
         if ( $this->Memento === null )
         {
             $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
             $keyArray['session_key'] = eZHTTPTool::getSessionKey();
-            $mementoData = array();
             $mementoData['loop_run'] = $bodyCallCount['loop_run'];
             $memento = eZOperationMemento::create( $keyArray, $mementoData, true );
             $this->Memento =& $memento;
@@ -532,11 +667,11 @@ class eZModuleOperationInfo
         eZDebug::writeDebug( $this->Memento, 'operation memento' );
     }
 
-    function storeBodyMemento( $bodyName, $bodyKeys,
+    function &storeBodyMemento( $bodyName, $bodyKeys,
                                $operationKeys, $operationParameterDefinitions, $operationParameters,
-                               &$bodyCallCount, $currentLoopData )
+                               &$bodyCallCount, $currentLoopData, $operationName )
     {
-        $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount );
+        $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
 
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
         $keyArray['session_key'] = eZHTTPTool::getSessionKey();
@@ -544,9 +679,12 @@ class eZModuleOperationInfo
         $mementoData['name'] = $bodyName;
         $mementoData['parameters'] = $operationParameters;
         $mementoData['loop_data'] = $currentLoopData;
-        $memento = eZOperationMemento::create( $keyArray, $mementoData );
+        $mementoData['module_name'] = $this->ModuleName;
+        $mementoData['operation_name'] = $operationName;
+        $memento =& eZOperationMemento::create( $keyArray, $mementoData, false, $this->Memento->attribute( 'memento_key' ) );
         $memento->store();
         eZDebug::writeDebug( $memento, '$memento' );
+        return $memento;
     }
 
     function restoreBodyMementoData( $bodyName, &$mementoData,
@@ -556,6 +694,17 @@ class eZModuleOperationInfo
         $operationParameters = array();
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
+        if ( isset( $mementoData[ 'main_memento' ] ) )
+        {
+            $this->Memento =& $mementoData[ 'main_memento' ];
+            $mainMementoData =& $this->Memento->data();
+            if ( isset( $mainMementoData['loop_run'] ) )
+            {
+                $bodyCallCount['loop_run'] = $mainMementoData['loop_run'];
+            }
+
+        }
+
 //         if ( $this->Memento !== null )
 //         {
 //             $mementoOperationData = $this->Memento->data();
@@ -564,8 +713,18 @@ class eZModuleOperationInfo
 //         }
         if ( isset( $mementoData['loop_data'] ) )
             $currentLoopData = $mementoData['loop_data'];
-        $mementoData = null;
         print( "Body rerun scheduled:$bodyName<br/>" );
+        if ( isset( $mementoData['skip_trigger'] ) )
+        {
+            $mementoData = null;
+            return false;
+        }
+        else
+        {
+            $mementoData = null;
+            return true;
+        }
+
     }
 
     function executeClassMethod( $includeFile, $className, $methodName,
@@ -590,6 +749,7 @@ class eZModuleOperationInfo
                           'internal_error_class_method_name' => $methodName );
         }
         $parameterArray = array();
+
         foreach ( $operationParameterDefinitions as $operationParameterDefinition )
         {
             $parameterName = $operationParameterDefinition['name'];
@@ -607,6 +767,7 @@ class eZModuleOperationInfo
             {
                 if ( $operationParameterDefinition['required'] )
                 {
+
                     return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER,
                                   'internal_error_parameter_name' => $parameterName );
                 }
@@ -620,6 +781,7 @@ class eZModuleOperationInfo
                 }
             }
         }
+
         return $this->callClassMethod( $methodName, $classObject, $parameterArray );
     }
 

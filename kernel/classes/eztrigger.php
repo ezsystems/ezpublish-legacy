@@ -118,18 +118,21 @@ class eZTrigger extends eZPersistentObject
     function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
-                                                null,
-                                                array( 'name' => $name,
-                                                       'module_name' => $moduleName,
-                                                       'function_name' => $function ),
-                                                true);
+                                                    null,
+                                                    array( 'name' => $name,
+                                                           'module_name' => $moduleName,
+                                                           'function_name' => $function ),
+                                                    true);
         if ( $trigger !== NULL )
         {
             $workflowID = $trigger->attribute( 'workflow_id' );
             $workflow =& eZWorkflow::fetch( $workflowID );
             eZDebug::writeNotice( $workflowID, "we are going to start workflow:" );
+            if ( $keys != null )
+            {
+                $keys[] = 'workflow_id';
+            }
 
-            $keys[] = 'workflow_id';
             $parameters['workflow_id'] = $workflowID;
             $processKey = eZWorkflowProcess::createKey( $parameters, $keys );
 
@@ -160,17 +163,21 @@ class eZTrigger extends eZPersistentObject
                     } break;
                     case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
                     {
-                        return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
-                                      'Result' => null );
-                    } break;
+                        return eZTrigger::runWorkflow( $existingWorkflowProcess );
+/*                        return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                                      
+                                      'Result' => array( 'content' => 'Operation halted during execution.<br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
+                                                         'path' => array( array( 'text' => 'Operation halt',
+                                                                            'url' => false ) ) ) );
+*/                  } break;
                     case EZ_WORKFLOW_STATUS_DONE:
                     {
                         return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                                       'Result' => null );
                     }
                 }
-                    return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
-                                  'Result' => null );
+                return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                              'Result' => null );
             }else
             {
 //                print( "\n starting new workflow process \n");
@@ -178,6 +185,7 @@ class eZTrigger extends eZPersistentObject
 //                print( " $workflowID, $userID, $objectID, $version, $nodeID, \n ");
             }
             $workflowProcess =& eZWorkflowProcess::create( $processKey, $parameters );
+            eZDebug::writeDebug( $workflowProcess, "We have created new workflow process" );
 
             $workflowProcess->store();
 
@@ -222,12 +230,20 @@ class eZTrigger extends eZPersistentObject
                 }
                 $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
                 return array( 'Status' => EZ_TRIGGER_FETCH_TEMPLATE,
+                              'WorkflowProcess' => &$workflowProcess,
                               'Result' => $result['content'] );
             } break;
             case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
             {
                 return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
-                              'Result' => null );
+                              'WorkflowProcess' => &$workflowProcess,
+                              'Result' => array( 'content' => 'Operation halted during execution.<br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
+                                                 'path' => array( array( 'text' => 'Operation halt',
+                                                                         'url' => false ) ) ) );
+/*
+                return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                              'Result' => $workflowProcess->attribute( 'id') );
+*/
             } break;
             case EZ_WORKFLOW_STATUS_DONE:
             {

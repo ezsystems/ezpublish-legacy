@@ -38,7 +38,6 @@ include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
-
 $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -85,7 +84,6 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
         }
         else
             $requireNewVersion = true;
-
         if ( $requireNewVersion )
         {
             // Fetch and create new version
@@ -184,6 +182,22 @@ if ( !function_exists( 'checkContentActions' ) )
             $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
             $count = 0;
+            $user =& eZUser::currentUser();
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                         'version' => $version->attribute( 'version') ) );
+
+            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+            if ( $object->attribute( 'main_node_id' ) > 0 )
+            {
+                $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+            }
+            else
+            {
+                $module->redirectToView( 'view', array( 'sitemap', 2 ) );
+            }
+
+/*
             foreach ( array_keys( $nodeAssignmentList ) as $key )
             {
 
@@ -206,9 +220,10 @@ if ( !function_exists( 'checkContentActions' ) )
                     $status = eZTrigger::runTrigger( 'pre_publish',
                                                      'content',
                                                      'publish',
-                                                     array( 'object'  => $object,
+                                                     array( 'contentobject_id'  => $object->attribute( 'id' ),
                                                             'version' => $version->attribute( 'version' ),
-                                                            'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )
+                                                            'parent_node_id' => $nodeAssignment->attribute( 'parent_node' ),
+                                                            'user_id' => $user->id()
                                                             )
                                                      );
                 }
@@ -262,6 +277,9 @@ if ( !function_exists( 'checkContentActions' ) )
                     $object->store();
                     $existingNode->store();
                     $count++;
+                }else if ( $status['Status'] == EZ_TRIGGER_STATUS_CRON_JOB )
+                {
+                    eZModuleRun::createFromModule( $status['Result'], $module );
                 }
             }
 
@@ -293,7 +311,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
                 $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
 
-                /*  clean up nodes for old versions      */
+//                  clean up nodes for old versions  
 
 //            if ( $status )
 //                return $status;
@@ -332,6 +350,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
+        */
         }
     }
 }

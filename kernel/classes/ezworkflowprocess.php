@@ -73,7 +73,8 @@ class eZWorkflowProcess extends eZPersistentObject
                                          'modified' => 'Modified',
                                          'activation_date' => 'ActivationDate',
                                          'status' => 'Status',
-                                         'parameters' => 'Parameters' ),
+                                         'parameters' => 'Parameters',
+                                         'memento_key' => 'MementoKey' ),
                       'keys' => array( 'id' ),
                       "increment_key" => "id",
                       'class_name' => 'eZWorkflowProcess',
@@ -231,6 +232,11 @@ class eZWorkflowProcess extends eZPersistentObject
                     {
                         case EZ_WORKFLOW_TYPE_STATUS_ACCEPTED:
                         {
+                            $done = false;
+                            $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
+                        }break;
+                        case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE:
+                        {
                             $done = true;
                             $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
                         } break;
@@ -360,6 +366,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 $string .= $key . $value;
             }
         }
+        eZDebug::writeDebug( $string ,"precess key string" );
         return md5( $string );
     }
 
@@ -456,7 +463,7 @@ class eZWorkflowProcess extends eZPersistentObject
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {

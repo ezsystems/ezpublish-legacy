@@ -38,11 +38,16 @@
 */
 
 include_once( "kernel/classes/ezworkflowprocess.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezmodulerun.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
+include_once( "lib/ezutils/classes/ezoperationmemento.php" );
+include_once( "lib/ezutils/classes/ezoperationhandler.php" );
+
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
+eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
@@ -63,8 +68,20 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $process->store();
     }
     else
-    {
-        eZModuleRun::runFromDB( $process->attribute( 'id' ) );
+    {   //restore memento and run it
+        eZDebug::writeDebug( $process, '$process' );
+        $bodyMemento =& eZOperationMemento::fetch( $process->attribute( 'memento_key' ) );
+        eZDebug::writeDebug( $bodyMemento->data(), '$bodyMementoData' );
+        $mainMemento =& $bodyMemento->attribute( 'main_memento' );
+        eZDebug::writeDebug( $mainMemento->data(), '$mainMementoData' );
+
+        $mementoData = $bodyMemento->data();
+        $mainMementoData = $mainMemento->data();
+        $mementoData['main_memento'] =& $mainMemento;
+        $mementoData['skip_trigger'] = true;
+        $mementoData['memento_key'] = $process->attribute( 'memento_key' );
+        $bodyMemento->remove();
+        eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], array( ), $mementoData );
         $process->remove();
     }
 
@@ -72,7 +89,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
     flush();
 }
 
-//eZDebug::printReport();
+eZDebug::printReport();
 
 
 
