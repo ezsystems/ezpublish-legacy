@@ -1,0 +1,19 @@
+*Title: Override builtin navigation part identifiers
+
+*Incentive:
+Make it possible to override the builting navigation part
+identifiers of modules and views.
+If you are interested in moving a certain module or view
+to another top menu you can use this without modifying
+kernel code. 
+
+*Documentation:
+A new entry has been added to module.ini called ModuleOverrides.
+In it the NavigationPart variable is found which controls
+overrides for whole modules or views.
+
+For instance to override a whole module you would add
+NavigationPart[content]=ezsetupnavigationpart
+
+or to override just a view you use the module name and the view name
+NavigationPart[content/trash]=ezsetupnavigationpart

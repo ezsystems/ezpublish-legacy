@@ -115,6 +115,10 @@ class eZModule
         $this->ViewActions = array();
         $this->OriginalParameters = null;
         $this->UserParameters = array();
+
+        // Load in navigation part overrides
+        $ini =& eZINI::instance( 'module.ini' );
+        $this->NavigationParts = $ini->variable( 'ModuleOverrides', 'NavigationPart' );
     }
 
     /*!
@@ -1140,10 +1144,24 @@ class eZModule
             $Return['is_default_navigation_part'] = true;
             if ( isset( $function['default_navigation_part'] ) )
                 $Return['navigation_part'] = $function['default_navigation_part'];
+
         }
         else
         {
             $Return['is_default_navigation_part'] = false;
+        }
+
+        // Check if we have overrides for navigation part
+        $viewName = $this->Name . '/' . $functionName;
+        if ( isset( $this->NavigationParts[$viewName] ) )
+        {
+            $Return['is_default_navigation_part'] = false;
+            $Return['navigation_part'] = $this->NavigationParts[$viewName];
+        }
+        else if ( isset( $this->NavigationParts[$this->Name] ) )
+        {
+            $Return['is_default_navigation_part'] = false;
+            $Return['navigation_part'] = $this->NavigationParts[$this->Name];
         }
 
         return $Return;
