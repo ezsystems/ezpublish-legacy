@@ -65,67 +65,16 @@ Enter  1 - parent_node
        2 - contentobject_id,  ( that is like a node value )
 
 (a) - get path_string, depth for parent node to built path_string  and to count depth for new one
-(b) - we need to make hole (gap) in tree for to store new node. that is two update queries to change             margins
 (c) - calculating attributes for new node and inserting it
-
 Returns node_id for added node
 
 
 2. Deleting node ( or subtree )
 Enter - node_id
-(a) - selecting margins of subtree
-(b) - deleting subtree
-(c)  - close gap in the tree, decriment margins, which are to the right of deleted subtree, by the width of deleted tree
-
 
 3. Move subtree in tree
 Enter node_id,new_parent_id
-(a) - get information about node
-(b) - get information about new_parent_id
-(c) - make a hole in tree to store subtree. We need to update margins which are right from place move to.
-      there are two kind of nodes we need to update margins, for example
-      we have a tree
 
-        ___________0__________
-       |  _____1______        |
-       | |  _2_  _3_  | _4_   |
-       | | |   ||   | ||   |  |
-       |1|2|3 4||5 6|7||8 9|10|
-
-       we need to move node 3 to be child of node 2, node 3 and 4 has both (left and right) margins
-       greater then 4 (right margin of place we move to), nodes 2 and 1 and 0 have only right margin
-       greater than 4. For reserving a place for subtree we need to increment that margins by width
-       of the subtree.
-
-        ___________0______________
-       |  _____1________          |
-       | |  __2__  _3_  | __4__   |
-       | | |     ||   | ||     |  |
-       |1|2|3   6||7 8|9||10 11|12|
-
-
-(d) - calculate attributes for node in subtree: new_path_string, movement, new_depth, and margins
-      For each node in the subtree
-             new_path_string = "path_string to new parent" + "parent/" + "path_string from node we moveing to current node"
-             movement -  that is the value we  add to margins of nodes in subtree to move it to a needed
-                 place, calculates as:
-                 if we move subtree to right it will be -
-                 movement = "right margin of new parent node" - "left margin of root node we move";
-                 if we move subtree to left it will be -
-                 movement = "right margin of new parent node" - "left margin of root node we move" -
-                             - "width of subtree we move";
-                 new_depth = "depth of node" - "depth of root node in subtree we move" +
-                              + "depth of new parent node" + 1;
-        ___________0_____________
-       |  _____1_______          |
-       | |  __2____    | __4__   |
-       | | |  _3_  |   ||     |  |
-       | | | |   | |   ||     |  |
-       |1|2|3|4 5|6|  9||10 11|12|
-                    ^^
-                    gap
-
-(e) - close a gap that apeared after moving subtree
 
 4. fetching subtree
 

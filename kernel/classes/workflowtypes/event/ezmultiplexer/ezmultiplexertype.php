@@ -58,7 +58,7 @@ class eZMultiplexerType extends eZWorkflowEventType
     {
 //        var_dump( $process );
         $processParameters = $process->attribute( 'parameter_list' );
-        var_dump( $processParameters );
+//        var_dump( $processParameters );
         $objectID = $processParameters[ 'contentobject_id'];
         $object =& eZContentObject::fetch( $objectID );
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
@@ -82,7 +82,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
                 
                 $childProcessArray =& eZWorkflowProcess::fetchListByKey( $childProcessKey );
-                var_dump( $childProcessArray );
+                //              var_dump( $childProcessArray );
                 $childProcess =& $childProcessArray[0];
                 if ( $childProcess == null )
                 {

@@ -88,9 +88,10 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 eZDebug::addTimingPoint( 'Operation start' );
 //$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
 eZDebug::addTimingPoint( 'Operation end' );
+
 //if ( !$operationResult['status'] )
 //{
-//    $Result = $operationResult['result'];
+//   $Result = $operationResult['result'];
 //    return;
 //}
 
@@ -115,11 +116,13 @@ if ( $LanguageCode != '' )
     $object->setCurrentLanguage( $LanguageCode );
 }
 
+
+
 if ( $ViewMode == 'full' )
 {
      $sessionKey = eZHttpTool::getSessionKey();
      $user =& eZUser::currentUser();
-     
+
      $status = eZTrigger::runTrigger( 'pre_view',
                                       'content',
                                       'view',
@@ -133,7 +136,6 @@ if ( $ViewMode == 'full' )
                                              'user_id' ) );
      eZDebug::writeDebug( $status, 'Returned Trigger status in view' );
 }else
-
 {
     $status['Status'] = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
 }

@@ -225,7 +225,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 if ( is_subclass_of( $eventType, "ezworkflowtype" ) )
                 {
                     $lastEventStatus = $eventType->execute( $this, $workflowEvent );
-                    print( "<br>lastEventStatus" . $lastEventStatus );
+//                    print( "<br>lastEventStatus" . $lastEventStatus );
                     eZDebug::writeNotice( $lastEventStatus, "lastEventStatus" );
                     switch( $lastEventStatus )
                     {
@@ -249,7 +249,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE:
                         {
-                            print( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE<br>ggggggggggg" );
+//                            print( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE<br>ggggggggggg" );
                             $workflowStatus = EZ_WORKFLOW_STATUS_FETCH_TEMPLATE;
                             $done = true;
                         } break;

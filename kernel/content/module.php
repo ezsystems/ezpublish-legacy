@@ -51,11 +51,20 @@ $ViewList["edit"] = array(
                                     'StoreButton' => 'Store',
                                     'CustomActionButton' => 'CustomAction',
                                     'MoveNodeID' => 'MoveNode',
-                                    'RemoveNodeID' => 'DeleteNode'),
-    'group_post_actions' => array( 'MoveNodeButton' => 'MoveNode' ),
+                                    'RemoveNodeID' => 'DeleteNode',
+                                    'ConfirmButton' => 'ConfirmAssignmentDelete'
+                                    ),
     'post_actions' => array( 'BrowseActionName' ),
     "script" => "edit.php",
     "params" => array( "ObjectID", "EditVersion" ) );
+
+$ViewList["removenode"] = array(
+    "functions" => array( 'edit' ),
+    'single_post_actions' => array( 'ConfirmButton' => 'ConfirmAssignmentRemove',
+                                    'CancelButton' => 'CancelAssignmentRemove' ),
+    "script" => "removenode.php",
+    "params" => array( "ObjectID", "EditVersion", "NodeID" ) );
+
 
 $ViewList["view"] = array(
     "functions" => array( 'read' ),

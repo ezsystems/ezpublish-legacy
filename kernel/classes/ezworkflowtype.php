@@ -116,10 +116,10 @@ class eZWorkflowType
     function &createType( $typeString )
     {
         $types =& $GLOBALS["eZWorkflowTypes"];
-        print( '<br>' );
-        var_dump( $types );
-        print( '<br>' );
-        var_dump( $typeString );
+//        print( '<br>' );
+//        var_dump( $types );
+//        print( '<br>' );
+//        var_dump( $typeString );
         
         $def = null;
         if ( !isset( $types[$typeString] ) )

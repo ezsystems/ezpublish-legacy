@@ -227,18 +227,27 @@ if ( !function_exists( 'checkContentActions' ) )
             else
             {
 
-                $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
-
-                /*  clean up nodes for old versions      */
-                $assignedNodes =& $object->attribute( 'assigned_nodes' );
-                foreach ( array_keys( $assignedNodes )  as $key )
+                $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
+                $curentVersionNodeAssignments =& $version->attribute( 'assigned_nodes' );
+                $versionParentIDList = array();
+                foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
                 {
-                    $node =& $assignedNodes[$key];
-                    if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) )
+                    $nodeAssignment =& $curentVersionNodeAssignments[$key];
+                    $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
+                }
+                foreach ( array_keys( $assignedExistingNodes )  as $key )
+                {
+                    $node =& $assignedExistingNodes[$key];
+                    if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) &&
+                         !in_array( $node->attribute( 'parent_node_id' ), $versionParentIDList ) )
                     {
                         $node->remove();
                     }
                 }
+
+                $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+
+                /*  clean up nodes for old versions      */
 
 //            if ( $status )
 //                return $status;

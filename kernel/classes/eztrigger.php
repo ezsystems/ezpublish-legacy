@@ -173,8 +173,8 @@ class eZTrigger extends eZPersistentObject
                                   'Result' => null );
             }else
             {
-                print( "\n starting new workflow process \n");
-                var_dump( $keyArray );
+//                print( "\n starting new workflow process \n");
+//                var_dump( $keyArray );
 //                print( " $workflowID, $userID, $objectID, $version, $nodeID, \n ");
             }
             $workflowProcess =& eZWorkflowProcess::create( $processKey, $parameters );

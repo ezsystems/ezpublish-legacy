@@ -68,20 +68,26 @@
         </td>
         <td class="{$Node:sequence}" align="right">
         <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
-        <input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />
-
-
+       {*<input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />*}
+       </td>
+        <td class="{$Node:sequence}" align="right">
+       
       {switch match=$Node:item.parent_node}
       {case in=$Node:existingParentNodes}
         <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
       {/case}
-      {case}
-      &nbsp;&nbsp;
+      {case }
       {/case}
       {/switch}
-
+            {section show=$Node:item.from_node_id|gt(0)}
+               <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+            {section-else}      
+            {/section}   
+      </td>
+        <td class="{$Node:sequence}" align="right">
+     {section show=eq($Node:item.parent_node,$main_node_id)|not}
         <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"remove.png"|ezimage} value="{$Node:item.parent_node}"  />
-
+     {/section}
         </td>
     </tr>
     {/let}
@@ -93,10 +99,10 @@
 	{case match=1}
 	{/case}
 	{case}
-	 <div class="buttonblock">
+	 <div align="right" class="buttonblock">
 	 <input class="button" type="submit" name="BrowseNodeButton" value="{'Add placement(s)'|i18n('content/object')}" />
-	 <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement'|i18n('content/object')}" />
-	 <input class="button" type="submit" name="MoveNodeButton" value="{'Move placement'|i18n('content/object')}" />
+	{* <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement'|i18n('content/object')}" />
+	 <input class="button" type="submit" name="MoveNodeButton" value="{'Move placement'|i18n('content/object')}" />*}
 	 </div>
 	{/case}
     {/switch}

@@ -132,6 +132,18 @@ class eZNodeAssignment extends eZPersistentObject
 
     }
 
+    function &fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
+    {
+        $cond = array( 'contentobject_id' => $contentObjectID,
+                       'contentobject_version' => $version,
+                       'parent_node' => $parentNode );
+        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                null,
+                                                $cond,
+                                                $asObject );
+
+    }
+
     function &clone( $nextVersionNumber = 1 )
     {
         return eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
