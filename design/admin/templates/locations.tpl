@@ -12,7 +12,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Locations'|i18n( 'design/admin/node/view/full' )}</h2>
+<h2 class="context-title">{'Locations [%locations]'|i18n( 'design/admin/node/view/full',, hash( '%locations', $assigned_nodes|count ) )}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
