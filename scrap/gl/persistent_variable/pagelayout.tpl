@@ -249,7 +249,7 @@ persistent variable 2 {$module_result.content_info.persistent_variable}<br/>
 <tr>
     <td bgcolor="#ffffff" colspan="12" valign="bottom">
     <div align="center" style="padding-top: 0.5em;">
-    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a></p>
+    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2005 <a href="http://ez.no">eZ systems as</a></p>
     </div>
     </td>
 </tr>
