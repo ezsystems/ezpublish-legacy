@@ -107,6 +107,7 @@ eZTime:
   http://ez.no/community/bug_reports/fetch_content_tree_fatal_error_if_tpl_contains_user_errors
 - Fixed role/edit.php for undefined post parameters.
   http://ez.no/community/bug_reports/undefined_post_variables_in_role_edit_php
+- Fixed incorrect sorting of RSS export.
 
 *Library:
 
