@@ -127,7 +127,7 @@
     </td>
 
 	<td>
-	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version, '/', $edit_language|not|choose( array( $edit_language, '/' ), '' ) )|ezurl}>{$Versions.item.version}</a>
+	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl}>{$Versions.item.version}</a>
 	</td>
 
 	<td>
