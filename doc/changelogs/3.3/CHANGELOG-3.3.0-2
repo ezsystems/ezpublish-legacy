@@ -116,6 +116,7 @@ Changes from 3.3.0-1 to 3.3.0-2
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezbinaryfile_returns_cryptic_filenames_as_default_content_object_titles
 - Fixed problem in subtreenotification datatype which caused crash when creating new objects using it.
 - Fixed bug in image system which created wrong MIME type for original image.
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/search_sorting_error_typo_in_ezsearchenginephp ( merged from stable 4486 )
 
 *RSS:
 - Removed siteaccess from rss export.
