@@ -394,7 +394,7 @@ class eZWorkflowEventType extends eZWorkflowType
      \param allowed trigger types format :
               array( <module> => array( <function> => array( <event> ) ) )
             if all is allowed,
-              array( '*' )
+              array( '*' => true )
      */
     function setTriggerTypes( $allowedTypes )
     {
@@ -430,7 +430,7 @@ class eZWorkflowEventType extends eZWorkflowType
         return false;
     }
 
-    var $TriggerTypes = array( '*' );
+    var $TriggerTypes = array( '*' => true );
 }
 
 class eZWorkflowGroupType extends eZWorkflowType
