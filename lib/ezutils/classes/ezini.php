@@ -261,6 +261,7 @@ class eZINI
             $md5_input .= eZTextCodec::internalCharset();
         }
         $cachedFile = $cachedDir . md5( $md5_input ) . ".php";
+		$this->CacheFile = $cachedFile;
 
         // check for modifications
         if ( file_exists( $this->RootDir . "/" . $this->FileName . ".php" ) )
@@ -699,6 +700,9 @@ class eZINI
 
     /// Whether to use the text codec when reading the ini file or not
     var $UseTextCodec;
+
+	/// Stores the path and filename of the cache file
+	var $CacheFile;
 }
 
 ?>
