@@ -12,7 +12,7 @@
     {section show=$node.is_hidden}
         {set hide_status=concat( '(', 'Hidden'|i18n( 'design/admin/node/view/full' ), ')' )}
     {section-else}
-        {set hide_status=concat( '(', 'Hidden by parent'|i18n( 'design/admin/node/view/full' ), ')' )}
+        {set hide_status=concat( '(', 'Hidden by superior'|i18n( 'design/admin/node/view/full' ), ')' )}
     {/section}
 {/section}
 

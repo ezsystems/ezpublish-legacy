@@ -24,7 +24,8 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'AssignmentIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
-    <th class="tight">{'Sorting'|i18n( 'design/admin/node/view/full' )}</th>
+{*   <th class="tight">{'Sorting'|i18n( 'design/admin/node/view/full' )}</th> *}
+    <th class="tight">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
 {section var=assignment loop=$assigned_nodes sequence=array( bglight, bgdark )}
@@ -32,14 +33,39 @@
      assignment_path=$assignment_node.path|append( $assignment_node )}
 
 <tr class="{$assignment.sequence}">
+
+    {* Location. *}
     <td><input type="checkbox" name="AssignmentIDSelection[]" {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
     {section show=and( eq( $assignment.node.path_string, $node.path_string ), $assigned_nodes|count|gt(1))}
     <td><b>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</b></td>
     {section-else}
     <td>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
     {/section}
+
+    {* Sorting. *}
+{*
     <td class="nowrap">{$assignment.item.node.sort_array[0][0]} / {$assignment.item.node.sort_array[0][1]|choose( 'down'|i18n( 'design/admin/node/view/full' ), 'up'|i18n( 'design/admin/node/view/full' ) )}</td>
+*}
+
+    {* Visibility. *}
+    <td class="nowrap">
+    {section show=$assignment.item.node.is_invisible}
+        {section show=$assignment.item.node.is_hidden}
+            {'Hidden'|i18n( 'design/admin/node/view/full' )}
+            [ <a href={concat( '/content/hide/', $assignment.item.node.node_id )|ezurl}>{'Make visible'|i18n( 'design/admin/node/view/full' )}</a> ]
+        {section-else}
+            {'Hidden by superior'|i18n( 'design/admin/node/view/full' )}
+            [ <a href={concat( '/content/hide/', $assignment.item.node.node_id )|ezurl}>{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
+        {/section}
+    {section-else}
+        {'Visible'|i18n( 'design/admin/node/view/full' )}
+        [ <a href={concat( '/content/hide/', $assignment.item.node.node_id )|ezurl}>{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
+    {/section}
+    </td>
+
+    {* Main node. *}
     <td><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=or( $assignment_node.can_edit|not, $assignment_count|le( 1 ) )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
+
 </tr>
 {/let}
 {/section}

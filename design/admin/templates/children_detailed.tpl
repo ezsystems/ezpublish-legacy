@@ -8,7 +8,7 @@
         <th class="name">{'Name'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Hidden/Invisible column *}
-        <th class="hidden_invisible">{'Status'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="hidden_invisible">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Class type column *}
         <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
@@ -52,12 +52,16 @@
         {* Name *}
         <td>{node_view_gui view=line content_node=$Nodes.item}</td>
 
-        {* Hidden/Invisible *}
-        <td>
-        {section show=$Nodes.item.can_edit}
-            <a href={concat( 'content/hide/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.hidden_invisible_string}</a>
+        {* Visibility. *}
+        <td class="nowrap">
+        {section show=$Nodes.item.is_invisible}
+            {section show=$Nodes.item.is_hidden}
+                {'Hidden'|i18n( 'design/admin/node/view/full' )}
+            {section-else}
+                {'Hidden by superior'|i18n( 'design/admin/node/view/full' )}
+            {/section}
         {section-else}
-            {$Nodes.item.hidden_invisible_string}
+            {'Visible'|i18n( 'design/admin/node/view/full' )}
         {/section}
         </td>
 
