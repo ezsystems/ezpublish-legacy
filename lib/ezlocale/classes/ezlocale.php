@@ -1463,8 +1463,20 @@ class eZLocale
     {
         if ( $localeString === false )
         {
-            $ini =& eZINI::instance();
-            $localeString =& $ini->variable( 'RegionalSettings', 'Locale' );
+            $localeStringDefault =& $GLOBALS["eZLocaleStringDefault"];
+            if (!isset( $localeStringDefault ) )
+            {
+                $ini =& eZINI::instance();
+                $localeString =& $ini->variable( 'RegionalSettings', 'Locale' );
+                /* Cache this answer to prevent countless calls to retrieve this
+                 * from the INI settings */
+                $localeStringDefault = $localeString;
+            }
+            else
+            {
+                /* Used cached version */
+                $localeString = $localeStringDefault;
+            }
         }
         $instance =& $GLOBALS["eZLocaleInstance_$localeString"];
         if ( get_class( $instance ) != 'ezlocale' )

@@ -852,7 +852,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         foreach ( $resourceArray as $resource )
         {
-            $sourceFileArray =& eZDir::recursiveFindRelative( $resource, "",  "tpl" );
+            $sourceFileArray = eZDir::recursiveFindRelative( $resource, "",  "tpl" );
             foreach ( array_keys( $sourceFileArray ) as $sourceKey )
             {
                 $matchFileArray[$sourceFileArray[$sourceKey]]['base_dir'] = $resource;
