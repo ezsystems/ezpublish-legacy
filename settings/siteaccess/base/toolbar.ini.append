@@ -19,8 +19,8 @@ Tool[]=link
 Tool[]=basket
 
 [Tool_right_calendar_1]
-show_subtree=blogs
-show_classidentifiers=article,user
+show_subtree=news
+show_classidentifiers=article
 
 [Tool_right_create_object_2]
 title=Create blog
