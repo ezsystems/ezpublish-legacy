@@ -158,6 +158,10 @@ Datatype:
   (Merged from stable/3.4 (3.4.5) rev. 9777)
 - Fixed bug of crash when viewing discount rules with deleted products.
   http://ez.no/community/bug_reports/deleted_product_and_discount_list
+- Fixed bug in eZIniSettingType: removing setting of type array causes removing
+  whole section.
+  (Manually merged from stable/3.3 rev. 9785, also in stable/3.4 rev.9786)
+  http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
