@@ -61,6 +61,9 @@ eZINI:
   http://ez.no/community/bug_reports/error_with_negative_numbers_in_float_datatype
 - Fixed removing node assignment when deleting nodes.
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
+- Fixed bug in default account handler for shop
+  http://ez.no/community/bug_reports/ezorder_calls_accountinformation_which_ezdefaultaccounthandler_doesnt_implement
+
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
