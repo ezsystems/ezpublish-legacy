@@ -3,8 +3,7 @@ Changes from 3.3-3 to 3.3-4
 *Kernel:
 - Changed rendering of literal inside XML text to block to ensure correct XHTML validation
 - Added boolean parameter 'main_node_only' in fetch function list, list_count, 
-  tree and tree_count. The default is set to true. This can avoid obtaining duplicate 
-  objects when fetch trees or lists with objects assigned to multiple locations.
+  tree and tree_count. The default is set to false to keep backwards compatibility.
 - Fixed missing include to ezinformationcollection in ezcontentfunctioncollection.php
 
 *Setup:
