@@ -13,23 +13,14 @@ Changes from 3.2-1 to 3.3.0-1
 - Added validation and fixup methods for the information collection system to eZDataType.
 - Made sure the required field in class defintion is used on information collection submittion
   for attributes that are information collectors.
-- added separate handling of http input and custom actions in ezcontentobject.
+- Added separate handling of http input and custom actions in ezcontentobject.
 - Added fetching object by identifier to content module. Requires attribute data_text to be unique
 - Optimized datatype abstraction calls. Resulting in less memory usage and less database calls.
-- Fixed correct handling of & characters in XML fields, it's now convterted into xhtml codes.
-- Fixed correct HTTP content language to zh-CH for chinese.
-- Fixed typos in eztemplatenl2broperator.php and openfts.php making eZ publish crash with Turk MMCache.
 - Extended treemenu operator to support offset and unlimited number of levels. It will also give information about the current selected items.
 - Improved the text on the removeobject page and added a choice for whether the object
   should be moved to trash or deleted. Move to trash is the default.
 - Improved the text on the removeeditversion page.
-- Fixed publishing process to go over all languages of a version not just the main language.
-- Fixed object deletion to go include all attributes of all languages not just the main language.
-- Changed the contentObjectAttributes function of eZContentObject to allow it to return unique attribute entries.
-- Made sure all attributes for new languages in objects are properly initialized (eg. for images)
 - Added support for class filter in treemenu operator.
-- Added support for controlling whether template override cache is to be used or not. If disabled
-  you don't need to clear the cache for new templates.
 
 *DataType:
 
@@ -50,10 +41,6 @@ eZImage
 *Package system:
 
 *Bugs:
-- http://ez.no/developer/ez_publish_3/bug_reports/sum_operator
-  Removed the sum operator from the array operator collection. Implemented support
-  for summarizing arrays put as input value to the operator as well as parameters.
-  The sub operator was also fixed to work with arrays.
 
 *Templates:
 - created templates to override standard browse page when browsing in media folder.
@@ -79,14 +66,6 @@ eZ image:
 - The image system has been rewritten to be more flexible, stable, faster and simpler to use.
   This means a new image manager system, a new image alias system (replacements for variations)
   and a better abstraction for image handlers (classes for converters).
-
-eZ file:
-- Made sure eZDir::mkdir returned true when succesful and made sure it skips empty dir elements.
-- New function cleanupEmptyDirectories in eZDir, it will remove empty directories in a path.
-- Implemented the missing doRename function in eZFileHandler.
-- Added move function to eZFileHandler, it can move (rename or copy/delete) a file from one place to another.
-- Added symlink function to eZFileHandler, it can create a symbolic link to a file or directory.
-- Added linkCopy function to eZFileHandler, it will either do a symlink or copy depending on the OS type.
 
 eZ utils:
 - The store function in eZHTTPFile can now take a MIME data structure which is used
