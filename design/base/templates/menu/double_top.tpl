@@ -34,6 +34,7 @@
     </ul>
 
 <div class="breakall"></div>
+    </div>
 
 </div>
 {/section}

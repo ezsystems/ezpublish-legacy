@@ -17,14 +17,16 @@
             </div>
         {/section}
 
+        {section show=$node.object.data_map.author.content.is_empty|not()}
         <div class="content-byline">
         <p class="author">
              {attribute_view_gui attribute=$node.object.data_map.author}
         </p>
         <p class="date">
              {$node.object.published|l10n(date)}
-        <p/>
+        </p>
         </div>
+        {/section}
 
         {section show=$node.object.data_map.body.content.is_empty|not}
             <div class="content-long">

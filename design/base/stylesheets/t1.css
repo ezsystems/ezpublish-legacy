@@ -5,6 +5,11 @@ body
     background-color: #6699cc;
 }
 
+a
+{ 
+    color: #369;
+
+}
 div#allcontent
 {
     background-color: #fff;
@@ -351,14 +356,40 @@ div#maincontent-design
 div#maincontent-design h1
 { 
     font: 18pt bold;
+    font-weight: bold;
     color: #039;
     margin-bottom: 0px;
 }
 
 div#maincontent-design h2
 { 
-    font: 12pt bold;
+    font: 12pt;
+    font-weight: bold;
     color: #099;
+    margin-bottom: 0px;
+}
+
+div#maincontent-design h3
+{ 
+    font: 10pt;
+    font-weight: bold;
+    color: #099;
+    margin-bottom: 0px;
+}
+
+div#maincontent-design h4
+{ 
+    font: 9pt;
+    font-weight: bold;
+    color: #036;
+    margin-bottom: 0px;
+}
+
+div#maincontent-design h5
+{ 
+    font: 9pt;
+    font-weight: bold;
+    color: #036;
     margin-bottom: 0px;
 }
 
