@@ -12,6 +12,7 @@ Changes from 3.3-4 to 3.3-5
 - Fixed bug in datatype ezmedia which will crash when upload a media file.
 
 *Library:
+- Fixed bug where eZSys::varDirectory was not using eZDir::path
 
 eZ Locale:
 
