@@ -41,6 +41,9 @@ Changes from 3.2.0-2 to 3.2-1
 
 *Library :
 
+eZ utils:
+- The session will now listen to the session-required in the site basics when it decides to start the session or not.
+
 *Translations:
 - Fixed and added Hungarian translation
 - Updated Norwegian translation.
