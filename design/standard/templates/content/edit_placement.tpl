@@ -32,7 +32,7 @@
 *}
 
 
-{default exclude_remote_assignments=true()}
+{default exclude_remote_assignments=false()}
     {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
                    sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))
                    has_top_levels=false()}

@@ -11,6 +11,12 @@ Changes from 3.3-5 to 3.3-6
 
 *Setup:
 
+*Design:
+edit_placement.tpl:
+- Change the default to show all node assignments, not just the ones without
+  remote ID. This means that when editing an object in admin interface
+  without a special override will work.
+
 *DataTypes:
 
 eZAuthor
