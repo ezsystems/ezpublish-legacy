@@ -55,26 +55,27 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-$debugINI =& eZINI::instance( 'debug.ini' );
-eZDebugSetting::setDebugINI( $debugINI );
-$GLOBALS['eZDebugEnabled'] = true;
-// eZDebug::setHandleType( $runInBrowser ? EZ_HANDLE_FROM_PHP : EZ_HANDLE_TO_PHP );
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-// eZDebug::setMessageOutput( EZ_OUTPUT_MESSAGE_SCREEN );
+// $debugINI =& eZINI::instance( 'debug.ini' );
+// eZDebugSetting::setDebugINI( $debugINI );
+// $GLOBALS['eZDebugEnabled'] = true;
+// // eZDebug::setHandleType( $runInBrowser ? EZ_HANDLE_FROM_PHP : EZ_HANDLE_TO_PHP );
+// eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+// // eZDebug::setMessageOutput( EZ_OUTPUT_MESSAGE_SCREEN );
 
-function printReport()
-{
-    global $runInBrowser;
-    if ( $runInBrowser )
-        eZDebug::printReport();
-    else
-        eZDebug::printReport( false, false );
-}
+// function printReport()
+// {
+//     global $runInBrowser;
+//     if ( $runInBrowser )
+//         eZDebug::printReport();
+//     else
+//         eZDebug::printReport( false, false );
+// }
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
 $user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
+print( "Checking for workflow processes$endl"  );
 foreach( array_keys( $workflowProcessList ) as $key )
 {
     $process =& $workflowProcessList[ $key ];
@@ -136,6 +137,6 @@ foreach( array_keys( $workflowProcessList ) as $key )
     flush();
 }
 
-printReport( );
+// printReport( );
 
 ?>
