@@ -49,6 +49,7 @@ Changes from 3.3-6 to 3.3-7
   not checked for false and would in some cases not write any data at all.
 - Removed setting path in content/versionview.
   http://ez.no/community/bug_reports/crash_when_using_versionview
+- eZIdentifier datatype now correctly sets the sort_key_string value
 
 *Library:
 
