@@ -106,12 +106,14 @@
 <input type="hidden" name="ContentObjectLanguageCode" value="{$object_languagecode}" />
 <input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
-{section show=eq($version.status,0)}
 <div class="buttonblock">
+{section show=and(eq($version.status,0),$is_creator,$object.can_edit)}
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('content/object')}" />
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('content/object')}" />
-</div>
 {/section}
+
+<input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
+</div>
 
 
 </form>

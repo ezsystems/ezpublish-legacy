@@ -57,19 +57,31 @@ if ( $versionObject === null )
 
 $user =& eZUser::currentUser();
 
-if ( $versionObject->attribute( 'creator_id' ) != $user->id() )
+eZDebug::writeDebug( ($versionObject->attribute( 'can_versionread' ) ? 'true' : 'false'), 'can_versionread' );
+if ( !$versionObject->attribute( 'can_versionread' ) )
 {
-    return $Module->redirectToView( 'versions', array( $ObjectID, $versionObject->attribute( "version" ), $LanguageCode ) );
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
+$isCreator = $versionObject->attribute( 'creator_id' ) == $user->id();
+
+if ( $Module->isCurrentAction( 'Versions' ) )
+{
+    return $Module->redirectToView( 'versions', array( $ObjectID, $EditVersion, $LanguageCode ) );
 }
 
 if ( $Module->isCurrentAction( 'Edit' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT )
+     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $contentObject->attribute( 'can_edit' ) and
+     $isCreator )
 {
     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT )
+     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $contentObject->attribute( 'can_edit' ) and
+     $isCreator )
 {
     $Module->setCurrentAction( 'Publish', 'edit' );
     return $Module->run( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
@@ -149,6 +161,8 @@ $tpl->setVariable( 'object_version', $EditVersion );
 $tpl->setVariable( 'object_languagecode', $LanguageCode );
 $tpl->setVariable( 'language', $OriginalLanguageCode );
 $tpl->setVariable( 'placement', $placementID );
+$tpl->setVariable( 'is_creator', $isCreator );
+
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 

@@ -81,6 +81,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'creator' => 'creator',
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       'parent_nodes' => 'parentNodes',
+                                                      "can_read" => "canVersionRead",
                                                       'node_assignments' => 'nodeAssignments',
                                                       'contentobject' => 'contentObject',
                                                       'language_list' => 'translations',
@@ -164,9 +165,155 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             return  $this->translationList( eZContentObject::defaultLanguage() );
         }
+        else if ( $attr == "can_versionread" )
+            return $this->canVersionRead();
         else
         {
             return eZPersistentObject::attribute( $attr );
+        }
+    }
+
+    /*!
+     Returns true if the current
+    */
+    function canVersionRead( )
+    {
+        if ( !isset( $this->Permissions["can_versionread"] ) )
+        {
+            $this->Permissions["can_versionread"] = $this->checkAccess( 'versionread' );
+        }
+        $p = ( $this->Permissions["can_versionread"] == 1 );
+        eZDebug::writeDebug( $p ? "true" : "false", 'p' );
+        return $p;
+    }
+
+    function checkAccess( $functionName, $classID = false, $parentClassID = false )
+    {
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+        $accessResult =  $user->hasAccessTo( 'content' , $functionName );
+        $accessWord = $accessResult['accessWord'];
+        $object =& $this->attribute( 'contentobject' );
+        $objectClassID = $object->attribute( 'contentclass_id' );
+        if ( ! $classID )
+        {
+            $classID = $objectClassID;
+        }
+        eZDebug::writeDebug( $accessWord, 'accessword' );
+        if ( $accessWord == 'yes' )
+        {
+            return 1;
+        }
+        elseif ( $accessWord == 'no' )
+        {
+            return 0;
+        }
+        else
+        {
+            $policies  =& $accessResult['policies'];
+            eZDebug::writeDebug( $policies, 'policies' );
+            foreach ( array_keys( $policies ) as $key  )
+            {
+                $policy =& $policies[$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+            }
+            if ( count( $limitationList ) > 0 )
+            {
+                $access = 'denied';
+                foreach ( array_keys( $limitationList ) as $key  )
+                {
+                    $limitationArray =& $limitationList[ $key ];
+                    if ( $access == 'allowed' )
+                    {
+                        break;
+                    }
+                    foreach ( array_keys( $limitationArray ) as $key  )
+//                    foreach ( $limitationArray as $limitation )
+                    {
+                        $limitation =& $limitationArray[$key];
+//                        if ( $functionName == 'remove' )
+//                        {
+//                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
+//                        }
+
+                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                        {
+                            if ( $functionName == 'create' )
+                            {
+                                $access = 'allowed';
+                            }
+                            elseif ( in_array( $objectClassID, $limitation->attribute( 'values_as_array' )  )  )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Status' )
+                        {
+
+                            if (  in_array( $this->attribute( 'status' ), $limitation->attribute( 'values_as_array' )  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+//                         elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
+//                         {
+
+//                             if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+//                             {
+//                                 $access = 'allowed';
+//                             }
+//                             else
+//                             {
+//                                 $access = 'denied';
+//                                 break;
+//                             }
+//                         }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                        {
+                            if (  in_array( $object->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
+                        {
+                            if ( $this->attribute( 'creator_id' ) == $userID )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+
+                    }
+                }
+                if ( $access == 'denied' )
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
         }
     }
 
