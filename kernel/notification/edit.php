@@ -67,9 +67,7 @@ else
                    "has_constraint" => 0 );
 }
 
-$class_list =& eZContentClass::fetchList( 0,
-                                          $as_object = true,
-                                          $user_id );
+$class_list =& eZContentClass::fetchList();
 
 $userlink_list =& eZNotificationUserLink::fetch( $RuleID, $user_id );
 
@@ -187,7 +185,6 @@ $tpl->setVariable( "rule_list", $rule );
 $tpl->setVariable( "class_list", $class_list );
 $tpl->setVariable( "userlink_list", $userlink_list );
 $tpl->setVariable( "ClassAttributeID", $ClassAttributeID );
-$tpl->setVariable( "ConstraintValue_list", $constraintValues );
 
 $Result =& $tpl->fetch( "design:notification/edit.tpl" );
 

@@ -3,7 +3,7 @@
 {section show=$rule_list}
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left" width="20">ID</th>
+  <th align="left">ID</th>
   <th align="left">Rule Type</th>
   <th align="left">Class Name</th>
   <th align="left">Path</th>
@@ -13,7 +13,7 @@
 
 {section name=Rule loop=$rule_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Rule:sequence}" width="1%">{$Rule:item.id}</td>
+    <td class="{$Rule:sequence}" width="3%">{$Rule:item.id}</td>
     <td class="{$Rule:sequence}">{$Rule:item.type}</td>
     <td class="{$Rule:sequence}">{$Rule:item.contentclass_name}</td>
     <td class="{$Rule:sequence}">{$Rule:item.path}</td>

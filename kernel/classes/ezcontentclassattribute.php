@@ -106,8 +106,8 @@ class eZContentClassAttribute extends eZPersistentObject
     function instantiate( $contentobjectID )
     {
         $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
-        $attribute->store();
         $attribute->initialize();
+        $attribute->store();
     }
 
     function store()
