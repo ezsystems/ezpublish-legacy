@@ -11,9 +11,11 @@ Changes from 3.1-1 to 3.1-2
 - Fixed HTML compatibility problem in tipafriend.tpl
 - Fixed bug in user group template, form inside form
 - Fixed bug for xml datatype which can't be validate if content only has header.
-- Fixed bug for feil conversion of tiff and gif image.
+- Fixed bug for wrong conversion of tiff and gif image.
 - Fixed bug of wrong MAX_FILE_SIZE for QuickTime and Windows Media in datatype ezmedia.
 - Fixed bug of unable to remove user in admin override template for user.
 - Improved google and simple navigator to allow url suffix data (eg. ?Search=)
 - Improved search templates to use google navigator.
 - Fixed bug of unable to create new related objects.
+- Fixed database query concerning phrase search
+
