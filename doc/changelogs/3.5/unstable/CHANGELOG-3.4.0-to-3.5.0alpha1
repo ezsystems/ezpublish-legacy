@@ -327,6 +327,9 @@ Workflow:
   marker.
   http://ez.no/community/bug_reports/wrong_case_syntax_causes_template_compile_error
   (Merged from stable/3.4 rev. 7273)
+- Fixed some of the issues in this bugreport.
+  http://ez.no/community/bug_reports/bugs_in_kernel__2
+  (Merged from stable/3.4 rev. 7296)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
