@@ -84,6 +84,10 @@ eZTemplate:
   a PHP variable and the expression resulted in an object proxy (e..g section
   iterator)
 
+eZDB:
+- Added method which can check if a given character set matches the one used in
+  the database. Currently implemented for MySQL when 4.1.1 or higher is used.
+
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
   Merged from stable/3.3 rev. 10194, stable/3.4 rev. 10195.

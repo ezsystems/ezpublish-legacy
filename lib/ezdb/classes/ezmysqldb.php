@@ -190,6 +190,20 @@ class eZMySQLDB extends eZDBInterface
             // http://dev.mysql.com/doc/mysql/en/Charset.html
             if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
             {
+                /* Currently disabled, this will fail the connection if the database charset differs.
+                if ( $db != '' )
+                {
+                    if ( !$this->checkCharsetPriv( $charset ) )
+                    {
+                        $this->ErrorMessage = "Character sets differ, database uses $currentCharset while eZDB requested $charset";
+                        $this->ErrorCode = false;
+                        eZDebug::writeError( $this->ErrorMessage, 'eZMySQLDB::connect' );
+                        $this->IsConnected = false;
+                        return false;
+                    }
+                }
+                */
+
                 $query = "SET NAMES '" . $charset . "'";
                 $status = @mysql_query( $query, $connection );
                 $this->reportQuery( 'eZMySQLDB', $query, false, false );
@@ -226,6 +240,85 @@ class eZMySQLDB extends eZDBInterface
     function bindVariable( &$value, $fieldDef = false )
     {
         return $value;
+    }
+
+    /*!
+      Checks if the requested character set matches the one used in the database.
+
+      \return \c true if it matches or \c false if it differs.
+
+      \note There will be no check for databases using MySQL 4.1.0 or lower since
+            they do not have proper character set handling.
+    */
+    function checkCharset( $charset )
+    {
+        $versionInfo = $this->databaseServerVersion();
+
+        // We require MySQL 4.1.1 to use the new character set functionality,
+        // MySQL 4.1.0 does not have a full implementation of this, see:
+        // http://dev.mysql.com/doc/mysql/en/Charset.html
+        // Older version should not check character sets
+        if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
+            return true;
+
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $charset = eZCharsetInfo::realCharsetCode( $charset );
+        // Convert charset names into something MySQL will understand
+        $charsetMapping = array( 'iso-8859-1' => 'latin1',
+                                 'iso-8859-2' => 'latin2',
+                                 'iso-8859-8' => 'hebrew',
+                                 'iso-8859-7' => 'greek',
+                                 'iso-8859-9' => 'latin5',
+                                 'iso-8859-13' => 'latin7',
+                                 'windows-1250' => 'cp1250',
+                                 'windows-1251' => 'cp1251',
+                                 'windows-1256' => 'cp1256',
+                                 'windows-1257' => 'cp1257',
+                                 'utf-8' => 'utf8',
+                                 'koi8-r' => 'koi8r' );
+        if ( isset( $charsetMapping[$charset] ) )
+            $charset = $charsetMapping[$charset];
+
+        return $this->checkCharsetPriv( $charset );
+    }
+
+    /*!
+     \private
+    */
+    function checkCharsetPriv( $charset )
+    {
+        $query = "SHOW CREATE DATABASE " . $this->DB;
+        $status = @mysql_query( $query, $this->DBConnection );
+        $this->reportQuery( 'eZMySQLDB', $query, false, false );
+        if ( !$status )
+        {
+            $this->setError();
+            eZDebug::writeWarning( "Connection warning: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
+            return false;
+        }
+
+        $numRows = mysql_num_rows( $status );
+        if ( $numRows == 0 )
+            return false;
+
+        for ( $i = 0; $i < $numRows; ++$i )
+        {
+            $tmpRow =& mysql_fetch_array( $status, MYSQL_ASSOC );
+            if ( $tmpRow['Database'] == $this->DB )
+            {
+                $createText = $tmpRow['Create Database'];
+                if ( preg_match( '#DEFAULT CHARACTER SET ([a-zA-Z0-9_-]+)#', $createText, $matches ) )
+                {
+                    $currentCharset = $matches[1];
+                    if ( $currentCharset != $charset )
+                    {
+                        return false;
+                    }
+                }
+                break;
+            }
+        }
+        return true;
     }
 
     /*!

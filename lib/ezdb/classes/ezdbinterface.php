@@ -211,6 +211,18 @@ class eZDBInterface
     }
 
     /*!
+      Checks if the requested character set matches the one used in the database.
+
+      \return \c true if it matches or \c false if it differs.
+      \note The default is to always return \c true, see the specific database handler
+            for more information.
+    */
+    function checkCharset( $charset )
+    {
+        return true;
+    }
+
+    /*!
      \private
      Prepare the sql file so we can create the database.
      \param $fd    The file descriptor
