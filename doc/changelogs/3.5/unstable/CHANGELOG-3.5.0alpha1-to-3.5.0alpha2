@@ -87,7 +87,10 @@ Payment:
   (Merged from stable/3.4 rev. 8668)
   http://ez.no/community/bug_reports/rss_1_0_export_items_only_contain_url
 - Fixed bug of imported folders from addons get wrong priority number.
-	
+- Fixed bug: RSS caches where not cleared after the definition was updated
+  (Merged from stable/3.4 rev. 8678)
+  http://ez.no/community/bug_reports/rss_cache_not_cleared_when_rss_feed_definition_is_changed
+
 *Library:
 
 eZFile:
