@@ -635,6 +635,17 @@ class eZContentObject extends eZPersistentObject
                                                     null,
                                                     $asObject );
     }
+
+    function &fetchSameClassListCount( $contentClassID )
+    {
+        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                      array(),
+                                                      array( "contentclass_id" => $contentClassID ),
+                                                      array(), null,
+                                                      false,false,
+                                                      array( array( 'operation' => 'count( * )',
+                                                                    'name' => 'count' ) ) );
+    }
     /*!
       Returns the current version of this document.
     */

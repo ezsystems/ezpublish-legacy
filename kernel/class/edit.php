@@ -378,8 +378,9 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $id = $class->attribute( "id" );
     $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
-    $objects =& eZContentObject::fetchSameClassList( $ClassID );
-    if ( $objects[0] !== null )
+    $objects = null;
+    $objectCount =& eZContentObject::fetchSameClassListCount( $ClassID );
+    if ( $objectCount > 0 )
     {
         // Delete object attributes which have been removed.
         foreach ( $oldClassAttributes as $oldClassAttribute )
@@ -402,7 +403,6 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
                 }
             }
         }
-
         $class->storeDefined( $attributes );
 
         // Add object attributes which have been added.
@@ -418,6 +418,10 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
             }
             if ( !$attributeExist )
             {
+                if ( $objects == null )
+                {
+                    $objects =& eZContentObject::fetchSameClassList( $ClassID );
+                }
                 foreach ( $objects as $object )
                 {
                     $contentobjectID = $object->attribute( "id" );
