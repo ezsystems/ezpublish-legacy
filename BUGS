@@ -13,3 +13,7 @@ in PHP so that we will only index unique words.
 
 זרו caracters do not work properly, we must also test russian and chinese. 
 Probably the same error there.
+
+Translate
+---------
+Complex data types, e.g. image, does not work when translating.

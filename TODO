@@ -77,8 +77,6 @@ Translation system must be 100% finished.
   create the necessary translation files.
 
 
-
-
 --------------
 Implementation
 --------------
@@ -139,6 +137,7 @@ Translate
   - Add  select lang and default lang ( based on section, or manually - needs 
    discussion )
   - User personslized settings for language
+
 Version
   - Support for named versions, and comment on each version ( will work as a log )
   - Add version alias - needs to be speced. Though is multiple revert to  
@@ -174,8 +173,7 @@ be just "e-mail" objects ) based on the following:
 
 User management
 ---------------
-  - Fix anonymous / login problems. Add site.ini setting for anon user id.
-  - Remove root user account. This should just be a standard user account, same as anonymous.
+  - Figure out how to handle "my account" and user registering/login.
   - Add/test user registration 
   - Add e-mail verification
   - Add forgot password
