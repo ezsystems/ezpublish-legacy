@@ -12,8 +12,12 @@ Enter locale: <input type="text" name="Locale" value="<?print( $localeString );?
 <?
 $infoList = array( 'LanguageCode' => $locale->languageCode(),
                    'Language' => $locale->languageName(),
+                   'LanguageComment' => $locale->languageComment(),
+                   'Content-Language' => $locale->httpLocaleCode(),
                    'CountryCode' => $locale->countryCode(),
+                   'CountryVariation' => $locale->countryVariation(),
                    'Country' => $locale->countryName(),
+                   'CountryComment' => $locale->countryComment(),
                    'Time' => $locale->formatTime(),
                    'ShortTime' => $locale->formatShortTime(),
                    'Date' => $locale->formatDate(),

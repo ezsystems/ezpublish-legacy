@@ -131,12 +131,13 @@ class eZLocale
         $locale = eZLocale::localeInformation( $localeString );
 
         $this->CountryCode =& $locale['country'];
+        $this->CountryVariation =& $locale['country-variation'];
         $this->LanguageCode =& $locale['language'];
         $this->LocaleCode =& $locale['locale'];
 
-        $this->LocaleINI = null;
-        $this->CountryINI = null;
-        $this->LanguageINI = null;
+        $this->LocaleINI = array( 'default' => null, 'variation' => null );
+        $this->CountryINI = array( 'default' => null, 'variation' => null );
+        $this->LanguageINI = array( 'default' => null, 'variation' => null );
 
         // Figure out if we use one locale file or separate country/language file.
         $localeINI =& $this->localeFile();
@@ -150,14 +151,6 @@ class eZLocale
 
         $this->reset();
 
-        // Load country information
-        if ( $countryINI !== null )
-        {
-            $this->initCountry( $countryINI );
-        }
-        else
-            eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
-
         if ( $this->MondayFirst )
             $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
         else
@@ -170,6 +163,36 @@ class eZLocale
         }
         else
             eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
+
+        // Load country information
+        if ( $countryINI !== null )
+        {
+            $this->initCountry( $countryINI );
+        }
+        else
+            eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
+
+        // Load variation if any
+        $localeVariationINI =& $this->localeFile( true );
+        $countryVariationINI =& $localeVariationINI;
+        $languageVariationINI =& $localeVariationINI;
+        if ( $localeVariationINI === null )
+        {
+            $countryVariationINI =& $this->countryFile( true );
+            $languageVariationINI =& $this->languageFile( true );
+        }
+
+        // Load country information
+        if ( $countryVariationINI !== null )
+        {
+            $this->initCountry( $countryVariationINI );
+        }
+
+        // Load language information
+        if ( $languageVariationINI !== null )
+        {
+            $this->initLanguage( $languageVariationINI );
+        }
 
         $this->AM = 'am';
         $this->PM = 'pm';
@@ -190,6 +213,7 @@ class eZLocale
         $this->MondayFirst = false;;
 
         $this->Country = '';
+        $this->CountryComment = '';
 
         $this->DecimalSymbol = '';
         $this->ThousandsSeparator = '';
@@ -209,7 +233,9 @@ class eZLocale
         $this->CurrencyNegativeFormat = '';
 
         $this->LanguageName = '';
+        $this->LanguageComment = '';
         $this->IntlLanguageName = '';
+        $this->HTTPLocaleCode = '';
 
         $this->ShortDayNames = array();
         $this->LongDayNames = array();
@@ -242,33 +268,35 @@ class eZLocale
     */
     function initCountry( &$countryINI )
     {
-        $this->TimeFormat = $countryINI->variable( 'DateTime', 'TimeFormat' );
-        $this->ShortTimeFormat = $countryINI->variable( 'DateTime', 'ShortTimeFormat' );
-        $this->DateFormat = $countryINI->variable( 'DateTime', 'DateFormat' );
-        $this->ShortDateFormat = $countryINI->variable( 'DateTime', 'ShortDateFormat' );
-        $this->DateTimeFormat = $countryINI->variable( 'DateTime', 'DateTimeFormat' );
-        $this->ShortDateTimeFormat = $countryINI->variable( 'DateTime', 'ShortDateTimeFormat' );
+        $countryINI->assign( 'DateTime', 'TimeFormat', $this->TimeFormat );
+        $countryINI->assign( 'DateTime', 'ShortTimeFormat', $this->ShortTimeFormat );
+        $countryINI->assign( 'DateTime', 'DateFormat', $this->DateFormat );
+        $countryINI->assign( 'DateTime', 'ShortDateFormat', $this->ShortDateFormat );
+        $countryINI->assign( 'DateTime', 'DateTimeFormat', $this->DateTimeFormat );
+        $countryINI->assign( 'DateTime', 'ShortDateTimeFormat', $this->ShortDateTimeFormat );
 
-        $this->MondayFirst = strtolower( $countryINI->variable( 'DateTime', 'MondayFirst' ) ) == 'yes';
+        if ( $countryINI->hasVariable( 'DateTime', 'MondayFirst' ) )
+            $this->MondayFirst = strtolower( $countryINI->variable( 'DateTime', 'MondayFirst' ) ) == 'yes';
 
-        $this->Country = $countryINI->variable( 'RegionalSettings', 'Country' );
+        $countryINI->assign( 'RegionalSettings', 'Country', $this->Country );
+        $this->CountryComment =& $countryINI->assign( "RegionalSettings", "CountryComment", $this->CountryComment );
 
-        $this->DecimalSymbol = $countryINI->variable( 'Numbers', 'DecimalSymbol' );
-        $this->ThousandsSeparator = $countryINI->variable( 'Numbers', 'ThousandsSeparator' );
-        $this->FractDigits = $countryINI->variable( 'Numbers', 'FractDigits' );
-        $this->NegativeSymbol = $countryINI->variable( 'Numbers', 'NegativeSymbol' );
-        $this->PositiveSymbol = $countryINI->variable( 'Numbers', 'PositiveSymbol' );
+        $countryINI->assign( 'Numbers', 'DecimalSymbol', $this->DecimalSymbol );
+        $countryINI->assign( 'Numbers', 'ThousandsSeparator', $this->ThousandsSeparator );
+        $countryINI->assign( 'Numbers', 'FractDigits', $this->FractDigits );
+        $countryINI->assign( 'Numbers', 'NegativeSymbol', $this->NegativeSymbol );
+        $countryINI->assign( 'Numbers', 'PositiveSymbol', $this->PositiveSymbol );
 
-        $this->CurrencyDecimalSymbol = $countryINI->variable( 'Currency', 'DecimalSymbol' );
-        $this->CurrencyName = $countryINI->variable( 'Currency', 'Name' );
-        $this->CurrencyShortName = $countryINI->variable( 'Currency', 'ShortName' );
-        $this->CurrencyThousandsSeparator = $countryINI->variable( 'Currency', 'ThousandsSeparator' );
-        $this->CurrencyFractDigits = $countryINI->variable( 'Currency', 'FractDigits' );
-        $this->CurrencyNegativeSymbol = $countryINI->variable( 'Currency', 'NegativeSymbol' );
-        $this->CurrencyPositiveSymbol = $countryINI->variable( 'Currency', 'PositiveSymbol' );
-        $this->CurrencySymbol = $countryINI->variable( 'Currency', 'Symbol' );
-        $this->CurrencyPositiveFormat = $countryINI->variable( 'Currency', 'PositiveFormat' );
-        $this->CurrencyNegativeFormat = $countryINI->variable( 'Currency', 'NegativeFormat' );
+        $countryINI->assign( 'Currency', 'DecimalSymbol', $this->CurrencyDecimalSymbol );
+        $countryINI->assign( 'Currency', 'Name', $this->CurrencyName );
+        $countryINI->assign( 'Currency', 'ShortName', $this->CurrencyShortName );
+        $countryINI->assign( 'Currency', 'ThousandsSeparator', $this->CurrencyThousandsSeparator );
+        $countryINI->assign( 'Currency', 'FractDigits', $this->CurrencyFractDigits );
+        $countryINI->assign( 'Currency', 'NegativeSymbol', $this->CurrencyNegativeSymbol );
+        $countryINI->assign( 'Currency', 'PositiveSymbol', $this->CurrencyPositiveSymbol );
+        $countryINI->assign( 'Currency', 'Symbol', $this->CurrencySymbol );
+        $countryINI->assign( 'Currency', 'PositiveFormat', $this->CurrencyPositiveFormat );
+        $countryINI->assign( 'Currency', 'NegativeFormat', $this->CurrencyNegativeFormat );
     }
 
     /*!
@@ -276,32 +304,47 @@ class eZLocale
     */
     function initLanguage( &$languageINI )
     {
-        $this->LanguageName =& $languageINI->variable( "RegionalSettings", "LanguageName" );
-        $this->IntlLanguageName =& $languageINI->variable( "RegionalSettings", "InternationalLanguageName" );
+        $languageINI->assign( "RegionalSettings", "LanguageName", $this->LanguageName );
+        $languageINI->assign( "RegionalSettings", "InternationalLanguageName", $this->IntlLanguageName );
+        $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
 
-        $this->ShortDayNames = array();
-        $this->LongDayNames = array();
+        $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
+
+        if ( !is_array( $this->ShortDayNames ) )
+            $this->ShortDayNames = array();
+        if ( !is_array( $this->LongDayNames ) )
+            $this->LongDayNames = array();
         foreach ( $this->DayNames as $day )
         {
-            $this->ShortDayNames[$day] = $languageINI->variable( 'ShortDayNames', $day );
-            $this->LongDayNames[$day] = $languageINI->variable( 'LongDayNames', $day );
+            if ( $languageINI->hasVariable( 'ShortDayNames', $day ) )
+                $this->ShortDayNames[$day] = $languageINI->variable( 'ShortDayNames', $day );
+            if ( $languageINI->hasVariable( 'LongDayNames', $day ) )
+                $this->LongDayNames[$day] = $languageINI->variable( 'LongDayNames', $day );
         }
 
-        $this->ShortMonthNames = array();
-        $this->LongMonthNames = array();
+        if ( !is_array( $this->ShortMonthNames ) )
+            $this->LongMonthNames = array();
+        if ( !is_array( $this->ShortMonthNames ) )
+            $this->LongMonthNames = array();
         foreach ( $this->MonthNames as $month )
         {
-            $this->ShortMonthNames[$month] = $languageINI->variable( 'ShortMonthNames', $month );
-            $this->LongMonthNames[$month] = $languageINI->variable( 'LongMonthNames', $month );
+            if ( $languageINI->hasVariable( 'ShortMonthNames', $month ) )
+                $this->ShortMonthNames[$month] = $languageINI->variable( 'ShortMonthNames', $month );
+            if ( $languageINI->hasVariable( 'LongMonthNames', $month ) )
+                $this->LongMonthNames[$month] = $languageINI->variable( 'LongMonthNames', $month );
         }
 
-        $this->ShortWeekDayNames = array();
-        $this->LongWeekDayNames = array();
+        if ( !is_array( $this->ShortWeekDayNames ) )
+            $this->ShortWeekDayNames = array();
+        if ( !is_array( $this->LongWeekDayNames ) )
+            $this->LongWeekDayNames = array();
         foreach( $this->WeekDays as $wday )
         {
             $code = $this->DayNames[$wday];
-            $this->ShortWeekDayNames[$wday] = $languageINI->variable( 'ShortDayNames', $code );
-            $this->LongWeekDayNames[$wday] = $languageINI->variable( 'LongDayNames', $code );
+            if ( $languageINI->hasVariable( 'ShortDayNames', $code ) )
+                $this->ShortWeekDayNames[$wday] = $languageINI->variable( 'ShortDayNames', $code );
+            if ( $languageINI->hasVariable( 'LongDayNames', $code ) )
+                $this->LongWeekDayNames[$wday] = $languageINI->variable( 'LongDayNames', $code );
         }
     }
 
@@ -314,21 +357,25 @@ class eZLocale
     function localeInformation( $localeString )
     {
         $info = null;
-        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+))?(\.([a-zA-Z-]+))?/', $localeString, $regs ) )
+        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+)(\(([a-zA-Z0-9]+)\))?)?(\.([a-zA-Z-]+))?/', $localeString, $regs ) )
         {
             $info = array();
             $language = strtolower( $regs[1] );
             $country = '';
             if ( isset( $regs[3] ) )
                 $country = strtoupper( $regs[3] );
-            $charset = '';
+            $countryVariation = '';
             if ( isset( $regs[5] ) )
-                $charset = strtolower( $regs[5] );
+                $countryVariation = strtolower( $regs[5] );
+            $charset = '';
+            if ( isset( $regs[6] ) )
+                $charset = strtolower( $regs[6] );
             $locale = $language;
             if ( $country !== '' )
                 $locale .= '-' . $country;
             $info['language'] = $language;
             $info['country'] = $country;
+            $info['country-variation'] = $countryVariation;
             $info['charset'] = $charset;
             $info['locale'] = $locale;
         }
@@ -339,6 +386,7 @@ class eZLocale
             $language = $locale;
             $info['language'] = $language;
             $info['country'] = '';
+            $info['country-variation'] = '';
             $info['charset'] = '';
             $info['locale'] = $locale;
         }
@@ -366,6 +414,14 @@ class eZLocale
     }
 
     /*!
+     Returns the comment for the country, if any.
+    */
+    function countryComment()
+    {
+        return $this->CountryComment;
+    }
+
+    /*!
      Returns the code for the country. eg. 'NO'
     */
     function countryCode()
@@ -374,11 +430,27 @@ class eZLocale
     }
 
     /*!
+     Returns the variation for the country. eg. 'spraakraad'
+    */
+    function countryVariation()
+    {
+        return $this->CountryVariation;
+    }
+
+    /*!
      Returns the language code for this language, for instance nor for norwegian or eng for english.
     */
     function languageCode()
     {
         return $this->LanguageCode;
+    }
+
+    /*!
+     Returns the comment for the language, if any.
+    */
+    function languageComment()
+    {
+        return $this->LanguageComment;
     }
 
     /*!
@@ -404,6 +476,9 @@ class eZLocale
         {
             $localeCode =& $ini->variable( 'RegionalSettings', 'HTTPLocale' );
         }
+        if ( $localeCode == '' and
+             $this->HTTPLocaleCode != '' )
+            $localeCode = $this->HTTPLocaleCode;
         if ( $localeCode == '' )
             $localeCode = $this->localeCode();
         return $localeCode;
@@ -869,53 +944,77 @@ class eZLocale
      Returns the eZINI object for the locale ini file.
      \warning Do not modify this object.
     */
-    function &localeFile()
+    function &localeFile( $withVariation = false )
     {
-        if ( get_class( $this->LocaleINI ) != 'ezini' )
+        $type = $withVariation ? 'variation' : 'default';
+        if ( get_class( $this->LocaleINI[$type] ) != 'ezini' )
         {
             $country = $this->countryCode();
+            $countryVariation = $this->countryVariation();
             $language = $this->languageCode();
             $locale = $language;
             if ( $country !== '' )
                 $locale .= '-' . $country;
+            if ( $withVariation )
+            {
+                if ( $countryVariation !== '' )
+                    $locale .= '(' . $countryVariation . ')';
+            }
             $localeFile = $locale . '.ini';
-            eZDebug::writeNotice( "Trying $localeFile" );
+            eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
             if ( eZINI::exists( $localeFile, 'share/locale' ) )
-                $this->LocaleINI = eZINI::instance( $localeFile, 'share/locale' );
+                $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
         }
-        return $this->LocaleINI;
+        return $this->LocaleINI[$type];
     }
 
     /*!
      Returns the eZINI object for the country ini file.
      \warning Do not modify this object.
     */
-    function &countryFile()
+    function &countryFile( $withVariation = false )
     {
-        if ( get_class( $this->CountryINI ) != 'ezini' )
+        $type = $withVariation ? 'variation' : 'default';
+        if ( get_class( $this->CountryINI[$type] ) != 'ezini' )
         {
             $country = $this->countryCode();
-            $countryFile = 'country/' . $country . '.ini';
+            $countryVariation = $this->countryVariation();
+            $locale = $country;
+            if ( $withVariation )
+            {
+                if ( $countryVariation !== '' )
+                    $locale .= '(' . $countryVariation . ')';
+            }
+            $countryFile = 'country/' . $locale . '.ini';
+            eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
             if ( eZINI::exists( $countryFile, 'share/locale' ) )
-                $this->CountryINI = eZINI::instance( $countryFile, 'share/locale' );
+                $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
         }
-        return $this->CountryINI;
+        return $this->CountryINI[$type];
     }
 
     /*!
      Returns the eZINI object for the language ini file.
      \warning Do not modify this object.
     */
-    function &languageFile()
+    function &languageFile( $withVariation = false )
     {
-        if ( get_class( $this->LanguageINI ) != 'ezini' )
+        $type = $withVariation ? 'variation' : 'default';
+        if ( get_class( $this->LanguageINI[$type] ) != 'ezini' )
         {
             $language = $this->languageCode();
-            $languageFile = 'language/' . $language . '.ini';
+            $locale = $language;
+            if ( $withVariation )
+            {
+                if ( $countryVariation !== '' )
+                    $locale .= '(' . $countryVariation . ')';
+            }
+            $languageFile = 'language/' . $locale . '.ini';
+            eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
             if ( eZINI::exists( $languageFile, 'share/locale' ) )
-                $this->LanguageINI = eZINI::instance( $languageFile, 'share/locale' );
+                $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );
         }
-        return $this->LanguageINI;
+        return $this->LanguageINI[$type];
     }
 
     /*!
@@ -994,6 +1093,9 @@ class eZLocale
     /// Objects
     var $Country;
     var $CountryCode;
+    var $CountryVariation;
+    var $CountryComment;
+    var $LanguageComment;
     var $LocaleINI;
     var $CountryINI;
     var $LanguageINI;
