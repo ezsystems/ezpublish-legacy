@@ -831,7 +831,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             if ( !$node->canRemove() )
                 continue;
 
-            $removeList[] = $nodeAssignment->attribute( 'id' );
+            $removeList[] = $node->attribute( 'node_id' );
             $nodeRemoveList[] =& $node;
             $count = $node->childrenCount( false );
             if ( $count > 0 )
@@ -844,13 +844,12 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     if ( $hasChildren )
     {
-        $http->setSessionVariable( 'AssignmentRemoveData',
-                                   array( 'remove_list' => $removeList,
-                                          'object_id' => $objectID,
-                                          'node_id' => $nodeID,
-                                          'view_mode' => $viewMode,
-                                          'language_code' => $languageCode ) );
-        return $module->redirectToView( 'removelocation' );
+        $http->setSessionVariable( 'CurrentViewMode', $viewMode );
+        $http->setSessionVariable( 'DeleteIDArray', $removeList );
+        $http->setSessionVariable( 'ContentObjectID', $objectID );
+        $http->setSessionVariable( 'ContentNodeID', $nodeID );
+        $http->setSessionVariable( 'ContentLanguage', $languageCode );
+        return $module->redirectToView( 'removeobject' );
     }
     else
     {

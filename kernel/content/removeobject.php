@@ -47,8 +47,16 @@ $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
+if ( $http->hasSessionVariable( 'ContentLanguage' ) )
+{
+    $contentLanguage = $http->sessionVariable( 'ContentLanguage' );
+}
+else
+{
+    $contentLanguage = eZContentObject::defaultLanguage();
+}
 if ( count( $deleteIDArray ) <= 0 )
-    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID ) );
+    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 
 // Cleanup and redirect back when cancel is clicked
 if ( $http->hasPostVariable( "CancelButton" ) )
@@ -57,7 +65,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( "DeleteIDArray" );
     $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
-    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID ) );
+    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
 $moveToTrash = true;
@@ -72,7 +80,7 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
-    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID ) );
+    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
 $moveToTrashAllowed = true;
@@ -86,6 +94,28 @@ if ( !$info['move_to_trash'] )
 }
 $totalChildCount = $info['total_child_count'];
 $canRemoveAll = $info['can_remove_all'];
+
+// We check if we can remove the nodes without confirmation
+// to do this the following must be true:
+// - The total child count must be zero
+// - There must be no object removal (i.e. it is the only node for the object)
+if ( $totalChildCount == 0 )
+{
+    $canRemove = true;
+    foreach ( $deleteResult as $item )
+    {
+        if ( !$item['object_node_count'] <= 1 )
+        {
+            $canRemove = false;
+            break;
+        }
+    }
+    if ( $canRemove )
+    {
+        eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
+        return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+    }
+}
 
 $tpl =& templateInit();
 
