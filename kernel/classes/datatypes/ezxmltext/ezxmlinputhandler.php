@@ -561,7 +561,9 @@ class eZXMLInputHandler
             // Custom tags
             case 'custom' :
             {
-                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
+                $name = $tag->attributeValue( 'name' );
+
+                $output .= "<$tagName name='$name'>" . $childTagText . $tag->textContent() . "</$tagName>";
             }break;
 
             case 'link' :
