@@ -66,6 +66,9 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/xml_image_link_does_not_work
 - Fixed bug of missing integer check when update priority.
   http://ez.no/community/bug_reports/action_update_priority_needs_an_input_check
+- Fixed void "recompile options" field of "Missing database handlers" issue
+  when setting up site without PostgreSQL support in PHP (merged from 3.3, rev. 6671).
+  http://ez.no/community/bug_reports/fine_tune_database_message
 
 *Library:
 
