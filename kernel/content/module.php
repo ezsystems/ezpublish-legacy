@@ -397,7 +397,7 @@ $ViewList['new'] = array(
     'params' => array() );
 
 $ViewList['hide'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'hide' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'hide.php',
     'params' => array( 'NodeID' ) );
@@ -484,6 +484,9 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Owner' => $Assigned,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
+
+$FunctionList['hide'] = array( 'Subtree' => $Subtree );
+
 $FunctionList['translate'] = array( 'Class' => $ClassID,
                                     'Section' => $SectionID,
                                     'Owner' => $Assigned,

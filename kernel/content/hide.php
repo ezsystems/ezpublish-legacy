@@ -39,6 +39,9 @@ $curNode =& eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$curNode )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+if ( !$curNode->attribute( 'can_hide' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 if ( $curNode->attribute( 'is_hidden' ) )
     eZContentObjectTreeNode::unhideSubTree( $curNode );
 else
