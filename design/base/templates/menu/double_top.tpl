@@ -5,7 +5,8 @@
     <h3 class="hide">{"Top menu"|i18n("design/base")}</h3>
 
     {let menuitems=fetch( 'content', 'list', hash( 'parent_node_id', 2,
-                                                   'sort_by', $root_node.sort_array ) )}
+                                                   'sort_by', $root_node.sort_array, class_filter_type, include,
+                                                   class_filter_array, array( 'folder' ) ) )}
     <ul>
     {section var=menu loop=$menuitems}
         {section show=eq( $menu.object.content_class.identifier, "link" )}
@@ -34,8 +35,9 @@
     <h3 class="hide">{"Sub menu"|i18n("design/base")}</h3>
 
     <ul>
-        {section var=menu loop=fetch( 'content', 'list', hash( parent_node_id, $module_result.path[1].node_id,
-                                                               sort_by, $root_node.sort_array , limit, 10 ) )}
+    {section var=menu loop=fetch( 'content', 'list', hash( parent_node_id, $module_result.path[1].node_id,
+                                                           sort_by, $root_node.sort_array, class_filter_type, include,
+                                                           class_filter_array, array( 'folder' ), limit, 10 ) )}
 
             {section show=eq( $menu.object.content_class.identifier, "link" )}
                 <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.object.data_map.link.content}>{$menu.name}</a></div></li>
