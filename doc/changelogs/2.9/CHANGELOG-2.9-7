@@ -33,6 +33,7 @@ Changes from 2.9-6 to 2.9-7
 - Added uri_alias attribute on node.
 - Module list in policies now works with extensions.
 - Added anchor tag as standard in XMLText 
+- Optimized fetch lists
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
