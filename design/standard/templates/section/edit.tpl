@@ -14,11 +14,11 @@
 <div class="block">
 <label>{"Navigation Part:"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <select name="NavigationPartIdentifier">
-<option value="ezcontentnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezcontentnavigationpart')}selected="selected"{/section}>{"Content"|i18n("design/standard/section")}</option>
-<option value="ezshopnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezshopnavigationpart')}selected="selected"{/section}>{"Shop"|i18n("design/standard/section")}</option>
-<option value="ezusernavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezusernavigationpart')}selected="selected"{/section}>{"Users"|i18n("design/standard/section")}</option>
-<option value="ezsetupnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezsetupnavigationpart')}selected="selected"{/section}>{"Set up"|i18n("design/standard/section")}</option>
-<option value="ezmynavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezmynavigationpart')}selected="selected"{/section}>{"Personal"|i18n("design/standard/section")}</option>
+<option value="ezcontentnavigationpart" {section show=eq($section.navigation_part_identifier,'ezcontentnavigationpart')}selected="selected"{/section}>{"Content"|i18n("design/standard/section")}</option>
+<option value="ezshopnavigationpart" {section show=eq($section.navigation_part_identifier,'ezshopnavigationpart')}selected="selected"{/section}>{"Shop"|i18n("design/standard/section")}</option>
+<option value="ezusernavigationpart" {section show=eq($section.navigation_part_identifier,'ezusernavigationpart')}selected="selected"{/section}>{"Users"|i18n("design/standard/section")}</option>
+<option value="ezsetupnavigationpart" {section show=eq($section.navigation_part_identifier,'ezsetupnavigationpart')}selected="selected"{/section}>{"Set up"|i18n("design/standard/section")}</option>
+<option value="ezmynavigationpart" {section show=eq($section.navigation_part_identifier,'ezmynavigationpart')}selected="selected"{/section}>{"Personal"|i18n("design/standard/section")}</option>
 </select>
 </div>
 
