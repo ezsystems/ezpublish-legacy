@@ -111,6 +111,18 @@ function eZSetupForumINISettings( $siteType )
                   'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
 }
 
+function eZSetupSiteINISettings( $siteType )
+{
+    $settings = array();
+    if ( $siteType == 'intranet' )
+    {
+        $settings = array_merge( $settings,
+                                 array( 'SiteAccessSettings' => array( 'RequireUserLogin' => 'true' ) ) );
+    }
+    return array( 'name' => 'menu.ini',
+                  'settings' => $settings );
+}
+
 function eZSetupMenuINISettings( $siteType )
 {
     $default = array( 'CurrentMenu' => 'TopOnly',
@@ -195,7 +207,7 @@ function eZSetupToolbarINISettings( $siteType )
 function eZSetupAdminToolbarINISettings( $siteType )
 {
     $toolbar = array (
-        'name' => 'override.ini',
+        'name' => 'toolbar.ini',
         'settings' =>
         array (
             'Toolbar' =>
@@ -1091,6 +1103,7 @@ function eZSetupINISettings( $siteType )
     $settings[] = eZSetupMenuINISettings( $siteType );
     $settings[] = eZSetupOverrideINISettings( $siteType );
     $settings[] = eZSetupToolbarINISettings( $siteType );
+    $settings[] = eZSetupSiteINISettings( $siteType );
 
     return $settings;
 }
