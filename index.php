@@ -37,6 +37,7 @@
 // xdebug_start_trace( 'ezp' );
 
 ignore_user_abort( true );
+require 'lib/compat.php';
 
 $scriptStartTime = microtime();
 ob_start();

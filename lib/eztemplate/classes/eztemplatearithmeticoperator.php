@@ -334,7 +334,7 @@ class eZTemplateArithmeticOperator
                     $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
                     if ( !is_numeric( $staticValue ) )
                         $staticValue = (int)$staticValue;
-                    $code .= " $staticValue";
+                    $code .= ezsprintf(" %F", $staticValue);
                 }
                 else
                 {

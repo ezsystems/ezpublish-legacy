@@ -304,14 +304,14 @@ class Cpdf
 	    switch ($options['type']){
 		case 'XYZ':
 		case 'FitR':
-		    $tmp =  ' '.sprintf('%.3f',$options['p3']).$tmp;
+		    $tmp =  ' '.ezsprintf('%.3F',$options['p3']).$tmp;
 		case 'FitV':
 		case 'FitBH':
 		case 'FitBV':
-		    $tmp =  ' '.sprintf('%.3f',$options['p2']).$tmp;
+		    $tmp =  ' '.ezsprintf('%.3F',$options['p2']).$tmp;
 		case 'Fit':
             case 'FitH':
-                $tmp =  ' '.sprintf('%.3f',$options['p1']).$tmp;
+                $tmp =  ' '.ezsprintf('%.3F',$options['p1']).$tmp;
 		case 'FitB':
 		    $tmp =  $options['type'].$tmp;
 		$this->objects[$id]['info']['string']=$tmp;
@@ -512,7 +512,7 @@ class Cpdf
 			$res.="\n>>";
 			if (isset($o['info']['mediaBox'])){
 			    $tmp=$o['info']['mediaBox'];
-			    $res.="\n/MediaBox [".sprintf('%.3f',$tmp[0]).' '.sprintf('%.3f',$tmp[1]).' '.sprintf('%.3f',$tmp[2]).' '.sprintf('%.3f',$tmp[3]).']';
+			    $res.="\n/MediaBox [".ezsprintf('%.3F',$tmp[0]).' '.ezsprintf('%.3F',$tmp[1]).' '.ezsprintf('%.3F',$tmp[2]).' '.ezsprintf('%.3F',$tmp[3]).']';
 			}
 		    }
 		    $res.="\n >>\nendobj";
@@ -672,7 +672,7 @@ class Cpdf
 		    $this->objects[$id]['info']['Matrix'] = '[ ';
 		    foreach ( $options['matrix'] as $coord )
 		    {
-			$this->objects[$id]['info']['Matrix'].= sprintf( ' %.3f ', $coord );
+			$this->objects[$id]['info']['Matrix'].= ezsprintf( ' %.3F ', $coord );
 		    }
 		    $this->objects[$id]['info']['Matrix'].=' ]';
 		}
@@ -685,7 +685,7 @@ class Cpdf
 		    $this->objects[$id]['info']['BBox'] = '[ ';
 		    foreach ( $options['bbox'] as $coord )
 		    {
-			$this->objects[$id]['info']['BBox'].= sprintf( ' 3.f ', $coord );
+			$this->objects[$id]['info']['BBox'].= ezsprintf( ' %.3F ', $coord );
 		    }
 		    $this->objects[$id]['info']['BBox'].= ']';
 
@@ -759,10 +759,10 @@ class Cpdf
         }
 
         $this->objects[$id]['info']['Coords'] = '[ '.  // compute angle of gradient chading
-			 sprintf( '%.3f', $options['size']['x1'] ).' '.
-			 sprintf( '%.3f', $options['size']['y1'] + $options['size']['height'] ).' '.
-			 sprintf( '%.3f', $options['size']['x1'] + $options['size']['width']*cos( $angle ) ).' '.
-			 sprintf( '%.3f', $options['size']['y1'] + $options['size']['height']*( 1 - sin( $angle ) ) ).']';
+			 ezsprintf( '%.3F', $options['size']['x1'] ).' '.
+			 ezsprintf( '%.3F', $options['size']['y1'] + $options['size']['height'] ).' '.
+			 ezsprintf( '%.3F', $options['size']['x1'] + $options['size']['width']*cos( $angle ) ).' '.
+			 ezsprintf( '%.3F', $options['size']['y1'] + $options['size']['height']*( 1 - sin( $angle ) ) ).']';
 
 //                $this->objects[$id]['info']['Coords'] = '[0.0 0.0 50.0 50.0]';
 
@@ -772,10 +772,10 @@ class Cpdf
             {
                 $options['color0'] = eZMath::rgbToCMYK( $options['color0'] );
             }
-            $color0 = array ( 'c' => sprintf( '%.3f', $options['color0']['c'] ),
-                              'm' => sprintf( '%.3f', $options['color0']['m'] ),
-                              'y' => sprintf( '%.3f', $options['color0']['y'] ),
-                              'k' => sprintf( '%.3f', $options['color0']['k'] ) );
+            $color0 = array ( 'c' => ezsprintf( '%.3F', $options['color0']['c'] ),
+                              'm' => ezsprintf( '%.3F', $options['color0']['m'] ),
+                              'y' => ezsprintf( '%.3F', $options['color0']['y'] ),
+                              'k' => ezsprintf( '%.3F', $options['color0']['k'] ) );
 		}
 		else
 		{
@@ -787,10 +787,10 @@ class Cpdf
             {
                 $options['color1'] = eZMath::rgbToCMYK( $options['color1'] );
             }
-		    $color1 = array ( 'c' => sprintf( '%.3f', $options['color1']['c'] ),
-                              'm' => sprintf( '%.3f', $options['color1']['m'] ),
-                              'y' => sprintf( '%.3f', $options['color1']['y'] ),
-                              'k' => sprintf( '%.3f', $options['color1']['k'] ) );
+		    $color1 = array ( 'c' => ezsprintf( '%.3F', $options['color1']['c'] ),
+                              'm' => ezsprintf( '%.3F', $options['color1']['m'] ),
+                              'y' => ezsprintf( '%.3F', $options['color1']['y'] ),
+                              'k' => ezsprintf( '%.3F', $options['color1']['k'] ) );
 		}
 		else
 		{
@@ -1164,7 +1164,7 @@ class Cpdf
 	    $res.="\n/H /I";
 	    $res.="\n/Rect [ ";
 	    foreach($o['info']['rect'] as $v){
-		$res.= sprintf("%.4f ",$v);
+		$res.= ezsprintf("%.4F ",$v);
 	    }
 	    $res.="]";
 	    $res.="\n>>\nendobj";
@@ -2041,8 +2041,8 @@ class Cpdf
         if ( $force || !$this->compareCMYK( $cmykArray, $this->currentColour ) )
         {
             $this->objects[$this->currentContents]['c'] .= "\n" .
-                 sprintf( '%.3f', $cmykArray['c'] ) . ' ' . sprintf( '%.3f', $cmykArray['m'] ) . ' ' .
-                 sprintf( '%.3f', $cmykArray['y'] ) . ' ' . sprintf( '%.3f', $cmykArray['k'] ) . ' k';
+                 ezsprintf( '%.3F', $cmykArray['c'] ) . ' ' . ezsprintf( '%.3F', $cmykArray['m'] ) . ' ' .
+                 ezsprintf( '%.3F', $cmykArray['y'] ) . ' ' . ezsprintf( '%.3F', $cmykArray['k'] ) . ' k';
             $this->currentColour = $cmykArray;
         }
     }
@@ -2066,8 +2066,8 @@ class Cpdf
         if ( $force || !$this->compareCMYK( $cmykArray, $this->currentStrokeColour ) )
         {
             $this->objects[$this->currentContents]['c'] .= "\n" .
-                 sprintf( '%.3f', $cmykArray['c'] ) . ' ' . sprintf( '%.3f', $cmykArray['m'] ) . ' ' .
-                 sprintf( '%.3f', $cmykArray['y'] ) . ' ' . sprintf( '%.3f', $cmykArray['k'] ) . ' K';
+                 ezsprintf( '%.3F', $cmykArray['c'] ) . ' ' . ezsprintf( '%.3F', $cmykArray['m'] ) . ' ' .
+                 ezsprintf( '%.3F', $cmykArray['y'] ) . ' ' . ezsprintf( '%.3F', $cmykArray['k'] ) . ' K';
             $this->currentStrokeColour = $cmykArray;
         }
     }
@@ -2076,7 +2076,7 @@ class Cpdf
  * draw a line from one set of coordinates to another
  */
     function line($x1,$y1,$x2,$y2){
-        $this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' m '.sprintf('%.3f',$x2).' '.sprintf('%.3f',$y2).' l S';
+        $this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$x1).' '.ezsprintf('%.3F',$y1).' m '.ezsprintf('%.3F',$x2).' '.ezsprintf('%.3F',$y2).' l S';
     }
 
 /**
@@ -2085,8 +2085,8 @@ class Cpdf
     function curve($x0,$y0,$x1,$y1,$x2,$y2,$x3,$y3){
 	// in the current line style, draw a bezier curve from (x0,y0) to (x3,y3) using the other two points
 	// as the control points for the curve.
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x0).' '.sprintf('%.3f',$y0).' m '.sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1);
-	$this->objects[$this->currentContents]['c'].= ' '.sprintf('%.3f',$x2).' '.sprintf('%.3f',$y2).' '.sprintf('%.3f',$x3).' '.sprintf('%.3f',$y3).' c S';
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$x0).' '.ezsprintf('%.3F',$y0).' m '.ezsprintf('%.3F',$x1).' '.ezsprintf('%.3F',$y1);
+	$this->objects[$this->currentContents]['c'].= ' '.ezsprintf('%.3F',$x2).' '.ezsprintf('%.3F',$y2).' '.ezsprintf('%.3F',$x3).' '.ezsprintf('%.3F',$y3).' c S';
     }
 
 /**
@@ -2134,8 +2134,8 @@ class Cpdf
 	if ($angle != 0){
 	    $a = -1*deg2rad((float)$angle);
 	    $tmp = "\n q ";
-	    $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-	    $tmp .= sprintf('%.3f',$x0).' '.sprintf('%.3f',$y0).' cm';
+	    $tmp .= ezsprintf('%.3F',cos($a)).' '.ezsprintf('%.3F',(-1.0*sin($a))).' '.ezsprintf('%.3F',sin($a)).' '.ezsprintf('%.3F',cos($a)).' ';
+	    $tmp .= ezsprintf('%.3F',$x0).' '.ezsprintf('%.3F',$y0).' cm';
 	    $this->objects[$this->currentContents]['c'].= $tmp;
 	    $x0=0;
 	    $y0=0;
@@ -2147,7 +2147,7 @@ class Cpdf
 	$c0 = -$r1*sin($t1);
 	$d0 = $r2*cos($t1);
 
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$a0).' '.sprintf('%.3f',$b0).' m ';
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$a0).' '.ezsprintf('%.3F',$b0).' m ';
 	for ($i=1;$i<=$nSeg;$i++){
 	    // draw this bit of the total curve
 	    $t1 = $i*$dt+$astart;
@@ -2155,8 +2155,8 @@ class Cpdf
 	    $b1 = $y0+$r2*sin($t1);
 	    $c1 = -$r1*sin($t1);
 	    $d1 = $r2*cos($t1);
-	    $this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',($a0+$c0*$dtm)).' '.sprintf('%.3f',($b0+$d0*$dtm));
-	    $this->objects[$this->currentContents]['c'].= ' '.sprintf('%.3f',($a1-$c1*$dtm)).' '.sprintf('%.3f',($b1-$d1*$dtm)).' '.sprintf('%.3f',$a1).' '.sprintf('%.3f',$b1).' c';
+	    $this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',($a0+$c0*$dtm)).' '.ezsprintf('%.3F',($b0+$d0*$dtm));
+	    $this->objects[$this->currentContents]['c'].= ' '.ezsprintf('%.3F',($a1-$c1*$dtm)).' '.ezsprintf('%.3F',($b1-$d1*$dtm)).' '.ezsprintf('%.3F',$a1).' '.ezsprintf('%.3F',$b1).' c';
 	    $a0=$a1;
 	    $b0=$b1;
 	    $c0=$c1;
@@ -2220,9 +2220,9 @@ class Cpdf
  */
     function polygon($p,$np,$f=0){
 	$this->objects[$this->currentContents]['c'].="\n";
-	$this->objects[$this->currentContents]['c'].=sprintf('%.3f',$p[0]).' '.sprintf('%.3f',$p[1]).' m ';
+	$this->objects[$this->currentContents]['c'].=ezsprintf('%.3F',$p[0]).' '.ezsprintf('%.3F',$p[1]).' m ';
 	for ($i=2;$i<$np*2;$i=$i+2){
-	    $this->objects[$this->currentContents]['c'].= sprintf('%.3f',$p[$i]).' '.sprintf('%.3f',$p[$i+1]).' l ';
+	    $this->objects[$this->currentContents]['c'].= ezsprintf('%.3F',$p[$i]).' '.ezsprintf('%.3F',$p[$i+1]).' l ';
 	}
 	if ($f==1){
 	    $this->objects[$this->currentContents]['c'].=' f';
@@ -2250,7 +2250,7 @@ class Cpdf
 
 	$this->saveState();
 
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' '.sprintf('%.3f',$width).' '.sprintf('%.3f',$height).' re';
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$x1).' '.ezsprintf('%.3F',$y1).' '.ezsprintf('%.3F',$width).' '.ezsprintf('%.3F',$height).' re';
 
 	$this->objects[$this->currentContents]['c'].="\nW n";
 
@@ -2264,7 +2264,7 @@ class Cpdf
  * the coordinates of the upper-right corner
  */
     function filledRectangle($x1,$y1,$width,$height){
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' '.sprintf('%.3f',$width).' '.sprintf('%.3f',$height).' re f';
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$x1).' '.ezsprintf('%.3F',$y1).' '.ezsprintf('%.3F',$width).' '.ezsprintf('%.3F',$height).' re f';
     }
 
 /**
@@ -2272,7 +2272,7 @@ class Cpdf
  * the coordinates of the upper-right corner
  */
     function rectangle($x1,$y1,$width,$height){
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' '.sprintf('%.3f',$width).' '.sprintf('%.3f',$height).' re S';
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$x1).' '.ezsprintf('%.3F',$y1).' '.ezsprintf('%.3F',$width).' '.ezsprintf('%.3F',$height).' re S';
     }
 
 /**
@@ -2628,17 +2628,17 @@ class Cpdf
             }
         }
         if ($angle==0){
-            $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Td';
+            $this->objects[$this->currentContents]['c'].="\n".'BT '.ezsprintf('%.3F',$x).' '.ezsprintf('%.3F',$y).' Td';
         } else {
             $a = deg2rad((float)$angle);
             $tmp = "\n".'BT ';
-            $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-            $tmp .= sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Tm';
+            $tmp .= ezsprintf('%.3F',cos($a)).' '.ezsprintf('%.3F',(-1.0*sin($a))).' '.ezsprintf('%.3F',sin($a)).' '.ezsprintf('%.3F',cos($a)).' ';
+            $tmp .= ezsprintf('%.3F',$x).' '.ezsprintf('%.3F',$y).' Tm';
             $this->objects[$this->currentContents]['c'] .= $tmp;
         }
         if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
             $this->wordSpaceAdjust=$wordSpaceAdjust;
-            $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
+            $this->objects[$this->currentContents]['c'].=' '.ezsprintf('%.3F',$wordSpaceAdjust).' Tw';
         }
         $len=strlen($text);
         $start=0;
@@ -2650,7 +2650,7 @@ class Cpdf
                 // then we should write what we need to
                 if ($i>$start){
                     $part = substr($text,$start,$i-$start);
-                    $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
+                    $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.ezsprintf('%.1F',$size).' Tf ';
                     $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
                 }
                 if ( !$directiveArray['run_final'] ){
@@ -2671,17 +2671,17 @@ class Cpdf
 
                     // restart the text object
                     if ($angle==0){
-                        $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Td';
+                        $this->objects[$this->currentContents]['c'].="\n".'BT '.ezsprintf('%.3F',$xp).' '.ezsprintf('%.3F',$yp).' Td';
                     } else {
                         $a = deg2rad((float)$angle);
                         $tmp = "\n".'BT ';
-                        $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-                        $tmp .= sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Tm';
+                        $tmp .= ezsprintf('%.3F',cos($a)).' '.ezsprintf('%.3F',(-1.0*sin($a))).' '.ezsprintf('%.3F',sin($a)).' '.ezsprintf('%.3F',cos($a)).' ';
+                        $tmp .= ezsprintf('%.3F',$xp).' '.ezsprintf('%.3F',$yp).' Tm';
                         $this->objects[$this->currentContents]['c'] .= $tmp;
                     }
                     if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
                         $this->wordSpaceAdjust=$wordSpaceAdjust;
-                        $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
+                        $this->objects[$this->currentContents]['c'].=' '.ezsprintf('%.3F',$wordSpaceAdjust).' Tw';
                     }
                 }
                 // and move the writing point to the next piece of text
@@ -2692,7 +2692,7 @@ class Cpdf
         }
         if ($start<$len){
             $part = substr($text,$start);
-            $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
+            $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.ezsprintf('%.1F',$size).' Tf ';
             $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
         }
         $this->objects[$this->currentContents]['c'].=' ET';
@@ -3336,7 +3336,7 @@ class Cpdf
 	$this->o_image($this->numObj,'new',$options);
 
 	$this->objects[$this->currentContents]['c'].="\nq";
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$w)." 0 0 ".sprintf('%.3f',$h)." ".sprintf('%.3f',$x)." ".sprintf('%.3f',$y)." cm";
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$w)." 0 0 ".ezsprintf('%.3F',$h)." ".ezsprintf('%.3F',$x)." ".ezsprintf('%.3F',$y)." cm";
 	$this->objects[$this->currentContents]['c'].="\n/".$label.' Do';
 	$this->objects[$this->currentContents]['c'].="\nQ";
     }
@@ -3461,7 +3461,7 @@ class Cpdf
 	$this->o_image($this->numObj,'new',array('label'=>$label,'data'=>$data,'iw'=>$imageWidth,'ih'=>$imageHeight,'channels'=>$channels));
 
 	$this->objects[$this->currentContents]['c'].="\nq";
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$w)." 0 0 ".sprintf('%.3f',$h)." ".sprintf('%.3f',$x)." ".sprintf('%.3f',$y)." cm";
+	$this->objects[$this->currentContents]['c'].="\n".ezsprintf('%.3F',$w)." 0 0 ".ezsprintf('%.3F',$h)." ".ezsprintf('%.3F',$x)." ".ezsprintf('%.3F',$y)." cm";
 	$this->objects[$this->currentContents]['c'].="\n/".$label.' Do';
 	$this->objects[$this->currentContents]['c'].="\nQ";
     }
