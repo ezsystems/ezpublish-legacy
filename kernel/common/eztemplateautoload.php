@@ -229,7 +229,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                           'attribute_keys' => array( 'node' => array( 'node_id' ),
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
-                                                                     'section' => array( 'object', 'section_id' ) ),
+                                                                     'section' => array( 'object', 'section_id' ),
                                                                      'class_identifier' => array( 'object', 'class_identifier' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
