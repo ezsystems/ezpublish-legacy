@@ -37,9 +37,15 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $LayoutStyle = $Params['LayoutStyle'];
 $Module =& $Params['Module'];
 
+$userParamString = '';
+foreach ( $Params['UserParameters'] as $key => $param )
+{
+    $userParamString .= "/($key)/$param";
+}
+
 $Result = array();
 $Result['content'] = '';
-$Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) );
+$Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) ) . $userParamString;
 
 $layoutINI =& eZINI::instance( 'layout.ini' );
 if ( $layoutINI->hasGroup( $LayoutStyle ) )
