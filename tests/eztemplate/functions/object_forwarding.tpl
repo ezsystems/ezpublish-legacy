@@ -9,3 +9,6 @@ Line:
 List item:
 
 {node_view_gui view=listitem content_node=$node}
+
+
+{include uri="design:content/datatype/view/ezfile.tpl" attribute=$node.object.attributes.0}

@@ -101,6 +101,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $template = $match['template'];
             $file = $basedir . $template;
             $spacing = 0;
+            $addFileResource = true;
             if ( isset( $match['custom_match'] ) )
             {
                 $spacing = 4;
@@ -108,13 +109,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $matchCount = 0;
                 foreach ( $customMatchList as $customMatch )
                 {
+                    $matchConditionCount = count( $customMatch['conditions'] );
+                    $code = '';
                     if ( $matchCount > 0 )
                     {
-                        $code = "else if ( ";
+                        $code = "else";
                     }
-                    else
+                    if ( $matchConditionCount > 0 )
                     {
-                        $code = "if ( ";
+                        if ( $matchCount > 0 )
+                            $code .= " ";
+                        $code .= "if ( ";
                     }
                     $ifLength = strlen( $code );
                     $conditionCount = 0;
@@ -127,7 +132,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
                         ++$conditionCount;
                     }
-                    $code .= " )\n{";
+                    if ( $matchConditionCount > 0 )
+                    {
+                        $code .= " )\n";
+                    }
+                    if ( $matchConditionCount > 0 or $matchCount > 0 )
+                    {
+                        $code .= "{";
+                    }
                     $matchFile = $customMatch['match_file'];
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
@@ -135,17 +147,29 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                                                                      EZ_RESOURCE_FETCH, false,
                                                                                      $node[4], array( 'spacing' => $spacing ),
                                                                                      $namespaceValue );
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
+                    if ( $matchConditionCount > 0 or $matchCount > 0 )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
+                    }
                     ++$matchCount;
+                    if ( $matchConditionCount == 0 )
+                    {
+                        $addFileResource = false;
+                        break;
+                    }
                 }
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{" );
+                if ( $addFileResource )
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{" );
             }
-            $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
-                                                                             $file, $file,
-                                                                             EZ_RESOURCE_FETCH, false,
-                                                                             $node[4], array( 'spacing' => $spacing ),
-                                                                             $namespaceValue );
-            if ( isset( $match['custom_match'] ) )
+            if ( $addFileResource )
+            {
+                $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                                                                                 $file, $file,
+                                                                                 EZ_RESOURCE_FETCH, false,
+                                                                                 $node[4], array( 'spacing' => $spacing ),
+                                                                                 $namespaceValue );
+            }
+            if ( isset( $match['custom_match'] ) and $addFileResource )
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
         }
 

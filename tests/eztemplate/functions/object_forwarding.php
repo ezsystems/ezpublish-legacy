@@ -240,8 +240,9 @@ $cattribute1 = new TestContentClassAttribute( 2, 'ezstring', 'Title', false );
 $cattribute2 = new TestContentClassAttribute( 3, 'eztext', 'Message', true );
 $cattribute3 = new TestContentClassAttribute( 4, 'ezstring', 'Author', true );
 $cattribute4 = new TestContentClassAttribute( 5, 'ezstring', 'Author2', false );
+$cattribute5 = new TestContentClassAttribute( 6, 'ezfile', 'File', false );
 
-$cattributes1 = array( $cattribute1, $cattribute2, $cattribute3, $cattribute4 );
+$cattributes1 = array( $cattribute1, $cattribute2, $cattribute3, $cattribute4, $cattribute5 );
 $class1 = new TestContentClass( 1, 'article', 'Article', $cattributes1 );
 
 $cattribute2_1 = new TestContentClassAttribute( 12, 'ezstring', 'Title', false );
@@ -258,6 +259,8 @@ $attribute3 = new TestContentObjectAttribute( 7, 'John Doe' );
 $attribute3->ClassAttribute = $cattribute3;
 $attribute4 = new TestContentObjectAttribute( 8, 'Arne' );
 $attribute4->ClassAttribute = $cattribute4;
+$attribute5 = new TestContentObjectAttribute( 9, 'info.pdf' );
+$attribute5->ClassAttribute = $cattribute5;
 
 $attribute2_1 = new TestContentObjectAttribute( 15, 'New article' );
 $attribute2_1->ClassAttribute = $cattribute1;
@@ -267,6 +270,8 @@ $attribute2_3 = new TestContentObjectAttribute( 17, 'John Doe' );
 $attribute2_3->ClassAttribute = $cattribute3;
 $attribute2_4 = new TestContentObjectAttribute( 18, 'Arne' );
 $attribute2_4->ClassAttribute = $cattribute4;
+$attribute2_5 = new TestContentObjectAttribute( 19, 'test.pdf' );
+$attribute2_5->ClassAttribute = $cattribute5;
 
 $attribute3_1 = new TestContentObjectAttribute( 25, 'New article' );
 $attribute3_1->ClassAttribute = $cattribute1;
@@ -276,12 +281,14 @@ $attribute3_3 = new TestContentObjectAttribute( 27, 'John Doe' );
 $attribute3_3->ClassAttribute = $cattribute3;
 $attribute3_4 = new TestContentObjectAttribute( 28, 'Arne' );
 $attribute3_4->ClassAttribute = $cattribute4;
+$attribute3_5 = new TestContentObjectAttribute( 29, 'document.pdf' );
+$attribute3_5->ClassAttribute = $cattribute5;
 
-$attributes1 = array( $attribute1, $attribute2, $attribute3, $attribute4 );
+$attributes1 = array( $attribute1, $attribute2, $attribute3, $attribute4, $attribute5 );
 $object1 = new TestContentObject( 2, 'New article', 1, $attributes1, $class1 );
-$attributes2 = array( $attribute2_1, $attribute2_2, $attribute2_3, $attribute2_4 );
+$attributes2 = array( $attribute2_1, $attribute2_2, $attribute2_3, $attribute2_4, $attribute2_5 );
 $object2 = new TestContentObject( 3, 'Sub article', 1, $attributes2, $class1 );
-$attributes3 = array( $attribute3_1, $attribute3_2, $attribute3_3, $attribute3_4 );
+$attributes3 = array( $attribute3_1, $attribute3_2, $attribute3_3, $attribute3_4, $attribute3_5 );
 $object3 = new TestContentObject( 4, 'Sub folder', 1, $attributes3, $class2 );
 
 $node1 = new TestContentObjectTreeNode( 2, 'New article', $object1 );
@@ -304,6 +311,9 @@ if ( !isset( $GLOBALS['TestTemplateOverride'] ) )
     eZTemplateDesignResource::addGlobalOverride( 'folder', 'node/view/line.tpl', 'folder.tpl', 'templates', array( 'class' => 2 ) );
 //    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array( 'class' => 5 ) );
     eZTemplateDesignResource::addGlobalOverride( 'folder2', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array() );
+    eZTemplateDesignResource::addGlobalOverride( 'ezstring', 'content/datatype/view/ezstring.tpl', 'ezstring_view.tpl', 'templates', array() );
+    eZTemplateDesignResource::addGlobalOverride( 'ezfile2', 'content/datatype/view/ezfile.tpl', 'ezfile_view2.tpl', 'templates', array( 'class' => 2 ) );
+    eZTemplateDesignResource::addGlobalOverride( 'ezfile', 'content/datatype/view/ezfile.tpl', 'ezfile_view.tpl', 'templates', array() );
 }
 
 

@@ -14,11 +14,14 @@ eZString
 Author2:
 eZString
 
+File:
+eZFile
+
 ------------------------------
 
 View gui:
 *Title*
-Viewing eZString(abc)(Title): New article
+Viewing overridden eZString(Title): New article
 -------------------------------
 *Message*
 eZText: Input your value
@@ -27,7 +30,10 @@ eZText: Input your value
 eZString: Input your value
 -------------------------------
 *Author2*
-Viewing eZString(abc)(Author2): Arne
+Viewing overridden eZString(Author2): Arne
+-------------------------------
+*File*
+Viewing overridden eZFile(File): info.pdf
 
 Children:
 Name: Sub article
@@ -39,3 +45,5 @@ Name: New article
 
 List item:
 Folder item: New article
+
+Viewing overridden eZFile(Title): New article
