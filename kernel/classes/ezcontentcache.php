@@ -231,8 +231,7 @@ class eZContentCache
 
         // set section id
         include_once( 'kernel/classes/ezsection.php' );
-        eZSection::setGlobalID( $values['node_id'] );
-
+        eZSection::setGlobalID( $values['section_id'] );
         return $result;
     }
 
