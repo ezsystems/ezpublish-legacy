@@ -18,6 +18,8 @@ Setup tool:
 Shop:
 - Added support for choosing objects ( products ) to discount rule editing.
 - Added support for sorting of order list.
+Admin:
+- Used cache-block operator to speed up the admin interface
 
 *Doc :
 - Added document describing authentification and authorization handling in eZ publish

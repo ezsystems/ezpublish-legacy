@@ -16,6 +16,9 @@
 
 {* Top box START *}
 
+
+{* Cache header for each navigation part *}
+{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="headlogo" width="360">
@@ -105,6 +108,11 @@
       {/section}
       </p>
     </td>
+{/cache-block}
+
+{* Cache login/logout pr user *}
+{cache-block keys=array('login_part',$current_user.contentobject_id)}
+
     <td align="right" valign="middle">
       <p class="menuitem">
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
@@ -116,6 +124,8 @@
     </td>
 </tr>
 </table>
+
+{/cache-block}
 
 </form>
     </td>
