@@ -1,4 +1,3 @@
-
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
@@ -27,6 +26,12 @@ Match[class]=26
 Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
+
+[poll]
+Source=node/view/full.tpl
+MatchFile=poll.tpl
+Subdir=templates
+Match[class]=25
 
 [poll_line]
 Source=node/view/line.tpl
