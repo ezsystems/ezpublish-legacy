@@ -18720,6 +18720,10 @@ keywords=cms, publish, e-commerce, content management, development framework',
       ),
     ),
   ),
+  '_info' => 
+  array (
+    'format' => 'generic',
+  ),
 );
 
 ?>
