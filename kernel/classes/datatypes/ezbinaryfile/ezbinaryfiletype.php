@@ -92,7 +92,6 @@ class eZBinaryFileType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
-        $ini =& eZINI::instance();
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
