@@ -4278,11 +4278,11 @@ WHERE
     function &hiddenStatusString()
     {
         if( $this->IsHidden )
-            return 'Hidden';
+            return ezi18n( 'kernel/content', 'Hidden' );
         else if( $this->IsInvisible )
-            return 'Hidden by superior';
+            return ezi18n( 'kernel/content', 'Hidden by superior' );
         else
-            return 'Visible';
+            return ezi18n( 'kernel/content', 'Visible' );
     }
 
     /*!
