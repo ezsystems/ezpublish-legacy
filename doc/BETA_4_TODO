@@ -84,3 +84,11 @@ not shown in views but instead used to control objects, like "have comments".
 
 Policy:
 Make policy checking more centralized instead of copying code all the time.
+
+Versionview:
+- temp_node should only be used for non-published versions,
+  if published use real node.
+- what to do for non-existing nodes?
+
+Versions:
+- A link should only be shown for versions which are viewable by the user.

@@ -13,6 +13,8 @@ Changes from 2.9-4 to 2.9-5
   in versionview.
 - Change versionview to use node view for attributes, some changes node view templates were
   required.
+- Added new function createPassword in eZUser which can be used for creating random passwords which are sent to users.
+- The eZObjectForwarder class can now use different template roots depending on values from the input.
 
 *Library :
 
