@@ -1,5 +1,5 @@
 <form enctype="multipart/form-data" action={'content/upload'|ezurl} method="post">
-{*
+
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -57,7 +57,7 @@
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 <!-- Maincontent START -->
-*}
+
 {include uri='design:content/edit_validation.tpl'}
 
 <div class="context-block">
@@ -137,9 +137,7 @@
 
 </div>
 
-{*
 <!-- Maincontent END -->
 </div>
 <div class="break"></div>
 </div></div>
-*}
