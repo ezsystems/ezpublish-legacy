@@ -9,8 +9,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
-    @import url("/design/gallery/stylesheets/gallery_gray.css"); 
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); 
+  {*  @import url("/design/gallery/stylesheets/gallery_gray.css"); *}
 </style>
 
 </head>
@@ -116,7 +116,7 @@
         <div class="design">
             <address>
 		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
-		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
     </div>

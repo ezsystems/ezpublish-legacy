@@ -140,11 +140,13 @@
    <input class="button" type="submit" name="NewButton" value="New comment" />
 </div>
 
+{section show=$comments}
 <div id="commentlist">
    {section loop=$comments}
        {node_view_gui view=line content_node=$:item}
    {/section}
 </div>
+{/section}
 
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
