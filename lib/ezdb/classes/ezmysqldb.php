@@ -454,7 +454,24 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
-            $this->query( "LOCK TABLES $table WRITE" );
+            if ( is_array( $table ) )
+            {
+                $lockQuery = "LOCK TABLES";
+                $first = true;
+                foreach( array_keys( $table ) as $tableKey )
+                {
+                    if ( $first == true )
+                        $first = false;
+                    else
+                        $lockQuery .= ",";
+                    $lockQuery .= " " . $table[$tableKey]['table'] . " WRITE";
+                }
+                $this->query( $lockQuery );
+            }
+            else
+            {
+                $this->query( "LOCK TABLES $table WRITE" );
+            }
         }
     }
 

@@ -388,7 +388,24 @@ class eZPostgreSQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
-             $this->query( "LOCK TABLE $table" );
+            if ( is_array( $table ) )
+            {
+                $lockQuery = "LOCK TABLE";
+                $first = true;
+                foreach( array_keys( $table ) as $tableKey )
+                {
+                    if ( $first == true )
+                        $first = false;
+                    else
+                        $lockQuery .= ",";
+                    $lockQuery .= " " . $table[$tableKey]['table'];
+                }
+                $this->query( $lockQuery );
+            }
+            else
+            {
+                $this->query( "LOCK TABLE $table" );
+            }
         }
     }
 

@@ -169,9 +169,10 @@ class eZIdentifierType extends eZDataType
             $classAttribute->setAttribute( EZ_DATATYPESTRING_PRETEXT_FIELD, $preTextValue );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_POSTTEXT_FIELD, $postTextValue );
 
-            if ( $classAttribute->attribute( 'data_int4' ) == 0 )
+            $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
+            if ( ( $classAttribute->attribute( 'data_int4' ) == 0 ) and
+                 ( get_class( $originalClassAttribute ) == 'ezcontentclassattribute' ) )
             {
-                $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
                                                $originalClassAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) );
             }
@@ -185,6 +186,15 @@ class eZIdentifierType extends eZDataType
         return true;
     }
 
+
+    
+    /*!
+     Returns the content.
+    */
+    function &objectAttributeContent( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( "data_text" );
+    }
 
     /*!
      Returns the meta data used for storing search indices.
@@ -237,21 +247,30 @@ class eZIdentifierType extends eZDataType
             $db->begin();
 
             // Ensure that we don't get another identifier with the same id.
-            $db->query( "LOCK TABLES ezcontentclass_attribute WRITE, ezcontentobject_attribute READ" );
+            $db->lock( array( array( "table" => "ezcontentobject_attribute" ),
+                              array( "table" => "ezcontentclass_attribute" ) ) );
 
-            $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
+            $selectQuery = "SELECT data_int3, data_int4 FROM ezcontentclass_attribute WHERE " .
                  "id='$contentClassID' AND version='0'";
-        
-            $ret[] = $db->query( $updateQuery );
+            $result = $db->arrayQuery( $selectQuery );
+            $identifierValue = $result[0]['data_int3'];
+            
+            // should only increment when we don't have the first version
+            if ( $result[0]['data_int4'] == 0 )
+            {
+                $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
+                     "id='$contentClassID' AND version='0'";
+                $identifierValue++;
+            }
+            else
+            {
+                $updateQuery = "UPDATE ezcontentclass_attribute SET data_int4='0' WHERE " .
+                     "id='$contentClassID' AND version='0'";
+            }
 
+            $ret[] = $db->query( $updateQuery );
             if ( !in_array( false, $ret ) )
             {
-                $selectQuery = "SELECT data_int3 FROM ezcontentclass_attribute WHERE " .
-                     "id='$contentClassID' AND version='0'";
-                $result = $db->arrayQuery( $selectQuery );
-       
-                $identifierValue = $result[0]['data_int3'];
-
                 $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
             }
         
@@ -260,7 +279,7 @@ class eZIdentifierType extends eZDataType
         }
         else
         {
-            $ret = eZIdentifierType::copyFromVersionOne( $contentObjectAttribute );
+            $ret[] = eZIdentifierType::copyFromVersionOne( $contentObjectAttribute );
         }
 
         if ( !in_array( false, $ret ) )
@@ -324,7 +343,7 @@ class eZIdentifierType extends eZDataType
 
     function preStoreDefinedClassAttribute( &$classAttribute )
     {
-        $classAttribute->setAttribute( 'data_int4', '0' );
+//        $classAttribute->setAttribute( 'data_int4', '0' );
     }
 
     

@@ -1,0 +1,1 @@
+{"Identifier: "|i18n("design/standard/content/datatype")} {$attribute.data_text}
