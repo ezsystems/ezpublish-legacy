@@ -1,4 +1,4 @@
-<script language="JavaScript" src="/design/standard/javascript/contentstructuremenu.js"></script> 
+<script language="JavaScript" src={"javascript/contentstructuremenu.js"|ezdesign}></script>
 
 {let rootNodeID             = ezini( 'TreeMenu', 'RootNodeID'       , 'contentstructuremenu.ini' )
      classFilter            = ezini( 'TreeMenu', 'ShowClasses'      , 'contentstructuremenu.ini' )                            
