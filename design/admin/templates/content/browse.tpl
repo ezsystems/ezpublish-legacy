@@ -192,8 +192,12 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
-</form>
 
+</div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
+
+</form>
 
 <form class="content-browse" method="post" action={$cancel_action|ezurl}>
     <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
@@ -201,9 +205,6 @@
     <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
 {/section}
 </form>
-</div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
-</div>
 
 {/let}
 
