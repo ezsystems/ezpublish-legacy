@@ -593,6 +593,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Check for class filtering
         $classCondition = '';
+        if ( !isset( $params['ClassFilterType'] ) )
+            $params['ClassFilterType'] = false;
         if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
@@ -921,7 +923,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
-        if ( count( $limitationList ) > 0 )
+        if ( count( $limitationList) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
@@ -2025,6 +2027,41 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $path;
     }
 
+    function updateURLAlias()
+    {
+        $hasChanged = false;
+        include_once( 'kernel/classes/ezurlalias.php' );
+        $newPathString = $this->pathWithNames();
+
+        $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
+        if ( get_class( $existingUrlAlias ) == 'ezurlalias' )
+        {
+            $alias =& $existingUrlAlias;
+            if ( $alias->attribute( 'source_url' ) != $newPathString )
+                $hasChanged = true;
+            $alias->setAttribute( 'source_url', $newPathString );
+            $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
+            $alias->setAttribute( 'forward_to_id', 0 );
+            $alias->store();
+        }
+        else
+        {
+            $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
+            $alias->store();
+            $hasChanged = true;
+        }
+
+        eZURLAlias::cleanupForwardingURLs( $newPathString );
+        eZURLAlias::cleanupWildcards( $newPathString );
+
+        if ( $this->attribute( 'path_identification_string' ) != $newPathString )
+            $hasChanged = true;
+        $this->setAttribute( 'path_identification_string', $newPathString );
+        $this->store();
+
+        return $hasChanged;
+    }
+
     function updateSubTreePath()
     {
         include_once( 'kernel/classes/ezurlalias.php' );
@@ -2046,15 +2083,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Remove existing aliases if they are forwarding aliases
         $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
-        if ( get_class( $existingUrlAlias ) == 'ezurlalias' and
-             $existingUrlAlias->attribute( 'forward_to_id' ) != 0 )
+        if ( get_class( $existingUrlAlias ) == 'ezurlalias' )
         {
-            $existingUrlAlias->remove();
+            $alias =& $existingUrlAlias;
+            $alias->setAttribute( 'source_url', $newPathString );
+            $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
+            $alias->setAttribute( 'forward_to_id', 0 );
+            $alias->store();
+        }
+        else
+        {
+            $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
+            $alias->store();
         }
 
-        // Add new alias
-        $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
-        $alias->store();
+        eZURLAlias::cleanupForwardingURLs( $newPathString );
+        eZURLAlias::cleanupWildcards( $newPathString );
+
+        $wildcardAlias =& eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
+        $wildcardAlias->store();
 
         // Update old url alias and old forwarding urls
         if ( get_class( $oldUrlAlias ) == 'ezurlalias' )
@@ -2076,7 +2123,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         eZDebugSetting::writeDebug( 'kernel-content-treenode', $oldPathString .'  ' . strlen( $oldPathString ) . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
-
         $this->store();
 
         $oldPathStringLength = strlen( $oldPathString );
@@ -2095,6 +2141,8 @@ WHERE
         $db->query( $sql );
 
         eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
+
+        eZURLAlias::expireWildcards();
     }
 
     /*!

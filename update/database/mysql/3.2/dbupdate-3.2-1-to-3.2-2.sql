@@ -7,3 +7,5 @@ CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento(memento
 CREATE INDEX eztrigger_fetch ON eztrigger(name(25),module_name(50),function_name(50));
 CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process(process_key);
 CREATE INDEX ezurlalias_desturl ON ezurlalias( destination_url(200) );
+
+ALTER TABLE ezurlalias ADD COLUMN is_wildcard integer NOT NULL DEFAULT 0;

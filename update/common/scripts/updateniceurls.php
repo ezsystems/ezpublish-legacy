@@ -79,6 +79,7 @@ function help()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    global $isQuiet;
     $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
@@ -265,29 +266,64 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 $db =& eZDb::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
-$topLevelNodesArray =$db->arrayQuery( 'select node_id from ezcontentobject_tree where depth = 1 order by node_id' );
-eZDebug::writeDebug( $topLevelNodesArray  );
+$fetchLimit = 30;
+$totalChangedNodes = 0;
+$totalNodeCount = 0;
+
+$topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE depth = 1 ORDER BY node_id' );
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
     $topLevelNodeID = $topLevelNodesArray[$key]['node_id'];
-    eZDebug::writeDebug( $topLevelNodeID, "toplevelnode" );
     $rootNode =& eZContentObjectTreeNode::fetch( $topLevelNodeID );
-    $rootNode->setAttribute( 'path_identification_string', $rootNode->pathWithNames() );
-    eZDebug::writeDebug( $rootNode->pathWithNames() );
-    $rootNode->setAttribute( 'crc32_path', crc32 ( $rootNode->attribute( 'path_identification_string' ) ) );
-    $rootNode->setAttribute( 'md5_path', md5 ( $rootNode->attribute( 'path_identification_string' ) ) );
-    $rootNode->store();
-    $nodes =& $rootNode->subTree();
-    foreach( array_keys( $nodes ) as $key )
+    if ( $rootNode->updateURLAlias() )
+        ++$totalChangedNodes;
+    $done = false;
+    $offset = 0;
+    $counter = 0;
+    $column = 0;
+    $changedNodes = 0;
+    $nodeCount = $rootNode->subTreeCount( array( 'Limitation' => array() ) );
+    $totalNodeCount += $nodeCount + 1;
+    $cli->output( "Starting updates for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) . ", $nodeCount nodes" );
+    while ( !$done )
     {
-        $node =& $nodes[ $key ];
-        $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
-        $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
-        $node->setAttribute( 'md5_path', md5 ( $node->attribute( 'path_identification_string' ) ) );
-        $node->store();
+        $nodes =& $rootNode->subTree( array( 'Offset' => $offset,
+                                             'Limit' => $fetchLimit,
+                                             'Limitation' => array() ) );
+        foreach ( array_keys( $nodes ) as $key )
+        {
+            $node =& $nodes[ $key ];
+            $hasChanged = $node->updateURLAlias();
+            if ( $hasChanged )
+            {
+                ++$changedNodes;
+                ++$totalChangedNodes;
+            }
+            ++$column;
+            ++$counter;
+            if ( $column > 72 )
+            {
+                $column = 0;
+                $cli->output();
+            }
+            $changeCharacter = '.';
+            if ( $hasChanged )
+                $changeCharacter = '+';
+            $cli->output( $changeCharacter, false );
+            flush();
+        }
+        if ( $column > 0 )
+            $cli->output();
+        if ( count( $nodes ) == 0 )
+            $done = true;
+        unset( $nodes );
+        $offset += $fetchLimit;
     }
-
+    $cli->output( "Updated " . $cli->stylize( 'emphasize', "$changedNodes/$nodeCount" ) . " for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) );
+    $cli->output();
 }
+$cli->output();
+$cli->output( "Total update " . $cli->stylize( 'emphasize', "$totalChangedNodes/$totalNodeCount" ) );
 
 $script->shutdown();
 
