@@ -35,7 +35,7 @@
 //
 
 // For sending the register email
-include_once( "lib/ezutils/ezmail.php" );
+require_once( "lib/ezutils/classes/ezmail.php" );
 
 
 
@@ -62,6 +62,10 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     $siteName    = $http->postVariable( "siteName" );
     $siteURL     = $http->postVariable( "siteURL" );
     $siteCharset = $http->postVariable( "siteCharset" );
+	if ( $http->hasVariable( "sendEmail" ) )
+		$sendEmail = true;
+	else
+		$sendEmail = false;
     
     // Set values in ini
     $ini->setVariable( "SiteSettings", "SiteName", $siteName );
@@ -71,7 +75,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     $ini->setVariable( "DatabaseSettings", "Database", $dbName );
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+    // $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
                         
 	// Set values in i18n ini
 	$i18n = eZIni::instance( "i18n.ini", "" );
@@ -102,6 +106,46 @@ function eZSetupStep( &$tpl, &$http, &$ini )
         $tpl->setVariable( "configWrite", $errorMessage );
         $tpl->setVariable( "continue", false );
     }
+
+	// If email sending is activated
+	if ( $sendEmail )
+	{
+		$params = array();
+		if ( $http->hasPostVariable( "emailServer" ) )
+		{
+			$params["hostname"] = trim ( $http->postVariable( "emailServer" ) );
+			if ( $http->hasPostVariable( "emailUser" ) )
+				$params["user"] = trim( $http->postVariable( "emailUser" ) );
+			if ( $http->hasPostVariable( "emailPassword" ) )
+				$params["password"] = trim( $http->postVariable( "emailPassword" ) );
+		}
+
+		$email = new eZMail( "", $params );
+		$email->setTo( "ez@duebbert.de" );
+		$email->setFrom( $http->postVariable( "emailAddress" ) );
+		$email->setSubject( "Registration - $siteName" );
+
+		$body  = "SiteName: $siteName\n";
+		$body .= "SiteURL: $siteURL\n";
+		$body .= "Databasetype: $dbType\n";
+		$body .= "Databasename: $dbName\n"; // see if we should use a new default name!
+		$body .= "SiteCharset: $siteCharset\n";
+		$body .= "nVH setup: true\n"; // TODO: once we can do rewrite setups change this
+		$body .= "OS: " . php_uname();
+
+		foreach( array_keys( $testItems ) as $key )
+		{
+			$body .= "$key: ";
+			if ( $testItems[$key]["pass"] )
+				$body .= "true";
+			else
+				$body .= "false";
+			$body .= "\n";
+		}
+		
+		$email->setBody( $body );
+		$email->send();
+	}
     
     // Show template
     $tpl->display( "design/standard/templates/setup/step5.tpl" );    
@@ -125,7 +169,7 @@ function writeIni( $iniLocal )
 		unlink( $iniLocal->CacheFile );
 
 	// Create the proper path
-    $filePath = $iniLocal->rootDir() . "/" . $iniLocal->FileName;
+    $filePath = eZSys::siteDir() . $iniLocal->rootDir() . "/" . $iniLocal->FileName;
 	
 	//Backup file
 	$backup = backupFile( $filePath );
@@ -163,6 +207,11 @@ function backupFile( $filePath )
     
 	// Backup the file with the right extension
 	if ( file_exists( $filePath . ".php" ) )
+	{
         $backup = rename( $filePath . ".php", $filePath . $ext ); 
+		return $backup;
+	}
+	else
+		return true;
 }
 ?>
