@@ -94,7 +94,7 @@ class eZUserSetting extends eZPersistentObject
                     $user =& eZUser::fetch( $this->UserID );
                     if ( $user )
                     {
-                        $user->removeSessionData();
+                        eZUser::removeSessionData( $this->UserID );
                     }
                 }
             } break;
