@@ -28,7 +28,7 @@
                 <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" />
                 {$RelatedImageObjects.item.name|wash}
            </p>
-           <input class="linkbox" type="text" value="&lt;object id={$RelatedImageObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+           <input class="linkbox" type="text" value="&lt;object id={$RelatedImageObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
         </div>
         </td>
         {delimiter modulo=4}
@@ -63,7 +63,7 @@
                     <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                     <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
                     <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
                 </tr>
             {/section}
 
@@ -91,7 +91,7 @@
                     <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
                     <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                     <td class="class">{$RelatedObjects.item.class_name|wash}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
                 </tr>
 
             {/section}
