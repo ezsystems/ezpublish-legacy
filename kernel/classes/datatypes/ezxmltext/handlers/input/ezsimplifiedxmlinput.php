@@ -631,7 +631,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
 
                     // If last inserted node is line and either a paragraph or a li tag found, should pop up line node.
-                    if ( $lastInsertedNodeTag == "line" and ( $convertedTag == "paragraph" or $convertedTag == "li" ) )
+                    if ( $lastInsertedNodeTag == "line" and ( $convertedTag == "paragraph" or $convertedTag == "li" or $convertedTag == "custom" ) )
                     {
                         unset( $currentNode );
                         $currentNode =& $lastInsertedNode;
