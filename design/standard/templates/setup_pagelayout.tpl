@@ -70,7 +70,6 @@
 	      <h1 class="setup_help_summary">{"Help"|i18n("design/standard/setup")}</h1>
 	      {$module_result.help}
 	    </div>
-	    <br/>
 	    <div class="setup_summary">
 	      {* Setup summary *}
 	      <h1 class="setup_help_summary">{"Summary"|i18n("design/standard/setup")}</h1>

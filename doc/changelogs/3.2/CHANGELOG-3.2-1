@@ -6,6 +6,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Made sure tiff files support the .tif extension as well.
 - Made sure removal of objects cleaned up the url alias table correctly.
 - Made sure newly created objects would remove old aliases with the same name from the alias table.
+- Renamed the packages corporate_site to corporate and news_site to news.
+- Changed title path listing to show the path in reverse, this makes the title better for bookmarking.
 
 *Bugfixes:
 - Fixed malfunctioning string/array operators

@@ -2,7 +2,7 @@
 
 {default with_children=true()}
 {let page_limit=8
-     list_count=and( $with_children, fetch( content, list_coun', hash( 
+     list_count=and( $with_children, fetch( content, list_count, hash( 
                                                                      parent_node_id, $node.node_id,
                                                                      class_filter_type, exclude, 
                                                                      class_filter_array, array( 1, 10 ) ) ) )}

@@ -162,10 +162,4 @@ Source=node/view/plain.tpl
 MatchFile=image_plain.tpl
 Subdir=templates
 Match[class]=5
-
-[address]
-Source=content/view/embed.tpl
-MatchFile=address.tpl
-Subdir=templates
-Match[class]=14
 */ ?>

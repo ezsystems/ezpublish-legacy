@@ -6,6 +6,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
+
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
+
 </head>
 
 <body>
@@ -13,7 +16,7 @@
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td valign="top" bgcolor="#333333">
-        <a href={concat( "content/view/full/", 2 )|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a>
+        <a href={concat( "/" )|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a>
     </td>
 </tr>
 <tr>

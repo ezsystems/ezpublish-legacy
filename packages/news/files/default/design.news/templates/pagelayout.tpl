@@ -6,6 +6,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/news24.css"|ezdesign} />
+
+{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 </head>
 
 <body>
@@ -13,7 +15,7 @@
 <table class="mainlayout" width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
     <td width="100%">
-        <a href={"/content/view/full/2/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a>
+        <a href={"/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a>
     </td>
 </tr>
 <tr> 

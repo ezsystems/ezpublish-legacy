@@ -1,13 +1,21 @@
 {*?template charset=latin1?*}
 {default enable_glossary=true() enable_help=true()}
 
-{set-block variable=site_title}
+{let name=Path
+     path=$module_result.path
+     reverse_path=array()}
   {section show=is_set($module_result.title_path)}
-{$site.title|wash} - {section name=Path loop=$module_result.title_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section}
-  {section-else}
-{$site.title|wash} - {section name=Path loop=$module_result.path}{$:item.text|wash}{delimiter} / {/delimiter}{/section}
+    {set path=$module_result.title_path}
   {/section}
+  {section loop=$:path}
+    {set reverse_path=$:reverse_path|array_prepend($:item)}
+  {/section}
+
+{set-block scope=root variable=site_title}
+{section loop=$Path:reverse_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section} - {$site.title|wash}
 {/set-block}
+
+{/let}
 
     <title>{$site_title}</title>
 

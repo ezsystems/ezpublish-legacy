@@ -305,6 +305,7 @@ class eZImageShell
     */
     function run( &$execstr, $dest_str )
     {
+        eZDebugSetting::writeDebug( 'lib-ezimage-shell', "Executing shell command '$execstr'", 'eZImageShell::run' );
         $err = system( $execstr, $ret_code );
         if ( $ret_code == 0 )
         {
@@ -322,7 +323,7 @@ class eZImageShell
         }
         else
         {
-            eZDebug::writeWarning( "Exec: $execstr, Err: $err, Ret: $ret_code" );
+            eZDebug::writeWarning( "Failed executing: $execstr, Err: $err, Ret: $ret_code", 'eZImageShell::run' );
             $ret = false;
         }
         return $ret;
