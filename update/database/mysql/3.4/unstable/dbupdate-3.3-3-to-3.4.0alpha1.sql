@@ -24,10 +24,18 @@ INSERT INTO tmp_ezcontentobject_tree ( node_id, modified_subnode )
              subtree.path_string like concat( tree.path_string, '%')
        GROUP BY tree.node_id;
 
+CREATE TABLE tmp2_ezcontentobject_tree AS
+ SELECT ezcontentobject_tree.*, tmp_ezcontentobject_tree.modified_subnode
+  FROM  ezcontentobject_tree, tmp_ezcontentobject_tree
+  WHERE ezcontentobject_tree.node_id=tmp_ezcontentobject_tree.node_id;
+
+DELETE FROM ezcontentobject_tree;
+
 ALTER TABLE ezcontentobject_tree ADD COLUMN modified_subnode int NOT NULL default 0, ADD INDEX (modified_subnode);
 
-UPDATE ezcontentobject_tree, tmp_ezcontentobject_tree SET ezcontentobject_tree.modified_subnode=tmp_ezcontentobject_tree.modified_subnode
-  WHERE ezcontentobject_tree.node_id=tmp_ezcontentobject_tree.node_id;
+INSERT INTO ezcontentobject_tree SELECT * FROM tmp2_ezcontentobject_tree;
+
+DROP TABLE tmp2_ezcontentobject_tree;
 
 DROP TABLE tmp_ezcontentobject_tree;
 
