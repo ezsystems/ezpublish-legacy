@@ -1,5 +1,4 @@
 <div class="block">
-<label>{"Package Name"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 {let package_list=fetch(package,list,hash(filter_array,array(array(type,$attribute.contentclass_attribute.data_text1) ) ) )}
 
 {switch match=$attribute.contentclass_attribute.data_int1}
