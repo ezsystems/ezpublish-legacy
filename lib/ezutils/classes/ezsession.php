@@ -177,9 +177,9 @@ function eZSessionStart()
     eZRegisterSessionFunctions();
     $ini =& eZINI::instance();
     $cookieTimeout = $ini->variable( 'Session', 'CookieTimeout' );
-    if ( is_integer( $cookieTimeout ) )
+    if ( is_numeric( $cookieTimeout ) )
     {
-        session_set_cookie_params( $cookieTimeout );
+        session_set_cookie_params( (int)$cookieTimeout );
     }
     session_start();
 //     eZDebug::writeDebug( "Session is started" );
