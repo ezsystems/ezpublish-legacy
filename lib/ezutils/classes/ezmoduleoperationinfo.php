@@ -325,7 +325,8 @@ class eZModuleOperationInfo
                     }
                     else
                     {
-                        if ( $bodyName == 'pre_read'  )
+                        if ( $bodyName == 'pre_read' and
+                             $operationParameters['node_id'] == 16 )
                         {
                             print( "Trigger halted:$triggerName<br/>" );
 //                             print( "<pre>" );
