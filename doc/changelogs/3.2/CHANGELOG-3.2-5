@@ -13,6 +13,7 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
 - Fixed ezxml literal imput bug when using &amp;, &quot;, etc. http://ez.no/developer/ez_publish_3/bug_reports/html_no_break_space_in_literal_block_doesn_t_work
 - Fixed PHP 4 reference bug related stuff using eZContentObject::defaultLanguage() http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_at_content_saving_image_problem
+- Fixed cleaning up classification variable in template in xhtml output handler. http://ez.no/developer/ez_publish_3/bug_reports/classification_troubles
 
 *Setup:
 
