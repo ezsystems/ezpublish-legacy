@@ -58,24 +58,33 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
-     Loads the template file if it exists, also sets the modification timestamp.
-     Returns true if the file exists.
+     \return the rules used for matching design elements. \a $element defines the element type.
     */
-    function handleResource( &$tpl, &$text, &$tstamp, &$path, $method, &$extraParameters )
+    function fileMatchingRules( $element, $path )
     {
         $ini =& eZINI::instance();
         $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
         $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
 
         $matches = array();
-        $matches[] = array( "file" => "design/$siteBase/override/templates/$path",
+        $matches[] = array( "file" => "design/$siteBase/override/$element/$path",
                             "type" => "override" );
-        $matches[] = array( "file" => "design/$standardBase/override/templates/$path",
+        $matches[] = array( "file" => "design/$standardBase/override/$element/$path",
                             "type" => "override" );
-        $matches[] = array( "file" => "design/$siteBase/templates/$path",
+        $matches[] = array( "file" => "design/$siteBase/$element/$path",
                             "type" => "normal" );
-        $matches[] = array( "file" => "design/$standardBase/templates/$path",
+        $matches[] = array( "file" => "design/$standardBase/$element/$path",
                             "type" => "normal" );
+        return $matches;
+    }
+
+    /*!
+     Loads the template file if it exists, also sets the modification timestamp.
+     Returns true if the file exists.
+    */
+    function handleResource( &$tpl, &$text, &$tstamp, &$path, $method, &$extraParameters )
+    {
+        $matches = $this->fileMatchingRules( 'templates', $path );
 
         $matchKeys = $this->Keys;
         $matchedKeys = array();
@@ -86,50 +95,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
         }
 
-        $match = null;
-        foreach ( $matches as $templateMatch )
-        {
-            $templatePath = $templateMatch["file"];
-            $templateType = $templateMatch["type"];
-            if ( $templateType == "normal" )
-            {
-                if ( file_exists( $templatePath ) )
-                {
-                    $match = $templateMatch;
-                    break;
-                }
-            }
-            else if ( $templateType == "override" )
-            {
-                if ( count( $matchKeys ) == 0 )
-                    continue;
-                $templateDir = false;
-                if ( preg_match( "#^(.+)/(.+)(\.tpl)$#", $templatePath, $regs ) )
-                {
-                    $templateDir = $regs[1] . "/" . $regs[2];
-                }
-                $foundOverrideFile = false;
-                if ( !$foundOverrideFile ) // Check for dir/filebase_keyname_keyid.tpl, eg. content/view_section_1.tpl
-                {
-                    preg_match( "#^(.+)/(.+)(\.tpl)$#", $templatePath, $regs );
-                    foreach ( $matchKeys as $matchKeyName => $matchKeyValue )
-                    {
-                        $file = $regs[1] . "/" . $regs[2] . "_$matchKeyName" . "_$matchKeyValue" . $regs[3];
-                        if ( file_exists( $file ) )
-                        {
-                            $match = $templateMatch;
-                            $match["file"] = $file;
-                            $foundOverrideFile = true;
-                            $matchedKeys[$matchKeyName] = $matchKeyValue;
-//                             eZDebug::writeNotice( "Match found, using override " . $match["file"]  );
-                            break;
-                        }
-                    }
-                }
-                if ( $match !== null )
-                    break;
-            }
-        }
+        include_once( 'kernel/common/ezoverride.php' );
+        $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
         if ( $match === null )
             return false;
 

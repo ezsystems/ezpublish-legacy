@@ -44,7 +44,7 @@ _ Fixed bug for finding node
 - Fixed bug for duplicated related object assignment.
 - Fixed bug for duplicated node assignment.
 - Made the user/login page be configurable with site.ini, it can now either be embedded or use a custom pagelayout.
-
+- Created class eZOverride which handles override file finding, it's currently being used by eZTemplateDesignResource.
 
 *Library :
 - Added function for check and get attribute for ezlocale/classed/ezdate.php, ezlocale/classed/ezdatetime.php and ezlocale/classed/eztime.php
