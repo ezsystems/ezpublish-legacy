@@ -2437,6 +2437,7 @@ class eZContentObject extends eZPersistentObject
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
+            $contentObject =& eZContentObject::fetch( $contentObject->attribute( 'id' ) );
             $contentObject->setAttribute( 'published', $published );
             $contentObject->store( array( 'published' ) );
         }

@@ -135,6 +135,9 @@ eztc.php:
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
   Merged from stable/3.3 rev. 6895.
   http://ez.no/community/bug_reports/workflow_approve_and_author
+- Fixed bug in eZContentObject which set incorect status for objects when do unserializing it.
+  Merged from stable/3.4 rev. 6906.
+  http://ez.no/community/bug_reports/imported_content_objects_cannot_be_related_assigned_to_other_objects
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
