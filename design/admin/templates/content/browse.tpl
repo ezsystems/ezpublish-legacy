@@ -26,7 +26,7 @@
 {/section}
 
 <div class="context-block">
-<h2 class="context-title">{'Items'|i18n( 'design/admin/layout' )}</h2>
+<h2 class="context-title"><a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {'Items'|i18n( 'design/admin/layout' )} [x]</h2>
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -75,7 +75,7 @@
     {'Type'|i18n('design/standard/content/view')}
     </th>
 </tr>
-
+<!--
 <tr>
     <td>
     {section show=and( or( $browse.permission|not,
@@ -117,8 +117,8 @@
 </td>
 
 </tr>
-
-{section name=Object loop=$object_array sequence=array( bgdark, bglight )}
+-->
+{section name=Object loop=$object_array sequence=array( bglight, bgdark )}
     <tr class="{$Object:sequence}">
     <td>
     {section show=and( or( $browse.permission|not,
@@ -143,7 +143,6 @@
     {/section}
     </td>
     <td>
-    <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
     {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
     </td>
     <td>
