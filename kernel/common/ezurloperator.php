@@ -245,16 +245,39 @@ class eZURLOperator
                         $operatorValue = $this->Sys->wwwDir() . "/$site_file";
                     $operatorValue = htmlspecialchars( $operatorValue );
                 }
-                else if ( file_exists( $std_file ) )
-                {
-                    if ( $no_slash_prefix == true )
-                        $operatorValue = $std_file;
-                    else
-                        $operatorValue = $this->Sys->wwwDir() . "/$std_file";
-                    $operatorValue = htmlspecialchars( $operatorValue );
-                }
                 else
-                    $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                {
+                    $aditionalSiteDesignList =& $ini->variable( "DesignSettings", "AditionalSiteDesignList" );
+
+                    $imageFound = false;
+                    // Check all aditional sitedesigns
+                    foreach ( $aditionalSiteDesignList as $aditionalSiteDesign )
+                    {
+                        if ( file_exists( "design/$aditionalSiteDesign/images/$operatorValue" ) )
+                        {
+                            if ( $no_slash_prefix == true )
+                                $operatorValue = "design/$aditionalSiteDesign/images/$operatorValue";
+                            else
+                                $operatorValue = $this->Sys->wwwDir() . "/design/$aditionalSiteDesign/images/$operatorValue";
+                            $operatorValue = htmlspecialchars( $operatorValue );
+                            $imageFound = true;
+                        }
+                    }
+
+                    if ( !$imageFound )
+                    {
+                        if ( file_exists( $std_file ) )
+                        {
+                            if ( $no_slash_prefix == true )
+                                $operatorValue = $std_file;
+                            else
+                                $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+                            $operatorValue = htmlspecialchars( $operatorValue );
+                        }
+                        else
+                            $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                    }
+                }
             } break;
 
             case $this->ExtName:
