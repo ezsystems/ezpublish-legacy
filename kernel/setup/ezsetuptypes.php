@@ -1699,7 +1699,7 @@ function eZSetupCommonRoles( &$roles, $siteType, $parameters )
     // Add possibility to read rss by default for anonymous/guests
     $roles[] = array( 'name' => 'Anonymous',
                       'policies' => array( array( 'module' => 'rss',
-                                                  'function' => 'read' ) ),
+                                                  'function' => 'feed' ) ),
                       'assignments' => array( array( 'user_id' => $guestAccountsID ),
                                               array( 'user_id' => $anonAccountsID ) ) );
 
