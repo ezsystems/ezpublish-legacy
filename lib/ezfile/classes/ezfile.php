@@ -194,7 +194,7 @@ class eZFile
      
      \return false if error
     */
-    function download( $file, $isAttachedDownload = true )
+    function download( $file, $isAttachedDownload = true, $overrideFilename = false )
     {
         if ( file_exists( $file ) )
         {
@@ -210,7 +210,10 @@ class eZFile
             // Fixes problems with IE when opening a file directly
             header( 'Cache-Control: no-store, no-cache, must-revalidate' ); // HTTP/1.1
             header( 'Cache-Control: pre-check=0, post-check=0, max-age=0' ); // HTTP/1.1
-
+            if( $overrideFilename )
+            {
+                $mimeinfo['filename'] = $overrideFilename;
+            }
             if ( $isAttachedDownload )
             {
                 header( 'Content-Disposition: attachment; filename='.$mimeinfo['filename'] );
