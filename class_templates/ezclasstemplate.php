@@ -81,7 +81,7 @@ class eZClassTemplate
         }
 
         $text = file_get_contents( $filePath );
-        $tempFile = dirname( $filePath ) . '#' . basename( $filePath ) . '#';
+        $tempFile = dirname( $filePath ) . '/#' . basename( $filePath ) . '#';
         $fd = fopen( $tempFile, 'wb' );
         if ( !$fd )
         {
