@@ -44,7 +44,7 @@ $noCacheAdviced = false;
 
 $siteDesignOverride = false;
 
-$useHIOCode = false;
+$useHIOCode = true;
 
 // List of module names which will skip policy checking
 $policyCheckOmitList = array();
@@ -587,7 +587,7 @@ if ( $show_page_layout )
 
         if ( $useHIOCode )
         {
-             /// HiO special menu code tmp
+            /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
         $level = 0;
@@ -597,7 +597,7 @@ if ( $show_page_layout )
         $tmpModulePath = $moduleResult['path'];
         $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::requestURI();
         $offset = 0;
-        $sessionIDs = array ( 2,  // Sykepleierutdanning
+        $sessionIDs = array ( 2,  // Sykepleierutdannin
                               4,  // Estetiske fag
                               5,  // Helsefag
                               6,  // Ingeniørutdanning
@@ -615,8 +615,7 @@ if ( $show_page_layout )
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
 
-        
-	while ( !$done )
+        while ( !$done )
         {
 
             // get node id

@@ -77,7 +77,7 @@ $searchText = eZSearch::normalizeText( $searchText );
 
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                        "SearchSectionID" => $searchSectionID,
-                                                       "SearchSubTreeArray" => $subTreeArray,) );
+                                                       "SearchSubTreeArray" => $subTreeArray ) );
 
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );

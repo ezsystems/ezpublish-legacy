@@ -207,7 +207,7 @@ class eZSearchEngine
      \static
      Runs a query to the search engine.
     */
-    function &search( $searchText, $params = array() )
+    function &search( $searchText, $params = array()  )
     {
         if ( trim( $searchText ) != "" )
         {
@@ -595,7 +595,7 @@ class eZSearchEngine
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
                     $sqlPermissionCheckingString
-                    ORDER BY ezsearch_object_word_link.frequency";
+                    ORDER BY ezsearch_object_word_link.frequency limit 10";
 
             $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
                     FROM
@@ -625,8 +625,12 @@ class eZSearchEngine
 
                 foreach ( $objectResArray as $objectRow )
                 {
-                    $objectRes[] = new eZContentObject( $objectRow );
-                }
+                    /// \todo optimize to one query
+                    $obj = new eZContentObject( $objectRow );
+                    unset( $node );
+                    $node = eZContentObjectTreeNode::fetch( $obj->attribute( 'main_node_id' ) );
+                    $objectRes[] =& $node;
+                  }
                 $searchCount = $objectCountRes[0]['count'];
             }
             else

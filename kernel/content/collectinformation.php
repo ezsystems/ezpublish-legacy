@@ -87,9 +87,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $mail = new eZMail();
 
-    $type = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
+    $receiver = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
 
-    $mail->setReceiver( 'bf@ez.no' );
+    $mail->setReceiver( $receiver );
     $mail->setSubject( $subject );
     $mail->setBody( $templateResult );
     $mailResult = eZMailTransport::send( $mail );
