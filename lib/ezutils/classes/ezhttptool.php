@@ -229,6 +229,7 @@ class eZHTTPTool
     {
         return session_id( $sessionKey );
     }
+
     function setSessionVariable( $name, $value )
     {
         global $HTTP_SESSION_VARS;

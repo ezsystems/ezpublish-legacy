@@ -72,7 +72,6 @@ CREATE TABLE ezvattype (
 
 alter table ezproductcollection_item drop price_is_inc_vat;
 
-
 CREATE TABLE ezuser_discountrule (
   id int(11) NOT NULL auto_increment,
   discountrule_id int(11) default NULL,
@@ -112,3 +111,11 @@ create table ezinformationcollection_attribute (
   data_float float default NULL,
   PRIMARY KEY  (id) 
 );
+
+# After beta 4
+
+CREATE TABLE ezdiscountrule (
+ id int(11) NOT NULL auto_increment,
+ name varchar(255) NOT NULL,
+ PRIMARY KEY  (id)
+) TYPE=MyISAM;

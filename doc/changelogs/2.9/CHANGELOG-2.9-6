@@ -1,0 +1,6 @@
+CHANGELOG
+
+Changes from 2.9-5 to 2.9-6
+
+*Kernel :
+- Added correct calculations for complex discount rules
