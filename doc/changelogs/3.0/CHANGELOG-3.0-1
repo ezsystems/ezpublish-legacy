@@ -149,6 +149,8 @@ eZ template:
 - The count operator now works on strings.
 - Added cache-block function, to cache part of the template. It takes keys and expiry as arguments.
 - Added nl2br text operator.
+- Error message for array an object attribute access has been improved, it will now
+  display attributes for objects and arrays to pick from.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

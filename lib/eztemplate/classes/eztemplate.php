@@ -798,8 +798,16 @@ class eZTemplate
                             else
                             {
                                 if ( !$checkExistance )
+                                {
+                                    $arrayAttributeList = array_keys( $value );
+                                    $arrayCount = count( $arrayAttributeList );
+                                    $errorMessage = "No such attribute for array($arrayCount): $attributeValue";
+                                    $chooseText = "Choose one of following: ";
+                                    $errorMessage .= "\n$chooseText";
+                                    $errorMessage .= $this->expandAttributes( $arrayAttributeList, $chooseText, 25 );
                                     $this->error( "",
-                                                  "No such attribute for array: $attributeValue", $placement );
+                                                  $errorMessage, $placement );
+                                }
                                 return null;
                             }
                         }
@@ -818,8 +826,18 @@ class eZTemplate
                                 else
                                 {
                                     if ( !$checkExistance )
+                                    {
+                                        $objectAttributeList = array();
+                                        if ( method_exists( $value, 'attributes' ) )
+                                            $objectAttributeList = $value->attributes();
+                                        $objectClass= get_class( $value );
+                                        $errorMessage = "No such attribute for object($objectClass): $attributeValue";
+                                        $chooseText = "Choose one of following: ";
+                                        $errorMessage .= "\n$chooseText";
+                                        $errorMessage .= $this->expandAttributes( $objectAttributeList, $chooseText, 25 );
                                         $this->error( "",
-                                                      "No such attribute for object: $attributeValue", $placement );
+                                                      $errorMessage, $placement );
+                                    }
                                     return null;
                                 }
                             }
@@ -869,6 +887,38 @@ class eZTemplate
             }
         }
         return $value;
+    }
+
+    function expandAttributes( $attributeList, $chooseText, $maxThreshold, $minThreshold = 1 )
+    {
+        $errorMessage = '';
+        $attributeCount = count( $attributeList );
+        if ( $attributeCount < $minThreshold )
+            return $errorMessage;
+        if ( $attributeCount < $maxThreshold )
+        {
+            $chooseLength = strlen( $chooseText );
+            $attributeText = '';
+            $i = 0;
+            foreach ( $attributeList as $attributeName )
+            {
+                if ( $i > 0 )
+                    $attributeText .= ",";
+                if ( strlen( $attributeText ) > 40 )
+                {
+                    $attributeText .= "\n";
+                    $errorMessage .= $attributeText;
+                    $errorMessage .= str_repeat( ' ', $chooseLength );
+                    $attributeText = '';
+                }
+                else if ( $i > 0 )
+                    $attributeText .= " ";
+                $attributeText .= $attributeName;
+                ++$i;
+            }
+            $errorMessage .= $attributeText;
+        }
+        return $errorMessage;
     }
 
     function processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
