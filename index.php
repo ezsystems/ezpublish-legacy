@@ -582,6 +582,9 @@ while ( $moduleRunRequired )
         $GLOBALS['eZRequestedModule'] =& $module;
         $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
     }
+    $GLOBALS['eZRequestedModuleParams'] = array( 'module_name' => $module_name,
+                                                 'function_name' => $function_name,
+                                                 'parameters' => $module->getNamedParameters() );
     $moduleRunRequired = false;
     if ( $module->exitStatus() == EZ_MODULE_STATUS_RERUN )
     {

@@ -875,6 +875,7 @@ class eZModule
         $this->ViewParameters =& $parameters;
         $this->OriginalParameters = $parameters;
         $this->OriginalViewParameters = $parameterValues;
+        $this->NamedParameters = $params;
         if ( array_key_exists( 'Limitation', $parameters  ) )
         {
             $params['Limitation'] =& $parameters[ 'Limitation' ];
@@ -1074,7 +1075,10 @@ class eZModule
         }
         return null;
     }
-
+    function &getNamedParameters()
+    {
+        return $this->NamedParameters;
+    }
     /// \privatesection
     var $Functions;
     var $Features;
@@ -1092,6 +1096,7 @@ class eZModule
     var $ViewParameters;
     var $OriginalParameters;
     var $OriginalViewParameters;
+    var $NamedParameters;
     var $OriginalUnorderedParameters;
 }
 
