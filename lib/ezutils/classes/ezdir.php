@@ -364,6 +364,31 @@ class eZDir
         }
         return $returnFiles;
     }
+
+    /*!
+     \static
+     Returns all subdirectories in a folder
+    */
+    function &findSubdirs( $dir )
+    {
+        $dirArray = array();
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $element = readdir( $handle ) ) !== false )
+            {
+                if ( $element[0] == "." )
+                {
+                    continue;
+                }
+                if ( is_dir( $dir . '/' . $element ) )
+                {
+                    $dirArray[] = $element;
+                }
+            }
+            @closedir( $handle );
+        }
+        return $dirArray;
+    }
 }
 
 ?>

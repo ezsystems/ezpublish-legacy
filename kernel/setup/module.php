@@ -36,7 +36,7 @@ $Module = array( "name" => "eZSetup",
                  "variable_params" => true,
                  "function" => array(
                      "script" => "setup.php",
-                     "params" => array(  ) ) );
+                     "params" => array( ) ) );
 
 $ViewList = array();
 $ViewList["init"] = array(
@@ -97,6 +97,12 @@ $ViewList["templatecreate"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
                                     ),
+    "params" => array( ) );
+
+$ViewList["extensions"] = array(
+    "script" => "extensions.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions' ),
     "params" => array( ) );
 
 ?>
