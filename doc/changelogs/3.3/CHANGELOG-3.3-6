@@ -126,6 +126,8 @@ eZINI:
   http://ez.no/community/bug_reports/objectrelationlist_repeats_adding_relatedobjects_when_page_reloads
 - Removed eztime from the list of simple types because its data_int field
   cannot be treated as sort key anymore.
+- Removed unneded include_once().
+  http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
 
 *Library:
 
