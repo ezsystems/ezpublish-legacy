@@ -16,3 +16,10 @@ eZ XML:
 eZ template:
 - imagelabel was removed and image, imagefile and texttoimage was improved
   to handle transparency, alignment and placement.
+- eztemplateimagelayer.php file has been moved to lib/ezimage and all classes
+  has been given new names and files.
+
+eZ image:
+- Image object and layer classes has been moved from eZ template to eZ image
+  since they are not specific to the template engine but rather the
+  the image library. Each class now has a separate file and new names.

@@ -85,7 +85,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'class' => 'eZTemplateImageOperator',
                                     'operator_names' => array( 'texttoimage',
                                                                'image',
-//                                                                'imagelabel',
                                                                'imagefile' ) );
 
 // Function autoloading
