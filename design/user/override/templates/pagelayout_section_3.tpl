@@ -66,6 +66,7 @@
         <td valign="top" bgcolor="#FF9900"> 
 	<br />
         <form action={"/content/search/"|ezurl} method="get">
+        <input type="hidden" name="SectionID" value="3">
         <input  type="text" size="10" name="SearchText" id="Search" value="" />
         <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
 

@@ -69,9 +69,15 @@
         {/section}
         <tr> 
             <td bgcolor="#E2DCC0"> 
-            <input name="textfield" type="text" size="10" />
+            <form action={"/content/search/"|ezurl} method="get">
+            <input type="hidden" name="SectionID" value="5">
+	    &nbsp;<input  type="text" size="10" name="SearchText" id="Search" value="" />
+            <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
 	    <br />
-	    &nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+	    <br />
+	    <center>
+	    <a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+	    </center>
 
             </td>
         </tr>
