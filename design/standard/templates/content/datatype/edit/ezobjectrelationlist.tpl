@@ -5,7 +5,7 @@
     {section name=Class loop=$class_list}
         <td>
 <div class="objectheader">
-            <h2>{'Create new %classname'|i18n('design/standard/content/',,hash('%classname',$:item.name|wash))}</h2><div class="linebreak"/>
+            <h2>{'Create new %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}</h2><div class="linebreak"/>
 </div>
 <div class="object">
 <table width="100%" cellpadding="0" cellspacing="2" border="0">
@@ -23,7 +23,7 @@
             {/section}*}
 <tr>
     <td colspan="2" align="left">
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}]" value="{'Add %classname'|i18n('design/standard/content/',,hash('%classname',$:item.name|wash))}" />
+        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}]" value="{'Add %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}" />
     </td>
 </tr>
 </table>
@@ -84,8 +84,8 @@
 </table>
 
 <div class="buttonblock">
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit objects'|i18n('design/standard/content/')}" />
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/')}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit objects'|i18n('design/standard/content/datatype')}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
 </div>
 
 {/let}

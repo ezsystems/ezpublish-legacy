@@ -1,1 +1,1 @@
-<input type="submit" name="DeleteButton" value="{'Delete'|i18n('design/standard/content')}" />
+<input type="submit" name="DeleteButton" value="{'Delete'|i18n('design/standard/gui')}" />
