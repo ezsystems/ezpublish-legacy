@@ -198,7 +198,7 @@ class eZContentOperationCollection
     */
     function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
     {
-        // ACHTUNG!! modifing this function don't forget to modify
+        // ACHTUNG!! modifying this function don't forget to modify
         // eZContentCacheManager::clearObjectViewCache() too.
 
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
