@@ -219,7 +219,7 @@ class eZImageFont
     */
     function fontFile( $fontFamily, $fontPath )
     {
-        if ( preg_match( '/\.ttf$/', $fontFamily ) )
+        if ( preg_match( '/\.ttf$/i', $fontFamily ) )
             $family_file = $fontFamily;
         else
             $family_file = $fontFamily . '.ttf';
