@@ -6,7 +6,7 @@
 
 {let today_info=false()
      class_identifier_list=$show_classidentifier|explode( ',' )
-     cache_keys=array( $today_info.year, $today_info.month, $today_info.day )
+     cache_keys=array( $module_result.view_parameters.year, $module_result.view_parameters.month, $module_result.view_parameters.day )
      time_start=false()
      time_end=false()
      time_published=false()

@@ -171,7 +171,7 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode )
+    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false )
     {
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
 
@@ -185,7 +185,7 @@ class eZNodeviewfunctions
         $cacheHashArray = array( $nodeID, $offset, $layout, implode( '.', $roleList ), implode( '.', $discountList ) );
 
         // Make the cache unique for every case of view parameters
-        if ( isset( $viewParameters ) )
+        if ( $viewParameters )
         {
             $vpString = "";
             ksort( $viewParameters );

@@ -150,7 +150,7 @@ else
     {
         $user =& eZUser::currentUser();
 
-        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $Params['Language'], $ViewMode );
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $Params['Language'], $ViewMode, $viewParameters );
 
         // Read Cache file
         $fp = @fopen( $cacheFileArray['cache_path'], 'r' );

@@ -101,6 +101,9 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/margin_in_pdf_frame_header_footer
 - Fixed bug of missing limit attribute when fetch sub menu in double_top menu.
   http://ez.no/community/bug_reports/bug_in_the_double_top_meny_for_news
+- Fixed bug in the content cache where year/month/day parameters were not taken
+  into account.
+  http://ez.no/community/bug_reports/toolbar_error_when_publishing_a_calendar
 
 *Library:
 
