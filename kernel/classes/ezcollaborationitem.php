@@ -515,9 +515,10 @@ class eZCollaborationItem extends eZPersistentObject
                 $sqlParameters['limit'] = $limit;
             }
             $itemListArray =& $db->arrayQuery( $sql, $sqlParameters );
-            for ( $i = 0; $i < count( $itemListArray ); ++$i )
+
+            foreach( $itemListArray as $key => $value )
             {
-                $itemData =& $itemListArray[$i];
+                $itemData =& $itemListArray[$key];
                 $statusObject =& eZCollaborationItemStatus::create( $itemData['id'], $userID );
                 $statusObject->setAttribute( 'is_read', $itemData['is_read'] );
                 $statusObject->setAttribute( 'is_active', $itemData['is_active'] );

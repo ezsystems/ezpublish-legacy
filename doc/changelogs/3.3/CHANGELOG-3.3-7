@@ -1,7 +1,7 @@
 Changes from 3.3-6 to 3.3-7
 
 *Kernel:
-
+- Fixed fetching collaboration list with offset.
 
 *Bugfixes:
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
