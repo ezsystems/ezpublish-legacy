@@ -110,7 +110,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug with caching of role information in session. Session cache is now properly cleaned up.
 - Changed the ezauthor datatype to use the users name not login for default author.
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezauthor_discloses_login_information
-- Fixed ezbinaryfile and ezmedia datatype to return the original filename (instead of local filename) as title.
+- Fixed ezbinaryfile, ezimage and ezmedia datatype to return the original filename (instead of local filename) as title.
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezbinaryfile_returns_cryptic_filenames_as_default_content_object_titles
 
 *Setup:

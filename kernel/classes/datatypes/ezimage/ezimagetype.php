@@ -306,7 +306,7 @@ class eZImageType extends eZDataType
     /*!
      Returns attribute of an image, default will return filename of the image.
     */
-    function title( &$contentObjectAttribute, $name = "filename" )
+    function title( &$contentObjectAttribute, $name = "original_filename" )
     {
         $image =& eZImage::fetch( $contentObjectAttribute->attribute( "id" ),
                                   $contentObjectAttribute->attribute( "version" ) );
