@@ -56,21 +56,21 @@
 <p>
 {switch match=$view_mode}
 {case match='valid'}
-<a href={'/url/list/all'|ezurl}>{'All'|i18n( 'design/admin/url/list' )}</a>
+<a href={'/url/list/all'|ezurl} title="{'Show all URLs.'|i18n( 'design/admin/url/list' )}">{'All'|i18n( 'design/admin/url/list' )}</a>
 <span class="current">{'Valid'|i18n( 'design/admin/url/list' )}</span>
-<a href={'/url/list/invalid'|ezurl}>{'Invalid'|i18n( 'design/admin/url/list' )}</a>
+<a href={'/url/list/invalid'|ezurl} title="{'Show only invalid URLs.'|i18n( 'design/admin/url/list' )}">{'Invalid'|i18n( 'design/admin/url/list' )}</a>
 {/case}
 
 {case match='invalid'}
-<a href={'/url/list/all'|ezurl}>{'All'|i18n( 'design/admin/url/list' )}</a>
-<a href={'/url/list/valid'|ezurl}>{'Valid'|i18n( 'design/admin/url/list' )}</a>
+<a href={'/url/list/all'|ezurl} title="{'Show all URLs.'|i18n( 'design/admin/url/list' )}">{'All'|i18n( 'design/admin/url/list' )}</a>
+<a href={'/url/list/valid'|ezurl} title="{'Show only valid URLs.'|i18n( 'design/admin/url/list' )}">{'Valid'|i18n( 'design/admin/url/list' )}</a>
 <span class="current">{'Invalid'|i18n( 'design/admin/url/list' )}</span>
 {/case}
 
 {case}
-<span class="current"><a href={'/url/list/all'|ezurl}>{'All'|i18n( 'design/admin/url/list' )}</span>
-<a href={'/url/list/valid'|ezurl}>{'Valid'|i18n( 'design/admin/url/list' )}</a>
-<a href={'/url/list/invalid'|ezurl}>{'Invalid'|i18n( 'design/admin/url/list' )}</a>
+<span class="current">{'All'|i18n( 'design/admin/url/list' )}</span>
+<a href={'/url/list/valid'|ezurl} title="{'Show only valid URLs.'|i18n( 'design/admin/url/list' )}">{'Valid'|i18n( 'design/admin/url/list' )}</a>
+<a href={'/url/list/invalid'|ezurl} title="{'Show only invalid URLs.'|i18n( 'design/admin/url/list' )}">{'Invalid'|i18n( 'design/admin/url/list' )}</a>
 {/case}
 {/switch}
 </p>
@@ -95,8 +95,8 @@
 <tr class="{$urls.sequence}">
 
   {* URL & popup. *}
-  <td>{'url'|icon( 'small', 'URL'|i18n( 'design/admin/url/list' ) )}&nbsp;<a href={concat( 'url/view/', $urls.item.id)|ezurl}>{$urls.item.url}</a>
-  (<a href="{$urls.item.url}" target="_blank">{'open'|i18n( 'design/admin/url/list' )}</a>)
+  <td>{'url'|icon( 'small', 'URL'|i18n( 'design/admin/url/list' ) )}&nbsp;<a href={concat( 'url/view/', $urls.item.id)|ezurl} title="{'View information about URL.'|i18n( 'design/admin/url/list' )}">{$urls.item.url}</a>
+  (<a href="{$urls.item.url}" target="_blank" title="{'Open URL in new window.'|i18n( 'design/admin/url/list' )}">{'open'|i18n( 'design/admin/url/list' )}</a>)
   </td>
 
   {* Status. *}
@@ -127,7 +127,7 @@
   </td>
 
   {* Edit. *}
-  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/list')}" /></a></td>
+  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/list')}" title="{'Edit URL.'|i18n( 'design/admin/url/list' )}" /></a></td>
 
 </tr>
 {/section}
