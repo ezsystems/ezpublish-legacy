@@ -35,11 +35,8 @@
 $Module = array( "name" => "eZError" );
 
 $ViewList = array();
-$ViewList["404"] = array(
-    "script" => "404.php",
-    "params" => array( ) );
-$ViewList["403"] = array(
-    "script" => "403.php",
-    "params" => array( ) );
+$ViewList["view"] = array(
+    "script" => "view.php",
+    "params" => array( 'Type', 'Number' ) );
 
 ?>

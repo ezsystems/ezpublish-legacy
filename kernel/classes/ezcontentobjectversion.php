@@ -77,6 +77,23 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $as_object );
     }
 
+    function create( $contentobjectID, $userID = false, $version = 1 )
+    {
+        if ( $userID === false )
+        {
+            $user =& eZUser::currentUser();
+            $userID =& $user->attribute( 'contentobject_id' );
+        }
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $row = array(
+            "contentobject_id" => $contentobjectID,
+            "version" => $version,
+            "created" => eZDateTime::currentTimeStamp(),
+            "modified" => eZDateTime::currentTimeStamp(),
+            'creator_id' => $userID );
+        return new eZContentObjectVersion( $row );
+    }
+
     /*!
      Returns an array with all the translations for the current version.
     */
@@ -137,8 +154,12 @@ class eZContentObjectVersion extends eZPersistentObject
      Returns the attributes for the current content object version. The wanted language
      must be specified.
     */
-    function attributes( $language = "en_GB", $as_object = true )
+    function attributes( $language = false, $as_object = true )
     {
+        if ( $language === false )
+        {
+            $language = eZContentObject::defaultLanguage();
+        }
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null, array( "version" => $this->Version,
                                                                  "contentobject_id" => $this->ContentObjectID,

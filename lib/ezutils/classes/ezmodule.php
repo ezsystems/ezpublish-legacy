@@ -205,7 +205,8 @@ class eZModule
     {
         $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
         if ( !isset( $globalErrorModule ) )
-            $globalErrorModule = 'error';
+            $globalErrorModule = array( 'module' => 'error',
+                                        'view' => 'view' );
         return $globalErrorModule;
     }
 
@@ -213,25 +214,26 @@ class eZModule
      Sets the name of the module which will be run on errors.
      \sa handleError
     */
-    function setErrorModule( $moduleName )
+    function setErrorModule( $moduleName, $viewName )
     {
         $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
-        $globalErrorModule = $moduleName;
+        $globalErrorModule = array( 'module' => $moduleName,
+                                    'view' => $viewName );
     }
 
     /*!
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function handleError( $errorCode )
+    function handleError( $errorCode, $errorType )
     {
 //         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
 //         $this->setErrorCode( $errorCode );
         $errorModule =& eZModule::errorModule();
-        $module =& eZModule::findModule( $errorModule, $this );
+        $module =& eZModule::findModule( $errorModule['module'], $this );
         if ( $module === null )
             return false;
-        $result =& $module->run( $errorCode, array() );
+        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode ) );
         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
         $this->setErrorCode( $errorCode );
         return $result;
@@ -586,7 +588,7 @@ class eZModule
                       array where the first entry is the object and the second
                       is the method name.
     */
-    function addHook( $hookName, $function, $expandParameters = true, $append = false )
+    function addHook( $hookName, $function, $priority = 1, $expandParameters = true, $append = false )
     {
         $hookEntries =& $this->HookList[$hookName];
         if ( !is_array( $hookEntries ) )
@@ -594,9 +596,19 @@ class eZModule
         $entry = array( 'function' => $function,
                         'expand_parameters' => $expandParameters );
         if ( $append )
-            $hookEntries[] = $entry;
+        {
+            $position = $priority;
+            while ( isset( $hookEntries[$position] ) )
+                ++$position;
+            $hookEntries[$position] = $entry;
+        }
         else
-            array_unshift( $hookEntries, $entry );
+        {
+            $position = $priority;
+            while ( isset( $hookEntries[$position] ) )
+                --$position;
+            $hookEntries[$position] = $entry;
+        }
     }
 
     /*!
@@ -610,6 +622,7 @@ class eZModule
         if ( isset( $hookEntries ) and
              is_array( $hookEntries ) )
         {
+            ksort( $hookEntries );
             foreach ( array_keys( $hookEntries ) as $hookKey )
             {
                 $hookEntry =& $hookEntries[$hookKey];
@@ -673,6 +686,29 @@ class eZModule
             }
         }
         return $status;
+    }
+
+    function setViewResult( &$result, $view = '' )
+    {
+        if ( $view == '' )
+            $view = $this->currentView();
+        $this->ViewResult[$view] =& $result;
+    }
+
+    function hasViewResult( $view = '' )
+    {
+        if ( $view == '' )
+            $view = $this->currentView();
+        return isset( $this->ViewResult[$view] );
+    }
+
+    function &viewResult( $view = '' )
+    {
+        if ( $view == '' )
+            $view = $this->currentView();
+        if ( isset( $this->ViewResult[$view] ) )
+            return $this->ViewResult[$view];
+        return null;
     }
 
     /*!
@@ -766,6 +802,10 @@ class eZModule
         $Return =& eZProcess::run( $this->Path . "/" . $this->Name . "/" . $function["script"],
                                    $params,
                                    $params_as_var );
+        if ( $this->hasViewResult( $functionName ) )
+        {
+            $Return =& $this->viewResult( $functionName );
+        }
         if ( count( $viewStack ) > 0 )
             $currentView = array_pop( $viewStack );
         else
@@ -908,6 +948,7 @@ class eZModule
     var $Title;
     var $HookList;
     var $ViewActions;
+    var $ViewResult;
 }
 
 ?>

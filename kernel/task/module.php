@@ -49,7 +49,15 @@ $ViewList['view'] = array(
                                        'CloseTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
                                        'NewMessage' => array( 'SelectedIDList' => 'Task_id_checked',
                                                               'ClassID' => 'ClassID' ) ),
+    'action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' ),
+                                  'NewMessage' => array( 'SelectedIDList', 'ClassID' ) ),
     'params' => array( 'TaskID' ) );
+$ViewList['messageview'] = array(
+    'script' => 'messageview.php',
+    'params' => array( 'MessageID' ),
+    'single_post_actions' => array( 'EditButton' => 'Edit',
+                                    'PublishButton' => 'Publish',
+                                    'CancelButton' => 'Cancel' ) );
 $ViewList['message'] = array(
     'script' => 'message.php',
     'params' => array( 'TaskID', 'MessageID' ),

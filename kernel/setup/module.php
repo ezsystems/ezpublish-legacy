@@ -38,6 +38,6 @@ $Module = array( "name" => "eZSetup",
                      "script" => "setup.php",
                      "params" => array(  ) ) );
 
-$FunctionArray = array();
+$ViewList = array();
 
 ?>

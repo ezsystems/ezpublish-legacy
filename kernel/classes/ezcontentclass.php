@@ -105,6 +105,37 @@ class eZContentClass extends eZPersistentObject
         return $tempClass;
     }
 
+    /*!
+     Creates a new content object instance and stores it.
+    */
+    function &instantiate( $userID = false, $sectionID = 0 )
+    {
+        $attributes =& $this->fetchAttributes();
+
+        if ( $userID === false )
+        {
+            $user =& eZUser::currentUser();
+            $userID =& $user->attribute( 'contentobject_id' );
+        }
+
+        $object =& eZContentObject::create( "New " . $this->attribute( "name" ),
+                                            $this->attribute( "id" ),
+                                            $userID,
+                                            $sectionID );
+        $object->store();
+
+        $version = $object->createInitialVersion( $userID );
+        $version->store();
+
+        foreach ( array_keys( $attributes ) as $attributeKey )
+        {
+            $attribute =& $attributes[$attributeKey];
+            $attribute->instantiate( $object->attribute( 'id' ) );
+        }
+
+        return $object;
+    }
+
     function hasAttribute( $attr )
     {
         return ( $attr == "version_status" or $attr == "version_count" or

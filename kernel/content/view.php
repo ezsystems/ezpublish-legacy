@@ -61,11 +61,16 @@ if ( array_key_exists( 'Limitation', $Params ) )
 //eZDebug::writeNotice( $limitationList, "Limitation" );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
+if ( $node === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 $contentObject = $node->attribute( 'contentobject' );
+if ( $contentObject === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 if ( ! $contentObject->attribute( 'can_read' ) )
 {
-        $Module->redirectTo( '/error/403' );
-        return;
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
 

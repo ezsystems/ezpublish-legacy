@@ -1,4 +1,4 @@
-<h1>403 - Access denied</h1>
+<h1>1 - Access denied</h1>
 
 <table>
 <tr>

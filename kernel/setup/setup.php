@@ -37,14 +37,7 @@ $Module->setTitle( "Setting up eZ publish" );
 
 ob_start();
 
-print( '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-
-<head>
-<title>Setting up eZ publish</title>
-<body bgcolor="#4987bc" topmargin="0" marginheight="0" leftmargin="0" marginwidth="0">
-
-<table width="100%">
+print( '<table width="100%">
 
 ' );
 
@@ -120,22 +113,11 @@ print( "</form>" );
 
 print( '
 </table>
-
-<br />
-<font color="white">
-<center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a>
-</center>
-</font>
-<br />
-
-</body>
-</html>' );
+' );
 
 
 $Result = array();
 $Result["content"] = ob_get_contents();
-$Result["pagelayout"] = false;
 
 ob_end_clean();
 

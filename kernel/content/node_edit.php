@@ -44,6 +44,18 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
+function checkNodeCorrectness( &$module, $objectID, $editVersion )
+{
+    $object =& eZContentObject::fetch( $objectID );
+    if ( $object === null )
+        return;
+    if ( $object->attribute( 'main_node_id' ) == 0 )
+    {
+        $module->setViewResult( $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+}
+
 function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes )
 {
     $http =& eZHTTPTool::instance();
@@ -137,6 +149,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
 
 function initializeNodeEdit( &$module )
 {
+    $module->addHook( 'pre_fetch', 'checkNodeCorrectness', -10 );
     $module->addHook( 'post_fetch', 'checkNodeAssignments' );
     $module->addHook( 'pre_commit', 'storeNodeAssignments' );
     $module->addHook( 'action_check', 'checkNodeActions' );

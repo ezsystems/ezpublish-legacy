@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <30-Aug-2002 17:06:01 bf>
+// Created on: <01-Oct-2002 13:23:07 amos>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,10 +32,30 @@
 // you.
 //
 
-include_once( "kernel/common/template.php" );
+/*! \file errors.php
+  Contains all the basic kernel and kernel related error codes.
+*/
 
-$tpl =& templateInit();
+/*!
+ Access denied to object or module.
+*/
+define( 'EZ_ERROR_KERNEL_ACCESS_DENIED', 1 );
+/*!
+ The object could not be found.
+*/
+define( 'EZ_ERROR_KERNEL_NOT_FOUND', 2 );
+/*!
+ The object is not available.
+*/
+define( 'EZ_ERROR_KERNEL_NOT_AVAILABLE', 3 );
 
-$Result =& $tpl->fetch( "design:error/403.tpl" );
+/*!
+ The module could not be found.
+*/
+define( 'EZ_ERROR_KERNEL_MODULE_NOT_FOUND', 20 );
+/*!
+ The module view could not be found.
+*/
+define( 'EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND', 21 );
 
 ?>

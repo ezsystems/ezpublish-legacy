@@ -1,5 +1,7 @@
 Tasks which needs to be done before 3.0 release:
 
+* means the todo has been fixed
+
 -------
 General
 -------
@@ -230,6 +232,7 @@ Datatypes:
 
 General
 ___________
+* Fixed for eZDB
 - Change all associative arrays to only use lowercase letters for keys.
   For instance eZDB must be changed (Limit,Offset).
 
@@ -240,6 +243,49 @@ Files
 - Create the filemanager system which will handle uploading files externally
   and creating content objects out of them. At least the basic framework should
   be done and do all the fancy stuff for 3.1.
+
+Site admin
+-----------
+
+The site admin is the only available module for first time installs,
+upgrades will also be handled by this.
+
+* required for first time installs to finish
+
+- DB initialization*, checking and upgrading
+- Cache control
+  - clear cache
+  - check cache status ( size etc )
+- Disk control
+  - Check used disk space
+  - File permission check*
+- Backup
+  - Design backup
+  - Database backup
+  - Images/files backup
+- Log file
+  - view / search
+  - rotate logfile
+- Design/template edit ( need versioning )
+- Settings
+  - view site.ini
+  - edit site.ini
+- Server status
+  - View versions and supported software + give instructions
+    for compiling in extensions or how to get software
+     - PHP
+     - Apache
+     - Linux/Windows/OS
+     - ImageMagick
+     - GD
+     - MBString
+     ....Enything else we can use?
+
+site.ini
+--------
+
+Move items which can be automically created to a separate ini file.
+Such as main node ids.
 
 Some crazy ideas we could think about:
 --------------------------------------

@@ -49,11 +49,13 @@ $message =& eZTaskMessage::fetch( $MessageID );
 if ( get_class( $message ) != 'eztaskmessage' or
      $message->attribute( 'task_id' ) != $TaskID )
 {
+    include_once( 'kernel/classes/ezcontentclass.php' );
     include_once( 'kernel/classes/ezcontentobject.php' );
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     $classID = $Params['ClassID'];
-    $contentObject =& eZContentObject::createNew( $classID, 2 );
+    $class =& eZContentClass::fetch( $classID );
+    $contentObject =& $class->instantiate();
 
     $currentUser =& eZUser::currentUser();
     $currentUserID =& $currentUser->attribute( 'contentobject_id' );
@@ -65,6 +67,12 @@ if ( get_class( $message ) != 'eztaskmessage' or
     $message =& eZTaskMessage::create( $TaskID, $creatorType, $currentUserID, $contentObject->attribute( 'id' ) );
     $message->store();
     return $Module->redirectToView( '', array( $TaskID, $message->attribute( 'id' ) ) );
+}
+
+if ( $message->attribute( 'is_published' ) )
+{
+    $Result =& $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return;
 }
 
 $Params['ObjectID'] = $message->attribute( 'contentobject_id' );
@@ -79,7 +87,7 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 {
 //     if ( $module->isCurrentAction( 'Preview' ) )
 //     {
-//         $module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
+//         $module->redirectToView( 'messageview', array( $ObjectID ) );
 //         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 //     }
 
@@ -89,19 +97,21 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 //         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 
-//     if ( $module->isCurrentAction( 'Publish' ) )
-//     {
+    if ( $module->isCurrentAction( 'Publish' ) )
+    {
+        $object->store();
+
+        $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+        if ( $status )
+            return $status;
 //         $object->setAttribute( 'current_version', $EditVersion );
 //         $object->store();
 
-//         $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
-//         if ( $status )
-//             return $status;
 
 // //         eZDebug::writeNotice( $object, 'object' );
 //         $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
 //         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-//     }
+    }
 }
 
 $Module->addHook( 'action_check', 'checkContentActions' );
@@ -119,6 +129,22 @@ $tpl->setVariable( 'module', $Module );
 $Params['TemplateObject'] =& $tpl;
 
 include( 'kernel/content/attribute_edit.php' );
+
+if ( $Module->isCurrentAction( 'Preview' ) )
+{
+    return $Module->redirectToView( 'messageview', array( $MessageID ) );
+}
+else if ( $Module->isCurrentAction( 'Publish' ) )
+{
+    $message->setAttribute( 'is_published', true );
+    $message->store();
+
+    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+    $task->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+    $task->store();
+
+    return $Module->redirectToView( 'view', array( $TaskID ) );
+}
 
 // $http =& eZHTTPTool::instance();
 

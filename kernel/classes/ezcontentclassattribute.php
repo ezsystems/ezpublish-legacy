@@ -103,6 +103,13 @@ class eZContentClassAttribute extends eZPersistentObject
         return new eZContentClassAttribute( $row );
     }
 
+    function instantiate( $contentobjectID )
+    {
+        $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
+        $attribute->store();
+        $attribute->initialize();
+    }
+
     function store()
     {
         $stored = eZPersistentObject::store();

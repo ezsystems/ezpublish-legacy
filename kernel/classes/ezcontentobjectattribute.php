@@ -95,10 +95,25 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $as_object );
     }
 
+    function create( $contentclassAttributeID, $contentobjectID, $version = 1 )
+    {
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $row = array(
+            "id" => null,
+            "contentobject_id" => $contentobjectID,
+            "version" => $version,
+            "language_code" => eZContentObject::defaultLanguage(),
+            "contentclassattribute_id" => $contentclassAttributeID,
+            'data_text' => '',
+            'data_int' => 0,
+            'data_float' => 0.0 );
+        return new eZContentObjectAttribute( $row );
+    }
+
     /*!
 
     */
-    function store( )
+    function store()
     {
         $classAttr =& $this->contentClassAttribute();
         $dataType =& $classAttr->dataType();

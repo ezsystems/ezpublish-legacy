@@ -47,7 +47,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
         $parentContentObject = $node->attribute( 'contentobject' );
         if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
-            $contentObject =& eZContentObject::createNew( $http->postVariable( 'ClassID' ), $http->postVariable( 'NodeID' ) );
+            $contentObject =& eZContentObjectTreeNode::createObject( $http->postVariable( 'ClassID' ), $http->postVariable( 'NodeID' ) );
 
             $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;

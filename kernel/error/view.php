@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <26-Aug-2002 11:22:48 bf>
+// Created on: <30-Aug-2002 17:06:01 bf>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -36,6 +36,9 @@ include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
 
-$Result =& $tpl->fetch( "design:error/404.tpl" );
+$Type = $Params['Type'];
+$Number = $Params['Number'];
+
+$Result =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
 
 ?>

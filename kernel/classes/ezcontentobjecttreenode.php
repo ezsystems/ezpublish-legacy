@@ -40,6 +40,8 @@
 /*!
   \class eZContentObjectTreeNode ezcontentobjecttreenode.php
   \brief The class eZContentObjectTreeNode does
+
+\verbatim
   ___________0__________
  |  _____1______        |
  | |  _2_  _3_  | _4_   |
@@ -126,6 +128,8 @@ Enter node_id,new_parent_id
 (e) - close a gap that apeared after moving subtree
 
 4. fetching subtree
+
+\endverbatim
 
 */
 
@@ -628,6 +632,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodes;
 
 
+    }
+
+    function createObject( $contentClassID, $parentNodeID = 1 )
+    {
+        $user =& eZUser::currentUser();
+        $userID =& $user->attribute( 'contentobject_id' );
+
+        $class =& eZContentClass::fetch( $contentClassID );
+        $object =& $class->instantiate( $userID, $sectionID );
+
+        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $parentContentObject = $parentNode->attribute( 'contentobject' );
+
+        $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID );
+        $object->setAttribute( "main_node_id", $nodeID );
+        $object->store();
+
+        return $object;
     }
 
     function addChild( $contentobjectID, $nodeID = 0 )

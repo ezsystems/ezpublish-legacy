@@ -124,6 +124,7 @@ $currentUser =& eZUser::currentUser();
 $check = eZHandlePreChecks();
 
 include_once( "lib/ezutils/classes/ezmodule.php" );
+include_once( 'kernel/error/errors.php' );
 
 eZModule::setGlobalPathList( array( "kernel" ) );
 
@@ -186,8 +187,7 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
          !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
          )
     {
-//         $module->redirectTo( '/error/403' );
-        $result =& $module->handleError( 403 );
+        $result =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
     else
     {

@@ -44,6 +44,7 @@
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobjectversion.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
@@ -52,13 +53,12 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-
 class eZContentObject extends eZPersistentObject
 {
     function eZContentObject( $row )
     {
         $this->eZPersistentObject( $row );
-        $this->CurrentLanguage = "en_GB";
+        $this->CurrentLanguage = eZContentObject::defaultLanguage();
     }
 
     function &definition()
@@ -126,7 +126,7 @@ class eZContentObject extends eZPersistentObject
             else if ( $attr == "contentobject_attributes" )
                 return $this->contentObjectAttributes();
             else if ( $attr == "related_contentobject_array" )
-                return $this->relatedContentObjects();
+                return $this->relatedContentObjectArray();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
@@ -257,6 +257,11 @@ class eZContentObject extends eZPersistentObject
                                                     $as_object );
     }
 
+    function &createInitialVersion( $userID )
+    {
+        return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1 );
+    }
+
     /*!
      Creates a new version and returns it as an eZContentObjectVersion object.
      If version number is given as argument that version is used to create a copy.
@@ -279,7 +284,7 @@ class eZContentObject extends eZPersistentObject
         }
 
         $currentVersionNumber = $version->attribute( "version" );
-        $contentObjectAttributes =& $version->attributes( "en_GB" );
+        $contentObjectAttributes =& $version->attributes( eZContentObject::defaultLanguage() );
 
         $version->setAttribute( 'id', null );
         $version->setAttribute( 'version', $nextVersionNumber );
@@ -523,56 +528,21 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Creates a new content object with the given type.
+     Creates a new content object instance and stores it.
     */
-    function &createNew( $contentClassID, $parentNodeID = 1 )
+    function &create( $name, $contentclassID, $userID, $sectionID = 0, $version = 1 )
     {
-        $class =& eZContentClass::fetch( $contentClassID );
-        $attributes =& $class->fetchAttributes();
-
-        $user =& eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
-        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject = $parentNode->attribute( 'contentobject' );
-
-        $object = new eZContentObject( array() );
-        $object->setAttribute( "name", "New " . $class->attribute( "name" ) );
-        $object->setAttribute( "current_version", 1 );
-        $object->setAttribute( "contentclass_id", $class->attribute( "id" ) );
-        $object->setAttribute( "permission_id", 1 );
-        $object->setAttribute( "parent_id", 1 );
-        $object->setAttribute( "main_node_id", 0 );
-        $object->setAttribute( "owner_id", $userID );
-        $object->setAttribute( "section_id", $parentContentObject->attribute( 'section_id' ) );
-
-        $object->store();
-
-        $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID );
-        $object->setAttribute( "main_node_id", $nodeID );
-        $object->store();
-        $version = new eZContentObjectVersion( array() );
-        $version->setAttribute( "contentobject_id", $object->attribute( "id" ) );
-        $version->setAttribute( "version", 1 );
-        $version->setAttribute( "created", mktime() );
-        $version->setAttribute( "modified", mktime() );
-        $version->setAttribute( 'creator_id', $userID );
-
-        $version->store();
-
-        foreach ( $attributes as $attribute )
-        {
-            $data = new eZContentObjectAttribute( array() );
-            $data->setAttribute( "contentobject_id", $object->attribute( "id" ) );
-            $data->setAttribute( "language_code", "en_GB" );
-            $data->setAttribute( "version", 1 );
-            $data->setAttribute( "contentclassattribute_id", $attribute->attribute( "id" ) );
-            $data->initialize();
-            $data->store();
-        }
-
-        return $object;
+        $row = array(
+            "name" => $name,
+            "current_version" => $version,
+            "contentclass_id" => $contentclassID,
+            "permission_id" => 1,
+            "parent_id" => 0,
+            "main_node_id" => 0,
+            "owner_id" => $userID,
+            "section_id" => $sectionID );
+        return new eZContentObject( $row );
     }
-
 
     /*!
      \return the parnet nodes for the current object.
@@ -901,6 +871,13 @@ class eZContentObject extends eZPersistentObject
     function &className()
     {
         return $this->ClassName;
+    }
+
+    function defaultLanguage()
+    {
+        $ini =& eZINI::instance();
+        return $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+//         return eZLocale::currentLocaleCode();
     }
 
     /*!

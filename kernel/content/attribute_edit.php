@@ -61,7 +61,7 @@ if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion ) ) )
 $object =& eZContentObject::fetch( $ObjectID );
 
 if ( !$object->attribute( 'can_edit' ) )
-    return $Module->handleError( 403 );
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $version =& $object->version( $EditVersion );
 

@@ -56,7 +56,6 @@ class eZTaskMessage extends eZPersistentObject
     function eZTaskMessage( $row )
     {
         $this->eZPersistentObject( $row );
-        $this->Messages = EZ_TASK_MESSAGE_UNFETCHED;
     }
 
     function &definition()
@@ -64,6 +63,7 @@ class eZTaskMessage extends eZPersistentObject
         return array( 'fields' => array( 'id' => 'ID',
                                          'task_id' => 'TaskID',
                                          'contentobject_id' => 'ContentObjectID',
+                                         'is_published' => 'IsPublished',
                                          'created' => 'Created',
                                          'creator_id' => 'CreatorID',
                                          'creator_type' => 'CreatorType' ),
@@ -101,6 +101,7 @@ class eZTaskMessage extends eZPersistentObject
     {
         return ( $attr == 'creator' or
                  $attr == 'contentobject' or
+                 $attr == 'task' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -114,6 +115,11 @@ class eZTaskMessage extends eZPersistentObject
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 $user =& eZUser::fetch( $userID );
                 return $user;
+            } break;
+            case 'task':
+            {
+                include_once( 'kernel/classes/eztask.php' );
+                return eZTask::fetch( $this->TaskID );
             } break;
             case 'contentobject':
             {
@@ -134,6 +140,7 @@ class eZTaskMessage extends eZPersistentObject
     var $Created;
     var $CreatorID;
     var $CreatorType;
+    var $IsPublished;
 }
 
 ?>

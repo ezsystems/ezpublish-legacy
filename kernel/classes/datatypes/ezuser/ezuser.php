@@ -77,7 +77,8 @@ class eZUser extends eZPersistentObject
                                          'password_hash_type' => 'PasswordHashType'
                                          ),
                       'keys' => array( 'contentobject_id' ),
-                      'function_attributes' => array( 'groups' => 'groups',
+                      'function_attributes' => array( 'contentobject' => 'contentObject',
+                                                      'groups' => 'groups',
                                                       'roles' => 'roles',
                                                       'is_logged_in' => 'isLoggedIn'
                                                       ),
@@ -93,13 +94,20 @@ class eZUser extends eZPersistentObject
         {
             return $this->groups();
         }
-        if ( $attr == 'is_logged_in')
+        else if ( $attr == 'is_logged_in')
         {
             return $this->isLoggedIn();
         }
-        if ( $attr == 'roles')
+        else if ( $attr == 'roles')
         {
             return $this->roles();
+        }
+        else if ( $attr == 'contentobject' )
+        {
+            if ( $this->ContentObjectID == 0 )
+                return null;
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            return eZContentObject::fetch( $this->ContentObjectID );
         }
         else
             return eZPersistentObject::attribute( $attr );

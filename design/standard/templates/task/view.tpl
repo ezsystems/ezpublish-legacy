@@ -20,28 +20,29 @@
 
 {sequence name=MessageSeq loop=array('bglight','bgdark')}
 
-<table cellpadding="0" cellspacing="0">
+<table width="100%" cellpadding="0" cellspacing="0">
 {section show=$task_id|gt(0)}
+<tr><td width="1%">From:</td><td width="99%">{content_view_gui view=text content_object=$task.creator.contentobject}</td></tr>
+<tr><td width="1%">To:</td><td width="99%">{content_view_gui view=text content_object=$task.receiver.contentobject}</td></tr>
+<tr><td width="1%">Status:</td><td width="99%">{$task.status|choose('None','Temporary','Open','Closed','Cancelled')}</td></tr>
+<tr><td width="1%">Date:</td>  <td width="99%">{$task.created|l10n('shortdatetime')}</td></tr>
+<tr><td colspan="2"><h2>Message</h2></td></tr>
+
   {section name=Message loop=$task.messages max=1}
     {section show=$Message:item.contentobject_id|gt(0)}
       {let object=$Message:item.contentobject}
-<tr><td>{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
+<tr><td colspan="2"  class="{$MessageSeq:item}">{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
       {/let}
     {/section}
-<tr><td>
+  {sequence name=MessageSeq}
   {/section}
-<br/>
-Type: {$task.task_type|choose('None','Task','Assignment')}<br/>
-Status: {$task.status|choose('None','Temporary','Open','Closed','Cancelled')}<br/>
-Created: {$task.created|l10n('shortdatetime')}<br/>
-Modified: {$task.modified|l10n('shortdatetime')}<br/></td></tr>
 
-<tr><td><h2>Messages</h2></td></tr>
+<tr><td colspan="2"><h2>Messages</h2></td></tr>
   {section name=Message loop=$task.messages offset=1}
     {section show=$Message:item.contentobject_id|gt(0)}
       {let object=$Message:item.contentobject}
-<tr><th class="{$MessageSeq:item}">By {$Message:item.creator.login}</th></tr>
-<tr><td class="{$MessageSeq:item}">{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
+<tr><th colspan="2" class="{$MessageSeq:item}">From {$Message:item.creator.login}</th></tr>
+<tr><td colspan="2" class="{$MessageSeq:item}">{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
       {/let}
     {/section}
   {sequence name=MessageSeq}
@@ -74,7 +75,7 @@ Modified: {$task.modified|l10n('shortdatetime')}<br/></td></tr>
   </td>
   <td class="{$Incoming:sequence}">{$Incoming:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
-  <td class="{$Incoming:sequence}">{$Incoming:item.creator.login}</td>
+  <td class="{$Incoming:sequence}">{content_view_gui view=text content_object=$Incoming:item.creator.contentobject}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.created|l10n('shortdatetime')}&nbsp;&nbsp;</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.modified|l10n('shortdatetime')}</td>
   <td class="{$Incoming:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Incoming:item.id}"></td>
@@ -110,7 +111,7 @@ Modified: {$task.modified|l10n('shortdatetime')}<br/></td></tr>
   </td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
-  <td class="{$Outgoing:sequence}">{$Outgoing:item.receiver.login}</td>
+  <td class="{$Outgoing:sequence}">{content_view_gui view=text content_object=$Outgoing:item.receiver.contentobject}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.created|l10n('shortdatetime')}&nbsp;&nbsp;</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.modified|l10n('shortdatetime')}</td>
   <td class="{$Outgoing:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Outgoing:item.id}"></td>

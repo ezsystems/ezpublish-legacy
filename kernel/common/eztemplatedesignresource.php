@@ -39,7 +39,7 @@
 
 /*!
   \class eZTemplatedesignresource eztemplatedesignresource.php
-  \brief The class eZTemplatedesignresource does
+  \brief Handles template file loading with override support
 
 */
 
@@ -82,7 +82,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( is_array( $extraParameters ) and
              isset( $extraParameters['ezdesign:keys'] ) )
         {
-            $match_keys = $extraParameters['ezdesign:keys'];
+            $match_keys = array_merge( $match_keys, $extraParameters['ezdesign:keys'] );
         }
 
         $match = null;
@@ -188,11 +188,28 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         return eZTemplateFileResource::handleResource( $tpl, $text, $tstamp, $file, $method, $extraParameters );
     }
 
+    /*!
+     Sets the override keys to \a $keys, if some of the keys already exists they are overriden
+     by the new keys.
+     \sa clearKeys
+    */
     function setKeys( $keys )
     {
-        $this->Keys = $keys;
+        $this->Keys = array_merge( $this->Keys, $keys );
     }
 
+    /*!
+     Removes all override keys.
+     \sa setKeys
+    */
+    function clearKeys()
+    {
+        $this->Keys = array();
+    }
+
+    /*!
+     \return the unique instance of the design resource.
+    */
     function &instance()
     {
         $instance =& $GLOBALS["eZTemplateDesignResourceInstance"];

@@ -51,8 +51,8 @@ if ( isset( $Params['TaskID'] ) and
     $task =& eZTask::fetch( $TaskID );
     if ( $task->attribute( 'status' ) != EZ_TASK_STATUS_TEMPORARY )
     {
-        $errorModule =& eZModule::exists( "error" );
-        return $errorModule->run( "403", array() );
+        $Result =& $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return;
     }
 }
 else

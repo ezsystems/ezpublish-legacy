@@ -1,16 +1,6 @@
 <form enctype="multipart/form-data" method="post" action="/task/message/{$task.id}/{$message.id}">
 
-{$task_id}
-
-{$message.id}<br/>
-{$message.task_id}<br/>
-{$message.contentobject_id}<br/>
-{$message.creator_id}<br/>
-{$message.creator_type}<br/>
-
-{$message.contentobject.name}<br/>
-
-<h1>Edit message '{$object.name}'</h1>
+<h1>Edit task message '{$object.name}'</h1>
 
 {section show=$validation.processed}
 
@@ -23,12 +13,12 @@
 
 {/section}
 
-<br />
-
-
 <table width="100%" >
+<tr><td width="1%">From:</td><td width="1%">{content_view_gui view=text content_object=$message.task.creator.contentobject}</td><td width="99%"></td></tr>
+<tr><td width="1%">To:</td>  <td width="1%">{content_view_gui view=text content_object=$message.task.receiver.contentobject}</td><td width="99%"></td></tr>
+
 <tr>
-	<td valign="top">
+	<td valign="top" colspan="3">
 
 	{section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
 
@@ -45,17 +35,16 @@
 
 	<br />
 
-	<input type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
-{*	<input type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
-	<input type="submit" name="TranslateButton" value="{'Translate'|i18n('content/object')}" />*}
+	<input type="submit" name="PreviewButton" value="{'Preview'|i18n('task/message')}" />
 
-{*	<br /><br /> *}
-{*	<input type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />*}
-{*	<input type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />*}
-	<input type="submit" name="ApplyButton" value="{'Apply'|i18n('content/object')}" />
-	<input type="submit" name="PublishButton" value="{'Send'|i18n('content/object')}" />
-	<input type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
 	&nbsp;
+
+	<input type="submit" name="ApplyButton" value="{'Apply'|i18n('task/message')}" />
+
+	&nbsp;
+
+	<input type="submit" name="PublishButton" value="{'Send'|i18n('task/message')}" />
+	<input type="submit" name="CancelButton" value="{'Discard'|i18n('task/message')}" />
 
 	</td>
 {*

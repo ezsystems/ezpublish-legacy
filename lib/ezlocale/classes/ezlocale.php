@@ -391,6 +391,18 @@ class eZLocale
     }
 
     /*!
+     \static
+     Returns the current locale code for this language which is the language and the country with a dash (-) between them,
+     for instance nor-NO or eng-GB.
+     \sa localeCode, instance
+    */
+    function currentLocaleCode()
+    {
+        $locale =& eZLocale::instance();
+        return $locale->localeCode();
+    }
+
+    /*!
      Returns the name of the language in its own tounge.
     */
     function languageName()
