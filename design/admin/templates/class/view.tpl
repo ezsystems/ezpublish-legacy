@@ -136,7 +136,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
         <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
-            <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/view' )}" />
+            <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
             {* <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
     </div>
@@ -168,7 +168,7 @@
 </tr>
 {section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
-    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" /></td>
+    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/list' )}" /></td>
     <td class="wide">{$Groups.item.group_name|classgroup_icon( small, $Groups.item.group_name )}&nbsp;<a href={concat( '/class/classlist/', $Groups.item.group_id )|ezurl}>{$Groups.item.group_name|wash}</a></td>
 </tr>
 {/section}
@@ -178,23 +178,23 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n( 'design/admin/class/view' )}" />
+    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove from selected'|i18n( 'design/admin/class/view' )}" title="{'Remove the <%class_name> class from the selected class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
     </div>
     <div class="block">
     {section show=sub( count( $class.group_list ),count( $class.ingroup_list ) )}
-        <select name="ContentClass_group">
+        <select name="ContentClass_group" title="{'Select a group which the <%class_name> class should be added to.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}">
         {section name=AllGroup loop=$class.group_list}
             {section show=$class.ingroup_id_list|contains( $AllGroup:item.id )|not}
                 <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>
             {/section}
         {/section}
         </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" />
+        <input class="button" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" title="{'Add the <%class_name> class to the group specified in the menu on the left.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
     {section-else}
-        <select name="ContentClass_group" disabled="disabled">
+        <select name="ContentClass_group" disabled="disabled" title="{'The <%class_name> class already exists within all class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class_name ) )|wash}">
         <option value="-1">{'No group'|i18n( 'design/admin/class/view' )}</option>
         </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{'Add to group'|i18n( 'design/admin/class/view' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" disabled="disabled" title="{'The <%class_name> class already exists within all class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class_name ) )|wash}" />
     {/section}
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -229,9 +229,9 @@
 <tr class="{$Overrides.sequence}">
     <td>{$Overrides.item.siteaccess}</td>
     <td>{$Overrides.item.block}</td>
-    <td><a href={concat( '/design/templateview/', $Overrides.item.source )|ezurl}>{$Overrides.item.source}</td>
+    <td><a href={concat( '/design/templateview/', $Overrides.item.source )|ezurl} title="{'View the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" >{$Overrides.item.source}</td>
     <td>{$Overrides.item.target}</td>
-    <td><a href={concat( '/design/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" /></a></td>
+    <td><a href={concat( '/design/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>
