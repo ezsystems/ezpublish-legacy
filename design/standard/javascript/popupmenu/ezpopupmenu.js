@@ -123,41 +123,64 @@ var CurrentObjectID = -1;
 // for each level.
 var VisibleMenus = new Array();
 
-/**
- * Shows submenu menuName relative to the postion of parentElem.
- * elem is the depth of the menu to show. Count starts on 0.
+
+/*!
+   Shows toplevel menu at the current mouseposition + EZPOPMNU_OFFSET.
+   
  */
-function ezpopmnu_showTopLevel( menuName, nodeID, objectID )
+function ezpopmnu_showTopLevel( menuID, nodeID, objectID, menuHeader )
 {
+    if( !document.getElementById( menuID ) )return;
+
     if ( nodeID >= 0 )
     { 
         CurrentNodeID = nodeID;
         CurrentObjectID = objectID;
     }
-    document.getElementById( menuName ).style.left = MouseX + EZPOPMNU_OFFSET;
-    document.getElementById( menuName ).style.top = MouseY + EZPOPMNU_OFFSET;
 
-    // Do URL replace for all url's in that menu
-    for ( var i in menuArray[menuName]['elements'] )
+    // reposition menu
+    document.getElementById( menuID ).style.left = MouseX + EZPOPMNU_OFFSET;
+    document.getElementById( menuID ).style.top = MouseY + EZPOPMNU_OFFSET;
+
+    // Do URL replace for all items in that menu
+    for ( var i in menuArray[menuID]['elements'] )
     {
         var hrefElement = document.getElementById( i );
 
         // href replacement
-        var replaceString = menuArray[menuName]['elements'][i]['url'];
+        var replaceString = menuArray[menuID]['elements'][i]['url'];
         replaceString = replaceString.replace( '%nodeID%', CurrentNodeID );
 	replaceString = replaceString.replace( '%objectID%', CurrentObjectID );
         hrefElement.setAttribute( "href", replaceString );
 
         // enabled/disabled
-        if( typeof( menuArray[menuName]['elements'][i]['disabled_class'] ) != 'undefined' &&
-            menuArray[menuName]['elements'][i]['disabled_for'][CurrentNodeID] == 'yes' )
+        if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
+            menuArray[menuID]['elements'][i]['disabled_for'][CurrentNodeID] == 'yes' )
         {
-            hrefElement.className = menuArray[menuName]['elements'][i]['disabled_class'];
+            hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
         }
     }
-    var styleObject = ezjslib_getStyleObject( menuName, document );
+
+    // set header
+    if( menuHeader && typeof( menuArray[menuID]['headerID'] ) != 'undefined' )
+    {
+        var header = document.getElementById( menuArray[menuID]['headerID'] );
+        if( header ) header.innerHTML = menuHeader;
+    }
+
+    // make menu visible
+    var styleObject = ezjslib_getStyleObject( menuID, document );
     if( styleObject ) styleObject.visibility = 'visible';
-    VisibleMenus[menuArray[menuName]['depth']] = menuName;
+    VisibleMenus[menuArray[menuID]['depth']] = menuID;
+}
+
+/*!
+  Show sublevel menu. The current nodeid is remembered from the last call to
+  ezpopmnu_showTopLevel()
+ */
+function ezpopmnu_showSubLevel( menuName )
+{
+    ezpopmnu_showTopLevel( menuName, -1 );
 }
 
 /*!
@@ -183,17 +206,8 @@ function ezpopmnu_submitForm( formID )
     }
 }
 
-/*
- * Show sublevel menu. The current nodeid is remembered from the last call to
- * ezpopmnu_showTopLevel()
- */
-function ezpopmnu_showSubLevel( menuName )
-{
-    ezpopmnu_showTopLevel( menuName, -1 );
-}
-
-/*
- *Hide menu id and all menu's beneath it
+/*!
+  Hide menu id and all menu's beneath it
  */
 function ezpopmnu_hide( id )
 {
