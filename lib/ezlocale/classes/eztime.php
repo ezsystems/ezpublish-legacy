@@ -110,10 +110,10 @@ class eZTime
     {
         if ( $time === false )
         {
-            $time =& time();
+            $time = time();
         }
         $time = ( $time % EZTIME_SECONDS_A_DAY );
-        $this->Time =& $time;
+        $this->Time = $time;
         $this->Locale =& eZLocale::instance();
         $this->IsValid = $time >= 0;
     }
