@@ -37,7 +37,6 @@
 /*! \file ezstep_create_sites.php
 */
 include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/setup/ezsetuptests.php" );
 include_once( "kernel/common/i18n.php" );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
@@ -155,17 +154,6 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $saveData )
             $saveResult = $imageINI->save( false, '.php', 'append', true );
 
-//         if ( $saveResult )
-//         {
-//             $setupINI = eZINI::create( 'setup.ini' );
-//             $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
-//             $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['dbname'] );
-//             $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
-//             $setupINI->setVariable( "DatabaseSettings", "DefaultPassword", $databaseInfo['password'] );
-//             if ( $saveData )
-//                 $saveResult = $setupINI->save( false, '.php', 'append', true );
-//         }
-
         if ( $saveResult and
              $charset !== false )
         {
@@ -235,23 +223,6 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $saveResult = $ini->save( false, '.php', 'append', true, true, true );
         }
-
-//     $htaccess = array( 'required' => false,
-//                        'installed' => false );
-//     if ( $this->PersistenceList['security']['install_htaccess'] )
-//     {
-//         $htaccess['required'] = true;
-//         if ( file_exists( ".htaccess" ) )
-//         {
-//             if ( @copy( '.htaccess_root', '.htaccess.setupnew' ) )
-//                 $htaccess['installed'] = '.htaccess.setupnew';
-//         }
-//         else
-//         {
-//             if ( @copy( '.htaccess_root', '.htaccess' ) )
-//                 $htaccess['installed'] = true;
-//         }
-//     }
 
         return true; // Never show, generate sites
     }

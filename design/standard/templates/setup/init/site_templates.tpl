@@ -1,5 +1,4 @@
 {*?template charset=latin1?*}
-{include uri='design:setup/setup_header.tpl' setup=$setup}
 
 <form method="post" action="{$script}">
 

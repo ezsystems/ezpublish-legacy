@@ -79,7 +79,6 @@ class eZStepSiteTemplates extends eZStepInstaller
                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['identifier'] = $template['identifier'];
                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['name'] = $template['name'];
                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['image_file_name'] = $template['image'];
-//                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
                 ++$siteTemplatesCount;
             }
             if ( $siteTemplatesCount == 0)
@@ -114,17 +113,10 @@ class eZStepSiteTemplates extends eZStepInstaller
     {
         // Get site templates from setup.ini
         $config =& eZINI::instance( 'setup.ini' );
-//         $templatesConfig = $config->variable( 'SiteTemplates', 'Name' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
         $site_templates = array();
-//         foreach ( $templatesConfig as $key => $template )
-//         {
-//             $site_templates[$key]['name'] = $template;
-//             $site_templates[$key]['identifier'] = $template;
-//             $site_templates[$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
-//         }
 
         include_once( 'kernel/classes/ezpackage.php' );
 
@@ -135,7 +127,6 @@ class eZStepSiteTemplates extends eZStepInstaller
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );
             $thumbnails = $package->thumbnailList( 'default' );
-//                 $site_templates[$key]['image_file_name'] = $thumbnailBase.'_' . $package->attribute( 'name' ) . '.' . $thumbnailExtension;
             if ( count( $thumbnails ) > 0 )
                 $site_templates[$key]['image_file_name'] = $package->fileItemPath( $thumbnails[0], 'default', 'kernel/setup/packages' );
             else

@@ -51,7 +51,7 @@ class eZStepData
       \param step number or
              step name
       \return array containing file name and class name
-     */
+    */
     function &step( $description )
     {
         if ( is_string( $description ) )
@@ -150,7 +150,7 @@ class eZStepData
                 break;
             }
             else if ( !isset( $tableStep['count_step'] ) or
-                 $tableStep['count_step'] )
+                      $tableStep['count_step'] )
                 ++$currentStep;
         }
 
@@ -190,52 +190,4 @@ class eZStepData
 
 }
 
-
-/*
-$stepTable = array( 1 => array( 'name' => 'welcome',
-                                'description' => 'Welcome' ),
-                    2 => array( 'name' => 'system_check',
-                                'description' => 'System check' ),
-                    3 => array( 'name' => 'details',
-                                'description' => 'Details' ),
-                    4 => array( 'name' => 'database_choice',
-                                'description' => 'Choose database' ),
-                    5 => array( 'name' => 'site_language_options',
-                                'description' => 'Language options' ),
-                    6 => array( 'name' => 'regional_options',
-                                'description' => 'Regional options' ),
-                    7 => array( 'name' => 'summary',
-                                'description' => 'Summary' ),
-                    8 => array( 'name' => 'database_init',
-                                'description' => 'Initialize Database' ),
-                    9 => array( 'name' => 'email_settings',
-                                'description' => 'Email Settings' ),
-                    10 => array( 'name' => 'site_details',
-                                 'description' => 'Site Details' ),
-                    11 => array( 'name' => 'security',
-                                 'description' => 'Securing Site' ),
-                    12 => array( 'name' => 'registration',
-                                 'description' => 'Registration' ),
-                    13 => array( 'name' => 'send_registration',
-                                 'description' => 'Send Registration' ),
-                    14 => array( 'name' => 'finished',
-                                 'description' => 'Finished' ) );
-
-$mainStepTable = array( array( 'name_id' => 1,
-                               'id_list' => array( 1 ) ),
-                        array( 'name_id' => 2,
-                               'id_list' => array( 2, 3 ) ),
-                        array( 'name' => 'Collecting Information',
-                               'name_id' => false,
-                               'id_list' => array( 4, 5, 6, 7 ) ),
-                        array( 'name' => 'Database Setup',
-                               'name_id' => false,
-                               'id_list' => array( 8 ) ),
-                        array( 'name' => 'Post Configuration',
-                               'name_id' => false,
-                               'id_list' => array( 9, 10, 11, 12, 13 ) ),
-                        array( 'name_id' => 14,
-                               'id_list' => array( 14 ) ) );
-
-*/
 ?>

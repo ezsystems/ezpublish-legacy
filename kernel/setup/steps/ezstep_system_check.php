@@ -53,7 +53,7 @@ class eZStepSystemCheck extends eZStepInstaller
     */
     function eZStepSystemCheck( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->EZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
     }
 
     /*!
@@ -74,7 +74,6 @@ class eZStepSystemCheck extends eZStepInstaller
         $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
         $this->Results = $runResult['results'];
         $this->Result = $runResult['result'];
-//        $successCount = $runResult['success_count'];
         $persistenceData = $runResult['persistence_list'];
 
         $testsRun = array();
@@ -95,7 +94,7 @@ class eZStepSystemCheck extends eZStepInstaller
     function &display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
-                                      'results' => $this->Results ) );
+                                                'results' => $this->Results ) );
         $this->Tpl->setVariable( 'persistence_data', $this->PersistenceList );
         $result = array();
         // Display template

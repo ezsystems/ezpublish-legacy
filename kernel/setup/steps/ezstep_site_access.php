@@ -106,13 +106,14 @@ class eZStepSiteAccess extends eZStepInstaller
     function init()
     {
         // If windows installer, install using url site access
+        include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
         {
             $templateCount = $this->PersistenceList['site_templates']['count'];
 
-            $this->PersistenceList['site_templates_'.$counter]['access_type'] = 'url';
             for ( $counter = 0; $counter < $templateCount; $counter++ )
             {
+                $this->PersistenceList['site_templates_'.$counter]['access_type'] = 'url';
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
             }
