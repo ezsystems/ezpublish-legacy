@@ -415,8 +415,8 @@ function changeAccess( $access )
     if ( $name == '' )
     {
         $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-        $access['name'] = $name;
-        $access['type'] = EZ_ACCESS_TYPE_DEFAULT;
+        $access = array( 'name' => $name,
+                         'type' => EZ_ACCESS_TYPE_DEFAULT );
         if ( accessDebugEnabled() )
             eZDebug::writeDebug( "Using default site access '$name'", 'access.php' );
     }

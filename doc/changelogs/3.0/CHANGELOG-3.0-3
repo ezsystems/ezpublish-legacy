@@ -26,6 +26,7 @@ Changes from 3.0-2 to 3.0-3
   a main node is deleted.
 - Fixed bug in override system which would cause override files to not be used if no
   design keys were set (for instance from shop/basket).
+- Made sure name and type for access is set in access.php when default access is used.
 
 *Library :
 
