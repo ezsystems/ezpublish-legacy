@@ -33,17 +33,26 @@
 // you.
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
-$parameters =& $Params["Parameters"];
-
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
+$http =& eZHTTPTool::instance();
+$module =& $Params["Module"];
+$parameters =& $Params["Parameters"];
+
+if ( $http->hasPostVariable( 'Cancel' ) )
+{
+    return $Module->redirectTo( $http->postVariable( 'RedirectToURI' ) );
+}
+
 $ini =& eZINI::instance();
 $tpl =& templateInit();
+
+$Result = array();
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/design', 'Template edit' ) ) );
 
 $template = "";
 $i = 0;
@@ -59,7 +68,6 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
-
 // Check if template already exists
 $isExistingTemplate = false;
 foreach ( $overrideArray as $overrideSetting )
@@ -72,7 +80,13 @@ foreach ( $overrideArray as $overrideSetting )
 
 if ( $isExistingTemplate == false )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    $tpl->setVariable( 'template', $template );
+    $tpl->setVariable( 'template_exists', false );
+    $tpl->setVariable( 'original_template', false );
+    $tpl->setVariable( 'site_access', $siteAccess );
+
+    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    return;
 }
 
 // Find the main template for this override
@@ -179,14 +193,44 @@ if ( $module->isCurrentAction( 'Discard' ) )
 }
 
 // get the content of the template
+$fileName = $template;
+
+if ( !is_readable( $fileName ) )
 {
-    $fileName = $template;
-    $templateContent = file_get_contents( $fileName );
-    if ( !$templateContent )
+    $tpl->setVariable( 'template', $template );
+    $tpl->setVariable( 'template_exists', true );
+    $tpl->setVariable( 'original_template', $originalTemplate );
+    $tpl->setVariable( 'is_readable', false );
+    $tpl->setVariable( 'site_access', $siteAccess );
+
+    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    return;   
+}
+
+if ( !is_writable( $fileName ) )
+{
+    if ( $http->hasPostVariable( 'OpenReadOnly' ) )
     {
-        $templateContent = ezi18n( 'kernel/design', 'The file could not be opened.' );
+        $tpl->setVariable( 'is_writable', false );
+    }
+    else
+    {
+        $tpl->setVariable( 'template', $template );
+        $tpl->setVariable( 'template_exists', true );
+        $tpl->setVariable( 'original_template', $originalTemplate );
+        $tpl->setVariable( 'is_readable', true );
+        $tpl->setVariable( 'site_access', $siteAccess );
+
+        $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+        return;
     }
 }
+else
+{
+    $tpl->setVariable( 'is_writable', true );
+}
+
+$templateContent = file_get_contents( $fileName );
 
 /* Here we figure out the characterset of the template. If there is a charset
  * associated with the template in the header we use that one, if not we fall
@@ -211,8 +255,6 @@ if ( $codec )
 $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_content', $templateContent );
 
-$Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templateedit.tpl" );
-$Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/design', 'Template edit' ) ) );
+
 ?>

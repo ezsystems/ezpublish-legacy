@@ -51,7 +51,13 @@
 <tr class="{$CustomMatch.sequence}">
     <td><input type="checkbox" name="RemoveOverrideArray[]" value="{$CustomMatch.item.override_name}" /></td>
     <td>{$CustomMatch.item.override_name}</td>
+
+    {section show=$CustomMatch.item.match_file}
     <td>{$CustomMatch.item.match_file}</td>
+    {section-else}
+    <td><i>{'No file matched'|i18n( 'design/admin/visual/templateview' )}</i></td>
+    {/section}
+
     <td>
         {section show=is_set( $CustomMatch.item.conditions )}
             {section name=Condition  loop=$CustomMatch.item.conditions}
@@ -63,7 +69,13 @@
 	{/section}
     </td>
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
+
+    {section show=$CustomMatch.item.match_file}
     <td><a href={concat( '/visual/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/admin/visual/templateview' )}"><img src={'edit.png'|ezimage} alt="Edit" /></a></td>
+    {section-else}
+    <td><img src={'edit_disabled.png'|ezimage} alt="" /></td>
+    {/section}
+
 </tr>
 {/section}
 </table>
