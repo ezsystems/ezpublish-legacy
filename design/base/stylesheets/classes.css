@@ -321,6 +321,12 @@ div.calendar a
     border: none;
 }
 
+div.calendar table td, div.calendar table tr
+{
+    padding: 0px;
+    margin: 0px;
+}
+
 div.calendar tr.calendar-navigator table.calendar-navigator div
 {
     display: inline;
@@ -351,6 +357,11 @@ div.calendar tr.calendar-navigator div.calendar-date span.calendar-month
 {
     text-align: left;
     text-transform: lowercase;
+}
+
+div.calendar tr.calendar-day-names
+{
+    display: none;
 }
 
 div.calendar tr.calendar-navigator div.calendar-previous a, div.calendar tr.calendar-navigator div.calendar-next a

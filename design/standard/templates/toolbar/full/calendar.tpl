@@ -4,7 +4,7 @@
                    or( $module_result.content_info.url_alias|begins_with( $show_subtree ),
                        $show_classidentifiers|explode( ',' )|contains( $module_result.content_info.class_identifier ) ) )}
 
-{let today_info=$view_parameters
+{let today_info=false()
      class_identifier_list=$show_classidentifier|explode( ',' )
      cache_keys=array( $today_info.year, $today_info.month, $today_info.day )
      time_start=false()
@@ -12,22 +12,25 @@
      time_published=false()
      time_current=false()}
 
-{switch match=cond( and( $today_info, $today_info.year, $today_info.month, $today_info.day )|ne( false() ), 1,
-                    and( $today_info, $today_info.year, $today_info.month )|ne( false() ), 2,
+{switch match=cond( and( $module_result.view_parameters, $module_result.view_parameters.year, $module_result.view_parameters.month, $module_result.view_parameters.day )|ne( false() ), 1,
+                    and( $module_result.view_parameters, $module_result.view_parameters.year, $module_result.view_parameters.month )|ne( false() ), 2,
+                    and( $module_result, $module_result.content_info ), 3,
                     false() )}
 {case match=1}
-    {set time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year)
+    {set today_info=$module_result.view_parameters
+         time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year)
          time_end=maketime( 23, 59, 59, $today_info.month | inc, 0, $today_info.year )
          time_published=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
          time_current=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )}
 {/case}
 {case match=2}
-    {set cache_keys=array( $today_info.year, $today_info.month )
+    {set today_info=$module_result.view_parameters
+         cache_keys=array( $today_info.year, $today_info.month )
          time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year)
          time_end=maketime( 23, 59, 59, $today_info.month | inc, 0, $today_info.year )
          time_published=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year )}
 {/case}
-{case}
+{case match=3}
     {let current_node=cond( $module_result.content_info.node_id, fetch( content, node, hash( node_id, $module_result.content_info.node_id ) ),
                             false() )}
     {set today_info=cond( and( $current_node, $class_identifier_list|contains( $current_node.object.class_identifier ) ),
@@ -39,6 +42,14 @@
          time_current=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
          cache_keys=false()}
     {/let}
+{/case}
+{case}
+    {set today_info=currentdate()|gettime()
+         time_start=maketime( 0, 0, 0, $today_info.month, 1, $today_info.year )
+         time_end=maketime( 23, 59, 59, $today_info.month | inc, 0, $today_info.year )
+         time_published=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
+         time_current=maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year )
+         cache_keys=false()}
 {/case}
 {/switch}
 
