@@ -4,7 +4,7 @@
 
 {set-block scope=global variable=title}{'Form %formname'|i18n('design/standard/content/form',,hash('%formname',$node.name))}{/set-block}
 
-<h1>Collected information</h1>
+<h1>{'Collected information'|i18n('design/standard/content/form')}</h1>
 
 <h2>{$object.name}</h2>
 
