@@ -1,6 +1,17 @@
-{set-block scope=root variable=subject}{"New article was published at %1"|i18n("design/standard/user/register",,array(ezini("SiteSettings","SiteURL")))}{/set-block}
+{set-block scope=root variable=subject}{'[%sitename] Digest for %date'
+                                        |i18n("design/standard/notification",,
+                                              hash('%date',currentdate()|l10n(datetime),
+                                                   '%sitename',ezini("SiteSettings","SiteURL")))}{/set-block}
+{"This email is to inform you on news at %sitename."
+ |i18n('design/standard/notification',,
+       hash('%sitename',ezini("SiteSettings","SiteURL")))}
 
 
-New object was published
+{"If you do not wish to continue receiving these notifications,
+change your settings at:"|i18n('design/standard/notification')}
+http://{ezini("SiteSettings","SiteURL")}{concat("notification/settings/")|ezurl(no)}
 
-http://{ezini("SiteSettings","SiteURL")}{concat("content/view/full/",$object.main_node_id)|ezurl(no)}
+-- 
+{"%sitename notification system"
+ |i18n('design/standard/notification',,
+       hash('%sitename',ezini("SiteSettings","SiteURL")))}
