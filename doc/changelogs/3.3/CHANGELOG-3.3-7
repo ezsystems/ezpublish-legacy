@@ -75,6 +75,7 @@ Changes from 3.3-6 to 3.3-7
   ( Manually merged from stable/3.3 rev. 10739 )
 - Fixed bug #6034: eZMYSQLDB::query() unproper error handling
 - Fixed bug #4411: Modules does not work after creating node named like module
+- Fixed bug #5983: User id is not stored in workflow processes.
 
 *Library:
 

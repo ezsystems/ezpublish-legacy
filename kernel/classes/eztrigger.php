@@ -154,6 +154,15 @@ class eZTrigger extends eZPersistentObject
             }
 
             $parameters['workflow_id'] = $workflowID;
+            // It is very important that the user_id is set correctly.
+            // If it was not supplied by the calling code we will use
+            // the currently logged in user.
+            if ( !isset( $parameters['user_id'] ) or
+                 $parameters['user_id'] == 0 )
+            {
+                $user =& eZUser::currentUser();
+                $parameters['user_id'] = $user->attribute( 'contentobject_id' );
+            }
             $processKey = eZWorkflowProcess::createKey( $parameters, $keys );
 
 //            $searchKey = eZWorkflowProcess::createKey( $keyArray );
