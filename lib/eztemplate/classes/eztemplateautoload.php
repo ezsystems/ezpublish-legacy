@@ -101,6 +101,9 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesetfunction.php',
                                     'class' => 'eZTemplateSetFunction',
                                     'function_names' => array( 'set', 'let', 'default' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateblockfunction.php',
+                                    'class' => 'eZTemplateBlockFunction',
+                                    'function_names' => array( 'set-block' ) );
 
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage
