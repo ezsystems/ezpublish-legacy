@@ -32,5 +32,6 @@
 </tr><tr>
 {/delimiter}
 {/section}
+</tr>
 </table>
 </div>
