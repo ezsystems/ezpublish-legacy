@@ -1061,6 +1061,7 @@ class eZTemplateSectionFunction
             {
                 $delimiterModulo = $delimiterParameters["modulo"];
                 $modulo = $tpl->elementValue( $delimiterModulo, $rootNamespace, $name, $functionPlacement );
+                $modulo = trim( $modulo );
                 if ( is_numeric( $modulo ) )
                     $delimiterMatch = ( $index % $modulo ) == 0;
             }
