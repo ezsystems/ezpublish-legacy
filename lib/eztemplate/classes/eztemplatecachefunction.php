@@ -157,11 +157,16 @@ class eZTemplateCacheFunction
             $filedirText = eZPHPCreator::variableText( $dirString, 0, 0, false );
             $filepathText = eZPHPCreator::variableText( $keyString, 0, 0, false );
         }
-        $code = "if ( file_exists( $filepathText ) and\n     filemtime( $filepathText ) >= $localExpiryText )\n{";
+        $code = ( "if ( file_exists( $filepathText ) and\n" .
+                  "     filemtime( $filepathText ) >= $localExpiryText )\n" .
+                  "{\n" .
+                  "    include( $filepathText );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "include( $filepathText );", array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'contentData', array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$contentData );\n}\nelse\n{" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$contentData );\n" .
+                                                               "}\n" .
+                                                               "else\n" .
+                                                               "{" );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
         $newNodes = array_merge( $newNodes, $children );
@@ -169,15 +174,18 @@ class eZTemplateCacheFunction
         $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
         $ini =& eZINI::instance();
         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-        $code = "include_once( 'lib/ezfile/classes/ezdir.php' );
-eZDir::mkdir( $filedirText, $perm, true );\n";
-        $code .= "\$fd = fopen( $filepathText, 'w' );\nfwrite( \$fd, '<?' );\nfwrite( \$fd, \"php\\n\\\$contentData = \\\"\" );\n";
-        $code .= '$cachedText = str_replace( array( "\\\\", "\\"", "\\$", "\\n" ),' . "\n" .
-             '                           array( "\\\\\\\\", "\\\\\\"", "\\\\$", "\\\\n" ),' . "\n" .
-             '                                  $cachedText );' . "\n" .
-             "fwrite( \$fd, \$cachedText );\nfwrite( \$fd, \"\\\";\\n?>\\n\" );";
+        $code = ( "include_once( 'lib/ezfile/classes/ezdir.php' );\n" .
+                  "eZDir::mkdir( $filedirText, $perm, true );\n" .
+                  "\$fd = fopen( $filepathText, 'w' );\n" .
+                  "fwrite( \$fd, '<?' );\n" .
+                  "fwrite( \$fd, \"php\\n\\\$contentData = \\\"\" );\n" .
+                  "fwrite( \$fd, " . 'str_replace( array( "\\\\", "\\"", "\\$", "\\n" ),' . "\n" .
+                  '                           array( "\\\\\\\\", "\\\\\\"", "\\\\$", "\\\\n" ),' . "\n" .
+                  '                                  $cachedText' . " ) );\n" .
+                  "fwrite( \$fd, \"\\\";\\n?>\\n\" );\n" .
+                  "fclose( \$fd );");
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode();
+        $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$cachedText );\n}" );
         return $newNodes;

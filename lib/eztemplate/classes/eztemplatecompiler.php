@@ -1875,7 +1875,9 @@ $rbracket
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "\$$variableName = \$$textName;", array( 'spacing' => $spacing ) );
+                    $assignmentType = $node[3];
+                    $assignmentText = $php->variableNameText( $variableName, $assignmentType, $node[2] );
+                    $php->addCodePiece( "$assignmentText\$$textName;", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN )
                 {
@@ -1884,23 +1886,28 @@ $rbracket
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "\$$textName = \$$variableName;", array( 'spacing' => $spacing ) );
+                    $assignmentType = $node[3];
+                    $assignmentText = $php->variableNameText( $textName, $assignmentType, $node[2] );
+                    $php->addCodePiece( "$assignmentText\$$variableName;", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE )
                 {
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[1]['spacing'] ) )
                         $spacing += $node[1]['spacing'];
-                    eZTemplateCompiler::increaseCurrentTextName( $parameters );
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "\$$textName = '';", array( 'spacing' => $spacing ) );
+                    $php->addCodePiece( "if ( !isset( \$textStack ) )\n" .
+                                        "    \$textStack = array();\n" .
+                                        "array_push( \$textStack, \$$textName );\n" .
+                                        "\$$textName = '';", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE )
                 {
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[1]['spacing'] ) )
                         $spacing += $node[1]['spacing'];
-                    eZTemplateCompiler::decreaseCurrentTextName( $parameters );
+                    $textName = eZTemplateCompiler::currentTextName( $parameters );
+                    $php->addCodePiece( "\$$textName = array_pop( \$textStack );", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE )
                 {

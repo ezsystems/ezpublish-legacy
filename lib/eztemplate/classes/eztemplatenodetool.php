@@ -407,19 +407,37 @@ class eZTemplateNodeTool
         return $node;
     }
 
-    function createWriteToOutputVariableNode( $variableName, $parameters = array() )
+    /*!
+     Creates a new template node that will assign the content of the current output variable
+     to the variable named \a $variableName.
+
+     The assignment type is by default text concat (.) and can be changed using \a $assignmentType.
+     \param $parameters An array with optional parameters, can contain the followin:
+            - spacing - The number of spaces to added for each line this expression creates.
+    */
+    function createWriteToOutputVariableNode( $variableName, $parameters = array(), $assignmentType = EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN,
                        $variableName,
-                       $parameters );
+                       $parameters,
+                       $assignmentType );
         return $node;
     }
 
-    function createAssignFromOutputVariableNode( $variableName, $parameters = array() )
+    /*!
+     Creates a new template node that will assign the content of the current output variable
+     to the variable named \a $variableName.
+
+     The assignment type is by default variable assignment (=) and can be changed using \a $assignmentType.
+     \param $parameters An array with optional parameters, can contain the followin:
+            - spacing - The number of spaces to added for each line this expression creates.
+    */
+    function createAssignFromOutputVariableNode( $variableName, $parameters = array(), $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ,
                        $variableName,
-                       $parameters );
+                       $parameters,
+                       $assignmentType );
         return $node;
     }
 

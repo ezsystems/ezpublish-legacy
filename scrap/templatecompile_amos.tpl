@@ -21,10 +21,21 @@ Match: {$:match}
 {/case}
 {/switch}*}
 
+{let b=10}
+
 {cache-block expiry=10 keys=$data}
-The magic numer is:
+The magic number is: 
 {let a=20}
 {sum(1,$a,3)}
 {/let}
 {/cache-block}
 
+
+
+
+
+{cache-block}
+{sum(1,$b,3)}
+{/cache-block}
+
+{/let}
