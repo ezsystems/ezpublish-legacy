@@ -853,7 +853,6 @@ class eZLocale
         $fmt =& str_replace( '%', "%\\", $fmt );
         $text =& date( $fmt, $date );
         $longDay = $this->longDayName( date( 'w', $date ) );
-        print( $longDay . "<br/>" );
         $text =& str_replace( array( '%D', '%l', '%M', '%F' ),
                               array( $this->shortDayName( date( 'w', $date ) ),
                                      $this->longDayName( date( 'w', $date ) ),
