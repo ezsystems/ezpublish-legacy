@@ -71,14 +71,8 @@ CREATE TABLE ezuser_discountrule (
   id int(11) NOT NULL auto_increment,
   discountrule_id int(11) default NULL,
   contentobject_id int(11) default NULL,
-  PRIMARY KEY  (id) );
-
-
-CREATE TABLE ezdiscountrule (
-  id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL,
-  PRIMARY KEY  (id)
-);
+  PRIMARY KEY  (id) );
 
 
 CREATE TABLE ezdiscountsubrule (
@@ -90,7 +84,6 @@ CREATE TABLE ezdiscountsubrule (
   PRIMARY KEY  (id)
 );
 
-
 CREATE TABLE ezdiscountsubrule_value (
   discountsubrule_id int(11) NOT NULL,
   value int(11) NOT NULL,
@@ -98,4 +91,18 @@ CREATE TABLE ezdiscountsubrule_value (
   PRIMARY KEY  (discountsubrule_id,value,issection)
 );
 
+create table ezinformationcollection (
+  id int(11) NOT NULL auto_increment,
+  contentobject_id int(11) not null default 0,
+  created int(11) not null default 0,
+  PRIMARY KEY  (id) 
+);
 
+create table ezinformationcollection_attribute (
+  id int(11) NOT NULL auto_increment,
+  informationcollection_id int(11) not null default 0,
+  data_text text,
+  data_int int(11) default NULL,
+  data_float float default NULL,
+  PRIMARY KEY  (id) 
+);

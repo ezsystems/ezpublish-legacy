@@ -32,6 +32,8 @@
 // you.
 //
 
+include_once( 'kernel/classes/ezinformationcollection.php' );
+
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
 
@@ -42,6 +44,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $object =& eZContentObject::fetch( $ObjectID );
     $version =& $object->currentVersion();
     $contentObjectAttributes =& $version->contentObjectAttributes();
+
+    // Create a new collection
+    $collection =& eZInformationCollection::create( $ObjectID );
+    $collection->store();
 
     // Check every attribute if it's supposed to collect information
     $unvalidatedAttributes = array();
@@ -55,8 +61,12 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             // Collect the information for the current attribute
             if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
             {
-                print( "Found info:<br>" );
-                print( $contentObjectAttribute->content() . "<br>" );
+                print( "Storing info:<br/>" );
+                print( $contentObjectAttribute->content() . "<br/>" );
+
+                $collectionAttribute =& eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
+                $collectionAttribute->setAttribute( 'data_text', $contentObjectAttribute->content() );
+                $collectionAttribute->store();
             }
         }
     }
