@@ -178,7 +178,9 @@ contentclass_id int not null,
 name varchar( 255 ),
 current_version int,
 is_published int,
-permission_id int
+permission_id int,
+published int not null,
+modified int not null
 );
 
 insert into ezcontentobject set main_node_id='1', parent_id='0', contentclass_id='1', name='Top level folder', current_version='1', permission_id='1';
