@@ -167,10 +167,8 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                                                                                   'contentobject_version' => $version->attribute( 'version' )
                                                                                   ),
                                                                            true );
-// This is no longer used, can probably be removed
-//                         $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
 
-                        $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
+                        $realNode =& eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
 
                         if ( is_null( $realNode ) )
                         {
@@ -178,11 +176,11 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                         }
                         if ( $oldAssignment->attribute( 'is_main' ) == '1' )
                         {
-                            $version->assignToNode( $nodeID, 1, $fromNodeID );
+                            $version->assignToNode( $nodeID, 1, $fromNodeID, $oldAssignment->attribute( 'sort_field' ), $oldAssignment->attribute( 'sort_order' ) );
                         }
                         else
                         {
-                            $version->assignToNode( $nodeID, 0, $fromNodeID );
+                            $version->assignToNode( $nodeID, 0, $fromNodeID, $oldAssignment->attribute( 'sort_field' ), $oldAssignment->attribute( 'sort_order' ) );
                         }
                         $version->removeAssignment( $oldAssignmentParentID );
                     }

@@ -40,6 +40,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/search_site_ini_entries_missing
 - Fixed bug, duplicate code
   http://ez.no/community/bug_reports/object_defined_twice_kernel_content_function_definition_php
+- Fixed bug, forgot sorting when moving node
+  http://ez.no/community/bug_reports/when_moving_a_folder_its_sorthing_method_is_reset
 
 *Library:
 
