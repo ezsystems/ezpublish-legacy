@@ -314,17 +314,12 @@
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
-</form>
-
-<div class="controlbar">
-    <div class="block">
         <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
+</form>
 
         <form class="blockpart" name="test" method="post" action={"content/browse"|ezurl}>
             <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
         </form>
-    </div>
-</div>
 
 <form name="test" method="post" action={"content/action"|ezurl}>
 <table>
