@@ -285,7 +285,6 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         {
             $contentNode =& eZContentObjectTreeNode::fetch( $nodeInfo['id'] );
             $description .= $contentNode->attribute( 'name' ) . ' - ' . $nodeInfo['type'] . "\n";
-            print( "'" . $contentNode->attribute( 'name' ) . "'<br/>" );
             $nodeNames[] = trim( $contentNode->attribute( 'name' ) );
             if ( $nodeInfo['type'] == 'node' )
             {
