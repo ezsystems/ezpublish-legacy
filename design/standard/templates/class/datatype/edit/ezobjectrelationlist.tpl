@@ -28,7 +28,7 @@
     </div>
 
     <div class="element">
-        <label>{"Default placement for objects"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+        <label>{"Default location for objects"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
         {section show=$default_placement}
             <p>{'New objects will be placed in %nodename'
                 |i18n('design/standard/class/datatype',,
@@ -39,12 +39,12 @@
                      )}</p>
             <input type="hidden" name="ContentClass_ezobjectrelationlist_placement_{$class_attribute.id}" value="{$default_placement.node_id}" />
         {section-else}
-            <p>{'New objects will not be placed in the content tree'|i18n('design/standard/class/datatype')}</p>
+            <p>{'New objects will not be placed in the content tree.'|i18n('design/standard/class/datatype')}</p>
             <input type="hidden" name="ContentClass_ezobjectrelationlist_placement_{$class_attribute.id}" value="" />
         {/section}
-        <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_placement]" value="{'Select placement'|i18n('design/standard/class/datatype')}" />
+        <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_placement]" value="{'Select location'|i18n('design/standard/class/datatype')}" />
         {section show=$default_placement}
-            <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_disable_placement]" value="{'Disable placement'|i18n('design/standard/class/datatype')}" />
+            <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_disable_placement]" value="{'Remove location'|i18n('design/standard/class/datatype')}" />
         {/section}
     </div>
 

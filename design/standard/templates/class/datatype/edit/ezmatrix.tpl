@@ -9,12 +9,15 @@
 
 </div>
 
+<label>{'Columns'|i18n( 'design/standard/class/datatype' )}</label>
+
+{section show=$class_attribute.content.columns}
 {section name=ColumnList loop=$class_attribute.content.columns sequence=array(bglight,bgdark)}
 
 <div class="block">
 
 <div class="element">
-<label>{"Matrix Column"|i18n("design/standard/class/datatype")}</label>
+<label>{"Matrix column"|i18n("design/standard/class/datatype")}</label>
 <div class="labelbreak"></div>
 <input class="halfbox" type="text" name="ContentClass_data_ezmatrix_column_name_{$class_attribute.id}[]" value="{$ColumnList:item.name|wash}" size="10" maxlength="255" />
 </div>
@@ -29,9 +32,14 @@
 </div>
 
 {/section}
+{section-else}
+<p>
+{'The matrix does not have any columns.'|i18n( 'design/standard/class/datatype' )}
+</p>
+{/section}
 
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_ezmatrix_column]" value="{'New Column'|i18n('design/standard/class/datatype')}" />
-<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/class/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_ezmatrix_column]" value="{'New column'|i18n('design/standard/class/datatype')}" title="{'Add a new column.'|i18n( 'design/standard/class/datatype' )}" />
+<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" title="{'Remove selected columns.'|i18n( 'design/standard/class/datatype' )}"/>
 </div>

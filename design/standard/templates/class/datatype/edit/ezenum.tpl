@@ -13,28 +13,31 @@
 	  {/switch} /><label>{"Checkbox style"|i18n("design/standard/class/datatype")}</label>
 </div>
 
+{section show=$class_attribute.content.enum_list}
 {section name=EnumList loop=$class_attribute.content.enum_list sequence=array(bglight,bgdark)}
 
 <div class="block">
 <input type="hidden" name="ContentClass_data_enumid_{$class_attribute.id}[]" value="{$EnumList:item.id}" />
 <div class="element">
-<label>{"Enum Element"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+<label>{"Enum element"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" name="ContentClass_data_enumelement_{$class_attribute.id}[]" value="{$EnumList:item.enumelement|wash}" size="10" maxlength="255" />
 </div>
 <div class="element">
-<label>{"Enum Value"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+<label>{"Enum value"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input type="text" name="ContentClass_data_enumvalue_{$class_attribute.id}[]" value="{$EnumList:item.enumvalue|wash}" size="10" maxlength="255" />
 </div>
 <div class="element">
-<input type="checkbox" name="ContentClass_data_enumremove_{$class_attribute.id}[]" value="{$EnumList:item.id}" />
+<input type="checkbox" name="ContentClass_data_enumremove_{$class_attribute.id}[]" value="{$EnumList:item.id}" title="{'Select element for removal.'}" />
 </div>
 <div class="break"></div>
 </div>
 
 {/section}
-
+{section-else}
+<p>{'There are no elements in the list.'|i18n( 'design/standard/class/datatype' )}</p>
+{/section}
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_enumelement]" value="{'New Enum Element'|i18n('design/standard/class/datatype')}" />
-<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/class/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_enumelement]" value="{'New element'|i18n('design/standard/class/datatype')}" title="{'Add a new enum element.'|i18n( 'design/standard/class/datatype' )}"  />
+<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" title="{'Remove selected elements.'|i18n( 'design/standard/class/datatype' )}" />
 </div>
