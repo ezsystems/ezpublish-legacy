@@ -158,7 +158,7 @@ function browse( &$Module, &$object )
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     $sourceParentNodeID = $node->attribute( 'parent_node_id' );
     eZContentBrowse::browse( array( 'action_name' => 'CopyNode',
-                                    'description_template' => 'design:content/browse_move_node.tpl',
+                                    'description_template' => 'design:content/browse_copy_node.tpl',
                                     'keys' => array( 'class' => $class->attribute( 'id' ),
                                                      'class_id' => $class->attribute( 'identifier' ),
                                                      'classgroup' => $class->attribute( 'ingroup_id_list' ),
