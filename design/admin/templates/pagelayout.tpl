@@ -5,7 +5,7 @@
 <head>
 {include uri="design:page_head.tpl"}
 
-{cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id)}
+{* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
 {* Cache header for each navigation part *}
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
@@ -91,6 +91,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {/section}
     </div></li>
+{section show=eq(ezpreference('interface_mode'),'advanced')}
     <li><div>
     {* Shop menu *}
     {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
@@ -107,6 +108,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     {include uri="design:page_menuheadgray.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {/section}
     </div></li>
+{/section}
     <li><div>
     {* Personal *}
     {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
@@ -120,7 +122,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </div>
 </div>
 
-{/cache-block}
+{* /cache-block *}
 
 <hr class="hide" />
 
