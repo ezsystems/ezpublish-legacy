@@ -298,7 +298,7 @@
     </message>
     <message>
         <source>Post</source>
-        <translation>Spedisci</translation>
+        <translation>Invio</translation>
     </message>
     <message>
         <source>Author</source>
@@ -4926,87 +4926,87 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     </message>
     <message>
         <source>All caches were cleared.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le cache sono state svuotate.</translation>
     </message>
     <message>
         <source>Cache collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Raccolte cache</translation>
     </message>
     <message>
         <source>Click a button to clear a collection of caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clicca un pulsante per svuotare una raccolta di cache.</translation>
     </message>
     <message>
         <source>All caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le cache.</translation>
     </message>
     <message>
         <source>All caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le cache</translation>
     </message>
     <message>
         <source>All caches are disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le cache sono disabilitate</translation>
     </message>
     <message>
         <source>Content views and template blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache Vista contenuto e Blocchi template.</translation>
     </message>
     <message>
         <source>Content caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache contenuto</translation>
     </message>
     <message>
         <source>Content caches is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache contenuto disabilitata</translation>
     </message>
     <message>
         <source>Template overrides and template compiling.</source>
-        <translation type="unfinished"></translation>
+        <translation>Template override e template compiling.</translation>
     </message>
     <message>
         <source>Template caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache template</translation>
     </message>
     <message>
         <source>Template caches are disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache templates disabilitate</translation>
     </message>
     <message>
         <source>INI caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache files .ini.</translation>
     </message>
     <message>
         <source>INI caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache files .ini</translation>
     </message>
     <message>
         <source>INI cache is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La cache dei files .ini  è disabilitata</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nome</translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selezione</translation>
+        <translation>Selezione</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished">Disabilitato</translation>
+        <translation>Disabilitato</translation>
     </message>
     <message>
         <source>Clear selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Svuota le cache selezionate</translation>
     </message>
     <message>
         <source>Content view cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache Vista contenuto</translation>
     </message>
 </context>
 <context>
@@ -6152,7 +6152,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site packages</source>
@@ -6164,6 +6164,10 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7236,7 +7240,7 @@ To fix this problem you must do one of the following:</source>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation>Il tuo account è stato creato con successo. Un&apos; e-mail ti sarà inviata all&apos; indirizzo e-mail specificato. Occorre seguire le istruzioni specificate nell&apos; e-mail per attivate il tuo account.</translation>
+        <translation>Il tuo account è stato creato con successo. Un&apos; e-mail ti sarà inviata all&apos; indirizzo e-mail specificato. Occorre seguire le istruzioni specificate nell&apos; e-mail per attivare il tuo account.</translation>
     </message>
     <message>
         <source>You need to log in to get access to the intranet.</source>
