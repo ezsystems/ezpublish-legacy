@@ -41,7 +41,8 @@ eZ publish 3 requires two programs to create and maintain translations, <b>ezlup
 </p>
 
 
-<h4>Building the program</h4>
+
+<h2>Building the program</h2>
 
 <p>
 The linguist is not provided with eZ publish 3, as this is distributed in the <b>Qt</b> library available from <a href="http://www.trolltech.com">Trolltech</a>.
@@ -74,7 +75,8 @@ If everything went ok, the binary will be found in <b>bin/linux</b> under the ma
 </p>
 
 
-<h4>Making translations</h4>
+
+<h2>Making translations</h2>
 
 <p>
 First of all, you must decide the locale code of your language. eZ publish 3 uses locale codes on the form <b>aaa-AA</b>, where the 3 first lowercase letters describe the language, while the last two uppercase letter describe the country in which the language is spoken. For instance, English as it is spoken in Great Britain would be eng-GB, while US English is eng-US.
@@ -149,6 +151,49 @@ To install a translation, simply unpack the package and set the appropriate entr
 </p>
 
 <p>
-Currently, only the admin interface is translated. Read part on for information on how to translate other templates or strings in PHP code.
+Currently, only the admin interface is translated. Read on for information on how to translate other templates or strings in PHP code.
 </p>
 
+
+
+<h2>Making i18n-friendly templates</h2>
+
+<p>
+All user-visible strings in templates should be embedded in the <b>i18n operator</b>. All such strings can be translated in the linguist. The i18n operator is used like this:
+</p>
+
+<pre class="example">
+&lt;b&gt;{"This text can be translated"|i18n("design/mydesign/path")}&lt;/b&gt;
+&lt;input type="submit" name="MyButton" value="{'My Cool Button'|i18n('design/mydesign/path')}" /&gt;
+{include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Click to remove"|i18n("design/mydesign/path")}
+</pre>
+
+<p>
+The path in this example, design/mydesign/path, is used as a <b>context</b>. It is by this context that the strings are sorted in the linguist. The context does not have to be the actual path to the template file in question, but it can be useful. See the templates of the admin interface for examples.
+</p>
+
+<p>
+You can also add an optional <b>comment</b> as a second argument to the i18n operator. Such comments are shown in the linguist. Use this for instance to explain how a word is used, this can be helpful for translators.
+</p>
+
+<p>
+The i18n operator calls the <b>ezi18n()</b> function in <b>kernel/common/i18n.php</b>. If translation is not enabled in settings/site.ini, then it will simply output the source it is given. Otherwise, it will look up the string in the corresponding .ts file.
+</p>
+
+
+
+<h2>Making i18n-friendly PHP code</h2>
+
+<p>
+All user-visible strings in PHP-code should be embedded in the ezi18n() function. It is used like this:
+</p>
+
+<pre class="example">
+$myObject->myFunction( ezi18n( 'kernel/classes/datatypes',
+                               'Input is not integer.',
+                               'eZIntegerType' ) );
+</pre>
+
+<p>
+The first argument is the context, the second is the text to be translated, and the third is an optional comment. See for instance kernel/classes/datatypes/ezinteger/ezintegertype.php for examples.
+</p>
