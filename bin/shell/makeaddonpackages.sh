@@ -116,7 +116,7 @@ fi
 # Forum addon
 
 if [[ -z $ADDON || $ADDON = 'forum' ]]; then
-    site='files'
+    site='forum'
     "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	-ladmin -ppublish \
 	create $site "Forum" "$VERSION" -- \
