@@ -65,11 +65,17 @@ MatchFile=infopage.tpl
 Subdir=templates
 Match[class]=10
 
+[edit_article]
+Source=content/edit.tpl
+MatchFile=edit/article.tpl
+Subdir=templates
+Match[class_identifier]=article
+
 [edit_file]
 Source=content/edit.tpl
 MatchFile=edit_file.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
 
 [image]
 Source=node/view/full.tpl

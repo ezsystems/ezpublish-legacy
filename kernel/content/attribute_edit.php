@@ -260,9 +260,10 @@ $tpl->setVariable( 'validation_log', $validatedAttributes );
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
 $res =& eZTemplateDesignResource::instance();
 
-$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'class', $class->attribute( 'id' ) ) // Class ID
-                      ) ); // Section ID
+$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                      array( 'class', $class->attribute( 'id' ) ),
+                      array( 'class_identifier', $class->attribute( 'identifier' ) )
+                      ) );
 
 if ( !isset( $OmitSectionSetting ) )
     $OmitSectionSetting = false;

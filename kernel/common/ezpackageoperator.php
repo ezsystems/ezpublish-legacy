@@ -85,15 +85,18 @@ class eZPackageOperator
         {
             case 'filepath':
             {
-                $variableName = $namedParameters['data'];
-                $fileList = $operatorValue->fileList( 'default' );
-                foreach ( array_keys( $fileList ) as $key )
+                if ( get_class( $operatorValue ) == 'ezpackage' )
                 {
-                    $file =& $fileList[$key];
-                    $fileIdentifier = $file["variable-name"];
-                    if ( $fileIdentifier == $variableName )
+                    $variableName = $namedParameters['data'];
+                    $fileList = $operatorValue->fileList( 'default' );
+                    foreach ( array_keys( $fileList ) as $key )
                     {
-                        $operatorValue = $operatorValue->fileItemPath( $file, 'default' );
+                        $file =& $fileList[$key];
+                        $fileIdentifier = $file["variable-name"];
+                        if ( $fileIdentifier == $variableName )
+                        {
+                            $operatorValue = $operatorValue->fileItemPath( $file, 'default' );
+                        }
                     }
                 }
             } break;
