@@ -77,8 +77,10 @@ $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObjec
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
                       array( 'class', $class->attribute( 'id' ) ), // Class ID
-//                       array( 'section', $contentObject->attribute( 'section_id' ) ),
                       array( 'viewmode', 'full' ) ) ); // Section ID
+
+include_once( 'kernel/classes/ezsection.php' );
+eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version_attributes', $versionAttributes );

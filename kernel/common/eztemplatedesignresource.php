@@ -165,17 +165,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     preg_match( "#^(.+)/(.+)(\.tpl)$#", $tpl_path, $regs );
                     foreach ( $match_keys as $match_key )
                     {
-                        $match_key_name = $match_key[0];
-                        $match_key_val = $match_key[1];
-                        $file = $regs[1] . "/" . $regs[2] . "_$match_key_name" . "_$match_key_val" . $regs[3];
-                        if ( file_exists( $file ) )
+                        if ( count( $match_key ) >= 2 )
                         {
-                            $match = $tpl_match;
-                            $match["file"] = $file;
-                            $foundOverrideFile = true;
-                            $matchedKeys[$match_key_name] = $match_key_val;
+                            $match_key_name = $match_key[0];
+                            $match_key_val = $match_key[1];
+                            $file = $regs[1] . "/" . $regs[2] . "_$match_key_name" . "_$match_key_val" . $regs[3];
+                            if ( file_exists( $file ) )
+                            {
+                                $match = $tpl_match;
+                                $match["file"] = $file;
+                                $foundOverrideFile = true;
+                                $matchedKeys[$match_key_name] = $match_key_val;
 //                             eZDebug::writeNotice( "Match found, using override " . $match["file"]  );
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

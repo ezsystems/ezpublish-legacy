@@ -96,6 +96,60 @@ class eZSection extends eZPersistentObject
     }
 
     /*!
+     Makes sure the global section ID is propagated to the template override key.
+    */
+    function initGlobalID()
+    {
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $sectionArray = array();
+        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
+            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+        if ( !isset( $sectionArray['id'] ) )
+            return false;
+        $sectionID = $sectionArray['id'];
+
+        include_once( 'kernel/common/eztemplatedesignresource.php' );
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'section', $sectionID ) ) );
+//         print( "init section=$sectionID<br/>" );
+        return true;
+    }
+
+    /*!
+     Sets the current global section ID to \a $sectionID in the session and
+     the template override key.
+    */
+    function setGlobalID( $sectionID )
+    {
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $sectionArray = array();
+        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
+            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+        $sectionArray['id'] = $sectionID;
+        eZHTTPTool::setSessionVariable( 'eZGlobalSection', $sectionArray );
+
+        include_once( 'kernel/common/eztemplatedesignresource.php' );
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'section', $sectionID ) ) );
+//         print( "section=$sectionID<br/>" );
+    }
+
+    /*!
+     \return the global section ID or \c null if it is not set yet.
+    */
+    function globalID()
+    {
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
+        {
+            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+            if ( isset( $sectionArray['id'] ) )
+                return $sectionArray['id'];
+        }
+        return null;
+    }
+
+    /*!
      Will remove the current section from the database.
     */
     function remove( )

@@ -115,7 +115,10 @@ $versions =& $object->versions();
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
 //                       array( "class", $class->attribute( "id" ) ), // Class ID
-                      array( "section", 0 ) ) ); // Section ID, 0 so far
+                      ) ); // Section ID, 0 so far
+
+include_once( 'kernel/classes/ezsection.php' );
+eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
 $tpl->setVariable( "object", $object );
 

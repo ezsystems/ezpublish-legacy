@@ -115,6 +115,9 @@ $use_external_css = true;
 $show_page_layout = true;
 $moduleRunRequired = true;
 
+include_once( 'kernel/classes/ezsection.php' );
+eZSection::initGlobalID();
+
 while ( $moduleRunRequired )
 {
     $nodePathString = $uri->elements();

@@ -211,9 +211,11 @@ $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attr
 $res =& eZTemplateDesignResource::instance();
 
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'class', $class->attribute( 'id' ) ), // Class ID
-                      array( 'section', $object->attribute( 'section_id' ) )
+                      array( 'class', $class->attribute( 'id' ) ) // Class ID
                       ) ); // Section ID
+
+include_once( 'kernel/classes/ezsection.php' );
+eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'http', $http );
