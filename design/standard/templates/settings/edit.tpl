@@ -22,7 +22,7 @@
     {/section}
     <p>INI File: {$ini_file}</p>
     <p>SiteAccess: {$current_siteaccess}</p>
-    <p>[DEBUG] VALUE: {$value}</p>
+    {*<p>[DEBUG] VALUE: {$value}</p>*}
     <div class="block">
         <div class="element">
             <label>Change setting type</label><div class="labelbreak"></div>
