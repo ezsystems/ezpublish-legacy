@@ -13,6 +13,7 @@ Changes from 3.2-2 to 3.2-3
 - Fixed the path from content/edit to show the path of main assignment if possible.
   This should help figuring out where the object goes with custom made edit templates
   where the path selection is hidden.
+- Added != (not equal) to the list of possible operators in attribute sorting and filtering.
 
 *DataType:
 

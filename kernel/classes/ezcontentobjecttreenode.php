@@ -796,6 +796,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $filterOperator = '=';
                         }break;
 
+                        case '!=' :
+                        {
+                            $filterOperator = '<>';
+                        }break;
+
                         case '>' :
                         {
                             $filterOperator = '>';
@@ -1267,6 +1272,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case '=' :
                         {
                             $filterOperator = '=';
+                        }break;
+
+                        case '!=' :
+                        {
+                            $filterOperator = '<>';
                         }break;
 
                         case '>' :
