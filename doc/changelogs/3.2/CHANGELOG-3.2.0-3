@@ -1,0 +1,77 @@
+Changes from 3.2.0-2 to 3.2-1 (3.2.0-3)
+
+*Kernel:
+- Added mapping from class/attribute string to attribute id in attribute filtering and sorting.
+- Added alphabetic sorting of role list.
+- Made sure tiff files support the .tif extension as well.
+- Made sure removal of objects cleaned up the url alias table correctly.
+- Made sure newly created objects would remove old aliases with the same name from the alias table.
+- Renamed the packages corporate_site to corporate and news_site to news.
+- Changed title path listing to show the path in reverse, this makes the title better for bookmarking.
+
+*Bugfixes:
+- Fixed malfunctioning string/array operators
+- Fixed showing correct title for object relation datatype
+- Fixed setup safe mode test, http://ez.no/developer/ez_publish_3/bug_reports/ez_setup_tests
+- Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
+- Fixed using datatype enum as object pattern name in classes
+- Fixed problem with object discard, http://ez.no/developer/ez_publish_3/bug_reports/problem_with_object_discard
+- Fixed bug Gest (logged in) users cannot manage their bookmarks
+- Fixed url checking of email adresses
+  http://ez.no/developer/ez_publish_3/bug_reports/cronjobslinkcheckphp
+- Fixed problem with attribute filtering when attribute sorting weren't used.
+  http://ez.no/developer/ez_publish_3/bug_reports/filtering_and_sorting_problems
+- Fixed bug of user can't read own account information using policy read Class( User ), Owner( Self ).
+- Fixed bug with notification system crashing when dirty data is present in the database.
+  http://ez.no/developer/ez_publish_3/bug_reports/notification_crashes
+- Fixed bug in the generateoverridesettings.php script for upgrading override templates from 3.0 to 3.1
+- Fixed bug with phrase search
+  http://ez.no/developer/ez_publish_3/bug_reports/problem_with_phrase_search
+- Fixed storing SMTP settings during setup, http://ez.no/developer/ez_publish_3/bug_reports/setup_does_not_store_smtp_settings
+- Fixed problem with new template creation
+  http://ez.no/developer/ez_publish_3/bug_reports/template_creation_does_not_create_missing_dirs
+- Fixed showing correct title for selection datatype
+  http://ez.no/developer/ez_publish_3/bug_reports/value_of_datatype_ezselection_not_usable_as_content_object_name_pattern
+- Made sure all fopen used 'rb' when opening, this avoids problems with MS Windows
+  converting newlines in files.
+- Fixed using whitespace in convert path
+  http://ez.no/developer/ez_publish_3/bug_reports/convert_doesnt_work_when_located_in_a_directory_with_spaces_on_windows
+- Fixed bug when creating new templates (in admin) for site accesses with different name than the site design
+
+*Setup:
+- Var directory is now separate for each installed package, this avoids the cache and storage conflict.
+- Made sure gallery files are placed in the var/gallery directory instead of var.
+- The database dropdown in site details will now recognize databasenames that match the package name,
+  if no match is found it assigns one unique database to each package.
+- Updated setup texts
+- Added .windows and .linux detection to recognize use of windows or linux installers (apache, mysql, etc)
+- Removed unused code
+- Fixed url bug using windows installer
+- Changed setup width to 780 pixels
+
+*Templates:
+- Added user/settings/<uID> into user admin user (class) template
+
+*Library :
+
+eZ utils:
+- The session will now listen to the session-required in the site basics when it decides to start the session or not.
+- Made sure the superglobal $_SESSION variable is used instead of session_register etc.
+  for handling session variables in eZHTTPTool.
+
+eZ locale:
+- Fixed sorting of the locale list, it was currently not work.
+
+eZ webdav:
+- Misc. webdav fixes: NVH compatibility; support for foreign languages (content) + some other stuff
+- Misc. webdav fixes: support for rename of files, better stability and security
+- Renamed index_webdav.php to webdav.php.
+- Moved content webdav server from library and into kernel/classes/webdav
+
+*Translations:
+- Fixed and added Hungarian translation
+- Updated Norwegian translation.
+- Added updated Swedish translation.
+
+*Misc:
+- Added the ezpublish.cron crontab file that takes care of running the runcronjobs.php script every 15th minute.

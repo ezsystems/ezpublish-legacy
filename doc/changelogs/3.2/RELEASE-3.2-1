@@ -1,0 +1,33 @@
+Release notes for 3.2-1
+
+- Several improvements to the execution speed.
+- New and improved administrator interface.
+- New datatypes eZSelection, eZRangeOption, eZMatrix and eZObjectRelationList.
+- A new set of template operators for working on strings and arrays.
+- Improved attribute support in the filtering and sorting of content objects.
+- New translations for Italian, Hungarian and Danish. Updated translations for
+  Norwegian, Russian, Chinese and Swedish.
+- Improved URL translation system which allows for manually entered urls as well
+  as the automatically generated URLs from content objects. The system will also
+  remember old urls so visitors of your site will always be up to date, this means
+  no more broken bookmarks or links from search engines.
+- New system for binary file indexing, now all files added to the content tree will be 
+  available in the search engine instantly.
+- The setup has been given an overhaul with new help texts, better user interface and
+  new package system.
+- Improved approval handling, it will send out notifications for new approvals and
+  has some improved views for approval objects.
+- New WebDAV library and special implementation for the content tree in eZ publish. This means
+  that you can use a WebDAV client (eg. IE or Konqueror) to browse an eZ publish site.
+- Improved eZUser handling, users can now be fetched from external sources and synched to the
+  eZ publish user tree. Implementations for LDAP and text files are included.
+- A new command line utility for managing packages (ezpm.php) has been created. It will allow you
+  to export your content classes and import them on another site. This system is now also
+  the basis for the sites you choose in the setup.
+- New script functionality which has been integrated with all scripts in eZ publish making them
+  easier to use as well as making it easier to maintain them. Try -h or --help on all scripts
+  to see new possible options.
+- The old API reference view has been brought in a similar way as it was in the old SDK.
+  To access it you must enter the url reference/view/ez
+- Several improvements to the existing code, user interface and stability. Read the full changelog
+  for more detailed information on this.

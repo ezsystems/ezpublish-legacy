@@ -1,19 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name> {attribute_view_gui attribute=$content_object.data_map.byline</name>
-    <message>
-        <source>Av</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>:&lt;/b&gt; {$article_info.block_count</name>
-    <message>
-        <source>Pages</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -101,146 +87,127 @@
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Медиа</translation>
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Закладки</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>История</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой список ожидания</translation>
     </message>
     <message>
         <source>My notification settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Установки уведомлений</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Мои закладки</translation>
     </message>
     <message>
         <source>Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаблоны</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслятор URL</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление URL</translation>
     </message>
     <message>
         <source>RAD</source>
         <comment>Rapid Application Development</comment>
-        <translation type="unfinished"></translation>
+        <translation>RAD</translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка расширений</translation>
     </message>
     <message>
         <source>Cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Кеш</translation>
     </message>
     <message>
         <source>Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакеты</translation>
     </message>
     <message>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомление</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о системе</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
     <message>
         <source>Article</source>
-        <translation type="unfinished"></translation>
+        <translation>Статья</translation>
     </message>
     <message>
         <source>Placed in</source>
-        <translation type="unfinished"></translation>
+        <translation>Помещена в</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Комментарий</translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Папка</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Форум</translation>
     </message>
     <message>
         <source>Forum message</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение в форуме</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение</translation>
     </message>
     <message>
         <source>Info page</source>
-        <translation type="unfinished"></translation>
+        <translation>Инфо страница</translation>
     </message>
     <message>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Ссылка</translation>
     </message>
     <message>
         <source>Product</source>
-        <translation type="unfinished">Товар</translation>
+        <translation>ТоварТовар</translation>
     </message>
     <message>
         <source>Product review</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о товаре</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">Пользователь</translation>
+        <translation>ПользовательПользователь</translation>
     </message>
     <message>
         <source>Also part of these groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Также член следущих групп</translation>
     </message>
     <message>
         <source>User group</source>
-        <translation type="unfinished">Группа пользователя</translation>
-    </message>
-</context>
-<context>
-    <name>design/npk</name>
-    <message>
-        <source>Words</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Photos</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The content object %1 cannot be downloaded. Downloading is not support for %2.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The content object %1 cannot be export to NITF format. Export is not support for %2.</source>
-        <translation type="obsolete"></translation>
+        <translation>Группа пользователя</translation>
     </message>
 </context>
 <context>
@@ -418,51 +385,51 @@
     </message>
     <message>
         <source>Default number of rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество строк по умолчанию</translation>
     </message>
     <message>
         <source>Matrix Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Столбец матрицы</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Идентификатор</translation>
+        <translation>Идентификатор</translation>
     </message>
     <message>
         <source>New Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая колонка</translation>
     </message>
     <message>
         <source>Allowed classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешенные классы</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished">Любой</translation>
+        <translation>Любой</translation>
     </message>
     <message>
         <source>Default placement for objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Расположение объектов по умолчанию</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
+        <translation>Новые объекты будут помещены в %nodename</translation>
     </message>
     <message>
         <source>New objects will not be placed in the content tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Новые объекты не будут помещены в дерево сайта</translation>
     </message>
     <message>
         <source>Select placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите размещение</translation>
     </message>
     <message>
         <source>Disable placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить размещение</translation>
     </message>
     <message>
         <source>New option</source>
-        <translation type="unfinished">Новая опция</translation>
+        <translation>Новая опция</translation>
     </message>
 </context>
 <context>
@@ -474,10 +441,6 @@
     <message>
         <source>Created by</source>
         <translation type="obsolete">Создан</translation>
-    </message>
-    <message>
-        <source>on</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Modified by</source>
@@ -653,27 +616,27 @@
     </message>
     <message>
         <source>Editing class - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование класса %1</translation>
     </message>
     <message>
         <source>Last modified by %username on %time</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний раз было отредактированно %username в %time</translation>
     </message>
     <message>
         <source>Disable translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить перевод</translation>
     </message>
     <message>
         <source>Editing class group - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование группы классов %1</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation type="unfinished"></translation>
+        <translation>Измененно %username в %time</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -725,10 +688,6 @@
     <message>
         <source>New group</source>
         <translation>Новая группа</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -878,7 +837,7 @@
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Итоги</translation>
     </message>
 </context>
 <context>
@@ -969,30 +928,33 @@
     </message>
     <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете отредактировать  черновик и опубликовать еще раз, в этом случае необходимо еще одно подтверждение.</translation>
     </message>
     <message>
         <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
-        <translation type="unfinished"></translation>
+        <translation>Автор может отредактировать черновик снова,  в таком случае будет создан новый запрос на подтверждение.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Подтверждение &quot;%objectname&quot; требует вашего внимания</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщение информирует вас о том, что  &quot;%objectname&quot; ждет вашего потдверждения на %sitename.
+Процесс публикации был приостановлен и зависит от вас, продолжить его или остановить.
+Просмотреть возможно воспользовавшись ссылкой внизу.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] &quot;%objectname&quot;  ждет подтверждения</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщение иформирует вас о том, что &quot;%objectname&quot; ждет вашего подтверждения на %sitename перед тем как будет опубликован.
+Если вы хотите отправить комментарий редактору или посмотреть статус, используйте ссылку внизу.</translation>
     </message>
 </context>
 <context>
@@ -1083,19 +1045,19 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление &apos;%1&apos; приведет к удалению самого перевода и %2 переведенных версий!</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation type="unfinished"></translation>
+        <translation>URL транслятор</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
 </context>
 <context>
@@ -1484,35 +1446,35 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>MIME-Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип MIME</translation>
     </message>
     <message>
         <source>New row</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая строка</translation>
     </message>
     <message>
         <source>Replace object</source>
-        <translation type="unfinished"></translation>
+        <translation>Заменить объект</translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation type="unfinished">Удалить объект</translation>
+        <translation>Удалить объект</translation>
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый объект класса %classname</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить %classname</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать объекты</translation>
     </message>
     <message>
         <source>Remove objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить объекты</translation>
     </message>
 </context>
 <context>
@@ -1711,11 +1673,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать %1 - %2</translation>
     </message>
     <message>
         <source>New draft</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый черновик</translation>
     </message>
 </context>
 <context>
@@ -1723,10 +1685,6 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Advanced search</source>
         <translation>Расширенный поиск</translation>
-    </message>
-    <message>
-        <source>No results were found when searching for:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search for:</source>
@@ -1741,44 +1699,16 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="obsolete">совпадений</translation>
     </message>
     <message>
-        <source>Search all the words:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Search the exact phrase:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Search with at least one of the words:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Class:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Any class</source>
         <translation>Любой класс</translation>
-    </message>
-    <message>
-        <source>Class attribute:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Update attributes</source>
         <translation>Обновить атрибуты</translation>
     </message>
     <message>
-        <source>In:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Any section</source>
         <translation>Любая секция</translation>
-    </message>
-    <message>
-        <source>Published:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Any time</source>
@@ -1862,52 +1792,52 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Display per page</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать на страницу</translation>
     </message>
     <message>
         <source>5 items</source>
-        <translation type="unfinished"></translation>
+        <translation>5 совпадений</translation>
     </message>
     <message>
         <source>10 items</source>
-        <translation type="unfinished"></translation>
+        <translation>10 совпадений</translation>
     </message>
     <message>
         <source>20 items</source>
-        <translation type="unfinished"></translation>
+        <translation>20 совпадений</translation>
     </message>
     <message>
         <source>30 items</source>
-        <translation type="unfinished"></translation>
+        <translation>30 совпадений</translation>
     </message>
     <message>
         <source>50 items</source>
-        <translation type="unfinished"></translation>
+        <translation>50 совпадений</translation>
     </message>
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation type="unfinished">Для большего колличества опций попробуйте %1Расширенный поиск%2</translation>
+        <translation>Для большего колличества опций попробуйте %1Расширенный поиск%2</translation>
     </message>
     <message>
         <source>Search tips</source>
-        <translation type="unfinished"></translation>
+        <translation>Подсказки к поиску</translation>
     </message>
     <message>
         <source>Check spelling of keywords.</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверте написание ключевых слов.</translation>
     </message>
     <message>
         <source>Try changing some keywords eg. car instead of cars.</source>
-        <translation type="unfinished"></translation>
+        <translation>Попробуйте изменить некоторые слова, например: машина вместо машины.</translation>
     </message>
     <message>
         <source>Try more general keywords.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте более общие ключевые слова.</translation>
     </message>
     <message>
         <source>Fewer keywords gives more results, try reducing keywords until you get a result.</source>
-        <translation type="unfinished"></translation>
+        <translation>Меньшее количество ключевых слов дает большее количество совпадений, попытайтесь уменьшить количество ключевых слов.</translation>
     </message>
 </context>
 <context>
@@ -1988,24 +1918,8 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="obsolete">Пеевод</translation>
     </message>
     <message>
-        <source>Input did not validate</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>input was stored successfully</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Remove the following translations from</source>
         <translation type="obsolete">Удалить следущие переводу из</translation>
-    </message>
-    <message>
-        <source>Locale:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>(No locale information available)</source>
@@ -2020,10 +1934,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Нет</translation>
     </message>
     <message>
-        <source>Translate into:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
@@ -2036,16 +1946,8 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Перевести</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Store</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Edit Object</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>%1 input was stored successfully</source>
@@ -2069,11 +1971,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Translating &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевод &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Remove the following translations from &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить следующий перевод из &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -2112,15 +2014,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать все</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Убрать выделение</translation>
     </message>
     <message>
         <source>Empty Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить корзину</translation>
     </message>
 </context>
 <context>
@@ -2174,14 +2076,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Изменено:</translation>
     </message>
     <message>
-        <source>Object Edit</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
@@ -2191,27 +2085,27 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Версии %1</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия %1 недоступна для редактирования, только черновики могут быть отредактированны.</translation>
     </message>
     <message>
         <source>Version %1 was not created by you, only your own drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия %1 была создана не вами, только собственные черновики могут быть изменены.</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно создать новую версию</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Предел размера истории версий был достигнут и невозможно удалить заархивированые версии.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете изменить установки истории версий в content.ini, удалите черновики или редактируйте существующий черновик.</translation>
     </message>
 </context>
 <context>
@@ -2334,7 +2228,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите первоначальное располдожение</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -2342,58 +2236,64 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите где вы хотите разместить новый объект класса %classname.
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Мои закладки</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это объекты, для которых вы сделали закладки. Кликните на объекте для просмотра, и если вы обладаете достаточными полномочиями, вы можете отредактировать объект6 нажав кнопку редактирования.
+Если вы хотите добавить объекты в этот список нажмите кнопку %addbutton.
+Удаление объектов удалит их только из этоко списка.</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить закладки</translation>
     </message>
     <message>
         <source>You have no bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>У вас нет закладок</translation>
     </message>
     <message>
         <source>Up one level</source>
-        <translation type="unfinished"></translation>
+        <translation>Вверх на один уровень</translation>
     </message>
     <message>
         <source>Top levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Объекты верхнего уровня</translation>
     </message>
     <message>
         <source>Switch top levels by clicking one of these items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключите верхние элементы, кликнув на один из этих.</translation>
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Закладки</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation type="unfinished"></translation>
+        <translation>Закладки могут быть отредактировны используя %bookmarkname в разделе %personalname.</translation>
     </message>
     <message>
         <source>Recent items</source>
-        <translation type="unfinished"></translation>
+        <translation>Недавно использованные</translation>
     </message>
     <message>
         <source>Recent items are added on publishing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Недавно использованные объекты добавленны при публикации.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите элементы для закладок</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -2401,11 +2301,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите объекты, которые вы хотите добавить в закладки
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Choose new placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите новое расположение</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -2414,11 +2318,16 @@ If you wish to send comments to the approver or view the status use the URL belo
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите новое расположение для %name.
+Предыдущее расположение было в %placementname.
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Choose placements</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите расположение</translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -2426,11 +2335,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите место, где вы хотите поместить %name.
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите родственные объекты</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -2438,36 +2351,41 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите объекты, которые вы хотите присоединить к %name.
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать все</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Убрать выделение</translation>
     </message>
     <message>
         <source>Empty Draft</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить черновики</translation>
     </message>
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это текущие объекты над которыми вы работаете. Черновики принадлежат вам и только вы можете их просмотреть.
+Вы можете отредактировать черновики, или удалить их, если они вам больше не нужны.</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний раз изменен</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой список ожидания</translation>
     </message>
     <message>
         <source>Your pending list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш список ожидания пуст</translation>
     </message>
 </context>
 <context>
@@ -2489,24 +2407,8 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Модуль не найден</translation>
     </message>
     <message>
-        <source>The requested module</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>could not be found.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>View not found</source>
         <translation>Вид не найден</translation>
-    </message>
-    <message>
-        <source>The requested view</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>could not be found in module:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unavailable</source>
@@ -2534,121 +2436,121 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Possible reasons for this is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Возможные причины для этого.</translation>
     </message>
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш пользователь не обладает необходимыми привелегиями для доступа к этой странице.</translation>
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы не авторизированы на этом сайте, для получение необходимого доступа создайте нового пользователя или войдите используя существующего.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы допустили ошибку в части адреса, попробуйте изменить его.</translation>
     </message>
     <message>
         <source>The resource you requested was not found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваемый вами ресурс не может быть найден.</translation>
     </message>
     <message>
         <source>The the id or name of the resource was misspelled, try changing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильное имя или идентификатор ресурса, побробуйте исменить его.</translation>
     </message>
     <message>
         <source>The resource longer exists on the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Русурс более не доступен на сайте.</translation>
     </message>
     <message>
         <source>The requested module %module could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваемый мдуль %module не может быть найден.</translation>
     </message>
     <message>
         <source>The module name was misspelled, try changing the url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильное имя модуля, попробуйте изменить адрес.</translation>
     </message>
     <message>
         <source>The module does not exist on this site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль не существует на данном сайте.</translation>
     </message>
     <message>
         <source>This site uses siteaccess matching in the url and you didn&apos;t supply one, try inserting a siteaccess name before the module in the url .</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот сайт использует совпадение типа доступа к сайту (siteaccess matching) в url, и вы не указали его, попробуйте указать имя типа доступа перед названием модуля в в адресе.</translation>
     </message>
     <message>
         <source>The requested view %view could not be found in module %module</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваемый вид %view  не может быть найден в модуле %module</translation>
     </message>
     <message>
         <source>The view name was misspelled, try changing the url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильное имя вида, попробуйте изменить адрес.</translation>
     </message>
     <message>
         <source>The view does not exist for the module %module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид не существует в модуле %module.</translation>
     </message>
     <message>
         <source>View is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид отключен</translation>
     </message>
     <message>
         <source>The view %module/%view is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид %module/%view отключен и не доступен.</translation>
     </message>
     <message>
         <source>Module is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль отключен</translation>
     </message>
     <message>
         <source>The module %module is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Модуль %module отключен и недоступен.</translation>
     </message>
     <message>
         <source>Object is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект недоступен</translation>
     </message>
     <message>
         <source>The object you requested is not currently available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект который вы запросили в данный момент недоступен.</translation>
     </message>
     <message>
         <source>The id or name of the object was misspelled, try changing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Идентификатор или имя объекта было написано неправильно, попробуйте изменить их.</translation>
     </message>
     <message>
         <source>The object is no longer available on the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект более не существует на данном сайте.</translation>
     </message>
     <message>
         <source>Object moved</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект перемещен</translation>
     </message>
     <message>
         <source>The object is no longer available at this URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект более недоступен по данному URL.</translation>
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы должны били быть автоматически перенаправлены в новое местоположение. Если нет кликните %url.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/form</name>
     <message>
         <source>Thank you for your feedback</source>
-        <translation type="unfinished"></translation>
+        <translation>Спасибо за ваш отзыв</translation>
     </message>
     <message>
         <source>Your information was successfully received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваша информация была успешно получена.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/gui</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -2859,19 +2761,19 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>%sitetitle front page</source>
-        <translation type="unfinished"></translation>
+        <translation>Заглавная страница %sitetitle</translation>
     </message>
     <message>
         <source>Search %sitetitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск %sitetitle</translation>
     </message>
     <message>
         <source>eZ publish redirection - %url</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish перенаправление  %url</translation>
     </message>
     <message>
         <source>Redirecting to %url</source>
-        <translation type="unfinished"></translation>
+        <translation>Перенаправление на %url</translation>
     </message>
 </context>
 <context>
@@ -2888,26 +2790,6 @@ If you wish to send comments to the approver or view the status use the URL belo
 <context>
     <name>design/standard/node</name>
     <message>
-        <source>Are you sure you want to remove</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>from node</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Removing this assignment will also remove it&apos;s</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>!</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Removing node assignment of</source>
         <translation type="obsolete">Удаление привязки к узлу </translation>
     </message>
@@ -2918,18 +2800,6 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Cancel</source>
         <translation>Отменить</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this(these) node(s)?</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Removing</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>will remove the node itself and it&apos;s</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The following items were removed from your basket, because the products were changed</source>
@@ -2961,42 +2831,22 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление привязки удалит также %1 дочерних элемента.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление привязки к узлу %1</translation>
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление %1 приведет к удалению самого узла и  %2 его дочерних узлов. %3</translation>
     </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
     <message>
-        <source>m.nam</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Изменить</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Class:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Sorting:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Update</source>
@@ -3017,22 +2867,6 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Site map</source>
         <translation>Карта сайта</translation>
-    </message>
-    <message>
-        <source>Object:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Section ID:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>You are not allowed to create child objects</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name</source>
@@ -3068,35 +2902,35 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Предвар. просмотр</translation>
     </message>
     <message>
         <source>Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Закладка</translation>
     </message>
     <message>
         <source>Keep me updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомляйте меня об изменениях</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать все</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation type="unfinished"></translation>
+        <translation>Убрать выделение</translation>
     </message>
     <message>
         <source>Click to create a custom template</source>
-        <translation type="unfinished"></translation>
+        <translation>Кликните для создания шаблона</translation>
     </message>
     <message>
         <source>Add to Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в закладки</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомляйте меня об изменениях</translation>
     </message>
 </context>
 <context>
@@ -3182,10 +3016,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="obsolete">Имя класса:</translation>
     </message>
     <message>
-        <source>Path:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Keyword:</source>
         <translation type="obsolete">Ключевое слово:</translation>
     </message>
@@ -3224,116 +3054,119 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы больше не хотите получать эти уведомления ,
+измените настройки на:</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation type="unfinished"></translation>
+        <translation>Система рассылки %sitename </translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Новое сообщение</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщение информирует вас о новом элементе совместной работы ждущем вашего внимания на %sitename.
+Элемент может быть просмотрен используя ссылку ниже.</translation>
     </message>
     <message>
         <source>Receive all messages combined in one digest</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы хотите получать сообщения объединенные в одно сообщение</translation>
     </message>
     <message>
         <source>Send out</source>
-        <translation type="unfinished"></translation>
+        <translation>Посылка</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Дайджест на %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщения для того, чтобы информировать про новые элементы на %sitename.</translation>
     </message>
     <message>
         <source>Do you want to receive messages combined in digest</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы хотите получать сообщения объединенные в одно сообщение</translation>
     </message>
     <message>
         <source>Digest settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Натройки дайджеста</translation>
     </message>
     <message>
         <source>Day of the week</source>
-        <translation type="unfinished"></translation>
+        <translation>День недели</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщения для того, чтобы информировать о новостях на %sitename.</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] %classname &quot;%itemname&quot;  опубликован</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это сообщение уведомляет вас о том, что новый объект был опубликован на %sitename. 
+Вы можете просмотреть сообщение используя ссылку ниже.</translation>
     </message>
     <message>
         <source>Notification admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Администрирование уведомлений</translation>
     </message>
     <message>
         <source>Notification filter proccessed all available notification events</source>
-        <translation type="unfinished"></translation>
+        <translation>Филтр уведомоений обработал все доступные события</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
-        <translation type="unfinished"></translation>
+        <translation>Событие было запущено</translation>
     </message>
     <message>
         <source>Run notification filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск фильтра уведомлений</translation>
     </message>
     <message>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск временного события</translation>
     </message>
     <message>
         <source>Spawn</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск</translation>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Установки уведомлений</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification/collaboration</name>
     <message>
         <source>Collaboration notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомоения</translation>
     </message>
     <message>
         <source>Choose which collaboration items you wish to get notifications for.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите типы collaboration items про которые вы хотите быть уведомлены.</translation>
     </message>
 </context>
 <context>
@@ -3359,112 +3192,114 @@ The item can viewed by using the URL below.</source>
     <name>design/standard/package</name>
     <message>
         <source>Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакеты</translation>
     </message>
     <message>
         <source>The following packages are available on this system</source>
-        <translation type="unfinished"></translation>
+        <translation>Слудущие пакеты доступны</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Версия</translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Итоги</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Статус</translation>
     </message>
     <message>
         <source>Upload package</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить пакет</translation>
     </message>
     <message>
         <source>Select the file containing your package and click the upload button</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите файл содержащий ваш пакет и нажмите на кнопку загрузки</translation>
     </message>
     <message>
         <source>Install package</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить пакет</translation>
     </message>
 </context>
 <context>
     <name>design/standard/reference/ez</name>
     <message>
         <source>No generated documentation found</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найдена сгенерированая документация</translation>
     </message>
     <message>
         <source>To create the reference documentation you must do the following step</source>
-        <translation type="unfinished"></translation>
+        <translation>Для создания документации вам необходимо сделать следущее</translation>
     </message>
     <message>
         <source>Download and install doxygen</source>
-        <translation type="unfinished"></translation>
+        <translation>Скачать и установить doxygen</translation>
     </message>
     <message>
         <source>Generate the documentation by running the following command</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать документацию запустив следущую команду</translation>
     </message>
     <message>
         <source>Download doxygen from %doxygenurl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить doxygen с %doxygenurl.</translation>
     </message>
     <message>
         <source>Main</source>
-        <translation type="unfinished">Главный</translation>
+        <translation>Главный</translation>
     </message>
     <message>
         <source>Modules</source>
-        <translation type="unfinished"></translation>
+        <translation>Модули</translation>
     </message>
     <message>
         <source>Class hierarchy</source>
-        <translation type="unfinished"></translation>
+        <translation>Иерархия классов</translation>
     </message>
     <message>
         <source>Compound list</source>
-        <translation type="unfinished"></translation>
+        <translation>Составной список</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список файлов </translation>
     </message>
     <message>
         <source>Compound members</source>
-        <translation type="unfinished"></translation>
+        <translation>Составные члены</translation>
     </message>
     <message>
         <source>File members</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлеовые члены</translation>
     </message>
     <message>
         <source>Related pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Родственные страницы</translation>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished">Вступление</translation>
+        <translation>Вступление</translation>
     </message>
     <message>
         <source>The Reference Documentation for eZ publish consists of multiple sections which
 each have a different view on the documentation. The sections can be accessed at
 menu on the top.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ссылочная документация для eZ publish содержит несколько секций 
+каждая из которых использует различный взгляд на документацию. Секции могут 
+быть доступны через главное меню вверху.</translation>
     </message>
     <message>
         <source>The documentation will give an overview of the API of eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Документация дает обзор API eZ publish.</translation>
     </message>
     <message>
         <source>All reference documentation has been made with %doxygenurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найдена сгенерированая документация</translation>
     </message>
 </context>
 <context>
@@ -3476,10 +3311,6 @@ menu on the top.</source>
     <message>
         <source>Step 1</source>
         <translation>Шаг 1</translation>
-    </message>
-    <message>
-        <source>Give access to module:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Every module</source>
@@ -3496,14 +3327,6 @@ menu on the top.</source>
     <message>
         <source>Cancel</source>
         <translation>ОтменитьОтменить</translation>
-    </message>
-    <message>
-        <source>Module:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Access:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Limited</source>
@@ -3528,10 +3351,6 @@ menu on the top.</source>
     <message>
         <source>Specify function in module</source>
         <translation>Укажите функцию в модуле</translation>
-    </message>
-    <message>
-        <source>Function:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Go back to step 2</source>
@@ -3566,22 +3385,6 @@ menu on the top.</source>
         <translation type="obsolete">Редактирование роли</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Current policies:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Limitation list:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Новый</translation>
     </message>
@@ -3590,48 +3393,20 @@ menu on the top.</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <source>Apply</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Role list</source>
         <translation>Список ролей</translation>
-    </message>
-    <message>
-        <source>Assign:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Role view</source>
         <translation>Просмотр роли</translation>
     </message>
     <message>
-        <source>edit</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Role policies</source>
         <translation>Правила роли</translation>
     </message>
     <message>
-        <source>Limitation:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Users and groups assigned to this role</source>
         <translation>Пользователи и группы пользователей которым назначена эта роль</translation>
-    </message>
-    <message>
-        <source>User:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Assign</source>
@@ -3687,75 +3462,67 @@ menu on the top.</source>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите ограничения для функции %functionname в модуле %modulename. &apos;Any&apos;  значит отсутствие ограничений по данному параметру</translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не указанно.</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Найти</translation>
+        <translation>Найти</translation>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование роли %1</translation>
     </message>
     <message>
         <source>Edit policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать правило</translation>
     </message>
     <message>
         <source>Remove selected policies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные правила</translation>
     </message>
     <message>
         <source>Edit role</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать роль</translation>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation type="unfinished"></translation>
+        <translation>Назначте роль пользователю или группе</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные роли</translation>
     </message>
     <message>
         <source>Policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Правило</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел</translation>
     </message>
     <message>
         <source>Subtree</source>
-        <translation type="unfinished"></translation>
+        <translation>Поддерево</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Обновить</translation>
+        <translation>Обновить</translation>
     </message>
     <message>
         <source>Role</source>
-        <translation type="unfinished"></translation>
+        <translation>Роль</translation>
     </message>
     <message>
         <source>Edit current role</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать текущую роль</translation>
     </message>
     <message>
         <source>Remove selected assignments</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные назначения</translation>
     </message>
 </context>
 <context>
@@ -3767,18 +3534,6 @@ menu on the top.</source>
     <message>
         <source>Most frequent search phrases</source>
         <translation>Наиболее частые поисковые фразы</translation>
-    </message>
-    <message>
-        <source>Phrase:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Number of phrases:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Average result returned:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Phrase</source>
@@ -3794,7 +3549,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Reset statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить статистику</translation>
     </message>
 </context>
 <context>
@@ -3812,40 +3567,12 @@ menu on the top.</source>
         <translation>Редактирование секции</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Store</source>
         <translation>Сохравнить</translation>
     </message>
     <message>
         <source>Section list</source>
         <translation>Список секций</translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Assign:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>edit</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>assign</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New</source>
@@ -3921,15 +3648,15 @@ menu on the top.</source>
     </message>
     <message>
         <source>Node notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомление об элементах</translation>
     </message>
     <message>
         <source>Assign section - %section</source>
-        <translation type="unfinished"></translation>
+        <translation>Назначить секцию - %section</translation>
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите назначение секции</translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -3937,23 +3664,19 @@ menu on the top.</source>
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите где вы хотите начать назначение секции %sectionname.
+
+Выберите объекты и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation type="unfinished"></translation>
+        <translation>Медиа</translation>
     </message>
     <message>
         <source>Remove selected sections</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные секции</translation>
     </message>
 </context>
 <context>
@@ -4104,7 +3827,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>setup</source>
-        <translation>Установка</translation>
+        <translation type="obsolete">Установка</translation>
     </message>
     <message>
         <source>Cache admin</source>
@@ -4244,7 +3967,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Available extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступные расширения</translation>
     </message>
     <message>
         <source>System information</source>
@@ -4376,28 +4099,8 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>System check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Ok</source>
-        <translation type="unfinished">Да</translation>
-    </message>
-    <message>
-        <source>Image processing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mail server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sitedesign</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Да</translation>
     </message>
     <message>
         <source>Create new template override for</source>
@@ -4615,12 +4318,40 @@ The default code was made from the basic parameters you chose.</source>
         <source>Summary</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>System:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">Да</translation>
+    </message>
+    <message>
+        <source>Image system:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language(s):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site(s):</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation type="unfinished"></translation>
+        <translation>Конструктор</translation>
     </message>
 </context>
 <context>
@@ -4721,18 +4452,6 @@ The default code was made from the basic parameters you chose.</source>
 <context>
     <name>design/standard/setup/init</name>
     <message>
-        <source>The database is ready for initialization, click the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Create Database</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>button when ready.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4793,14 +4512,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Continue and remove the data.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Continue and skip database initialization.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Let me choose a new database.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4809,40 +4520,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Примечание:</translation>
     </message>
     <message>
-        <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Language Options</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>to continue the setup.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Your system has support for one database only, it is</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>, click</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Driver:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Unicode support:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>no</source>
@@ -4853,84 +4532,12 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The database was succesfully initialized, you are now ready for some post configuration of the site. Click the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>button to start the configuration process.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>No database connection</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Could not connect to database.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The database would not accept the connection , please review your settings and try again.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>We&apos;re now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Connect To Database</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>button.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you have an already existing eZ publish database enter the information and the setup will use that as database.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Empty password</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>You must supply a password for the database.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Password does not match</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The password and confirmation password must match.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Unknown error</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Servername:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Databasename:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Confirm password:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
@@ -5013,10 +4620,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>You can choose from either</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5025,24 +4628,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">sendmail</translation>
     </message>
     <message>
-        <source>which must available on the server or</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>SMTP</source>
         <translation type="unfinished">SMTP</translation>
-    </message>
-    <message>
-        <source>which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Configuration of sendmail is done on the server, consult your webhost.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a username and password as well.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Server name</source>
@@ -5057,10 +4644,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Пароль</translation>
     </message>
     <message>
-        <source>Site Details</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Email sending failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5073,52 +4656,16 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you need help with eZ publish, you can go to the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>eZ publish website</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you find a bug (error), please go to</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>and report it.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you ever want to restart this setup, edit the file</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>and look for a line that says:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Click on the URL to access your new</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>or click the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Done</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
@@ -5177,14 +4724,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The following data will be sent to eZ systems:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Details of your system, like OS type etc.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5223,22 +4762,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Skip Registration</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Title of your site:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>URL to your site:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Register Site</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>What kind of language support should this site have. The type of support determines the language selection and charset.</source>
@@ -5329,48 +4852,12 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The system check found some issues that needs to be resolve before the setup can continue.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Please have a look through the results below for more information on what the problems are.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Each problem will give you instructions on how to fix the problem.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>button to re-run the system checking.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Welcome to the setup program for eZ publish</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Click the button below to proceed to the next step which will start the system check.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>However if you wish to setup the site manually press the</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Disable Setup</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>System Check</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Type</source>
@@ -5381,28 +4868,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Socket</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Databasename</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Username</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Confirm password</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Title of your site</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>URL to your site</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Database choice</source>
@@ -5570,27 +5037,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SMTP is recommended for MS Windows users</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Mail system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Finished!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5614,16 +5061,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forum</source>
-        <comment>forum link</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5801,19 +5239,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* This requires that you have a DNS setup for your hostname.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5847,30 +5277,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Site url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hostname for access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL for admin access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port for admin access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hostname for admin access</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5911,14 +5317,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose site templates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose one or more site templates for your site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select which sites you would like to install on your system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5955,26 +5353,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Requirements</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>recommended</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5993,6 +5371,91 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forums</source>
+        <comment>forum link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires web server setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* Requires DNS setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Plain if you would like to start from scratch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next &amp;gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press &lt;i&gt;Next&lt;/i&gt; to continue.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6186,30 +5649,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>configuration and set</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>and</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>to</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>More information on the subject can be found at</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Configuration example:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Insufficient PHP version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6325,38 +5764,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Корзина</translation>
     </message>
     <message>
-        <source>Product:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Count:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>VAT:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Price ex. VAT:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Price inc. VAT:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Discount:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Total Price ex. VAT:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Total Price inc. VAT:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Subtotal Ex. VAT:</source>
         <translation>Всего без НДС:</translation>
     </message>
@@ -6413,28 +5820,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Отменить</translation>
     </message>
     <message>
-        <source>Defined discount groups</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
         <source>New</source>
         <translation>Новый</translation>
-    </message>
-    <message>
-        <source>Editing discount group</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Discard</source>
@@ -6445,20 +5836,8 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Просмотр группы</translation>
     </message>
     <message>
-        <source>Group Name:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Defined rules:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Percent</source>
         <translation>Процент</translation>
-    </message>
-    <message>
-        <source>Apply to:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Add Rule</source>
@@ -6485,24 +5864,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Редактирование правила</translation>
     </message>
     <message>
-        <source>Discount percent:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
         <translation type="obsolete">Выберите к каким классам и секциям применяется данное правило, под &quot;Любой&quot; подразумевается что это правило брименяется ко всем.</translation>
     </message>
     <message>
-        <source>Class:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Any</source>
         <translation>Любой</translation>
-    </message>
-    <message>
-        <source>Section:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Order list</source>
@@ -6541,10 +5908,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Типы НДС</translation>
     </message>
     <message>
-        <source>Percentage:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Wish list</source>
         <translation>Список пожеланий</translation>
     </message>
@@ -6557,28 +5920,8 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Очистить список пожеланий</translation>
     </message>
     <message>
-        <source>Pris pr. pakke</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Antall</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Sum</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Total:</source>
         <translation type="obsolete">Всего:</translation>
-    </message>
-    <message>
-        <source>Price pr. pakke</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Antall pakker</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Subtotal:</source>
@@ -6686,115 +6029,111 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Найти</translation>
+        <translation>Найти</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation type="unfinished"></translation>
+        <translation>Фамилия</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Электр. почта</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес</translation>
     </message>
     <message>
         <source>Payment was cancelled for an unknown reason. Please try to buy again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Оплата не была совершена изза неустановленной ошибки. Обратитесь к администрации сайта.</translation>
     </message>
     <message>
         <source>Order summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Итог заказа</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Customer name</comment>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Attributes</source>
-        <translation type="unfinished">Атрибуты</translation>
+        <translation>Атрибуты</translation>
     </message>
     <message>
         <source>Rule settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Установки правил</translation>
     </message>
     <message>
         <source>Choose which classes, sections or objects ( products ) applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите классы, секции и объекты которые попадают под данное подправило, &apos;Any&apos; правило подходит ко всем.</translation>
     </message>
     <message>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект</translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Не указанно.</translation>
     </message>
     <message>
         <source>Sort Result by</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по</translation>
     </message>
     <message>
         <source>Order Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время заказа</translation>
     </message>
     <message>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <source>Order ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Ид заказа</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>По возрастанию</translation>
     </message>
     <message>
         <source>Sort ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>По возрастанию</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <source>Sort descending</source>
-        <translation type="unfinished"></translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать</translation>
     </message>
     <message>
         <source>Order %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Заказ %1</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш бюджет активирован.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Извините, но предоставленный ключ не правильный. Бюджет не был создан.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите клиентов</translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -6802,11 +6141,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите клиентов, которых вы хотите добавить в группу скидок %groupname.
+
+Выберите клиентов и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите товар для скидки</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -6814,234 +6157,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/task</name>
-    <message>
-        <source>Creating new task</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Task</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Assignment</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Date:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>From:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>To:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Please select receiver</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Parent type:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Parent ID:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Access Type:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Read</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Read/Write</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Object Type:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Content Object</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Content Class</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Work Flow</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Role</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Assignment for object:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Choose Object</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Convert To Assignment</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Convert To Task</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Change Receiver</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Activate</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit task message</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Input did not validate</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Input was stored successfully</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Object list</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Find object</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Task message</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Task view</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Task list</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Incoming</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Title:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Creator:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Created:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Modified:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Outgoing</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Sub tasks</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Receiver:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Task</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Assignment</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Message</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Close Task</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Cancel Task</source>
-        <translation type="obsolete"></translation>
+        <translation>Выберите гтовары, которые вы хотите добавить в правило скидок %discountname в группе %groupname.
+
+Выберите клиентов и нажмите на кнопку %buttonname.
+Так же возможно использовать список недано использованных объектов и закладки.
+Кликните на имени объекта для изменения списка. </translation>
     </message>
 </context>
 <context>
     <name>design/standard/trigger</name>
-    <message>
-        <source>Triggers list</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Triggers editing</source>
-        <translation type="obsolete"></translation>
-    </message>
     <message>
         <source>Module Name</source>
         <translation type="obsolete">Названи модуля</translation>
@@ -7053,10 +6177,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Connect Type</source>
         <translation type="obsolete">Тип соединения</translation>
-    </message>
-    <message>
-        <source>Workflow ID</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No workflow</source>
@@ -7075,20 +6195,16 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Процесс</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Module name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя модуля</translation>
     </message>
     <message>
         <source>Function name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя функции</translation>
     </message>
     <message>
         <source>Connect type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип подключения</translation>
     </message>
 </context>
 <context>
@@ -7135,74 +6251,74 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>Last checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний раз проверен</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Изменено</translation>
+        <translation>Изменен</translation>
     </message>
     <message>
         <source>Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Всплывающий</translation>
     </message>
     <message>
         <source>Never</source>
-        <translation type="unfinished"></translation>
+        <translation>Новее</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестный</translation>
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Все адреса</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильный адрес</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Правильные адреса</translation>
     </message>
     <message>
         <source>Information on URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация об адресе</translation>
     </message>
     <message>
         <source>Objects which use this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект использующий эту ссылку</translation>
     </message>
     <message>
         <source>No object available</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет доступных объектов</translation>
     </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
     <message>
         <source>Editing URL - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование адреса %1</translation>
     </message>
 </context>
 <context>
@@ -7212,28 +6328,8 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation>Активировать счет</translation>
     </message>
     <message>
-        <source>Login ID:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Activate</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Registed user profile</source>
         <translation type="obsolete">Зарегестрированный профиль пользователя</translation>
-    </message>
-    <message>
-        <source>Login:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Update Profile</source>
@@ -7270,18 +6366,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Change password for user</source>
         <translation>Изменить пароль пользователю</translation>
-    </message>
-    <message>
-        <source>Old Password:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Password:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Retype Password:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>OK</source>
@@ -7366,113 +6450,113 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Login</source>
         <comment>Button</comment>
-        <translation type="unfinished"></translation>
+        <translation>Вход</translation>
     </message>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation type="unfinished"></translation>
+        <translation>Зарегестрироваться</translation>
     </message>
     <message>
         <source>User profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Профиль пользователя</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать профайл</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation type="unfinished">Изменить пароль</translation>
+        <translation>Изменить пароль</translation>
     </message>
     <message>
         <source>Change setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить установки</translation>
     </message>
     <message>
         <source>Please retype your old password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста введите ваш старый пароль.</translation>
     </message>
     <message>
         <source>Password didn&apos;t match, please retype your new password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Парольь не совпадает, повторите новый парол еще раз.</translation>
     </message>
     <message>
         <source>Password successfully updated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль успешно обновлен.</translation>
     </message>
     <message>
         <source>Old password</source>
-        <translation type="unfinished"></translation>
+        <translation>Старый пароль</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пароль</translation>
     </message>
     <message>
         <source>Retype password</source>
-        <translation type="unfinished"></translation>
+        <translation>Повторите пароль</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш бюджет был успешно создан. Сообщение будет посланно на указанный адрес электронной почты. Вам необходимо следовать инструкциям в этом письме для активации вашего бюджета.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
     <message>
         <source>A mail has been send to the following e-mail address: %1. This e-mail contains a link you need to click so that we can confirm that the correct user is getting the new password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Почтовое сообщение было послано на следующий адрес: %1. Сообщение содержит ссылку по которой вам необходимо проследовать, для того чтобы мы убедились что пароль измениться для нправильного пользователя.</translation>
     </message>
     <message>
         <source>There is no registered user with that e-mail address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет зарегестрированного пользователя с таким электронным адресом.</translation>
     </message>
     <message>
         <source>Password was successfully generated and sent to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль был успешно создан и послан на адрес: %1</translation>
     </message>
     <message>
         <source>The key is invalid or has been used. </source>
-        <translation type="unfinished"></translation>
+        <translation>Данный ключ или неправилный, или уже был использован.</translation>
     </message>
     <message>
         <source>Have you forgotten your password?</source>
-        <translation type="unfinished"></translation>
+        <translation>Забыли ваш пароль?</translation>
     </message>
     <message>
         <source>If you have forgotten your password we can generate a new one for you. All you need to do is to enter your e-mail address and we will create a new password for you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы забыли пароль мы можем создать новый пароль для вас. Вам необходимо ввести ваш электронный адрес и мы создадим новый пароль для вас.</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Generate new password</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый пароль</translation>
     </message>
     <message>
         <source>%siteurl new password</source>
-        <translation type="unfinished"></translation>
+        <translation>%siteurl новый паролб</translation>
     </message>
     <message>
         <source>Your account information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о вашем бюджете</translation>
     </message>
     <message>
         <source>Click here to get new password</source>
-        <translation type="unfinished"></translation>
+        <translation>Кликните здесь, чтобы получить новый пароль</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пароль</translation>
     </message>
 </context>
 <context>
@@ -7499,521 +6583,386 @@ your account.</source>
     </message>
     <message>
         <source>Confirm user registration at %siteurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Подтвердите регистрацию на %siteurl</translation>
     </message>
     <message>
         <source>Your user account at %siteurl has been created</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш бюджет на %siteurl  был создан</translation>
     </message>
     <message>
         <source>Account information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация пользователя</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Click the following URL to confirm your account</source>
-        <translation type="unfinished"></translation>
+        <translation>Кликните на ссылке для подтверждения регистрации</translation>
     </message>
     <message>
         <source>New user registered at %siteurl</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользователь зарегестрирован на %siteurl</translation>
     </message>
     <message>
         <source>A new user has registered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользователь зарегестрирован.</translation>
     </message>
     <message>
         <source>Account information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация пользователя.</translation>
     </message>
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <source>Link to user information</source>
-        <translation type="unfinished"></translation>
+        <translation>Ссылка на информация о пользователе</translation>
     </message>
     <message>
         <source>Thank you for registering at %siteurl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Спасибо за регестрацию на %siteurl.</translation>
     </message>
     <message>
         <source>Your account information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о вашем бюджете</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Пароль</translation>
+        <translation>Пароль</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
     <message>
         <source>Editing workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование процесса</translation>
     </message>
     <message>
         <source>Workflow stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс сохранен</translation>
     </message>
     <message>
         <source>Data requires fixup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="obsolete"></translation>
+        <translation>Необходимо исправить данные</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation type="unfinished">Группы</translation>
+        <translation>Группы</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pos:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="obsolete"></translation>
+        <translation>События</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Новый</translation>
+        <translation>Новый</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Editing workflow group</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Created by</source>
-        <translation type="obsolete"></translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <source>on</source>
-        <translation type="unfinished"></translation>
+        <translation>на</translation>
     </message>
     <message>
         <source>Modified by</source>
-        <translation type="unfinished">Изменен</translation>
-    </message>
-    <message>
-        <source>Defined workflow groups</source>
-        <translation type="obsolete"></translation>
+        <translation>Изменен</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить</translation>
     </message>
     <message>
         <source>Workflow process</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс</translation>
     </message>
     <message>
         <source>Workflow process was created at</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс был создан</translation>
     </message>
     <message>
         <source>and modified at</source>
-        <translation type="unfinished"></translation>
+        <translation>и изменен </translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation type="unfinished">Процесс</translation>
+        <translation>Процесс</translation>
     </message>
     <message>
         <source>Using workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Используя процесс</translation>
     </message>
     <message>
         <source>for processing.</source>
-        <translation type="unfinished"></translation>
+        <translation>для обработки.</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">Пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <source>This workflow is running for user</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот процесс работает для пользователя</translation>
     </message>
     <message>
         <source>Content object</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект</translation>
     </message>
     <message>
         <source>Workflow was created for content</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс был создан для содержимого</translation>
     </message>
     <message>
         <source>using version</source>
-        <translation type="unfinished"></translation>
+        <translation>используя версию</translation>
     </message>
     <message>
         <source>in parent</source>
-        <translation type="unfinished"></translation>
+        <translation>in parent</translation>
     </message>
     <message>
         <source>Workflow event</source>
-        <translation type="unfinished"></translation>
+        <translation>Событите процесса</translation>
     </message>
     <message>
         <source>Workflow has not started yet, number of main events in workflow is</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс еще не запущен, количество главных событий в процессе </translation>
     </message>
     <message>
         <source>Current event position is</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущее положение события</translation>
     </message>
     <message>
         <source>Event to be run is</source>
-        <translation type="unfinished"></translation>
+        <translation>Событие для запуска</translation>
     </message>
     <message>
         <source>event</source>
-        <translation type="unfinished"></translation>
+        <translation>событие</translation>
     </message>
     <message>
         <source>Last event returned status</source>
-        <translation type="unfinished"></translation>
+        <translation>Последнее событие вернуло статус</translation>
     </message>
     <message>
         <source>Workflow event list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список событий процесса</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Сброс</translation>
     </message>
     <message>
         <source>Next step</source>
-        <translation type="unfinished"></translation>
+        <translation>Следущий шаг</translation>
     </message>
     <message>
         <source>Workflow event log</source>
-        <translation type="unfinished"></translation>
+        <translation>Лог события процесса</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>BvzИмя</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Статус</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined workflows for</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Modifier:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Modified:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Temporary workflows for</source>
-        <translation type="obsolete"></translation>
+        <translation>Информация</translation>
     </message>
     <message>
         <source>Pos</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиция</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <source>Workflow groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Группа процессов</translation>
     </message>
     <message>
         <source>New group</source>
-        <translation type="unfinished">Новая группа</translation>
-    </message>
-    <message>
-        <source>Workflows in %1</source>
-        <translation type="obsolete"></translation>
+        <translation>Новая группа</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">Изменил</translation>
+        <translation>Изменил</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Изменено</translation>
+        <translation>Изменено</translation>
     </message>
     <message>
         <source>New workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый процесс</translation>
     </message>
     <message>
         <source>Add group</source>
-        <translation type="unfinished">Добавить группу</translation>
+        <translation>Добавить группу</translation>
     </message>
     <message>
         <source>Editing workflow group - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование группы процессов - %1</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help on workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Измененно %username в %time</translation>
     </message>
     <message>
         <source>Edit workflow</source>
-        <translation type="unfinished">Редактировать процесс</translation>
+        <translation>Редактировать процесс</translation>
     </message>
     <message>
         <source>Remove selected workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные процессы</translation>
     </message>
     <message>
         <source>Workflow process was created at %creation and modified at %modification.</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс был создан в %creation и изменен в %modification.</translation>
     </message>
     <message>
         <source>Workflows in %1</source>
         <comment>%1 is workflow group</comment>
-        <translation type="unfinished"></translation>
+        <translation>Процессы в %1</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Расчет</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Слудущий</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Обертка</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы хотите упаковать в рождественскую бумагу?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished">Нет</translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Да</translation>
+        <translation>Да</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation type="unfinished"></translation>
+        <translation>Привет</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
-        <source>Editor:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Sections:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Any</source>
-        <translation type="unfinished">Любой</translation>
-    </message>
-    <message>
-        <source>Users without approval:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Checkout text:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Section IDs:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Users without workflow IDs:</source>
-        <translation type="obsolete"></translation>
+        <translation>Любой</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation type="unfinished"></translation>
+        <translation>Неопубликованный объект</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Days:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hours:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Minutes:</source>
-        <translation type="obsolete"></translation>
+        <translation>Опубликованный объект</translation>
     </message>
     <message>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактор</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation type="unfinished">Секции</translation>
+        <translation>Секции</translation>
     </message>
     <message>
         <source>Users without approval</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи без подтверждения</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст расчета</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Section IDs</source>
-        <translation type="obsolete"></translation>
+        <translation>Сообщение</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи без ИД процесса</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Дни</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Часы</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Entry</source>
-        <translation type="obsolete"></translation>
+        <translation>Минуты</translation>
     </message>
     <message>
         <source>Remove Selected</source>
         <translation type="obsolete">Удалить выбранные</translation>
     </message>
     <message>
-        <source>Load Attributes</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Class</source>
-        <translation type="unfinished">Класс</translation>
+        <translation>Класс</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Атрибуты класса:</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Классы для запуска процесса</translation>
     </message>
     <message>
         <source>Workflow to run</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс для запуска</translation>
     </message>
     <message>
         <source>New entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая ячейка</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранное</translation>
     </message>
     <message>
         <source>Load attributes</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/workflow/eventtype/result</name>
-    <message>
-        <source>Checkout</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete"></translation>
+        <translation>Загрузить атрибуты</translation>
     </message>
 </context>
 <context>
@@ -8147,11 +7096,11 @@ your account.</source>
     </message>
     <message>
         <source>Workflow fetches template</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс использует шаблон</translation>
     </message>
     <message>
         <source>Workflow redirects user view</source>
-        <translation type="unfinished"></translation>
+        <translation>Процесс перенаправляет </translation>
     </message>
 </context>
 <context>
@@ -8163,11 +7112,6 @@ your account.</source>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
-    <message>
-        <source>At least one author is requied.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete"></translation>
-    </message>
     <message>
         <source>Author name should be provided.</source>
         <comment>eZAuthorType</comment>
@@ -8259,11 +7203,6 @@ your account.</source>
         <translation type="obsolete">Необходим правильный файл.</translation>
     </message>
     <message>
-        <source>At least one option is requied.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Option value should be provided.</source>
         <comment>eZOptionType</comment>
         <translation type="obsolete">Должно присутствовать значение опции.</translation>
@@ -8282,31 +7221,6 @@ your account.</source>
         <source>Text field is empty, content required.</source>
         <comment>eZStringType</comment>
         <translation type="obsolete">Пустае поле для текста, необходимо содержимое.</translation>
-    </message>
-    <message>
-        <source>An user account must be filled up</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Login name exist, please choose another one.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Please confirm your password.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The minimum length of password should be 3.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Object </source>
@@ -8376,261 +7290,261 @@ your account.</source>
     <message>
         <source>Author</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Автор</translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <source>At least one author is required.</source>
-        <translation type="unfinished">По крайней мере один необходимо указать одного автора.</translation>
+        <translation>По крайней мере один необходимо указать одного автора.</translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
-        <translation type="unfinished">Должно присутствовать имя автора.</translation>
+        <translation>Должно присутствовать имя автора.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Почтовый адрес неправилен.</translation>
     </message>
     <message>
         <source>BinaryFile</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Бинарный файл</translation>
     </message>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="unfinished">Загрузка файлов не включена. Нефозможно обработать файл.</translation>
+        <translation>Загрузка файлов не включена. Нефозможно обработать файл.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
-        <translation type="unfinished">Необходим правильный файл.</translation>
+        <translation>Необходим правильный файл.</translation>
     </message>
     <message>
         <source>Checkbox</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Поле выбора</translation>
     </message>
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время</translation>
     </message>
     <message>
         <source>Email</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>A valid email account is required.</source>
-        <translation type="unfinished">Необходим действительный Email.</translation>
+        <translation>Необходим действительный Email.</translation>
     </message>
     <message>
         <source>Enum</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Выбор</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
-        <translation type="unfinished">По крайней мере одно из полей должно быть выбрано.</translation>
+        <translation>По крайней мере одно из полей должно быть выбрано.</translation>
     </message>
     <message>
         <source>Float</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Вещ. число</translation>
     </message>
     <message>
         <source>Input is not float.</source>
-        <translation type="unfinished">Введенные данные не являются числом.</translation>
+        <translation>Введенные данные не являются числом.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
-        <translation type="unfinished">Число должно быть больше %1</translation>
+        <translation>Число должно быть больше %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
-        <translation type="unfinished">Число должно быть меньше %1</translation>
+        <translation>Число должно быть меньше %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
-        <translation type="unfinished">Числе вне предопределенного диапазона %1 - %2</translation>
+        <translation>Числе вне предопределенного диапазона %1 - %2</translation>
     </message>
     <message>
         <source>Image</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Изображение</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation type="unfinished">Необходимо правильное изображение.</translation>
+        <translation>Необходимо правильное изображение.</translation>
     </message>
     <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Целое число</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
-        <translation type="unfinished">Введенные данные не являются целым числом.</translation>
+        <translation>Введенные данные не являются целым числом.</translation>
     </message>
     <message>
         <source>ISBN</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">ISBN</translation>
+        <translation>ISBN</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
-        <translation type="unfinished">Код ISBN не правилен. Пожалуйста перепроверте введенные данные</translation>
+        <translation>Код ISBN не правилен. Пожалуйста перепроверте введенные данные</translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
-        <translation type="unfinished">Формат ISBN не правилен.</translation>
+        <translation>Формат ISBN не правилен.</translation>
     </message>
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ключевое слово</translation>
     </message>
     <message>
         <source>Matrix</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Таблица</translation>
     </message>
     <message>
         <source>Media</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Медиа</translation>
     </message>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Связь с объектом</translation>
     </message>
     <message>
         <source>Object relation list</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Список связей с объектами</translation>
     </message>
     <message>
         <source>Option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Опции</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
-        <translation type="unfinished">Необходима по крайней мере одна опция.</translation>
+        <translation>Необходима по крайней мере одна опция.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
-        <translation type="unfinished">Должно присутствовать значение опции.</translation>
+        <translation>Должно присутствовать значение опции.</translation>
     </message>
     <message>
         <source>Additional price for option value is invalid.</source>
-        <translation type="unfinished">Неправильная дополнительная цена для значения опции.</translation>
+        <translation>Неправильная дополнительная цена для значения опции.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Цена</translation>
+        <translation>Цена</translation>
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в корзину</translation>
     </message>
     <message>
         <source>Add to wish list</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в список пожеланий</translation>
     </message>
     <message>
         <source>Range option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Интервальная опция</translation>
     </message>
     <message>
         <source>Selection</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Выбор</translation>
     </message>
     <message>
         <source>Text line</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Строка текста</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
-        <translation type="unfinished">Пустая строка ввода, необходимо содержимое.</translation>
+        <translation>Пустая строка ввода, необходимо содержимое.</translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
-        <translation type="unfinished">Длнна строки превышает максимально допустимую %1.</translation>
+        <translation>Длнна строки превышает максимально допустимую %1.</translation>
     </message>
     <message>
         <source>Subtree subscription</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Подписка на пддерево</translation>
     </message>
     <message>
         <source>Text field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Текстовое поле</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation type="unfinished">Пустае поле для текста, необходимо содержимое.</translation>
+        <translation>Пустае поле для текста, необходимо содержимое.</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Послать</translation>
     </message>
     <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Время</translation>
     </message>
     <message>
         <source>URL</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User account</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Бюджет пользователя</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation type="unfinished">Необходим логин пользователя</translation>
+        <translation>Необходим логин пользователя</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
-        <translation type="unfinished">Данное имя пользователя уже существует, пожалуйста выберите другое.</translation>
+        <translation>Данное имя пользователя уже существует, пожалуйста выберите другое.</translation>
     </message>
     <message>
         <source>The E-Mail address is not valid.</source>
-        <translation type="unfinished">Не правильный E-mail адрес.</translation>
+        <translation>Не правильный E-mail адрес.</translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
-        <translation type="unfinished">Пользователь с данным email адресом уже существует.</translation>
+        <translation>Пользователь с данным email адресом уже существует.</translation>
     </message>
     <message>
         <source>The password must be at least 3 characters.</source>
-        <translation type="unfinished">Пароль дожен быть как минимум 3 символа длинной.</translation>
+        <translation>Пароль дожен быть как минимум 3 символа длинной.</translation>
     </message>
     <message>
         <source>XML Text field</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Объект %1 не существует.</translation>
     </message>
     <message>
         <source>Link %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ссылка %1 не существует.</translation>
     </message>
 </context>
 <context>
@@ -8724,15 +7638,15 @@ your account.</source>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Мои закладки</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой список обработки</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслятор URL</translation>
     </message>
 </context>
 <context>
@@ -8769,7 +7683,7 @@ your account.</source>
     <name>kernel/contentclass</name>
     <message>
         <source>New %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый %1</translation>
     </message>
 </context>
 <context>
@@ -8798,32 +7712,32 @@ your account.</source>
     <name>kernel/form</name>
     <message>
         <source>Form processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Обработка формы</translation>
     </message>
 </context>
 <context>
     <name>kernel/notification</name>
     <message>
         <source>Notification settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Установки уведомления</translation>
     </message>
 </context>
 <context>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакеты</translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить</translation>
     </message>
 </context>
 <context>
     <name>kernel/reference</name>
     <message>
         <source>Reference documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Документация</translation>
     </message>
 </context>
 <context>
@@ -8846,7 +7760,7 @@ your account.</source>
     </message>
     <message>
         <source>Editing policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование правила</translation>
     </message>
 </context>
 <context>
@@ -8980,7 +7894,7 @@ your account.</source>
     </message>
     <message>
         <source>URL edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование URL</translation>
     </message>
 </context>
 <context>
@@ -9064,62 +7978,62 @@ your account.</source>
     <name>kernel/workflow/event</name>
     <message>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Событие</translation>
     </message>
     <message>
         <source>Approve</source>
-        <translation type="unfinished">Подтвердить</translation>
+        <translation>Подтвердить</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Расчет</translation>
     </message>
     <message>
         <source>Multiplexer</source>
-        <translation type="unfinished"></translation>
+        <translation>Мультиплексор</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation type="unfinished">Опубликовать</translation>
+        <translation>Опубликовать</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation type="unfinished"></translation>
+        <translation>Опубликовать в определенное время</translation>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation type="unfinished"></translation>
+        <translation>Простая доставка</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation type="unfinished"></translation>
+        <translation>Задержка</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation type="unfinished"></translation>
+        <translation>Депубликация</translation>
     </message>
     <message>
         <source>Wait until date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ожыдание даты</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Обертка</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation type="unfinished"></translation>
+        <translation>Привет пользователь</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/group</name>
     <message>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Группа</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>Серийные</translation>
     </message>
 </context>
 <context>
@@ -9151,15 +8065,15 @@ your account.</source>
     <name>setup/templateadmin</name>
     <message>
         <source>Template edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование шаблона</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить</translation>
     </message>
 </context>
 <context>
@@ -9167,13 +8081,6 @@ your account.</source>
     <message>
         <source>Sign Up</source>
         <translation type="obsolete">Зарегестрироваться</translation>
-    </message>
-</context>
-<context>
-    <name>workflow/eventtype/result/event_ezcheckout</name>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 </TS>
