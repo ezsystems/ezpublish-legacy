@@ -37,6 +37,7 @@
   {sequence name=MessageSeq}
   {/section}
 
+{section name=Message loop=$task.messages|gt(1)}
 <tr><td colspan="2"><h2>Messages</h2></td></tr>
   {section name=Message loop=$task.messages offset=1}
     {section show=$Message:item.contentobject_id|gt(0)}
@@ -47,6 +48,7 @@
     {/section}
   {sequence name=MessageSeq}
   {/section}
+{/section}
 </table>
 
 {/section}
@@ -64,18 +66,21 @@
 {section show=$Incoming:item.task_type|eq(1)}
 {let message=$Incoming:item.first_message}
   {section show=$Incoming:message}
-  {$Incoming:message.name}
+  <a href="{$module.functions.view.uri}/{$Incoming:item.id}">{$Incoming:message.name}</a>
   {/section}
 {/let}
 {section-else}
   {section show=$Incoming:item.object_id|gt(0)}
-  Assigned object '{$Incoming:item.contentobject.name}'
+  Assigned object '{content_view_gui view=text_linked content_object=$Incoming:item.contentobject}'
+    {section show=$Incoming:item.access_type|eq(2)}
+    <a href={concat('/content/edit/',$Incoming:item.object_id)|ezurl(double)}>[ edit ]</a>
+    {/section}
   {/section}
 {/section}
   </td>
   <td class="{$Incoming:sequence}">{$Incoming:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
-  <td class="{$Incoming:sequence}">{content_view_gui view=text content_object=$Incoming:item.creator.contentobject}</td>
+  <td class="{$Incoming:sequence}">{content_view_gui view=text_linked content_object=$Incoming:item.creator.contentobject}</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.created|l10n('shortdatetime')}&nbsp;&nbsp;</td>
   <td class="{$Incoming:sequence}">{$Incoming:item.modified|l10n('shortdatetime')}</td>
   <td class="{$Incoming:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Incoming:item.id}"></td>
@@ -88,11 +93,15 @@
 {section show=$task_id|eq(0)}
 <tr><td colspan="6"><h2>Outgoing</h2></td></tr>
 {section-else}
+  {section show=$outgoing_task_list|gt(0)}
 <tr><td colspan="6"><h2>Sub tasks</h2></td></tr>
+  {/section}
 {/section}
+  {section show=$outgoing_task_list|gt(0)}
 <tr>
   <th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Receiver</th><th>Created</th><th>Modified</th>
 </tr>
+  {/section}
 {section name=Outgoing loop=$outgoing_task_list sequence=array('bglight','bgdark')}
 <tr>
   <td class="{$Outgoing:sequence}"><a href="{$module.functions.view.uri}/{$Outgoing:item.id}">{$Outgoing:item.id}</a></td>
@@ -100,18 +109,18 @@
 {section show=$Outgoing:item.task_type|eq(1)}
 {let message=$Outgoing:item.first_message}
   {section show=$Outgoing:message}
-  {$Outgoing:message.name}
+  <a href="{$module.functions.view.uri}/{$Outgoing:item.id}">{$Outgoing:message.name}</a>
   {/section}
 {/let}
 {section-else}
   {section show=$Outgoing:item.object_id|gt(0)}
-  Assigned object '{$Outgoing:item.contentobject.name}'
+  Assigned object '{content_view_gui view=text_linked content_object=$Outgoing:item.contentobject}'
   {/section}
 {/section}
   </td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.task_type|choose('None','Task','Assignment')}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.status|choose('None','Temporary','Open','Closed','Cancelled')}</td>
-  <td class="{$Outgoing:sequence}">{content_view_gui view=text content_object=$Outgoing:item.receiver.contentobject}</td>
+  <td class="{$Outgoing:sequence}">{content_view_gui view=text_linked content_object=$Outgoing:item.receiver.contentobject}</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.created|l10n('shortdatetime')}&nbsp;&nbsp;</td>
   <td class="{$Outgoing:sequence}">{$Outgoing:item.modified|l10n('shortdatetime')}</td>
   <td class="{$Outgoing:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Outgoing:item.id}"></td>

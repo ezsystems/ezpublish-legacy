@@ -102,8 +102,14 @@ $task = null;
 if ( is_numeric( $TaskID ) and $TaskID > 0 )
     $task = eZTask::fetch( $TaskID );
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-$classList =& eZContentClass::fetchList();
+include_once( 'lib/ezutils/classes/ezini.php' );
+$ini =& eZINI::instance();
+$classGroups = $ini->variableArray( 'TaskSettings', 'ContentClassGroups' );
+include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+$classList =& eZContentClassClassGroup::fetchClassListByGroups( 0, $classGroups );
+
+// include_once( 'kernel/classes/ezcontentclass.php' );
+// $classList =& eZContentClass::fetchList();
 
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();

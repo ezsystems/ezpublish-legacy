@@ -114,15 +114,52 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                     $asObject);
     }
 
+    function &fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )
+    {
+//         $db =& eZDB::instance();
+//         $sql = 'SELECT contentclass_id, contentclass_version, group_id, group_name
+// FROM   ezcontentclass_classgroup
+// WHERE  contentclass_version='0' AND group_id IN ( '1', '3' ) 
+// ORDER BY contentclass_id ASC';
+        if ( is_array( $groupIDList ) )
+        {
+            $groupIDList = array( $groupIDList );
+        }
+        $classGroupList =& eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
+                                                                null,
+                                                                array( "group_id" => $groupIDList,
+                                                                       "contentclass_version" => $contentclassVersion ),
+                                                                null,
+                                                                null,
+                                                                false,
+                                                                array( 'contentclass_id' ) );
+        $classList = array();
+        if ( $asObject )
+        {
+            foreach ( $classGroupList as $classGroup )
+            {
+                $classList[] = eZContentClass::fetch( $classGroup['contentclass_id'] );
+            }
+        }
+        else
+        {
+            foreach ( $classGroupList as $classGroup )
+            {
+                $classList[] = $classGroup['contentclass_id'];
+            }
+        }
+        return $classList;
+    }
+
     function &fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                     null,
                                                     array( "contentclass_id" => $contentclass_id,
-                                                           "contentclass_version" =>$contentclass_version ),
+                                                           "contentclass_version" => $contentclass_version ),
                                                     null,
                                                     null,
-                                                    $asObject);
+                                                    $asObject );
     }
 
     /// \privatesection

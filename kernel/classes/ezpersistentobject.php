@@ -303,7 +303,23 @@ class eZPersistentObject
                 else
                 {
                     if ( is_array( $cond ) )
-                        $where_text .= $id . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                    {
+                        if ( is_array( $cond[0] ) )
+                        {
+                            $where_text .= $id . ' IN ( ';
+                            $j = 0;
+                            foreach ( $cond[0] as $value )
+                            {
+                                if ( $j > 0 )
+                                    $where_text .= ", ";
+                                $where_text .= "'" . $db->escapeString( $value ) . "'";
+                                ++$j;
+                            }
+                            $where_text .= ' ) ';
+                        }
+                        else
+                            $where_text .= $id . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                    }
                     else
                         $where_text .= $id . "='" . $db->escapeString( $cond ) . "'";
                 }
