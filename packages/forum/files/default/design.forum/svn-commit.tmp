@@ -1,0 +1,12 @@
+- Changed override template for article and folder;
+- Added backgroud image.
+--This line, and those below, will be ignored--
+
+AM   images/forum_backgroud.png
+M    override/templates/article.tpl
+A    override/templates/article_line.tpl
+M    override/templates/folder.tpl
+A    override/templates/folder_line.tpl
+M    override/templates/infopage.tpl
+A    override/templates/line_article.tpl
+A    override/templates/search.tpl
