@@ -7,3 +7,5 @@
   <li>{"The url of your site"|i18n("design/standard/setup/init")}</li>
   <li>{"The languages you chose"|i18n("design/standard/setup/init")}</li>
 </ul>
+<p></p>
+{"This data will help to improve eZ publish for future releases."|i18n("design/standard/setup/init")}

@@ -7,7 +7,7 @@
 </div>
 
 <p>
- {"If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases."|i18n("design/standard/setup/init")}
+ {"If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails."|i18n("design/standard/setup/init")}
 </p>
 
 <p>
