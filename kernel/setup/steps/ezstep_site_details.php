@@ -72,6 +72,10 @@ class eZStepSiteDetails extends eZStepInstaller
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_email' );
             $this->PersistenceList['site_templates_'.$counter]['access_type_value'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
+            $this->PersistenceList['site_templates_'.$counter]['database'] =
+                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
+
+            
         }
         return true;
     }

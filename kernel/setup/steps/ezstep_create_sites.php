@@ -79,26 +79,27 @@ class eZStepCreateSites extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
 
         $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['dbname'];
+//        $dbName = $databaseInfo['dbname'];
         $dbSocket = $databaseInfo['socket'];
         $dbUser = $databaseInfo['user'];
         $dbPwd = $databaseInfo['password'];
         $dbCharset = $charset;
         $dbDriver = $databaseInfo['info']['driver'];
-        $dbParameters = array( 'server' => $dbServer,
-                               'user' => $dbUser,
-                               'password' => $dbPwd,
-                               'socket' => $dbSocket,
-                               'database' => $dbName,
-                               'charset' => $dbCharset );
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-//        $db =& eZDB::instance( );
-        eZDB::setInstance( $db );
 
         $siteCount = $this->PersistenceList['site_templates']['count'];
         include_once( 'kernel/classes/ezpackage.php' );
         for ( $counter = 0; $counter < $siteCount; ++$counter )
         {
+            $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
+            $dbParameters = array( 'server' => $dbServer,
+                                   'user' => $dbUser,
+                                   'password' => $dbPwd,
+                                   'socket' => $dbSocket,
+                                   'database' => $dbName,
+                                   'charset' => $dbCharset );
+            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+            eZDB::setInstance( $db );
+
             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
             eZDebug::writeDebug( $sitePackage, "sitepackage_$counter" );
             $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
@@ -110,7 +111,7 @@ class eZStepCreateSites extends eZStepInstaller
                 eZDebug::writeError( "Failed fetching package " . $sitePackage['identifier'] );
         }
 
-        $db->query ( 'show tables');
+//        $db->query ( 'show tables');
 
         $regionalInfo = $this->PersistenceList['regional_info'];
         $demoData = $this->PersistenceList['demo_data'];
@@ -211,9 +212,21 @@ class eZStepCreateSites extends eZStepInstaller
 
             if ( $primaryLanguageLocaleCode != 'eng-GB' )
             {
+                $siteCount = $this->PersistenceList['site_templates']['count'];
+                for ( $counter = 0; $counter < $siteCount; ++$counter )
+                {
+                    $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
+                    $dbParameters = array( 'server' => $dbServer,
+                                           'user' => $dbUser,
+                                           'password' => $dbPwd,
+                                           'socket' => $dbSocket,
+                                           'database' => $dbName,
+                                           'charset' => $dbCharset );
+                    $db =& eZDB::instance( $dbDriver, $dbParameters, true );
 
-                // Updates databases that have eng-GB data to the new locale.
-                $updateSql = "UPDATE ezcontentobject_name
+
+// Updates databases that have eng-GB data to the new locale.
+                    $updateSql = "UPDATE ezcontentobject_name
 SET
   content_translation='$primaryLanguageLocaleCode',
   real_translation='$primaryLanguageLocaleCode'
@@ -222,12 +235,13 @@ WHERE
   real_translation='eng-GB'";
                 $db->query( $updateSql );
 
-                $updateSql = "UPDATE ezcontentobject_attribute
+                    $updateSql = "UPDATE ezcontentobject_attribute
 SET
   language_code='$primaryLanguageLocaleCode'
 WHERE
   language_code='eng-GB'";
-                $db->query( $updateSql );
+                    $db->query( $updateSql );
+                }
             }
 
             $ini->setVariable( 'DatabaseSettings', 'Charset', $charset );
@@ -247,9 +261,6 @@ WHERE
             {
                 $languageObject = $languageObjects[$languageObjectKey];
                 $languageLocale = $languageObject->localeCode();
-
-//                $db->query( 'SELECT * from ezurl' );
-//                $db->query( 'show tables');
 
                 if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
                 {
