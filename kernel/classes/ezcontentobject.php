@@ -189,6 +189,12 @@ class eZContentObject extends eZPersistentObject
         }
         return $ret;
     }
+    function resetDataMap()
+    {
+        $this->ContentObjectAttributeArray = false;
+        $this->DataMap = false;
+        return $this->DataMap;
+    }
 
     /*!
      \return the content class for the current content object

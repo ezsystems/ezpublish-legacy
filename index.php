@@ -84,7 +84,7 @@ eZDebug::writeNotice( $nodePathString, 'nodePathString' );
 $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$node = eZContentObjectTreeNode::fetchByCRC( crc32( $nodePathString ) );
+$node = eZContentObjectTreeNode::fetchByCRC(  $nodePathString  );
 eZDebug::writeNotice( $nodePathString, 'nodePathString' );
 
 if ( get_class( $node ) == 'ezcontentobjecttreenode' )

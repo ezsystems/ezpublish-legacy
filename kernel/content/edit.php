@@ -71,7 +71,6 @@ if ( ! $object->attribute( 'can_edit' ) )
 }
 
 $version =& $object->version( $EditVersion );
-//$children = $object->children(  );
 
 $classID = $object->attribute( "contentclass_id" );
 $class =& eZContentClass::fetch( $classID );
@@ -243,17 +242,11 @@ if ( $storingAllowed || ( $customAction != false ) )
             next( $contentObjectAttributes );
         }
 
-        $objectName = $class->contentObjectName( $object );
-        $object->setAttribute( "name", $objectName );
-        $object->store();
 
-        $node = eZContentObjectTreeNode::fetch( $nodeID );
-        $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
-        $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
-        eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );
-        eZDebug::writeNotice( $node->attribute( 'crc32_path' ), 'CRC32' );
+//        $objectName = $class->contentObjectName( $object );
+//        $object->setAttribute( "name", $objectName );
+//        $object->store();
 
-        $node->store();
     }
     else
     {
@@ -331,8 +324,29 @@ if ( $inputValidated == true )
     if ( $http->hasPostVariable( "PublishButton" ) )
     {
         $object->setAttribute( "current_version", $EditVersion );
+
+        $object->resetDataMap();
+        $objectName = $class->contentObjectName( $object );
+        $oldObjectName =  $object->attribute( "name" );
+        $object->setAttribute( "name", $objectName );
         $object->store();
 
+
+
+        if ( $oldObjectName != $objectName )
+        {
+            $assignedNodes = $object->assignedNodes();
+            reset( $assignedNodes );
+            while( ( $key = key( $assignedNodes ) ) !== null )
+            {
+                $node =& $assignedNodes[$key];
+                $node->updatePathWithNames();
+                eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );
+                eZDebug::writeNotice( $node->attribute( 'crc32_path' ), 'CRC32' );
+                $node->updateSubTreePath();
+                next( $assignedNodes );
+            }
+        }
         // Register the object in the search engine.
         eZSearch::removeObject( $object );
         eZSearch::addObject( $object );

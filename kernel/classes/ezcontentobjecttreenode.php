@@ -245,12 +245,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     function &subTree( $params = array( 'Depth' => false,
-                                       'Offset' => 0,
-                                       'Limit' => 50 ) ,$nodeID = 0)
+                                       'Offset' => false,
+                                       'Limit' => false ) ,$nodeID = 0)
     {
         $depth = false;
-        $offset = 0;
-        $limit = 50;
+        $offset = false;
+        $limit = false;
         $limitationList = array();
         if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
         {
@@ -362,8 +362,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.id = ezcontentobject.contentclass_id
                     ORDER BY path_string";
         }
-        $nodeListArray = $db->arrayQuery( $query, array( "Offset" => $offset,
-                                                          "Limit" => $limit ) );
+        if( !$offset && !$limit )
+        {
+            $nodeListArray = $db->arrayQuery( $query );
+        }else
+        {
+            $nodeListArray = $db->arrayQuery( $query, array( "Offset" => $offset,
+                                                             "Limit" => $limit ) );
+        }
         $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         return $retNodeList;
     }
@@ -498,8 +504,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
     }
 
-    function fetchByCRC( $crcSum )
+    function &fetchByCRC( $pathStr )
     {
+        $crcSum = crc32( $pathStr );
         $db =& eZDB::instance();
 
         $query="SELECT ezcontentobject.*,
@@ -515,6 +522,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodeListArray = $db->arrayQuery( $query );
         $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        if ( count( $retNodeArray ) > 1 )
+        {
+            reset( $retNodeArray );
+            while ( ( $key = key( $retNodeArray )) !== null )
+            {
+                $node =& $retNodeArray[ $key ];
+                if ( $node->attribute( 'path_identification_string' ) == $pathStr )
+                {
+                    return $node;
+                }
+                next( $retNodeArray );
+            }
+        }
         return $retNodeArray[0];
     }
     function fetch( $nodeID )
@@ -632,7 +652,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $leftMargin =  $parentRightMargin;
 
 
-        $values = $parentMainNodeID  . "," .  $contentobjectID . "," . $nodeDepth . ",
+        $insertedNode = new eZContentObjectTreeNode();
+        $insertedNode->setAttribute( 'parent_node_id', $parentMainNodeID );
+        $insertedNode->setAttribute( 'contentobject_id', $contentobjectID );
+        $insertedNode->setAttribute( 'depth', $nodeDepth );
+        $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
+        $insertedNode->store();
+/*        $values = $parentMainNodeID  . "," .  $contentobjectID . "," . $nodeDepth . ",
                   '" .  "/TEMPPATH' ," . $leftMargin . "," . $rightMargin ;
 
         $newNodeQuery = "INSERT INTO ezcontentobject_tree(
@@ -645,15 +671,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db->query( $newNodeQuery );
         $insertedID = $db->lastSerialID( 'ezcontentobject_tree', 'node_id' );
+*/
+        $insertedID = $insertedNode->attribute( 'node_id' );
         $newNodePath = $parentPath . $insertedID . '/';
-
-        $updatePathQuery= "UPDATE ezcontentobject_tree
+        $insertedNode->setAttribute( 'path_string', $newNodePath );
+/*        $updatePathQuery= "UPDATE ezcontentobject_tree
                            SET
                                path_string= '$newNodePath'
                            WHERE
                                node_id=$insertedID";
-        $db->query( $updatePathQuery );
-        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
+      $db->query( $updatePathQuery );
+*/
+//        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
+
         $insertedNode->setAttribute( 'path_identification_string', $insertedNode->pathWithNames() );
         $insertedNode->setAttribute( 'crc32_path', crc32 ( $insertedNode->attribute( 'path_identification_string' ) ) );
         eZDebug::writeNotice($insertedNode->pathWithNames(), 'pathWithNames' );
@@ -690,6 +720,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         return implode( '/', $nodePathElementList );
 
+    }
+
+    function updatePathWithNames()
+    {
+        $this->setAttribute( 'path_identification_string', $this->pathWithNames() );
+        $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
+        $this->store();
+    }
+    function updateSubTreePath()
+    {
+        $subTree = & $this->subTree();
+         reset( $subTree );
+         while( ( $key = key( $subTree ) ) !== null )
+         {
+               $node =& $subTree[$key];
+               $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
+               $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
+               $node->store();
+               next( $subTree );
+         }
     }
     function remove( $nodeID = 0 )
     {
