@@ -730,15 +730,17 @@ WHERE
         if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
              $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
         {
-            $prependedString = eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString;
+            $internalURIString = eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString;
         }
+        else
+            $internalURIString = $uriString;
 
         $db =& eZDB::instance();
         if ( $reverse )
         {
             $query = "SELECT source_url as destination_url, forward_to_id
 FROM ezurlalias
-WHERE destination_url = '" . $db->escapeString( $prependedString ) . "' AND
+WHERE destination_url = '" . $db->escapeString( $internalURIString ) . "' AND
       forward_to_id = 0 AND
       is_wildcard = 0
 ORDER BY forward_to_id ASC";
@@ -747,7 +749,7 @@ ORDER BY forward_to_id ASC";
         {
             $query = "SELECT destination_url, forward_to_id
 FROM ezurlalias
-WHERE source_md5 = '" . md5( $prependedString ) . "' AND
+WHERE source_md5 = '" . md5( $internalURIString ) . "' AND
       is_wildcard = 0
 ORDER BY forward_to_id ASC";
         }
