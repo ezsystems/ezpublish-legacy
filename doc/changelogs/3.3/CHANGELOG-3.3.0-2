@@ -78,6 +78,7 @@ Changes from 3.3.0-1 to 3.3.0-2
 - Fixed collaboration bug when trying to access deleted objects. ( merged from stable 4417 )
   http://ez.no/developer/ez_publish_3/bug_reports/collaboration_approved_items_cause_crash_when_viewing
 - Fixed bug with caching of role information in session. Session cache is now properly cleaned up. ( merged from stable 4320 )
+
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
 - Improved RSS 0.91, 0.92 and 2.0 import: http://ez.no/developer/ez_publish_3/bug_reports/rss_import_does_not_import_ez2_rss_092_feed
@@ -97,6 +98,7 @@ Changes from 3.3.0-1 to 3.3.0-2
 - Added edit button for all object relation list (datatype) items.
 - New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
 - Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
+- The clearcache.sh will now also clear the var directories for all siteaccess.
 
 *DataTypes:
 
