@@ -543,7 +543,10 @@ class eZPDFTable extends Cezpdf
                     if (isset($this->ez['columns']) && $this->ez['columns']['on']==1){
                         $columnStart = $this->ez['columns']['colNum'];
                     }
-//                    $this->transaction('start');
+                    if ( !$options['test'] )
+                    {
+                        $this->transaction('start');
+                    }
                     $row_orig = $row;
                     $y_orig = $y;
                     $y0_orig = $y0;
@@ -748,10 +751,11 @@ class eZPDFTable extends Cezpdf
                             $row = $leftOvers;
                             // now add the shading underneath
                             // Draw lines for each row and above
-                            $this->saveState();
-                            $this->setStrokeColorRGB($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
                             if ( $options['showLines'] > 0 )
                             {
+                                $this->saveState();
+                                $this->setStrokeColorRGB($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
+
                                 if ( $rowCount == 0 )
                                 {
                                     $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height );
@@ -779,6 +783,7 @@ class eZPDFTable extends Cezpdf
                                 {
                                     $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
                                 }
+                                $this->restoreState();
                             }
                             if ($options['showLines']>1){
                                 $this->saveState();

@@ -323,6 +323,7 @@ class eZPDF
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
 
                 eZFile::create( $filename, false, $this->PDF->ezOutput() );
+
                 eZDebug::writeNotice( 'PDF file closed and saved to '. $filename, 'eZPDF::modify' );
             } break;
 
