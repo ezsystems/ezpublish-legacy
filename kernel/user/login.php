@@ -66,6 +66,12 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $userPassword = $Module->actionParameter( 'UserPassword' );
     $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
 
+    if ( trim( $userRedirectURI ) == "" )
+    {
+        if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+         $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+    }
+
     $user = false;
     if ( $userLogin != '' )
     {
