@@ -361,9 +361,7 @@ if ( $http->hasPostVariable( "Limitation" ) or
         {
             $subtreeLimitationID = $subtreeLimitation->attribute('id');
             $subtreeLimitationValues =& eZPolicyLimitationValue::fetchList( $subtreeLimitationID );
-            print( "<pre>" );
-            var_dump( $subtreeLimitationValues );
-            print( "</pre>" );
+
             foreach ( $subtreeLimitationValues as $subtreeLimitationValue )
             {
                 $subtreePath = $subtreeLimitationValue->attribute( 'value' );
