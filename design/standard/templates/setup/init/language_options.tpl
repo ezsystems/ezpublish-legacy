@@ -26,7 +26,7 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 <table border="0" cellspacing="0" cellpadding="0">
 
   <tr>
-    <th class="normal" colspan="3">{"Primary/Additional"|i18n("design/standard/setup/init")}:</th>
+    <th class="normal">{"Primary/Additional"|i18n("design/standard/setup/init")}:</th>
   </tr>
 
   {section name=Language loop=$language_list}
@@ -34,7 +34,7 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
       <td class="normal">
 	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq('eng-GB')}checked="checked" {/section}/>
         <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" />
-	{$:item.language_name}
+	{$:item.intl_language_name}
       </td>
     </tr>
   {/section}

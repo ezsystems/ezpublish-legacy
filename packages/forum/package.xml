@@ -6,7 +6,7 @@
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name modified="1061309339">forum</name>
-  <summary modified="1061309346">Forum site</summary>
+  <summary modified="1061309346">Forum</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 beta1</named-version>

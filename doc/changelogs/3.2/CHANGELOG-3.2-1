@@ -59,6 +59,9 @@ eZ utils:
 - Made sure the superglobal $_SESSION variable is used instead of session_register etc.
   for handling session variables in eZHTTPTool.
 
+eZ locale:
+- Fixed sorting of the locale list, it was currently not work.
+
 *Translations:
 - Fixed and added Hungarian translation
 - Updated Norwegian translation.
