@@ -1,7 +1,10 @@
 Changes from 3.5.1 to 3.5.2
 
 *Kernel:
-
+- Added site.ini setting DebugSetting/AlwaysLog which controls the debug types
+  to always log to files.
+  (Merged from trunk (3.6) rev. 11057, 11059)
+ 
 *Bugfixes:
 - Fixed bug: eZGeneralDigesthandler returns users when no users should be returned
   (Merged from stable/3.3 (3.3-7) rev. 10861)
@@ -52,3 +55,10 @@ Changes from 3.5.1 to 3.5.2
 *WebDAV:
 - Fixed discarding of XML payload when user needs to authenticate.
   (Merged from trunk (3.6.0alpha) rev. 10937)
+
+*Library:
+
+eZDebug:
+- Added support for choosing which debug levels to always log. By default it
+  will always log errors even if debug output is off.
+  (Merged from trunk (3.6) rev. 11047, 11049, 11050, 11053, 11056, 11062)
