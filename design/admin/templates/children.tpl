@@ -149,7 +149,6 @@
     {/section}
     {/section}
 
-{/let}
 {section-else}
 <div class="controlbar">
 {/section}
@@ -175,7 +174,7 @@
 <select name="ClassID" disabled="disabled">
 <option value="">Not available</option>
 </select>
-<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions for creating new items under the current location.'|i18n( 'design/admin/layout' )}"disabled="disabled" />
+<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions for creating new items under the current location.'|i18n( 'design/admin/layout' )} "disabled="disabled" />
 </div>
 {/section}
 </form>
