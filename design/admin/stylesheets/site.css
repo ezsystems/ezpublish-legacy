@@ -415,7 +415,7 @@ div#leftmenu div.box-br, div#rightmenu div.box-br
 
 div#leftmenu div#content-tree div.box-content
 {
-    padding: 0 1px 0.5em 0.5em; 
+    padding: 0 1px 0.5em 1px; 
 }
 
 div#leftmenu div.box-content
@@ -458,6 +458,7 @@ div#leftmenu div.translations label
 div#trash ul
 {
     margin-left: 0.25em;
+    padding-left: 0.5em;
 }
 
 div#trash li
@@ -658,21 +659,14 @@ div#contentstructure
     width: 100%;
     overflow: auto;
     overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
-}
-
-div#contentstructure
-{
     padding-top: 0.5em;
 }
 
 div#contentstructure ul#content_tree_menu
 {
     margin-top: 0;    
-}
-
-div#contentstructure ul#content_tree_menu
-{
     margin-left: 0.25em;
+    padding-left: 0.5em;
 }
 
 div#contentstructure ul#content_tree_menu ul
@@ -703,7 +697,7 @@ div#contentstructure ul#content_tree_menu ul li
     background-repeat: no-repeat;
 }
 
-div#contentstructure  ul#content_tree_menu ul li.lastli
+div#contentstructure ul#content_tree_menu ul li.lastli
 {
     background-image: url(../images/bg_content_tree_li_last.gif);
     padding-bottom: 2px;
