@@ -1262,10 +1262,10 @@ CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING b
 --
 -- TOC Entry ID 135 (OID 360693)
 --
--- Name: "ezsearch_object_word_link_frequency" Type: INDEX Owner: sp
+-- Name: "ezsearch_object_word_link_freq" Type: INDEX Owner: sp
 --
 
-CREATE INDEX ezsearch_object_word_link_frequency ON ezsearch_object_word_link USING btree (frequency);
+CREATE INDEX ezsearch_object_word_link_freq ON ezsearch_object_word_link USING btree (frequency);
 
 --
 -- TOC Entry ID 136 (OID 360694)

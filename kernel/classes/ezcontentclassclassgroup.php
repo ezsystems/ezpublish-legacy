@@ -57,7 +57,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                          "group_id" => "GroupID",
                                          "group_name" => "GroupName"),
                       "keys" => array( "contentclass_id", "contentclass_version", "group_id" ),
-                      "increment_key" => "id",
+//                      "increment_key" => "id",
                       "class_name" => "eZContentClassClassGroup",
                       "sort" => array( "contentclass_id" => "asc" ),
                       "name" => "ezcontentclass_classgroup" );
