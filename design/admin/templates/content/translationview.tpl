@@ -1,14 +1,18 @@
-<form>
+<form name="languageform" action={$module.functions.translations.uri|ezurl} method="post" >
+
+{* Translation window *}
 <div class="context-block">
 <h2 class="context-title">{'%translation [Translation]'|i18n( 'design/admin/content/translationview',, hash( '%translation', $translation.locale_object.intl_language_name ) ) }</h2>
 
 <div class="context-attributes">
 
+{* ID *}
 <div class="block">
 <label>{'ID'|i18n( 'design/admin/content/translationview' )}</label>
 {$translation.id}
 </div>
 
+{* Locale *}
 <div class="block">
 <label>{'Locale'|i18n( 'design/admin/content/translationview' )}</label>
 {$translation.locale}
@@ -18,7 +22,8 @@
 
 <div class="controlbar">
 <div class="block">
-<input class="button" type="submit" name="" value="Remove" />
+    <input type="hidden" name="DeleteIDArray[]" value="{$translation.id}" />
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/content/translationview' )}" />
 </div>
 </div>
 
@@ -27,12 +32,12 @@
 </form>
 
 
-
+{* Locale window *}
 <div class="context-block">
 <h2 class="context-title">{'%locale [Locale]'|i18n( 'design/admin/content/translationview',, hash( '%locale', $translation.locale ) ) }</h2>
 
 <div class="context-attributes">
-
+{* Charset *}
 <div class="block">
 <label>{'Charset'|i18n( 'design/admin/content/translationview' )}</label>
 {section show=$translation.locale_object.charset}
@@ -42,6 +47,7 @@
 {/section}
 </div>
 
+{* Allowed charsets *}
 <div class="block">
 <label>{'Allowed charsets'|i18n( 'design/admin/content/translationview' )}</label>
 {section var=Charsets loop=$translation.locale_object.allowed_charsets}
