@@ -1,6 +1,6 @@
 {* Class *}
 <div class="block">
-    <label>{'Class'|i18n( 'design/admin/workflow/eventtype/edit' )}</label>
+    <label>{'Class'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]">
     {section var=Classes loop=$event.workflow_type.contentclass_list}
         <option value="{$Classes.item.id}">{$Classes.item.name}</option>
@@ -14,7 +14,7 @@
 {section show=$event.workflow_type.has_class_attributes}
 <div class="block">
     {let possibleClassAttributes=$event.workflow_type.contentclassattribute_list}
-    <label>{'Attribute'|i18n( 'design/admin/workflow/eventtype/edit' )}</label>
+    <label>{'Attribute'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezwaituntildate_classattribute_{$event.id}[]">
     {section name=HasClassAttributes loop=$possibleClassAttributes}
         <option value="{$HasClassAttributes:item.id}">{$HasClassAttributes:item.name}</option>
@@ -28,7 +28,7 @@
 
 {* Class/attribute list *}
 <div class="block">
-<label>{'Class/attribute combinations [%count]'|i18n( 'design/admin/workflow/eventtype/edit',, hash( '%count', $event.content.entry_list|count ) )}</label>
+<label>{'Class/attribute combinations [%count]'|i18n( 'design/admin/workflow/eventtype/edit',, hash( '%count', $event.content.entry_list|count ) )}:</label>
 {section show=$event.content.entry_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -55,7 +55,7 @@
 
 {* Modify publishing dates *}
 <div class="block">
-<label>{"Modify the objects' publishing dates"|i18n( 'design/admin/workflow/eventtype/edit' )}</label>
+<label>{"Modify the objects' publishing dates"|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
 <input type="checkbox" name="WorkflowEvent_data_waituntildate_modifydate_{$event.id}[]" value="1" {section show=$event.data_int1}checked="checked"{/section} />
 </div>
 

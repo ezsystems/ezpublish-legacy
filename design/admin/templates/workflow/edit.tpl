@@ -35,7 +35,7 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/workflow/edit' )}</label>
+<label>{'Name'|i18n( 'design/admin/workflow/edit' )}:</label>
 <input class="halfbox" type="text" name="Workflow_name" value="{$workflow.name}" />
 </div>
 
@@ -60,7 +60,7 @@
 
 <tr><td>
 <div class="block">
-<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}</label>
+<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}:</label>
 <input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
 </div>
 

@@ -34,12 +34,12 @@
 <div class="context-attributes">
 
 <div class="block">
-    <label>{'ID'|i18n( 'design/admin/workflow/view' )}</label>
+    <label>{'ID'|i18n( 'design/admin/workflow/view' )}:</label>
     {$workflow.id}
 </div>
 
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/workflow/view' )}</label>
+    <label>{'Name'|i18n( 'design/admin/workflow/view' )}:</label>
     {$workflow.name}
 </div>
 
