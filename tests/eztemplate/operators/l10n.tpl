@@ -27,3 +27,4 @@ error          - {$number|l10n( 'error' )}
 {let func=time timestamp=1077552775}
 time           - {$timestamp|l10n( $func )}
 {/let}
+
