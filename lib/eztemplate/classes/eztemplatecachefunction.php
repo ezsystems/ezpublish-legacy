@@ -176,7 +176,8 @@ class eZTemplateCacheFunction
             $filedirText = "\$cacheDir";
             $filepathText = "\$cachePath";
 
-            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )\n" .
+//            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )\n" .
+              $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) )\n" .
                                    "{\n" .
                                    "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
                                    "    \$db =& eZDB::instance();\n" .
@@ -199,7 +200,7 @@ class eZTemplateCacheFunction
                                    "    {\n" .
                                    "        \$subtreeNodeIDSQL = \"SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='\$subtree'\";\n" .
                                    "        \$subtreeNodeID =& \$db->arrayQuery( \$subtreeNodeIDSQL );\n" .
-                                   "        if ( count( \$subtreeNodeID ) == 1 )\n" .
+                                   "        if ( count( \$subtreeNodeID ) > 0 )\n" .
                                    "        {\n" .
                                    "            \$subtreeNodeID = \$subtreeNodeID[0]['node_id'];\n" .
                                    "        }\n" .
@@ -443,6 +444,7 @@ ENDADDCODE;
                     if ( file_exists( $phpPath ) and
                          filemtime( $phpPath ) >= $expiryTime )
                     {
+                        eZDebug::writeDebug( $phpPath, "cacheblock file sp2" );
                         $fp = fopen( $phpPath, 'r' );
                         $textElements[] = fread( $fp, filesize( $phpPath ) );;
                         fclose( $fp );
@@ -496,9 +498,9 @@ ENDADDCODE;
                             {
                                 $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
                                 $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
-                                if ( count( $subtreeNodeID ) != 1 )
+                                if ( count( $subtreeNodeID ) < 1 )
                                 {
-                                    eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
+                                    eZDebug::writeError( "Could not find path_string for node. $subtree", 'eZTemplateCacheFunction::process()' );
                                     break;
                                 }
                                 else
