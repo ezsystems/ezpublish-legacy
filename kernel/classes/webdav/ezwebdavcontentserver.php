@@ -257,25 +257,26 @@ function getNodeByTranslation( $nodePathString )
     //
     $indexDir = eZSys::indexDir();
 
-    append_to_log( "indexDir er: $indexDir" );
+    append_to_log( "indexDir: $indexDir" );
 
     // Remove indexDir if used in non-virtualhost mode.
     if ( preg_match( "#^$indexDir/(.+)$#", $nodePathString, $matches ) )
     {
         $nodePathString = $matches[1];
     }
+
     append_to_log( "getNodeByTranslation: nodepathstring0: $nodePathString");
     // If exists: remove the content folder from the path.
 
     if ( preg_match( "#^" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
-            append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring: $nodePathString");
+        append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring1: $nodePathString");
         $nodePathString = $matches[1];
     }
 
     if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
-            append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring: $nodePathString");
+        append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring2: $nodePathString");
         $nodePathString = $matches[1];
     }
 
@@ -335,16 +336,26 @@ function getNodeByTranslation( $nodePathString )
  */
 function getParentNodeByTranslation( $nodePathString )
 {
-    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+    append_to_log( "getParentNodeByTranslation: nodePathString1: $nodePathString" );
+    $indexDir = eZSys::indexDir();
 
-    // If exists: remove the content folder from the path.
-    if ( preg_match( "#^content/(.+)$#", $nodePathString, $matches ) )
+    append_to_log( "indexDir: $indexDir" );
+
+    // Remove indexDir if used in non-virtualhost mode.
+    if ( preg_match( "#^$indexDir/(.+)$#", $nodePathString, $matches ) )
     {
+        $nodePathString = $matches[1];
+    }
+
+    if ( preg_match( "#^" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
+    {
+        append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring1: $nodePathString");
         $nodePathString = $matches[1];
     }
 
     if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
+        append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring2: $nodePathString");
         $nodePathString = $matches[1];
     }
 
@@ -352,7 +363,7 @@ function getParentNodeByTranslation( $nodePathString )
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
 
-    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+    append_to_log( "getParentNodeByTranslation: nodePathString2: $nodePathString" );
 
     // Remove the first slash if it exists.
     if ( $nodePathString[1] == '/' )
@@ -360,13 +371,13 @@ function getParentNodeByTranslation( $nodePathString )
         $nodePathString = substr( $nodePathString, 1 );
     }
 
-    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+    append_to_log( "getParentNodeByTranslation: nodePathString3: $nodePathString" );
 
     // Get rid of the last part; strip away last slash and anything behind it.
     $cut = strrpos( $nodePathString, '/' );
     $nodePathString = substr( $nodePathString, 0, $cut );
 
-    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+    append_to_log( "getParentNodeByTranslation: nodePathString4: $nodePathString" );
     //
     $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
 
@@ -377,9 +388,11 @@ function getParentNodeByTranslation( $nodePathString )
     if ( preg_match ( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
     {
         $nodeID = $matches[1];
+        append_to_log( "getParentNodeByTranslation: nodeID: $nodeID");
     }
     else
     {
+        append_to_log( "getParentNodeByTranslation: no nodeID");
         return false;
     }
 
@@ -580,7 +593,7 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
     // Check if the reference dir for images exists, if not: create it!
     if ( !file_exists( $referenceDir ) )
     {
-        eZDir::mkdir( $ref_dir, eZDir::directoryPermission(), true);
+        eZDir::mkdir( $referenceDir, eZDir::directoryPermission(), true);
     }
 
     // Set the location of the source, original and reference files.
@@ -589,9 +602,11 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
 
     // Attempt to copy the source file to the original location.
     $result = copy( $imageFileName, $originalFile );
+    append_to_log( "storeImage result: " . ( $result ? 'true' : 'false' ) );
 
     if (!$result)
     {
+        append_to_log( "storeImage failed to copy original $originalFile" );
         // Remove the object from the databse.
         eZImage::remove( $contentObjectAttributeID , $version );
 
@@ -604,6 +619,7 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
 
     if (!$result)
     {
+        append_to_log( "storeImage failed to copy reference $referenceFile" );
         // Remove the object from the databse.
         eZImage::remove( $contentObjectAttributeID , $version );
 
@@ -747,6 +763,7 @@ function putImage( $target, $tempFile, $parentNodeID )
 
     // Attempt to store the image object in the DB and copy the file.
     $result = storeImage( $tempFile, $imageOriginalFileName, $imageCaption, $contentObjectAttribute );
+    append_to_log( "putImage result: " . ( $result ? 'true' : 'false' ) );
 
     // If the store operation was OK:
     if ( $result )
@@ -1016,7 +1033,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
     function options()
     {
         // Only a few WebDAV operations are allowed.
-        $options = "Allow: OPTIONS,PROPFIND,HEAD,GET,PUT,MKCOL,MOVE";
+        $options = "Allow: OPTIONS, PROPFIND, HEAD, GET, PUT, MKCOL, MOVE";
+//         $options = "Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK, SEARCH";
 
         // Return the allowed options.
         return $options;
