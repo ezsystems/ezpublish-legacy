@@ -1,4 +1,707 @@
 Changes from 3.4.4 to 3.5.0
 
-NOTE: This file will be generated from the all unstable changelogs in the 3.5 branch.
-      Do not add entries here manually
+*Kernel:
+- Fixed problem with template compiler ignoring the current pagelayout which is set
+- Made content class group override keys optional based on .ini setting, disabled by default because of overhead.
+- Added attributes to fetch cache values of class_identifier and class_name in eZContentObjectTreeNode objects and eZContentObject objects
+- Added cache for contentclass attribute name, identifier and can translate value to minimize the number of SQL  queries.
+- Added memory cache for content object version objects.
+- Added function to store the users last visit and to list the content from the users last visit, url to list is /content/new.
+- Added siteaccess match type 'servervar' that will use a server variable to match a siteaccess.
+  Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
+- Added function eZUser::isAnonymous
+- Added new interface for building payment gateways.
+- Added option to set the number of rows to add to the matrix datatype
+- Added functionality of preserving of attribute values in the edit interface.
+  Preserving means that if you enter value and submitting returns you back because
+  of an error, you will still have the form filled with these values.)
+- Fixed problem with ANSI control chars for the shell scripts.
+  http://ez.no/community/bug_reports/cli_scripts_in_windows_dos_box_show_ansi_control_characters
+- Added new settings in design.ini called CSSFileList which is an array with
+  CSS to include in the pagelayout (base design). This makes it much easier
+  for extensions to add CSS files to the current design.
+- Added alias (short_name) "contentobject_attr_version" for
+  contentobject_attribute_version attribute in tables ezenumobjectvalue and
+  contentobject_attr_version for DBMSes not supporting long identifiers.
+- NO "AS" keyword anymore in SQL FROM clauses for more portability
+  between DBMSes.
+- Added daily and monthly digest options in the notification system.
+- Added information on webserver (currently only Apache) to the system information page.
+- Improved support for using short attribute names with persistent objects.
+- Added content_structure_tree operator which allows retrieve a tree of content.
+- Added HTTP Post to URL redirection.
+- Made sure the current viewmode is available as the variable $viewmode in content/view.
+- New INI setting EmbedNodeAssignmentHandling in content.ini which controls whether
+  location controls are available in content/edit, it is disabled by default.
+- Fixed the content/remove policy to check if the current object/node is
+  at the top-level (e.g root, media, users). If so access is denied no matter
+  what the policy is. This simplies removal checking of nodes and makes it
+  a lot safer.
+- Improved the content/browse functionality with cancel button and permission
+  checking on all nodes.
+- Added actions in content/action to move a given node, either to a specific
+  location or user-selectable location with the browse function.
+- Added new 'move' permission to content module, this will be used to do checking
+  when trying to move nodes. By default this permission will deny all attempts
+  to move top-level nodes.
+- Added new post variable 'RedirectOnCancel' for /user/password that can be
+  used to configure the page where is redirected to. Before this was hardcoded to
+  /content/view/sitemap/2.
+  http://ez.no/community/bug_reports/hard_coded_redirect_path_unpossible_to_change_from_a_template
+- Changed the recent list order in ascending and also now it works according to MaximumRecentItems setting in browse.ini
+- Added support for deleting drafts when setting version history limit.
+- Renamed eZSearchEngine::suportedSearchTypes to eZSearchEngine::supportedSearchTypes (spell fix)
+  This will affect all searchengines (apart from the ones not using this function).
+- Added new module function "list" for module section.
+- Zend WinEnabler (Zend Performance Suite) added to list of known accelerators.
+- Removed spam prevention text from PDF version of author datatype
+- Fixed correct image sizes in PDF articles
+- Added google navigator for Search statistics.
+- Added possibility to hide particular nodes (as well as subtrees) in the content tree.
+- Added support for placing cronjobs in extension.
+- Added google navigator for url/view.
+- Fixed in wrokflow grouplist. All selected objects can be removed now.
+- Changed eZPersistenObject::attribute() to check and return "function_attributes" before "fields".
+- Changed eZPersistenObject::attribute() to have a second parameter which
+  can be used to disabled checking of 'function_attributes'.
+- Added permission check for updating priority of sorting.
+- Disabled removing class which has content object used as system/top node.
+- Template function fetch( 'content', 'list|list_count|tree|tree_count', ... ) now accepts new
+  boolean parameter 'ignore_visibility'.
+  This might be useful to fetch/count invisible nodes disregarding the ini setting.
+- Added new method eZContentObjectTreeNode::clearViewCacheForSubtree()
+  that clears view cache for a given subtree.
+- Added default SOAP server support. Added soap.php, which will include specified SOAP extensions.
+- Added function to swap two nodes without changing any other content structure.
+- Added third optional boolean parameter to template operators
+  'mimetype_icon', 'class_icon', 'classgroup_icon' and 'icon'.
+  If it's specified and set to true(), the operators return only the icon URI instead of the whole HTML code.
+- Related object file upload in content/edit will now work even if there is
+  no HTTP file available, in which it will go to content/upload to get the file.
+- Translating of content objects can now be done in the normal edit page instead
+  of the separate content/translate page. The old system is kept but will not
+  be shown with in the new admin interface.
+- Added cache clearing based on ezkeyword attributes, will clear cache for all objects with the same keyword.
+  Configurable in viewcache.ini, see clear_keyword_caches_only.
+- Added template 'fetch' functions to 'setup' module: version, major_version,
+  minor_version, release, state, is_development, revision, database_version,
+  database_release.
+- Added support for the template variable 'persistent_variable', which can be
+  used to communicate between content templates and other templates, even
+  though content caching is on. It can be set for example with
+  {set scope=global persistent_variable=42} and fetched with
+  {$module_result.content_info.persistent_variable}
+- Made sure all errors, warnings and notices in eZScript are sent to stderr.
+- Added support for dumping data in ezsqldumpschema.php.
+- Added support for dumping to SQL format in ezsqldumpschema.php.
+- The fetch functions content/list, content/tree, content/list_count
+  and content/tree_count can now pass the parameter 'limitation' which controls
+  the permission handling of the list.
+- Added possibility top configure top admin menu through menu.ini.
+- Added functionality to sort on path_identification_string.
+  http://ez.no/community/bug_reports/content_fetch_add_sort_by_path_string
+- Added class-type versioning for PDF export and RSS import/export.
+- Removed checking for contentobject_is_published in subTree() in
+  eZContentObjectTreeNode, the use of this attribute is deprecated and should
+  be removed.
+- New class eZRedirectManager which takes care of figuring the current redirect
+  URI to use for a given module.
+- Improved storage of the LastAccessesURI session variable to only happen when
+  a view UI context is used.
+- Fixed fetching collaboration list with offset.
+  Merged from stable/3.3 rev. 10112, stable/3.4 rev. 10113.
+- Made sure newly created packages have the package information set.
+  (Merged from stable/3.4 (3.4.5) rev. 10296)
+- Enabled debug summary report for redirects and added the count for each error
+  type.
+- Fixed a problem in redirection when the redirect url did not start with a
+  slash.
+- Fixed wrong creation of tree node in content/versionview which could lead to
+  undefined member variables.
+
+eZNodeAssignment:
+- Added attribute 'node' to fetch the node the assignment relates to.
+- Added static function removeByID which removes one or more assignments by IDs.
+
+eZContentObjectTreeNode:
+- Added parameter $checkPolicies to childrenCount function which controls whether
+  policies are in effect or not when counting.
+- Added static function updateMainNodeID which updates the main node selection
+  and node assignments for a given object.
+- Fixed fetchNode() to also fetch the name of the object, without the 'name'
+  attribute would be empty.
+
+Class:
+- Simplified creation of classes by having a 'New class' button on the group
+  listing. Radio buttons were added to select the group to place the class
+  in (default is the first, usually Content).
+
+Setup:
+- Improved directory permission test by checking for the user and group ID of the
+  currently running process. This allows the setup to propose chown  commands
+  with correct user and group. (Requires posix extension)
+
+Scripts:
+- New script bin/php/ezcontentcache.php which can be used to clear the
+  viewcache for a given node or subtree.
+
+*Datatype:
+- Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 
+  function is used to check whether or not a datatype can be removed from a class. Function 
+  returns true in default.
+- Added/reimplemented function isClassAttributeRemovable() in datatype ezuser,
+  disallowed deletion of this  datatype if it belongs to the class of login user.
+- Improved handling for lower-case input of ISBN Datatype.
+- Removed parameter $mimeData from eZContentObjectAttribute::insertRegularFile()
+  which were not supposed to be there.
+- Implement regular file support for datatypes eZBinaryFile and eZImage.
+- Fixed a bug in eZImage datatype which caused the published version to
+  use the temporary version of the image instead of the one with correct
+  node path.
+- Added the possibility for datatypes to return information on how they should
+  be displayed based on view.
+  This is used in the admin interface when editing an object.
+- Added the 'filesize' attribute to all alias in ezimage datatype.
+- Added the 'filesize' and 'filepath' attribute to ezmedia datatype.
+
+eZDatatype:
+- Added new interface for querying datatypes for option information. This replaces
+  the old code in basket and wishlist which were hardcoded against ezoption.
+
+eZMatrix datatype:
+- Fixed bug in matrix datatype when adding new rows, changed the 'max' to a
+  'min' to avoid it inserting 40 rows each time.
+
+*eZWebDAVContentServer:
+- Made sure correct status message is returned for all operations.
+- Implemented permission checking for all operations.
+- Integrated with the new eZContentUpload system for centralized
+  detection and creation of objects.
+
+*Scripts:
+eztc.php:
+- Added support for compiling files by filepath.
+- Added parameter --force to force compilation of template files.
+- Added checks for directory and temp/hidden files.
+
+*DataType:
+- Supported nested list for datatype ezxmltext.
+- Added a new datatype called eZMultiOption which works like
+  eZOption but handles multiple options in one attribute.
+- Added support for not using strict rule to parse header for datatype ezxmltext.
+  This can be configurable by setting 'UseStrictHeaderRule' to false in block [header] 
+  of content.ini.
+
+*eZPHPCreator
+- Added addRawVariable for much improved performance for generating PHP code for
+  a PHP variable.
+- Added a new parameter to the store() method to allow for atomic updates of
+  files in order to stop concurrency problems.
+
+*eZTranslationCache
+- Implemented usage of the new addRawVariable method.
+
+*LDAP
+- Could support LDAP version 2 or 3 by defining 'LDAPVersion' variable in ldap.ini.
+- Changed variable 'LDAPUserGroup' in ldap.ini to an array which means a ldap user 
+  can be saved in multiple groups in eZ publish.
+- An user who is in multiple groups in LDAP server can be assigned to multiple
+  groups in eZ publish automatically.
+
+*Bugfixes:
+- Added whitespace removal to mail Transport setting (in site.ini file) -
+  it is critical that there's no whitespace there.
+- Fixed bug in when editing XML lists. It included some code as text.
+- Fixed bug with non-required ContentObjectID for adding notifications
+  http://ez.no/index.php/community/bug_reports/adding_a_notification_shouldnt_need_a_content_object_id
+- Fixed bug
+  http://ez.no/community/bug_reports/ini_settings_editing_causes_change_of_the_current_layout
+- Fixed bug
+  http://ez.no/community/bug_reports/metadataarray_description_problem
+- Fixed problem with the URL management: URLs from drafts and archived versions were shown.
+  Now it will only show URLs from published versions.
+- Fixed concurrency issue with cached files.
+  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
+- Fixed typo in error message.
+  http://ez.no/community/bug_reports/the_fatal_error_ez_publish_did_not_finish_it_s_request_message
+- Fixed bug: incorrect value of eZNodeAssignment after node was moved.
+- Removed hardcoded redirect in kernel/user/password.php. You can now control the redirect with the hidden variable
+  "RedirectOnCancel".
+- Fixed bug: eZContentObjectTreeNode::subTree() - could not fetch nodes without limitations
+  http://ez.no/community/bug_reports/3_5alpha1_ezcontentobjecttreenode_subtree_could_not_fetch_nodes_without_limitations
+- Fixed bug: restore from trash is impossible
+  http://ez.no/community/bug_reports/restore_from_trash
+- Fixed bug: Class edit - wrong redirect.
+  http://ez.no/community/bug_reports/class_edit_wrong_redirect
+- Fixed bug: /class/view - wrong class group.
+  http://ez.no/community/bug_reports/3_5alpha1_class_view_wrong_class_group
+- Fixed bug: Toolbar management - view not found.
+  http://ez.no/community/bug_reports/toolbar_management_faliure
+- Fixed bug: Fatal Error with non-existing properties in attribute_gui_view
+  with template optimization turned on.
+  http://ez.no/community/bug_reports/3_5alpha1_fatal_error_if_an_attribute_don_t_exists
+- Fixed bug: wrong declared property name
+  http://ez.no/community/bug_reports/undefined_member_variable_in_eztemplatecachefunction_php
+- Fixed call-time pass-by-reference issue in ezpaymentgatewaytype.php
+  http://ez.no/community/bug_reports/warning_when_creating_new_workflow
+- Fixed bug: popupmenu fails on objects with quotes in their names.
+- Fixed bug: Package export produces broken tars.
+  http://ez.no/community/bug_reports/package_export_broken_tars_eztararchivehandler_php
+- Fixed bug: cancel button did not work when editing a PDF export.
+  http://ez.no/community/bug_reports/cancel_button_in_pdf_export
+- Fixed bug of imported folders from addons get wrong priority number.
+- Fixed bug: disappearing images due to broken XML
+  http://ez.no/community/bug_reports/3_5alpha1_images_disappear_after_editing
+  http://ez.no/community/bug_reports/problem_with_image
+- Fixed bug for Workflow, After clicking on "New Wrokflow Group" and then cancel it do not create new wrok flow group now.
+  http://ez.no/community/bug_reports/cancel_in_create_new_workflow_group_does_not_work
+- Fixed bug for shop/discountgroup, after clicking New Discount Group and then Cancel button it does not create new discount group now.
+  http://ez.no/community/bug_reports/cancel_in_create_new_discount_group_shop_does_not_work  
+- Removed some commented code.
+- Fixed bug: Sort order ASC/Desc is swapped in admin view template.
+  http://ez.no/community/bug_reports/3_5alpha1_sort_order_ascending_and_descending_is_swapped
+- Fixed bug: when trying to remove several locations when viewing a node 
+  always only the first location is removed.
+- Fixed bug: cancel in "New workflow" went back to list of groups.
+  http://ez.no/community/bug_reports/cancel_in_new_workflow_goes_back_to_list_of_groups
+- Fixed bug: Limitation list and fetchtree.
+  http://ez.no/community/bug_reports/limitation_list_and_fetchtree
+- Fixed bug in template, option and multioption datatype works properly for shop.
+  http://ez.no/community/bug_reports/option_value
+- Fixed bug in /url/list: after changing the number of URLs displayed on the page (10/20/30)
+  user was redirected to a wrong page (usually /content/view/something/).
+  http://ez.no/community/bug_reports/10_25_50_selector_in_url_list_is_broken
+- Fixed bug: New role cancel does not work.
+  http://ez.no/community/bug_reports/new_role_cancel_does_not_work
+- Fixed bug: The location box was not updated after adding/removing assignments.
+  http://ez.no/community/bug_reports/location_box_does_not_update
+- Fixed bug: ActionAddToBasket crash.
+  http://ez.no/community/bug_reports/actionaddtobasket_crash
+  http://ez.no/community/bug_reports/actionaddtobasket_crash
+- Fixed bug: Contentstructure javascript reports error when MaxDepth is limited and 
+  viewed node depth is greater.
+  http://ez.no/community/bug_reports/contentstructure_javascript
+- Fixed bug: Previous/Next Links in Gallery are wrong.
+  http://ez.no/community/bug_reports/previous_next_links_in_gallery_are_wrong
+- Added missing operator i18n for RSS Exports.
+- Fixed bug: management is not working when using old admin interface.
+  http://ez.no/community/bug_reports/old_admin_menu_management
+- Fixed bug of no warning messages shows when xml data are not valid.
+  http://ez.no/community/bug_reports/xml_field_validation_trouble
+- Fixed bug: ezsqldiff.php did not accept empty db user passwords.
+- Fixed bug: Search is not working when only search from visiable nodes.
+  http://ez.no/community/bug_reports/search_doesn_t_work
+- Fixed bug of fatal error occures if no node selected when you browse location
+  of importing content objects.
+  http://ez.no/community/bug_reports/3_5beta_fatal_error_at_package_import_browse_mode
+- Fixed bug of updating priority does not work if parent node is not main node.
+  http://ez.no/community/bug_reports/set_order_priority_in_other_location_no_main_location
+  (Merged from stable/3.4, rev. 9505)
+- Fixed bug in ezkeyword datatype which will store duplicated keyword if
+  keyword contains apostrophe (').
+  (Merged from stable/3.4, rev. 9511)
+- Fixed rendering of bullet and numbered lists in PDF.
+- Fixed bug: Conditonal role assignment bug.
+  http://ez.no/community/bug_reports/conditonal_role_assignment_bug
+- Fixed bug of inconsistency between template and fetchalias.ini.
+  http://ez.no/community/bug_reports/inconsistency_between_template_and_fetchalias_ini
+  (Merged from stable/3.4, rev. 9599)
+- Fixed bug when canceling editation of existing PDF export removes it.
+  http://ez.no/community/bug_reports/pdf_crash
+- Fixed incorrect break statement
+  http://ez.no/community/bug_reports/break_outside_of_loop
+- Fixed bug: viewing the object with attibute of  datatype which is not present
+  causes fatal error
+  http://ez.no/community/bug_reports/crash_with_object_when_datatype_is_not_present
+  (Merged from stable/3.4 rev. 9633)
+- Fixed typo in kernel/classes/ezcontentobjectattribute.php
+  http://ez.no/community/bug_reports/3_5_typo_in_ezcontentobjectattribute_serialize
+- Fixed bug with adjustment of datetime:
+  http://ez.no/community/bug_reports/ez_datetime_datatype_malfunction
+- Fixed problem with the decimal separator and compiled templates
+  http://ez.no/community/bug_reports/compiled_template_and_decimalsymbol_problem_parse_error
+  (Merged from stable/3.4, rev. 9674)
+- Fixed bug with non-mandatory user datatype, entered mail but not username
+  http://ez.no/community/bug_reports/ezuser_strange_behavior
+- Fixed wrong function call 'attributes' vs 'attribute' in contentclass
+  package handler.
+  (Merged from stable/3.4 (3.4.5) rev. 9693)
+- Fixed usage of wrong defines in 'set' template operator.
+  (Merged from stable/3.4 (3.4.5) rev. 9696)
+- Fixed bug of function handleList() in ezurl.php create unlimited sql queries.
+  http://ez.no/community/bug_reports/3_5alpha1_url_list_doesn_t_work_with_many_urls
+- Fixed cache bug for content structure menu
+  http://ez.no/community/bug_reports/3_5alpha1_missing_array_keys_for_cache_block_within_content_structure_menu_tpl
+- Fixed bug some template typo errors.
+  http://ez.no/community/bug_reports/template_typo_errors
+  (Manually merged from stable/3.4 (3.4.5) rev. 9722)
+- Fixed bug of duplicated keyword stored.
+  http://ez.no/community/bug_reports/critical_keywords_will_be_duplicated_at_each_publishing_process
+  (Merged from stable/3.4 (3.4.5) rev. 9741)
+- Fixed bug of fatal error occurs if class id or parent node id is not exist
+  when creating new object.
+  http://ez.no/community/bug_reports/kernel_content_action_php_fatal_error_at_wrong_classid
+  (Merged from stable/3.4 (3.4.5) rev. 9752)
+- Fixed bug with cache-block expiration in content tree menu.
+  http://ez.no/community/bug_reports/contentstructure_and_cache_key
+- Fixed bug of potential fatal error may occur in ezcontentcachemanager.php.
+  http://ez.no/community/bug_reports/3_5_deleting_objects_fatal_error_in_kernel_classes_ezcontentcachemanager_php
+  (Merged from stable/3.4 (3.4.5) rev. 9756)
+- Fixed bug of fatal error may occur in ezrole.php.
+  http://ez.no/community/bug_reports/3_5_deleting_objects_fatal_error_in_kernel_classes_ezrole_php
+  (Merged from stable/3.4 (3.4.5) rev. 9759)
+- Fixed bug with triing load of empty string translation file multiple times.
+  (Manualy merged from stable/3.3 rev. 9762)
+  http://ez.no/community/bug_reports/nno_no_translation_is_empty
+- Fixed bug of unserializing ezcontentobjecttreenode get an extra attribute.
+  http://ez.no/community/bug_reports/ezcontentobjecttreenode_unserialize_passes_unneeded_array_key
+  (Merged from stable/3.4 (3.4.5) rev. 9777)
+- Fixed bug of crash when viewing discount rules with deleted products.
+  http://ez.no/community/bug_reports/deleted_product_and_discount_list
+- Fixed bug in eZIniSettingType: removing setting of type array causes removing
+  whole section.
+  (Manually merged from stable/3.3 rev. 9785, also in stable/3.4 rev.9786)
+  http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
+- Fixed bug of fatal error caused by undeleted workflow processes when 
+  associated workflow event is deleted.
+  http://ez.no/community/bug_reports/fatal_error_in_cronjob_after_editing_workflow
+  (Merged from stable/3.4 (3.4.5) rev. 9789)
+- Fixed bug of cronjob linkcheck not work properly with internal link.
+  [linkCheckSettings] is added to cronjob.ini where you should specify site
+  URLs.
+  http://ez.no/community/bug_reports/cronjob_linkcheck_has_outdated_code_when_checking_relative_urls
+  (Merged from stable/3.4 (3.4.5) rev. 9819)
+- Fixed bug:  PostgreSQL and session list.
+  http://ez.no/community/bug_reports/postgresql_and_session_list
+- Fixed bug:  Class add to group on Postgresql.
+  http://ez.no/community/bug_reports/class_add_to_group
+- Fixed bug with calendar not showing when not logged in (caused by double "AND" in calendar-method's SQL)
+- Fixed bug with non-static parameters to the i18n operator with use of the
+  template compiler.
+  http://ez.no/community/bug_reports/3_5_i18n_operator_doesn_t_take_variables_as_input_anymore
+- Fixed missing error checking of non-existing nodes when fetching subtrees.
+  http://ez.no/community/bug_reports/3_5_fatal_error_ezcontentobjecttreenode_php
+- Fixed missing error checking of non-existing nodes when fetching subtree counts.
+- Added a work around for a bug in IE.
+  (Merged from stable/3.4, rev. 10012)
+  http://ez.no/community/bug_reports/pdf_on_the_fly_issue_with_ie_wrong_header
+- Fixed bug: Calendar toolbar and PostgreSQL.
+  http://ez.no/community/bug_reports/calendar_toolbar_and_postgresql
+- Fixed bug: Wrong redirection after clearing view-cache from popupmenu.
+  http://ez.no/community/bug_reports/delete_view_cache_problem
+- Fixed bug: Move in detailed children list doesn't work.
+  http://ez.no/community/bug_reports/move_in_detailed_children_list_doesn_t_work
+- Fixed bug: Wrong redirection after content/draft.
+  http://ez.no/community/bug_reports/wrong_redirecting_in_admin_area
+- Fixed bug: Time attribute can't be left empty.
+  http://ez.no/community/bug_reports/time_attribute_can_t_be_left_empty
+- Fixed bug of toolbar templates search use id in html input element.
+  http://ez.no/community/bug_reports/invalid_xhtml_with_two_search_box
+- Fixed bug with generating package names with non-standard-latin characters.
+  http://ez.no/community/bug_reports/3_5_package_create_no_utf_8_package_name
+- Fixed bug related to a typo in comments:
+  http://ez.no/community/bug_reports/dbschema_and_end_comment
+- Fixed call-time pass-by-reference warning.
+  http://ez.no/community/bug_reports/call_time_pass_by_reference_in_ezsmtptransport_php
+  (Merged from stable/3.3, rev. 10052)
+- Added some more clean-up code for when users are deleted.
+  Part of: http://ez.no/community/bug_reports/3_5_deleting_objects_dirty_tables_after_deleting_process
+- Fixed unincluded file required for ezCache
+  http://ez.no/community/bug_reports/fatal_error_when_clearing_cache_from_shell
+- Fixed parsing of .tr files in DOS/Mac format.
+  http://ez.no/community/bug_reports/3_5_ezcodemapper_lowercase_not_working
+- Fixed PDF generation bug, from stable/3.4 rev. 10099.
+  http://ez.no/community/bug_reports/fatal_error_in_pdf_generation
+- Fixed bug of no search index generated for datatype 'datetime'.
+- Fixed bug:  Role editing forgets limitations in step 3.
+  http://ez.no/community/bug_reports/role_editing_forgets_limitations_in_step_3
+- Fixed bug: "target" object parameter was sometimes unset in ezxhtmlxmloutput.php.
+  (Merged from stable/3.3, rev. 10115, also in stable/3.4, rev. 10116)
+  http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
+- Fixed bug: runcronjobs.php didn't report database connection error.
+- Fixed bug: ezurl-operator fails on anchors (#) when TemplateCompile=enabled
+  http://ez.no/community/bug_reports/ezurl_operator_fails_on_anchors_when_templatecompile_enabled
+  (Merged from stable/3.4 rev 10125).
+- Fixed bug: Call to undefined function: missingvariable()
+  (Manual merge from stable/3.4 rev. 10144)
+  http://ez.no/community/bug_reports/call_to_undefined_function_missingvariable
+- Fixed some PHP warnings in the template system's sequence function
+- Fixed bug: Empty class list when creating new template override.
+  http://ez.no/community/bug_reports/3_5_rc1_template_overriding_gui_seems_broken
+- Added extra check to see if there are any keywords at all when cleaning them up
+  http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
+  (Merged from stable/3.3, rev. 10150)
+- Added checks to object removals for cases where the object already was deleted
+  http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
+  (Merged from stable/3.3, rev. 10153)
+- Fixed bug in content structure menu related to disappearing of item icon when no content is present
+  http://ez.no/community/bug_reports/treemenu_top_folder_icon_disappears_when_no_content_is_present
+- Fixed bug with setting template namespaces and toolboxes
+  http://ez.no/community/bug_reports/toolbar_function_ignores_namespaces_in_template_variable_management
+- Fixed bug with ezstring and max-length validation
+  http://ez.no/community/bug_reports/3_5_max_text_input_restriction_don_t_work_with_utf_8
+- Fixed bug with unchecked nodeID
+  http://ez.no/community/bug_reports/node_not_set_and_fatal_error
+- Fixed bug with indexing of attributes and translations
+  http://ez.no/community/bug_reports/search_doubled_indexed_words_in_ezsearch_object_word_link
+- Fixed bug: When importing a 3.3 content class package, two classes are created instead of one.
+  (Merged from stable/3.4 rev. 10255)
+  http://ez.no/community/bug_reports/import_package_with_one_content_class_results_in_two_content_classes
+- Fixed a PHP warning in packagehandlers/contentclass/ezcontentclasspackagehandler.php.
+  (Merged from stable/3.4 rev. 10255)
+- Fixed bug with missing class_identifier override key.
+  http://ez.no/community/bug_reports/class_identifier_and_override_problems
+  (Merged from stable/3.4 (3.4.5) rev. 10258).
+- Added missing class and section override keys for the
+  content_version_view_gui template function.
+  (Merged from stable/3.4 (3.4.5) rev. 10258).
+- Fixed bug Workflow results are ignored in content/edit.php.
+  http://ez.no/community/bug_reports/workflow_results_are_ignored_in_content_edit_php
+  (Manually merged from stable/3.4 rev. 10261).
+- Changed workflow mechanism so that the before and after connection types can
+  be specified in the workflow.ini.
+- Fixed bug in archive handler in doWrite() method, the length parameter was
+  not checked for false and would in some cases not write any data at all.
+  (Manually merged from stable/3.4 (3.4.5) rev. 10273)
+- Removed setting path in content/versionview, merged from stable/3.3 rev. 10284, stable/3.4 rev. 10286.
+  http://ez.no/community/bug_reports/crash_when_using_versionview
+- Fixed bug: unable to view media files.
+  http://ez.no/community/bug_reports/media_files_can_t_be_viewed_flash_quicktime_etc
+- Fixed bug: Fatal errors after importing a class with the same identifier as one of the exising classes has.
+  http://ez.no/community/bug_reports/package_import_problem_with_same_class_identifiers
+- Added check to class/edit for it to ensure that two different classes cannot have equal identifiers.
+- Fixed bug: Day name is not translated with operator l10n(datetime).
+  http://ez.no/community/bug_reports/operator_l10n_day_name_translation_and_datetime
+- Fixed fatal error in subtree() when viewing a newly created node which doesn't
+  have sorting rule for its subitems.
+- Fixed bug: Incorrectly handled fetchalias.ini file which resulted in wrong function parameters' values were
+  set when using fetch aliases.
+- Fixed bug: PostgreSQL - empty ezobjectrelation.
+  http://ez.no/community/bug_reports/postgresql_empty_ezobjectrelation
+- Fixed bug: Can`t remove selected objects from trash.
+  http://ez.no/community/bug_reports/can_t_remove_selected_objects_from_trash
+- eZIdentifier datatype now correctly sets the sort_key_string value
+  (Merged from stable/3.3 rev. 10311)
+- Fixed bug in displaying the memory limit when no limit was actually set.
+  http://ez.no/community/bug_reports/incorrect_display_of_memory_limit
+- Fixed a bug in the installer to check correctly for a memory limit setting of
+  -1 and no available memory limit at all.
+- Fixed problem with class/edit and removal of object attributes
+  http://ez.no/community/bug_reports/storing_a_class_in_ui_will_remove_attributes_of_all_related_objects
+- Fixed bug in workflow triggering system: object approval didn't work.
+- Fixed bug with exporting packages
+  http://ez.no/community/bug_reports/3_5_0rc2_package_file_size_is_0b
+- Fixed bug: Deleting nodes -> role assignment isn't deleted.
+  http://ez.no/community/bug_reports/3_5rc2_deleting_nodes_role_assignment_isn_t_deleted
+  (Merged from stable/3.4/ rev. 10363)
+- Fixed bug: Call to undefined function: ezi18n in eztopmenuoperator.php.
+  http://ez.no/community/bug_reports/fatal_error_call_to_undefined_function_ezi18n_in_eztopmenuoperator_php
+- Fixed bug with wrongly quotes query for Delayed Indexing
+  http://ez.no/community/bug_reports/delayed_indexing
+- Fixed incorrect display of requirements for package name.
+  (Merged from trunk rev. 10348)
+- Fixed problem with & being escaped inside attributes
+  http://ez.no/community/bug_reports/xml_and_broken_link_with
+- Fixed SQL error in PostgreSQL when versionviewing objects in trash.
+  http://ez.no/community/bugs/versionview_in_trash_postgresql
+- Removed warning when redirecting to some views.
+  http://ez.no/community/bugs/warning_when_redirecting
+
+*Library:
+- Added eZDir::isWriteable() and eZFile::isWriteable() methods.
+- Added eZFile::download() method.
+- Improved Image interface methods and GD resource handling.
+- Added adjustment of placement when using centered alignment in eZImageObject.
+- Fixed logical problem in eZLocale attributes:
+  'weekday_list' changed to 'weekday_name_list'
+  'weekday_name_list' changed to 'weekday_number_list'
+- Added eZWizardBase for creating web based wizards. The class contain a
+  framework for wizards, including storing data during the wizard.
+
+eZURI:
+- Added originalURIString() method which returns the original URI with user parameters.
+
+eZDebug:
+- Added ability to debug by subnet.
+- The number of times a warning, error, debug or notice occurs is now stored
+  in a global variable.
+
+eZ SOAP:
+- Added eZSOAPServer::registerObject() method.
+- Improved SOAP client port setting.
+- Improved decoding of request parameters in SOAP server.
+
+eZ WebDAV:
+- Added removal of temporary files after upload
+- Added support of removal of objects
+- Made sure the server always reads the whole request body to prevent Apache 400 Bad Request responses
+- Added support for creating a new version when a file is overwritten
+- Added support for moving nodes
+- Added permissions to read access
+- Added permissions checking to folder creation
+- Added permission checking to removing of an object
+- Fixed better compatibility by adding support for WebDav depth
+- Added support for managing content under Media via WebDAV
+
+eZ DB:
+- Added support to MySQL driver for setting the character set on the connection
+  if the server is running MySQL 4.1.1 or higher.
+- Support for binding variables in the DB interface.
+- Support for eZ DB interface implementations in extensions.
+- Added new method relationMatchRegexp() to eZDBInterface,
+  this can be implemented by DB drivers to provide information
+  about which tables, triggers etc. belongs to eZ publish.
+- Database implementations can now have aliases, currently mysql points to
+  ezmysql and postgresql to ezpostgresql.
+- Added method which can check if a given character set matches the one used in
+  the database. Currently implemented for MySQL when 4.1.1 or higher is used.
+
+eZDBSchema:
+- Added support for schema handlers in extensions.
+- Made sure the tables, indexes and fields are sorted after their names.
+- Length field are now stored as integer instead of numeric strings.
+- Fixed bug in PostgreSQL handler when generating SQL for dropping primary
+  index.
+- Fixed bug in MySQL handler when generating SQL for adding indexes.
+- Fixed bug in SQL upgrade file generation, removed indexes are now listed
+  before new indexes.
+- Added support for dumping the data of tables to array and serialized
+  structures. The default code will work for most database implementations.
+- Added support for dumping to SQL format.
+- All SQL output can now be dumped in a diff friendly format which is designed
+  to work well with Subversion.
+- The generated SQL for the primary key in PostgreSQL will not make a key
+  based on the table name.
+- Added check for primary key length in PostgreSQL, the length of the key must
+  not exceed 63 characters.
+- Added lint checker for DB schemas, this will make sure that the schema
+  can be used for all databases supported by eZ publish.
+- Added support for schema transformation, these are transformations that are
+  done to and from the generic schema.
+- Redone the default and null handling for mysql and pgsql schema handlers,
+  the new code is stricter and produces more accurate results.
+- Added support specifying table storage type when dumping a schema to
+  SQL format. The option is called --table-type.
+- Added support for specifying the table charset with --table-charset when
+  dumping a schema to SQL format.
+- Added --compatible-sql option to ezsqldumpschema.php which makes the output
+  of SQL more similar to the ones used by their native dump programs.
+- Added detection of storage type (array or serialized) when reading schema
+  from files.
+- MySQL will now extract the length of index fields and store it in the schema
+  as mysql:length.
+- Changed handling of index fields to check if the entry is either a string
+  or array. If the field contains more information than the name it will be
+  an array.
+- Added --meta-data switch to ezsqldumpschema.php, if used the schema will
+  contain some meta-data specific to a database.
+- Fixed key generation in SQL files for MySQL, now it will have a KEY /
+  UNIQUE KEY / PRIMARY KEY( ... ) entry in the table schema instead
+  of separate ALTER TABLE entries.
+
+eZ Module:
+- Added UI context and UI component variables to module system, this variables
+  are determined from the running module and will be available globally in
+  the templates. This is currently used to perform logic in the admin pagelayout.
+- Added support for user-defined parameters and anchor to all redirect methods().
+- Added possibility to change the name and view of the currently running module.
+- Added new redirect method which redirects to the current module and view with
+  all its parameters.
+
+eZ Template:
+- Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
+  enables compression of compiled template files.
+- Made sure the full-url setting of eZHTTPTool is used for generating the compiled filename.
+  This setting is controlled by layout/set and is used in for instance payment gateways.
+- Updated template compiler script to compile with and without full urls.
+- Fixed bug in cronjobs/workflow.php
+  http://ez.no/community/bug_reports/deleting_the_default_admin_user_disables_workflow
+- Added template override for class_group.
+- Added classification as classname in xmltags
+  http://ez.no/community/bug_reports/many_of_the_ezxmltags_templates_lacks_class
+- Optimized the logical operators, eq, ne, lt, le, gt, ge, and, or
+  when static values are used.
+- Optimized section function, if the 'show' parameter contains a static
+  value it will remove the need to have both an 'if' and 'else' block,
+  only one will be needed.
+- Implemented compiled template optimizer and optimizations:
+  - $node.object.data_map optimization and caching.
+  - $node.object.data_map.x."content" optimization.
+  - Optimization for {attribute_view_gui..} where we can make use of the
+    available class definition.
+- Added a uniqid resource to a template to unique identify it.
+- Added an option to turn off generation of whitespace in the compiled
+  templates. This is on by default.
+- Removed hard html code in toolbar function and moved those code to corresponding templates.
+- New template operator 'locale' which can be used to fetch the locale object
+  for a given locale string.
+- New setting ShowMethodDebug in site.ini under TemplateSettings which when enabled
+  will show debug information about function and operator calls.
+- Added debug information for template processing (not compiled mode) which is shown
+  before and the processed template with uri and filename. Only shown when debug
+  is enabled.
+- Improved error handling for function and operators, the file placement will now
+  be included on more of the errors and warnings. (Only for processed mode)
+- Added template operator 'flag_icon' to get the correct path of flag icon.
+- Added scope support to the "set" template function. Scope can be global, root
+  or relative (default).
+  Also added unit tests for this.
+- Added debug functions called debug-timing-point, debug-accumulator and
+  debug-trace which can be used to get detailed debug information for any
+  template.
+- Fixed bug in template compiler when assigning the results of an expression to
+  a PHP variable and the expression resulted in an object proxy (e..g section
+  iterator)
+- Fixed problem with template optimizer which would create initialization code
+  placed inside conditional code that may never be run.
+
+eZWebDAV:
+- The URL that is passed to the various operations is now first handled to processURL()
+  which can be reimplemented to clean it it up if required.
+- The result from getCollectionContent() can now be a non-array type, in which
+  case it is used as a DAV status code.
+- The result of the output buffer is now added to WebDAV log, for instance PHP errors
+  and other output.
+- Reworked internal storage of uploaded file to a temporary file,
+  the file will now reuse the original filename and store in a random
+  subdirectory.
+  Storage of file is now done with a simple copy() function.
+
+eZCLI:
+- Made sure all errors, warnings and notices are sent to stderr.
+
+eZFileHandler:
+- Made sure copy() and move() methods check if source and destination points
+  to the same file, if so it just returns true.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+
+eZTarArchiveHandler:
+- Made sure directories have the ending slash when storing in tar file.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+- Made sure tar files are padded to 20 blocks (of 512 bytes) containing
+  zero filled blocks.
+  (Merged from stable/3.4 (3.4.5) rev. 10293)
+
+eZPHPCreator:
+- Start using PHP's var_export function to generate all variables.
+
+eZXML:
+- Added support for PHP 4's libxml DOM parser to improve performance. This is
+  now used for translation files and the image alias handler.
+
+eZSys:
+- Added detection of OS name which can be read with osName().
+  This can be used together with osType() to figure out the current system.
+
+eZSysInfo:
+- New class which takes care of scanning the system for CPU and memory information.
+
+*Templates:
+- Added the red color marking of titles of attributes with invalid content.
+
+*Tests:
+- Added unit test for image system.
+
+*Design:
+- Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
+  Merged from stable/3.3 rev. 10194, stable/3.4 rev. 10195.
