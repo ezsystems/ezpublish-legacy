@@ -112,7 +112,7 @@ class eZContentTranslation extends eZPersistentObject
     function &fetchList()
     {
         $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
-                                                                 null, array(), null,null,
+                                                                 null, array(), array( 'Name' => false ), null,
                                                                  true );
         include_once( 'kernel/classes/ezcontentobject.php' );
         $defaultLanguage =& eZContentObject::defaultLanguage();

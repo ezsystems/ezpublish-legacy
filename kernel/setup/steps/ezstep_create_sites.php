@@ -676,7 +676,7 @@ WHERE
 
                 if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
                 {
-                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                    $translation = eZContentTranslation::createNew( $languageObject->internationalLanguageName(), $languageLocale );
                     $translation->store();
                     if ( $languageLocale != $primaryLanguageLocaleCode )
                     {

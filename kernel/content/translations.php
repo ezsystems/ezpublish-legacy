@@ -40,6 +40,8 @@
 
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontenttranslation.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
+
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
@@ -69,6 +71,8 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
          $localeID != -1 )
     {
         $translationLocale = $localeID;
+        $localeInstance =& eZLocale::instance( $translationLocale );
+        $translationName =& $localeInstance->internationalLanguageName();
     }
     else
     {
@@ -173,8 +177,11 @@ foreach( $translations as $currentTranslation )
     $availableTranslations[] = array( 'translation' => $translation, 'object_count' => $translatedObjectsCount );
 }
 
+$defaultLanguage =& eZContentObject::defaultLanguage();
+
 $tpl->setVariable( 'existing_translations', $translations );
 $tpl->setVariable( 'available_translations', $availableTranslations );
+$tpl->setVariable( 'default_language', $defaultLanguage );
 
 //$tpl->setVariable( 'workflow_list', $workflowList );
 

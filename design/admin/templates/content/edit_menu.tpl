@@ -117,8 +117,8 @@
 {let name=Translation
      language_index=0
      default_translation=$content_version.translation
-     other_translation_list=$content_version.translation_list
-     translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
+     language=$Translation:default_translation.language_code
+     translation_list=$content_version.complete_translation_list}
 
 {section show=$Translation:translation_list}
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
@@ -127,20 +127,23 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{section show=$edit_language}
+{set language=$edit_language}
+{/section}
+
 {section loop=$Translation:translation_list}
-  {section show=eq($edit_language,$Translation:item.language_code)}
+  {section show=eq($Translation:language,$Translation:item.language_code)}
     {set language_index=$Translation:index}
   {/section}
 {/section}
 
-
-{section show=$Translation:other_translation_list|count|gt( 0 )}
+{section show=$Translation:translation_list|count|gt( 1 )}
 {section loop=$Translation:translation_list}
 <p>
 <label>
 <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {section show=$Translation:item.locale.is_valid}
-<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten( 15 )}
+<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}<span class="default-translation">{/section}{$Translation:item.locale.intl_language_name|shorten( 15 )}{section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}</span>{/section}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
 {/section}
@@ -157,7 +160,7 @@
 {/section}
 
 <div class="block">
-{section show=$Translation:other_translation_list}
+{section show=$Translation:translation_list|count|gt( 1 )}
 <input class="button" type="submit" name="EditLanguageButton" value="{'Edit'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 <input class="button" type="submit" name="TranslateLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft using the content being edited as a reference.'|i18n( 'design/admin/content/edit' )}" />
 {section-else}

@@ -25,10 +25,10 @@
 
 	<td>
 
-    {section show=$Translations.index}
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" /></td>
-    {section-else}
+    {section show=eq( $default_language, $Translations.item.translation.locale_object.locale_code )}
     <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'The default language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" /></td>
+    {section-else}
+    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" /></td>
     {/section}
 
     {* Language. *}

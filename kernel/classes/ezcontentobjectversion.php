@@ -128,6 +128,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'language_list' => 'translations',
                                                       'translation' => 'translation',
                                                       'translation_list' => 'translationList',
+                                                      'complete_translation_list' => 'translationList',
                                                       'temp_main_node' => 'tempMainNode'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
@@ -731,10 +732,11 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $languageSQL = "AND language_code!='$language'";
         }
-        $query = "SELECT language_code FROM ezcontentobject_attribute
-                  WHERE contentobject_id='$this->ContentObjectID' AND version='$this->Version'
+        $query = "SELECT language_code FROM ezcontentobject_attribute, ezcontent_translation
+                  WHERE contentobject_id='$this->ContentObjectID' AND version='$this->Version' AND locale=language_code
                         $languageSQL
-                  GROUP BY language_code";
+                  GROUP BY language_code
+                  ORDER BY Name";
 
         $languageCodes =& $db->arrayQuery( $query );
 
