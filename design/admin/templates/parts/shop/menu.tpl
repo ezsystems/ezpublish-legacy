@@ -9,21 +9,21 @@
 {section show=eq( $ui_context, 'edit' )}
 
 <ul>
-    <li><span class="disabled">{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</span></li>
-    <li><span class="disabled">{'Discounts'|i18n( 'design/admin/parts/shop/menu' )}</span></li>
-    <li><span class="disabled">{'Orders'|i18n( 'design/admin/parts/shop/menu' )}</span></li>
-    <li><span class="disabled">{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</span></li>
-    <li><span class="disabled">{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</span></li>
+    <li><div><span class="disabled">{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Discounts'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Orders'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
 </ul>
 
 {section-else}
 
 <ul>
-    <li><a href={'/shop/customerlist/'|ezurl}>{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</a></li>
-    <li><a href={'/shop/discountgroup/'|ezurl}>{'Discounts'|i18n( 'design/admin/parts/shop/menu' )}</a></li>
-    <li><a href={'/shop/orderlist/'|ezurl}>{'Orders'|i18n( 'design/admin/parts/shop/menu' )}</a></li>
-    <li><a href={'/shop/statistics/'|ezurl}>{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</a></li>
-    <li><a href={'/shop/vattype/'|ezurl}>{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</a></li>
+    <li><div><a href={'/shop/customerlist/'|ezurl}>{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/discountgroup/'|ezurl}>{'Discounts'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/orderlist/'|ezurl}>{'Orders'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/statistics/'|ezurl}>{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/vattype/'|ezurl}>{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
 </ul>
 
 {/section}

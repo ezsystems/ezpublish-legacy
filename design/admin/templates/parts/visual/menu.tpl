@@ -9,19 +9,19 @@
 {section show=eq( $ui_context, 'edit' )}
 
 <ul>
-    <li><span class="disabled">{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</span></li>
-    <li><span class="disabled">{'Menu management'|i18n( 'design/admin/parts/visual/menu' )}</span></li>
-    <li><span class="disabled">{'Toolbar management'|i18n( 'design/admin/parts/visual/menu' )}</span></li>
-    <li><span class="disabled">{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</span></li>
+    <li><div><span class="disabled">{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Menu management'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Toolbar management'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
 </ul>
 
 {section-else}
 
 <ul>
-    <li><a href={'/content/edit/54/'|ezurl}>{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</a></li>
-    <li><a href={'/visual/menuconfig/'|ezurl}>{'Menu management'|i18n( 'design/admin/parts/visual/menu' )}</a></li>
-    <li><a href={'/visual/toolbarlist/'|ezurl}>{'Toolbar management'|i18n( 'design/admin/parts/visual/menu' )}</a></li>
-    <li><a href={'/visual/templatelist/'|ezurl}>{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</a></li>
+    <li><div><a href={'/content/edit/54/'|ezurl}>{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
+    <li><div><a href={'/visual/menuconfig/'|ezurl}>{'Menu management'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
+    <li><div><a href={'/visual/toolbarlist/'|ezurl}>{'Toolbar management'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
+    <li><div><a href={'/visual/templatelist/'|ezurl}>{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
 </ul>
 
 {/section}
