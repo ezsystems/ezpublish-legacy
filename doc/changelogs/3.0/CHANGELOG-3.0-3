@@ -11,6 +11,10 @@ Changes from 3.0-2 to 3.0-3
 - Fixed security bug which user could move or add object to anywhere if he could edit the object.
 - Fixed bug of image cleanup in image variation directory and file cleanup.
 - Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of image cleanup in image variation directory and file cleanup.
+- Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of object published in multiple places where node assignment was not updated when 
+  one of its none main location is deleted.
 
 *Library :
 - The handleChecked function in eZHTTPPersistence is now deprecated.
