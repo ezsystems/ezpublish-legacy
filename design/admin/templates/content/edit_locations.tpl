@@ -136,6 +136,7 @@
     {section show=$Node:item.from_node_id|gt( 0 )}
     <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
     {section-else}
+    &nbsp;
     {/section}
     {/case}
     {/switch}
