@@ -25,7 +25,9 @@
 
 {* Main path START *}
 
+{cache-block keys=$uri_string}
 {include uri="design:page_toppath.tpl"}
+{/cache-block}
 
 {* Main path END *}
 
@@ -35,8 +37,9 @@
     <td width="120" valign="top" style="padding-right: 4px;">
 
 {* Left menu START *}
-
+{cache-block keys=$uri_string}
 {include uri="design:left_menu.tpl"}
+{/cache-block}
 
 {* Left menu END *}
 
