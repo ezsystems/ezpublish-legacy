@@ -21,3 +21,7 @@ Payment:
   http://ez.no/community/bug_reports/3_5alpha1_class_view_wrong_class_group
 - Fixed bug: Toolbar management - view not found.
   http://ez.no/community/bug_reports/toolbar_management_faliure
+- Fixed bug: Users were able to add existing objects of non-allowed classes to the
+  object relation list datatype.
+  (Merged from stable/3.3 rev. 8462, also in stable/3.4 rev. 8463)
+  http://ez.no/community/bug_reports/object_relation_list_allowed_classes_should_be_redone

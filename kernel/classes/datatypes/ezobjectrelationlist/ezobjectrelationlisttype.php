@@ -685,6 +685,16 @@ class eZObjectRelationListType extends eZDataType
                     break;
                 }
             }
+
+            // Fetch the list of "allowed" classes .
+            // A user can select objects of only those allowed classes when browsing.
+            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $classContent   =& $classAttribute->content();
+            if ( isset( $classContent['class_constraint_list'] ) )
+                $classConstraintList =& $classContent['class_constraint_list'];
+            else
+                $classConstraintList = array();
+
             $browseParameters = array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
                                        'type' =>  $browseType,
                                        'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation_list]',
@@ -699,6 +709,9 @@ class eZObjectRelationListType extends eZDataType
                 if ( isset( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] ) )
                     $browseParameters['start_node'] = eZContentBrowse::nodeAliasID( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] );
             }
+            if ( count($classConstraintList) > 0 )
+                $browseParameters['class_array'] = $classConstraintList;
+
             eZContentBrowse::browse( $browseParameters,
                                      $module );
         }
