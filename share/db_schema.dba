@@ -4788,7 +4788,7 @@ $schema = array (
     ),
     'indexes' => 
     array (
-      'created' => 
+      'eztipafriend_request_created' => 
       array (
         'type' => 'non-unique',
         'fields' => 
@@ -4796,7 +4796,7 @@ $schema = array (
           0 => 'created',
         ),
       ),
-      'email_receiver' => 
+      'eztipafriend_request_email_receiver' => 
       array (
         'type' => 'non-unique',
         'fields' => 
