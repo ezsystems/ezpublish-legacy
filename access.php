@@ -80,7 +80,8 @@ function accessType( &$uri, $host, $port, $file )
         {
             case 'servervar':
             {
-                if ( $serversiteaccess = $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ) )
+                include_once( 'lib/ezutils/classes/ezsys.php' );
+                if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
                 {
                     $access['name'] = $serversiteaccess;
                     $access['type'] = EZ_ACCESS_TYPE_SERVER_VAR;
