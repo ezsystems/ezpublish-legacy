@@ -93,6 +93,10 @@ class eZINI
             $rootDir = "settings";
         if ( $useCache === null )
             $useCache = eZINI::isCacheEnabled();
+        if ( eZINI::isNoCacheAdviced() )
+        {
+            $useCache = false;
+        }
         if ( $useTextCodec === null )
             $useTextCodec = eZINI::isTextCodecEnabled();
 
@@ -114,6 +118,16 @@ class eZINI
         if ( !isset( $GLOBALS['eZINICacheEnabled'] ) )
              $GLOBALS['eZINICacheEnabled'] = true;
         return $GLOBALS['eZINICacheEnabled'];
+    }
+
+    /*!
+     \return true if cache is not adviced to be used.
+     \note The no-cache-adviced flag might not be modified in time for site.ini and some other important files to be affected.
+    */
+    function isNoCacheAdviced()
+    {
+        $siteBasics = $GLOBALS['eZSiteBasics'];
+        return $siteBasics['no-cache-adviced'];
     }
 
     /*!

@@ -113,6 +113,12 @@ class eZTemplateTreeCache
     */
     function isCacheEnabled()
     {
+        $siteBasics = $GLOBALS['eZSiteBasics'];
+        if ( $siteBasics['no-cache-adviced'] )
+        {
+            return false;
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $cacheEnabled = $ini->variable( 'TemplateSettings', 'NodeTreeCaching' ) == 'enabled';

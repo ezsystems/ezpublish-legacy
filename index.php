@@ -31,6 +31,42 @@
 
 $scriptStartTime = microtime();
 
+$use_external_css = true;
+$show_page_layout = true;
+$moduleRunRequired = true;
+$policyCheckRequired = true;
+$urlTranslatorAllowed = true;
+$validityCheckRequired = false;
+$userObjectRequired = true;
+$sessionRequired = true;
+$dbRequired = true;
+$noCacheAdviced = false;
+
+$useHIOCode = false;
+
+// List of module names which will skip policy checking
+$policyCheckOmitList = array();
+
+// List of directories to search for modules
+$moduleRepositories = array();
+
+$siteBasics = array();
+$siteBasics['external-css'] =& $use_external_css;
+$siteBasics['show-page-layout'] =& $show_page_layout;
+$siteBasics['module-run-required'] =& $moduleRunRequired;
+$siteBasics['policy-check-required'] =& $policyCheckRequired;
+$siteBasics['policy-check-omit-list'] =& $policyCheckOmitList;
+$siteBasics['url-translator-allowed'] =& $urlTranslatorAllowed;
+$siteBasics['validity-check-required'] =& $validityCheckRequired;
+$siteBasics['user-object-required'] =& $userObjectRequired;
+$siteBasics['session-required'] =& $sessionRequired;
+$siteBasics['db-required'] =& $dbRequired;
+$siteBasics['no-cache-adviced'] =& $noCacheAdviced;
+
+$siteBasics['module-repositories'] =& $moduleRepositories;
+
+$GLOBALS['eZSiteBasics'] =& $siteBasics;
+
 error_reporting ( E_ALL );
 
 
@@ -208,40 +244,6 @@ if ( $access !== null )
     changeAccess( $access );
 }
 
-$use_external_css = true;
-$show_page_layout = true;
-$moduleRunRequired = true;
-$policyCheckRequired = true;
-$urlTranslatorAllowed = true;
-$validityCheckRequired = false;
-$userObjectRequired = true;
-$sessionRequired = true;
-$dbRequired = true;
-
-$useHIOCode = false;
-
-// List of module names which will skip policy checking
-$policyCheckOmitList = array();
-
-// List of directories to search for modules                              
-$moduleRepositories = array();
-
-$siteBasics = array();
-$siteBasics['external-css'] =& $use_external_css;
-$siteBasics['show-page-layout'] =& $show_page_layout;
-$siteBasics['module-run-required'] =& $moduleRunRequired;
-$siteBasics['policy-check-required'] =& $policyCheckRequired;
-$siteBasics['policy-check-omit-list'] =& $policyCheckOmitList;
-$siteBasics['url-translator-allowed'] =& $urlTranslatorAllowed;
-$siteBasics['validity-check-required'] =& $validityCheckRequired;
-$siteBasics['user-object-required'] =& $userObjectRequired;
-$siteBasics['session-required'] =& $sessionRequired;
-$siteBasics['db-required'] =& $dbRequired;
-
-$siteBasics['module-repositories'] =& $moduleRepositories;
-
-$GLOBALS['eZSiteBasics'] =& $siteBasics;
-
 $check = eZHandlePreChecks( $siteBasics );
 
 if ( $sessionRequired )
@@ -349,7 +351,7 @@ while ( $moduleRunRequired )
             {
                 $params['Limitation'] =& $accessResult['policies'];
             }
-            
+
             if ( $accessResult['accessWord'] == 'no' )
                 $moduleAccessAllowed = false;
         }
@@ -536,7 +538,6 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
-        
         if ( $useHIOCode )
         {
              /// HiO special menu code tmp

@@ -62,6 +62,7 @@ eZ template:
 - Reworked the template loading functions to make it easier to support caching.
 - Finished the template tree caching and add site.ini setting for turning it on and off.
 - New operator is_array which returns true if either the input or all of the parameters are arrays.
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.
 
 eZ executionstack:
 - Removed. It no longer had any use as it was.
@@ -93,3 +94,9 @@ eZ session:
 eZ locale:
 - New function localeFullCode which returns the locale code with the variation.
 - localeList will now be able to return a list of languages as locale objects.
+
+eZ ini:
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.
+
+eZ codepage:
+- No cache is created or used if the /no-cache-adviced/ in site basics is true.

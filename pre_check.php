@@ -57,6 +57,7 @@ function eZCheckValidity( &$siteBasics )
         $siteBasics['user-object-required'] = false;
         $siteBasics['session-required'] = false;
         $siteBasics['db-required'] = false;
+        $siteBasics['no-cache-adviced'] = true;
     }
     return $check;
 }
