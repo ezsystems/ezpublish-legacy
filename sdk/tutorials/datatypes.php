@@ -273,23 +273,45 @@ result of the saved email address.
 <h3>Step 5: Add the new datatype to the site.ini file.</h3>
 
 <p>
-The last step is to add the newly created datatype to the site.ini file so it will be displayed in the datatype
-dropdown list. Open the site.ini file under ./settings/ with a text editor and find the line with
+The last step is to add the newly created datatype to the content.ini file so it will be displayed in the datatype
+dropdown list. Open the content.ini file under ./settings/ with a text editor and find the line with
 </p>
 
 <p>
 <pre class='example'>
 [DataTypeSettings]
-AvailableDataTypes=ezstring;ezinteger;eztext;ezdate;ezfloat;ezuser;ezimage;ezboolean;
-ezoption;ezprice;ezxmltext;ezobjectrelation;ezenum;ezauthor;ezmedia;ezbinaryfile;ezurl;
-ezemail;ezdatetime;eztime;ezisbn
+# A list of directories to check for datatypes
+RepositoryDirectories[]=kernel/classes/datatypes
+ExtensionDirectories[]
+
+AvailableDataTypes[]=ezstring
+AvailableDataTypes[]=eztext
+AvailableDataTypes[]=ezxmltext
+AvailableDataTypes[]=ezdate
+AvailableDataTypes[]=ezdatetime
+AvailableDataTypes[]=eztime
+AvailableDataTypes[]=ezboolean
+AvailableDataTypes[]=ezinteger
+AvailableDataTypes[]=ezfloat
+AvailableDataTypes[]=ezenum
+AvailableDataTypes[]=ezobjectrelation
+AvailableDataTypes[]=ezimage
+AvailableDataTypes[]=ezbinaryfile
+AvailableDataTypes[]=ezmedia
+AvailableDataTypes[]=ezauthor
+AvailableDataTypes[]=ezurl
+AvailableDataTypes[]=ezemail
+AvailableDataTypes[]=ezoption
+AvailableDataTypes[]=ezprice
+AvailableDataTypes[]=ezuser
+AvailableDataTypes[]=ezisbn
 </pre>
 </p>
 
 <p>
-Add the name of the new datatype to somewhere in the list above and remember to separate them with ';'. In this example,
-we should add ezemail. You can check the result by refreshing your browser and then go to the class editing page.
-If everything goes fine, you should find Email on the dropdown list.
+Add a new line with the name of the new datatype to somewhere under [DataTypeSettings] . In this example,
+we should add line "AvailableDataTypes[]=ezemail" under [DataTypeSettings]. You can check the result by refreshing
+your browser and then go to the class editing page. If everything goes fine, you should find Email on the dropdown list.
 </p>
 
 <h2>Create more complex datatypes</h2>
