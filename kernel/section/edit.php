@@ -49,9 +49,16 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
-    $Module->redirectTo( $Module->functionURI( "list" ) );
+    $Module->redirectTo( $Module->functionURI( 'list' ) );
     return;
 }
+
+if ( $http->hasPostVariable( 'CancelButton' )  )
+{
+    $Module->redirectTo( $Module->functionURI( 'list' ) );
+}
+
+
 
 $tpl =& templateInit();
 
