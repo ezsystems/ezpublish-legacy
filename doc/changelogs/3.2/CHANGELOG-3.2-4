@@ -34,6 +34,7 @@ Changes from 3.2-3 to 3.2-4
   easier to cleanup up. The preferences are now cleared on login/logout.
 - Changed the caching of user information and user groups in sessions, the new method uses arrays
   and is easier to cleanup.
+- Added support for multiple tag lists for the simpletags template operator.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.

@@ -56,9 +56,9 @@ class eZSimpleTagsOperator
     */
     function namedParameterList()
     {
-        return array( 'max_chars' => array( 'type' => 'integer',
-                                            'required' => false,
-                                            'default' => null ) );
+        return array( 'listname' => array( 'type' => 'string',
+                                           'required' => false,
+                                           'default' => false ) );
     }
 
     /*!
@@ -90,9 +90,13 @@ class eZSimpleTagsOperator
             ++$i;
         }
 
+        $tagListName = 'TagList';
+        if ( $namedParameters['listname'] )
+            $tagListName .= '_' . $namedParameters['listname'];
+
         $tagMap = array();
         $ini =& eZINI::instance( 'template.ini' );
-        $tagList = $ini->variable( 'SimpleTagsOperator', 'TagList' );
+        $tagList = $ini->variable( 'SimpleTagsOperator', $tagListName );
         foreach ( $tagList as $tag => $tagItem )
         {
             $elements = explode( ';', $tagItem );
