@@ -23,7 +23,8 @@ eZINI:
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
 - Fixed bug of undefined field "use_id" in ezcontentobject_version.
   http://ez.no/community/bug_reports/ezcontentobjectversion
- 
+- Fixed bug of datatype checkbox looses default state.
+  http://ez.no/community/bug_reports/checkbox_looses_default_state_when_class_is_edited
 
 *Library:
 
