@@ -1,7 +1,7 @@
 {section show=$validation.processed}
 {section show=$validation.groups}
 <div class="message-warning">
-<h2>{'Input did not validate'|i18n( 'design/admin/class/view' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Input did not validate'|i18n( 'design/admin/class/view' )}</h2>
 <ul>
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>

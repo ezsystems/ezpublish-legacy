@@ -63,7 +63,7 @@
 {switch match=$edit_warning}
 {case match=1}
 <div class="message-warning">
-<h2>{'Version not a draft'|i18n( 'design/admin/content/versions' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version not a draft'|i18n( 'design/admin/content/versions' )}</h2>
 <ul>
     <li>{'Version %1 is not available for editing anymore, only drafts can be edited.'|i18n( 'design/admin/content/versions',, array( $edit_version ) )}</li>
     <li>{'To edit this version create a copy of it.'|i18n( 'design/admin/content/versions' )}</li>
@@ -72,7 +72,7 @@
 {/case}
 {case match=2}
 <div class="message-warning">
-<h2>{'Version not yours'|i18n( 'design/admin/content/versions' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version not yours'|i18n( 'design/admin/content/versions' )}</h2>
 <ul>
     <li>{'Version %1 was not created by you, only your own drafts can be edited.'|i18n( 'design/admin/content/versions',, array( $edit_version ) )}</li>
     <li>{'To edit this version create a copy of it.'|i18n( 'design/admin/content/versions' )}</li>
@@ -81,7 +81,7 @@
 {/case}
 {case match=3}
 <div class="message-warning">
-<h2>{'Unable to create new version'|i18n( 'design/admin/content/versions' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Unable to create new version'|i18n( 'design/admin/content/versions' )}</h2>
 <ul>
     <li>{'Version history limit has been exceeded and no archived version can be removed by the system.'|i18n( 'design/admin/content/versions' )}</li>
     <li>{'You can change your version history settings in content.ini, remove draft versions or edit existing drafts.'|i18n( 'design/admin/content/versions' )}</li>

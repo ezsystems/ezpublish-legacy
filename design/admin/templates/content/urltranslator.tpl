@@ -12,7 +12,7 @@ title="{'Use this field to enter a valid existing virtual URL in the system. A v
 {section show=$forward_info}
     {section show=$forward_info.error}
         <div class="message-error">
-        <h2>{'The requested URL forwarding could not be created.'|i18( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The requested URL forwarding could not be created.'|i18( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
          <ul>
              <li>
                 {'The destination URL <%destination_url> does not exist in the system.'|i18n( 'design/admin/content/urltranslator',, hash( '%destination_url', $forward_info.destination ) )|wash}

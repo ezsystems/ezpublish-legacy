@@ -1,14 +1,14 @@
 {section show=$md5_result}
   {section show=$md5_result|eq('ok')}
     <div class="message-feedback">
-    {"File consistency check OK"|i18n("design/admin/setup")}
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"File consistency check OK"|i18n("design/admin/setup")}</h2>
     </div>
   {section-else}
     <div class="message-warning">
     {section show=$failure_reason}
-    {$failure_reason}
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$failure_reason}</h2>
     {section-else}
-    {"Warning, it is not safe to upgrade without checking the modifications done to the following files :"|i18n("design/admin/setup")}<br />
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files :"|i18n("design/admin/setup")}</h2>
     <p>
       {section loop=$md5_result}
         {$:item|wash}
@@ -23,12 +23,12 @@
 {section show=$upgrade_sql}
   {section show=$upgrade_sql|eq('ok')}
     <div class="message-feedback">
-    {"Database check OK"|i18n("design/admin/setup")}
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Database check OK"|i18n("design/admin/setup")}</h2>
     </div>
   {section-else}
     <div class="message-warning">
-    {"Warning, your database is not consistent with the distribution database."|i18n("design/admin/setup")}<br />
-    {"To synchronize your database with the distribution setup, run the following SQL queries:"|i18n("design/admin/setup")}<br />
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, your database is not consistent with the distribution database."|i18n("design/admin/setup")}</h2>
+    <p>{"To synchronize your database with the distribution setup, run the following SQL queries:"|i18n("design/admin/setup")}</p>
     <p>
       {$upgrade_sql|wash|break}
     </p>
@@ -47,7 +47,6 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-<div class="context-attributes">
 
 {'Before you upgrade to a newer version of eZ publish it is important to check that your installation is ready. We provide two means of checking your installation.'|i18n('design/admin/setup')}
 <h3>{'File consistency'|i18n('design/admin/setup')}</h3>
@@ -56,7 +55,7 @@
 {'The database consistency tool checks if your database is synchronized with the database schema delivered with your current ez publish installation. If inconsistencies are found, the tool suggests SQL statements that brings your database up to date. Please run these SQL statements on your database prior to upgrading.'|i18n('design/admin/setup')}
 <div class="block">
 <p><strong>{'Warning: '|i18n('design/admin/setup')}</strong>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
-</div>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>

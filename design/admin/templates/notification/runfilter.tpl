@@ -1,12 +1,12 @@
 {section show=$filter_proccessed}
 <div class="message-feedback">
-<h2>{'The notification filter proccessed all available notification events.'|i18n( 'design/admin/notification/runfilter' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The notification filter proccessed all available notification events.'|i18n( 'design/admin/notification/runfilter' )}</h2>
 </div>
 {/section}
 
 {section show=$time_event_created}
 <div class="message-feedback">
-<h2>{'The notification time event was spawned.'|i18n( 'design/admin/notification/runfilter' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The notification time event was spawned.'|i18n( 'design/admin/notification/runfilter' )}</h2>
 </div>
 {/section}
 

@@ -3,7 +3,7 @@
 {* Feedback *}
 {section show=and( $validation.processed, $validation.groups )}
 <div class="message-warning">
-<h2>{'Input did not validate'|i18n( 'design/admin/workflow/edit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Input did not validate'|i18n( 'design/admin/workflow/edit' )}</h2>
 <ul>
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>
@@ -14,7 +14,7 @@
 
 {section show=$require_fixup}
 <div class="message-warning">
-<h2>{'Data requires fixup'|i18n( 'design/admin/workflow/edit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Data requires fixup'|i18n( 'design/admin/workflow/edit' )}</h2>
 </div>
 {/section}
 

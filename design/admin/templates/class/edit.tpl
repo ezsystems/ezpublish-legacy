@@ -2,7 +2,7 @@
 {section show=$validation.processed}
 {section var=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 <div class="message-warning">
-<h2>{'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
 <p>{'The following information is either missing or invalid'|i18n( 'design/admin/class/edit' )}:</p>
 <ul>
     {section show=is_set( $UnvalidatedAttributes.item.reason )}
@@ -21,7 +21,7 @@
 </div>
 {section-else}
 <div class="message-feedback">
-<h2>{'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
 </div>
 {/section}
 

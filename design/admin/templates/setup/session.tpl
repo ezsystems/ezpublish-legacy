@@ -7,7 +7,7 @@
 {* Messages *}
 {section show=$sessions_removed}
 <div class="message-feedback">
-{"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
 </div>
 {/section}
 

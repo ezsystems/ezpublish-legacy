@@ -1,7 +1,7 @@
 {* Warnings *}
 {section show=and( $validation.processed, $validation.groups )}
 <div class="message-warning">
-<h2>{'Input did not validate'|i18n( 'design/admin/workflow/view' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Input did not validate'|i18n( 'design/admin/workflow/view' )}</h2>
 <ul>
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>

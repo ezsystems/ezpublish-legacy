@@ -4,12 +4,12 @@
 
           <div class="message-warning">
           {section show=and($validation.attributes,$validation.placement)}
-            <h2>{"Validation failed"|i18n("design/standard/content/edit")}</h2>
+            <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Validation failed"|i18n("design/standard/content/edit")}</h2>
           {section-else}
             {section show=$validation.attributes}
-            <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
+            <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Input did not validate"|i18n("design/standard/content/edit")}</h2>
             {section-else}
-            <h2>{"Location did not validate"|i18n("design/standard/content/edit")}</h2>
+            <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Location did not validate"|i18n("design/standard/content/edit")}</h2>
             {/section}
           {/section}
           <ul>
@@ -25,7 +25,7 @@
         {section-else}
 	  {section show=$validation_log}
 	  <div class="message-warning">
-          <h2>{"Input was partially stored"|i18n("design/standard/content/edit")}</h2>
+          <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Input was partially stored"|i18n("design/standard/content/edit")}</h2>
 	      {section name=ValidationLog loop=$validation_log}
                   <h3>{$:item.name|wash}:</h3>
 	          <ul>
@@ -37,7 +37,7 @@
           </div>
 	  {section-else}
           <div class="message-feedback">
-          <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
+          <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
           </div>
 	  {/section}
         {/section}

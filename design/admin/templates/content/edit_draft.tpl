@@ -75,7 +75,7 @@
 
 <div class="message-warning">
 
-<h2>{'Possible edit conflict'|i18n( 'design/admin/content/edit_draft' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Possible edit conflict'|i18n( 'design/admin/content/edit_draft' )}</h2>
 
 {section show=and( $has_own_drafts, $has_other_drafts )}
     <p>{'This object is already being edited by someone else. In addition, it is alredy being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>

@@ -81,7 +81,7 @@
 
 <div class="message-confirmation">
 
-<h2>{'Are you sure that you want to remove the translation(s)?'|i18n( 'design/admin/content/translate' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Are you sure that you want to remove the translation(s)?'|i18n( 'design/admin/content/translate' )}</h2>
 
 <p>{'The following translations (along with translated content) will be removed from the draft:'|i18n( 'design/admin/content/translate' )}</p>
 

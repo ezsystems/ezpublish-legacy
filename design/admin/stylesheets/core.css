@@ -382,6 +382,24 @@ div.message-feedback span.time, div.message-warning span.time, div.message-error
     float: right;
 }
 
+div.message-feedback span.time
+{
+    background-image: url(../images/fade-feedback.gif);
+    background-repeat: repeat;
+}
+
+div.message-warning span.time
+{
+    background-image: url(../images/fade-warning.gif);
+    background-repeat: repeat;
+}
+
+div.message-error span.time
+{
+    background-image: url(../images/fade-error.gif);
+    background-repeat: repeat;
+}
+
 label.message-error
 {
     color: #ff0000;

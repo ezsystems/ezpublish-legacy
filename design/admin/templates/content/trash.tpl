@@ -106,7 +106,7 @@
 {section-else}
 
 <div class="message-feedback">
-<h2>{'There are no items in the trash'|i18n( 'design/admin/content/trash' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'There are no items in the trash'|i18n( 'design/admin/content/trash' )}</h2>
 </div>
 
 {/section}

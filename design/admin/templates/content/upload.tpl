@@ -66,7 +66,7 @@
 {* Errors. *}
 {section show=$errors|count|gt( 0 )}
     <div class="message-error">
-        <h2>{'Some errors occured'|i18n( 'design/admin/content/upload' )}</h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Some errors occured'|i18n( 'design/admin/content/upload' )}</h2>
         <ul>
             {section var=error loop=$errors}
                 <li>{$error.description}</li>
