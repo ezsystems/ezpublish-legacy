@@ -17,9 +17,10 @@
 {section show=$class_attribute.content.columns}
 <table class="list" cellspacing="0">
 <tr>
-<th class="tight">&nbsp;</th>
-<th>{'Matrix column'|i18n( 'design/standard/class/datatype' )}</th>
-<th>{'Identifier'|i18n( 'design/standard/class/datatype' )}</th>
+    <th class="tight">&nbsp;</th>
+    <th>{'Matrix column'|i18n( 'design/standard/class/datatype' )}</th>
+    <th>{'Identifier'|i18n( 'design/standard/class/datatype' )}</th>
+</tr>
 {section var=Columns loop=$class_attribute.content.columns sequence=array( bglight, bgdark )}
 <tr class="{$Columns.sequence}">
 
