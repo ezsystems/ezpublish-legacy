@@ -47,7 +47,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 
 <div id="logo">
 <a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
-<p>version 3.5 - beta</p>
+<p>version {fetch(setup,version)}</p>
 </div>
 
 </div>
