@@ -62,7 +62,6 @@ $script->initialize();
 
 $srcNodeID   = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;
 $dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;
-$creatorID   = $scriptOptions[ 'creator-id' ]  ? $scriptOptions[ 'creator-id' ]  : false;
 $allVersions = $scriptOptions[ 'all-versions' ];
 $keepCreator = $scriptOptions[ 'keep-creator' ];
 $keepTime    = $scriptOptions[ 'keep-time' ];
@@ -228,7 +227,7 @@ function &copyPublishContentObject( &$sourceObject,
         $newObject->store();
 
     if ( $allVersions )
-    {   // copy time of creation and midification and creator id for
+    {   // copy time of creation and modification and creator id for
         // all versions of content object being copied.
         $srcVersionsList = $sourceObject->versions();
 
