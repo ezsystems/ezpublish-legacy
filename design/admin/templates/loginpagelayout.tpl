@@ -86,16 +86,11 @@
     <div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
     <a class="leftmenuitem" href={"/class/grouplist/"|ezurl}>Login</a>
     </div>
-
     </td>
     <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="23" height="1" /></td>
-    <td width="30%" bgcolor="#ffffff">
+    <td width="80%" bgcolor="#ffffff">
     {$module_result.content}
-    </td>
-    <td width="50%" bgcolor="#ffffff" valign="top">
-    <h2>{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
-    <p>{"To log in enter a valid login and password."|i18n("design/standard/layout")}</p>
     </td>
 </tr>
 </table>
