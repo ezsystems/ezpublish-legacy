@@ -697,6 +697,13 @@ class eZTemplate
                $resourceData['root-node'] === null ) )
             return;
         $templateCompilationUsed = false;
+
+        if ( $resourcedata['locales'] && count( $resourcedata['locales'] ) )
+        {
+            $savedLocale = setlocale( LC_CTYPE, null );
+            setlocale( LC_CTYPE, $resourceData['locales'] );
+        }
+        
         if ( $resourceData['compiled-template'] )
         {
             if ( $this->executeCompiledTemplate( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )
@@ -709,6 +716,11 @@ class eZTemplate
             $this->process( $root, $text, $rootNamespace, $currentNamespace );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
+        }
+
+        if ( $resourcedata['locales'] && count( $resourcedata['locales'] ) )
+        {
+            setlocale( LC_CTYPE, $savedLocale );
         }
     }
 
