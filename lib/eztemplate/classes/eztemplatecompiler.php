@@ -2076,7 +2076,7 @@ $rbracket
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
-                            
+
                     if ( is_array( $variableName ) )
                     {
                         $namespace = $variableName[0];
@@ -2085,7 +2085,7 @@ $rbracket
                         $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
                         if ( !is_string( $namespaceText ) )
                             $namespaceText = "\$namespace";
-                        $variableNameText = $php->variableText( $variableName, 0 );
+                        $variableNameText = $php->variableText( $variableName, 0, 0, false );
                         if ( isset( $node[2]['remember_set'] ) )
                         {
                             $php->addCodePiece( "if ( isset( \$setArray[$namespaceText][$variableNameText] ) )\n".
@@ -2118,7 +2118,7 @@ $rbracket
                     $newRootNamespace = $node[8];
                     $resourceVariableName = $node[9];
 
-//                    $templateNameText = $php->variableText( $node[2], 0 );
+//                    $templateNameText = $php->variableText( $node[2], 0, 0, false );
                     $useFallbackCode = true;
                     $uriMap = $node[2];
                     if ( is_string( $uriMap ) )
@@ -2139,7 +2139,7 @@ $rbracket
                             $uri = $resource . ':' . $uri;
                         unset( $tmpResourceData );
                         $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $originalURI );
-                        $uriText = $php->variableText( $uri, 0 );
+                        $uriText = $php->variableText( $uri, 0, 0, false );
 
                         $resourceCanCache = true;
                         if ( !$resourceObject->servesStaticData() )
@@ -2219,7 +2219,7 @@ $rbracket
 
                             $directory = eZTemplateCompiler::compilationDirectory();
                             $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
-                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            $phpScriptText = $php->variableText( $phpScript, 0, 0, false );
                             $resourceMap[$uriKey] = array( 'key' => $uriKey,
                                                            'uri' => $uri,
                                                            'phpscript' => $phpScript );
@@ -2244,7 +2244,7 @@ $rbracket
                     {
                         if ( $resourceVariableName )
                         {
-                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            $phpScriptText = $php->variableText( $phpScript, 0, 0, false );
                             $phpScriptText = '$phpScript';
                             $phpScriptArray = array();
                             foreach ( $resourceMap as $resourceMapItem )
@@ -2260,7 +2260,7 @@ $rbracket
                         {
                             $php->addCodePiece( "\$resourceFound = false;\n", array( 'spacing' => $spacing ) );
                             $phpScript = $resourceMap[0]['phpscript'];
-                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            $phpScriptText = $php->variableText( $phpScript, 0, 0, false );
                             // Not sure where this should come from
 //                         if ( $resourceIndex > 0 )
 //                             $php->addCodePiece( "else " );
@@ -2408,7 +2408,7 @@ $rbracket
                 if ( eZTemplateNodeTool::isStaticElement( $nodeElements ) and
                      !$variableParameters['text-result'] )
                 {
-                    $variableText = $php->variableText( eZTemplateNodeTool::elementStaticValue( $nodeElements ) );
+                    $variableText = $php->variableText( eZTemplateNodeTool::elementStaticValue( $nodeElements ), 0, 0, false );
                     $isStaticElement = true;
                 }
                 else if ( eZTemplateNodeTool::isPHPVariableElement( $nodeElements ) and
@@ -2450,7 +2450,7 @@ $rbracket
                     $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
                     if ( !is_string( $namespaceText ) )
                         $namespaceText = "\$namespace";
-                    $variableNameText = $php->variableText( $variableName, 0 );
+                    $variableNameText = $php->variableText( $variableName, 0, 0, false );
                     $unsetVariableText = false;
                     if ( $variableOnlyExisting )
                     {
@@ -2552,7 +2552,7 @@ $rbracket
                             $codeText .= "\$functionObject->$functionHookCustomFunctionName( ";
                         $codeTextLength = strlen( $codeText );
 
-                        $functionNameText = $php->variableText( $functionName, 0 );
+                        $functionNameText = $php->variableText( $functionName, 0, 0, false );
                         $functionChildrenText = $php->variableText( $functionChildren, $codeTextLength, 0, false );
 
                         $inputFunctionParameters = $functionParameters;
@@ -2564,7 +2564,7 @@ $rbracket
                         $functionHookText = $php->variableText( $functionHook, $codeTextLength, 0, false );
 
                         $functionHookName = $functionHook['name'];
-                        $functionHookNameText = $php->variableText( $functionHookName, 0 );
+                        $functionHookNameText = $php->variableText( $functionHookName, 0, 0, false );
 
                         $codeParameters = array();
                         if ( $functionHookCustomFunction['add-function-name'] )
@@ -2634,7 +2634,7 @@ else
                         if ( $functionHookCustomFunction['static'] )
                         {
                             $hookFile = $functionHookCustomFunction['php-file'];
-                            $hookFileText = $php->variableText( $hookFile, 0 );
+                            $hookFileText = $php->variableText( $hookFile, 0, 0, false );
                             $php->addCodePiece( "include_once( $hookFileText );\n", array( 'spacing' => $currentParameters['spacing'] ) );
                         }
                         else
@@ -2643,14 +2643,14 @@ else
                     }
                     else
                     {
-                        $functionNameText = $php->variableText( $functionName, 0 );
+                        $functionNameText = $php->variableText( $functionName, 0, 0, false );
                         $functionChildrenText = $php->variableText( $functionChildren, 52, 0, false );
                         $functionParametersText = $php->variableText( $functionParameters, 52, 0, false );
                         $functionPlacementText = $php->variableText( $functionPlacement, 52, 0, false );
 
                         $functionHookText = $php->variableText( $functionHook, 52, 0, false );
                         $functionHookName = $functionHook['name'];
-                        $functionHookNameText = $php->variableText( $functionHookName, 0 );
+                        $functionHookNameText = $php->variableText( $functionHookName, 0, 0, false );
                         $functionHookParameters = $functionHook['parameters'];
                         $php->addCodePiece( "\$functionObject =& \$tpl->fetchFunctionObject( $functionNameText );
 \$hookResult = \$functionObject->templateHookProcess( $functionNameText, $functionHookNameText,
@@ -2665,7 +2665,7 @@ else
                 else
                 {
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $functionNameText = $php->variableText( $functionName, 0 );
+                    $functionNameText = $php->variableText( $functionName, 0, 0, false );
                     $functionChildrenText = $php->variableText( $functionChildren, 22, 0, false );
                     $functionParametersText = $php->variableText( $functionParameters, 22, 0, false );
                     $functionPlacementText = $php->variableText( $functionPlacement, 22, 0, false );
@@ -2782,7 +2782,7 @@ else
             {
                 $knownTypes = array_unique( array_merge( $knownTypes, array( $staticTypeMap[$variableDataType] ) ) );
                 $dataValue = $variableDataItem[1];
-                $dataText = $php->variableText( $dataValue, 0 );
+                $dataText = $php->variableText( $dataValue, 0, 0, false );
                 $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n", array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
@@ -2800,7 +2800,7 @@ else
                 $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
                 if ( !is_string( $namespaceText ) )
                     $namespaceText = "\$namespace";
-                $variableNameText = $php->variableText( $variableName, 0 );
+                $variableNameText = $php->variableText( $variableName, 0, 0, false );
                 $code = "unset( \$$variableAssignmentName );\n";
                 $code .= "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n";
                 $php->addCodePiece( $code,
@@ -2845,7 +2845,7 @@ else
                 $operatorParameters = $variableDataItem[1];
                 $operatorName = $operatorParameters[0];
                 $operatorParameters = array_splice( $operatorParameters, 1 );
-                $operatorNameText = $php->variableText( $operatorName, 0 );
+                $operatorNameText = $php->variableText( $operatorName, 0, 0, false );
                 $operatorParametersText = $php->variableText( $operatorParameters, 23, 0, false );
 
                 $operatorHint = eZTemplateCompiler::operatorHint( $tpl, $operatorName );
