@@ -161,7 +161,8 @@ eZINI:
   http://ez.no/community/bug_reports/index_of_ezdate_ezdatetime
 - Removed unused file kernel/classes/datatypes/ezuser/ezaccounthash.php
   http://ez.no/community/bug_reports/wrong_user_class
-
+- Fixed bug of incorrectly display version infomation if user can not delete version
+  http://ez.no/community/bug_reports/faulty_display_of_versions_if_user_cannot_delete
 *Library:
 
 eZ Locale:
