@@ -7,7 +7,7 @@
 <table class="list" cellspacing="0">
 {section show=$groupclasses}
 <tr>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
     <th>{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>
@@ -16,7 +16,6 @@
     <th>{'Objects'|i18n('design/admin/class/classlist')}</th>
     <th>{'Edit'|i18n('design/admin/class/classlist')}</th>
     <th>{'Copy'|i18n('design/admin/class/classlist')}</th>
-
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
@@ -28,8 +27,8 @@
     <td>{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
     <td>{$Classes:item.modified|l10n(shortdatetime)}</td>
     <td>{$Classes:item.object_count}</td>
-    <td><div class="listbutton"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></td>
-    <td><div class="listbutton"><a href={concat("class/copy/",$Classes:item.id)|ezurl}><img class="button" src={"copy.gif"|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat("class/copy/",$Classes:item.id)|ezurl}><img class="button" src={"copy.gif"|ezimage} width="16" height="16" alt="edit" /></a></td>
 </tr>
 {/section}
 {/section}
