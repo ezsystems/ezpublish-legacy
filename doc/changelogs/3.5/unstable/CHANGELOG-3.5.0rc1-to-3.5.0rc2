@@ -55,5 +55,9 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed bug: ezurl-operator fails on anchors (#) when TemplateCompile=enabled
   http://ez.no/community/bug_reports/ezurl_operator_fails_on_anchors_when_templatecompile_enabled
   (Merged from stable/3.4 rev 10125).
+- Fixed bug: Call to undefined function: missingvariable()
+  (Manual merge from stable/3.4 rev. 10144)
+  http://ez.no/community/bug_reports/call_to_undefined_function_missingvariable
+- Fixed some PHP warnings in the template system's sequence function
 
 *Library:
