@@ -527,6 +527,20 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Clones the attribute to the translation \a $languageCode.
+     \note The cloned attribute is not stored.
+    */
+    function &translateTo( $languageCode )
+    {
+        $tmp = $this;
+        $tmp->setAttribute( 'id', null );
+        $tmp->setAttribute( 'language_code', $languageCode );
+        $tmp->sync();
+        $tmp->initialize( $this->attribute( 'version' ), $this );
+        return $tmp;
+    }
+
+    /*!
      Returns the data type class for the current attribute.
     */
     function &dataType()

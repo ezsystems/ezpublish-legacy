@@ -133,13 +133,14 @@ if ( $createLanguage !== false )
 {
     // Create a new language
     unset( $translateContentAttributes );
-    $translateContentAttributes = $originalContentAttributes;
-    foreach ( array_keys( $translateContentAttributes ) as $contentAttributeKey )
+//     $translateContentAttributes = $originalContentAttributes;
+    $translateContentAttributes = array();
+    foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
     {
-        $contentAttribute =& $translateContentAttributes[$contentAttributeKey];
-        $contentAttribute->setAttribute( 'id', null );
-        $contentAttribute->setAttribute( 'language_code', $createLanguage );
-        $contentAttribute->store();
+        $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
+        $contentAttribute =& $originalContentAttribute->translateTo( $createLanguage );
+        $contentAttribute->sync();
+        $translateContentAttributes[] =& $contentAttribute;
     }
 //    $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
 }

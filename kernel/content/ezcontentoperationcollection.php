@@ -176,11 +176,12 @@ class eZContentOperationCollection
     {
         $object =& eZContentObject::fetch( $objectID );
         $nodes =& $object->assignedNodes();
-        $dataMap =& $object->attribute( 'data_map' );
-        foreach ( array_keys( $dataMap ) as $key )
+//         $dataMap =& $object->attribute( 'data_map' );
+        $contentObjectAttributes =& $object->contentObjectAttributes( true, $versionNum, null, false );
+        foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
         {
-            $attribute =& $dataMap[$key];
-            $attribute->onPublish( $object, $nodes );
+            $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
+            $contentObjectAttribute->onPublish( $object, $nodes );
         }
     }
 
