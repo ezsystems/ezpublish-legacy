@@ -77,6 +77,12 @@ function &eZSessionRead( $key )
 function eZSessionWrite( $key, $value )
 {
 //    include_once( 'lib/ezdb/classes/ezdb.php' );
+
+    if ( isset( $GLOBALS["eZRequestError"] ) && $GLOBALS["eZRequestError"] )
+    {
+        return;
+    }
+
     $db =& eZDB::instance();
     $ini =& eZIni::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
