@@ -27,22 +27,33 @@
         </div>
         <div align="bottom">
 
-	  <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
+          <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
 	      <td>{"Title"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_title" value="{$:item.name|wash}" /></td>
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_title" value="{$:item.name|wash}" /></td>
 	    </tr>
 	    <tr>
-	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_url" value="{$:item.url}" /></td>
+	      <td>{"Site url"|i18n("design/standard/setup/init")}: </td>
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_url" value="{$:item.url|wash}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_email" value="{$:item.email}" /></td>
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_email" value="{$:item.email|wash}" /></td>
 	    </tr>
 	    <tr>
-	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type|wash}" /></td>
+              {switch match=$:item.access_type}
+              {case match='url'}
+                <td>{"URL for access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case match='port'}
+                <td>{"Port for access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case match='hostname'}
+                <td>{"Hostname for access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case/}
+              {/switch}
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type|wash}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Database"|i18n("design/standard/setup/init")}: </td>

@@ -73,9 +73,18 @@ class eZStepSiteAccess extends eZStepInstaller
 
         $templateCount = $this->PersistenceList['site_templates']['count'];
 
+        $portCounter = 8080;
         for ( $counter = 0; $counter < $templateCount; $counter++ )
         {
             $this->PersistenceList['site_templates_'.$counter]['access_type'] = $accessType;
+            if ( $accessType == 'url' )
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
+            else if ( $accessType == 'port' )
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $portCounter++;
+            else if ( $accessType == 'hostname' )
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '.' . eZSys::hostName();
+            else
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $accessType;
         }
         return true;
     }

@@ -82,7 +82,6 @@ class eZFilePackageHandler extends eZPackageHandler
                         $newFilePath = $package->fileStorePath( $fileItem, $collectionName, $installParameters['path'] );
                         if ( preg_match( "#^(.+)/[^/]+$#", $newFilePath, $matches ) )
                         {
-                            eZDebug::writeDebug( $matches[1], 'mkdir' );
                             eZDir::mkdir( $matches[1], eZDir::directoryPermission(), true );
                         }
                         eZFileHandler::copy( $filePath, $newFilePath );

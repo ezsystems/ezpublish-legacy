@@ -100,7 +100,7 @@ class eZStepSiteDetails extends eZStepInstaller
         {
             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
             if ( !isset( $templates[$counter]['url'] ) )
-                $templates[$counter]['url'] = 'http://';
+                $templates[$counter]['url'] = eZSys::hostName() . eZSys::indexDir();
             if ( !isset( $templates[$counter]['email'] ) )
                 $templates[$counter]['email'] = 'admin@localhost';
         }
