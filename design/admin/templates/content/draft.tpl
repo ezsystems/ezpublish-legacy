@@ -53,20 +53,18 @@
     <th>{'Name'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/draft' )}</th>
-    <th>{'Version'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/draft' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Drafts loop=$draft_list sequence=array( bglight, bgdark )}
 <tr class="{$Drafts.sequence}">
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Drafts.item.id}" /></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Drafts.item.id}" title="{'Select draft for removal.'|i18n( 'design/admin/content/draft' )}" /></td>
     <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl}>{$Drafts.item.contentobject.name|wash}</a></td>
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
-    <td>{$Drafts.item.contentobject.section_id}</td>
-    <td>{$Drafts.item.version}</td>
+    <td>{fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) ).name|wash}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl}><img src={'edit.png'|ezimage} border="0"></a></td>
+    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit draft.'|i18n( 'design/admin/content/draft' )}" ><img src={'edit.png'|ezimage} border="0"></a></td>
 </tr>
 {/section}
 </table>
@@ -91,8 +89,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$draft_list}
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" />
-    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" />
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" title="{'Remove selected drafts.'|i18n( 'design/admin/content/draft' )}" />
+    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
     <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
