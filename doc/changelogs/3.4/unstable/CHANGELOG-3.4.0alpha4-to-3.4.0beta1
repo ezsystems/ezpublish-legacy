@@ -39,6 +39,8 @@ eZ locale:
 *Unit tests:
 
 *Bugfixes:
+- Fixed bug of not check settings of Utf8Encoding in ldap.ini.
+  http://ez.no/community/bug_reports/ldap_utf8encoding
 
 *Update
 

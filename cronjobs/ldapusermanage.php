@@ -79,7 +79,11 @@ if ( $LDAPIni->hasVariable( 'LDAPSettings', 'LDAPUserGroupType' ) and  $LDAPIni-
 
 if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
 {
-    $isUtf8Encoding = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
+    $Utf8EncodingSetting = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
+    if ( $Utf8EncodingSetting == "true" )
+        $isUtf8Encoding = true;
+    else
+        $isUtf8Encoding = false;
 }
 else
 {
