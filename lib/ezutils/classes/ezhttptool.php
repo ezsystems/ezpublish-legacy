@@ -71,7 +71,7 @@ class eZHTTPTool
     */
     function setPostVariable( $var, $value )
     {
-        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
+        $post_vars =& $_POST;
         $post_vars[$var] =& $value;
     }
 
@@ -81,7 +81,7 @@ class eZHTTPTool
     */
     function &postVariable( $var )
     {
-        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
+        $post_vars =& $_POST;
         $ret = null;
         if ( isset( $post_vars[$var] ) )
             $ret =& $post_vars[$var];
@@ -97,7 +97,7 @@ class eZHTTPTool
     */
     function hasPostVariable( $var )
     {
-        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
+        $post_vars =& $_POST;
         return isset( $post_vars[$var] );
     }
 
@@ -107,7 +107,7 @@ class eZHTTPTool
     */
     function setGetVariable( $var, $value )
     {
-        $get_vars =& $GLOBALS["_GET"];
+        $get_vars =& $_GET;
         $get_vars[$var] =& $value;
     }
 
@@ -117,7 +117,7 @@ class eZHTTPTool
     */
     function &getVariable( $var )
     {
-        $get_vars =& $GLOBALS["_GET"];
+        $get_vars =& $_GET;
         $ret = null;
         if ( isset( $get_vars[$var] ) )
             $ret =& $get_vars[$var];
@@ -133,7 +133,7 @@ class eZHTTPTool
     */
     function hasGetVariable( $var )
     {
-        $get_vars =& $GLOBALS["_GET"];
+        $get_vars =& $_GET;
         return isset( $get_vars[$var] );
     }
 
@@ -144,11 +144,11 @@ class eZHTTPTool
     function hasVariable( $var )
     {
 
-        if ( isset( $GLOBALS["HTTP_POST_VARS"][$var] ) )
-            return isset( $GLOBALS["HTTP_POST_VARS"][$var] );
+        if ( isset( $_POST[$var] ) )
+            return isset( $_POST[$var] );
         else
         {
-            return isset( $GLOBALS["_GET"][$var] );
+            return isset( $_GET[$var] );
         }
     }
 
@@ -158,12 +158,12 @@ class eZHTTPTool
     */
     function &variable( $var )
     {
-        if ( isset( $GLOBALS["HTTP_POST_VARS"][$var] ) )
-            return $GLOBALS["HTTP_POST_VARS"][$var];
+        if ( isset( $_POST[$var] ) )
+            return $_POST[$var];
         else
         {
-            if ( isset( $GLOBALS["_GET"][$var] ) )
-                return $GLOBALS["_GET"][$var];
+            if ( isset( $_GET[$var] ) )
+                return $_GET[$var];
             else
                 return false;
         }
@@ -191,9 +191,9 @@ class eZHTTPTool
     function &attribute( $attr )
     {
         if ( $attr == "post" )
-            return $GLOBALS["HTTP_POST_VARS"];
+            return $_POST;
         if ( $attr == "get" )
-            return $GLOBALS["_GET"];
+            return $_GET;
         if ( $attr == "session" )
         {
             eZSessionStart();
@@ -512,39 +512,39 @@ class eZHTTPTool
 
 	function removeMagicQuotes()
 	{
-        foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
+        foreach ( array_keys( $_POST ) as $key )
         {
-			if ( !is_array( $GLOBALS["HTTP_POST_VARS"][$key] ) )
+			if ( !is_array( $_POST[$key] ) )
 			{
-				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key] );
-				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
-				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key] );
+				$_POST[$key] = str_replace( "\'", "'", $_POST[$key] );
+				$_POST[$key] = str_replace( '\"', '"', $_POST[$key] );
+				$_POST[$key] = str_replace( '\\\\', '\\', $_POST[$key] );
 			}
             else
             {
-                foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"][$key] ) as $arrayKey )
+                foreach ( array_keys( $_POST[$key] ) as $arrayKey )
                 {
-                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
-                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
-                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                    $_POST[$key][$arrayKey] = str_replace( "\'", "'", $_POST[$key][$arrayKey] );
+                    $_POST[$key][$arrayKey] = str_replace( '\"', '"', $_POST[$key][$arrayKey] );
+                    $_POST[$key][$arrayKey] = str_replace( '\\\\', '\\', $_POST[$key][$arrayKey] );
                 }
             }
         }
-        foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
+        foreach ( array_keys( $_GET ) as $key )
         {
-			if ( !is_array( $GLOBALS["_GET"][$key] ) )
+			if ( !is_array( $_GET[$key] ) )
 			{
-				$GLOBALS["_GET"][$key] = str_replace( "\'", "'", $GLOBALS["_GET"][$key] );
-				$GLOBALS["_GET"][$key] = str_replace( '\"', '"', $GLOBALS["_GET"][$key] );
-				$GLOBALS["_GET"][$key] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key] );
+				$_GET[$key] = str_replace( "\'", "'", $_GET[$key] );
+				$_GET[$key] = str_replace( '\"', '"', $_GET[$key] );
+				$_GET[$key] = str_replace( '\\\\', '\\', $_GET[$key] );
 			}
             else
             {
-                foreach ( array_keys( $GLOBALS["_GET"][$key] ) as $arrayKey )
+                foreach ( array_keys( $_GET[$key] ) as $arrayKey )
                 {
-                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["_GET"][$key][$arrayKey] );
-                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["_GET"][$key][$arrayKey] );
-                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key][$arrayKey] );
+                    $_GET[$key][$arrayKey] = str_replace( "\'", "'", $_GET[$key][$arrayKey] );
+                    $_GET[$key][$arrayKey] = str_replace( '\"', '"', $_GET[$key][$arrayKey] );
+                    $_GET[$key][$arrayKey] = str_replace( '\\\\', '\\', $_GET[$key][$arrayKey] );
                 }
             }
         }
@@ -552,12 +552,12 @@ class eZHTTPTool
 
     function createPostVarsFromImageButtons()
     {
-        foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
+        foreach ( array_keys( $_POST ) as $key )
         {
             if ( substr( $key, -2 ) == '_x' )
             {
                 $yKey = substr( $key, 0, -2 ) . '_y';
-                if ( array_key_exists( $yKey, $GLOBALS["HTTP_POST_VARS"] ) )
+                if ( array_key_exists( $yKey, $_POST ) )
                 {
                     $keyClean = substr( $key, 0, -2 );
                     $matches = array();
@@ -565,13 +565,13 @@ class eZHTTPTool
                     {
                         $value = $matches[1];
                         $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
-                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
-//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
+                        $_POST[$keyClean] = $value;
+//                         eZDebug::writeDebug( $_POST[$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
                     }
                     else
                     {
-                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = true;
-//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
+                        $_POST[$keyClean] = true;
+//                         eZDebug::writeDebug( $_POST[$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
                     }
                 }
             }
