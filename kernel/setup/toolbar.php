@@ -81,6 +81,7 @@ if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
         $parameterName = $http->variable( 'parameter_name' );
 
         $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $nodeID );
+        $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
 }
 
@@ -315,7 +316,7 @@ foreach ( array_keys( $toolArray ) as $toolKey )
 }
 if ( $storeList )
 {
-    $succeed = $iniAppend->save(  false, false, false, false, true, true );
+    $succeed = $iniAppend->save( false, false, false, false, true, true );
 }
 if ( $removeCache )
 {
