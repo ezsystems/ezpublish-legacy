@@ -9,6 +9,10 @@ Changes from 2.9-4 to 2.9-5
   is a HTML comment, it is <!--DEBUG_REPORT-->.
 - Fixed bug with duplicating node on publishing
 - Added feature for searching one or more subtrees on the site
+- New fetch function layout/sitedesign_list which fetches the used sitedesign for a site, used
+  in versionview.
+- Change versionview to use node view for attributes, some changes node view templates were
+  required.
 
 *Library :
 

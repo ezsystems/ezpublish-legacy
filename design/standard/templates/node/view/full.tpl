@@ -1,24 +1,34 @@
+{default with_children=true()
+         is_editable=false()
+	 is_standalone=false()}
 {let page_limit=25
-     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
+{default content_object=$node.object
+         node_name=$node.name}
+
+{section show=$is_standalone}
 <form method="post" action={"content/action"|ezurl}>
+{/section}
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
- 	<h1 class="top">{$node.name}</h1>
-	<input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
+ 	<h1 class="top">{$node_name}</h1>
+	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
 	<td align="right">
-	{switch match=$node.object.can_edit}
+        {section show=$is_editable}
+          {switch match=$content_object.can_edit}
 	    {case match=1}
-	    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+	    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 	    <input class="button" type="submit" name="EditButton" value="Edit" />
 	    {/case}
             {case match=0}
             <p>You are not allowed to edit this object</p>
             {/case}
-        {/switch}
+          {/switch}
+        {/section}
 	</td>
 </tr>
 </table>
@@ -27,7 +37,7 @@
 <tr>
     <td valign="top">
 
-    {section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
+    {section name=ContentObjectAttribute loop=$content_object.contentobject_attributes}
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label>
     	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
@@ -37,25 +47,29 @@
     </td>
     <td width="120" valign="top">
     <h2>Related objects</h2>
-    {section name=Object loop=$node.object.related_contentobject_array show=$node.object.related_contentobject_array sequence=array(bglight,bgdark)}
+    {section name=Object loop=$content_object.related_contentobject_array show=$content_object.related_contentobject_array sequence=array(bglight,bgdark)}
 
     <div class="block">
-    {content_view_gui view=text_linked content_object=$Object:item}
+    {content_view_gui view=text_linked content_object=$content_object:item}
     </div>
     
     {section-else}
     <p>None</p>
     {/section}
 
-    <h2>Content actions</h2>
-    {section name=ContentAction loop=$node.object.content_action_list show=$node.object.content_action_list}
-    <div class="block">
-    <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
-    </div>
+    {section show=$is_editable}
+      <h2>Content actions</h2>
+      {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
+      <div class="block">
+      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
+      </div>
+      {/section}
     {/section}
     </td>
 </tr>
 </table>
+
+{section show=$with_children}
 
 <h2>Children</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -107,12 +121,12 @@
 
 <div class="buttonblock">
 
-{switch match=$node.object.can_create}
+{switch match=$content_object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <input class="button" type="submit" name="NewButton" value="New" />
          <select name="ClassID">
-	      {section name=Classes loop=$node.object.can_create_class_list}
+	      {section name=Classes loop=$content_object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
@@ -124,9 +138,9 @@
 {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 {/section}
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 
-{switch match=$node.object.can_edit}
+{switch match=$content_object.can_edit}
 {case match=1}
 {section show=eq($node.sort_array[0][0],'priority')}
          <input class="button" type="submit" align="right" name="UpdatePriorityButton" value="Update Sorting Priority" />
@@ -137,5 +151,12 @@
 {/switch}
 </div>
 
+{/section}
+
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/default}
 {/let}
+{/default}

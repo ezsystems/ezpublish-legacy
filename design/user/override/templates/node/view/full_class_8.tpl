@@ -1,20 +1,28 @@
-<form method="post" action={"content/action/"|ezurl}>
+{default with_children=true()
+         is_editable=true()
+	 is_standalone=true()
+         content_object=$node.object}
 
+{section show=$is_standalone}
+<form method="post" action={"content/action/"|ezurl}>
+{/section}
+
+{section show=$with_children}
 <table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
     <th bgcolor="#FF9900" width="70%" valign="top">
     <span class="small">
-    {attribute_view_gui attribute=$node.object.data_map.topic}
+    {attribute_view_gui attribute=$content_object.data_map.topic}
     </span>
     </th>
     <td bgcolor="#FF9900" align="rigtht" width="30%" valign="top">
-    <span class="small">{$node.object.published|l10n(shortdatetime)}</span>
+    <span class="small">{$content_object.published|l10n(shortdatetime)}</span>
     </td>
 </tr>
 <tr>
     <td bgcolor="#FFFFFF" colspan="2">
     <span class="small">
-    {attribute_view_gui attribute=$node.object.data_map.message}
+    {attribute_view_gui attribute=$content_object.data_map.message}
     </span>
     </td>
 </tr>
@@ -45,11 +53,19 @@
 <br />
 {/section}
 
+{/section}
+
+{section show=$is_editable}
 <br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="NewButton" value="{"New reply"|i18n}" />
 <input type="hidden" name="ClassID" value="8" />
 
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+{/section}
 
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/default}

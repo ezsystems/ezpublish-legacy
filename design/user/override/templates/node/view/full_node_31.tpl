@@ -1,3 +1,6 @@
+{default with_children=true()}
+
+{section show=$with_children}
 <table width="100%">
 <tr>
     {section name=Forum loop=fetch(content,list,hash(parent_node_id,32))}
@@ -26,3 +29,5 @@
 
 </tr>
 </table>
+{/section}
+{/default}

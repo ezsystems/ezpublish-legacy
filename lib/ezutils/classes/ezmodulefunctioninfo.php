@@ -170,7 +170,7 @@ class eZModuleFunctionInfo
                 {
                     $parameterName = $resultArray['internal_error_parameter_name'];
                     eZDebug::writeError( "Missing parameter '$parameterName' for function '$functionName' in module '$moduleName'",
-                                         'eZModuleFunctionInfo::execute' );
+                                         "eZModuleFunctionInfo::execute $moduleName::$functionName" );
                     return null;
                 } break;
                 default:

@@ -328,3 +328,6 @@ which creates cache files.
 ----------
 Make sure all views uses the action system instead of post variables directly.
 Add function support to all modules that could use it.
+
+-----------
+Add doc on howto read the currently selected sitedesign.

@@ -47,6 +47,10 @@ $OriginalLanguageCode = $Params['LanguageCode'];
 $LanguageCode = $Params['LanguageCode'];
 $EditVersion = $Params['EditVersion'];
 
+$ini =& eZINI::instance();
+$hasCustomSitedesign = false;
+$sitedesign = eZTemplateDesignResource::designSetting( 'site' );
+
 $contentObject =& eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -88,12 +92,13 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 //     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
 }
 
-eZDebug::writeDebug( 'HiO specific code on versionview, generalize' );
-$ini =& eZINI::instance();
-$ini->setVariable( 'DesignSettings', 'SiteDesign', 'hio' );
+// eZDebug::writeDebug( 'HiO specific code on versionview, generalize' );
+// $ini =& eZINI::instance();
+// $ini->setVariable( 'DesignSettings', 'SiteDesign', 'hio' );
 
 $sectionID = false;
 $placementID = false;
+$assignment = false;
 
 $http =& eZHTTPTool::instance();
 
@@ -102,22 +107,49 @@ if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
 if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
     $placementID = $http->postVariable( 'ContentObjectPlacementID' );
 
-if ( $Module->isCurrentAction( 'SelectLanguage' ) )
+$nodeAssignments =& $versionObject->attribute( 'node_assignments' );
+if ( is_array( $nodeAssignments )and
+     count( $nodeAssignments ) == 1 )
 {
-    $LanguageCode = $Module->actionParameter( 'Language' );
+    $placementID = $nodeAssignments[0]->attribute( 'id' );
 }
 
-if ( $Module->isCurrentAction( 'SelectPlacement' ) )
+$contentINI =& eZINI::instance( 'content.ini' );
+$sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+if ( count( $sitedesignList ) == 1 )
 {
-    $placementID = $Module->actionParameter( 'PlacementID' );
-    $assignment =& eZNodeAssignment::fetchByID( $placementID );
-    if ( $assignment !== null )
+    $sitedesign = $sitedesignList[0];
+    $hasCustomSitedesign = true;
+}
+
+if ( $Module->isCurrentAction( 'ChangeSettings' ) )
+{
+    if ( $Module->hasActionParameter( 'Language' ) )
     {
-        $node =& $assignment->getParentNode();
-        $nodeObject =& $node->attribute( "object" );
-        $sectionID = $nodeObject->attribute( "section_id" );
+        $LanguageCode = $Module->actionParameter( 'Language' );
+    }
+
+    if ( $Module->hasActionParameter( 'PlacementID' ) )
+    {
+        $placementID = $Module->actionParameter( 'PlacementID' );
+    }
+
+    if ( $Module->hasActionParameter( 'Sitedesign' ) )
+    {
+        $sitedesign = $Module->actionParameter( 'Sitedesign' );
+        $hasCustomSitedesign = true;
     }
 }
+
+$assignment =& eZNodeAssignment::fetchByID( $placementID );
+if ( $assignment !== null )
+{
+    $node =& $assignment->getParentNode();
+    $nodeObject =& $node->attribute( "object" );
+    $sectionID = $nodeObject->attribute( "section_id" );
+}
+else
+$assignment = false;
 
 $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 if ( $versionAttributes === null or
@@ -125,6 +157,11 @@ if ( $versionAttributes === null or
 {
     $versionAttributes = $versionObject->contentObjectAttributes();
     $LanguageCode = eZContentObject::defaultLanguage();
+}
+
+if ( $hasCustomSitedesign )
+{
+    eZTemplateDesignResource::setDesignSetting( $sitedesign, 'site' );
 }
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
@@ -142,16 +179,17 @@ $res =& eZTemplateDesignResource::instance();
 $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
                      array( 'class', $class->attribute( 'id' ) ), // Class ID
                      array( 'viewmode', 'full' ) );  // View mode
+$sectionID = 4;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
-//     include_once( 'kernel/classes/ezsection.php' );
-//     eZSection::setGlobalID( $sectionID );
+    include_once( 'kernel/classes/ezsection.php' );
+    eZSection::setGlobalID( $sectionID );
 }
 $res->setKeys( $designKeys );
 
-include_once( 'kernel/classes/ezsection.php' );
-eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
+// include_once( 'kernel/classes/ezsection.php' );
+// eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version', $versionObject );
@@ -161,8 +199,9 @@ $tpl->setVariable( 'object_version', $EditVersion );
 $tpl->setVariable( 'object_languagecode', $LanguageCode );
 $tpl->setVariable( 'language', $OriginalLanguageCode );
 $tpl->setVariable( 'placement', $placementID );
+$tpl->setVariable( 'assignment', $assignment );
+$tpl->setVariable( 'sitedesign', $sitedesign );
 $tpl->setVariable( 'is_creator', $isCreator );
-
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 

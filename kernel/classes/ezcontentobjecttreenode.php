@@ -93,6 +93,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function eZContentObjectTreeNode( $row = array() )
     {
+        $this->HasContentObject = false;
         $this->eZPersistentObject( $row );
     }
 
@@ -129,6 +130,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "sort" => array( "left_margin" => "asc" ),
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
+    }
+
+    function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
+                     $sortField = 0, $sortOrder = true )
+    {
+        $row = array( 'node_id' => null,
+                      'parent_node_id' => $parentNodeID,
+                      'contentobject_id' => $contentObjectID,
+                      'contentobject_version' => $contentObjectVersion,
+                      'contentobject_is_published' => false,
+                      'depth' => 1,
+                      'sort_field' => $sortField,
+                      'sort_order' => $sortOrder,
+                      'priority' => 0 );
+        $node =& new eZContentObjectTreeNode();
+        return $node;
     }
 
     function attributes()

@@ -1,24 +1,30 @@
+{default with_children=true()
+	 is_standalone=false()}
 {let page_limit=25
      sitemap_indentation=10
-     tree=fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
-     tree_count=fetch('content','tree_count',hash(parent_node_id,$node.node_id))}
+     tree=and($with_children,fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)))
+     tree_count=and($with_children,fetch('content','tree_count',hash(parent_node_id,$node.node_id)))}
+{default content_object=$node.object
+         node_name=$node.name}
 
+{section show=$is_standalone}
 <form method="post" action={"content/action/"|ezurl}>
+{/section}
 
 <h1>{"Site map"|i18n('content/object')}</h1>
 
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$node.object.name|texttoimage('archtura')}
-{* 	<h1>{$node.object.name}</h1> *}
-        <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
+	{$node_name|texttoimage('archtura')}
+{* 	<h1>{$node_name}</h1> *}
+        <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
 </tr>
 </table>
 
 <table width="100%">
-{section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
+{section name=ContentObjectAttribute loop=$content_object.contentobject_attributes}
 <tr>
   <td><b>{$ContentObjectAttribute:item.contentclass_attribute.name}</b><br/>
   {attribute_view_gui attribute=$ContentObjectAttribute:item}
@@ -26,6 +32,8 @@
 </tr>
 {/section}
 </table>
+
+{section show=$with_children}
 
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
@@ -37,7 +45,6 @@
 	<th class="normal">Class:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
-
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
@@ -88,12 +95,12 @@
          item_limit=$page_limit}
 
 <div class="buttonblock">
-{switch match=$node.object.can_create}
+{switch match=$content_object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <input type="submit" name="NewButton" value="New" />
          <select name="ClassID">
-	      {section name=Classes loop=$node.object.can_create_class_list}
+	      {section name=Classes loop=$content_object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
@@ -105,11 +112,18 @@
 
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+{/section}
+
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 
 <input type="hidden" name="ViewMode" value="sitemap" />
 
 </div>
 
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/default}
 {/let}
+{/default}

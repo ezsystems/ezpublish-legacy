@@ -116,8 +116,8 @@ class eZURLOperator
             case $this->ImageName:
             {
                 $ini =& eZINI::instance();
-                $std_base = $ini->variable( 'DesignSettings', 'StandardDesign' );
-                $site_base = $ini->variable( 'DesignSettings', 'SiteDesign' );
+                $std_base = eZTemplateDesignResource::designSetting( 'standard' );
+                $site_base = eZTemplateDesignResource::designSetting( 'site' );
                 $std_file = "design/$std_base/images/$value";
                 $site_file = "design/$site_base/images/$value";
                 if ( file_exists( $site_file ) )
@@ -137,8 +137,8 @@ class eZURLOperator
             case $this->DesignName:
             {
                 $ini =& eZINI::instance();
-                $std_base = $ini->variable( 'DesignSettings', 'StandardDesign' );
-                $site_base = $ini->variable( 'DesignSettings', 'SiteDesign' );
+                $std_base = eZTemplateDesignResource::designSetting( 'standard' );
+                $site_base = eZTemplateDesignResource::designSetting( 'site' );
                 $std_file = "design/$std_base/$value";
                 $site_file = "design/$site_base/$value";
                 if ( file_exists( $site_file ) )

@@ -1,15 +1,22 @@
+{default with_children=true()
+	 is_standalone=false()}
 {let page_limit=8
-     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
+{default node_name=$node.name}
 
+{section show=$is_standalone}
 <form method="post" action={"content/action/"|ezurl}>
+{/section}
 
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$node.object.name|texttoimage('gallery')}
+	{$node_name|texttoimage('gallery')}
 	</td>
 </tr>
 </table>
+
+{section show=$with_children}
 
 <table width="100%">
 <tr>
@@ -41,5 +48,12 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
+{/section}
+
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/default}
 {/let}
+{/default}

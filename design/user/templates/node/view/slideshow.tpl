@@ -1,13 +1,19 @@
+{default with_children=true()
+	 is_standalone=false()}
 {let page_limit=1
-     item_list=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
-     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
+     item_list=and($with_children,fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)))
+     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))
      thumbnail_page_limit=8}
 
+{section show=$is_standalone}
 <form method="post" action={"/content/action/"|ezurl}>
+{/section}
 
 <table border="0" cellspacing="10" cellpadding="0">
 <tr>
     <td>
+
+{section show=$with_children}
 
 <table border="0" cellpadding="10" cellspacing="0"  bgcolor="#ffffff">
 {section name=Child loop=$item_list}
@@ -59,4 +65,11 @@
 </tr>
 </table>
 
+{/section}
+
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/let}
+{/default}

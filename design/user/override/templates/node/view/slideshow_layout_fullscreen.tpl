@@ -1,3 +1,6 @@
+{default with_children=true()}
+{section show=$with_children}
+
 {let page_limit=1
      item_list=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
      list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
@@ -50,3 +53,7 @@
 
 
 </form>
+{/let}
+
+{/section}
+{/default}

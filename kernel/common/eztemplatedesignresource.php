@@ -58,13 +58,56 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
+     \return the sitedesign for the design type \a $type, currently \c standard and \c site is allowed.
+             If no sitedesign is set it will fetch it from site.ini.
+    */
+    function designSetting( $type = 'standard' )
+    {
+        if ( $type != 'standard' and
+             $type != 'site' )
+        {
+            eZDebug::writeWarning( "Cannot retrieve designsetting for type '$type'", 'eZTemplateDesignResource::designSetting' );
+            return null;
+        }
+        $designSettings =& $GLOBALS['eZTemplateDesignSetting'];
+        if ( !isset( $designSettings ) )
+            $designSettings = array();
+        $designSetting =& $designSettings[$type];
+        if ( isset( $designSetting ) )
+            return $designSetting;
+        $ini =& eZINI::instance();
+        if ( $type == 'standard' )
+            $designSetting = $ini->variable( "DesignSettings", "StandardDesign" );
+        else if ( $type == 'site' )
+            $designSetting = $ini->variable( "DesignSettings", "SiteDesign" );
+        return $designSetting;
+    }
+
+    /*!
+     Sets the sitedesign for the design type \a $type, currently \c standard and \c site is allowed.
+     The design is set to \a $designSetting.
+    */
+    function setDesignSetting( $designSetting, $type = 'standard' )
+    {
+        if ( $type != 'standard' and
+             $type != 'site' )
+        {
+            eZDebug::writeWarning( "Cannot set designsetting '$designSetting' for type '$type'", 'eZTemplateDesignResource::setDesignSetting' );
+            return;
+        }
+        $designSettings =& $GLOBALS['eZTemplateDesignSetting'];
+        if ( !isset( $designSettings ) )
+            $designSettings = array();
+        $designSettings[$type] = $designSetting;
+    }
+
+    /*!
      \return the rules used for matching design elements. \a $element defines the element type.
     */
     function fileMatchingRules( $element, $path )
     {
-        $ini =& eZINI::instance();
-        $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
-        $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
+        $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
+        $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $matches = array();
         $matches[] = array( "file" => "design/$siteBase/override/$element/$path",

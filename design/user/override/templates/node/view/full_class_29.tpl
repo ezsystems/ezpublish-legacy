@@ -1,24 +1,25 @@
-
+{default content_object=$node.object
+         node_name=$node.name}
 
 <b>product</b>
 
-{$object.name}
+{$node_name}
 
-{attribute_view_gui attribute=$object.data_map.name}
+{attribute_view_gui attribute=$content_object.data_map.name}
 <p>
-{attribute_view_gui attribute=$object.data_map.description}
+{attribute_view_gui attribute=$content_object.data_map.description}
 </p>
-<b>{attribute_view_gui attribute=$object.data_map.product_nr}</b>
+<b>{attribute_view_gui attribute=$content_object.data_map.product_nr}</b>
 
-{attribute_view_gui attribute=$object.data_map.name}
-{attribute_view_gui attribute=$object.data_map.name}
+{attribute_view_gui attribute=$content_object.data_map.name}
+{attribute_view_gui attribute=$content_object.data_map.name}
 
 
 
-{$object.published|l10n(date)}
+{$content_object.published|l10n(date)}
 
-{$object.published|l10n(time)}
-{$object.published|l10n(datetime)}
+{$content_object.published|l10n(time)}
+{$content_object.published|l10n(datetime)}
 
 <table border="2">
 <tr>
@@ -51,3 +52,5 @@ DEtte er innhold
 </table>
 
 {$children_count}
+
+{/default}

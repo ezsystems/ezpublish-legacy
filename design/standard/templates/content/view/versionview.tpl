@@ -3,71 +3,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td width="90%">
-  <h1>{$object.name}</h1>
-  Viewing version {$object_version} in language {$object_languagecode}
-  </td>
-  <td rowspan="2" align="right" valign="top">
-
-  <table cellspacing="0" cellpadding="0" border="0">
-  <tr>
-    <td>
-  
-    <h3>Translation:</h3>
-  
-    </td>
-  </tr>
-  
-  <tr>
-    <td>
-
-    <select name="SelectedLanguage" >
-    {section name=Translation loop=$version.language_list}
-    <option value="{$Translation:item.locale.locale_code}" {section show=eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/section}>{$Translation:item.locale.intl_language_name}</option>
-    {/section}
-    </select>
-
-    </td>
-  </tr>
-  
-  <tr>
-    <td align="left">
-    <input type="submit" name="SelectLanguageButton" value="{'Select'|i18n('content/object')}" />
-    </td>
-  </tr>
-
-  <tr>
-    <td>
-    <h3>Placement:</h3>
-    </td>
-  </tr>
-
-  <tr>
-    <td>
-
-    <select name="SelectedPlacement" >
-    <option value="-1">{"Not specified"|i18n('content/object')}</option>
-    {section name=Placement loop=$version.node_assignments}
-    <option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name}</option>
-    {/section}
-    </select>
-
-    </td>
-  </tr>
-  
-  <tr>
-    <td align="left">
-    <input type="submit" name="SelectPlacementButton" value="{'Select'|i18n('content/object')}" />
-    </td>
-  </tr>
-
-  </table>
-  
-    </td>
-  </tr>
-  <tr>
-
-  <td width="90%">
-    <table width="100%">
+{*    <table width="100%">
     {section name=ContentObjectAttribute loop=$version_attributes}
     <tr>
       <td>
@@ -97,6 +33,91 @@
     </tr>
     {/section}
     </table>
+*}
+{section show=$assignment}
+  {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node}
+{/section}
+  </td>
+
+  <td align="right" valign="top">
+
+  <table cellspacing="0" cellpadding="0" border="0">
+
+  {section show=$version.language_list|gt(1)}
+  <tr>
+    <td>
+  
+    <h3>Translation:</h3>
+  
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+
+    <select name="SelectedLanguage" >
+    {section name=Translation loop=$version.language_list}
+    <option value="{$Translation:item.locale.locale_code}" {section show=eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/section}>{$Translation:item.locale.intl_language_name}</option>
+    {/section}
+    </select>
+
+    </td>
+  </tr>
+  {/section}
+
+  {let name=Placement node_assignment_list=$version.node_assignments}
+  {section show=$Placement:node_assignment_list|gt(1)}
+  <tr>
+    <td>
+    <h3>Placement:</h3>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+    <select name="SelectedPlacement" >
+    {section loop=$Placement:node_assignment_list}
+    <option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name}</option>
+    {/section}
+    </select>
+
+    </td>
+  </tr>
+  {/section}
+  {/let}
+  
+  {let name=Sitedesign
+       sitedesign_list=fetch('layout','sitedesign_list')}
+  {section show=$Sitedesign:sitedesign_list|gt(1)}
+  <tr>
+    <td>
+    <h3>Site Design:</h3>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+    <select name="SelectedSitedesign" >
+    {section loop=$Sitedesign:sitedesign_list}
+    <option value="{$Sitedesign:item}" {section show=eq($Sitedesign:item,$sitedesign)}selected="selected"{/section}>{$Sitedesign:item}</option>
+    {/section}
+    </select>
+
+    </td>
+  </tr>
+  {/section}
+  {/let}
+
+  <tr>
+    <td align="left">
+    <input type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('content/object')}" />
+    </td>
+  </tr>
+
+  </table>
+  
   </td>
 </tr>
 </table>

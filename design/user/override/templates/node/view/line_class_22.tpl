@@ -1,5 +1,6 @@
-{let object=$node.object
-     map=$object.data_map}
+{default content_object=$node.object}
+{let map=$content_object.data_map}
+
 <p class="heading">
   <strong><a href={concat("content/view/full/",$node.node_id)|ezurl}>{attribute_view_gui attribute=$map.title}</a></strong>
 </p>
@@ -10,3 +11,4 @@
 <a class="small" href={concat("content/view/full/",$node.node_id)|ezurl}>Product information</a>
 
 {/let}
+{/default}

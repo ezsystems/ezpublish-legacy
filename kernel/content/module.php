@@ -80,13 +80,13 @@ $ViewList["view"] = array(
 $ViewList["versionview"] = array(
     "functions" => array( 'versionread' ),
     "script" => "versionview.php",
-    'single_post_actions' => array( 'SelectLanguageButton' => 'SelectLanguage',
-                                    'SelectPlacementButton' => 'SelectPlacement',
+    'single_post_actions' => array( 'ChangeSettingsButton' => 'ChangeSettings',
                                     'EditButton' => 'Edit',
                                     'VersionsButton' => 'Versions',
                                     'PreviewPublishButton' => 'Publish' ),
-    'post_action_parameters' => array( 'SelectLanguage' => array( 'Language' => 'SelectedLanguage' ),
-                                       'SelectPlacement' => array( 'PlacementID' => 'SelectedPlacement' ) ),
+    'post_action_parameters' => array( 'ChangeSettings' => array( 'Language' => 'SelectedLanguage',
+                                                                  'PlacementID' => 'SelectedPlacement',
+                                                                  'Sitedesign' => 'SelectedSitedesign' ) ),
     "params" => array( "ObjectID", "EditVersion", "LanguageCode" ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );

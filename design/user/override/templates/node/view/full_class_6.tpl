@@ -1,5 +1,13 @@
-<form method="post" action={"/content/action/"|ezurl}>
+{default with_children=true()
+         is_editable=true()
+	 is_standalone=true()
+         content_object=$node.object}
 
+{section show=$is_standalone}
+<form method="post" action={"/content/action/"|ezurl}>
+{/section}
+
+{section show=$with_children}
 <table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
     <th bgcolor="#FF9900">
@@ -29,13 +37,20 @@
 {/section}
 
 </table>
+{/section}
 
 
+{section show=$is_editable}
 <br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="NewButton" value="{"New topic"|i18n}" />
 <input type="hidden" name="ClassID" value="8" />
 
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+{/section}
 
+{section show=$is_standalone}
 </form>
+{/section}
+
+{/default}

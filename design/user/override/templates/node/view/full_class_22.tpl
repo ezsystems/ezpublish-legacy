@@ -1,9 +1,14 @@
-{let object=$node.object
-     map=$object.data_map
+{default with_children=true()
+         is_editable=true()
+	 is_standalone=true()
+         content_object=$node.object}
+{let map=$content_object.data_map
      comment_limit=3
-     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+     list_count=array($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 
+{section show=$is_standalone}
 <form method="post" action={"content/action/"|ezurl}>
+{/section}
 
 <table width="100%" border="0" cellpadding="5" cellspacing="0" bordercolor="#000000">
 <tr>
@@ -18,16 +23,18 @@
 
     {attribute_view_gui attribute=$map.description}
 
+    {section show=$is_editable}
     <!-- Action START -->
     <div class="block">
-    {section name=ContentAction loop=$object.content_action_list show=$object.content_action_list}
+    {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
     <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n('bookstore')}" />
     <br/><br/>
     {/section}
     </div>
     <!-- Action END -->
+    {/section}
 
-{section show=$list_count}
+{section show=and($with_children,$list_count)}
     <strong class="small">Reviews</strong> 
     <p class="links">Number of Reviews: {$list_count}</p>
 
@@ -55,13 +62,17 @@
 </tr>
 </table>
 
+{section show=$is_editable}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="NewButton" value="{"New review"|i18n}" />
 <input type="hidden" name="ClassID" value="23" />
 
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+{/section}
 
-<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-
+{section show=$is_standalone}
 </form>
+{/section}
 
 {/let}
+{/default}
