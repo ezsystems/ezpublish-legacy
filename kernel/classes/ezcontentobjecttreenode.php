@@ -243,6 +243,57 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $obj->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
+
+    /*!
+     \return the ID of the class with the given ID.
+     False is returned if no class by that identifier is found.
+     If multiple classes have the same identifier, the first found is returned.
+    */
+    function classIDByIdentifier( $identifier )
+    {
+        $db =& eZDB::instance();
+        $dbName = $db->DB;
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $cacheDir = eZSys::cacheDirectory();
+        $phpCache = new eZPHPCreator( "$cacheDir", "classidentifiers_$dbName.php" );
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiryTime = 0;
+        if ( $handler->hasTimestamp( 'content-cache' ) )
+        {
+            $expiryTime = $handler->timestamp( 'content-cache' );
+        }
+
+        if ( $phpCache->canRestore( $expiryTime ) )
+        {
+            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+            $identifierHash =& $var['identifierHash'];
+        }
+        else
+        {
+            // Fetch identifier/id pair from db
+            $query = "SELECT id, identifier FROM ezcontentclass";
+            $identifierArray = $db->arrayQuery( $query );
+
+            $identifierHash = array();
+            foreach ( $identifierArray as $identifierRow )
+            {
+                $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
+            }
+
+            // Store identifier list to cache file
+            $phpCache->addVariable( 'identifier_hash', $identifierHash );
+            $phpCache->store();
+        }
+        $return = false;
+        if ( isset( $identifierHash[$identifier] ) )
+            $return = $identifierHash[$identifier];
+
+        return $return;
+    }
+
     function &subTree( $params = false ,$nodeID = 0 )
     {
         if ( $params === false )
@@ -414,6 +465,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCount = count( $params['ClassFilterArray'] );
             foreach ( $params['ClassFilterArray'] as $classID )
             {
+                // Check if classes are recerenced by identifier
+                if ( is_string( $classID ) )
+                {
+                    $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                }
                 if ( $params['ClassFilterType'] == 'include' )
                     $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
                 else
