@@ -1,41 +1,36 @@
-<form enctype="multipart/form-data" method="post" action={concat("content/edit/",$object.id."/",$edit_version,"/")|ezurl}>
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+{default content_object=$node.object
+         content_version=$node.contentobject_version_object
+         node_name=$node.name}
+<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
+<table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td valign="top">
     <!-- Left part start -->
-    <strong>Edit {$class.name} - {$object.name}</strong>
+    <div class="maincontentheader">
+    <h1>Post new message</h1>
+    </div>
 
     {section show=$validation.processed}
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 
         <div class="warning">
-        <h3 class="warning">Input did not validate</h3>
+        <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
         <ul>
-        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
+        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
         </ul>
         </div>
-        
+
         {section-else}
 
         <div class="feedback">
-        <h3 class="feedback">Input was stored successfully</h3>
+        <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
         </div>
 
         {/section}
     {/section}
+    <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 
-    <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
-    {section name=Node loop=$assigned_node_array}
-    <tr>
-        <td>
-        <span class="normal">{"Reply to"|i18n("productreview")}: {$Node:item.parent_node_obj.name}</span>
-        <input type="hidden" name="MainNodeID" value="{$Node:item.parent_node}" />
-        </td>
-    </tr>
-    {/section}
-    </table>
+    <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 
     {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
     <div class="block">
@@ -46,8 +41,8 @@
     {/section}
 
     <div class="buttonblock">
-    <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('productreview')}" />
-    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('productreview')}" />
+    <input class="button" type="submit" name="PublishButton" value="{'Post'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     </div>
     <!-- Left part end -->
     </td>

@@ -218,7 +218,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 else
                 {
-                    $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+                    $node = eZContentObjectTreeNode::fetch( $object->attribute( 'main_node_id' ) );
+                    $parentNode = $node->attribute( 'parent_node_id' );
+                    $module->redirectToView( 'view', array( 'full', $parentNode ) );
                 }
             }
             else
