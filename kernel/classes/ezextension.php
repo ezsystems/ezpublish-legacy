@@ -2,7 +2,7 @@
 //
 // Definition of eZExtension class
 //
-// Created on: <16-äÅË-2002 14:23:45 amos>
+// Created on: <16-ï¿½ï¿½2002 14:23:45 amos>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -254,7 +254,11 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
     }
     if ( $withWWWDir )
         $path .= eZSys::wwwDir();
-    $path .= $base . '/' . $extension;
+
+    if ( $withWWWDir )
+        $path .= '/' . $base . '/' . $extension;
+    else
+        $path .= $base . '/' . $extension;
     return $path;
 }
 
