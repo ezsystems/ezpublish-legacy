@@ -5,7 +5,7 @@
 <h2 class="context-title">{$node.class_identifier|class_icon( normal, $node.class_name )} {$node.name} [{$node.class_name}]</h2>
 
 <div class="context-information">
-<p>{'Last modified:'|i18n( 'design/admin/node/view/full' )} {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</p>
+<p>{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</p>
 </div>
 
 {* Content preview in content window. *}
