@@ -3,6 +3,8 @@ Changes from 3.3-5 to 3.3-6
 *Kernel:
 - Added rounding to two digits after dot in ezorder class to functions which calculate total
   amounts.
+- Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
+
 *Setup:
 
 *DataTypes:
